@@ -1,0 +1,2492 @@
+{
+  "domainId": "pediatric",
+  "title": "Pediatric Neurodevelopment",
+  "parentPortal": "clinical.html",
+  "parentLabel": "Clinical",
+  "phase": "P0",
+  "activations": [
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference",
+      "domainDescription": "Medial prefrontal cortex — self-referential processing, mentalizing, and social cognition in the developing brain",
+      "domainFunction": "Integrates self-referential thought with social understanding; critical hub for theory of mind development and emotion regulation maturation",
+      "whyThisNode": "Central to developing theory of mind — mPFC mediates the child's emerging ability to understand their own and others' mental states",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "ASD",
+        "CHILD_DEPRESSION",
+        "SEPARATION_ANXIETY",
+        "CHILD_PTSD"
+      ],
+      "treatments": [
+        {
+          "label": "Social skills training with mentalizing focus",
+          "type": "STRUCTURAL",
+          "description": "Structured peer interaction programs (e.g., PEERS) that build perspective-taking and social cognition",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Developmental screening for social cognition delays",
+          "type": "DIAGNOSTIC",
+          "description": "Administer M-CHAT-R/F at 18 and 24 months; ADOS-2 if screening positive",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "pediatric_social_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Social Cognition & Self-Reference",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Addictive Identity Narrative"
+        },
+        {
+          "domain": "business",
+          "role": "Brand & Identity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration"
+        },
+        {
+          "domain": "legal",
+          "role": "Constitutional Identity / Rule of Law"
+        },
+        {
+          "domain": "medicine",
+          "role": "Primary Care"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Self-Referential Processing Hub"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Diagnostic Analysis"
+        },
+        {
+          "domain": "culture",
+          "role": "Social Identity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Threat Detection & Emotional Reactivity",
+      "domainDescription": "Basolateral amygdala — fear conditioning, threat detection, and emotional reactivity in developing circuits",
+      "domainFunction": "Detects and responds to emotional and threatening stimuli; undergoes prolonged maturation with shifting reactivity profiles across childhood",
+      "whyThisNode": "Amygdala reactivity is implicated in the largest number of pediatric conditions — hyperreactive in anxiety, PTSD, and behavioral disorders; altered in ASD",
+      "group": "mood",
+      "phase": "P0",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "ASD",
+        "CHILD_DEPRESSION",
+        "SEPARATION_ANXIETY",
+        "CHILD_PTSD",
+        "ODD",
+        "ARFID"
+      ],
+      "treatments": [
+        {
+          "label": "Trauma-Focused CBT or exposure-based therapy",
+          "type": "STRUCTURAL",
+          "description": "Gold-standard graduated exposure protocols to reduce amygdala hyperreactivity through extinction learning",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Anxiety screening with SCARED or CBCL Internalizing",
+          "type": "DIAGNOSTIC",
+          "description": "Standardized assessment of fear and anxiety severity to guide treatment intensity",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "pediatric_threat_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Threat Detection & Emotional Reactivity",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver"
+        },
+        {
+          "domain": "business",
+          "role": "Risk Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Markets"
+        },
+        {
+          "domain": "environment",
+          "role": "Wildlife Management"
+        },
+        {
+          "domain": "legal",
+          "role": "Criminal Threat Assessment"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Metabolic Anxiety and Threat"
+        },
+        {
+          "domain": "provider",
+          "role": "Risk Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Executive Function & Cognitive Control",
+      "domainDescription": "Dorsolateral prefrontal cortex — working memory, sustained attention, and cognitive control in the maturing brain",
+      "domainFunction": "Supports working memory, attentional control, and cognitive flexibility; undergoes prolonged cortical maturation through adolescence",
+      "whyThisNode": "Executive function deficits are transdiagnostic across pediatric conditions — dlPFC maturation delays underlie ADHD, depression, and behavioral dysregulation",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "ADHD_COMBINED",
+        "CHILD_DEPRESSION",
+        "ODD",
+        "DYSLEXIA"
+      ],
+      "treatments": [
+        {
+          "label": "Stimulant medication trial with standardized monitoring",
+          "type": "IMMEDIATE",
+          "description": "Methylphenidate or amphetamine-based medication with Conners-3 or SNAP-IV tracking at 2 and 4 weeks",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Neuropsychological testing for executive function",
+          "type": "DIAGNOSTIC",
+          "description": "Comprehensive evaluation including BRIEF-2, CPT-3, and D-KEFS to map specific executive deficits",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "pediatric_executive_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Executive Function & Cognitive Control",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vlPFC",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation",
+      "domainDescription": "Ventrolateral prefrontal cortex — motor inhibition, frustration tolerance, and regulatory control",
+      "domainFunction": "Inhibits prepotent motor responses and regulates emotional reactions; critical for impulse control and frustration management",
+      "whyThisNode": "Right IFG is the core inhibitory control region — its immaturity in childhood directly drives impulsivity, emotional outbursts, and oppositional behavior",
+      "group": "behavioral",
+      "phase": "P0",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "ADHD_COMBINED",
+        "ODD"
+      ],
+      "treatments": [
+        {
+          "label": "Parent Management Training (PMT)",
+          "type": "STRUCTURAL",
+          "description": "Evidence-based parent training in consistent reinforcement, effective commands, and de-escalation strategies",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Behavioral observation and functional analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Structured observation across settings to identify antecedents and functions of inhibitory failures",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "pediatric_response_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Response Inhibition & Emotion Regulation",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Impulse Brake System"
+        },
+        {
+          "domain": "business",
+          "role": "Legal & Governance"
+        },
+        {
+          "domain": "legal",
+          "role": "Defense Advocacy"
+        },
+        {
+          "domain": "provider",
+          "role": "Regulatory Compliance"
+        },
+        {
+          "domain": "communication",
+          "role": "Public Relations"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Assessment & Diagnostics"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture — Signal Detection"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Interoception & Sensory Awareness",
+      "domainDescription": "Anterior insula — interoceptive awareness, sensory integration, and embodied emotional processing",
+      "domainFunction": "Processes internal body signals and integrates sensory information with emotional awareness; altered interoception drives somatic symptoms and sensory aversions",
+      "whyThisNode": "Interoceptive processing is disrupted across multiple pediatric conditions — from alexithymia in ASD to somatic anxiety symptoms to sensory food aversions in ARFID",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ASD",
+        "SEPARATION_ANXIETY",
+        "ARFID"
+      ],
+      "treatments": [
+        {
+          "label": "Occupational therapy for sensory integration",
+          "type": "STRUCTURAL",
+          "description": "Ayres Sensory Integration protocol or SOS Approach for systematic sensory desensitization",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Sensory profile assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Administer Sensory Profile-2 or Sensory Processing Measure to map sensory processing patterns",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "pediatric_interoception_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Interoception & Sensory Awareness",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Intuition / Pattern Recognition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior",
+      "domainDescription": "Striatum — reward-based learning, habit formation, and repetitive behavior patterns",
+      "domainFunction": "Mediates dopaminergic reward processing, procedural learning, and repetitive motor patterns; dysfunction underlies both stereotypies and reward-seeking impulsivity",
+      "whyThisNode": "Striatal circuits are central to repetitive behaviors in ASD, reward processing deficits in ADHD, and altered punishment sensitivity in ODD",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ASD",
+        "ADHD_COMBINED",
+        "ODD"
+      ],
+      "treatments": [
+        {
+          "label": "Behavioral intervention targeting repetitive behaviors",
+          "type": "STRUCTURAL",
+          "description": "Function-based intervention replacing maladaptive repetitive behaviors with adaptive alternatives",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Functional behavioral assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Identify whether repetitive behaviors serve sensory, communicative, or anxiety-reducing functions",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "pediatric_habit_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Habit Circuits & Repetitive Behavior",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Error Monitoring & Conflict Detection",
+      "domainDescription": "Dorsal anterior cingulate cortex — performance monitoring, conflict detection, and self-evaluation",
+      "domainFunction": "Monitors errors, detects cognitive conflict, and drives self-evaluative processes; hyperactivation produces excessive self-criticism while hypoactivation impairs error correction",
+      "whyThisNode": "dACC dysfunction is a transdiagnostic feature — overactive self-monitoring in depression, underactive error correction in ADHD, and hostile attribution bias in ODD",
+      "group": "mood",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ADHD_COMBINED",
+        "CHILD_DEPRESSION",
+        "ODD"
+      ],
+      "treatments": [
+        {
+          "label": "Cognitive restructuring adapted for developmental level",
+          "type": "STRUCTURAL",
+          "description": "Age-appropriate CBT techniques targeting negative self-evaluation and hostile attribution biases",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Self-monitoring skills assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate error awareness and self-evaluation patterns through structured tasks and clinical observation",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "pediatric_error_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Error Monitoring & Conflict Detection",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation",
+      "domainDescription": "Nucleus accumbens — reward anticipation, motivation, and pleasure processing in developing circuits",
+      "domainFunction": "Processes reward anticipation and hedonic value; hypofunction produces anhedonia while altered signaling drives delay aversion and impulsive reward-seeking",
+      "whyThisNode": "Reward circuit dysfunction is central to both anhedonia in pediatric depression and delay aversion in ADHD — two of the most common childhood conditions",
+      "group": "mood",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ADHD_COMBINED",
+        "CHILD_DEPRESSION"
+      ],
+      "treatments": [
+        {
+          "label": "Behavioral activation with pleasant event scheduling",
+          "type": "STRUCTURAL",
+          "description": "Systematic re-engagement with rewarding activities; age-appropriate activity scheduling with mastery and pleasure ratings",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Anhedonia and motivation assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate reward responsiveness using CDI-2 anhedonia subscale and clinical interview",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "pediatric_reward_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Reward Processing & Motivation",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        },
+        {
+          "domain": "trade",
+          "role": "Commodity Exchanges"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Contextual Memory & Fear Generalization",
+      "domainDescription": "Hippocampus — contextual memory encoding, fear context discrimination, and stress vulnerability",
+      "domainFunction": "Encodes contextual memories and discriminates safe from dangerous environments; vulnerable to cortisol-mediated damage during development, leading to fear overgeneralization",
+      "whyThisNode": "Hippocampal development is uniquely vulnerable in childhood — cortisol exposure from depression, trauma, and chronic anxiety can impair its maturation and produce lasting memory and contextual deficits",
+      "group": "trauma",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "CHILD_DEPRESSION",
+        "SEPARATION_ANXIETY",
+        "CHILD_PTSD"
+      ],
+      "treatments": [
+        {
+          "label": "Trauma narrative processing within TF-CBT",
+          "type": "STRUCTURAL",
+          "description": "Guided construction and processing of trauma narrative to consolidate and contextualize fragmented trauma memories",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Trauma history screening with UCLA PTSD-RI",
+          "type": "DIAGNOSTIC",
+          "description": "Systematic screening for trauma exposure and PTSD symptoms using validated pediatric measures",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Contextual Memory & Fear Generalization",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Stress Response System",
+      "domainDescription": "Hypothalamic-pituitary-adrenal axis — cortisol regulation, stress reactivity, and developmental programming",
+      "domainFunction": "Regulates cortisol secretion in response to stress; dysregulation during development can produce lasting changes in stress reactivity and impair hippocampal and prefrontal maturation",
+      "whyThisNode": "The developing HPA axis is uniquely sensitive to environmental stress — early dysregulation predicts depression recurrence and compounds trauma effects on the developing brain",
+      "group": "trauma",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CHILD_DEPRESSION",
+        "CHILD_PTSD"
+      ],
+      "treatments": [
+        {
+          "label": "Structured physical activity program (30-60 min, 3-5x/week)",
+          "type": "STRUCTURAL",
+          "description": "Regular aerobic exercise normalizes HPA axis function, upregulates BDNF, and has antidepressant-equivalent effects",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cortisol and metabolic screening",
+          "type": "DIAGNOSTIC",
+          "description": "Assess morning cortisol, thyroid function, and inflammatory markers in treatment-resistant presentations",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Stress Response System",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Stress-Relapse Cascade"
+        },
+        {
+          "domain": "business",
+          "role": "Organizational Stress"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal System Stress / Backlog"
+        },
+        {
+          "domain": "metabolic",
+          "role": "HPA Axis Stress-Metabolism Coupling"
+        },
+        {
+          "domain": "provider",
+          "role": "Provider Stress Response"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Stress Axis Normalization"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Infrastructure & Capacity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control — Feedback & Validation — Tertiary Node"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Serotonin System Development",
+      "domainDescription": "Raphe nuclei — serotonergic modulation of mood, anxiety, and impulse control in the maturing brain",
+      "domainFunction": "Provides serotonergic innervation to cortical and limbic circuits; still developing through adolescence, which explains both SSRI efficacy and activation syndrome risk in youth",
+      "whyThisNode": "The serotonin system is the primary pharmacological target in pediatric mood and anxiety disorders — its incomplete maturation in childhood requires careful dosing and monitoring",
+      "group": "mood",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CHILD_DEPRESSION",
+        "SEPARATION_ANXIETY",
+        "CHILD_PTSD"
+      ],
+      "treatments": [
+        {
+          "label": "SSRI trial with FDA Black Box monitoring protocol",
+          "type": "IMMEDIATE",
+          "description": "Fluoxetine (ages 8+) or escitalopram (ages 12+) with weekly face-to-face monitoring for first month per FDA guidelines",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Mood and suicidality monitoring during SSRI initiation",
+          "type": "DIAGNOSTIC",
+          "description": "PHQ-A and Columbia Suicide Severity Rating Scale at each visit during SSRI titration",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Serotonin System Development",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Serotonergic Mood Regulation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Serotonergic Tone"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Serotonergic Metabolic Modulation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Raphe Nuclei"
+        },
+        {
+          "domain": "population",
+          "role": "Aging Population"
+        },
+        {
+          "domain": "provider",
+          "role": "System Morale / Well-Being"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Serotonergic Reset Center"
+        },
+        {
+          "domain": "religion",
+          "role": "Mystical Experience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STS",
+      "state": "active",
+      "domainLabel": "Social Perception & Biological Motion",
+      "domainDescription": "Superior temporal sulcus — processing of biological motion, gaze direction, and social perception",
+      "domainFunction": "Processes dynamic social signals including eye gaze, facial expressions, body language, and vocal prosody; underactivation impairs social perception",
+      "whyThisNode": "STS is a core component of the social brain network — its hypoactivation in ASD directly maps to the social perception deficits that define the condition",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ASD"
+      ],
+      "treatments": [
+        {
+          "label": "Social skills groups with video modeling",
+          "type": "STRUCTURAL",
+          "description": "Structured peer interaction practice using video feedback to train social perception of gaze, gesture, and prosody",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Social communication assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Administer SRS-2 and pragmatic language evaluation to quantify social perception deficits",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Social Perception & Biological Motion",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Film & Video"
+        },
+        {
+          "domain": "culture",
+          "role": "Film & Cinema"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Baseline Calibration Operations"
+        },
+        {
+          "domain": "education",
+          "role": "GRE Testing — State Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Quality & Performance"
+        },
+        {
+          "domain": "environment",
+          "role": "Stratospheric Ozone Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "Face Processing & Visual Recognition",
+      "domainDescription": "Fusiform gyrus — face recognition, visual word form processing, and category-specific identification",
+      "domainFunction": "Specialized for face processing (right) and visual word recognition (left); dual role in ASD face processing deficits and dyslexia reading deficits",
+      "whyThisNode": "The fusiform serves double duty in pediatric conditions — its right lateralization for faces is hypoactive in ASD, while its left lateralization for words fails to develop in dyslexia",
+      "group": "learning",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ASD",
+        "DYSLEXIA"
+      ],
+      "treatments": [
+        {
+          "label": "Structured literacy intervention targeting visual word form",
+          "type": "STRUCTURAL",
+          "description": "Orton-Gillingham-based multisensory phonics to develop left fusiform automatized word recognition",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Reading fluency and face recognition assessment",
+          "type": "DIAGNOSTIC",
+          "description": "WIAT-4 Word Reading and Pseudoword Decoding subtests; clinical observation of face processing",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Face Processing & Visual Recognition",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Arts Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Succession"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Design"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pathology"
+        },
+        {
+          "domain": "technology",
+          "role": "User Interface Design"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Speechlang"
+        },
+        {
+          "domain": "culture",
+          "role": "Fashion & Design"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Theory of Mind & Mentalizing",
+      "domainDescription": "Temporoparietal junction — perspective-taking, mental state attribution, and self-other distinction",
+      "domainFunction": "Supports mentalizing and perspective-taking by computing others' beliefs, intentions, and mental states; core component of the social brain network",
+      "whyThisNode": "TPJ hypoactivation during theory of mind tasks is one of the most replicated findings in ASD neuroimaging — it directly maps to the mentalizing deficit",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ASD"
+      ],
+      "treatments": [
+        {
+          "label": "Parent-mediated intervention (ESDM or JASPER)",
+          "type": "STRUCTURAL",
+          "description": "Naturalistic developmental behavioral interventions training parents as primary interventionists for social engagement",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Theory of mind developmental assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate false belief understanding, perspective-taking, and mental state language through structured tasks",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Theory of Mind & Mentalizing",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        },
+        {
+          "domain": "provider",
+          "role": "Patient Perspective-Taking"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Motor Coordination & Skill Automatization",
+      "domainDescription": "Cerebellum — motor coordination, timing, procedural learning, and skill automatization",
+      "domainFunction": "Coordinates motor output, encodes precise timing, and automates learned skills; cerebellar deficits impair motor development, reading automatization, and attention timing",
+      "whyThisNode": "Cerebellar abnormalities are found across ASD (Purkinje cell loss), ADHD (volume reduction), and dyslexia (automatization deficit) — a transdiagnostic pediatric finding",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ASD",
+        "ADHD_COMBINED",
+        "DYSLEXIA"
+      ],
+      "treatments": [
+        {
+          "label": "Motor skills intervention and coordination training",
+          "type": "STRUCTURAL",
+          "description": "Occupational or physical therapy targeting motor planning, coordination, and timing deficits",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Motor coordination screening (MABC-2)",
+          "type": "DIAGNOSTIC",
+          "description": "Movement Assessment Battery for Children to identify developmental coordination disorder comorbidity",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Motor Coordination & Skill Automatiza...",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "religion",
+          "role": "Ritual Practice"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Interhemispheric Connectivity",
+      "domainDescription": "Corpus callosum — white matter tract connecting hemispheres; critical for integrated processing",
+      "domainFunction": "Enables interhemispheric communication and integration; thinning or delayed development disrupts cross-hemisphere coordination of cognitive and motor functions",
+      "whyThisNode": "Corpus callosum structural abnormalities are consistently found in both ASD and ADHD — reflecting the broader connectivity disruptions that characterize neurodevelopmental conditions",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "ASD",
+        "ADHD_COMBINED"
+      ],
+      "treatments": [
+        {
+          "label": "Bimanual coordination and cross-midline activities",
+          "type": "STRUCTURAL",
+          "description": "Targeted activities requiring interhemispheric coordination to strengthen callosal pathways",
+          "evidence": "Emerging"
+        },
+        {
+          "label": "Structural neuroimaging if clinically indicated",
+          "type": "REFERRAL",
+          "description": "MRI brain if regression, focal neurological signs, or atypical presentation warrants structural evaluation",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Interhemispheric Connectivity",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Transmission Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Road Networks"
+        },
+        {
+          "domain": "neurology",
+          "role": "Corpus Callosum"
+        },
+        {
+          "domain": "technology",
+          "role": "Networking & Internet"
+        },
+        {
+          "domain": "trade",
+          "role": "Freight Forwarding"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Assessment & Diagnostics"
+        },
+        {
+          "domain": "communication",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Language Network Development",
+      "domainDescription": "Language network — speech production, comprehension, and pragmatic language development",
+      "domainFunction": "Integrates phonological, semantic, and pragmatic language processing; atypical connectivity in ASD disrupts pragmatic language while structural differences in dyslexia impair phonological processing",
+      "whyThisNode": "Language network development is central to both ASD (pragmatic language deficits) and dyslexia (phonological processing deficits) — the two most common neurodevelopmental referral reasons",
+      "group": "learning",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ASD",
+        "DYSLEXIA"
+      ],
+      "treatments": [
+        {
+          "label": "Speech-language therapy targeting specific deficits",
+          "type": "STRUCTURAL",
+          "description": "Pragmatic language intervention for ASD; phonological awareness training for dyslexia; AAC for minimally verbal children",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Comprehensive language evaluation",
+          "type": "DIAGNOSTIC",
+          "description": "CELF-5 for receptive/expressive language; CTOPP-2 for phonological processing; pragmatic language assessment",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Language Network Development",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Propaganda and Media"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Training / Education"
+        },
+        {
+          "domain": "trade",
+          "role": "Wto"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Language Translation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture — Action Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Phoneme-Grapheme Mapping",
+      "domainDescription": "Angular gyrus — phonological decoding, letter-sound correspondence, and cross-modal integration",
+      "domainFunction": "Converts between phonological and orthographic representations; hypoactivation is the core neural signature of dyslexia",
+      "whyThisNode": "Angular gyrus hypoactivation during phonological tasks is the most robust neuroimaging finding in developmental dyslexia — it is the neural bottleneck for learning to read",
+      "group": "learning",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "DYSLEXIA"
+      ],
+      "treatments": [
+        {
+          "label": "Systematic multisensory phonics instruction",
+          "type": "STRUCTURAL",
+          "description": "Orton-Gillingham, Wilson, or Barton structured literacy program with explicit phoneme-grapheme mapping",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Phonological awareness and rapid naming assessment",
+          "type": "DIAGNOSTIC",
+          "description": "CTOPP-2 phonological awareness, phonological memory, and rapid naming composites",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Phoneme-Grapheme Mapping",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Higher Education"
+        },
+        {
+          "domain": "governance",
+          "role": "International Law"
+        },
+        {
+          "domain": "industry",
+          "role": "Research and Development"
+        },
+        {
+          "domain": "population",
+          "role": "Education Levels"
+        },
+        {
+          "domain": "religion",
+          "role": "Religious Education"
+        },
+        {
+          "domain": "science",
+          "role": "Citation Networks"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Risk Profiling Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Speech Production & Phonological Processing",
+      "domainDescription": "Broca's area — speech production, phonological output, and compensatory reading strategies",
+      "domainFunction": "Generates speech motor programs and supports phonological output; shows compensatory overactivation in dyslexia as effortful decoding replaces automatic recognition",
+      "whyThisNode": "Left IFG compensatory overactivation in dyslexia reflects the shift from automatic to effortful reading — a hallmark of the dyslexic brain's adaptive strategy",
+      "group": "learning",
+      "phase": "P0",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "DYSLEXIA",
+        "ASD"
+      ],
+      "treatments": [
+        {
+          "label": "Fluency-building reading intervention",
+          "type": "STRUCTURAL",
+          "description": "Repeated reading of connected text to build automatized word recognition and reduce compensatory effortful decoding",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Oral reading fluency assessment (DIBELS or AIMSweb)",
+          "type": "DIAGNOSTIC",
+          "description": "Timed oral reading fluency probes to quantify automaticity deficit and track intervention response",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Speech Production & Phonological Proc...",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Corporate Communications"
+        },
+        {
+          "domain": "education",
+          "role": "K-12 Teaching"
+        },
+        {
+          "domain": "governance",
+          "role": "Legislative Process"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Smartcity"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Advocacy / Argumentation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Broca's Area"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Communication"
+        },
+        {
+          "domain": "science",
+          "role": "Publication and Dissemination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Social Reward & Food Valuation",
+      "domainDescription": "Orbitofrontal cortex — social reward processing, food valuation, and contingency learning",
+      "domainFunction": "Computes reward value of social and food stimuli; dysfunction impairs social learning in ODD and reduces food reward valuation in ARFID",
+      "whyThisNode": "OFC links social and appetitive reward systems — its dysfunction in ODD impairs learning from social consequences while in ARFID it reduces the hedonic value of food",
+      "group": "behavioral",
+      "phase": "P0",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "ODD",
+        "ARFID"
+      ],
+      "treatments": [
+        {
+          "label": "Collaborative and Proactive Solutions (CPS)",
+          "type": "STRUCTURAL",
+          "description": "Identify lagging skills and unsolved problems; collaborative problem-solving to build social contingency learning",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Functional behavioral assessment across settings",
+          "type": "DIAGNOSTIC",
+          "description": "Map reward and punishment sensitivity patterns through structured observation and caregiver interview",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Social Reward & Food Valuation",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Anticipatory Anxiety & Sustained Fear",
+      "domainDescription": "Bed nucleus of the stria terminalis — sustained anticipatory anxiety and threat vigilance",
+      "domainFunction": "Maintains sustained anxiety states in response to uncertain or future threats; drives the anticipatory worry about separation that characterizes separation anxiety",
+      "whyThisNode": "BNST extends amygdala-mediated acute fear into sustained anticipatory anxiety — the hallmark of separation anxiety where children dread upcoming separations",
+      "group": "anxiety",
+      "phase": "P0",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "SEPARATION_ANXIETY"
+      ],
+      "treatments": [
+        {
+          "label": "Graduated exposure with response prevention",
+          "type": "STRUCTURAL",
+          "description": "Systematic desensitization to separation situations using fear hierarchy with therapist and parent coaching",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Anxiety severity monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Track anticipatory anxiety with daily separation ratings and SCARED subscale scores",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Anticipatory Anxiety & Sustained Fear",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator"
+        },
+        {
+          "domain": "energy",
+          "role": "Storage"
+        },
+        {
+          "domain": "medicine",
+          "role": "Metabolic & Endocrine"
+        },
+        {
+          "domain": "communication",
+          "role": "Pilot Design Evaluation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Interior Architecture Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution — State Assessment"
+        },
+        {
+          "domain": "economy",
+          "role": "Operational Integration Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Arousal Regulation & Hypervigilance",
+      "domainDescription": "Locus coeruleus — noradrenergic arousal, hypervigilance, and startle response modulation",
+      "domainFunction": "Regulates noradrenergic tone and arousal level; hyperactivation drives the hypervigilance, exaggerated startle, and sleep disruption seen in pediatric PTSD",
+      "whyThisNode": "LC hyperactivation produces the hyperarousal cluster of PTSD symptoms — hypervigilance, exaggerated startle, and sleep-onset difficulty that are particularly disabling in children",
+      "group": "trauma",
+      "phase": "P0",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "CHILD_PTSD"
+      ],
+      "treatments": [
+        {
+          "label": "Prazosin for trauma-related nightmares",
+          "type": "IMMEDIATE",
+          "description": "Alpha-1 antagonist to reduce noradrenergic hyperarousal; effective for trauma nightmares and sleep disruption",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Hyperarousal symptom assessment",
+          "type": "DIAGNOSTIC",
+          "description": "UCLA PTSD Reaction Index hyperarousal subscale; sleep diary; startle response clinical evaluation",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Arousal Regulation & Hypervigilance",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Noradrenergic Withdrawal Storm"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Arousal Regulation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Noradrenergic Metabolic Arousal"
+        },
+        {
+          "domain": "neurology",
+          "role": "Locus Coeruleus"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Policy & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Park Design Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "GABA_GLU",
+      "state": "active",
+      "domainLabel": "Excitation-Inhibition Balance",
+      "domainDescription": "GABA/glutamate system — excitatory-inhibitory balance critical for neural circuit maturation",
+      "domainFunction": "Maintains the excitation-inhibition ratio that is essential for proper circuit development; imbalance alters sensory processing, seizure threshold, and neural noise",
+      "whyThisNode": "E/I imbalance is a foundational mechanism in ASD neurobiology — elevated glutamate:GABA ratio alters sensory processing, social cognition, and repetitive behavior circuits",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "ASD"
+      ],
+      "treatments": [
+        {
+          "label": "Monitor for seizure comorbidity",
+          "type": "DIAGNOSTIC",
+          "description": "EEG if clinical concern for seizures; epilepsy prevalence 20-30% in ASD with intellectual disability",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Environmental sensory modification",
+          "type": "IMMEDIATE",
+          "description": "Reduce environmental sensory load to decrease excitatory input burden in E/I imbalanced circuits",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Excitation-Inhibition Balance",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Excitatory-Inhibitory Balance"
+        },
+        {
+          "domain": "environment",
+          "role": "Envlaw"
+        },
+        {
+          "domain": "medicine",
+          "role": "Anesthesiology"
+        },
+        {
+          "domain": "neurology",
+          "role": "Excitation-Inhibition Balance"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Excitation-Inhibition Rebalancing"
+        },
+        {
+          "domain": "communication",
+          "role": "Visualcomm"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Superiority Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Default Mode & Task Switching",
+      "domainDescription": "Default mode network — mind-wandering, self-referential thought, and task-negative processing",
+      "domainFunction": "Normally suppressed during focused tasks; failure to suppress DMN during task engagement is a hallmark of ADHD attentional lapses",
+      "whyThisNode": "DMN-task network anticorrelation failure is one of the most robust biomarkers of ADHD — the brain's inability to suppress mind-wandering during tasks drives inattention",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ADHD_COMBINED"
+      ],
+      "treatments": [
+        {
+          "label": "Mindfulness-based attention training",
+          "type": "STRUCTURAL",
+          "description": "Age-adapted mindfulness exercises to strengthen DMN suppression during focused attention",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Continuous performance test (CPT-3)",
+          "type": "DIAGNOSTIC",
+          "description": "Objective measure of sustained attention, variability, and DMN intrusion patterns",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Default Mode & Task Switching",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        },
+        {
+          "domain": "religion",
+          "role": "Theological Doctrine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OXY",
+      "state": "active",
+      "domainLabel": "Social Bonding & Attachment",
+      "domainDescription": "Oxytocin system — social bonding, trust, attachment formation, and affiliative behavior",
+      "domainFunction": "Modulates social bonding, trust, and attachment formation; developmental differences in oxytocin signaling contribute to social engagement deficits",
+      "whyThisNode": "Oxytocin system differences in ASD contribute to social bonding challenges — and oxytocin-mediated attachment is the foundation upon which all pediatric social development builds",
+      "group": "neurodevelopmental",
+      "phase": "P0",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "ASD",
+        "SEPARATION_ANXIETY"
+      ],
+      "treatments": [
+        {
+          "label": "Attachment-based intervention (CPP or Circle of Security)",
+          "type": "STRUCTURAL",
+          "description": "Strengthen caregiver-child attachment through dyadic therapy focused on reading and responding to social cues",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Attachment pattern assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Clinical evaluation of attachment security, separation response patterns, and social engagement quality",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Social Bonding & Attachment",
+      "brainNodeLabelCanonical": "Pediatric Neurodevelopment",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Team Culture"
+        },
+        {
+          "domain": "education",
+          "role": "Early Childhood Education"
+        },
+        {
+          "domain": "medicine",
+          "role": "Nursing Care"
+        },
+        {
+          "domain": "population",
+          "role": "Birth Rates"
+        },
+        {
+          "domain": "provider",
+          "role": "Team Cohesion / Culture"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Oxytocin Bonding System"
+        },
+        {
+          "domain": "communication",
+          "role": "captioning accuracy — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Lighting Design — State Assessment"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "BLA",
+      "target": "mPFC",
+      "type": "REGULATES",
+      "weight": 0.95
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "INHIBITS",
+      "weight": 0.9
+    },
+    {
+      "source": "dlPFC",
+      "target": "STRI",
+      "type": "CONTROLS",
+      "weight": 0.9
+    },
+    {
+      "source": "dlPFC",
+      "target": "vlPFC",
+      "type": "SUPPORTS",
+      "weight": 0.8
+    },
+    {
+      "source": "BLA",
+      "target": "HIPP",
+      "type": "MODULATES",
+      "weight": 0.85
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "REGULATES",
+      "weight": 0.85
+    },
+    {
+      "source": "RAPHE",
+      "target": "BLA",
+      "type": "MODULATES",
+      "weight": 0.8
+    },
+    {
+      "source": "RAPHE",
+      "target": "mPFC",
+      "type": "MODULATES",
+      "weight": 0.75
+    },
+    {
+      "source": "NAcc",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "ACTIVATES",
+      "weight": 0.8
+    },
+    {
+      "source": "AG",
+      "target": "FG",
+      "type": "TRANSFORMS",
+      "weight": 0.85
+    },
+    {
+      "source": "AG",
+      "target": "BROCA",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "BROCA",
+      "target": "LANG",
+      "type": "SUPPLIES",
+      "weight": 0.85
+    },
+    {
+      "source": "STS",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.85
+    },
+    {
+      "source": "TPJ",
+      "target": "mPFC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "BNST",
+      "target": "BLA",
+      "type": "SUSTAINS",
+      "weight": 0.75
+    },
+    {
+      "source": "GABA_GLU",
+      "target": "CBLM",
+      "type": "MODULATES",
+      "weight": 0.7
+    },
+    {
+      "source": "OXY",
+      "target": "BLA",
+      "type": "MODULATES",
+      "weight": 0.7
+    },
+    {
+      "source": "DMN",
+      "target": "dlPFC",
+      "type": "COMPETES",
+      "weight": 0.85
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Social Cognition & Self-Reference → Habit Circuits & Repetitive Behavior Assessment & Diagnostics (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Social Cognition & Self-Reference → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Error Monitoring & Conflict Detection — Regulation Strategy — Tertiary Node → Threat Detection & Emotional Reactivity (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Error Monitoring & Conflict Detection — Regulation Strategy — Tertiary Node → Habit Circuits & Repetitive Behavior Assessment & Diagnostics (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Error Monitoring & Conflict Detection — Regulation Strategy — Tertiary Node → [PAG] (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Executive Function & Cognitive Control → Error Monitoring & Conflict Detection (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Executive Function & Cognitive Control → Contextual Memory & Fear Generalization (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Interoception & Sensory Awareness Research & Development → Threat Detection & Emotional Reactivity (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Error Monitoring & Conflict Detection → Threat Detection & Emotional Reactivity (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Error Monitoring & Conflict Detection — State Interpretation — Tertiary Node → Executive Function & Cognitive Control Standards & Governance (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Error Monitoring & Conflict Detection — State Interpretation — Tertiary Node → Executive Function & Cognitive Control Research & Development (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Error Monitoring & Conflict Detection — State Interpretation — Tertiary Node → Error Monitoring & Conflict Detection — Signal Detection & Input — Secondary Node (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Error Monitoring & Conflict Detection Assessment & Diagnostics → Executive Function & Cognitive Control Standards & Governance (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Error Monitoring & Conflict Detection Core Operations → Executive Function & Cognitive Control Research & Development (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[NTS] → Interoception & Sensory Awareness (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[PI] → Interoception & Sensory Awareness (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Threat Detection & Emotional Reactivity → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Threat Detection & Emotional Reactivity Assessment & Diagnostics (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Contextual Memory & Fear Generalization → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Error Monitoring & Conflict Detection — Action Coordination — Secondary Node → Reward Processing & Motivation (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Reward Processing & Motivation → Error Monitoring & Conflict Detection Infrastructure & Capacity (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Reward Processing & Motivation → Social Reward & Food Valuation (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Social Reward & Food Valuation → Error Monitoring & Conflict Detection — Regulation Strategy — Tertiary Node (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Social Cognition & Self-Reference Coordination & Integration → Error Monitoring & Conflict Detection — Adaptation & Self-Healing — Tertiary Node (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Habit Circuits & Repetitive Behavior → Threat Detection & Emotional Reactivity Coordination & Integration (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Threat Detection & Emotional Reactivity Coordination & Integration → Error Monitoring & Conflict Detection — State Interpretation — Tertiary Node (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Motor Coordination & Skill Automatiza... → Error Monitoring & Conflict Detection — State Interpretation — Tertiary Node (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Social Cognition & Self-Reference Research & Development → Executive Function & Cognitive Control Standards & Governance (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[FPN] → Executive Function & Cognitive Control (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Arousal Regulation & Hypervigilance → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "ASD",
+      "label": "Autism Spectrum Disorder",
+      "group": "neurodevelopmental",
+      "summary": "Atypical connectivity with long-range underconnectivity and local overconnectivity; social brain network hypoactivation; altered pruning and minicolumn organization in developing brain",
+      "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo-social cognition",
+          "detail": "Medial prefrontal cortex reduced activation during self-referential and social cognition",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PCC",
+          "dir": "Hypo-DMN coherence",
+          "detail": "DMN coherence reduced in developing brain; weak autobiographical narrative integration",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STS",
+          "dir": "Hypo-social perception",
+          "detail": "Superior temporal sulcus underactivated during biological motion and social perception tasks",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Hypo-face processing",
+          "detail": "Fusiform face area hypoactivation — reduced face processing; may reflect reduced social attention",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-mentalizing",
+          "detail": "Temporoparietal junction hypoactivated during theory of mind tasks — mentalizing deficit",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Hypo-social bonding",
+          "detail": "Oxytocin system differences — social bonding challenges; developmental trajectory unclear",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered interoception",
+          "detail": "Anterior insula altered interoception — contributes to emotional awareness and alexithymia in ASD",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Altered reactivity",
+          "detail": "Amygdala reactivity to social stimuli variable across development; hyperactive in childhood, may normalize by adolescence",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered structure",
+          "detail": "Cerebellar Purkinje cell loss and vermis hypoplasia — motor, timing, and cognitive deficits",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered connectivity",
+          "detail": "Corpus callosum thinning — reduced interhemispheric connectivity; contributes to integration deficits",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered repetitive behavior",
+          "detail": "Repetitive behaviors linked to striatal circuit dysfunction; emerging evidence in pediatric populations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Altered connectivity",
+          "detail": "Language network atypical connectivity; delayed or different developmental trajectory",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GABA_GLU",
+          "dir": "Altered E/I balance",
+          "detail": "Excitation/inhibition imbalance — elevated glutamate:GABA ratio in developing ASD brain",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "ADHD_COMBINED",
+      "label": "ADHD — Combined Presentation",
+      "group": "neurodevelopmental",
+      "summary": "Combined prefrontal hypofunction affecting both attention and inhibitory control circuits; dual deficit model with executive function and motivational circuit dysfunction; cortical maturation delay of ~3 years",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-attention",
+          "detail": "Dorsolateral PFC hypoactivated for working memory and sustained attention",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo-inhibition",
+          "detail": "Right IFG hypoactivated for motor inhibition — combined attention and inhibition deficit",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-dopamine",
+          "detail": "Striatal dopamine dysfunction — reduced DA availability in both dorsal and ventral striatum",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-intrusion",
+          "detail": "Failure to suppress DMN during task — DMN-task network anticorrelation disrupted",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-error monitoring",
+          "detail": "Error monitoring and conflict detection impaired",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered reward processing",
+          "detail": "Altered reward processing — delay aversion component contributing to impulsive choices",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered timing",
+          "detail": "Cerebellar volume reduced — timing deficits affect both motor and cognitive domains",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered development",
+          "detail": "Corpus callosum development delayed — interhemispheric communication deficit",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "DYSLEXIA",
+      "label": "Specific Learning Disorder — Reading (Dyslexia)",
+      "group": "learning",
+      "summary": "Left hemisphere reading network disruption; posterior temporo-parietal underactivation impairs phoneme-grapheme mapping; visual word form area fails to develop automatized recognition",
+      "circuits": [
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-phonological decoding",
+          "detail": "Angular gyrus hypoactivation — impaired phoneme-grapheme mapping (letter-sound correspondence)",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Hypo-word recognition",
+          "detail": "Left fusiform gyrus (visual word form area) fails to develop — no automatic word recognition",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered compensatory overactivation",
+          "detail": "Left IFG shows compensatory overactivation during phonological processing (effortful decoding)",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "A1",
+          "dir": "Altered auditory processing",
+          "detail": "Auditory cortex shows reduced sensitivity to rapid temporal auditory cues (phonological deficit)",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Altered white matter integrity",
+          "detail": "Arcuate fasciculus integrity reduced — impaired connection between phonological and orthographic systems",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "V1",
+          "dir": "Altered magnocellular pathway",
+          "detail": "Magnocellular visual pathway deficits — rapid visual processing impairment in some dyslexics",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered automatization",
+          "detail": "Cerebellar automation theory — cerebellar dysfunction impairs skill automatization in reading",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CHILD_DEPRESSION",
+      "label": "Major Depressive Disorder — Child-Onset",
+      "group": "mood",
+      "summary": "Immature prefrontal-limbic regulatory capacity with amygdala hyperreactivity to negative stimuli; reward circuit hypofunction producing anhedonia; HPA axis hyperactivation with potential hippocampal developmental impact",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-negative reactivity",
+          "detail": "Amygdala hyperreactive to negative faces and stimuli — developing brain has less prefrontal regulation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper-rumination",
+          "detail": "Rumination-related DMN hyperconnectivity — self-referential negative processing similar to adults",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-reward processing",
+          "detail": "Ventral striatum hypofunction — reward processing deficit produces anhedonia",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-regulation",
+          "detail": "Prefrontal cortex still maturing — less capacity for cognitive reappraisal and emotion regulation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper-cortisol",
+          "detail": "Cortisol elevation may impair developing hippocampus; HPA dysregulation predicts recurrence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-volume",
+          "detail": "Hippocampal volume reduction in pediatric depression; vulnerability to cortisol neurotoxicity during development",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Altered serotonin development",
+          "detail": "Serotonergic system still developing — basis for SSRI treatment but also explains activation syndrome risk",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-self-criticism",
+          "detail": "Error and conflict monitoring overactive — excessive self-criticism and negative self-evaluation",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SEPARATION_ANXIETY",
+      "label": "Separation Anxiety Disorder",
+      "group": "anxiety",
+      "summary": "Developmentally inappropriate and excessive anxiety about separation from attachment figures; amygdala-medial PFC circuit dysfunction with hyperactive threat detection specific to separation cues; catastrophic cognitions about harm during separation",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-separation fear",
+          "detail": "Amygdala hyperreactive to separation cues — threat detection amplified for attachment-related stimuli",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper-anticipatory anxiety",
+          "detail": "Extended amygdala sustains anticipatory anxiety about future separations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo-safety learning",
+          "detail": "Medial PFC fails to downregulate separation fear — impaired safety learning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-somatic awareness",
+          "detail": "Interoceptive awareness amplified — somatic symptoms (stomachache, nausea) during anticipated separation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered contextual fear",
+          "detail": "Hippocampal contextual memory encodes separation situations as dangerous — overgeneralized fear",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-panic circuitry",
+          "detail": "Periaqueductal gray panic circuitry activated during actual or threatened separation",
+          "evidence": "Emerging"
+        }
+      ]
+    },
+    {
+      "id": "CHILD_PTSD",
+      "label": "Post-Traumatic Stress Disorder — Pediatric",
+      "group": "trauma",
+      "summary": "Fear conditioning model with amygdala-hippocampal circuit encoding trauma memory inadequately extinguished by mPFC; children may express re-experiencing through repetitive play rather than flashbacks; HPA axis dysregulation compounds developmental effects",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-fear conditioning",
+          "detail": "Amygdala hyperreactive to trauma reminders — fear conditioning is strong and persistent",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo-fear extinction",
+          "detail": "Medial PFC fails to extinguish conditioned fear — trauma memory cannot be inhibited",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered contextual processing",
+          "detail": "Hippocampus impaired contextual processing — trauma memory fragments generalize to safe contexts",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Altered stress regulation",
+          "detail": "HPA axis dysregulation — may show elevated or blunted cortisol depending on trauma type and chronicity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Hyper-noradrenergic drive",
+          "detail": "Locus coeruleus hyperactive — noradrenergic overdrive causes hypervigilance and exaggerated startle",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DISS",
+          "dir": "Altered dissociative response",
+          "detail": "Dissociative circuitry activated in severe trauma — emotional numbing, depersonalization, derealization",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ODD",
+      "label": "Oppositional Defiant Disorder",
+      "group": "behavioral",
+      "summary": "Pattern of angry/irritable mood and argumentative/defiant behavior; prefrontal-amygdala emotion regulation failure with reward processing abnormalities; irritable subtype predicts later anxiety/depression while headstrong subtype predicts conduct disorder",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-provocation reactivity",
+          "detail": "Amygdala hyperreactive to perceived provocation and unfairness — drives angry/irritable mood dimension",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo-emotion regulation",
+          "detail": "Ventrolateral PFC fails to regulate emotional responses — poor frustration tolerance",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo-social learning",
+          "detail": "Orbitofrontal cortex dysfunction — impaired processing of social rewards and punishments",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered reward/punishment sensitivity",
+          "detail": "Striatal reward processing abnormal — heightened sensitivity to reward, reduced sensitivity to punishment",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-hostile attribution",
+          "detail": "Conflict detection hyperactive in social situations — interprets ambiguous situations as hostile",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-cognitive flexibility",
+          "detail": "Executive function deficits — difficulty with cognitive flexibility and response inhibition",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ARFID",
+      "label": "Avoidant/Restrictive Food Intake Disorder",
+      "group": "eating",
+      "summary": "Eating disturbance with persistent failure to meet nutritional needs, NOT driven by body image; three profiles — sensory sensitivity, fear of aversive consequences, and lack of interest in eating; interoceptive and sensory processing abnormalities",
+      "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-sensory processing",
+          "detail": "Insula sensory processing hyperactive — tastes, textures, smells experienced as aversive or overwhelming",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hyper-oral texture reactivity",
+          "detail": "Somatosensory cortex hyperreactive to oral textures — food textures trigger disgust and avoidance",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-food fear conditioning",
+          "detail": "Amygdala fear conditioning to food-related negative experiences (choking, vomiting) in fear-based profile",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo-hunger signaling",
+          "detail": "Hypothalamic hunger signaling reduced — appetite and hunger cues genuinely diminished in lack-of-interest profile",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Altered food reward valuation",
+          "detail": "Orbitofrontal food reward valuation altered — food is not experienced as rewarding or pleasurable",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Altered vagal signaling",
+          "detail": "Vagal afferent signaling to brainstem altered — interoceptive disconnect between body needs and eating behavior",
+          "evidence": "Emerging"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:37.800Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

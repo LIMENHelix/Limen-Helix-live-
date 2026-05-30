@@ -1,0 +1,1006 @@
+{
+  "domainId": "family_law",
+  "title": "Family Law",
+  "parentPortal": "legal.html",
+  "parentLabel": "Legal",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Case Strategy / Legal Reasoning",
+      "domainDescription": "Attorney strategic planning and legal analysis for family law proceedings",
+      "domainFunction": "Synthesizes facts, law, and client goals into a coherent litigation or negotiation strategy for the case",
+      "whyThisNode": "dlPFC drives executive planning — family law strategy requires the same complex reasoning across competing financial, custodial, and emotional variables",
+      "group": "filing_process",
+      "phase": "P3",
+      "weight": 1.0,
+      "diagnosticTriggers": [
+        "HIGH_CONFLICT_DIVORCE",
+        "CUSTODY_DISPUTE",
+        "FINANCIAL_CONCEALMENT"
+      ],
+      "treatments": [
+        {
+          "label": "Structured case assessment protocol",
+          "type": "STRUCTURAL",
+          "description": "Comprehensive initial case evaluation scoring conflict level, asset complexity, custody risk, and timeline to calibrate strategy",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Case trajectory modeling",
+          "type": "DIAGNOSTIC",
+          "description": "Map likely case outcomes across settlement, mediation, and trial paths with cost and timeline estimates for each",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "family_law_case_portal.html"
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Threat Assessment / Conflict Detection",
+      "domainDescription": "Evaluating danger, hostility, and escalation risk in family disputes",
+      "domainFunction": "Assesses threat level — domestic violence risk, parental alienation patterns, and adversarial escalation trajectories",
+      "whyThisNode": "Amygdala is the threat detector — family law requires constant assessment of danger to children, spouses, and the litigation process itself",
+      "group": "filing_process",
+      "phase": "P3",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "DOMESTIC_VIOLENCE",
+        "HIGH_CONFLICT_DIVORCE",
+        "PARENTAL_ALIENATION"
+      ],
+      "treatments": [
+        {
+          "label": "Danger assessment protocol",
+          "type": "IMMEDIATE",
+          "description": "Validated domestic violence lethality assessment (Campbell DAS) at every intake involving protective order or DV allegation",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Escalation pattern tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Track conflict intensity indicators across case timeline to detect escalation before crisis erupts",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "family_law_threat_portal.html"
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Mediation / Settlement Valuation",
+      "domainDescription": "Evaluating fairness of settlement proposals and mediated agreements",
+      "domainFunction": "Weighs the emotional and financial value of proposed settlements against client needs and litigation risk",
+      "whyThisNode": "vmPFC integrates emotional and rational valuation — mediation requires balancing what is legally fair with what clients emotionally need for closure",
+      "group": "resolution",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "HIGH_CONFLICT_DIVORCE",
+        "FINANCIAL_CONCEALMENT"
+      ],
+      "treatments": [
+        {
+          "label": "Collaborative law protocol",
+          "type": "STRUCTURAL",
+          "description": "Four-way collaborative meetings with both attorneys and both clients committed to negotiated resolution without court",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Settlement fairness analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Compare proposed settlement terms against statutory guidelines and jurisdiction-specific outcome data",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "family_law_mediation_portal.html"
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Best Interest of the Child",
+      "domainDescription": "Perspective-taking for children's needs in custody and visitation",
+      "domainFunction": "Models the child's experience, developmental needs, and attachment relationships to advocate for appropriate custodial arrangements",
+      "whyThisNode": "TPJ mediates perspective-taking — the legal standard of 'best interest of the child' requires taking the child's perspective over both parents' desires",
+      "group": "custody",
+      "phase": "P3",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "CUSTODY_DISPUTE",
+        "PARENTAL_ALIENATION",
+        "DOMESTIC_VIOLENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Guardian ad litem appointment",
+          "type": "STRUCTURAL",
+          "description": "Independent child advocate appointed to investigate and represent the child's interests separately from either parent",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Developmental needs assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Age-appropriate evaluation of child's attachment bonds, school functioning, and emotional well-being across both households",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "family_law_best_portal.html"
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Asset Valuation / Financial Analysis",
+      "domainDescription": "Identification and valuation of marital and separate property",
+      "domainFunction": "Evaluates the value of all marital assets — real estate, retirement accounts, businesses, and debts — for equitable division",
+      "whyThisNode": "OFC evaluates reward value and probability — asset valuation in divorce requires the same cost-benefit and value-assignment computation",
+      "group": "financial",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "FINANCIAL_CONCEALMENT",
+        "HIGH_CONFLICT_DIVORCE"
+      ],
+      "treatments": [
+        {
+          "label": "Forensic accounting engagement",
+          "type": "STRUCTURAL",
+          "description": "Retain forensic CPA for complex marital estates to trace separate property, value businesses, and detect hidden assets",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Asset disclosure completeness audit",
+          "type": "DIAGNOSTIC",
+          "description": "Cross-reference sworn financial disclosures against tax returns, bank records, and public records for inconsistencies",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "family_law_asset_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Client Emotional State Detection",
+      "domainDescription": "Sensing client psychological distress, risk, and readiness",
+      "domainFunction": "Detects client emotional state — fear, grief, rage, shutdown — to calibrate legal strategy and referral timing",
+      "whyThisNode": "Anterior insula is the interoceptive sensor — family law attorneys must read client emotional states to manage both legal and psychological needs",
+      "group": "filing_process",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "DOMESTIC_VIOLENCE",
+        "HIGH_CONFLICT_DIVORCE",
+        "PARENTAL_ALIENATION"
+      ],
+      "treatments": [
+        {
+          "label": "Therapeutic referral protocol",
+          "type": "REFERRAL",
+          "description": "Immediate referral to divorce-specialized therapist when client emotional state is impairing legal decision-making",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Client readiness assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate client capacity for rational decision-making versus emotional reactivity before major settlement or trial decisions",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "family_law_client_portal.html"
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Case Law / Precedent Memory",
+      "domainDescription": "Stored family law precedent and statutory knowledge",
+      "domainFunction": "Retrieves relevant case law, statutory provisions, and local court practices that guide legal strategy and predict outcomes",
+      "whyThisNode": "Hippocampus stores and retrieves memories — family law practice depends on vast stored knowledge of precedent, statute, and judge-specific tendencies",
+      "group": "filing_process",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CUSTODY_DISPUTE",
+        "CONTEMPT_ENFORCEMENT"
+      ],
+      "treatments": [
+        {
+          "label": "Jurisdiction-specific outcome database",
+          "type": "STRUCTURAL",
+          "description": "Maintain database of judicial tendencies, custody evaluation outcomes, and support award patterns by county and judge",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Legal research protocol",
+          "type": "DIAGNOSTIC",
+          "description": "Comprehensive case law review for each novel issue to ensure all relevant authority is identified before filing",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "family_law_law_portal.html"
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Court Compliance Monitoring",
+      "domainDescription": "Tracking compliance with court orders and deadlines",
+      "domainFunction": "Monitors adherence to temporary orders, discovery deadlines, and court directives — flags violations for enforcement action",
+      "whyThisNode": "dACC is the conflict monitor — compliance monitoring detects when a party deviates from court-ordered obligations",
+      "group": "enforcement",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "CONTEMPT_ENFORCEMENT",
+        "HIGH_CONFLICT_DIVORCE"
+      ],
+      "treatments": [
+        {
+          "label": "Order compliance tracking system",
+          "type": "STRUCTURAL",
+          "description": "Systematic tracking of all court-ordered obligations with automated deadline alerts and violation documentation",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Violation pattern analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Identify patterns of non-compliance — selective violations, escalating defiance, or strategic contempt — to inform enforcement strategy",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "family_law_court_portal.html"
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Procedural Compliance / Filing",
+      "domainDescription": "Court procedures, filing requirements, and deadlines",
+      "domainFunction": "Executes the procedural requirements — petitions, responses, motions, discovery, and trial preparation — that structure the case",
+      "whyThisNode": "Striatum drives habitual procedures — family law litigation follows strict procedural sequences that must be executed precisely",
+      "group": "filing_process",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CONTEMPT_ENFORCEMENT",
+        "HIGH_CONFLICT_DIVORCE"
+      ],
+      "treatments": [
+        {
+          "label": "Case management checklist",
+          "type": "STRUCTURAL",
+          "description": "Standardized case-type checklists (divorce, custody, modification) with all required filings and deadlines mapped",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Filing completeness audit",
+          "type": "DIAGNOSTIC",
+          "description": "Review all pending filings for completeness, timeliness, and compliance with local rules before submission",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Case Routing / Court Assignment",
+      "domainDescription": "Routing cases through family court systems",
+      "domainFunction": "Routes the case through the family court system — initial filing, judge assignment, hearing scheduling, and level-of-care triage",
+      "whyThisNode": "Thalamus is the information relay — court routing assigns each family case to the appropriate judge, track, and hearing calendar",
+      "group": "filing_process",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "CONTEMPT_ENFORCEMENT",
+        "CUSTODY_DISPUTE"
+      ],
+      "treatments": [
+        {
+          "label": "Unified family court model",
+          "type": "STRUCTURAL",
+          "description": "One judge handles all matters for one family — eliminating contradictory orders from multiple courts and judges",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Case processing time monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Track time from filing to disposition by case type to identify unacceptable delay patterns in family court",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "Empathic Advocacy",
+      "domainDescription": "Emotionally attuned representation of client needs",
+      "domainFunction": "Provides emotionally intelligent advocacy that honors client suffering while maintaining strategic legal focus",
+      "whyThisNode": "Empathy network enables understanding of suffering — family law requires attorneys who can hold client pain without being consumed by it",
+      "group": "resolution",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "DOMESTIC_VIOLENCE",
+        "PARENTAL_ALIENATION"
+      ],
+      "treatments": [
+        {
+          "label": "Attorney secondary trauma prevention",
+          "type": "STRUCTURAL",
+          "description": "Regular supervision, caseload management, and self-care protocols for attorneys handling high-conflict family cases",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Client support network assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate client's external support resources — therapist, support group, family — to reduce emotional burden on attorney-client relationship",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OXY",
+      "state": "active",
+      "domainLabel": "Co-Parenting Relationship",
+      "domainDescription": "Post-divorce parental cooperation and communication",
+      "domainFunction": "Facilitates the restructured parental bond — co-parenting communication, shared decision-making, and parallel parenting when needed",
+      "whyThisNode": "Oxytocin drives social bonding — co-parenting requires rebuilding a functional parental bond from the wreckage of a dissolved romantic one",
+      "group": "custody",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CUSTODY_DISPUTE",
+        "PARENTAL_ALIENATION",
+        "HIGH_CONFLICT_DIVORCE"
+      ],
+      "treatments": [
+        {
+          "label": "Co-parenting communication platform",
+          "type": "STRUCTURAL",
+          "description": "Court-ordered use of monitored co-parenting apps (OurFamilyWizard) to structure and document all parental communication",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Co-parenting functioning assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate parents' capacity for cooperative, parallel, or supervised co-parenting to calibrate parenting plan appropriately",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Multi-Issue Coordination",
+      "domainDescription": "Coordinating custody, financial, and procedural tracks simultaneously",
+      "domainFunction": "Orchestrates the multiple simultaneous workstreams — custody evaluation, financial discovery, temporary orders, and trial prep",
+      "whyThisNode": "Frontoparietal network coordinates distributed executive tasks — complex family cases have multiple simultaneous workstreams requiring orchestration",
+      "group": "discovery_negotiation",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "HIGH_CONFLICT_DIVORCE",
+        "FINANCIAL_CONCEALMENT"
+      ],
+      "treatments": [
+        {
+          "label": "Parallel workstream management",
+          "type": "STRUCTURAL",
+          "description": "Case management system tracking custody, financial, and procedural tracks with interdependency mapping",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Case complexity assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Early case triage scoring complexity across custody, financial, and conflict dimensions to allocate appropriate resources",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Legal Advocacy / Motion Practice",
+      "domainDescription": "Written and oral advocacy in family court proceedings",
+      "domainFunction": "Produces the written motions, trial briefs, and oral arguments that advance the client's position in court",
+      "whyThisNode": "Broca's area produces speech — legal advocacy is the output function that translates strategy into persuasive court presentations",
+      "group": "discovery_negotiation",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CUSTODY_DISPUTE",
+        "CONTEMPT_ENFORCEMENT"
+      ],
+      "treatments": [
+        {
+          "label": "Trial advocacy preparation",
+          "type": "STRUCTURAL",
+          "description": "Mock cross-examination, exhibit preparation, and opening/closing rehearsal for every contested hearing",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Motion effectiveness tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Track success rates on motions by type and judge to optimize motion practice strategy",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Family System Stress",
+      "domainDescription": "Stress load on the family unit during legal proceedings",
+      "domainFunction": "Reflects the chronic stress state of the family system — financial pressure, emotional strain, and uncertainty driving all parties",
+      "whyThisNode": "HPA axis drives stress response — family law cases are among the highest-stress life events, driving cortisol-level activation in all participants",
+      "group": "enforcement",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "HIGH_CONFLICT_DIVORCE",
+        "DOMESTIC_VIOLENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Stress reduction referral network",
+          "type": "REFERRAL",
+          "description": "Pre-established referral network for therapy, financial counseling, and family support services for all parties",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Family stress impact assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate impact of ongoing litigation on children's and parents' functioning to inform pace and intensity of proceedings",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Protective Order / Emergency Response",
+      "domainDescription": "Emergency court intervention for immediate danger",
+      "domainFunction": "Triggers emergency legal responses — temporary restraining orders, emergency custody motions, ex parte relief — when safety is at risk",
+      "whyThisNode": "Central amygdala fires automatic protective responses — emergency protective orders are the legal system's automatic defense mechanism",
+      "group": "enforcement",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "DOMESTIC_VIOLENCE",
+        "CUSTODY_DISPUTE"
+      ],
+      "treatments": [
+        {
+          "label": "Emergency motion template library",
+          "type": "IMMEDIATE",
+          "description": "Pre-drafted emergency motion templates for TRO, emergency custody, and ex parte relief — ready to file within hours",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Protective order effectiveness tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Monitor protective order violation rates and enforcement outcomes to assess whether orders are actually providing safety",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Support Calculations / Financial Orders",
+      "domainDescription": "Child support, spousal maintenance, and temporary financial orders",
+      "domainFunction": "Calculates guideline child support and argues for appropriate spousal maintenance based on need, ability, and statutory factors",
+      "whyThisNode": "Nucleus accumbens processes reward and motivation — support orders are the financial incentive and obligation calculations of family law",
+      "group": "financial",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "FINANCIAL_CONCEALMENT",
+        "CONTEMPT_ENFORCEMENT"
+      ],
+      "treatments": [
+        {
+          "label": "Income verification protocol",
+          "type": "STRUCTURAL",
+          "description": "Multi-source income verification using tax returns, pay stubs, business records, and lifestyle analysis",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Guideline deviation analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Compare proposed support orders against statutory guidelines with documented justification for any deviations",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Evaluation Report Interpretation",
+      "domainDescription": "Understanding custody evaluations, GAL reports, and expert opinions",
+      "domainFunction": "Comprehends and critically analyzes custody evaluation reports, psychological assessments, and expert testimony",
+      "whyThisNode": "Wernicke's area processes language comprehension — interpreting dense expert reports and evaluation findings is a core family law skill",
+      "group": "custody",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "CUSTODY_DISPUTE",
+        "PARENTAL_ALIENATION"
+      ],
+      "treatments": [
+        {
+          "label": "Expert report cross-examination preparation",
+          "type": "STRUCTURAL",
+          "description": "Systematic analysis of custody evaluation methodology, data sources, and conclusions for cross-examination readiness",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Evaluator methodology review",
+          "type": "DIAGNOSTIC",
+          "description": "Assess whether custody evaluator used validated instruments, adequate data sources, and sound reasoning methodology",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Family Identity Restructuring",
+      "domainDescription": "The family unit's self-concept transformation through divorce",
+      "domainFunction": "Manages the transformation of the family's identity — from intact unit to restructured co-parenting system with two households",
+      "whyThisNode": "mPFC maintains the self-model — divorce forces a fundamental reconstruction of the family's self-concept, identity, and narrative",
+      "group": "resolution",
+      "phase": "P3",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "HIGH_CONFLICT_DIVORCE",
+        "PARENTAL_ALIENATION"
+      ],
+      "treatments": [
+        {
+          "label": "Family restructuring counseling",
+          "type": "REFERRAL",
+          "description": "Family therapist specializing in divorce transition to help all family members construct healthy post-divorce identity",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Post-decree adjustment screening",
+          "type": "DIAGNOSTIC",
+          "description": "Six-month post-decree assessment of child and parent adjustment to the restructured family system",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Parenting Plan Language",
+      "domainDescription": "Drafting precise, enforceable parenting plan provisions",
+      "domainFunction": "Produces the precise legal language of parenting plans — custody schedules, decision-making authority, holiday rotation, and dispute resolution",
+      "whyThisNode": "Language network enables precise communication — parenting plans require unambiguous language that prevents future conflict and enforcement problems",
+      "group": "custody",
+      "phase": "P3",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "CUSTODY_DISPUTE",
+        "CONTEMPT_ENFORCEMENT"
+      ],
+      "treatments": [
+        {
+          "label": "Comprehensive parenting plan template",
+          "type": "STRUCTURAL",
+          "description": "Detailed template covering regular schedule, holidays, vacations, communication, relocation, and dispute resolution provisions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Enforceability review",
+          "type": "DIAGNOSTIC",
+          "description": "Pre-submission review of parenting plan language for ambiguity, gaps, and provisions likely to generate future contempt motions",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "dlPFC",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Case strategy guides settlement valuation"
+    },
+    {
+      "from": "dlPFC",
+      "to": "OFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Legal analysis informs asset valuation approach"
+    },
+    {
+      "from": "BLA",
+      "to": "CeA",
+      "type": "fast",
+      "weight": 0.9,
+      "label": "Threat detection triggers emergency protective orders"
+    },
+    {
+      "from": "BLA",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Conflict assessment shapes case strategy"
+    },
+    {
+      "from": "AI",
+      "to": "BLA",
+      "type": "fast",
+      "weight": 0.85,
+      "label": "Client emotional state feeds threat assessment"
+    },
+    {
+      "from": "AI",
+      "to": "EMP",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Emotional detection informs empathic advocacy"
+    },
+    {
+      "from": "vmPFC",
+      "to": "OXY",
+      "type": "modul",
+      "weight": 0.75,
+      "label": "Mediated settlement enables co-parenting restructuring"
+    },
+    {
+      "from": "TPJ",
+      "to": "OXY",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Child perspective-taking shapes co-parenting expectations"
+    },
+    {
+      "from": "TPJ",
+      "to": "WERN",
+      "type": "excit",
+      "weight": 0.75,
+      "label": "Best interest analysis guides evaluation interpretation"
+    },
+    {
+      "from": "OFC",
+      "to": "NAcc",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Asset valuation drives support calculations"
+    },
+    {
+      "from": "HIPP",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Case law precedent informs strategy"
+    },
+    {
+      "from": "dACC",
+      "to": "CeA",
+      "type": "excit",
+      "weight": 0.75,
+      "label": "Compliance violations trigger enforcement actions"
+    },
+    {
+      "from": "dACC",
+      "to": "STRI",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Monitoring compliance drives procedural filings"
+    },
+    {
+      "from": "STRI",
+      "to": "THAL",
+      "type": "excit",
+      "weight": 0.75,
+      "label": "Procedural filings route through court system"
+    },
+    {
+      "from": "FPN",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Multi-issue coordination feeds overall case strategy"
+    },
+    {
+      "from": "FPN",
+      "to": "BROCA",
+      "type": "excit",
+      "weight": 0.75,
+      "label": "Coordinated strategy drives motion practice"
+    },
+    {
+      "from": "BROCA",
+      "to": "LANG",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Advocacy translates into parenting plan drafting"
+    },
+    {
+      "from": "HPA",
+      "to": "dlPFC",
+      "type": "inhib",
+      "weight": 0.65,
+      "label": "Family stress impairs rational legal decision-making"
+    },
+    {
+      "from": "HPA",
+      "to": "BLA",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "System stress amplifies threat perception"
+    },
+    {
+      "from": "mPFC",
+      "to": "OXY",
+      "type": "modul",
+      "weight": 0.65,
+      "label": "Family identity restructuring enables new co-parenting bond"
+    },
+    {
+      "from": "NAcc",
+      "to": "dACC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Support obligations feed compliance monitoring"
+    },
+    {
+      "from": "WERN",
+      "to": "TPJ",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Evaluation comprehension informs child perspective"
+    }
+  ],
+  "issues": [
+    {
+      "id": "HIGH_CONFLICT_DIVORCE",
+      "label": "High-Conflict Divorce",
+      "summary": "Intensely adversarial dissolution where parties cannot cooperate, litigate every issue, and weaponize the legal process against each other",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-activated",
+          "detail": "Threat assessment in overdrive — each party perceives every action by the other as hostile and threatening",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Overwhelmed",
+          "detail": "Case strategy constantly shifting as new conflicts emerge — attorney cannot stabilize a coherent litigation plan",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Maximal",
+          "detail": "Family stress at maximum — children, finances, and both parents' mental health deteriorating under sustained conflict",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Blocked",
+          "detail": "Settlement impossible — parties' emotional reactivity prevents rational evaluation of any proposed resolution",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Destroyed",
+          "detail": "Co-parenting relationship non-functional — all communication hostile, children caught in loyalty conflicts",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-activated",
+          "detail": "Constant compliance violations — each party filing contempt motions against the other in escalating pattern",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CUSTODY_DISPUTE",
+      "label": "Custody Dispute",
+      "summary": "Parents unable to agree on custodial arrangement — legal and physical custody, parenting time, and decision-making authority contested",
+      "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Contested",
+          "detail": "Both parties claiming to represent the child's best interest while advancing incompatible custodial positions",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Fractured",
+          "detail": "Parental bond being used as weapon — one or both parents undermining child's relationship with the other parent",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Disputed",
+          "detail": "Custody evaluation findings contested — parties disagree on evaluator methodology, conclusions, and recommendations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper-active",
+          "detail": "Motion practice escalating — emergency custody motions, modification requests, and contempt filings proliferating",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Ambiguous",
+          "detail": "Parenting plan language insufficiently precise — creating loopholes that fuel ongoing conflict and enforcement problems",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Conflicting",
+          "detail": "Case law cited by both parties supports contradictory positions — judicial discretion becomes determinative",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "DOMESTIC_VIOLENCE",
+      "label": "Domestic Violence Case",
+      "summary": "Family law proceeding complicated by intimate partner violence — safety, credibility, and power imbalance dominate all aspects of the case",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Critical",
+          "detail": "Lethality risk elevated — separation period is statistically the most dangerous time for domestic violence victims",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Emergency-activated",
+          "detail": "Protective orders urgently needed — ex parte TRO, firearms surrender, and supervised exchange provisions required immediately",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-vigilant",
+          "detail": "Client in survival mode — fear, hypervigilance, and trauma responses impairing capacity for legal decision-making",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Critical",
+          "detail": "Attorney empathic attunement essential — trauma-informed representation required to avoid retraumatization through legal process",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Extreme",
+          "detail": "Family system in crisis — children exposed to violence, abused parent in survival mode, perpetrator potentially escalating",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Urgent",
+          "detail": "Children's safety and well-being paramount — immediate assessment of exposure to violence and need for therapeutic intervention",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PARENTAL_ALIENATION",
+      "label": "Parental Alienation",
+      "summary": "One parent systematically undermining the child's relationship with the other parent through manipulation, denigration, and interference",
+      "circuits": [
+        {
+          "nodeId": "OXY",
+          "dir": "Sabotaged",
+          "detail": "Child-parent bond actively destroyed — alienating parent programming child to fear, reject, or hate the targeted parent",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Distorted",
+          "detail": "Child's own perspective corrupted — parroting alienating parent's views rather than expressing authentic feelings",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Damaged",
+          "detail": "Child's identity formation compromised — forced to reject half of their own identity to maintain loyalty to alienating parent",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Manipulated",
+          "detail": "False threat narratives constructed — child coached to believe targeted parent is dangerous despite no evidence of harm",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Contested",
+          "detail": "Expert opinions sharply divided — alienation claims are among the most contested issues in family law",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FINANCIAL_CONCEALMENT",
+      "label": "Financial Concealment / Hidden Assets",
+      "summary": "One spouse hiding assets, underreporting income, or manipulating financial disclosures to gain unfair advantage in property division",
+      "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Obscured",
+          "detail": "True asset picture hidden — offshore accounts, cryptocurrency, undervalued businesses, and unreported cash income concealing marital estate",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Distorted",
+          "detail": "Support calculations based on fraudulent income figures — concealing spouse paying far less than actual obligation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Complicated",
+          "detail": "Case strategy must shift from standard discovery to forensic investigation mode — significantly increasing cost and complexity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Triggered",
+          "detail": "Discovery violations detected — incomplete disclosures, missing documents, and evasive deposition testimony requiring sanctions motions",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Strained",
+          "detail": "Multi-expert coordination required — forensic accountant, business valuator, and vocational expert working in parallel",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CONTEMPT_ENFORCEMENT",
+      "label": "Contempt / Order Enforcement",
+      "summary": "One party willfully violating court orders — custody schedule, support payments, property division, or protective order provisions",
+      "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Pattern-detected",
+          "detail": "Systematic non-compliance documented — repeated violations establishing willful pattern rather than isolated incident",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Enforcement-triggered",
+          "detail": "Contempt petition filed — requesting sanctions, make-up time, attorney fees, or incarceration for willful violation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Broken",
+          "detail": "Court-ordered procedures being ignored — the procedural framework that should structure post-decree conduct has failed",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Withheld",
+          "detail": "Support payments delinquent — arrearage accumulating, wage garnishment and license suspension mechanisms activated",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Mobilized",
+          "detail": "Enforcement motion practice intensive — show-cause hearings, affidavits of non-compliance, and sanctions briefing required",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Sustained",
+          "detail": "Ongoing violation creates sustained stress — the case that should be resolved continues generating conflict and cost",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

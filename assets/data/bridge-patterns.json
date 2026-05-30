@@ -1,0 +1,524 @@
+{
+  "schemaVersion": "bridge/1.0",
+  "generatedAt": "2026-05-30",
+  "description": "Bridge patterns map neural mechanisms to business signatures and back. Each pattern is a CLAIM that two literatures describe the same underlying pathology — and that clinical treatments for the neural side suggest interventions for the business side, and vice versa. derivedAngles per pattern are the seeds that the 6 engine lanes (patent/grant/sba/franchise/investment/research) consume to produce concrete artifacts.",
+  "patterns": [
+    {
+      "id": "NAc_reward_dysregulation_x_revenue_chase",
+      "neural": {
+        "region": "NAcc",
+        "regionLabel": "Nucleus Accumbens",
+        "state": "tonic_hyperactivation",
+        "mechanism": "Reward-prediction-error signal decouples from outcome learning. Dopaminergic input from VTA persists despite negative-outcome feedback. Tonic firing replaces phasic learning.",
+        "knownTreatments": ["naltrexone (mu-opioid antagonism)", "CBT relapse prevention", "contingency management", "DBT distress tolerance", "TMS to dlPFC for top-down control"],
+        "clinicalReferences": ["Volkow ND 2016 Annu Rev Pharmacol Toxicol", "Koob & Volkow 2010 Neuropsychopharmacology"]
+      },
+      "business": {
+        "signature": "revenue_chase_at_margin_expense",
+        "description": "Growth pursued at any cost — SG&A and CAC accelerate while gross margins compress. Discounting and option-grant inflation replace organic growth. Forward guidance prioritized over outcome learning.",
+        "indicators": [
+          { "id": "sga_outpaces_gm", "description": "SG&A growth exceeds gross-margin growth", "detector": { "type": "kernel_phase", "kernels": ["k1", "k2"], "phases": ["p3", "p7b"] } },
+          { "id": "fn_high_customer_concentration", "description": "Customer concentration with high-stress counterparties", "detector": { "type": "fn_phase_share", "category": "customers", "stressPhases": ["p3", "p7", "p7a"], "minShare": 0.3 } },
+          { "id": "growth_rhetoric_in_signals", "description": "Portal warningSignals or instructions reference growth-at-all-costs framing", "detector": { "type": "text_match", "fields": ["warningSignals", "instructions"], "patterns": ["growth at all costs", "land grab", "blitzscale"] } }
+        ],
+        "phaseAffinity": ["p3", "p7b"],
+        "examples": ["BBBY 2018-2021", "Wayfair 2022 ad-spend", "DoorDash 2020-2022 CAC acceleration"],
+        "businessReferences": ["Christensen 1997 Innovator's Dilemma", "Damodaran 2018 corporate-distress series"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.78,
+        "rationale": "Both involve reward-circuit hyperactivation prioritizing short-term signal over outcome-aligned regulation. Both respond to top-down control restoration (TMS-to-dlPFC for NAcc; board-level capital-discipline restoration for revenue-chase)."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "System and method for detecting corporate revenue-chase signature via reward-prediction-error decoupling metric applied to SG&A vs GM trajectory", "noveltyAnchor": "First application of NAcc-equivalent tonic-hyperactivation detection to corporate financial signal" },
+        "grant": { "programMatch": ["NIH SBIR Topic 357 (neuroscience-finance interface)", "NSF I-Corps Lean Translation"], "angle": "Translational research applying contingency-management protocols to corporate compensation design" },
+        "investment": { "thesis": "Short companies entering revenue-chase signature; long companies with restored capital discipline post-board intervention", "horizon": "6-12mo", "instruments": ["short equity", "put spreads"] },
+        "research": { "hypothesis": "Companies in revenue-chase signature respond to contingency-management-equivalent interventions (board-level reward restructuring)", "methodology": "longitudinal comparison of incentive-restructured vs control firms" },
+        "franchise": null,
+        "sba": null
+      }
+    },
+    {
+      "id": "dACC_conflict_monitoring_failure_x_audit_committee_dysfunction",
+      "neural": {
+        "region": "dACC",
+        "regionLabel": "dorsal Anterior Cingulate Cortex",
+        "state": "hypoactivation",
+        "mechanism": "Failure of conflict-monitoring and error-detection signal. dACC normally signals discrepancy between expected and actual outcomes; when hypoactive, errors propagate undetected to behavior.",
+        "knownTreatments": ["mindfulness-based attention training", "cognitive remediation", "real-time fMRI neurofeedback to dACC"],
+        "clinicalReferences": ["Botvinick MM 2007 Cognition", "Carter CS 1998 Science"]
+      },
+      "business": {
+        "signature": "audit_committee_silenced",
+        "description": "Audit committee fails to flag accounting irregularities; internal-control material weaknesses unreported; auditor turnover rises without explanation.",
+        "indicators": [
+          { "id": "fn_auditor_change_recent", "description": "Recent auditor change without clear justification", "detector": { "type": "fn_text_match", "category": "auditor", "patterns": ["recent change", "transitioned", "switched from"] } },
+          { "id": "fn_regulator_under_pressure", "description": "Regulator counterparties in stressed phases", "detector": { "type": "fn_phase_share", "category": "regulators", "stressPhases": ["p1", "p3"], "minShare": 0.4 } },
+          { "id": "material_weakness_disclosed", "description": "Portal references material weakness in controls", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["material weakness", "internal control", "restatement"] } }
+        ],
+        "phaseAffinity": ["p1", "p3"],
+        "examples": ["Enron 2000-2001", "Wirecard 2018-2020", "Luckin Coffee 2019-2020"],
+        "businessReferences": ["PCAOB inspection reports", "SOX 404 material weakness disclosures"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.82,
+        "rationale": "Both are failures of error-detection circuits. Clinical dACC training (mindfulness, neurofeedback) parallels audit-committee training and rotation — restoring conflict-monitoring capacity."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "System for detecting audit-committee dysfunction via dACC-equivalent conflict-monitoring signal applied to disclosure cadence and auditor-counterparty stress", "noveltyAnchor": "Cross-mapping clinical error-detection circuits to corporate governance signals" },
+        "grant": { "programMatch": ["NSF Decision Risk Management Sciences", "PCAOB Center for Economic Analysis grants"], "angle": "Quantitative early-warning system for audit-committee dysfunction" },
+        "investment": { "thesis": "Short companies with material-weakness disclosure paired with stressed regulator counterparties; long companies post-auditor-rotation + dACC-equivalent governance restoration", "horizon": "12-24mo" },
+        "research": { "hypothesis": "Companies with audit-committee mindfulness training show fewer restatements", "methodology": "RCT of committee-training programs across S&P 1500 audit committees" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "dlPFC_executive_function_x_strategic_planning_collapse",
+      "neural": {
+        "region": "dlPFC",
+        "regionLabel": "dorsolateral Prefrontal Cortex",
+        "state": "hypoactivation_with_DMN_dominance",
+        "mechanism": "Loss of working-memory maintenance and top-down goal-direction. Default Mode Network dominates over executive control. Plans degrade into rumination.",
+        "knownTreatments": ["working-memory training (n-back)", "TMS to dlPFC", "cognitive remediation therapy", "stimulant pharmacotherapy"],
+        "clinicalReferences": ["Miller EK 2001 Annu Rev Neurosci", "Fuster JM 2008 The Prefrontal Cortex"]
+      },
+      "business": {
+        "signature": "strategic_planning_collapse",
+        "description": "Multi-year strategy decays into quarterly reaction. Capital allocation drifts toward short-cycle defensive moves. Five-year plans repeatedly reset.",
+        "indicators": [
+          { "id": "ceo_turnover_recent", "description": "CEO turnover within recent windows", "detector": { "type": "fn_text_match", "category": "executiveTeam", "patterns": ["new CEO", "interim CEO", "CEO transition", "departed"] } },
+          { "id": "capex_compression", "description": "Capital allocation shifting from long-cycle to short-cycle defensive uses", "detector": { "type": "kernel_phase", "kernels": ["k1", "k2"], "phases": ["p3", "p7b"] } },
+          { "id": "guidance_pulled_repeatedly", "description": "Recent guidance pulled or repeatedly revised down", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["guidance pulled", "guidance withdrawn", "revised down"] } }
+        ],
+        "phaseAffinity": ["p3", "p4", "p7b"],
+        "examples": ["GE 2017-2020", "Intel 2020-2023", "Bayer post-Monsanto"],
+        "businessReferences": ["Edmondson 2019 Strategy as Learning", "Kaplan/Norton Strategy Maps"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.80,
+        "rationale": "Both involve loss of top-down maintenance of multi-step goals under cognitive load. Clinical dlPFC training (working memory protocols) parallels strategic planning restoration (scenario-planning protocols)."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "Method for detecting strategic-planning collapse via dlPFC-equivalent working-memory degradation metric applied to capital-allocation drift", "noveltyAnchor": "Maps clinical executive-function diagnostics to capital-allocation pattern" },
+        "grant": { "programMatch": ["NSF Decision Risk Management", "DARPA Strategic Planning AI"], "angle": "AI-augmented strategic planning protocols modeled on dlPFC working-memory training" },
+        "investment": { "thesis": "Avoid companies in dlPFC-collapse signature; investigate companies post-strategy-reset with working-memory-equivalent protocols", "horizon": "18-36mo" },
+        "research": { "hypothesis": "Board-level scenario-planning protocols restore long-horizon decision-making analogous to clinical dlPFC training", "methodology": "intervention study across companies emerging from p4 RECOVERY phase" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "AMY_threat_overdetection_x_defensive_hedging_excess",
+      "neural": {
+        "region": "BLA",
+        "regionLabel": "Basolateral Amygdala",
+        "state": "hyperreactivity",
+        "mechanism": "Threat-detection threshold lowered; benign stimuli classified as threats. PFC top-down inhibition weakened. Sustained autonomic activation drives chronic avoidance.",
+        "knownTreatments": ["exposure therapy", "SSRI", "propranolol (memory reconsolidation)", "EMDR", "vmPFC-to-amygdala connectivity restoration"],
+        "clinicalReferences": ["LeDoux JE 2014 Cell", "Phelps EA 2004 Curr Opin Neurobiol"]
+      },
+      "business": {
+        "signature": "defensive_hedging_excess",
+        "description": "Excessive hedging or insurance cost beyond risk-adjusted optimum. Capital trapped in defensive positions. M&A frozen during periods of opportunity.",
+        "indicators": [
+          { "id": "fn_hedging_excessive", "description": "Hedging or insurance entities prominently in functionalNetwork", "detector": { "type": "fn_text_match", "category": "logisticsPartners", "patterns": ["hedge", "insurance", "swap", "FX hedge"] } },
+          { "id": "ma_freeze_evidence", "description": "Long acquisition pause or repeatedly cancelled deals", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["cancelled merger", "terminated acquisition", "withdrew offer"] } },
+          { "id": "kernel_p7b_signal", "description": "Kernel reading shows sympathetic-lock dampening pattern", "detector": { "type": "kernel_phase", "kernels": ["k1", "k2"], "phases": ["p7b"] } }
+        ],
+        "phaseAffinity": ["p7b"],
+        "examples": ["Berkshire 2007-2009 cash hoarding", "Apple 2012-2016 buyback over R&D"],
+        "businessReferences": ["Stulz 1996 risk management framework", "Damodaran 2017 corporate-cash analysis"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.71,
+        "rationale": "Both involve threat-overdetection driving sustained avoidance. Clinical exposure therapy parallels graduated re-engagement (board-mandated M&A windows, R&D minimums)."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "Detection method for corporate defensive-hedging excess using amygdala-equivalent threat-threshold-shift metric on capital-allocation pattern", "noveltyAnchor": "Quantifies hedging-as-pathology vs hedging-as-prudence via shifted-threshold model" },
+        "grant": { "programMatch": ["FRBNY corporate-risk research", "NSF Decision Risk"], "angle": "Behavioral measures of corporate avoidance separable from rational hedging" },
+        "investment": { "thesis": "Long companies emerging from hedging-excess via board mandate; short companies with rising defensive-cash without M&A pipeline", "horizon": "12-24mo" },
+        "research": { "hypothesis": "Cash-hoarding companies respond to exposure-therapy-equivalent graduated-investment mandates", "methodology": "natural experiment on companies post-activist-investor exposure mandates" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "VMPFC_value_misalignment_x_executive_comp_pathology",
+      "neural": {
+        "region": "vmPFC",
+        "regionLabel": "ventromedial Prefrontal Cortex",
+        "state": "value_computation_distorted",
+        "mechanism": "Subjective-value computation decoupled from outcome distributions. Choices reflect biased value-encoding rather than expected utility.",
+        "knownTreatments": ["value-based decision training", "behavioral activation", "explicit value-elicitation protocols"],
+        "clinicalReferences": ["Bartra et al 2013 NeuroImage", "Rangel & Hare 2010 Curr Opin Neurobiol"]
+      },
+      "business": {
+        "signature": "executive_comp_misalignment",
+        "description": "CEO and senior-executive compensation decoupled from shareholder value creation. Options granted at strike prices that don't track underlying performance. Pay-for-performance broken.",
+        "indicators": [
+          { "id": "fn_executive_changes", "description": "Recent C-suite turnover or comp committee turnover", "detector": { "type": "fn_text_match", "category": "executiveTeam", "patterns": ["compensation committee", "comp committee", "say-on-pay", "executive pay"] } },
+          { "id": "say_on_pay_failed", "description": "Say-on-pay vote failed or near-failed recently", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["say-on-pay", "shareholder vote", "compensation vote"] } }
+        ],
+        "phaseAffinity": ["p3", "p7b"],
+        "examples": ["McDonalds 2019-2020", "AT&T comp disputes", "GE retention awards"],
+        "businessReferences": ["ISS Governance reports", "Lucian Bebchuk pay-without-performance series"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.75,
+        "rationale": "Both involve value-computation decoupling from outcome distributions. Clinical value-elicitation parallels comp-committee value-alignment protocols."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "System for detecting executive-compensation misalignment via vmPFC-equivalent value-decoupling metric", "noveltyAnchor": "Maps clinical value-computation distortion to compensation-pattern signal" },
+        "grant": { "programMatch": ["NIH NIA aging-and-decision", "SSRC Corporate Governance"], "angle": "Behavioral economics of compensation-pathology detection" },
+        "investment": { "thesis": "Activist-investor catalysts post-say-on-pay failure", "horizon": "6-18mo" },
+        "research": { "hypothesis": "Companies adopting clinical value-elicitation protocols at comp committee show reduced pay-performance gap", "methodology": "intervention study with controlled trial across mid-cap companies" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "HPA_chronic_stress_x_covenant_distress_chronification",
+      "neural": {
+        "region": "HYPO",
+        "regionLabel": "Hypothalamus-Pituitary-Adrenal axis",
+        "state": "chronic_dysregulation",
+        "mechanism": "Cortisol-feedback loop becomes flattened; allostatic load accumulates. Normal stress-recovery cycles replaced by sustained elevation. Hippocampal damage further impairs feedback.",
+        "knownTreatments": ["CBT for chronic stress", "mindfulness-based stress reduction", "vagal nerve stimulation", "metyrapone for cortisol suppression"],
+        "clinicalReferences": ["McEwen BS 2007 Physiol Rev", "Sapolsky RM 2004 Why Zebras Don't Get Ulcers"]
+      },
+      "business": {
+        "signature": "covenant_distress_chronification",
+        "description": "Debt covenants under continuous near-breach pressure. Successive waivers without underlying repair. Lender concessions accumulate. No recovery to non-stressed operating state.",
+        "indicators": [
+          { "id": "fn_lenders_stressed", "description": "Capital provider counterparties in distressed phases", "detector": { "type": "fn_phase_share", "category": "capitalProviders", "stressPhases": ["p7", "p7a", "p9"], "minShare": 0.5 } },
+          { "id": "covenant_waiver_pattern", "description": "Repeated covenant waivers or amendments", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["covenant waiver", "covenant amendment", "covenant breach", "credit facility amended"] } },
+          { "id": "kernel_p3_chronic", "description": "Kernel chronically shows P3 stress", "detector": { "type": "kernel_phase", "kernels": ["k1", "k2"], "phases": ["p3"] } }
+        ],
+        "phaseAffinity": ["p3", "p7", "p7b"],
+        "examples": ["RAD 2018-2023", "JCP 2018-2020", "WeWork 2019-2021"],
+        "businessReferences": ["S&P distressed-debt research", "Moody's covenant-quality reports"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.84,
+        "rationale": "Both are sustained activation without recovery cycle. Clinical HPA restoration parallels balance-sheet restoration via deleveraging — not just refinancing."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "System for distinguishing covenant-distress chronification (HPA-pattern) from acute covenant-stress via flatness of cortisol-equivalent recovery cycle", "noveltyAnchor": "Time-domain analysis of distress recovery applied to covenant trajectory" },
+        "grant": { "programMatch": ["FRB financial stability research", "OFR Treasury distress modeling"], "angle": "Stress-pattern recovery analysis for financial-stability monitoring" },
+        "investment": { "thesis": "Short companies entering covenant-chronification (vs acute); long companies post-deleveraging with restored recovery cycles", "horizon": "12-24mo" },
+        "research": { "hypothesis": "Companies with HPA-equivalent flat-recovery covenant patterns have higher 24mo bankruptcy probability than equivalent acute-distress companies", "methodology": "matched-cohort study with bankruptcy-event coding" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+      "neural": {
+        "region": "LC",
+        "regionLabel": "Locus Coeruleus",
+        "state": "tonic_elevation_with_phasic_loss",
+        "mechanism": "Noradrenergic projection shifts from phasic task-related signaling to tonic elevation. Vigilance becomes generalized rather than focused. Attention-modulation degraded.",
+        "knownTreatments": ["alpha-2 agonists (clonidine, guanfacine)", "vagal nerve stimulation", "mindfulness for phasic attention restoration"],
+        "clinicalReferences": ["Aston-Jones G 2005 Annu Rev Neurosci", "Sara SJ 2009 Nat Rev Neurosci"]
+      },
+      "business": {
+        "signature": "analyst_attention_concentration",
+        "description": "Sell-side and buy-side attention concentrates on this entity. Coverage spikes correlate with bad news flow. Tonic attention without phasic resolution.",
+        "indicators": [
+          { "id": "fn_executive_attention_signals", "description": "Functional network mentions analyst coverage, downgrades, ratings actions", "detector": { "type": "fn_text_match", "category": "executiveTeam", "patterns": ["downgrade", "analyst coverage", "ratings", "Moody's", "S&P rating"] } },
+          { "id": "news_flow_concentrated", "description": "News-flow signals concentrate on this entity", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["news flow", "analyst attention", "Bloomberg coverage"] } }
+        ],
+        "phaseAffinity": ["p3", "p7"],
+        "examples": ["FTX 2022 attention spike", "AMC meme-cycle attention", "GME 2021-2022"],
+        "businessReferences": ["FactSet earnings transcript sentiment", "Refinitiv StarMine analyst-coverage analysis"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.68,
+        "rationale": "Both involve loss of phasic task-related attention modulation. Clinical alpha-2 agonist treatment parallels reducing analyst-attention pressure via guidance discipline."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "System for detecting LC-equivalent tonic-elevation in corporate-attention environment via news-flow + analyst-coverage signal", "noveltyAnchor": "Cross-mapping arousal-circuit metrics to information-environment surveillance" },
+        "grant": { "programMatch": ["NSF Cyber-Physical Systems for finance", "NIST attention research"], "angle": "Attention-economy modeling of corporate-news environment" },
+        "investment": { "thesis": "Sell tonic-elevation attention; buy phasic-resolution post-disclosure", "horizon": "1-6mo" },
+        "research": { "hypothesis": "Companies with sustained tonic news-attention without resolution have higher 12mo distress probability", "methodology": "news-flow analysis with distress-event coding" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "HIPP_memory_consolidation_failure_x_institutional_knowledge_loss",
+      "neural": {
+        "region": "HIPP",
+        "regionLabel": "Hippocampus",
+        "state": "consolidation_disruption",
+        "mechanism": "Failure of episodic-to-semantic memory consolidation. Recent experience fails to integrate into long-term knowledge structures. Pattern-completion degraded.",
+        "knownTreatments": ["sleep optimization protocols", "spaced-repetition training", "exercise (BDNF-mediated neurogenesis)", "cholinergic enhancement"],
+        "clinicalReferences": ["Squire LR 2004 Annu Rev Neurosci", "Eichenbaum H 2017 Nat Rev Neurosci"]
+      },
+      "business": {
+        "signature": "institutional_knowledge_loss",
+        "description": "Mass departures followed by repeated similar mistakes. Institutional memory eroded. New leadership cohort doesn't inherit context. Same strategic errors recur.",
+        "indicators": [
+          { "id": "executive_turnover_clustered", "description": "C-suite departures clustered within recent window", "detector": { "type": "fn_text_match", "category": "executiveTeam", "patterns": ["mass exodus", "leadership turnover", "executive departures"] } },
+          { "id": "repeated_strategic_errors", "description": "Same class of mistake recurs (acquisition failures, product reset cycles)", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["second time", "repeated", "again", "another failed"] } }
+        ],
+        "phaseAffinity": ["p4", "p3"],
+        "examples": ["Yahoo 2008-2014", "HPE post-Hurd", "BlackBerry leadership cycles"],
+        "businessReferences": ["Argote 2013 Organizational Learning", "Edmondson 2019 The Fearless Organization"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.79,
+        "rationale": "Both are failures of consolidation from experience to durable structure. Clinical interventions (sleep, spaced repetition) parallel knowledge-management protocols (mentorship cycles, formal handover protocols)."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "Detection of institutional-memory loss via HIPP-equivalent consolidation-failure metric applied to turnover + error-repetition pattern", "noveltyAnchor": "Quantitative knowledge-loss signal for organizational health" },
+        "grant": { "programMatch": ["NSF Future of Work", "Ewing Marion Kauffman organizational learning"], "angle": "Empirical models of institutional knowledge consolidation" },
+        "investment": { "thesis": "Long companies post-formal-knowledge-management implementation; avoid companies in active mass-departure", "horizon": "18-36mo" },
+        "research": { "hypothesis": "Mass-departure events with formal handover protocols show faster recovery than those without", "methodology": "matched-event study across mass-departure events 2015-2025" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "CBLM_motor_learning_x_supply_chain_coordination",
+      "neural": {
+        "region": "CBLM",
+        "regionLabel": "Cerebellum",
+        "state": "motor_learning_degradation",
+        "mechanism": "Loss of feedforward prediction and error-corrected motor commands. Coordinated multi-joint movement degrades. Timing-critical sequencing fails.",
+        "knownTreatments": ["motor rehabilitation", "tDCS to cerebellum", "task-specific repetition", "vestibular adaptation training"],
+        "clinicalReferences": ["Ito M 2008 Nat Rev Neurosci", "Wolpert DM 2011 Curr Opin Neurobiol"]
+      },
+      "business": {
+        "signature": "supply_chain_coordination_collapse",
+        "description": "Multi-tier supply coordination degrades. Inventory misalignment, on-time-delivery failures, working-capital build-up. Operations rhythm broken.",
+        "indicators": [
+          { "id": "fn_supplier_stress_concentrated", "description": "Multiple suppliers in stress phases", "detector": { "type": "fn_phase_share", "category": "suppliers", "stressPhases": ["p3", "p7"], "minShare": 0.4 } },
+          { "id": "logistics_partners_dropping", "description": "Logistics-partner counterparties showing rupture", "detector": { "type": "fn_phase_share", "category": "logisticsPartners", "stressPhases": ["p7", "p7a"], "minShare": 0.3 } },
+          { "id": "working_capital_signals", "description": "Working-capital build-up or DSI/DPO disruption signals", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["working capital", "inventory build", "DSI", "DPO"] } }
+        ],
+        "phaseAffinity": ["p1", "p3"],
+        "examples": ["BBBY 2022 supply collapse", "Peloton 2021-2022 logistics", "MicroVision-style manufacturing struggles"],
+        "businessReferences": ["Lee 1997 bullwhip effect", "Christopher 2016 supply chain logistics"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.73,
+        "rationale": "Both are feedforward-prediction and timing-coordination failures across multi-element systems. Clinical motor-rehabilitation parallels operations-rebuild protocols."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "System for detecting supply-chain coordination collapse via cerebellum-equivalent feedforward-prediction-failure metric applied to multi-tier inventory + delivery signal", "noveltyAnchor": "Motor-control framework applied to supply-chain dynamics" },
+        "grant": { "programMatch": ["MEP supply-chain resilience", "DOC NIST supply chain"], "angle": "Predictive supply-chain coordination via clinical motor-control modeling" },
+        "investment": { "thesis": "Short companies in supply-chain coordination collapse; long companies investing in operations-rebuild protocols", "horizon": "6-18mo" },
+        "research": { "hypothesis": "Companies adopting task-specific repetition protocols (factory-floor) show faster recovery from coordination collapse", "methodology": "operations-research intervention study" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "DMN_self_reference_x_strategic_drift",
+      "neural": {
+        "region": "DMN",
+        "regionLabel": "Default Mode Network",
+        "state": "hyperactive_self_referential",
+        "mechanism": "DMN dominates over task-positive networks; self-referential processing displaces external goal-pursuit. Rumination loops crowd out planning.",
+        "knownTreatments": ["mindfulness-based cognitive therapy", "behavioral activation", "task-positive-network strengthening"],
+        "clinicalReferences": ["Raichle ME 2001 PNAS", "Buckner RL 2008 Ann NY Acad Sci"]
+      },
+      "business": {
+        "signature": "strategic_drift_via_internal_focus",
+        "description": "Strategy becomes increasingly internal-focused. Mission-drift, brand-introspection cycles, organizational restructuring as substitute for market action.",
+        "indicators": [
+          { "id": "frequent_restructuring", "description": "Repeated organizational restructurings without external strategy shift", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["restructuring", "reorganization", "internal review"] } },
+          { "id": "kernel_p7b_signal", "description": "Kernel shows sympathetic-lock with internal-focus signature", "detector": { "type": "kernel_phase", "kernels": ["k1", "k2"], "phases": ["p7b"] } }
+        ],
+        "phaseAffinity": ["p7b"],
+        "examples": ["Yahoo 2010-2014 mission cycles", "HP-HPE split-driven internal focus"],
+        "businessReferences": ["Rumelt 2011 Good Strategy Bad Strategy"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.66,
+        "rationale": "Both involve overactivation of self-referential processing displacing outward task engagement."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "Detection of strategic-drift via DMN-equivalent self-referential dominance metric applied to internal-vs-external activity pattern", "noveltyAnchor": "Network-balance framework applied to strategic-action diagnostics" },
+        "grant": { "programMatch": ["NSF organizational science"], "angle": "Network-balance models of strategic action" },
+        "investment": { "thesis": "Avoid companies in DMN-dominance; investigate post-activist-driven external refocus", "horizon": "12-24mo" },
+        "research": { "hypothesis": "Companies in repeated-restructuring cycles benefit from board-mandated external-engagement KPIs analogous to behavioral-activation protocols", "methodology": "intervention study" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "VTA_dopaminergic_projection_x_capital_attractor_instability",
+      "neural": {
+        "region": "VTA",
+        "regionLabel": "Ventral Tegmental Area",
+        "state": "phasic_burst_dysregulation",
+        "mechanism": "Phasic dopaminergic bursts decouple from prediction-error signal. Projection targets (NAc, mPFC) receive miscalibrated reward signal. Investment behavior becomes erratic.",
+        "knownTreatments": ["antipsychotics (D2 modulation)", "value-elicitation training", "habit-reversal therapy"],
+        "clinicalReferences": ["Schultz W 2016 Cell", "Howe MW 2019 Science"]
+      },
+      "business": {
+        "signature": "capital_attractor_instability",
+        "description": "Capital-flow into the entity becomes erratic. Sentiment-driven inflows followed by sudden withdrawals. Investor base churn high. No durable capital attractor.",
+        "indicators": [
+          { "id": "fn_investor_signals_erratic", "description": "Capital-provider counterparties cycle in/out", "detector": { "type": "fn_phase_share", "category": "capitalProviders", "stressPhases": ["p3", "p7"], "minShare": 0.3 } },
+          { "id": "meme_attention_pattern", "description": "Retail-meme attention signals", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["meme", "retail", "WSB", "short squeeze"] } }
+        ],
+        "phaseAffinity": ["p3"],
+        "examples": ["GME 2021-2023", "AMC retail cycle", "BBBY 2022 retail squeeze"],
+        "businessReferences": ["Pedersen 2015 Efficiently Inefficient", "AQR retail-flow research"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.62,
+        "rationale": "Both involve phasic burst patterns decoupled from underlying value signal."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "System for detecting capital-attractor instability via VTA-equivalent phasic-burst-dysregulation metric applied to capital-flow signal", "noveltyAnchor": "Dopaminergic-circuit framework for investor-flow modeling" },
+        "grant": { "programMatch": ["NSF behavioral finance"], "angle": "Phasic-tonic decomposition of capital flows" },
+        "investment": { "thesis": "Identify burst-decoupling before retail flow reversal", "horizon": "1-6mo" },
+        "research": { "hypothesis": "Companies with VTA-equivalent capital-flow patterns show predictable 90d reversal", "methodology": "high-frequency capital-flow analysis" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "STN_inhibition_x_regulatory_hold_response",
+      "neural": {
+        "region": "STN",
+        "regionLabel": "Subthalamic Nucleus",
+        "state": "global_stop_signal",
+        "mechanism": "STN broadcasts global no-go signal across basal ganglia, suppressing initiation across motor and cognitive domains. Action initiation paused while conflict resolved.",
+        "knownTreatments": ["DBS (deep brain stimulation)", "stop-signal training", "GABAergic modulation"],
+        "clinicalReferences": ["Aron AR 2007 Trends Cogn Sci", "Frank MJ 2007 J Cogn Neurosci"]
+      },
+      "business": {
+        "signature": "regulatory_hold_freeze",
+        "description": "Major business initiative under regulatory hold. M&A, product launch, capital action frozen pending resolution. Whole-firm initiation suppressed.",
+        "indicators": [
+          { "id": "fn_regulator_active", "description": "Regulator counterparties highly active or stressed", "detector": { "type": "fn_phase_share", "category": "regulators", "stressPhases": ["p1", "p3", "p7"], "minShare": 0.4 } },
+          { "id": "merger_pending_review", "description": "M&A or product launch pending regulatory action", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["pending review", "regulatory hold", "DOJ", "FTC", "antitrust", "second request"] } }
+        ],
+        "phaseAffinity": ["p1", "p7b"],
+        "examples": ["MSFT-ATVI antitrust hold", "ABNB regulatory holds", "Cigna-Express Scripts review"],
+        "businessReferences": ["Hart-Scott-Rodino filings", "DOJ Antitrust Division merger guidelines"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.77,
+        "rationale": "Both are global no-go signals pausing action-initiation pending resolution. Clinical DBS parallels regulatory-resolution negotiation — restoring initiation capacity."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "Detection of regulatory-hold response via STN-equivalent global-no-go signal applied to corporate initiation pattern", "noveltyAnchor": "Stop-signal framework for regulatory-pause detection" },
+        "grant": { "programMatch": ["FTC research grants", "NSF Decision Risk"], "angle": "Quantitative models of regulatory-hold impact on initiation" },
+        "investment": { "thesis": "Event-driven plays on regulatory-resolution timing", "horizon": "6-18mo" },
+        "research": { "hypothesis": "Companies emerging from regulatory hold show characteristic initiation-rebound pattern", "methodology": "event-study of merger-clearance outcomes" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "AI_interoception_x_board_self_awareness_deficit",
+      "neural": {
+        "region": "AI",
+        "regionLabel": "Anterior Insula",
+        "state": "interoceptive_blindness",
+        "mechanism": "Loss of internal-state monitoring. Bodily and emotional signals fail to reach awareness. Awareness of self-state decoupled from actual state.",
+        "knownTreatments": ["interoceptive exposure training", "body-scan meditation", "biofeedback", "vagal nerve stimulation"],
+        "clinicalReferences": ["Craig AD 2009 Nat Rev Neurosci", "Khalsa SS 2018 Biol Psychiatry"]
+      },
+      "business": {
+        "signature": "board_self_awareness_deficit",
+        "description": "Board fails to monitor or report own internal-state accurately. Self-assessments diverge from operating reality. Internal-control gaps unreported.",
+        "indicators": [
+          { "id": "fn_auditor_independence", "description": "Auditor or audit-committee independence questions", "detector": { "type": "fn_text_match", "category": "auditor", "patterns": ["independence", "rotation"] } },
+          { "id": "internal_review_failure", "description": "Failed internal reviews, surprised by external findings", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["surprised", "unaware", "did not detect", "missed"] } }
+        ],
+        "phaseAffinity": ["p1", "p3"],
+        "examples": ["Wells Fargo cross-sell scandal", "Theranos board oversight", "Boeing 737 MAX board awareness"],
+        "businessReferences": ["NACD board effectiveness reports", "Carter & Lorsch board self-assessment"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.81,
+        "rationale": "Both are failures of self-state-monitoring. Clinical interoceptive training parallels board self-assessment protocols + interactive auditor sessions."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "Detection of board-interoception deficit via AI-equivalent self-monitoring-failure metric applied to internal-vs-external assessment divergence", "noveltyAnchor": "Interoception framework for corporate governance diagnostics" },
+        "grant": { "programMatch": ["NACD research", "SSRC Corporate Governance"], "angle": "Quantitative board-interoception assessment tools" },
+        "investment": { "thesis": "Short companies with interoception-deficit signal; long post-board-restoration", "horizon": "18-36mo" },
+        "research": { "hypothesis": "Board interoception protocols predict reduced control-failure incidents", "methodology": "longitudinal intervention study" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "OFC_value_x_capital_allocation_pathology",
+      "neural": {
+        "region": "OFC",
+        "regionLabel": "Orbitofrontal Cortex",
+        "state": "value_update_failure",
+        "mechanism": "Failure to update value representations from outcomes. Decisions reflect outdated value signals. Reversal learning impaired.",
+        "knownTreatments": ["reversal learning training", "real-time feedback protocols", "behavioral remediation"],
+        "clinicalReferences": ["Schoenbaum G 2009 Nat Rev Neurosci", "Rolls ET 2004 Brain Cogn"]
+      },
+      "business": {
+        "signature": "capital_allocation_reversal_failure",
+        "description": "Capital allocated to declining businesses persists despite clear evidence. Failed initiatives receive additional capital. Sunk-cost dominates allocation.",
+        "indicators": [
+          { "id": "kernel_p4_persistence", "description": "Kernel persistently in P4 RECOVERY-ATTEMPT without breakout", "detector": { "type": "kernel_phase", "kernels": ["k1", "k2"], "phases": ["p4"] } },
+          { "id": "repeated_capex_into_declining", "description": "Continued capital into declining segments per filings", "detector": { "type": "text_match", "fields": ["warningSignals", "issues"], "patterns": ["additional investment", "doubling down", "continue funding"] } }
+        ],
+        "phaseAffinity": ["p4", "p7b"],
+        "examples": ["GE Power 2017-2020", "Boeing Defense post-MAX", "Sears revival attempts"],
+        "businessReferences": ["Thaler 1980 mental accounting", "Bazerman 2002 sunk-cost in management"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.79,
+        "rationale": "Both involve failure to update value from outcomes. Clinical reversal-learning training parallels structured-divestiture protocols."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "Detection of capital-allocation reversal-failure via OFC-equivalent value-update-failure metric", "noveltyAnchor": "Reversal-learning framework for capital-allocation diagnostics" },
+        "grant": { "programMatch": ["NSF Decision Risk", "Kauffman corporate strategy"], "angle": "Behavioral models of capital-allocation reversal" },
+        "investment": { "thesis": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence", "horizon": "18-36mo" },
+        "research": { "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions", "methodology": "intervention study with board-decision speed coding" },
+        "franchise": null, "sba": null
+      }
+    },
+    {
+      "id": "HAB_anti_reward_x_contrarian_board_lock",
+      "neural": {
+        "region": "HAB",
+        "regionLabel": "Habenula",
+        "state": "anti_reward_dominance",
+        "mechanism": "Lateral habenula encodes negative reward prediction error; when dominant over VTA reward signaling, it suppresses initiation and biases toward pessimistic action.",
+        "knownTreatments": ["ketamine (habenula modulation)", "DBS to habenula in treatment-resistant depression", "lateralized reward training"],
+        "clinicalReferences": ["Hikosaka O 2010 Nat Rev Neurosci", "Yang Y 2018 Nature"]
+      },
+      "business": {
+        "signature": "contrarian_board_lock",
+        "description": "Board locked in pessimistic stance. Capital action repeatedly blocked despite positive evidence. Strategic moves vetoed based on prior loss-aversion patterns.",
+        "indicators": [
+          { "id": "fn_board_consensus_breakdown", "description": "Board-level conflicts visible in fn", "detector": { "type": "fn_text_match", "category": "executiveTeam", "patterns": ["board conflict", "boardroom dispute", "veto"] } },
+          { "id": "kernel_p5_stuck", "description": "Kernel in P5 conserve-mode persistently", "detector": { "type": "kernel_phase", "kernels": ["k1", "k2"], "phases": ["p5"] } }
+        ],
+        "phaseAffinity": ["p5", "p7b"],
+        "examples": ["Yahoo board MSFT-rejection era", "Twitter pre-Musk acquisition", "ATT-T board strategic-reset cycles"],
+        "businessReferences": ["Hambrick & Cannella upper-echelons", "Carter & Lorsch boardroom decision"]
+      },
+      "bridge": {
+        "mappingType": "isomorphic_pathology",
+        "confidence": 0.65,
+        "rationale": "Both involve anti-reward dominance suppressing initiation. Clinical habenula modulation parallels structural board-composition changes."
+      },
+      "derivedAngles": {
+        "patent": { "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern", "noveltyAnchor": "Anti-reward framework for board-decision diagnostics" },
+        "grant": { "programMatch": ["NACD research"], "angle": "Anti-reward decision dynamics in board composition" },
+        "investment": { "thesis": "Activist-investor catalysts during contrarian-board lock", "horizon": "12-24mo" },
+        "research": { "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation", "methodology": "event-study of board refresh and subsequent capital-action" },
+        "franchise": null, "sba": null
+      }
+    }
+  ]
+}

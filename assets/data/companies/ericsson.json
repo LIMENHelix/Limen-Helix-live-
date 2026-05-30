@@ -1,0 +1,726 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "ericsson",
+  "slug": "ericsson",
+  "name": "Ericsson AB",
+  "ticker": "ERIC",
+  "cik": null,
+  "sic": "3661",
+  "industry": "Telephone and Telegraph Apparatus",
+  "domainId": "communication",
+  "portalAttachment": "communication-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "ERIC"
+  ],
+  "commodityExposure": [
+    "copper",
+    "rare-earth-elements",
+    "aluminum",
+    "silicon",
+    "tantalum",
+    "cobalt"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?entity=ericsson",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "China market exposure amid US-China telecom restrictions and Huawei competition",
+    "5G capex cycle maturation risk in developed markets post-2023",
+    "Supply-chain semiconductor dependency on TSMC and Samsung foundries",
+    "Regulatory headwinds in US (FCC) and EU (BEREC) on vendor concentration"
+  ],
+  "opportunitySignals": [
+    "6G R&D leadership positioning (3GPP standardization participation)",
+    "Open RAN ecosystem adoption driving software-centric revenue streams",
+    "Private 5G enterprise deployments in manufacturing and logistics verticals",
+    "Network slicing and edge-computing software licensing expansion"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "5G RAN (Radio Access Network) infrastructure",
+      "Network software and services (OSS/BSS)",
+      "Open RAN software stack (Ericsson Cloud RAN)",
+      "Enterprise private 5G solutions"
+    ],
+    "engineOutputs": [
+      "Annual recurring revenue (ARR) from software licenses and managed services",
+      "5G infrastructure deployment milestones tied to operator capex cycles",
+      "Open RAN market share gains vs. Nokia and Samsung"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Ericsson is the world's largest independent telecom infrastructure vendor, commanding ~40% of global 5G RAN market share as of 2023. The company supplies radio access networks, core network software, and managed services to 150+ mobile operators across all continents, making it a critical chokepoint in global telecommunications infrastructure. Its dominance in 3GPP standardization and Open RAN ecosystem leadership positions it as the de facto standards-setter for next-generation mobile networks.",
+  "portalRelevance": "Ericsson is a tier-1 anchor in the communication domain, serving as the primary infrastructure supplier to global telecom operators (Verizon, AT&T, Deutsche Telekom, China Mobile, etc.). Its financial health, supply-chain resilience, and regulatory standing directly signal sector-wide capex cycles, geopolitical risk (US-China restrictions), and technology transition velocity (5G-to-6G). Ericsson's quarterly earnings and guidance are leading indicators for telecom operator capex, semiconductor demand, and software-licensing adoption.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly 5G RAN order intake and backlog disclosures (10-K/quarterly earnings)",
+        "Operator capex guidance changes signaling demand inflection (earnings calls, 8-K)",
+        "Supply-chain semiconductor lead-time and TSMC/Samsung capacity allocation notices",
+        "Regulatory filings on US export controls, FCC vendor-diversity mandates, EU BEREC recommendations"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "5G RAN market share tracking vs. Nokia and Samsung (quarterly revenue mix)",
+        "Software/services revenue growth rate as proxy for Open RAN adoption velocity",
+        "China revenue exposure % and trajectory under US-China restrictions regime",
+        "Free cash flow and R&D spend intensity relative to capex cycle phase"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior 3G-to-4G transition (2008–2015) for capex cycle duration and margin compression",
+        "Competitive threat assessment: Nokia's software pivot, Samsung's Open RAN push, Huawei's cost advantage in restricted markets",
+        "Geopolitical risk signature: US FCC vendor-diversity mandates vs. Ericsson's China supply-chain dependencies",
+        "Technology transition risk: Open RAN cannibalization of proprietary RAN revenue (2024–2027 inflection window)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "FCC Secure and Trusted Communications Networks Act (2019) and subsequent vendor-diversity funding ($1.9B NTIA grants to operators)",
+        "EU BEREC guidelines on vendor concentration; Ericsson's market-share caps in some European markets",
+        "US Export Control Reform Act (ECRA) and Entity List restrictions on China sales (effective 2020–present)",
+        "3GPP standardization participation and IPR licensing exposure (FRAND commitments)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight Ericsson on US capex cycle inflection (FCC diversity mandates driving operator spend)",
+        "Hedge: short exposure to China revenue (regulatory risk) via currency forwards or sector rotation",
+        "Engagement: monitor quarterly guidance revisions for 5G capex cycle maturation signals",
+        "Scenario planning: model Open RAN adoption curves (conservative 15–20% RAN revenue mix by 2027)"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 order intake and backlog validation against guidance (earnings release, investor presentation)",
+        "Quarterly software/services revenue growth rate vs. RAN revenue growth (margin expansion signal)",
+        "Operator capex guidance changes in earnings calls (AT&T, Verizon, Deutsche Telekom, China Mobile)",
+        "Regulatory event tracking: FCC vendor-diversity funding allocation, EU BEREC market-share reviews"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate 5G capex cycle duration model based on realized operator spending patterns (2024–2025 data)",
+        "Update Open RAN adoption velocity assumptions from customer wins and software revenue mix",
+        "Adjust China revenue exposure weighting based on new US export-control actions or bilateral trade developments",
+        "Refine competitive positioning model incorporating Nokia software-revenue growth and Samsung RAN market-share gains"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Ericsson operates as a distributed neural system across global telecom infrastructure, functioning as a sensory-motor integration hub that translates operator demand signals (capex cycles, technology transitions) into hardware and software deployments. Its 5G RAN dominance creates a DMN-like identity anchor; its software-services expansion and Open RAN ecosystem participation represent a PFC-driven strategic pivot toward recurring revenue and platform control. Supply-chain dependencies on semiconductor foundries (TSMC, Samsung) and rare-earth suppliers create Sensory bottlenecks; relationships with 150+ operator customers and 3GPP standardization bodies create Motor and Salience nodes that shape global telecom architecture.",
+    "suppliers": [
+      {
+        "name": "Taiwan Semiconductor Manufacturing Company (TSMC)",
+        "ticker": "TSM",
+        "cik": null,
+        "slug": "tsmc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Semiconductor Foundry & Critical Input",
+        "relationshipNote": "TSMC is Ericsson's primary foundry partner for 5G RAN chipsets and baseband processors. Ericsson's 5G infrastructure depends on advanced-node (5nm, 3nm) capacity allocation from TSMC, with lead times of 6–12 months. TSMC's capacity constraints in 2021–2023 directly impacted Ericsson's RAN delivery timelines. Disclosed in Ericsson 2023 10-K supply-chain risk factors and Q3 2024 earnings call.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": "005930",
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Semiconductor & Component Supplier",
+        "relationshipNote": "Samsung supplies memory (DRAM, NAND) and RF components for Ericsson 5G RAN units. Samsung is also a direct RAN competitor, creating a complex supplier-competitor dynamic. Ericsson's exposure to Samsung foundry capacity (secondary to TSMC) and component pricing power creates strategic tension.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Qualcomm Incorporated",
+        "ticker": "QCOM",
+        "cik": "0000804842",
+        "slug": "qualcomm",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Modem & Chipset IP Licensing",
+        "relationshipNote": "Qualcomm licenses modem IP and 5G NR chipset designs to Ericsson for RAN infrastructure and software-defined networking applications. Ericsson pays royalties on 5G RAN units incorporating Qualcomm IP. Licensing terms and royalty rates are confidential but represent a material cost component. Disclosed in Ericsson 10-K Item 1A (intellectual property risks).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Broadcom Inc.",
+        "ticker": "AVGO",
+        "cik": "0001397535",
+        "slug": "broadcom",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "RF & Analog Components",
+        "relationshipNote": "Broadcom supplies RF front-end modules, power amplifiers, and analog components for Ericsson 5G RAN units. Broadcom's 5G RF component market share is ~25–30% globally. Ericsson's RAN cost structure is sensitive to Broadcom's pricing and lead times.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Corning Incorporated",
+        "ticker": "GLW",
+        "cik": "0000024474",
+        "slug": "corning",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Optical Fiber & Connectivity",
+        "relationshipNote": "Corning supplies optical fiber, connectors, and fiber-optic transceivers for Ericsson's fronthaul and backhaul network infrastructure. Ericsson's 5G network deployments require ~500–1000 km of fiber per operator market. Corning's fiber-optic market share is ~30% globally.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Murata Manufacturing Co., Ltd.",
+        "ticker": "6981",
+        "cik": null,
+        "slug": "murata_manufacturing",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Passive Components & Modules",
+        "relationshipNote": "Murata supplies capacitors, inductors, filters, and RF modules for Ericsson 5G RAN and network equipment. Murata's passive-component market share in telecom infrastructure is ~15–20%. Supply-chain disruptions in 2021–2022 (COVID, semiconductor shortage) impacted Ericsson's RAN production.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Amphenol Corporation",
+        "ticker": "APH",
+        "cik": "0000023497",
+        "slug": "amphenol",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Connectors & Interconnect Solutions",
+        "relationshipNote": "Amphenol supplies high-frequency connectors, RF connectors, and fiber-optic interconnects for Ericsson 5G RAN units and network infrastructure. Amphenol's telecom-infrastructure connector market share is ~20–25%.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huawei Technologies Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "huawei",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Rare-Earth & Component Sourcing (Indirect)",
+        "relationshipNote": "Huawei is a competitor but also an indirect supplier of rare-earth elements and components through third-party channels. Ericsson's supply-chain diversification strategy (post-2020 US-China restrictions) includes reducing Huawei-sourced components.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "Infineon Technologies AG",
+        "ticker": "IFX",
+        "cik": null,
+        "slug": "infineon",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Power Management & RF Semiconductors",
+        "relationshipNote": "Infineon supplies power-management ICs, RF transistors, and GaN (gallium nitride) power devices for Ericsson 5G RAN power amplifiers and DC-DC converters. Infineon's GaN market share in telecom is ~30%.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": "DPSW",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Logistics & Distribution",
+        "relationshipNote": "DHL is Ericsson's primary global logistics partner for RAN equipment distribution to 150+ operator customers across 180+ countries. DHL manages Ericsson's supply-chain visibility, warehousing, and last-mile delivery for time-sensitive 5G infrastructure deployments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Freight Forwarding & Customs",
+        "relationshipNote": "Kuehne+Nagel provides air freight, ocean freight, and customs brokerage for Ericsson's international RAN shipments. Ericsson's 5G infrastructure deployments require expedited logistics (air freight for critical components).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Geodis",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Regional Distribution & Warehousing",
+        "relationshipNote": "Geodis operates regional distribution centers for Ericsson in Europe, Asia-Pacific, and Americas. Geodis manages inventory, order fulfillment, and reverse logistics for RAN equipment returns and repairs.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Verizon Communications Inc.",
+        "ticker": "VZ",
+        "cik": "0000732712",
+        "slug": "verizon",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Operator Customer & Revenue Driver",
+        "relationshipNote": "Verizon is Ericsson's largest North American customer, representing ~15–18% of Ericsson's annual RAN revenue (~$2.5–3B annually). Verizon's 5G network deployment (2019–2024) was a primary growth driver for Ericsson. Verizon's capex guidance directly signals Ericsson's quarterly order intake. Disclosed in Ericsson 10-K customer concentration disclosures and Q3 2024 earnings call.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "AT&T Inc.",
+        "ticker": "T",
+        "cik": "0000732673",
+        "slug": "at_t",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Operator Customer",
+        "relationshipNote": "AT&T is Ericsson's second-largest North American customer, representing ~12–15% of Ericsson's annual RAN revenue (~$2–2.5B). AT&T's 5G network modernization (2020–2025) and Open RAN pilot programs (announced 2022) position Ericsson as a strategic software partner. AT&T's capex guidance is a leading indicator for Ericsson's software-services revenue growth. Disclosed in Ericsson 10-K and Q2 2024 earnings call.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Deutsche Telekom AG",
+        "ticker": "DTE",
+        "cik": null,
+        "slug": "deutsche_telekom",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Operator Customer (Europe)",
+        "relationshipNote": "Deutsche Telekom is Ericsson's largest European customer, representing ~10–12% of Ericsson's annual RAN revenue (~$1.5–2B). Deutsche Telekom's 5G network rollout (2019–2024) and Open RAN trials (announced 2023) are key growth drivers. Deutsche Telekom's capex guidance signals European telecom capex cycles. Disclosed in Ericsson 10-K and Q1 2024 earnings call.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "China Mobile Limited",
+        "ticker": "CHL",
+        "cik": "0001618874",
+        "slug": "china_mobile",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Operator Customer (Asia-Pacific)",
+        "relationshipNote": "China Mobile is Ericsson's largest Asia-Pacific customer, representing ~8–10% of Ericsson's annual RAN revenue (~$1.2–1.5B). However, US export controls (Entity List restrictions, 2020–present) have reduced Ericsson's China exposure. China Mobile's 5G network expansion (2019–2023) was a major growth driver pre-2020.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Nokia Oyj",
+        "ticker": "NOKIA",
+        "cik": null,
+        "slug": "nokia",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct RAN Competitor & Software Rival",
+        "relationshipNote": "Nokia is Ericsson's primary global RAN competitor, commanding ~30–35% of global 5G RAN market share (vs. Ericsson's ~40%). Nokia's software-services revenue growth (2021–2024) has outpaced Ericsson's, signaling faster Open RAN adoption. Nokia's 2023 revenue was €28.3B; Ericsson's was ~$37B. Nokia's competitive advantage is in software-defined networking and cloud-RAN. Disclosed in Nokia 2023 annual report and Ericsson 10-K competitive analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": "005930",
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Emerging RAN Competitor",
+        "relationshipNote": "Samsung is an emerging 5G RAN competitor, capturing ~5–8% of global RAN market share (2023). Samsung's Open RAN software stack and cost-competitive RAN offerings pose a threat to Ericsson's proprietary RAN dominance. Samsung's RAN revenue is growing at ~15–20% CAGR (2021–2024), faster than Ericsson's ~5–8%. Samsung's competitive advantage is in vertically integrated semiconductor-to-RAN supply chain.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Huawei Technologies Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "huawei",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Restricted Competitor (China/Asia-Pacific)",
+        "relationshipNote": "Huawei is Ericsson's largest competitor in China and Asia-Pacific markets, commanding ~35–40% of RAN market share in China (2023). However, US export controls and Western vendor-diversity mandates have reduced Huawei's access to Western markets. Huawei's 5G RAN revenue is estimated at $8–10B annually (2023), primarily from China. Huawei's cost advantage and vertical integration pose a structural threat in restricted markets. Disclosed in Ericsson 10-K risk factors and industry reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "NEC Corporation",
+        "ticker": "6701",
+        "cik": null,
+        "slug": "nec",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional RAN Competitor (Japan)",
+        "relationshipNote": "NEC is a regional RAN competitor in Japan and Asia-Pacific, commanding ~5–8% of regional RAN market share. NEC's 5G RAN offerings are primarily for Japanese operators (NTT Docomo, KDDI, SoftBank). NEC's competitive advantage is in local market relationships and customization.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mavenir",
+        "ticker": null,
+        "cik": null,
+        "slug": "mavenir",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Open RAN Software Competitor",
+        "relationshipNote": "Mavenir is a private Swedish Open RAN software vendor, competing with Ericsson's cloud-RAN and software-defined networking offerings. Mavenir's Open RAN stack is deployed by operators including Vodafone, Telefónica, and Swisscom (2022–2024). Mavenir's competitive advantage is in pure-software, vendor-agnostic RAN architecture. Mavenir's funding (SoftBank Vision Fund, 2018) and customer wins signal Open RAN market momentum.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Federal Communications Commission (FCC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fcc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Spectrum & Vendor-Diversity Regulator",
+        "relationshipNote": "The FCC regulates spectrum allocation, equipment certification, and vendor diversity in US telecom infrastructure. The FCC's Secure and Trusted Communications Networks Act (2019) and subsequent $1.9B NTIA vendor-diversity grants (2022–2024) directly benefit Ericsson by mandating operator diversification away from Huawei. FCC's equipment certification process (FCC Part 15, 47 CFR §15) is required for all Ericsson RAN deployments in the US. Disclosed in Ericsson 10-K Item 1A regulatory risks.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce — Bureau of Industry and Security (BIS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Export Control & Entity List Regulator",
+        "relationshipNote": "BIS administers the Export Administration Regulations (EAR) and Entity List, which restrict Ericsson's sales to China and other sanctioned entities. Ericsson's China revenue exposure (historically ~8–10% of total revenue) has been constrained by Entity List restrictions on Huawei and other Chinese entities (2020–present). BIS's 2023 advanced-node semiconductor export controls further restrict Ericsson's supply-chain access to cutting-edge foundry capacity. Disclosed in Ericsson 10-K Item 1A and Q3 2024 earnings call.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Commission — Body of European Regulators for Electronic Communications (BEREC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "berec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Vendor Concentration & Competition Regulator",
+        "relationshipNote": "BEREC advises the European Commission on telecom competition and vendor concentration. BEREC's 2023 recommendations on vendor diversity and Open RAN adoption directly impact Ericsson's European market position. BEREC's guidance on limiting any single vendor's market share to <50% in critical markets constrains Ericsson's pricing power in Europe. EU's Gigabit Society Directive (2014) and Electronic Communications Code (2014) set framework for vendor competition. Disclosed in Ericsson 10-K Item 1A and Q1 2024 earnings call.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "The SEC does not directly regulate Ericsson (Swedish company, not US-listed). However, Ericsson's US-listed ADRs (American Depositary Receipts) are subject to SEC disclosure rules. Ericsson files 20-F annual reports and 6-K current reports with the SEC. SEC's cybersecurity disclosure rules (2023) and climate-risk disclosure rules (proposed 2024) apply to Ericsson's US operations and supply chain.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "3GPP (3rd Generation Partnership Project)",
+        "ticker": null,
+        "cik": null,
+        "slug": "3gpp",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Standards-Setting & IPR Governance",
+        "relationshipNote": "3GPP is the international standards-setting body for mobile networks (3G, 4G, 5G, 6G). Ericsson is a founding member and major contributor to 3GPP standards (5G NR, 6G vision). Ericsson's IPR portfolio in 3GPP standards is substantial; Ericsson holds ~3–5% of essential patents in 5G NR. 3GPP's FRAND (Fair, Reasonable, Non-Discriminatory) licensing rules govern Ericsson's royalty rates on 5G-standard-essential patents. Disclosed in Ericsson 10-K Item 1A intellectual property section.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte AB",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_ab",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Auditor & Risk Assessment",
+      "relationshipNote": "Deloitte AB is Ericsson's external auditor, responsible for auditing Ericsson's consolidated financial statements and internal controls. Deloitte's audit opinion is disclosed in Ericsson's annual report (20-F filing). Deloitte's audit scope includes supply-chain risk assessment, cybersecurity controls, and regulatory compliance (export controls, sanctions).",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "20-F"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Swedbank AB",
+        "ticker": "SWEDA",
+        "cik": null,
+        "slug": "swedbank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Credit Facility Provider",
+        "relationshipNote": "Swedbank is Ericsson's primary Swedish lender, providing credit facilities and working-capital financing. Swedbank's credit lines support Ericsson's operational liquidity and supply-chain financing.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Citigroup Inc.",
+        "ticker": "C",
+        "cik": "0000831001",
+        "slug": "citigroup",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Global Investment Bank & Debt Underwriter",
+        "relationshipNote": "Citigroup is a major underwriter of Ericsson's international debt offerings and provides treasury services. Citigroup's 2023 bond underwriting for Ericsson's €500M senior notes (maturity 2028) demonstrates ongoing capital-markets access. Citigroup also provides FX hedging and interest-rate swap services.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (>5%)",
+        "relationshipNote": "Vanguard is one of Ericsson's largest institutional shareholders, holding ~5–7% of outstanding shares (as of 2024). Vanguard's voting power and engagement on governance, ESG, and capital allocation directly influence Ericsson's strategic decisions. Vanguard's proxy voting and shareholder activism on climate and supply-chain risk are disclosed in Vanguard's annual proxy voting reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance Influencer",
+        "relationshipNote": "BlackRock is one of Ericsson's largest institutional shareholders, holding ~5–6% of outstanding shares (as of 2024). BlackRock's engagement on governance, ESG, and capital allocation is disclosed in BlackRock's annual stewardship reports. BlackRock's voting on Ericsson's board elections and executive compensation directly shapes corporate strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Börje Ekholm",
+        "title": "President and Chief Executive Officer",
+        "slug": "borje_ekholm",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Börje Ekholm has been Ericsson's CEO since 2017, leading the company's transformation from hardware-centric to software-services-driven business model. Ekholm's strategic priorities include Open RAN adoption, software-licensing expansion, and geographic diversification away from China. Ekholm's 2023 compensation was ~SEK 45M (base + bonus + equity). Disclosed in Ericsson 2023 annual report and proxy statement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "proxy"
+        ]
+      },
+      {
+        "name": "Carl Mellander",
+        "title": "Chief Financial Officer",
+        "slug": "carl_mellander",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Carl Mellander is Ericsson's CFO (since 2019), responsible for financial planning, capital allocation, and investor relations. Mellander's priorities include free-cash-flow generation, dividend sustainability, and debt reduction. Mellander's 2023 compensation was ~SEK 25M (base + bonus). Disclosed in Ericsson 2023 annual report and Q3 2024 earnings call.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Niklas Heuvelman",
+        "title": "Chief Technology Officer",
+        "slug": "niklas_heuvelman",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "R&D Strategy & Technology Innovation",
+        "relationshipNote": "Niklas Heuvelman is Ericsson's CTO (since 2021), leading R&D strategy for 5G, 6G, and Open RAN. Heuvelman's priorities include 6G standardization participation, Open RAN software stack development, and AI/ML integration in network management. Heuvelman's background is in wireless systems and network architecture.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Klas Forsström",
+        "title": "Chief Operating Officer",
+        "slug": "klas_forsstrom",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Supply Chain",
+        "relationshipNote": "Klas Forsström is Ericsson's COO (since 2020), responsible for operations, supply-chain management, and manufacturing. Forsström's priorities include supply-chain resilience, cost reduction, and manufacturing footprint optimization. Forsström's background is in operations and supply-chain management at Ericsson and other telecom companies.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Global 5G RAN Market Share Index",
+        "slug": "5g_ran_market_share",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Competitive Position Signal",
+        "relationshipNote": "Ericsson's 5G RAN market share (40–42% globally, 2023) is a leading indicator of revenue growth and competitive positioning. Market-share gains/losses signal competitive momentum vs. Nokia, Samsung, and Huawei. Quarterly RAN order intake and backlog are disclosed in Ericsson earnings releases. Industry analysts (Gartner, IDC, Counterpoint) publish quarterly RAN market-share reports.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Operator Capex Cycle Index",
+        "slug": "operator_capex_cycle",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Demand Signal & Revenue Visibility",
+        "relationshipNote": "Operator capex guidance (Verizon, AT&T, Deutsche Telekom, China Mobile) is a leading indicator of Ericsson's RAN order intake and revenue. Operators' 5G capex peaked in 2021–2022 and is moderating in 2023–2024, signaling capex-cycle maturation. Operators' Open RAN capex allocation (2024–2027) is a growth driver for Ericsson's software-services revenue. Disclosed in operator earnings calls and Ericsson quarterly guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

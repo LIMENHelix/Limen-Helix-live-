@@ -1,0 +1,99 @@
+{
+  "domainId": "contemplative_threat_diagnosis",
+  "title": "Threat / Fear Processing — Diagnostic Pattern Recognition",
+  "parentPortal": "contemplative_threat_portal.html",
+  "parentLabel": "Threat / Fear Processing",
+  "phase": "P2",
+  "activations": [
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing — Diagnostic Pattern Recognition — Primary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Threat / Fear Processing dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "contemplative_threat_diagnosis_assess_portal.html"
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing — Diagnostic Pattern Recognition — Secondary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Threat / Fear Processing dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "contemplative_threat_diagnosis_impl_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing — Diagnostic Pattern Recognition — Tertiary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Threat / Fear Processing dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "contemplative_threat_diagnosis_optim_portal.html"
+    }
+  ]
+}

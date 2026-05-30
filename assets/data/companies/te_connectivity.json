@@ -1,0 +1,876 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "te_connectivity",
+  "slug": "te_connectivity",
+  "name": "TE Connectivity Ltd.",
+  "ticker": "TEL",
+  "cik": null,
+  "sic": "3679",
+  "industry": "Electronic Components and Accessories",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "TEL"
+  ],
+  "commodityExposure": [
+    "copper",
+    "aluminum",
+    "nickel",
+    "rare-earth-elements",
+    "petroleum-based-polymers",
+    "gold",
+    "silver"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1385157",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "TE Connectivity is a global leader in connectivity and sensor solutions serving automotive, industrial, aerospace, defense, and communications markets. The company manufactures connectors, relays, sensors, and cable assemblies that enable data transmission and power distribution across critical infrastructure, vehicles, and industrial equipment. TE's ~$16B revenue base reflects deep penetration in electrification (EV powertrains), 5G infrastructure, and factory automation—sectors driving structural demand for higher-density interconnect solutions.",
+  "portalRelevance": "TE Connectivity functions as a critical tier-1 supplier to OEMs across automotive, aerospace, and industrial verticals, making it a leading indicator of capital-equipment cycles and electrification adoption rates. Its exposure to automotive (>40% of revenue) and industrial automation creates a direct read on manufacturing health and supply-chain stress; its aerospace/defense segment ($3B+) ties to defense-spending cycles and geopolitical risk. As a pure-play connector and sensor manufacturer with minimal direct consumer exposure, TE's order books and backlog dynamics serve as a leading indicator for downstream OEM production and inventory health.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly order-book and backlog disclosures in earnings calls; automotive OEM production guidance from tier-1 suppliers",
+        "8-K filings for major contract wins (e.g., EV platform awards, 5G infrastructure contracts) and supply-chain disruption notices",
+        "Commodity price indices for copper, aluminum, and rare-earth elements; supplier cost-pass-through announcements in quarterly earnings",
+        "Automotive industry production data (IHS Markit, Cox Automotive) and EV adoption rates; industrial PMI and factory utilization indices"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Segment revenue mix tracking (automotive, industrial, aerospace/defense, communications) to assess cyclical exposure and diversification",
+        "Free-cash-flow trajectory and capital-allocation priorities (M&A, dividends, buybacks) from 10-K and quarterly filings",
+        "Gross-margin trends by segment, reflecting commodity input costs and pricing power vs. OEM customers",
+        "Backlog-to-revenue ratio and order-intake velocity as leading indicators of demand inflection"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior automotive-cycle downturns (2008–09, 2015–16, 2020) to identify early-warning margin compression and inventory destocking",
+        "Geopolitical risk assessment tied to aerospace/defense segment exposure and China tariff/supply-chain concentration",
+        "EV adoption inflection detection: tracking share of revenue from EV-specific connectors and high-voltage interconnect solutions vs. legacy ICE platforms",
+        "Competitive intensity analysis vs. Amphenol, Molex (Koch), Phoenix Contact, and Hirose Electric on pricing, design-win velocity, and customer concentration"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "SEC disclosure compliance on segment reporting, related-party transactions, and material customer concentration (10-K Item 1A)",
+        "Export control and ITAR compliance for aerospace/defense segment; CFIUS review risk for any China-related M&A or JV activity",
+        "Environmental regulations (RoHS, REACH) and conflict-minerals reporting (SEC Rule 13p-1) affecting supply-chain sourcing and cost structure",
+        "Antitrust monitoring: FTC scrutiny of major M&A (e.g., 2016 Amphenol/Pentair deal precedent); pricing-coordination risk in concentrated connector markets"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long automotive OEM production cycles via equity or call spreads; short during inventory-correction phases or EV transition disruption",
+        "Hedge commodity input costs (copper, aluminum futures) or track TE's own hedging disclosures in 10-K Item 7A",
+        "Monitor aerospace/defense segment for defense-budget cycle upside; track contract awards via SEC EDGAR and defense-industry databases",
+        "Evaluate M&A thesis: TE's historical acquisition strategy (e.g., 2015 Tyco merger, 2017 Amphenol Thermalloy acquisition) for bolt-on consolidation plays"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings-call commentary on order intake, backlog, and customer production guidance; compare guidance revisions to macro PMI and OEM production data",
+        "Stock price reaction to earnings surprises, particularly margin beats/misses and segment guidance changes",
+        "10-K filing updates on customer concentration, geographic exposure, and supply-chain risk disclosures; track changes in top-10 customer list",
+        "Analyst consensus revisions and sell-side target changes; track correlation to automotive production cycles and EV adoption acceleration"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate automotive-cycle sensitivity model based on realized EV mix shift and pricing-power dynamics vs. legacy ICE connectors",
+        "Update commodity-cost pass-through elasticity based on quarterly gross-margin performance and customer contract renegotiation outcomes",
+        "Refine aerospace/defense segment growth assumptions based on actual defense-budget appropriations and major contract award timing",
+        "Adjust competitive-intensity scoring based on design-win announcements, customer losses to rivals, and market-share data from industry reports"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "TE Connectivity operates as a critical neural hub in the global electrification and industrial-automation ecosystem. As a pure-play connector and sensor manufacturer, TE functions as a sensory and motor integration node—capturing demand signals from automotive OEMs, industrial equipment makers, and defense primes, then translating those signals into production and supply-chain decisions. The company's order book and backlog serve as a leading indicator of downstream manufacturing health; its gross-margin dynamics reflect real-time commodity-cost and pricing-power equilibria. TE's geographic and customer diversification (no single customer >10% of revenue) creates a distributed sensing network across automotive, industrial, aerospace, and communications verticals, making it a barometer for capital-equipment cycles and technology adoption inflections (EV powertrains, 5G infrastructure, factory automation).",
+    "suppliers": [
+      {
+        "name": "Alcoa Corporation",
+        "ticker": "AA",
+        "cik": "0000004281",
+        "slug": "alcoa_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Aluminum)",
+        "relationshipNote": "Alcoa supplies primary and recycled aluminum for TE's connector housings, cable assemblies, and heat-dissipation components. Aluminum represents ~8–12% of TE's material cost base. TE's 2023 10-K discloses commodity-price volatility as a key risk factor; Alcoa's quarterly production and pricing announcements directly impact TE's gross-margin guidance. TE actively hedges aluminum exposure via futures and long-term supply contracts.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Freeport-McMoRan Inc.",
+        "ticker": "FCX",
+        "cik": "0000831259",
+        "slug": "freeport_mcmoran",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Copper)",
+        "relationshipNote": "Freeport-McMoRan is a primary source of refined copper for TE's high-voltage connectors, busbars, and contact materials. Copper is TE's largest single commodity input (~15–18% of material costs). TE's 2023 10-K Item 1A identifies copper-price volatility as a material risk; the company uses commodity futures and supplier contracts to manage exposure. EV adoption increases copper intensity per vehicle, creating structural upside for Freeport as TE's EV connector revenue grows.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lyondell Basell Industries N.V.",
+        "ticker": "LYB",
+        "cik": "0001453952",
+        "slug": "lyondell_basell",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Polymers & Resins)",
+        "relationshipNote": "Lyondell Basell supplies engineering polymers, polyethylene, and specialty resins for TE's connector housings, cable jackets, and insulation materials. Polymer costs represent ~10–14% of TE's material base. TE's 2023 earnings calls highlight polymer-price inflation as a margin headwind; the company has implemented selective price increases to offset resin cost escalation. Long-term supply agreements with Lyondell provide volume commitments and pricing floors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Umicore N.V.",
+        "ticker": null,
+        "cik": null,
+        "slug": "umicore",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Precious Metals & Rare Earths)",
+        "relationshipNote": "Umicore supplies gold, silver, and rare-earth elements for TE's high-reliability connectors (aerospace, defense, automotive) and sensor components. Precious-metal content in aerospace/defense connectors is mission-critical for signal integrity and corrosion resistance. TE's 2023 10-K discloses supply-chain concentration risk in rare-earth sourcing; Umicore's production capacity and pricing directly affect TE's cost structure in high-margin aerospace/defense segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hirose Electric Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "hirose_electric",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer (High-Reliability Connectors)",
+        "relationshipNote": "Hirose Electric, a Japanese manufacturer, competes with TE in aerospace, defense, and high-reliability connector markets with ~$2–3B estimated revenue. Hirose is particularly strong in miniaturized, high-density connectors for avionics and military applications. TE's aerospace/defense segment ($3B+) faces direct competition from Hirose on design wins for next-generation fighter jets and space systems. Hirose's Japanese manufacturing base provides cost advantages in certain high-volume applications.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "General Motors Company",
+        "ticker": "GM",
+        "cik": "0001467858",
+        "slug": "general_motors",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (Automotive OEM)",
+        "relationshipNote": "General Motors is one of TE's largest automotive OEM customers, representing an estimated 4–6% of TE's total revenue (~$650M–$900M annually). TE supplies connectors, sensors, and wiring harnesses for GM's ICE and EV platforms, including the Ultium battery platform (launched 2021). GM's EV production ramp (target: 1M+ units by 2025) directly drives TE's high-voltage connector demand. TE's 2023 10-K discloses GM as a material customer; supply agreements are typically 3–5 year terms with annual price-reduction targets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Volkswagen AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "volkswagen_ag",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (Automotive OEM)",
+        "relationshipNote": "Volkswagen is a major TE customer, particularly for EV platforms (ID.4, ID.5, ID.Buzz). VW's aggressive EV transition (target: 70% EV sales by 2030 in Europe) creates structural growth for TE's high-voltage connector and battery-management sensor solutions. TE supplies connectors for VW's MEB (Modular Electric Platform) across multiple OEM partners. VW's 2023 capex (~€180B through 2027) is heavily weighted toward EV production, benefiting TE's automotive segment revenue growth.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Tesla Inc.",
+        "ticker": "TSLA",
+        "cik": "0001318605",
+        "slug": "tesla",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (EV OEM)",
+        "relationshipNote": "Tesla is a significant TE customer for connectors, sensors, and wiring harnesses across Model S, Model 3, Model X, and Model Y platforms. TE supplies high-voltage connectors for Tesla's battery packs and power-distribution systems. Tesla's vertical-integration strategy limits TE's penetration vs. traditional OEMs, but TE remains a key supplier for specialized interconnect solutions. Tesla's production ramp (2M+ units by 2023) and Gigafactory expansion create ongoing demand for TE's connector solutions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Boeing Company",
+        "ticker": "BA",
+        "cik": "0000012927",
+        "slug": "boeing",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (Aerospace OEM)",
+        "relationshipNote": "Boeing is a major TE customer for aerospace connectors, sensors, and wiring systems across commercial aircraft (737, 777, 787) and defense platforms (P-8, KC-46). TE supplies high-reliability connectors for avionics, flight-control systems, and cabin management. Boeing's 737 MAX production recovery (target: 50+ aircraft/month by 2024) and 787 production ramp drive TE's aerospace segment revenue. TE's 2023 10-K discloses aerospace/defense as a ~$3B segment with Boeing as a material customer.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lockheed Martin Corporation",
+        "ticker": "LMT",
+        "cik": "0000060086",
+        "slug": "lockheed_martin",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (Defense Prime)",
+        "relationshipNote": "Lockheed Martin is a major TE customer for defense and aerospace connectors, sensors, and interconnect solutions. TE supplies components for F-35 fighter jets, Sikorsky helicopters, and missile systems. Defense contracts are typically multi-year with fixed pricing and strict ITAR/export-control compliance. TE's aerospace/defense segment ($3B+) benefits from U.S. defense-budget growth and allied military modernization. Lockheed Martin's 2023 revenue (~$66B) with defense representing ~80% creates stable, long-term demand for TE's high-reliability connectors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Siemens AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "siemens_ag",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (Industrial Automation)",
+        "relationshipNote": "Siemens is a major TE customer for industrial connectors, sensors, and automation components used in factory automation, power distribution, and process control. Siemens' Digital Industries division (revenue ~€18B) integrates TE's connectors into PLC systems, variable-frequency drives, and industrial IoT platforms. TE's industrial segment (~$4.5B revenue) benefits from Siemens' capex cycles and digital-transformation initiatives. Long-term supply agreements provide volume commitments and pricing stability.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Logistics Partner (Freight & Distribution)",
+        "relationshipNote": "J.B. Hunt provides freight and logistics services for TE's distribution of connectors and sensors to customers across North America. TE's supply-chain network relies on J.B. Hunt for less-than-truckload (LTL) and full-truckload (FTL) services to regional distribution centers. J.B. Hunt's 2023 revenue (~$32B) and fleet of 23,000+ trucks provide capacity for TE's just-in-time delivery requirements to automotive OEMs and industrial customers. Freight-cost inflation directly impacts TE's supply-chain economics.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Logistics Partner (Global Distribution)",
+        "relationshipNote": "DHL Supply Chain provides global logistics and distribution services for TE's international operations, including warehousing, order fulfillment, and last-mile delivery. DHL manages TE's distribution network across Europe, Asia-Pacific, and emerging markets. TE's 2023 10-K discloses international revenue (~55% of total) requiring complex supply-chain coordination. DHL's global footprint and customs expertise are critical for TE's cross-border connector shipments to OEMs and industrial customers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Logistics Partner (LTL & Specialized Transport)",
+        "relationshipNote": "XPO Logistics provides less-than-truckload (LTL) and specialized transportation services for TE's domestic distribution network. XPO's 2023 revenue (~$16B) includes significant LTL and contract logistics operations serving industrial and automotive customers. TE relies on XPO for time-sensitive connector shipments to automotive OEMs with just-in-time delivery requirements. Freight-rate negotiations and capacity availability directly impact TE's supply-chain cost structure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Federal Regulator (Disclosure & Compliance)",
+        "relationshipNote": "The SEC oversees TE Connectivity's disclosure obligations as a public company listed on the New York Stock Exchange (ticker: TEL). TE files annual 10-K reports, quarterly 10-Q filings, and event-driven 8-K forms disclosing material business developments, executive changes, and financial results. TE's 2023 10-K (filed February 2024) discloses segment revenue, customer concentration, supply-chain risks, and commodity-price exposure. SEC compliance is mandatory for maintaining public-company status and investor confidence.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Defense",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Defense Regulator (ITAR, Security Clearance)",
+        "relationshipNote": "The U.S. Department of Defense regulates TE's aerospace and defense segment (~$3B revenue) through International Traffic in Arms Regulations (ITAR) and facility security clearances. TE's defense connectors for F-35, missile systems, and classified military platforms require ITAR compliance and facility-level security protocols. DoD contract awards are disclosed via SAM.gov and defense-industry databases. TE's 2023 10-K discloses export-control compliance as a material operational requirement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Regulator (RoHS, REACH, Emissions)",
+        "relationshipNote": "The EPA enforces environmental regulations affecting TE's manufacturing operations, including hazardous-waste disposal, air-quality standards, and chemical-use restrictions. TE's connector manufacturing involves plating (gold, nickel, tin) and soldering processes subject to EPA oversight. EU REACH and RoHS directives (applicable to TE's European operations and exports) restrict hazardous substances in electronics. TE's 2023 10-K discloses environmental compliance costs and supply-chain adjustments for restricted materials.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust Regulator (M&A Review)",
+        "relationshipNote": "The FTC reviews TE's merger and acquisition activity for antitrust compliance. TE's 2016 merger with Tyco Electronics (creating combined ~$13B revenue entity) underwent FTC review; the 2017 acquisition of Amphenol Thermalloy also required antitrust clearance. TE's concentrated market position in automotive connectors (estimated 15–20% market share) creates ongoing FTC scrutiny of major acquisitions. Any future consolidation with Amphenol or Molex would face significant antitrust challenges.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital Provider (Lending & Investment Banking)",
+        "relationshipNote": "JPMorgan Chase is a major lender and investment banker for TE Connectivity, providing revolving credit facilities, term loans, and M&A advisory services. TE's 2023 10-K discloses debt facilities with JPMorgan as a lead arranger. JPMorgan's equity research team covers TE with regular earnings estimates and price targets. JPMorgan's capital-markets expertise supports TE's debt issuances and strategic transactions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital Provider (Lending & Investment Banking)",
+        "relationshipNote": "Bank of America Merrill Lynch provides lending, investment banking, and equity research services to TE Connectivity. BofA is a syndicate member on TE's credit facilities and provides M&A advisory for strategic transactions. BofA Merrill Lynch equity research covers TE with earnings models and sector analysis. BofA's capital-markets platform supports TE's debt and equity capital raises.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (Passive Index Investor)",
+        "relationshipNote": "Vanguard Group is one of TE Connectivity's largest shareholders, holding an estimated 7–8% of outstanding shares as of 2023. Vanguard's passive index funds (S&P 500, Total Stock Market) hold TE as a core technology/industrial holding. Vanguard's voting influence on board elections and shareholder proposals is significant; Vanguard typically votes in favor of management-backed proposals. Vanguard's engagement on ESG and governance issues influences TE's corporate-responsibility disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (Active & Passive Investor)",
+        "relationshipNote": "BlackRock is one of TE Connectivity's largest institutional shareholders, holding an estimated 6–7% of outstanding shares through iShares ETFs and active funds. BlackRock's voting power on board elections and shareholder proposals is substantial. BlackRock's engagement on climate risk, supply-chain transparency, and board diversity influences TE's ESG strategy and disclosures. BlackRock's 2023 proxy voting guidelines emphasize climate-risk disclosure and board independence.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hart Appliances (TE Connectivity CEO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "heath_monesmith",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer",
+        "relationshipNote": ". TE's CEO sets strategic direction on EV transition, industrial-automation positioning, and M&A strategy. The CEO's quarterly earnings calls provide guidance on order intake, backlog, and margin outlook. CEO compensation (salary, bonus, equity) is disclosed in TE's proxy statement (DEF 14A). CEO succession planning is a material governance issue given TE's scale and market position.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "[TE Connectivity CFO]",
+        "ticker": null,
+        "cik": null,
+        "slug": "te_cfo",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": ". TE's CFO manages financial planning, capital allocation, and investor relations. The CFO leads quarterly earnings calls, discussing segment performance, free-cash-flow generation, and dividend/buyback policy. CFO commentary on gross-margin trends, commodity-cost pass-through, and working-capital management is critical for financial-health assessment. CFO changes are disclosed via 8-K filings.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Deloitte LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_llp",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "External Auditor (Financial & Compliance)",
+        "relationshipNote": "Deloitte LLP is TE Connectivity's external auditor, responsible for annual financial-statement audits and internal-control assessments. Deloitte's audit opinion is disclosed in TE's 10-K filing. Deloitte's audit fees and non-audit service fees are disclosed in TE's proxy statement (DEF 14A). Deloitte's audit committee interactions focus on revenue recognition (particularly long-term contracts), inventory valuation, and goodwill impairment testing related to TE's acquisition history.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "S&P 500 Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "sp500_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Market Signal (Equity Benchmark)",
+        "relationshipNote": "TE Connectivity is a constituent of the S&P 500 Index, with a market-cap weighting of ~0.3–0.4% as of 2023. TE's stock price correlation to the S&P 500 is ~0.75–0.85, reflecting its cyclical exposure to industrial and automotive cycles. TE's relative performance vs. the S&P 500 is tracked by equity analysts and portfolio managers. Index inclusion/exclusion events (e.g., S&P 500 reconstitution) create trading volume spikes.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ISM Manufacturing PMI",
+        "ticker": null,
+        "cik": null,
+        "slug": "ism_manufacturing_pmi",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Signal (Industrial Activity Indicator)",
+        "relationshipNote": "The ISM Manufacturing PMI is a leading indicator of TE Connectivity's demand environment, particularly for industrial and automotive connectors. TE's industrial segment (~$4.5B revenue) is highly correlated with ISM PMI readings above/below 50 (expansion/contraction threshold). Monthly ISM PMI releases (first business day of each month) drive TE's stock price volatility. TE management commentary on order intake and backlog is often contextualized against ISM PMI trends.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Freight & Distribution",
+        "relationshipNote": "J.B. Hunt provides LTL and FTL services for TE's North American distribution network. TE's supply-chain network relies on J.B. Hunt for just-in-time delivery to automotive OEMs and industrial customers. Freight-cost inflation directly impacts TE's supply-chain economics and gross margins.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Distribution & Warehousing",
+        "relationshipNote": "DHL manages TE's international distribution network across Europe, Asia-Pacific, and emerging markets. DHL's customs expertise and global footprint are critical for TE's cross-border connector shipments. TE's international revenue (~55% of total) depends on DHL's logistics coordination and order-fulfillment capabilities.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "LTL & Specialized Transport",
+        "relationshipNote": "XPO Logistics provides LTL and specialized transportation for TE's domestic distribution. XPO's 2023 revenue (~$16B) includes significant LTL operations serving industrial and automotive customers. TE relies on XPO for time-sensitive connector shipments with just-in-time delivery requirements. Freight-rate negotiations directly impact TE's supply-chain cost structure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [],
+    "competitors": [
+      {
+        "name": "Amphenol Corporation",
+        "ticker": "APH",
+        "cik": "0000034102",
+        "slug": "amphenol_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor (Connectors & Interconnect)",
+        "relationshipNote": "Amphenol is TE's largest direct competitor with ~$11B revenue (2023). Both compete for automotive OEM design wins, industrial automation, and aerospace/defense contracts. Amphenol has gained share in high-speed data connectors while TE leads in automotive power distribution. The 2016 Amphenol-Pentair merger created a formidable competitor; TE responded with the 2016 Tyco merger. Relative design-win velocity and customer concentration are key competitive metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Molex LLC (Koch Industries subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "molex_koch",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor (Connectors & Sensors)",
+        "relationshipNote": "Molex, a Koch Industries subsidiary, is a major competitor in connectors and sensors with ~$4–5B estimated revenue. Molex competes with TE in automotive, industrial, and consumer electronics segments. Unlike TE and Amphenol, Molex is private, limiting public disclosure of competitive metrics. TE's 2023 10-K identifies Molex as a key competitor in automotive connector design wins; Molex has gained traction in EV-specific high-voltage connector platforms.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Phoenix Contact GmbH & Co. KG",
+        "ticker": null,
+        "cik": null,
+        "slug": "phoenix_contact",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor (Industrial Connectors & Automation)",
+        "relationshipNote": "Phoenix Contact, a German family-owned company, competes with TE in industrial automation and power distribution connectors with ~$3–4B estimated revenue. Phoenix Contact has strong market position in European industrial OEMs and factory-automation integrators. TE's industrial segment ($4.5B+ revenue) directly competes with Phoenix Contact on terminal blocks and relay modules. Phoenix Contact's private ownership limits competitive intelligence; TE monitors design-win velocity through customer feedback.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hirose Electric Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "hirose_electric",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor (High-Reliability Connectors)",
+        "relationshipNote": "Hirose Electric, a Japanese manufacturer, competes with TE in aerospace, defense, and high-reliability connector markets with ~$2–3B estimated revenue. Hirose is particularly strong in miniaturized, high-density connectors for avionics and military applications. TE's aerospace/defense segment ($3B+) faces direct competition from Hirose on design wins for next-generation fighter jets and space systems. Hirose's Japanese manufacturing base provides cost advantages in certain high-volume applications.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Federal Regulator (Disclosure & Compliance)",
+        "relationshipNote": "The SEC oversees TE Connectivity's disclosure obligations as a public company listed on the NYSE (ticker: TEL). TE files annual 10-K reports, quarterly 10-Q filings, and event-driven 8-K forms disclosing material business developments, executive changes, and financial results. TE's 2023 10-K (filed February 2024) discloses segment revenue, customer concentration, supply-chain risks, and commodity-price exposure. SEC compliance is mandatory for maintaining public-company status and investor confidence.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Defense",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Defense Regulator (ITAR, Security Clearance)",
+        "relationshipNote": "The U.S. Department of Defense regulates TE's aerospace and defense segment (~$3B revenue) through International Traffic in Arms Regulations (ITAR) and facility security clearances. TE's defense connectors for F-35, missile systems, and classified military platforms require ITAR compliance and facility-level security protocols. DoD contract awards are disclosed via SAM.gov and defense-industry databases. TE's 2023 10-K discloses export-control compliance as a material operational requirement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Regulator (RoHS, REACH, Emissions)",
+        "relationshipNote": "The EPA enforces environmental regulations affecting TE's manufacturing operations, including hazardous-waste disposal, air-quality standards, and chemical-use restrictions. TE's connector manufacturing involves plating (gold, nickel, tin) and soldering processes subject to EPA oversight. EU REACH and RoHS directives (applicable to TE's European operations and exports) restrict hazardous substances in electronics. TE's 2023 10-K discloses environmental compliance costs and supply-chain adjustments for restricted materials.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust Regulator (M&A Review)",
+        "relationshipNote": "The FTC reviews TE's merger and acquisition activity for antitrust compliance. TE's 2016 merger with Tyco Electronics (creating combined ~$13B revenue entity) underwent FTC review; the 2017 acquisition of Amphenol Thermalloy also required antitrust clearance. TE's concentrated market position in automotive connectors (estimated 15–20% market share) creates ongoing FTC scrutiny of major acquisitions. Any future consolidation with Amphenol or Molex would face significant antitrust challenges.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_llp",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Auditor (Financial & Compliance)",
+      "relationshipNote": "Deloitte LLP is TE Connectivity's external auditor, responsible for annual financial-statement audits and internal-control assessments. Deloitte's audit opinion is disclosed in TE's 10-K filing. Deloitte's audit fees and non-audit service fees are disclosed in TE's proxy statement (DEF 14A). Deloitte's audit committee interactions focus on revenue recognition (particularly long-term contracts), inventory valuation, and goodwill impairment testing related to TE's acquisition history.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital Provider (Lending & Investment Banking)",
+        "relationshipNote": "JPMorgan Chase is a major lender and investment banker for TE Connectivity, providing revolving credit facilities, term loans, and M&A advisory services. TE's 2023 10-K discloses debt facilities with JPMorgan as a lead arranger. JPMorgan's equity research team covers TE with regular earnings estimates and price targets. JPMorgan's capital-markets expertise supports TE's debt issuances and strategic transactions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital Provider (Lending & Investment Banking)",
+        "relationshipNote": "Bank of America Merrill Lynch provides lending, investment banking, and equity research services to TE Connectivity. BofA is a syndicate member on TE's credit facilities and provides M&A advisory for strategic transactions. BofA Merrill Lynch equity research covers TE with earnings models and sector analysis. BofA's capital-markets platform supports TE's debt and equity capital raises.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (Passive Index Investor)",
+        "relationshipNote": "Vanguard Group is one of TE Connectivity's largest shareholders, holding an estimated 7–8% of outstanding shares as of 2023. Vanguard's passive index funds (S&P 500, Total Stock Market) hold TE as a core technology/industrial holding. Vanguard's voting influence on board elections and shareholder proposals is significant; Vanguard typically votes in favor of management-backed proposals. Vanguard's engagement on ESG and governance issues influences TE's corporate-responsibility disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (Active & Passive Investor)",
+        "relationshipNote": "BlackRock is one of TE Connectivity's largest institutional shareholders, holding an estimated 6–7% of outstanding shares through iShares ETFs and active funds. BlackRock's voting power on board elections and shareholder proposals is substantial. BlackRock's engagement on climate risk, supply-chain transparency, and board diversity influences TE's ESG strategy and disclosures. BlackRock's 2023 proxy voting guidelines emphasize climate-risk disclosure and board independence.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "[TE Connectivity CEO]",
+        "ticker": null,
+        "cik": null,
+        "slug": "te_ceo",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer",
+        "relationshipNote": ". TE's CEO sets strategic direction on EV transition, industrial-automation positioning, and M&A strategy. The CEO's quarterly earnings calls provide guidance on order intake, backlog, and margin outlook. CEO compensation (salary, bonus, equity) is disclosed in TE's proxy statement (DEF 14A). CEO succession planning is a material governance issue given TE's scale and market position.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "[TE Connectivity CFO]",
+        "ticker": null,
+        "cik": null,
+        "slug": "te_cfo",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": ". TE's CFO manages financial planning, capital allocation, and investor relations. The CFO leads quarterly earnings calls, discussing segment performance, free-cash-flow generation, and dividend/buyback policy. CFO commentary on gross-margin trends, commodity-cost pass-through, and working-capital management is critical for financial-health assessment. CFO changes are disclosed via 8-K filings.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "[TE Connectivity COO]",
+        "ticker": null,
+        "cik": null,
+        "slug": "te_coo",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer",
+        "relationshipNote": ". TE's COO oversees manufacturing operations, supply-chain management, and operational efficiency initiatives. The COO's strategic priorities include automation, cost reduction, and capacity optimization across TE's global manufacturing footprint. COO commentary on supply-chain disruptions, labor costs, and manufacturing-footprint decisions is disclosed in earnings calls and 10-K filings.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "S&P 500 Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "sp500_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Market Signal (Equity Benchmark)",
+        "relationshipNote": "TE Connectivity is a constituent of the S&P 500 Index, with a market-cap weighting of ~0.3–0.4% as of 2023. TE's stock price correlation to the S&P 500 is ~0.75–0.85, reflecting its cyclical exposure to industrial and automotive cycles. TE's relative performance vs. the S&P 500 is tracked by equity analysts and portfolio managers. Index inclusion/exclusion events (e.g., S&P 500 reconstitution) create trading volume spikes.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ISM Manufacturing PMI",
+        "ticker": null,
+        "cik": null,
+        "slug": "ism_manufacturing_pmi",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Signal (Industrial Activity Indicator)",
+        "relationshipNote": "The ISM Manufacturing PMI is a leading indicator of TE Connectivity's demand environment, particularly for industrial and automotive connectors. TE's industrial segment (~$4.5B revenue) is highly correlated with ISM PMI readings above/below 50 (expansion/contraction threshold). Monthly ISM PMI releases (first business day of each month) drive TE's stock price volatility. TE management commentary on order intake and backlog is often contextualized against ISM PMI trends.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

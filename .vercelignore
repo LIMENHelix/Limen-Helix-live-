@@ -1,0 +1,72 @@
+# Exclude deep domain JSONs (L4+ = 4+ underscore segments)
+# L1-L3 domain JSONs ARE deployed (3,710 files)
+# L4+ served via /api/fetch-portal fallback
+assets/data/domains/*_*_*_*.json
+
+# Exclude internal build scripts
+assets/data/domains/_*.js
+
+# Exclude deep portal HTML files (L4+ static portals)
+# These are served dynamically via portal.html router
+*_*_*_*_portal.html
+
+# Exclude generated reports
+portals/medicine/reports/*.pdf
+
+# Exclude audit/test artifacts
+portal-inventory-full.json
+test-gdelt-tone.js
+REPORT_REASONING_GAP_AUDIT.md
+
+# ─── EXTENDED 2026-05-30 ──────────────────────────────────────────────
+# Below this line: clearly-dead supporting paths. Not the load-bearing
+# legacy (L1-L3) — those stay deployed per the existing rules above.
+# Reversible: delete any line that breaks a URL on the live site.
+
+# Aggregated diagnostic outputs from earlier development passes.
+# Not consumed by any live api/* endpoint.
+assets/data/aggregated/
+
+# Pre-enrich + pre-redensify backup snapshots from portal-build runs.
+# (Going forward they're gitignored; this catches historical commits.)
+assets/data/companies/_pre-enrich/
+assets/data/companies/_pre-redensify/
+
+# Operator-printed package output. Current print pipeline streams DOCX
+# directly to the browser; nothing reads from this folder at runtime.
+assets/printed/
+
+# Diagnostic artifacts and audit logs (not endpoints).
+diagnostic/
+api/audit/
+api/helix_app/audit/
+
+# Python bytecode caches
+api/__pycache__/
+api/helix_app/__pycache__/
+api/helix_app/thing1/__pycache__/
+api/helix_app/thing2/__pycache__/
+
+# Backup file patterns
+*.before-*
+*.pre-validated-*
+*.failed.json
+*.json.bak
+
+# One-shot diagnostic verifier scripts
+_verify_*.py
+_verify_*.json
+_verify_*.log
+
+# Development scratch + IDE state
+.claude/
+.expansive-backup/
+
+# Sibling node_modules + dev-only result files (not deployed as routes)
+limen-helix-api/node_modules/
+limen-helix-api/bk-dataset.json
+limen-helix-api/bk-results.json
+limen-helix-api/bk_validation_results.json
+
+# Vendored kernel snapshot in operator working tree (not a route)
+helix-kernel-v4.js

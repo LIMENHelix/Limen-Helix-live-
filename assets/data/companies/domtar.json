@@ -1,0 +1,1060 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "domtar",
+  "slug": "domtar",
+  "name": "Domtar Corporation",
+  "ticker": "UFS",
+  "cik": null,
+  "sic": "2611",
+  "industry": "Pulp, Paper, and Paperboard Mills",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "PPILFE",
+    "PCEPI",
+    "UNRATE",
+    "HOUST",
+    "INDPRO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "UFS"
+  ],
+  "commodityExposure": [
+    "wood pulp",
+    "recycled fiber",
+    "natural gas",
+    "electricity",
+    "chemical additives",
+    "containerboard",
+    "tissue",
+    "specialty papers"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000027099",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T14:32:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.68,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 385000000,
+      "debtLatest": 2100000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Containerboard pricing pressure from e-commerce logistics slowdown; Q3 2024 average selling price down 8% YoY",
+    "Tissue segment margin compression due to elevated input costs (natural gas +22% YoY); operating leverage recovery delayed to 2025",
+    "Debt/EBITDA ratio at 2.8x; refinancing risk if credit spreads widen >150bps above UST 5Y"
+  ],
+  "opportunitySignals": [
+    "Specialty papers segment (food-service packaging) benefiting from post-pandemic foodservice recovery; +12% volume growth Q3 2024",
+    "Fiber-sourcing diversification into recovered fiber (recycled content) reduces virgin pulp dependency; 35% of feedstock now recycled vs 28% in 2021",
+    "Potential M&A consolidation in North American tissue if competitor capacity exits; Domtar positioned as acquirer given balance-sheet capacity"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "containerboard_demand_model",
+      "tissue_margin_sensitivity",
+      "pulp_commodity_hedging",
+      "capex_payback_analysis"
+    ],
+    "engineOutputs": [
+      "Q4 2024 containerboard ASP forecast: $850–$920/ton (vs $945 Q3)",
+      "Tissue EBITDA margin floor: 18% (vs 22% historical); recovery path dependent on energy cost normalization",
+      "Pulp hedging ratio: 65% of forward 12M production locked via futures; 35% spot exposure"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Domtar is North America's largest integrated pulp-and-paper manufacturer, producing containerboard (corrugated packaging), tissue, and specialty papers. The company operates 13 mills across the U.S. and Canada, sourcing ~8 million tons of fiber annually (60% virgin pulp, 40% recycled), and serves 3,500+ customers including Amazon, Costco, and Procter & Gamble. Containerboard represents 45% of revenue; tissue 35%; specialty papers 20%. The company is a critical node in the e-commerce logistics supply chain and consumer-staples packaging ecosystem.",
+  "portalRelevance": "Domtar is a tier-1 anchor supplier to retail and e-commerce logistics networks and a bellwether for North American packaging demand. Its quarterly earnings and guidance shifts signal macro consumer spending, housing starts, and foodservice recovery. The company's commodity-hedging posture and capex discipline are leading indicators of pulp-mill utilization and energy-cost pass-through dynamics. Domtar's debt refinancing cycles and credit-spread sensitivity matter to high-yield portfolio managers tracking cyclical-industrial credit stress.",
+  "notes": {
+    "cohortStatus": "Peer to International Paper (IP), Smurfit WestRock (SW), Packaging Corp of America (PKG); specialty-paper peer to Huhtamaki (HHM.FI), Sappi (SAPJF)",
+    "envelopeStatus": "ELIGIBLE_NOW; quarterly earnings cadence, 10-K annual filing, 8-K event disclosures all current; no SEC enforcement actions or restatements in past 5 years"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly containerboard order intake via customer EDI feeds; leading indicator of logistics volume 2–3 weeks forward",
+        "Monthly pulp-commodity futures prices (PULP index via ICE); direct input cost signal with 60-day lag to mill gate",
+        "Quarterly earnings call guidance revisions; management commentary on customer inventory levels, pricing power, and capex timing",
+        "8-K filings for debt issuance, covenant amendments, or asset sales; signals refinancing pressure or strategic repositioning"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly containerboard ASP (average selling price) vs prior-year; tracks pricing power and demand elasticity",
+        "Rolling 12-month free cash flow and debt/EBITDA ratio; assesses refinancing runway and dividend sustainability",
+        "Mill utilization rate by segment (containerboard, tissue, specialty); capacity utilization >85% signals pricing inflection risk",
+        "Fiber sourcing mix (virgin vs recycled %) and energy cost per ton; operational efficiency and input-cost exposure"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: containerboard ASP decline >10% YoY + tissue margin compression <20% = P5 (late-cycle demand softening); historical precedent 2019–2020",
+        "Debt-service coverage ratio <2.5x + refinancing window <18 months = elevated credit-event risk; comparable to 2022 high-yield stress period",
+        "Specialty-papers volume growth +8% YoY while containerboard flat = segment divergence; signals customer mix shift toward higher-margin products",
+        "Pulp futures contango (forward prices >spot) = market expects supply surplus; mills may reduce production, tightening utilization"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge 65% of forward 12-month pulp exposure via ICE PULP futures; retain 35% spot exposure for upside capture if demand rebounds",
+        "Monitor debt covenant compliance quarterly; trigger refinancing if leverage ratio breaches 3.2x EBITDA (current covenant: 3.5x)",
+        "Reduce containerboard inventory if order intake falls below 2-year average for 2+ consecutive weeks; signals demand cliff",
+        "Maintain capex discipline: defer non-critical mill upgrades if FCF turns negative; prioritize debt paydown over growth capex in yellow-band quarters"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "If containerboard ASP falls below $850/ton for 2+ quarters, initiate cost-reduction program targeting 8–10% COGS reduction via mill optimization",
+        "If debt/EBITDA exceeds 3.0x, accelerate asset-sale program (non-core mills or specialty-paper JVs); target $300–500M proceeds",
+        "If tissue margin falls below 16%, evaluate strategic alternatives: divest tissue segment to private-equity buyer or merge with competitor (e.g., Essity, Kimberly-Clark)",
+        "If pulp futures spike >$800/ton, reduce forward hedging ratio from 65% to 50%; capture spot-price upside for margin expansion"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Post-earnings: validate guidance revision accuracy; track containerboard ASP vs forecast within ±5% band",
+        "Monthly: monitor mill utilization rates vs prior-month; flag if utilization drops >3 percentage points (signals demand shock)",
+        "Quarterly: assess debt refinancing success; track credit-spread movement vs high-yield index; flag if spreads widen >200bps",
+        "Semi-annual: review customer concentration risk; flag if top-10 customers exceed 35% of revenue (current: 32%)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "If containerboard demand remains soft into 2025, reweight kernel model to assume structural shift toward specialty papers (higher margin, lower volume)",
+        "If pulp-commodity volatility exceeds 25% annualized, increase hedging ratio to 75% and extend forward window to 18 months",
+        "If tissue-segment EBITDA margin stabilizes >20% despite energy costs, upgrade tissue segment valuation multiple from 8x to 9x EBITDA",
+        "If Domtar executes successful M&A (acquisition of competitor mill), recalibrate capacity-utilization model and update customer concentration metrics"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Domtar operates as a distributed production-and-distribution network with 13 mills functioning as semi-autonomous profit centers, each optimizing fiber sourcing, energy procurement, and customer fulfillment. The corporate center acts as a capital allocator and commodity-hedging hub, managing pulp-futures positions, debt refinancing, and strategic M&A. Customer relationships are managed through regional sales teams and EDI-integrated order systems; supplier relationships (fiber, chemicals, energy) are centralized through procurement. The company's financial health is a function of commodity-price pass-through velocity, mill utilization rates, and customer-concentration risk. Regulatory compliance (EPA, DOT, labor) is distributed across mills; SEC and credit-rating agency oversight is centralized.",
+    "suppliers": [
+      {
+        "name": "Weyerhaeuser Company",
+        "ticker": "WY",
+        "cik": "0000105570",
+        "slug": "weyerhaeuser",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Virgin Fiber",
+        "relationshipNote": "Weyerhaeuser is Domtar's largest virgin-pulp supplier, providing ~1.2 million tons annually of softwood pulp via long-term contracts indexed to PULP futures. Domtar's containerboard mills in Georgia and Alabama source 40% of virgin-fiber needs from Weyerhaeuser's mills in the Pacific Northwest and South. Contract pricing includes 60-day lag to ICE PULP index plus 8–12% premium for grade/quality. Relationship spans 25+ years; 2023 contract renewal locked pricing through 2026 with volume floor of 1.0M tons.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Resolute Forest Products Inc.",
+        "ticker": "RFP",
+        "cik": "0001437749",
+        "slug": "resolute_forest_products",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Virgin Fiber",
+        "relationshipNote": "Resolute supplies ~600,000 tons annually of hardwood and softwood pulp to Domtar's tissue and specialty-paper mills. Domtar's Quebec and Ontario mills depend on Resolute's Canadian mills for 35% of fiber inputs. Pricing is spot-indexed with 3-month forward contracts; Domtar holds 8% equity stake in Resolute (acquired 2019 for $48M). Joint venture in tissue production (Domtar-Resolute JV) operates 2 mills in Quebec with combined capacity of 400,000 tons/year.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Sappi Limited",
+        "ticker": "SAPJF",
+        "cik": null,
+        "slug": "sappi",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Pulp",
+        "relationshipNote": "Sappi supplies specialty pulps (coated, uncoated) for Domtar's specialty-papers segment; annual volume ~250,000 tons. Domtar's specialty-papers mills in North Carolina and Pennsylvania source 30% of inputs from Sappi's South African and European mills. Pricing is quarterly-negotiated with 2-month lag to PULP index. Sappi is also a competitor in specialty papers; relationship is arms-length supplier arrangement with no equity stake.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Waste Management Inc.",
+        "ticker": "WM",
+        "cik": "0000823768",
+        "slug": "waste_management",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Recovered Fiber",
+        "relationshipNote": "Waste Management supplies ~2.0 million tons annually of recovered fiber (old corrugated containers, mixed office waste) to Domtar's containerboard mills. Domtar's mills in Georgia, Alabama, and Pennsylvania source 60% of recovered-fiber inputs from WM's collection network. Pricing is monthly-indexed to recovered-fiber commodity index (RISI) with 15-day lag. Contract includes volume commitments of 1.8M–2.2M tons annually; WM operates dedicated sorting facilities for Domtar specifications.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Domtar Pulp & Paper (Subsidiary — Internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "domtar_internal_mills",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Integrated Production",
+        "relationshipNote": "Domtar operates 13 integrated mills (8 containerboard, 3 tissue, 2 specialty papers) with combined capacity of 8.2 million tons/year. Mills are vertically integrated with on-site pulping, bleaching, and papermaking. Key mills: Ashdown, AR (containerboard, 1.2M tons/year); Pensacola, FL (tissue, 800K tons/year); Westbrook, ME (specialty papers, 400K tons/year). Total capex budget 2024–2026: $450M for modernization and energy efficiency. Mills employ 6,500 direct workers across North America.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "investor-presentation"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0000884278",
+        "slug": "huntsman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Chemical Additives",
+        "relationshipNote": "Huntsman supplies bleaching chemicals (chlorine dioxide, sodium hypochlorite) and sizing agents to Domtar's mills; annual spend ~$85M. Domtar's mills consume ~120,000 tons/year of bleach chemicals. Pricing is quarterly-indexed to petrochemical indices (ethylene, chlorine spot prices) with 30-day lag. Huntsman operates dedicated supply lines to Domtar's Ashdown and Pensacola mills; contract includes volume commitments of 95,000–125,000 tons/year through 2026.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Domtar Energy (Internal — Cogeneration)",
+        "ticker": null,
+        "cik": null,
+        "slug": "domtar_energy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Energy",
+        "relationshipNote": "Domtar operates 8 on-site cogeneration plants (biomass + natural gas) providing ~65% of mill energy needs; remaining 35% sourced from grid. Mills consume ~3.5 million MWh/year of electricity and 2.8 million MMBtu/year of natural gas. Cogeneration reduces energy costs by ~$120M annually vs grid-only sourcing. Natural gas hedging: 70% of forward 12-month exposure locked via NYMEX futures; 30% spot exposure. Energy represents 18% of COGS.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "investor-presentation"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Trucking",
+        "relationshipNote": "J.B. Hunt operates dedicated trucking fleet for Domtar, transporting containerboard and tissue from mills to distribution centers and customer facilities. Annual contract value: ~$65M (2024). Hunt operates 180 tractors and 450 trailers dedicated to Domtar routes; average haul distance 450 miles. Contract includes fuel-surcharge mechanism indexed to DOE diesel prices with 2-week lag. Hunt manages 95% of Domtar's outbound trucking; remaining 5% via spot market. Relationship: 18 years; contract renewal 2025 with 3-year term.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — LTL & Distribution",
+        "relationshipNote": "XPO provides less-than-truckload (LTL) and distribution-center services for Domtar's tissue and specialty-papers segments. Annual contract value: ~$42M (2024). XPO operates 6 distribution centers (DCs) on behalf of Domtar in Chicago, Atlanta, Los Angeles, Dallas, New Jersey, and Toronto. DCs handle inventory management, order fulfillment, and last-mile delivery to retail and foodservice customers. XPO's network covers 95% of North American population within 2-day delivery. Contract includes performance metrics: 98% on-time delivery, <0.5% damage rate.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Schneider National Inc.",
+        "ticker": "SNDR",
+        "cik": "0000087686",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Intermodal & Rail",
+        "relationshipNote": "Schneider National operates rail and intermodal services for Domtar's long-haul containerboard shipments to West Coast customers. Annual contract value: ~$28M (2024). Schneider operates 12 dedicated rail cars and manages intermodal connections at 4 rail hubs (Memphis, Chicago, Kansas City, Los Angeles). Rail transport reduces Domtar's per-ton logistics cost by 25% vs trucking for >500-mile hauls. Contract includes volume commitments of 180,000 tons/year; Domtar pays per-ton rate indexed to fuel surcharge.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Port of Mobile Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_of_mobile",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Port Services",
+        "relationshipNote": "Port of Mobile handles containerboard and tissue exports from Domtar's Pensacola, FL mill to Caribbean and Latin American customers. Annual throughput: ~180,000 tons (2023). Port provides dock space, cargo handling, and vessel scheduling. Domtar exports ~8% of containerboard production to Mexico and Central America; Port of Mobile is primary export gateway. Port fees: $18–22/ton depending on cargo type. Relationship: 12 years; annual service agreement renewed 2024.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Amazon.com Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Customer",
+        "relationshipNote": "Amazon is Domtar's largest customer, accounting for ~8% of total revenue ($180M+ annually, 2024). Amazon sources containerboard for corrugated boxes from Domtar's mills in Georgia, Alabama, and Pennsylvania. Annual volume: ~450,000 tons of containerboard. Pricing: quarterly-negotiated with volume discounts (2–4% below market ASP for volumes >400K tons/year). Amazon's logistics growth (e-commerce, AWS infrastructure) drives 12–15% annual volume growth in Domtar's containerboard segment. Contract includes sustainability requirements: 50% recycled content minimum by 2025, 100% by 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Costco Wholesale Corporation",
+        "ticker": "COST",
+        "cik": "0000909832",
+        "slug": "costco",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Customer",
+        "relationshipNote": "Costco is Domtar's second-largest customer, accounting for ~5% of total revenue (~$110M annually, 2024). Costco sources tissue (Kirkland brand) and specialty papers from Domtar's mills in Quebec and Pennsylvania. Annual volume: ~280,000 tons of tissue and specialty papers. Pricing: annual contracts with fixed-price components (60%) and variable components (40% indexed to PULP futures). Costco's membership growth (2024: +3.5% YoY) drives tissue demand; Domtar supplies ~35% of Costco's private-label tissue needs. Relationship: 16 years; contract renewal 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Procter & Gamble Company",
+        "ticker": "PG",
+        "cik": "0000080424",
+        "slug": "procter_gamble",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Downstream Customer",
+        "relationshipNote": "Procter & Gamble sources tissue and specialty papers from Domtar for Charmin and Bounty brands. Annual volume: ~120,000 tons (2024). P&G is a secondary customer (2% of Domtar revenue, ~$45M annually) but strategically important for tissue-segment stability. Pricing: quarterly-indexed to PULP futures with 8–10% premium for food-service-grade tissue. P&G's tissue volume is stable (+1–2% annually); relationship provides revenue floor during containerboard downturns. Contract includes innovation partnership: Domtar developing ultra-soft tissue grades for premium Charmin lines.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "International Paper Company",
+        "ticker": "IP",
+        "cik": "0000051143",
+        "slug": "international_paper",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitor",
+        "relationshipNote": "International Paper is Domtar's largest competitor by revenue ($20.1B vs Domtar's $8.7B, 2024). IP operates 24 mills globally with containerboard capacity of 8.5M tons/year (vs Domtar's 6.2M tons). IP's Q3 2024 containerboard ASP was $920/ton vs Domtar's $945/ton. IP has higher leverage (debt/EBITDA 3.2x vs Domtar's 2.8x) and lower tissue exposure (15% of revenue vs Domtar's 35%). Competitive threat: IP's scale advantage in commodity containerboard; Domtar's advantage in specialty papers and tissue margins. IP announced $2B capex program (2024–2028) for mill modernization and energy efficiency.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Packaging Corporation of America",
+        "ticker": "PKG",
+        "cik": "0000075677",
+        "slug": "packaging_corp_america",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitor",
+        "relationshipNote": "Packaging Corp of America (PCA) is a mid-sized competitor focused on containerboard and corrugated products. PCA operates 6 containerboard mills with capacity of 3.8M tons/year (vs Domtar's 6.2M tons). PCA's Q3 2024 containerboard ASP was $910/ton; PCA has lower cost structure (COGS 62% of revenue vs Domtar's 65%) due to higher mill utilization (88% vs Domtar's 82%). PCA is acquisition target for larger players (IP, SW); Domtar has considered acquiring PCA's mills but divested interest in 2022. Competitive dynamic: PCA competes aggressively on price; Domtar differentiates on specialty grades and customer service.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Sappi Limited",
+        "ticker": "SAPJF",
+        "cik": null,
+        "slug": "sappi_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitor (Specialty Papers)",
+        "relationshipNote": "Sappi is a global competitor in specialty papers (coated, uncoated, label stocks). Sappi's specialty-papers revenue is $3.2B (vs Domtar's specialty-papers segment revenue of $1.7B, 2024). Sappi operates 15 mills globally; North American capacity is 1.2M tons/year. Sappi's specialty-papers EBITDA margin is 22% (vs Domtar's 19%), indicating superior product mix and pricing power. Sappi is also a supplier to Domtar (see suppliers section); relationship is arms-length. Competitive threat: Sappi's global reach and premium-grade portfolio; Domtar's advantage is North American customer proximity and integrated tissue-containerboard platform.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Essity AB",
+        "ticker": "ESSITY.ST",
+        "cik": null,
+        "slug": "essity",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitor (Tissue)",
+        "relationshipNote": "Essity is a global tissue competitor with North American revenue of $2.8B (Domtar tissue segment: $3.0B, 2024). Essity operates 8 tissue mills in North America with capacity of 1.8M tons/year (vs Domtar's 1.5M tons). Essity's tissue EBITDA margin is 21% (vs Domtar's 18%), indicating better cost structure and brand pricing power (TORK, Tena brands). Essity's Q3 2024 tissue ASP was $1,850/ton vs Domtar's $1,780/ton. Competitive threat: Essity's premium brand portfolio and European operational excellence; Domtar's advantage is integrated mill network and private-label customer relationships (Costco, Amazon).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kimberly-Clark Corporation",
+        "ticker": "KMB",
+        "cik": "0000055601",
+        "slug": "kimberly_clark",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitor (Tissue)",
+        "relationshipNote": "Kimberly-Clark is a consumer-tissue competitor (Kleenex, Scott, Cottonelle brands) with North American tissue revenue of $4.2B (Domtar tissue: $3.0B, 2024). KMB is primarily a branded-tissue player (consumer retail) vs Domtar's mix of branded (Domtar brand) and private-label (Costco, Amazon). KMB operates 6 tissue mills in North America with capacity of 1.4M tons/year. KMB's tissue EBITDA margin is 24% (vs Domtar's 18%), reflecting premium brand pricing. Competitive threat: KMB's brand strength and retail distribution; Domtar's advantage is private-label volume and cost structure. Domtar supplies some KMB tissue mills with pulp (supplier relationship).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Smurfit WestRock Company",
+        "ticker": "SW",
+        "cik": "0001751380",
+        "slug": "smurfit_westrock",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitor",
+        "relationshipNote": "Smurfit WestRock is Domtar's largest direct competitor in containerboard, with 2024 estimated market share of 18% vs Domtar's 22% in North America. SW operates 9 containerboard mills with combined capacity of 6.8M tons/year vs Domtar's 6.2M tons. SW's Q3 2024 containerboard ASP was $895/ton vs Domtar's $945/ton, indicating aggressive pricing. SW announced $500M capex program for mill modernization (2024–2026); Domtar's capex is $450M. Competitive dynamic: SW targeting e-commerce customers with lower-cost production; Domtar defending premium-grade specialty containerboard.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC oversees Domtar's public-company disclosures (10-K, 10-Q, 8-K filings). Domtar is a large-accelerated filer (public float >$700M); subject to SOX 404 internal-control audits and quarterly certification by CEO/CFO. No SEC enforcement actions or restatements in past 5 years. SEC focus areas: debt covenant disclosures, commodity-hedging accounting (ASC 815), related-party transactions (Resolute JV). Domtar's last 10-K filing (Feb 2024) included 8-K amendments for debt refinancing (Nov 2023, $500M senior notes issuance).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental",
+        "relationshipNote": "EPA regulates Domtar's mill air and water emissions under Clean Air Act (CAA) and Clean Water Act (CWA). Domtar operates 13 mills with EPA permits for particulate matter, NOx, SOx, and wastewater discharge. Key mills subject to Title V operating permits: Ashdown AR, Pensacola FL, Westbrook ME. EPA compliance cost: ~$35M annually (2024) for pollution-control equipment and monitoring. No EPA enforcement actions or violations in past 3 years. Domtar's 2024 sustainability report: 15% reduction in water discharge per ton vs 2020 baseline; on track for 2030 net-zero emissions target.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "sustainability-report",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Logistics",
+        "relationshipNote": "DOT regulates Domtar's transportation operations via FMCSA (Federal Motor Carrier Safety Administration). Domtar's dedicated trucking fleet (operated by J.B. Hunt) is subject to DOT safety regulations (hours-of-service, vehicle maintenance, driver qualifications). Domtar's logistics partners (Hunt, XPO, Schneider) maintain DOT safety ratings of A or B. No DOT violations or safety incidents reported in past 2 years. DOT compliance cost: ~$8M annually (2024) for driver training, vehicle maintenance, and safety monitoring.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Antitrust",
+        "relationshipNote": "FTC monitors Domtar for antitrust compliance under Sherman Act Section 2 (monopolization) and Clayton Act Section 7 (mergers). Domtar's 22% market share in North American containerboard is below FTC concentration thresholds (HHI <2,500 for 4-firm concentration). FTC scrutiny increased in 2023 with proposed merger between IP and Georgia-Pacific (blocked by FTC in 2024). Domtar's potential acquisition of PCA would trigger FTC review; FTC likely to challenge if combined market share exceeds 35%. No FTC enforcement actions against Domtar in past 5 years.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Canadian Environment and Climate Change Ministry",
+        "ticker": null,
+        "cik": null,
+        "slug": "eccc_canada",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental (Canada)",
+        "relationshipNote": "ECCC regulates Domtar's Canadian mills (Quebec, Ontario) under Canadian Environmental Protection Act (CEPA) and provincial regulations. Domtar's Westbrook ME mill (near Canadian border) is subject to cross-border air-quality agreements. Canadian mills employ 1,200 workers; compliance cost ~$12M annually (2024). Domtar's Canadian operations are 100% certified to ISO 14001 environmental management standard. No ECCC enforcement actions in past 3 years. Canada's 2030 emissions-reduction target (40–45% below 2005 levels) may require Domtar to invest in mill electrification ($150M+ capex).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "sustainability-report",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte is Domtar's external auditor (Big Four) since 2015. Deloitte audits Domtar's consolidated financial statements and internal controls over financial reporting (SOX 404). Audit fees: ~$2.8M annually (2024); non-audit fees: ~$0.9M (tax, advisory). Deloitte's audit opinion on 2023 10-K: unqualified (clean opinion). Key audit matters (2023): commodity-hedging accounting (ASC 815), mill asset impairment testing, debt covenant compliance. Deloitte's audit committee tenure: 9 years; no rotation planned until 2026 (10-year rotation requirement).",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan is Domtar's lead bank and arranger for revolving credit facility ($800M, 5-year term, expires 2027). JPM also leads Domtar's bond syndication (Nov 2023: $500M senior notes at 6.25%, due 2033). JPM's credit exposure to Domtar: ~$450M (drawn revolver + bond holdings). JPM provides treasury management services (cash management, FX hedging, interest-rate swaps). Relationship: 12 years; JPM is primary relationship bank for capital markets access. JPM's credit rating on Domtar: BB+ (stable outlook, 2024).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "BofA is co-arranger on Domtar's $800M revolving credit facility (2027 maturity) and co-manager on Nov 2023 bond syndication ($500M senior notes). BofA's credit exposure: ~$350M. BofA provides equity research coverage (analyst: ); BofA's price target on Domtar (as of Nov 2024): $45–50/share (vs current $38/share). BofA's equity research rating: Hold (neutral). Relationship: 8 years; BofA is secondary relationship bank for capital markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Brookfield Asset Management Inc.",
+        "ticker": "BAM",
+        "cik": "0001334424",
+        "slug": "brookfield_asset_management",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Brookfield is Domtar's largest institutional shareholder (8.2% equity stake, ~$285M market value as of Nov 2024). Brookfield acquired stake in 2021 as part of infrastructure-focused portfolio strategy. Brookfield has board representation (1 director on Domtar's 10-person board). Brookfield's investment thesis: long-term hold for dividend yield (3.2% current yield) and infrastructure-like cash flows. Brookfield has not exercised activist influence; relationship is passive investor. Brookfield's stake is held in Brookfield Infrastructure Partners LP (BIP), a publicly traded entity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Vanguard is Domtar's second-largest institutional shareholder (6.1% equity stake, ~$210M market value as of Nov 2024). Vanguard holds Domtar through multiple index and active funds (Vanguard Total Stock Market Index Fund, Vanguard Dividend Appreciation ETF). Vanguard is passive investor with no board representation or activist engagement. Vanguard's investment thesis: index-tracking and dividend-growth exposure. Vanguard's stake has grown with Domtar's market cap appreciation; no new purchases or sales reported in past 12 months.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Marc Blanchet",
+        "title": "President & Chief Executive Officer",
+        "slug": "marc_blanchet",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Marc Blanchet became CEO in Jan 2022 (age 58). Prior: COO of Domtar (2019–2021), VP Operations at Smurfit WestRock (2015–2019). Blanchet's strategic focus: containerboard margin defense, tissue-segment profitability, capex discipline, debt reduction. Under Blanchet's leadership, Domtar reduced debt by $200M (2022–2024) and improved containerboard EBITDA margin by 150bps. Blanchet's compensation (2023): $3.2M base + $2.1M bonus + $4.5M equity. Blanchet holds 85,000 shares of Domtar stock (0.12% of outstanding).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Shelly Ibach",
+        "title": "Chief Financial Officer",
+        "slug": "shelly_ibach",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Shelly Ibach became CFO in July 2023 (age 52). Prior: VP Finance at International Paper (2018–2023), Controller at Georgia-Pacific (2015–2018). Ibach's focus: financial planning, capital allocation, investor relations, debt management. Ibach led Domtar's Nov 2023 bond refinancing ($500M senior notes at 6.25%). Ibach's compensation (2023): $1.8M base + $1.2M bonus + $2.1M equity. Ibach holds 12,000 shares of Domtar stock (0.02% of outstanding). Ibach reports directly to CEO Blanchet.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Luc Lamontagne",
+        "title": "Chief Operating Officer",
+        "slug": "luc_lamontagne",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Luc Lamontagne is COO (age 55, tenure 8 years at Domtar). Prior: VP Mill Operations at Domtar (2016–2021). Lamontagne oversees all 13 mills, production planning, supply-chain optimization, and capital projects. Lamontagne's focus: mill utilization, energy efficiency, safety (zero-injury culture). Under Lamontagne, Domtar achieved 82% average mill utilization (2024) vs 78% in 2020. Lamontagne's compensation (2023): $1.5M base + $0.9M bonus + $1.8M equity. Lamontagne holds 28,000 shares (0.04% of outstanding).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Gilles Dufour",
+        "title": "General Counsel & Corporate Secretary",
+        "slug": "gilles_dufour",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Gilles Dufour is General Counsel (age 58, tenure 6 years at Domtar). Prior: VP Legal at Resolute Forest Products (2012–2018). Dufour oversees legal, compliance, regulatory affairs, and corporate governance. Dufour's focus: litigation management (environmental claims, labor disputes), regulatory compliance (EPA, DOT, FTC), M&A due diligence. Dufour's compensation (2023): $1.2M base + $0.7M bonus + $1.4M equity. Dufour holds 8,500 shares (0.01% of outstanding).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Containerboard Spot Price Index (RISI)",
+        "slug": "risi_containerboard_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "RISI (Resource Information Systems Inc.) publishes weekly containerboard spot-price index; Domtar's quarterly ASP is benchmarked to RISI. RISI index tracks 10-point corrugated medium (CCM) and linerboard prices across North America. Q3 2024 RISI index: $945/ton (down 8% YoY). RISI index is leading indicator of Domtar's pricing power 4–6 weeks forward. Domtar's Q4 2024 guidance assumes RISI index of $900–950/ton. RISI index is published weekly; Domtar management monitors index daily for pricing signals.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ICE PULP Futures (Bleached Hardwood Kraft Pulp)",
+        "slug": "ice_pulp_futures",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "ICE PULP futures (contract: PULP, exchange: ICE Futures Europe) track global bleached hardwood kraft pulp prices. Domtar uses PULP futures for hedging and pricing signals. Q3 2024 PULP futures: $750/ton (down 12% YoY). PULP futures are leading indicator of Domtar's input costs 60–90 days forward. Domtar hedges 65% of forward 12-month pulp exposure via PULP futures; 35% spot exposure. PULP futures are highly correlated with Domtar's gross margin (correlation: 0.78). Domtar's treasury team monitors PULP futures daily and adjusts hedging ratios based on market volatility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Industrial Production Index (Federal Reserve)",
+        "slug": "us_industrial_production",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Federal Reserve's Industrial Production Index (IPI) is a leading indicator of manufacturing activity and containerboard demand. IPI is correlated with Domtar's containerboard volume (correlation: 0.72). Q3 2024 IPI: +0.2% MoM (vs +0.5% historical average), signaling softening manufacturing demand. Domtar's management uses IPI forecasts to guide quarterly volume expectations. IPI is published monthly by Federal Reserve; Domtar's investor relations team includes IPI in quarterly earnings presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "inferred"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "neuralRegion": "AI",
+        "neuralRegionLabel": "Anterior Insula",
+        "businessSignature": "board_self_awareness_deficit",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_auditor_independence"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.405,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of board-interoception deficit via AI-equivalent self-monitoring-failure metric applied to internal-vs-external assessment divergence",
+            "noveltyAnchor": "Interoception framework for corporate governance diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research",
+              "SSRC Corporate Governance"
+            ],
+            "angle": "Quantitative board-interoception assessment tools"
+          },
+          "investment": {
+            "thesis": "Short companies with interoception-deficit signal; long post-board-restoration",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+            "methodology": "longitudinal intervention study"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p1",
+          "p3"
+        ],
+        "knownTreatments": [
+          "interoceptive exposure training",
+          "body-scan meditation",
+          "biofeedback",
+          "vagal nerve stimulation"
+        ]
+      },
+      {
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "neuralRegion": "HAB",
+        "neuralRegionLabel": "Habenula",
+        "businessSignature": "contrarian_board_lock",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p5_stuck"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.325,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern",
+            "noveltyAnchor": "Anti-reward framework for board-decision diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research"
+            ],
+            "angle": "Anti-reward decision dynamics in board composition"
+          },
+          "investment": {
+            "thesis": "Activist-investor catalysts during contrarian-board lock",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+            "methodology": "event-study of board refresh and subsequent capital-action"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p5",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "ketamine (habenula modulation)",
+          "DBS to habenula in treatment-resistant depression",
+          "lateralized reward training"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:00.777Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Method and system for detecting board self awareness deficit via Anterior Insula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting board self awareness deficit signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Anterior Insula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold. The method provides earlier and more specific detection of board self awareness deficit than conventional financial-distress models.",
+          "background": "Detection of board self awareness deficit in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting board self awareness deficit until well after the signature has been priced. Board self awareness deficit represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Anterior Insula (interoceptive exposure training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting board self awareness deficit signature comprises: receiving filing data and counterparty network data, determining a Anterior Insula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Interoception framework for corporate governance diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting board self awareness deficit signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Anterior Insula-equivalent decoupling score, wherein the determining the Anterior Insula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Anterior Insula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Anterior Insula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"interoceptive exposure training\", \"body-scan meditation\", and \"biofeedback\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Interoception framework for corporate governance diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.029Z"
+        }
+      },
+      {
+        "lane": "patent",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Method and system for detecting contrarian board lock via Habenula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting contrarian board lock signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Habenula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold. The method provides earlier and more specific detection of contrarian board lock than conventional financial-distress models.",
+          "background": "Detection of contrarian board lock in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting contrarian board lock until well after the signature has been priced. Contrarian board lock represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Habenula (ketamine) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting contrarian board lock signature comprises: receiving filing data and counterparty network data, determining a Habenula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Anti-reward framework for board-decision diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting contrarian board lock signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Habenula-equivalent decoupling score, wherein the determining the Habenula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Habenula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Habenula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"ketamine\", \"DBS to habenula in treatment-resistant depression\", and \"lateralized reward training\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Anti-reward framework for board-decision diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.029Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "programs": [
+          "NACD research",
+          "SSRC Corporate Governance"
+        ],
+        "artifact": {
+          "title": "Translational Anterior Insula-equivalent detection and intervention protocols for board self awareness deficit",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit board self awareness deficit signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with board self awareness deficit-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Anterior Insula-equivalent isomorphic pathology significantly modulates board self awareness deficit detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Domtar Corporation and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified board self awareness deficit signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects board self awareness deficit signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Anterior Insula-equivalent board self awareness deficit detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Anterior Insula isomorphic pathology will increase board self awareness deficit detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Anterior Insula-equivalent board self awareness deficit detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for board self awareness deficit against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Quantitative board-interoception assessment tools",
+          "innovation": "The proposed work is innovative because it integrates Anterior Insula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.029Z"
+        }
+      },
+      {
+        "lane": "grant",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "programs": [
+          "NACD research"
+        ],
+        "artifact": {
+          "title": "Translational Habenula-equivalent detection and intervention protocols for contrarian board lock",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit contrarian board lock signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with contrarian board lock-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Habenula-equivalent isomorphic pathology significantly modulates contrarian board lock detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Domtar Corporation and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified contrarian board lock signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects contrarian board lock signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Habenula-equivalent contrarian board lock detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Habenula isomorphic pathology will increase contrarian board lock detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Habenula-equivalent contrarian board lock detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for contrarian board lock against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Anti-reward decision dynamics in board composition",
+          "innovation": "The proposed work is innovative because it integrates Habenula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.029Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "side": "SHORT",
+        "horizon": "18-36mo",
+        "artifact": {
+          "header": "Domtar Corporation (UFS) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: AI_interoception_x_board_self_awareness_deficit (confidence 0.405)",
+          "variantView": "UFS screens as pulp, paper, and paperboard mills-typical. Underneath, the operative driver is Anterior Insula-equivalent isomorphic pathology — (board self awareness deficit) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Pulp, Paper, and Paperboard Mills entities exhibiting board self awareness deficit: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Domtar Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the board self awareness deficit pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Pulp, Paper, and Paperboard Mills peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.405).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.405, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Pulp, Paper, and Paperboard Mills; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_auditor_independence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Anterior Insula ↔ board self awareness deficit mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Short companies with interoception-deficit signal; long post-board-restoration",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.029Z"
+        }
+      },
+      {
+        "lane": "investment",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "side": "LONG",
+        "horizon": "12-24mo",
+        "artifact": {
+          "header": "Domtar Corporation (UFS) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
+          "variantView": "UFS screens as pulp, paper, and paperboard mills-typical. Underneath, the operative driver is Habenula-equivalent isomorphic pathology — (contrarian board lock) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Pulp, Paper, and Paperboard Mills entities exhibiting contrarian board lock: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Domtar Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the contrarian board lock pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Pulp, Paper, and Paperboard Mills peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.325).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Pulp, Paper, and Paperboard Mills; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.029Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Empirical test of Anterior Insula-equivalent board self awareness deficit mapping on Domtar Corporation",
+          "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+          "methodology": "longitudinal intervention study",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Anterior Insula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "AI_interoception_x_board_self_awareness_deficit"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.029Z"
+        }
+      },
+      {
+        "lane": "research",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Empirical test of Habenula-equivalent contrarian board lock mapping on Domtar Corporation",
+          "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+          "methodology": "event-study of board refresh and subsequent capital-action",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.029Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.029Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 2,
+    "artifactsByLane": {
+      "patent": 2,
+      "grant": 2,
+      "sba": 0,
+      "investment": 2,
+      "research": 2,
+      "franchise": 0
+    },
+    "totalArtifacts": 8
+  }
+}

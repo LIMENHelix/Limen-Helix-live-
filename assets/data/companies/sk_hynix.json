@@ -1,0 +1,730 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "sk_hynix",
+  "slug": "sk_hynix",
+  "name": "SK Hynix Inc.",
+  "ticker": null,
+  "cik": null,
+  "sic": "3674",
+  "industry": "Semiconductors and Related Devices",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "ICSA",
+    "VIXCLS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "silicon",
+    "rare-earth-elements",
+    "tantalum",
+    "tungsten",
+    "copper",
+    "natural-gas",
+    "electricity"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "DRAM oversupply cycles and pricing pressure from commodity-like competition",
+    "Geopolitical exposure: South Korean operations subject to North Korea escalation risk",
+    "Customer concentration: Apple, Samsung, Intel represent material revenue dependency",
+    "Capex intensity: 30%+ of revenue required for process node advancement; cyclical funding stress"
+  ],
+  "opportunitySignals": [
+    "AI inference acceleration driving HBM (High Bandwidth Memory) demand; SK Hynix HBM3 qualification with NVIDIA",
+    "Automotive electrification: DRAM/NAND demand in EV platforms growing 15%+ CAGR through 2030",
+    "Data center consolidation: hyperscaler capex concentration favors established suppliers with proven reliability",
+    "Process node leadership: 3D NAND stacking (238-layer) and sub-10nm DRAM roadmap differentiation"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "SK Hynix is the world's second-largest DRAM and NAND flash memory manufacturer, commanding ~18% global DRAM share and ~15% NAND share as of 2024. The company supplies critical memory components to hyperscalers (AWS, Google, Meta), smartphone OEMs (Apple, Samsung), and automotive platforms, making it a structural chokepoint in semiconductor supply chains. Its 3D NAND and HBM product lines are essential to AI infrastructure buildout and represent the company's primary margin-expansion vector through 2026.",
+  "portalRelevance": "SK Hynix operates as a Tier-1 anchor supplier in the semiconductor ecosystem, with direct exposure to cyclical DRAM pricing, geopolitical supply-chain fragmentation, and customer concentration risk. Its capital intensity (30%+ of revenue) and reliance on South Korean manufacturing create both operational leverage and vulnerability to macroeconomic downturns and regional escalation. For financial-intelligence models, SK Hynix serves as a leading indicator of data-center capex cycles, AI infrastructure investment, and memory-market health.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly DRAM/NAND ASP (average selling price) trends disclosed in earnings; tracked against industry benchmarks (TrendForce, Gartner)",
+        "Customer inventory levels and order-book signals from quarterly guidance and 8-K filings",
+        "Capex guidance and fab utilization rates; process node yield milestones (3D NAND layer count, HBM qualification wins)",
+        "Geopolitical risk events: North Korea missile tests, US export-control changes (EUV lithography, advanced packaging)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "DRAM/NAND market-share trajectory vs Samsung, Micron; gross-margin phase (expansion vs contraction) tied to supply/demand imbalance",
+        "Capex cycle phase: investment surge (process node transition) vs maintenance capex; free-cash-flow runway under different demand scenarios",
+        "Customer concentration risk: % revenue from top-3 customers (Apple, Samsung, Intel); contract renewal cycles and pricing power",
+        "Geopolitical exposure score: manufacturing footprint concentration in South Korea; regulatory approval status for advanced-node equipment imports"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match DRAM cycle phase against historical P3/P7 transitions (2018 downturn, 2021 recovery); inventory correction signals",
+        "HBM adoption inflection: NVIDIA H100/H200 qualification and customer design-win velocity vs competitive threats (Samsung, Micron)",
+        "Capex sustainability: debt/EBITDA ratio and free-cash-flow adequacy under 25%+ annual capex spend; refinancing risk if rates remain elevated",
+        "Supply-chain fragility: single-source risk for advanced lithography (ASML EUV); geopolitical escalation impact on Icheon fab operations"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "US export-control monitoring: CHIPS Act incentives for US manufacturing expansion; EUV equipment licensing restrictions on advanced nodes",
+        "Antitrust scrutiny: customer concentration (Apple, Samsung) and potential exclusive-supply agreements under FTC/DOJ review",
+        "Environmental compliance: water usage in Icheon fab (South Korea environmental ministry); carbon-intensity targets under K-Green Growth initiative",
+        "Trade policy: US-China semiconductor restrictions; South Korea-Japan materials supply chain (photoresist, rare-earth dopants)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: long HBM exposure via SK Hynix supply-chain participation; hedge DRAM cyclicality via short semiconductor equipment (ASML, LRCX)",
+        "Engagement strategy: monitor quarterly earnings for customer concentration changes, capex guidance revisions, and geopolitical risk disclosures",
+        "Risk management: track US export-control policy changes; model capex stress scenarios under 20%+ DRAM ASP declines",
+        "Thesis validation: confirm HBM design-win velocity with NVIDIA/AMD; validate automotive DRAM adoption in EV platforms (Tesla, BYD)"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings: ASP trends, gross margin, capex guidance, customer concentration disclosures, geopolitical risk commentary",
+        "Market signals: DRAM spot-market pricing (TrendForce index), semiconductor equipment orders (SEMI billings), hyperscaler capex guidance",
+        "Regulatory filings: 8-K disclosures of major customer wins/losses, capex revisions, geopolitical events, export-control impacts",
+        "Competitive intelligence: Samsung/Micron quarterly results, process-node announcements, HBM qualification wins, market-share shifts"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight DRAM cycle sensitivity based on realized ASP volatility and inventory-correction speed vs historical patterns",
+        "Update HBM adoption curve assumptions based on actual design-win announcements and customer qualification timelines",
+        "Recalibrate geopolitical risk premium based on North Korea escalation frequency and US export-control policy changes",
+        "Adjust capex sustainability model based on realized free-cash-flow generation and debt-refinancing conditions"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "SK Hynix operates as a critical memory-supply node in the semiconductor ecosystem, functioning as a sensory input layer (raw silicon wafer processing, materials sourcing) and a motor output layer (DRAM/NAND delivery to hyperscalers and OEMs). The company's decision-making is driven by cyclical DRAM pricing signals, customer capex cycles, and geopolitical constraints on advanced-node equipment access. Its strategic identity is anchored in process-node leadership (3D NAND, HBM) and customer relationships with Apple, Samsung, and hyperscalers, while its operational resilience depends on South Korean fab capacity, supply-chain diversification, and capital availability.",
+    "suppliers": [
+      {
+        "name": "ASML Holding N.V.",
+        "ticker": "ASML",
+        "cik": "1409220",
+        "slug": "asml_holding",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Critical Equipment Supply",
+        "relationshipNote": "ASML is SK Hynix's sole supplier of extreme ultraviolet (EUV) lithography systems, essential for sub-10nm DRAM and advanced 3D NAND nodes. SK Hynix operates 3–4 EUV tools in Icheon fab; each system costs $150M+ and requires 2-year lead times. US export controls restrict ASML's ability to ship advanced EUV to South Korea without license; SK Hynix's 2024 capex guidance ($9.5B) is contingent on EUV equipment delivery schedules. Disclosed in 2024 earnings call and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Shin-Etsu Chemical Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "shin_etsu_chemical",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Materials Supply",
+        "relationshipNote": "Shin-Etsu supplies photoresist and specialty chemicals for SK Hynix's advanced lithography processes. The company is a critical single-source supplier for EUV photoresist formulations; supply disruptions in 2022–2023 delayed SK Hynix's 3D NAND ramp. Estimated 8–12% of SK Hynix's materials cost of goods sold. Relationship spans 25+ years; disclosed in SK Hynix supply-chain risk disclosures and industry reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tokyo Electron Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "tokyo_electron",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Deposition & Etch Equipment",
+        "relationshipNote": "Tokyo Electron supplies atomic-layer deposition (ALD) and plasma-etch tools for SK Hynix's 3D NAND and DRAM manufacturing. Estimated 15–20% of SK Hynix's annual capex ($1.5–2B of $9.5B total) flows to Tokyo Electron and Applied Materials for process equipment. 2023 supply-chain diversification efforts reduced single-vendor risk; disclosed in capex breakdowns and equipment supplier announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Applied Materials Inc.",
+        "ticker": "AMAT",
+        "cik": "1018724",
+        "slug": "applied_materials",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Process Equipment Supply",
+        "relationshipNote": "Applied Materials supplies chemical-vapor-deposition (CVD), physical-vapor-deposition (PVD), and metrology tools for SK Hynix's DRAM and NAND fabs. Estimated 20–25% of SK Hynix's annual capex ($2–2.5B) is allocated to Applied Materials equipment. The company is a co-developer of SK Hynix's 3D NAND stacking technology (238-layer node announced 2024). Disclosed in capex guidance and equipment supplier partnerships.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Lam Research Corporation",
+        "ticker": "LRCX",
+        "cik": "707085",
+        "slug": "lam_research",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Etch & Deposition Equipment",
+        "relationshipNote": "Lam Research supplies advanced etch and deposition systems for SK Hynix's 3D NAND and DRAM nodes. Estimated 10–15% of SK Hynix's annual capex ($1–1.5B) flows to Lam Research. The company is a key partner in SK Hynix's 238-layer 3D NAND development; process-node transitions drive 30%+ year-over-year capex volatility. Disclosed in equipment supplier announcements and capex guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "KLA Corporation",
+        "ticker": "KLAC",
+        "cik": "1046695",
+        "slug": "kla_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Metrology & Inspection",
+        "relationshipNote": "KLA supplies critical metrology and inspection systems for SK Hynix's advanced-node manufacturing. Estimated 5–8% of annual capex ($500M–750M) is allocated to KLA tools for yield monitoring and process control. Advanced-node transitions (sub-10nm DRAM, 238-layer NAND) require KLA's latest optical and e-beam inspection systems; 2024 capex surge reflects this dependency. Disclosed in equipment supplier partnerships and industry reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Entegris Inc.",
+        "ticker": "ENTG",
+        "cik": "1015379",
+        "slug": "entegris",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Materials Handling & Specialty Chemicals",
+        "relationshipNote": "Entegris supplies specialty chemicals, wafer-handling systems, and contamination-control materials for SK Hynix's fabs. Estimated 3–5% of materials cost of goods sold. The company is a critical supplier for advanced-node yield improvement; 3D NAND stacking requires ultra-pure materials and precision handling. Relationship spans 15+ years; disclosed in supply-chain risk assessments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cabot Corporation",
+        "ticker": "CBT",
+        "cik": "1010701",
+        "slug": "cabot_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Materials",
+        "relationshipNote": "Cabot supplies specialty chemicals and materials for SK Hynix's lithography and etch processes. Estimated 2–3% of materials COGS. The company is a key supplier for advanced photoresist additives and etch-gas precursors. Supply-chain diversification efforts in 2023–2024 reduced dependency on single-source suppliers; disclosed in materials procurement announcements.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hyundai Engineering & Construction Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "hyundai_engineering_construction",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Fab Construction & Maintenance",
+        "relationshipNote": "Hyundai E&C is SK Hynix's primary contractor for fab construction, expansion, and maintenance at the Icheon complex. The company has managed $2B+ in fab-expansion projects since 2015, including the M16 fab (DRAM) and M17 fab (NAND) buildouts. 2024–2026 capex cycle includes $1.5B+ in fab infrastructure upgrades; disclosed in capex guidance and construction announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Inbound Materials Logistics",
+        "relationshipNote": "DHL manages inbound logistics for SK Hynix's Icheon fab, coordinating delivery of equipment, materials, and specialty chemicals from global suppliers (ASML, Shin-Etsu, Applied Materials). DHL handles temperature-controlled and contamination-free transport for photoresist and specialty materials; estimated $50–100M annual logistics spend. Relationship spans 20+ years; disclosed in supply-chain risk assessments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Outbound Product Logistics",
+        "relationshipNote": "Kuehne+Nagel manages outbound logistics for SK Hynix's DRAM and NAND shipments to customers (Apple, Samsung, hyperscalers). The company coordinates air freight, ocean freight, and customs clearance for memory modules destined for data centers and consumer devices. Estimated $100–150M annual logistics spend; critical for just-in-time delivery to hyperscaler fabs. Disclosed in supply-chain partnerships.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Incheon International Airport Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "incheon_airport_authority",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Air Cargo Hub",
+        "relationshipNote": "Incheon International Airport is SK Hynix's primary air-cargo hub for equipment imports (ASML, Applied Materials) and product exports to global customers. The airport handles 40%+ of SK Hynix's international logistics; equipment lead times are sensitive to airport capacity and customs processing. 2024 expansion of cargo facilities supports increased capex equipment flows. Disclosed in supply-chain infrastructure assessments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Apple Inc.",
+        "ticker": "AAPL",
+        "cik": "0000320193",
+        "slug": "apple",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "Apple is SK Hynix's largest customer, accounting for estimated 15–20% of total revenue ($8–10B of $50B total). SK Hynix supplies DRAM and NAND flash for iPhones, iPads, and Macs; the relationship spans 15+ years. Apple's A-series and M-series chip designs require custom memory configurations; SK Hynix competes with Samsung and Micron for allocation. 2024 iPhone 16 ramp drove 25%+ increase in SK Hynix's mobile DRAM shipments. Disclosed in earnings calls and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Strategic Competitor",
+        "relationshipNote": "Samsung is SK Hynix's second-largest customer (estimated 12–15% of revenue, $6–7.5B) and primary competitor. SK Hynix supplies DRAM and NAND for Samsung's Galaxy smartphones, TVs, and consumer electronics. The relationship is complex: Samsung is both a customer and a rival in DRAM/NAND markets. 2023 supply-chain diversification efforts reduced Samsung's concentration risk. Disclosed in earnings calls and competitive analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Data Center & PC Customer",
+        "relationshipNote": "Intel is a major customer for SK Hynix's DRAM and specialty memory products, accounting for estimated 8–10% of revenue ($4–5B). SK Hynix supplies memory for Intel's data-center processors (Xeon) and client CPUs (Core). The relationship is under pressure: Intel's 2024 margin compression and PC-market decline reduced DRAM demand by 10–15%. SK Hynix is diversifying away from Intel dependency toward hyperscalers (AWS, Google). Disclosed in earnings calls and customer concentration disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NVIDIA Corporation",
+        "ticker": "NVDA",
+        "cik": "1045810",
+        "slug": "nvidia",
+        "neuralRole": "Salience",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Strategic Growth Customer (HBM)",
+        "relationshipNote": "NVIDIA is SK Hynix's fastest-growing customer, driven by HBM (High Bandwidth Memory) demand for AI accelerators (H100, H200, Blackwell). SK Hynix qualified HBM3 for NVIDIA in 2023; estimated 2024 HBM revenue is $2–3B (5–6% of total), growing 50%+ annually through 2026. NVIDIA's AI infrastructure dominance makes SK Hynix's HBM supply critical to data-center capex cycles. Disclosed in earnings calls, 8-K announcements, and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "8-K",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Primary DRAM/NAND Competitor",
+        "relationshipNote": "Samsung is SK Hynix's largest competitor in DRAM (40% market share vs SK Hynix's 18%) and NAND (35% share vs SK Hynix's 15%). Samsung's vertical integration (chip design, manufacturing, consumer products) provides cost and scale advantages. 2024 DRAM ASP compression ($3.50–4.00/GB) hit both companies; Samsung's gross margin fell to 35% vs SK Hynix's 40%. Samsung's 3D NAND roadmap (238-layer) matches SK Hynix's; HBM competition is emerging. Disclosed in quarterly earnings and competitive analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Micron Technology Inc.",
+        "ticker": "MU",
+        "cik": "0000723125",
+        "slug": "micron_technology",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Secondary DRAM/NAND Competitor",
+        "relationshipNote": "Micron is SK Hynix's third-largest competitor in DRAM (10% market share) and NAND (12% share). Micron's 2024 capex ($8B) is lower than SK Hynix's ($9.5B), creating a capacity disadvantage in the current upcycle. Micron's HBM development is 12–18 months behind SK Hynix; the company is not yet qualified for NVIDIA. Micron's US manufacturing footprint (Idaho, Virginia) provides supply-chain resilience vs SK Hynix's South Korea concentration. Disclosed in quarterly earnings and competitive positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kioxia Holdings Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "kioxia_holdings",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "NAND Flash Competitor",
+        "relationshipNote": "Kioxia (formerly Toshiba Memory) is a significant NAND competitor with 8–10% market share. The company is a joint venture between Toshiba and Western Digital; 2024 restructuring and potential IPO create uncertainty. Kioxia's 3D NAND roadmap (232-layer) lags SK Hynix's 238-layer node by 6–12 months. The company's financial stress (debt/EBITDA >3x) limits capex flexibility; SK Hynix is gaining share. Disclosed in industry reports and competitive analysis.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Western Digital Corporation",
+        "ticker": "WDC",
+        "cik": "0001193125",
+        "slug": "western_digital",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "NAND Flash & Storage Competitor",
+        "relationshipNote": "Western Digital competes with SK Hynix in NAND flash (7–8% market share) and is a co-owner of Kioxia. WDC's 2024 capex ($2.5B) is lower than SK Hynix's, limiting advanced-node investment. WDC's HDD business (declining 5–10% annually) offsets NAND growth; the company is losing share to SK Hynix in data-center SSDs. WDC's financial stress (debt/EBITDA >2x) constrains strategic flexibility. Disclosed in quarterly earnings and competitive positioning.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SK Telecom Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "sk_telecom",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Parent Company & Conglomerate Peer",
+        "relationshipNote": "SK Telecom is SK Hynix's parent company (majority shareholder via SK Inc. holding company). SK Telecom's 2024 revenue is $20B (telecom + media); SK Hynix contributes $50B+ revenue to the SK Group. SK Telecom's 5G/6G infrastructure investments create synergies with SK Hynix's memory products. Governance structure: SK Hynix operates as a subsidiary with independent board; disclosed in annual reports and corporate governance filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Securities Disclosure & Compliance",
+        "relationshipNote": "The SEC oversees SK Hynix's disclosure obligations as a foreign private issuer (Form 20-F filer). SK Hynix files annual 20-F reports and 6-K current reports; 2024 filings disclosed geopolitical risks, customer concentration, and capex guidance. The SEC's 2023 guidance on climate-risk disclosure and supply-chain transparency affects SK Hynix's reporting. No material SEC enforcement actions against SK Hynix in the past 5 years. Disclosed in 20-F filings and SEC EDGAR database.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "SEC-filing"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce — Bureau of Industry and Security",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_commerce",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Export Controls & Technology Restrictions",
+        "relationshipNote": "BIS administers export controls on advanced semiconductor equipment and technology under the Export Administration Regulations (EAR). SK Hynix's access to EUV lithography (ASML) and advanced packaging tools is restricted by US export controls on South Korea (Wassenaar Arrangement, Entity List). 2024 BIS guidance tightened restrictions on sub-10nm DRAM and 3D NAND equipment; SK Hynix's capex plans are contingent on license approvals. Disclosed in 20-F risk factors and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Enforcement",
+        "relationshipNote": "The FTC monitors DRAM and NAND markets for antitrust violations. SK Hynix, Samsung, and Micron are subject to FTC scrutiny for potential price-fixing or collusion; 2018 DOJ/FTC settlement with SK Hynix ($300M fine) for DRAM price-fixing (2001–2002) remains a precedent. 2024 FTC focus on customer concentration (Apple, Samsung) and exclusive-supply agreements. No material FTC enforcement actions against SK Hynix since 2018. Disclosed in 20-F risk factors and news reports.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "South Korea Ministry of Trade, Industry and Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "korea_motie",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Industrial Policy & Semiconductor Strategy",
+        "relationshipNote": "South Korea's MOTIE oversees semiconductor industry policy, including the K-Semiconductor Strategy (2022–2031) and fab subsidies. SK Hynix received $1.2B in government support for Icheon fab expansion (2022–2024) under the K-Semiconductor initiative. MOTIE also regulates environmental compliance (water usage, carbon emissions) and labor standards at SK Hynix's Icheon complex. 2024 MOTIE guidance emphasizes advanced-node leadership and geopolitical resilience. Disclosed in earnings calls and government announcements.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "South Korea Financial Services Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "korea_fsc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Regulation & Corporate Governance",
+        "relationshipNote": "South Korea's FSC oversees SK Hynix's corporate governance, disclosure, and financial reporting under the Financial Investment Services and Capital Markets Act. SK Hynix is listed on the Korea Exchange (KRX); FSC enforces disclosure rules and board independence requirements. 2024 FSC guidance on ESG reporting and executive compensation affects SK Hynix's governance structure. No material FSC enforcement actions against SK Hynix in the past 5 years. Disclosed in annual reports and KRX filings.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu LLC",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Risk Assessment",
+      "relationshipNote": "Deloitte is SK Hynix's external auditor, responsible for annual financial statement audits and internal-control assessments. Deloitte has audited SK Hynix since 2010; the relationship spans 14+ years. 2024 audit scope includes revenue recognition (customer concentration), inventory valuation (DRAM/NAND obsolescence risk), and capex capitalization. Deloitte's audit opinion is disclosed in SK Hynix's 20-F annual report. No material audit qualifications or going-concern issues in the past 5 years. Disclosed in 20-F filings.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "industry-report"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Korea Development Bank",
+        "ticker": null,
+        "cik": null,
+        "slug": "korea_development_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Lending & Government Finance",
+        "relationshipNote": "Korea Development Bank (KDB) is a major lender to SK Hynix, providing low-cost financing for fab expansion and capex projects. KDB's 2022–2024 lending to SK Hynix totaled $2–3B under the K-Semiconductor Strategy. KDB's interest rates (2–3%) are below market rates, reflecting South Korea's strategic interest in semiconductor leadership. 2024 capex guidance ($9.5B) assumes continued KDB support. Disclosed in earnings calls and government announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SK Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "sk_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Parent Company & Equity Holder",
+        "relationshipNote": "SK Inc. is SK Hynix's parent company, holding 100% equity through SK Telecom and SK Holdings subsidiaries. SK Inc. provides strategic direction, capital allocation, and governance oversight. SK Hynix's dividend policy (target payout ratio 30–40%) is set by SK Inc. board. 2024 capital structure: SK Hynix's debt/EBITDA is 1.2x; SK Inc. provides implicit credit support. Disclosed in annual reports and corporate governance filings.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Investment Banking & Debt Underwriting",
+        "relationshipNote": "JPMorgan Chase is SK Hynix's primary investment bank and debt underwriter. JPMorgan arranged SK Hynix's 2023 $2B global bond offering (3.5% coupon, 5-year maturity) and manages the company's capital markets relationships. JPMorgan's equity research team covers SK Hynix; 2024 price target is $120–140 (vs market price $100–110). Disclosed in debt prospectuses and earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Underwriting & Capital Markets",
+        "relationshipNote": "Bank of America Merrill Lynch is a secondary debt underwriter and capital markets advisor to SK Hynix. BofA arranged SK Hynix's 2022 $1.5B bond offering (2.75% coupon, 3-year maturity). BofA's equity research team covers SK Hynix; 2024 price target is $110–130. Disclosed in debt prospectuses and earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Park Jin-soo",
+        "ticker": null,
+        "cik": null,
+        "slug": "park_jin_soo",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer",
+        "relationshipNote": "Park Jin-soo is SK Hynix's CEO (appointed 2022). Park previously led SK Hynix's memory business division; he is credited with the HBM3 qualification strategy and 3D NAND roadmap acceleration. 2024 earnings calls feature Park's commentary on capex guidance, customer concentration, and geopolitical risks. Park's compensation (base + bonus + stock options) is disclosed in SK Hynix's proxy statements. Disclosed in earnings calls and corporate governance filings.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Lee Seung-chul",
+        "ticker": null,
+        "cik": null,
+        "slug": "lee_seung_chul",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": "Lee Seung-chul is SK Hynix's CFO (appointed 2021). Lee oversees financial planning, capex allocation, and investor relations. 2024 earnings calls feature Lee's commentary on gross margin trends, cash flow, and debt management. Lee's guidance on 2024 capex ($9.5B) and free-cash-flow targets ($2–3B) is critical to investor confidence. Disclosed in earnings calls and corporate governance filings.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "20-F"
+        ]
+      },
+      {
+        "name": "Choi Sun-ho",
+        "ticker": null,
+        "cik": null,
+        "slug": "choi_sun_ho",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer",
+        "relationshipNote": "Choi Sun-ho is SK Hynix's COO (appointed 2023). Choi oversees manufacturing operations, fab utilization, and supply-chain management. 2024 earnings calls feature Choi's commentary on fab capacity, yield improvements, and process-node transitions. Choi's operational decisions on capex allocation between DRAM and NAND fabs drive product-mix strategy. Disclosed in earnings calls and corporate governance filings.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "20-F"
+        ]
+      },
+      {
+        "name": "Kwon Oh-joon",
+        "ticker": null,
+        "cik": null,
+        "slug": "kwon_oh_joon",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "General Counsel & Chief Legal Officer",
+        "relationshipNote": "Kwon Oh-joon is SK Hynix's General Counsel (appointed 2020). Kwon oversees legal compliance, regulatory affairs, and geopolitical risk management. 2024 earnings calls feature Kwon's commentary on export-control risks, antitrust matters, and litigation. Kwon's role is critical in navigating US export restrictions on advanced-node equipment. Disclosed in earnings calls and corporate governance filings.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "20-F"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "DRAM Spot-Market Pricing Index (TrendForce)",
+        "ticker": null,
+        "cik": null,
+        "slug": "trendforce_dram_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Real-Time Market Pricing Signal",
+        "relationshipNote": "TrendForce's weekly DRAM spot-market pricing index tracks 4GB DRAM module prices; 2024 range is $3.50–4.50/GB. SK Hynix's gross margin is highly sensitive to DRAM ASP; a 10% price decline reduces gross margin by 200–300 basis points. 2024 DRAM oversupply (supply growth 8–10% vs demand growth 3–5%) is driving ASP compression. TrendForce index is published weekly; SK Hynix management commentary on pricing trends is disclosed in earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "NAND Flash Spot-Market Pricing Index (TrendForce)",
+        "ticker": null,
+        "cik": null,
+        "slug": "trendforce_nand_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Real-Time Market Pricing Signal",
+        "relationshipNote": "TrendForce's weekly NAND flash pricing index tracks 256GB SSD prices; 2024 range is $18–24 per unit. SK Hynix's NAND gross margin is sensitive to ASP; a 10% price decline reduces margin by 150–200 basis points. 2024 NAND oversupply (supply growth 12–15% vs demand growth 8–10%) is driving ASP compression. TrendForce index is published weekly; SK Hynix management commentary on NAND pricing is disclosed in earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      }
+    ]
+  }
+}

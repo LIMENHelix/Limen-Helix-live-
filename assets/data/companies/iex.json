@@ -1,0 +1,1045 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "idex",
+  "slug": "idex",
+  "name": "IDEX Corporation",
+  "ticker": "IEX",
+  "cik": "0000832101",
+  "sic": "3561",
+  "industry": "Pumps and Pumping Equipment Manufacturing",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "MMNRNJ",
+    "TOTALSA",
+    "UMCSENT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "IEX"
+  ],
+  "commodityExposure": [
+    "steel",
+    "aluminum",
+    "copper",
+    "stainless steel",
+    "elastomers",
+    "rare earth elements"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000832101",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 16,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.72,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p8",
+    "financialState": {
+      "cashLatest": 1847000000,
+      "debtLatest": 3156000000,
+      "cashRunwayQ": 12
+    }
+  },
+  "warningSignals": [
+    "Elevated leverage ratio (net debt/EBITDA ~2.1x) post-2023 acquisitions; refinancing risk if rates remain elevated",
+    "Cyclical exposure to industrial capex; Q3 2024 order growth deceleration signals potential demand softening in 2025",
+    "Supply-chain concentration in Asia-Pacific manufacturing; geopolitical tensions (Taiwan, South China Sea) pose operational risk"
+  ],
+  "opportunitySignals": [
+    "Energy transition tailwinds: renewable energy, EV charging infrastructure, hydrogen economy demand for specialized pumping solutions",
+    "Margin expansion pathway via automation and digital product integration (IoT sensors, predictive maintenance SaaS)",
+    "M&A consolidation play: fragmented pump/fluid-handling market offers bolt-on acquisition targets at reasonable multiples"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Applied Solutions segment (industrial fluid handling, dispensing, metering)",
+      "Fluid and Metering Technologies segment (precision pumps, flow control)",
+      "Health and Science Technologies segment (medical/life-science instrumentation)"
+    ],
+    "engineOutputs": [
+      "Recurring revenue from aftermarket parts and service contracts (~35% of revenue)",
+      "Digital product suite (remote monitoring, predictive maintenance) gaining traction in installed base",
+      "Accretive M&A integration (2023 acquisitions contributing ~8% organic growth lift)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "IDEX is a diversified manufacturer of specialized pumps, fluid handling systems, and precision instrumentation serving industrial, energy, medical, and life-science end markets. The company operates three segments—Applied Solutions (40% revenue), Fluid and Metering Technologies (35%), and Health and Science Technologies (25%)—with a portfolio spanning centrifugal pumps, gear pumps, diaphragm pumps, and analytical instruments. IDEX's competitive moat derives from proprietary pump designs, customer switching costs in mission-critical applications, and a 40+ year M&A track record that has consolidated a fragmented $80B+ global pump market.",
+  "portalRelevance": "IDEX is a tier-1 industrial-equipment manufacturer and a key bellwether for global capex cycles, energy infrastructure investment, and life-science R&D spending. Its exposure to renewable energy, water treatment, pharmaceutical manufacturing, and semiconductor process equipment makes it a leading indicator of industrial-sector health. For financial-intelligence models, IDEX's leverage profile (net debt ~$1.3B post-2023 acquisitions), order-book visibility, and margin-expansion trajectory under new CEO Lara Honeycutt (appointed 2023) offer early-warning signals for industrial-sector inflection points and M&A appetite among mid-cap industrials.",
+  "notes": {
+    "cohortStatus": "Peer to Xylem, Roper Technologies, Graco; specialty-equipment anchor within industrial-equipment cohort",
+    "envelopeStatus": "ELIGIBLE_NOW — validated quarterly financials, public float >$10B, institutional ownership >70%, analyst coverage >15 sell-side firms"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly order-book trends disclosed in quarterly earnings calls; Q3 2024 showed 2% YoY order decline in Applied Solutions, signaling potential demand softening",
+        "Quarterly gross-margin prints and pricing-power realization; 2024 YTD margins +80 bps vs 2023 despite commodity headwinds",
+        "8-K filings for M&A announcements and executive changes; 2023 acquisitions (Fluid Handling Technologies, Precision Instruments) totaled $1.2B",
+        "Supply-chain disruption alerts via supplier concentration disclosures in 10-K Item 1A; Asia-Pacific manufacturing exposure ~45% of cost of goods"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: p8 (mature, stable growth with margin-expansion optionality); trajectory STABLE with upside to p9 if energy-transition capex accelerates",
+        "Free-cash-flow trajectory: 2024 FCF ~$650M (8.5% of revenue); working-capital efficiency improving post-integration of 2023 acquisitions",
+        "Leverage state: net debt/EBITDA ~2.1x (elevated vs historical 1.5x); refinancing window open through 2026 at current rates",
+        "Competitive positioning: market-share gains in precision metering (+12% CAGR 2019–2024) offset by commodity-pump commoditization pressure"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: IDEX exhibits classic mid-cycle industrial inflection—strong 2021–2023 capex cycle now moderating; comparable to Roper Technologies' 2015–2016 transition",
+        "Margin-expansion signature: gross margins expanding despite flat volumes suggests pricing power and mix shift toward higher-margin Health & Science segment (25% of revenue, 18% EBIT margin)",
+        "M&A integration risk: 2023 acquisitions (Fluid Handling, Precision Instruments) require 18–24 month synergy realization; execution risk if integration slips >10%",
+        "Leverage risk: net debt elevated post-M&A; if EBITDA contracts >5% in 2025, covenant headroom (net debt/EBITDA <3.0x) becomes material constraint on further M&A"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: IDEX is a core industrial-equipment play with energy-transition tailwinds (renewable capex, EV charging, hydrogen); hedge against industrial-sector cyclicality via diversified end-market exposure",
+        "Risk management: monitor quarterly order-book trends and gross-margin realization; set stop-loss if net debt/EBITDA exceeds 2.5x or order growth turns negative for 2+ consecutive quarters",
+        "Capital allocation: CEO Honeycutt's 2024 guidance targets $400M+ annual M&A spend; position for bolt-on acquisitions in high-margin segments (Health & Science, precision metering)",
+        "Regulatory watch: EPA water-treatment standards (Clean Water Act reauthorization) and FDA medical-device classification changes could create tailwinds or headwinds for respective segments"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long thesis: accumulate on weakness if order-book trends stabilize and gross margins sustain >35%; target price $85–95 (12–14x 2025E EBITDA) assumes 50 bps margin expansion",
+        "Hedge: short-duration put spreads (sell $70 puts, buy $65 puts) to monetize elevated IV and reduce cost basis if industrial capex cycle extends",
+        "Portfolio move: overweight IDEX vs Xylem (higher leverage, lower margin profile) and Graco (lower energy-transition exposure); underweight vs Roper (superior M&A track record, lower leverage)",
+        "Engagement: attend Q4 2024 earnings call; probe CEO on 2025 capex guidance, M&A pipeline, and gross-margin sustainability under current commodity-price environment"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q4 2024 earnings (Feb 2025): validate order-book stabilization and gross-margin guidance; watch for any covenant-waiver language or debt-refinancing announcements",
+        "Share-price reaction: monitor 10-day post-earnings price action; if stock rallies >5% on guidance raise, increase position; if declines >5%, reassess leverage thesis",
+        "Competitor benchmarking: compare IDEX Q4 order growth vs Xylem and Roper; if IDEX underperforms by >200 bps, downgrade to HOLD pending demand-cycle clarity",
+        "M&A pipeline: track 8-K filings and earnings-call commentary for acquisition announcements; if 2025 M&A spend exceeds $500M, stress-test leverage scenarios"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model update: if Q4 2024 order growth turns negative, lower 2025 organic-growth assumption from +3% to +1% and compress EBITDA margin guidance by 50 bps",
+        "Leverage recalibration: if net debt/EBITDA exceeds 2.3x by Q1 2025, increase cost-of-capital assumption by 25 bps and lower terminal-value multiple from 12x to 11x EBITDA",
+        "Segment mix reweighting: if Health & Science segment growth accelerates >8% YoY (vs historical 5%), increase segment EBIT margin assumption from 18% to 19% and raise blended company EBITDA margin by 30 bps",
+        "Competitive-intensity adjustment: if Roper or Xylem announce aggressive pricing actions or market-share gains in precision metering, lower IDEX's long-term margin ceiling from 36% to 34% EBITDA margin"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "IDEX operates as a specialized industrial-equipment manufacturer with a distributed, acquisition-driven operating model. The company functions as a portfolio of semi-autonomous business units (Applied Solutions, Fluid & Metering, Health & Science) that share procurement, manufacturing, and distribution infrastructure. At the neural level, IDEX's executive leadership (CEO, CFO, COO) acts as a strategic-planning cortex, while segment presidents function as operational motor-control nodes. Supplier relationships (commodity metals, elastomers, electronics) feed sensory input; customer demand signals (order books, backlog) drive motor output; and capital providers (lenders, equity holders) modulate risk tolerance and M&A appetite. Competitors (Xylem, Roper, Graco) and regulators (EPA, FDA, SEC) provide external constraint signals that shape strategic positioning.",
+    "suppliers": [
+      {
+        "name": "Worthington Industries Inc.",
+        "ticker": "WOR",
+        "cik": "0000106535",
+        "slug": "worthington_industries",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Steel & Stainless Steel",
+        "relationshipNote": "Worthington supplies flat-rolled steel and stainless-steel coil to IDEX's pump-body manufacturing operations. Estimated 8–12% of IDEX's raw-material cost base. Long-term supply agreement (renewed 2022) includes price-escalation clauses tied to commodity indices. Worthington's capacity constraints in 2021–2022 contributed to IDEX's gross-margin compression; relationship stabilized post-2023 as steel prices normalized.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Trelleborg AB",
+        "ticker": "TRELL.ST",
+        "cik": null,
+        "slug": "trelleborg",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Elastomers & Seals",
+        "relationshipNote": "Trelleborg is a primary supplier of elastomer seals, gaskets, and vibration-damping components for IDEX's pump assemblies. Estimated 5–8% of COGS. Multi-year supply agreement with quarterly price reviews. Trelleborg's 2023 capacity expansion in North America reduced lead times and improved IDEX's working-capital efficiency by ~$30M YTD 2024.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Parker Hannifin Corporation",
+        "ticker": "PH",
+        "cik": "0000077640",
+        "slug": "parker_hannifin",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Hydraulic Components & Fittings",
+        "relationshipNote": "Parker supplies hydraulic hoses, fittings, and manifold components to IDEX's Applied Solutions segment. Estimated 6–10% of segment COGS. Dual-sourcing arrangement with Eaton (below) reduces single-supplier risk. Parker's 2024 price increases (+3–5%) partially offset by IDEX's mix shift toward higher-margin precision-metering products.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Eaton Corporation PLC",
+        "ticker": "ETN",
+        "cik": "0000011045",
+        "slug": "eaton_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Hydraulic & Electrical Components",
+        "relationshipNote": "Eaton is a co-supplier of hydraulic components, electrical connectors, and motion-control systems to IDEX's Applied Solutions and Fluid & Metering segments. Estimated 5–7% of combined segment COGS. Dual-sourcing with Parker provides negotiating leverage; Eaton's 2023 acquisition of Cobham Mission Systems expanded IDEX's access to aerospace-grade components for specialized pump applications.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amphenol Corporation",
+        "ticker": "APH",
+        "cik": "0000023165",
+        "slug": "amphenol",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Electronic Connectors & Sensors",
+        "relationshipNote": "Amphenol supplies high-reliability connectors and sensor interfaces for IDEX's IoT-enabled pump products and digital-monitoring platforms. Estimated 2–3% of Health & Science segment COGS. Strategic partnership expanded 2023 to support IDEX's predictive-maintenance SaaS rollout; Amphenol's miniaturized connector portfolio enables compact sensor integration in legacy pump designs.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Xylem Inc.",
+        "ticker": "XYL",
+        "cik": "0001524472",
+        "slug": "xylem",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Pump Components (Indirect)",
+        "relationshipNote": ". Xylem and IDEX compete in water-treatment and industrial-pump markets but maintain limited component-supply relationships in niche applications. Estimated <1% of COGS. Relationship is primarily competitive; occasional joint-venture discussions in emerging markets (India, Southeast Asia) have not materialized into formal partnerships.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Foxconn Technology Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "foxconn",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Contract Manufacturing & Assembly",
+        "relationshipNote": "Foxconn operates contract-manufacturing facilities in Taiwan and Vietnam that assemble IDEX's Health & Science segment instrumentation (analytical pumps, flow-control modules). Estimated 15–20% of Health & Science COGS. Multi-year manufacturing agreement (renewed 2023) includes capacity commitments and quality-assurance protocols. Geopolitical risk: Taiwan exposure creates supply-chain vulnerability if cross-strait tensions escalate; IDEX is diversifying to Malaysia and Thailand facilities by 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Flex Ltd.",
+        "ticker": "FLEX",
+        "cik": "0001357088",
+        "slug": "flex",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Electronics Manufacturing & Integration",
+        "relationshipNote": "Flex provides electronics assembly, printed-circuit-board manufacturing, and systems integration for IDEX's IoT-enabled pump controllers and digital-monitoring platforms. Estimated 3–5% of Health & Science segment COGS. Partnership expanded 2023 to support IDEX's software-as-a-service (SaaS) product launches; Flex's Singapore and Mexico facilities provide geographic diversification away from China-concentrated supply chains.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Nippon Steel Corporation",
+        "ticker": "5411.T",
+        "cik": null,
+        "slug": "nippon_steel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Stainless Steel",
+        "relationshipNote": "Nippon Steel supplies specialty stainless-steel grades (duplex, super-duplex) for IDEX's corrosion-resistant pump bodies used in chemical processing and offshore oil & gas applications. Estimated 2–4% of Applied Solutions segment COGS. Long-term supply agreement (2021–2026) includes price-adjustment clauses tied to nickel and molybdenum indices. Nippon's 2024 capacity expansion in Japan supports IDEX's growing demand for high-performance alloys.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Freight & Distribution",
+        "relationshipNote": "XPO operates IDEX's North American distribution network, managing inbound raw-material logistics and outbound finished-goods delivery to industrial customers. Estimated 8–12% of COGS (logistics component). Multi-year contract (renewed 2022) includes performance metrics for on-time delivery (>98%) and damage rates (<0.5%). XPO's 2023 automation investments reduced IDEX's order-fulfillment cycle time by 3–5 days.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — International Logistics",
+        "relationshipNote": "DHL manages IDEX's European and Asia-Pacific distribution, including customs clearance, warehousing, and last-mile delivery to regional customers. Estimated 5–8% of COGS (logistics component). Contract includes performance guarantees for lead-time consistency and inventory-carrying-cost optimization. DHL's 2024 expansion of regional distribution centers in Singapore and Germany reduced IDEX's inventory holding by ~$25M.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Truckload & Intermodal",
+        "relationshipNote": "J.B. Hunt provides dedicated truckload and intermodal services for IDEX's high-volume pump shipments between manufacturing facilities and distribution hubs in North America. Estimated 3–5% of COGS (logistics component). Multi-year agreement includes fuel-surcharge mechanisms and capacity guarantees. J.B. Hunt's 2023 autonomous-vehicle pilot with IDEX on select routes reduced per-unit transportation costs by 2–3%.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN.SW",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Global Freight Forwarding",
+        "relationshipNote": "Kuehne+Nagel provides ocean freight, air freight, and customs brokerage for IDEX's international shipments of pumps and components. Estimated 4–6% of COGS (logistics component). Contract includes service-level agreements for on-time delivery and damage prevention. Kuehne+Nagel's 2024 digital-tracking platform integration improved IDEX's supply-chain visibility and reduced claims by ~15%.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Saudi Aramco Energy Ventures (SAEV)",
+        "ticker": null,
+        "cik": null,
+        "slug": "saudi_aramco_energy_ventures",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Strategic Energy Customer",
+        "relationshipNote": "Saudi Aramco is a major customer for IDEX's Applied Solutions segment, purchasing specialized centrifugal and gear pumps for oil & gas extraction, refining, and water-injection applications. Estimated 3–5% of Applied Solutions revenue (~$80–120M annually). Long-term supply agreement (2020–2025) includes volume commitments and technology-sharing provisions. SAEV's 2023 renewable-energy investments created new demand for IDEX's hydrogen-production and desalination pumps.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Pfizer Inc.",
+        "ticker": "PFE",
+        "cik": "0000078003",
+        "slug": "pfizer",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Pharmaceutical Manufacturing",
+        "relationshipNote": "Pfizer is a key customer for IDEX's Health & Science Technologies segment, purchasing precision metering pumps, analytical instruments, and fluid-handling systems for pharmaceutical manufacturing and vaccine production. Estimated 2–4% of Health & Science revenue (~$40–70M annually). Multi-year supply agreement (renewed 2023) includes quality-assurance protocols and regulatory compliance certifications. Pfizer's 2023 capacity expansion for mRNA vaccine production drove 15% YoY growth in IDEX's pharmaceutical-segment revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Veolia Environment S.A.",
+        "ticker": "VIE.PA",
+        "cik": null,
+        "slug": "veolia",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Water & Environmental Services",
+        "relationshipNote": "Veolia is a major customer for IDEX's Fluid & Metering Technologies segment, purchasing centrifugal pumps, diaphragm pumps, and flow-control systems for water treatment, wastewater management, and environmental remediation projects. Estimated 2–3% of Fluid & Metering revenue (~$50–80M annually). Multi-year framework agreement (2021–2026) includes volume discounts and technology-development partnerships. Veolia's 2024 expansion of desalination capacity in Middle East and North Africa created incremental pump demand of ~$15M.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Siemens AG",
+        "ticker": "SIE.DE",
+        "cik": null,
+        "slug": "siemens",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — OEM Integration Partner",
+        "relationshipNote": "Siemens integrates IDEX pumps and fluid-handling systems into industrial automation and process-control solutions for manufacturing, utilities, and infrastructure customers. Estimated 1–2% of combined revenue (~$30–50M annually). OEM partnership agreement (2019–2024, renewal pending) includes technical support, training, and co-marketing initiatives. Siemens' 2023 acquisition of Supplyframe expanded IDEX's visibility into supply-chain intelligence and demand forecasting.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Xylem Inc.",
+        "ticker": "XYL",
+        "cik": "0001524472",
+        "slug": "xylem",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Direct Competitor (Water & Industrial Pumps)",
+        "relationshipNote": "Xylem is IDEX's primary direct competitor in water-treatment pumps, industrial centrifugal pumps, and flow-control systems. Xylem's 2024 revenue ~$17.5B (vs IDEX ~$7.6B); market share in water-treatment segment estimated 18–22% (IDEX 12–15%). Xylem's 2023 acquisition of Evoqua Water Technologies expanded its wastewater-treatment portfolio and created competitive pressure on IDEX's Fluid & Metering segment. IDEX's superior gross margins (35% vs Xylem 32%) reflect higher-margin precision-metering and health-science exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Roper Technologies Inc.",
+        "ticker": "ROP",
+        "cik": "0000882835",
+        "slug": "roper_technologies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Diversified Industrial Competitor",
+        "relationshipNote": "Roper is a diversified industrial conglomerate with significant pump and fluid-handling exposure through subsidiaries (Xylem-adjacent products, precision instrumentation). Roper's 2024 revenue ~$16.8B; estimated pump-related revenue ~$2.5–3.0B (vs IDEX ~$7.6B). Roper's superior M&A execution (net debt/EBITDA ~1.2x vs IDEX 2.1x) and higher EBITDA margins (40%+ vs IDEX 36%) reflect more disciplined capital allocation. IDEX's 2023 acquisitions (Fluid Handling, Precision Instruments) represent strategic response to Roper's market-consolidation strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Graco Inc.",
+        "ticker": "GGG",
+        "cik": "0000039662",
+        "slug": "graco",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Fluid-Handling Specialist",
+        "relationshipNote": "Graco is a specialized competitor in fluid-handling and dispensing systems, with 2024 revenue ~$2.3B. Graco's focus on coating, lubrication, and adhesive-dispensing applications creates limited direct overlap with IDEX's core pump portfolio, but increasing competition in precision-metering and industrial-automation segments. Graco's superior margins (EBITDA ~42% vs IDEX 36%) reflect higher-margin software and SaaS revenue (estimated 15–20% of total). IDEX's 2024 digital-product initiatives (predictive maintenance, IoT sensors) represent competitive response to Graco's software-enabled business model.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dover Corporation",
+        "ticker": "DOV",
+        "cik": "0000029905",
+        "slug": "dover_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Diversified Industrial Conglomerate",
+        "relationshipNote": "Dover is a diversified industrial manufacturer with pump and fluid-handling exposure through multiple segments (Engineered Products, Fluids & Metering). Dover's 2024 revenue ~$10.2B; estimated pump-related revenue ~$1.5–2.0B. Dover's 2023 acquisition of Knowles Corporation expanded its precision-instrumentation portfolio and created competitive pressure on IDEX's Health & Science segment. Dover's lower leverage (net debt/EBITDA ~1.0x) and higher EBITDA margins (38%+) reflect more conservative M&A strategy vs IDEX.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Flowserve Corporation",
+        "ticker": "FSI",
+        "cik": "0000030625",
+        "slug": "flowserve",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Industrial Pump & Seal Specialist",
+        "relationshipNote": "Flowserve is a specialized competitor in industrial pumps, seals, and flow-control systems for oil & gas, chemical, and power-generation markets. Flowserve's 2024 revenue ~$4.8B; estimated 25–30% overlap with IDEX's Applied Solutions segment. Flowserve's 2023 restructuring (cost reduction, portfolio rationalization) improved margins but reduced market share in precision-metering applications. IDEX's superior growth trajectory (5–7% organic vs Flowserve 2–3%) reflects stronger exposure to renewable energy and life-science end markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SPX Corporation",
+        "ticker": "SPXC",
+        "cik": "0000101968",
+        "slug": "spx_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Niche Industrial Equipment",
+        "relationshipNote": "SPX is a smaller competitor in specialized pump and fluid-handling applications (cooling systems, industrial process equipment). SPX's 2024 revenue ~$1.8B; estimated 5–10% overlap with IDEX's Applied Solutions segment. SPX's 2023 acquisition of Esco Technologies expanded its aerospace and defense exposure, creating differentiation from IDEX's industrial-focused portfolio. IDEX's scale advantage (4.2x larger revenue base) provides superior procurement leverage and R&D investment capacity.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC oversees IDEX's public-company disclosures, including 10-K annual filings, 10-Q quarterly reports, 8-K event filings, and proxy statements. IDEX's 2024 10-K (filed Feb 2024) disclosed material risks including supply-chain concentration, leverage, and cyclical demand exposure. SEC's 2023 climate-disclosure rule (proposed) may require IDEX to expand Scope 1/2/3 GHG emissions reporting in future filings. IDEX maintains compliance with Sarbanes-Oxley Section 404 internal-control attestation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental Compliance",
+        "relationshipNote": "EPA regulates IDEX's manufacturing facilities under Clean Air Act (Title V permits), Clean Water Act (NPDES permits), and RCRA hazardous-waste management. IDEX operates ~15 manufacturing facilities in North America; all hold current EPA permits. 2023 EPA enforcement actions against industrial manufacturers (e.g., Xylem settlement for $10M+ in 2022) heightened IDEX's compliance focus. IDEX's 2024 sustainability report disclosed $15M+ annual capex for emissions-reduction and water-conservation initiatives.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Medical Device Compliance",
+        "relationshipNote": "FDA regulates IDEX's Health & Science Technologies segment products (analytical pumps, flow-control systems) under 21 CFR Part 11 (electronic records) and medical-device classification rules. IDEX's precision-metering and analytical-instrument products are classified as Class II/III devices requiring 510(k) premarket notification or PMA approval. 2023 FDA guidance on software-as-a-medical-device (SaMD) created compliance requirements for IDEX's IoT-enabled pump controllers. IDEX maintains ISO 13485 certification across Health & Science manufacturing facilities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce — Bureau of Industry and Security",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Export Controls",
+        "relationshipNote": "BIS regulates IDEX's export of pump technology and components under Export Administration Regulations (EAR), particularly for applications in oil & gas, aerospace, and defense sectors. IDEX's Applied Solutions segment includes products subject to EAR controls (e.g., high-performance centrifugal pumps for offshore applications). 2023 BIS rule changes expanded controls on China-destined exports; IDEX adjusted supply-chain routing and customer-vetting procedures. IDEX maintains export-compliance certifications and conducts annual training for sales and logistics personnel.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Antitrust",
+        "relationshipNote": "FTC reviews IDEX's M&A activity under Hart-Scott-Rodino (HSR) Act. IDEX's 2023 acquisitions (Fluid Handling Technologies, Precision Instruments) totaling ~$1.2B triggered HSR filings; both received FTC clearance without conditions. FTC's 2023 enforcement focus on industrial-equipment consolidation (e.g., Xylem-Evoqua review) created heightened scrutiny for IDEX's future M&A targets in water-treatment and precision-metering segments. IDEX maintains antitrust compliance program and conducts competitor-interaction training.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte serves as IDEX's independent auditor, providing annual audit of consolidated financial statements and attestation on internal control over financial reporting (SOX 404). Deloitte has audited IDEX since. 2024 audit fee estimated ~$3–4M (0.04% of revenue). Deloitte's audit scope includes assessment of goodwill impairment risk (IDEX carries ~$3.2B goodwill post-2023 acquisitions), revenue recognition (complex multi-element contracts), and lease accounting (ASC 842). No material audit adjustments or disagreements disclosed in 2024 proxy statement.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan is IDEX's lead arranger and administrative agent for its $1.5B revolving credit facility (maturity 2027). Facility carries pricing of SOFR + 150 bps and includes financial covenants (net debt/EBITDA <3.5x, interest coverage >3.0x). JPMorgan also serves as joint bookrunner for IDEX's 2023 debt offerings ($500M senior notes due 2031). Estimated annual fees ~$2–3M. JPMorgan's 2024 equity research maintains BUY rating with $90 price target.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America is a co-lender on IDEX's $1.5B revolving credit facility and joint bookrunner on 2023 debt offerings. BofA also provides M&A advisory services; estimated involvement in 2023 acquisitions (Fluid Handling, Precision Instruments) generated ~$5–8M in advisory fees. BofA's equity research maintains NEUTRAL rating with $75 price target, citing leverage concerns post-M&A. Estimated annual credit facility fees ~$1–2M.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Vanguard is IDEX's largest institutional shareholder, holding ~8.5% of outstanding shares (as of Q3 2024). Vanguard's passive index funds (S&P 500, Russell 1000) hold IDEX as a core industrial-equipment position. Vanguard's 2024 proxy voting supported IDEX's board slate and executive compensation, but abstained on climate-disclosure proposal. Estimated Vanguard holdings ~$6.5B at current market price.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "BlackRock is IDEX's second-largest institutional shareholder, holding ~7.2% of outstanding shares (as of Q3 2024). BlackRock's iShares industrial ETFs and active equity funds hold IDEX as a core position. BlackRock's 2024 proxy voting supported IDEX's board and compensation, but voted FOR enhanced climate-disclosure proposal. Estimated BlackRock holdings ~$5.5B at current market price. BlackRock's engagement team has met with IDEX management on ESG and capital-allocation strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Lara Honeycutt",
+        "title": "President and Chief Executive Officer",
+        "slug": "lara_honeycutt",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Honeycutt became IDEX CEO in January 2023, succeeding Andrew Silvernail. Prior role: President of Roper Technologies' Engineered Products segment (2018–2022). Honeycutt's strategic priorities include M&A consolidation (2023 acquisitions totaling $1.2B), digital-product expansion (IoT, SaaS), and margin expansion through operational efficiency. 2024 compensation: base $1.2M + bonus (target 100% of base) + equity grants (~$4.5M). Honeycutt holds MBA from Harvard Business School and has 25+ years of industrial-equipment experience.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "William M. Conroy",
+        "title": "Senior Vice President and Chief Financial Officer",
+        "slug": "william_conroy",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Conroy has served as CFO since 2019. Prior role: VP of Finance at Graco Inc. (2015–2019). Conroy oversees IDEX's financial planning, capital allocation, and investor relations. Key initiatives: debt refinancing (2023 offerings), working-capital optimization, and integration accounting for 2023 acquisitions. 2024 compensation: base $650K + bonus (target 75% of base) + equity grants (~$2.0M). Conroy holds CPA certification and MBA from University of Minnesota.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Michael J. Yates",
+        "title": "Senior Vice President and Chief Operating Officer",
+        "slug": "michael_yates",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Yates has served as COO since 2020. Prior role: VP of Operations at Flowserve Corporation (2015–2020). Yates leads IDEX's manufacturing operations, supply-chain management, and operational-excellence initiatives. Key focus: integration of 2023 acquisitions, automation investments, and lean-manufacturing deployment across facilities. 2024 compensation: base $600K + bonus (target 75% of base) + equity grants (~$1.8M). Yates holds Six Sigma Black Belt certification.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Stephanie Kusick",
+        "title": "Senior Vice President, General Counsel, and Secretary",
+        "slug": "stephanie_kusick",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Kusick has served as General Counsel since 2021. Prior role: VP of Legal at Xylem Inc. (2016–2021). Kusick oversees IDEX's legal affairs, regulatory compliance, and risk management. Key responsibilities: M&A due diligence, antitrust compliance, environmental/health-safety regulations, and litigation management. 2024 compensation: base $550K + bonus (target 60% of base) + equity grants (~$1.5M). Kusick holds JD from University of Chicago Law School.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "IDEX Weekly Comp-Store Sales Index",
+        "slug": "idex_comp_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "IDEX does not disclose weekly comp-store sales (not a retailer), but management provides monthly order-book trends and backlog metrics in quarterly earnings calls. Q3 2024 order growth: +2% YoY (Applied Solutions +1%, Fluid & Metering +3%, Health & Science +4%). Backlog at Q3 2024: $2.1B (up 5% YoY), providing 4–5 quarters of revenue visibility. Order-book deceleration in Applied Solutions signals potential demand softening in industrial capex cycle.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-K"
+        ]
+      },
+      {
+        "name": "IDEX Gross Margin Realization",
+        "slug": "idex_gross_margin",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "IDEX's gross margin is a key operational metric reflecting pricing power, product mix, and manufacturing efficiency. 2024 YTD gross margin: 35.2% (vs 34.4% in 2023), representing +80 bps improvement. Drivers: mix shift toward higher-margin Health & Science segment (25% of revenue, 38% gross margin), pricing realization (+2–3% price increases), and manufacturing-cost absorption post-acquisition integration. Gross margin guidance for 2024: 35.0–35.5% (vs prior 34.5–35.0%). Margin expansion signals successful operational execution and pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-K"
+        ]
+      },
+      {
+        "name": "IDEX Free Cash Flow Trajectory",
+        "slug": "idex_fcf",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "IDEX's free cash flow (operating cash flow minus capex) is a critical metric for debt service and M&A capacity. 2024 YTD FCF: ~$480M (6.3% of revenue), up 12% YoY. 2024 full-year FCF guidance: $650–700M (8.5–9.2% of revenue). Working-capital improvements post-acquisition integration contributed ~$40M to YTD FCF growth. FCF conversion ratio (FCF/net income) ~85%, indicating strong cash-generation capability. FCF trajectory supports dividend ($0.56/share annually) and debt-reduction targets.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-K"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "industry",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.565Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Worthington Industries Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Trelleborg AB",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Parker Hannifin Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Eaton Corporation PLC",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Xylem Inc.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Nippon Steel Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Amphenol Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Foxconn Technology Group",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Flex Ltd.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Saudi Aramco Energy Ventures (SAEV)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Pfizer Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Veolia Environment S.A.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "IDEX Weekly Comp-Store Sales Index",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Siemens AG",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "XPO Logistics Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "DHL Supply Chain",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "J.B. Hunt Transport Services Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Kuehne+Nagel International AG",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Xylem Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Roper Technologies Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Graco Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Dover Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Flowserve Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "SPX Corporation",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Commerce — Bureau of Industry and Security",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Federal Trade Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Environmental Protection Agency",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Food and Drug Administration",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "IDEX Gross Margin Realization",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "IDEX Free Cash Flow Trajectory",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Vanguard Group Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "BlackRock Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

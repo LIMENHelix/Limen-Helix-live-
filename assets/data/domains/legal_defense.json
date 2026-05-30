@@ -1,0 +1,511 @@
+{
+  "domainId": "legal_defense",
+  "title": "Defense Advocacy",
+  "parentPortal": "legal_portal.html",
+  "parentLabel": "Legal Systems",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Defense Advocacy Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Defense Advocacy indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves defense advocacy knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Harvey AI",
+          "ticker_or_id": "HARVEY_AI",
+          "functional_reason": "Models and simulates defense advocacy scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.7
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Defense Advocacy Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Defense Advocacy Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "legal_defense_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Defense Advocacy Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Defense Advocacy activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core defense advocacy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Stores and retrieves defense advocacy knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.73
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Defense Advocacy Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Defense Advocacy Core Operations"
+        }
+      ],
+      "childPortal": "legal_defense_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "Defense Advocacy Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Defense Advocacy, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core defense advocacy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core defense advocacy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.79
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Defense Advocacy Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Defense Advocacy Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "legal_defense_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Defense Advocacy Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Defense Advocacy practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Detects and monitors defense advocacy signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Detects and monitors defense advocacy signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Defense Advocacy Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Defense Advocacy Standards & Governance"
+        }
+      ],
+      "childPortal": "legal_defense_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "CMZ",
+      "state": "active",
+      "domainLabel": "Defense Advocacy Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Defense Advocacy methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Executes core defense advocacy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Executes core defense advocacy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Defense Advocacy Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Defense Advocacy Research & Development"
+        }
+      ],
+      "childPortal": "legal_defense_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "SMN",
+      "state": "active",
+      "domainLabel": "Defense Advocacy Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Defense Advocacy stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Executes core defense advocacy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core defense advocacy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Defense Advocacy Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Defense Advocacy Risk & Resilience"
+        }
+      ],
+      "childPortal": "legal_defense_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Defense Advocacy Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Defense Advocacy operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Stores and retrieves defense advocacy knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves defense advocacy knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.74
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Defense Advocacy Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Defense Advocacy Coordination & Integration"
+        }
+      ],
+      "childPortal": "legal_defense_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "ARC",
+      "state": "active",
+      "domainLabel": "Defense Advocacy Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Defense Advocacy outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "U.S. Federal Courts (PACER)",
+          "ticker_or_id": "PACER_GOV",
+          "functional_reason": "Routes and distributes defense advocacy resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Routes and distributes defense advocacy resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.9
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Defense Advocacy Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Defense Advocacy Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CeA",
+      "target": "BNST",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "BNST",
+      "target": "EMP",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "EMP",
+      "target": "CON",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "CON",
+      "target": "CMZ",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "CMZ",
+      "target": "SMN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "SMN",
+      "target": "LANG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "LANG",
+      "target": "ARC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ARC",
+      "target": "CeA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CeA",
+      "target": "CMZ",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CON",
+      "target": "LANG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "LEGAL_DEFENSE_SYSTEM_FAILURE",
+      "label": "Defense Advocacy System Failure",
+      "summary": "Critical breakdown in Defense Advocacy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hypo-active",
+          "detail": "Defense Advocacy Assessment & Diagnostics capacity falling below operational thresholds, reducing Defense Advocacy output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BNST",
+          "dir": "Hypo-active",
+          "detail": "Defense Advocacy Core Operations systems underperforming, creating gaps in Defense Advocacy coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Altered",
+          "detail": "Defense Advocacy Infrastructure & Capacity behavior deviating from established norms, complicating Defense Advocacy management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Hyper-active",
+          "detail": "Defense Advocacy Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Defense Advocacy",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Hypo-active",
+          "detail": "Defense Advocacy Performance & Optimization function reduced, compromising Defense Advocacy system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_DEFENSE_CAPACITY_CRISIS",
+      "label": "Defense Advocacy Capacity Crisis",
+      "summary": "Demand exceeding available Defense Advocacy capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper-active",
+          "detail": "Defense Advocacy Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Defense Advocacy",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Hypo-active",
+          "detail": "Defense Advocacy Infrastructure & Capacity systems underperforming, creating gaps in Defense Advocacy coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Altered",
+          "detail": "Defense Advocacy Standards & Governance behavior deviating from established norms, complicating Defense Advocacy management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hyper-active",
+          "detail": "Defense Advocacy Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Defense Advocacy",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Altered",
+          "detail": "Defense Advocacy Performance & Optimization operating outside normal parameters, introducing uncertainty into Defense Advocacy outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_DEFENSE_GOVERNANCE_GAP",
+      "label": "Defense Advocacy Governance Gap",
+      "summary": "Oversight or regulatory failure in Defense Advocacy creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hypo-active",
+          "detail": "Defense Advocacy Standards & Governance capacity falling below operational thresholds, reducing Defense Advocacy output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Altered",
+          "detail": "Defense Advocacy Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Defense Advocacy",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CMZ",
+          "dir": "Hyper-active",
+          "detail": "Defense Advocacy Research & Development activity spiking beyond design limits, creating instability across Defense Advocacy operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Altered",
+          "detail": "Defense Advocacy Risk & Resilience patterns disrupted, necessitating adaptive responses within Defense Advocacy frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hypo-active",
+          "detail": "Defense Advocacy Coordination & Integration function reduced, compromising Defense Advocacy system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

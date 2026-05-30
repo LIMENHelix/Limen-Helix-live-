@@ -1,0 +1,81 @@
+{
+  "domainId": "pediatric_response_state",
+  "title": "Response Inhibition & Emotion Regulation — State Interpretation",
+  "parentPortal": "pediatric_response_portal.html",
+  "parentLabel": "Response Inhibition & Emotion Regulation",
+  "phase": "P1",
+  "activations": [
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation — State Interpretation — Primary Node",
+      "domainDescription": "Interpretation layer — integrates incoming signals into a coherent state assessment, distinguishing normal variation from clinically significant deviation.",
+      "group": "state_assessment",
+      "phase": "P1",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "State Classification Engine",
+          "evidence": "B",
+          "description": "Algorithmic classification of current state from integrated signal profile for Response Inhibition & Emotion Regulation"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Deviation Threshold Calibration",
+          "evidence": "C",
+          "description": "Calibration of normal vs pathological thresholds based on population and individual baselines"
+        }
+      ],
+      "childPortal": "pediatric_response_state_assess_portal.html"
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation — State Interpretation — Secondary Node",
+      "domainDescription": "Interpretation layer — integrates incoming signals into a coherent state assessment, distinguishing normal variation from clinically significant deviation.",
+      "group": "state_assessment",
+      "phase": "P1",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "State Classification Engine",
+          "evidence": "B",
+          "description": "Algorithmic classification of current state from integrated signal profile for Response Inhibition & Emotion Regulation"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Deviation Threshold Calibration",
+          "evidence": "C",
+          "description": "Calibration of normal vs pathological thresholds based on population and individual baselines"
+        }
+      ],
+      "childPortal": "pediatric_response_state_impl_portal.html"
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation — State Interpretation — Tertiary Node",
+      "domainDescription": "Interpretation layer — integrates incoming signals into a coherent state assessment, distinguishing normal variation from clinically significant deviation.",
+      "group": "state_assessment",
+      "phase": "P1",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "State Classification Engine",
+          "evidence": "B",
+          "description": "Algorithmic classification of current state from integrated signal profile for Response Inhibition & Emotion Regulation"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Deviation Threshold Calibration",
+          "evidence": "C",
+          "description": "Calibration of normal vs pathological thresholds based on population and individual baselines"
+        }
+      ],
+      "childPortal": "pediatric_response_state_optim_portal.html"
+    }
+  ]
+}

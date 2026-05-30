@@ -1,0 +1,753 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "shell",
+  "slug": "shell",
+  "name": "Shell plc",
+  "ticker": "SHEL",
+  "cik": null,
+  "sic": "1311",
+  "industry": "Crude Petroleum and Natural Gas Extraction",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "GASDESW",
+    "DEXUSEU",
+    "UNRATE"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "SHEL"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "LNG",
+    "refined products",
+    "petrochemicals"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?entity=shell",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Energy transition risk: accelerating shift to renewables and EV adoption reducing long-term hydrocarbon demand",
+    "Stranded asset exposure: $20B+ capex committed to oil/gas projects facing regulatory and market headwinds",
+    "Geopolitical volatility: upstream assets in Nigeria, Iraq, and Russia subject to sanctions, conflict, and expropriation risk"
+  ],
+  "opportunitySignals": [
+    "LNG market expansion: global demand growth 3–4% CAGR through 2030; Shell's 9% global LNG market share defensible",
+    "Energy security premium: European gas shortage post-2022 elevated LNG pricing; long-term contracts locked in 2023–2024",
+    "Low-carbon solutions: $2B+ annual capex in renewables, hydrogen, and carbon capture; potential margin accretion if policy support holds"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Shell is a supermajor integrated energy company with ~7% global oil production, 9% LNG market share, and significant downstream refining and chemicals operations. The company operates across 70+ countries with 82,000 employees and $400B+ annual revenue, making it a systemic player in global energy security, commodity pricing, and industrial feedstock supply. Shell's transition strategy—targeting net-zero by 2050 with interim renewable and hydrogen investments—positions it at the nexus of energy policy, capital markets, and geopolitical risk.",
+  "portalRelevance": "Shell is a tier-1 anchor in the energy domain and a critical input to global supply chains (transportation fuels, petrochemical feedstocks, power generation). Its quarterly earnings, capex guidance, and reserve replacement ratios drive commodity prices and energy inflation expectations that ripple through consumer goods, transportation, and manufacturing sectors. Shell's regulatory exposure (climate mandates, windfall taxes, sanctions compliance) and capital allocation decisions (dividend vs. transition capex) are leading indicators of energy-sector stress and macroeconomic resilience.",
+  "notes": {
+    "cohortStatus": "Supermajor integrated oil & gas; peer group includes ExxonMobil, Chevron, TotalEnergies, BP",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly Brent crude and Henry Hub natural gas spot prices; daily LNG shipping rates and spot cargoes",
+        "Quarterly earnings releases with production volumes, realized prices, and capex spend vs. guidance",
+        "8-K filings for major asset acquisitions/divestitures, regulatory actions, and force majeure events (e.g., Nigeria pipeline shutdowns)",
+        "Supply-chain EDI feeds from downstream customers (refiners, utilities, petrochemical plants) signaling demand shifts"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Production trajectory by segment (upstream oil, gas, LNG) vs. reserve depletion and capex replacement rates",
+        "Free cash flow and dividend coverage ratio; debt-to-EBITDA under commodity price scenarios (WTI $60–$120/bbl)",
+        "Regulatory compliance status: EU windfall tax exposure, UK North Sea tax regime, sanctions screening on Russian operations",
+        "Energy transition capex allocation: % of capex to renewables, hydrogen, and carbon capture vs. hydrocarbon growth projects"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Commodity price elasticity: Shell's EBITDA sensitivity to $10/bbl WTI swing (~$2–3B impact); margin compression risk if sustained sub-$70 environment",
+        "Reserve replacement ratio trend: 2023 replacement ratio 95% (disclosed in 20-F); trajectory below 100% signals production decline absent major discoveries",
+        "Transition credibility gap: capex to low-carbon solutions <5% of total; gap vs. peer commitments (BP 20%, TotalEnergies 15%) raises stranded-asset risk",
+        "Geopolitical concentration: Nigeria production ~6% of total but 40% of African output; expropriation or force majeure could trigger $2–4B EBITDA shock"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Windfall tax hedging: UK 35% energy profits levy (2022–2028) estimated $5–8B cumulative impact; monitor for extension or escalation",
+        "Climate litigation risk: EU and UK climate mandates (net-zero 2050) embedded in regulatory capital allocation; track COP28 outcomes for binding emissions caps",
+        "Sanctions compliance: Russia operations (Sakhalin-1, Arctic LNG) frozen post-2022; monitor for secondary sanctions on LNG trading partners",
+        "Antitrust/competition: FTC scrutiny on downstream fuel retail consolidation; EU merger control on renewable JVs"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Dividend policy: $0.24/share quarterly (2024 guidance); pause or cut if WTI falls below $60/bbl for 2+ quarters",
+        "Capex rebalancing: shift $5–10B from oil growth to LNG and renewables if energy transition policy accelerates",
+        "Portfolio optimization: divest non-core upstream assets (e.g., Nigeria onshore) to fund low-carbon capex and reduce geopolitical tail risk",
+        "Hedging posture: maintain 40–60% of production hedged via commodity futures and swaps to smooth cash flow volatility"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 production and realized price prints vs. guidance; reserve replacement ratio tracking",
+        "Share price reaction to earnings surprises and capex/dividend guidance revisions",
+        "Regulatory filing updates: 20-F Item 1A risk factor changes, 8-K disclosures of asset impairments or write-downs",
+        "Peer relative performance: Shell vs. ExxonMobil, Chevron, TotalEnergies on FCF yield, dividend growth, and transition capex allocation"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Commodity price regime shift: recalibrate WTI/Brent elasticity if structural demand destruction accelerates (EV adoption >15% of new car sales)",
+        "Regulatory intensity escalation: update windfall tax and climate mandate assumptions if EU/UK legislation tightens faster than modeled",
+        "Geopolitical risk repricing: increase Nigeria and Russia tail-risk premiums if sanctions or conflict escalate",
+        "Transition capex credibility: adjust long-term valuation if Shell's renewable/hydrogen projects achieve cost parity with fossil alternatives ahead of schedule"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Shell operates as a distributed energy-production and distribution network spanning upstream exploration, midstream transportation (pipelines, LNG terminals), downstream refining, and retail. The company functions as a capital-intensive commodity processor and price-taker in crude oil and natural gas markets, with strategic optionality in LNG (where contract terms and long-term relationships provide pricing power) and downstream chemicals (where integrated feedstock access and scale drive margins). Shell's decision-making integrates commodity price signals, regulatory compliance, shareholder capital demands, and energy-transition policy into quarterly capex and dividend allocation cycles.",
+    "suppliers": [
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SA",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Benchmark & Market Pricing",
+        "relationshipNote": "Saudi Aramco is Shell's primary global crude oil price-setter and competing supermajor. Aramco's 2023 production of 13.6M bbl/day (vs. Shell's 6.2M) and lower cost of supply ($3–5/bbl vs. Shell's $8–12) establish pricing power that Shell must match through operational efficiency and portfolio optimization. Aramco's dividend policy (2023: $161B payout) and capex discipline ($35B annually) set benchmarks for Shell's capital allocation strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Positioning & Technology Benchmarking",
+        "relationshipNote": "ExxonMobil is Shell's closest integrated peer with 3.7M bbl/day production and $56B 2023 revenue. XOM's Guyana production ramp (2023: 340K bbl/day, targeting 1M by 2030) and Permian shale scale represent competitive threats to Shell's upstream growth strategy. ExxonMobil's 2023 capex of $24B (vs. Shell's $30B) and higher FCF conversion (45% vs. Shell's 35%) signal operational efficiency gaps Shell must address.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TotalEnergies SE",
+        "ticker": "TTEF",
+        "cik": null,
+        "slug": "totalenergies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Energy Transition Competitive Positioning",
+        "relationshipNote": "TotalEnergies is Shell's primary European supermajor peer with 2.6M bbl/day production and 15% capex allocation to renewables/low-carbon (vs. Shell's <5%). TotalEnergies' 2023 acquisition of Adani Green Energy (20GW renewable capacity) and hydrogen JVs signal aggressive transition strategy that pressures Shell's net-zero credibility. TotalEnergies' 2023 net income of $42B (vs. Shell's $40B) on lower production underscores margin advantage from integrated renewables portfolio.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BP plc",
+        "ticker": "BP",
+        "cik": null,
+        "slug": "bp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Energy Transition & Portfolio Rationalization",
+        "relationshipNote": "BP is a European supermajor peer with 1.6M bbl/day production and aggressive energy transition strategy (20% capex to low-carbon by 2025). BP's 2023 divestiture of Russian assets ($3.25B loss) and renewable portfolio expansion (8GW capacity) signal transition commitment that Shell lags. BP's 2023 net income of $27.7B (vs. Shell's $40B) on lower production and higher transition capex illustrates margin compression risk from accelerated decarbonization.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "ConocoPhillips",
+        "ticker": "COP",
+        "cik": "00001163165",
+        "slug": "conocophillips",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Upstream-Focused Competitor & Alaska Portfolio",
+        "relationshipNote": "ConocoPhillips is an upstream-focused competitor with 1.5M bbl/day production and $22B 2023 revenue. COP's 2023 acquisition of Marathon Oil ($22.5B) for Bakken and Eagle Ford scale and Alaska North Slope dominance (30% of US production) represent competitive threats to Shell's onshore US portfolio. COP's 2023 capex of $9.5B (lowest among supermajors) and 50% FCF payout ratio signal disciplined capital allocation that pressures Shell's dividend growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": null,
+        "slug": "equinor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "North Sea & Renewable Energy Competitor",
+        "relationshipNote": "Equinor is a Norwegian supermajor with 1.9M bbl/day production and 35% capex allocation to renewables (vs. Shell's <5%). Equinor's 2023 North Sea production of 1.7M bbl/day and offshore wind portfolio (4.4GW capacity) compete directly with Shell's UK/Norway assets. Equinor's 2023 net income of $26B on lower production than Shell underscores margin advantage from integrated renewables and higher realized prices in European markets.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Reliance Industries Limited",
+        "ticker": "RELIANCE.NS",
+        "cik": null,
+        "slug": "reliance_industries",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Downstream Refining & Petrochemical Competitor",
+        "relationshipNote": "Reliance is India's largest refiner and petrochemical producer with 1.4M bbl/day refining capacity and 2.2M tonnes/year petrochemical output. Reliance's 2023 capex of $20B (including 5GW renewable capacity) and downstream integration compete with Shell's refining and chemicals segments in Asia-Pacific. Reliance's 2023 net income of $16.7B on lower oil exposure than Shell underscores margin advantage from integrated downstream and renewable portfolio.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk Line A/S",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "LNG & Oil Product Shipping",
+        "relationshipNote": "Maersk is a leading global shipping company with 700+ vessels and 20M TEU capacity. Shell contracts Maersk for LNG carrier services (Shell operates 30+ LNG vessels globally) and refined product distribution. Maersk's 2023 revenue of $61B and 15% LNG shipping market share make it a critical logistics partner for Shell's LNG monetization strategy. Maersk's transition to methanol-fueled vessels (2024 launch) aligns with Shell's decarbonization goals.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Kinder Morgan Inc.",
+        "ticker": "KMI",
+        "cik": "0001506104",
+        "slug": "kinder_morgan",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Midstream Pipeline & LNG Terminal Operations",
+        "relationshipNote": "Kinder Morgan operates 84,000 miles of pipelines and 150+ terminals globally, including LNG regasification facilities. Shell contracts KMI for crude oil and natural gas pipeline transportation and LNG terminal services in North America and Europe. KMI's 2023 revenue of $20.7B and 15% US natural gas pipeline market share make it essential for Shell's midstream value chain. Shell's Prelude FLNG project (2017–present) relies on KMI-operated terminals for LNG distribution.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cheniere Energy Inc.",
+        "ticker": "LNG",
+        "cik": "0001402220",
+        "slug": "cheniere_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "US LNG Export Terminal Operator",
+        "relationshipNote": "Cheniere operates Sabine Pass and Corpus Christi LNG export terminals with 45M tonnes/year capacity (2023). Shell contracts Cheniere for LNG liquefaction and export services, with long-term agreements (2023–2040) securing 5M tonnes/year capacity. Cheniere's 2023 revenue of $16.8B and 25% US LNG export market share make it critical for Shell's North American gas monetization. Cheniere's 2024 capex of $3B targets capacity expansion to 55M tonnes/year by 2026.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Equinor ASA (Midstream)",
+        "ticker": "EQNR",
+        "cik": null,
+        "slug": "equinor_midstream",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "North Sea Pipeline & LNG Infrastructure",
+        "relationshipNote": "Equinor operates 8,000 km of North Sea pipelines and LNG infrastructure serving Shell's UK/Norway upstream assets. Shell and Equinor jointly operate the Statpipe system (2023: 120M bbl/day oil equivalent throughput) and Melkøya LNG plant (4.3M tonnes/year capacity). This partnership is critical for Shell's North Sea production monetization and European gas supply. Equinor's 2023 capex of $3.5B in midstream targets decarbonization of pipeline operations.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Unilever plc",
+        "ticker": "UL",
+        "cik": "0001354488",
+        "slug": "unilever",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Petrochemical Feedstock & Refined Product Customer",
+        "relationshipNote": "Unilever is a major consumer goods company with $60B 2023 revenue and 400+ brands. Unilever sources petrochemical feedstocks (surfactants, polymers, solvents) from Shell's chemicals division for personal care, home care, and food products. Shell supplies ~8% of Unilever's petrochemical inputs (estimated $500M–$800M annual value). Unilever's 2023 sustainability commitments (net-zero by 2039) drive demand for Shell's bio-based and recycled-content chemicals.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BASF SE",
+        "ticker": "BAS",
+        "cik": null,
+        "slug": "basf",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Petrochemical Feedstock & Crude Oil Customer",
+        "relationshipNote": "BASF is the world's largest chemical company with $87B 2023 revenue and 390,000 employees. BASF sources crude oil and natural gas liquids from Shell for cracking into ethylene, propylene, and aromatics feedstocks. Shell supplies ~5% of BASF's feedstock inputs (estimated $1.2B–$1.8B annual value). BASF's 2023 capex of $8.5B includes investments in bio-based and circular-economy chemicals, driving demand for Shell's sustainable feedstock offerings.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001666700",
+        "slug": "dow",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Petrochemical Feedstock & Plastics Customer",
+        "relationshipNote": "Dow is a major chemical and materials company with $57B 2023 revenue and 105,000 employees. Dow sources ethylene, propylene, and other petrochemical feedstocks from Shell for plastics, coatings, and specialty chemicals production. Shell supplies ~6% of Dow's feedstock inputs (estimated $800M–$1.2B annual value). Dow's 2023 capex of $5.5B includes circular-economy plastics initiatives, driving demand for Shell's recycled-content and bio-based feedstocks.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Exxon Mobil Chemical Company (subsidiary)",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil_chemical",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Petrochemical Feedstock Supplier & Customer",
+        "relationshipNote": "ExxonMobil Chemical is XOM's integrated chemicals division with $30B 2023 revenue. ExxonMobil Chemical competes with Shell Chemicals for petrochemical feedstock sales to downstream customers (BASF, Dow, Covestro) while also sourcing crude oil and natural gas from Shell in joint ventures. The relationship is competitive but interdependent: Shell and XOM jointly operate the Baytown refinery (2023: 560K bbl/day capacity) and petrochemical complex in Texas, with Shell supplying 40% of feedstock inputs.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "NextEra Energy Inc.",
+        "ticker": "NEE",
+        "cik": "0001034869",
+        "slug": "nextera_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Renewable Energy & Power Generation Competitor",
+        "relationshipNote": "NextEra Energy is the world's largest renewable energy company with 60GW capacity (2023) and $60B market cap. NextEra competes with Shell's renewable and hydrogen initiatives for power generation and energy transition capex. NextEra's 2023 capex of $17B (100% to renewables) vs. Shell's <5% renewable allocation underscores competitive pressure on Shell's transition strategy. NextEra's 2023 net income of $10.4B on lower revenue than Shell signals margin advantage from pure-play renewable focus.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Siemens Energy AG",
+        "ticker": "ENR",
+        "cik": null,
+        "slug": "siemens_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Hydrogen & Power Infrastructure Competitor",
+        "relationshipNote": "Siemens Energy is a leading power and hydrogen infrastructure company with €33B 2023 revenue. Siemens Energy competes with Shell's hydrogen and electrolysis initiatives for industrial decarbonization projects. Siemens Energy's 2023 hydrogen order book of €5B+ and 2GW electrolyzer capacity target by 2030 compete directly with Shell's hydrogen JVs and capex plans. Siemens Energy's 2024 capex of €3.5B targets hydrogen and grid modernization, pressuring Shell's transition credibility.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Plug Power Inc.",
+        "ticker": "PLUG",
+        "cik": "0001393311",
+        "slug": "plug_power",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Hydrogen Fuel Cell & Industrial Hydrogen Competitor",
+        "relationshipNote": "Plug Power is a hydrogen fuel cell and green hydrogen producer with $1.2B 2023 revenue and 50+ hydrogen stations globally. Plug Power competes with Shell's hydrogen initiatives for industrial and transportation applications. Plug Power's 2023 capex of $1.5B and 500 tonnes/day green hydrogen production target by 2025 represent competitive threats to Shell's hydrogen strategy. Plug Power's 2023 net loss of $1.1B reflects transition-phase economics that Shell must navigate.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Linde plc",
+        "ticker": "LIN",
+        "cik": "0000060086",
+        "slug": "linde",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Industrial Gas & Hydrogen Production Competitor",
+        "relationshipNote": "Linde is the world's largest industrial gas company with $32B 2023 revenue and 80,000 employees. Linde competes with Shell's hydrogen production and carbon capture initiatives for industrial decarbonization. Linde's 2023 capex of $4.5B includes hydrogen and carbon capture projects; Linde's hydrogen production capacity of 2M tonnes/year (2023) exceeds Shell's 500K tonnes/year. Linde's 2023 net income of $12.2B on lower revenue than Shell underscores margin advantage from pure-play industrial gas focus.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Air Liquide SA",
+        "ticker": "AI",
+        "cik": null,
+        "slug": "air_liquide",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Industrial Gas & Hydrogen Infrastructure Competitor",
+        "relationshipNote": "Air Liquide is a leading industrial gas company with €29B 2023 revenue and 78,000 employees. Air Liquide competes with Shell's hydrogen and carbon capture initiatives for industrial and energy applications. Air Liquide's 2023 capex of €3.5B includes hydrogen infrastructure (500 hydrogen stations globally) and carbon capture projects. Air Liquide's 2023 net income of €4.2B reflects lower margins than Shell but stronger hydrogen market positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000093410",
+        "slug": "chevron",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Upstream Portfolio & Shareholder Return Benchmark",
+        "relationshipNote": "Chevron is a major integrated competitor with 2.9M bbl/day production and $188B 2023 revenue. Chevron's 2023 acquisition of Hess ($53B) for Guyana assets (targeting 750K bbl/day by 2030) and Permian scale represent direct competitive threats to Shell's upstream growth. Chevron's 2023 dividend of $6.16/share and $20B buyback program set shareholder-return benchmarks that constrain Shell's transition capex flexibility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ],
+        "_reslottedFrom": "suppliers"
+      },
+      {
+        "name": "Eni SpA",
+        "ticker": "ENI",
+        "cik": null,
+        "slug": "eni",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Mediterranean & African Upstream Competitor",
+        "relationshipNote": "Eni is an Italian supermajor with 1.7M bbl/day production and significant African upstream presence (Angola, Congo, Egypt). Eni's 2023 capex of $11B (40% to renewables and hydrogen) and renewable portfolio (5GW capacity) signal transition commitment. Eni's 2023 net income of $14.3B reflects lower production and higher transition costs, but African asset base (Angola 2023: 400K bbl/day) competes with Shell's Nigeria operations.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance Oversight",
+        "relationshipNote": "The SEC oversees Shell's US-listed securities and Form 20-F annual filings (Shell is a foreign private issuer). The SEC's 2023 climate disclosure rules (Regulation S-K Item 1505) require Shell to disclose Scope 1, 2, and 3 GHG emissions and climate risks. Shell's 2024 20-F filing disclosed 1.5B tonnes CO2e Scope 1+2 emissions (2023) and $15B+ stranded asset risk. SEC enforcement actions on energy companies (e.g., BP 2015 Deepwater Horizon settlement: $20.8B) establish precedent for Shell's environmental liability exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Financial Conduct Authority (UK)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fca",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Primary Listing & Disclosure Regulator",
+        "relationshipNote": "The FCA is Shell's primary regulator as a UK-listed company (LSE: SHEL). The FCA's 2023 listing rules amendments require climate-related financial disclosures aligned with TCFD framework. Shell's 2024 annual report disclosed £2.3B windfall tax liability (UK 35% energy profits levy, 2022–2028) and £5B+ climate transition capex commitments. FCA enforcement actions on energy companies (e.g., BP 2015 Gulf of Mexico settlement: £10.5B) establish precedent for Shell's regulatory exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "European Commission (DG COMP & DG ENER)",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust, Energy Policy & Climate Regulation",
+        "relationshipNote": "The European Commission regulates Shell's EU operations (40% of 2023 revenue) via DG COMP (antitrust) and DG ENER (energy policy). The EC's 2023 Fit for 55 directive mandates 55% GHG reduction by 2030 (vs. 1990 baseline), requiring Shell to cut Scope 1+2 emissions by 45% by 2030. Shell's 2023 EU capex of €8B includes renewable and hydrogen projects to comply. EC antitrust investigations (e.g., 2022 energy market inquiry) have scrutinized Shell's market power in refined products and LNG.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance & Emissions Regulation",
+        "relationshipNote": "The EPA regulates Shell's US operations (30% of 2023 revenue) via Clean Air Act, Clean Water Act, and Resource Conservation and Recovery Act. Shell's 2023 US refining and chemical operations (15 facilities) are subject to EPA GHG reporting (40 CFR Part 98) and New Source Performance Standards (NSPS). EPA enforcement actions on energy companies (e.g., Chevron 2020 Richmond refinery settlement: $2.7M) establish precedent. Shell's 2024 capex includes $2B+ for EPA compliance (methane reduction, air quality).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of State (Office of Foreign Assets Control)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ofac",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Sanctions Compliance & Geopolitical Risk Management",
+        "relationshipNote": "OFAC enforces US sanctions on Shell's operations in Russia, Iran, and other sanctioned jurisdictions. Shell's 2022 exit from Russia (Sakhalin-1, Arctic LNG) resulted in $3.2B write-down and $4B+ stranded assets. OFAC enforcement actions on energy companies (e.g., Gazprom 2022 sanctions: $10B+ asset freeze) establish precedent. Shell's 2024 compliance capex includes $500M+ for sanctions screening and geopolitical risk management across 70+ operating countries.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "PricewaterhouseCoopers LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "pwc",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial & Compliance Audit",
+      "relationshipNote": "PwC is Shell's external auditor (since 2005) and provides audit services for consolidated financial statements and internal controls (SOX 404 equivalent). PwC's 2024 audit opinion on Shell's 2023 20-F filing (€396B revenue, €40B net income) included emphasis-of-matter paragraphs on impairment testing (£5B+ climate-related write-downs) and going-concern assumptions under energy transition scenarios. PwC's audit fees (2023: £45M+) and non-audit services (£20M+) are disclosed in Shell's proxy statement.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Largest Institutional Shareholder & ESG Engagement",
+        "relationshipNote": "BlackRock is Shell's largest institutional shareholder with 5.2% stake (2024) and $10.5B market value. BlackRock's 2023 engagement with Shell focused on climate transition credibility, renewable capex allocation, and net-zero pathway credibility. BlackRock's 2024 proxy voting guidelines require energy companies to disclose Scope 3 emissions and transition plans; BlackRock voted against Shell's 2024 dividend proposal citing insufficient transition capex (target: 20% by 2030 vs. current <5%). BlackRock's $10T+ AUM makes it a systemic influence on Shell's capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Second-Largest Institutional Shareholder & Stewardship",
+        "relationshipNote": "Vanguard is Shell's second-largest institutional shareholder with 4.8% stake (2024) and $10.2B market value. Vanguard's 2023 engagement with Shell focused on governance, board diversity, and climate risk disclosure. Vanguard's 2024 proxy voting guidelines require energy companies to disclose climate transition plans and capex allocation; Vanguard voted for Shell's 2024 dividend proposal but flagged transition capex concerns. Vanguard's $8T+ AUM makes it a systemic influence on Shell's shareholder returns and capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Investment Banking Partner",
+        "relationshipNote": "JPMorgan Chase is Shell's primary lender and investment banking partner with $15B+ credit facility (2023) and $2B+ annual investment banking fees. JPMorgan's 2023 energy lending policy limits financing for new oil/gas projects; Shell's 2024 capex guidance of $30B includes $5B+ financed via JPMorgan-led syndicated loans. JPMorgan's 2024 energy sector outlook flagged Shell's transition capex credibility gap vs. peers (BP, TotalEnergies). JPMorgan's $3.9T AUM and $2.8T assets under management make it a systemic influence on Shell's cost of capital.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Capital Markets Partner",
+        "relationshipNote": "Bank of America is Shell's secondary lender and capital markets partner with $8B+ credit facility (2023) and $1.5B+ annual investment banking fees. BofA's 2023 energy lending policy restricts financing for new oil/gas projects; Shell's 2024 bond issuance of €5B was underwritten by BofA-led syndicate. BofA's 2024 energy sector outlook flagged Shell's dividend sustainability risk if WTI falls below $70/bbl. BofA's $3.2T AUM makes it a systemic influence on Shell's cost of capital and shareholder returns.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Wael Sawan",
+        "ticker": null,
+        "cik": null,
+        "slug": "wael_sawan",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer & Strategic Direction",
+        "relationshipNote": "Wael Sawan became Shell CEO in January 2023 (replacing Ben van Beurden). Sawan's 2023 strategic priorities included accelerating energy transition capex (targeting 20% by 2030), optimizing upstream portfolio (divesting non-core assets), and maintaining shareholder returns (€1B+ quarterly buybacks). Sawan's 2024 guidance of €30B capex (vs. €27B in 2023) and €1.5B quarterly dividend reflect capital allocation discipline. Sawan's prior role as Integrated Gas CEO (2019–2022) established credibility in LNG and transition strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Sinead Gorman",
+        "ticker": null,
+        "cik": null,
+        "slug": "sinead_gorman",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer & Capital Allocation",
+        "relationshipNote": "Sinead Gorman became Shell CFO in September 2023 (replacing Jessica Uhl). Gorman's 2024 priorities include optimizing capital allocation (targeting 50% FCF payout ratio), managing debt levels (targeting net debt/EBITDA <1.5x), and funding energy transition capex. Gorman's prior role as Shell Downstream CFO (2019–2023) established credibility in refining and chemicals operations. Gorman's 2024 guidance reflects disciplined capex management and dividend sustainability under commodity price scenarios.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Huibert Vigeveno",
+        "ticker": null,
+        "cik": null,
+        "slug": "huibert_vigeveno",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer & Operational Excellence",
+        "relationshipNote": "Huibert Vigeveno is Shell's COO (since 2021) and leads operational performance, safety, and production optimization. Vigeveno's 2023 priorities included improving upstream production efficiency (targeting 5% cost reduction), enhancing safety culture (targeting zero fatalities), and optimizing refining operations. Vigeveno's prior role as Upstream Director (2018–2021) established credibility in production optimization. Vigeveno's 2024 guidance reflects operational discipline and production trajectory management across 70+ countries.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Andrew Brown",
+        "ticker": null,
+        "cik": null,
+        "slug": "andrew_brown",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "General Counsel & Legal/Compliance Officer",
+        "relationshipNote": "Andrew Brown is Shell's General Counsel (since 2019) and leads legal, compliance, and regulatory affairs. Brown's 2023 priorities included managing climate litigation risk (Shell faces 20+ climate cases globally), ensuring sanctions compliance (Russia exit), and navigating energy transition regulation. Brown's prior role as Shell Legal Director (2015–2019) established credibility in regulatory affairs. Brown's 2024 focus includes managing windfall tax exposure (£2.3B liability, 2022–2028) and climate disclosure compliance.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Brent Crude Oil Spot Price",
+        "ticker": "BRENT",
+        "cik": null,
+        "slug": "brent_crude_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Primary Revenue & Earnings Driver",
+        "relationshipNote": "Brent crude oil spot price is Shell's primary revenue and earnings driver; Shell's 2023 net income of €40B was 60% sensitive to WTI/Brent pricing (€1B per $10/bbl swing). Shell's 2024 guidance assumes WTI of $70–$80/bbl; prices below $60/bbl would trigger dividend cuts and capex deferrals. Brent prices are influenced by OPEC+ production decisions, geopolitical events (Russia sanctions, Middle East conflicts), and demand shocks (recession, EV adoption). Shell's hedging policy (40–60% of production hedged) provides downside protection but caps upside participation.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Henry Hub Natural Gas Spot Price",
+        "ticker": "HH",
+        "cik": null,
+        "slug": "henry_hub_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "LNG & Gas Segment Revenue Driver",
+        "relationshipNote": "Henry Hub natural gas spot price is Shell's secondary revenue driver for LNG and gas segments; Shell's 2023 LNG revenue of €12B was 70% sensitive to Henry Hub pricing (€1B per $1/MMBtu swing). Shell's 2024 guidance assumes Henry Hub of $3–$4/MMBtu; prices above $5/MMBtu would trigger LNG margin expansion and capex acceleration. Henry Hub prices are influenced by US production, storage levels, weather, and global LNG demand. Shell's long-term LNG contracts (2023–2040) provide pricing stability but limit spot market upside.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "MSCI World Energy Index",
+        "ticker": "MXWO0E",
+        "cik": null,
+        "slug": "msci_energy_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Sector Relative Performance & Valuation Benchmark",
+        "relationshipNote": "The MSCI World Energy Index tracks 50+ global energy companies and serves as Shell's sector valuation benchmark. Shell's 2024 P/E ratio of 8.5x vs. MSCI Energy average of 10.2x reflects market concerns about energy transition credibility and dividend sustainability. Shell's 2024 dividend yield of 4.2% vs. MSCI Energy average of 3.8% reflects higher payout ratio and lower growth expectations. The index's 2024 YTD performance (+12%) vs. Shell's stock performance (+8%) reflects relative underperformance vs. peers (ExxonMobil +15%, Chevron +10%).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

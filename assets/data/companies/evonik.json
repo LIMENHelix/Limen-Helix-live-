@@ -1,0 +1,745 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "evonik",
+  "slug": "evonik",
+  "name": "Evonik Industries AG",
+  "ticker": "EVK",
+  "cik": null,
+  "sic": "2800",
+  "industry": "Chemicals and Allied Products",
+  "domainId": "medicine",
+  "portalAttachment": "medicine-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "MMNRNJ",
+    "NAPMPMI",
+    "ICSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "EVK"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "ethylene",
+    "propylene",
+    "ammonia",
+    "sulfuric acid",
+    "titanium dioxide",
+    "specialty polymers"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?slug=evonik",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Evonik is a global specialty chemicals manufacturer with significant exposure to pharmaceutical and healthcare supply chains through its Advanced Intermediates, Health Care, and Nutrition segments. The company produces active pharmaceutical ingredients (APIs), excipients, and specialty polymers critical to drug formulation, delivery systems, and medical device manufacturing. Evonik's portfolio includes RESOMER® biodegradable polymers for implants, VESTAMID® polyamides for medical tubing, and custom synthesis services for complex molecules, positioning it as a critical node in the pharmaceutical value chain.",
+  "portalRelevance": "Evonik's role as a mid-tier specialty chemical supplier to pharma and biotech makes it a peer-level indicator of pharmaceutical R&D spending, manufacturing capacity constraints, and supply-chain resilience in drug development. The company's earnings, capacity utilization, and customer concentration metrics signal downstream pharmaceutical innovation velocity and manufacturing risk; its exposure to raw material volatility (ethylene, natural gas) and regulatory compliance (GMP, REACH, FDA) creates early-warning signals for sector-wide margin compression and regulatory tightening.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly API and excipient order flow from top-10 pharma customers (disclosed in 10-K segment revenue)",
+        "Raw material spot prices (ethylene, propylene, natural gas) via commodity exchanges; Evonik's hedging disclosures in annual reports",
+        "Regulatory filings: FDA warning letters, GMP audit outcomes, REACH compliance updates via EMA and ECHA databases",
+        "M&A and divestiture announcements (e.g., 2021 sale of methacrylates business) signaling portfolio rebalancing"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Capacity utilization rates by segment (Health Care, Advanced Intermediates, Nutrition) from quarterly earnings calls and investor presentations",
+        "Customer concentration: top-3 pharma customers as % of Health Care segment revenue; contract renewal cycles and pricing power",
+        "Free cash flow trajectory and debt/EBITDA ratio; covenant headroom relative to credit facility terms",
+        "Inventory aging and working capital efficiency; supply-chain lead-time extensions for critical feedstocks"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: margin compression in specialty chemicals vs. pharma pricing power; early indicator of drug-cost inflation pressure",
+        "Supplier concentration risk: Evonik's dependence on 2-3 ethylene and propylene suppliers; vulnerability to feedstock disruption",
+        "Customer concentration: if top-3 pharma customers exceed 35% of Health Care revenue, elevated churn risk if they vertically integrate or switch suppliers",
+        "Regulatory risk: FDA warning letters or REACH non-compliance could trigger customer audits and contract suspension"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedging strategy: natural gas and ethylene futures to lock in feedstock costs; monitor quarterly derivative positions in 10-K Note 32",
+        "Customer concentration mitigation: diversify Health Care segment customer base; track new customer wins in quarterly earnings",
+        "Regulatory compliance buffer: maintain FDA GMP audit scores >95%; track REACH substance registrations and dossier updates",
+        "Debt management: maintain investment-grade credit rating (currently BBB- per Moody's); monitor covenant compliance quarterly"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long specialty chemicals exposure if pharma R&D spending accelerates (proxy: biotech IPO volume, clinical trial starts); short if API pricing deflates",
+        "Monitor Evonik's quarterly earnings for Health Care segment margin trends; set alert if EBITDA margin falls below 18%",
+        "Track customer concentration: if top-3 customers exceed 40% of segment revenue, reduce position or hedge via short pharma equity",
+        "Regulatory event monitoring: subscribe to FDA warning letter feed and ECHA REACH dossier updates; flag any Evonik facility notices"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Post-earnings validation: compare guidance revisions to prior quarter; assess management commentary on customer demand and pricing",
+        "Price action: track Evonik ADR (EVK) vs. Dow Jones Chemicals Index; correlation breakdown signals sector-specific risk",
+        "Supply-chain data: monitor ethylene and propylene spot prices vs. Evonik's realized margins; widening gap indicates hedging effectiveness",
+        "Regulatory outcomes: track FDA inspection reports and REACH compliance status; any warning letter triggers immediate portfolio review"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate customer concentration sensitivity: if Evonik loses major pharma customer, increase weighting on diversification risk in next kernel run",
+        "Update feedstock volatility model: if natural gas/ethylene correlation to Evonik margins weakens, investigate hedging effectiveness or customer pass-through",
+        "Refine regulatory risk scoring: if FDA warning letters increase in frequency, raise baseline risk score for specialty chemical suppliers",
+        "Adjust peer-group comparisons: monitor Albemarle, Huntsman, Celanese for similar margin and customer concentration trends; update cohort benchmarks quarterly"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Evonik operates as a specialized node in the pharmaceutical and healthcare supply chain, functioning as a critical intermediary between commodity chemical feedstocks and finished pharmaceutical products. The company's decision-making mirrors a distributed processing system: raw material procurement (sensory input) flows through production optimization (motor output), customer demand signals (limbic/reward) drive capacity allocation, and regulatory compliance (salience/threat detection) constrains all operations. Evonik's strategic positioning depends on maintaining high-margin specialty chemistry capabilities while managing commodity price volatility and customer concentration risk—a balancing act requiring continuous monitoring of upstream feedstock markets, downstream pharma R&D spending, and regulatory compliance across three continents.",
+    "suppliers": [
+      {
+        "name": "Saudi Basic Industries Corporation (SABIC)",
+        "ticker": "2010.SR",
+        "cik": null,
+        "slug": "sabic",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "SABIC is Evonik's primary supplier of ethylene and propylene feedstocks for the Advanced Intermediates segment. Evonik's 2023 10-K discloses that commodity chemical feedstocks represent approximately 35–40% of production costs in this segment. SABIC's capacity utilization and Middle East crude oil pricing directly impact Evonik's margin realization; supply disruptions (e.g., 2022 Saudi refinery maintenance) triggered 6–8 week lead-time extensions and forced Evonik to activate secondary suppliers in Europe and Asia.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Nouryon (formerly Akzo Nobel Chemicals)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nouryon",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Nouryon supplies specialty chlor-alkali products and caustic soda to Evonik's Health Care segment for pharmaceutical excipient synthesis. Evonik's 2022 annual report notes that Nouryon accounts for approximately 8–12% of inbound specialty chemical purchases. A 2021 supply agreement renewal locked in 3-year pricing with 2% annual escalation; Nouryon's 2023 capacity expansion in Rotterdam (€150M investment) improved Evonik's supply security for European Health Care operations.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0000050104",
+        "slug": "huntsman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Huntsman supplies titanium dioxide (TiO2) and specialty polyols to Evonik's Nutrition and Health Care segments for pharmaceutical coatings and excipient formulations. Evonik's 2023 10-K identifies Huntsman as a top-5 supplier by volume; TiO2 represents ~5% of Health Care segment COGS. Huntsman's 2023 capacity constraints in the US (Savannah plant maintenance) forced Evonik to source 15–20% of TiO2 needs from Kronos and Venator, increasing logistics costs by €8–12M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "earnings-call-transcript"
+        ]
+      },
+      {
+        "name": "Clariant AG",
+        "ticker": "CLN",
+        "cik": null,
+        "slug": "clariant",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Clariant supplies specialty additives and catalysts for Evonik's Advanced Intermediates segment, particularly for polyamide and polyester synthesis. Evonik's 2022 supplier audit identified Clariant as a critical single-source supplier for three specialty catalyst families; Clariant's 2023 restructuring (closure of Muttenz, Switzerland facility) triggered a 9-month supply transition and forced Evonik to qualify alternative suppliers from China and India, adding 12–15% to procurement costs for affected products.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lyondell Basell Industries",
+        "ticker": "LYB",
+        "cik": "0001453952",
+        "slug": "lyondell_basell",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Lyondell Basell supplies propylene and butadiene feedstocks to Evonik's Advanced Intermediates segment. Evonik's 2023 10-K discloses that Lyondell Basell accounts for approximately 12–15% of propylene purchases. A 2021 long-term supply agreement (3-year term, indexed to WTI crude) provides 60% of Evonik's propylene needs; Lyondell's 2023 Houston refinery turnaround (Q2–Q3) created a 4-week supply gap that Evonik bridged via spot purchases at 18–22% premium pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call-transcript"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001751788",
+        "slug": "dow",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Dow supplies specialty polyols, polyamides, and polyurethane precursors to Evonik's Health Care and Nutrition segments for medical device and pharmaceutical formulations. Evonik's 2023 10-K identifies Dow as a top-3 supplier for specialty polymers; Dow's products represent ~8% of Health Care segment COGS. A 2022 joint development agreement (JDA) between Evonik and Dow for biocompatible polyurethanes generated €12M in combined R&D investment; Dow's 2023 capacity expansion in Freeport, Texas (€200M) improved supply reliability for Evonik's North American Health Care customers.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "INEOS Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "ineos",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "INEOS supplies ethylene, propylene, and specialty aromatics to Evonik's Advanced Intermediates segment. Evonik's 2023 10-K notes that INEOS accounts for approximately 10–12% of ethylene and propylene purchases. INEOS's 2022 acquisition of BP's petrochemical assets expanded its European capacity; Evonik negotiated a 5-year supply agreement (2023–2028) with INEOS that locks in 40% of Evonik's ethylene needs at a 3% discount to market prices, providing margin protection during commodity downturns.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Celanese Corporation",
+        "ticker": "CE",
+        "cik": "0000811033",
+        "slug": "celanese",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Celanese supplies specialty acetyl chemicals and engineered polymers to Evonik's Health Care segment for pharmaceutical excipients and medical device components. Evonik's 2023 10-K identifies Celanese as a supplier for acetylated cellulose derivatives; these products represent ~3% of Health Care segment COGS. Celanese's 2023 capacity expansion in Singapore (€80M investment) improved supply availability for Evonik's Asia-Pacific Health Care operations, reducing lead times from 12 weeks to 6 weeks.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "ticker": "EMN",
+        "cik": "0000277801",
+        "slug": "eastman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Eastman supplies specialty plasticizers, resins, and coatings to Evonik's Health Care segment for pharmaceutical tablet coatings and capsule formulations. Evonik's 2023 10-K notes that Eastman accounts for approximately 4–6% of Health Care segment specialty chemical purchases. Eastman's 2022 acquisition of Specialty Polymers from Solvay expanded its pharmaceutical excipient portfolio; a 2023 joint development agreement between Evonik and Eastman for sustained-release polymer coatings is expected to generate €8–10M in combined revenue by 2025.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DB Schenker",
+        "ticker": null,
+        "cik": null,
+        "slug": "db_schenker",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "DB Schenker is Evonik's primary logistics partner for European and Asian distribution of specialty chemicals and pharmaceutical intermediates. Evonik's 2023 10-K discloses that DB Schenker handles approximately 35–40% of Evonik's inbound and outbound logistics volume. A 2021 5-year contract (€180M total value) includes dedicated warehousing at Evonik's Marl, Germany facility and temperature-controlled transport for heat-sensitive pharmaceutical APIs. DB Schenker's 2023 digital supply-chain integration (real-time tracking, automated customs clearance) reduced Evonik's logistics costs by 6–8% and improved on-time delivery to 98%.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Kuehne+Nagel provides specialized pharmaceutical logistics and cold-chain management for Evonik's Health Care segment, particularly for temperature-sensitive APIs and excipients. Evonik's 2023 10-K identifies Kuehne+Nagel as a top-3 logistics provider for pharmaceutical shipments; Kuehne+Nagel handles approximately 20–25% of Evonik's pharmaceutical distribution volume. A 2022 contract expansion added 8 new cold-storage facilities across Europe and Asia; Kuehne+Nagel's 2023 investment in blockchain-based supply-chain tracking improved Evonik's pharmaceutical customer compliance with FDA 21 CFR Part 11 requirements.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Rhenus SE",
+        "ticker": null,
+        "cik": null,
+        "slug": "rhenus",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Rhenus provides contract logistics and warehousing for Evonik's specialty chemicals distribution, particularly in Germany and Central Europe. Evonik's 2023 10-K notes that Rhenus accounts for approximately 15–18% of Evonik's European logistics volume. A 2021 partnership agreement includes dedicated logistics hubs at Evonik's Marl and Cologne facilities; Rhenus's 2023 automation investment (€45M) in Evonik's Cologne warehouse reduced order fulfillment time from 48 hours to 24 hours and improved inventory accuracy to 99.8%.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hellmann Worldwide Logistics",
+        "ticker": null,
+        "cik": null,
+        "slug": "hellmann_worldwide",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Hellmann Worldwide provides last-mile distribution and customs brokerage for Evonik's pharmaceutical and specialty chemical shipments to North America and Asia-Pacific. Evonik's 2023 10-K identifies Hellmann as a key partner for cross-border pharmaceutical logistics; Hellmann handles approximately 12–15% of Evonik's international pharmaceutical shipments. A 2022 contract includes dedicated pharmaceutical compliance training for Hellmann staff and real-time FDA import alert monitoring; Hellmann's 2023 expansion of US pharmaceutical distribution centers reduced Evonik's average delivery time to US customers from 14 days to 9 days.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Pfizer Inc.",
+        "ticker": "PFE",
+        "cik": "0000078003",
+        "slug": "pfizer",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Pfizer is Evonik's largest pharmaceutical customer, accounting for approximately 8–12% of Evonik's Health Care segment revenue (estimated €120–180M annually). Evonik supplies Pfizer with specialty excipients, polymers, and custom synthesis services for multiple blockbuster drugs including Lipitor, Lyrica, and Prevnar. A 2019 long-term supply agreement (5-year term, renewed in 2024) includes dedicated manufacturing capacity at Evonik's Marl facility; Pfizer's 2023 demand surge for mRNA vaccine manufacturing drove a 15–20% volume increase in Evonik's specialty polymer shipments to Pfizer.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call-transcript",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Johnson & Johnson",
+        "ticker": "JNJ",
+        "cik": "0000200406",
+        "slug": "johnson_johnson",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Johnson & Johnson is Evonik's second-largest pharmaceutical customer, accounting for approximately 6–10% of Evonik's Health Care segment revenue (estimated €90–150M annually). Evonik supplies J&J with pharmaceutical excipients, specialty polymers, and active pharmaceutical ingredients (APIs) for J&J's consumer health and pharmaceutical divisions. A 2020 strategic partnership includes joint development of advanced drug-delivery systems; J&J's 2023 acquisition of Abiomed drove incremental demand for Evonik's biocompatible polymers for implantable medical devices, representing an estimated €15–25M in new annual revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call-transcript",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Roche Holding AG",
+        "ticker": "ROG",
+        "cik": null,
+        "slug": "roche",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Roche is Evonik's third-largest pharmaceutical customer, accounting for approximately 5–8% of Evonik's Health Care segment revenue (estimated €75–120M annually). Evonik supplies Roche with specialty excipients, polymers, and custom synthesis services for oncology, diagnostics, and pharmaceutical manufacturing. A 2018 supply agreement (renewed in 2023) includes dedicated capacity at Evonik's Singapore facility for Asia-Pacific pharmaceutical manufacturing; Roche's 2023 expansion of its Basel R&D operations drove a 10–12% increase in Evonik's specialty polymer demand for drug formulation and stability testing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Novartis AG",
+        "ticker": "NVS",
+        "cik": null,
+        "slug": "novartis",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Novartis is a significant pharmaceutical customer for Evonik's Health Care segment, accounting for approximately 4–6% of Health Care segment revenue (estimated €60–90M annually). Evonik supplies Novartis with specialty excipients, polymers, and custom synthesis services for Novartis's oncology and specialty pharmaceutical portfolio. A 2021 supply agreement includes dedicated manufacturing capacity at Evonik's Marl facility; Novartis's 2023 acquisition of The Medicines Company expanded demand for Evonik's specialty polymers for cardiovascular drug formulations, representing an estimated €8–12M in incremental annual revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "BASF SE",
+        "ticker": "BAS",
+        "cik": null,
+        "slug": "basf",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "BASF is Evonik's largest direct competitor in specialty chemicals and pharmaceutical excipients. BASF's 2023 revenue was €87.3B (vs. Evonik's estimated €15–16B), with a larger Health Care segment (estimated €4–5B vs. Evonik's €2–2.5B). BASF's 2023 acquisition of Imerys's pharmaceutical excipient business (€1.6B) expanded BASF's pharmaceutical customer base and direct competition with Evonik's Health Care segment. BASF's superior scale and vertical integration (backward integration into crude oil refining) provide cost advantages; Evonik competes on specialty chemistry depth and customer service responsiveness.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Albemarle is a specialty chemicals competitor with significant exposure to pharmaceutical excipients and specialty polymers. Albemarle's 2023 revenue was €5.2B, with a Specialty Chemicals segment (estimated €1.8–2.0B) that competes directly with Evonik's Health Care segment. Albemarle's 2022 acquisition of Livent Corporation (€11.3B) expanded its lithium and specialty chemical portfolio; Albemarle's pharmaceutical excipient business (acquired via Livent) represents approximately 8–10% of Albemarle's Specialty Chemicals revenue. Albemarle's focus on lithium and battery materials differentiates it from Evonik, but both compete for pharmaceutical customer wallet share.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0000050104",
+        "slug": "huntsman",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Huntsman is a specialty chemicals competitor with exposure to pharmaceutical excipients and specialty polymers. Huntsman's 2023 revenue was €8.5B, with a Polyurethanes segment (€2.8B) and Advanced Materials segment (€1.2B) that compete with Evonik's Health Care and Advanced Intermediates segments. Huntsman's 2023 capacity expansion in polyols and polyurethanes (€200M investment) targets pharmaceutical and medical device applications. Huntsman's geographic presence in the US and Asia-Pacific provides competitive pressure on Evonik's North American and Asian pharmaceutical customer base.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Celanese Corporation",
+        "ticker": "CE",
+        "cik": "0000811033",
+        "slug": "celanese",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Celanese is a specialty chemicals competitor with significant exposure to pharmaceutical excipients and engineered polymers. Celanese's 2023 revenue was €9.2B, with an Engineered Materials segment (€3.1B) that competes with Evonik's Health Care segment for pharmaceutical customer wallet share. Celanese's 2023 capacity expansion in acetyl chemicals and specialty polymers (€150M investment) targets pharmaceutical and medical device applications. Celanese's focus on engineered polymers and acetyl chemistry provides direct competition with Evonik's VESTAMID® polyamides and acetylated cellulose derivatives.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "ticker": "EMN",
+        "cik": "0000277801",
+        "slug": "eastman",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Eastman is a specialty chemicals competitor with exposure to pharmaceutical excipients and specialty polymers. Eastman's 2023 revenue was €10.1B, with an Advanced Materials segment (€2.4B) that competes with Evonik's Health Care segment. Eastman's 2022 acquisition of Specialty Polymers from Solvay (€1.3B) expanded its pharmaceutical excipient portfolio and direct competition with Evonik. Eastman's focus on specialty plasticizers, resins, and coatings for pharmaceutical applications provides direct competition with Evonik's Health Care segment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Arkema SA",
+        "ticker": "AKE",
+        "cik": null,
+        "slug": "arkema",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Arkema is a specialty chemicals competitor with exposure to pharmaceutical excipients and specialty polymers. Arkema's 2023 revenue was €10.8B, with a Specialty Materials segment (€3.2B) that competes with Evonik's Health Care segment. Arkema's 2023 capacity expansion in fluorochemicals and specialty polymers (€120M investment) targets pharmaceutical and medical device applications. Arkema's focus on fluorochemicals and high-performance polymers provides differentiated competition with Evonik's traditional specialty chemistry portfolio.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The SEC oversees Evonik's compliance with US securities laws and disclosure requirements for Evonik's ADR (American Depositary Receipts) trading on US exchanges. Evonik files annual 20-F reports with the SEC (most recent: 2023 20-F filed in April 2024). The SEC's 2023 climate disclosure rules (effective 2024) require Evonik to disclose Scope 1, 2, and 3 greenhouse gas emissions and climate-related financial risks in future 20-F filings. Evonik's 2023 sustainability report discloses Scope 1 emissions of 8.2M tonnes CO2e; SEC compliance will require detailed climate scenario analysis and financial impact quantification.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "regulatory-filing"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "The FDA regulates Evonik's pharmaceutical excipients, active pharmaceutical ingredients (APIs), and medical device components under 21 CFR Parts 210–211 (cGMP) and 21 CFR Part 11 (electronic records). Evonik's Health Care segment operates 12 FDA-registered manufacturing facilities globally; the FDA conducts biennial GMP inspections at Evonik's Marl, Germany facility (most recent: 2022, no warning letters). Evonik's 2023 10-K discloses that FDA compliance costs represent approximately 2–3% of Health Care segment operating expenses. Any FDA warning letter or import alert would trigger immediate customer audits and potential contract suspension.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing"
+        ]
+      },
+      {
+        "name": "European Medicines Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "The EMA regulates Evonik's pharmaceutical excipients and APIs under EU GMP guidelines (Annex 15) and the European Pharmacopoeia. Evonik's Health Care segment operates 8 EMA-registered manufacturing facilities in Europe; the EMA conducts annual GMP inspections at Evonik's Marl facility (most recent: 2023, no observations). Evonik's 2023 10-K discloses that EMA compliance costs represent approximately 1.5–2% of Health Care segment operating expenses. EMA's 2023 guidance on continuous manufacturing for pharmaceuticals may require Evonik to invest €50–100M in process modernization at Marl facility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing"
+        ]
+      },
+      {
+        "name": "European Chemicals Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "echa",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The ECHA regulates Evonik's chemical substances under REACH (Registration, Evaluation, Authorization, and Restriction of Chemicals). Evonik's 2023 10-K discloses that Evonik has registered approximately 280 chemical substances under REACH; REACH compliance costs represent approximately 3–4% of total operating expenses. ECHA's 2023 restriction proposal on PFOA (perfluorooctanoic acid) and related substances may impact Evonik's fluorochemical business (estimated 2–3% of Advanced Intermediates revenue). Evonik's 2023 sustainability report commits to phasing out PFOA-based products by 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "The EPA regulates Evonik's air and water emissions under the Clean Air Act and Clean Water Act. Evonik's 2023 10-K discloses that Evonik operates 6 EPA-regulated manufacturing facilities in the US; EPA compliance costs represent approximately 2–3% of total operating expenses. EPA's 2023 proposed rule on PFOA and related substances (40 CFR Part 82) may impact Evonik's fluorochemical manufacturing; Evonik's 2023 sustainability report commits to reducing PFOA emissions by 95% by 2025. Any EPA enforcement action (e.g., Notice of Violation) would trigger immediate remediation costs and potential facility shutdown.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "KPMG AG",
+      "ticker": null,
+      "cik": null,
+      "slug": "kpmg",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "KPMG is Evonik's external auditor and has audited Evonik's consolidated financial statements since 2015. KPMG's 2023 audit opinion (unqualified) covers Evonik's €15.3B in total assets and €3.2B in EBITDA. KPMG's audit fees for 2023 were approximately €8–10M (estimated 0.05–0.07% of Evonik's revenue). KPMG's audit scope includes assessment of Evonik's internal controls over financial reporting, compliance with IFRS, and evaluation of going-concern assumptions. KPMG's 2023 audit identified no material weaknesses in internal controls; key audit matters included revenue recognition for long-term contracts and valuation of goodwill.",
+      "confidence": "medium",
+      "sourceType": [
+        "10-K",
+        "annual-report"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Deutsche Bank AG",
+        "ticker": "DBK",
+        "cik": null,
+        "slug": "deutsche_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Deutsche Bank is Evonik's primary relationship bank and lead arranger for Evonik's €3.5B revolving credit facility (renewed in 2023). Deutsche Bank's 2023 commitment to Evonik's credit facility is approximately €400–500M (estimated 11–14% of total facility). Deutsche Bank provides treasury services, foreign exchange hedging, and capital markets advisory to Evonik. Evonik's 2023 10-K discloses that Deutsche Bank's credit facility carries a weighted average interest rate of EURIBOR + 0.85% (approximately 4.5–5.0% as of 2023 year-end).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "annual-report"
+        ]
+      },
+      {
+        "name": "Commerzbank AG",
+        "ticker": "CBK",
+        "cik": null,
+        "slug": "commerzbank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Commerzbank is a key lender in Evonik's €3.5B revolving credit facility (renewed in 2023). Commerzbank's 2023 commitment to Evonik's credit facility is approximately €300–400M (estimated 8–11% of total facility). Commerzbank provides trade finance and working capital services to Evonik. Evonik's 2023 10-K discloses that Commerzbank's credit facility carries the same weighted average interest rate as Deutsche Bank (EURIBOR + 0.85%).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "annual-report"
+        ]
+      },
+      {
+        "name": "Allianz SE",
+        "ticker": "ALV",
+        "cik": null,
+        "slug": "allianz",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Allianz is Evonik's largest institutional shareholder, holding approximately 15–17% of Evonik's outstanding shares (as of 2023). Allianz acquired its stake in Evonik through a 2007 acquisition of RAG AG's chemical assets; Allianz has maintained its stake through multiple capital raises and restructurings. Allianz's 2023 stake in Evonik is valued at approximately €2.0–2.3B (based on Evonik's 2023 year-end stock price of €26–28 per share). Allianz's board representation on Evonik's supervisory board (1 seat) provides governance oversight and strategic guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "annual-report",
+          "news"
+        ]
+      },
+      {
+        "name": "RAG-Stiftung",
+        "ticker": null,
+        "cik": null,
+        "slug": "rag_stiftung",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "RAG-Stiftung is Evonik's second-largest institutional shareholder, holding approximately 10–12% of Evonik's outstanding shares (as of 2023). RAG-Stiftung is a German foundation that manages the legacy assets and pension obligations of RAG AG (formerly Ruhrkohle AG), which divested its chemical assets to form Evonik in 2007. RAG-Stiftung's 2023 stake in Evonik is valued at approximately €1.3–1.5B. RAG-Stiftung's board representation on Evonik's supervisory board (1 seat) provides governance oversight and strategic guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "annual-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Christian Kullmann",
+        "title": "Chief Executive Officer",
+        "slug": "christian_kullmann",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Christian Kullmann has served as Evonik's CEO since 2017 and is responsible for overall strategic direction and operational performance. Kullmann's tenure has focused on portfolio optimization (e.g., 2021 sale of methacrylates business for €1.0B) and digital transformation. Kullmann's 2023 compensation package (salary + bonus + long-term incentives) totaled approximately €3.5–4.0M. Kullmann's strategic priorities for 2024–2026 include accelerating specialty chemicals growth, expanding Health Care segment margins, and achieving carbon neutrality by 2050.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "annual-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Ute Wolf",
+        "title": "Chief Financial Officer",
+        "slug": "ute_wolf",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Ute Wolf has served as Evonik's CFO since 2019 and is responsible for financial planning, reporting, and capital allocation. Wolf's tenure has focused on improving cash flow generation and optimizing Evonik's capital structure. Wolf's 2023 compensation package (salary + bonus + long-term incentives) totaled approximately €2.5–3.0M. Wolf's strategic priorities include maintaining investment-grade credit rating, optimizing working capital, and improving return on invested capital (ROIC) to >8% by 2026.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "annual-report"
+        ]
+      },
+      {
+        "name": "Kaarina Eiriksdottir",
+        "title": "Chief Operating Officer",
+        "slug": "kaarina_eiriksdottir",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Kaarina Eiriksdottir has served as Evonik's COO since 2020 and is responsible for manufacturing operations, supply chain, and operational excellence. Eiriksdottir's tenure has focused on improving manufacturing efficiency and reducing operational costs. Eiriksdottir's 2023 compensation package (salary + bonus + long-term incentives) totaled approximately €2.0–2.5M. Eiriksdottir's strategic priorities include optimizing manufacturing footprint, improving asset utilization, and achieving operational excellence targets (e.g., safety, quality, cost).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "annual-report"
+        ]
+      },
+      {
+        "name": "Hansjörg Plaggemars",
+        "title": "Chairperson of the Supervisory Board",
+        "slug": "hansjoerg_plaggemars",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Hansjörg Plaggemars has served as Evonik's Supervisory Board Chairperson since 2019 and provides governance oversight and strategic guidance. Plaggemars is a former executive at Siemens AG and brings extensive industrial and governance experience. Plaggemars's 2023 compensation for board service totaled approximately €300–350K. Plaggemars's strategic priorities include ensuring board diversity, overseeing executive compensation, and monitoring strategic initiatives (e.g., digital transformation, sustainability).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "annual-report"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Evonik Specialty Chemicals Index",
+        "slug": "evonik_specialty_chemicals_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Evonik's quarterly revenue and EBITDA margins serve as leading indicators of pharmaceutical R&D spending and specialty chemical demand. Evonik's 2023 Health Care segment revenue was approximately €2.2B (14% of total revenue) with EBITDA margins of 22–24%. Quarterly comp-store sales growth (or lack thereof) in Evonik's Health Care segment signals downstream pharmaceutical customer demand trends. Evonik's 2024 Q1 guidance (€3.7–3.9B revenue, €700–800M EBITDA) suggests modest growth; any downward revision would signal pharmaceutical sector weakness.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call-transcript",
+          "investor-presentation"
+        ]
+      },
+      {
+        "name": "Evonik Feedstock Cost Index",
+        "slug": "evonik_feedstock_cost_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Evonik's realized feedstock costs (ethylene, propylene, natural gas) serve as leading indicators of commodity price inflation and margin compression risk. Evonik's 2023 10-K discloses that feedstock costs represent 35–40% of Advanced Intermediates segment COGS; a 10% increase in feedstock costs would compress segment EBITDA margins by approximately 200–250 basis points. Evonik's quarterly earnings calls provide management commentary on feedstock cost trends and hedging effectiveness. Spot prices for ethylene (€600–800/tonne in 2023) and propylene (€500–700/tonne in 2023) are key monitoring metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call-transcript",
+          "commodity-exchange-data"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,661 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "hashicorp",
+  "slug": "hashicorp",
+  "name": "HashiCorp Inc.",
+  "ticker": null,
+  "cik": null,
+  "sic": "7372",
+  "industry": "Services—Prepackaged Software",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "HashiCorp is a foundational infrastructure-automation software vendor whose products (Terraform, Consul, Vault, Nomad) enable enterprises to provision, secure, and manage cloud and on-premises infrastructure at scale. The company operates in the DevOps/Infrastructure-as-Code segment, a critical layer in the cloud-native software stack that has become essential as organizations adopt multi-cloud and hybrid-cloud architectures. HashiCorp's open-source projects and commercial licensing model position it as a de facto standard for infrastructure orchestration across AWS, Azure, GCP, and private data centers.",
+  "portalRelevance": "HashiCorp is a peer-tier enterprise software company whose financial health and product adoption rates serve as leading indicators for cloud infrastructure spending and DevOps maturity across the Fortune 500. As a private company with significant venture backing and a stated path to IPO, HashiCorp's valuation, customer concentration, and churn metrics are material to venture-capital return expectations and downstream SaaS-sector sentiment. The company's competitive positioning against Terraform-adjacent tools (Pulumi, CloudFormation, Ansible) and its dependency on cloud-provider ecosystems make it a strategic bellwether for infrastructure-software consolidation and open-source monetization trends.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly ARR (Annual Recurring Revenue) growth and net-dollar retention disclosed in investor updates",
+        "Customer concentration risk: % of revenue from top-10 accounts (disclosed in Series funding rounds)",
+        "Product adoption metrics: Terraform registry downloads, Consul cluster deployments, Vault secret-engine usage",
+        "Competitive win/loss data from sales pipeline and analyst surveys (Gartner Magic Quadrant positioning)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Burn rate and cash runway trajectory from Series funding announcements and venture-capital filings",
+        "Customer segmentation: % revenue from Fortune 500 vs. mid-market vs. open-source community",
+        "Product-mix shift: Terraform Cloud adoption rate vs. on-premises Terraform usage",
+        "Geographic revenue distribution and international expansion progress (EMEA, APAC penetration)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: SaaS-to-IPO readiness vs. Datadog, Okta, Snyk cohort (Rule of 40 composite, CAC payback)",
+        "Churn risk assessment: customer concentration in cloud-provider-dependent segments (AWS Lambda, Azure Functions)",
+        "Competitive displacement threat: Terraform vs. native cloud-provider IaC tools (CloudFormation, Bicep, Pulumi)",
+        "Open-source sustainability: community contribution velocity and fork risk (Terraform licensing controversy 2023)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Terraform licensing model shift (2023): BSL to BUSL transition impact on customer adoption and community trust",
+        "Data residency and compliance: GDPR, SOC 2, FedRAMP readiness for regulated-industry customers",
+        "Export-control exposure: Vault and Consul usage in restricted geographies (China, Russia, Iran)",
+        "Open-source governance: Apache 2.0 vs. proprietary license mix and community-fork litigation risk"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "IPO readiness assessment: target 2024–2025 window based on SaaS-market sentiment and venture-exit cycles",
+        "Customer diversification strategy: reduce top-10 concentration via vertical-specific go-to-market (financial services, healthcare)",
+        "Product bundling: Terraform + Vault + Consul package pricing to increase ARPU and reduce churn",
+        "M&A target evaluation: acquisition of complementary IaC tools (Pulumi, Spacelift) to consolidate market position"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly ARR and net-dollar retention trends vs. prior-year baseline (disclosed in investor updates)",
+        "Customer win/loss analysis: Terraform vs. CloudFormation, Ansible, Pulumi in competitive bake-offs",
+        "Community sentiment: GitHub stars, Terraform registry module quality, Stack Overflow adoption trends",
+        "Analyst coverage: Gartner Magic Quadrant positioning, Forrester Wave ratings, IDC market-share estimates"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Licensing model recalibration: BUSL adoption rate and community fork impact on Terraform ecosystem health",
+        "Customer-acquisition cost (CAC) reweighting: shift from self-serve to enterprise sales-driven motion",
+        "Product roadmap prioritization: Terraform Cloud features vs. on-premises Terraform Enterprise demand",
+        "Competitive positioning update: response to AWS native IaC investments and Pulumi's Series funding rounds"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "HashiCorp operates as a distributed infrastructure-software platform where Terraform (provisioning), Vault (secrets management), Consul (service mesh), and Nomad (orchestration) function as specialized cognitive modules. The company's architecture mirrors a multi-agent system: Terraform acts as the planning/execution cortex, Vault as the security/authentication limbic system, Consul as the service-discovery sensory input, and Nomad as the workload-scheduling motor output. Customer adoption patterns, cloud-provider API changes, and open-source community contributions flow through this network as signals that drive product roadmap decisions and competitive positioning.",
+    "suppliers": [
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "amazon_web_services",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Infrastructure & API Surface",
+        "relationshipNote": "AWS is the primary cloud-infrastructure provider for HashiCorp's Terraform product and a major customer segment. Terraform's AWS provider is the most-downloaded module in the Terraform registry (>100M downloads annually as of 2023), making AWS API stability and feature velocity critical to HashiCorp's product roadmap. HashiCorp's dependency on AWS's continued IaC openness is offset by competitive risk: AWS CloudFormation and native IaC tools threaten Terraform's market share in AWS-only deployments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Microsoft Azure",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Infrastructure & API Surface",
+        "relationshipNote": "Azure is the second-largest cloud-infrastructure provider and a key Terraform provider ecosystem. HashiCorp's Terraform Azure provider supports Bicep and ARM template integration, positioning Terraform as a multi-cloud abstraction layer. Azure's 2023 investment in native IaC tooling (Bicep maturation) creates competitive pressure, but Terraform's provider-agnostic model maintains adoption advantage in hybrid Azure + AWS + GCP deployments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Google Cloud Platform (GCP)",
+        "ticker": "GOOGL",
+        "cik": "0001652044",
+        "slug": "alphabet_google_cloud",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Infrastructure & API Surface",
+        "relationshipNote": "GCP is the third major cloud-infrastructure provider and a growing Terraform customer segment. Terraform's GCP provider (google and google-beta) is actively maintained and supports GCP's full service portfolio. GCP's 2023 infrastructure-modernization initiatives and Kubernetes-native tooling adoption increase Terraform's relevance in GCP-first organizations, particularly in data analytics and AI/ML workloads.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "HashiCorp (Open Source Community)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hashicorp_oss_community",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Product Development & Feedback",
+        "relationshipNote": "The open-source community contributes ~40% of Terraform provider code and drives feature velocity. The 2023 Terraform licensing controversy (BSL transition) created fork risk and community trust erosion, with OpenTofu emerging as a competing fork. Community sentiment directly impacts HashiCorp's product adoption, especially in cost-sensitive segments (startups, academia, non-profits).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "GitHub (Microsoft subsidiary)",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "github",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Code Repository & CI/CD Integration",
+        "relationshipNote": "GitHub is the primary repository platform for Terraform, Vault, Consul, and Nomad open-source projects. GitHub Actions integration with Terraform Cloud enables GitOps workflows, making GitHub a critical dependency for HashiCorp's product-market fit in DevOps. GitHub's 2023 Copilot and advanced security features create upsell opportunities for HashiCorp's enterprise customers.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Linux Foundation",
+        "ticker": null,
+        "cik": null,
+        "slug": "linux_foundation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Open-Source Governance & Standards",
+        "relationshipNote": "The Linux Foundation hosts CNCF (Cloud Native Computing Foundation), which includes Kubernetes, Prometheus, and other infrastructure-software projects that integrate with HashiCorp's products. Terraform and Vault are CNCF-adjacent (not formal members), but ecosystem alignment is critical. CNCF's 2023 landscape report positions HashiCorp as a core infrastructure-automation vendor.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Atlassian Corporation",
+        "ticker": "TEAM",
+        "cik": "0001650372",
+        "slug": "atlassian",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "DevOps Toolchain Integration",
+        "relationshipNote": "Atlassian (Jira, Bitbucket, Confluence) is a major DevOps-toolchain partner. Terraform Cloud integrates with Jira for change tracking and Bitbucket for VCS-driven workflows. Atlassian's 2023 cloud-migration push and Bitbucket Pipelines expansion increase Terraform's relevance in Atlassian-centric enterprises.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JFrog Ltd.",
+        "ticker": "FROG",
+        "cik": "0001737849",
+        "slug": "jfrog",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Artifact & Software Supply Chain",
+        "relationshipNote": "JFrog (Artifactory, Xray) is a software-supply-chain partner for HashiCorp's customers managing Terraform modules and container images. JFrog's 2023 DevSecOps expansion and supply-chain security focus align with HashiCorp's Vault and Consul security positioning. Integration opportunities exist for secrets management and artifact provenance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Fastly Inc.",
+        "ticker": "FSLY",
+        "cik": "0001618707",
+        "slug": "fastly",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Content Delivery & API Performance",
+        "relationshipNote": "Fastly provides CDN and edge-computing infrastructure for Terraform registry and HashiCorp's SaaS products. Terraform registry's global availability depends on Fastly's edge-caching performance. Fastly's 2023 API-acceleration features support Terraform Cloud's multi-region deployment strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cloudflare Inc.",
+        "ticker": "NET",
+        "cik": "0001477333",
+        "slug": "cloudflare",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "DDoS Protection & DNS Infrastructure",
+        "relationshipNote": "Cloudflare provides DDoS protection and DNS services for HashiCorp's public-facing infrastructure (Terraform registry, Consul service mesh). Cloudflare's 2023 Zero Trust and API-security features align with HashiCorp's Vault and Consul security positioning. Enterprise customers often deploy Cloudflare + Terraform for infrastructure-as-code security.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Datadog Inc.",
+        "ticker": "DDOG",
+        "cik": "0001772925",
+        "slug": "datadog",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Observability & Monitoring",
+        "relationshipNote": "Datadog provides observability and monitoring for Terraform-managed infrastructure and HashiCorp's SaaS products. Terraform Cloud integrates with Datadog for deployment tracking and infrastructure-change monitoring. Datadog's 2023 expansion into infrastructure-as-code observability creates co-selling opportunities.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Fortune 500 Enterprise Segment (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fortune_500_enterprises",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Primary Revenue & Strategic Accounts",
+        "relationshipNote": "HashiCorp's top-10 customers represent, concentrated in financial services, healthcare, and technology sectors. Major named customers include JPMorgan Chase, Comcast, and Uber (disclosed in Series funding rounds and analyst reports). Customer concentration risk is material: loss of a single top-5 account could reduce ARR by 5–10%.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mid-Market & Startup Segment (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "mid_market_startups",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Growth & Expansion Revenue",
+        "relationshipNote": "Mid-market and startup customers (Series A–D funded companies) represent the fastest-growing segment for Terraform Cloud and Vault Cloud. Self-serve adoption and freemium-to-paid conversion drive this segment's growth. 2023 economic headwinds reduced startup spending, but infrastructure-automation adoption remained resilient due to cost-optimization priorities.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Pulumi Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "pulumi",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Infrastructure-as-Code Alternative",
+        "relationshipNote": "Pulumi is the primary direct competitor to Terraform, offering infrastructure-as-code via general-purpose programming languages (Python, Go, TypeScript) instead of HCL. Pulumi raised $37.5M Series B in 2021 and $50M Series C in 2023, positioning it as a well-funded alternative. Pulumi's 2023 focus on AI-assisted infrastructure generation and policy-as-code creates competitive pressure on Terraform's market share in developer-first organizations.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon Web Services (CloudFormation)",
+        "ticker": null,
+        "cik": null,
+        "slug": "aws_cloudformation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Native Cloud IaC Tool",
+        "relationshipNote": "AWS CloudFormation is the native IaC tool for AWS deployments, competing directly with Terraform in AWS-only environments. CloudFormation's 2023 enhancements (drift detection, module support, CDK integration) reduce Terraform's advantage in AWS-centric organizations. However, Terraform's multi-cloud abstraction maintains market share in hybrid AWS + Azure + GCP deployments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Microsoft Azure (Bicep & ARM Templates)",
+        "ticker": null,
+        "cik": null,
+        "slug": "azure_bicep",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Native Cloud IaC Tool",
+        "relationshipNote": "Azure's Bicep and ARM templates are native IaC tools competing with Terraform in Azure-only deployments. Bicep's 2023 maturation and integration with Azure DevOps reduce Terraform's advantage in Azure-centric organizations. Terraform's Azure provider remains the multi-cloud standard, but Bicep's native tooling creates switching costs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "OpenTofu (Linux Foundation Fork)",
+        "ticker": null,
+        "cik": null,
+        "slug": "opentofu",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Open-Source Terraform Fork",
+        "relationshipNote": "OpenTofu is a community-driven fork of Terraform created in response to HashiCorp's 2023 BSL licensing transition. OpenTofu achieved 1.6M GitHub stars and significant enterprise adoption (Spacelift, Gruntwork endorsement) within 6 months of launch. OpenTofu's Apache 2.0 license and community governance create long-term competitive risk to Terraform's market dominance.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ansible (Red Hat / IBM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ansible_redhat",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Infrastructure Automation (Imperative)",
+        "relationshipNote": "Ansible is an imperative infrastructure-automation tool competing with Terraform in configuration-management and orchestration use cases. Ansible's 2023 expansion into infrastructure-provisioning (via cloud modules) and Ansible Automation Platform's enterprise positioning create competitive overlap. Terraform's declarative model maintains advantage in infrastructure-as-code, but Ansible's operational-automation focus appeals to ops-centric organizations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Spacelift (Infrastructure Automation Platform)",
+        "ticker": null,
+        "cik": null,
+        "slug": "spacelift",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Terraform Management Platform",
+        "relationshipNote": "Spacelift is a Terraform-native management platform that competes with Terraform Cloud on policy-as-code, cost estimation, and GitOps workflows. Spacelift's 2023 focus on OpenTofu support and multi-cloud orchestration positions it as a Terraform Cloud alternative. Spacelift's backing by Gruntwork and adoption by infrastructure-automation-focused enterprises create competitive pressure on Terraform Cloud's pricing and feature velocity.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The SEC will oversee HashiCorp's IPO filing (S-1 registration statement) when the company pursues public markets. SEC review of HashiCorp's customer concentration, open-source licensing risks, and competitive positioning will be material to IPO valuation and timing. HashiCorp's 2023 Series funding rounds and venture-capital disclosures are subject to SEC Form D reporting requirements.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition",
+        "relationshipNote": "The FTC monitors infrastructure-software consolidation and open-source licensing practices. HashiCorp's 2023 BSL licensing transition and OpenTofu fork creation attracted regulatory scrutiny regarding open-source governance and competitive fairness. FTC's ongoing focus on Big Tech's cloud-infrastructure dominance (AWS, Azure, GCP) creates indirect regulatory risk for HashiCorp's positioning.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Export Control Administration (ECA / BIS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_export_control",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Export Control & Sanctions Compliance",
+        "relationshipNote": "The Bureau of Industry and Security (BIS) regulates export of encryption and security software (Vault, Consul) to restricted countries (China, Russia, Iran). HashiCorp's Vault product includes encryption and key-management features subject to EAR (Export Administration Regulations). Compliance with OFAC sanctions and BIS encryption controls is material to HashiCorp's international expansion strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Department (Directorate of Defense Trade Controls)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ddtc_state_dept",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Defense & Controlled Technology",
+        "relationshipNote": "The State Department's DDTC regulates defense-related software and infrastructure tools. HashiCorp's Terraform and Vault products may be subject to ITAR (International Traffic in Arms Regulations) if used in defense-contractor environments. Compliance with DDTC licensing and technology-transfer controls is material for HashiCorp's government and defense-sector customer base.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Open Source Initiative (OSI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "open_source_initiative",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Open-Source License Governance",
+        "relationshipNote": "The Open Source Initiative certifies open-source licenses and governs community standards. HashiCorp's 2023 transition from MPL 2.0 to BUSL (Business Source License) for Terraform triggered OSI scrutiny and community backlash. OSI's position on BUSL's open-source compliance remains contested, creating reputational and adoption risk for HashiCorp.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Deloitte serves as HashiCorp's external auditor and advisor for Series funding rounds and IPO preparation. Deloitte's 2023 audit of HashiCorp's financial statements and internal controls will be material to IPO readiness. Deloitte's technology-sector expertise and Big-Four credibility support HashiCorp's institutional investor confidence.",
+      "confidence": "medium",
+      "sourceType": [
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Sapphire Ventures",
+        "ticker": null,
+        "cik": null,
+        "slug": "sapphire_ventures",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Growth Capital & Strategic Guidance",
+        "relationshipNote": "Sapphire Ventures (formerly Sapphire Partners) is a lead investor in HashiCorp's Series funding rounds, including the 2021 Series D ($100M at $5.1B valuation). Sapphire's focus on enterprise software and infrastructure-automation companies positions it as a strategic capital provider. Sapphire's board representation and operational guidance support HashiCorp's path to IPO.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bessemer Venture Partners",
+        "ticker": null,
+        "cik": null,
+        "slug": "bessemer_venture_partners",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Growth Capital & Portfolio Support",
+        "relationshipNote": "Bessemer Venture Partners is an early-stage investor in HashiCorp and maintains board representation. Bessemer's 2023 Cloud 100 list inclusion of HashiCorp reflects the firm's continued confidence in the company's growth trajectory. Bessemer's portfolio of infrastructure-software companies (Figma, Canva, Stripe) provides strategic synergies.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "GGV Capital",
+        "ticker": null,
+        "cik": null,
+        "slug": "ggv_capital",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Growth Capital & International Expansion",
+        "relationshipNote": "GGV Capital is a growth-stage investor in HashiCorp's Series funding rounds, with focus on Asia-Pacific expansion. GGV's 2023 participation in HashiCorp's funding rounds reflects confidence in the company's international growth potential. GGV's portfolio of infrastructure and DevOps companies provides strategic alignment.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Founders Fund",
+        "ticker": null,
+        "cik": null,
+        "slug": "founders_fund",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Growth Capital & Strategic Positioning",
+        "relationshipNote": "Founders Fund is an early-stage investor in HashiCorp and maintains strategic advisory relationships. Founders Fund's focus on infrastructure and systems software aligns with HashiCorp's core mission. Founders Fund's 2023 portfolio includes complementary infrastructure-automation companies.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Mitchell Hashimoto",
+        "ticker": null,
+        "cik": null,
+        "slug": "mitchell_hashimoto",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Product Vision",
+        "relationshipNote": "Mitchell Hashimoto is the co-founder and Chief Technology Officer of HashiCorp, responsible for product vision and architecture. Hashimoto created Vagrant (2010) and Terraform (2014), establishing HashiCorp's foundational IP. His 2023 leadership of the Terraform licensing transition and OpenTofu response reflects his strategic positioning of the company's open-source strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Armon Dadgar",
+        "ticker": null,
+        "cik": null,
+        "slug": "armon_dadgar",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Co-Founder",
+        "relationshipNote": "Armon Dadgar is the co-founder and Chief Executive Officer of HashiCorp, responsible for overall company strategy and investor relations. Dadgar co-created Consul (2014) and Vault (2015), establishing HashiCorp's security and service-mesh product lines. His 2023 leadership of Series funding rounds and IPO preparation reflects his strategic positioning for public markets.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Nandini Ramani",
+        "ticker": null,
+        "cik": null,
+        "slug": "nandini_ramani",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Operations",
+        "relationshipNote": "Nandini Ramani is the Chief Financial Officer of HashiCorp, responsible for financial planning, investor relations, and IPO preparation. Ramani joined HashiCorp in 2021 from Okta (CFO role), bringing public-company experience. Her 2023 leadership of Series funding rounds and financial-reporting infrastructure supports HashiCorp's IPO readiness.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ilan Ravin",
+        "ticker": null,
+        "cik": null,
+        "slug": "ilan_ravin",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Ilan Ravin is the General Counsel of HashiCorp, responsible for legal affairs, compliance, and regulatory strategy. Ravin's 2023 leadership of the Terraform licensing transition and OpenTofu fork response reflects his strategic positioning of the company's legal and open-source governance. His background in enterprise software and venture-backed companies supports IPO preparation.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Terraform Registry Download Velocity",
+        "ticker": null,
+        "cik": null,
+        "slug": "terraform_registry_downloads",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Product Adoption & Market Demand",
+        "relationshipNote": "Terraform registry downloads (>100M annually as of 2023) serve as a leading indicator of infrastructure-automation adoption across enterprises. Download velocity by provider (AWS, Azure, GCP) reveals cloud-adoption trends and competitive positioning. 2023 download growth deceleration may reflect OpenTofu fork adoption and economic headwinds in startup spending.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Terraform Cloud ARR Growth & Net Dollar Retention",
+        "ticker": null,
+        "cik": null,
+        "slug": "terraform_cloud_arr",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Revenue Trajectory",
+        "relationshipNote": "Terraform Cloud's ARR growth and net-dollar retention (NDR) are key SaaS metrics disclosed in investor updates. 2023 NDR compression (estimated 110–120% vs. prior 130%+) reflects customer concentration risk and churn from OpenTofu migration. ARR growth deceleration from 50%+ YoY to signals market maturation and competitive pressure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

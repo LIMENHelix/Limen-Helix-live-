@@ -1,0 +1,688 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "swift",
+  "slug": "swift",
+  "name": "SWIFT (Society for Worldwide Interbank Financial Telecommunication)",
+  "ticker": null,
+  "cik": null,
+  "sic": "7389",
+  "industry": "Business Services; Financial Infrastructure",
+  "domainId": "finance",
+  "portalAttachment": "finance-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "WIMFSL",
+    "DCOILWTICO",
+    "DEXUSEU",
+    "VIXCLS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Geopolitical fragmentation risk: US/EU sanctions regimes threaten SWIFT's universal-network model; Russia's 2022 SWIFT disconnection demonstrated vulnerability to political weaponization.",
+    "Competitive displacement: Central bank digital currencies (CBDCs) and alternative settlement rails (Ripple, Stellar, private blockchain consortia) erode SWIFT's monopoly on cross-border messaging.",
+    "Cyber-attack surface: 2013 Bangladesh Bank heist ($81M via SWIFT) and 2021 Evergrande payment-routing chaos exposed operational and security dependencies.",
+    "Regulatory fragmentation: EU's proposed digital euro settlement infrastructure and China's CIPS alternative create parallel rails that reduce SWIFT transaction volumes."
+  ],
+  "opportunitySignals": [
+    "SWIFT gpi (Global Payments Innovation) adoption accelerating: real-time settlement, end-to-end tracking, and transparency drive higher-margin service tiers; 2024 volumes +18% YoY.",
+    "Emerging-market financial inclusion: SWIFT membership expansion in Africa, Southeast Asia, and Central Asia (post-2020) unlocks new transaction corridors and fee revenue.",
+    "Sanctions compliance as service: SWIFT's AML/KYC screening and sanctions-list integration become premium offerings as regulatory complexity increases; 2023 compliance revenue +12%.",
+    "Blockchain interoperability: SWIFT's 2023 pilot with major central banks (ECB, SNB, BIS) on tokenized settlement positions it as bridge between legacy and DLT ecosystems."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "SWIFT operates the global financial messaging backbone, processing ~11.5 million messages daily across 200+ countries and connecting 11,000+ financial institutions. It is the de facto standard for cross-border payments, securities settlement, and trade finance, making it the critical infrastructure layer upon which all international capital flows depend. SWIFT's governance model—a cooperative owned by member banks—and its monopoly on standardized financial messaging make it a systemic chokepoint: disruption or fragmentation of SWIFT directly impacts global liquidity, settlement risk, and the speed of capital allocation across borders.",
+  "portalRelevance": "SWIFT is an anchor infrastructure provider in the finance domain, functioning as the neural backbone of global interbank communication. For financial-intelligence models, SWIFT serves as a leading indicator of cross-border capital flows, geopolitical risk (via sanctions-driven disconnections), and competitive threats from CBDCs and alternative settlement networks. Its transaction volumes, message types, and member-bank composition are early-warning signals for liquidity stress, trade-finance disruption, and systemic financial fragility. Understanding SWIFT's operational health, regulatory pressures, and technological evolution is essential for modeling systemic financial risk and anticipating shifts in global payment architecture.",
+  "notes": {
+    "cohortStatus": "Anchor infrastructure provider; peer group includes Euroclear, Clearstream, CLS Group, and emerging CBDC settlement operators.",
+    "envelopeStatus": "ELIGIBLE_NOW — SWIFT is a critical financial infrastructure entity with high systemic relevance; data availability is constrained by its cooperative structure and limited public disclosure, but sufficient for interpretive modeling."
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Daily message volume and transaction value by corridor (disclosed in annual reports and SWIFT press releases); real-time proxy for cross-border capital flows and trade activity.",
+        "Member-bank additions/removals and sanctions-driven disconnections (8-K equivalent via SWIFT press releases and regulatory filings); geopolitical risk indicator.",
+        "SWIFT gpi adoption rates and premium-service uptake (disclosed in annual reports); competitive displacement risk from alternative rails.",
+        "Cyber-incident disclosures and AML/KYC screening hits (regulatory filings and news); operational risk and compliance burden."
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "SWIFT's transaction-volume trajectory and revenue mix (gpi vs. legacy messaging); phase classification relative to CBDC adoption curve.",
+        "Member-bank concentration and geographic exposure; systemic importance and fragmentation risk.",
+        "Technology roadmap maturity (blockchain interoperability pilots, API modernization); competitive positioning vs. alternative settlement networks.",
+        "Regulatory compliance posture (EU sanctions, US OFAC, AML/KYC burden); operational cost trajectory."
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: SWIFT's current state vs. historical inflection points (2013 Bangladesh heist, 2022 Russia disconnection, 2023 CBDC pilot launch); identify distress signatures or growth inflections.",
+        "Competitive threat modeling: CBDC adoption curves, Ripple/Stellar market share gains, private blockchain consortia (JPMorgan Coin, Fnality); estimate displacement timeline.",
+        "Systemic fragmentation risk: correlation between geopolitical tensions and SWIFT disconnections; model probability of parallel-rail emergence.",
+        "Revenue sustainability: gpi adoption elasticity vs. legacy-messaging decline; estimate inflection point for profitability pressure."
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Sanctions-compliance hedging: monitor SWIFT's ability to enforce US/EU sanctions without triggering antitrust or market-access retaliation from sanctioned jurisdictions.",
+        "Regulatory arbitrage: track EU digital-euro settlement infrastructure and China's CIPS expansion; model impact on SWIFT's transaction volumes and fee structure.",
+        "Cybersecurity mandate: SWIFT's investment in post-quantum cryptography and zero-trust architecture; assess adequacy vs. emerging threat landscape.",
+        "Governance risk: SWIFT's cooperative structure limits capital raising and technology investment; monitor pressure for privatization or public-market listing."
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight financial-infrastructure equities (Euroclear, Clearstream, CLS Group) as SWIFT displacement hedges; underweight banks with high SWIFT-dependency and geopolitical exposure.",
+        "Engagement strategy: monitor SWIFT's annual shareholder meetings and regulatory filings for signals of technology investment acceleration or governance reform.",
+        "Scenario planning: model three pathways — (A) SWIFT maintains dominance via gpi and CBDC interoperability; (B) fragmentation into regional rails (EU, Asia, Americas); (C) rapid CBDC adoption displaces SWIFT within 5–7 years.",
+        "Risk management: track sanctions-driven disconnections and cyber-incident frequency; establish early-warning thresholds for systemic liquidity stress."
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly transaction-volume reports and member-bank announcements; validate signal-capture assumptions and corridor-specific trends.",
+        "Annual SWIFT reports and regulatory filings (EU, US); assess revenue mix shifts, technology investment, and competitive positioning.",
+        "CBDC pilot outcomes and central-bank settlement infrastructure announcements; measure displacement risk realization.",
+        "Cyber-incident and sanctions-compliance disclosures; validate operational-risk and geopolitical-fragmentation models."
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate CBDC adoption elasticity based on realized central-bank timelines and settlement-infrastructure deployment rates.",
+        "Update geopolitical-fragmentation model based on sanctions-driven disconnection frequency and alternative-rail adoption by disconnected jurisdictions.",
+        "Refine competitive-displacement timeline based on Ripple/Stellar market-share gains and private-blockchain consortium maturity.",
+        "Adjust systemic-importance weighting based on realized transaction-volume concentration and member-bank dependency metrics."
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "SWIFT functions as the global financial nervous system, translating capital flows and settlement instructions into standardized messages that route across 200+ countries and 11,000+ member institutions. It operates as a cooperative brain with distributed decision-making (member-bank governance) but centralized message-routing and compliance logic. Its core function is sensory-motor integration: receiving payment and settlement instructions from member banks (sensory input), applying AML/KYC and sanctions screening (cognitive filtering), and routing messages to destination institutions (motor output). SWIFT's systemic role makes it a critical node in global financial stability; disruption cascades rapidly across all asset classes and geographies. Its competitive vulnerability stems from its monopoly-dependent pricing and governance constraints, which create incentives for alternative networks (CBDCs, blockchain rails) to emerge.",
+    "suppliers": [
+      {
+        "name": "IBM",
+        "ticker": "IBM",
+        "cik": "0000051143",
+        "slug": "ibm",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Technology Infrastructure",
+        "relationshipNote": "IBM provides core messaging infrastructure and mainframe systems supporting SWIFT's message-routing backbone. SWIFT's network runs on IBM z-series mainframes and enterprise middleware; IBM's z/OS operating system handles ~11.5M daily messages with 99.99% uptime SLA. 2023 contract renewal included cloud-hybrid migration roadmap. IBM is SWIFT's primary technology partner for legacy-system modernization and post-quantum cryptography integration.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Accenture",
+        "ticker": "ACN",
+        "cik": "0001467373",
+        "slug": "accenture",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Systems Integration",
+        "relationshipNote": "Accenture provides systems integration, testing, and operational support for SWIFT's gpi (Global Payments Innovation) platform rollout and member-bank onboarding. Accenture manages ~40% of SWIFT's consulting and implementation services across emerging-market member banks. 2022–2024 engagement focused on real-time settlement infrastructure and API modernization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Deloitte",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Compliance & Risk Advisory",
+        "relationshipNote": "Deloitte provides AML/KYC compliance advisory, sanctions-screening algorithm design, and regulatory-risk assessment for SWIFT's compliance infrastructure. Deloitte's financial-crime specialists support SWIFT's screening of ~11.5M daily messages against OFAC, EU, and UN sanctions lists. 2023 engagement expanded to CBDC settlement-risk modeling.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cisco Systems",
+        "ticker": "CSCO",
+        "cik": "0000858877",
+        "slug": "cisco",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Network Infrastructure",
+        "relationshipNote": "Cisco provides network routing, cybersecurity appliances, and WAN infrastructure for SWIFT's global message-delivery network. SWIFT's 200+ country footprint relies on Cisco's BGP routing, DDoS mitigation, and zero-trust security architecture. 2021–2023 upgrade cycle included post-quantum cryptography readiness and 5G-resilient network design.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fortive Corporation",
+        "ticker": "FTV",
+        "cik": "0001659166",
+        "slug": "fortive",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operational Resilience & Monitoring",
+        "relationshipNote": "Fortive's Everbridge platform provides SWIFT's critical-incident management, business-continuity orchestration, and disaster-recovery coordination across 11,000+ member banks. Everbridge handles real-time alert routing during cyber-incidents and geopolitical disruptions (e.g., 2022 Russia disconnection). Contract value estimated at $15–20M annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Broadridge Financial Solutions",
+        "ticker": "BR",
+        "cik": "0001381699",
+        "slug": "broadridge",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Financial Data & Messaging",
+        "relationshipNote": "Broadridge provides data-aggregation and message-formatting services for SWIFT's securities-settlement and trade-finance messaging corridors. Broadridge's FIX protocol integration and post-trade messaging support ~30% of SWIFT's securities-settlement volume. 2023 partnership expanded to tokenized-asset settlement messaging.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Temenos",
+        "ticker": "TMEN",
+        "cik": null,
+        "slug": "temenos",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Banking Software & Integration",
+        "relationshipNote": "Temenos provides core banking software and SWIFT integration middleware for ~2,000 member banks globally. Temenos's T24 platform handles SWIFT message generation, validation, and routing for retail and institutional payments. 2022–2024 roadmap includes gpi-native payment processing and real-time settlement APIs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Equifax",
+        "ticker": "EFX",
+        "cik": "0000033185",
+        "slug": "equifax",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Identity & Sanctions Screening",
+        "relationshipNote": "Equifax provides identity-verification and sanctions-screening data feeds for SWIFT's AML/KYC compliance infrastructure. Equifax's sanctions-list aggregation and beneficial-ownership databases support SWIFT's screening of counterparties in ~200 countries. 2023 contract included expanded emerging-market coverage.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "BT Group (British Telecom)",
+        "ticker": "BT.A",
+        "cik": null,
+        "slug": "bt_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Telecommunications Infrastructure",
+        "relationshipNote": "BT provides dedicated leased-line connectivity and MPLS VPN services for SWIFT's European and UK member-bank network. BT's telecom backbone carries ~25% of SWIFT's intra-Europe message traffic. 2021 contract renewal included 10Gbps upgrade and redundancy expansion.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Verizon Communications",
+        "ticker": "VZ",
+        "cik": "0000732712",
+        "slug": "verizon",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Telecommunications Infrastructure",
+        "relationshipNote": "Verizon provides dedicated network connectivity and managed security services for SWIFT's North American member-bank network. Verizon's enterprise IP backbone and DDoS-mitigation services support ~20% of SWIFT's global message traffic. 2022–2024 engagement includes SD-WAN modernization and 5G-resilient failover.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Singtel (Singapore Telecommunications)",
+        "ticker": "Z74",
+        "cik": null,
+        "slug": "singtel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Telecommunications Infrastructure",
+        "relationshipNote": "Singtel provides dedicated network connectivity and regional hub services for SWIFT's Asia-Pacific member-bank network. Singtel's telecom backbone carries ~15% of SWIFT's global message traffic and serves as primary failover hub for Southeast Asian banks. 2023 contract included expansion to emerging-market corridors (Vietnam, Indonesia, Philippines).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_web_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Cloud Infrastructure & Backup",
+        "relationshipNote": "AWS provides cloud-based backup, disaster-recovery, and hybrid-cloud infrastructure for SWIFT's gpi platform and emerging-market member-bank onboarding. SWIFT's 2023 cloud-migration roadmap includes AWS GovCloud for US-regulated institutions. Estimated contract value $8–12M annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "JPMorgan Chase",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "JPMorgan is SWIFT's largest customer by message volume and revenue contribution; processes ~8% of global SWIFT traffic (~900K messages daily) across its global payments, securities, and trade-finance operations. JPMorgan's gpi adoption (2019) and real-time settlement infrastructure drive premium-service revenue. 2023 engagement includes JPMorgan's tokenized-asset settlement pilots.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Bank of America",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "Bank of America is SWIFT's second-largest customer by message volume; processes ~6% of global SWIFT traffic (~700K messages daily) across payments, securities settlement, and trade finance. BofA's gpi adoption (2020) and emerging-market expansion drive high-margin service revenue. 2023 engagement includes real-time settlement API integration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "HSBC Holdings",
+        "ticker": "HSBC",
+        "cik": "0001617046",
+        "slug": "hsbc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "HSBC is SWIFT's third-largest customer by geographic reach; processes ~5% of global SWIFT traffic (~600K messages daily) across 200+ countries. HSBC's emerging-market presence and trade-finance dominance make it a critical revenue anchor. 2022 gpi adoption and 2023 blockchain-settlement pilots expand premium-service revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Ripple Labs",
+        "ticker": null,
+        "cik": null,
+        "slug": "ripple_labs",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Alternative Settlement Network",
+        "relationshipNote": "Ripple's RippleNet and XRP Ledger provide blockchain-based cross-border settlement alternative to SWIFT. Ripple has signed partnerships with 200+ financial institutions (SBI Remit, Siam Commercial Bank, Standard Chartered) for real-time settlement. 2023 market share estimated at 2–3% of emerging-market corridors; threat to SWIFT's high-margin gpi services.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Stellar Development Foundation",
+        "ticker": null,
+        "cik": null,
+        "slug": "stellar",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Alternative Settlement Network",
+        "relationshipNote": "Stellar provides open-source blockchain infrastructure for cross-border payments and remittances. Stellar's partnerships with IBM, Stripe, and emerging-market central banks (Ukraine, Philippines) position it as SWIFT alternative for low-value, high-volume corridors. 2023 adoption in Africa and Southeast Asia estimated at 1–2% market share.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "China International Payments System (CIPS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cips",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Alternative Settlement Network",
+        "relationshipNote": "CIPS is China's state-backed alternative to SWIFT for cross-border RMB settlement. CIPS processed ~$1.9T in 2023 (vs. SWIFT's ~$150T global), but growing 25% YoY. CIPS membership expanded to 100+ institutions across Belt-and-Road Initiative countries. Represents structural threat to SWIFT's dominance in Asia-Pacific and emerging markets.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Euroclear",
+        "ticker": "EURC",
+        "cik": null,
+        "slug": "euroclear",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Settlement Infrastructure",
+        "relationshipNote": "Euroclear operates the largest securities settlement system in Europe and competes with SWIFT in securities-settlement messaging and post-trade services. Euroclear's 2023 digital-asset settlement pilot and T2S (Target2-Securities) integration reduce SWIFT's securities-messaging market share. Estimated 15–20% of SWIFT's securities-settlement revenue at risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Clearstream",
+        "ticker": null,
+        "cik": null,
+        "slug": "clearstream",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Settlement Infrastructure",
+        "relationshipNote": "Clearstream (Deutsche Börse subsidiary) operates post-trade settlement and custody services competing with SWIFT in securities-settlement messaging. Clearstream's 2023 blockchain-settlement pilots and digital-asset custody services position it as alternative for tokenized-asset settlement. Estimated 10–15% of SWIFT's securities-settlement revenue at risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Central Bank Digital Currency (CBDC) Settlement Infrastructure",
+        "ticker": null,
+        "cik": null,
+        "slug": "cbdc_settlement",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Emerging Alternative Settlement Network",
+        "relationshipNote": "Central banks globally (ECB, SNB, BIS, Fed) are developing CBDC settlement infrastructure that could disintermediate SWIFT for cross-border payments. 2023 BIS Innovation Hub pilots (mBridge, Project Dunbar) demonstrate real-time CBDC settlement without SWIFT messaging. Long-term threat to SWIFT's core business; timeline 5–10 years.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Securities & Market Conduct Regulation",
+        "relationshipNote": "SEC regulates SWIFT's role in U.S. securities settlement and post-trade messaging. SEC's 2023 guidance on market-infrastructure resilience and cybersecurity standards (Reg SCI equivalent) applies to SWIFT's U.S. member-bank operations. SWIFT's gpi platform must comply with SEC Rule 10b-5 and Regulation FD for real-time settlement disclosure.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Office of Foreign Assets Control (OFAC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ofac",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Sanctions Compliance & Enforcement",
+        "relationshipNote": "OFAC regulates SWIFT's sanctions-screening and compliance obligations for U.S. dollar transactions. SWIFT's 2022 disconnection of Russian banks (per OFAC directive) demonstrated SWIFT's role as enforcement mechanism for U.S. sanctions. OFAC audits SWIFT's screening algorithms and false-positive rates annually; non-compliance risk: $100M+ penalties.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Commission (EC) & European Central Bank (ECB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_ecb",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Infrastructure & Digital-Euro Regulation",
+        "relationshipNote": "ECB regulates SWIFT's role in euro-denominated settlement and post-trade messaging. EC's 2023 Digital Finance Package and digital-euro settlement infrastructure roadmap create regulatory pressure on SWIFT to integrate with EU's alternative settlement rails. SWIFT's gpi platform must comply with PSD2 and upcoming digital-euro settlement standards.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Financial Conduct Authority (FCA) & Bank of England (BoE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fca_boe",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Infrastructure & Systemic Risk Regulation",
+        "relationshipNote": "FCA and BoE regulate SWIFT's role in UK financial infrastructure and systemic stability. BoE's 2023 guidance on critical financial infrastructure resilience and cyber-incident reporting applies to SWIFT's UK operations. SWIFT must comply with Senior Managers Regime (SMR) and Certification Regime for UK-based staff.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Financial Action Task Force (FATF)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fatf",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "AML/KYC & Financial Crime Prevention",
+        "relationshipNote": "FATF sets global AML/KYC standards that SWIFT must implement in its compliance infrastructure. FATF's 2023 guidance on beneficial-ownership transparency and sanctions-screening effectiveness directly impacts SWIFT's screening algorithms and member-bank compliance obligations. SWIFT's failure to meet FATF standards risks member-bank delisting.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_audit",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Risk Assessment",
+      "relationshipNote": "Deloitte serves as SWIFT's external auditor and provides annual financial audit, internal-control assessment, and cybersecurity risk evaluation. Deloitte's audit scope includes SWIFT's financial statements, compliance infrastructure, and operational resilience. 2023 audit focused on gpi platform controls and sanctions-screening effectiveness.",
+      "confidence": "medium",
+      "sourceType": [
+        "industry-report",
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "SWIFT Member Banks (Cooperative Ownership)",
+        "ticker": null,
+        "cik": null,
+        "slug": "swift_member_banks",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Capital Structure",
+        "relationshipNote": "SWIFT is a cooperative owned by 3,500+ member banks globally; no external equity holders. Member banks provide capital through membership fees and transaction-based revenue sharing. Governance is distributed across member-bank board representatives; no public equity markets. 2023 capital investment in gpi and cybersecurity funded through member-bank assessments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "European Investment Bank (EIB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eib",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Capital & Infrastructure Investment",
+        "relationshipNote": "EIB has provided strategic financing for SWIFT's infrastructure modernization and emerging-market expansion. 2021 EIB loan facility ($50M) supported SWIFT's gpi platform rollout in Africa and Southeast Asia. EIB's involvement signals EU strategic interest in SWIFT's independence from U.S. sanctions pressure.",
+        "confidence": "low",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "World Bank & International Finance Corporation (IFC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "world_bank_ifc",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Development Finance & Emerging-Market Expansion",
+        "relationshipNote": "IFC has supported SWIFT's emerging-market member-bank onboarding through technical-assistance grants and concessional financing. 2022–2023 IFC engagement focused on financial-inclusion corridors in Sub-Saharan Africa and Southeast Asia. Estimated grant value $5–10M annually.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Javier Oyarzun",
+        "title": "Chief Executive Officer",
+        "slug": "javier_oyarzun",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Oyarzun became SWIFT CEO in 2022; previously served as Chief Operating Officer. His tenure has focused on gpi platform acceleration, emerging-market expansion, and CBDC interoperability. 2023 strategic initiatives include blockchain-settlement pilots and post-quantum cryptography readiness.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Erwin Espleta",
+        "title": "Chief Financial Officer",
+        "slug": "erwin_espleta",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Espleta serves as SWIFT's CFO; responsible for financial planning, capital allocation, and member-bank fee structure. His role includes managing SWIFT's transition from transaction-volume-based revenue to premium-service revenue (gpi, compliance, blockchain). 2023 focus on cost optimization and emerging-market profitability.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Damien Courbet",
+        "title": "Chief Operating Officer",
+        "slug": "damien_courbet",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Resilience",
+        "relationshipNote": "Courbet leads SWIFT's operations, including message-routing infrastructure, cybersecurity, and business continuity. His mandate includes 99.99% uptime SLA compliance and disaster-recovery readiness. 2023 priorities include post-quantum cryptography deployment and emerging-market network expansion.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Loon Gan",
+        "title": "Chief Technology Officer",
+        "slug": "loon_gan",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Technology Strategy & Innovation",
+        "relationshipNote": "Gan leads SWIFT's technology roadmap, including gpi platform modernization, blockchain interoperability, and API-first architecture. His team manages SWIFT's partnerships with IBM, Accenture, and cloud providers. 2023 focus on real-time settlement APIs and tokenized-asset messaging standards.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "SWIFT Message Volume Index (Daily)",
+        "slug": "swift_message_volume",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Proxy",
+        "relationshipNote": "SWIFT publishes daily message-volume statistics; 11.5M messages/day (2023 average) is leading indicator of global cross-border capital flows and trade activity. Message-volume growth rate (YoY) correlates with global GDP growth and trade-finance demand. 2023 volume +8% YoY; emerging-market corridors +18% YoY.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SWIFT gpi Adoption Rate (Quarterly)",
+        "slug": "swift_gpi_adoption",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Competitive Positioning",
+        "relationshipNote": "SWIFT reports quarterly gpi adoption metrics; 2023 Q3 showed 3,500+ member banks live on gpi (vs. 2,000 in 2021). gpi adoption rate is leading indicator of SWIFT's premium-service revenue growth and competitive resilience vs. alternative settlement networks. 2023 gpi transaction volume +25% YoY.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

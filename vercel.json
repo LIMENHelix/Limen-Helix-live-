@@ -1,0 +1,61 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "crons": [
+    { "path": "/api/limen-worker-ingest", "schedule": "*/2 * * * *" },
+    { "path": "/api/limen-worker-snapshot", "schedule": "*/3 * * * *" },
+    { "path": "/api/limen-worker-autoqueue", "schedule": "*/15 * * * *" },
+    { "path": "/api/limen-worker-autofire", "schedule": "*/30 * * * *" },
+    { "path": "/api/limen-worker-stress-refresh", "schedule": "*/30 * * * *" },
+    { "path": "/api/limen-worker-multipass", "schedule": "*/5 * * * *" },
+    { "path": "/api/limen-worker-sleep-cycle", "schedule": "0 * * * *" }
+  ],
+  "functions": {
+    "api/**": {
+      "excludeFiles": "{assets/**,*.html,_*.js,*.json,scripts/**}",
+      "includeFiles": "{api/protected-docs/**,api/helix_app/thing1/**,assets/data/*.json,assets/data/companies/*.json}",
+      "maxDuration": 300
+    }
+  },
+  "rewrites": [
+    { "source": "/navigator", "destination": "/navigator.html" },
+    { "source": "/aggregated", "destination": "/aggregated.html" },
+    { "source": "/civilization", "destination": "/civilization.html" },
+    { "source": "/kernel-comparison", "destination": "/kernel-comparison.html" },
+    { "source": "/operator-guide", "destination": "/operator-guide.html" },
+    { "source": "/my-documents", "destination": "/my-documents.html" },
+    { "source": "/pattern-proposals", "destination": "/pattern-proposals.html" },
+    { "source": "/vitals", "destination": "/vitals.html" },
+    { "source": "/master-inbox", "destination": "/master-inbox.html" },
+    { "source": "/api/limen/(.*)", "destination": "/api/limen" }
+  ],
+  "redirects": [
+    { "source": "/fractal-connectome", "destination": "/civilization", "statusCode": 301 }
+  ],
+  "headers": [
+    {
+      "source": "/assets/data/command-board-data.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/assets/data/(company-index|companies-manifest|company-registry|company-aliases).json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/assets/data/companies/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    }
+  ]
+}

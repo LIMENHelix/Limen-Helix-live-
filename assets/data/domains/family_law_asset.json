@@ -1,0 +1,383 @@
+{
+  "domainId": "family_law_asset",
+  "title": "Asset Valuation / Financial Analysis",
+  "parentPortal": "family_law_portal.html",
+  "parentLabel": "Family Law",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Asset Valuation / Financial Analysis Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Asset Valuation / Financial Analysis indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Asset Valuation / Financial Analysis Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Asset Valuation / Financial Analysis Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "family_law_asset_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "FORN",
+      "state": "active",
+      "domainLabel": "Asset Valuation / Financial Analysis Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Asset Valuation / Financial Analysis activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Asset Valuation / Financial Analysis Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Asset Valuation / Financial Analysis Core Operations"
+        }
+      ],
+      "childPortal": "family_law_asset_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "CING",
+      "state": "active",
+      "domainLabel": "Asset Valuation / Financial Analysis Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Asset Valuation / Financial Analysis, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Asset Valuation / Financial Analysis Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Asset Valuation / Financial Analysis Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "family_law_asset_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "MAMM",
+      "state": "active",
+      "domainLabel": "Asset Valuation / Financial Analysis Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Asset Valuation / Financial Analysis practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Asset Valuation / Financial Analysis Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Asset Valuation / Financial Analysis Standards & Governance"
+        }
+      ],
+      "childPortal": "family_law_asset_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "SEPT",
+      "state": "active",
+      "domainLabel": "Asset Valuation / Financial Analysis Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Asset Valuation / Financial Analysis methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Asset Valuation / Financial Analysis Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Asset Valuation / Financial Analysis Research & Development"
+        }
+      ],
+      "childPortal": "family_law_asset_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "NBM",
+      "state": "active",
+      "domainLabel": "Asset Valuation / Financial Analysis Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Asset Valuation / Financial Analysis stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Asset Valuation / Financial Analysis Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Asset Valuation / Financial Analysis Risk & Resilience"
+        }
+      ],
+      "childPortal": "family_law_asset_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "PIN",
+      "state": "active",
+      "domainLabel": "Asset Valuation / Financial Analysis Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Asset Valuation / Financial Analysis operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Asset Valuation / Financial Analysis Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Asset Valuation / Financial Analysis Coordination & Integration"
+        }
+      ],
+      "childPortal": "family_law_asset_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "VEST",
+      "state": "active",
+      "domainLabel": "Asset Valuation / Financial Analysis Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Asset Valuation / Financial Analysis outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Asset Valuation / Financial Analysis Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Asset Valuation / Financial Analysis Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CC",
+      "target": "FORN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FORN",
+      "target": "CING",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CING",
+      "target": "MAMM",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "MAMM",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "SEPT",
+      "target": "NBM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NBM",
+      "target": "PIN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PIN",
+      "target": "VEST",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VEST",
+      "target": "CC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CC",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "MAMM",
+      "target": "PIN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "FAMILY_LAW_ASSET_SYSTEM_FAILURE",
+      "label": "Asset Valuation / Financial Analysis System Failure",
+      "summary": "Critical breakdown in Asset Valuation / Financial Analysis systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CC",
+          "dir": "Hypo-active",
+          "detail": "Asset Valuation / Financial Analysis Assessment & Diagnostics capacity falling below operational thresholds, reducing Asset Valuation / Financial Analysis output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FORN",
+          "dir": "Hypo-active",
+          "detail": "Asset Valuation / Financial Analysis Core Operations systems underperforming, creating gaps in Asset Valuation / Financial Analysis coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Altered",
+          "detail": "Asset Valuation / Financial Analysis Infrastructure & Capacity behavior deviating from established norms, complicating Asset Valuation / Financial Analysis management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Hyper-active",
+          "detail": "Asset Valuation / Financial Analysis Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Asset Valuation / Financial Analysis",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Hypo-active",
+          "detail": "Asset Valuation / Financial Analysis Performance & Optimization function reduced, compromising Asset Valuation / Financial Analysis system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_ASSET_CAPACITY_CRISIS",
+      "label": "Asset Valuation / Financial Analysis Capacity Crisis",
+      "summary": "Demand exceeding available Asset Valuation / Financial Analysis capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "FORN",
+          "dir": "Hyper-active",
+          "detail": "Asset Valuation / Financial Analysis Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Asset Valuation / Financial Analysis",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Hypo-active",
+          "detail": "Asset Valuation / Financial Analysis Infrastructure & Capacity systems underperforming, creating gaps in Asset Valuation / Financial Analysis coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MAMM",
+          "dir": "Altered",
+          "detail": "Asset Valuation / Financial Analysis Standards & Governance behavior deviating from established norms, complicating Asset Valuation / Financial Analysis management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hyper-active",
+          "detail": "Asset Valuation / Financial Analysis Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Asset Valuation / Financial Analysis",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Altered",
+          "detail": "Asset Valuation / Financial Analysis Performance & Optimization operating outside normal parameters, introducing uncertainty into Asset Valuation / Financial Analysis outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_ASSET_GOVERNANCE_GAP",
+      "label": "Asset Valuation / Financial Analysis Governance Gap",
+      "summary": "Oversight or regulatory failure in Asset Valuation / Financial Analysis creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "MAMM",
+          "dir": "Hypo-active",
+          "detail": "Asset Valuation / Financial Analysis Standards & Governance capacity falling below operational thresholds, reducing Asset Valuation / Financial Analysis output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "Asset Valuation / Financial Analysis Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Asset Valuation / Financial Analysis",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SEPT",
+          "dir": "Hyper-active",
+          "detail": "Asset Valuation / Financial Analysis Research & Development activity spiking beyond design limits, creating instability across Asset Valuation / Financial Analysis operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Altered",
+          "detail": "Asset Valuation / Financial Analysis Risk & Resilience patterns disrupted, necessitating adaptive responses within Asset Valuation / Financial Analysis frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hypo-active",
+          "detail": "Asset Valuation / Financial Analysis Coordination & Integration function reduced, compromising Asset Valuation / Financial Analysis system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

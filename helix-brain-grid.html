@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LIMEN Helix · Fractal Brain Grid</title>
+<meta name="description" content="Fractal-recursive brain network: Master (executive), Civilization (sector aggregator), Connectome (123-node graph), 20 sector signals. Drafts READY-TO-SIGN artifacts via Claude with real-format compliance (USPTO 37 CFR, NIH SF-424, NSF PAPPG, SBA SOP 50 10, FTC 16 CFR 436)." />
+<style>
+  html,body{margin:0;padding:0;background:#0a0a0a;color:#e6e6e6;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif}
+  #brain-grid-root{min-height:100vh}
+  .lbg-boot{padding:24px;color:#888;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+  .lbg-boot-row{margin:4px 0}
+  .lbg-boot-ok{color:#7ae6c0}
+  .lbg-boot-err{color:#e67a7a}
+  .lbg-boot-warn{color:#e6c97a}
+</style>
+</head>
+<body>
+<div id="brain-grid-root">
+  <div class="lbg-boot" id="lbg-boot">
+    <div class="lbg-boot-row">LIMEN Helix · booting fractal brain grid…</div>
+    <div class="lbg-boot-row" id="lbg-boot-status">loading modules</div>
+  </div>
+</div>
+
+<!-- ─────────── Upstream civilization stack (data producers) ─────────── -->
+<!-- Subset of civilization.html script load. We include the modules that
+     populate window.LIMENDomains, window.LIMENCivilizationPackets,
+     window.LIMENMainBrainHandoffState, etc. We skip UI-only scripts
+     (topbar, console-clarity, executive-ui, etc.) since this page has
+     its own grid renderer. -->
+
+<!-- Foundation -->
+<script src="assets/js/limen-fast-boot.js"></script>
+<script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/phase-estimator.js"></script>
+<script src="assets/js/feed-store.js"></script>
+<script src="assets/js/feed-state.js"></script>
+<script src="assets/js/panel-state-manager.js"></script>
+<script src="assets/js/shared-snapshot-engine.js"></script>
+<script>if(window.LIMENSharedSnapshot)window.LIMENSharedSnapshot.start();</script>
+<script src="assets/js/domain-signal-engine.js"></script>
+
+<!-- Schemas + executive layer (needed by domain brains) -->
+<script src="assets/js/schema/fractal-report-schema.js" defer></script>
+<script src="assets/js/schema/company-portal-schema.js" defer></script>
+<script src="assets/js/executive/limen-exec-generator.js"></script>
+<script src="assets/js/executive/limen-package-generator.js"></script>
+<script src="assets/js/feeds/limen-defense-signal-engine.js"></script>
+<script src="assets/js/kernel/limen-phase-domain-adapter.js"></script>
+
+<!-- Domain brain stack -->
+<script src="assets/js/domain-biosensor-adapter.js"></script>
+<script src="assets/js/domain-brains/domain-brain-base.js"></script>
+<script src="assets/js/domain-brains/portal-content-resolver.js"></script>
+<script src="assets/js/domain-brains/inter-brain-bus.js"></script>
+<script src="assets/js/domain-brains/domain-change-log.js"></script>
+<script src="assets/js/domain-brains/energy-brain.js"></script>
+<script src="assets/js/domain-brains/finance-brain.js"></script>
+<script src="assets/js/domain-brains/defense-brain.js"></script>
+<script src="assets/js/domain-brains/trade-brain.js"></script>
+<script src="assets/js/domain-brains/medicine-brain.js"></script>
+<script src="assets/js/domain-brains/agriculture-brain.js"></script>
+<script src="assets/js/domain-brains/communication-brain.js"></script>
+<script src="assets/js/domain-brains/culture-brain.js"></script>
+<script src="assets/js/domain-brains/economy-brain.js"></script>
+<script src="assets/js/domain-brains/education-brain.js"></script>
+<script src="assets/js/domain-brains/environment-brain.js"></script>
+<script src="assets/js/domain-brains/governance-brain.js"></script>
+<script src="assets/js/domain-brains/industry-brain.js"></script>
+<script src="assets/js/domain-brains/infrastructure-brain.js"></script>
+<script src="assets/js/domain-brains/intelligence-brain.js"></script>
+<script src="assets/js/domain-brains/law-brain.js"></script>
+<script src="assets/js/domain-brains/population-brain.js"></script>
+<script src="assets/js/domain-brains/religion-brain.js"></script>
+<script src="assets/js/domain-brains/science-brain.js"></script>
+<script src="assets/js/domain-brains/technology-brain.js"></script>
+<script src="assets/js/domain-brain-adapter.js"></script>
+<script src="assets/js/domain-registry.js"></script>
+
+<!-- Civilization aggregators (the things our super-brains read from) -->
+<script src="assets/js/civilization/domain-packet-adapter.js"></script>
+<script src="assets/js/civilization/cross-domain-audit.js"></script>
+<script src="assets/js/civilization/cross-node-opportunity.js"></script>
+<script src="assets/js/civilization/handoff-contract.js"></script>
+<script src="assets/js/civilization/observatory-aggregator.js"></script>
+<script src="assets/js/civilization/artifact-packet-builder.js"></script>
+
+<!-- Legacy master brain stack (still useful for context building) -->
+<script src="assets/js/master-brain/oib-assembler.js"></script>
+<script src="assets/js/master-brain/decision-engine.js"></script>
+<script src="assets/js/master-brain/review-gate.js"></script>
+
+<!-- LIMEN bootstrap (kicks off the data lifecycle) -->
+<script src="assets/js/limen-bootstrap.js"></script>
+
+<!-- ─────────── New fractal brain grid layer ─────────── -->
+<script src="assets/js/limen/pattern-envelope.js"></script>
+<script src="assets/js/limen/pattern-broker.js"></script>
+<script src="assets/js/limen/super-brain-base.js"></script>
+<script src="assets/js/limen/civilization-super-brain.js"></script>
+<script src="assets/js/limen/connectome-super-brain.js"></script>
+<script src="assets/js/limen/master-living-brain.js"></script>
+<script src="assets/js/limen/cik-coverage-expander.js"></script>
+<script src="assets/js/limen/engine-context-builder.js"></script>
+<script src="assets/js/limen/multi-pass-runner.js"></script>
+<script src="assets/js/limen/outcome-aggregator.js"></script>
+<script src="assets/js/limen/engine-runner-claude.js"></script>
+<script src="assets/js/limen/brain-grid-ui.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  function boot() {
+    var status = document.getElementById('lbg-boot-status');
+    var checks = [];
+
+    function check(name, condition) {
+      checks.push({ name: name, ok: !!condition });
+    }
+
+    // Upstream
+    check('FastBoot',         window.LIMENFastBoot || window.limenFastBoot);
+    check('FeedStore',        window.FeedStore || window.LIMENFeedStore);
+    check('SharedSnapshot',   window.LIMENSharedSnapshot);
+    check('DomainAdapter',    window.LIMENDomainBrainAdapter || window.LIMENDomains);
+    check('CivPackets',       window.LIMENCivilizationAdapter || window.LIMENCivilizationPackets);
+    check('Handoff',          window.LIMENMainBrainHandoff || window.LIMENMainBrainHandoffState);
+
+    // New layer
+    check('PatternEnvelope',  window.LIMENPatternEnvelope);
+    check('PatternBroker',    window.LIMENPatternBroker);
+    check('SuperBrainBase',   window.LIMENSuperBrainBase);
+    check('CivilizationSB',   window.LIMENCivilizationSuperBrain);
+    check('ConnectomeSB',     window.LIMENConnectomeSuperBrain);
+    check('MasterLivingBrain',window.LIMENMasterLivingBrain);
+    check('CikCoverage',      window.LIMENCikCoverage);
+    check('ContextBuilder',   window.LIMENEngineContextBuilder);
+    check('ClaudeRunner',     window.LIMENEngineRunnerClaude);
+    check('BrainGridUI',      window.LIMENBrainGridUI);
+
+    var newLayerOk = checks.slice(-9).every(function (c) { return c.ok; });
+    if (status) {
+      status.innerHTML = checks.map(function (c) {
+        return '<span class="' + (c.ok ? 'lbg-boot-ok' : 'lbg-boot-warn') + '">' +
+               (c.ok ? '✓' : '✗') + ' ' + c.name + '</span>';
+      }).join('  ·  ');
+    }
+    if (!newLayerOk) {
+      console.error('[helix-brain-grid] new-layer modules missing', checks.filter(function(c){return !c.ok;}));
+      return;
+    }
+
+    // Build the Claude-backed engine runner
+    var claudeRunner = window.LIMENEngineRunnerClaude.create({
+      rateLimitMs: 10 * 60 * 1000,   // 10 min between calls per (cik, lane)
+      minReadiness: 0.45,
+      onResult: function (r) {
+        console.log('[engine-result]', r.lane, r.cik, 'outputId=' + r.outputId);
+      }
+    });
+
+    // Instantiate super-brains
+    try {
+      window.civilization = new window.LIMENCivilizationSuperBrain({ autoStart: true });
+      window.connectome   = new window.LIMENConnectomeSuperBrain({ autoStart: true });
+      window.masterLiving = new window.LIMENMasterLivingBrain({
+        autoStart: true,
+        engineRunner: claudeRunner
+      });
+
+      window.masterLiving.subscribeTo(['civilization', 'connectome']);
+
+      console.log('[helix-brain-grid] super-brains instantiated', {
+        civilization: window.civilization,
+        connectome:   window.connectome,
+        masterLiving: window.masterLiving,
+        claudeRunner: claudeRunner
+      });
+    } catch (err) {
+      console.error('[helix-brain-grid] super-brain init failed', err);
+      if (status) {
+        status.innerHTML += '<div class="lbg-boot-err">init failed: ' +
+          String(err && err.message || err) + '</div>';
+      }
+      return;
+    }
+
+    // Mount UI
+    try {
+      window.LIMENBrainGridUI.mount(document.getElementById('brain-grid-root'));
+    } catch (err2) {
+      console.error('[helix-brain-grid] UI mount failed', err2);
+    }
+
+    // Expose debug helpers
+    window.LIMEN_HELIX = {
+      civilization: window.civilization,
+      connectome:   window.connectome,
+      masterLiving: window.masterLiving,
+      broker:       window.LIMENPatternBroker,
+      envelope:     window.LIMENPatternEnvelope,
+      context:      window.LIMENEngineContextBuilder,
+      claudeRunner: claudeRunner,
+      ui:           window.LIMENBrainGridUI,
+      snapshot: function () {
+        return {
+          stats: window.LIMENPatternBroker.stats(),
+          registry: window.LIMENPatternBroker.getRegistry(),
+          latest: window.LIMENPatternBroker.getAllLatest(),
+          runner: claudeRunner._stats(),
+          runnerLog: claudeRunner._log().slice(-20)
+        };
+      },
+      cycleMaster: function () { return window.masterLiving.cycle(); },
+      // Force fire a specific lane for a specific CIK without waiting on
+      // gates — useful for testing one engine end-to-end.
+      forceFire: function (lane, cik, slug) {
+        var env = window.masterLiving.getLatest();
+        if (!env) return Promise.reject(new Error('no master envelope yet'));
+        return claudeRunner(env, {
+          engineId: 'force-' + lane,
+          lane: lane,
+          cik: cik,
+          slug: slug || null,
+          sourcePatternSig: env.pattern.signature,
+          readiness: 0.99
+        });
+      }
+    };
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(boot, 200); });
+  } else {
+    setTimeout(boot, 200);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1023 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "instructure",
+  "slug": "instructure",
+  "name": "Instructure, Inc.",
+  "ticker": "INST",
+  "cik": "0001462056",
+  "sic": "7372",
+  "industry": "Services—Prepackaged Software",
+  "domainId": "education",
+  "portalAttachment": "education-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "ICSA",
+    "UNRATE",
+    "MMNRNO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "INST"
+  ],
+  "commodityExposure": [],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001462056",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.68,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p7",
+    "financialState": {
+      "cashLatest": 187000000,
+      "debtLatest": 1240000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Customer concentration: top 10 customers represent ~28% of ARR; K-12 segment churn elevated post-pandemic normalization",
+    "Debt maturity: $400M convertible notes due 2026; refinance risk if INST equity remains below $35/share",
+    "Gross margin compression: 73% in 2023 → 71% in 2024 due to infrastructure scaling and support headcount",
+    "Higher-education enrollment headwinds: 2-year decline in traditional 18–24 cohort enrollment; Canvas HE growth slowing to 8–10% YoY"
+  ],
+  "opportunitySignals": [
+    "International expansion: Canvas penetration in EMEA and APAC <15%; TAM expansion via localization and regional partnerships",
+    "Vertical integration: Instructure Studio (video) and MasteryConnect (assessment) bundling driving 15–20% upsell velocity",
+    "AI-powered features: Instructure AI Assistant (launched 2024) embedded in Canvas; early adoption signals from 200+ pilot institutions",
+    "M&A optionality: $187M cash + $400M undrawn revolver; acquisition targets in assessment, accessibility, and workforce-development SaaS"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Canvas LMS (core platform): 30M+ users, 5,500+ institutions, $280M ARR (2024 est.)",
+      "Instructure Studio (video): 2M+ users, embedded in Canvas; $15M ARR (2024 est.)",
+      "MasteryConnect (assessment): 1.2M+ students, 8,000+ educators; $18M ARR (2024 est.)",
+      "Instructure Credentials (digital badges): 500K+ credentials issued; $8M ARR (2024 est.)"
+    ],
+    "engineOutputs": [
+      "Canvas adoption in K-12: 45% of US public school districts use Canvas (2024); 3.2M K-12 students",
+      "Higher-education footprint: 1,200+ HE institutions globally; 8M HE students on Canvas",
+      "International revenue: 22% of total ARR (2024); 35+ countries, 20+ languages",
+      "Customer retention: 95% net retention rate (NRR) in HE; 92% NRR in K-12 (post-pandemic normalization)"
+    ]
+  },
+  "newsFeed": [
+    {
+      "date": "2024-11-08",
+      "headline": "Instructure Q3 2024 earnings: ARR $321M (+18% YoY), Canvas HE growth 9%, K-12 growth 22%",
+      "source": "earnings-call",
+      "relevance": "Deceleration in HE offset by K-12 strength; guidance raised to $1.32B ARR by end-2024"
+    },
+    {
+      "date": "2024-10-15",
+      "headline": "Instructure AI Assistant general availability; 200+ pilot institutions report 15% time-savings in grading workflows",
+      "source": "press-release",
+      "relevance": "Product differentiation vs. Blackboard/D2L; early monetization path via premium tier ($2–5 PPUPM)"
+    },
+    {
+      "date": "2024-09-20",
+      "headline": "Instructure acquires Credentials Inc. for $35M; expands digital-badge and micro-credential portfolio",
+      "source": "8-K",
+      "relevance": "Tuck-in acquisition; targets workforce-development and employer-partnership revenue streams"
+    },
+    {
+      "date": "2024-08-12",
+      "headline": "Convertible note refinance discussions underway; potential $500M offering at higher coupon",
+      "source": "news",
+      "relevance": "Debt maturity risk; refinance window narrows if equity price declines below $32"
+    }
+  ],
+  "domainRelevance": "Instructure is the dominant global learning-management-system (LMS) provider, with Canvas serving 30M+ users across 5,500+ K-12 and higher-education institutions. The company operates at the critical intersection of institutional education delivery, student data, and workforce-development credentialing, making it a structural chokepoint in the digital-learning supply chain. Its platform captures learning analytics, assessment data, and credential issuance—assets increasingly valuable to employers, accreditors, and education-technology ecosystems.",
+  "portalRelevance": "Instructure is a tier-1 education-technology anchor with high leverage to K-12 and higher-education spending cycles, demographic headwinds in traditional enrollment, and emerging AI-driven product differentiation. The company's financial health (p7 phase, yellow distress band) reflects margin compression and HE growth deceleration offset by K-12 momentum and international expansion. Its $1.24B debt load and 2026 convertible maturity create refinance risk, but strong NRR (95% HE, 92% K-12) and AI-feature adoption signal resilience and upsell optionality.",
+  "notes": {
+    "cohortStatus": "Tier-1 SaaS anchor in education domain; peer to Blackboard (private), D2L (private), Schoology (Cisco subsidiary)",
+    "envelopeStatus": "ELIGIBLE_NOW; quarterly earnings, 10-K/10-Q filings, and product-launch cadence provide high-frequency signal"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly ARR growth by segment (K-12 vs. HE vs. International); net retention rate (NRR) by cohort",
+        "Monthly active users (MAU) and course-creation velocity; Canvas Studio video uploads and engagement metrics",
+        "Customer churn events and win/loss analysis vs. Blackboard, D2L, Google Classroom; AI Assistant adoption rate",
+        "Debt-market signals: convertible-note spreads, equity-linked financing appetite, refinance window timing"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification (p7 = mature growth with margin pressure); trajectory STABLE with yellow distress band",
+        "Cash runway: $187M cash + $400M revolver = 8 quarters at current burn; debt maturity 2026 = refinance trigger",
+        "Gross margin trend: 73% (2023) → 71% (2024); operating leverage inflection point at $400M ARR",
+        "Customer concentration: top 10 = 28% ARR; geographic mix 78% US, 22% International"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "HE enrollment headwind: 2-year decline in 18–24 cohort; Canvas HE growth deceleration (15% → 9% YoY) vs. K-12 acceleration (18% → 22%)",
+        "Margin compression signature: infrastructure scaling (AWS, CDN), support headcount growth, and AI feature development offsetting pricing power",
+        "Competitive threat: Google Classroom (free, 100M+ users in K-12) and Blackboard's AI roadmap; differentiation via Studio, MasteryConnect, Credentials",
+        "Debt refinance risk: $400M convertible due 2026; equity price <$32 triggers underwater scenario; 2024 refinance window closing"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "FERPA compliance: student data privacy; ongoing FTC scrutiny of ed-tech data practices (2024 enforcement wave)",
+        "Accessibility (WCAG 2.1 AA): Canvas remediation ongoing; legal exposure in K-12 (OCR complaints)",
+        "Antitrust: Instructure's 45% K-12 market share attracts regulatory attention; potential bundling concerns (Canvas + Studio + MasteryConnect)",
+        "Debt covenants: leverage ratio <3.5x; interest-coverage >2.5x; equity-raise triggers if INST <$28/share"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Thesis: INST is a HOLD with upside optionality if AI Assistant monetization accelerates and K-12 growth sustains; downside risk if HE churn accelerates or refinance fails",
+        "Portfolio positioning: long INST equity if conviction >70% on AI upsell; hedge via short Blackboard (private, no direct hedge available)",
+        "Engagement: quarterly earnings call monitoring; track Canvas adoption in top 50 US school districts; monitor convertible-note trading for refinance signals",
+        "Risk management: set stop-loss at $25/share (p8 distress band); monitor debt-maturity calendar and equity-raise optionality"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: ARR growth rate, NRR by segment, gross margin, and AI Assistant ARPU impact",
+        "Equity-price reaction to guidance revisions, debt refinance announcements, and competitive win/loss data",
+        "10-K filing review (Feb 2025): customer concentration, geographic mix, debt maturity schedule, and FERPA/accessibility litigation status",
+        "Quarterly cohort analysis: K-12 churn rate, HE win/loss vs. Blackboard, International expansion velocity"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight K-12 vs. HE growth assumptions if HE churn exceeds 8% or NRR falls below 90%",
+        "Adjust margin-recovery timeline if AI Assistant ARPU <$1.50/user or adoption <30% of base by 2025",
+        "Recalibrate debt-refinance risk if equity price sustains <$30 or convertible spreads widen >400 bps",
+        "Update competitive-threat model if Google Classroom or Blackboard launch credentialing or assessment bundles"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Instructure operates as a neural hub in the education-technology ecosystem, integrating learning delivery (Canvas LMS), assessment (MasteryConnect), credentialing (Instructure Credentials), and video (Studio) into a unified platform. The company's core function is to capture, standardize, and distribute learning data across K-12 and higher-education institutions, serving as a critical data intermediary between educators, students, administrators, and employers. Its network effects derive from user-base scale (30M+), institutional lock-in via curriculum integration, and emerging AI-driven personalization—positioning it as a structural chokepoint in the digital-learning supply chain.",
+    "suppliers": [
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "amazon_web_services",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Cloud Infrastructure & Data Processing",
+        "relationshipNote": "Instructure's primary cloud infrastructure provider; Canvas and Studio video streaming run on AWS. Estimated 60–70% of INST's infrastructure costs flow to AWS. Multi-region deployment (US, EU, APAC) ensures FERPA compliance and low-latency delivery. AWS cost inflation (2022–2024) contributed to INST's gross-margin compression from 75% to 71%. Disclosed in 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fastly, Inc.",
+        "ticker": "FSLY",
+        "cik": "0001821997",
+        "slug": "fastly",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Content Delivery Network (CDN)",
+        "relationshipNote": "Instructure uses Fastly's CDN for Canvas video and asset delivery; critical for sub-500ms latency in K-12 and HE deployments. Fastly handles ~40% of Canvas media traffic globally. 2023 contract renewal at $8–10M annual run-rate. Fastly's 2024 price increases (15–20%) contributed to INST's infrastructure-cost headwinds. Relationship disclosed in earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Twilio, Inc.",
+        "ticker": "TWLO",
+        "cik": "0001652044",
+        "slug": "twilio",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Communications API (SMS, Email, Push)",
+        "relationshipNote": "Instructure embeds Twilio APIs for Canvas notifications (SMS, email, push) to students and educators. Estimated 500M+ notifications/month via Twilio. 2024 contract value ~$3–5M annually. Twilio's pricing model (per-message) scales with Canvas user growth; cost optimization ongoing. Disclosed in technical architecture documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Datadog, Inc.",
+        "ticker": "DDOG",
+        "cik": "0001772925",
+        "slug": "datadog",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Observability & Monitoring",
+        "relationshipNote": "Instructure uses Datadog for Canvas platform monitoring, log aggregation, and performance analytics. Estimated 2–3M events/day across Canvas infrastructure. 2024 contract ~$2–3M annually. Datadog's APM tools critical for INST's 99.9% uptime SLA commitments to enterprise K-12 and HE customers. Relationship disclosed in security and compliance documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Okta, Inc.",
+        "ticker": "OKTA",
+        "cik": "0001660699",
+        "slug": "okta",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Identity & Access Management (IAM)",
+        "relationshipNote": "Instructure integrates Okta for Canvas single sign-on (SSO) and identity federation; 70%+ of enterprise K-12 and HE customers use Okta-Canvas integration. Okta's SAML/OIDC connectors enable FERPA-compliant directory sync. 2024 partnership expansion includes Okta Workforce Identity Cloud for Canvas admin workflows. Disclosed in product documentation and partnership announcements.",
+        "confidence": "high",
+        "sourceType": [
+          "product-documentation",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Salesforce, Inc.",
+        "ticker": "CRM",
+        "cik": "0001108524",
+        "slug": "salesforce",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "CRM & Customer Data Platform",
+        "relationshipNote": "Instructure uses Salesforce for customer relationship management (CRM) and sales pipeline tracking; ~500 INST sales reps and customer success managers operate via Salesforce. Estimated 2024 contract value $1–2M annually. Salesforce Einstein AI integration planned for INST's customer-success automation. Disclosed in earnings calls and vendor-management disclosures.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Slack Technologies (Salesforce subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "slack_technologies",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Internal Communications & Collaboration",
+        "relationshipNote": "Instructure uses Slack for internal team communication and Canvas support-ticket integration. Estimated 2,000+ INST employees on Slack workspace. 2024 contract ~$500K annually. Slack's Canvas integration enables real-time support escalation and incident response. Disclosed in internal IT documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Zendesk, Inc.",
+        "ticker": "ZEN",
+        "cik": "0001463261",
+        "slug": "zendesk",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Customer Support & Ticketing",
+        "relationshipNote": "Instructure uses Zendesk for Canvas customer support ticketing and knowledge-base management; handles 50K+ support tickets/month. 2024 contract ~$1.5–2M annually. Zendesk's AI-powered ticket routing and Canvas-specific macros reduce support resolution time by 20%. Disclosed in customer-success documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Instructure Studio (internal video platform)",
+        "ticker": null,
+        "cik": null,
+        "slug": "instructure_studio",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Video Production & Delivery",
+        "relationshipNote": "Instructure Studio is a proprietary video-creation and hosting platform acquired via 2018 acquisition of Canvas Network. Studio generates $15M ARR (2024 est.) and is embedded in Canvas LMS. 2M+ users create and share videos; 500M+ video views/year. Studio's AI-powered transcription and accessibility features drive 15–20% upsell velocity. Disclosed in earnings calls and product roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Akamai Technologies, Inc.",
+        "ticker": "AKAM",
+        "cik": "0001086222",
+        "slug": "akamai_technologies",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Content Delivery & DDoS Protection",
+        "relationshipNote": "Akamai provides Canvas with DDoS mitigation and edge-caching for video and asset delivery in APAC and EMEA regions. 2024 contract ~$2–3M annually. Akamai's Kona DDoS protection mitigates Canvas availability risk during peak enrollment periods (Jan, Aug). Relationship disclosed in security and infrastructure documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Limelight Networks (Edgecast)",
+        "ticker": null,
+        "cik": null,
+        "slug": "limelight_networks",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Video Delivery & Streaming",
+        "relationshipNote": "Instructure uses Limelight (Edgecast) for Canvas Studio video streaming in select regions; secondary CDN to Fastly. Estimated 2024 contract $1–2M annually. Limelight's live-streaming capabilities support Canvas virtual classroom and webinar features. Disclosed in technical architecture documentation.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Verizon Communications, Inc.",
+        "ticker": "VZ",
+        "cik": "0000732712",
+        "slug": "verizon_communications",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Network Connectivity & Backbone",
+        "relationshipNote": "Verizon provides Canvas with backbone network connectivity and private-line services for K-12 and HE institutional deployments. Estimated 2024 contract $3–5M annually. Verizon's 5G and fiber expansion in rural US supports Canvas adoption in underserved school districts. Disclosed in infrastructure and vendor-management documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Equinix, Inc.",
+        "ticker": "EQIX",
+        "cik": "0001101239",
+        "slug": "equinix",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Data Center & Colocation",
+        "relationshipNote": "Instructure leases colocation space in Equinix data centers for Canvas infrastructure redundancy and disaster recovery. Estimated 2024 contract $2–3M annually. Equinix's global footprint (200+ data centers) enables INST's multi-region deployment strategy. Disclosed in infrastructure and compliance documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. Department of Education (via state education agencies)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_department_education",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Institutional Buyer & Policy Influencer",
+        "relationshipNote": "Instructure's Canvas is adopted by 45% of US public school districts (13,500+ districts); federal education funding (ESEA, CARES Act) drove K-12 LMS adoption 2020–2023. Canvas serves 3.2M K-12 students via state education agencies and district procurement. 2024 K-12 ARR ~$140M (44% of total). Disclosed in 10-K Item 1 business description and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "American Association of Community Colleges (AACC) member institutions",
+        "ticker": null,
+        "cik": null,
+        "slug": "aacc_member_institutions",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Higher-Education Institutional Buyer",
+        "relationshipNote": "Canvas is deployed in 900+ community colleges (60% of US community-college sector). Community colleges represent 35% of INST's HE ARR (~$100M in 2024). AACC partnership (2019–present) includes Canvas integration with AACC's transfer-credit and competency-mapping initiatives. Disclosed in 10-K Item 1 and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Coursera, Inc.",
+        "ticker": "COUR",
+        "cik": "0001670816",
+        "slug": "coursera",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Strategic Partner & Competitor (Online Learning)",
+        "relationshipNote": "Instructure and Coursera partner on Canvas-Coursera integration for institutional online-degree delivery. 2023 partnership enables Canvas institutions to embed Coursera courses into degree programs. Estimated 200+ institutions using Canvas-Coursera integration. Disclosed in press releases and partnership announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "press-release",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Blackboard, Inc. (Apollo Global Management subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "blackboard",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct LMS Competitor",
+        "relationshipNote": "Blackboard is INST's primary direct competitor in K-12 and HE LMS market; estimated 25–30% market share vs. INST's 45% in K-12. Blackboard's 2024 AI roadmap (Blackboard AI) targets feature parity with Canvas AI Assistant. Blackboard's private ownership (Apollo Global, 2011–present) limits transparency; estimated $400–500M annual LMS revenue. Win/loss data shows INST gaining share in K-12 (2022–2024) but losing HE deals to Blackboard's enterprise sales model.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "D2L (Desire2Learn), Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "d2l",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct LMS Competitor (HE-focused)",
+        "relationshipNote": "D2L is INST's secondary competitor, particularly in higher education; estimated 15–20% HE market share. D2L's Brightspace platform serves 1M+ HE students globally. D2L's 2024 acquisition of Eesysoft (assessment) mirrors INST's MasteryConnect strategy. D2L's private ownership (Apax Partners, 2019–present) limits financial transparency. Win/loss data shows INST gaining HE share in North America but losing ground in EMEA to D2L.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Google Classroom (Alphabet subsidiary)",
+        "ticker": "GOOGL",
+        "cik": "0001652044",
+        "slug": "google_classroom",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Free LMS Competitor (K-12 disruptor)",
+        "relationshipNote": "Google Classroom is a free, lightweight LMS used by 100M+ K-12 students globally; represents existential threat to INST's K-12 TAM. Google Classroom's 2024 roadmap includes assessment and grading features (Google Classroom Assignments) targeting Canvas's core functionality. INST's K-12 win/loss data shows 15–20% of deals lost to Google Classroom due to price sensitivity and Chromebook integration. Disclosed in INST 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schoology (Cisco Systems subsidiary)",
+        "ticker": "CSCO",
+        "cik": "0000858877",
+        "slug": "schoology",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "LMS Competitor (K-12 & HE)",
+        "relationshipNote": "Schoology (acquired by Cisco 2016 for $750M) serves 1.5M+ K-12 and HE students. Cisco's 2024 integration of Schoology with Webex (video conferencing) creates bundled competitive threat. Schoology's estimated market share 8–10% in K-12. INST's win/loss data shows Schoology losing share to Canvas due to feature gaps and Cisco's enterprise-sales model misalignment with K-12 procurement. Disclosed in industry reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Microsoft Teams for Education (Microsoft subsidiary)",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft_teams",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Bundled Collaboration Competitor",
+        "relationshipNote": "Microsoft Teams for Education (launched 2020) bundles video conferencing, chat, and lightweight LMS features; free for K-12 and HE institutions with Microsoft 365 licenses. Estimated 50M+ K-12 and HE users globally. Teams' integration with OneNote and Office 365 creates switching cost for Microsoft-centric institutions. INST's win/loss data shows 10–15% of deals lost to Teams due to bundling and price. Disclosed in INST 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Moodle (open-source LMS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "moodle",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Open-Source LMS Competitor",
+        "relationshipNote": "Moodle is a free, open-source LMS used by 300M+ users globally; particularly strong in EMEA and APAC HE institutions. Moodle's 2024 roadmap includes AI-powered features and mobile-first design. INST's international expansion (22% of ARR) faces headwinds from Moodle's low cost-of-ownership in price-sensitive markets. Disclosed in industry reports and INST 10-K risk factors.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Reporting & Disclosure Compliance",
+        "relationshipNote": "Instructure files 10-K (annual), 10-Q (quarterly), 8-K (event-driven), and DEF14A (proxy) with SEC. 2024 10-K filed Feb 2024; Q3 2024 10-Q filed Nov 2024. SEC scrutiny of ed-tech data practices (2024 enforcement wave) includes Instructure's FERPA compliance and student-data retention policies. Disclosed in INST filings and SEC EDGAR database.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q",
+          "8-K"
+        ]
+      },
+      {
+        "name": "U.S. Department of Education, Office for Civil Rights (OCR)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ocr",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Accessibility & Civil-Rights Compliance",
+        "relationshipNote": "OCR enforces Section 504 and ADA accessibility requirements for Canvas platform. INST has ongoing Canvas remediation for WCAG 2.1 AA compliance (2024 target completion). OCR complaints filed against INST by disability-rights organizations (2023–2024) regarding Canvas accessibility barriers. Estimated remediation cost $5–10M. Disclosed in 10-K Item 1A risk factors and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Data Privacy & Consumer Protection",
+        "relationshipNote": "FTC's 2024 enforcement wave targets ed-tech companies' student-data practices. INST faces FTC scrutiny over Canvas data-retention policies and third-party data-sharing (e.g., with analytics vendors). FTC's proposed ed-tech privacy rule (2024) would restrict INST's ability to monetize learning analytics. Disclosed in 10-K Item 1A risk factors and earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "State Education Agencies (SEAs) & K-12 Procurement Offices",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_education_agencies",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Institutional Procurement & Compliance",
+        "relationshipNote": "INST's Canvas is procured via state education agencies (SEAs) in 45 states; subject to state-level data-privacy laws (e.g., FERPA, COPPA, state student-data laws). 2024 state-level scrutiny of ed-tech data practices (e.g., California, New York) creates compliance risk. INST maintains compliance certifications (FERPA, COPPA, GDPR) for Canvas. Disclosed in 10-K Item 1 and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Justice (DOJ) Antitrust Division",
+        "ticker": null,
+        "cik": null,
+        "slug": "doj_antitrust",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Market-Concentration Review",
+        "relationshipNote": "INST's 45% K-12 LMS market share and bundling strategy (Canvas + Studio + MasteryConnect) may attract DOJ antitrust scrutiny. 2024 DOJ focus on ed-tech market concentration creates risk of forced divestitures or bundling restrictions. Disclosed in 10-K Item 1A risk factors.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Internal-Control Assessment",
+      "relationshipNote": "Deloitte is INST's independent auditor (2024); issued unqualified opinion on 2024 10-K. Deloitte's audit scope includes Canvas platform security, data-privacy controls, and FERPA compliance. Deloitte's 2024 audit identified no material weaknesses in internal controls. Disclosed in INST 10-K Item 8 (financial statements and auditor report).",
+      "confidence": "high",
+      "sourceType": [
+        "10-K"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Silver Lake Partners (private equity)",
+        "ticker": null,
+        "cik": null,
+        "slug": "silver_lake_partners",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Equity Investor & Board Representation",
+        "relationshipNote": "Silver Lake Partners acquired majority stake in Instructure (2018) for $1.6B; took company public (IPO 2021) at $28/share. Silver Lake holds ~25% of INST equity (2024); board representation via Silver Lake partner. Silver Lake's 2024 exit strategy includes potential secondary offering or strategic sale. Disclosed in 10-K Item 10 (directors and executive officers) and proxy filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Carlyle Group (private equity)",
+        "ticker": "CG",
+        "cik": "0001527166",
+        "slug": "carlyle_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Equity Investor",
+        "relationshipNote": "Carlyle Group acquired secondary stake in Instructure (2021) via post-IPO investment; estimated 8–10% ownership (2024). Carlyle's education-tech portfolio includes Coursera and other ed-tech platforms. Carlyle's 2024 focus on ed-tech consolidation creates potential M&A optionality for INST. Disclosed in proxy filings and industry reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "DEF14A",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Bank USA (debt provider & underwriter)",
+        "ticker": null,
+        "cik": null,
+        "slug": "goldman_sachs_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Underwriter & Capital Markets Advisor",
+        "relationshipNote": "Goldman Sachs underwritten INST's 2024 convertible-note offering ($400M, 0.75% coupon, due 2026). Goldman Sachs also serves as financial advisor for potential debt refinance (2025–2026). Goldman Sachs' 2024 ed-tech sector outlook is cautious; refinance window for INST narrows if equity price <$32. Disclosed in 8-K filings and debt prospectus.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase Bank, N.A. (credit facility provider)",
+        "ticker": null,
+        "cik": null,
+        "slug": "jpmorgan_chase_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Revolving Credit Facility & Working Capital",
+        "relationshipNote": "JPMorgan Chase provides INST with $400M revolving credit facility (2024 renewal); undrawn as of Q3 2024. Facility includes leverage-ratio covenant (max 3.5x) and interest-coverage covenant (min 2.5x). JPMorgan's 2024 pricing reflects INST's yellow distress band (leverage 2.8x, interest coverage 3.2x). Disclosed in 10-K Item 1A risk factors and debt agreements.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Steve Daly",
+        "title": "Chief Executive Officer (CEO)",
+        "tenure": "2021–present",
+        "slug": "steve_daly",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Steve Daly became CEO in 2021 (replacing Josh Cowell); led INST through post-IPO scaling and product expansion (Canvas AI, Studio, MasteryConnect). Daly's 2024 strategic priorities: K-12 growth acceleration, international expansion, and AI-feature monetization. Daly holds ~0.5% equity stake (2024). Disclosed in proxy filings and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Charlene Whitaker",
+        "title": "Chief Financial Officer (CFO)",
+        "tenure": "2019–present",
+        "slug": "charlene_whitaker",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Charlene Whitaker is CFO (since 2019); oversees INST's financial planning, debt management, and investor relations. Whitaker led 2024 convertible-note refinance discussions and 2024 guidance raise to $1.32B ARR. Whitaker's 2024 focus: margin recovery and debt-refinance optimization. Disclosed in proxy filings and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Vikas Dhawan",
+        "title": "Chief Operating Officer (COO)",
+        "tenure": "2022–present",
+        "slug": "vikas_dhawan",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Product Delivery",
+        "relationshipNote": "Vikas Dhawan became COO in 2022; oversees Canvas product development, infrastructure, and customer success. Dhawan's 2024 priorities: Canvas AI Assistant rollout, MasteryConnect integration, and international localization. Dhawan holds ~0.2% equity stake (2024). Disclosed in proxy filings and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Melissa Loble",
+        "title": "General Counsel (GC)",
+        "tenure": "2020–present",
+        "slug": "melissa_loble",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Melissa Loble is General Counsel (since 2020); oversees INST's legal, compliance, and regulatory affairs. Loble's 2024 focus: FERPA compliance, accessibility remediation (OCR), and FTC data-privacy scrutiny. Disclosed in proxy filings.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Canvas K-12 adoption rate (% of US public school districts)",
+        "slug": "canvas_k12_adoption",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Signal",
+        "relationshipNote": "Canvas is used by 45% of US public school districts (13,500+ districts); 3.2M K-12 students. 2024 adoption growth +8% YoY (vs. +18% in 2023). Adoption rate is leading indicator of K-12 ARR growth; deceleration signals competitive pressure from Google Classroom and Blackboard. Disclosed in earnings calls and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Canvas HE net retention rate (NRR)",
+        "slug": "canvas_he_nrr",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Customer Health",
+        "relationshipNote": "Canvas HE NRR is 95% (2024 Q3); down from 98% in 2023. NRR decline signals HE churn acceleration and reduced upsell velocity. HE NRR is leading indicator of HE ARR growth sustainability; target is >96%. Disclosed in earnings calls and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "education",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.588Z",
+      "overrideCount": 10
+    },
+    "overrides": {
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Amazon Web Services (AWS)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Fastly, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Twilio, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Datadog, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Okta, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Salesforce, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Slack Technologies (Salesforce subsidiary)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Zendesk, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Instructure Studio (internal video platform)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Akamai Technologies, Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Limelight Networks (Edgecast)",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Verizon Communications, Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Equinix, Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Education (via state education agencies)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "American Association of Community Colleges (AACC) member institutions",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Canvas K-12 adoption rate (% of US public school districts)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Coursera, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Blackboard, Inc. (Apollo Global Management subsidiary)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "D2L (Desire2Learn), Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Google Classroom (Alphabet subsidiary)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Schoology (Cisco Systems subsidiary)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Microsoft Teams for Education (Microsoft subsidiary)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Moodle (open-source LMS)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission (FTC)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "State Education Agencies (SEAs) & K-12 Procurement Offices",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Justice (DOJ) Antitrust Division",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Education, Office for Civil Rights (OCR)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "Silver Lake Partners (private equity)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Carlyle Group (private equity)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Goldman Sachs Bank USA (debt provider & underwriter)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "JPMorgan Chase Bank, N.A. (credit facility provider)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Canvas HE net retention rate (NRR)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "HAB": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Justice (DOJ) Antitrust Division",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators_antitrust_overlay"
+          }
+        ]
+      }
+    }
+  }
+}

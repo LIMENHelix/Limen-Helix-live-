@@ -1,0 +1,715 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "cnpc",
+  "slug": "cnpc",
+  "name": "China National Petroleum Corporation",
+  "ticker": null,
+  "cik": null,
+  "sic": "1311",
+  "industry": "Crude Petroleum and Natural Gas Extraction",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "FOREIGN_FILER",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "GASDESW",
+    "MMNRNJ",
+    "EXCHUS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "liquefied natural gas (LNG)",
+    "refined petroleum products",
+    "coal",
+    "petrochemicals"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "FOREIGN_FILER",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Geopolitical exposure: operations in Iraq, Kazakhstan, Russia, Angola subject to sanctions/conflict risk",
+    "Energy transition headwind: global shift to renewables pressures long-cycle upstream capex ROI",
+    "Stranded asset risk: coal assets and legacy thermal infrastructure face regulatory phase-out in major markets",
+    "Currency volatility: USD-denominated commodity revenues vs. CNY cost base creates FX mismatch"
+  ],
+  "opportunitySignals": [
+    "LNG export growth: expanding liquefaction capacity to serve Asian demand, particularly Japan/South Korea",
+    "Hydrogen and carbon capture: pilot projects in Xinjiang and Shaanxi position CNPC for energy-transition capex",
+    "Downstream integration: refining and petrochemical margins benefit from crude-to-product spread widening",
+    "Belt and Road infrastructure: pipeline and LNG terminal projects in Central Asia and Southeast Asia lock in long-term revenue"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "CNPC is the world's second-largest oil and gas producer by output, controlling ~13% of global crude production and operating integrated upstream, midstream, and downstream assets across 80+ countries. As China's state-owned energy champion, CNPC anchors the nation's energy security strategy, managing critical infrastructure including the West-East Gas Pipeline and serving as the primary conduit for Russian and Central Asian hydrocarbons into China. The company's scale, geopolitical leverage, and capital deployment capacity make it a structural price-setter in Asian LNG markets and a bellwether for global energy transition investment patterns.",
+  "portalRelevance": "CNPC is essential to financial-intelligence models tracking energy-sector systemic risk, commodity-price transmission, and geopolitical supply-chain resilience. As a state-owned anchor in the energy domain, CNPC's capex cycles, reserve replacement rates, and hedging posture directly influence WTI/Brent spreads, LNG pricing, and downstream margin compression across Asia-Pacific. Its role as China's primary energy-security instrument also embeds it in sanctions-compliance, ESG-transition, and sovereign-debt dynamics that affect global energy equity valuations and commodity-linked credit spreads.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "FOREIGN_FILER — no SEC filings; financial data sourced from Chinese regulatory disclosures, Hong Kong Stock Exchange filings (PetroChina subsidiary), and industry reports"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly crude production volumes and LNG export data from Chinese government energy ministry releases",
+        "Quarterly capex guidance and reserve replacement announcements via PetroChina (listed subsidiary) earnings calls",
+        "Geopolitical event triggers: sanctions announcements, pipeline disruptions, joint-venture contract awards in Central Asia/Russia",
+        "Commodity price signals: WTI/Brent spreads, LNG spot vs. contract pricing, refining margin compression in downstream"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Production trajectory: tracking 2024–2026 output targets vs. reserve depletion in mature fields (South China Sea, Tarim)",
+        "Capex allocation: monitoring shift from conventional upstream to hydrogen, carbon capture, and renewable energy projects",
+        "Liquidity position: assessing debt-to-EBITDA via PetroChina filings and implicit sovereign backing",
+        "Geopolitical exposure: mapping operational footprint in sanctioned jurisdictions (Russia, Iran, Venezuela) and compliance risk"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Commodity-cycle phase: identifying whether current WTI regime supports capex expansion or triggers retrenchment in high-cost projects",
+        "Stranded-asset pattern: comparing CNPC's coal and thermal assets to peer divestment timelines; assessing write-down risk",
+        "Supply-chain fragility: diagnosing dependency on Russian gas (Power of Siberia) and Central Asian oil amid sanctions/geopolitical tension",
+        "Transition readiness: benchmarking hydrogen and CCUS pilot economics against global peer capex efficiency"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Sanctions compliance: monitoring OFAC/EU restrictions on Russian operations and secondary-sanctions exposure for intermediaries",
+        "ESG mandate: tracking China's net-zero 2060 commitment and CNPC's coal-phase-out timeline vs. state-directed production targets",
+        "Environmental remediation: assessing liability for legacy oil-spill sites and pipeline ruptures in ecologically sensitive regions",
+        "Energy-security policy: monitoring Beijing's strategic petroleum reserve (SPR) drawdown/refill cycles and impact on CNPC demand"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Commodity hedge: long crude oil futures if geopolitical risk premium widens; short if demand destruction signals emerge from China PMI",
+        "Credit positioning: monitor PetroChina bond spreads as proxy for CNPC sovereign-credit risk; hedge via CDS if spreads compress below 150 bps",
+        "Portfolio tilt: overweight LNG-exposed peers (Shell, TotalEnergies) if CNPC capex delays signal Asian supply tightness",
+        "Engagement: track CNPC's hydrogen and CCUS capex announcements as leading indicator of energy-transition capital reallocation"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Production data: monthly output reports from China National Bureau of Statistics; variance vs. guidance signals reserve or operational stress",
+        "PetroChina earnings: quarterly results and management commentary on CNPC dividend policy and capex authorization",
+        "Commodity price reaction: WTI/Brent response to CNPC supply announcements; LNG spot pricing vs. contract renegotiations",
+        "Geopolitical event outcomes: sanctions impact on Russian gas flows; pipeline incident response times and remediation costs"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reserve replacement model: recalibrate depletion rates if new field discoveries or enhanced-recovery projects outperform/underperform guidance",
+        "Capex efficiency: update cost-per-barrel assumptions if hydrogen and CCUS projects deliver better-than-expected unit economics",
+        "Geopolitical risk weighting: increase sanctions-impact sensitivity if secondary-sanctions enforcement accelerates against CNPC intermediaries",
+        "Energy-transition timeline: compress coal-phase-out assumptions if Beijing accelerates net-zero targets or CNPC announces accelerated divestments"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Schlumberger Limited",
+        "ticker": "SLB",
+        "cik": "0000091332",
+        "slug": "schlumberger",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Oilfield Services & Well Completion",
+        "relationshipNote": "Schlumberger provides well-completion, wireline, and reservoir-characterization services across CNPC's major E&P projects in the Tarim Basin, South China Sea, and Bohai Bay. The 2023 contract portfolio includes pressure-pumping and artificial-lift optimization for mature-field recovery in Daqing and Liaohe. Schlumberger's digital-twin and real-time-monitoring platforms are deployed on ~40% of CNPC's active wells, generating recurring software licensing revenue. Geopolitical risk: U.S. export controls on advanced sensors and AI-driven diagnostics have prompted CNPC to diversify toward Chinese service providers (COSL, Sinopec Oilfield Services).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Baker Hughes Company",
+        "ticker": "BKR",
+        "cik": "0001701605",
+        "slug": "baker_hughes",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Drilling Equipment & Turbomachinery",
+        "relationshipNote": "Baker Hughes supplies downhole drilling motors, mud-handling systems, and subsea production equipment to CNPC's deepwater and ultra-deepwater projects in the South China Sea (Liuhua, Wenchang fields). 2022–2024 orders total ~$180M for subsea trees and manifolds. Baker Hughes' turbomachinery division also provides centrifugal compressors for CNPC's LNG liquefaction plants (Yamal LNG, Arctic LNG 2 — though latter now under sanctions). U.S. export-control tightening has reduced new orders; CNPC is qualifying Chinese alternatives (Dalian Shipbuilding, China State Shipbuilding).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Halliburton Company",
+        "ticker": "HAL",
+        "cik": "0000045012",
+        "slug": "halliburton",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Cementing & Stimulation Services",
+        "relationshipNote": "Halliburton provides hydraulic-fracturing, cementing, and well-integrity services for CNPC's unconventional gas plays in the Sichuan Basin (Changning, Weiyuan shale fields). 2021–2023 contract value ~$95M for stimulation design and execution. Halliburton's proprietary fracture-modeling software is licensed to CNPC's research institutes. Sanctions and U.S. export controls have limited Halliburton's access to advanced proppant and chemical formulations; CNPC is shifting to domestic suppliers (China Oilfield Services, Sinopec Oilfield Services).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": null,
+        "slug": "equinor",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Arctic & Deepwater Technology Partner",
+        "relationshipNote": "Equinor has provided subsea engineering and Arctic-operations expertise to CNPC's Yamal LNG project (2017–2021) and ongoing Arctic LNG 2 development (now under EU/U.S. sanctions). Equinor's subsea-pipeline design and cold-climate drilling protocols informed CNPC's Bohai Bay deepwater strategy. 2019–2021 technical-services contract valued at ~$65M. Geopolitical pivot: Equinor has exited Russian joint ventures post-2022; CNPC is now relying on legacy technical documentation and Chinese engineering firms (CNOOC, China State Shipbuilding) for Arctic operations.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Weatherford International plc",
+        "ticker": "WFRD",
+        "cik": null,
+        "slug": "weatherford",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Artificial Lift & Well Intervention",
+        "relationshipNote": "Weatherford supplies electric submersible pumps (ESPs) and rod-lift systems for CNPC's mature-field production in Daqing, Liaohe, and Changqing. 2020–2023 orders total ~$110M for ESP refurbishment and optimization. Weatherford's digital-monitoring platform is deployed on ~25% of CNPC's artificial-lift fleet. Supply-chain risk: Weatherford's manufacturing footprint in Mexico and Singapore creates tariff and geopolitical exposure; CNPC is qualifying Chinese competitors (Borets, Shengli Oilfield Services).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Gazprom PJSC",
+        "ticker": null,
+        "cik": null,
+        "slug": "gazprom",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Natural Gas Supply Partner (Russia)",
+        "relationshipNote": "Gazprom supplies ~38 billion cubic meters (bcm) of natural gas annually to CNPC via the Power of Siberia pipeline (operational since 2019; 30-year contract valued at ~$400B). This represents ~15% of CNPC's total gas supply and is critical to China's energy security. Post-2022 sanctions have not disrupted flows, but Western technology restrictions limit Gazprom's ability to expand Arctic production, creating long-term supply-growth constraints. CNPC is diversifying toward Central Asian gas (Turkmenistan, Kazakhstan) and LNG imports to reduce Russia dependency.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Turkmenistan State Concern for Oil and Gas",
+        "ticker": null,
+        "cik": null,
+        "slug": "turkmenistan_state_gas",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Central Asian Gas Supply",
+        "relationshipNote": "Turkmenistan supplies ~30 bcm of natural gas annually to CNPC via the Central Asia–China Gas Pipeline (operational since 2009; 30-year contract). This represents ~12% of CNPC's gas supply and is the company's largest non-Russian gas source. 2023 contract renegotiation increased volumes by 5 bcm and extended pricing terms through 2038. CNPC operates the pipeline's Chinese segment and manages distribution to provincial utilities. Political risk: Turkmenistan's authoritarian governance and limited transparency create contract-enforcement uncertainty.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kazakhstan Mangystau Oil and Gas Company (KMG)",
+        "ticker": null,
+        "cik": null,
+        "slug": "kmg_kazakhstan",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Caspian Oil Supply & Joint Ventures",
+        "relationshipNote": "CNPC holds 37.5% stake in the Kashagan oil field (Caspian Sea) via joint venture with KMG, ExxonMobil, Shell, and others. Kashagan produces ~370,000 barrels per day (bpd) and is one of the world's largest undeveloped reserves. CNPC's share (~140,000 bpd) is exported via the Caspian Pipeline Consortium to global markets. 2023 capex commitment: ~$2.5B for Phase 2 expansion. Geopolitical risk: Caspian maritime disputes and Kazakhstan's balancing act between Russia and Western partners create regulatory uncertainty.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Angola State Oil Company (Sonangol)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sonangol",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "African Oil Supply & Exploration",
+        "relationshipNote": "CNPC operates the Baobab and Zafiro oil fields in Angola, producing ~180,000 bpd. 2023 production-sharing agreement with Sonangol extends CNPC's license through 2035 and includes $1.2B capex commitment for deepwater exploration. Angola is CNPC's largest African production base and a key source of crude for Chinese refineries. Political risk: Angola's debt-servicing challenges and IMF oversight create contract-renegotiation pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "China State Shipbuilding Corporation (CSSC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cssc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "LNG Carrier & Tanker Construction",
+        "relationshipNote": "CSSC is the primary builder of LNG carriers and crude-oil tankers for CNPC's fleet. 2020–2024 orders total 12 LNG carriers (174,000 cubic meters each) valued at ~$4.8B. CSSC also constructs offshore supply vessels and subsea-installation ships for CNPC's deepwater projects. CSSC's Dalian and Shanghai yards operate at ~85% capacity; delivery delays of 6–12 months are common. CNPC is diversifying orders to South Korean yards (Hyundai, Samsung) to reduce domestic bottlenecks.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China National Offshore Oil Corporation (CNOOC)",
+        "ticker": "0883.HK",
+        "cik": null,
+        "slug": "cnooc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Deepwater Pipeline & Subsea Infrastructure",
+        "relationshipNote": "CNOOC operates the South China Sea pipeline network that transports CNPC's offshore crude and gas to onshore processing facilities. CNOOC manages ~8,000 km of subsea pipelines and 15 offshore platforms. 2023 capacity-expansion project adds 12 million tonnes per annum (mtpa) of throughput capacity. CNOOC and CNPC coordinate on joint-venture fields (Liuhua, Wenchang) and share infrastructure costs. Regulatory: CNOOC is a separate state-owned enterprise, creating occasional coordination friction on tariff and capacity allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China National Pipeline Corporation (CNPIPE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cnpipe",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Onshore Gas & Oil Pipeline Network",
+        "relationshipNote": "CNPIPE operates the West-East Gas Pipeline (WEGP), which transports CNPC's domestic and imported gas from western fields (Tarim, Changqing) and Central Asian sources to eastern demand centers. WEGP capacity: 120 bcm per annum; 2024 utilization ~95%. CNPIPE also operates crude-oil pipelines connecting CNPC's refineries. CNPIPE is a subsidiary of CNPC (established 2002), so relationship is intra-group. Tariff disputes between CNPC and downstream utilities (State Grid, provincial gas companies) are common and require Beijing arbitration.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Maersk Line A/S",
+        "ticker": "MAERSK",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "LNG & Specialty Shipping",
+        "relationshipNote": "Maersk provides spot and contract LNG shipping for CNPC's exports to Europe and Asia. 2023 contract: 15 LNG cargoes per quarter at ~$150,000 per day (spot rates). Maersk's fleet includes 20 LNG carriers capable of Arctic and suez-max transit. Post-2022 sanctions have increased shipping costs and reduced Arctic-route availability; CNPC is shifting to Chinese and Russian flag vessels to avoid secondary sanctions exposure.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Ocean Shipping Company (COSCO)",
+        "ticker": "1919.HK",
+        "cik": null,
+        "slug": "cosco",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Crude Oil & Product Tanker Shipping",
+        "relationshipNote": "COSCO operates a fleet of 80+ crude-oil and product tankers that transport CNPC's crude exports and refined products. 2023 contract: 40 VLCC (Very Large Crude Carrier) voyages at ~$45,000 per day. COSCO also provides port-handling and logistics services at Chinese terminals (Shanghai, Dalian, Qingdao). COSCO is state-owned and benefits from preferential tariffs; CNPC uses COSCO for ~60% of its seaborne crude logistics.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "China National Petroleum Corporation (Downstream Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cnpc_downstream",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Internal Refining & Petrochemical Customer",
+        "relationshipNote": "CNPC's downstream division (refining, petrochemicals, retail) is the primary customer for upstream crude and gas production. Downstream processes ~6.5 million barrels per day (mbpd) of crude at 24 refineries and produces ~80 million tonnes per annum (mtpa) of petrochemical products. Internal transfer pricing is set by Beijing's National Development and Reform Commission (NDRC), not market forces. 2023 downstream margin compression (refining spread narrowed to $3–5/barrel) pressured upstream capex authorization.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "State Grid Corporation of China (SGCC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sgcc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Natural Gas Utility Customer",
+        "relationshipNote": "SGCC is the largest buyer of CNPC's natural gas, consuming ~40 bcm per annum (2023) for power generation and heating. SGCC operates the national electricity grid and manages gas distribution to provincial utilities. Contract: 30-year supply agreement (2006–2036) with price-adjustment clauses tied to crude-oil benchmarks. 2023 dispute: SGCC sought 15% price reduction citing margin compression; CNPC refused, citing capex constraints. Regulatory: NDRC arbitrates pricing disputes.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "China Petrochemical Corporation (Sinopec)",
+        "ticker": "0386.HK",
+        "cik": null,
+        "slug": "sinopec",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Downstream & Petrochemical Customer",
+        "relationshipNote": "Sinopec is CNPC's primary competitor in refining and petrochemicals but also a customer for CNPC crude and gas. Sinopec purchases ~1.5 mbpd of CNPC crude (2023) and ~8 bcm of gas annually. Relationship is adversarial on pricing but cooperative on infrastructure (shared pipelines, joint ventures in Bohai Bay). 2023 margin compression in refining (Sinopec's core business) reduced its willingness to accept CNPC's crude-price increases, triggering supply-contract renegotiations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SA",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Oil & Gas Competitor",
+        "relationshipNote": "Saudi Aramco is CNPC's primary global competitor in crude production (Aramco: ~13.5 mbpd; CNPC: ~5.5 mbpd upstream). Aramco's cost of production (~$5–8/barrel) is 40% lower than CNPC's due to superior geology and operational efficiency. Aramco dominates Asian LNG markets (Ghawar, Safaniyah fields supply 30% of global crude). CNPC competes on volume and geopolitical leverage (Belt and Road partnerships) rather than cost. 2023 crude-price war: Aramco cut official selling prices (OSP) by $2–3/barrel; CNPC maintained prices, losing market share in spot markets.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Oil & Gas Competitor",
+        "relationshipNote": "ExxonMobil competes with CNPC in deepwater exploration (Guyana, Southeast Asia) and LNG (Papua New Guinea, Mozambique). ExxonMobil's Guyana production (2023: 380,000 bpd; 2030 target: 1.3 mbpd) is displacing CNPC's market share in Asian crude markets. ExxonMobil also holds 16.8% stake in Kashagan (Caspian Sea), competing with CNPC for capex allocation. 2023 capex: ExxonMobil $24B vs. CNPC ~$18B (estimated). Competitive advantage: ExxonMobil's technology and cost discipline; CNPC's geopolitical access and state backing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Shell plc",
+        "ticker": "SHEL",
+        "cik": "0001601582",
+        "slug": "shell",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Oil & Gas & LNG Competitor",
+        "relationshipNote": "Shell competes with CNPC in LNG (Prelude, Gorgon, Sakhalin) and holds 16.8% stake in Kashagan. Shell's LNG capacity (2023: 45 mtpa) exceeds CNPC's (35 mtpa), but CNPC is expanding (Arctic LNG 2 — now sanctioned; Yamal LNG expansion planned). Shell exited Russian operations post-2022, ceding market share to CNPC in Arctic gas. 2023 capex: Shell $28B (higher than CNPC due to energy-transition investments). Competitive delta: Shell's downstream and renewables portfolio vs. CNPC's upstream-focused model.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "TotalEnergies SE",
+        "ticker": "TTEF",
+        "cik": null,
+        "slug": "totalenergies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Oil & Gas & Energy-Transition Competitor",
+        "relationshipNote": "TotalEnergies competes with CNPC in deepwater (Angola, Equatorial Guinea) and LNG (Mozambique, Qatar). TotalEnergies' Mozambique LNG project (2030 startup; 12.9 mtpa capacity) will compete directly with CNPC's LNG exports to Asia. TotalEnergies is more aggressive on energy transition (renewables capex: 20% of total by 2025) than CNPC. 2023 capex: TotalEnergies $17B. Competitive advantage: TotalEnergies' technology and ESG positioning; CNPC's geopolitical access and state backing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "BP plc",
+        "ticker": "BP",
+        "cik": "0000313807",
+        "slug": "bp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Oil & Gas Competitor",
+        "relationshipNote": "BP competes with CNPC in deepwater (Gulf of Mexico, Azerbaijan) and LNG (Azerbaijan, Egypt). BP's Azerbaijan production (2023: 450,000 bpd) is a key competitor to CNPC's Caspian operations. BP exited Russian operations post-2022, reducing competitive pressure on CNPC in Arctic gas. 2023 capex: BP $15B (lowest among majors). Competitive delta: BP's downstream and trading operations vs. CNPC's upstream focus.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China Petrochemical Corporation (Sinopec)",
+        "ticker": "0386.HK",
+        "cik": null,
+        "slug": "sinopec",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Domestic Oil & Gas Competitor",
+        "relationshipNote": "Sinopec is CNPC's primary domestic competitor in crude production (Sinopec: ~1.2 mbpd; CNPC: ~5.5 mbpd) and refining (Sinopec: 6.5 mbpd capacity; CNPC: 6.5 mbpd). Sinopec focuses on downstream and petrochemicals; CNPC dominates upstream. 2023 crude-price negotiations: Sinopec sought discounts; CNPC maintained prices, leveraging state backing. Regulatory: NDRC allocates crude quotas to both companies; CNPC receives ~65% of domestic crude allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "China National Development and Reform Commission (NDRC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ndrc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Energy Policy & Price Regulation",
+        "relationshipNote": "NDRC sets crude-oil and natural-gas prices for CNPC's domestic sales, manages strategic petroleum reserve (SPR) operations, and approves major capex projects. 2023 authority: NDRC approved CNPC's $18B capex budget and set domestic gas prices at $2.50–3.20/mmBtu (vs. global spot: $8–12/mmBtu). NDRC also arbitrates pricing disputes between CNPC and downstream customers (SGCC, Sinopec). Regulatory risk: NDRC's price controls limit CNPC's margin expansion during commodity booms.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Ministry of Natural Resources (MNR)",
+        "ticker": null,
+        "cik": null,
+        "slug": "mnr",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Oil & Gas Licensing & Environmental Compliance",
+        "relationshipNote": "MNR issues exploration and production licenses for CNPC's domestic E&P operations and enforces environmental regulations. 2023 authority: MNR approved CNPC's Tarim Basin expansion (Kashagan Phase 2 equivalent) and set environmental remediation targets for legacy oil-spill sites. MNR also manages China's EEZ (exclusive economic zone) and coordinates with CNOOC on offshore licensing. Regulatory risk: MNR's environmental enforcement is tightening; CNPC faces $500M+ annual remediation costs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Ministry of Ecology and Environment (MEE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "mee",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental & Climate Compliance",
+        "relationshipNote": "MEE enforces China's environmental laws and climate targets (net-zero 2060). 2023 authority: MEE issued carbon-intensity reduction targets for CNPC (15% reduction by 2025 vs. 2020 baseline) and mandated methane-emission reporting. MEE also oversees coal-phase-out timelines; CNPC's coal assets (Shenhua subsidiary) face accelerated divestment pressure. Regulatory risk: MEE's enforcement is increasingly stringent; CNPC faces $1B+ annual capex for emissions-reduction projects.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Office of Foreign Assets Control (OFAC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ofac",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Sanctions Compliance & Secondary Sanctions Risk",
+        "relationshipNote": "OFAC administers U.S. sanctions on Iran, Russia, and Venezuela — jurisdictions where CNPC operates. 2023 sanctions: OFAC expanded restrictions on Russian Arctic LNG 2 (CNPC holds 20% stake; now effectively frozen). CNPC also faces secondary-sanctions risk for operations in Iran (Azadegan field; 5% stake) and Venezuela (Orinoco Belt; 30% stake). Regulatory risk: OFAC enforcement actions could force CNPC to divest sanctioned assets or face U.S. financial-system exclusion.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Union Directorate-General for Energy (DG ENER)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_dg_ener",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "EU Energy Security & Sanctions Enforcement",
+        "relationshipNote": "EU DG ENER enforces EU sanctions on Russian energy (including Arctic LNG 2) and manages EU energy-security policy. 2023 authority: EU banned imports of Russian LNG (effective Feb 2024), reducing CNPC's Arctic LNG 2 offtake commitments. EU also enforces carbon-border adjustment mechanism (CBAM), which may apply tariffs to CNPC's refined products and petrochemicals exported to EU. Regulatory risk: EU sanctions could force CNPC to redirect Arctic LNG 2 output to Asia, creating oversupply.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "PricewaterhouseCoopers (PwC) China",
+        "ticker": null,
+        "cik": null,
+        "slug": "pwc_china",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "External Auditor & Financial Compliance",
+        "relationshipNote": "PwC audits CNPC's consolidated financial statements and provides tax and regulatory-compliance advisory. 2023 audit scope: ~$500B in total assets, ~$400B in annual revenue, and ~$50B in capex. PwC also audits PetroChina (CNPC's listed subsidiary), which is subject to Hong Kong Stock Exchange and SEC (via ADR) disclosure requirements. Audit risk: PwC faces pressure from Chinese regulators to limit disclosure of sensitive geopolitical and sanctions-related information.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "China Development Bank (CDB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cdb",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Policy Lender & Long-Term Financing",
+        "relationshipNote": "CDB is CNPC's primary source of long-term financing for Belt and Road infrastructure projects. 2023 loan portfolio: ~$45B in outstanding loans to CNPC for pipeline construction (West-East Gas Pipeline expansion), LNG terminals, and overseas E&P projects. CDB's lending rate (2023: 3.5–4.2%) is below market rates, reflecting policy support. CDB also provides export-credit financing for CNPC's overseas acquisitions (Angola, Kazakhstan, Russia). Regulatory: CDB is state-owned and subject to Beijing's macroeconomic policy directives.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Industrial and Commercial Bank of China (ICBC)",
+        "ticker": "1398.HK",
+        "cik": null,
+        "slug": "icbc",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Commercial Banking & Trade Finance",
+        "relationshipNote": "ICBC is CNPC's primary commercial bank for working-capital financing, trade finance, and cash-management services. 2023 credit facilities: ~$25B in revolving credit lines and ~$10B in trade-finance commitments for crude imports and product exports. ICBC also provides foreign-exchange hedging services for CNPC's commodity-price and currency exposures. Relationship: ICBC and CNPC are both state-owned; relationship is strategic and preferential.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China National Petroleum Corporation (Self-Financing)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cnpc_self_financing",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Internal Capital Allocation & Retained Earnings",
+        "relationshipNote": "CNPC finances ~60% of capex from internal cash flow (operating cash flow: ~$35B annually in 2023). Remaining capex is funded via bank loans (CDB, ICBC) and bond issuance. 2023 dividend policy: CNPC retained ~$15B in earnings for reinvestment; paid ~$8B in dividends to state shareholders. Capital allocation is approved by Beijing's State-owned Assets Supervision and Administration Commission (SASAC), not by independent board.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "State-owned Assets Supervision and Administration Commission (SASAC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sasac",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Equity Ownership & Strategic Direction",
+        "relationshipNote": "SASAC is the ultimate owner of CNPC on behalf of the Chinese state. SASAC holds 100% of CNPC's equity and appoints the board of directors and senior management. 2023 authority: SASAC approved CNPC's $18B capex budget, dividend policy, and strategic initiatives (hydrogen, CCUS). SASAC also coordinates CNPC's role in Beijing's energy-security and Belt and Road strategies. Regulatory: SASAC is subordinate to the State Council and Communist Party Central Committee.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Zhang Youxiang",
+        "title": "Chairman & Party Secretary",
+        "slug": "zhang_youxiang",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Zhang Youxiang has served as CNPC Chairman since 2022 and is responsible for overall strategy, capex allocation, and government relations. Zhang is a career CNPC executive (40+ years) with expertise in upstream operations and international partnerships. 2023 priorities: Arctic LNG 2 sanctions mitigation, hydrogen and CCUS pilot expansion, and Belt and Road infrastructure consolidation. Zhang reports directly to SASAC and the Communist Party's Organization Department.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "WTI Crude Oil Spot Price",
+        "slug": "wti_crude",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Upstream Revenue & Profitability Signal",
+        "relationshipNote": "WTI crude price is the primary driver of CNPC's upstream profitability and capex authorization. 2023 average: $82/barrel; CNPC's breakeven cost: ~$35–40/barrel (upstream only). Price sensitivity: each $10/barrel change in WTI impacts CNPC's annual EBITDA by ~$3–4B. 2024 outlook: if WTI falls below $70/barrel, CNPC will likely defer non-core capex projects (hydrogen, CCUS) and reduce dividend payouts.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Henry Hub Natural Gas Spot Price",
+        "slug": "henry_hub_gas",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "LNG Export Pricing & Margin Signal",
+        "relationshipNote": "Henry Hub gas price is a proxy for global LNG pricing and CNPC's LNG export margins. 2023 average: $2.75/mmBtu (vs. 2022: $6.50/mmBtu). CNPC's LNG production cost: ~$3–4/mmBtu; export price (Asia): $8–12/mmBtu (2023 average). Price sensitivity: each $1/mmBtu change in Henry Hub impacts CNPC's LNG EBITDA by ~$1.5–2B annually. 2024 outlook: if Henry Hub falls below $2/mmBtu, CNPC's LNG margins will compress, reducing capex for Arctic LNG 2 expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Manufacturing PMI (Caixin)",
+        "slug": "china_pmi",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Domestic Demand Signal for Refined Products & Petrochemicals",
+        "relationshipNote": "China Manufacturing PMI (Caixin) is a leading indicator of domestic demand for CNPC's refined products and petrochemicals. 2023 average: 49.2 (below 50 = contraction). CNPC's downstream refining utilization is highly correlated with PMI (correlation: 0.75). 2024 outlook: if PMI falls below 48, CNPC will face margin compression in refining and petrochemicals, reducing downstream profitability by ~$2–3B annually.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

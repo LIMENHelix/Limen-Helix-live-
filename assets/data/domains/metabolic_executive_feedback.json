@@ -1,0 +1,99 @@
+{
+  "domainId": "metabolic_executive_feedback",
+  "title": "Executive Metabolic Control — Feedback & Validation",
+  "parentPortal": "metabolic_executive_portal.html",
+  "parentLabel": "Executive Metabolic Control",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Executive Metabolic Control — Feedback & Validation — Primary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "metabolic_executive_feedback_assess_portal.html"
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Executive Metabolic Control — Feedback & Validation — Secondary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "metabolic_executive_feedback_impl_portal.html"
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Executive Metabolic Control — Feedback & Validation — Tertiary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "metabolic_executive_feedback_optim_portal.html"
+    }
+  ]
+}

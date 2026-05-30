@@ -1,0 +1,99 @@
+{
+  "domainId": "contemplative_selfmodel_adapt",
+  "title": "Self-Model Integration — Adaptation & Self-Healing",
+  "parentPortal": "contemplative_selfmodel_portal.html",
+  "parentLabel": "Self-Model Integration",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Self-Model Integration — Adaptation & Self-Healing — Primary Node",
+      "domainDescription": "Adaptation layer — learns from treatment outcomes, adjusts protocols, incorporates new evidence, and enables long-term self-regulation and recovery.",
+      "group": "adaptation",
+      "phase": "P6",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Protocol Refinement Engine",
+          "evidence": "B",
+          "description": "Iterative protocol adjustment based on accumulated treatment response data"
+        },
+        {
+          "type": "COACHING",
+          "label": "Self-Regulation Training",
+          "evidence": "B",
+          "description": "Building patient capacity for autonomous regulation and early warning recognition"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Evidence Integration Pipeline",
+          "evidence": "C",
+          "description": "Incorporation of new research findings and clinical evidence into treatment protocols"
+        }
+      ],
+      "childPortal": "contemplative_selfmodel_adapt_assess_portal.html"
+    },
+    {
+      "brainNodeId": "SN",
+      "state": "active",
+      "domainLabel": "Self-Model Integration — Adaptation & Self-Healing — Secondary Node",
+      "domainDescription": "Adaptation layer — learns from treatment outcomes, adjusts protocols, incorporates new evidence, and enables long-term self-regulation and recovery.",
+      "group": "adaptation",
+      "phase": "P6",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Protocol Refinement Engine",
+          "evidence": "B",
+          "description": "Iterative protocol adjustment based on accumulated treatment response data"
+        },
+        {
+          "type": "COACHING",
+          "label": "Self-Regulation Training",
+          "evidence": "B",
+          "description": "Building patient capacity for autonomous regulation and early warning recognition"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Evidence Integration Pipeline",
+          "evidence": "C",
+          "description": "Incorporation of new research findings and clinical evidence into treatment protocols"
+        }
+      ],
+      "childPortal": "contemplative_selfmodel_adapt_impl_portal.html"
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Self-Model Integration — Adaptation & Self-Healing — Tertiary Node",
+      "domainDescription": "Adaptation layer — learns from treatment outcomes, adjusts protocols, incorporates new evidence, and enables long-term self-regulation and recovery.",
+      "group": "adaptation",
+      "phase": "P6",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Protocol Refinement Engine",
+          "evidence": "B",
+          "description": "Iterative protocol adjustment based on accumulated treatment response data"
+        },
+        {
+          "type": "COACHING",
+          "label": "Self-Regulation Training",
+          "evidence": "B",
+          "description": "Building patient capacity for autonomous regulation and early warning recognition"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Evidence Integration Pipeline",
+          "evidence": "C",
+          "description": "Incorporation of new research findings and clinical evidence into treatment protocols"
+        }
+      ],
+      "childPortal": "contemplative_selfmodel_adapt_optim_portal.html"
+    }
+  ]
+}

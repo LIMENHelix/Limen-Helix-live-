@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; MASTER BRAIN</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#050810;color:#e8e3d9;font-family:monospace;min-height:100vh;width:100%;overflow-x:hidden;-webkit-user-select:none;user-select:none}
+body{padding:48px 24px 64px}
+.mb-frame{width:100%;max-width:880px;margin:0 auto}
+.mb-eyebrow{font-size:.5rem;letter-spacing:6px;color:rgba(201,169,78,0.45);text-transform:uppercase;margin-bottom:18px;text-align:center}
+.mb-sun-wrap{display:flex;justify-content:center;align-items:center;margin:6px auto 16px}
+canvas.mb-sun{display:block;width:300px;height:300px}
+.mb-title{font-family:Georgia,serif;font-size:clamp(1.4rem,4.5vw,2.2rem);letter-spacing:8px;color:rgba(234,216,166,0.92);font-weight:300;margin-bottom:10px;text-align:center}
+.mb-sub{font-size:.56rem;letter-spacing:4px;color:rgba(200,195,184,0.5);text-transform:uppercase;text-align:center;margin-bottom:36px}
+
+.mb-section-label{font-size:.36rem;letter-spacing:4px;color:rgba(201,169,78,0.45);text-transform:uppercase;margin:24px 2px 10px;text-align:left}
+
+/* ── Posture grid ── */
+.mb-posture-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:14px 10px;padding:18px 16px 24px;border:1px solid rgba(201,169,78,0.1);background:rgba(0,0,0,0.18);border-radius:2px}
+.mb-pcell{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1;cursor:default}
+.mb-pcell-dot{display:block;border-radius:50%;background:rgba(140,170,200,0.35);transition:width .35s ease,height .35s ease,background .35s ease,box-shadow .35s ease}
+.mb-pcell.empty .mb-pcell-dot{background:transparent;border:1px dashed rgba(200,195,184,0.18);width:14px !important;height:14px !important;box-shadow:none !important}
+.mb-pcell-label{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);font-size:.28rem;letter-spacing:1px;color:rgba(200,195,184,0.32);text-transform:uppercase;white-space:nowrap;pointer-events:none}
+.mb-pcell:hover .mb-pcell-label{color:rgba(234,216,166,0.85)}
+.mb-pcell .mb-pcell-tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(5,8,16,0.96);border:1px solid rgba(201,169,78,0.18);padding:8px 11px;font-size:.36rem;letter-spacing:1px;color:rgba(220,215,200,0.85);text-transform:uppercase;white-space:nowrap;display:none;z-index:30;border-radius:2px;line-height:1.5}
+.mb-pcell:hover .mb-pcell-tip{display:block}
+.mb-pcell-tip b{color:rgba(234,216,166,0.95);font-weight:normal}
+
+/* ── Strips ── */
+.mb-strip{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:11px 18px;font-size:.42rem;letter-spacing:2px;color:rgba(200,195,184,0.55);text-transform:uppercase;border:1px solid rgba(201,169,78,0.1);background:rgba(201,169,78,0.025);border-radius:2px;margin-bottom:8px}
+.mb-strip-key{color:rgba(201,169,78,0.6);min-width:118px;letter-spacing:3px;font-size:.4rem}
+.mb-strip b{color:rgba(234,216,166,0.92);font-weight:normal}
+.mb-strip .mb-stat-ready{color:rgba(160,210,160,0.85)}
+.mb-strip .mb-stat-near{color:rgba(220,190,120,0.85)}
+.mb-strip .mb-stat-blocked{color:rgba(220,130,130,0.78)}
+.mb-strip .mb-stat-no-coverage{color:rgba(220,140,140,0.78)}
+.mb-strip-sep{color:rgba(201,169,78,0.2)}
+
+/* ── Recent Transitions ── */
+.mb-transitions{display:flex;flex-direction:column;gap:6px;padding:14px 18px;border:1px solid rgba(201,169,78,0.1);background:rgba(0,0,0,0.14);border-radius:2px;margin-bottom:38px}
+.mb-trans{display:grid;grid-template-columns:50px 1fr auto auto;gap:14px;align-items:baseline;font-size:.42rem;letter-spacing:1px;color:rgba(220,215,200,0.7);font-family:monospace}
+.mb-trans-age{color:rgba(200,195,184,0.45);font-variant-numeric:tabular-nums;text-align:right}
+.mb-trans-id{font-family:Georgia,serif;font-size:.55rem;color:rgba(234,216,166,0.78);letter-spacing:.5px;line-height:1.3;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mb-trans-id .dom{color:rgba(140,170,200,0.7);text-transform:uppercase;font-family:monospace;font-size:.42rem;letter-spacing:1.5px;margin-right:8px}
+.mb-trans-shift{color:rgba(200,195,184,0.55);text-transform:uppercase;font-size:.36rem;letter-spacing:2px;white-space:nowrap}
+.mb-trans-shift .arr{color:rgba(201,169,78,0.5);margin:0 6px}
+.mb-trans-shift .new{color:rgba(160,210,160,0.85)}
+.mb-trans-shift .deact{color:rgba(220,130,130,0.78)}
+.mb-trans-delta{color:rgba(201,169,78,0.7);font-variant-numeric:tabular-nums;font-size:.4rem;min-width:50px;text-align:right;white-space:nowrap}
+.mb-trans-delta.up{color:rgba(160,210,160,0.85)}
+.mb-trans-delta.down{color:rgba(220,150,130,0.78)}
+.mb-trans-empty{font-size:.42rem;letter-spacing:3px;color:rgba(200,195,184,0.32);text-transform:uppercase;text-align:center;padding:18px 12px}
+
+/* ── Enter Inbox CTA (preserved, slightly tightened) ── */
+.mb-enter{margin:8px auto 50px;max-width:520px}
+.mb-enter-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:18px 20px;border:1px solid rgba(201,169,78,0.32);background:rgba(201,169,78,0.045);text-decoration:none;border-radius:2px;transition:border-color .3s,background .3s,box-shadow .3s}
+.mb-enter-btn:hover{border-color:rgba(201,169,78,0.6);background:rgba(201,169,78,0.09);box-shadow:0 0 30px rgba(201,169,78,0.1)}
+.mb-enter-label{font-size:.5rem;letter-spacing:5px;color:rgba(234,216,166,0.92);text-transform:uppercase}
+.mb-enter-note{font-size:.38rem;letter-spacing:2px;color:rgba(200,195,184,0.42);text-transform:uppercase}
+
+.mb-enter-exec{margin:-34px auto 50px;max-width:520px}
+.mb-enter-exec .mb-enter-btn{border-color:rgba(160,210,160,0.32);background:rgba(160,210,160,0.04)}
+.mb-enter-exec .mb-enter-btn:hover{border-color:rgba(160,210,160,0.55);background:rgba(160,210,160,0.08);box-shadow:0 0 30px rgba(160,210,160,0.08)}
+.mb-enter-exec .mb-enter-label{color:rgba(190,230,190,0.92)}
+
+/* ── Hierarchy block (preserved, slimmed) ── */
+.mb-hierarchy{display:flex;flex-direction:column;gap:8px;margin:0 auto 40px;max-width:520px;text-align:left}
+.mb-tier{display:flex;align-items:center;gap:14px;padding:8px 14px;border:1px solid rgba(201,169,78,0.1);background:rgba(201,169,78,0.018);border-radius:2px}
+.mb-tier.top{border-color:rgba(201,169,78,0.22);background:rgba(201,169,78,0.035)}
+.mb-tier-glyph{font-size:.85rem;color:rgba(234,216,166,0.78);min-width:22px;text-align:center}
+.mb-tier-body{display:flex;flex-direction:column;gap:2px;flex:1}
+.mb-tier-label{font-size:.4rem;letter-spacing:3px;color:rgba(201,169,78,0.62);text-transform:uppercase}
+.mb-tier-desc{font-size:.4rem;letter-spacing:1px;color:rgba(200,195,184,0.45)}
+
+/* ── Footer ── */
+.mb-footer{display:flex;justify-content:center;align-items:center;gap:28px;font-size:.42rem;letter-spacing:3px;text-transform:uppercase}
+.mb-footer a{color:rgba(201,169,78,0.4);text-decoration:none;transition:color .3s}
+.mb-footer a:hover{color:rgba(201,169,78,0.85)}
+.mb-footer-sep{color:rgba(201,169,78,0.18)}
+
+@media(max-width:720px){
+  .mb-title{letter-spacing:5px}
+  .mb-sub{letter-spacing:3px;margin-bottom:24px}
+  canvas.mb-sun{width:240px;height:240px}
+  .mb-posture-grid{grid-template-columns:repeat(5,1fr);gap:18px 12px}
+  .mb-trans{grid-template-columns:42px 1fr auto;gap:8px}
+  .mb-trans-delta{display:none}
+  .mb-tier{padding:7px 12px;gap:12px}
+  .mb-footer{flex-direction:column;gap:10px}
+  .mb-footer-sep{display:none}
+}
+</style>
+</head>
+<body>
+<script src="assets/js/auth-gate.js"></script>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+<div class="mb-frame">
+  <div class="mb-eyebrow">LIMEN Helix</div>
+  <div class="mb-sun-wrap"><canvas id="mb-sun" class="mb-sun" width="600" height="600"></canvas></div>
+  <h1 class="mb-title">MASTER BRAIN</h1>
+  <div class="mb-sub">Executive &middot; Metacognitive Orchestration</div>
+
+  <div class="mb-section-label">Posture Grid &middot; 20 Domains</div>
+  <div id="mb-posture" class="mb-posture-grid"></div>
+
+  <div id="mb-pathways" class="mb-strip"><span class="mb-strip-key">Pathways</span><span>Awaiting first brain cycle</span></div>
+  <div id="mb-audit" class="mb-strip"><span class="mb-strip-key">Self-Audit</span><span>Awaiting first brain cycle</span></div>
+
+  <div class="mb-section-label">Recent Transitions</div>
+  <div id="mb-transitions" class="mb-transitions"><div class="mb-trans-empty">No transitions observed in this session</div></div>
+
+  <div class="mb-enter">
+    <a href="/master-brain-inbox.html" class="mb-enter-btn">
+      <span class="mb-enter-label">Enter Executive Inbox</span>
+      <span class="mb-enter-note">Pathways &middot; truth ledger &middot; ranked salience</span>
+    </a>
+  </div>
+
+  <div class="mb-enter mb-enter-exec">
+    <a href="/master-brain-executor.html" class="mb-enter-btn">
+      <span class="mb-enter-label">Enter Executor Lane</span>
+      <span class="mb-enter-note">Patent &middot; Grant substrate assembly</span>
+    </a>
+  </div>
+
+  <div class="mb-hierarchy">
+    <div class="mb-tier top">
+      <span class="mb-tier-glyph">&#x2609;</span>
+      <div class="mb-tier-body">
+        <span class="mb-tier-label">Master Brain</span>
+        <span class="mb-tier-desc">Executive &middot; metacognitive orchestration</span>
+      </div>
+    </div>
+    <div class="mb-tier">
+      <span class="mb-tier-glyph">&#x25CE;</span>
+      <div class="mb-tier-body">
+        <span class="mb-tier-label">Civilization</span>
+        <span class="mb-tier-desc">Observatory &middot; cross-domain synthesis</span>
+      </div>
+    </div>
+    <div class="mb-tier">
+      <span class="mb-tier-glyph">&#x29BF;</span>
+      <div class="mb-tier-body">
+        <span class="mb-tier-label">Domains</span>
+        <span class="mb-tier-desc">Operational intelligences &middot; sovereign actors</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-footer">
+    <a href="/">Return to Gate</a>
+    <span class="mb-footer-sep">&middot;</span>
+    <a href="/civilization.html">Civilization Console</a>
+  </div>
+</div>
+
+<!-- Brain bootstrap (mirrors inbox / opportunities) -->
+<script src="assets/js/domain-identity.js"></script>
+<script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/feed-store.js"></script>
+<script src="assets/js/feed-state.js"></script>
+<script src="assets/js/domain-signal-engine.js"></script>
+<script src="assets/js/cross-domain-detector.js"></script>
+<script src="assets/js/limen-bootstrap.js"></script>
+<script src="assets/js/domain-brains/domain-brain-base.js"></script>
+<script src="assets/js/domain-brains/portal-content-resolver.js"></script>
+<script src="assets/js/domain-brains/inter-brain-bus.js"></script>
+<script src="assets/js/domain-brains/domain-change-log.js"></script>
+<script src="assets/js/domain-brains/energy-brain.js"></script>
+<script src="assets/js/domain-brains/data/finance-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/finance-brain.js"></script>
+<script src="assets/js/domain-brains/data/defense-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/defense-brain.js"></script>
+<script src="assets/js/domain-brains/data/trade-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/trade-brain.js"></script>
+<script src="assets/js/domain-brains/data/medicine-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/medicine-brain.js"></script>
+<script src="assets/js/domain-brains/data/agriculture-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/agriculture-brain.js"></script>
+<script src="assets/js/domain-brains/data/communication-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/communication-brain.js"></script>
+<script src="assets/js/domain-brains/data/culture-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/culture-brain.js"></script>
+<script src="assets/js/domain-brains/data/economy-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/economy-brain.js"></script>
+<script src="assets/js/domain-brains/data/education-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/education-brain.js"></script>
+<script src="assets/js/domain-brains/data/environment-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/environment-brain.js"></script>
+<script src="assets/js/domain-brains/data/governance-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/governance-brain.js"></script>
+<script src="assets/js/domain-brains/data/industry-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/industry-brain.js"></script>
+<script src="assets/js/domain-brains/infrastructure-brain.js"></script>
+<script src="assets/js/domain-brains/data/intelligence-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/intelligence-brain.js"></script>
+<script src="assets/js/domain-brains/data/law-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/law-brain.js"></script>
+<script src="assets/js/domain-brains/data/population-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/population-brain.js"></script>
+<script src="assets/js/domain-brains/data/religion-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/religion-brain.js"></script>
+<script src="assets/js/domain-brains/data/science-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/science-brain.js"></script>
+<script src="assets/js/domain-brains/data/technology-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/technology-brain.js"></script>
+<script src="assets/js/domain-brain-adapter.js"></script>
+
+<!-- Readiness pipeline (loaded last) -->
+<script src="assets/js/master-brain-readiness.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  var _postureEl     = document.getElementById('mb-posture');
+  var _pathwaysEl    = document.getElementById('mb-pathways');
+  var _auditEl       = document.getElementById('mb-audit');
+  var _transEl       = document.getElementById('mb-transitions');
+  var _sunCanvas     = document.getElementById('mb-sun');
+  var _sunCtx        = _sunCanvas ? _sunCanvas.getContext('2d') : null;
+  var _intensity     = 0.10;     // baseline floor; updated by collectAggregate()
+  var _t0            = Date.now();
+  var _rafId         = null;
+
+  function _esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function _fmtAge(ms) {
+    if (ms == null || !isFinite(ms)) return '\u2014';
+    if (ms < 60000) return Math.max(1, Math.round(ms / 1000)) + 's';
+    if (ms < 3600000) return Math.round(ms / 60000) + 'm';
+    return (ms / 3600000).toFixed(1) + 'h';
+  }
+  function _phaseColor(band, hasReported) {
+    if (!hasReported) return 'rgba(200,195,184,0.18)';
+    if (band <= 0)    return 'rgba(140,170,200,0.40)';
+    if (band <= 3)    return 'rgba(140,180,220,0.78)';
+    if (band <= 6)    return 'rgba(220,190,120,0.85)';
+    return 'rgba(220,130,130,0.92)';
+  }
+  function _stressSize(stress) {
+    if (stress == null) return 14;
+    return Math.round(10 + Math.max(0, Math.min(1, stress)) * 18); // 10..28 px
+  }
+  function _trajClass(t) {
+    var s = (t || '').toString().toLowerCase();
+    if (s === 'escalating' || s === 'deepening' || s === 'rising') return 'escalating';
+    if (s === 'improving' || s === 'recovering' || s === 'falling') return 'improving';
+    return '';
+  }
+
+  function _renderPosture(postureByDomain) {
+    if (!_postureEl) return;
+    var html = postureByDomain.map(function (d) {
+      var emptyCls = d.hasReported ? '' : ' empty';
+      var trajCls = d.hasReported ? _trajClass(d.trajectory) : '';
+      var size = _stressSize(d.stress);
+      var color = _phaseColor(d.phaseBand, d.hasReported);
+      var dotStyle = 'width:' + size + 'px;height:' + size + 'px;background:' + color + ';';
+      if (trajCls === 'escalating') dotStyle += 'box-shadow:0 0 0 1px rgba(220,130,130,0.4),0 0 14px rgba(220,130,130,0.14);';
+      else if (trajCls === 'improving') dotStyle += 'box-shadow:0 0 0 1px rgba(160,210,160,0.4);';
+
+      var tipParts = ['<b>' + _esc(d.domain) + '</b>'];
+      if (d.hasReported) {
+        if (d.phase) tipParts.push('phase ' + _esc(d.phase));
+        if (d.stress != null) tipParts.push('stress ' + d.stress.toFixed(2));
+        if (d.trajectory) tipParts.push(_esc(d.trajectory));
+        if (d.maturity === 'STRUCTURAL') tipParts.push('STRUCTURAL');
+        if (d.activeDxCount > 0) tipParts.push(d.activeDxCount + ' active dx');
+      } else {
+        tipParts.push('not yet reported');
+      }
+      var tip = tipParts.join(' \u00b7 ');
+
+      var label = (d.domain || '').slice(0, 4);
+
+      return '<div class="mb-pcell' + emptyCls + ' ' + trajCls + '" data-d="' + _esc(d.domain) + '">' +
+               '<span class="mb-pcell-dot" style="' + dotStyle + '"></span>' +
+               '<span class="mb-pcell-label">' + _esc(label) + '</span>' +
+               '<span class="mb-pcell-tip">' + tip + '</span>' +
+             '</div>';
+    }).join('');
+    _postureEl.innerHTML = html || '<div style="grid-column:1/-1;text-align:center;color:rgba(200,195,184,0.32);font-size:.42rem;letter-spacing:3px;text-transform:uppercase;padding:12px">Awaiting domain reports</div>';
+  }
+
+  function _renderCounts(counts) {
+    if (!_pathwaysEl) return;
+    if (!counts || counts.total == null) {
+      _pathwaysEl.innerHTML = '<span class="mb-strip-key">Pathways</span><span>Awaiting first brain cycle</span>';
+      return;
+    }
+    _pathwaysEl.innerHTML =
+      '<span class="mb-strip-key">Pathways</span>' +
+      '<span><b>' + counts.total + '</b> total</span>' +
+      '<span class="mb-strip-sep">&middot;</span>' +
+      '<span class="mb-stat-ready"><b>' + counts.READY + '</b> READY</span>' +
+      '<span class="mb-strip-sep">&middot;</span>' +
+      '<span class="mb-stat-near"><b>' + counts.NEAR_READY + '</b> NEAR</span>' +
+      '<span class="mb-strip-sep">&middot;</span>' +
+      '<span class="mb-stat-blocked"><b>' + counts.BLOCKED + '</b> BLOCKED</span>' +
+      '<span class="mb-strip-sep">&middot;</span>' +
+      '<span class="mb-stat-no-coverage"><b>' + counts.NO_DEEP_COVERAGE + '</b> no deep coverage</span>';
+  }
+
+  function _renderAudit(audit) {
+    if (!_auditEl) return;
+    if (!audit || audit.totalDomains === 0) {
+      _auditEl.innerHTML = '<span class="mb-strip-key">Self-Audit</span><span>Awaiting first brain cycle</span>';
+      return;
+    }
+    _auditEl.innerHTML =
+      '<span class="mb-strip-key">Self-Audit</span>' +
+      '<span><b>' + audit.signedCount + '/' + audit.totalDomains + '</b> signed</span>' +
+      '<span class="mb-strip-sep">&middot;</span>' +
+      '<span><b>' + audit.freshCount + '/' + audit.totalDomains + '</b> fresh feeds</span>' +
+      '<span class="mb-strip-sep">&middot;</span>' +
+      '<span><b>' + audit.handoffClearedCount + '</b> handoff-cleared</span>' +
+      '<span class="mb-strip-sep">&middot;</span>' +
+      '<span><b>' + audit.openFindings + '</b> findings open</span>';
+  }
+
+  function _renderTransitions(list) {
+    if (!_transEl) return;
+    if (!list || !list.length) {
+      _transEl.innerHTML = '<div class="mb-trans-empty">No transitions observed in this session</div>';
+      return;
+    }
+    var rows = list.slice(0, 8).map(function (t) {
+      var dxLabel = t.dxLabel || t.dxId || t.id;
+      var idCell = '<span class="mb-trans-id"><span class="dom">' + _esc(t.domain || '?') + '</span>' + _esc(dxLabel) + '</span>';
+      var ageCell = '<span class="mb-trans-age">' + _fmtAge(t.ageMs) + '</span>';
+      var shiftCell = '';
+      var deltaCell = '';
+      if (t.kind === 'newly_active') {
+        shiftCell = '<span class="mb-trans-shift"><span class="new">newly active</span> <span class="arr">\u2192</span> ' + _esc(String(t.tierTo || '').replace('_', ' ')) + '</span>';
+        deltaCell = '<span class="mb-trans-delta">' + (t.score != null ? t.score.toFixed(2) : '\u2014') + '</span>';
+      } else if (t.kind === 'deactivated') {
+        shiftCell = '<span class="mb-trans-shift">' + _esc(String(t.tierFrom || '').replace('_', ' ')) + ' <span class="arr">\u2192</span> <span class="deact">deactivated</span></span>';
+        deltaCell = '<span class="mb-trans-delta">\u2014</span>';
+      } else if (t.kind === 'tier_change') {
+        shiftCell = '<span class="mb-trans-shift">' + _esc(String(t.tierFrom || '').replace('_', ' ')) + ' <span class="arr">\u2192</span> ' + _esc(String(t.tierTo || '').replace('_', ' ')) + '</span>';
+        var d = t.scoreDelta;
+        var dCls = d > 0 ? ' up' : d < 0 ? ' down' : '';
+        var dStr = d != null ? (d > 0 ? '+' : '') + d.toFixed(2) : '\u2014';
+        deltaCell = '<span class="mb-trans-delta' + dCls + '">' + dStr + '</span>';
+      } else if (t.kind === 'score_shift') {
+        shiftCell = '<span class="mb-trans-shift">tier unchanged</span>';
+        var d2 = t.scoreDelta;
+        var dCls2 = d2 > 0 ? ' up' : d2 < 0 ? ' down' : '';
+        var dStr2 = d2 != null ? (d2 > 0 ? '+' : '') + d2.toFixed(2) : '\u2014';
+        deltaCell = '<span class="mb-trans-delta' + dCls2 + '">' + dStr2 + '</span>';
+      }
+      return '<div class="mb-trans">' + ageCell + idCell + shiftCell + deltaCell + '</div>';
+    }).join('');
+    _transEl.innerHTML = rows;
+  }
+
+  // ── Sun: pulse intensity is real (driven by collectAggregate.pulseIntensity) ──
+  function _drawSun() {
+    if (!_sunCtx || !_sunCanvas) return;
+    var w = _sunCanvas.width, h = _sunCanvas.height;
+    _sunCtx.clearRect(0, 0, w, h);
+
+    var cx = w / 2, cy = h / 2;
+    var intensity = _intensity;
+
+    // Slow gentle breath whose amplitude is gated by intensity.
+    // When intensity is at its 0.10 floor, breath amplitude is ~0.008 — barely visible.
+    // When intensity is at 1.0, breath is ~0.08 — visible but never gamey.
+    var t = (Date.now() - _t0) / 1000;
+    var breathAmp = intensity * 0.08;
+    var breath = 1 + breathAmp * Math.sin(t * 0.55);
+
+    var coreR = (w * 0.16) * breath;
+    var ringR = coreR * 2.05;
+    var haloR = coreR * 3.6;
+
+    // Outer halo (gold)
+    var halo = _sunCtx.createRadialGradient(cx, cy, coreR * 0.5, cx, cy, haloR);
+    halo.addColorStop(0,    'rgba(234,216,166,' + (0.18 + intensity * 0.18) + ')');
+    halo.addColorStop(0.55, 'rgba(201,169,78,'  + (0.06 + intensity * 0.10) + ')');
+    halo.addColorStop(1,    'rgba(201,169,78,0)');
+    _sunCtx.fillStyle = halo;
+    _sunCtx.beginPath();
+    _sunCtx.arc(cx, cy, haloR, 0, Math.PI * 2);
+    _sunCtx.fill();
+
+    // Civilization observatory ring (pale blue)
+    _sunCtx.beginPath();
+    _sunCtx.arc(cx, cy, ringR, 0, Math.PI * 2);
+    _sunCtx.strokeStyle = 'rgba(140,170,200,' + (0.22 + intensity * 0.18) + ')';
+    _sunCtx.lineWidth = 1.2;
+    _sunCtx.stroke();
+
+    // Core (warm)
+    var core = _sunCtx.createRadialGradient(cx, cy, 0, cx, cy, coreR);
+    core.addColorStop(0,    'rgba(255,245,220,' + (0.85 + intensity * 0.10) + ')');
+    core.addColorStop(0.45, 'rgba(234,216,166,' + (0.70 + intensity * 0.15) + ')');
+    core.addColorStop(1,    'rgba(201,169,78,'  + (0.18 + intensity * 0.15) + ')');
+    _sunCtx.fillStyle = core;
+    _sunCtx.beginPath();
+    _sunCtx.arc(cx, cy, coreR, 0, Math.PI * 2);
+    _sunCtx.fill();
+  }
+
+  function _animate() {
+    _drawSun();
+    _rafId = requestAnimationFrame(_animate);
+  }
+
+  function render() {
+    if (!window.LIMENMasterBrainReadiness || !window.LIMENMasterBrainReadiness.collectAggregate) return;
+    var agg = window.LIMENMasterBrainReadiness.collectAggregate();
+    _intensity = (agg && typeof agg.pulseIntensity === 'number') ? agg.pulseIntensity : 0.10;
+    _renderPosture(agg.postureByDomain || []);
+    _renderCounts(agg.counts || null);
+    _renderAudit(agg.auditSummary || null);
+    _renderTransitions(agg.recentTransitions || []);
+  }
+
+  window.addEventListener('limen:domain-brain-update', render);
+
+  // Start sun animation immediately so the surface is alive before data arrives.
+  _animate();
+
+  // Initial paint + short follow-ups so first cycle's data renders.
+  render();
+  setTimeout(render, 1200);
+  setTimeout(render, 3500);
+  setTimeout(render, 8000);
+})();
+</script>
+</body>
+</html>

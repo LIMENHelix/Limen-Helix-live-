@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; FAMILY LAW</title>
+<link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<script>
+if(sessionStorage.getItem('limen_access')!=='granted'){window.location.replace('/?return='+encodeURIComponent('/family-law.html'));}
+</script>
+<div class="app">
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+
+  <div class="left-panel" id="leftPanel">
+    <div id="issueSection"></div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search nodes...">
+    </div>
+    <div id="nodeList"></div>
+  </div>
+
+  <div class="center-view" id="centerView">
+    <canvas id="connectome-canvas"></canvas>
+    <div id="brain3dContainer" class="brain3d-container"></div>
+    <button id="brain3dToggle" class="brain3d-toggle"><span class="toggle-icon">&#129504;</span> 3D</button>
+    <div id="brain3dHint" class="brain3d-hint">DRAG TO ROTATE &middot; SCROLL TO ZOOM &middot; CLICK NODES</div>
+    <div class="node-count" id="nodeCount"></div>
+    <div class="circuit-legend" id="phaseLegend"></div>
+  </div>
+
+  <div class="right-panel" id="rightPanel">
+    <div class="right-empty" id="rightEmpty">
+      <div class="re-title">Family Law</div>
+      <div class="re-phase">P3 &middot; Instability</div>
+      <div class="re-desc">Family law processes mapped to the brain connectome. Each legal stage mirrors the neural processing of its corresponding brain region during high-conflict situations.</div>
+      <div class="re-stats">111 brain regions &middot; 6 case types</div>
+    </div>
+    <div class="node-detail" id="nodeDetail" style="display:none"></div>
+  </div>
+
+  <div class="bottombar">
+    <div>LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC &middot; FAMILY LAW REFERENCE</div>
+    <div id="bottomStats">FAMILY LAW &middot; 111 BRAIN REGIONS</div>
+  </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="assets/js/connectome-core.js"></script>
+<script src="assets/js/connectome-renderer.js"></script>
+<script src="assets/js/observer-node.js"></script>
+<script src="assets/js/portal-ui.js"></script>
+<script>
+PortalUI.init({
+  domainId: 'family_law',
+  parentLabel: 'Family Law',
+  issuesEnabled: true,
+  groupOrder: [
+    {key:'filing_process', label:'FILING PROCESS'},
+    {key:'discovery_negotiation', label:'DISCOVERY / NEGOTIATION'},
+    {key:'custody', label:'CUSTODY'},
+    {key:'financial', label:'FINANCIAL'},
+    {key:'enforcement', label:'ENFORCEMENT'},
+    {key:'resolution', label:'RESOLUTION'}
+  ]
+});
+</script>
+</body>
+</html>

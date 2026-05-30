@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; COMPANY PORTAL</title>
+<link rel="stylesheet" href="assets/css/portal.css">
+<style>
+/* Override portal.css .app grid: removes 48px topbar + 28px portal-nav rows
+   that no longer exist after TOPBAR.1 (a6b72b917cf) extracted the per-page
+   topbar to assets/js/limen-topbar.js. Reserves 44px above .app for the
+   global topbar. Without this, leftPanel/centerView/rightPanel auto-place
+   into row 1 (48px) and the body 1fr row stays empty. */
+.app {
+  grid-template-rows: 1fr 36px;
+  height: calc(100vh - 44px);
+}
+/* Company portal overrides */
+.cp-section { padding: 12px 16px; border-bottom: 1px solid rgba(201,169,78,0.06); }
+.cp-section-title { font-size: 0.42rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(201,169,78,0.55); margin-bottom: 8px; }
+.cp-field { display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; font-size: 0.55rem; border-bottom: 1px solid rgba(255,255,255,0.02); }
+.cp-label { color: rgba(200,195,184,0.4); letter-spacing: 1.5px; font-size: 0.42rem; text-transform: uppercase; }
+.cp-value { color: #dad5c8; font-family: 'IBM Plex Mono', monospace; text-align: right; }
+.cp-value a { color: rgba(201,169,78,0.7); text-decoration: none; }
+.cp-value a:hover { color: #C9A94E; }
+.cp-ticker { color: #C9A94E; font-weight: 500; letter-spacing: 2px; font-size: 0.7rem; }
+.cp-link { display: block; padding: 6px 0; font-size: 0.5rem; color: rgba(201,169,78,0.5); text-decoration: none; letter-spacing: 1.5px; transition: color 0.2s; }
+.cp-link:hover { color: #C9A94E; }
+.cp-fred { font-family: 'IBM Plex Mono', monospace; font-size: 0.48rem; letter-spacing: 1px; }
+.cp-action { display: block; padding: 10px 12px; margin-top: 4px; background: rgba(201,169,78,0.08); border: 1px solid rgba(201,169,78,0.2); color: rgba(201,169,78,0.7); text-decoration: none; font-size: 0.5rem; letter-spacing: 3px; text-transform: uppercase; text-align: center; transition: all 0.3s; }
+.cp-action:hover { border-color: #C9A94E; color: #C9A94E; background: rgba(201,169,78,0.12); }
+.cp-narrative { font-size: 0.55rem; color: rgba(220,215,200,0.7); line-height: 1.65; padding: 8px 10px; background: rgba(0,0,0,0.15); border-radius: 3px; border-left: 2px solid rgba(201,169,78,0.2); }
+.cp-signal { padding: 6px 8px; margin: 3px 0; font-size: 0.5rem; border-left: 2px solid rgba(232,84,84,0.4); background: rgba(232,84,84,0.03); color: rgba(220,215,200,0.7); }
+.cp-signal.cp-opportunity { border-left-color: rgba(74,170,106,0.4); background: rgba(74,170,106,0.03); }
+.cp-empty { font-size: 0.48rem; color: rgba(200,195,184,0.3); letter-spacing: 1.5px; padding: 4px 0; }
+.cp-error { padding: 20px 16px; font-size: 0.6rem; color: rgba(232,84,84,0.7); letter-spacing: 1.5px; }
+.cp-intel-layer { margin-bottom: 10px; padding: 8px 10px; background: rgba(0,0,0,0.12); border-left: 2px solid rgba(201,169,78,0.15); border-radius: 2px; }
+.cp-intel-header { font-size: 0.42rem; letter-spacing: 2.5px; color: rgba(201,169,78,0.6); margin-bottom: 4px; font-weight: 500; }
+.cp-intel-icon { font-size: 0.5rem; }
+.cp-intel-desc { font-size: 0.45rem; color: rgba(200,195,184,0.4); line-height: 1.5; margin-bottom: 4px; }
+.cp-intel-item { font-size: 0.45rem; color: rgba(220,215,200,0.55); padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
+.cp-intel-type { color: rgba(201,169,78,0.4); font-size: 0.38rem; letter-spacing: 1.5px; text-transform: uppercase; }
+.center-placeholder { display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column; text-align: center; padding: 40px; }
+.center-placeholder .cp-big { font-size: 2rem; color: rgba(201,169,78,0.15); letter-spacing: 8px; font-weight: 300; margin-bottom: 12px; }
+.center-placeholder .cp-sub { font-size: 0.5rem; color: rgba(200,195,184,0.25); letter-spacing: 3px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<script>/* access gate removed — company portals are public */</script>
+<div class="app">
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+
+  <div class="left-panel" id="leftPanel">
+    <div id="leftContent">
+      <div class="cp-section">
+        <div class="cp-empty">Loading company data...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="center-view" id="centerView">
+    <div class="center-placeholder">
+      <div class="cp-big" id="centerTicker">&mdash;</div>
+      <div class="cp-sub" id="centerIndustry">Company Portal</div>
+    </div>
+  </div>
+
+  <div class="right-panel" id="rightPanel">
+    <div class="right-empty" id="rightEmpty">
+      <div style="font-size:0.5rem;color:rgba(200,195,184,0.3);letter-spacing:3px;text-transform:uppercase;padding:40px 24px">
+        Domain context and signals will appear here after company loads.
+      </div>
+    </div>
+    <div id="rightContent" style="display:none"></div>
+  </div>
+
+  <div class="bottombar">
+    <div id="bottomLabel">LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC &middot; COMPANY PORTAL</div>
+    <div id="bottomStats">&mdash;</div>
+  </div>
+
+</div>
+<script src="assets/js/company-resolver.js"></script>
+<script src="assets/js/kernel-reading-helper.js"></script>
+<script src="assets/js/company-portal-ui.js"></script>
+<script src="assets/js/company-portal-engine-render.js"></script>
+<script>
+// Update center display when company loads + add kernel analysis button
+(function() {
+  var origRender = CompanyPortalUI.renderCompany;
+  var _currentCo = null;
+
+  // Network-stress weighting for the fractal vendor edges. Fetch the slim map
+  // once (~tens of KB, Redis-first via /api/limen-stress-slim) so each vendor
+  // card can show the spider-web induced stress it is under. When it arrives,
+  // re-render the network panel for the current company. Additive: absence of
+  // the map (or of a vendor's entry) simply means no weight chip.
+  var _STRESS = {};
+  try {
+    fetch('/api/limen-stress-slim').then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (j && j.bySlug) { _STRESS = j.bySlug; if (_currentCo) _renderFunctionalNetwork(_currentCo); }
+      }).catch(function () { /* weighting is additive; absence is fine */ });
+  } catch (e) { /* no fetch available */ }
+
+  CompanyPortalUI.renderCompany = function(co) {
+    origRender(co);
+    _currentCo = co;
+    document.getElementById('centerTicker').textContent = co.ticker;
+    document.getElementById('centerIndustry').textContent = co.industry + ' \u00b7 ' + (co.domainId === 'p2_agri' ? 'Agriculture' : co.domainId.charAt(0).toUpperCase() + co.domainId.slice(1));
+
+    // Add kernel analysis button if company has CIK
+    if (co.cik) {
+      var container = document.querySelector('.center-placeholder');
+      if (container && !document.getElementById('kernelAnalysisBtn')) {
+        var btn = document.createElement('button');
+        btn.id = 'kernelAnalysisBtn';
+        btn.className = 'cp-action';
+        btn.style.cssText = 'margin-top:20px;max-width:280px;font-size:0.42rem;letter-spacing:2.5px';
+        btn.textContent = 'RUN PHASE ANALYSIS';
+        btn.onclick = function() { _runKernelAnalysis(co); };
+        container.appendChild(btn);
+
+        var result = document.createElement('div');
+        result.id = 'kernelAnalysisResult';
+        result.style.cssText = 'margin-top:12px;max-width:340px;width:100%;text-align:left';
+        container.appendChild(result);
+      }
+    }
+
+    // Functional Network \u2014 fractal brain-architecture view of the company.
+    // Vendors/suppliers = DMN (identity-defining inputs). Auditors/regulators
+    // = Salience. Executives = PFC. Logistics = Motor. Customers = Sensory.
+    // Competitors = Peer. Each linked entity is itself a mini-brain \u2014 click
+    // through to its portal recurses the structure. Per Operating Envelope
+    // \u00a76.1 / \u00a76.2, kernel verdict claims live on the linked Helix Report;
+    // the network panel makes only structural claims.
+    // Render order: functionalNetwork first, then domainPipeline, then
+    // financialHealth, then opportunitySignals (each insertAdjacentHTML
+    // 'afterbegin' prepends → last call wins on top).
+    // Visual stack (top→bottom): opportunitySignals → financialHealth →
+    // domainPipeline → functionalNetwork. Engine output sits above kernel
+    // state — what to DO above what IS.
+    _renderFunctionalNetwork(co);
+    _renderDomainPipeline(co);
+    _renderFinancialHealth(co);
+    _renderOpportunitySignals(co);
+  };
+
+  function _esc(s) {
+    var d = document.createElement('div');
+    d.textContent = s == null ? '' : String(s);
+    return d.innerHTML;
+  }
+
+  // Per-role visual config \u2014 color, short label, ordering on the page
+  var ROLE_META = {
+    DMN:        { label: 'DMN',       full: 'Default Mode Network \u2014 identity inputs', color: 'rgba(74,170,106,0.65)', bg: 'rgba(74,170,106,0.06)', order: 1 },
+    Salience:   { label: 'SALIENCE',  full: 'Salience Network \u2014 flags + oversight',   color: 'rgba(232,140,84,0.65)', bg: 'rgba(232,140,84,0.06)', order: 2 },
+    PFC:        { label: 'PFC',       full: 'Prefrontal Cortex \u2014 executive decision',  color: 'rgba(201,169,78,0.7)',  bg: 'rgba(201,169,78,0.05)', order: 3 },
+    Motor:      { label: 'MOTOR',     full: 'Motor Cortex \u2014 execution / delivery',     color: 'rgba(106,180,212,0.65)', bg: 'rgba(106,180,212,0.05)', order: 4 },
+    Sensory:    { label: 'SENSORY',   full: 'Sensory Cortex \u2014 inbound signal',         color: 'rgba(168,148,204,0.65)', bg: 'rgba(168,148,204,0.05)', order: 5 },
+    Peer:       { label: 'PEER',      full: 'Peer brain \u2014 same-niche mirror',          color: 'rgba(220,200,160,0.55)', bg: 'rgba(255,255,255,0.03)', order: 6 },
+    Limbic:                    { label: 'LIMBIC',        full: 'Limbic / Reward \u2014 valuation + capital signal',    color: 'rgba(212,118,160,0.65)', bg: 'rgba(212,118,160,0.06)', order: 7 },
+    feedforward_demand_signal: { label: 'DEMAND SIGNAL', full: 'Feedforward demand \u2014 downstream / customer pull', color: 'rgba(96,196,180,0.65)',  bg: 'rgba(96,196,180,0.05)', order: 8 },
+    feedforward_supply_signal: { label: 'SUPPLY SIGNAL', full: 'Feedforward supply \u2014 upstream / vendor push',     color: 'rgba(120,176,212,0.6)',  bg: 'rgba(120,176,212,0.05)', order: 9 },
+    lateral_inhibition:        { label: 'COMPETITIVE',   full: 'Lateral inhibition \u2014 competitive pressure',       color: 'rgba(214,148,108,0.6)',  bg: 'rgba(214,148,108,0.05)', order: 10 },
+    transmission_throughput:   { label: 'THROUGHPUT',    full: 'Transmission throughput \u2014 transport / logistics', color: 'rgba(140,180,200,0.6)',  bg: 'rgba(140,180,200,0.05)', order: 11 },
+    energy_supply:             { label: 'CAPITAL SUPPLY',full: 'Energy supply \u2014 capital / financing node',        color: 'rgba(196,160,210,0.6)',  bg: 'rgba(196,160,210,0.05)', order: 12 }
+  };
+
+  // opportunitySignals panel \u2014 engine-produced opportunity leads that live
+  // in co.opportunitySignals (populated by scripts/run-investment-engine.js
+  // and future scripts/run-{patent|grant|sba|franchise|research}-engine.js).
+  // Distinct from helix-report.html's CLINICAL INTERVENTIONS tab, which is
+  // gated by Thing 1 alert + reconciliation authority. Engine signals make
+  // portfolio-construction claims (cohort anchor, recovery thesis, etc.),
+  // not clinical-narrative claims, so they can fire on non-alert companies
+  // without violating Operating Envelope \u00a76 gating.
+  function _renderOpportunitySignals(co) {
+    var sigs = Array.isArray(co.opportunitySignals) ? co.opportunitySignals : [];
+    if (!sigs.length) return;
+    var center = document.getElementById('centerView');
+    if (!center) return;
+    var prior = document.getElementById('cpOpportunitySignals');
+    if (prior) prior.remove();
+
+    // Per-engine + per-type styling. Color signals by what action tier they
+    // imply, not by which engine produced them.
+    var TYPE_META = {
+      lead:      { color: 'rgba(232,140,84,0.85)',  bg: 'rgba(232,140,84,0.08)',  label: 'LEAD' },
+      watch:     { color: 'rgba(232,180,84,0.75)',  bg: 'rgba(232,180,84,0.06)',  label: 'WATCH' },
+      reference: { color: 'rgba(168,148,204,0.65)', bg: 'rgba(168,148,204,0.05)', label: 'REFERENCE' }
+    };
+    var VALUE_COLOR = {
+      'high-confidence': 'rgba(220,90,90,0.85)',
+      'watchlist-tier':  'rgba(232,180,84,0.75)',
+      'research-only':   'rgba(168,148,204,0.65)',
+      'no-action':       'rgba(180,120,84,0.55)'
+    };
+
+    // Sort: leads first, then watches, then references; within each, alphabetical by subType
+    var typeOrder = { lead: 1, watch: 2, reference: 3 };
+    sigs = sigs.slice().sort(function(a, b) {
+      return (typeOrder[a.type] || 9) - (typeOrder[b.type] || 9) ||
+             (a.subType || '').localeCompare(b.subType || '');
+    });
+
+    var html = '';
+    html += '<div id="cpOpportunitySignals" style="padding:14px 24px 12px 24px;border-bottom:1px solid rgba(201,169,78,0.08);background:rgba(0,0,0,0.22)">';
+    html += '<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">';
+    html += '<div style="font-size:0.46rem;letter-spacing:3.5px;color:rgba(201,169,78,0.65);text-transform:uppercase;font-weight:600">Opportunity Signals \u00b7 Engine Output</div>';
+    html += '<div style="font-size:0.36rem;color:rgba(200,195,184,0.4);font-style:italic;letter-spacing:0.5px">' + sigs.length + ' signal' + (sigs.length === 1 ? '' : 's') + ' \u00b7 separate from Helix Report Clinical Interventions (gated)</div>';
+    html += '</div>';
+
+    for (var i = 0; i < sigs.length; i++) {
+      var s = sigs[i];
+      var tm = TYPE_META[s.type] || { color: 'rgba(200,195,184,0.5)', bg: 'rgba(255,255,255,0.03)', label: (s.type || 'SIGNAL').toUpperCase() };
+      var vc = VALUE_COLOR[s.estimatedValue] || 'rgba(200,195,184,0.5)';
+      html += '<div style="padding:9px 12px;background:' + tm.bg + ';border:1px solid ' + tm.color + ';border-left-width:3px;margin-bottom:6px">';
+      html += '<div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;margin-bottom:5px">';
+      html += '<span style="font-size:0.38rem;letter-spacing:2px;color:' + tm.color + ';font-weight:600">' + _esc(tm.label) + '</span>';
+      html += '<span style="font-size:0.42rem;letter-spacing:1.2px;color:rgba(220,215,200,0.85);text-transform:uppercase;font-weight:500">' + _esc(s.subType || s.engine || 'signal') + '</span>';
+      if (s.engine) html += '<span style="font-size:0.34rem;letter-spacing:1px;color:rgba(200,195,184,0.45);border:1px solid rgba(200,195,184,0.2);padding:1px 5px;text-transform:uppercase">' + _esc(s.engine) + '</span>';
+      if (s.estimatedValue) html += '<span style="font-size:0.34rem;letter-spacing:1px;color:' + vc + ';border:1px solid ' + vc + ';padding:1px 5px;text-transform:uppercase">' + _esc(s.estimatedValue) + '</span>';
+      if (s.status) html += '<span style="font-size:0.34rem;letter-spacing:1px;color:rgba(200,195,184,0.4);border:1px solid rgba(200,195,184,0.15);padding:1px 5px;text-transform:uppercase">' + _esc(s.status) + '</span>';
+      html += '</div>';
+      if (s.message) html += '<div style="font-size:0.44rem;color:rgba(220,215,200,0.85);line-height:1.5">' + _esc(s.message) + '</div>';
+      // Mini evidence row \u2014 just the load-bearing kernel fields
+      if (s.evidence) {
+        var ev = s.evidence;
+        html += '<div style="display:flex;gap:12px;font-size:0.36rem;color:rgba(200,195,184,0.4);letter-spacing:1px;margin-top:5px;font-family:monospace;flex-wrap:wrap">';
+        if (ev.compositeScore != null) html += '<span>composite: <span style="color:rgba(220,215,200,0.7)">' + _esc(Number(ev.compositeScore).toFixed(3)) + '</span></span>';
+        if (ev.phaseStateLabel) html += '<span>phase: <span style="color:rgba(220,215,200,0.7)">' + _esc(ev.phaseStateLabel) + '</span></span>';
+        if (ev.historyQuarters) html += '<span>history: <span style="color:rgba(220,215,200,0.7)">' + _esc(ev.historyQuarters) + 'Q</span></span>';
+        if (ev.kernelShaLock) html += '<span>kernel: <span style="color:rgba(220,215,200,0.5)">' + _esc(ev.kernelShaLock) + '\u2026</span></span>';
+        html += '</div>';
+      }
+      if (s.createdAt) {
+        html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.3);letter-spacing:1px;margin-top:4px">created: ' + _esc(String(s.createdAt).slice(0, 10)) + ' \u00b7 id: ' + _esc(s.id || '?') + '</div>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+
+    center.style.overflowY = 'auto';
+    center.style.display = 'block';
+    center.insertAdjacentHTML('afterbegin', html);
+  }
+
+  // financialHealth scoreboard \u2014 surfaces validated-kernel output that lives
+  // in co.financialHealth (populated by scripts/migrate-v2-portals-to-v201.js
+  // from /api/limen/score). Renders only when compositeScore is present.
+  // Per Operating Envelope \u00a76: kernel verdict claims here mirror what
+  // helix-report.html computes; the panel is a portal-side display only.
+  function _renderFinancialHealth(co) {
+    var fh = co.financialHealth;
+    if (!fh || (fh.compositeScore == null && !fh.alert && !fh.phaseStateLabel)) return;
+    var center = document.getElementById('centerView');
+    if (!center) return;
+    var prior = document.getElementById('cpFinancialHealth');
+    if (prior) prior.remove();
+
+    var bandColor = {
+      green: 'rgba(74,170,106,0.7)',
+      amber: 'rgba(232,180,84,0.75)',
+      red:   'rgba(220,90,90,0.8)'
+    }[fh.distressBand] || 'rgba(200,195,184,0.4)';
+
+    var alertChip = fh.alert
+      ? '<span style="background:rgba(220,90,90,0.85);color:#1a1a1a;font-size:0.42rem;letter-spacing:2px;padding:3px 8px;font-weight:600;text-transform:uppercase">ALERT</span>'
+      : '<span style="border:1px solid rgba(74,170,106,0.5);color:rgba(74,170,106,0.85);font-size:0.42rem;letter-spacing:2px;padding:2px 8px;text-transform:uppercase">NO ALERT</span>';
+    var pathwayChip = fh.pathway
+      ? '<span style="background:rgba(232,140,84,0.2);border:1px solid rgba(232,140,84,0.5);color:rgba(232,140,84,0.9);font-size:0.42rem;letter-spacing:2px;padding:2px 8px;text-transform:uppercase">PATH ' + _esc(fh.pathway) + '</span>'
+      : '';
+
+    var html = '';
+    html += '<div id="cpFinancialHealth" style="padding:14px 24px 10px 24px;border-bottom:1px solid rgba(201,169,78,0.08);background:rgba(0,0,0,0.18)">';
+    html += '<div style="font-size:0.46rem;letter-spacing:3.5px;color:rgba(201,169,78,0.55);text-transform:uppercase;margin-bottom:8px;font-weight:500">Financial Health \u00b7 Validated Kernel</div>';
+    html += '<div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:8px">';
+    html += '<span style="font-family:monospace;font-size:1.1rem;color:' + bandColor + ';font-weight:600">' + _esc(fh.compositeScore == null ? '\u2014' : Number(fh.compositeScore).toFixed(3)) + '</span>';
+    html += '<span style="font-size:0.42rem;letter-spacing:2px;color:rgba(200,195,184,0.55);text-transform:uppercase">composite</span>';
+    html += alertChip;
+    if (pathwayChip) html += pathwayChip;
+    if (fh.phaseStateLabel) html += '<span style="border:1px solid rgba(168,148,204,0.5);color:rgba(168,148,204,0.85);font-size:0.42rem;letter-spacing:2px;padding:2px 8px;text-transform:uppercase">' + _esc(fh.phaseStateLabel) + '</span>';
+    html += '</div>';
+
+    html += '<div style="display:flex;gap:18px;font-size:0.4rem;color:rgba(200,195,184,0.55);letter-spacing:1px;margin-bottom:6px;font-family:monospace">';
+    html += '<span>Path A: <span style="color:rgba(220,215,200,0.85)">' + _esc(fh.pathA == null ? '\u2014' : Number(fh.pathA).toFixed(3)) + '</span> / ' + _esc(fh.pathAThreshold || '1.1') + '</span>';
+    html += '<span>Path B: <span style="color:rgba(220,215,200,0.85)">' + _esc(fh.pathB == null ? '\u2014' : Number(fh.pathB).toFixed(3)) + '</span> / ' + _esc(fh.pathBThreshold || '1.5') + '</span>';
+    html += '<span>Path C: <span style="color:rgba(220,215,200,0.85)">' + _esc(fh.pathC == null ? '\u2014' : Number(fh.pathC).toFixed(3)) + '</span> / ' + _esc(fh.pathCThreshold || '1.5') + '</span>';
+    html += '</div>';
+
+    html += '<div style="display:flex;gap:14px;font-size:0.38rem;color:rgba(200,195,184,0.4);letter-spacing:1px;flex-wrap:wrap">';
+    if (fh.historyQuarters) html += '<span>history: ' + _esc(fh.historyQuarters) + 'Q</span>';
+    if (fh.latestQuarter) html += '<span>latest: ' + _esc(fh.latestQuarter) + '</span>';
+    if (fh.envelopeStatus) html += '<span>envelope: ' + _esc(fh.envelopeStatus) + '</span>';
+    if (fh.kernelShaLock) html += '<span>kernel sha: ' + _esc(fh.kernelShaLock) + '\u2026</span>';
+    if (fh.lastKernelRun) html += '<span>run: ' + _esc(String(fh.lastKernelRun).slice(0, 10)) + '</span>';
+    html += '</div>';
+    html += '</div>';
+
+    center.style.overflowY = 'auto';
+    center.style.display = 'block';
+    var ph = center.querySelector('.center-placeholder');
+    if (ph) { ph.style.height = 'auto'; ph.style.minHeight = '120px'; ph.style.padding = '24px 40px 40px 40px'; }
+    center.insertAdjacentHTML('afterbegin', html);
+  }
+
+  // Domain Pipeline panel \u2014 surfaces the company's domain binding + declared
+  // feed/ticker/commodity wiring. Honestly labeled as "declared bindings"
+  // because today's wiring story (audited 2026-05-10):
+  //   - fredSeries: NOT consumed by company-portal renderer; FRED data is
+  //     fetched per-DOMAIN by api/domain-snapshot.js (economy/energy/industry),
+  //     not per-company. The list here is a declaration awaiting consumer.
+  //   - feedSources: consumed by api/critique-artifact.js + expand-artifact.js
+  //     against a different data shape \u2014 not by company portals.
+  //   - marketDataTickers / commodityExposure: net new v2.0.1 fields with no
+  //     consumer yet. Listed here so authoring intent is visible.
+  // The panel makes the schema's "promised wiring" auditable to the operator.
+  function _renderDomainPipeline(co) {
+    var hasAnything = (co.domainId || (co.fredSeries && co.fredSeries.length) || (co.marketDataTickers && co.marketDataTickers.length) || (co.commodityExposure && co.commodityExposure.length) || (co.feedSources && co.feedSources.length));
+    if (!hasAnything) return;
+    var center = document.getElementById('centerView');
+    if (!center) return;
+    var prior = document.getElementById('cpDomainPipeline');
+    if (prior) prior.remove();
+
+    function chips(label, arr, color) {
+      if (!arr || !arr.length) return '';
+      var s = '<div style="display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;margin-top:5px">';
+      s += '<span style="font-size:0.4rem;letter-spacing:2px;color:rgba(200,195,184,0.4);text-transform:uppercase;min-width:120px">' + _esc(label) + '</span>';
+      for (var i = 0; i < arr.length; i++) {
+        s += '<span style="font-size:0.38rem;letter-spacing:0.8px;font-family:monospace;color:' + color + ';border:1px solid ' + color + ';padding:1px 6px">' + _esc(arr[i]) + '</span>';
+      }
+      s += '</div>';
+      return s;
+    }
+
+    var html = '';
+    html += '<div id="cpDomainPipeline" style="padding:14px 24px 10px 24px;border-bottom:1px solid rgba(201,169,78,0.08);background:rgba(0,0,0,0.10)">';
+    html += '<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px">';
+    html += '<div style="font-size:0.46rem;letter-spacing:3.5px;color:rgba(201,169,78,0.55);text-transform:uppercase;font-weight:500">Domain Pipeline \u00b7 Declared Bindings</div>';
+    html += '<div style="font-size:0.36rem;color:rgba(180,120,84,0.55);font-style:italic;letter-spacing:0.5px">v2.0.1 schema fields; consumers under construction</div>';
+    html += '</div>';
+    if (co.domainId) {
+      var domLink = co.portalAttachment || (co.domainId + '-portal.html');
+      html += '<div style="margin-top:4px;font-size:0.42rem;color:rgba(200,195,184,0.6);letter-spacing:1px">domain: <a href="' + _esc(domLink) + '" style="color:rgba(74,170,106,0.85);text-decoration:none;font-weight:500;text-transform:uppercase">' + _esc(co.domainId) + '</a>';
+      if (co.sic) html += ' \u00b7 SIC ' + _esc(co.sic);
+      if (co.industry) html += ' \u00b7 ' + _esc(co.industry);
+      html += '</div>';
+    }
+    html += chips('FRED series', co.fredSeries, 'rgba(106,180,212,0.55)');
+    html += chips('Market tickers', co.marketDataTickers, 'rgba(74,170,106,0.55)');
+    html += chips('Commodity exposure', co.commodityExposure, 'rgba(232,180,84,0.55)');
+    html += chips('Feed sources', co.feedSources, 'rgba(168,148,204,0.55)');
+    html += '</div>';
+
+    center.style.overflowY = 'auto';
+    center.style.display = 'block';
+    center.insertAdjacentHTML('afterbegin', html);
+  }
+
+  function _renderFunctionalNetwork(co) {
+    var fn = co.functionalNetwork;
+    if (!fn) return;
+    var center = document.getElementById('centerView');
+    if (!center) return;
+    // Idempotent \u2014 drop prior panel before re-render
+    var prior = document.getElementById('cpFunctionalNetwork');
+    if (prior) prior.remove();
+
+    // Aggregate every entry across the network into one flat list with role + group label
+    var entries = [];
+    function pushAll(arr, group) {
+      if (!Array.isArray(arr)) return;
+      for (var i = 0; i < arr.length; i++) entries.push(Object.assign({}, arr[i], { _group: group }));
+    }
+    pushAll(fn.suppliers, 'Suppliers');
+    pushAll(fn.logisticsPartners, 'Logistics');
+    pushAll(fn.competitors, 'Competitors');
+    pushAll(fn.regulators, 'Regulators');
+    if (fn.auditor) entries.push(Object.assign({}, fn.auditor, { _group: 'Auditor' }));
+    pushAll(fn.executiveTeam, 'Executive Team');
+    pushAll(fn.marketSignals, 'Market Signals');
+    pushAll(fn.customers, 'Customers');
+    pushAll(fn.capitalProviders, 'Capital Providers');
+
+    if (!entries.length) return;
+
+    // Group entries by neuralRole for the rendered layout
+    var byRole = {};
+    for (var j = 0; j < entries.length; j++) {
+      var r = entries[j].neuralRole || 'Peer';
+      (byRole[r] = byRole[r] || []).push(entries[j]);
+    }
+
+    var roles = Object.keys(byRole).sort(function(a, b) {
+      return (ROLE_META[a] ? ROLE_META[a].order : 99) - (ROLE_META[b] ? ROLE_META[b].order : 99);
+    });
+
+    var html = '';
+    html += '<div id="cpFunctionalNetwork" style="padding:18px 24px 8px 24px;border-bottom:1px solid rgba(201,169,78,0.08)">';
+    html += '<div style="font-size:0.46rem;letter-spacing:3.5px;color:rgba(201,169,78,0.55);text-transform:uppercase;margin-bottom:4px;font-weight:500">Functional Network</div>';
+    html += '<div style="font-size:0.42rem;color:rgba(200,195,184,0.4);line-height:1.55;margin-bottom:14px;font-style:italic">' + _esc(fn.model || 'Brain-architecture map of structural relationships. Not a kernel claim.') + '</div>';
+
+    for (var rk = 0; rk < roles.length; rk++) {
+      var role = roles[rk];
+      var meta = ROLE_META[role] || { label: role.toUpperCase(), full: role, color: 'rgba(200,195,184,0.5)', bg: 'rgba(255,255,255,0.03)' };
+      var bucket = byRole[role];
+      html += '<div style="margin-bottom:14px">';
+      html += '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px">';
+      html += '<span style="font-size:0.5rem;letter-spacing:2.5px;color:' + meta.color + ';font-weight:600">' + _esc(meta.label) + '</span>';
+      html += '<span style="font-size:0.4rem;color:rgba(200,195,184,0.35);letter-spacing:1px">' + _esc(meta.full) + '</span>';
+      html += '</div>';
+      html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px">';
+      for (var bi = 0; bi < bucket.length; bi++) {
+        var e = bucket[bi];
+        var name = e.name || e.shortName || '';
+        var ticker = e.ticker || e.shortName || '';
+        var subtitle = e._group + (ticker && ticker !== name ? ' \u00b7 ' + ticker : '');
+        var note = e.relationshipNote || e.role || '';
+        var hasLink = !!(e.slug || e.cik);
+        var href = e.slug
+          ? 'company-portal.html?company=' + encodeURIComponent(e.slug)
+          : (e.cik ? 'helix-report.html?cik=' + encodeURIComponent(e.cik) : null);
+        var openTag = hasLink
+          ? '<a href="' + href + '" style="display:block;text-decoration:none;color:inherit;padding:8px 10px;background:' + meta.bg + ';border:1px solid ' + meta.color + ';border-left-width:3px;transition:all 0.2s" onmouseover="this.style.background=\'rgba(201,169,78,0.08)\'" onmouseout="this.style.background=\'' + meta.bg + '\'">'
+          : '<div style="padding:8px 10px;background:' + meta.bg + ';border:1px solid ' + meta.color + ';border-left-width:3px">';
+        html += openTag;
+        html += '<div style="font-size:0.5rem;color:rgba(220,215,200,0.85);letter-spacing:0.5px;font-weight:500">' + _esc(name) + '</div>';
+        if (subtitle) html += '<div style="font-size:0.36rem;color:rgba(200,195,184,0.4);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px">' + _esc(subtitle) + '</div>';
+        // Brain-node anchor — the dual-tagging that makes pattern transfer
+        // between brain function and business behavior mechanically traceable.
+        // Per limen_brain_node_tracking memory: every entry carries BOTH a
+        // high-level neuralRole (the group header above) AND a specific
+        // brainNodeId from the LIMEN 124-node taxonomy.
+        if (e.brainNodeId) {
+          var bnRole = e.brainNodeRole ? ' · ' + e.brainNodeRole : '';
+          html += '<div style="font-size:0.4rem;color:rgba(168,148,204,0.7);letter-spacing:1.2px;margin-top:3px;font-family:monospace">' + _esc(e.brainNodeId) + _esc(bnRole) + '</div>';
+        }
+        // Confidence + sourceType chips (v2.0.1) — surfaces the provenance of
+        // each relationship so authors and engines know what's filing-grounded
+        // vs industry-reported vs inferred.
+        if (e.confidence || e.sourceType) {
+          var confColor = { high: 'rgba(74,170,106,0.65)', medium: 'rgba(232,180,84,0.6)', low: 'rgba(180,120,84,0.55)' }[e.confidence] || 'rgba(200,195,184,0.4)';
+          var srcArr = Array.isArray(e.sourceType) ? e.sourceType : (e.sourceType ? [e.sourceType] : []);
+          html += '<div style="display:flex;gap:4px;margin-top:5px;flex-wrap:wrap">';
+          if (e.confidence) html += '<span style="font-size:0.34rem;letter-spacing:1px;color:' + confColor + ';border:1px solid ' + confColor + ';padding:1px 5px;text-transform:uppercase">' + _esc(e.confidence) + '</span>';
+          for (var si = 0; si < srcArr.length; si++) {
+            html += '<span style="font-size:0.34rem;letter-spacing:1px;color:rgba(200,195,184,0.45);border:1px solid rgba(200,195,184,0.2);padding:1px 5px">' + _esc(srcArr[si]) + '</span>';
+          }
+          html += '</div>';
+        }
+        // Network-stress weight — spider-web induced stress on this vendor
+        // (skips hubs: structural connectivity, not distress). This is what
+        // makes the fractal vendor edge weighted rather than flat.
+        var nsW = e.slug ? _STRESS[e.slug] : null;
+        if (nsW && !nsW.hub && (nsW.rank === 'SEVERE' || nsW.rank === 'MODERATE')) {
+          var nsCol = nsW.rank === 'SEVERE' ? 'rgba(232,84,84,0.72)' : 'rgba(232,160,84,0.66)';
+          html += '<div style="font-size:0.36rem;letter-spacing:1px;color:' + nsCol + ';margin-top:4px">◉ NET STRESS · ' + _esc(nsW.rank) + (typeof nsW.induced === 'number' ? ' · ' + nsW.induced.toFixed(1) : '') + '</div>';
+        }
+        if (note) html += '<div style="font-size:0.42rem;color:rgba(200,195,184,0.55);line-height:1.45;margin-top:6px">' + _esc(note) + '</div>';
+        html += hasLink ? '</a>' : '</div>';
+      }
+      html += '</div></div>';
+    }
+    html += '</div>';
+
+    // Insert at the very top of centerView, above the existing placeholder.
+    // CenterView gets overflow:auto so the FN panel + placeholder both fit
+    // when network entries push past viewport height.
+    center.style.overflowY = 'auto';
+    center.style.display = 'block';
+    var ph = center.querySelector('.center-placeholder');
+    if (ph) { ph.style.height = 'auto'; ph.style.minHeight = '180px'; ph.style.padding = '24px 40px 40px 40px'; }
+    center.insertAdjacentHTML('afterbegin', html);
+  }
+
+  // Session cache: CIK → kernel result (avoids re-fetching during same session)
+  var _kernelCache = {};
+
+  function _runKernelAnalysis(co) {
+    var btn = document.getElementById('kernelAnalysisBtn');
+    var result = document.getElementById('kernelAnalysisResult');
+    if (!btn || !result) return;
+
+    // Check session cache first
+    var cacheKey = 'limen_kernel_' + co.cik;
+    var cached = null;
+    try { cached = JSON.parse(sessionStorage.getItem(cacheKey)); } catch (e) {}
+    if (cached) {
+      _renderKernelResult(result, cached, co);
+      return;
+    }
+
+    btn.textContent = 'SCORING...';
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = '0.4';
+    result.innerHTML = '';
+
+    // Protected report endpoint — CIK + safe context only.
+    // Server fetches SEC + SIC, runs kernel, returns labels-and-bands packet.
+    fetch('/api/helix/helix-report/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        cik: String(co.cik),
+        requested_report_type: 'partial_phase_snapshot',
+        source_surface: 'company_portal',
+        ticker: co.ticker || null,
+        company_name: co.name || null,
+        timestamp: Math.floor(Date.now() / 1000),
+      }),
+    })
+    .then(function(r) { if (!r.ok) throw new Error('API HTTP ' + r.status); return r.json(); })
+    .then(function(packet) {
+      btn.textContent = 'RUN PHASE ANALYSIS';
+      btn.style.pointerEvents = '';
+      btn.style.opacity = '';
+      var t1 = packet.validated_signal || {};
+      var t2 = packet.phase_tracker_signal || {};
+      var rec = packet.reconciliation || {};
+      var rendered = {
+        // Identity / context
+        historyQuarters: packet.history_quarters || 0,
+        historySufficiency: packet.history_sufficiency || 'insufficient',
+        confidenceStatus: packet.confidence_status || 'unsupported',
+        isFinancial: !!packet.is_financial,
+        warnings: packet.warnings || [],
+        // Section 1 — Thing 1
+        t1: {
+          available: !!t1.available,
+          alert: t1.alert === true,
+          firstAlertQuarter: t1.first_alert_quarter || null,
+          distressBand: t1.distress_band || null,
+          kernelId: t1.kernel_id || null,
+          validationStatus: t1.validation_status || 'unsupported',
+          narrativeSafe: t1.narrative_safe || [],
+          unsupportedReasons: t1.unsupported_reasons || [],
+        },
+        // Section 2 — Thing 2 (interpretive only)
+        t2: {
+          available: !!t2.available,
+          phaseStateLabel: t2.phase_state_label || null,
+          dominantPhase: t2.dominant_phase || null,
+          cTBucket: (t2.state_summary || {}).C_t_bucket || null,
+          kernelId: t2.kernel_id || null,
+          validationStatus: t2.validation_status || 'unsupported',
+          interpretiveOnly: true,
+        },
+        // Section 3 — Reconciliation (server-authored)
+        reconciliation: {
+          agree: rec.agree,
+          summary: rec.summary || '',
+          actionAuthority: rec.action_authority || 'none',
+        },
+      };
+      try { sessionStorage.setItem(cacheKey, JSON.stringify(rendered)); } catch (e) {}
+      _renderKernelResult(result, rendered, co);
+    })
+    .catch(function(e) {
+      btn.textContent = 'RUN PHASE ANALYSIS';
+      btn.style.pointerEvents = '';
+      btn.style.opacity = '';
+      result.innerHTML = '<div style="font-size:0.42rem;color:rgba(232,84,84,0.6);letter-spacing:1px;text-align:center;padding:12px">' + (e.message || 'Analysis failed') + '</div>';
+    });
+  }
+
+  function _esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+  // Validated brand renders ONLY when server says Thing 1 ran AND kernel is real Thing 1.
+  function _isValidatedThing1(t1) {
+    return t1 && t1.validationStatus === 'validated' && t1.kernelId === 'limen_backtest.py';
+  }
+  function _alertActive(t1) {
+    return t1 && t1.alert === true && _isValidatedThing1(t1);
+  }
+  function _renderKernelResult(el, d, co) {
+    if (!d) {
+      el.innerHTML = '<div style="font-size:0.42rem;color:rgba(232,84,84,0.6);letter-spacing:1px;text-align:center;padding:12px">no result</div>';
+      return;
+    }
+    var t1 = d.t1 || {};
+    var t2 = d.t2 || {};
+    var rec = d.reconciliation || {};
+    var alertActive = _alertActive(t1);
+    var validatedT1 = _isValidatedThing1(t1);
+
+    var h = '';
+    h += '<div style="border:1px solid rgba(201,169,78,0.12);background:rgba(8,9,12,0.6);padding:12px 14px;border-radius:3px">';
+
+    // \u2500\u2500 Section 1: Thing 1 \u2500\u2500
+    var t1Color = alertActive ? '#e85454'
+                : t1.validationStatus === 'bank_adapter_required' ? '#d4a84a'
+                : t1.validationStatus === 'unvalidated_after_modification' ? '#e85454'
+                : '#888';
+    h += '<div style="border-left:3px solid ' + t1Color + ';padding:6px 10px;margin-bottom:8px">';
+    h += '<div style="font-size:0.4rem;letter-spacing:2.5px;color:' + t1Color + '">VALIDATED FINANCIAL DISTRESS \u2014 Thing 1</div>';
+    if (alertActive) {
+      h += '<div style="font-size:0.55rem;color:#e85454;font-weight:bold;margin-top:3px">ALERT FIRED'
+         + (t1.firstAlertQuarter ? ' \u00b7 ' + _esc(t1.firstAlertQuarter) : '') + '</div>';
+      if (t1.distressBand) h += '<div style="font-size:0.4rem;color:#dad5c8">distress band: ' + _esc(t1.distressBand) + '</div>';
+    } else {
+      h += '<div style="font-size:0.5rem;color:' + t1Color + ';margin-top:3px">' + _esc((t1.validationStatus || 'unsupported').toUpperCase().replace(/_/g, ' ')) + '</div>';
+    }
+    if (validatedT1) {
+      h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:rgba(106,170,106,0.6);margin-top:3px">VALIDATED \u00b7 ' + _esc(t1.kernelId) + '</div>';
+    } else {
+      h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:rgba(200,195,184,0.4);margin-top:3px">'
+         + _esc(t1.kernelId || 'none') + ' \u00b7 ' + _esc(t1.validationStatus) + '</div>';
+    }
+    (t1.unsupportedReasons || []).forEach(function(r) {
+      h += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.45);margin-top:2px">\u00b7 ' + _esc(r) + '</div>';
+    });
+    h += '</div>';
+
+    // \u2500\u2500 Section 2: Thing 2 (interpretive only) \u2500\u2500
+    var bankBadge = d.isFinancial ? ' \u00b7 BANK \u00b7 INTERPRETIVE' : '';
+    h += '<div style="border-left:3px solid #d4a84a;padding:6px 10px;margin-bottom:8px">';
+    h += '<div style="font-size:0.4rem;letter-spacing:2.5px;color:#d4a84a">LONG-ARC TRACKER \u2014 Thing 2 \u00b7 INTERPRETIVE' + _esc(bankBadge) + '</div>';
+    if (!t2.available) {
+      h += '<div style="font-size:0.45rem;color:#888;margin-top:3px">tracker not available</div>';
+    } else {
+      h += '<div style="font-size:0.5rem;color:#dad5c8;margin-top:3px">' + _esc(t2.phaseStateLabel || '\u2014') + '</div>';
+      h += '<div style="font-size:0.36rem;color:#888;margin-top:3px">'
+         + 'C(t): ' + (t2.cTBucket ? _esc(t2.cTBucket) : 'not computed')
+         + '</div>';
+      h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:rgba(200,195,184,0.4);margin-top:3px">'
+         + _esc(t2.kernelId || 'none') + ' \u00b7 ' + _esc(t2.validationStatus) + '</div>';
+    }
+    h += '</div>';
+
+    // \u2500\u2500 Section 3: Reconciliation \u2500\u2500
+    var recColor = rec.agree === true ? '#5ab5a0'
+                : rec.agree === false ? '#e85454' : '#C9A94E';
+    var recLabel = rec.agree === true ? 'AGREE' : rec.agree === false ? 'DIVERGE' : 'INDETERMINATE';
+    h += '<div style="border-left:3px solid ' + recColor + ';padding:6px 10px;margin-bottom:8px">';
+    h += '<div style="font-size:0.4rem;letter-spacing:2.5px;color:' + recColor + '">RECONCILIATION \u00b7 ' + recLabel + '</div>';
+    if (rec.summary) h += '<div style="font-size:0.4rem;color:#dad5c8;margin-top:3px;line-height:1.5">' + _esc(rec.summary) + '</div>';
+    h += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.4);margin-top:3px">primacy: <b>thing1</b> \u00b7 authority: <b>' + _esc(rec.actionAuthority) + '</b></div>';
+    h += '</div>';
+
+    // Warnings
+    if ((d.warnings || []).length > 0) {
+      d.warnings.forEach(function(w) {
+        h += '<div style="font-size:0.32rem;color:#d4a84a;line-height:1.4;margin-top:2px">\u26A0 ' + _esc(w) + '</div>';
+      });
+    }
+
+    // Provenance footer
+    h += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.18);letter-spacing:1px;margin-top:8px">';
+    h += 'history: ' + (d.historyQuarters || 0) + 'Q (' + _esc(d.historySufficiency) + ') \u00b7 confidence: ' + _esc(d.confidenceStatus);
+    h += '</div>';
+    h += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.15);letter-spacing:1px;margin-top:2px">SEC EDGAR \u00b7 server-side kernel \u00b7 Not financial advice</div>';
+    h += '</div>';
+    el.innerHTML = h;
+  }
+})();
+</script>
+</body>
+</html>

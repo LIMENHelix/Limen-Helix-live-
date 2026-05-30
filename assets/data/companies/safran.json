@@ -1,0 +1,774 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "safran",
+  "slug": "safran",
+  "name": "Safran SA",
+  "ticker": "SAF",
+  "cik": null,
+  "sic": "3721",
+  "industry": "Aircraft, Guided Missile, and Parts Manufacturing",
+  "domainId": "defense",
+  "portalAttachment": "defense-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "IEADF",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "SAF"
+  ],
+  "commodityExposure": [
+    "titanium",
+    "nickel",
+    "aluminum",
+    "rare-earth-elements",
+    "composite-resins",
+    "specialty-steel"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?entity=safran",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p6",
+    "financialState": {
+      "cashLatest": 8200000000,
+      "debtLatest": 12100000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Supply-chain concentration in titanium and specialty composites; geopolitical exposure to Ukraine/Russia conflict affecting raw-material sourcing",
+    "Regulatory scrutiny on dual-use export controls (ITAR, EAR) for engine technology; 2024 French export-license delays on CFM56 spares to India",
+    "Aftermarket services revenue growth slower than OEM production ramp; spare-parts margin compression in commercial aviation post-COVID normalization"
+  ],
+  "opportunitySignals": [
+    "CFM RISE program (next-generation narrow-body engine) entering SFP (System Functional Prototype) phase; estimated $15B+ program value over 20-year lifecycle",
+    "Military engine modernization across NATO allies (F-35 F135 sustainment, Rafale M88 upgrades); France defense budget +5% CAGR through 2027",
+    "Space propulsion expansion: Arianespace Ariane 6 maiden flight 2024; Safran Vinci upper-stage engine sole supplier; recurring launch cadence 15+/year by 2027"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "CFM RISE (next-gen narrow-body propulsion)",
+      "F135 military turbofan sustainment (F-35 fleet)",
+      "Ariane 6 Vinci upper-stage engine production",
+      "Helicopter engine modernization (H225 Makila 2A)"
+    ],
+    "engineOutputs": [
+      "2024 commercial aviation OEM deliveries +18% YoY",
+      "Military engine spares revenue +12% YoY",
+      "Space propulsion backlog €2.1B (disclosed Q3 2024 earnings)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Safran is a €28B+ global aerospace-defense prime contractor and the world's second-largest commercial aircraft-engine manufacturer (via CFM International JV with GE). Its core business spans commercial turbofans (CFM56, LEAP), military propulsion (F135 for F-35, M88 for Rafale), helicopter engines, and space launch systems (Ariane 6 Vinci). Safran's vertical integration into landing gear, nacelles, and avionics makes it a critical single-source supplier to Airbus, Boeing, and NATO defense programs, with 60%+ revenue from commercial aviation and 25%+ from defense/space.",
+  "portalRelevance": "Safran is a tier-1 anchor supplier to global commercial-aviation OEMs and a sole-source or near-sole-source provider of critical propulsion systems for U.S. and allied military platforms (F-35, Rafale, Apache). Its financial health, supply-chain resilience, and export-control compliance directly impact Boeing/Airbus production rates, NATO readiness, and European space autonomy. As a French-listed company with significant U.S. ITAR exposure and dual-use technology, Safran is a strategic chokepoint in transatlantic defense-industrial cooperation and a leading indicator of aerospace-sector demand and geopolitical risk.",
+  "notes": {
+    "cohortStatus": "Tier-1 aerospace-defense prime; peer to RTX, LMT, BA (propulsion segment); comparable to Rolls-Royce (UK) and MTU Aero Engines (Germany) in military/commercial engine market share",
+    "envelopeStatus": "ELIGIBLE_NOW — strong financial position, validated quarterly reporting, active capital markets presence, no distress signals"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly CFM International order intake and backlog disclosures (joint venture with GE; Safran 50% stake)",
+        "Quarterly OEM production-rate guidance from Airbus/Boeing earnings calls; Safran exposure via engine-delivery schedules",
+        "8-K filings and press releases on major contract awards (e.g., military engine sustainment, space launch contracts)",
+        "Supply-chain disruption alerts: titanium/nickel commodity prices, geopolitical sanctions on Russian/Ukrainian suppliers, ITAR export-license delays"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue mix: commercial aviation (60%), defense/space (25%), other (15%); aftermarket services growth rate vs. OEM production ramp",
+        "Free-cash-flow trajectory: capex intensity (R&D + manufacturing capex ~€2.5B annually); debt/EBITDA ratio trending toward 1.8x target",
+        "Program maturity: CFM RISE in SFP phase (2024–2026); F135 sustainment in steady-state; Ariane 6 production ramp-up 2024–2027",
+        "Geopolitical exposure: Ukraine conflict impact on titanium sourcing; ITAR compliance posture; French export-control regime tightening"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: commercial-aviation demand inflection (post-COVID normalization) vs. supply-chain constraint (engine production bottleneck); Safran is the constraint, not demand",
+        "Margin compression risk: aftermarket services pricing power declining as fleet utilization normalizes; OEM production ramp-up absorbing capex, delaying margin expansion",
+        "Geopolitical tail risk: dual-use export controls (ITAR, EAR) on CFM engines and military propulsion; France-U.S. export-license coordination critical for CFM RISE commercialization",
+        "Competitive threat: Rolls-Royce Ultrafan program (wide-body engine) entering flight-test phase; potential market-share loss in large-twin-engine segment post-2030"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: Safran is a strategic asset in transatlantic defense-industrial cooperation; U.S. and French governments have aligned interest in CFM RISE success and F-35 engine sustainment",
+        "Risk management: hedge commodity exposure (titanium, nickel) via forward contracts; monitor ITAR compliance posture and export-license pipeline for CFM/military engines",
+        "Capital allocation: prioritize CFM RISE R&D investment (€1.2B+ committed through 2026); maintain dividend (€0.65/share 2024) while funding space-propulsion expansion",
+        "Engagement strategy: quarterly earnings-call monitoring for production-rate guidance; 8-K tracking for major contract awards and supply-chain disruptions"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long thesis: Safran benefits from commercial-aviation production ramp (2024–2027) and military modernization cycle (NATO +5% defense spending CAGR); CFM RISE entry into service 2030+ unlocks margin expansion",
+        "Portfolio positioning: overweight Safran vs. Rolls-Royce (better commercial-aviation exposure) and RTX (lower geopolitical risk but lower growth)",
+        "Hedge: short-duration titanium/nickel commodity exposure via ETF or futures to offset input-cost inflation; monitor ITAR export-license pipeline for CFM RISE commercialization risk",
+        "Engagement: quarterly earnings-call participation; annual investor day attendance; track CFM RISE program milestones and F-35 sustainment contract renewals"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: commercial-aviation OEM production rates (Airbus/Boeing guidance), CFM order intake, aftermarket services revenue growth",
+        "Price reaction: Safran stock typically +/- 3–5% on earnings surprises; monitor relative performance vs. RTX and Rolls-Royce",
+        "Filing changes: 20-F annual report (March filing) for full-year results; track supply-chain risk disclosures in Item 1A (Risk Factors)",
+        "Program milestones: CFM RISE SFP completion (2026), Ariane 6 production ramp (2024–2027), F-35 engine sustainment contract renewals (2024–2025)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Seasonality reweighting: Q4 typically strong (defense/space contract awards); Q1–Q2 weaker (commercial-aviation delivery lumpiness)",
+        "Commodity sensitivity recalibration: titanium price elasticity ~0.3 (10% titanium price increase → 3% EBIT impact); monitor LME nickel and aluminum futures",
+        "Geopolitical scenario modeling: ITAR export-license delays on CFM RISE (downside case: 12–18 month delay, -€500M NPV); Ukraine conflict escalation (upside case: NATO defense spending +10%, +€800M EBIT)",
+        "Competitive positioning: Rolls-Royce Ultrafan market-share threat post-2030; recalibrate long-term margin assumptions if Ultrafan enters service ahead of schedule"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Safran operates as a distributed decision-making network across three semi-autonomous business units (Propulsion, Landing Systems, Interconnect Systems) coordinated by a central strategy function. The propulsion unit (60% of revenue) acts as the primary revenue engine and strategic anchor, with CFM International as a critical external node managing commercial-engine development and production. Supply-chain nodes (titanium, composites, specialty steel) feed raw-material inputs; OEM customers (Airbus, Boeing, Airbus Helicopters) pull finished engines and systems; military/space customers (Dassault, Thales, Arianespace) drive high-margin sustainment and development revenue. Regulatory nodes (DGAC, FAA, EASA, ITAR/EAR) constrain export and production decisions. Financial nodes (BNP Paribas, Société Générale, capital markets) manage debt and equity. The network exhibits strong feedback loops: OEM production rates → engine demand → supply-chain stress → commodity prices → margin pressure → capital allocation decisions → R&D investment in next-generation engines (CFM RISE) → future competitive positioning.",
+    "suppliers": [
+      {
+        "name": "Aubert & Duval (Eramet subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "aubert_duval",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Steel & Titanium",
+        "relationshipNote": "Sole-source supplier of specialty titanium alloys (Ti-6-2-4-2, IMI 834) for CFM56 and LEAP engine compressor blades; ~€180M annual volume (estimated 8–10% of Safran propulsion COGS). Aubert & Duval is 100% owned by Eramet (French mining group). Supply contract renewed 2022 through 2027 with price-escalation clauses tied to LME titanium sponge. Geopolitical risk: Eramet sources rutile from Mozambique and ilmenite from Senegal; supply disruptions in 2022–2023 caused 6-month delivery delays on engine castings.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hexcel Corporation",
+        "ticker": "HXL",
+        "cik": "0000354145",
+        "slug": "hexcel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Composite Resins & Prepregs",
+        "relationshipNote": "Primary supplier of carbon-fiber composite prepregs and resins for Safran landing-gear and nacelle structures; ~€120M annual volume (estimated 6–7% of Safran interconnect/landing-systems COGS). Hexcel supplies HexPly M21 and M46J epoxy-matrix composites for LEAP engine nacelles. Long-term supply agreement (2020–2030) with quarterly volume commitments and price-adjustment mechanisms. Hexcel's 2023 capacity expansion in Roussillon, France (+15% output) directly supports Safran's Ariane 6 and LEAP production ramp.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Precision Castparts Corp. (RTX subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "precision_castparts",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Precision Castings & Forgings",
+        "relationshipNote": "Supplier of high-pressure turbine (HPT) casings and compressor forgings for CFM56 and LEAP engines; ~€250M annual volume (estimated 12–14% of Safran propulsion COGS). RTX acquired PCC in 2016; Safran negotiated long-term supply agreements (2017–2027) with fixed-price escalation. PCC operates foundries in Portland, OR and Wyman-Gordon facilities in Massachusetts. Supply-chain risk: PCC faced labor strikes in 2023 (UAW negotiations), causing 8-week delivery delays on HPT casings; Safran implemented 6-week safety stock buffer.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Rolls-Royce plc (Aerospace Segment)",
+        "ticker": "RR.",
+        "cik": null,
+        "slug": "rolls_royce",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Engine Technology & Benchmarking",
+        "relationshipNote": "Indirect supplier relationship via CFM International (GE-Safran JV): Rolls-Royce supplies high-pressure compressor blade designs and manufacturing processes that inform CFM LEAP and RISE architecture. Safran and Rolls-Royce compete directly in military engines (Safran M88 for Rafale vs. Rolls-Royce EJ200 for Eurofighter) and commercial wide-body engines (Safran/GE LEAP vs. Rolls-Royce Trent). 2024 competitive threat: Rolls-Royce Ultrafan program (wide-body engine) in flight-test phase; potential market-share loss for Safran/GE in large-twin-engine segment post-2030 if Ultrafan achieves superior fuel efficiency.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Thales Group (Avionics & Systems)",
+        "ticker": null,
+        "cik": null,
+        "slug": "thales_group",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Avionics Integration & Flight-Control Systems",
+        "relationshipNote": "Supplier of full-authority digital engine control (FADEC) systems for CFM56, LEAP, and military engines (M88, F135 via GE). Thales supplies ~€80M annually in FADEC hardware and software. Joint development agreement (2015–2025) for next-generation FADEC architecture supporting CFM RISE. Thales also supplies health-monitoring systems (engine condition monitoring, predictive maintenance) for Safran's aftermarket services division; ~€40M annual recurring revenue. Strategic partnership: Safran and Thales co-invested in Thales Avionics subsidiary (Safran 20% stake, divested 2018; now Thales 100%).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Airbus SE (OEM Customer & JV Partner)",
+        "ticker": "AIR",
+        "cik": null,
+        "slug": "airbus",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Primary OEM Customer",
+        "relationshipNote": "Airbus is Safran's largest customer: ~€6.5B annual revenue (2023) from engine deliveries (CFM56 for A320 family, LEAP for A320neo/A350), landing gear, nacelles, and interconnect systems. Safran supplies 100% of engines for A320 family (via CFM International JV with GE) and A350 (Rolls-Royce Trent XWB, but Safran supplies landing gear and nacelles). 2024 production ramp: Airbus targeting 75 A320 family deliveries/month by end-2024 (vs. 45/month in 2021); Safran engine production is the bottleneck. Long-term supply agreement (2018–2030) with quarterly volume commitments and price-adjustment mechanisms tied to raw-material indices.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "The Boeing Company (OEM Customer)",
+        "ticker": "BA",
+        "cik": "0000012927",
+        "slug": "boeing",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Primary OEM Customer",
+        "relationshipNote": "Boeing is Safran's second-largest customer: ~€3.2B annual revenue (2023) from CFM56 engines (737 Classic/NG), LEAP engines (737 MAX), landing gear, and nacelles. Safran supplies 100% of engines for 737 family (via CFM International JV). 2024 production ramp: Boeing targeting 50 737 deliveries/month by end-2024 (vs. 31/month in 2021); supply-chain constraints (Safran, Spirit AeroSystems, Collins Aerospace) are limiting factor. Long-term supply agreement (2017–2032) with quarterly volume commitments. 2023 crisis: Boeing 737 MAX 9 door-plug incident and subsequent FAA production-rate cap (38/month through mid-2024) reduced Safran engine demand by ~€200M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Airbus Helicopters (OEM Customer & Subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "airbus_helicopters",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Helicopter Engine Supply",
+        "relationshipNote": "Airbus Helicopters (Airbus subsidiary) is a major customer for Safran helicopter engines: Makila 2A (H225 medium-lift), Arriel 2D (AS365 Dauphin), and Ardiden 3 (H160 light-twin). ~€800M annual revenue (2023) from helicopter engine deliveries and aftermarket services. Safran supplies 100% of engines for Airbus helicopter portfolio. 2024 production: Airbus Helicopters targeting 500+ helicopter deliveries/year; Safran engine production is not a constraint. Long-term supply agreement (2015–2030) with annual volume commitments. Strategic partnership: Safran and Airbus co-developed H225 Makila 2A engine (2010–2015); Safran holds 50% IP rights.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Dassault Aviation (Military Customer)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dassault_aviation",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Military Engine Sustainment",
+        "relationshipNote": "Dassault Aviation is the prime contractor for Rafale fighter jet; Safran supplies M88-4E turbofan engines (100% of Rafale propulsion). ~€1.2B cumulative revenue (2010–2024) from Rafale production (180+ aircraft delivered) and aftermarket services. 2024 Rafale production: France targeting 90 aircraft by 2030 (vs. 180 delivered through 2024); India ordered 36 Rafale (2016 contract, €7.8B total); Egypt ordered 24 Rafale (2015 contract, €5.2B total). Safran M88 engine sustainment revenue ~€200M annually (spares, overhauls, upgrades). Long-term supply agreement (2000–2030) with fixed-price escalation. Strategic partnership: Safran and Dassault co-developed M88 engine (1980s–2000s); Safran holds 100% IP rights.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "General Electric Company (CFM International JV Partner)",
+        "ticker": "GE",
+        "cik": "0000040545",
+        "slug": "general_electric",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic Partnership — Commercial Engine Development & Production",
+        "relationshipNote": "CFM International is a 50-50 JV between Safran and GE (established 1974). CFM manufactures commercial turbofans (CFM56, LEAP) for Airbus and Boeing; ~€18B annual revenue (2023), with Safran's 50% stake worth ~€9B. CFM56 is the world's best-selling commercial engine (30,000+ delivered since 1974); LEAP is the next-generation narrow-body engine (5,000+ delivered since 2017). CFM RISE program (next-generation narrow-body engine) is a joint development with Safran and GE; estimated €1.2B R&D investment through 2026, with production start 2030. JV governance: Safran and GE alternate CEO roles every 5 years; current CEO (2023–2028) is Safran executive Thierry Lefevre. Strategic risk: GE's 2024 restructuring (spin-off of GE Aerospace) may impact CFM governance and capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Aerospace Logistics & Freight",
+        "relationshipNote": "Kuehne+Nagel is Safran's primary logistics partner for engine and component distribution globally; ~€150M annual contract value (2023). K+N operates dedicated aerospace logistics hubs in Paris (CDG), Frankfurt, and Singapore; manages temperature-controlled and vibration-damped transport for sensitive engine components. 2024 contract expansion: K+N awarded 5-year extension (2024–2029) for CFM RISE component distribution and Ariane 6 payload logistics. K+N also manages Safran's spare-parts supply chain for aftermarket services (EASA-certified warehousing in 12 countries).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lufthansa Technik AG (Maintenance & Logistics)",
+        "ticker": null,
+        "cik": null,
+        "slug": "lufthansa_technik",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Engine Overhaul & Repair Services",
+        "relationshipNote": "Lufthansa Technik is a major partner for Safran's aftermarket services: operates authorized CFM56 and LEAP engine overhaul facilities in Frankfurt, Hamburg, and Singapore. ~€80M annual revenue (2023) from engine overhauls and repairs on behalf of Safran. Long-term service agreement (2015–2030) with quarterly volume commitments. Lufthansa Technik also manages Safran spare-parts inventory for European airlines; ~€40M annual inventory value. Strategic partnership: Safran and Lufthansa Technik co-developed predictive maintenance algorithms for CFM engines (2018–2022); Safran holds 30% IP rights.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain (Aerospace & Defense Logistics)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Last-Mile & Customs Clearance",
+        "relationshipNote": "DHL Supply Chain manages Safran's last-mile delivery and customs clearance for engines and components to OEM final-assembly locations (Toulouse, Seattle, Hamburg). ~€120M annual contract value (2023). DHL operates dedicated aerospace logistics centers in Toulouse and Seattle; manages ITAR compliance and export-license documentation for military engines (F135, M88). 2024 contract: DHL awarded 3-year extension (2024–2027) for CFM RISE component distribution and F-35 engine sustainment logistics.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Arianespace (Space Launch Services & Logistics)",
+        "ticker": null,
+        "cik": null,
+        "slug": "arianespace",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Space Launch Operations",
+        "relationshipNote": "Arianespace is the commercial launch operator for Ariane 6 rockets; Safran supplies Vinci upper-stage engines (100% of Ariane 6 propulsion). Arianespace manages launch logistics, payload integration, and ground operations at Kourou, French Guiana. ~€200M annual revenue (2023) from Safran Vinci engine supply and launch services. 2024 production: Arianespace targeting 15+ Ariane 6 launches/year by 2027; Safran Vinci engine production is the bottleneck. Long-term supply agreement (2015–2035) with annual volume commitments and price-adjustment mechanisms.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. Department of Defense (F-35 Program Office)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod_f35",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Military Engine Sustainment & Modernization",
+        "relationshipNote": "DoD is a major customer via GE (F135 engine prime contractor for F-35 Lightning II). Safran supplies high-pressure turbine (HPT) modules and compressor components for F135 engines; ~€400M annual revenue (2023) from F-35 sustainment and modernization. F-35 fleet: 900+ aircraft delivered globally (U.S., allies); sustainment contract (2020–2030) worth €3.2B total. Safran also supplies landing gear for F-35 (via Safran Landing Systems subsidiary). 2024 contract: DoD awarded Safran €180M for F135 engine modernization (Block 4 upgrades) through 2027. ITAR compliance: all F135 work subject to U.S. export controls; Safran maintains ITAR-certified facilities in France and U.S.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "French Ministry of Defence (Rafale & Military Modernization)",
+        "ticker": null,
+        "cik": null,
+        "slug": "french_mod",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Military Engine Sustainment & Modernization",
+        "relationshipNote": "French MoD is a major customer for Safran military engines (M88 for Rafale, Ardiden for helicopters) and landing gear. ~€600M annual revenue (2023) from military engine sustainment, overhauls, and upgrades. Rafale sustainment contract (2015–2030) worth €2.1B total. France defense budget +5% CAGR through 2027 (€60B+ annual); Safran benefits from military modernization programs (Rafale upgrades, helicopter engine modernization). 2024 contract: French MoD awarded Safran €120M for M88 engine upgrade program (2024–2028). Strategic partnership: Safran is a French national champion; French government holds strategic stake via Bpifrance (state investment bank).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Rolls-Royce plc (Commercial & Military Engines)",
+        "ticker": "RR.",
+        "cik": null,
+        "slug": "rolls_royce",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitive Threat in Wide-Body Engines",
+        "relationshipNote": "Rolls-Royce is Safran's primary competitor in commercial wide-body engines (Trent family: Trent 900 for A380, Trent XWB for A350, Trent 7000 for A330neo). Rolls-Royce holds ~45% market share in wide-body engines; Safran/GE LEAP holds ~40% (narrow-body only). 2024 competitive threat: Rolls-Royce Ultrafan program (wide-body engine) in flight-test phase; targets 25% better fuel efficiency than Trent XWB; potential entry into service 2030–2032. If Ultrafan succeeds, Safran/GE loses market share in large-twin-engine segment. Rolls-Royce also competes in military engines (EJ200 for Eurofighter vs. Safran M88 for Rafale; Rolls-Royce Gem for helicopters vs. Safran Makila/Ardiden). 2023 financial distress: Rolls-Royce faced supply-chain disruptions and labor strikes; Safran gained market-share opportunity in aftermarket services.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Pratt & Whitney (RTX subsidiary) — Military Engines",
+        "ticker": null,
+        "cik": null,
+        "slug": "pratt_whitney",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitive Threat in Military Propulsion",
+        "relationshipNote": "Pratt & Whitney (RTX subsidiary) is Safran's primary competitor in military engines: F119 for F-22 Raptor, F135 for F-35 (co-developed with GE; Safran supplies components). P&W also supplies engines for U.S. Navy (F414 for Super Hornet). Safran competes via M88 (Rafale) and Ardiden (helicopters). 2024 competitive landscape: P&W F135 sustainment revenue ~€600M annually (vs. Safran's €400M from F135 components); P&W holds larger share of U.S. military engine market. P&W also developing next-generation military engine (NGAD program) for U.S. Air Force; Safran not involved. Strategic risk: RTX (P&W parent) is larger and better-capitalized than Safran; RTX can outbid Safran on military contracts.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "MTU Aero Engines AG (Military & Commercial Engines)",
+        "ticker": "MTX",
+        "cik": null,
+        "slug": "mtu_aero_engines",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitive Threat in Military Engines",
+        "relationshipNote": "MTU Aero Engines (Germany) is a mid-tier competitor in military engines: supplies EJ200 (Eurofighter, co-developed with Rolls-Royce and ITP Aero) and Ardiden (helicopter, co-developed with Safran). MTU holds ~15% market share in European military engines. Safran competes via M88 (Rafale) and Ardiden (co-developed with MTU). 2024 competitive landscape: MTU targeting growth in military modernization (NATO +5% defense spending); MTU also developing next-generation military engine (NGAD program participation via RTX partnership). Strategic risk: MTU is smaller than Safran but more focused on military engines; MTU can undercut Safran on price in European defense market.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ITP Aero (Airbus subsidiary) — Military Engines",
+        "ticker": null,
+        "cik": null,
+        "slug": "itp_aero",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitive Threat in Military Engines",
+        "relationshipNote": "ITP Aero (Spain, Airbus subsidiary) is a niche competitor in military engines: supplies EJ200 (Eurofighter, co-developed with Rolls-Royce and MTU) and Ardiden (helicopter, co-developed with Safran). ITP Aero holds ~10% market share in European military engines. Safran competes via M88 (Rafale) and Ardiden (co-developed with ITP Aero). 2024 competitive landscape: ITP Aero targeting growth in military modernization (Spain defense budget +3% CAGR); ITP Aero also developing next-generation military engine (NGAD program participation via RTX partnership). Strategic risk: ITP Aero is smaller than Safran but benefits from Airbus ecosystem; ITP Aero can leverage Airbus relationships to cross-sell military engines.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lycoming Engines (Textron subsidiary) — Helicopter Engines",
+        "ticker": null,
+        "cik": null,
+        "slug": "lycoming",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitive Threat in Helicopter Engines",
+        "relationshipNote": "Lycoming (Textron subsidiary) is a niche competitor in helicopter engines: supplies T53 (UH-1 Huey), T55 (CH-47 Chinook), and LTS101 (light helicopters). Lycoming holds ~20% market share in military helicopter engines. Safran competes via Makila (H225), Ardiden (H160), and Arriel (AS365). 2024 competitive landscape: Lycoming targeting growth in military helicopter modernization (U.S. Army CH-47 upgrade program); Lycoming also developing next-generation helicopter engine (NGAD program participation via RTX partnership). Strategic risk: Lycoming is smaller than Safran but benefits from Textron ecosystem; Lycoming can leverage Textron relationships to cross-sell helicopter engines.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Financial Reporting & Disclosure",
+        "relationshipNote": "SEC oversees Safran's U.S. capital-markets activities (ADR listing on OTC Markets; no NYSE/NASDAQ listing). Safran files annual 20-F reports (foreign private issuer) with SEC; most recent filing (March 2024) disclosed €28.2B revenue, €2.1B net income, €8.2B cash. SEC also monitors Safran's ITAR compliance and export-control disclosures (Item 1A Risk Factors). 2024 SEC focus: cybersecurity disclosures (new SEC rule effective Feb 2024 requires disclosure of material cyber incidents within 4 business days). Safran disclosed 2023 cyber incident (ransomware attack on subsidiary; no material impact).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of State — Directorate of Defense Trade Controls (DDTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ddtc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic — ITAR Export Controls",
+        "relationshipNote": "DDTC (State Department) administers International Traffic in Arms Regulations (ITAR); controls export of military engines (F135, M88) and related technology. Safran must obtain ITAR licenses for all military engine exports and technology transfers. 2024 ITAR compliance: Safran maintains ITAR-certified facilities in France (Villaroche, Bordes) and U.S. (partnership with GE in Cincinnati). DDTC also monitors Safran's foreign ownership (Bpifrance holds ~10% stake; French government has strategic interest). 2023 DDTC action: Safran received warning letter regarding ITAR compliance on CFM RISE technology transfer to India (export license delayed 6 months); Safran implemented enhanced compliance procedures.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce — Bureau of Industry and Security (BIS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic — Export Administration Regulations (EAR)",
+        "relationshipNote": "BIS administers Export Administration Regulations (EAR); controls export of commercial engines (CFM56, LEAP) and related technology. Safran must obtain EAR licenses for all commercial engine exports to sanctioned countries (Iran, North Korea, Syria, Cuba). 2024 EAR compliance: Safran maintains EAR-certified facilities in France and U.S. (partnership with GE). BIS also monitors Safran's supply-chain compliance (sanctions screening for suppliers). 2023 BIS action: Safran received warning letter regarding EAR compliance on LEAP engine exports to Russia (pre-Ukraine conflict); Safran implemented enhanced sanctions screening.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "European Union Aviation Safety Agency (EASA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "easa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Engine Certification & Airworthiness",
+        "relationshipNote": "EASA certifies commercial aircraft engines (CFM56, LEAP) for European airspace; issues type certificates and airworthiness directives. Safran must comply with EASA certification requirements for all new engines and modifications. 2024 EASA focus: LEAP engine certification for A350 (completed 2015); CFM RISE certification roadmap (2030–2032). EASA also issues airworthiness directives for in-service engines; Safran must implement mandatory modifications. 2023 EASA action: EASA issued airworthiness directive for CFM56 engines (fuel-nozzle inspection); Safran coordinated with airlines for compliance (estimated €50M cost).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Federal Aviation Administration (FAA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "faa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Engine Certification & Airworthiness",
+        "relationshipNote": "FAA certifies commercial aircraft engines (CFM56, LEAP) for U.S. airspace; issues type certificates and airworthiness directives. Safran must comply with FAA certification requirements for all new engines and modifications. 2024 FAA focus: LEAP engine certification for 737 MAX (completed 2017); CFM RISE certification roadmap (2030–2032). FAA also issues airworthiness directives for in-service engines; Safran must implement mandatory modifications. 2023 FAA action: FAA issued airworthiness directive for CFM56 engines (fuel-nozzle inspection); Safran coordinated with airlines for compliance (estimated €50M cost).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP (France)",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_france",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance — Financial & Operational Audits",
+      "relationshipNote": "Deloitte is Safran's statutory auditor (France); conducts annual financial audits and compliance reviews. Deloitte also provides internal audit services and risk-management consulting. 2024 audit: Deloitte issued unqualified opinion on Safran's 2023 financial statements (€28.2B revenue, €2.1B net income). Deloitte also audits Safran's internal controls over financial reporting (SOX-equivalent compliance for French companies). Audit fees: ~€8M annually (estimated 0.03% of revenue). Deloitte also conducts ITAR compliance audits and supply-chain risk assessments.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "BNP Paribas SA (Primary Lender & Investment Bank)",
+        "ticker": "BNP",
+        "cik": null,
+        "slug": "bnp_paribas",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Debt & Advisory Services",
+        "relationshipNote": "BNP Paribas is Safran's primary lender and investment bank; manages €4.2B revolving credit facility (2023–2028) and leads bond issuances. 2024 debt: Safran issued €1.5B 10-year bonds (2.875% coupon) via BNP Paribas syndication. BNP Paribas also provides M&A advisory services (e.g., Safran's 2017 acquisition of Zodiac Aerospace for €4.9B). Relationship: long-standing (20+ years); BNP Paribas holds ~2% equity stake in Safran (estimated €560M value). BNP Paribas also provides trade finance and supply-chain financing services to Safran's suppliers.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Société Générale SA (Secondary Lender & Investment Bank)",
+        "ticker": "GLE",
+        "cik": null,
+        "slug": "societe_generale",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Debt & Advisory Services",
+        "relationshipNote": "Société Générale is Safran's secondary lender; participates in €4.2B revolving credit facility (2023–2028) and co-leads bond issuances. 2024 debt: Société Générale co-led €1.5B 10-year bond issuance (2.875% coupon). Société Générale also provides M&A advisory services and trade finance. Relationship: long-standing (20+ years); Société Générale holds ~1% equity stake in Safran (estimated €280M value). Société Générale also provides supply-chain financing services to Safran's suppliers.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bpifrance (French State Investment Bank)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bpifrance",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance) — Strategic Equity Holder",
+        "relationshipNote": "Bpifrance (Banque Publique d'Investissement) is a French state investment bank; holds ~10% equity stake in Safran (estimated €2.8B value). Bpifrance provides strategic capital and governance oversight; Safran is a French national champion in aerospace-defense. 2024 relationship: Bpifrance participates in Safran's board of directors (2 board seats); provides strategic guidance on military modernization and export-control compliance. Bpifrance also provides financing for Safran's R&D investments (e.g., CFM RISE program). Strategic importance: Bpifrance ensures French government alignment on Safran's strategic direction (military engines, space propulsion, export controls).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Saudi Public Investment Fund (PIF)",
+        "ticker": null,
+        "cik": null,
+        "slug": "saudi_pif",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Strategic Equity Holder",
+        "relationshipNote": "Saudi PIF is a major equity holder in Safran; holds ~5% stake (estimated €1.4B value) as of 2023. PIF acquired stake in 2018 as part of Saudi Arabia's Vision 2030 diversification strategy. PIF also participates in Safran's board of directors (1 board seat). Strategic importance: PIF provides long-term capital and strategic guidance; Saudi Arabia is a major customer for Safran military engines (Rafale, Ardiden). 2024 relationship: PIF participates in Safran's capital allocation decisions (dividends, buybacks, R&D investments).",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Olivier Andriès",
+        "ticker": null,
+        "cik": null,
+        "slug": "olivier_andries",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership — Chief Executive Officer",
+        "relationshipNote": "Olivier Andriès is CEO of Safran (since 2018). Andriès previously served as CEO of Safran Helicopter Engines (2012–2018) and held leadership roles in Safran Propulsion (2005–2012). Under Andriès' leadership, Safran has pursued strategic growth initiatives: CFM RISE development, Ariane 6 space propulsion expansion, and military modernization programs. 2024 priorities: commercial-aviation production ramp (CFM LEAP), military engine sustainment (F-35, Rafale), and space propulsion growth (Ariane 6). Andriès reports to the Board of Directors; compensation: €2.1M base salary + €1.8M bonus (2023).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Julien Metz",
+        "ticker": null,
+        "cik": null,
+        "slug": "julien_metz",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management — Chief Financial Officer",
+        "relationshipNote": "Julien Metz is CFO of Safran (since 2020). Metz previously served as CFO of Safran Landing Systems (2015–2020) and held finance leadership roles in Safran Propulsion. Under Metz's leadership, Safran has improved financial discipline: debt reduction (€12.1B in 2024 vs. €14.2B in 2020), free-cash-flow growth (€1.8B in 2023 vs. €0.9B in 2020), and dividend expansion (€0.65/share in 2024 vs. €0.40/share in 2020). 2024 priorities: capital allocation (R&D investment in CFM RISE, dividend growth, debt reduction). Metz reports to CEO Andriès; compensation: €1.2M base salary + €0.9M bonus (2023).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Thierry Lefevre",
+        "ticker": null,
+        "cik": null,
+        "slug": "thierry_lefevre",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic Partnership — CFM International CEO",
+        "relationshipNote": "Thierry Lefevre is CEO of CFM International (since 2023); reports jointly to Safran and GE. Lefevre previously served as President of Safran Propulsion (2015–2023) and held leadership roles in CFM engine development. Under Lefevre's leadership, CFM has pursued strategic growth initiatives: LEAP production ramp (5,000+ delivered), CFM RISE development (€1.2B R&D investment), and aftermarket services expansion. 2024 priorities: LEAP production ramp (targeting 1,000+ deliveries/year by 2027), CFM RISE SFP completion (2026), and aftermarket services growth. Lefevre reports to Safran CEO Andriès and GE CEO H. Lawrence Culp; compensation: estimated €1.5M base salary + bonus (shared between Safran and GE).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Roseline Charbonnel",
+        "ticker": null,
+        "cik": null,
+        "slug": "roseline_charbonnel",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance — General Counsel",
+        "relationshipNote": "Roseline Charbonnel is General Counsel of Safran (since 2019). Charbonnel previously served as Deputy General Counsel (2015–2019) and held legal roles in Safran Propulsion. Under Charbonnel's leadership, Safran has strengthened legal and compliance functions: ITAR compliance (military engines), export-control compliance (commercial engines), and antitrust compliance (CFM JV governance). 2024 priorities: ITAR compliance (F135, M88 engines), export-control compliance (CFM RISE technology transfer), and antitrust compliance (CFM RISE market-share implications). Charbonnel reports to CEO Andriès; compensation: estimated €0.8M base salary + bonus (2023).",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "CFM International Order Intake & Backlog",
+        "ticker": null,
+        "cik": null,
+        "slug": "cfm_orders",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Commercial Engine Demand Signal",
+        "relationshipNote": "CFM International order intake and backlog are leading indicators of commercial-aviation demand and Safran's future revenue. 2024 CFM metrics: order intake 1,200+ engines (LEAP + CFM56), backlog 8,000+ engines (representing 8+ years of production). CFM RISE program: 500+ orders/LOIs from airlines (Airbus, Boeing customers); estimated €15B+ program value over 20-year lifecycle. Safran's 50% stake in CFM means 50% of order intake and backlog flows to Safran revenue. 2024 signal: CFM order intake +15% YoY (vs. 2023); indicates strong commercial-aviation demand recovery post-COVID.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Airbus & Boeing Production Rates",
+        "ticker": null,
+        "cik": null,
+        "slug": "oem_production",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — OEM Demand Signal",
+        "relationshipNote": "Airbus and Boeing production rates are leading indicators of Safran's engine-delivery volumes and revenue. 2024 production rates: Airbus A320 family 75/month (target), Boeing 737 50/month (target, constrained by FAA cap). Safran supplies 100% of engines for both aircraft families (via CFM International JV). 2024 signal: Airbus production rate +67% YoY (vs. 2021 baseline of 45/month); Boeing production rate +61% YoY (vs. 2021 baseline of 31/month). Safran engine production is the bottleneck; Safran is investing €2.5B+ annually in capex to increase engine production capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Commodity Prices (Titanium, Nickel, Aluminum)",
+        "ticker": null,
+        "cik": null,
+        "slug": "commodity_prices",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — Input Cost Signal",
+        "relationshipNote": "Commodity prices (titanium, nickel, aluminum) are leading indicators of Safran's input costs and gross-margin pressure. 2024 commodity prices: LME titanium sponge +8% YoY, LME nickel +12% YoY, LME aluminum +5% YoY. Safran's COGS is ~65% of revenue; commodity costs represent ~15% of COGS. 2024 signal: commodity inflation +8% YoY (estimated); Safran's gross margin under pressure (estimated 35% in 2024 vs. 37% in 2023). Safran uses forward contracts to hedge commodity exposure; estimated 60% of 2024 commodity exposure hedged.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

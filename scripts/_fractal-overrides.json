@@ -1,0 +1,22 @@
+{
+  "_note": "Curated corrections for the fractal portal generator. 'skip' = CB rows that are junk/duplicate identity errors and must NOT be generated (the real company already has a portal under a different slug/cik). 'fields' = per-slug overrides merged into the enrich target (fix wrong ticker/cik/name before generation). Keep this auditable; every entry states why.",
+  "skip": {
+    "amwl": "Duplicate ticker-as-name row (cik 352915). Real co = Amwell (cik 1477449) which already has a portal. CB cleanup: drop this row.",
+    "ccrn": "Duplicate ticker-as-name row (cik 1060349). Real co = Cross Country Healthcare (cik 1142750) which already has a portal. CB cleanup: drop this row.",
+    "fortune_500_enterprises": "Aggregate placeholder (Fortune 500 Enterprise Accounts), not a real company — no portal."
+  },
+  "fields": {
+    "etsy": {
+      "ticker": "ETSY",
+      "name": "Etsy"
+    },
+    "corcept_therapeutics": {
+      "ticker": "CORT",
+      "instructions": "Corcept Therapeutics (CORT) — specialty pharma, single marketed product. Anchor EVERY functionalNetwork entry on these real facts: Korlym (mifepristone), FDA-approved 2012 for hypercortisolism in Cushing's syndrome with type-2 diabetes/glucose intolerance, is essentially all revenue (concentration risk); lead pipeline = relacorilant (selective cortisol modulator) in Phase 3 GRACE (Cushing's) and ROSELLA (platinum-resistant ovarian cancer, with nab-paclitaxel); competitors = Recordati/Isturisa (osilodrostat), Novartis/Signifor (pasireotide), Xeris/Strongbridge Keveyis; API + CDMO contract manufacturers for mifepristone; specialty-pharmacy distribution (Optime/Dohmen); FDA CDER + orphan-drug exclusivity; payers/PBMs for reimbursement. Cite $ revenue, trial phases, patent/exclusivity dates. No generic phrasing."
+    },
+    "v2x_inc": {
+      "ticker": "VVX",
+      "instructions": "V2X Inc — government/defense services contractor (formed from the Vectrus + Vertex Aerospace merger). Anchor every functionalNetwork entry on real specifics: named federal contracts (LOGCAP, base operations support, aircraft maintenance, training ranges), customer agencies (US Army, Air Force, Navy, DoD, State Dept), backlog/contract $ values + award dates, prime/sub relationships, and competitors (KBR, Amentum, Leidos, Jacobs, Vectrus peers). No generic phrasing."
+    }
+  }
+}

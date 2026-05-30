@@ -1,0 +1,731 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "db_schenker",
+  "slug": "db_schenker",
+  "name": "DB Schenker AG",
+  "ticker": null,
+  "cik": null,
+  "sic": "4213",
+  "industry": "Trucking (except local)",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "TOTALSA",
+    "ICSA",
+    "TRUCKD",
+    "IMPGS",
+    "EXPGS",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "diesel fuel",
+    "natural gas",
+    "steel (vehicle components)",
+    "aluminum (logistics equipment)",
+    "copper (electrical systems)"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "INSUFFICIENT_HISTORY",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Exposure to volatile fuel-cost pass-through dynamics in contract logistics",
+    "Regulatory tightening on emissions standards (Euro 6, Stage V) requiring fleet modernization capex",
+    "Concentration risk: parent Deutsche Bahn AG faces structural rail-sector headwinds and government subsidy dependency"
+  ],
+  "opportunitySignals": [
+    "E-commerce last-mile demand surge post-2020 creating premium-margin parcel-delivery expansion",
+    "Decarbonization capex cycle (electric vehicle fleet, hydrogen fuel cells) positioning early movers for ESG-linked financing",
+    "Cross-border EU supply-chain reshoring from Asia creating sustained LTL and contract-logistics demand"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "DB Schenker is a top-five global contract logistics and freight-forwarding operator, managing supply chains for automotive, consumer goods, and industrial manufacturers across 140+ countries. As a subsidiary of Deutsche Bahn AG, it operates integrated road, rail, and air networks that serve as critical infrastructure for European cross-border trade and just-in-time manufacturing. Its scale in LTL (less-than-truckload) and full-truckload services, combined with customs-brokerage and warehousing, positions it as a structural chokepoint in European supply-chain resilience.",
+  "portalRelevance": "DB Schenker is a peer-tier anchor in the supplyChain domain, essential to financial-intelligence models tracking European manufacturing competitiveness, logistics-cost inflation, and supply-chain fragility. Its parent-company leverage to Deutsche Bahn's government-backed balance sheet and regulatory exposure (emissions, labor, fuel-price pass-through) creates both systematic risk and policy-intervention signals. Tracking Schenker's margin compression, fleet utilization, and customer churn rates reveals early-stage stress in European industrial production and cross-border trade velocity.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "INSUFFICIENT_HISTORY"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly freight-volume indices by region and mode (road/rail/air) disclosed in parent DB AG quarterly reports",
+        "Fuel-surcharge pass-through rates and customer contract-renewal cycles (typically annual, disclosed in earnings calls)",
+        "Fleet utilization rates and vehicle-idle-time metrics (proxy for demand softness in manufacturing)",
+        "Regulatory filing activity: Euro 6 / Stage V compliance capex announcements and ESG-linked bond issuance by parent"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue and EBITDA margin trajectory by segment (road freight, contract logistics, air/ocean)",
+        "Working-capital cycle: days-sales-outstanding vs. days-payable-outstanding (fuel-cost timing mismatch risk)",
+        "Fleet age and electrification ratio; capex run-rate vs. depreciation (modernization debt burden)",
+        "Customer concentration: top-10 customer revenue % and contract-renewal risk calendar"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Margin compression signature: fuel-cost pass-through lag vs. spot diesel prices (leading indicator of demand softness)",
+        "Capacity utilization vs. industry average: if <75%, signals demand destruction or competitive share loss",
+        "Parent-company leverage stress: DB AG debt-to-EBITDA >3.5x triggers dividend cuts that cascade to Schenker capex",
+        "Regulatory inflection: Euro 6 fleet transition cost (€8k–€15k per vehicle) vs. pricing-power window (2024–2026)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge fuel-cost exposure via diesel-futures overlay or long-dated fuel-surcharge contracts with anchor customers",
+        "Monitor EU carbon-border adjustment mechanism (CBAM) impact on cross-border freight pricing and modal shift to rail",
+        "Track parent DB AG subsidy negotiations with German government; Schenker capex is subordinate to rail-network funding",
+        "Scenario-plan for UK/EU customs-clearance delays post-Brexit; Schenker's customs-brokerage margin is cyclical to trade friction"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Reduce exposure to Schenker-dependent supply chains if parent DB AG debt-to-EBITDA exceeds 3.5x or dividend is suspended",
+        "Increase allocation to Schenker if fleet electrification capex is funded via green bonds and customer contracts lock in 3+ year terms",
+        "Hedge cross-border logistics risk via long positions in rail-freight operators (DB Cargo, Genesee & Wyoming) if Schenker road-margin compression accelerates",
+        "Monitor customer churn: if top-10 customer concentration rises above 35%, signal elevated refinancing risk for Schenker's working-capital facilities"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings: validate fuel-surcharge pass-through rate vs. spot diesel; margin beat/miss signals pricing power",
+        "Quarterly fleet-utilization data: if average utilization drops >3 percentage points QoQ, demand destruction is accelerating",
+        "Parent DB AG 10-K filing: track Schenker segment EBITDA margin and capex allocation; divergence from guidance signals strategic pivot",
+        "Customer contract wins/losses disclosed in earnings calls; loss of top-10 customer is 8-K-level event"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate fuel-cost pass-through elasticity model if customer contract terms shift from monthly to quarterly surcharge adjustments",
+        "Update parent-company leverage sensitivity: if DB AG debt-to-EBITDA becomes primary constraint on Schenker capex, reduce growth assumptions",
+        "Reweight regulatory risk: if EU CBAM implementation accelerates, increase modal-shift-to-rail scenario probability and reduce road-freight margin forecasts",
+        "Adjust customer-concentration risk model: if top-10 concentration exceeds 40%, increase working-capital-facility refinancing risk premium"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Shell Global",
+        "ticker": "SHEL",
+        "cik": "0000949870",
+        "slug": "shell_global",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel & Energy Supply",
+        "relationshipNote": "Primary diesel supplier for Schenker's pan-European fleet of ~75,000 vehicles. Contract pricing typically includes monthly surcharge adjustments tied to Brent crude; fuel represents 25–30% of Schenker's road-freight operating costs. Supply disruptions (e.g., 2022 Russian sanctions) directly compress margins if customer contracts lag surcharge pass-through. Schenker's fuel-hedging strategy and supplier diversification are disclosed in parent DB AG 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Volvo Group AB",
+        "ticker": "VOLV-B.ST",
+        "cik": null,
+        "slug": "volvo_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Vehicle Supply & Fleet Modernization",
+        "relationshipNote": "Primary heavy-truck supplier for Schenker's fleet renewal program. Volvo Trucks and Renault Trucks (Volvo subsidiary) supply Euro 6 and emerging electric/hydrogen vehicles. Schenker's capex for fleet electrification (targeting 30% e-vehicle penetration by 2030) is contingent on Volvo's production capacity and pricing. 2023–2025 capex cycle estimated at €800M–€1.2B for Schenker; Volvo's supply-chain constraints directly impact Schenker's regulatory compliance timeline.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Siemens Mobility GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "siemens_mobility",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Digital & Logistics Technology",
+        "relationshipNote": "Supplier of warehouse-management systems (WMS), transportation-management systems (TMS), and real-time tracking infrastructure for Schenker's 600+ distribution centers across Europe. Siemens Mobility's digital-logistics platform integrates customer EDI, customs-clearance workflows, and vehicle-telematics data. Schenker's digital-transformation capex (€200M+ annually) is heavily dependent on Siemens' platform roadmap and API stability. Contract renewal cycles are typically 5–7 years with performance-based SLA penalties.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Michelin Group",
+        "ticker": "ML.PA",
+        "cik": null,
+        "slug": "michelin_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Tire Supply & Fleet Maintenance",
+        "relationshipNote": "Primary tire supplier for Schenker's heavy-truck fleet; also supplies maintenance and retreading services via Michelin's logistics-focused division. Tire costs represent 3–5% of road-freight operating expenses. Michelin's tire-durability improvements (e.g., Michelin X Multi Z) directly reduce Schenker's per-kilometer maintenance costs. Supply-chain disruptions (e.g., 2021 semiconductor shortage affecting tire-production automation) cascade into Schenker's fleet-availability constraints.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cargotec Oyj (Kalmar, MacGregor)",
+        "ticker": "CARGOT.HE",
+        "cik": null,
+        "slug": "cargotec",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Port & Terminal Equipment",
+        "relationshipNote": "Supplier of cargo-handling equipment (cranes, automated stacking systems) for Schenker's port-terminal and intermodal-hub operations. Cargotec's Kalmar division supplies automated container-handling systems used in Schenker's major European gateways (Hamburg, Rotterdam, Antwerp). Equipment capex cycles are 10–15 years; automation investments directly improve Schenker's port-dwell-time metrics and customer service levels. 2022–2024 capex for terminal modernization estimated at €150M–€250M.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Linde plc",
+        "ticker": "LIN",
+        "cik": "0001049310",
+        "slug": "linde_plc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Industrial Gases & Hydrogen Supply",
+        "relationshipNote": "Emerging supplier of hydrogen fuel and refueling infrastructure for Schenker's hydrogen-truck pilot programs. Linde is building hydrogen-refueling stations at Schenker's major distribution hubs (e.g., Frankfurt, Munich). Schenker's hydrogen-vehicle capex (targeting 5–10% of fleet by 2030) is contingent on Linde's infrastructure rollout and hydrogen-cost trajectory. Current hydrogen cost (~€10–€15/kg) remains 2–3x diesel-equivalent on energy basis; cost parity is critical to Schenker's decarbonization ROI.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Pallet Network Partners (Consortium)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pallet_network_consortium",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "LTL Network Collaboration",
+        "relationshipNote": "Schenker participates in European LTL (less-than-truckload) pallet-network consortiums (e.g., Europool, isopal) for standardized pallet pooling and shared-capacity utilization. These networks reduce empty-backhaul rates and improve asset utilization across competing carriers. Schenker's LTL segment (15–20% of road-freight revenue) is directly dependent on network participation and pallet-availability metrics. Network consolidation (e.g., Europool's 2023 capacity expansion) affects Schenker's competitive positioning in SME and mid-market segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN.SW",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Contract-Logistics & Freight-Forwarding Competitor",
+        "relationshipNote": "Direct competitor in contract logistics, freight forwarding, and customs brokerage across Europe and globally. Kuehne+Nagel's 2023 revenue (~$32B) is comparable to Schenker's estimated €25B–€28B. Both compete for automotive, consumer goods, and industrial supply-chain contracts. Kuehne+Nagel's higher digital-maturity and Asia-Pacific footprint create competitive pressure on Schenker's margin and customer retention. Customer wins/losses between the two are tracked as leading indicators of market-share shifts.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "DPD (GeoPost subsidiary of La Poste)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dpd_geopost",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Parcel & Last-Mile Delivery Competitor",
+        "relationshipNote": "Competitor in last-mile parcel delivery and e-commerce logistics. DPD's European network (~140 countries) overlaps significantly with Schenker's parcel-delivery expansion. DPD's 2023 revenue (~€6B) reflects strong e-commerce tailwinds; Schenker's parcel-segment growth (10–15% CAGR) is directly challenged by DPD's pricing and service-level competition. DPD's parent La Poste's government-backed balance sheet provides pricing flexibility that Schenker (leveraged to parent DB AG) cannot match in price wars.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Rhenus SE",
+        "ticker": null,
+        "cik": null,
+        "slug": "rhenus_se",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Contract-Logistics & Warehousing Competitor",
+        "relationshipNote": "Mid-tier competitor in contract logistics and warehousing, with strong presence in automotive and chemical supply chains. Rhenus's 2023 revenue (~€5.5B) is smaller than Schenker but highly specialized in automotive-OEM supply-chain management. Rhenus's private ownership (family-controlled) provides strategic flexibility that Schenker's parent-company leverage constrains. Customer wins in automotive (e.g., Audi, BMW supply-chain contracts) are tracked as competitive-share indicators.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Deutsche Bahn AG (Parent Company & Rail Operator)",
+        "ticker": null,
+        "cik": null,
+        "slug": "deutsche_bahn_ag",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Parent Company & Integrated Transport Network",
+        "relationshipNote": "Schenker is a wholly-owned subsidiary of Deutsche Bahn AG (acquired 2002). DB AG provides capital, governance, and integrated rail-freight services (DB Cargo) that complement Schenker's road and air operations. DB AG's 2023 revenue (~€45B) includes Schenker's estimated €25B–€28B contribution. Parent-company leverage (debt-to-EBITDA >3.0x) directly constrains Schenker's capex and dividend capacity. DB AG's government subsidies (€2B+ annually) are critical to Schenker's competitive positioning in cross-border rail-freight.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lufthansa Cargo AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "lufthansa_cargo",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Air-Freight Partner",
+        "relationshipNote": "Strategic partner for Schenker's air-freight and express-logistics services. Lufthansa Cargo operates dedicated freighter aircraft and integrates with Schenker's ground-handling and customs-clearance operations at major European hubs (Frankfurt, Munich, Cologne). Air-freight represents 5–8% of Schenker's total revenue; Lufthansa Cargo's capacity constraints (e.g., 2021–2022 aircraft availability) directly impact Schenker's express-delivery service levels and pricing power. Partnership includes revenue-sharing on time-sensitive shipments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hapag-Lloyd AG",
+        "ticker": "HLAG.DE",
+        "cik": null,
+        "slug": "hapag_lloyd",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Ocean-Freight & Port-Terminal Partner",
+        "relationshipNote": "Strategic partner for Schenker's ocean-freight and container-logistics services. Hapag-Lloyd's 2023 revenue (~$20B) reflects strong container-shipping demand; Schenker acts as freight forwarder and customs broker for Hapag-Lloyd shipments through European gateways (Hamburg, Rotterdam, Antwerp). Ocean-freight represents 8–12% of Schenker's total revenue. Hapag-Lloyd's capacity and pricing directly affect Schenker's margin on international container shipments; 2023 rate volatility compressed Schenker's ocean-freight margins by 15–20%.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Maersk A/S",
+        "ticker": "MAERSK.CO",
+        "cik": null,
+        "slug": "maersk_as",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Ocean-Freight & Integrated Logistics Partner",
+        "relationshipNote": "Major ocean-freight partner for Schenker's international container shipments. Maersk's 2023 revenue (~$60B) includes integrated logistics services that compete with and complement Schenker's offerings. Schenker acts as customs broker and last-mile provider for Maersk shipments in Europe. Maersk's 2023 rate environment (down 40–50% from 2021 peaks) compressed Schenker's ocean-freight margins; partnership terms are renegotiated annually. Schenker's exposure to Maersk rate volatility is a key margin-compression risk.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Eurostar / Eurostar Cargo (Rail Partner)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eurostar_cargo",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Cross-Border Rail-Freight Partner",
+        "relationshipNote": "Partner for Schenker's cross-border rail-freight services, particularly UK-EU trade post-Brexit. Eurostar Cargo's capacity (launched 2023) provides alternative to road freight for time-sensitive shipments. Schenker's rail-freight segment (5–8% of revenue) is growing as EU carbon-border adjustment mechanism (CBAM) incentivizes modal shift from road to rail. Eurostar Cargo's pricing and capacity availability directly affect Schenker's competitive positioning in UK-EU supply chains.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Volkswagen Group (VW, Audi, Porsche, Skoda)",
+        "ticker": "VOW3.DE",
+        "cik": null,
+        "slug": "volkswagen_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Automotive Customer",
+        "relationshipNote": "Volkswagen Group is Schenker's largest customer segment, representing estimated 12–15% of Schenker's total revenue (~€3B–€4B annually). Schenker manages VW's inbound raw-materials logistics (steel, aluminum, semiconductors), production-line supply (just-in-time parts delivery), and finished-vehicle distribution across Europe. VW's 2023 production (~5.3M vehicles) creates sustained demand for Schenker's contract-logistics and warehousing services. VW's electrification capex (€180B+ through 2030) is reshaping Schenker's supply-chain requirements (battery materials, EV-specific logistics).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BMW Group",
+        "ticker": "BMW.DE",
+        "cik": null,
+        "slug": "bmw_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Automotive Customer",
+        "relationshipNote": "BMW Group is Schenker's second-largest automotive customer, representing estimated 8–10% of Schenker's revenue (~€2B–€2.8B annually). Schenker provides contract logistics for BMW's supply chain (inbound, production-line supply, finished-vehicle distribution) across Europe and globally. BMW's 2023 production (~2.4M vehicles) and premium-segment focus create high-margin logistics requirements (e.g., white-glove delivery, temperature-controlled transport for electronics). BMW's supply-chain digitalization initiatives (e.g., blockchain for parts traceability) drive Schenker's technology capex.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Daimler-Benz / Mercedes-Benz Group",
+        "ticker": "MBG.DE",
+        "cik": null,
+        "slug": "mercedes_benz_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Automotive Customer",
+        "relationshipNote": "Mercedes-Benz Group is a major Schenker customer, representing estimated 6–8% of revenue (~€1.5B–€2.2B annually). Schenker manages Mercedes-Benz's global supply chain, including inbound logistics from suppliers, production-line supply, and finished-vehicle distribution. Mercedes-Benz's 2023 production (~2.1M vehicles) and luxury-segment positioning create premium logistics margins. Mercedes-Benz's supply-chain sustainability initiatives (e.g., carbon-neutral logistics targets by 2030) are driving Schenker's green-logistics capex and service-line expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BASF SE",
+        "ticker": "BAS.DE",
+        "cik": null,
+        "slug": "basf_se",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Chemical & Specialty-Materials Customer",
+        "relationshipNote": "BASF is a major Schenker customer in the chemical and specialty-materials segment, representing estimated 4–6% of revenue (~€1B–€1.7B annually). Schenker provides contract logistics for BASF's raw-materials inbound (crude oil, natural gas, specialty chemicals), production-line supply, and finished-goods distribution across Europe. BASF's 2023 revenue (~€60B) and global supply-chain complexity create sustained demand for Schenker's warehousing, customs-clearance, and hazmat-transport services. BASF's energy-cost pressures (2022–2023 natural-gas crisis) directly impacted Schenker's chemical-logistics margins.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN.SW",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Contract-Logistics & Freight-Forwarding Competitor",
+        "relationshipNote": "Kuehne+Nagel is Schenker's primary global competitor in contract logistics and freight forwarding. K+N's 2023 revenue (~$32B) exceeds Schenker's estimated €25B–€28B; K+N's higher digital maturity and Asia-Pacific footprint create competitive advantages. Both compete for automotive, consumer goods, and industrial supply-chain contracts. K+N's 2023 EBITDA margin (~12–13%) outperforms Schenker's estimated 8–10%, reflecting superior pricing power and operational efficiency. Customer wins/losses between the two are tracked as leading indicators of market-share shifts in European logistics.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "DPD (GeoPost subsidiary of La Poste)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dpd_geopost",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Parcel & Last-Mile Delivery Competitor",
+        "relationshipNote": "DPD is Schenker's primary competitor in last-mile parcel delivery and e-commerce logistics. DPD's European network (~140 countries) overlaps with Schenker's parcel-delivery expansion. DPD's 2023 revenue (~€6B) reflects strong e-commerce tailwinds; Schenker's parcel-segment growth (10–15% CAGR) is directly challenged by DPD's pricing and service-level competition. DPD's parent La Poste's government-backed balance sheet provides pricing flexibility that Schenker (leveraged to parent DB AG) cannot match in price wars. DPD's market share in European parcel delivery is estimated at 8–10%, vs. Schenker's 3–5%.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Contract-Logistics & LTL Competitor (North America / Emerging Europe)",
+        "relationshipNote": "XPO Logistics is an emerging competitor in European contract logistics and LTL services. XPO's 2023 revenue (~$16B) is smaller than Schenker but growing faster (12–15% CAGR). XPO's North American scale and technology platform create competitive pressure on Schenker's European margins. XPO's 2020–2023 European acquisitions (e.g., Norbert Dentressangle, GXO Logistics spin-off) have expanded its footprint in automotive and consumer-goods logistics. XPO's customer concentration in automotive and consumer goods directly overlaps with Schenker's core segments, creating direct competitive pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Rhenus SE",
+        "ticker": null,
+        "cik": null,
+        "slug": "rhenus_se",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Contract-Logistics & Warehousing Competitor",
+        "relationshipNote": "Rhenus SE is a mid-tier competitor in contract logistics and warehousing, with strong presence in automotive and chemical supply chains. Rhenus's 2023 revenue (~€5.5B) is smaller than Schenker but highly specialized in automotive-OEM supply-chain management. Rhenus's private ownership (family-controlled) provides strategic flexibility that Schenker's parent-company leverage constrains. Rhenus's customer wins in automotive (e.g., Audi, BMW supply-chain contracts) are tracked as competitive-share indicators. Rhenus's margin profile (estimated 10–12% EBITDA) outperforms Schenker's, reflecting niche positioning and pricing power.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Geodis (SNCF subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis_sncf",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Contract-Logistics & Supply-Chain Competitor",
+        "relationshipNote": "Geodis is a major competitor in European contract logistics and supply-chain management, owned by SNCF (French national rail operator). Geodis's 2023 revenue (~€10B) reflects strong positioning in automotive, consumer goods, and industrial logistics. Geodis's parent-company leverage to SNCF (similar to Schenker's leverage to DB AG) creates comparable capital constraints. Geodis's integrated rail-freight capabilities (via SNCF Fret) provide competitive advantage in cross-border European logistics. Customer wins/losses between Geodis and Schenker in automotive supply chains are tracked as competitive-share indicators.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Agility Public Warehousing Company K.S.C.",
+        "ticker": "AGILITY.KW",
+        "cik": null,
+        "slug": "agility_pwc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Contract-Logistics & Warehousing Competitor",
+        "relationshipNote": "Agility is a global competitor in contract logistics and warehousing, with strong presence in Middle East, Asia, and emerging markets. Agility's 2023 revenue (~$6B) is smaller than Schenker but growing in emerging markets. Agility's competitive advantage is in emerging-market supply-chain management; Schenker's competitive advantage is in developed-market European logistics. Limited direct competition in core European markets, but Agility's growth in cross-border logistics (e.g., Asia-Europe supply chains) creates indirect competitive pressure on Schenker's international forwarding services.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "European Commission (DG Mobility & Transport)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dg_mobility",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Transport & Logistics Regulation",
+        "relationshipNote": "EC DG Mobility & Transport sets EU-wide regulations on road transport, emissions standards (Euro 6, Stage V), driver working hours (EU Regulation 561/2006), and cross-border logistics. Schenker's operations are directly subject to EC regulations on vehicle emissions, fuel-surcharge pass-through (price-transparency directives), and cabotage restrictions. 2023–2025 regulatory focus on carbon-border adjustment mechanism (CBAM) and zero-emission vehicles (ZEV) mandates directly impact Schenker's capex and pricing strategy. EC's 2023 proposal for mandatory digital freight-exchange platforms affects Schenker's competitive positioning in spot-market logistics.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "German Federal Ministry of Transport (BMVI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bmvi_germany",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "National Transport & Infrastructure Regulation",
+        "relationshipNote": "BMVI regulates German road transport, vehicle licensing, driver certification, and infrastructure investment. Schenker's German operations (largest segment, ~30% of revenue) are directly subject to BMVI regulations on vehicle emissions, toll systems (Maut), and driver working hours. BMVI's 2023–2025 focus on electric-vehicle infrastructure and hydrogen-refueling stations directly supports Schenker's decarbonization capex. BMVI's coordination with parent DB AG on rail-freight subsidies and infrastructure investment creates indirect regulatory leverage on Schenker's capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "UK Office of Rail and Road (ORR) / UK Department for Transport",
+        "ticker": null,
+        "cik": null,
+        "slug": "uk_orr_dft",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "UK Transport & Customs Regulation (Post-Brexit)",
+        "relationshipNote": "Post-Brexit, UK ORR and DfT regulate Schenker's UK operations and cross-border UK-EU logistics. Schenker's UK customs-clearance operations (expanded post-2020) are subject to UK Border Force regulations and customs procedures. 2023–2024 UK regulatory focus on post-Brexit supply-chain friction and customs-clearance delays directly impacts Schenker's UK-EU logistics margins. Schenker's customs-brokerage revenue from UK-EU trade is estimated at £200M–£300M annually; regulatory changes (e.g., simplified customs procedures) directly affect this revenue stream.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Environment Agency (EEA) / UNECE",
+        "ticker": null,
+        "cik": null,
+        "slug": "eea_unece",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental & Emissions Regulation",
+        "relationshipNote": "EEA and UNECE set environmental standards for vehicle emissions (Euro 6, Stage V), air quality, and carbon-reduction targets. Schenker's fleet modernization capex (€800M–€1.2B through 2025) is directly driven by EEA/UNECE emissions standards. 2023–2030 regulatory focus on zero-emission vehicles (ZEV) mandates and carbon-border adjustment mechanism (CBAM) creates both compliance costs and competitive opportunities. Schenker's exposure to emissions-related fines (up to €15,000 per vehicle for non-compliance) is a material risk if fleet modernization lags regulatory timelines.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "German Federal Cartel Office (Bundeskartellamt)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bundeskartellamt",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Regulation",
+        "relationshipNote": "Bundeskartellamt enforces German and EU antitrust law. Schenker's market position in European contract logistics (estimated 8–10% market share) is subject to antitrust scrutiny. 2023 Bundeskartellamt focus on digital-platform competition and freight-exchange consolidation affects Schenker's competitive positioning. Parent DB AG's integrated rail-freight and road-logistics operations (via Schenker) are periodically reviewed for antitrust concerns. Schenker's pricing practices and customer-contract terms are subject to Bundeskartellamt review if market concentration exceeds thresholds.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte GmbH (Germany) / Deloitte Touche Tohmatsu Limited (Global)",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_global",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "External Audit & Risk Assessment",
+        "relationshipNote": "Deloitte is Schenker's primary external auditor (as part of parent DB AG's audit engagement). Deloitte conducts annual audits of Schenker's financial statements, internal controls, and compliance with IFRS and German accounting standards. Deloitte's audit scope includes Schenker's revenue recognition (contract-logistics and freight-forwarding services), asset valuation (fleet, warehouses, intangibles), and provisions for legal/regulatory matters. Deloitte's audit findings and management letters are disclosed in parent DB AG's annual 10-K filing. Deloitte's audit opinion on Schenker's financial statements is a key signal of financial health and regulatory compliance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Deutsche Bahn AG (Parent Company & Primary Capital Provider)",
+        "ticker": null,
+        "cik": null,
+        "slug": "deutsche_bahn_ag",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Parent Company Capital Allocation & Governance",
+        "relationshipNote": "Deutsche Bahn AG is Schenker's sole equity owner and primary capital provider. DB AG's 2023 debt-to-EBITDA ratio (~3.0–3.2x) constrains Schenker's capex and dividend capacity. DB AG's government subsidies (€2B+ annually) are critical to Schenker's competitive positioning; subsidy reductions directly compress Schenker's capex budget. DB AG's 2023 dividend suspension signals capital constraints that cascade to Schenker's investment plans. Schenker's capex (€800M–€1.2B annually) is subordinate to DB AG's rail-network investment priorities; capex delays are common when DB AG faces refinancing pressures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "KfW Bankengruppe (German Development Bank)",
+        "ticker": null,
+        "cik": null,
+        "slug": "kfw_bankengruppe",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Green Finance & Sustainability-Linked Lending",
+        "relationshipNote": "KfW is a major lender to Schenker for green-logistics capex (electric vehicles, hydrogen refueling, warehouse modernization). KfW's 2023–2025 green-finance programs provide below-market-rate financing for Schenker's decarbonization initiatives. Schenker's estimated €200M–€400M in KfW-financed capex (2023–2025) is critical to achieving 30% e-vehicle penetration by 2030. KfW's lending terms include ESG performance covenants; failure to meet decarbonization targets could trigger covenant violations and refinancing risk. KfW's financing is contingent on parent DB AG's credit rating and government backing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "European Investment Bank (EIB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eib_european_investment_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Infrastructure & Sustainability Finance",
+        "relationshipNote": "EIB provides long-term financing for Schenker's infrastructure and sustainability projects (e.g., warehouse modernization, intermodal-hub development). EIB's 2023–2025 focus on green logistics and cross-border European supply-chain resilience aligns with Schenker's capex priorities. Schenker's estimated €100M–€200M in EIB-financed capex (2023–2025) supports fleet electrification and terminal automation. EIB's lending terms include sustainability-linked covenants and ESG performance metrics; Schenker's ability to meet these targets is a key refinancing risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Commercial Banks (Commerzbank, Deutsche Bank, Unicredit, BNP Paribas)",
+        "ticker": null,
+        "cik": null,
+        "slug": "commercial_banks_consortium",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Working-Capital & Revolving-Credit Facilities",
+        "relationshipNote": "Schenker maintains working-capital and revolving-credit facilities with major European banks (Commerzbank, Deutsche Bank, Unicredit, BNP Paribas). These facilities (estimated €500M–€1B total) fund Schenker's seasonal working-capital needs (fuel inventory, receivables financing, payroll). Facility terms are typically 3–5 years with annual renewal; 2023 refinancing saw 50–100 bps rate increases due to rising EURIBOR. Schenker's debt-service coverage ratio (DSCR) and leverage covenants are monitored quarterly; covenant breaches would trigger acceleration and refinancing risk. Parent DB AG's credit rating (currently BBB-/Baa3) directly affects Schenker's borrowing costs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "European Logistics Confidence Index (Logistics Performance Index, World Bank)",
+        "ticker": null,
+        "cik": null,
+        "slug": "logistics_performance_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Supply-Chain Demand & Confidence Signal",
+        "relationshipNote": "World Bank's Logistics Performance Index (LPI) measures supply-chain efficiency and logistics-sector health across countries. Schenker's revenue and margin are directly correlated with LPI scores for Germany, EU, and UK (Schenker's primary markets). 2023 LPI scores for EU (~3.5–3.7 on 5-point scale) reflect post-pandemic normalization and supply-chain resilience. LPI trends are leading indicators of Schenker's freight-volume growth and pricing power. Quarterly LPI updates (World Bank publishes annually; regional indices available monthly) are tracked as demand signals.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Purchasing Managers' Index (PMI) — Manufacturing & Services (Eurostat, IHS Markit)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pmi_manufacturing_services",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Economic Activity & Demand Signal",
+        "relationshipNote": "Manufacturing and Services PMI indices (published monthly by Eurostat and IHS Markit) measure economic activity and supply-chain demand across EU and UK. Schenker's freight volumes are highly correlated with PMI levels; PMI >50 signals expanding demand, <50 signals contraction. 2023 EU Manufacturing PMI averaged ~47–50 (near contraction), reflecting weak industrial demand; Schenker's road-freight volumes declined 3–5% YoY. PMI is a leading indicator of Schenker's quarterly revenue and margin trends. Monthly PMI releases are tracked as demand signals.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Brent Crude Oil Price (ICE Brent Crude Futures)",
+        "ticker": "CO1",
+        "cik": null,
+        "slug": "brent_crude_oil",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Fuel-Cost & Margin Signal",
+        "relationshipNote": "Brent crude oil prices directly drive diesel fuel costs, which represent 25–30% of Schenker's road-freight operating expenses. Schenker's fuel-surcharge pass-through to customers typically lags spot prices by 1–2 months, creating margin compression risk during price spikes. 2022 Brent spike (>$120/bbl) compressed Schenker's margins by 15–20% until surcharges caught up. 2023 Brent average (~$85/bbl) enabled margin recovery. Daily Brent prices are tracked as real-time margin signals; quarterly average Brent is a key input to Schenker's margin forecasts.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

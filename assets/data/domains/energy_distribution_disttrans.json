@@ -1,0 +1,2066 @@
+{
+  "domainId": "energy_distribution_disttrans",
+  "title": "Distribution Transformers",
+  "parentPortal": "energy_distribution_portal.html",
+  "parentLabel": "Distribution",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "PUT",
+      "state": "active",
+      "domainLabel": "Distribution Transformers Assessment & Diagnostics",
+      "domainDescription": "Systematic management of distribution transformers assessment & diagnostics across all distribution transformers functions and operations",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Implement Distribution Transformers Assessment & Diagnostics Governance Structure",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Implement an integrated resource plan for distribution transformers assessment & diagnostics using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "OUTDATED_DISTRIBUTION_TRANSFORMERS_ASSE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for distribution transformers assessment & diagnostics using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Distribution Transformers Assessment & Diagnostics Assessment Protocol",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Institutionalize an energy auditor qualification program for distribution transformers assessment & diagnostics following BPI Building Analyst and RESNET HERS rater pathways.",
+          "cite": "Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302; NERC (2023). Long-Term Reliability Assessment. NERC",
+          "target": "INEFFICIENT_DISTRIBUTION_TRANSFORMERS_ASSE -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            },
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate installer skills for distribution transformers assessment & diagnostics against NABCEP Job Task Analysis",
+            "Design hands-on training with PV design, installation, and commissioning modules",
+            "Deliver field-based training with code compliance (NEC 690/705) and safety emphasis",
+            "Support NABCEP certification exam preparation and continuing education",
+            "Measure installation quality through inspection pass rates and warranty claims"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid operator competency using NERC operator certification tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid operator competency measured biannually. Target: 100% operators NERC certified. PHASE 3 (Months 4-6): Midpoint review — compare against NERC System Operator Certification. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid operator competency trending toward 100% with CE credits. Escalate if <100% base cert. ANNUAL REVIEW: Comprehensive audit using NERC certification program. Report to VP of Operations.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Distribution Transformers Assessment & Diagnostics Diagnostic Dashboard",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Configure a power plant efficiency optimization for distribution transformers assessment & diagnostics using ASME PTC performance testing with heat rate improvement measures.",
+          "cite": "FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC; IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE",
+          "target": "INCONSISTENT_DISTRIBUTION_TRANSFORMERS_ASSE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate distribution for distribution transformers assessment & diagnostics using hosting capacity and reliability analysis",
+            "Design modernization program with AMI, FLISR, and Volt-VAR optimization",
+            "Procure and deploy ADMS with SCADA integration and DMS functionality",
+            "Implement DERMS for real-time DER visibility, dispatch, and settlement",
+            "Measure reliability improvement through SAIDI/SAIFI and customer minutes metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — distribution system hosting capacity using DER interconnection analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — distribution system hosting capacity measured quarterly. Target: hosting capacity increase 25%. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1547 DER integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — distribution system hosting capacity trending toward 40% increase. Escalate if <15% increase floor. ANNUAL REVIEW: Comprehensive audit using IEEE 1547 framework. Report to Distribution Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Distribution Transformers Assessment & Diagnostics Governance Structure",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Strengthen a community energy development initiative for distribution transformers assessment & diagnostics enabling cooperative ownership models per EU Clean Energy Package.",
+          "cite": "Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004; Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044",
+          "target": "UNMONITORED_DISTRIBUTION_TRANSFORMERS_ASSE -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            },
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            }
+          ],
+          "steps": [
+            "Assess community energy potential for distribution transformers assessment & diagnostics using solar and wind resource mapping",
+            "Design community ownership models: cooperatives, solar gardens, and PPAs",
+            "Implement pilot community energy projects with technical and financial support",
+            "Establish peer learning network connecting community energy organizations",
+            "Measure community energy deployment, ownership rates, and economic benefits"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — community RE ownership rate using co-op and community solar registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — community RE ownership rate measured biannually. Target: 10% generation community-owned. PHASE 3 (Months 4-6): Midpoint review — compare against EU energy community benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — community RE ownership rate trending toward 20% community-owned. Escalate if <5% floor. ANNUAL REVIEW: Comprehensive audit using EU Clean Energy Package framework. Report to Community Energy Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Distribution Transformers Assessment & Diagnostics Assessment Protocol",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Monitor an energy storage optimization tool for distribution transformers assessment & diagnostics using Sandia StorageVET methodology for value stacking analysis.",
+          "cite": "Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003; HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy",
+          "target": "UNDERPERFORMING_DISTRIBUTION_TRANSFORMERS_ASSE -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            },
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit SCADA/EMS cybersecurity for distribution transformers assessment & diagnostics against NERC CIP standards",
+            "Design defense-in-depth architecture with electronic security perimeters",
+            "Implement CIP-compliant access management, monitoring, and incident response",
+            "Deploy security information event management (SIEM) for OT networks",
+            "Conduct annual CIP audit with third-party verification and remediation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — smart meter deployment coverage using AMI deployment tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — smart meter deployment coverage measured monthly. Target: 80% meter penetration. PHASE 3 (Months 4-6): Midpoint review — compare against EU smart metering mandate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — smart meter deployment coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using IEC 62052/62053 standards. Report to Metering Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Build Distribution Transformers Assessment & Diagnostics Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Build an integrated resource plan for distribution transformers assessment & diagnostics using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "REACTIVE_DISTRIBUTION_TRANSFORMERS_ASSE -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for distribution transformers assessment & diagnostics using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_distribution_disttrans_loadmgmttr_portal.html"
+    },
+    {
+      "brainNodeId": "ENDO",
+      "state": "active",
+      "domainLabel": "Distribution Transformers Core Operations",
+      "domainDescription": "Systematic management of distribution transformers core operations across all distribution transformers functions and operations",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Streamline Distribution Transformers Core Operations Capacity Building Initiative",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Streamline an integrated resource plan for distribution transformers core operations using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "UNMONITORED_DISTRIBUTION_TRANSFORMERS_CORE -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze DER growth for distribution transformers core operations using IEEE 1547 hosting capacity analysis",
+            "Design interconnection queue reform with technical screens and fast-track provisions",
+            "Implement DERMS platform for visibility, control, and optimization",
+            "Deploy dynamic operating envelopes for voltage and thermal management",
+            "Evaluate DER integration costs and benefits using utility cost-benefit framework"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — carbon intensity of electricity using emissions monitoring system (CEMS). Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — carbon intensity of electricity measured monthly. Target: reduction of 15% in gCO2/kWh. PHASE 3 (Months 4-6): Midpoint review — compare against IEA Net Zero pathway. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — carbon intensity of electricity trending toward 30% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using GHG Protocol Scope 2 framework. Report to Climate and Energy Commissioner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Distribution Transformers Core Operations Early Warning System",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Assess an energy auditor qualification program for distribution transformers core operations following BPI Building Analyst and RESNET HERS rater pathways.",
+          "cite": "NERC (2023). Long-Term Reliability Assessment. NERC; Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302",
+          "target": "UNDERPERFORMING_DISTRIBUTION_TRANSFORMERS_CORE -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Survey energy management skills for distribution transformers core operations against AEE CEM body of knowledge",
+            "Design CEM preparation program covering energy accounting, economics, and systems",
+            "Deliver training with facility assessments, M&V exercises, and case studies",
+            "Support CEM examination and CMVP certification for verification skills",
+            "Measure energy savings achieved by certified managers in their facilities"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable technology training using NABCEP certification system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable technology training measured quarterly. Target: 60% installers NABCEP certified. PHASE 3 (Months 4-6): Midpoint review — compare against NABCEP industry benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable technology training trending toward 80% certified. Escalate if <40% certified. ANNUAL REVIEW: Comprehensive audit using NABCEP certification standards. Report to RE Training Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Distribution Transformers Core Operations Operational Readiness Check",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Create a power plant efficiency optimization for distribution transformers core operations using ASME PTC performance testing with heat rate improvement measures.",
+          "cite": "IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE; FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC",
+          "target": "REACTIVE_DISTRIBUTION_TRANSFORMERS_CORE -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess pipeline integrity for distribution transformers core operations per 49 CFR 192/195 requirements",
+            "Conduct in-line inspection (ILI) and direct assessment (ECDA/ICDA)",
+            "Design repair and replacement program prioritized by risk assessment",
+            "Implement pipeline monitoring with SCADA, leak detection, and cathodic protection",
+            "Report integrity metrics to PHMSA with annual safety performance tracking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — pipeline integrity index using PHMSA inspection data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — pipeline integrity index measured quarterly. Target: zero serious incidents. PHASE 3 (Months 4-6): Midpoint review — compare against PHMSA Pipeline Safety targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — pipeline integrity index trending toward zero incidents with margin. Escalate if <<3 minor incidents. ANNUAL REVIEW: Comprehensive audit using 49 CFR Parts 192/195. Report to Pipeline Safety Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Distribution Transformers Core Operations Capacity Building Initiative",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Evaluate a community energy development initiative for distribution transformers core operations enabling cooperative ownership models per EU Clean Energy Package.",
+          "cite": "Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044; Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004",
+          "target": "FRAGMENTED_DISTRIBUTION_TRANSFORMERS_CORE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            },
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            }
+          ],
+          "steps": [
+            "Conduct social acceptance assessment for distribution transformers core operations using stakeholder mapping",
+            "Design community engagement plan with benefit-sharing and impact mitigation",
+            "Implement iterative consultation with community advisory panels",
+            "Negotiate community benefit agreements with legally binding commitments",
+            "Monitor social license indicators through community survey and complaint tracking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy workforce diversity using EEO workforce data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy workforce diversity measured quarterly. Target: 30% underrepresented groups. PHASE 3 (Months 4-6): Midpoint review — compare against DOE equity initiative targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy workforce diversity trending toward 40% representation. Escalate if <20% minimum. ANNUAL REVIEW: Comprehensive audit using DOE Justice40 framework. Report to Diversity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Distribution Transformers Core Operations Early Warning System",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Integrate an energy storage optimization tool for distribution transformers core operations using Sandia StorageVET methodology for value stacking analysis.",
+          "cite": "HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy; Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003",
+          "target": "SILOED_DISTRIBUTION_TRANSFORMERS_CORE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Assess storage valuation for distribution transformers core operations using Sandia StorageVET methodology",
+            "Model value stacks: arbitrage, capacity, ancillary services, T&D deferral",
+            "Design storage procurement with performance requirements and warranty terms",
+            "Deploy storage with controls integration and market participation",
+            "Track storage utilization, revenue, and degradation against performance targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — DER management platform maturity using DERMS capability assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — DER management platform maturity measured quarterly. Target: DERMS level 3 maturity. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 2030.11 DERMS standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — DER management platform maturity trending toward level 4. Escalate if <level 2 floor. ANNUAL REVIEW: Comprehensive audit using IEEE 2030 framework. Report to DER Integration Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Conduct Distribution Transformers Core Operations Operational Readiness Check",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Conduct an integrated resource plan for distribution transformers core operations using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "EIA (2023). Annual Energy Outlook. US Energy Information Administration; Smil, V. (2017). Energy and Civilization: A History. MIT Press",
+          "target": "OUTDATED_DISTRIBUTION_TRANSFORMERS_CORE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze DER growth for distribution transformers core operations using IEEE 1547 hosting capacity analysis",
+            "Design interconnection queue reform with technical screens and fast-track provisions",
+            "Implement DERMS platform for visibility, control, and optimization",
+            "Deploy dynamic operating envelopes for voltage and thermal management",
+            "Evaluate DER integration costs and benefits using utility cost-benefit framework"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — carbon intensity of electricity using emissions monitoring system (CEMS). Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — carbon intensity of electricity measured monthly. Target: reduction of 15% in gCO2/kWh. PHASE 3 (Months 4-6): Midpoint review — compare against IEA Net Zero pathway. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — carbon intensity of electricity trending toward 30% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using GHG Protocol Scope 2 framework. Report to Climate and Energy Commissioner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_distribution_disttrans_padmount_portal.html"
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Distribution Transformers Infrastructure & Capacity",
+      "domainDescription": "Systematic management of distribution transformers infrastructure & capacity across all distribution transformers functions and operations",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Create Distribution Transformers Infrastructure & Capacity Benchmarking Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Create a grid decarbonization roadmap for distribution transformers infrastructure & capacity following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "SILOED_DISTRIBUTION_TRANSFORMERS_INFR -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for distribution transformers infrastructure & capacity using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Distribution Transformers Infrastructure & Capacity Impact Evaluation",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Evaluate a certified energy manager program for distribution transformers infrastructure & capacity per AEE CEM body of knowledge with industrial efficiency focus.",
+          "cite": "NERC (2023). Long-Term Reliability Assessment. NERC; Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302",
+          "target": "OUTDATED_DISTRIBUTION_TRANSFORMERS_INFR -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess protection engineering skills for distribution transformers infrastructure & capacity against NERC PRC standards",
+            "Design training in relay coordination, fault analysis, and settings development",
+            "Deliver simulation-based training with ETAP/SKM relay coordination tools",
+            "Conduct competency assessment with practical relay testing and setting exercises",
+            "Track protection system misoperation rates for trained personnel"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy management competency using CEM/CMVP certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy management competency measured biannually. Target: 50 certified energy managers. PHASE 3 (Months 4-6): Midpoint review — compare against AEE certification benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy management competency trending toward 75 managers. Escalate if <30 minimum. ANNUAL REVIEW: Comprehensive audit using AEE certification framework. Report to Energy Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Distribution Transformers Infrastructure & Capacity Performance Framework",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Integrate a transmission expansion program for distribution transformers infrastructure & capacity following FERC Order 1000 planning with multi-value project assessment.",
+          "cite": "IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE; FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC",
+          "target": "INEFFICIENT_DISTRIBUTION_TRANSFORMERS_INFR -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate generation fleet for distribution transformers infrastructure & capacity using heat rate and availability analysis",
+            "Design efficiency improvements per ASME PTC performance test codes",
+            "Implement combustion tuning, heat recovery, and auxiliary load optimization",
+            "Deploy performance monitoring with real-time analytics and predictive maintenance",
+            "Track capacity factor and heat rate improvements against fleet benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — power plant capacity factor using generation performance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — power plant capacity factor measured monthly. Target: target capacity factor by type. PHASE 3 (Months 4-6): Midpoint review — compare against NREL ATB benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — power plant capacity factor trending toward top-quartile performance. Escalate if <bottom-quartile escalation. ANNUAL REVIEW: Comprehensive audit using NREL ATB framework. Report to Generation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Conduct Distribution Transformers Infrastructure & Capacity Benchmarking Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Conduct an energy efficiency behavior change program for distribution transformers infrastructure & capacity applying Dietz behavioral wedge methodology with smart meter feedback.",
+          "cite": "Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044; Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004",
+          "target": "INCONSISTENT_DISTRIBUTION_TRANSFORMERS_INFR -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            },
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            }
+          ],
+          "steps": [
+            "Assess energy workforce demographics for distribution transformers infrastructure & capacity using BLS and utility data",
+            "Design diversity recruitment program with pre-apprenticeship and mentorship",
+            "Partner with HBCUs, tribal colleges, and community organizations",
+            "Implement paid internship and apprenticeship pathways with wraparound support",
+            "Track workforce diversity metrics and retention rates against DOE targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy efficiency behavior adoption using smart meter analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy efficiency behavior adoption measured monthly. Target: 15% voluntary demand reduction. PHASE 3 (Months 4-6): Midpoint review — compare against EPA ENERGY STAR benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy efficiency behavior adoption trending toward 25% reduction. Escalate if <8% reduction floor. ANNUAL REVIEW: Comprehensive audit using EPA ENERGY STAR framework. Report to Demand-Side Management Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Design Distribution Transformers Infrastructure & Capacity Impact Evaluation",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Design a renewable resource assessment platform for distribution transformers infrastructure & capacity integrating NREL SAM with GIS-based siting and interconnection analysis.",
+          "cite": "HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy; Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003",
+          "target": "UNMONITORED_DISTRIBUTION_TRANSFORMERS_INFR -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Evaluate RE siting for distribution transformers infrastructure & capacity using NREL SAM and wind/solar resource data",
+            "Design GIS-based siting platform with environmental and grid constraint layers",
+            "Implement interconnection screening with hosting capacity and upgrade cost analysis",
+            "Deploy optimization engine for portfolio siting across resource zones",
+            "Measure development success rates and LCOE outcomes against projections"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy data platform completeness using data quality audit system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy data platform completeness measured monthly. Target: 90% data streams validated. PHASE 3 (Months 4-6): Midpoint review — compare against Green Button standard coverage. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy data platform completeness trending toward 95% validated. Escalate if <80% validated floor. ANNUAL REVIEW: Comprehensive audit using Green Button Connect framework. Report to Data Analytics Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Deploy Distribution Transformers Infrastructure & Capacity Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Deploy a grid decarbonization roadmap for distribution transformers infrastructure & capacity following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "EIA (2023). Annual Energy Outlook. US Energy Information Administration; Smil, V. (2017). Energy and Civilization: A History. MIT Press",
+          "target": "UNDERPERFORMING_DISTRIBUTION_TRANSFORMERS_INFR -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for distribution transformers infrastructure & capacity using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_distribution_disttrans_polemount_portal.html"
+    },
+    {
+      "brainNodeId": "MICRO",
+      "state": "active",
+      "domainLabel": "Distribution Transformers Risk & Resilience",
+      "domainDescription": "Systematic management of distribution transformers risk & resilience across all distribution transformers functions and operations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Develop Distribution Transformers Risk & Resilience Training Curriculum",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Develop a hydrogen economy strategy for distribution transformers risk & resilience applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "OUTDATED_DISTRIBUTION_TRANSFORMERS_RISK -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for distribution transformers risk & resilience using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Distribution Transformers Risk & Resilience Strategic Alignment Review",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Establish a renewable energy installer training for distribution transformers risk & resilience using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302; NERC (2023). Long-Term Reliability Assessment. NERC",
+          "target": "INEFFICIENT_DISTRIBUTION_TRANSFORMERS_RISK -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            },
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate installer skills for distribution transformers risk & resilience against NABCEP Job Task Analysis",
+            "Design hands-on training with PV design, installation, and commissioning modules",
+            "Deliver field-based training with code compliance (NEC 690/705) and safety emphasis",
+            "Support NABCEP certification exam preparation and continuing education",
+            "Measure installation quality through inspection pass rates and warranty claims"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid operator competency using NERC operator certification tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid operator competency measured biannually. Target: 100% operators NERC certified. PHASE 3 (Months 4-6): Midpoint review — compare against NERC System Operator Certification. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid operator competency trending toward 100% with CE credits. Escalate if <100% base cert. ANNUAL REVIEW: Comprehensive audit using NERC certification program. Report to VP of Operations.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Distribution Transformers Risk & Resilience Stakeholder Engagement Plan",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Implement a pipeline integrity management system for distribution transformers risk & resilience per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC; IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE",
+          "target": "INCONSISTENT_DISTRIBUTION_TRANSFORMERS_RISK -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate distribution for distribution transformers risk & resilience using hosting capacity and reliability analysis",
+            "Design modernization program with AMI, FLISR, and Volt-VAR optimization",
+            "Procure and deploy ADMS with SCADA integration and DMS functionality",
+            "Implement DERMS for real-time DER visibility, dispatch, and settlement",
+            "Measure reliability improvement through SAIDI/SAIFI and customer minutes metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — distribution system hosting capacity using DER interconnection analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — distribution system hosting capacity measured quarterly. Target: hosting capacity increase 25%. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1547 DER integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — distribution system hosting capacity trending toward 40% increase. Escalate if <15% increase floor. ANNUAL REVIEW: Comprehensive audit using IEEE 1547 framework. Report to Distribution Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Distribution Transformers Risk & Resilience Training Curriculum",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Institutionalize an energy justice program for distribution transformers risk & resilience using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004; Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044",
+          "target": "UNMONITORED_DISTRIBUTION_TRANSFORMERS_RISK -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            },
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            }
+          ],
+          "steps": [
+            "Assess community energy potential for distribution transformers risk & resilience using solar and wind resource mapping",
+            "Design community ownership models: cooperatives, solar gardens, and PPAs",
+            "Implement pilot community energy projects with technical and financial support",
+            "Establish peer learning network connecting community energy organizations",
+            "Measure community energy deployment, ownership rates, and economic benefits"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — community RE ownership rate using co-op and community solar registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — community RE ownership rate measured biannually. Target: 10% generation community-owned. PHASE 3 (Months 4-6): Midpoint review — compare against EU energy community benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — community RE ownership rate trending toward 20% community-owned. Escalate if <5% floor. ANNUAL REVIEW: Comprehensive audit using EU Clean Energy Package framework. Report to Community Energy Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Distribution Transformers Risk & Resilience Strategic Alignment Review",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Configure a smart grid analytics platform for distribution transformers risk & resilience integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003; HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy",
+          "target": "UNDERPERFORMING_DISTRIBUTION_TRANSFORMERS_RISK -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            },
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit SCADA/EMS cybersecurity for distribution transformers risk & resilience against NERC CIP standards",
+            "Design defense-in-depth architecture with electronic security perimeters",
+            "Implement CIP-compliant access management, monitoring, and incident response",
+            "Deploy security information event management (SIEM) for OT networks",
+            "Conduct annual CIP audit with third-party verification and remediation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — smart meter deployment coverage using AMI deployment tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — smart meter deployment coverage measured monthly. Target: 80% meter penetration. PHASE 3 (Months 4-6): Midpoint review — compare against EU smart metering mandate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — smart meter deployment coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using IEC 62052/62053 standards. Report to Metering Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Distribution Transformers Risk & Resilience Stakeholder Engagement Plan",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Strengthen a hydrogen economy strategy for distribution transformers risk & resilience applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "REACTIVE_DISTRIBUTION_TRANSFORMERS_RISK -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for distribution transformers risk & resilience using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_distribution_disttrans_undergndtr_portal.html"
+    },
+    {
+      "brainNodeId": "CLAUST",
+      "state": "active",
+      "domainLabel": "Distribution Transformers Policy & Governance",
+      "domainDescription": "Systematic management of distribution transformers policy & governance across all distribution transformers functions and operations",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Institutionalize Distribution Transformers Policy & Governance Data-Driven Decision Framework",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Institutionalize a distributed energy resources integration plan for distribution transformers policy & governance per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "FRAGMENTED_DISTRIBUTION_TRANSFORMERS_POLI -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for distribution transformers policy & governance using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Distribution Transformers Policy & Governance Accountability Mechanism",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Configure a grid operator certification program for distribution transformers policy & governance aligned with NERC System Operator Certification requirements.",
+          "cite": "MIT Energy Initiative (2022). Future of Energy Storage. MIT; Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241",
+          "target": "SILOED_DISTRIBUTION_TRANSFORMERS_POLI -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for distribution transformers policy & governance against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Distribution Transformers Policy & Governance Resource Optimization Model",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Strengthen a substation upgrade program for distribution transformers policy & governance implementing IEC 61850 communications with digital relay protection schemes.",
+          "cite": "NREL (2022). Annual Technology Baseline. NREL; DOE (2023). National Transmission Planning Study. US Department of Energy",
+          "target": "OUTDATED_DISTRIBUTION_TRANSFORMERS_POLI -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for distribution transformers policy & governance using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Distribution Transformers Policy & Governance Data-Driven Decision Framework",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Monitor an energy workforce equity program for distribution transformers policy & governance with targeted recruitment and pre-apprenticeship per DOE equity initiatives.",
+          "cite": "Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125; Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003",
+          "target": "INEFFICIENT_DISTRIBUTION_TRANSFORMERS_POLI -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            },
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for distribution transformers policy & governance using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Build Distribution Transformers Policy & Governance Accountability Mechanism",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Build a SCADA/EMS cybersecurity hardening for distribution transformers policy & governance per NERC CIP standards with intrusion detection and access controls.",
+          "cite": "EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute; NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3",
+          "target": "INCONSISTENT_DISTRIBUTION_TRANSFORMERS_POLI -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for distribution transformers policy & governance against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Distribution Transformers Policy & Governance Resource Optimization Model",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Optimize a distributed energy resources integration plan for distribution transformers policy & governance per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "UNMONITORED_DISTRIBUTION_TRANSFORMERS_POLI -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for distribution transformers policy & governance using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PCC",
+      "state": "active",
+      "domainLabel": "Distribution Transformers Technology & Innovation",
+      "domainDescription": "Systematic management of distribution transformers technology & innovation across all distribution transformers functions and operations",
+      "group": "development",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Operationalize Distribution Transformers Technology & Innovation Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Operationalize a hydrogen economy strategy for distribution transformers technology & innovation applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard; IEA (2023). World Energy Outlook. IEA Publications",
+          "target": "UNMONITORED_DISTRIBUTION_TRANSFORMERS_TECH -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for distribution transformers technology & innovation using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Distribution Transformers Technology & Innovation Continuous Improvement Cycle",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Calibrate a renewable energy installer training for distribution transformers technology & innovation using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241; MIT Energy Initiative (2022). Future of Energy Storage. MIT",
+          "target": "UNDERPERFORMING_DISTRIBUTION_TRANSFORMERS_TECH -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            },
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for distribution transformers technology & innovation against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Distribution Transformers Technology & Innovation Adaptive Management System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Streamline a pipeline integrity management system for distribution transformers technology & innovation per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "DOE (2023). National Transmission Planning Study. US Department of Energy; NREL (2022). Annual Technology Baseline. NREL",
+          "target": "REACTIVE_DISTRIBUTION_TRANSFORMERS_TECH -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for distribution transformers technology & innovation using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Distribution Transformers Technology & Innovation Knowledge Transfer Program",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Assess an energy justice program for distribution transformers technology & innovation using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003; Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125",
+          "target": "FRAGMENTED_DISTRIBUTION_TRANSFORMERS_TECH -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            },
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for distribution transformers technology & innovation using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Distribution Transformers Technology & Innovation Continuous Improvement Cycle",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Create a smart grid analytics platform for distribution transformers technology & innovation integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3; EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute",
+          "target": "SILOED_DISTRIBUTION_TRANSFORMERS_TECH -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for distribution transformers technology & innovation against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Distribution Transformers Technology & Innovation Adaptive Management System",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Evaluate a hydrogen economy strategy for distribution transformers technology & innovation applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "OUTDATED_DISTRIBUTION_TRANSFORMERS_TECH -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for distribution transformers technology & innovation using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Distribution Transformers Human Capital & Development",
+      "domainDescription": "Systematic management of distribution transformers human capital & development across all distribution transformers functions and operations",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Institutionalize Distribution Transformers Human Capital & Development Resource Optimization Model",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Institutionalize a distributed energy resources integration plan for distribution transformers human capital & development per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "INCONSISTENT_DISTRIBUTION_TRANSFORMERS_HUMA -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for distribution transformers human capital & development using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Distribution Transformers Human Capital & Development Data-Driven Decision Framework",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Configure a grid operator certification program for distribution transformers human capital & development aligned with NERC System Operator Certification requirements.",
+          "cite": "Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302; NERC (2023). Long-Term Reliability Assessment. NERC",
+          "target": "UNMONITORED_DISTRIBUTION_TRANSFORMERS_HUMA -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            },
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for distribution transformers human capital & development against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Distribution Transformers Human Capital & Development Accountability Mechanism",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Strengthen a substation upgrade program for distribution transformers human capital & development implementing IEC 61850 communications with digital relay protection schemes.",
+          "cite": "FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC; IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE",
+          "target": "UNDERPERFORMING_DISTRIBUTION_TRANSFORMERS_HUMA -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for distribution transformers human capital & development using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Distribution Transformers Human Capital & Development Resource Optimization Model",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Monitor an energy workforce equity program for distribution transformers human capital & development with targeted recruitment and pre-apprenticeship per DOE equity initiatives.",
+          "cite": "Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004; Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044",
+          "target": "REACTIVE_DISTRIBUTION_TRANSFORMERS_HUMA -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            },
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for distribution transformers human capital & development using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Build Distribution Transformers Human Capital & Development Data-Driven Decision Framework",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Build a SCADA/EMS cybersecurity hardening for distribution transformers human capital & development per NERC CIP standards with intrusion detection and access controls.",
+          "cite": "Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003; HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy",
+          "target": "FRAGMENTED_DISTRIBUTION_TRANSFORMERS_HUMA -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            },
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for distribution transformers human capital & development against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Distribution Transformers Human Capital & Development Accountability Mechanism",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Optimize a distributed energy resources integration plan for distribution transformers human capital & development per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "SILOED_DISTRIBUTION_TRANSFORMERS_HUMA -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for distribution transformers human capital & development using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Distribution Transformers Quality & Performance",
+      "domainDescription": "Systematic management of distribution transformers quality & performance across all distribution transformers functions and operations",
+      "group": "performance",
+      "phase": "P3",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Operationalize Distribution Transformers Quality & Performance Continuous Improvement Cycle",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Operationalize a hydrogen economy strategy for distribution transformers quality & performance applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "UNMONITORED_DISTRIBUTION_TRANSFORMERS_QUAL -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for distribution transformers quality & performance using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Distribution Transformers Quality & Performance Adaptive Management System",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Calibrate a renewable energy installer training for distribution transformers quality & performance using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013; DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy",
+          "target": "UNDERPERFORMING_DISTRIBUTION_TRANSFORMERS_QUAL -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            },
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess operator qualifications for distribution transformers quality & performance against NERC certification requirements",
+            "Design training curriculum covering reliability standards, emergency operations, and restoration",
+            "Deliver simulator-based training with NERC contingency scenarios and real-time drills",
+            "Administer NERC certification exams and continuing education requirements",
+            "Track operator performance metrics and certification maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — utility workforce certification rate using training management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — utility workforce certification rate measured quarterly. Target: 80% technicians certified. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA and NFPA 70E standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — utility workforce certification rate trending toward 95% certified. Escalate if <65% certified. ANNUAL REVIEW: Comprehensive audit using NFPA 70E safety training. Report to Chief Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Distribution Transformers Quality & Performance Knowledge Transfer Program",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Streamline a pipeline integrity management system for distribution transformers quality & performance per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press; IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC",
+          "target": "REACTIVE_DISTRIBUTION_TRANSFORMERS_QUAL -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess transmission needs for distribution transformers quality & performance using NERC TPL planning standards",
+            "Conduct multi-value project analysis per FERC Order 1000 methodology",
+            "Design transmission projects with NEPA environmental review and permitting",
+            "Construct facilities with NESC clearance standards and commissioning testing",
+            "Energize with protection coordination verification and NERC FAC compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — transmission capacity utilization using EMS and congestion tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — transmission capacity utilization measured monthly. Target: congestion cost reduction 20%. PHASE 3 (Months 4-6): Midpoint review — compare against FERC transmission planning targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — transmission capacity utilization trending toward 30% cost reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using FERC Order 1000 framework. Report to Transmission Planning Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Distribution Transformers Quality & Performance Continuous Improvement Cycle",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Assess an energy justice program for distribution transformers quality & performance using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106; Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002",
+          "target": "FRAGMENTED_DISTRIBUTION_TRANSFORMERS_QUAL -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            },
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            }
+          ],
+          "steps": [
+            "Survey energy burden for distribution transformers quality & performance using DOE LEAD Tool and census tract data",
+            "Design low-income energy assistance with weatherization and bill assistance",
+            "Implement programs through utility partnerships and community organizations",
+            "Deploy targeted outreach with multilingual materials and enrollment assistance",
+            "Evaluate burden reduction using pre-post billing analysis and participant surveys"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy poverty rate using household energy burden survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy poverty rate measured annually. Target: energy burden <6% for low-income. PHASE 3 (Months 4-6): Midpoint review — compare against LIHEAP eligibility thresholds. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy poverty rate trending toward burden <4%. Escalate if <burden <10% ceiling. ANNUAL REVIEW: Comprehensive audit using DOE LEAD Tool framework. Report to Energy Equity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Distribution Transformers Quality & Performance Adaptive Management System",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Create a smart grid analytics platform for distribution transformers quality & performance integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia; PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab",
+          "target": "SILOED_DISTRIBUTION_TRANSFORMERS_QUAL -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid modelling needs for distribution transformers quality & performance using NERC MOD-032 requirements",
+            "Configure PSSE/PowerWorld with validated system model and contingency cases",
+            "Implement production cost modelling with PLEXOS for resource planning",
+            "Deploy real-time and planning model coordination with state estimator",
+            "Validate model accuracy through post-event analysis and benchmarking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — SCADA system cybersecurity score using NERC CIP compliance tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — SCADA system cybersecurity score measured quarterly. Target: full NERC CIP compliance. PHASE 3 (Months 4-6): Midpoint review — compare against NERC CIP v7 standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — SCADA system cybersecurity score trending toward zero high-risk findings. Escalate if <<3 medium findings. ANNUAL REVIEW: Comprehensive audit using NERC CIP standards. Report to Cybersecurity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Distribution Transformers Quality & Performance Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Evaluate a hydrogen economy strategy for distribution transformers quality & performance applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "OUTDATED_DISTRIBUTION_TRANSFORMERS_QUAL -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for distribution transformers quality & performance using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power generation operations director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "PUT",
+      "target": "ENDO",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "ENDO",
+      "target": "WERN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "WERN",
+      "target": "MICRO",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "MICRO",
+      "target": "CLAUST",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "CLAUST",
+      "target": "PCC",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "PCC",
+      "target": "dlPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "dlPFC",
+      "target": "NTS",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "PUT",
+      "target": "NTS",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "WERN",
+      "target": "PUT",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "ENERGY_DISTRIBUTION_DISTTRANS_SYSTEM_FAILURE",
+      "label": "Energy Distribution Disttrans System Failure",
+      "summary": "Critical breakdown in Energy Distribution Disttrans systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "PUT",
+          "dir": "Hyper-active",
+          "detail": "Distribution Transformers Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ENDO",
+          "dir": "Hypo-active",
+          "detail": "Distribution Transformers Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Altered",
+          "detail": "Distribution Transformers Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "MICRO",
+          "dir": "Hyper-active",
+          "detail": "Distribution Transformers Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CLAUST",
+          "dir": "Hypo-active",
+          "detail": "Distribution Transformers Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_DISTRIBUTION_DISTTRANS_CAPACITY_OVERLOAD",
+      "label": "Energy Distribution Disttrans Capacity Overload",
+      "summary": "Demand exceeding available Energy Distribution Disttrans capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "PUT",
+          "dir": "Hyper-active",
+          "detail": "Distribution Transformers Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ENDO",
+          "dir": "Hyper-active",
+          "detail": "Distribution Transformers Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper-active",
+          "detail": "Distribution Transformers Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "MICRO",
+          "dir": "Hyper-active",
+          "detail": "Distribution Transformers Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_DISTRIBUTION_DISTTRANS_QUALITY_DEGRADATION",
+      "label": "Energy Distribution Disttrans Quality Degradation",
+      "summary": "Progressive decline in Energy Distribution Disttrans quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "PUT",
+          "dir": "Hypo-active",
+          "detail": "Distribution Transformers Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ENDO",
+          "dir": "Altered",
+          "detail": "Distribution Transformers Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper-active",
+          "detail": "Distribution Transformers Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "MICRO",
+          "dir": "Hypo-active",
+          "detail": "Distribution Transformers Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

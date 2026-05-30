@@ -1,0 +1,2609 @@
+{
+  "domainId": "addiction",
+  "title": "Addiction Medicine",
+  "parentPortal": "clinical.html",
+  "parentLabel": "Clinical",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Reward Valuation Hub",
+      "domainDescription": "Central dopaminergic target for reward prediction and hedonic processing",
+      "domainFunction": "Integrates dopamine reward signals to assign motivational value to substances and behaviors",
+      "whyThisNode": "Nucleus accumbens is the primary reward terminal — every addictive substance or behavior converges on NAcc dopamine release, making it the neural epicenter of addiction",
+      "group": "reward_circuit",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "STIMULANT_USE",
+        "GAMBLING_DISORDER",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Naltrexone (opioid antagonist)",
+          "type": "IMMEDIATE",
+          "description": "Blocks opioid-mediated reward signaling in NAcc, reducing craving and heavy use days across alcohol and opioid disorders",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Contingency management reinforcement",
+          "type": "STRUCTURAL",
+          "description": "Re-trains NAcc reward circuitry by providing tangible incentives for substance-free behavior, rebuilding non-drug reward sensitivity",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "addiction_reward_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Reward Valuation Hub",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        },
+        {
+          "domain": "trade",
+          "role": "Commodity Exchanges"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Dopamine Source Nucleus",
+      "domainDescription": "Midbrain dopaminergic neurons projecting to reward and prefrontal targets",
+      "domainFunction": "Generates phasic and tonic dopamine signals encoding reward prediction and motivational salience",
+      "whyThisNode": "VTA dopamine neurons are the upstream driver of all reward signaling — chronic substance exposure alters their firing patterns, producing tolerance, sensitization, and withdrawal-driven dopamine crashes",
+      "group": "reward_circuit",
+      "phase": "P3",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "STIMULANT_USE",
+        "NICOTINE_DEPENDENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Buprenorphine maintenance (partial mu-agonist)",
+          "type": "IMMEDIATE",
+          "description": "Stabilizes VTA dopamine signaling in opioid use disorder by providing steady partial agonism, preventing withdrawal and blocking euphoria",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Structured aerobic exercise program",
+          "type": "STRUCTURAL",
+          "description": "Natural dopamine restoration through sustained exercise, promoting VTA neuroplastic recovery and normalizing tonic dopamine levels",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "addiction_dopamine_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Dopamine Source Nucleus",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Innovation Engine"
+        },
+        {
+          "domain": "economy",
+          "role": "Entrepreneurship"
+        },
+        {
+          "domain": "energy",
+          "role": "Solar and Wind"
+        },
+        {
+          "domain": "environment",
+          "role": "Renewable Resources"
+        },
+        {
+          "domain": "medicine",
+          "role": "Men's Health Optimization"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Dopaminergic Metabolic Signaling"
+        },
+        {
+          "domain": "population",
+          "role": "Youth Demographics"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Dopaminergic Drive Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Compulsive Drive Center",
+      "domainDescription": "Orbitofrontal valuation system driving compulsive substance seeking",
+      "domainFunction": "Assigns disproportionate motivational value to substance-related stimuli, overriding negative consequences",
+      "whyThisNode": "OFC hyperactivation is the neural substrate of compulsive use despite harm — the hallmark of addiction as distinct from recreational use, driving behavior even when the person knows the consequences",
+      "group": "executive_control",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "STIMULANT_USE",
+        "GAMBLING_DISORDER",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "CBT cognitive restructuring of craving beliefs",
+          "type": "STRUCTURAL",
+          "description": "Targets OFC-mediated compulsive valuation by restructuring automatic thoughts linking substance cues to reward expectancy",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Topiramate (glutamate/GABA modulation)",
+          "type": "IMMEDIATE",
+          "description": "Reduces OFC-driven compulsive seeking through combined GABA enhancement and glutamate reduction in orbitofrontal circuits",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "addiction_compulsive_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Compulsive Drive Center",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Reward & Food Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Executive Inhibition Gateway",
+      "domainDescription": "Prefrontal top-down control over impulsive and habitual behavior",
+      "domainFunction": "Provides cognitive control, working memory, and inhibitory regulation over subcortical craving signals",
+      "whyThisNode": "dlPFC hypofunction is universal across addiction subtypes — weakened executive control allows subcortical reward and habit circuits to dominate decision-making, producing the 'I know I shouldn't but I can't stop' experience",
+      "group": "executive_control",
+      "phase": "P3",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "STIMULANT_USE",
+        "GAMBLING_DISORDER",
+        "CANNABIS_USE"
+      ],
+      "treatments": [
+        {
+          "label": "Motivational Enhancement Therapy",
+          "type": "STRUCTURAL",
+          "description": "Re-engages prefrontal executive function by resolving ambivalence and strengthening intrinsic motivation through collaborative goal-setting",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Modafinil (executive function support)",
+          "type": "IMMEDIATE",
+          "description": "Glutamate and dopamine modulation improves prefrontal executive function, particularly in stimulant use disorder recovery",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "addiction_executive_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Executive Inhibition Gateway",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Urban Planning"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Negative Reinforcement Driver",
+      "domainDescription": "Extended amygdala system mediating withdrawal distress and aversive motivation",
+      "domainFunction": "Generates the negative emotional states that drive continued use to avoid withdrawal, fear, and dysphoria",
+      "whyThisNode": "Basolateral amygdala hyperactivation underlies the 'dark side' of addiction — Koob's allostatic model shows extended amygdala recruitment converts voluntary use into compulsive avoidance of withdrawal distress",
+      "group": "limbic_emotional",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "STIMULANT_USE",
+        "BENZODIAZEPINE_DEPENDENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Gabapentin (GABAergic anxiolysis)",
+          "type": "IMMEDIATE",
+          "description": "Reduces amygdala-driven withdrawal anxiety and craving through GABAergic modulation, particularly effective in high-withdrawal phenotypes",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Trauma-focused therapy integration",
+          "type": "STRUCTURAL",
+          "description": "Addresses amygdala hyperreactivity driven by unresolved trauma, which perpetuates the negative reinforcement cycle in comorbid PTSD-addiction",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "addiction_negative_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Negative Reinforcement Driver",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Risk Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Markets"
+        },
+        {
+          "domain": "environment",
+          "role": "Wildlife Management"
+        },
+        {
+          "domain": "legal",
+          "role": "Criminal Threat Assessment"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Metabolic Anxiety and Threat"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Threat Detection & Emotional Reactivity"
+        },
+        {
+          "domain": "provider",
+          "role": "Risk Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Anticipatory Anxiety Generator",
+      "domainDescription": "Bed nucleus sustained threat monitoring driving preemptive substance use",
+      "domainFunction": "Maintains chronic anticipatory anxiety about withdrawal, generating the sustained dread that drives preemptive dosing",
+      "whyThisNode": "BNST mediates the transition from acute fear to sustained anxiety — in addiction, it generates the 'dark side' anticipatory dread that makes withdrawal feel imminent even when it is not, driving preemptive use",
+      "group": "limbic_emotional",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "OPIOID_USE",
+        "ALCOHOL_USE",
+        "BENZODIAZEPINE_DEPENDENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Clonidine (alpha-2 agonist)",
+          "type": "IMMEDIATE",
+          "description": "Suppresses noradrenergic hyperactivity in BNST circuits, reducing anticipatory withdrawal anxiety and autonomic distress",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Mindfulness-based relapse prevention",
+          "type": "STRUCTURAL",
+          "description": "Urge surfing techniques decouple BNST anticipatory signals from behavioral responding, teaching non-reactive awareness of craving",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "addiction_anticipatory_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Anticipatory Anxiety Generator",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Storage"
+        },
+        {
+          "domain": "medicine",
+          "role": "Metabolic & Endocrine"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Anticipatory Anxiety & Sustained Fear"
+        },
+        {
+          "domain": "communication",
+          "role": "Pilot Design Evaluation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Interior Architecture Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution — State Assessment"
+        },
+        {
+          "domain": "economy",
+          "role": "Operational Integration Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Interoceptive Craving Relay",
+      "domainDescription": "Anterior insula converting bodily states into conscious craving experience",
+      "domainFunction": "Translates visceral and autonomic signals into the subjective experience of craving and urgency",
+      "whyThisNode": "Anterior insula is where craving becomes conscious — insular lesions paradoxically eliminate addiction, proving it is the critical relay converting subcortical withdrawal signals into the felt sense of 'I need a drink/hit'",
+      "group": "interoceptive",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "STIMULANT_USE",
+        "NICOTINE_DEPENDENCE",
+        "GAMBLING_DISORDER"
+      ],
+      "treatments": [
+        {
+          "label": "HRV biofeedback training",
+          "type": "STRUCTURAL",
+          "description": "Modulates insular interoceptive processing by training autonomic flexibility, reducing the somatic urgency component of craving",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Interoceptive exposure during craving",
+          "type": "DIAGNOSTIC",
+          "description": "Maps the patient's specific bodily craving signals through guided interoceptive attention, identifying somatic craving patterns for targeted intervention",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "addiction_interoception_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Interoceptive Craving Relay",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Intuition / Pattern Recognition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Conflict Monitoring Hub",
+      "domainDescription": "Dorsal anterior cingulate error detection and cognitive control",
+      "domainFunction": "Detects conflict between craving impulses and recovery goals, triggering effortful cognitive control recruitment",
+      "whyThisNode": "dACC is where the internal battle of addiction plays out — it monitors the conflict between wanting to use and wanting to stop, and its dysfunction explains why addicted individuals fail to recognize escalating risk patterns",
+      "group": "executive_control",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "GAMBLING_DISORDER",
+        "ALCOHOL_USE",
+        "STIMULANT_USE"
+      ],
+      "treatments": [
+        {
+          "label": "Mindfulness meditation (conflict awareness)",
+          "type": "STRUCTURAL",
+          "description": "Strengthens dACC conflict monitoring capacity through sustained attention training, improving detection of pre-lapse warning states",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Functional assessment of use triggers",
+          "type": "DIAGNOSTIC",
+          "description": "Maps specific internal and external triggers that overwhelm dACC conflict detection, creating a personalized relapse prevention plan",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "addiction_conflict_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Conflict Monitoring Hub",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        },
+        {
+          "domain": "industry",
+          "role": "Quality Control"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Addictive Identity Narrative",
+      "domainDescription": "Medial prefrontal self-referential processing maintaining addictive identity",
+      "domainFunction": "Sustains the self-narrative around addiction — 'I am an addict,' shame loops, and identity-level engagement with substance use",
+      "whyThisNode": "mPFC is the neural seat of self-concept — in addiction, it maintains the narrative identity ('I'm a drinker,' 'I can't quit') that makes substance use feel integral to who the person is, requiring identity-level intervention",
+      "group": "limbic_emotional",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "STIMULANT_USE",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Psilocybin-assisted identity dissolution",
+          "type": "STRUCTURAL",
+          "description": "Disrupts rigid mPFC self-narrative through serotonergic-mediated ego dissolution, enabling reconstruction of identity beyond addiction",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Narrative therapy for recovery identity",
+          "type": "STRUCTURAL",
+          "description": "Actively reconstructs mPFC self-concept from 'addict' to 'person in recovery,' building a narrative that supports abstinence rather than use",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Addictive Identity Narrative",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Brand & Identity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration"
+        },
+        {
+          "domain": "legal",
+          "role": "Constitutional Identity / Rule of Law"
+        },
+        {
+          "domain": "medicine",
+          "role": "Primary Care"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Cognition & Self-Reference"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Self-Referential Processing Hub"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Diagnostic Analysis"
+        },
+        {
+          "domain": "culture",
+          "role": "Social Identity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Craving Rumination Network",
+      "domainDescription": "Default mode network sustaining craving-related mind-wandering and relapse ideation",
+      "domainFunction": "Generates spontaneous craving thoughts, past-use nostalgia, and future-use planning during unstructured mental time",
+      "whyThisNode": "DMN hyperactivity in addiction drives the relentless craving rumination that fills idle moments — mind-wandering becomes substance-focused, and DMN-mPFC coupling maintains the addictive self-narrative that resists recovery",
+      "group": "limbic_emotional",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "CANNABIS_USE",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Mindfulness-based DMN quieting",
+          "type": "STRUCTURAL",
+          "description": "Meditation training reduces DMN-driven craving rumination by strengthening present-moment awareness and decentering from substance-related thought loops",
+          "evidence": "Strong"
+        },
+        {
+          "label": "12-Step facilitation (narrative shift)",
+          "type": "STRUCTURAL",
+          "description": "Peer support and higher-power framework provides DMN with alternative narrative content, replacing craving rumination with recovery-oriented self-referential processing",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Craving Rumination Network",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        },
+        {
+          "domain": "religion",
+          "role": "Theological Doctrine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Habit Automation Circuit",
+      "domainDescription": "Dorsal striatum encoding compulsive use patterns as automatic habits",
+      "domainFunction": "Converts voluntary substance-seeking into automated stimulus-response habits that bypass conscious decision-making",
+      "whyThisNode": "Striatal habit circuits are why addiction persists despite motivation to quit — Everitt and Robbins demonstrated that substance use transitions from NAcc-mediated voluntary choice to dorsal striatum-mediated automaticity, making relapse feel involuntary",
+      "group": "habit_system",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "STIMULANT_USE",
+        "NICOTINE_DEPENDENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Cue exposure and response prevention",
+          "type": "STRUCTURAL",
+          "description": "Systematically decouples striatal habit associations by exposing patients to substance cues without use, extinguishing automated craving responses",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Environmental restructuring",
+          "type": "IMMEDIATE",
+          "description": "Removes or modifies the environmental cues that trigger striatal habit loops — people, places, and paraphernalia that automatically activate seeking behavior",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Habit Automation Circuit",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        },
+        {
+          "domain": "neurology",
+          "role": "Striatum (Caudate/Putamen)"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Stress-Relapse Cascade",
+      "domainDescription": "HPA axis stress hormone system driving stress-induced craving and relapse",
+      "domainFunction": "Generates cortisol and CRF signaling that converts psychosocial stress into craving, driving the stress-relapse cycle",
+      "whyThisNode": "HPA axis upregulation is the neuroendocrine bridge between life stress and relapse — chronic substance use produces allostatic load that elevates baseline CRF, making every stressor a potential relapse trigger",
+      "group": "stress_system",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "STIMULANT_USE",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Cortisol reduction through aerobic exercise",
+          "type": "STRUCTURAL",
+          "description": "Regular aerobic exercise normalizes HPA axis cortisol output, reducing the magnitude of stress-triggered craving responses",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Stress inoculation training",
+          "type": "STRUCTURAL",
+          "description": "Progressive stress exposure builds HPA resilience by teaching coping skills before high-stress situations arise, reducing cortisol-driven relapse",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Stress-Relapse Cascade",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Organizational Stress"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal System Stress / Backlog"
+        },
+        {
+          "domain": "metabolic",
+          "role": "HPA Axis Stress-Metabolism Coupling"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Stress Response System"
+        },
+        {
+          "domain": "provider",
+          "role": "Provider Stress Response"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Stress Axis Normalization"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Infrastructure & Capacity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control — Feedback & Validation — Tertiary Node"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "GABA_GLU",
+      "state": "active",
+      "domainLabel": "Excitatory-Inhibitory Balance",
+      "domainDescription": "GABAergic-glutamatergic equilibrium disrupted by chronic substance exposure",
+      "domainFunction": "Maintains cortical excitation-inhibition balance, profoundly disrupted by alcohol, benzodiazepines, and stimulants producing withdrawal syndromes",
+      "whyThisNode": "E/I balance disruption is the pharmacological core of physical dependence — chronic GABAergic substances cause compensatory glutamate upregulation, and withdrawal is the unmasked glutamate rebound producing seizures, anxiety, and excitotoxicity",
+      "group": "neuromodulatory",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "BENZODIAZEPINE_DEPENDENCE",
+        "STIMULANT_USE",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Acamprosate (glutamate modulation)",
+          "type": "IMMEDIATE",
+          "description": "Restores GABA-glutamate equilibrium post-alcohol withdrawal, reducing protracted withdrawal craving through NMDA receptor modulation",
+          "evidence": "Strong"
+        },
+        {
+          "label": "NAC (cystine-glutamate exchange restoration)",
+          "type": "IMMEDIATE",
+          "description": "N-acetylcysteine restores extrasynaptic glutamate homeostasis in the nucleus accumbens, reducing craving across multiple substance types",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Excitatory-Inhibitory Balance",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Envlaw"
+        },
+        {
+          "domain": "medicine",
+          "role": "Anesthesiology"
+        },
+        {
+          "domain": "neurology",
+          "role": "Excitation-Inhibition Balance"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Excitation-Inhibition Balance"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Excitation-Inhibition Rebalancing"
+        },
+        {
+          "domain": "communication",
+          "role": "Visualcomm"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Superiority Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OPIOID",
+      "state": "active",
+      "domainLabel": "Endogenous Opioid System",
+      "domainDescription": "Mu/kappa/delta opioid receptor system mediating reward, pain, and social bonding",
+      "domainFunction": "Processes natural reward, pain modulation, and social attachment — hijacked by exogenous opioids, producing profound tolerance and dependence",
+      "whyThisNode": "The endogenous opioid system is directly hijacked in opioid addiction and indirectly engaged by alcohol and gambling — mu-receptor downregulation produces the hedonic deficit that makes nothing else feel good",
+      "group": "neuromodulatory",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "OPIOID_USE",
+        "ALCOHOL_USE",
+        "GAMBLING_DISORDER"
+      ],
+      "treatments": [
+        {
+          "label": "Buprenorphine/naloxone maintenance",
+          "type": "IMMEDIATE",
+          "description": "Partial mu-agonist stabilizes opioid receptor signaling, preventing withdrawal and blocking euphoria while allowing normal emotional function",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Endorphin restoration through exercise",
+          "type": "STRUCTURAL",
+          "description": "Sustained aerobic exercise stimulates natural endorphin release, gradually rebuilding endogenous opioid tone depleted by exogenous opioid use",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Endogenous Opioid System",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Accesscomm Monitoring & Evaluation"
+        },
+        {
+          "domain": "culture",
+          "role": "Spatial Planning Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Field Maintenance Quality & Performance"
+        },
+        {
+          "domain": "economy",
+          "role": "Waste Reduction Operations"
+        },
+        {
+          "domain": "education",
+          "role": "Lottery Systems"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Safety Risk & Resilience"
+        },
+        {
+          "domain": "environment",
+          "role": "Baseline Calibration Governance"
+        },
+        {
+          "domain": "finance",
+          "role": "Forensic Accounting Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Noradrenergic Withdrawal Storm",
+      "domainDescription": "Locus coeruleus norepinephrine system generating autonomic withdrawal distress",
+      "domainFunction": "Produces the noradrenergic storm of acute withdrawal — sweating, tachycardia, anxiety, insomnia, hyperarousal",
+      "whyThisNode": "LC is the master alarm system whose unmasked hyperactivity during opioid and alcohol withdrawal produces the overwhelming autonomic distress that drives continued use — clonidine targets this specific circuit",
+      "group": "neuromodulatory",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "OPIOID_USE",
+        "ALCOHOL_USE",
+        "BENZODIAZEPINE_DEPENDENCE",
+        "NICOTINE_DEPENDENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Clonidine/lofexidine (alpha-2 agonist)",
+          "type": "IMMEDIATE",
+          "description": "Directly suppresses LC noradrenergic firing, managing the autonomic symptoms of acute opioid and alcohol withdrawal",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cold exposure therapy (structured)",
+          "type": "STRUCTURAL",
+          "description": "Controlled cold exposure trains healthy LC-mediated catecholamine surges, providing natural arousal as an alternative to substance-seeking",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Noradrenergic Withdrawal Storm",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Arousal Regulation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Noradrenergic Metabolic Arousal"
+        },
+        {
+          "domain": "neurology",
+          "role": "Locus Coeruleus"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Arousal Regulation & Hypervigilance"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Policy & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Park Design Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HAB",
+      "state": "active",
+      "domainLabel": "Anti-Reward Aversion Signal",
+      "domainDescription": "Habenula disappointment and aversion processing in addiction",
+      "domainFunction": "Signals negative prediction errors and aversion, inhibiting VTA dopamine when expected rewards fail to materialize",
+      "whyThisNode": "Habenula hyperactivity drives the aversive 'anti-reward' state that Koob identified as central to late-stage addiction — it signals that natural rewards are disappointing compared to substance effects, deepening anhedonia",
+      "group": "reward_circuit",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "STIMULANT_USE",
+        "OPIOID_USE",
+        "ALCOHOL_USE"
+      ],
+      "treatments": [
+        {
+          "label": "Behavioral activation for anhedonia",
+          "type": "STRUCTURAL",
+          "description": "Gradually re-exposes the habenular anti-reward system to natural rewards, rebuilding positive prediction error signaling for non-substance activities",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Ketamine-assisted therapy (investigational)",
+          "type": "REFERRAL",
+          "description": "Rapid glutamatergic modulation may reset habenular hyperactivity, providing a window for behavioral intervention during the transient anti-anhedonia effect",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Anti-Reward Aversion Signal",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "psychedelic",
+          "role": "Anti-Reward Silencing Target"
+        },
+        {
+          "domain": "communication",
+          "role": "Plain Language — Regulation Strategy"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Hospitality Design — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "Fighter Training Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Restructuring Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Scenario Planning Quality & Performance"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Recycling Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Extinction and Safety Signaling",
+      "domainDescription": "Ventromedial prefrontal cortex mediating fear extinction and value-based decisions",
+      "domainFunction": "Provides top-down inhibition of amygdala fear responses and encodes safety signals that counteract craving-associated distress",
+      "whyThisNode": "vmPFC hypofunction in addiction impairs fear extinction and emotional regulation — patients cannot learn that withdrawal is survivable or that craving will pass, keeping amygdala-driven negative reinforcement unchecked",
+      "group": "executive_control",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "BENZODIAZEPINE_DEPENDENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Exposure-based craving tolerance",
+          "type": "STRUCTURAL",
+          "description": "Repeated exposure to craving without use strengthens vmPFC extinction signaling, teaching the limbic system that craving is tolerable and time-limited",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Safety planning for high-risk situations",
+          "type": "IMMEDIATE",
+          "description": "Pre-planned coping responses for identified relapse triggers engage vmPFC deliberative processing before limbic craving circuits can drive automatic use",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Extinction and Safety Signaling",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        },
+        {
+          "domain": "legal",
+          "role": "Judicial Temperament / Equity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "GBA",
+      "state": "active",
+      "domainLabel": "Gut-Brain Inflammation Axis",
+      "domainDescription": "Bidirectional gut-brain communication disrupted by substance-induced microbiome damage",
+      "domainFunction": "Relays inflammatory and metabolic signals from substance-damaged gut to brain, amplifying neuroinflammation, craving, and mood disturbance",
+      "whyThisNode": "Chronic substance use — especially alcohol and opioids — devastates the gut microbiome, increasing intestinal permeability and driving systemic inflammation that feeds back to amplify craving and impair prefrontal function",
+      "group": "interoceptive",
+      "phase": "P3",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Probiotic microbiome restoration",
+          "type": "STRUCTURAL",
+          "description": "Targeted probiotic supplementation rebuilds gut microbial diversity damaged by chronic substance use, reducing systemic inflammation and neuroinflammatory craving amplification",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "L-Glutamine gut barrier repair",
+          "type": "IMMEDIATE",
+          "description": "Amino acid supplementation repairs intestinal epithelial tight junctions damaged by alcohol and opioids, reducing endotoxin translocation and neuroinflammation",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Gut-Brain Inflammation Axis",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Soil Ecosystems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Gut-Brain Metabolic Axis"
+        },
+        {
+          "domain": "communication",
+          "role": "Screen Reader Compatibility Human Capital & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Aircraft Maintenance Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Infrastructure & Capacity"
+        },
+        {
+          "domain": "education",
+          "role": "Test Preparation Human Capital & Development"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Management Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Contextual Relapse Memory",
+      "domainDescription": "Hippocampal encoding of substance-associated contexts that trigger relapse",
+      "domainFunction": "Encodes powerful context-dependent memories linking specific environments, people, and situations to substance use, driving context-triggered relapse",
+      "whyThisNode": "Hippocampal contextual memory explains why returning to old environments triggers relapse — place cells and contextual fear conditioning create indelible substance-context associations that can reactivate craving years after abstinence",
+      "group": "memory",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "STIMULANT_USE",
+        "NICOTINE_DEPENDENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Memory reconsolidation disruption",
+          "type": "STRUCTURAL",
+          "description": "Pharmacological or behavioral interference with substance-memory reconsolidation during retrieval can weaken hippocampal drug-context associations",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Relapse environment mapping",
+          "type": "DIAGNOSTIC",
+          "description": "Identifies the specific contextual cues (places, people, times, emotional states) encoded in hippocampal memory that trigger craving, enabling targeted avoidance and exposure planning",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Contextual Relapse Memory",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        },
+        {
+          "domain": "legal",
+          "role": "Precedent / Legal Memory"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VP",
+      "state": "active",
+      "domainLabel": "Hedonic Evaluation Node",
+      "domainDescription": "Ventral pallidum 'liking' hotspot processing hedonic pleasure and motivation",
+      "domainFunction": "Encodes the hedonic 'liking' component of reward, which dissociates from 'wanting' as addiction progresses",
+      "whyThisNode": "Ventral pallidum contains opioid hedonic hotspots where 'liking' is generated — in addiction, VP function degrades so substances are intensely 'wanted' (NAcc) but no longer 'liked' (VP), explaining the paradox of joyless compulsive use",
+      "group": "reward_circuit",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "OPIOID_USE",
+        "ALCOHOL_USE",
+        "STIMULANT_USE"
+      ],
+      "treatments": [
+        {
+          "label": "Pleasure scheduling (behavioral activation)",
+          "type": "STRUCTURAL",
+          "description": "Systematic reintroduction of natural pleasures to rebuild VP hedonic capacity, counteracting the anhedonia of substance withdrawal",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Anhedonia severity assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Quantifies the degree of hedonic deficit using validated scales, guiding medication selection and tracking recovery of natural pleasure capacity",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Hedonic Evaluation Node",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Symbol Supported"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Superiority Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Recruitment Strategies Infrastructure & Capacity"
+        },
+        {
+          "domain": "energy",
+          "role": "Safety Standards Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Neuroplastic Recovery Factor",
+      "domainDescription": "BDNF-mediated neuroplasticity supporting neural repair and learning in recovery",
+      "domainFunction": "Provides the neurotrophic support necessary for prefrontal and hippocampal recovery, enabling new learning to overwrite addictive patterns",
+      "whyThisNode": "BDNF is the molecular currency of recovery — exercise, therapy, and psychedelic-assisted interventions all converge on BDNF-dependent neuroplasticity to rebuild the prefrontal and hippocampal circuits degraded by chronic substance use",
+      "group": "neuromodulatory",
+      "phase": "P3",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "STIMULANT_USE",
+        "ALCOHOL_USE",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Exercise-induced BDNF elevation",
+          "type": "STRUCTURAL",
+          "description": "Aerobic exercise is the most reliable BDNF elevator, directly supporting prefrontal and hippocampal neuroplastic recovery from substance-induced damage",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Omega-3 fatty acid supplementation",
+          "type": "IMMEDIATE",
+          "description": "EPA and DHA support BDNF signaling and neural membrane repair, providing the substrate for neuroplastic recovery during early abstinence",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Neuroplastic Recovery Factor",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Neuroplasticity Signaling"
+        },
+        {
+          "domain": "medicine",
+          "role": "Rehabilitation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Neurotrophic Metabolic Protection"
+        },
+        {
+          "domain": "neurology",
+          "role": "Brain-Derived Neurotrophic Factor"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Neuroplasticity Window"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Feedback & Validation — Primary"
+        },
+        {
+          "domain": "culture",
+          "role": "Digital Cult"
+        },
+        {
+          "domain": "defense",
+          "role": "Bomber Aircraft Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Serotonergic Mood Regulation",
+      "domainDescription": "Raphe nuclei serotonin system modulating mood, impulsivity, and craving",
+      "domainFunction": "Provides tonic serotonergic modulation of mood and impulse control, disrupted by multiple substances and targeted by psychedelic interventions",
+      "whyThisNode": "Raphe serotonin dysfunction underlies the depression, impulsivity, and mood dysregulation that both precede and perpetuate addiction — psilocybin's therapeutic mechanism works through 5-HT2A receptors originating from raphe projections",
+      "group": "neuromodulatory",
+      "phase": "P3",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "STIMULANT_USE",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "SSRI for comorbid depression",
+          "type": "IMMEDIATE",
+          "description": "Addresses serotonergic deficits that perpetuate the depression-addiction cycle, though evidence for reducing substance use itself is mixed",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Psilocybin-assisted serotonergic reset",
+          "type": "REFERRAL",
+          "description": "5-HT2A agonism produces acute neuroplastic window and mystical-type experiences associated with sustained reduction in substance use across multiple trials",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Serotonergic Mood Regulation",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Serotonergic Tone"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Serotonergic Metabolic Modulation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Raphe Nuclei"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Serotonin System Development"
+        },
+        {
+          "domain": "population",
+          "role": "Aging Population"
+        },
+        {
+          "domain": "provider",
+          "role": "System Morale / Well-Being"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Serotonergic Reset Center"
+        },
+        {
+          "domain": "religion",
+          "role": "Mystical Experience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Homeostatic Disruption Center",
+      "domainDescription": "Hypothalamic regulation of sleep, appetite, and circadian rhythm disrupted by substance use",
+      "domainFunction": "Coordinates the homeostatic processes — sleep, appetite, temperature, circadian rhythm — that chronic substance use profoundly disrupts",
+      "whyThisNode": "Hypothalamic homeostatic disruption is why early recovery is physically miserable — substance-dependent resetting of sleep-wake, appetite, and temperature regulation circuits produces the physiological chaos of acute and protracted withdrawal",
+      "group": "stress_system",
+      "phase": "P3",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "ALCOHOL_USE",
+        "OPIOID_USE",
+        "STIMULANT_USE",
+        "CANNABIS_USE"
+      ],
+      "treatments": [
+        {
+          "label": "Sleep architecture reconstruction",
+          "type": "STRUCTURAL",
+          "description": "Aggressive sleep hygiene protocol addressing substance-disrupted hypothalamic circadian signaling, critical for methamphetamine and alcohol recovery",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Nutritional rehabilitation protocol",
+          "type": "IMMEDIATE",
+          "description": "Structured refeeding and micronutrient repletion addressing hypothalamic appetite dysregulation and the universal nutritional depletion of active addiction",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Homeostatic Disruption Center",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        },
+        {
+          "domain": "population",
+          "role": "Gender Demographics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Pain-Defense Gate",
+      "domainDescription": "Periaqueductal gray pain modulation hijacked by exogenous opioids",
+      "domainFunction": "Gates pain perception and defensive behaviors — chronic opioid exposure hijacks this circuit, producing hyperalgesia in withdrawal",
+      "whyThisNode": "PAG is where pain modulation meets addiction — exogenous opioids hijack the endogenous pain gate, and withdrawal unmasks opioid-induced hyperalgesia where pain sensitivity exceeds pre-addiction baseline, perpetuating use",
+      "group": "stress_system",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "OPIOID_USE",
+        "ALCOHOL_USE",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Multimodal pain management plan",
+          "type": "STRUCTURAL",
+          "description": "Non-opioid pain management combining physical therapy, NSAIDs, and neuromodulation to address PAG-mediated hyperalgesia without feeding the opioid cycle",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Pain severity assessment in recovery",
+          "type": "DIAGNOSTIC",
+          "description": "Quantifies opioid-induced hyperalgesia vs. underlying chronic pain to guide appropriate non-addictive analgesic strategies",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Pain-Defense Gate",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Endogenous Analgesic System"
+        },
+        {
+          "domain": "energy",
+          "role": "Nuclear Power"
+        },
+        {
+          "domain": "neurology",
+          "role": "Periaqueductal Gray"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Defense Cascade Modulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Quality & Performance"
+        },
+        {
+          "domain": "culture",
+          "role": "Landscape Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Nuclear Deterrence"
+        },
+        {
+          "domain": "economy",
+          "role": "Rural Development Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vlPFC",
+      "state": "active",
+      "domainLabel": "Impulse Brake System",
+      "domainDescription": "Ventrolateral prefrontal inhibitory control over impulsive substance seeking",
+      "domainFunction": "Provides the inhibitory braking that stops initial impulse from becoming action — the 'stop signal' that fails during lapse",
+      "whyThisNode": "vlPFC is the neural stop signal — its degradation in addiction explains the failure of inhibitory control where the person can see the consequence but cannot stop the reaching hand, making impulsivity a core circuit-level feature",
+      "group": "executive_control",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "STIMULANT_USE",
+        "ALCOHOL_USE",
+        "GAMBLING_DISORDER",
+        "POLYSUBSTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Go/No-Go inhibitory control training",
+          "type": "STRUCTURAL",
+          "description": "Computerized cognitive training targeting vlPFC inhibitory capacity, showing modest improvements in substance-related impulsivity when combined with other treatments",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Impulsivity assessment battery",
+          "type": "DIAGNOSTIC",
+          "description": "Quantifies inhibitory control deficits using standardized measures (BIS-11, Stop Signal Task) to identify patients requiring intensive impulse control intervention",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Impulse Brake System",
+      "brainNodeLabelCanonical": "Addiction Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Legal & Governance"
+        },
+        {
+          "domain": "legal",
+          "role": "Defense Advocacy"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Response Inhibition & Emotion Regulation"
+        },
+        {
+          "domain": "provider",
+          "role": "Regulatory Compliance"
+        },
+        {
+          "domain": "communication",
+          "role": "Public Relations"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Assessment & Diagnostics"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture — Signal Detection"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power Assessment & Diagnostics"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "REWARD_SIGNAL",
+      "weight": 1
+    },
+    {
+      "source": "NAcc",
+      "target": "STRI",
+      "type": "HABIT_TRANSITION",
+      "weight": 0.9
+    },
+    {
+      "source": "dlPFC",
+      "target": "NAcc",
+      "type": "INHIBITORY_CONTROL",
+      "weight": 0.85
+    },
+    {
+      "source": "OFC",
+      "target": "NAcc",
+      "type": "COMPULSIVE_DRIVE",
+      "weight": 0.9
+    },
+    {
+      "source": "BLA",
+      "target": "NAcc",
+      "type": "NEGATIVE_REINFORCEMENT",
+      "weight": 0.85
+    },
+    {
+      "source": "BNST",
+      "target": "BLA",
+      "type": "ANTICIPATORY_ANXIETY",
+      "weight": 0.8
+    },
+    {
+      "source": "HPA",
+      "target": "BLA",
+      "type": "STRESS_CRAVING",
+      "weight": 0.85
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "INTEROCEPTIVE_ALARM",
+      "weight": 0.8
+    },
+    {
+      "source": "mPFC",
+      "target": "DMN",
+      "type": "IDENTITY_NARRATIVE",
+      "weight": 0.85
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "EXTINCTION_SIGNAL",
+      "weight": 0.8
+    },
+    {
+      "source": "HAB",
+      "target": "VTA",
+      "type": "ANTI_REWARD",
+      "weight": 0.75
+    },
+    {
+      "source": "HIPP",
+      "target": "BLA",
+      "type": "CONTEXTUAL_TRIGGER",
+      "weight": 0.8
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "AROUSAL_ALARM",
+      "weight": 0.8
+    },
+    {
+      "source": "RAPHE",
+      "target": "NAcc",
+      "type": "SEROTONERGIC_MODULATION",
+      "weight": 0.7
+    },
+    {
+      "source": "GBA",
+      "target": "AI",
+      "type": "INFLAMMATORY_SIGNAL",
+      "weight": 0.7
+    },
+    {
+      "source": "GABA_GLU",
+      "target": "dlPFC",
+      "type": "EI_BALANCE",
+      "weight": 0.85
+    },
+    {
+      "source": "BDNF",
+      "target": "HIPP",
+      "type": "NEUROPLASTIC_SUPPORT",
+      "weight": 0.7
+    },
+    {
+      "source": "OPIOID",
+      "target": "PAG",
+      "type": "PAIN_MODULATION",
+      "weight": 0.8
+    },
+    {
+      "source": "HYPO",
+      "target": "HPA",
+      "type": "STRESS_INITIATION",
+      "weight": 0.75
+    },
+    {
+      "source": "VP",
+      "target": "NAcc",
+      "type": "HEDONIC_EVALUATION",
+      "weight": 0.75
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Addictive Identity Narrative → Negative Reinforcement Driver (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Addictive Identity Narrative → Conflict Monitoring Hub Assessment & Diagnostics (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Addictive Identity Narrative → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Extinction and Safety Signaling → Conflict Monitoring Hub Assessment & Diagnostics (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Extinction and Safety Signaling → Pain-Defense Gate (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Executive Inhibition Gateway → Conflict Monitoring Hub (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Executive Inhibition Gateway → Contextual Relapse Memory (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Interoceptive Craving Relay Research & Development → Negative Reinforcement Driver (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Conflict Monitoring Hub → Negative Reinforcement Driver (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Anticipatory Anxiety Generator — State Interpretation — Tertiary Node → Negative Reinforcement Driver Standards & Governance (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Anticipatory Anxiety Generator — State Interpretation — Tertiary Node → Negative Reinforcement Driver Research & Development (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Anticipatory Anxiety Generator — State Interpretation — Tertiary Node → Anticipatory Anxiety Generator — Signal Detection & Input — Secondary Node (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[LGN] → Negative Reinforcement Driver Standards & Governance (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[MGN] → Negative Reinforcement Driver Research & Development (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Dopamine Source Nucleus Performance & Optimization → Interoceptive Craving Relay (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[PI] → Interoceptive Craving Relay (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Negative Reinforcement Driver → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Homeostatic Disruption Center (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Stress-Relapse Cascade → Contextual Relapse Memory (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Contextual Relapse Memory → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Reward Valuation Hub → Hedonic Evaluation Node (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Reward Valuation Hub → Compulsive Drive Center (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Compulsive Drive Center → Extinction and Safety Signaling (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Compulsive Drive Center Coordination & Integration → Anticipatory Anxiety Generator — Adaptation & Self-Healing — Tertiary Node (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Habit Automation Circuit → Executive Inhibition Gateway Coordination & Integration (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Executive Inhibition Gateway Coordination & Integration → Anticipatory Anxiety Generator — State Interpretation — Tertiary Node (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Anticipatory Anxiety Generator — Diagnostic Pattern Recognition — Secondary Node → Anticipatory Anxiety Generator — State Interpretation — Tertiary Node (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Compulsive Drive Center Research & Development → Negative Reinforcement Driver Standards & Governance (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[FPN] → Executive Inhibition Gateway (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Noradrenergic Withdrawal Storm → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "ALCOHOL_USE",
+      "label": "Alcohol Use Disorder",
+      "summary": "Reward circuit hijacked, habit circuit automated, executive control weakened. GABAergic/glutamatergic imbalance from chronic alcohol exposure. DMN maintains addictive identity narrative. Withdrawal is glutamate rebound plus GABAergic collapse.",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "Nucleus accumbens reward prediction hijacked by alcohol-associated cues triggering dopamine release, driving compulsive seeking",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Altered",
+          "detail": "VTA dopamine neurons adapt to chronic alcohol producing tolerance and escalation; withdrawal produces dopamine crash and anhedonia",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "Orbitofrontal compulsive drive overrides awareness of consequences, producing continued drinking despite clear harm",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Prefrontal executive control weakened, impairing inhibition, planning, and decision-making capacity during craving",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hyper",
+          "detail": "Dorsal striatum habit loop automates stimulus-craving-use-relief cycle, making drinking feel involuntary",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "Extended amygdala drives negative reinforcement — drinking to avoid withdrawal distress and dysphoria",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GABA_GLU",
+          "dir": "Altered",
+          "detail": "Chronic alcohol enhances GABA and suppresses glutamate; withdrawal unmasks glutamate rebound causing excitotoxicity and seizure risk",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper",
+          "detail": "CRF system upregulated creating stress-craving pathway; allostatic load drives dose escalation over time",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "Interoceptive craving signals — the body wants a drink; insular damage paradoxically eliminates craving",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper",
+          "detail": "Craving-related rumination during mind-wandering increases relapse risk; meditation training reduces this",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GBA",
+          "dir": "Altered",
+          "detail": "Alcohol profoundly disrupts gut microbiome, increasing intestinal permeability and driving systemic neuroinflammation",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "OPIOID_USE",
+      "label": "Opioid Use Disorder",
+      "summary": "Endogenous opioid system hijacked. Mu-receptor tolerance drives escalating doses. Withdrawal-driven compulsion via locus coeruleus noradrenergic storm. Fentanyl supply contamination makes this the most lethal addiction.",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered",
+          "detail": "Reward system profoundly altered with mu-receptor downregulation; nothing else produces pleasure, creating hedonic allostatic shift",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Altered",
+          "detail": "VTA dopamine neurons adapted to exogenous opioid input; natural rewards become insufficient to drive motivation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "Locus coeruleus noradrenergic storm in withdrawal producing sweating, tachycardia, anxiety, and insomnia; clonidine target",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Altered",
+          "detail": "Periaqueductal gray pain modulation hijacked by exogenous opioids producing opioid-induced hyperalgesia in withdrawal",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "Extended amygdala negative reinforcement drives continued use to avoid the overwhelming distress of withdrawal",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "Anticipatory dread of withdrawal drives preemptive dosing even when current supplies are adequate",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hyper",
+          "detail": "Habit loop deeply automated: time, place, and context trigger compulsive seeking behavior",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Executive control degraded with impaired decision-making persisting even in long-term abstinence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper",
+          "detail": "CRF system chronically elevated making every stressor a potential relapse trigger",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OPIOID",
+          "dir": "Altered",
+          "detail": "Endogenous opioid receptor downregulation produces profound hedonic deficit and pain hypersensitivity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Identity narrative dominated by shame and self-concept as addict; DMN maintains this corrosive self-story",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "STIMULANT_USE",
+      "label": "Stimulant Use Disorder (Cocaine/Methamphetamine)",
+      "summary": "Dopamine system catastrophically depleted by chronic stimulant use. Massive dopamine release followed by profound depletion producing anhedonia, executive collapse, and compulsive redosing. No FDA-approved medication; behavioral interventions are primary.",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "Dopamine depletion produces profound anhedonia; nothing feels good as the reward system is burned out",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo",
+          "detail": "Dopaminergic neurons damaged by chronic stimulant exposure with slow recovery over months to years",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Severe prefrontal hypofunction producing impulsivity, poor decision-making, and executive collapse",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "Compulsive drive persists despite devastating consequences including financial ruin and medical harm",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Methamphetamine specifically neurotoxic to striatal neurons; habit loop deeply entrenched and resistant to extinction",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "Amygdala hyperreactive producing emotional dysregulation and paranoia, especially with methamphetamine",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "Interoceptive urgency signals during craving episodes drive compulsive redosing behavior",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper",
+          "detail": "Chronic stress system activation with cortisol driving the craving-use-crash cycle",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BDNF",
+          "dir": "Hypo",
+          "detail": "Neurotrophic signaling impaired, requiring neuroplastic support for prefrontal and hippocampal recovery",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Contextual memories of use environments remain potent relapse triggers years after abstinence",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CANNABIS_USE",
+      "label": "Cannabis Use Disorder",
+      "summary": "Endocannabinoid system downregulated by chronic exogenous THC exposure. CB1 receptor desensitization reduces natural endocannabinoid tone. Amotivational syndrome reflects prefrontal and reward circuit blunting. Withdrawal is real but non-dangerous.",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "Reward sensitivity blunted by chronic THC-driven dopamine release; natural rewards feel insufficient",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Executive function impaired with deficits in working memory, attention, and cognitive flexibility during heavy use",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "Hippocampal CB1 receptor density highest in brain; chronic THC impairs memory consolidation and new learning",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Altered",
+          "detail": "Default mode connectivity altered producing the characteristic altered self-referential processing of chronic use",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered",
+          "detail": "Interoceptive awareness altered; anxiety sensitivity changes drive both use and withdrawal symptoms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Altered",
+          "detail": "Amygdala CB1 modulation disrupted; paradoxical anxiety during withdrawal despite anxiolytic effects during use",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered",
+          "detail": "Sleep and appetite regulation disrupted; insomnia and appetite loss are primary withdrawal symptoms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Motivational salience reduced; chronic use associated with amotivational state and reduced goal-directed behavior",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "NICOTINE_DEPENDENCE",
+      "label": "Nicotine Dependence",
+      "summary": "Nicotinic acetylcholine receptor upregulation produces the fastest and most reliable addiction cycle. Rapid drug delivery (7-second lung-to-brain) creates tight stimulus-response coupling. Most commonly co-occurring substance use disorder.",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "Nicotine directly stimulates VTA-NAcc dopamine release; 7-second delivery creates the tightest reward coupling of any substance",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Altered",
+          "detail": "Nicotinic receptors on VTA neurons upregulated; withdrawal produces dopamine deficit and dysphoria",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hyper",
+          "detail": "Habit loop extremely entrenched due to high-frequency daily reinforcement; 200+ puffs per day per pack",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "Interoceptive awareness of nicotine level drop triggers craving; smokers feel withdrawal as bodily urgency",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Altered",
+          "detail": "Noradrenergic system adapted to nicotinic modulation; withdrawal irritability and concentration difficulty",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Altered",
+          "detail": "Conflict monitoring disrupted; nicotine paradoxically improves attention, making cessation feel like cognitive impairment",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Executive control weakened during withdrawal, reducing capacity to resist craving during cessation attempts",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Contextual associations with smoking are pervasive — coffee, driving, socializing, stress all trigger hippocampal craving recall",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "GAMBLING_DISORDER",
+      "label": "Gambling Disorder",
+      "summary": "Pure reward circuit hijacking without exogenous substance. Intermittent reinforcement schedule is maximally addictive. Same NAcc/VTA/OFC circuitry as substance addiction. Proves addiction is a circuit disorder, not a substance problem. Highest suicide rate of any addiction.",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "Near-misses activate NAcc like actual wins; intermittent reinforcement produces maximally addictive reward schedule",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "Dopamine release during anticipation of uncertain reward is stronger than for certain reward, driving gambling persistence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "Compulsive gambling despite financial devastation; orbitofrontal drive overrides consequence awareness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Impaired executive control producing loss-chasing, irrational probability estimation, and gambler's fallacy",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "Arousal signals during gambling create excitement-seeking interoceptive drive that maintains behavior",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hyper",
+          "detail": "Habit loop entrenched: casino environment triggers craving triggers gambling triggers relief-excitement cycle",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Altered",
+          "detail": "Risk evaluation distorted with abnormal near-miss processing driving continued play after losses",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper",
+          "detail": "Financial stress drives cortisol which drives gambling to escape which deepens debt in a self-amplifying cycle",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Gambler identity maintained by DMN; 'I can win it back' narrative sustains destructive behavior",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "BENZODIAZEPINE_DEPENDENCE",
+      "label": "Benzodiazepine Dependence",
+      "summary": "GABAergic tolerance produces one of the most dangerous withdrawal syndromes. Compensatory glutamate upregulation creates seizure risk. Iatrogenic dependence common from prescribed use. Protracted withdrawal can persist months to years. Requires slow taper, not abrupt cessation.",
+      "circuits": [
+        {
+          "nodeId": "GABA_GLU",
+          "dir": "Altered",
+          "detail": "Chronic GABA-A receptor agonism produces downregulation and compensatory glutamate upregulation; withdrawal is excitotoxic rebound",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "Amygdala GABA-A receptors downregulated; withdrawal produces extreme anxiety exceeding pre-treatment baseline",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "Noradrenergic rebound during withdrawal producing tachycardia, tremor, sweating, and hyperarousal",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "Anticipatory anxiety about withdrawal drives continued use; fear of stopping becomes primary maintaining factor",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "Interoceptive hypervigilance during taper; patients monitor every bodily sensation as potential withdrawal symptom",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Cognitive impairment during chronic use and withdrawal; working memory and executive function compromised",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "Emotional regulation impaired; inability to tolerate anxiety without medication perpetuates dependence",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered",
+          "detail": "Sleep architecture disrupted; rebound insomnia during withdrawal is severe and persistent",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "POLYSUBSTANCE",
+      "label": "Polysubstance Use Disorder",
+      "summary": "Multiple substance dependencies creating compound circuit disruption. Each substance damages overlapping but distinct circuits, producing synergistic impairment. Treatment complexity multiplied by drug interactions, multiple withdrawal timelines, and competing pharmacological needs.",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered",
+          "detail": "Reward system bombarded from multiple pharmacological directions; dopamine signaling chaotically dysregulated",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Cumulative prefrontal damage from multiple substances produces severe executive dysfunction exceeding any single-substance effect",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GABA_GLU",
+          "dir": "Altered",
+          "detail": "Excitatory-inhibitory balance disrupted by opposing substance effects; withdrawal management requires careful sequencing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper",
+          "detail": "Stress system maximally activated by compound withdrawal timelines and psychosocial chaos of polysubstance lifestyle",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GBA",
+          "dir": "Altered",
+          "detail": "Gut microbiome devastated by multiple substance exposures; systemic inflammation drives neuroinflammatory craving amplification",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hyper",
+          "detail": "Multiple habit loops entrenched; substance-switching maintains striatal activation even during partial abstinence",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "Amygdala hyperactivation from compound withdrawal distress; anxiety and emotional dysregulation maximally severe",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Self-concept fragmented across multiple substance identities; narrative incoherence complicates identity-based recovery approaches",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OPIOID",
+          "dir": "Altered",
+          "detail": "Endogenous opioid system disrupted by cross-substance effects; pain sensitivity and hedonic capacity both impaired",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "Inhibitory control severely degraded by cumulative neurotoxic exposure; impulsivity across all domains of functioning",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:37.790Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

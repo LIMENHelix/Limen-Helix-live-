@@ -1,0 +1,2311 @@
+{
+  "domainId": "intelligence",
+  "title": "Intelligence & Data",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "A1",
+      "state": "active",
+      "domainLabel": "SIGINT / Signals Intelligence",
+      "domainDescription": "Collection and analysis of electronic communications, radar emissions, and other electromagnetic signals to extract actionable intelligence",
+      "domainFunction": "Intercepts and decodes signals transmitted through electromagnetic spectrum, converting raw electronic emissions into structured intelligence about adversary capabilities and intentions",
+      "whyThisNode": "The primary auditory cortex processes raw auditory signals into meaningful patterns â€” SIGINT performs identical processing on the electromagnetic spectrum, intercepting raw signals and extracting meaningful communication patterns from the noise of global electronic emissions",
+      "group": "signals",
+      "phase": "P6",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "CYBER_ESPIONAGE"
+      ],
+      "treatments": [
+        {
+          "label": "Targeted collection with judicial authorization",
+          "type": "STRUCTURAL",
+          "description": "Restricts signals collection to specific targets authorized by independent judicial review, preventing mass surveillance while preserving capability against legitimate threats",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Automated signal triage and minimization protocols",
+          "type": "IMMEDIATE",
+          "description": "Deploys AI-driven filtering to identify relevant intelligence in signal streams while automatically discarding protected domestic communications to comply with legal constraints",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "intelligence_sigint_portal.html",
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Leidos Holdings",
+          "ticker_or_id": "LDOS",
+          "functional_reason": "Detects and monitors sigint / signals intelligence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "National Security Agency",
+          "ticker_or_id": "NSA_GOV",
+          "functional_reason": "Detects and monitors sigint / signals intelligence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "BAE Systems Intelligence",
+          "ticker_or_id": "BA.L",
+          "functional_reason": "Detects and monitors sigint / signals intelligence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.87
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "SIGINT / Signals Intelligence",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "religion",
+          "role": "Sacred Music"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Broadcasting"
+        },
+        {
+          "domain": "culture",
+          "role": "Music"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Planning Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Trade Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — Regulation Strategy"
+        },
+        {
+          "domain": "energy",
+          "role": "Electrolyte Systems Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "HUMINT / Human Intelligence",
+      "domainDescription": "Intelligence gathered through interpersonal contact with human sources including agents, informants, defectors, and diplomatic contacts",
+      "domainFunction": "Leverages empathic attunement and social understanding to recruit, handle, and extract information from human sources positioned within adversary organizations",
+      "whyThisNode": "The empathy network integrates affective and cognitive perspective-taking â€” HUMINT operations require identical empathic capacity to understand source motivations, build trust-based handler relationships, and assess the reliability of human-provided information",
+      "group": "human",
+      "phase": "P6",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "WHISTLEBLOWER_CRISIS",
+        "FOREIGN_INTERFERENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Source validation and polygraph protocols",
+          "type": "STRUCTURAL",
+          "description": "Systematic verification of human source reliability through independent corroboration, behavioral analysis, and periodic re-validation to detect deception or double-agent operations",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cross-cultural intelligence training",
+          "type": "IMMEDIATE",
+          "description": "Develops deep cultural competency in case officers to improve source recruitment across diverse populations and reduce cultural blind spots that lead to intelligence failures",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "intelligence_humint_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Central Intelligence Agency",
+          "ticker_or_id": "CIA_GOV",
+          "functional_reason": "Models and simulates humint / human intelligence scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Booz Allen Hamilton",
+          "ticker_or_id": "BAH",
+          "functional_reason": "Models and simulates humint / human intelligence scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Babel Street",
+          "ticker_or_id": "BABEL_STREET",
+          "functional_reason": "Detects and monitors humint / human intelligence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.67
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "HUMINT / Human Intelligence",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Client Relations"
+        },
+        {
+          "domain": "energy",
+          "role": "Carbon Cap"
+        },
+        {
+          "domain": "legal",
+          "role": "Victim / Witness Services"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pediatric Med"
+        },
+        {
+          "domain": "provider",
+          "role": "Empathic Capacity"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Language Resources — State Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "V1",
+      "state": "active",
+      "domainLabel": "GEOINT / Imagery Intelligence",
+      "domainDescription": "Exploitation of satellite, aerial, and ground-based imagery to detect activities, map terrain, and monitor changes in areas of intelligence interest",
+      "domainFunction": "Processes visual data from satellite and aerial platforms to detect military deployments, infrastructure development, weapons testing, and other observable activities",
+      "whyThisNode": "The primary visual cortex processes raw visual input into structured perceptual representations â€” GEOINT performs identical processing, converting raw satellite and aerial imagery into structured spatial intelligence about adversary activities, infrastructure, and capabilities",
+      "group": "collection",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "CYBER_ESPIONAGE"
+      ],
+      "treatments": [
+        {
+          "label": "AI-powered change detection and anomaly recognition",
+          "type": "STRUCTURAL",
+          "description": "Machine learning systems that continuously compare imagery across time to automatically detect construction, vehicle movement, and other changes indicating adversary activity",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Multi-source imagery fusion platforms",
+          "type": "IMMEDIATE",
+          "description": "Integrates satellite, drone, and commercial imagery sources into unified geospatial intelligence products, expanding coverage and revisit rates beyond classified collection alone",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "intelligence_geoint_portal.html",
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Babel Street",
+          "ticker_or_id": "BABEL_STREET",
+          "functional_reason": "Detects and monitors geoint / imagery intelligence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Detects and monitors geoint / imagery intelligence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "National Geospatial-Intelligence Agency",
+          "ticker_or_id": "NGA_GOV",
+          "functional_reason": "Detects and monitors geoint / imagery intelligence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "GEOINT / Imagery Intelligence",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Diagnostics & Imaging"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Visual Cortex"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Visual Cortex Activation"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Photography & Visual Media"
+        },
+        {
+          "domain": "culture",
+          "role": "Visual Arts"
+        },
+        {
+          "domain": "defense",
+          "role": "Equipment Maintenance Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Value Chains"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Cyber Intelligence",
+      "domainDescription": "Intelligence operations conducted in and through cyberspace, including network exploitation, vulnerability assessment, and digital threat monitoring",
+      "domainFunction": "Provides flexible, adaptive intelligence operations across digital networks â€” penetrating adversary systems, defending domestic infrastructure, and monitoring the evolving cyber threat landscape",
+      "whyThisNode": "The frontoparietal network provides flexible task coordination and adaptive cognitive control â€” cyber intelligence requires identical adaptive flexibility, constantly adjusting tactics as adversaries evolve their defenses and attack vectors across rapidly changing digital terrain",
+      "group": "cyber",
+      "phase": "P6",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "CYBER_ESPIONAGE",
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Zero-trust network architecture",
+          "type": "STRUCTURAL",
+          "description": "Assumes all network segments are potentially compromised, requiring continuous authentication and authorization for every access request regardless of network location",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Threat intelligence sharing consortiums",
+          "type": "IMMEDIATE",
+          "description": "Cross-sector and international sharing of cyber threat indicators, attack signatures, and vulnerability data to create collective defense against adversary operations",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "intelligence_cyber_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "General Dynamics IT",
+          "ticker_or_id": "GD",
+          "functional_reason": "Executes core cyber intelligence operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "ManTech International",
+          "ticker_or_id": "MANT",
+          "functional_reason": "Executes core cyber intelligence operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Leidos Holdings",
+          "ticker_or_id": "LDOS",
+          "functional_reason": "Executes core cyber intelligence operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Cyber Intelligence",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Open Source Intelligence",
+      "domainDescription": "Intelligence derived from publicly available information including media, academic publications, social media, commercial data, and public records",
+      "domainFunction": "Comprehends meaning from the vast ocean of publicly available text, data, and media, extracting intelligence-relevant patterns from open information that adversaries inadvertently reveal",
+      "whyThisNode": "Wernicke's area performs language comprehension, extracting meaning from auditory and written language â€” open source intelligence performs identical comprehension at civilizational scale, parsing newspapers, social media, academic papers, and public records for intelligence-relevant meaning",
+      "group": "collection",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Natural language processing and sentiment analysis",
+          "type": "STRUCTURAL",
+          "description": "AI-driven analysis of multilingual open source content at scale, detecting shifts in public discourse, propaganda campaigns, and emerging threats before they reach classified channels",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Commercial data integration protocols",
+          "type": "IMMEDIATE",
+          "description": "Systematic incorporation of commercial datasets (shipping data, financial records, satellite imagery) that provide intelligence value without requiring clandestine collection methods",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "intelligence_open_portal.html",
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "National Security Agency",
+          "ticker_or_id": "NSA_GOV",
+          "functional_reason": "Stores and retrieves open source intelligence knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Booz Allen Hamilton",
+          "ticker_or_id": "BAH",
+          "functional_reason": "Stores and retrieves open source intelligence knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Recorded Future",
+          "ticker_or_id": "RECORDED_FUTURE",
+          "functional_reason": "Stores and retrieves open source intelligence knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.86
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Open Source Intelligence",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Literacy"
+        },
+        {
+          "domain": "industry",
+          "role": "Defense Ind"
+        },
+        {
+          "domain": "legal",
+          "role": "Statutory Interpretation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Wernicke's Area"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Comprehension"
+        },
+        {
+          "domain": "religion",
+          "role": "Scripture & Canon"
+        },
+        {
+          "domain": "science",
+          "role": "Computer Science"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradezone"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Counterintelligence",
+      "domainDescription": "Activities designed to detect, neutralize, and exploit adversary intelligence operations targeting one's own nation, institutions, and personnel",
+      "domainFunction": "Detects threats from within â€” identifying penetrations, moles, double agents, and foreign intelligence operations that have infiltrated friendly organizations",
+      "whyThisNode": "The basolateral amygdala performs threat detection and fear conditioning â€” counterintelligence performs identical threat detection directed inward, identifying adversary penetrations within one's own organizations and conditioning vigilance against insider threats",
+      "group": "human",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "FOREIGN_INTERFERENCE",
+        "INTELLIGENCE_FAILURE",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Insider threat detection programs",
+          "type": "STRUCTURAL",
+          "description": "Behavioral analytics and access monitoring systems that detect anomalous patterns indicating potential espionage, unauthorized disclosure, or recruitment by foreign intelligence services",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Counterintelligence awareness training",
+          "type": "IMMEDIATE",
+          "description": "Regular training for all personnel with access to classified information on recognizing recruitment approaches, social engineering tactics, and reporting obligations",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "intelligence_counterintelligence_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Babel Street",
+          "ticker_or_id": "BABEL_STREET",
+          "functional_reason": "Detects and monitors counterintelligence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "National Geospatial-Intelligence Agency",
+          "ticker_or_id": "NGA_GOV",
+          "functional_reason": "Detects and monitors counterintelligence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "Recorded Future",
+          "ticker_or_id": "RECORDED_FUTURE",
+          "functional_reason": "Detects and monitors counterintelligence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.77
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Counterintelligence",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver"
+        },
+        {
+          "domain": "business",
+          "role": "Risk Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Markets"
+        },
+        {
+          "domain": "environment",
+          "role": "Wildlife Management"
+        },
+        {
+          "domain": "legal",
+          "role": "Criminal Threat Assessment"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Metabolic Anxiety and Threat"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Threat Detection & Emotional Reactivity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Cryptography",
+      "domainDescription": "Mathematical methods for securing communications and data through encryption, and the complementary discipline of cryptanalysis to break adversary codes",
+      "domainFunction": "Performs the complex mathematical computations that protect friendly communications while attempting to solve the mathematical structures protecting adversary secrets",
+      "whyThisNode": "The intraparietal sulcus performs complex mathematical computation and spatial-numerical reasoning â€” cryptography requires identical mathematical sophistication, deploying advanced number theory, algebra, and computational complexity to create and break the codes that protect national secrets",
+      "group": "signals",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL"
+      ],
+      "treatments": [
+        {
+          "label": "Post-quantum cryptography migration",
+          "type": "STRUCTURAL",
+          "description": "Transition cryptographic infrastructure to quantum-resistant algorithms before quantum computers render current encryption obsolete, protecting classified data against future decryption",
+          "evidence": "Strong"
+        },
+        {
+          "label": "End-to-end encryption standards for government communications",
+          "type": "IMMEDIATE",
+          "description": "Mandates strong encryption for all classified and sensitive government communications, ensuring that intercepted data remains unreadable even if transmission security is compromised",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "intelligence_cryptography_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Executes core cryptography operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "General Dynamics IT",
+          "ticker_or_id": "GD",
+          "functional_reason": "Executes core cryptography operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "ManTech International",
+          "ticker_or_id": "MANT",
+          "functional_reason": "Executes core cryptography operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Cryptography",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "STEM Education"
+        },
+        {
+          "domain": "religion",
+          "role": "Sacred Architecture"
+        },
+        {
+          "domain": "science",
+          "role": "Mathematics"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Human Capital & Development"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Data Analytics",
+      "domainDescription": "Large-scale computational analysis of structured and unstructured data to identify patterns, trends, and anomalies relevant to intelligence questions",
+      "domainFunction": "Applies systematic analytical control to massive datasets, maintaining consistent methodological standards while extracting actionable patterns from noise across diverse intelligence streams",
+      "whyThisNode": "The executive control network maintains cognitive standards and applies consistent analytical rules â€” data analytics performs identical standardized processing, applying rigorous statistical methods and machine learning models to extract reliable patterns from massive intelligence datasets",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "MASS_SURVEILLANCE_SCANDAL"
+      ],
+      "treatments": [
+        {
+          "label": "Privacy-preserving analytics frameworks",
+          "type": "STRUCTURAL",
+          "description": "Technical and procedural safeguards ensuring data analysis extracts threat-relevant patterns without creating detailed profiles of innocent individuals â€” differential privacy, aggregation, and access controls",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Analytical tradecraft standards and peer review",
+          "type": "IMMEDIATE",
+          "description": "Rigorous methodology standards for intelligence analysis including structured analytic techniques, alternative hypothesis testing, and mandatory peer review to reduce cognitive bias",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "intelligence_data_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Executes core data analytics operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "General Dynamics IT",
+          "ticker_or_id": "GD",
+          "functional_reason": "Executes core data analytics operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "ManTech International",
+          "ticker_or_id": "MANT",
+          "functional_reason": "Executes core data analytics operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Data Analytics",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Economic Indicators"
+        },
+        {
+          "domain": "governance",
+          "role": "Public Administration"
+        },
+        {
+          "domain": "medicine",
+          "role": "Epidemiology"
+        },
+        {
+          "domain": "population",
+          "role": "Census Systems"
+        },
+        {
+          "domain": "science",
+          "role": "Statistical Inference"
+        },
+        {
+          "domain": "technology",
+          "role": "Operating Systems"
+        },
+        {
+          "domain": "trade",
+          "role": "Inventory Management"
+        },
+        {
+          "domain": "communication",
+          "role": "Audio Description Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DAN",
+      "state": "active",
+      "domainLabel": "Surveillance Systems",
+      "domainDescription": "Technical infrastructure for persistent monitoring of targets, areas, and activities through electronic, visual, and sensor-based collection",
+      "domainFunction": "Directs sustained attention toward targets of intelligence interest, maintaining persistent coverage that detects changes in adversary behavior, location, and communication patterns",
+      "whyThisNode": "The dorsal attention network performs sustained top-down attentional monitoring directed at task-relevant targets â€” surveillance systems perform identical sustained attention, maintaining persistent monitoring of intelligence targets to detect behaviorally significant changes",
+      "group": "collection",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "MASS_SURVEILLANCE_SCANDAL",
+        "INTELLIGENCE_FAILURE",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Warrant requirements and proportionality standards",
+          "type": "STRUCTURAL",
+          "description": "Ensures all surveillance is authorized by independent judicial review with demonstrated probable cause, preventing fishing expeditions and ensuring collection is proportionate to threat",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Automated minimization and data retention limits",
+          "type": "IMMEDIATE",
+          "description": "Technical systems that automatically delete surveillance data not matching authorized collection criteria and enforce maximum retention periods for lawfully collected information",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Leidos Holdings",
+          "ticker_or_id": "LDOS",
+          "functional_reason": "Executes core surveillance systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Executes core surveillance systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "ManTech International",
+          "ticker_or_id": "MANT",
+          "functional_reason": "Executes core surveillance systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        }
+      ],
+      "childPortal": "intelligence_surveillance_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Surveillance Systems",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Environmental Monitoring"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Building Restoration — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "Equipment Maintenance Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Land Tenure Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Equity Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CLAUST",
+      "state": "active",
+      "domainLabel": "Intelligence Fusion",
+      "domainDescription": "Integration of intelligence from multiple sources and disciplines into unified assessments that are greater than the sum of their parts",
+      "domainFunction": "Binds disparate intelligence streams â€” SIGINT, HUMINT, GEOINT, cyber, and open source â€” into coherent threat pictures that no single source could produce alone",
+      "whyThisNode": "The claustrum integrates information across cortical modalities, binding disparate sensory streams into unified conscious experience â€” intelligence fusion performs identical cross-modal integration, combining signals, imagery, human, and cyber intelligence into unified threat assessments",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE"
+      ],
+      "treatments": [
+        {
+          "label": "All-source fusion center architecture",
+          "type": "STRUCTURAL",
+          "description": "Co-locates analysts from all intelligence disciplines in shared facilities with cross-domain data access, enabling real-time integration that prevents the stovepiping that contributed to 9/11",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Intelligence community information sharing protocols",
+          "type": "IMMEDIATE",
+          "description": "Establishes 'need to share' culture replacing 'need to know' barriers, with technical systems enabling cross-agency discovery and access to relevant intelligence regardless of originating agency",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Leidos Holdings",
+          "ticker_or_id": "LDOS",
+          "functional_reason": "Detects and monitors intelligence fusion signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Detects and monitors intelligence fusion signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "Babel Street",
+          "ticker_or_id": "BABEL_STREET",
+          "functional_reason": "Detects and monitors intelligence fusion signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.66
+        }
+      ],
+      "childPortal": "intelligence_allsource_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Intelligence Fusion",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "psychedelic",
+          "role": "Consciousness Integration Hub"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Cultural Econ"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Protocol Development Systems"
+        },
+        {
+          "domain": "education",
+          "role": "Demographic Analysis Quality & Performance"
+        },
+        {
+          "domain": "energy",
+          "role": "Frequency Regulation Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Threat Assessment",
+      "domainDescription": "Systematic evaluation of adversary capabilities, intentions, and timelines to determine the nature and imminence of threats to national security",
+      "domainFunction": "Monitors for conflicts between expected and observed adversary behavior, detecting deviations that signal emerging threats and triggering escalated collection and analysis when warning thresholds are crossed",
+      "whyThisNode": "The dorsal anterior cingulate cortex detects conflicts between expected and actual states, triggering cognitive control recruitment â€” threat assessment performs identical conflict monitoring, detecting when adversary behavior deviates from baseline and triggering intelligence community mobilization",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE"
+      ],
+      "treatments": [
+        {
+          "label": "Structured analytic techniques for threat estimation",
+          "type": "STRUCTURAL",
+          "description": "Formal methodologies including red-teaming, devil's advocacy, and analysis of competing hypotheses that reduce cognitive bias in threat assessment and prevent mirror-imaging of adversary intent",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Indications and warning frameworks",
+          "type": "IMMEDIATE",
+          "description": "Pre-defined observable indicators that signal adversary preparation for specific actions, enabling proactive rather than reactive threat detection across all intelligence domains",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "BAE Systems Intelligence",
+          "ticker_or_id": "BA.L",
+          "functional_reason": "Detects and monitors threat assessment signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Maxar Technologies",
+          "ticker_or_id": "MAXR",
+          "functional_reason": "Detects and monitors threat assessment signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Babel Street",
+          "ticker_or_id": "BABEL_STREET",
+          "functional_reason": "Detects and monitors threat assessment signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.9
+        }
+      ],
+      "childPortal": "intelligence_biointel_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Threat Assessment",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Covert Operations",
+      "domainDescription": "Clandestine activities undertaken to influence political, economic, or military conditions abroad where the sponsoring government's role is concealed",
+      "domainFunction": "Executes defensive and offensive actions below the threshold of open conflict, operating in the ambiguous space between diplomacy and warfare where deniability is essential",
+      "whyThisNode": "The periaqueductal gray coordinates survival behaviors ranging from freeze to fight responses â€” covert operations similarly execute the state's survival actions in the gray zone between peace and war, where responses must be calibrated precisely between passivity and open confrontation",
+      "group": "human",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "WHISTLEBLOWER_CRISIS",
+        "FOREIGN_INTERFERENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Congressional oversight and presidential finding requirements",
+          "type": "STRUCTURAL",
+          "description": "Mandates executive authorization and legislative notification for all covert actions, ensuring democratic accountability for operations that risk national credibility and international legal compliance",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Blowback risk assessment protocols",
+          "type": "IMMEDIATE",
+          "description": "Systematic evaluation of potential second and third-order consequences before covert action authorization, preventing operations whose long-term costs exceed short-term tactical gains",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "National Geospatial-Intelligence Agency",
+          "ticker_or_id": "NGA_GOV",
+          "functional_reason": "Detects and monitors covert operations signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Babel Street",
+          "ticker_or_id": "BABEL_STREET",
+          "functional_reason": "Detects and monitors covert operations signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "National Security Agency",
+          "ticker_or_id": "NSA_GOV",
+          "functional_reason": "Detects and monitors covert operations signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.7
+        }
+      ],
+      "childPortal": "intelligence_collection_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Covert Operations",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Pain-Defense Gate"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Endogenous Analgesic System"
+        },
+        {
+          "domain": "energy",
+          "role": "Nuclear Power"
+        },
+        {
+          "domain": "neurology",
+          "role": "Periaqueductal Gray"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Defense Cascade Modulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Quality & Performance"
+        },
+        {
+          "domain": "culture",
+          "role": "Landscape Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Nuclear Deterrence"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "rACC",
+      "state": "active",
+      "domainLabel": "Intelligence Oversight",
+      "domainDescription": "Congressional, judicial, and inspector-general mechanisms ensuring intelligence activities comply with law, respect civil liberties, and serve legitimate national security purposes",
+      "domainFunction": "Monitors the fairness and legality of intelligence operations, detecting when agencies exceed their authority and triggering corrective action to protect civil liberties",
+      "whyThisNode": "The rostral anterior cingulate cortex monitors emotional and social fairness â€” intelligence oversight performs identical fairness monitoring, ensuring that the enormous power of intelligence agencies is exercised within legal bounds and with appropriate respect for individual rights",
+      "group": "oversight",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS",
+        "INTELLIGENCE_FAILURE"
+      ],
+      "treatments": [
+        {
+          "label": "FISA court reform and transparency",
+          "type": "STRUCTURAL",
+          "description": "Strengthens the Foreign Intelligence Surveillance Court through adversarial proceedings, declassification of significant opinions, and expanded scope of judicial review over intelligence collection",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Inspector general independence and funding",
+          "type": "IMMEDIATE",
+          "description": "Ensures intelligence community inspectors general have independent budgets, subpoena authority, and protection from political retaliation, enabling genuine internal accountability",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "ManTech International",
+          "ticker_or_id": "MANT",
+          "functional_reason": "Executes core intelligence oversight operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "National Security Agency",
+          "ticker_or_id": "NSA_GOV",
+          "functional_reason": "Detects and monitors intelligence oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "National Geospatial-Intelligence Agency",
+          "ticker_or_id": "NGA_GOV",
+          "functional_reason": "Detects and monitors intelligence oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.69
+        }
+      ],
+      "childPortal": "intelligence_counterterror_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Intelligence Oversight",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Medical Ethics"
+        },
+        {
+          "domain": "science",
+          "role": "Ethics Review"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Acoustic Design Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Human Capital & Development"
+        },
+        {
+          "domain": "economy",
+          "role": "Subsidized Credit"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Information Warfare",
+      "domainDescription": "Offensive and defensive operations targeting the information environment, including propaganda, disinformation, and influence operations",
+      "domainFunction": "Weaponizes language and narrative to shape adversary perceptions, protect domestic information integrity, and counter foreign influence operations targeting public opinion",
+      "whyThisNode": "The language network processes and produces linguistic communication â€” information warfare weaponizes this capacity, deploying strategic narratives, propaganda, and disinformation through language to manipulate target populations and counter adversary influence operations",
+      "group": "cyber",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "FOREIGN_INTERFERENCE",
+        "INTELLIGENCE_FAILURE",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Media literacy and resilience programs",
+          "type": "STRUCTURAL",
+          "description": "Public education initiatives building population-level resistance to disinformation, propaganda, and influence operations through critical thinking skills and source verification habits",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Social media platform accountability frameworks",
+          "type": "IMMEDIATE",
+          "description": "Regulatory requirements for platforms to detect, label, and reduce amplification of state-sponsored disinformation while preserving legitimate free expression",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "National Security Agency",
+          "ticker_or_id": "NSA_GOV",
+          "functional_reason": "Detects and monitors information warfare signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Central Intelligence Agency",
+          "ticker_or_id": "CIA_GOV",
+          "functional_reason": "Models and simulates information warfare scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Maxar Technologies",
+          "ticker_or_id": "MAXR",
+          "functional_reason": "Detects and monitors information warfare signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.79
+        }
+      ],
+      "childPortal": "intelligence_covert_portal.html",
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Information Warfare",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Propaganda and Media"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Language Network Development"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Training / Education"
+        },
+        {
+          "domain": "trade",
+          "role": "Wto"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Language Translation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Coordination & Integration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Predictive Analysis",
+      "domainDescription": "Forward-looking intelligence assessment that projects adversary behavior, geopolitical trends, and emerging threats based on current indicators and historical patterns",
+      "domainFunction": "Integrates historical context with current intelligence to generate mental simulations of future scenarios, enabling policymakers to anticipate threats before they materialize",
+      "whyThisNode": "The precuneus performs mental imagery, episodic memory retrieval, and future simulation â€” predictive analysis requires identical capacity to retrieve historical patterns, visualize future scenarios, and simulate how current trends might evolve into tomorrow's threats",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE"
+      ],
+      "treatments": [
+        {
+          "label": "Scenario planning and wargaming exercises",
+          "type": "STRUCTURAL",
+          "description": "Systematic exploration of alternative futures through structured scenario development and adversary red-teaming, stress-testing assumptions and revealing blind spots in predictive models",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Prediction market and superforecasting integration",
+          "type": "IMMEDIATE",
+          "description": "Incorporates calibrated probability estimates from prediction markets and trained superforecasters into intelligence assessments, improving accuracy and accountability of predictive judgments",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Detects and monitors predictive analysis signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "Babel Street",
+          "ticker_or_id": "BABEL_STREET",
+          "functional_reason": "Detects and monitors predictive analysis signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "General Dynamics IT",
+          "ticker_or_id": "GD",
+          "functional_reason": "Routes and distributes predictive analysis resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.76
+        }
+      ],
+      "childPortal": "intelligence_finint_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Predictive Analysis",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Spatial Self-Awareness"
+        },
+        {
+          "domain": "education",
+          "role": "Library Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Sustainability"
+        },
+        {
+          "domain": "medicine",
+          "role": "Addiction Medicine"
+        },
+        {
+          "domain": "religion",
+          "role": "Prophecy & Revelation"
+        },
+        {
+          "domain": "science",
+          "role": "Theoretical Physics"
+        },
+        {
+          "domain": "technology",
+          "role": "Quantum Computing"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "National Security Council",
+      "domainDescription": "Senior executive body coordinating intelligence, military, diplomatic, and economic instruments of national power into coherent security strategy",
+      "domainFunction": "Performs executive strategic planning, maintaining working memory of all active threats and policy options while coordinating the entire intelligence and security apparatus toward national objectives",
+      "whyThisNode": "The dorsolateral prefrontal cortex performs executive planning, working memory maintenance, and strategic coordination â€” the National Security Council performs identical executive functions, coordinating intelligence, military, and diplomatic instruments into coherent strategy",
+      "group": "oversight",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE"
+      ],
+      "treatments": [
+        {
+          "label": "Interagency coordination and deconfliction processes",
+          "type": "STRUCTURAL",
+          "description": "Formal mechanisms ensuring intelligence, military, law enforcement, and diplomatic activities are coordinated rather than working at cross-purposes, preventing the bureaucratic failures that enable adversary exploitation",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Strategic intelligence briefing standards",
+          "type": "IMMEDIATE",
+          "description": "Ensures decision-makers receive intelligence that is timely, relevant, and presented with calibrated uncertainty estimates, enabling informed policy choices rather than cherry-picked intelligence that confirms preexisting preferences",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "ManTech International",
+          "ticker_or_id": "MANT",
+          "functional_reason": "Executes core national security council operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "General Dynamics IT",
+          "ticker_or_id": "GD",
+          "functional_reason": "Executes core national security council operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Executes core national security council operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        }
+      ],
+      "childPortal": "intelligence_indications_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "National Security Council",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DISS",
+      "state": "active",
+      "domainLabel": "Intelshare",
+      "domainDescription": "Intelshare systems within Intelligence & Data",
+      "group": "signals",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "intelligence_intelshare_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Intelshare",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "psychedelic",
+          "role": "Ego Dissolution Process"
+        },
+        {
+          "domain": "communication",
+          "role": "Change Management Innovation"
+        },
+        {
+          "domain": "culture",
+          "role": "Spatial Planning Policy & Governance"
+        },
+        {
+          "domain": "defense",
+          "role": "Aircraft Readiness Human Capital & Development"
+        },
+        {
+          "domain": "economy",
+          "role": "Resource Mobilization Systems"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Equity — Implementation & Strategy"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Core Operations"
+        },
+        {
+          "domain": "environment",
+          "role": "Ventilation Systems — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMN",
+      "state": "active",
+      "domainLabel": "Masint",
+      "domainDescription": "Masint systems within Intelligence & Data",
+      "group": "signals",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "intelligence_masint_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Masint",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Somatic Awareness Network"
+        },
+        {
+          "domain": "education",
+          "role": "Workforce Dev"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "captioning styling — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power — Diagnostic Analysis"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Core Operations"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Recycling Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Oversight",
+      "domainDescription": "Oversight systems within Intelligence & Data",
+      "group": "signals",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "intelligence_oversight_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Oversight",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Spaceintel",
+      "domainDescription": "Spaceintel systems within Intelligence & Data",
+      "group": "signals",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "intelligence_spaceintel_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Spaceintel",
+      "brainNodeLabelCanonical": "Intelligence & Data",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Higher Education"
+        },
+        {
+          "domain": "governance",
+          "role": "International Law"
+        },
+        {
+          "domain": "industry",
+          "role": "Research and Development"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Phoneme-Grapheme Mapping"
+        },
+        {
+          "domain": "population",
+          "role": "Education Levels"
+        },
+        {
+          "domain": "religion",
+          "role": "Religious Education"
+        },
+        {
+          "domain": "science",
+          "role": "Citation Networks"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Infrastructure & Capacity"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "INTELLIGENCE_FAILURE",
+      "label": "Intelligence Failure",
+      "summary": "Failure to detect, assess, or communicate a significant threat before it materializes. From Pearl Harbor to 9/11 to WMD assessments in Iraq, intelligence failures share common patterns: collection gaps, analytical bias, stovepiping between agencies, and politicization of assessments.",
+      "circuits": [
+        {
+          "nodeId": "CLAUST",
+          "dir": "Hypo",
+          "detail": "Intelligence fusion failure â€” agencies collected relevant pieces of the puzzle but institutional barriers prevented integration into a coherent threat picture until after the event",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "Threat assessment monitoring failed to detect deviation from expected adversary behavior, with analysts anchored to baseline assumptions that the status quo would continue",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hypo",
+          "detail": "Predictive analysis failed to imagine the scenario that actually occurred, constrained by lack of imagination and mirror-imaging that projected friendly rationality onto adversary decision-making",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "National Security Council strategic coordination failed to translate warning intelligence into protective action, with bureaucratic process too slow for the speed of emerging threat",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Altered",
+          "detail": "Data analytics overwhelmed by volume â€” relevant signals existed in collected data but analytical capacity was insufficient to identify them among millions of data points before the event",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Hypo",
+          "detail": "Human intelligence networks lacked penetration of the adversary organization, with cultural barriers and risk aversion preventing the deep source access needed to provide strategic warning",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MASS_SURVEILLANCE_SCANDAL",
+      "label": "Mass Surveillance Scandal",
+      "summary": "Revelation that intelligence agencies have exceeded legal authority by conducting bulk surveillance of domestic populations. Public trust collapses when citizens discover their communications, movements, and associations are monitored without individualized suspicion or judicial oversight.",
+      "circuits": [
+        {
+          "nodeId": "DAN",
+          "dir": "Hyper",
+          "detail": "Surveillance systems expanded from targeted monitoring of specific threats to bulk collection of entire populations, with technical capability outpacing legal and ethical constraints",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "A1",
+          "dir": "Hyper",
+          "detail": "Signals collection programs captured domestic communications at scale â€” metadata programs revealed social networks of millions of people with no connection to any threat",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Hypo",
+          "detail": "Intelligence oversight mechanisms failed to constrain or even detect the scope of bulk collection, with FISA court rubber-stamping broad authorities and congressional oversight uninformed",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Altered",
+          "detail": "Data analytics applied to domestic populations without adequate privacy safeguards, creating detailed behavioral profiles of citizens who are neither suspects nor intelligence targets",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Altered",
+          "detail": "Cryptographic capabilities directed inward â€” agencies exploited or deliberately weakened encryption standards used by domestic companies, undermining cybersecurity for everyone",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CYBER_ESPIONAGE",
+      "label": "Cyber Espionage",
+      "summary": "State-sponsored penetration of government, military, or critical infrastructure networks to steal classified data, intellectual property, or establish persistent access for future operations. The SolarWinds hack, OPM breach, and Chinese economic espionage represent escalating patterns.",
+      "circuits": [
+        {
+          "nodeId": "FPN",
+          "dir": "Altered",
+          "detail": "Cyber defense networks compromised as adversary achieved persistent access through supply chain attacks, zero-day exploits, or social engineering that bypassed technical defenses",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Altered",
+          "detail": "Cryptographic protections circumvented or compromised, with adversaries accessing encrypted communications through stolen keys, backdoors, or quantum computing advances",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hypo",
+          "detail": "Counterintelligence detection failed to identify network penetration, with adversary maintaining persistent access for months or years before discovery through unrelated investigation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "Threat assessment underestimated adversary cyber capabilities, with agencies slow to recognize that network exploitation had become the primary espionage vector surpassing traditional human intelligence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "National security coordination response inadequate â€” attribution takes months, retaliation options are limited, and deterrence theory has not adapted to the cyber domain where offense dominates defense",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "V1",
+          "dir": "Hypo",
+          "detail": "Geospatial intelligence unable to detect cyber operations that leave no physical signature, revealing collection gap in intelligence architecture designed for observable military capabilities",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "WHISTLEBLOWER_CRISIS",
+      "label": "Whistleblower Crisis",
+      "summary": "Unauthorized disclosure of classified intelligence programs to the press or public. Snowden, Manning, and Reality Winner cases reveal the tension between government secrecy and democratic accountability. Each disclosure forces a reckoning between security and transparency.",
+      "circuits": [
+        {
+          "nodeId": "rACC",
+          "dir": "Altered",
+          "detail": "Oversight fairness monitoring activated externally â€” whistleblower concluded internal channels were inadequate or compromised, bypassing institutional oversight to reach the public directly",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Altered",
+          "detail": "Counterintelligence faces paradox â€” the insider threat is simultaneously someone betraying classified trust and someone exposing genuine abuse, making response politically charged",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Altered",
+          "detail": "Covert operations exposed to public scrutiny, with programs designed for deniability suddenly subject to democratic debate and judicial review they were structured to avoid",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DAN",
+          "dir": "Altered",
+          "detail": "Surveillance programs publicly revealed, with technical details of collection capabilities published that enable adversaries to modify behavior and evade future detection",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hyper",
+          "detail": "Information warfare dimension amplified as adversary intelligence services exploit disclosures for propaganda, and domestic debate over whistleblower motives becomes politically polarized",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FOREIGN_INTERFERENCE",
+      "label": "Foreign Interference",
+      "summary": "Systematic foreign government effort to manipulate domestic political processes, public opinion, or institutional decision-making. Russian interference in 2016 US elections, Chinese United Front operations, and Iranian influence campaigns represent an escalating threat to democratic sovereignty.",
+      "circuits": [
+        {
+          "nodeId": "LANG",
+          "dir": "Hyper",
+          "detail": "Information warfare operations flood domestic information space with propaganda, disinformation, and amplified divisive content designed to polarize and paralyze democratic discourse",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hypo",
+          "detail": "Counterintelligence fails to detect covert foreign influence operations that use cutouts, front organizations, and social media personas to obscure state sponsorship",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Altered",
+          "detail": "Cyber operations target electoral infrastructure, political campaigns, and government networks to steal information, manipulate data, or undermine confidence in democratic processes",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Altered",
+          "detail": "Human intelligence networks reveal foreign agents cultivating relationships with elected officials, donors, and media figures to gain influence over policy decisions",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "Threat assessment slow to recognize foreign interference as a strategic threat rather than a tactical nuisance, with institutional frameworks designed for Cold War espionage inadequate for modern influence operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "National security coordination hampered by political polarization â€” the interference itself becomes a partisan issue, preventing unified strategic response and enabling continued exploitation",
+          "evidence": "Strong"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "A1",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "EMP",
+      "target": "BLA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "BLA",
+      "target": "PAG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "V1",
+      "target": "WERN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "WERN",
+      "target": "DAN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FPN",
+      "target": "LANG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "ECN",
+      "target": "CLAUST",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CLAUST",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "PRECUNEUS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "rACC",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "A1",
+      "target": "EMP",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "EMP",
+      "target": "V1",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "V1",
+      "target": "FPN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "FPN",
+      "target": "ECN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "ECN",
+      "target": "rACC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "rACC",
+      "target": "A1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "IPS",
+      "target": "V1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "PAG",
+      "target": "FPN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "DAN",
+      "target": "ECN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "LANG",
+      "target": "rACC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "A1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "dlPFC",
+      "target": "EMP",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "A1",
+      "target": "dlPFC",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "IPS",
+      "target": "BLA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "BLA",
+      "target": "WERN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "WERN",
+      "target": "LANG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "LANG",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "dACC",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Allsource Technology & Innovation → Counterintelligence (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Allsource Technology & Innovation → Analytical Methods Technology & Innovation (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Allsource Technology & Innovation → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Allsource — Regulation Strategy — Tertiary → Counterintelligence (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Allsource — Regulation Strategy — Tertiary → Analytical Methods Technology & Innovation (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Allsource — Regulation Strategy — Tertiary → Covert Operations (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "National Security Council → Threat Assessment (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "National Security Council → Timeline Tools Human Capital & Development (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Intelligence Oversight → Counterintelligence (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Threat Assessment → Counterintelligence (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Scenario Analysis Risk & Resilience → GEOINT / Imagery Intelligence (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Scenario Analysis Risk & Resilience → SIGINT / Signals Intelligence (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Scenario Analysis Risk & Resilience → Mirror Imaging Human Capital & Development (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "analmethod scenario — Signal Acquisition → GEOINT / Imagery Intelligence (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "anltool geospat — Signal Acquisition → SIGINT / Signals Intelligence (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Analytic Dissent Quality & Performance → Geospatial Tools Assessment & Diagnostics (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Geospatial Tools Assessment & Diagnostics → Threat Assessment (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Link Analysis Tools Human Capital & Development → Geospatial Tools Assessment & Diagnostics (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Counterintelligence → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Analytical Methods Human Capital & Development (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Scenario Analysis Infrastructure & Capacity → Timeline Tools Human Capital & Development (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Timeline Tools Human Capital & Development → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Allsource — Action Coordination — Secondary → Geospatial Tools Infrastructure & Capacity (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Geospatial Tools Infrastructure & Capacity → Cognitive Bias in Analysis Human Capital & Development (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Geospatial Tools Infrastructure & Capacity → Analytical Methods Policy & Governance (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Analytical Methods Policy & Governance → Allsource — Regulation Strategy — Tertiary (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Geospatial Tools Policy & Governance → Current Intelligence Infrastructure & Capacity (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Link Analysis Tools Assessment & Diagnostics → Analysis of Competing Hypotheses Assessment & Diagnostics (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Analysis of Competing Hypotheses Assessment & Diagnostics → Scenario Analysis Risk & Resilience (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Analytical Methods Infrastructure & Capacity → Scenario Analysis Risk & Resilience (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Analytical Tools Quality & Performance → GEOINT / Imagery Intelligence (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Cyber Intelligence → National Security Council (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Allsource Core Operations → Counterintelligence (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Allsource Core Operations → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.685Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

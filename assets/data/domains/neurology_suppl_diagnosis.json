@@ -1,0 +1,99 @@
+{
+  "domainId": "neurology_suppl_diagnosis",
+  "title": "Supplementary Motor Area — Diagnostic Pattern Recognition",
+  "parentPortal": "neurology_suppl_portal.html",
+  "parentLabel": "Supplementary Motor Area",
+  "phase": "P2",
+  "activations": [
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area — Diagnostic Pattern Recognition — Primary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Supplementary Motor Area dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "neurology_suppl_diagnosis_assess_portal.html"
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area — Diagnostic Pattern Recognition — Secondary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Supplementary Motor Area dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "neurology_suppl_diagnosis_impl_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area — Diagnostic Pattern Recognition — Tertiary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Supplementary Motor Area dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "neurology_suppl_diagnosis_optim_portal.html"
+    }
+  ]
+}

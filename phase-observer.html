@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase Observer Demo</title>
+  <style>
+    /* Basic page layout */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0c0c0c;
+      color: #e8e3d9;
+    }
+
+    /* Each phase section takes up full viewport height */
+    .phase-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* Elements start transparent and slightly translated */
+    .phase-text,
+    .phase-glyph {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    /* When the section is in view, fade elements in */
+    .phase-section.in-view .phase-text,
+    .phase-section.in-view .phase-glyph {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive glyph sizing */
+    .phase-glyph {
+      width: 120px;
+      height: 120px;
+      margin-top: 1rem;
+    }
+    @media (max-width: 600px) {
+      .phase-glyph {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+<script>
+if(sessionStorage.getItem('limen_access')!=='granted'){window.location.replace('/?return='+encodeURIComponent('/'+'phase-observer.html'+location.search));}
+</script>
+  <!-- Example sections to demonstrate scroll behavior -->
+  <div class="phase-section">
+    <h2 class="phase-text">Phase 1 – Initiation</h2>
+    <img src="https://via.placeholder.com/120" alt="glyph" class="phase-glyph">
+  </div>
+  <div class="phase-section" style="background:#1a1a1a;">
+    <h2 class="phase-text">Phase 2 – Continuation</h2>
+    <img src="https://via.placeholder.com/120" alt="glyph" class="phase-glyph">
+  </div>
+  <div class="phase-section">
+    <h2 class="phase-text">Phase 3 – Completion</h2>
+    <img src="https://via.placeholder.com/120" alt="glyph" class="phase-glyph">
+  </div>
+
+  <script>
+    // Observe when each phase-section enters the viewport
+    document.addEventListener('DOMContentLoaded', function () {
+      const options = { threshold: 0.25 };
+      const observer = new IntersectionObserver(handleIntersect, options);
+      document.querySelectorAll('.phase-section').forEach(section => {
+        observer.observe(section);
+      });
+
+      function handleIntersect(entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Add class when section is at least 25% visible
+            entry.target.classList.add('in-view');
+            // Unobserve to keep performance tight after animation
+            observer.unobserve(entry.target);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

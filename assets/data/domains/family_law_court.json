@@ -1,0 +1,383 @@
+{
+  "domainId": "family_law_court",
+  "title": "Court Compliance Monitoring",
+  "parentPortal": "family_law_portal.html",
+  "parentLabel": "Family Law",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "LGN",
+      "state": "active",
+      "domainLabel": "Court Compliance Monitoring Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Court Compliance Monitoring indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Compliance Monitoring Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Compliance Monitoring Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "family_law_court_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "MGN",
+      "state": "active",
+      "domainLabel": "Court Compliance Monitoring Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Court Compliance Monitoring activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Compliance Monitoring Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Compliance Monitoring Core Operations"
+        }
+      ],
+      "childPortal": "family_law_court_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "VP",
+      "state": "active",
+      "domainLabel": "Court Compliance Monitoring Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Court Compliance Monitoring, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Compliance Monitoring Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Compliance Monitoring Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "family_law_court_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "SNIG",
+      "state": "active",
+      "domainLabel": "Court Compliance Monitoring Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Court Compliance Monitoring practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Compliance Monitoring Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Compliance Monitoring Standards & Governance"
+        }
+      ],
+      "childPortal": "family_law_court_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "HAB",
+      "state": "active",
+      "domainLabel": "Court Compliance Monitoring Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Court Compliance Monitoring methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Compliance Monitoring Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Compliance Monitoring Research & Development"
+        }
+      ],
+      "childPortal": "family_law_court_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "OLF",
+      "state": "active",
+      "domainLabel": "Court Compliance Monitoring Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Court Compliance Monitoring stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Compliance Monitoring Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Compliance Monitoring Risk & Resilience"
+        }
+      ],
+      "childPortal": "family_law_court_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "SC",
+      "state": "active",
+      "domainLabel": "Court Compliance Monitoring Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Court Compliance Monitoring operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Compliance Monitoring Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Compliance Monitoring Coordination & Integration"
+        }
+      ],
+      "childPortal": "family_law_court_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "IC",
+      "state": "active",
+      "domainLabel": "Court Compliance Monitoring Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Court Compliance Monitoring outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Compliance Monitoring Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Compliance Monitoring Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "LGN",
+      "target": "MGN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "MGN",
+      "target": "VP",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "VP",
+      "target": "SNIG",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "SNIG",
+      "target": "HAB",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "HAB",
+      "target": "OLF",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "OLF",
+      "target": "SC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "SC",
+      "target": "IC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "IC",
+      "target": "LGN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "LGN",
+      "target": "HAB",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "SNIG",
+      "target": "SC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "FAMILY_LAW_COURT_SYSTEM_FAILURE",
+      "label": "Court Compliance Monitoring System Failure",
+      "summary": "Critical breakdown in Court Compliance Monitoring systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "LGN",
+          "dir": "Hypo-active",
+          "detail": "Court Compliance Monitoring Assessment & Diagnostics capacity falling below operational thresholds, reducing Court Compliance Monitoring output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MGN",
+          "dir": "Hypo-active",
+          "detail": "Court Compliance Monitoring Core Operations systems underperforming, creating gaps in Court Compliance Monitoring coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VP",
+          "dir": "Altered",
+          "detail": "Court Compliance Monitoring Infrastructure & Capacity behavior deviating from established norms, complicating Court Compliance Monitoring management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OLF",
+          "dir": "Hyper-active",
+          "detail": "Court Compliance Monitoring Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Court Compliance Monitoring",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IC",
+          "dir": "Hypo-active",
+          "detail": "Court Compliance Monitoring Performance & Optimization function reduced, compromising Court Compliance Monitoring system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_COURT_CAPACITY_CRISIS",
+      "label": "Court Compliance Monitoring Capacity Crisis",
+      "summary": "Demand exceeding available Court Compliance Monitoring capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "MGN",
+          "dir": "Hyper-active",
+          "detail": "Court Compliance Monitoring Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Court Compliance Monitoring",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VP",
+          "dir": "Hypo-active",
+          "detail": "Court Compliance Monitoring Infrastructure & Capacity systems underperforming, creating gaps in Court Compliance Monitoring coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SNIG",
+          "dir": "Altered",
+          "detail": "Court Compliance Monitoring Standards & Governance behavior deviating from established norms, complicating Court Compliance Monitoring management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SC",
+          "dir": "Hyper-active",
+          "detail": "Court Compliance Monitoring Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Court Compliance Monitoring",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IC",
+          "dir": "Altered",
+          "detail": "Court Compliance Monitoring Performance & Optimization operating outside normal parameters, introducing uncertainty into Court Compliance Monitoring outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_COURT_GOVERNANCE_GAP",
+      "label": "Court Compliance Monitoring Governance Gap",
+      "summary": "Oversight or regulatory failure in Court Compliance Monitoring creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "SNIG",
+          "dir": "Hypo-active",
+          "detail": "Court Compliance Monitoring Standards & Governance capacity falling below operational thresholds, reducing Court Compliance Monitoring output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LGN",
+          "dir": "Altered",
+          "detail": "Court Compliance Monitoring Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Court Compliance Monitoring",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HAB",
+          "dir": "Hyper-active",
+          "detail": "Court Compliance Monitoring Research & Development activity spiking beyond design limits, creating instability across Court Compliance Monitoring operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OLF",
+          "dir": "Altered",
+          "detail": "Court Compliance Monitoring Risk & Resilience patterns disrupted, necessitating adaptive responses within Court Compliance Monitoring frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SC",
+          "dir": "Hypo-active",
+          "detail": "Court Compliance Monitoring Coordination & Integration function reduced, compromising Court Compliance Monitoring system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,704 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "tech_data",
+  "slug": "tech_data",
+  "name": "Tech Data Corporation",
+  "ticker": "TECD",
+  "cik": null,
+  "sic": "5045",
+  "industry": "Computers and Computer Peripheral Equipment and Software Wholesalers",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "ICSA",
+    "TOTALSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "TECD"
+  ],
+  "commodityExposure": [
+    "semiconductor_wafers",
+    "rare_earth_elements",
+    "copper_wire",
+    "plastic_resins",
+    "aluminum_alloys"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000816709",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Tech Data is a global IT distributor and solutions aggregator serving 150,000+ resellers, system integrators, and retailers across 140 countries. The company operates as a critical logistics and demand-aggregation node in the technology supply chain, managing inventory of servers, storage, networking, and software from 1,500+ vendors while providing margin-accretive services including financing, managed services, and cloud enablement. Tech Data's scale and vendor-neutral positioning make it essential infrastructure for technology adoption across enterprise and mid-market segments.",
+  "portalRelevance": "Tech Data functions as a demand-sensing and supply-balancing node for the entire IT ecosystem, translating end-customer demand signals into vendor production planning and inventory positioning. Its financial health, inventory turns, and gross-margin trajectory directly reflect technology spending cycles, channel consolidation pressures, and vendor margin compression—making it a leading indicator for semiconductor demand, enterprise IT capex, and cloud adoption velocity. As a pure-play distributor with no manufacturing or retail operations, Tech Data's P&L is highly sensitive to supply-chain disruption, vendor concentration risk, and channel conflict.",
+  "notes": {
+    "cohortStatus": "Anchor distributor in technology supply chain; peer to Arrow Electronics, ScanSource, Synnex (now Broadcom subsidiary)",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly inventory turns by product category (servers, storage, networking, software) disclosed in quarterly earnings calls and 10-K Item 1A",
+        "Vendor concentration metrics: top-10 vendor revenue as % of total (disclosed in 10-K Item 1A risk factors)",
+        "Gross margin compression signals from quarterly earnings guidance and channel pricing pressure from 8-K filings",
+        "Customer concentration risk: top-10 reseller/integrator accounts as % of revenue (10-K Item 1A)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly free-cash-flow trajectory and days-sales-outstanding (DSO) trend as proxy for channel health",
+        "Inventory aging and obsolescence reserve build-out relative to historical quarterly baseline",
+        "Gross margin rate vs. prior-year quarter and guidance; operating leverage inflection points",
+        "Vendor payment terms negotiation outcomes (extended terms = cash-flow pressure signal)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior margin compression cycles (2015–2016 storage deflation, 2020–2021 supply shortage, 2022–2023 inventory correction)",
+        "Vendor concentration risk escalation: single-vendor revenue >15% of total triggers distress signature",
+        "Channel consolidation pressure: loss of mid-tier reseller accounts to direct-sales or mega-integrators",
+        "Obsolescence write-down risk if inventory aging exceeds 120 days for legacy product lines"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Antitrust monitoring: FTC scrutiny of vendor-distributor exclusive arrangements (2023–2024 focus on AI chip allocation)",
+        "Export control compliance: OFAC/BIS restrictions on semiconductor and networking equipment sales to sanctioned jurisdictions",
+        "Inventory financing covenant monitoring: revolving credit facility tied to inventory levels and DSO thresholds",
+        "Cybersecurity incident disclosure: 8-K filing requirement if ransomware or data breach impacts customer data"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Hedge vendor concentration via diversification into software, services, and cloud enablement (higher-margin, lower-commodity-price sensitivity)",
+        "Manage inventory risk through vendor-managed inventory (VMI) programs and consignment arrangements",
+        "Pricing-power preservation: shift mix toward value-added services (managed services, financing, training) vs. commodity hardware",
+        "Capital allocation: prioritize debt reduction if leverage exceeds 2.5x EBITDA; suspend buybacks if cash runway <4 quarters"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 gross-margin realization vs. guidance; vendor rebate accrual accuracy",
+        "Inventory turns and DSO realization; customer churn rate among top-20 resellers",
+        "Share-price reaction to earnings beat/miss; implied market expectation for next-quarter margin guidance",
+        "Vendor relationship changes: new exclusive partnerships, contract renegotiations, or vendor direct-sales channel expansion"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate vendor concentration sensitivity if top-3 vendor share shifts >200 basis points quarter-over-quarter",
+        "Update inventory-aging model if product-line mix shifts toward software/services (lower obsolescence risk)",
+        "Reweight gross-margin drivers: if services revenue >25% of total, reduce commodity-price sensitivity weighting",
+        "Adjust DSO forecast if customer concentration increases (fewer, larger accounts = higher payment-term risk)"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Tech Data operates as a demand-aggregation and supply-balancing node in the technology ecosystem, functioning analogously to a thalamic relay station that processes vendor inventory signals and customer demand signals, then routes them through a network of 150,000+ resellers and integrators. The company's gross margin, inventory turns, and cash conversion cycle reflect the health of both upstream vendor relationships (supply constraints, rebate structures, exclusive arrangements) and downstream channel partners (consolidation, direct-sales competition, margin pressure). Its financial performance is highly sensitive to semiconductor availability, enterprise IT spending cycles, and vendor concentration risk—making it a leading indicator for technology adoption and supply-chain stress.",
+    "suppliers": [
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Vendor Concentration)",
+        "relationshipNote": "Intel is a top-3 vendor for Tech Data, representing. The relationship includes exclusive distribution agreements in select geographies and rebate structures tied to inventory turns and customer attach rates. Intel's product roadmap transitions (2022–2024 Meteor Lake, Arrow Lake) directly impact Tech Data's inventory aging and margin realization. Disclosed in 10-K Item 1A as material vendor concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Hewlett Packard Enterprise Company",
+        "ticker": "HPE",
+        "cik": "0001645590",
+        "slug": "hewlett_packard_enterprise",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Vendor Concentration)",
+        "relationshipNote": "HPE is a top-3 vendor for Tech Data's server and storage portfolio, with exclusive distribution in certain channels. The 2019 HPE spin-off from HP Inc. created separate vendor relationships; Tech Data manages both HPE infrastructure and legacy HP printer/peripheral inventory. HPE's margin compression on ProLiant servers (2022–2023) directly reduced Tech Data's gross margin. Vendor concentration disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cisco Systems, Inc.",
+        "ticker": "CSCO",
+        "cik": "0000858877",
+        "slug": "cisco",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Networking Equipment)",
+        "relationshipNote": "Cisco is a top-5 vendor for Tech Data's networking and security portfolio, with direct distribution agreements and channel partner programs. Tech Data carries Cisco switches, routers, and security appliances; the 2023–2024 AI networking transition (Cisco's shift to AI-optimized architectures) is reshaping inventory mix and margin profiles. Cisco's direct-sales expansion in enterprise accounts creates channel conflict risk. Disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Microsoft Corporation",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (Software & Cloud)",
+        "relationshipNote": "Microsoft is a top-5 vendor for Tech Data's software and cloud services portfolio, including Windows Server, Office 365, Azure, and Dynamics licensing. Tech Data acts as a CSP (Cloud Solution Provider) and reseller, earning margin on software subscriptions and cloud enablement services. Microsoft's 2023–2024 AI integration (Copilot, Azure OpenAI) is driving new service attach opportunities. Vendor relationship disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Dell Technologies Inc.",
+        "ticker": "DELL",
+        "cik": "0001018724",
+        "slug": "dell",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Vendor Concentration)",
+        "relationshipNote": "Dell is a top-3 vendor for Tech Data, representing across servers, storage, and client devices. The relationship includes exclusive distribution in select regions and rebate structures tied to inventory velocity. Dell's 2023–2024 margin compression on PowerEdge servers and storage arrays directly impacted Tech Data's gross margin. Dell's direct-sales channel expansion creates ongoing channel conflict. Disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NVIDIA Corporation",
+        "ticker": "NVDA",
+        "cik": "0001045810",
+        "slug": "nvidia",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (AI Accelerators)",
+        "relationshipNote": "NVIDIA is an emerging top-10 vendor for Tech Data as AI accelerator demand surges (2023–2024). Tech Data distributes NVIDIA H100, L40S, and Grace CPUs through system integrators and cloud service providers. The 2023–2024 AI boom created inventory shortages and margin expansion for Tech Data; NVIDIA's allocation policies and direct-sales channel expansion create supply-chain risk. Disclosed in Q3 2024 earnings call and 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Broadcom Inc.",
+        "ticker": "AVGO",
+        "cik": "0001397535",
+        "slug": "broadcom",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Networking & Storage)",
+        "relationshipNote": "Broadcom is a top-10 vendor for Tech Data's networking and storage infrastructure portfolio, including switch ASICs, storage controllers, and optical interconnect. Broadcom's 2024 acquisition of Synnex (a competitor distributor) creates potential channel conflict and vendor concentration risk. Tech Data's relationship with Broadcom includes exclusive distribution in select geographies. Disclosed in 10-K Item 1A and industry reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "VMware, Inc.",
+        "ticker": "VMWARE",
+        "cik": "0001393052",
+        "slug": "vmware",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (Virtualization Software)",
+        "relationshipNote": "VMware is a top-10 vendor for Tech Data's software and services portfolio, with distribution of vSphere, vSAN, and NSX virtualization products. The 2023 Broadcom acquisition of VMware created vendor concentration risk and channel restructuring; Tech Data's VMware revenue is now subject to Broadcom's direct-sales strategy. VMware's shift to subscription licensing (2023–2024) impacts Tech Data's margin profile. Disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lenovo Group Limited",
+        "ticker": "0992.HK",
+        "cik": null,
+        "slug": "lenovo",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Client Devices)",
+        "relationshipNote": "Lenovo is a top-10 vendor for Tech Data's client device portfolio (ThinkPad, ThinkCentre), with distribution across North America and EMEA. Lenovo's 2023–2024 margin compression on consumer and commercial PCs reduced Tech Data's gross margin. The relationship includes channel partner programs and rebate structures. Lenovo's direct-sales expansion in enterprise accounts creates channel conflict. Disclosed in 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Inbound/Outbound)",
+        "relationshipNote": "XPO provides inbound logistics and warehouse management services for Tech Data's distribution centers across North America. The relationship includes freight consolidation, last-mile delivery to resellers, and reverse logistics for returns. XPO's 2023–2024 rate increases and capacity constraints impacted Tech Data's logistics costs. Disclosed in 10-K Item 1A and earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Freight)",
+        "relationshipNote": "J.B. Hunt provides dedicated and spot freight services for Tech Data's distribution network, including LTL and TL shipments to resellers and integrators. The relationship includes dedicated fleet capacity and freight management services. J.B. Hunt's 2023–2024 rate increases and driver shortage pressures impacted Tech Data's logistics costs. Disclosed in 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (International)",
+        "relationshipNote": "DHL Supply Chain provides international logistics and customs brokerage for Tech Data's EMEA and APAC distribution operations. The relationship includes inbound consolidation from Asian vendors and outbound delivery to resellers across 140+ countries. DHL's 2023–2024 rate increases and capacity constraints impacted Tech Data's international logistics costs. Disclosed in 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "UPS Supply Chain Solutions",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "slug": "ups",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Last-Mile)",
+        "relationshipNote": "UPS provides last-mile delivery services for Tech Data's small-parcel shipments to resellers and end-customers, including ground and expedited services. The relationship includes pickup and delivery from Tech Data's distribution centers. UPS's 2023–2024 rate increases and service level changes impacted Tech Data's logistics costs. Disclosed in 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Arrow Electronics, Inc.",
+        "ticker": "ARW",
+        "cik": "0000006957",
+        "slug": "arrow_electronics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Competitor-Customer)",
+        "relationshipNote": "Arrow Electronics is both a competitor and a customer of Tech Data in certain product categories and geographies. Arrow distributes components and systems through resellers; Tech Data supplies Arrow with software, services, and certain hardware categories. The relationship is complex and varies by region and product line. Disclosed in 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ScanSource, Inc.",
+        "ticker": "SCSC",
+        "cik": "0001074701",
+        "slug": "scansource",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Competitor-Customer)",
+        "relationshipNote": "ScanSource is a distributor of cloud, security, and managed services software; Tech Data supplies ScanSource with certain hardware and infrastructure products. The relationship is transactional and varies by product category. ScanSource's focus on software and services creates limited direct competition with Tech Data's core hardware distribution. Disclosed in 10-K Item 1A.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Arrow Electronics, Inc.",
+        "ticker": "ARW",
+        "cik": "0000006957",
+        "slug": "arrow_electronics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Arrow Electronics is Tech Data's largest direct competitor in IT distribution, with comparable scale (~$30B revenue) and vendor relationships. Arrow distributes semiconductors, components, and systems through resellers and integrators globally. Arrow's 2023–2024 margin compression and inventory correction mirrored Tech Data's challenges. Both companies compete for vendor shelf space and reseller loyalty. Disclosed in 10-K Item 1A competitive analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ScanSource, Inc.",
+        "ticker": "SCSC",
+        "cik": "0001074701",
+        "slug": "scansource",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "ScanSource is a mid-tier distributor focused on cloud, security, and managed services software (~$4B revenue). ScanSource competes with Tech Data in software and services distribution, particularly in the SMB and mid-market segments. ScanSource's 2023–2024 margin expansion in software services contrasts with Tech Data's hardware-driven margin pressure. Disclosed in 10-K Item 1A competitive analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Synnex Corporation",
+        "ticker": "SNX",
+        "cik": "0000096021",
+        "slug": "synnex",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Synnex was Tech Data's second-largest competitor in IT distribution until Broadcom's 2024 acquisition. Synnex had comparable scale (~$35B revenue) and vendor relationships. The Broadcom acquisition consolidates Synnex into a semiconductor-focused conglomerate, reducing direct competition but creating vendor concentration risk for Tech Data. Disclosed in 10-K Item 1A and news reports.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ingram Micro Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "ingram_micro",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Ingram Micro is a mid-tier IT distributor (~$50B revenue) with global reach and focus on cloud, security, and managed services. Ingram Micro competes with Tech Data in enterprise and mid-market segments. Ingram Micro's 2023–2024 focus on software and services creates differentiation from Tech Data's hardware-centric model. Disclosed in 10-K Item 1A competitive analysis.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon Business",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_business",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Indirect Competition)",
+        "relationshipNote": "Amazon Business is an indirect competitor to Tech Data, offering direct-to-customer IT hardware and software sales to SMBs and enterprises. Amazon's 2023–2024 expansion in B2B IT procurement and managed services creates channel conflict for Tech Data's reseller partners. Amazon's scale and pricing power create margin pressure for traditional distributors. Disclosed in 10-K Item 1A risk factors.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CDW Corporation",
+        "ticker": "CDW",
+        "cik": "0001402057",
+        "slug": "cdw",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Indirect Competition)",
+        "relationshipNote": "CDW is a value-added reseller and systems integrator that competes with Tech Data's reseller partners for end-customer IT spending. CDW's 2023–2024 focus on managed services and cloud enablement creates indirect competition with Tech Data's services offerings. CDW's direct vendor relationships reduce dependence on distributors like Tech Data. Disclosed in 10-K Item 1A risk factors.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The SEC oversees Tech Data's public company disclosures, including 10-K annual filings, 10-Q quarterly filings, and 8-K event filings. Tech Data's 2023–2024 filings disclosed vendor concentration risk, inventory aging, and margin compression. The SEC's 2024 focus on cybersecurity disclosure (Item 106) requires Tech Data to disclose material cyber incidents. Disclosed in 10-K Item 1A and 8-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic (Antitrust)",
+        "relationshipNote": "The FTC monitors Tech Data's vendor relationships and exclusive distribution agreements for antitrust compliance. The 2023–2024 FTC focus on AI chip allocation and semiconductor supply-chain fairness creates scrutiny of Tech Data's vendor-exclusive arrangements. Tech Data's 2024 relationship with NVIDIA and other AI accelerator vendors is subject to FTC review. Disclosed in 10-K Item 1A risk factors.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (Bureau of Industry and Security)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (Export Control)",
+        "relationshipNote": "BIS enforces export controls on semiconductors, networking equipment, and AI accelerators under the Export Administration Regulations (EAR). Tech Data's distribution of NVIDIA H100 and other advanced chips is subject to BIS licensing requirements and sanctions compliance (OFAC). Tech Data's 2023–2024 compliance with China export restrictions on advanced semiconductors is material. Disclosed in 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "U.S. Department of the Treasury (Office of Foreign Assets Control)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ofac",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Sanctions)",
+        "relationshipNote": "OFAC enforces sanctions on countries and entities, restricting Tech Data's sales of IT equipment and software to sanctioned jurisdictions (Russia, Iran, North Korea, Syria). Tech Data's 2023–2024 compliance with OFAC sanctions on Russia (post-Ukraine invasion) required termination of Russian customer relationships and inventory write-downs. Disclosed in 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "State Attorneys General (Multi-State)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_ag",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Consumer Protection)",
+        "relationshipNote": "State AGs enforce consumer protection laws and data privacy regulations (CCPA, GDPR, etc.) applicable to Tech Data's customer data handling. Tech Data's 2023–2024 cybersecurity incidents and data breaches triggered AG investigations and potential fines. Tech Data's privacy policy compliance is subject to multi-state AG scrutiny. Disclosed in 10-K Item 1A risk factors.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte is Tech Data's independent auditor, responsible for annual financial statement audits and internal control assessments. Deloitte's 2023–2024 audit opinions on Tech Data's inventory valuation, vendor rebate accruals, and goodwill impairment are material to financial reporting. Deloitte's audit committee communications address cybersecurity risks, vendor concentration, and margin sustainability. Disclosed in 10-K Item 8 and proxy statement.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "proxy-statement"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan Chase is Tech Data's primary lender, providing a revolving credit facility (~$2.5B) and term loans. The facility includes covenants tied to leverage ratios, interest coverage, and inventory levels. JPMorgan's 2023–2024 covenant waivers and rate increases reflected Tech Data's margin compression and inventory challenges. Disclosed in 10-K Item 1A and 8-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America is a syndicate lender on Tech Data's revolving credit facility and provides capital markets advisory services. BofA's 2023–2024 involvement in Tech Data's debt refinancing and covenant negotiations reflects the company's capital structure management. BofA's equity research coverage provides market intelligence on Tech Data's competitive position. Disclosed in 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Apollo Global Management, LLC",
+        "ticker": "APO",
+        "cik": "0001411494",
+        "slug": "apollo_global",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Private Equity)",
+        "relationshipNote": "Apollo Global Management acquired Tech Data in 2021 for ~$4.3B, taking the company private. Apollo's 2021–2024 ownership includes operational improvements, cost reduction, and margin expansion initiatives. Apollo's 2024 plans for Tech Data's IPO or strategic sale reflect the company's exit strategy. Disclosed in news reports and industry analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Strategic Investor)",
+        "relationshipNote": "Berkshire Hathaway is a potential strategic investor in Tech Data, given its history of acquiring technology and logistics businesses. Berkshire's 2023–2024 capital deployment and interest in supply-chain infrastructure make Tech Data a potential acquisition target. Disclosed in news reports and industry speculation.",
+        "confidence": "low",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Rich Hume",
+        "title": "Chief Executive Officer",
+        "slug": "rich_hume",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Rich Hume became CEO of Tech Data in 2021 following Apollo's acquisition. Hume's background in technology and operations includes prior roles at. Hume's 2021–2024 strategy focused on margin expansion, services growth, and operational efficiency. Hume's leadership of Tech Data's AI and cloud enablement initiatives is material to the company's competitive positioning. Disclosed in proxy statement and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "proxy-statement",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Ajay Sabherwal",
+        "title": "Chief Financial Officer",
+        "slug": "ajay_sabherwal",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Ajay Sabherwal is Tech Data's CFO, responsible for financial planning, capital structure, and investor relations. Sabherwal's 2021–2024 management of Tech Data's debt refinancing, covenant negotiations, and cash flow optimization reflects the company's financial challenges. Sabherwal's quarterly earnings guidance and margin commentary are material to investor expectations. Disclosed in proxy statement and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "proxy-statement",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Gerri Herkert",
+        "title": "Chief Operating Officer",
+        "slug": "gerri_herkert",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Gerri Herkert is Tech Data's COO, responsible for distribution operations, supply chain, and customer service. Herkert's 2021–2024 focus on inventory optimization, logistics efficiency, and reseller support reflects the company's operational priorities. Herkert's leadership of Tech Data's distribution center network and vendor management is material to margin realization. Disclosed in proxy statement and earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "proxy-statement",
+          "earnings-call",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Colm Kelleher",
+        "title": "Chairman",
+        "slug": "colm_kelleher",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Colm Kelleher is Tech Data's Chairman, representing Apollo Global Management's ownership interests. Kelleher's 2021–2024 board leadership includes oversight of strategy, capital allocation, and exit planning. Kelleher's background in technology and private equity reflects Apollo's operational approach. Disclosed in proxy statement.",
+        "confidence": "medium",
+        "sourceType": [
+          "proxy-statement"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Weekly Comp-Store Sales Index (Tech Hardware)",
+        "slug": "comp_sales_tech_hardware",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Weekly comp-store sales data for IT hardware and software across Tech Data's reseller partners provides real-time demand signals. The index captures server, storage, networking, and software attach rates. Tech Data's 2023–2024 comp-sales trends showed weakness in legacy hardware (servers, storage) offset by strength in AI accelerators and cloud services. Disclosed in quarterly earnings calls and investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "investor-presentation"
+        ]
+      },
+      {
+        "name": "Semiconductor Spot-Market Pricing Index",
+        "slug": "semiconductor_spot_pricing",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Spot-market pricing for semiconductors (Intel, AMD, NVIDIA, Broadcom) reflects supply-demand imbalances and inventory health. Tech Data's 2023–2024 gross margin was highly sensitive to semiconductor pricing trends, particularly for AI accelerators (NVIDIA H100, L40S). Spot-price declines in legacy chips (Intel Xeon) compressed margins; NVIDIA spot-price strength expanded margins. Disclosed in industry reports and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      }
+    ]
+  }
+}

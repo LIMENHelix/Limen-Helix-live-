@@ -1,0 +1,752 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "henkel",
+  "slug": "henkel",
+  "name": "Henkel AG & Co. KGaA",
+  "ticker": "HEN3.DE",
+  "cik": null,
+  "sic": "2844",
+  "industry": "Perfume, Cosmetics, and Other Toilet Preparations",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DEXUSEU",
+    "DEXDEUS",
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "HEN3.DE"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "palm oil",
+    "petrochemicals",
+    "sodium chloride",
+    "sulfuric acid",
+    "cotton",
+    "aluminum",
+    "paper pulp"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?cik=null",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Henkel is a global leader in adhesives, sealants, and surface treatments (Loctite, Teroson brands) serving automotive, aerospace, and industrial OEMs; a major player in laundry and home-care detergents (Persil, All, Pril) competing across North America, Europe, and emerging markets; and a significant beauty-care supplier (Schwarzkopf, Dial, Right Guard) with exposure to professional salon and mass-market retail channels. The company's three-pillar portfolio (Adhesive Technologies ~50% EBIT, Laundry & Home Care ~35%, Beauty Care ~15%) creates cross-commodity hedging but also concentration risk in petrochemical input costs and consumer discretionary demand.",
+  "portalRelevance": "Henkel is a peer-tier industrial conglomerate whose financial health and supply-chain resilience directly influence automotive-sector production capacity, consumer-staples inflation pass-through, and emerging-market currency exposure. Its quarterly earnings, raw-material cost guidance, and M&A activity (e.g., 2022 Clorox stake divestiture, ongoing portfolio optimization) signal macroeconomic demand and pricing power in both B2B industrial and B2C consumer channels. For financial-intelligence models, Henkel's leverage, free-cash-flow trajectory, and dividend sustainability are bellwethers of mid-cap European industrial health.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly raw-material cost inflation signals via earnings calls and 10-Q guidance revisions (petrochemical, palm oil, sodium chloride exposure)",
+        "8-K filings for M&A activity, divestitures, and restructuring announcements (e.g., portfolio optimization programs)",
+        "Weekly automotive OEM production indices (IHS Markit, Cox Automotive) as leading indicator for Adhesive Technologies segment demand",
+        "Consumer-staples pricing-power signals from retailer earnings (Walmart, Carrefour, Tesco) on Henkel product category elasticity"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly EBIT margin trajectory by segment (Adhesive Technologies, Laundry & Home Care, Beauty Care) vs. prior-year and guidance",
+        "Free-cash-flow generation and working-capital days outstanding (inventory, receivables, payables) as proxy for operational efficiency",
+        "Net debt-to-EBITDA ratio and interest-coverage multiples; covenant headroom on syndicated credit facilities",
+        "Currency exposure assessment (EUR/USD, GBP/EUR, emerging-market FX) given 60%+ international revenue"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior industrial-conglomerate distress cycles (2008–2009, 2020 COVID) for margin compression, working-capital stress, covenant risk",
+        "Competitive positioning vs. Ecolab (water-treatment, hygiene), 3M (adhesives, industrial), Unilever (home care, beauty) on pricing power and market share",
+        "Supply-chain fragility assessment: single-source dependencies in specialty chemicals, geographic concentration in China/India manufacturing",
+        "Dividend sustainability stress-test: payout ratio vs. free-cash-flow under downside demand scenarios (recession, consumer discretionary pullback)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "EU chemical regulations (REACH, CLP) and ECHA compliance costs; US EPA and OSHA oversight of manufacturing facilities",
+        "FTC antitrust scrutiny on M&A (e.g., prior Clorox stake review); German cartel office (Bundeskartellamt) oversight of domestic market concentration",
+        "Sustainability reporting mandates (CSRD, TCFD, Scope 3 emissions) and ESG-linked financing covenants",
+        "Tariff and trade-policy exposure: US Section 301 tariffs on Chinese chemical imports; EU-UK trade friction post-Brexit"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio rebalancing thesis: divest lower-margin beauty-care assets; reinvest in high-ROIC adhesive-technology platforms (aerospace, EV battery assembly)",
+        "Hedging program: commodity futures on crude oil, natural gas, and palm oil to lock in input-cost inflation; FX forwards on EUR/USD, GBP/EUR",
+        "Dividend policy: maintain 40–50% payout ratio; suspend buybacks if net debt exceeds 2.5x EBITDA",
+        "M&A target screening: bolt-on acquisitions in specialty adhesives for EV thermal management, battery encapsulation; avoid large beauty-care consolidation"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare guidance revisions, segment EBIT margins, and free-cash-flow vs. model assumptions",
+        "Share-price reaction to raw-material cost guidance and dividend announcements; implied volatility on EUR-denominated options",
+        "Supplier concentration risk updates: monitor Henkel's 10-K Item 1A disclosures for single-source dependencies and geographic concentration",
+        "Covenant compliance monitoring: track net debt, interest coverage, and liquidity ratios vs. syndicated credit facility thresholds"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate commodity-price elasticity model based on realized margin compression/expansion in Laundry & Home Care segment",
+        "Update automotive-production leading-indicator weights if Adhesive Technologies demand diverges from IHS Markit forecasts",
+        "Adjust dividend-sustainability stress-test parameters based on actual free-cash-flow volatility and working-capital swings",
+        "Refine M&A probability scoring if portfolio optimization program accelerates or stalls relative to management guidance"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Henkel operates as a distributed decision-making network across three semi-autonomous business units (Adhesive Technologies, Laundry & Home Care, Beauty Care), each with distinct supply chains, customer bases, and competitive dynamics. The corporate center functions as a capital allocator and risk manager, monitoring commodity-price exposure, currency hedges, and covenant compliance across a global manufacturing footprint. Raw-material procurement (petrochemicals, specialty chemicals, natural oils) feeds into production nodes in Europe, North America, and Asia; finished goods flow through retail partners (mass-market and professional channels) and industrial OEMs. Financial health depends on margin defense against input-cost inflation, working-capital efficiency, and dividend sustainability—making the company a bellwether for mid-cap industrial resilience in cyclical downturns.",
+    "suppliers": [
+      {
+        "name": "BASF SE",
+        "ticker": "BAS.DE",
+        "cik": null,
+        "slug": "basf",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Specialty Chemicals",
+        "relationshipNote": "BASF supplies surfactants, polymers, and specialty chemicals for Henkel's Laundry & Home Care and Adhesive Technologies segments. Estimated 8–12% of Henkel's raw-material spend; long-term supply agreements with quarterly price-adjustment clauses tied to crude oil and natural gas indices. 2023 supply-chain optimization included joint capacity-planning initiatives to mitigate petrochemical volatility.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "ticker": "EMN",
+        "cik": "0000277801",
+        "slug": "eastman_chemical",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Polymers & Adhesive Precursors",
+        "relationshipNote": "Eastman supplies specialty polymers and hydrocarbon resins for Henkel's Loctite and Teroson adhesive formulations. Estimated 5–8% of Adhesive Technologies segment input costs. Multi-year framework agreement with price-escalation clauses; 2022 supply disruptions due to Louisiana plant outages created temporary margin pressure on industrial adhesives.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nouryon (formerly AkzoNobel Specialty Chemicals)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nouryon",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Chlor-Alkali & Bleach Precursors",
+        "relationshipNote": "Nouryon supplies sodium hypochlorite, caustic soda, and chlorine derivatives for Henkel's laundry detergent and home-care formulations. Estimated 6–10% of Laundry & Home Care segment COGS. Long-standing relationship (pre-2020 AkzoNobel spin-off); supply agreements include force-majeure clauses for energy-price spikes affecting electrolysis capacity.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cargill Incorporated",
+        "ticker": null,
+        "cik": null,
+        "slug": "cargill",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Palm Oil & Natural Oils",
+        "relationshipNote": "Cargill supplies refined palm oil, palm kernel oil, and other natural oils for Henkel's detergent and beauty-care formulations. Estimated 4–7% of Laundry & Home Care COGS. 2021–2023 price volatility (palm oil +60% YoY in 2022) created significant margin headwinds; Henkel has diversified sourcing to include sustainable-certified suppliers to mitigate reputational and supply risk.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0001357615",
+        "slug": "huntsman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Titanium Dioxide & Pigments",
+        "relationshipNote": "Huntsman supplies titanium dioxide and specialty pigments for Henkel's laundry detergent and beauty-care product colorants. Estimated 2–4% of Laundry & Home Care COGS. 2022 supply-chain tightness and price increases (+35% YoY) forced Henkel to accelerate formulation optimization and alternative-pigment qualification; multi-year framework agreement renewed in 2023 with volume commitments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Arkema SA",
+        "ticker": "AKE.PA",
+        "cik": null,
+        "slug": "arkema",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Adhesive Resins & Fluorochemicals",
+        "relationshipNote": "Arkema supplies specialty resins, fluorochemicals, and high-performance polymers for Henkel's aerospace and automotive adhesive platforms (Loctite Aerospace, Teroson). Estimated 3–6% of Adhesive Technologies segment input costs. 2021 acquisition of Ashland's specialty adhesives business expanded Arkema's portfolio; Henkel maintains dual-source strategy to reduce single-supplier risk on critical aerospace-grade materials.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001751788",
+        "slug": "dow",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Polyols, Polyurethane Precursors & Silicones",
+        "relationshipNote": "Dow supplies polyols, isocyanates, and silicone polymers for Henkel's polyurethane adhesives and sealants (Teroson PU, Loctite Polyurethane). Estimated 5–9% of Adhesive Technologies COGS. 2022–2023 crude-oil price volatility created 15–20% input-cost swings; Henkel negotiated quarterly price-adjustment mechanisms and volume commitments to stabilize supply and cost.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Clariant AG",
+        "ticker": "CLN.SW",
+        "cik": null,
+        "slug": "clariant",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Additives, Surfactants & Specialty Chemicals",
+        "relationshipNote": "Clariant supplies surfactants, additives, and specialty chemicals for Henkel's laundry detergents and home-care products. Estimated 3–5% of Laundry & Home Care COGS. 2023 portfolio optimization included shift toward bio-based and sustainable additives; Henkel increased orders from Clariant's renewable-chemistry division to support ESG commitments and differentiate premium product lines.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Solvay SA",
+        "ticker": "SOLB.BR",
+        "cik": null,
+        "slug": "solvay",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Soda Ash, Peroxide & Specialty Polymers",
+        "relationshipNote": "Solvay supplies soda ash, hydrogen peroxide, and specialty polymers for Henkel's laundry detergents and adhesive formulations. Estimated 2–4% of Laundry & Home Care COGS. Long-standing European supply relationship; 2022 energy crisis in Belgium impacted Solvay's production capacity, triggering temporary supply constraints and price increases that Henkel partially absorbed to maintain customer commitments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DB Schenker",
+        "ticker": null,
+        "cik": null,
+        "slug": "db_schenker",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Inbound & Outbound)",
+        "relationshipNote": "DB Schenker manages inbound raw-material logistics and outbound finished-goods distribution for Henkel's European manufacturing footprint. Estimated 8–12% of Henkel's total logistics spend. 2022 contract renewal included sustainability clauses (carbon-neutral shipping targets by 2030) and digital supply-chain visibility initiatives; DB Schenker operates dedicated terminals in Düsseldorf and Rotterdam for Henkel's chemical shipments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": "DPSGY",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Last-Mile & Retail Distribution)",
+        "relationshipNote": "DHL Supply Chain operates last-mile distribution and retail-fulfillment services for Henkel's Laundry & Home Care and Beauty Care products across North America and Europe. Estimated 6–10% of total logistics spend. 2023 contract expansion included automation investments in DHL's distribution centers to improve order-fulfillment speed and reduce damage rates on fragile beauty-care items.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN.SW",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Ocean & Air Freight)",
+        "relationshipNote": "Kuehne+Nagel manages ocean and air freight for Henkel's Asia-Pacific and emerging-market distribution. Estimated 4–7% of total logistics spend. 2021–2022 supply-chain disruptions (Suez Canal blockage, port congestion) created 6–8 week delays on adhesive shipments to automotive OEMs; Kuehne+Nagel negotiated premium air-freight capacity to maintain customer service levels.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (North American LTL & Warehousing)",
+        "relationshipNote": "XPO Logistics provides less-than-truckload (LTL) and warehousing services for Henkel's North American Adhesive Technologies and Laundry & Home Care distribution. Estimated 3–5% of total logistics spend. 2022 contract included performance guarantees on on-time delivery (98%+ target) and temperature-controlled storage for specialty adhesives; XPO operates dedicated facilities in Chicago and Dallas.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Volkswagen Group",
+        "ticker": "VOW3.DE",
+        "cik": null,
+        "slug": "volkswagen",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor OEM Customer)",
+        "relationshipNote": "Volkswagen Group (VW, Audi, Porsche, Skoda) is a major customer for Henkel's Adhesive Technologies segment, using Loctite and Teroson products in vehicle assembly, battery encapsulation, and thermal-management applications. Estimated 8–12% of Adhesive Technologies revenue. 2021–2023 EV transition accelerated demand for battery-adhesive solutions; Henkel secured multi-year supply agreements with VW's battery-assembly joint ventures in Germany and China.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BMW Group",
+        "ticker": "BMW.DE",
+        "cik": null,
+        "slug": "bmw",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor OEM Customer)",
+        "relationshipNote": "BMW Group (BMW, Mini, Rolls-Royce) uses Henkel's Loctite structural adhesives and Teroson sealants in vehicle assembly and lightweight-composite bonding. Estimated 6–10% of Adhesive Technologies revenue. 2022 supply agreement included joint R&D on adhesives for carbon-fiber reinforced polymers (CFRP) in next-generation electric vehicles; BMW's Munich and Dingolfing plants are key Henkel customer sites.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Ecolab Inc.",
+        "ticker": "ECL",
+        "cik": "0000031462",
+        "slug": "ecolab",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor)",
+        "relationshipNote": "Ecolab competes with Henkel in industrial adhesives, water-treatment chemicals, and hygiene solutions for automotive and manufacturing OEMs. Ecolab's 2022 revenue ~$15.3B vs. Henkel's ~$22.8B; Ecolab has stronger margins in specialty chemicals (30%+ EBIT margin) but lower exposure to consumer detergents. 2023 acquisition of Chemours' water-treatment business expanded Ecolab's industrial footprint, creating direct competition with Henkel's Adhesive Technologies segment.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "3M Company",
+        "ticker": "MMM",
+        "cik": "0000066740",
+        "slug": "3m",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor)",
+        "relationshipNote": "3M competes with Henkel's Adhesive Technologies segment across industrial adhesives, tapes, and sealants for automotive, aerospace, and electronics OEMs. 3M's 2022 revenue ~$34.2B; 3M's adhesives division generates ~$4–5B annually with higher aerospace/defense exposure than Henkel. 2023 3M announced $5.3B settlement for PFOA contamination, creating reputational advantage for Henkel in sustainability-conscious OEM procurement.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Unilever PLC",
+        "ticker": "ULVR.L",
+        "cik": "0001354488",
+        "slug": "unilever",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor)",
+        "relationshipNote": "Unilever competes with Henkel in Laundry & Home Care (Omo, Surf, Cif) and Beauty Care (Dove, Axe, TRESemmé) across North America, Europe, and emerging markets. Unilever's 2022 revenue ~$60B; Unilever's home-care segment generates ~$8–10B annually with stronger emerging-market presence. 2023 Unilever divested Cif brand to SC Johnson, signaling portfolio optimization similar to Henkel's strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Procter & Gamble Company",
+        "ticker": "PG",
+        "cik": "0000080424",
+        "slug": "procter_gamble",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor)",
+        "relationshipNote": "P&G competes with Henkel across Laundry & Home Care (Tide, Ariel, Dawn) and Beauty Care (Pantene, Olay, Gillette) with 2022 revenue ~$80.2B. P&G's home-care segment generates ~$15–18B annually; P&G has superior pricing power and brand equity in North America. 2023 P&G maintained dividend despite margin pressure, contrasting with Henkel's more cautious capital allocation; P&G's supply-chain resilience (vertical integration) exceeds Henkel's.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Reckitt Benckiser Group PLC",
+        "ticker": "RB.L",
+        "cik": "0001408667",
+        "slug": "reckitt_benckiser",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor)",
+        "relationshipNote": "Reckitt Benckiser competes with Henkel in home-care (Dettol, Lysol, Finish) and beauty care (Durex, Strepsils) with 2022 revenue ~$15.8B. Reckitt's home-care segment is ~40% of revenue; Reckitt has higher exposure to disinfectants and hygiene products (post-COVID tailwind fading). 2023 Reckitt divested Scholl footcare brand, signaling portfolio rationalization; Reckitt's leverage (net debt ~$8B) is higher than Henkel's, creating refinancing risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Colgate-Palmolive Company",
+        "ticker": "CL",
+        "cik": "0000021665",
+        "slug": "colgate_palmolive",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Adjacent Competitor)",
+        "relationshipNote": "Colgate-Palmolive competes with Henkel in oral care and personal-care products (toothpaste, soap, deodorant) with 2022 revenue ~$17.8B. Colgate's home-care segment (Palmolive, Ajax) is smaller than Henkel's but growing in emerging markets. 2023 Colgate maintained pricing discipline and achieved 4–5% organic growth, outpacing Henkel's 2–3% growth; Colgate's emerging-market exposure (60% of revenue) exceeds Henkel's, creating currency and demand volatility.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart",
+        "neuralRole": "Peer",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Retail Channel)",
+        "relationshipNote": "Walmart is a major retail channel for Henkel's Laundry & Home Care (Persil, All, Pril) and Beauty Care (Schwarzkopf, Dial) products across North America. Estimated 5–8% of Laundry & Home Care and Beauty Care combined revenue. 2023 category management agreement included private-label opportunities and promotional calendar alignment; Walmart's private-label detergent competes directly with Henkel's Persil, creating pricing pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ],
+        "_reslottedFrom": "customers"
+      },
+      {
+        "name": "Carrefour SA",
+        "ticker": "CA.PA",
+        "cik": null,
+        "slug": "carrefour",
+        "neuralRole": "Peer",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Retail Channel)",
+        "relationshipNote": "Carrefour is a major European retail partner for Henkel's Laundry & Home Care and Beauty Care products, with significant shelf space in France, Spain, and Italy. Estimated 4–6% of European Laundry & Home Care revenue. 2022 contract renegotiation included category-management support and digital-marketing co-investment; Carrefour's private-label detergent (Carrefour Brand) is a direct competitor to Persil.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ],
+        "_reslottedFrom": "customers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC oversees Henkel's U.S. capital-market disclosures and Form 20-F filings (as foreign private issuer). Henkel's ADRs trade on OTC markets; 2023 SEC focus on ESG disclosure accuracy and supply-chain transparency (conflict minerals, forced labor) increased compliance costs. Henkel's 20-F filings include risk disclosures on raw-material sourcing, environmental liabilities, and antitrust matters.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "European Chemicals Agency (ECHA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "echa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Safety Regulation",
+        "relationshipNote": "ECHA enforces REACH (Registration, Evaluation, Authorisation and Restriction of Chemicals) and CLP (Classification, Labelling and Packaging) regulations across Henkel's European manufacturing and product portfolio. Henkel's 2022–2023 compliance costs included re-registration of 50+ chemical substances under REACH Annex I restrictions; ECHA's 2024 proposed restrictions on PFOA and PFAS derivatives threaten Henkel's specialty-adhesive formulations.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Safety Regulation",
+        "relationshipNote": "EPA regulates Henkel's U.S. manufacturing facilities under Clean Air Act, Clean Water Act, and RCRA (hazardous waste). Henkel operates 12 major U.S. manufacturing sites; 2022 EPA enforcement actions on volatile organic compound (VOC) emissions at Henkel's Kankakee, Illinois facility resulted in $2.1M settlement and required air-quality monitoring upgrades. 2023 EPA proposed stricter VOC limits on adhesive manufacturing, affecting Henkel's Adhesive Technologies segment.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration (FDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Safety Regulation",
+        "relationshipNote": "FDA regulates Henkel's beauty-care and personal-care products (Schwarzkopf, Dial, Right Guard) under the Federal Food, Drug, and Cosmetic Act. Henkel's 2022–2023 compliance included reformulation of Dial antibacterial soap to comply with FDA's 2016 ban on triclosan and 18 other antimicrobial agents. FDA's 2023 proposed restrictions on certain sunscreen ingredients may impact Henkel's beauty-care portfolio.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "German Federal Cartel Office (Bundeskartellamt)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bundeskartellamt",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic (Antitrust)",
+        "relationshipNote": "Bundeskartellamt oversees Henkel's German market concentration and M&A activity. Henkel's 2022 proposed acquisition of Clorox stake (21% ownership) faced Bundeskartellamt scrutiny over market concentration in laundry detergents; Henkel divested the stake in 2023 after regulatory pressure. Bundeskartellamt continues to monitor Henkel's pricing practices in German home-care market (Persil, All, Pril).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "KPMG AG",
+      "ticker": null,
+      "cik": null,
+      "slug": "kpmg",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "KPMG serves as Henkel's external auditor and provides tax, advisory, and internal-audit services. KPMG has audited Henkel's consolidated financial statements since 2015; 2023 audit scope included assessment of goodwill impairment risk on Beauty Care segment ($3.2B carrying value) and evaluation of raw-material cost provisions. KPMG's audit opinion is included in Henkel's annual 20-F filing; audit fees estimated at €8–12M annually.",
+      "confidence": "high",
+      "sourceType": [
+        "statutory",
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Deutsche Bank AG",
+        "ticker": "DBK.DE",
+        "cik": null,
+        "slug": "deutsche_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Deutsche Bank is a lead arranger and syndicate member of Henkel's €3.5B revolving credit facility (RCF), which matures in 2026. Deutsche Bank also provides treasury services, FX hedging, and commodity-derivatives execution. 2023 RCF refinancing included sustainability-linked pricing (margin reduction if ESG targets met); Deutsche Bank's credit exposure to Henkel is estimated at €400–600M.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Commerzbank AG",
+        "ticker": "CBK.DE",
+        "cik": null,
+        "slug": "commerzbank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Commerzbank is a syndicate member of Henkel's €3.5B RCF and provides trade-finance services for raw-material procurement and customer receivables. Commerzbank's credit exposure to Henkel is estimated at €200–400M. 2023 syndication included expansion of supply-chain financing programs to support Henkel's supplier base during commodity-price volatility.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance & Ownership)",
+        "relationshipNote": "BlackRock is Henkel's largest institutional shareholder with ~5.2% ownership (as of 2023). BlackRock's voting power on ESG and governance matters is significant; 2023 shareholder meeting saw BlackRock support Henkel's sustainability targets and executive compensation alignment. BlackRock's engagement on climate risk and supply-chain transparency influences Henkel's capital-allocation decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": "0001193125",
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance & Ownership)",
+        "relationshipNote": "Vanguard is Henkel's second-largest institutional shareholder with ~4.8% ownership (as of 2023). Vanguard's passive index funds hold significant Henkel positions; Vanguard's engagement on governance and dividend sustainability influences Henkel's capital-allocation policy. 2023 Vanguard supported Henkel's dividend maintenance despite margin pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Carsten Knobel",
+        "ticker": null,
+        "cik": null,
+        "slug": "carsten_knobel",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership (CEO)",
+        "relationshipNote": "Carsten Knobel has served as Henkel's CEO since 2016. Under Knobel's leadership, Henkel executed portfolio optimization (divested Clorox stake in 2023, exited Russian operations in 2022) and accelerated digital transformation. 2023 compensation: €2.8M base + €1.2M bonus; Knobel's strategic focus is on high-margin adhesive technologies and emerging-market growth.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sylvie Nicol",
+        "ticker": null,
+        "cik": null,
+        "slug": "sylvie_nicol",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management (CFO)",
+        "relationshipNote": "Sylvie Nicol has served as Henkel's CFO since 2019. Nicol oversees financial planning, capital allocation, and investor relations. 2023 responsibilities included managing €2.1B in raw-material cost inflation and refinancing €1.2B in maturing debt. Nicol's focus is on free-cash-flow generation and dividend sustainability; 2023 compensation: €1.6M base + €0.8M bonus.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Katrin Menges",
+        "ticker": null,
+        "cik": null,
+        "slug": "katrin_menges",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (COO)",
+        "relationshipNote": "Katrin Menges serves as Henkel's Chief Operating Officer, overseeing manufacturing, supply-chain optimization, and operational excellence. 2023 responsibilities included managing supply-chain disruptions (semiconductor shortages, logistics delays) and implementing Industry 4.0 initiatives in Henkel's 150+ manufacturing facilities. Menges' focus is on cost reduction and sustainability in operations.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hans Van Bylen",
+        "ticker": null,
+        "cik": null,
+        "slug": "hans_van_bylen",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity (Chairperson)",
+        "relationshipNote": "Hans Van Bylen serves as Henkel's Chairperson of the Supervisory Board since 2021. Van Bylen is a former Henkel CEO (2008–2016) and brings deep industry expertise. 2023 responsibilities included oversight of executive compensation, ESG governance, and strategic M&A decisions. Van Bylen's influence on dividend policy and capital allocation is significant.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Henkel Laundry & Home Care Comp Sales Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "henkel_lhc_comp_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Market Signal)",
+        "relationshipNote": "Quarterly comp-store sales growth for Henkel's Laundry & Home Care segment (Persil, All, Pril brands) across North America, Europe, and emerging markets. 2023 Q3 comp sales: +2.1% (price +4.2%, volume -2.1%), signaling pricing power but volume pressure. Signal is disclosed in quarterly earnings releases and investor presentations; used as leading indicator for consumer discretionary demand and pricing elasticity.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Henkel Adhesive Technologies OEM Demand Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "henkel_adhesive_oem_demand",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence (Market Signal)",
+        "relationshipNote": "Quarterly order intake and backlog for Henkel's Adhesive Technologies segment (Loctite, Teroson) from automotive and aerospace OEMs. 2023 Q3 order intake: +1.8% YoY (automotive +0.5%, aerospace +8.2%), signaling EV transition acceleration. Signal is disclosed in earnings calls and investor presentations; used as leading indicator for industrial production and capital-equipment cycles.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

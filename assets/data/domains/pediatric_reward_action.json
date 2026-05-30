@@ -1,0 +1,99 @@
+{
+  "domainId": "pediatric_reward_action",
+  "title": "Reward Processing & Motivation — Action Coordination",
+  "parentPortal": "pediatric_reward_portal.html",
+  "parentLabel": "Reward Processing & Motivation",
+  "phase": "P4",
+  "activations": [
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation — Action Coordination — Primary Node",
+      "domainDescription": "Action layer — orchestrates implementation across care providers, treatment modalities, medication protocols, and behavioral interventions.",
+      "group": "action_coordination",
+      "phase": "P4",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Treatment Protocol Orchestration",
+          "evidence": "B",
+          "description": "Coordinated execution of selected interventions across providers and modalities"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Protocol",
+          "evidence": "B",
+          "description": "Strategies for maintaining patient adherence and engagement throughout treatment"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Escalation Pathway",
+          "evidence": "B",
+          "description": "Defined escalation criteria and pathways when initial interventions prove insufficient"
+        }
+      ],
+      "childPortal": "pediatric_reward_action_assess_portal.html"
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation — Action Coordination — Secondary Node",
+      "domainDescription": "Action layer — orchestrates implementation across care providers, treatment modalities, medication protocols, and behavioral interventions.",
+      "group": "action_coordination",
+      "phase": "P4",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Treatment Protocol Orchestration",
+          "evidence": "B",
+          "description": "Coordinated execution of selected interventions across providers and modalities"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Protocol",
+          "evidence": "B",
+          "description": "Strategies for maintaining patient adherence and engagement throughout treatment"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Escalation Pathway",
+          "evidence": "B",
+          "description": "Defined escalation criteria and pathways when initial interventions prove insufficient"
+        }
+      ],
+      "childPortal": "pediatric_reward_action_impl_portal.html"
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation — Action Coordination — Tertiary Node",
+      "domainDescription": "Action layer — orchestrates implementation across care providers, treatment modalities, medication protocols, and behavioral interventions.",
+      "group": "action_coordination",
+      "phase": "P4",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Treatment Protocol Orchestration",
+          "evidence": "B",
+          "description": "Coordinated execution of selected interventions across providers and modalities"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Protocol",
+          "evidence": "B",
+          "description": "Strategies for maintaining patient adherence and engagement throughout treatment"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Escalation Pathway",
+          "evidence": "B",
+          "description": "Defined escalation criteria and pathways when initial interventions prove insufficient"
+        }
+      ],
+      "childPortal": "pediatric_reward_action_optim_portal.html"
+    }
+  ]
+}

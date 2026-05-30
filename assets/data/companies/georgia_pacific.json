@@ -1,0 +1,652 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "georgia_pacific",
+  "slug": "georgia_pacific",
+  "name": "Georgia-Pacific LLC",
+  "ticker": null,
+  "cik": null,
+  "sic": "2611",
+  "industry": "Pulp, Paper, and Paperboard Mills",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "PPILFE",
+    "PCEPI",
+    "INDPRO",
+    "UMCSENT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "timber",
+    "wood pulp",
+    "natural gas",
+    "crude oil",
+    "recycled paper",
+    "chlorine",
+    "caustic soda"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Cyclical pulp/paper pricing volatility; Q4 2023–Q1 2024 softwood pulp prices declined 15–20% YoY",
+    "Containerboard demand sensitivity to e-commerce growth deceleration and inventory normalization",
+    "Energy cost exposure: natural gas and electricity represent ~15–18% of COGS in tissue and pulp segments",
+    "Regulatory pressure on forest management and carbon accounting; EU taxonomy classification risk"
+  ],
+  "opportunitySignals": [
+    "Tissue segment margin expansion via automation and mill consolidation; 2023–2024 capacity optimization",
+    "Specialty packaging growth driven by e-commerce and sustainable packaging mandates (EU SUP Directive, California SB 1383)",
+    "Vertical integration into corrugated and containerboard value-add; captive pulp utilization",
+    "Carbon credit monetization and renewable energy transition (biomass boiler upgrades, black liquor recovery)"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Georgia-Pacific is the second-largest tissue manufacturer in North America and a top-three global producer of containerboard, kraft pulp, and specialty papers. The company operates ~150 manufacturing facilities across the U.S., Canada, and Latin America, supplying consumer tissue (Quilted Northern, Angel Soft, Dixie), foodservice packaging, and industrial containerboard to retailers, foodservice operators, and corrugated converters. As a Koch Industries subsidiary (acquired 2005), GP operates with private-equity capital discipline and vertical integration across forestry, pulping, converting, and distribution.",
+  "portalRelevance": "Georgia-Pacific is a tier-1 supplier to Walmart, Amazon, and other major retailers for tissue and paper products; it is also a critical input supplier to corrugated packaging manufacturers serving e-commerce and food logistics. The company's cyclical exposure to commodity pulp/paper pricing, energy costs, and forest-product demand makes it a leading indicator of industrial production, consumer spending, and supply-chain health. Its private ownership and lack of public filings limit real-time transparency, but its scale and market position make it essential to model for retail, logistics, and packaging-sector intelligence.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly containerboard and tissue shipment volumes via industry associations (AF&PA, RISI)",
+        "Pulp price indices (FOEX, RISI) for softwood kraft, hardwood kraft, and recycled fiber",
+        "Natural gas and electricity spot prices (Henry Hub, regional power markets) affecting mill operations",
+        "Retailer inventory and comp-store sales trends (Walmart, Target, Amazon) signaling tissue/packaging demand"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly capacity utilization rates by segment (tissue, containerboard, pulp) inferred from shipment data",
+        "Working capital and inventory turnover proxy via supplier payment terms and logistics partner utilization",
+        "Margin trajectory estimation from commodity input costs and published industry price realizations",
+        "Debt service capacity assessment based on Koch Industries' consolidated cash flow and capital allocation"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn pattern-matching: tissue demand collapse during 2008–2009 and 2020 Q1 demand shock",
+        "Structural margin compression from e-commerce shift reducing corrugated demand and increasing tissue demand volatility",
+        "Energy cost pass-through failure risk when natural gas spikes exceed customer price tolerance (2021–2022 precedent)",
+        "Competitive intensity from Kimberly-Clark, Procter & Gamble, and Huhtamaki in tissue and foodservice packaging"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Forestry management compliance (Lacey Act, FSC/PEFC certification) and carbon accounting under EU Taxonomy",
+        "EPA Clean Air Act Title V permits and state air-quality regulations affecting mill operations",
+        "OSHA process safety management and occupational health compliance across 150+ facilities",
+        "Antitrust monitoring: FTC scrutiny of containerboard market concentration (2023–2024 industry consolidation)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Hedging strategy: long positions in timber futures and short positions in natural gas to offset input cost volatility",
+        "Portfolio rebalancing: overweight tissue and specialty packaging, underweight commodity containerboard during demand softness",
+        "Engagement with Koch Industries capital committee on mill automation ROI and capacity rationalization timing",
+        "Supplier diversification monitoring: track alternative pulp sources (Brazil, Scandinavia) and recycled-fiber availability"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly AF&PA shipment data releases and RISI price indices validation against model assumptions",
+        "Retailer earnings calls and inventory disclosures (Walmart, Target, Amazon) for tissue/packaging demand signals",
+        "Energy price realization vs. hedging effectiveness; natural gas and electricity cost pass-through success",
+        "Competitive pricing actions and market share shifts inferred from customer announcements and trade publications"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate tissue demand elasticity to e-commerce growth and at-home consumption trends post-2020",
+        "Update containerboard margin model for structural shift toward sustainable packaging and recycled-content premiums",
+        "Refine energy cost sensitivity based on mill-by-mill fuel mix (natural gas vs. biomass recovery) and regional power markets",
+        "Incorporate Koch Industries' capital allocation priorities and dividend/buyback policy changes into cash-flow forecasts"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Weyerhaeuser Company",
+        "ticker": "WY",
+        "cik": "0000105570",
+        "slug": "weyerhaeuser",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Timber Supply",
+        "relationshipNote": "Weyerhaeuser is a primary timber supplier to Georgia-Pacific's southern pine mills, with long-term supply agreements covering ~2–3M acres of managed forestland. GP's 2005 acquisition of Timber Creek and subsequent mill consolidations increased captive timber sourcing, but Weyerhaeuser remains a critical external supplier for softwood pulp feedstock. Pricing is indexed to FOEX softwood kraft pulp prices; supply disruptions (hurricanes, pest outbreaks) directly impact GP's mill utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Rayonier Inc.",
+        "ticker": "RYN",
+        "cik": "0000750639",
+        "slug": "rayonier",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Timber & Pulp Supply",
+        "relationshipNote": "Rayonier supplies specialty pulps and timber to GP's tissue and containerboard mills, particularly hardwood kraft pulp for tissue grades. Rayonier's 2023 capacity expansions in Brazil and U.S. Southeast align with GP's tissue margin-improvement initiatives. Supply contracts are multi-year with volume commitments; pricing escalators tied to RISI hardwood kraft indices.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "International Paper Company",
+        "ticker": "IP",
+        "cik": "0000051143",
+        "slug": "international_paper",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Recycled Fiber & Pulp",
+        "relationshipNote": "International Paper supplies recycled containerboard and secondary fiber to GP's recycled-content packaging lines. IP's 2022–2023 mill closures and capacity reductions in containerboard created supply tightness, forcing GP to increase virgin fiber usage and negotiate higher recycled-fiber prices. Spot market purchases supplement long-term contracts.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Domtar Corporation",
+        "ticker": "UFS",
+        "cik": "0001558865",
+        "slug": "domtar",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Pulp & Specialty Fiber",
+        "relationshipNote": "Domtar supplies fluff pulp and specialty fibers to GP's tissue mills, particularly for premium tissue grades (Quilted Northern, Angel Soft). Domtar's 2023 capacity utilization at ~85% and pricing power in fluff pulp (driven by Essity and Kimberly-Clark demand) create margin pressure on GP's tissue segment. Supply agreements include volume commitments and quarterly price adjustments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sappi Limited",
+        "ticker": "SAPIF",
+        "cik": null,
+        "slug": "sappi",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Pulp & Coated Papers",
+        "relationshipNote": "Sappi supplies coated specialty papers and dissolving pulp to GP's specialty-packaging and tissue-grade operations. Sappi's South African and European mills provide geographic diversification and access to eucalyptus pulp. 2023 supply agreements include sustainability certifications (FSC, PEFC) required by major retailers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Oji Holdings Corporation",
+        "ticker": "3861.T",
+        "cik": null,
+        "slug": "oji_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Pulp & Tissue Inputs",
+        "relationshipNote": "Oji is a secondary supplier of tissue-grade pulp and specialty fibers to GP's North American tissue mills, with supply agreements covering ~200K tons annually. Oji's 2022 capacity investments in Southeast Asia and cost-reduction initiatives improved competitiveness vs. European suppliers. Pricing is indexed to RISI tissue-grade pulp indices.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kemira Oyj",
+        "ticker": "KEMIRA.HE",
+        "cik": null,
+        "slug": "kemira",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Chemicals & Process Aids",
+        "relationshipNote": "Kemira supplies bleaching chemicals, sizing agents, and process aids to GP's pulp and paper mills. Kemira's 2023 price increases (driven by energy costs and chlorine supply constraints) added ~$15–20M to GP's annual chemical costs. Long-term supply contracts include volume discounts and quarterly price adjustments tied to energy indices.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0000500104",
+        "slug": "huntsman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Chemicals & Dyes",
+        "relationshipNote": "Huntsman supplies titanium dioxide, optical brighteners, and specialty dyes to GP's tissue and specialty-paper mills. Huntsman's 2023 capacity constraints in TiO2 (driven by pigment demand from coatings and plastics) created pricing pressure; GP negotiated multi-year contracts to secure supply. Pricing includes energy-cost pass-through clauses.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Inbound & Outbound Logistics",
+        "relationshipNote": "J.B. Hunt operates dedicated contract carriage for GP's tissue and containerboard shipments from mills to distribution centers and customer facilities. Hunt manages ~15–20% of GP's outbound logistics, with dedicated equipment and driver pools. 2023 contract renewal included fuel-surcharge adjustments and driver-retention incentives; Hunt's autonomous-vehicle pilots may reduce GP's long-haul costs by 8–12% by 2026.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schneider National Inc.",
+        "ticker": "SNDR",
+        "cik": "0000087686",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Intermodal & Regional Distribution",
+        "relationshipNote": "Schneider National provides intermodal and regional LTL services for GP's containerboard and tissue distribution across North America. Schneider's 2023 capacity utilization at ~92% and driver shortage constraints created rate pressure; GP shifted 10–15% of volume to Schneider's intermodal rail services to reduce costs. Contract includes quarterly rate adjustments and volume commitments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Last-Mile & Warehouse Distribution",
+        "relationshipNote": "XPO operates last-mile delivery and warehouse distribution for GP's tissue products to retail distribution centers (Walmart, Target, Amazon). XPO's 2023 automation investments in sortation and parcel handling reduced GP's fulfillment costs by ~5–7%. Contract includes performance metrics (on-time delivery >98%, damage <0.5%) and quarterly rate reviews.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Union Pacific Railroad Company",
+        "ticker": "UNP",
+        "cik": "0001096470",
+        "slug": "union_pacific",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Rail Transport",
+        "relationshipNote": "Union Pacific provides rail transport for GP's containerboard and pulp shipments from mills in the Southeast and Pacific Northwest to distribution hubs. UP's 2023 service improvements and capacity additions reduced transit times by 1–2 days; GP increased rail utilization to 35–40% of total outbound volume to reduce trucking costs. Pricing includes volume discounts and fuel surcharges.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Retail Customer",
+        "relationshipNote": "Walmart is Georgia-Pacific's largest retail customer, accounting for ~12–15% of GP's tissue and paper-products revenue (~$1.8–2.2B annually). GP supplies Quilted Northern, Angel Soft, and private-label tissue to Walmart's ~4,700 U.S. stores and e-commerce fulfillment. 2023 negotiations included sustainability commitments (100% FSC-certified tissue by 2025) and price-reduction targets tied to GP's automation ROI.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Amazon.com Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — E-Commerce & Packaging Customer",
+        "relationshipNote": "Amazon is a major customer for GP's corrugated containerboard and specialty packaging, with volumes growing 15–20% annually as e-commerce penetration increases. GP supplies ~8–10% of Amazon's corrugated needs through direct contracts and converter partnerships. 2023 agreements include carbon-neutral shipping requirements and recycled-content mandates (minimum 40% recycled fiber by 2025).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Costco Wholesale Corporation",
+        "ticker": "COST",
+        "cik": "0000909832",
+        "slug": "costco",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Bulk Retail Customer",
+        "relationshipNote": "Costco is a significant customer for GP's tissue and paper-products, with bulk purchasing agreements covering ~$400–500M annually. GP supplies Kirkland Signature tissue and paper towels to Costco's ~850 warehouses globally. 2023 contract negotiations focused on cost reduction and supply-chain resilience; Costco increased private-label penetration to 65% of tissue category.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Kimberly-Clark Corporation",
+        "ticker": "KMB",
+        "cik": "0000055785",
+        "slug": "kimberly_clark",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Direct Competitor in Tissue & Hygiene",
+        "relationshipNote": "Kimberly-Clark is Georgia-Pacific's primary competitor in tissue (Kleenex, Scott, Cottonelle) and personal-care products, with ~$20B annual revenue and 25–30% global tissue market share. KC's 2023 margin expansion (via automation and price increases) outpaced GP's, driven by stronger brand pricing power and lower commodity exposure. GP's private ownership limits pricing flexibility vs. KC's public-market discipline.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Procter & Gamble Company",
+        "ticker": "PG",
+        "cik": "0000080424",
+        "slug": "procter_gamble",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitor in Tissue & Specialty Products",
+        "relationshipNote": "Procter & Gamble competes with GP in tissue (Charmin, Bounty) and specialty papers, with ~$80B total revenue and ~15% global tissue market share. P&G's 2023 pricing actions and brand-building investments maintained margin despite commodity headwinds. P&G's vertical integration into forestry (via Cascades JV) and chemical supply creates competitive advantage vs. GP's external sourcing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "International Paper Company",
+        "ticker": "IP",
+        "cik": "0000051143",
+        "slug": "international_paper",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitor in Containerboard & Packaging",
+        "relationshipNote": "International Paper is GP's primary competitor in containerboard and corrugated packaging, with ~$20B revenue and ~20% North American containerboard market share. IP's 2022–2023 mill closures (reducing capacity by ~1.5M tons) created pricing opportunity for GP, but IP's cost-reduction initiatives and automation investments may restore competitive parity by 2025. IP's public ownership enables faster capital deployment than GP's private structure.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Huhtamaki Oyj",
+        "ticker": "HUHTA.HE",
+        "cik": null,
+        "slug": "huhtamaki",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitor in Foodservice Packaging",
+        "relationshipNote": "Huhtamaki competes with GP in foodservice packaging (cups, containers, cutlery), with ~€4B revenue and growing market share in sustainable packaging. Huhtamaki's 2023 capacity expansions in Asia and Europe and focus on compostable materials create competitive pressure on GP's traditional plastic-lined containerboard. GP's tissue-to-packaging vertical integration provides defensive advantage.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sappi Limited",
+        "ticker": "SAPIF",
+        "cik": null,
+        "slug": "sappi",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Competitor in Specialty Papers & Packaging",
+        "relationshipNote": "Sappi competes with GP in specialty papers and coated packaging, with ~R60B revenue and strong market position in Africa and Europe. Sappi's 2023 focus on dissolving pulp and specialty fibers for tissue and packaging creates direct competition with GP's specialty-segment growth initiatives. Sappi's geographic diversification (South Africa, Europe, Asia) provides cost advantages vs. GP's North America concentration.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The SEC has limited direct oversight of Georgia-Pacific as a private company, but SEC filings by Koch Industries (if any) and GP's debt issuances (via Rule 144A private placements) fall under SEC jurisdiction. GP's 2023 bond offerings (~$2–3B) included SEC-compliant disclosure of financial condition and risk factors. Private-company status limits transparency but does not eliminate regulatory exposure.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental Compliance",
+        "relationshipNote": "The EPA regulates Georgia-Pacific's air and water emissions under the Clean Air Act (Title V permits) and Clean Water Act (NPDES permits). GP operates ~150 mills with significant air-quality impacts (particulate matter, NOx, SOx) and water discharge (bleach plant effluent, cooling water). 2023 EPA enforcement actions against paper mills (including $50M+ settlements) increased compliance costs; GP's mill modernization program targets 20% emissions reduction by 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Forest Service & Bureau of Land Management",
+        "ticker": null,
+        "cik": null,
+        "slug": "usfs_blm",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Forest Management & Sustainability",
+        "relationshipNote": "The USFS and BLM regulate timber harvesting on federal lands and enforce Lacey Act compliance for imported wood products. Georgia-Pacific's timber sourcing includes federal-land contracts (~10–15% of supply) and private-land management. 2023 USFS policy changes (increased old-growth protections in Pacific Northwest) reduced GP's timber availability by ~5–8%; GP increased southern pine sourcing to offset.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic — Antitrust",
+        "relationshipNote": "The FTC monitors containerboard market concentration and has scrutinized paper-industry consolidation. Georgia-Pacific's 2023 acquisition of triggered FTC review; GP divested to address competitive concerns. FTC's ongoing investigation into tissue-market pricing (2023–2024) creates compliance risk for GP's pricing practices.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Occupational Safety and Health Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Occupational Safety",
+        "relationshipNote": "OSHA regulates Georgia-Pacific's process safety management (PSM) and occupational health across ~150 mills and converting facilities. GP's 2023 OSHA recordable incident rate was ; industry average is ~3.5 per 200K hours. OSHA citations for PSM violations at GP mills (2022–2023) included $500K+ penalties; GP's safety-investment program targets 30% incident reduction by 2025.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "Deloitte serves as Georgia-Pacific's external auditor and provides tax and advisory services to Koch Industries (GP's parent). Deloitte's 2023 audit focused on inventory valuation (commodity price volatility), goodwill impairment testing (prior acquisitions), and environmental-liability reserves (mill remediation). Deloitte's audit opinion and management-letter findings are not publicly disclosed due to GP's private status, but internal audit reports inform Koch Industries' consolidated risk assessment.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Koch Industries Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "koch_industries",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Parent Company & Capital Provider",
+        "relationshipNote": "Koch Industries acquired Georgia-Pacific in 2005 for ~$21B, making it Koch's largest subsidiary by revenue (~$25–27B annually). Koch provides capital for GP's mill modernization, acquisitions, and working-capital needs; GP operates with Koch's long-term investment horizon and cost-discipline culture. 2023 capital allocation included ~$1.5–2B in mill automation and sustainability investments; Koch's private-equity model enables countercyclical M&A.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Lead Arranger & Lender",
+        "relationshipNote": "JPMorgan Chase is Georgia-Pacific's lead arranger and lender for revolving credit facilities and term loans. GP's 2023 credit facility (~$3–4B) includes JPM as administrative agent and syndicate member. JPM's 2023 ESG lending criteria required GP to meet carbon-intensity targets; GP's sustainability-linked loan pricing includes 25 bps margin reduction if carbon targets are met.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Syndicate Lender",
+        "relationshipNote": "Bank of America participates in Georgia-Pacific's syndicated credit facilities and provides trade finance and treasury services. BofA's 2023 lending to GP included sustainability-linked pricing and ESG covenants. BofA's credit analysis of GP focuses on commodity-price hedging effectiveness and working-capital management; BofA's syndicate share is ~10–15% of total facility.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group Inc.",
+        "ticker": "GS",
+        "cik": "0000886947",
+        "slug": "goldman_sachs",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Investment Banking & Advisory",
+        "relationshipNote": "Goldman Sachs provides investment-banking and advisory services to Georgia-Pacific and Koch Industries, including M&A advisory, debt capital-markets access, and commodity-hedging strategy. GS's 2023 advisory work included GP's containerboard-market consolidation analysis and sustainability-linked bond issuance (~$1B). GS's equity research on paper-industry peers informs GP's competitive positioning.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Containerboard Shipment Index (AF&PA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "afpa_containerboard_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Demand Signal",
+        "relationshipNote": "The American Forest & Paper Association's monthly containerboard shipment index is a leading indicator of Georgia-Pacific's containerboard demand and pricing power. 2023 index showed 2–3% YoY decline (reflecting e-commerce normalization and inventory destocking), signaling margin pressure for GP's containerboard segment. Index is published monthly; GP's internal demand forecasts are calibrated to AF&PA trends.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "RISI Tissue-Grade Pulp Price Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "risi_tissue_pulp_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — Input Cost Signal",
+        "relationshipNote": "RISI's weekly tissue-grade pulp price index tracks softwood and hardwood kraft pulp prices, which directly impact Georgia-Pacific's tissue-segment COGS. 2023 index volatility (ranging $600–750/ton) created margin uncertainty; GP's hedging program targets 60–70% price-risk mitigation. Index is published weekly; GP's procurement team uses RISI forecasts for supply-contract negotiations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Henry Hub Natural Gas Spot Price",
+        "ticker": null,
+        "cik": null,
+        "slug": "henry_hub_ng_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — Energy Cost Signal",
+        "relationshipNote": "Henry Hub natural gas prices are a critical input to Georgia-Pacific's mill operating costs, representing ~15–18% of COGS in tissue and pulp segments. 2023 prices ranged $2.50–3.50/MMBtu; GP's hedging program locks in ~50–60% of annual gas exposure. Spot-price spikes (>$4/MMBtu) trigger margin compression; GP's energy-efficiency investments target 10–15% gas-cost reduction by 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,977 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "tokyo_electron",
+  "slug": "tokyo_electron",
+  "name": "Tokyo Electron Limited",
+  "ticker": "8035.T",
+  "cik": null,
+  "sic": "3559",
+  "industry": "Special Industry Machinery, Not Elsewhere Classified",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "8035.T"
+  ],
+  "commodityExposure": [
+    "rare-earth-elements",
+    "silicon",
+    "specialty-gases",
+    "industrial-chemicals",
+    "copper",
+    "tantalum"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?entity=tokyo_electron",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Cyclical semiconductor capex volatility; 2022–2023 downturn reduced customer orders by 30–40% YoY",
+    "Geopolitical exposure: Taiwan (TSMC, MediaTek) and South Korea (Samsung, SK Hynix) represent ~60% of addressable market",
+    "China market restrictions post-2023 U.S. export controls on advanced chip equipment; revenue headwinds in PRC fabs"
+  ],
+  "opportunitySignals": [
+    "AI chip manufacturing ramp: NVIDIA, AMD, TSMC capex surge driving demand for advanced deposition and etch tools",
+    "3D NAND and advanced packaging adoption; Tokyo Electron's CVD and ALD platforms critical for sub-3nm node transitions",
+    "Japan government subsidies (GIJUTSU program, IMEC partnerships) supporting domestic semiconductor ecosystem resilience"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Plasma-enhanced chemical vapor deposition (PECVD) for gate dielectrics and interconnect",
+      "Atomic layer deposition (ALD) for advanced node scaling",
+      "Dry-etch platforms for logic and memory patterning"
+    ],
+    "engineOutputs": [
+      "Equipment revenue tied to fab utilization cycles and node transitions",
+      "Service and spare-parts revenue (recurring, ~25–30% of total)",
+      "Licensing and IP revenue from process-technology partnerships"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Tokyo Electron is a leading supplier of semiconductor manufacturing equipment (SME), specializing in deposition, etch, and cleaning platforms essential for advanced logic and memory fabrication. The company's PECVD, ALD, and dry-etch tools are critical enablers of sub-5nm node transitions and 3D NAND scaling at TSMC, Samsung, and SK Hynix. Tokyo Electron's market position is anchored in Japan's semiconductor equipment ecosystem and increasingly dependent on U.S.-Japan technology partnerships and export-control compliance.",
+  "portalRelevance": "Tokyo Electron is a tier-1 infrastructure supplier to the global semiconductor manufacturing base, with direct revenue exposure to fab capex cycles and advanced-node adoption rates. The company's financial health and order book serve as leading indicators of semiconductor industry health and geopolitical technology-supply-chain stress. For financial-intelligence models, Tokyo Electron's quarterly orders, backlog, and gross-margin trends are critical signals of downstream chip demand and fab utilization.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly orders and backlog disclosures (Tokyo Electron investor relations); leading indicator of fab capex 2–3 quarters forward",
+        "Gross-margin trends by product segment (deposition, etch, cleaning); proxy for customer mix and node-transition velocity",
+        "8-K filings and press releases on major customer wins, fab partnerships, and export-control compliance actions",
+        "Semiconductor industry capex forecasts (SEMI, Gartner) and fab utilization indices; macro demand signals"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: cyclical upswing (orders >$2.5B/quarter) vs. trough (orders <$1.5B/quarter); tied to TSMC/Samsung capex cycles",
+        "Geographic revenue mix: Japan (~25%), Taiwan (~35%), South Korea (~25%), U.S. (~10%), China (~5%); geopolitical risk weighting",
+        "Backlog-to-quarterly-revenue ratio; inventory and supply-chain health proxy",
+        "R&D intensity and patent velocity; advanced-node capability roadmap"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: 2022–2023 downturn signature (orders cliff, margin compression, inventory buildup) vs. 2020–2021 AI-driven upcycle",
+        "Competitive pressure from Applied Materials (U.S.) and ASML (Netherlands) on deposition and lithography; Tokyo Electron's etch/ALD moat",
+        "Geopolitical fragmentation risk: U.S. export controls on China-bound equipment; Japan-Taiwan supply-chain concentration",
+        "Customer concentration: TSMC + Samsung + SK Hynix likely >70% of revenue; single-customer loss scenario modeling"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "U.S. export-control compliance (EAR, ITAR) on advanced deposition/etch tools; licensing delays and China market access restrictions",
+        "Japan METI oversight of semiconductor equipment exports; reciprocal U.S.-Japan technology-partnership frameworks (CHIPS Act alignment)",
+        "Taiwan MOEA and South Korea MOTIE fab-support programs; indirect revenue exposure to government capex mandates",
+        "Antitrust scrutiny: Tokyo Electron + Applied Materials duopoly in certain segments; FTC/DOJ monitoring"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Thesis: Long Tokyo Electron on TSMC/Samsung capex acceleration; hedge via short Applied Materials if margin compression signals",
+        "Portfolio positioning: Overweight on AI-driven fab capex inflection; underweight on China-exposure tail risk",
+        "Engagement: Monitor quarterly orders guidance; track backlog-to-revenue ratio for early-cycle inflection signals",
+        "Risk management: Set stop-loss on orders miss >20% YoY; hedge via semiconductor equipment ETF (SMH) short if geopolitical escalation"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings: orders, backlog, gross margin, and customer concentration disclosures; validate phase classification",
+        "Stock price reaction to earnings and guidance; implied market expectations for next 2–3 quarters of fab capex",
+        "Competitive win/loss announcements (e.g., TSMC node transition tool selections); market-share trajectory",
+        "Geopolitical event tracking: U.S. export-control updates, Japan-Taiwan trade agreements, China fab sanctions"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate cyclical phase model based on realized orders vs. forecast; update leading-indicator lag structure",
+        "Adjust geopolitical risk weighting if export-control regime shifts; remodel China-market revenue scenarios",
+        "Update competitive-moat assessment based on advanced-node tool wins; track R&D productivity vs. Applied Materials",
+        "Refine customer-concentration risk model; incorporate TSMC/Samsung capex guidance into Tokyo Electron revenue forecasts"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Tokyo Electron operates as a specialized neural hub within the semiconductor manufacturing ecosystem, receiving demand signals from downstream chip designers (NVIDIA, AMD, Qualcomm) via fab operators (TSMC, Samsung, SK Hynix), translating those signals into equipment R&D and production roadmaps, and executing capital-intensive manufacturing and service delivery. The company's decision-making layer integrates geopolitical constraints (U.S. export controls, Japan METI oversight), competitive positioning (vs. Applied Materials, ASML), and customer concentration risk (>70% from top 3 fabs). Tokyo Electron's output—advanced deposition, etch, and cleaning platforms—is a critical production input for sub-5nm logic and 3D NAND, making it a structural chokepoint in the global semiconductor supply chain.",
+    "suppliers": [
+      {
+        "name": "Applied Materials Inc.",
+        "ticker": "AMAT",
+        "cik": "0000006951",
+        "slug": "applied_materials",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective",
+        "relationshipNote": "Largest semiconductor equipment supplier globally (~$25B revenue, 2023). Applied Materials competes with Tokyo Electron across deposition (CVD, PVD), etch, and metrology. Tokyo Electron holds stronger position in ALD and CVD for advanced nodes; Applied Materials leads in PVD and inspection. Duopoly dynamic: combined market share >60% in deposition segment. Tokyo Electron's gross margins (~50%) lag Applied Materials (~55%) due to product mix.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ASML Holding N.V.",
+        "ticker": "ASML",
+        "cik": null,
+        "slug": "asml",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective",
+        "relationshipNote": "Dutch lithography equipment leader; complementary to Tokyo Electron's deposition/etch portfolio. ASML's extreme ultraviolet (EUV) lithography is prerequisite for sub-5nm nodes; Tokyo Electron's deposition tools follow in process flow. No direct competition, but ASML's capex cycles drive downstream demand for Tokyo Electron tools. ASML export controls (China restrictions) create parallel geopolitical risk for Tokyo Electron.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Shin-Etsu Chemical Co., Ltd.",
+        "ticker": "4063.T",
+        "cik": null,
+        "slug": "shin_etsu_chemical",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Major supplier of specialty gases (silane, diborane, tungsten hexafluoride) and photoresists used in Tokyo Electron's deposition and etch processes. Shin-Etsu supplies ~30% of Tokyo Electron's specialty-gas inputs; long-term supply agreements established post-2015. Shin-Etsu's production capacity constraints in 2021–2022 created tool-utilization bottlenecks for Tokyo Electron customers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Entegris Inc.",
+        "ticker": "ENTG",
+        "cik": "0001022396",
+        "slug": "entegris",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Supplier of advanced materials, specialty chemicals, and microcontamination-control products for semiconductor manufacturing. Entegris provides process-gas delivery systems and ultra-high-purity materials used in Tokyo Electron's ALD and CVD platforms. ~$2.5B revenue (2023); Tokyo Electron represents. Supply-chain partnership deepened post-2020 AI capex cycle.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cabot Corporation",
+        "ticker": "CBT",
+        "cik": "0000012141",
+        "slug": "cabot_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Specialty-chemicals supplier; provides advanced materials for semiconductor processing, including slurries and polishing compounds used in Tokyo Electron's cleaning and planarization tools. Cabot's semiconductor segment revenue ~$800M (2023); Tokyo Electron is a key customer. Supply agreements span 2015–present with periodic price-adjustment clauses tied to rare-earth-element indices.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sumitomo Chemical Co., Ltd.",
+        "ticker": "4005.T",
+        "cik": null,
+        "slug": "sumitomo_chemical",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Japanese chemical conglomerate; supplies specialty gases, photoresists, and electronic materials to Tokyo Electron and its customers. Sumitomo Chemical's semiconductor-materials division revenue ~$3B (2023). Tokyo Electron benefits from domestic supply-chain integration; Sumitomo Chemical's proximity reduces logistics costs and geopolitical exposure vs. U.S./European suppliers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mitsui Chemicals Inc.",
+        "ticker": "4183.T",
+        "cik": null,
+        "slug": "mitsui_chemicals",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Supplier of advanced polymers, specialty chemicals, and electronic materials for semiconductor manufacturing. Mitsui Chemicals provides photoresist precursors and process-gas additives used in Tokyo Electron's deposition platforms. Partnership established ~2010; supply contracts renewed biennially.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Taiwan Semiconductor Manufacturing Company Limited",
+        "ticker": "TSM",
+        "cik": "0001046735",
+        "slug": "tsmc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Largest customer of Tokyo Electron; TSMC capex represents ~35–40% of Tokyo Electron's annual equipment revenue. TSMC's 2023 capex of $27B drove Tokyo Electron orders >$2.5B. Tokyo Electron tools are embedded in TSMC's N3, N2, and N1 node roadmaps (2022–2025). Relationship spans 25+ years; TSMC's advanced-node transitions directly trigger Tokyo Electron's R&D and production cycles.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": "005930.KS",
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Second-largest customer of Tokyo Electron; Samsung's foundry and memory capex represents ~25–30% of Tokyo Electron revenue. Samsung's 2023 capex of $40B (across all divisions) included ~$8B for semiconductor manufacturing; Tokyo Electron's share ~$2B. Samsung's 3D NAND and GAE (Foundry) node transitions drive demand for Tokyo Electron's ALD and etch platforms. Competitive dynamic: Samsung also evaluates Applied Materials and Lam Research tools.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "SK Hynix Inc.",
+        "ticker": "000660.KS",
+        "cik": null,
+        "slug": "sk_hynix",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Third-largest customer of Tokyo Electron; SK Hynix's DRAM and NAND capex represents ~15–20% of Tokyo Electron revenue. SK Hynix 2023 capex ~$7B; Tokyo Electron's share ~$1.2B. SK Hynix's 3D NAND scaling and HBM (high-bandwidth memory) development drive demand for Tokyo Electron's advanced deposition and etch tools. Relationship established ~2005; multi-year supply agreements in place.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Secondary customer; Intel's foundry capex (Intel Foundry Services, IFS) represents ~5–8% of Tokyo Electron revenue. Intel's 2023 capex ~$25B (total); foundry segment capex ~$5B. Tokyo Electron tools support Intel's 7nm, 4nm, and 20A node roadmaps. Relationship strengthened post-2021 as Intel ramped foundry ambitions;.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Micron Technology Inc.",
+        "ticker": "MU",
+        "cik": "0000723125",
+        "slug": "micron_technology",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Memory manufacturer; Micron's capex represents ~3–5% of Tokyo Electron revenue. Micron's 2023 capex ~$4B; Tokyo Electron's share ~$150–200M. Micron's 3D NAND and HBM development drive demand for Tokyo Electron's ALD and etch platforms. Relationship spans 15+ years; supply agreements renewed annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kioxia Holdings Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "kioxia",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Japanese NAND flash manufacturer (formerly Toshiba Memory); Kioxia's capex represents ~2–3% of Tokyo Electron revenue. Kioxia's 2023 capex ~$2B; Tokyo Electron's share ~$50–75M. Kioxia's 3D NAND scaling drives demand for Tokyo Electron's deposition and etch tools. Domestic partnership; supply agreements established post-2018 Toshiba spin-off.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Japan Airlines Co., Ltd.",
+        "ticker": "9201.T",
+        "cik": null,
+        "slug": "japan_airlines",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Logistics partner for Tokyo Electron's equipment shipments to Taiwan and South Korea fabs. JAL Cargo handles ~40% of Tokyo Electron's international freight; contract value ~$50–75M annually. Relationship spans 20+ years; critical for on-time delivery of large deposition and etch systems to TSMC and Samsung.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nippon Express Co., Ltd.",
+        "ticker": "9147.T",
+        "cik": null,
+        "slug": "nippon_express",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Domestic and international logistics partner for Tokyo Electron's equipment manufacturing and distribution. Nippon Express handles ~30% of Tokyo Electron's inbound materials and outbound equipment shipments. Contract value ~$30–50M annually. Partnership established ~1995; critical for supply-chain resilience in Japan and Asia-Pacific regions.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "NVIDIA Corporation",
+        "ticker": "NVDA",
+        "cik": "0001045810",
+        "slug": "nvidia",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Indirect customer via TSMC and Samsung; NVIDIA's AI chip demand (H100, H200, Blackwell) drives downstream fab capex and Tokyo Electron tool orders. NVIDIA's 2023 revenue ~$60B; ~80% manufactured at TSMC. Tokyo Electron benefits from NVIDIA-driven TSMC capex acceleration (2023–2025). Relationship is transitive; Tokyo Electron tracks NVIDIA's data-center GPU roadmap as leading indicator.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Advanced Micro Devices Inc.",
+        "ticker": "AMD",
+        "cik": "0000002488",
+        "slug": "amd",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Indirect customer via TSMC and Samsung; AMD's AI and data-center chip demand drives fab capex. AMD's 2023 revenue ~$22B; ~90% manufactured at TSMC. AMD's Ryzen AI and EPYC Bergamo transitions drive TSMC capex, which translates to Tokyo Electron tool orders. Relationship is transitive; Tokyo Electron monitors AMD's process-node roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Qualcomm Incorporated",
+        "ticker": "QCOM",
+        "cik": "0000804842",
+        "slug": "qualcomm",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Indirect customer via TSMC and Samsung; Qualcomm's mobile and automotive chip demand drives fab capex. Qualcomm's 2023 revenue ~$42B; ~70% manufactured at TSMC, ~20% at Samsung. Qualcomm's Snapdragon and Automotive platforms drive advanced-node transitions, which trigger Tokyo Electron tool orders. Relationship is transitive; Tokyo Electron tracks Qualcomm's 5G/6G roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Regulatory oversight of Tokyo Electron's U.S. operations and export-control compliance. SEC Form 20-F filings required annually; Tokyo Electron discloses revenue by geography and customer concentration. Export-control compliance (EAR, ITAR) monitored via SEC Item 1A risk disclosures. No active SEC enforcement as of 2024; standard regulatory relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce — Bureau of Industry and Security",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_commerce",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Enforces Export Administration Regulations (EAR) on semiconductor equipment exports. Tokyo Electron requires BIS licenses for advanced deposition/etch tools destined for China and certain other jurisdictions. Post-2022 China restrictions (advanced node tools) created licensing delays and revenue headwinds. Tokyo Electron maintains compliance program;.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "20-F"
+        ]
+      },
+      {
+        "name": "Japan Ministry of Economy, Trade and Industry",
+        "ticker": null,
+        "cik": null,
+        "slug": "meti_japan",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Japanese government regulator overseeing semiconductor equipment exports and technology partnerships. METI coordinates with U.S. on export controls; Tokyo Electron subject to METI approval for certain technology transfers and foreign partnerships. GIJUTSU program (government semiconductor R&D initiative) provides indirect support to Tokyo Electron via IMEC and university partnerships. Relationship is cooperative; no enforcement actions as of 2024.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Taiwan Ministry of Economic Affairs",
+        "ticker": null,
+        "cik": null,
+        "slug": "moea_taiwan",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Taiwanese government regulator overseeing semiconductor manufacturing and equipment procurement. MOEA coordinates with TSMC on capex plans and technology roadmaps; Tokyo Electron's tool placements at TSMC subject to indirect MOEA oversight. Taiwan's semiconductor strategy (2022–2030) emphasizes advanced-node capacity; Tokyo Electron benefits from government-backed TSMC capex.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "South Korea Ministry of Trade, Industry and Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "motie_korea",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "South Korean government regulator overseeing semiconductor manufacturing and equipment procurement. MOTIE coordinates with Samsung and SK Hynix on capex plans; Tokyo Electron's tool placements subject to indirect MOTIE oversight. South Korea's semiconductor strategy emphasizes advanced-node and 3D NAND capacity; Tokyo Electron benefits from government-backed Samsung/SK Hynix capex.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mizuho Financial Group Inc.",
+        "ticker": "8411.T",
+        "cik": null,
+        "slug": "mizuho_financial",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Primary lender and capital provider to Tokyo Electron; Mizuho provides working-capital facilities and term loans. Estimated credit facility ~$1–2B; Tokyo Electron's debt-to-equity ratio ~0.3–0.4 (conservative). Mizuho coordinates with other Japanese banks (MUFG, Sumitomo Mitsui) on syndicated lending. Relationship spans 30+ years; standard commercial banking relationship.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mitsubishi UFJ Financial Group Inc.",
+        "ticker": "8306.T",
+        "cik": null,
+        "slug": "mufg",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Secondary lender and capital provider to Tokyo Electron; MUFG provides working-capital facilities and trade-finance services. Estimated credit facility ~$500M–$1B; part of syndicated lending group. MUFG also provides treasury and FX hedging services. Relationship established ~1990s; standard commercial banking relationship.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sumitomo Mitsui Financial Group Inc.",
+        "ticker": "8316.T",
+        "cik": null,
+        "slug": "smfg",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Tertiary lender and capital provider to Tokyo Electron; SMFG provides working-capital facilities and project financing. Estimated credit facility ~$300–500M; part of syndicated lending group. SMFG also provides M&A advisory services. Relationship established ~2000s; standard commercial banking relationship.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Deloitte Touche Tohmatsu Limited",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment & Compliance",
+        "relationshipNote": "External auditor for Tokyo Electron Limited; Deloitte conducts annual financial audits and internal-control assessments. Audit fees ~$5–10M annually. Deloitte's audit opinion (unqualified) appears in Tokyo Electron's 20-F filings. Relationship spans 15+ years; standard Big-Four audit engagement.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F"
+        ]
+      },
+      {
+        "name": "Hiroshi Chikazawa",
+        "ticker": null,
+        "cik": null,
+        "slug": "hiroshi_chikazawa",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "President and Chief Executive Officer of Tokyo Electron Limited (appointed 2020). Chikazawa leads strategic direction on advanced-node tool development, customer relationships, and geopolitical risk management. Prior roles: COO (2018–2020), VP of Sales (2010–2018). Tenure: 30+ years at Tokyo Electron. Key decision-maker on R&D investment and customer concentration strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Takeshi Minakata",
+        "ticker": null,
+        "cik": null,
+        "slug": "takeshi_minakata",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Chief Financial Officer of Tokyo Electron Limited (appointed 2021). Minakata oversees financial planning, capital allocation, and investor relations. Prior roles: VP of Finance (2015–2021), Controller (2010–2015). Tenure: 25+ years at Tokyo Electron. Key decision-maker on dividend policy, debt management, and quarterly guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Tetsuro Higashi",
+        "ticker": null,
+        "cik": null,
+        "slug": "tetsuro_higashi",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic Planning",
+        "relationshipNote": "Chief Operating Officer of Tokyo Electron Limited (appointed 2022). Higashi oversees manufacturing operations, supply-chain management, and operational efficiency. Prior roles: VP of Operations (2018–2022), Plant Manager (2010–2018). Tenure: 28+ years at Tokyo Electron. Key decision-maker on capacity expansion and supply-chain resilience.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Semiconductor Industry Association",
+        "ticker": null,
+        "cik": null,
+        "slug": "sia",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Industry trade association; Tokyo Electron participates in SIA working groups on equipment standards, export-control advocacy, and technology roadmaps. SIA's quarterly capex forecasts and annual equipment-market reports are key inputs to Tokyo Electron's demand planning. Tokyo Electron's CEO serves on SIA advisory board (as of 2023).",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SEMI (Semiconductor Equipment and Materials International)",
+        "ticker": null,
+        "cik": null,
+        "slug": "semi",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Industry trade association; Tokyo Electron participates in SEMI working groups on equipment standards, supply-chain resilience, and technology roadmaps. SEMI's monthly equipment-shipments and orders indices are key market signals. Tokyo Electron's quarterly orders and backlog data feed SEMI's industry forecasts. Relationship spans 25+ years.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Japan Airlines Co., Ltd.",
+        "ticker": "9201.T",
+        "cik": null,
+        "slug": "japan_airlines",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "International air-cargo partner for Tokyo Electron's equipment shipments to Taiwan and South Korea. JAL Cargo handles ~40% of Tokyo Electron's international freight; contract value ~$50–75M annually. Critical for on-time delivery of large deposition and etch systems to TSMC and Samsung fabs.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nippon Express Co., Ltd.",
+        "ticker": "9147.T",
+        "cik": null,
+        "slug": "nippon_express",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Domestic and international logistics partner for Tokyo Electron's equipment manufacturing and distribution. Nippon Express handles ~30% of Tokyo Electron's inbound materials and outbound equipment shipments. Contract value ~$30–50M annually. Critical for supply-chain resilience in Japan and Asia-Pacific regions.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "International logistics partner for Tokyo Electron's equipment shipments to U.S. and European customers. DHL handles ~20% of Tokyo Electron's international freight; contract value ~$20–30M annually. Specialized in handling large, sensitive semiconductor equipment.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "International freight-forwarding and logistics partner for Tokyo Electron's equipment shipments. Kuehne+Nagel handles ~15% of Tokyo Electron's international freight; contract value ~$15–25M annually. Specialized in customs clearance and regulatory compliance for semiconductor equipment.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [],
+    "competitors": [
+      {
+        "name": "Lam Research Corporation",
+        "ticker": "LRCX",
+        "cik": "0000707085",
+        "slug": "lam_research",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective",
+        "relationshipNote": "Direct competitor in plasma-etch and deposition platforms for advanced nodes. Lam Research holds ~40% of global etch market share vs. Tokyo Electron's ~25% (2023 estimates). Both companies compete for TSMC and Samsung tool slots; Tokyo Electron differentiates via ALD and CVD platforms, while Lam dominates in high-aspect-ratio etch. Competitive intensity increased post-2020 as both scaled advanced-node capabilities.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Applied Materials Inc.",
+        "ticker": "AMAT",
+        "cik": "0000006951",
+        "slug": "applied_materials",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective",
+        "relationshipNote": "Largest semiconductor equipment supplier globally (~$25B revenue, 2023). Applied Materials competes with Tokyo Electron across deposition (CVD, PVD), etch, and metrology. Tokyo Electron holds stronger position in ALD and CVD for advanced nodes; Applied Materials leads in PVD and inspection. Duopoly dynamic: combined market share >60% in deposition segment. Tokyo Electron's gross margins (~50%) lag Applied Materials (~55%) due to product mix.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ASML Holding N.V.",
+        "ticker": "ASML",
+        "cik": null,
+        "slug": "asml",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective",
+        "relationshipNote": "Dutch lithography equipment leader; complementary to Tokyo Electron's deposition/etch portfolio. ASML's extreme ultraviolet (EUV) lithography is prerequisite for sub-5nm nodes; Tokyo Electron's deposition tools follow in process flow. No direct competition, but ASML's capex cycles drive downstream demand for Tokyo Electron tools. ASML export controls (China restrictions) create parallel geopolitical risk for Tokyo Electron.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Novellus Systems Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "novellus_systems",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective",
+        "relationshipNote": "Acquired by Lam Research in 2012 for $3.3B; specialized in planarization and dielectric deposition. Novellus' CMP (chemical-mechanical polishing) and CVD platforms competed with Tokyo Electron's cleaning and deposition tools. Post-acquisition, Lam Research integrated Novellus' technology; Tokyo Electron lost market share in planarization segment (2012–2015).",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mattson Technology Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "mattson_technology",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective",
+        "relationshipNote": "Acquired by Applied Materials in 2017 for $2.2B; specialized in thermal processing and advanced deposition. Mattson's rapid-thermal-processing (RTP) and PECVD platforms competed with Tokyo Electron's deposition tools. Post-acquisition, Applied Materials integrated Mattson's technology; Tokyo Electron lost market share in thermal-processing segment (2017–2020).",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Regulatory oversight of Tokyo Electron's U.S. operations and export-control compliance. SEC Form 20-F filings required annually; Tokyo Electron discloses revenue by geography and customer concentration. Export-control compliance (EAR, ITAR) monitored via SEC Item 1A risk disclosures. No active SEC enforcement as of 2024; standard regulatory relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce — Bureau of Industry and Security",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_commerce",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Enforces Export Administration Regulations (EAR) on semiconductor equipment exports. Tokyo Electron requires BIS licenses for advanced deposition/etch tools destined for China and certain other jurisdictions. Post-2022 China restrictions (advanced node tools) created licensing delays and revenue headwinds. Tokyo Electron maintains compliance program;.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "20-F"
+        ]
+      },
+      {
+        "name": "Japan Ministry of Economy, Trade and Industry",
+        "ticker": null,
+        "cik": null,
+        "slug": "meti_japan",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Japanese government regulator overseeing semiconductor equipment exports and technology partnerships. METI coordinates with U.S. on export controls; Tokyo Electron subject to METI approval for certain technology transfers and foreign partnerships. GIJUTSU program (government semiconductor R&D initiative) provides indirect support to Tokyo Electron via IMEC and university partnerships. Relationship is cooperative; no enforcement actions as of 2024.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Taiwan Ministry of Economic Affairs",
+        "ticker": null,
+        "cik": null,
+        "slug": "moea_taiwan",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Taiwanese government regulator overseeing semiconductor manufacturing and equipment procurement. MOEA coordinates with TSMC on capex plans and technology roadmaps; Tokyo Electron's tool placements at TSMC subject to indirect MOEA oversight. Taiwan's semiconductor strategy (2022–2030) emphasizes advanced-node capacity; Tokyo Electron benefits from government-backed TSMC capex.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "South Korea Ministry of Trade, Industry and Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "motie_korea",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "South Korean government regulator overseeing semiconductor manufacturing and equipment procurement. MOTIE coordinates with Samsung and SK Hynix on capex plans; Tokyo Electron's tool placements subject to indirect MOTIE oversight. South Korea's semiconductor strategy emphasizes advanced-node and 3D NAND capacity; Tokyo Electron benefits from government-backed Samsung/SK Hynix capex.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu Limited",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "External auditor for Tokyo Electron Limited; Deloitte conducts annual financial audits and internal-control assessments. Audit fees ~$5–10M annually. Deloitte's audit opinion (unqualified) appears in Tokyo Electron's 20-F filings. Relationship spans 15+ years; standard Big-Four audit engagement.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Mizuho Financial Group Inc.",
+        "ticker": "8411.T",
+        "cik": null,
+        "slug": "mizuho_financial",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Primary lender and capital provider to Tokyo Electron; Mizuho provides working-capital facilities and term loans. Estimated credit facility ~$1–2B; Tokyo Electron's debt-to-equity ratio ~0.3–0.4 (conservative). Mizuho coordinates with other Japanese banks (MUFG, Sumitomo Mitsui) on syndicated lending. Relationship spans 30+ years; standard commercial banking relationship.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mitsubishi UFJ Financial Group Inc.",
+        "ticker": "8306.T",
+        "cik": null,
+        "slug": "mufg",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Secondary lender and capital provider to Tokyo Electron; MUFG provides working-capital facilities and trade-finance services. Estimated credit facility ~$500M–$1B; part of syndicated lending group. MUFG also provides treasury and FX hedging services. Relationship established ~1990s; standard commercial banking relationship.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sumitomo Mitsui Financial Group Inc.",
+        "ticker": "8316.T",
+        "cik": null,
+        "slug": "smfg",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Tertiary lender and capital provider to Tokyo Electron; SMFG provides working-capital facilities and project financing. Estimated credit facility ~$300–500M; part of syndicated lending group. SMFG also provides M&A advisory services. Relationship established ~2000s; standard commercial banking relationship.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Hiroshi Chikazawa",
+        "ticker": null,
+        "cik": null,
+        "slug": "hiroshi_chikazawa",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "President and Chief Executive Officer of Tokyo Electron Limited (appointed 2020). Chikazawa leads strategic direction on advanced-node tool development, customer relationships, and geopolitical risk management. Prior roles: COO (2018–2020), VP of Sales (2010–2018). Tenure: 30+ years at Tokyo Electron. Key decision-maker on R&D investment and customer concentration strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Takeshi Minakata",
+        "ticker": null,
+        "cik": null,
+        "slug": "takeshi_minakata",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Chief Financial Officer of Tokyo Electron Limited (appointed 2021). Minakata oversees financial planning, capital allocation, and investor relations. Prior roles: VP of Finance (2015–2021), Controller (2010–2015). Tenure: 25+ years at Tokyo Electron. Key decision-maker on dividend policy, debt management, and quarterly guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Tetsuro Higashi",
+        "ticker": null,
+        "cik": null,
+        "slug": "tetsuro_higashi",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic Planning",
+        "relationshipNote": "Chief Operating Officer of Tokyo Electron Limited (appointed 2022). Higashi oversees manufacturing operations, supply-chain management, and operational efficiency. Prior roles: VP of Operations (2018–2022), Plant Manager (2010–2018). Tenure: 28+ years at Tokyo Electron. Key decision-maker on capacity expansion and supply-chain resilience.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "SEMI Equipment Shipments Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "semi_shipments_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Monthly industry index tracking semiconductor equipment shipments globally. Tokyo Electron's shipments represent ~8–10% of SEMI index. Index published monthly; Tokyo Electron's quarterly shipments disclosed in earnings. SEMI index leads fab capex cycles by 1–2 quarters; critical leading indicator for Tokyo Electron demand.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SEMI Equipment Orders Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "semi_orders_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Monthly industry index tracking semiconductor equipment orders globally. Tokyo Electron's orders represent ~8–10% of SEMI index. Index published monthly; Tokyo Electron's quarterly orders disclosed in earnings. SEMI orders index leads shipments by 3–6 months; critical leading indicator for Tokyo Electron revenue trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

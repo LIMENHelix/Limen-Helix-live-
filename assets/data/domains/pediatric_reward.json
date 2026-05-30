@@ -1,0 +1,383 @@
+{
+  "domainId": "pediatric_reward",
+  "title": "Reward Processing & Motivation",
+  "parentPortal": "pediatric_portal.html",
+  "parentLabel": "Pediatric Neurodevelopment",
+  "phase": "P0",
+  "activations": [
+    {
+      "brainNodeId": "PBN",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Reward Processing & Motivation indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P0",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "pediatric_reward_action_portal.html"
+    },
+    {
+      "brainNodeId": "PPN",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Reward Processing & Motivation activities and deliverables",
+      "group": "operations",
+      "phase": "P0",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Reward Processing & Motivation Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "pediatric_reward_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "VERM",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Reward Processing & Motivation, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "pediatric_reward_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "NEOCER",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Reward Processing & Motivation practices and compliance obligations",
+      "group": "governance",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "pediatric_reward_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "CLAUST",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Reward Processing & Motivation methods and capabilities",
+      "group": "innovation",
+      "phase": "P0",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "pediatric_reward_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "UNC",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Reward Processing & Motivation stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "pediatric_reward_signal_portal.html"
+    },
+    {
+      "brainNodeId": "RF",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Reward Processing & Motivation operations and interfaces",
+      "group": "systems",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "pediatric_reward_state_portal.html"
+    },
+    {
+      "brainNodeId": "OSC",
+      "state": "active",
+      "domainLabel": "Reward Processing & Motivation Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Reward Processing & Motivation outputs and resource utilization",
+      "group": "operations",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Reward Processing & Motivation Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "PBN",
+      "target": "PPN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "PPN",
+      "target": "VERM",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "VERM",
+      "target": "NEOCER",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "NEOCER",
+      "target": "CLAUST",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "CLAUST",
+      "target": "UNC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "UNC",
+      "target": "RF",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "RF",
+      "target": "OSC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "OSC",
+      "target": "PBN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "PBN",
+      "target": "CLAUST",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "NEOCER",
+      "target": "RF",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "PEDIATRIC_REWARD_SYSTEM_FAILURE",
+      "label": "Reward Processing & Motivation System Failure",
+      "summary": "Critical breakdown in Reward Processing & Motivation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "PBN",
+          "dir": "Hypo-active",
+          "detail": "Reward Processing & Motivation Assessment & Diagnostics capacity falling below operational thresholds, reducing Reward Processing & Motivation output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PPN",
+          "dir": "Hypo-active",
+          "detail": "Reward Processing & Motivation Core Operations systems underperforming, creating gaps in Reward Processing & Motivation coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VERM",
+          "dir": "Altered",
+          "detail": "Reward Processing & Motivation Infrastructure & Capacity behavior deviating from established norms, complicating Reward Processing & Motivation management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "UNC",
+          "dir": "Hyper-active",
+          "detail": "Reward Processing & Motivation Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Reward Processing & Motivation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OSC",
+          "dir": "Hypo-active",
+          "detail": "Reward Processing & Motivation Performance & Optimization function reduced, compromising Reward Processing & Motivation system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PEDIATRIC_REWARD_CAPACITY_CRISIS",
+      "label": "Reward Processing & Motivation Capacity Crisis",
+      "summary": "Demand exceeding available Reward Processing & Motivation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "PPN",
+          "dir": "Hyper-active",
+          "detail": "Reward Processing & Motivation Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Reward Processing & Motivation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VERM",
+          "dir": "Hypo-active",
+          "detail": "Reward Processing & Motivation Infrastructure & Capacity systems underperforming, creating gaps in Reward Processing & Motivation coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NEOCER",
+          "dir": "Altered",
+          "detail": "Reward Processing & Motivation Standards & Governance behavior deviating from established norms, complicating Reward Processing & Motivation management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RF",
+          "dir": "Hyper-active",
+          "detail": "Reward Processing & Motivation Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Reward Processing & Motivation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OSC",
+          "dir": "Altered",
+          "detail": "Reward Processing & Motivation Performance & Optimization operating outside normal parameters, introducing uncertainty into Reward Processing & Motivation outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PEDIATRIC_REWARD_GOVERNANCE_GAP",
+      "label": "Reward Processing & Motivation Governance Gap",
+      "summary": "Oversight or regulatory failure in Reward Processing & Motivation creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hypo-active",
+          "detail": "Reward Processing & Motivation Standards & Governance capacity falling below operational thresholds, reducing Reward Processing & Motivation output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PBN",
+          "dir": "Altered",
+          "detail": "Reward Processing & Motivation Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Reward Processing & Motivation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CLAUST",
+          "dir": "Hyper-active",
+          "detail": "Reward Processing & Motivation Research & Development activity spiking beyond design limits, creating instability across Reward Processing & Motivation operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "UNC",
+          "dir": "Altered",
+          "detail": "Reward Processing & Motivation Risk & Resilience patterns disrupted, necessitating adaptive responses within Reward Processing & Motivation frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RF",
+          "dir": "Hypo-active",
+          "detail": "Reward Processing & Motivation Coordination & Integration function reduced, compromising Reward Processing & Motivation system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

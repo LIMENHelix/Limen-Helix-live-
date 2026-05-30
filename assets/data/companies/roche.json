@@ -1,0 +1,784 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "roche",
+  "slug": "roche",
+  "name": "Roche Holding AG",
+  "ticker": null,
+  "cik": null,
+  "sic": "2834",
+  "industry": "Pharmaceutical Preparations",
+  "domainId": "medicine",
+  "portalAttachment": "medicine-portal.html",
+  "kernelStatus": "FOREIGN_FILER",
+  "fredSeries": [
+    "HOUST",
+    "UNRATE",
+    "CPIMEDSL",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "active pharmaceutical ingredients (APIs)",
+    "chemical precursors",
+    "glass vials and syringes",
+    "specialty polymers",
+    "rare earth elements (diagnostics)",
+    "energy (manufacturing)"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Patent cliff on Herceptin (trastuzumab) and Avastin (bevacizumab) driving biosimilar competition post-2019",
+    "Regulatory scrutiny on drug pricing in US, EU, and emerging markets; 2023 US IRA price negotiation provisions",
+    "Dependency on oncology portfolio concentration; ~40% of pharma revenue from cancer therapeutics",
+    "Supply-chain fragility in mRNA manufacturing post-COVID; capacity constraints vs. Moderna/BioNTech"
+  ],
+  "opportunitySignals": [
+    "Diagnostics segment (Roche Diagnostics) growing 5–7% CAGR; COVID-19 test revenue normalization offset by chronic-disease screening expansion",
+    "GLP-1 receptor agonist pipeline (CT-388, others) targeting $50B+ obesity/diabetes market; partnership with Carmot Therapeutics (2021 acquisition)",
+    "Cell & Gene Therapy platform via Spark Therapeutics (2019, $4.3B acquisition); Luxturna (RPE65) and Zolgensma-adjacent programs",
+    "Real-world evidence (RWE) and digital health integration; 2023 partnerships with Epic Systems and Salesforce Health Cloud"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Oncology (Herceptin, Avastin, Perjeta, Tecentriq, Tirzepatide co-development with Eli Lilly)",
+      "Virology (Tamiflu, COVID-19 antivirals, mRNA vaccine partnerships)",
+      "Immunology (Actemra/tocilizumab, Esbriet/pirfenidone)",
+      "Diagnostics (cobas PCR systems, Elecsys immunoassays, digital pathology)"
+    ],
+    "engineOutputs": [
+      "2023 pharma sales CHF 36.8B (~$41B USD); diagnostics CHF 15.2B",
+      "Tecentriq (atezolizumab) peak sales trajectory $8–10B by 2025",
+      "Tirzepatide (GLP-1, Mounjaro co-development) launched 2023; peak sales potential $15B+ by 2030"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Roche is a global integrated pharmaceutical and diagnostics company with ~$65B annual revenue (2023), operating across oncology, virology, immunology, and in-vitro diagnostics. The company holds ~15% global pharma market share and is a top-3 player in cancer therapeutics, mRNA vaccine manufacturing, and point-of-care diagnostics. Roche's dual-pillar model (pharma + diagnostics) creates structural resilience and cross-selling leverage in hospital systems and primary care globally.",
+  "portalRelevance": "Roche is a tier-1 anchor in the global pharmaceutical supply chain and a critical node in healthcare infrastructure, particularly for oncology, infectious disease, and diagnostic workflows. Its patent portfolio, manufacturing footprint (Switzerland, US, Germany, China, India), and regulatory relationships with FDA, EMA, and PMDA shape drug-approval timelines and market access across 100+ countries. For financial-intelligence models, Roche's earnings, pipeline progression, and M&A activity (Spark Therapeutics, Carmot, Ignyta) signal sector-wide innovation velocity and capital-allocation discipline.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly pharma/diagnostics revenue splits and geographic mix (US, EU, China, Japan, emerging markets)",
+        "Pipeline advancement signals: Phase III trial readouts, FDA breakthrough designations, EMA PRAC reviews",
+        "Biosimilar competitive entry timelines (Herceptin, Avastin, Rituxan patent expirations 2019–2024)",
+        "Supply-chain disruption alerts: API sourcing from India/China, mRNA manufacturing capacity utilization, glass vial/syringe availability"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Oncology portfolio maturity: Tecentriq, Perjeta, Tirzepatide revenue trajectory vs. biosimilar headwinds",
+        "Diagnostics growth rate (5–7% CAGR) and margin profile (higher than pharma) relative to Abbott, Siemens Healthineers",
+        "Free-cash-flow generation and dividend sustainability (CHF 10–12B annual FCF target)",
+        "Patent cliff exposure: Herceptin (2019), Avastin (2022), Rituxan (2023) offset by new-drug launches and lifecycle extensions"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Oncology concentration risk: ~40% of pharma revenue from cancer drugs; biosimilar competition eroding Herceptin/Avastin pricing 15–25% annually",
+        "GLP-1 market entry timing: Tirzepatide (Mounjaro) launched Q4 2023; peak-sales potential $15B+ by 2030 vs. Novo Nordisk/Eli Lilly incumbents",
+        "Diagnostics resilience: COVID-19 test revenue normalization (2022–2023 decline ~30%) offset by chronic-disease screening and digital pathology adoption",
+        "M&A integration risk: Spark Therapeutics (2019, $4.3B) and Carmot Therapeutics (2021, $2.7B) require 3–5 year value realization; Ignyta (2020, $1.7B) oncology pipeline maturation"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "US IRA Section 1192 drug-price negotiation: Roche's top 10 drugs (Herceptin, Avastin, Tecentriq, Perjeta, Actemra, Esbriet, Tamiflu, Xolair, Rituxan, Ocrevus) exposed to 2024–2026 negotiation rounds; estimated 20–30% price impact on selected molecules",
+        "EMA pricing pressure: Germany's AMNOG (Arzneimittelmarkt-Neuordnungsgesetz) benefit assessments; France's ANSM reference pricing; UK NICE cost-effectiveness thresholds",
+        "FDA regulatory pathway acceleration: Breakthrough Therapy designations for Tirzepatide (obesity), Glofitamab (lymphoma), Pluvicto (prostate cancer) shorten review timelines but increase post-launch surveillance burden",
+        "China market access: NMPA (National Medical Products Administration) pricing pressure and volume-based procurement (VBP) discounts 40–60% on oncology drugs; manufacturing compliance with NMPA GMP standards"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio optimization: Divest lower-margin assets (e.g., non-core diagnostics); concentrate R&D on GLP-1, cell/gene therapy, and digital diagnostics",
+        "Pricing strategy: Tirzepatide premium positioning vs. semaglutide (Novo Nordisk); managed-care rebate structures to offset IRA negotiation impact",
+        "Supply-chain resilience: Dual-source API suppliers (India, China, EU); mRNA manufacturing capacity expansion (partnerships with Moderna, BioNTech for co-manufacturing)",
+        "M&A/partnerships: Expand cell/gene therapy via Spark Therapeutics pipeline; GLP-1 development via Carmot; digital health integration (Epic, Salesforce partnerships)"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings: Pharma revenue growth (organic, ex-FX), diagnostics growth rate, gross margin trajectory",
+        "Pipeline milestones: Phase III trial readouts (Tirzepatide obesity, Glofitamab, Pluvicto), FDA/EMA decisions, breakthrough designation grants",
+        "Competitive pricing: Biosimilar market share gains on Herceptin, Avastin, Rituxan; Tirzepatide vs. semaglutide market penetration",
+        "Supply-chain metrics: API cost inflation, manufacturing utilization, inventory turns, logistics cost per unit"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight oncology concentration risk in portfolio model if biosimilar erosion accelerates beyond 20% CAGR",
+        "Recalibrate GLP-1 peak-sales assumptions based on Tirzepatide market uptake, payer coverage, and competitive pricing dynamics",
+        "Update diagnostics growth trajectory if COVID-19 test revenue stabilizes vs. continued normalization; incorporate digital pathology adoption curves",
+        "Adjust supply-chain sensitivity to API sourcing disruptions (India/China regulatory changes, geopolitical tensions) and mRNA manufacturing bottlenecks"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Roche operates as a distributed pharmaceutical-diagnostics network with dual decision centers: the pharma division (oncology, virology, immunology) drives innovation velocity and patent-cliff risk management, while the diagnostics division (in-vitro testing, digital pathology) provides recurring revenue and cross-selling leverage into hospital systems. The company's neural architecture integrates R&D (Basel, San Francisco, Tokyo), manufacturing (Switzerland, US, Germany, China, India), regulatory affairs (FDA, EMA, PMDA, NMPA), and commercial operations (sales forces, managed-care negotiations, payer relationships) into a tightly coupled system for drug development, approval, manufacturing scale-up, and market access. Supply-chain dependencies on APIs, glass vials, syringes, and specialty polymers create sensory inputs from commodity markets and logistics partners; competitive threats from biosimilar manufacturers and GLP-1 entrants (Novo Nordisk, Eli Lilly, Amgen) trigger strategic responses in pricing, pipeline acceleration, and M&A.",
+    "suppliers": [
+      {
+        "name": "Lonza Group AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "lonza_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Contract Manufacturing & Operations",
+        "relationshipNote": "Lonza is Roche's primary contract manufacturing organization (CMO) for active pharmaceutical ingredients (APIs) and finished-dose manufacturing. 2023 partnership expansion includes mRNA manufacturing capacity for Roche's COVID-19 vaccine programs and pipeline candidates. Lonza supplies ~15–20% of Roche's global API volume; manufacturing sites in Switzerland, US, and Singapore. Long-term supply agreements (2020–2025) with price-escalation clauses tied to raw-material indices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Merck KGaA (MilliporeSigma)",
+        "ticker": null,
+        "cik": null,
+        "slug": "merck_kgaa",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Specialty Chemicals",
+        "relationshipNote": "MilliporeSigma supplies specialty chemicals, reagents, and chromatography resins for Roche's pharmaceutical manufacturing and diagnostics assay development. 2022 contract renewal (3-year term) covers ~$200M annual supply of high-purity solvents, buffers, and filtration media. Roche's diagnostics division depends on MilliporeSigma for cobas PCR reagent kits and Elecsys immunoassay components.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Catalent Inc.",
+        "ticker": "CTLT",
+        "cik": "1567181",
+        "slug": "catalent",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Fill-Finish & Packaging Operations",
+        "relationshipNote": "Catalent operates fill-finish manufacturing for Roche's injectable oncology drugs (Herceptin, Avastin, Perjeta, Tecentriq) and immunology products (Actemra). 2021 long-term agreement covers 3 facilities (US, Europe) with capacity for 500M+ units annually. Catalent's vial-filling lines are critical for Roche's mRNA vaccine and GLP-1 programs; 2023 capacity expansion adds 100M+ unit capacity for Tirzepatide.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Gerresheimer AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "gerresheimer",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Glass Vials & Syringes",
+        "relationshipNote": "Gerresheimer supplies specialty glass vials, syringes, and cartridges for Roche's injectable drugs and diagnostics. 2022–2024 supply contract (~$150M annually) covers Type I borosilicate glass vials for oncology and mRNA programs. Gerresheimer's manufacturing in Germany and US provides geographic diversification; supply-chain risk flagged in 2023 10-K due to energy cost inflation and geopolitical tensions affecting European production.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Siegfried Holding AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "siegfried_holding",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "API Manufacturing & Scale-Up",
+        "relationshipNote": "Siegfried manufactures active pharmaceutical ingredients (APIs) for Roche's oncology and immunology portfolios, including Tecentriq (atezolizumab) and Actemra (tocilizumab) precursors. 2020 long-term supply agreement (5-year term) covers manufacturing at Siegfried's Switzerland and US facilities. Capacity utilization ~85%; price adjustments tied to raw-material costs and energy indices.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Thermo Fisher Scientific Inc.",
+        "ticker": "TMO",
+        "cik": "0000097745",
+        "slug": "thermo_fisher",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Laboratory Reagents & Biotech Supplies",
+        "relationshipNote": "Thermo Fisher supplies cell culture media, transfection reagents, and bioanalytical instruments for Roche's R&D and manufacturing operations. 2023 partnership expansion includes supply of Gibco media and Invitrogen reagents for mRNA vaccine manufacturing and cell/gene therapy development (Spark Therapeutics). Annual spend ~$80–100M; preferred-supplier status with volume discounts.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Novadaq Technologies (acquired by Stryker 2015)",
+        "ticker": "SYK",
+        "cik": "0000310567",
+        "slug": "stryker_novadaq",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Surgical Imaging & Diagnostics",
+        "relationshipNote": "Roche Diagnostics integrates Novadaq's near-infrared fluorescence imaging technology (acquired via Stryker partnership) into surgical oncology workflows. 2022 co-development agreement with Stryker covers integration of Roche's diagnostic assays with Novadaq's imaging platforms for intraoperative guidance in cancer surgery. Estimated market opportunity $500M+ by 2028.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Evonik Industries AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "evonik",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Polymers & Excipients",
+        "relationshipNote": "Evonik supplies specialty polymers, lipid nanoparticles (LNPs), and excipients for Roche's mRNA vaccine and GLP-1 programs. 2021 strategic partnership includes dedicated capacity for LNP manufacturing; 2023 expansion adds ionizable lipid production for next-generation mRNA therapeutics. Annual supply value ~$120M; long-term agreement (2021–2026) with volume commitments.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": "DPSW",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Logistics & Cold-Chain Distribution",
+        "relationshipNote": "DHL operates Roche's global pharmaceutical logistics network, including cold-chain distribution for oncology injectables, immunology products, and mRNA vaccines. 2022 contract (3-year term) covers 45+ distribution centers across North America, Europe, and Asia-Pacific. DHL manages temperature-controlled warehousing and last-mile delivery for Roche's specialty pharmaceuticals; estimated annual logistics spend $200–250M.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Pharmaceutical Freight & Customs Clearance",
+        "relationshipNote": "Kuehne+Nagel provides air freight, ocean freight, and customs brokerage for Roche's international pharmaceutical shipments. 2023 partnership expansion includes dedicated pharmaceutical lanes (US-EU, US-Asia) with temperature-controlled containers. Kuehne+Nagel handles ~30% of Roche's cross-border API and finished-goods logistics; annual contract value ~$150M.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cardinal Health Inc.",
+        "ticker": "CAH",
+        "cik": "0000721371",
+        "slug": "cardinal_health",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Pharmaceutical Wholesale & Distribution",
+        "relationshipNote": "Cardinal Health is a primary pharmaceutical distributor for Roche's oncology and specialty drugs in North America. 2023 distribution agreement covers ~$2.5B annual volume of Roche products (Herceptin, Avastin, Tecentriq, Perjeta, Actemra, Esbriet) to hospitals, oncology clinics, and specialty pharmacies. Cardinal Health manages inventory, reorder logistics, and patient-assistance program fulfillment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "McKesson Corporation",
+        "ticker": "MCK",
+        "cik": "0000066740",
+        "slug": "mckesson",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Pharmaceutical Wholesale & Healthcare IT",
+        "relationshipNote": "McKesson distributes Roche's pharmaceutical portfolio across US hospitals and retail pharmacies; 2023 volume ~$1.8B. McKesson also provides supply-chain visibility software (MedImpact, Relay Health) integrated with Roche's inventory management systems. Strategic partnership includes data-sharing on drug utilization, pricing trends, and payer mix.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amerisource Bergen Corporation",
+        "ticker": "ABC",
+        "cik": "0001018724",
+        "slug": "amerisource_bergen",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Specialty Pharmaceutical Distribution",
+        "relationshipNote": "Amerisource Bergen distributes Roche's specialty oncology and immunology drugs through its specialty pharmacy network (PharMerica, Orsini). 2023 distribution volume ~$1.2B; focus on high-touch patient support for Herceptin, Avastin, Tecentriq, and Actemra. Amerisource Bergen manages prior-authorization workflows and patient-assistance enrollment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "United States Department of Veterans Affairs (VA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_va",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Institutional Buyer & Payer",
+        "relationshipNote": "The VA is a major institutional buyer of Roche's oncology and immunology drugs for ~9M veterans. 2023 VA formulary includes Herceptin, Avastin, Tecentriq, Perjeta, Actemra, and Esbriet. Roche's annual VA sales ~$400–500M; pricing negotiated via Federal Supply Schedule (FSS) with volume commitments. VA's adoption of Tirzepatide (GLP-1) for obesity/diabetes expected 2024–2025.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "National Health Service (NHS, United Kingdom)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nhs_uk",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Institutional Buyer & Payer",
+        "relationshipNote": "The NHS is the primary buyer of Roche's pharmaceuticals in the UK (~£1.2B annual spend, 2023). NICE (National Institute for Health and Care Excellence) cost-effectiveness assessments determine NHS formulary inclusion; Roche's Tecentriq, Perjeta, Actemra, and Esbriet are NICE-approved. 2023 pricing negotiations resulted in 8–12% price reductions on select oncology drugs due to budget constraints.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Medicaid (US State Programs)",
+        "ticker": null,
+        "cik": null,
+        "slug": "medicaid_us",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Payer & Formulary Gatekeeper",
+        "relationshipNote": "Medicaid collectively purchases ~$3–4B annually of Roche's oncology and immunology drugs across 50 state programs. 2023 rebate agreements (Medicaid Drug Rebate Program, 42 U.S.C. § 1396r-8) require Roche to provide minimum rebates of 15.1% on brand drugs. State Medicaid programs increasingly restrict Herceptin, Avastin, and Tecentriq access via prior-authorization requirements due to cost-containment pressures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Medicare (US Centers for Medicare & Medicaid Services)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cms_medicare",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Payer & Price Negotiator",
+        "relationshipNote": "Medicare is Roche's largest US payer, covering ~40M beneficiaries. 2023 IRA Section 1192 drug-price negotiation included Roche's Herceptin, Avastin, Tecentriq, Perjeta, Actemra, Esbriet, Tamiflu, Xolair, Rituxan, and Ocrevus. Negotiated prices (effective 2026) expected to reduce Roche's US revenue by $1.5–2B annually; Herceptin and Avastin face 25–30% price cuts.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Novartis AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "novartis",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in Oncology & Immunology",
+        "relationshipNote": "Novartis is Roche's primary global competitor in oncology (Kisqali, Tafinlar, Mekinist, Cosentyx) and immunology (Cosentyx, Ilaris). 2023 global pharma revenue ~$42B (vs. Roche $41B); Novartis's oncology portfolio growing 8–10% CAGR. Competitive battlegrounds: HER2+ breast cancer (Herceptin vs. Kadcyla), PD-L1 checkpoint inhibitors (Tecentriq vs. Opdivo/Keytruda), and GLP-1 obesity market entry (Roche Tirzepatide vs. Novartis pipeline).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Merck & Co. Inc.",
+        "ticker": "MRK",
+        "cik": "0000310158",
+        "slug": "merck_co",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in Oncology & Virology",
+        "relationshipNote": "Merck competes with Roche in oncology (Keytruda, Lynparza, Lenvima) and virology (Gardasil, Varivax, Pneumovax). 2023 Keytruda sales $20.1B (vs. Tecentriq $6.8B); Merck's PD-1 checkpoint inhibitor dominates Roche's Tecentriq in first-line lung cancer. Merck's GLP-1 pipeline (MK-3102, others) targets Roche's Tirzepatide market. Competitive advantage: Keytruda's earlier approval (2014 vs. Tecentriq 2016) and broader indication portfolio.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eli Lilly and Company",
+        "ticker": "LLY",
+        "cik": "0000060086",
+        "slug": "eli_lilly",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in GLP-1 & Oncology",
+        "relationshipNote": "Eli Lilly is Roche's primary competitor in the GLP-1 obesity/diabetes market via Mounjaro (tirzepatide co-development with Roche) and Zepbound (semaglutide competitor). 2023 Mounjaro sales $1.2B (launch Q4 2022); peak-sales potential $15B+ by 2030. Lilly also competes in oncology (Verzenio, Alimta, Cyramza). Strategic tension: Roche and Lilly co-develop Tirzepatide but compete on pricing, market access, and indication expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Novo Nordisk A/S",
+        "ticker": null,
+        "cik": null,
+        "slug": "novo_nordisk",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in GLP-1 & Diabetes",
+        "relationshipNote": "Novo Nordisk dominates the GLP-1 market with Ozempic (semaglutide) and Wegovy (obesity indication). 2023 GLP-1 sales ~$21B (Novo Nordisk's total revenue $23.3B). Roche's Tirzepatide (Mounjaro, co-developed with Eli Lilly) launched Q4 2022 with superior efficacy (15% weight loss vs. semaglutide's 10%); market share competition intensifying. Novo Nordisk's manufacturing capacity constraints (2023–2024) create pricing power for Roche's Tirzepatide.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bristol Myers Squibb Company",
+        "ticker": "BMY",
+        "cik": "0000014272",
+        "slug": "bristol_myers_squibb",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in Oncology & Immunology",
+        "relationshipNote": "Bristol Myers Squibb (BMS) competes with Roche in oncology (Opdivo, Yervoy, Sprycel, Revlimid) and immunology (Orencia, Zeposia). 2023 oncology revenue ~$18B; Opdivo (nivolumab) competes with Tecentriq in checkpoint inhibition. BMS's 2019 Celgene acquisition ($74B) strengthened oncology portfolio; Revlimid (lenalidomide) faces biosimilar competition post-2022. Competitive pressure on Roche's Avastin from BMS's Opdivo + Yervoy combination in first-line lung cancer.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amgen Inc.",
+        "ticker": "AMGN",
+        "cik": "0000318154",
+        "slug": "amgen",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Oncology & Biologics",
+        "relationshipNote": "Amgen competes with Roche in oncology (Vectibix, Neulasta, Kyprolis) and immunology (Enbrel, Kineret). 2023 oncology revenue ~$8B; Amgen's MariTide (GLP-1 RA, monthly dosing) in Phase III trials poses threat to Roche's Tirzepatide (weekly dosing). Amgen's biosimilar portfolio (Mvasi, Kanjinti, Nyvepria) directly competes with Roche's Herceptin, Avastin, and Neulasta biosimilars. Competitive advantage: Amgen's manufacturing scale and payer relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Food and Drug Administration (FDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Drug Approval & Safety Oversight",
+        "relationshipNote": "The FDA regulates all Roche pharmaceutical approvals in the US market (~40% of Roche's global revenue). 2023 FDA actions: Breakthrough Therapy designations for Tirzepatide (obesity), Glofitamab (lymphoma), Pluvicto (prostate cancer); Priority Review for Tirzepatide (6-month timeline vs. standard 10-month). FDA's 2023 guidance on GLP-1 manufacturing quality (CMC) and post-market surveillance impacts Roche's mRNA vaccine and GLP-1 programs. Roche maintains 4 FDA advisory committee seats.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "European Medicines Agency (EMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Drug Approval & Pharmacovigilance",
+        "relationshipNote": "The EMA regulates Roche's pharmaceutical approvals across 27 EU member states (~25% of global revenue). 2023 EMA actions: Conditional approval for Tirzepatide (obesity indication pending); PRAC (Pharmacovigilance Risk Assessment Committee) reviews on Tecentriq (immune-related adverse events), Actemra (infection risk). EMA's 2023 guidance on real-world evidence (RWE) integration into post-approval monitoring aligns with Roche's digital health partnerships (Epic, Salesforce).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "China National Medical Products Administration (NMPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nmpa_china",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Market Access & Pricing Control",
+        "relationshipNote": "The NMPA regulates Roche's drug approvals and manufacturing in China (~10% of global revenue, fastest-growing market). 2023 NMPA actions: Accelerated approval for Tirzepatide (obesity); volume-based procurement (VBP) price negotiations on Herceptin, Avastin, Tecentriq (40–60% discounts vs. international pricing). NMPA's 2023 GMP (Good Manufacturing Practice) inspection of Roche's Shanghai manufacturing facility flagged API sourcing compliance issues; remediation plan submitted.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competitive Conduct",
+        "relationshipNote": "The FTC monitors Roche's competitive conduct and M&A activity. 2023 FTC scrutiny: Roche's 2019 Spark Therapeutics acquisition ($4.3B) under review for potential anti-competitive effects in gene therapy (Luxturna RPE65 monopoly). FTC's 2023 enforcement action against pharmaceutical companies' pay-for-delay tactics may impact Roche's biosimilar settlement agreements (Herceptin, Avastin, Rituxan). Roche maintains compliance with FTC Hart-Scott-Rodino (HSR) filing requirements for acquisitions >$111M.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Governance",
+        "relationshipNote": "The SEC does not directly regulate Roche (Swiss-listed, not US-listed); however, Roche files 20-F annual reports with the SEC as a foreign private issuer. 2023 SEC focus: Roche's climate-risk disclosures (Task Force on Climate-related Financial Disclosures, TCFD), supply-chain transparency (conflict minerals, labor practices), and executive compensation disclosure. Roche's 2023 20-F flagged supply-chain disruption risks and geopolitical exposure (Russia, China).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F"
+        ]
+      },
+      {
+        "name": "U.S. Centers for Medicare & Medicaid Services (CMS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cms",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Pricing & Reimbursement Policy",
+        "relationshipNote": "CMS administers Medicare and Medicaid, controlling ~40% of US pharmaceutical spending. 2023 CMS actions: IRA Section 1192 drug-price negotiation (Roche's Herceptin, Avastin, Tecentriq, Perjeta, Actemra, Esbriet, Tamiflu, Xolair, Rituxan, Ocrevus negotiated 2024–2025; prices effective 2026). CMS's 2023 Medicare Part D redesign increases patient cost-sharing on specialty drugs, impacting Roche's oncology and immunology uptake. Roche's estimated revenue impact: $1.5–2B annually from IRA price reductions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "KPMG AG",
+      "ticker": null,
+      "cik": null,
+      "slug": "kpmg",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial & Compliance Audit",
+      "relationshipNote": "KPMG is Roche's external auditor (Big-Four firm, Swiss-based). 2023 audit scope: consolidated financial statements (CHF 63.3B revenue), internal controls over financial reporting (ICFR), compliance with Swiss Code of Obligations and IFRS. KPMG's audit opinion (unqualified, 2023) covers Roche's pharma, diagnostics, and corporate segments. Audit fees ~CHF 15–20M annually; KPMG also provides tax advisory and supply-chain risk consulting services.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "20-F"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Swiss National Bank (SNB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "swiss_national_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Central Bank & Currency Stability",
+        "relationshipNote": "The SNB influences Roche's capital costs and FX exposure through Swiss franc monetary policy. 2023 SNB actions: interest-rate hikes (policy rate 1.75%) increase Roche's CHF-denominated debt costs; SNB's 2023 guidance on CHF strength (vs. USD, EUR) impacts Roche's foreign-exchange hedging strategy. Roche's 2023 net FX loss ~CHF 800M due to CHF appreciation; SNB policy remains hawkish through 2024.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "BlackRock is Roche's largest institutional shareholder (~5.2% ownership, 2023). BlackRock's voting power influences Roche's board elections, executive compensation, and ESG policies. 2023 BlackRock engagement: climate-risk disclosure (TCFD alignment), supply-chain labor practices (UN Guiding Principles), and board diversity targets. BlackRock's Aladdin platform provides Roche's treasury with portfolio analytics and risk management tools.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "UBS AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "ubs",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Banker & Capital Markets",
+        "relationshipNote": "UBS is Roche's primary investment bank and lender. 2023 services: CHF 5B revolving credit facility (syndicated with Credit Suisse, now UBS post-merger), bond underwriting (CHF 2B senior notes issued Q2 2023), M&A advisory (Spark Therapeutics, Carmot acquisitions). UBS's 2023 credit rating on Roche: AA- (stable outlook). Annual banking fees ~CHF 30–50M.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "Vanguard is Roche's second-largest institutional shareholder (~4.8% ownership, 2023). Vanguard's voting power influences board elections and executive compensation. 2023 Vanguard engagement: ESG integration (climate, diversity, supply-chain labor), proxy voting on executive pay (say-on-pay votes). Vanguard's index funds hold ~$8–10B in Roche equity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Colm Kelleher",
+        "title": "Chairman",
+        "slug": "colm_kelleher",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Board Leadership & Governance",
+        "relationshipNote": "Colm Kelleher has been Roche's Chairman since 2012 (tenure 12 years). Former McKinsey partner; leads Roche's board strategy on M&A, capital allocation, and ESG. 2023 board actions: approved Tirzepatide co-development expansion with Eli Lilly, authorized CHF 5B share buyback program, set executive compensation targets aligned with GLP-1 pipeline advancement. Kelleher's compensation (2023): CHF 2.5M (fixed) + CHF 1.2M (variable).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Anita Liebhaber",
+        "title": "Chief Executive Officer (CEO)",
+        "slug": "anita_liebhaber",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategy",
+        "relationshipNote": "Anita Liebhaber became Roche's CEO in January 2023 (succeeding Severin Schwan). Former Roche Pharma Division Head; leads strategy on GLP-1 market expansion, digital health integration, and supply-chain resilience. 2023 CEO priorities: Tirzepatide market penetration, Spark Therapeutics integration, mRNA manufacturing scale-up. Liebhaber's 2023 compensation: CHF 3.8M (base) + CHF 2.1M (performance bonus).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Katie Stevenson",
+        "title": "Chief Financial Officer (CFO)",
+        "slug": "katie_stevenson",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Katie Stevenson is Roche's CFO (appointed 2021). Former Novartis CFO; manages Roche's CHF 63.3B revenue, CHF 10–12B annual FCF, and CHF 5B+ M&A pipeline. 2023 CFO actions: CHF 5B share buyback authorization, CHF 2B senior notes issuance, FX hedging strategy (CHF strength impact). Stevenson's 2023 compensation: CHF 2.8M (base) + CHF 1.5M (performance bonus).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Jemilah Mahmood",
+        "title": "Chief Medical Officer (CMO)",
+        "slug": "jemilah_mahmood",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Clinical Development & Medical Strategy",
+        "relationshipNote": "Jemilah Mahmood is Roche's CMO (appointed 2019). Former WHO Assistant Director-General; oversees clinical development, medical affairs, and regulatory strategy. 2023 CMO priorities: Tirzepatide Phase III obesity trial readouts, Glofitamab lymphoma expansion, Pluvicto prostate cancer launch. Mahmood leads Roche's real-world evidence (RWE) initiatives and digital health partnerships (Epic, Salesforce).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Roche Pharma Comparable Sales Growth (Organic, ex-FX)",
+        "slug": "roche_pharma_comp_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Momentum",
+        "relationshipNote": "Roche's pharma comparable sales growth (organic, ex-FX) is a leading indicator of pipeline momentum and market-access success. 2023 Q4 pharma comp sales: +5% (ex-FX), driven by Tecentriq (+18%), Tirzepatide launch (+$1.2B), Actemra (+8%). Biosimilar headwinds (Herceptin -15%, Avastin -12%, Rituxan -18%) offset by new-drug growth. 2024 guidance: pharma comp sales +4–6% (ex-FX), assuming Tirzepatide ramp and IRA price-negotiation impact.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Roche Diagnostics Growth Rate (Organic)",
+        "slug": "roche_diagnostics_growth",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Recurring Revenue",
+        "relationshipNote": "Roche Diagnostics organic growth is a barometer of healthcare utilization and chronic-disease screening adoption. 2023 diagnostics growth: +4.2% (organic), driven by cobas PCR systems (+6%), Elecsys immunoassays (+5%), digital pathology (+12%). COVID-19 test revenue normalization (-30% YoY) offset by oncology biomarker testing (+15%) and diabetes monitoring (+8%). 2024 guidance: diagnostics growth +5–7% (organic), assuming digital pathology acceleration and personalized medicine adoption.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Roche Share Price vs. Pharma Peer Group (MSCI World Pharma Index)",
+        "slug": "roche_share_price_vs_peers",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Relative Valuation & Investor Sentiment",
+        "relationshipNote": "Roche's share-price performance vs. the MSCI World Pharma Index reflects investor sentiment on GLP-1 market opportunity, biosimilar competition, and IRA price-negotiation impact. 2023 YTD: Roche +8% vs. MSCI Pharma +12% (underperformance driven by IRA price-negotiation concerns). 2024 catalyst: Tirzepatide market-share gains vs. semaglutide, Glofitamab lymphoma expansion, and Spark Therapeutics gene-therapy pipeline advancement. Analyst consensus: 12-month price target CHF 280–310 (vs. 2023 close CHF 268).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

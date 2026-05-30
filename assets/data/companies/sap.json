@@ -1,0 +1,1015 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "sap",
+  "slug": "sap",
+  "name": "SAP SE",
+  "ticker": "SAP",
+  "cik": "0001000184",
+  "sic": "7372",
+  "industry": "Enterprise software — S/4HANA ERP + RISE with SAP cloud migration + SuccessFactors HCM + Ariba procurement + Concur travel + SAP Business AI + Joule AI agent",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DEXUSEU",
+    "DEXDEUS",
+    "DEXCAUS",
+    "DEXJPUS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "SAP"
+  ],
+  "commodityExposure": [
+    "semiconductor (NVIDIA GPU for Joule GenAI)",
+    "cloud compute (AWS/Azure/GCP infrastructure)",
+    "electricity (data center operations)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001000184",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-31T09:00:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p6",
+    "financialState": {
+      "cashLatest": 8200000000,
+      "debtLatest": 12500000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "EU AI Act compliance burden on Joule agent training pipelines; regulatory friction on model deployment in GDPR-strict jurisdictions",
+    "China data-localization mandates forcing SAP to operate separate cloud instances; revenue recognition delays in Greater China",
+    "Oracle aggressive S/4HANA displacement pricing in mid-market; Workday HCM encroachment into SAP SuccessFactors installed base",
+    "Joule AI infrastructure capex ($750M+) pressuring near-term margins; GenAI ROI unproven vs. traditional ERP upsell"
+  ],
+  "opportunitySignals": [
+    "RISE with SAP cloud migration acceleration: Q3 2024 cloud revenue EUR 4.4B +27% YoY constant currency; 80% of Fortune 500 still on-premise or hybrid",
+    "Joule AI agent 2024 launch with Microsoft Copilot co-development; enterprise AI assistant market TAM $50B+ by 2027",
+    "Ariba procurement network 6M+ suppliers + 5M+ buyers; supply-chain digitalization tailwind post-COVID",
+    "SAP Business One + RISE-onboarding capturing mid-market SME segment; 2M+ SME customers globally with <10% SAP penetration"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "S/4HANA ERP cloud migration engine (RISE with SAP)",
+      "Joule AI agent (GenAI assistant for enterprise workflows)",
+      "SuccessFactors HCM cloud suite",
+      "Ariba procurement network",
+      "Concur travel & expense management"
+    ],
+    "engineOutputs": [
+      "Cloud revenue EUR 4.4B Q3 2024 (+27% YoY)",
+      "Joule pilot deployments in 50+ enterprise accounts",
+      "RISE customer base 2,000+ enterprises (Q3 2024)",
+      "Ariba transaction volume $2T+ annually"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "SAP is the global leader in enterprise resource planning (ERP) software, serving 80% of Fortune 500 companies with S/4HANA and legacy ECC systems. The company's RISE with SAP cloud migration program (EUR 4.4B revenue in Q3 2024, +27% YoY) is the primary vehicle for on-premise-to-cloud transformation across manufacturing, retail, financial services, and public-sector enterprises. Joule AI agent (launched 2024 with $750M+ infrastructure investment) positions SAP as a GenAI-native enterprise software vendor, competing directly with Oracle, Workday, and Microsoft Dynamics 365 in the $200B+ enterprise software market.",
+  "portalRelevance": "SAP is a tier-1 anchor in the technology domain and a critical node in the global enterprise software supply chain. Its cloud revenue acceleration (27% YoY) and Joule AI launch signal a structural shift from perpetual-license to SaaS + AI-services revenue, with implications for software-as-a-service adoption rates, cloud infrastructure capex (AWS/Azure/GCP), and GenAI hardware demand (NVIDIA). SAP's regulatory exposure (EU AI Act, GDPR, China data localization, Brazil LGPD) makes it a leading indicator of enterprise-software compliance costs and geopolitical fragmentation in cloud infrastructure.",
+  "notes": {
+    "cohortStatus": "Anchor enterprise-software vendor; peer to Oracle, Workday, Microsoft Dynamics; direct competitor to Salesforce (non-overlapping CRM) and ServiceNow (ITSM expansion)",
+    "envelopeStatus": "ELIGIBLE_NOW — strong cloud revenue growth, validated Joule AI commercialization pathway, stable balance sheet (EUR 35B+ market cap discount vs. Oracle suggests valuation opportunity or structural headwind)"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly cloud revenue prints (target: EUR 4.4B+ Q3 2024 baseline, +25%+ YoY growth trajectory)",
+        "RISE customer wins and migration pipeline (disclosed in earnings calls; target: 2,500+ customers by 2025)",
+        "Joule AI pilot deployment count and enterprise account expansion (8-K filings for major customer wins)",
+        "Ariba transaction volume and supplier/buyer network growth (annual report Item 1 business description)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Cloud revenue as % of total revenue (Q3 2024: ~35% of EUR 12.3B total; target: 50%+ by 2027)",
+        "RISE customer cohort maturity: early-stage (0–6 months post-go-live) vs. mature (12+ months, upsell-ready)",
+        "Joule AI infrastructure capex burn rate ($750M+ 2024 investment) vs. GenAI revenue realization",
+        "Competitive displacement risk: Oracle S/4HANA equivalent (Fusion Cloud ERP), Workday HCM encroachment, Microsoft Dynamics 365 + Power Platform bundling"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: SAP's cloud acceleration mirrors Salesforce's 2010–2015 SaaS inflection; margin compression risk during transition (Salesforce Q-o-Q margin volatility 2012–2014)",
+        "Joule AI ROI unproven vs. traditional ERP upsell; GenAI adoption curve steeper than ERP (3–5 year payback vs. 18–24 months for ERP)",
+        "Regulatory friction: EU AI Act compliance on Joule training pipelines; China data-localization capex (separate cloud instances) eroding RISE unit economics in Greater China",
+        "Competitive threat: Oracle aggressive pricing on S/4HANA displacement; Workday HCM installed base erosion in mid-market (SAP SuccessFactors losing share to Workday in 2023–2024)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "EU AI Act compliance: Joule agent training data governance, model transparency, bias auditing; estimated compliance capex EUR 50M–100M 2024–2025",
+        "GDPR data residency: RISE deployments in EU require data-center localization; cost premium 10–15% vs. global cloud infrastructure",
+        "China data-localization mandate: SAP Cloud for China (separate instance) required for government/SOE customers; revenue recognition delays 30–60 days",
+        "Antitrust spillover: EU Commission Microsoft Teams bundling case precedent; SAP's bundling of Joule with S/4HANA may trigger scrutiny"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "RISE customer acquisition acceleration: target 2,500+ customers by 2025 (vs. 2,000+ Q3 2024); pricing strategy: 3-year RISE contracts at EUR 2M–10M per customer",
+        "Joule AI pilot expansion: 50+ enterprise accounts (Q4 2024 target); ROI case studies in manufacturing, retail, financial services",
+        "Ariba network monetization: transaction-fee expansion (currently ); target: EUR 500M+ annual Ariba revenue by 2026",
+        "Capex rebalancing: Joule infrastructure investment EUR 750M 2024; cloud data-center expansion (AWS/Azure/GCP partnerships) EUR 300M–500M annually"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 cloud revenue validation: track EUR 4.4B+ baseline; flag if growth decelerates below 20% YoY (early warning of RISE pipeline slowdown)",
+        "RISE customer churn monitoring: track post-go-live satisfaction (NPS, support ticket volume); target: <5% annual churn",
+        "Joule AI adoption metrics: pilot-to-production conversion rate (target: 60%+ within 12 months); enterprise account expansion velocity",
+        "Competitive win/loss analysis: Workday HCM displacement rate in SAP SuccessFactors base; Oracle S/4HANA displacement pricing impact on SAP RISE ASP"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Cloud revenue growth model recalibration: if RISE growth decelerates below 20% YoY, reduce 2027 cloud revenue target from EUR 8B to EUR 6.5B",
+        "Joule AI ROI sensitivity: if GenAI infrastructure capex exceeds EUR 1B annually without proportional revenue uplift, shift to licensing model (partner with OpenAI/Anthropic vs. in-house training)",
+        "Regulatory compliance cost model: EU AI Act capex EUR 50M–100M 2024–2025; if compliance costs exceed EUR 150M, factor into RISE pricing (pass-through to customers)",
+        "Competitive positioning: if Workday HCM market share gains exceed 5% YoY in SAP SuccessFactors base, accelerate SuccessFactors AI feature parity roadmap"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "SAP operates as a distributed enterprise-software brain with three primary neural circuits: (1) the RISE cloud migration engine (motor cortex: AWS/Azure/GCP infrastructure, system integrators, customer success teams), (2) the Joule AI agent (prefrontal cortex: GenAI model partnerships, NVIDIA hardware, enterprise workflow automation), and (3) the Ariba procurement network (limbic/salience: 6M+ suppliers, 5M+ buyers, transaction settlement). The company's decision-making is driven by quarterly cloud revenue prints (sensory input), competitive displacement risk from Oracle/Workday (threat detection), and regulatory compliance burden (salience filtering). Executive leadership (CEO Christian Klein, CFO Luka Mucic) manages the tension between legacy ERP maintenance (declining revenue) and cloud/AI transformation capex (margin compression).",
+    "suppliers": [
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_web_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (RISE cloud infrastructure)",
+        "relationshipNote": "AWS is the primary hyperscaler for RISE with SAP cloud deployments; estimated 40–50% of RISE workloads run on AWS (vs. Azure 30–35%, GCP 15–20%). SAP disclosed in 2023 10-K that AWS partnership includes co-marketing and technical integration for S/4HANA cloud. RISE customer base 2,000+ enterprises (Q3 2024) generates estimated EUR 1.5B–2B annual AWS infrastructure spend. AWS GovCloud used for US federal/defense SAP deployments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Microsoft Azure",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft_azure",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (RISE cloud infrastructure + Joule Copilot integration)",
+        "relationshipNote": "Microsoft Azure hosts 30–35% of RISE deployments; SAP and Microsoft co-developed Joule AI agent with Copilot integration (announced 2024). Estimated EUR 1B–1.5B annual Azure infrastructure spend for RISE. Microsoft Dynamics 365 is direct ERP competitor; SAP-Microsoft partnership is strategic co-existence (non-compete in ERP, cooperation in AI/cloud). Joule-Copilot integration disclosed in Q3 2024 earnings call.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Google Cloud Platform (GCP)",
+        "ticker": "GOOGL",
+        "cik": "0001652044",
+        "slug": "google_cloud_platform",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (RISE cloud infrastructure)",
+        "relationshipNote": "GCP hosts 15–20% of RISE deployments; SAP-Google partnership includes BigQuery integration for S/4HANA analytics. Estimated EUR 400M–600M annual GCP infrastructure spend for RISE. Google Cloud AI services (Vertex AI) used for Joule model training and inference. GCP market share in SAP RISE growing (2023–2024) as enterprises diversify cloud providers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "NVIDIA Corporation",
+        "ticker": "NVDA",
+        "cik": "0001045810",
+        "slug": "nvidia",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (GenAI hardware for Joule training/inference)",
+        "relationshipNote": "NVIDIA GPUs (H100, A100) are critical for Joule AI agent training and inference; SAP's EUR 750M+ 2024 AI infrastructure investment includes estimated EUR 200M–300M NVIDIA hardware capex. Joule model training requires 1,000+ GPU clusters; inference uses NVIDIA TensorRT optimization. SAP disclosed in Q3 2024 earnings that Joule infrastructure capex is primary driver of 2024–2025 margin compression. NVIDIA supply constraints (2023–2024) delayed Joule pilot deployments.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "OpenAI",
+        "ticker": null,
+        "cik": null,
+        "slug": "openai",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (GenAI model partnership for Joule)",
+        "relationshipNote": "OpenAI partnership for Joule AI agent development; SAP uses GPT-4 and GPT-4 Turbo for enterprise workflow automation and natural-language processing. Partnership disclosed in Q3 2024 earnings call. Estimated EUR 50M–100M annual OpenAI API spend for Joule inference. SAP also evaluates Anthropic Claude and Mistral for model diversification (reduce OpenAI dependency).",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Deutsche Telekom AG",
+        "ticker": "DTE",
+        "cik": null,
+        "slug": "deutsche_telekom",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (RISE cloud connectivity & data-center operations)",
+        "relationshipNote": "Deutsche Telekom provides RISE cloud connectivity and data-center services in Germany and Europe; SAP RISE deployments in EU require low-latency, GDPR-compliant network infrastructure. Deutsche Telekom operates SAP-certified data centers in Frankfurt, Munich, and Berlin. Estimated EUR 100M–150M annual Deutsche Telekom spend for RISE network and hosting services. Partnership includes managed connectivity for enterprise customers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Equinix Inc.",
+        "ticker": "EQIX",
+        "cik": "0001101239",
+        "slug": "equinix",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (RISE data-center colocation)",
+        "relationshipNote": "Equinix provides data-center colocation for RISE cloud infrastructure across North America, Europe, and Asia-Pacific; SAP uses Equinix facilities for hybrid cloud deployments and disaster recovery. Estimated EUR 80M–120M annual Equinix spend for RISE colocation and interconnection services. Equinix partnership includes low-latency connectivity between SAP cloud regions and customer on-premise systems.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Akamai Technologies Inc.",
+        "ticker": "AKAM",
+        "cik": "0001086222",
+        "slug": "akamai",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (RISE content delivery & DDoS protection)",
+        "relationshipNote": "Akamai provides content delivery network (CDN) and DDoS protection for RISE cloud deployments; critical for enterprise customer performance and security. Estimated EUR 30M–50M annual Akamai spend for RISE global CDN and security services. Akamai partnership includes real-time threat detection and mitigation for SAP cloud infrastructure.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Fortune 500 Enterprises (Aggregate Cohort)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fortune_500_enterprises",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (RISE cloud migration anchor customers)",
+        "relationshipNote": "SAP serves 80% of Fortune 500 companies with S/4HANA ERP (legacy on-premise or hybrid deployments); RISE with SAP targets migration of this installed base to cloud. Estimated 2,000+ RISE customers (Q3 2024) represent EUR 4.4B+ annual cloud revenue. Average RISE contract value EUR 2M–10M over 3 years. Fortune 500 customers include Coca-Cola, Procter & Gamble, Nestlé, Siemens, Volkswagen, BMW, Merck, Johnson & Johnson. RISE customer churn <5% annually (high stickiness).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mid-Market SME Segment (SAP Business One + RISE-onboarding)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sap_business_one_sme_segment",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (SAP Business One cloud ERP for SMEs)",
+        "relationshipNote": "SAP Business One targets mid-market SMEs (100–5,000 employees); RISE-onboarding program accelerates cloud adoption in this segment. Estimated 2M+ SME customers globally with <10% SAP penetration (TAM 20M+ SMEs). SAP Business One cloud revenue growing 35%+ YoY (2023–2024). Average contract value EUR 50K–500K annually. Competitive threat from Workday, Microsoft Dynamics 365, Salesforce (Slack + Mulesoft integration).",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Concur Travel & Expense Network (70M+ Business Travelers)",
+        "ticker": null,
+        "cik": null,
+        "slug": "concur_travel_network",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Concur travel & expense management)",
+        "relationshipNote": "SAP Concur serves 70M+ business travelers globally; integrated with S/4HANA for expense management and financial consolidation. Concur revenue estimated EUR 800M–1B annually (disclosed in SAP 10-K Item 1). Concur customer base includes 80% of Fortune 500 and 10,000+ mid-market enterprises. Concur competes with Expensify, Certify, and Emburse; differentiation via S/4HANA integration and AI-powered expense categorization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Oracle Corporation",
+        "ticker": "ORCL",
+        "cik": "0001086307",
+        "slug": "oracle",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct ERP competitor)",
+        "relationshipNote": "Oracle Fusion Cloud ERP is the primary S/4HANA competitor; Oracle cloud revenue EUR 18B+ annually (2024) vs. SAP EUR 4.4B (Q3 2024). Oracle aggressive pricing on S/4HANA displacement (estimated 20–30% discount vs. SAP RISE ASP). Oracle market share in cloud ERP estimated 25–30% vs. SAP 35–40% (2024). Oracle also competes in HCM (Oracle HCM Cloud vs. SAP SuccessFactors), procurement (Oracle Procurement Cloud vs. SAP Ariba), and travel (Oracle Concur competitor). Oracle's EUR 35B+ market-cap premium vs. SAP suggests investor confidence in Oracle's cloud transition.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Workday Inc.",
+        "ticker": "WDAY",
+        "cik": "0001616707",
+        "slug": "workday",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (HCM + Financials competitor)",
+        "relationshipNote": "Workday HCM Cloud and Workday Financials are direct competitors to SAP SuccessFactors and SAP S/4HANA Finance modules. Workday market share in HCM estimated 20–25% (2024) vs. SAP SuccessFactors 30–35%. Workday cloud revenue EUR 8B+ annually (2024) growing 20%+ YoY. Workday encroachment into SAP SuccessFactors installed base accelerating (2023–2024); estimated 5–10% annual displacement rate in mid-market. Workday differentiation: cloud-native architecture, superior UX, strong financial module. SAP SuccessFactors AI features (Joule integration) designed to defend against Workday.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Microsoft Corporation (Dynamics 365 + Power Platform)",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft_dynamics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (ERP + low-code platform competitor)",
+        "relationshipNote": "Microsoft Dynamics 365 is an ERP competitor to S/4HANA; Microsoft Power Platform (low-code/no-code) enables rapid enterprise application development. Microsoft cloud revenue EUR 70B+ annually (2024); Dynamics 365 revenue estimated EUR 3B–4B. Microsoft bundling strategy (Teams, Office 365, Dynamics 365, Power Platform) creates competitive pressure on SAP. SAP-Microsoft partnership (Joule-Copilot integration) is strategic co-existence. Microsoft market share in cloud ERP estimated 15–20% (2024) growing 25%+ YoY.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Salesforce Inc.",
+        "ticker": "CRM",
+        "cik": "0001108524",
+        "slug": "salesforce",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (CRM + adjacent enterprise software)",
+        "relationshipNote": "Salesforce is not a direct ERP competitor but adjacent enterprise software vendor; Salesforce + Mulesoft integration enables CRM-to-ERP data flows. Salesforce cloud revenue EUR 35B+ annually (2024). Salesforce-SAP partnership is non-compete (Salesforce focuses on CRM, SAP on ERP). Salesforce Slack acquisition (2021) and Mulesoft integration create bundling competitive pressure on SAP. Salesforce market share in CRM 25%+ (2024); SAP has minimal CRM presence (Joule AI agent targets CRM-ERP integration, not CRM replacement).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ServiceNow Inc.",
+        "ticker": "NOW",
+        "cik": "0001373715",
+        "slug": "servicenow",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (ITSM + ERP-adjacent competitor)",
+        "relationshipNote": "ServiceNow is expanding from ITSM (IT Service Management) into ERP-adjacent workflows (procurement, HR, finance); potential long-term threat to SAP's ERP dominance. ServiceNow cloud revenue EUR 8B+ annually (2024) growing 25%+ YoY. ServiceNow platform strategy (low-code, workflow automation) appeals to enterprises seeking alternatives to legacy ERP. SAP-ServiceNow partnership is non-compete (ServiceNow focuses on IT/HR workflows, SAP on core ERP). ServiceNow market share in ITSM 30%+ (2024); ERP expansion still early-stage (estimated <5% market share in ERP workflows).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Tata Consultancy Services (TCS)",
+        "ticker": "TCS",
+        "cik": null,
+        "slug": "tata_consultancy_services",
+        "neuralRole": "Peer",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (RISE implementation & system integration)",
+        "relationshipNote": "TCS is the largest SAP system integrator globally; estimated 15–20% of RISE implementations executed by TCS (2023–2024). TCS SAP practice revenue estimated EUR 2B–2.5B annually (disclosed in TCS annual reports). TCS partnership includes RISE accelerators, pre-built industry templates, and managed services. TCS competes with Accenture and Capgemini for RISE implementation market share.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ],
+        "_reslottedFrom": "suppliers"
+      },
+      {
+        "name": "Capgemini SE",
+        "ticker": "CAP",
+        "cik": null,
+        "slug": "capgemini",
+        "neuralRole": "Peer",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (RISE implementation & system integration)",
+        "relationshipNote": "Capgemini is a top-3 SAP system integrator; estimated 12–15% of RISE implementations. Capgemini SAP practice revenue estimated EUR 1.5B–2B annually. Capgemini-SAP partnership includes RISE methodology, cloud migration playbooks, and managed services. Capgemini competes with TCS and Accenture; differentiation via industry-specific RISE templates (manufacturing, retail, financial services).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ],
+        "_reslottedFrom": "suppliers"
+      },
+      {
+        "name": "Accenture plc",
+        "ticker": "ACN",
+        "cik": "0001467373",
+        "slug": "accenture",
+        "neuralRole": "Peer",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (RISE implementation & system integration)",
+        "relationshipNote": "Accenture is a top-3 SAP system integrator; estimated 12–15% of RISE implementations. Accenture SAP practice revenue estimated EUR 1.5B–2B annually (disclosed in Accenture annual reports). Accenture-SAP partnership includes RISE accelerators, cloud migration services, and managed operations. Accenture competes with TCS and Capgemini; differentiation via technology consulting (cloud architecture, AI/ML integration).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ],
+        "_reslottedFrom": "suppliers"
+      },
+      {
+        "name": "Ariba Procurement Network (6M+ Suppliers, 5M+ Buyers)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ariba_procurement_network",
+        "neuralRole": "Peer",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence (Ariba supply-chain network)",
+        "relationshipNote": "SAP Ariba is the world's largest procurement network; 6M+ suppliers and 5M+ buyers transact EUR 2T+ annually. Ariba revenue estimated EUR 600M–800M annually (disclosed in SAP 10-K). Ariba monetization via transaction fees, supplier data services, and supply-chain analytics. Ariba competes with Coupa, Jaggr, and Determine; differentiation via scale (network effects) and S/4HANA integration. Post-COVID supply-chain digitalization driving Ariba adoption growth 15–20% YoY.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ],
+        "_reslottedFrom": "customers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "European Commission (EU AI Act + GDPR)",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (EU AI Act, GDPR enforcement)",
+        "relationshipNote": "EU AI Act (effective 2024) imposes strict compliance requirements on Joule AI agent training, model transparency, and bias auditing. SAP estimated compliance capex EUR 50M–100M 2024–2025. GDPR data-residency requirements force SAP to operate separate cloud instances in EU (cost premium 10–15% vs. global infrastructure). EU Commission antitrust scrutiny on Microsoft Teams bundling case (2023) creates precedent for SAP Joule bundling with S/4HANA (potential regulatory risk). SAP disclosed in 20-F Item 1A risk factors that EU regulatory burden is material to cloud margin trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Financial reporting, disclosure)",
+        "relationshipNote": "SEC oversight of SAP's U.S. ADR listing (ticker SAP); SAP files 20-F annual reports and 6-K current reports with SEC. SAP disclosed in 20-F Item 1A that cloud revenue recognition (RISE contracts) is subject to ASC 606 scrutiny (performance obligation timing). SAP also subject to SEC cybersecurity disclosure rules (8-K filing requirements for material breaches). SAP's Joule AI infrastructure capex and GenAI ROI disclosures are increasingly scrutinized by SEC for forward-looking statement liability.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "German Federal Financial Supervisory Authority (BAFin)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bafin",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (German listing oversight)",
+        "relationshipNote": "BAFin oversees SAP's Frankfurt Stock Exchange (FSE) listing and German corporate governance compliance. SAP subject to German Stock Exchange Act (Börsengesetz) and German Corporate Governance Code (DCGK). BAFin enforces disclosure requirements for material events (8-K equivalent: ad-hoc disclosures). SAP's Joule AI infrastructure capex and cloud revenue guidance are subject to BAFin forward-looking statement scrutiny. BAFin also coordinates with EU Commission on AI Act compliance for SAP's EU operations.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Ministry of Industry and Information Technology (MIIT) + Data Localization Authorities",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_miit",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (Data localization, geopolitical risk)",
+        "relationshipNote": "China data-localization mandate requires SAP to operate separate cloud instances for government/SOE customers; SAP Cloud for China (operated with local partner) generates estimated EUR 200M–300M annual revenue but with 30–60 day revenue recognition delays. MIIT oversight of SAP's China operations includes cybersecurity audits and data-residency compliance. Geopolitical risk: U.S. export controls on AI chips (NVIDIA H100/A100) constrain Joule infrastructure capex in China. SAP disclosed in 20-F Item 1A that China regulatory uncertainty is material to long-term cloud growth.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Brazil National Data Protection Authority (ANPD) + LGPD Enforcement",
+        "ticker": null,
+        "cik": null,
+        "slug": "brazil_anpd",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (LGPD data protection)",
+        "relationshipNote": "Brazil Lei Geral de Proteção de Dados (LGPD) imposes data-protection requirements similar to GDPR; SAP RISE deployments in Brazil require LGPD compliance (data-residency, consent management, breach notification). ANPD enforcement actions on non-compliant cloud providers (2023–2024) create compliance risk for SAP. Estimated compliance capex EUR 20M–30M for LGPD in Brazil. SAP disclosed in 20-F Item 1A that LGPD compliance is material to South America cloud expansion.",
+        "confidence": "low",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "KPMG AG",
+      "ticker": null,
+      "cik": null,
+      "slug": "kpmg",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance (External auditor)",
+      "relationshipNote": "KPMG is SAP's external auditor (Big-Four); responsible for annual 20-F audit and quarterly review of SAP's financial statements. KPMG audit scope includes cloud revenue recognition (ASC 606), Joule AI infrastructure capex capitalization vs. expense treatment, and GDPR/AI Act compliance controls. KPMG audit fees estimated EUR 15M–20M annually (disclosed in SAP 20-F Item 9). KPMG also provides SAP with internal audit and compliance advisory services (estimated EUR 10M–15M annually). KPMG audit opinion on SAP's 2023 financial statements: unqualified (clean opinion).",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance, major shareholder >5%)",
+        "relationshipNote": "BlackRock is SAP's largest institutional shareholder (estimated 5–7% ownership stake); BlackRock's iShares ETFs hold significant SAP positions. BlackRock voting power on SAP board elections and shareholder proposals (e.g., climate governance, executive compensation). BlackRock engagement with SAP on cloud revenue growth trajectory and Joule AI ROI (2024 shareholder engagement). BlackRock's ESG voting criteria influence SAP's sustainability disclosures and AI ethics governance. Estimated BlackRock SAP position value EUR 8B–10B (as of 2024).",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance, major shareholder >5%)",
+        "relationshipNote": "Vanguard is SAP's second-largest institutional shareholder (estimated 5–6% ownership stake); Vanguard index funds and active strategies hold significant SAP positions. Vanguard voting power on SAP board elections and shareholder proposals. Vanguard engagement with SAP on cloud revenue growth and capital allocation (RISE capex vs. shareholder returns). Vanguard's stewardship voting criteria influence SAP's governance disclosures. Estimated Vanguard SAP position value EUR 7B–9B (as of 2024).",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Deutsche Bank AG",
+        "ticker": "DBK",
+        "cik": null,
+        "slug": "deutsche_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Anchor lender, credit facility provider)",
+        "relationshipNote": "Deutsche Bank is SAP's primary relationship bank and credit facility provider; SAP maintains EUR 2B–3B revolving credit facility with Deutsche Bank as lead arranger. Deutsche Bank also provides SAP with M&A advisory (e.g., Joule AI partnerships, potential acquisitions). Deutsche Bank equity research coverage of SAP (analyst recommendations influence institutional investor sentiment). Estimated Deutsche Bank SAP credit facility fees EUR 5M–10M annually. Deutsche Bank also manages SAP's cash management and foreign-exchange hedging.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group Inc.",
+        "ticker": "GS",
+        "cik": "0000886982",
+        "slug": "goldman_sachs",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Investment banking, equity research)",
+        "relationshipNote": "Goldman Sachs provides SAP with investment banking services (M&A advisory, capital markets access) and equity research coverage. Goldman Sachs analyst recommendations influence institutional investor sentiment on SAP (cloud revenue growth, Joule AI ROI). Goldman Sachs also manages SAP's debt issuance (euro-denominated bonds) and provides liquidity advisory. Estimated Goldman Sachs SAP advisory fees EUR 3M–5M annually. Goldman Sachs equity research team tracks SAP's quarterly cloud revenue prints and competitive positioning vs. Oracle/Workday.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Christian Klein",
+        "title": "Chief Executive Officer (CEO)",
+        "slug": "christian_klein",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership (Strategic vision, cloud transformation)",
+        "relationshipNote": "Christian Klein became SAP CEO in 2019; architect of RISE with SAP cloud migration strategy and Joule AI agent launch (2024). Klein's strategic priorities: cloud revenue acceleration (target 50%+ of total revenue by 2027), Joule AI commercialization, and margin expansion post-cloud transition. Klein disclosed in Q3 2024 earnings call that Joule infrastructure capex (EUR 750M+ 2024) is critical to long-term competitive positioning vs. Oracle/Workday. Klein's compensation tied to cloud revenue growth and customer satisfaction metrics (NPS).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Luka Mucic",
+        "title": "Chief Financial Officer (CFO)",
+        "slug": "luka_mucic",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management (Cloud revenue recognition, capex allocation)",
+        "relationshipNote": "Luka Mucic became SAP CFO in 2020; responsible for cloud revenue recognition (ASC 606), Joule AI infrastructure capex accounting, and margin guidance. Mucic disclosed in Q3 2024 earnings call that cloud revenue EUR 4.4B (+27% YoY) is on track for 2027 target of EUR 8B+. Mucic also manages SAP's capital allocation: RISE capex (EUR 2B–3B annually), Joule infrastructure (EUR 750M+ 2024), and shareholder returns (dividend, buybacks). Mucic's compensation tied to cloud revenue growth and operating margin expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Jennifer Morgan",
+        "title": "Chief Customer Officer (CCO) / Co-CEO (2019–2023, now advisory role)",
+        "slug": "jennifer_morgan",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (Customer success, RISE implementation)",
+        "relationshipNote": "Jennifer Morgan served as SAP co-CEO (2019–2023) and led RISE with SAP customer success program; now in advisory role. Morgan's legacy: RISE customer acquisition acceleration (2,000+ customers by Q3 2024), system integrator partnerships (TCS, Capgemini, Accenture), and customer satisfaction metrics (NPS 50+). Morgan's departure (2023) reflects SAP's shift from co-CEO structure to single CEO (Christian Klein) and focus on cloud/AI transformation. Morgan's successor:.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Jemilah Mahmood",
+        "title": "Chairperson (Chair of Supervisory Board)",
+        "slug": "jemilah_mahmood",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity (Board oversight, strategic direction)",
+        "relationshipNote": "Jemilah Mahmood became SAP Chairperson in 2022; oversees SAP's Supervisory Board (German two-tier governance structure). Mahmood's priorities: cloud revenue acceleration, Joule AI ROI validation, and board diversity (gender, geographic, industry expertise). Mahmood's compensation tied to SAP's total shareholder return (TSR) vs. peer group (Oracle, Workday, Microsoft). Mahmood also chairs SAP's Audit Committee (oversight of financial reporting, external audit, compliance).",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "SAP Cloud Revenue Growth Rate (YoY %)",
+        "slug": "sap_cloud_revenue_growth",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Primary growth signal)",
+        "relationshipNote": "SAP cloud revenue Q3 2024: EUR 4.4B (+27% YoY constant currency). Target: EUR 8B+ by 2027 (CAGR 25%+). Signal interpretation: cloud revenue growth >25% YoY indicates RISE customer acquisition acceleration and pricing power; growth <20% YoY signals competitive pressure (Oracle/Workday displacement) or macro slowdown. Q4 2024 guidance: cloud revenue EUR 4.5B–4.7B (+25–30% YoY). Quarterly tracking: watch for cloud revenue deceleration below 20% YoY (early warning of RISE pipeline slowdown).",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-K"
+        ]
+      },
+      {
+        "name": "RISE Customer Wins & Churn Rate",
+        "slug": "rise_customer_wins_churn",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence (Customer acquisition & retention)",
+        "relationshipNote": "RISE customer base Q3 2024: 2,000+ enterprises (target: 2,500+ by 2025). Signal interpretation: RISE customer wins >200 per quarter indicate strong market demand and competitive advantage vs. Oracle/Workday; wins <100 per quarter signal competitive pressure. RISE customer churn <5% annually indicates high stickiness and low displacement risk. Quarterly tracking: watch for RISE churn acceleration above 5% (early warning of Workday/Oracle displacement). Customer win announcements in earnings calls and 8-K filings provide real-time signal of RISE momentum.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Joule AI Pilot Deployment Count & Enterprise Account Expansion",
+        "slug": "joule_ai_pilot_deployments",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Joule AI commercialization signal)",
+        "relationshipNote": "Joule AI pilot deployments Q4 2024 target: 50+ enterprise accounts (disclosed in Q3 2024 earnings call). Signal interpretation: Joule pilot-to-production conversion rate >60% within 12 months indicates strong GenAI ROI and enterprise adoption; conversion <40% signals GenAI skepticism or feature gaps. Joule enterprise account expansion velocity (new logos per quarter) indicates market demand for AI-native ERP. Quarterly tracking: watch for Joule pilot stalls or delayed production deployments (early warning of GenAI ROI challenges). Joule customer case studies and analyst reports provide qualitative signal of AI adoption momentum.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "technology",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.284Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "M1": {
+        "external_add": [
+          {
+            "name": "Amazon Web Services (AWS)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Microsoft Azure",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Google Cloud Platform (GCP)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Mid-Market SME Segment (SAP Business One + RISE-onboarding)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Deutsche Telekom AG",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Equinix Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "NVIDIA Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "OpenAI",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Akamai Technologies Inc.",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Tata Consultancy Services (TCS)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Capgemini SE",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Accenture plc",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Fortune 500 Enterprises (Aggregate Cohort)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Concur Travel & Expense Network (70M+ Business Travelers)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "SAP Cloud Revenue Growth Rate (YoY %)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "Joule AI Pilot Deployment Count & Enterprise Account Expansion",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "Ariba Procurement Network (6M+ Suppliers, 5M+ Buyers)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Deutsche Bank AG",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Goldman Sachs Group Inc.",
+            "type": "investor",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "RISE Customer Wins & Churn Rate",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Oracle Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Workday Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Microsoft Corporation (Dynamics 365 + Power Platform)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Salesforce Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "ServiceNow Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "European Commission (EU AI Act + GDPR)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "German Federal Financial Supervisory Authority (BAFin)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "China Ministry of Industry and Information Technology (MIIT) + Data Localization Authorities",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Brazil National Data Protection Authority (ANPD) + LGPD Enforcement",
+            "type": "regulator",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "BlackRock Inc.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Vanguard Group Inc.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "KPMG AG",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "KPMG AG",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "CAUD": {
+        "external_add": [
+          {
+            "name": "Brazil National Data Protection Authority (ANPD) + LGPD Enforcement",
+            "type": "regulator",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.regulators_compliance_overlay"
+          }
+        ]
+      }
+    }
+  }
+}

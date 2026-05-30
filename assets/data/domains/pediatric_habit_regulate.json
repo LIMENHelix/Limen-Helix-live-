@@ -1,0 +1,99 @@
+{
+  "domainId": "pediatric_habit_regulate",
+  "title": "Habit Circuits & Repetitive Behavior — Regulation Strategy",
+  "parentPortal": "pediatric_habit_portal.html",
+  "parentLabel": "Habit Circuits & Repetitive Behavior",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior — Regulation Strategy — Primary Node",
+      "domainDescription": "Regulation layer — selects intervention strategies based on diagnosis, weighing efficacy, risk, contraindications, and patient/system context.",
+      "group": "regulation",
+      "phase": "P3",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Selection Protocol",
+          "evidence": "A",
+          "description": "Evidence-ranked intervention selection based on diagnosis severity and patient context"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Risk-Benefit Analysis Framework",
+          "evidence": "B",
+          "description": "Systematic weighing of intervention risks against expected benefit for Habit Circuits & Repetitive Behavior"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Contraindication Guard",
+          "evidence": "A",
+          "description": "Safety checks against known contraindications, drug interactions, and patient-specific risks"
+        }
+      ],
+      "childPortal": "pediatric_habit_regulate_assess_portal.html"
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior — Regulation Strategy — Secondary Node",
+      "domainDescription": "Regulation layer — selects intervention strategies based on diagnosis, weighing efficacy, risk, contraindications, and patient/system context.",
+      "group": "regulation",
+      "phase": "P3",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Selection Protocol",
+          "evidence": "A",
+          "description": "Evidence-ranked intervention selection based on diagnosis severity and patient context"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Risk-Benefit Analysis Framework",
+          "evidence": "B",
+          "description": "Systematic weighing of intervention risks against expected benefit for Habit Circuits & Repetitive Behavior"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Contraindication Guard",
+          "evidence": "A",
+          "description": "Safety checks against known contraindications, drug interactions, and patient-specific risks"
+        }
+      ],
+      "childPortal": "pediatric_habit_regulate_impl_portal.html"
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior — Regulation Strategy — Tertiary Node",
+      "domainDescription": "Regulation layer — selects intervention strategies based on diagnosis, weighing efficacy, risk, contraindications, and patient/system context.",
+      "group": "regulation",
+      "phase": "P3",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Selection Protocol",
+          "evidence": "A",
+          "description": "Evidence-ranked intervention selection based on diagnosis severity and patient context"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Risk-Benefit Analysis Framework",
+          "evidence": "B",
+          "description": "Systematic weighing of intervention risks against expected benefit for Habit Circuits & Repetitive Behavior"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Contraindication Guard",
+          "evidence": "A",
+          "description": "Safety checks against known contraindications, drug interactions, and patient-specific risks"
+        }
+      ],
+      "childPortal": "pediatric_habit_regulate_optim_portal.html"
+    }
+  ]
+}

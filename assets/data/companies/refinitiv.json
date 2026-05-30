@@ -1,0 +1,623 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "refinitiv",
+  "slug": "refinitiv",
+  "name": "Refinitiv Ltd.",
+  "ticker": null,
+  "cik": null,
+  "sic": "7372",
+  "industry": "Services-Prepackaged Software",
+  "domainId": "governance",
+  "portalAttachment": "governance-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DEXUSEU",
+    "VIXCLS",
+    "UNRATE",
+    "INDPRO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "precious metals",
+    "agricultural commodities",
+    "foreign exchange"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Private subsidiary status limits public financial transparency and real-time earnings visibility",
+    "Concentration risk: LSEG parent dependency creates single-point-of-failure governance exposure",
+    "Data-licensing regulatory scrutiny from FCA, SEC, and EU DMA may constrain pricing power"
+  ],
+  "opportunitySignals": [
+    "ESG and sustainability data demand accelerating across institutional asset managers (2023+ trend)",
+    "Cloud migration and API-first architecture positioning for fintech and alternative-data integration",
+    "Regulatory reporting automation (EMIR, MiFID II, Dodd-Frank) creates recurring SaaS revenue moat"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Refinitiv is the world's largest provider of financial data, analytics, and workflow software to institutional capital markets participants. As a subsidiary of London Stock Exchange Group (LSEG), it operates the Eikon terminal (competing with Bloomberg), Workspace, and Datastream platforms that underpin trade execution, risk management, and compliance across equities, fixed income, commodities, and FX. Its governance role is foundational: it sets data standards, publishes reference data (ISIN, LEI, RIC codes), and operates critical market infrastructure (LSEG Data & Analytics division) that regulators and exchanges depend on for market surveillance and transparency.",
+  "portalRelevance": "Refinitiv is a tier-1 anchor in the financial-intelligence ecosystem because it is both a primary data source and a governance node. Its data feeds, indices, and analytics directly inform the signal layer of every institutional portfolio model; its regulatory reporting tools embed compliance logic that shapes market structure. As a private subsidiary, it lacks public earnings visibility, but its parent LSEG's financial disclosures and regulatory filings (FCA, SEC) provide indirect insight into Refinitiv's revenue, margin, and strategic positioning. Understanding Refinitiv's product roadmap, pricing power, and regulatory exposure is essential for modeling institutional-client behavior and capital-markets infrastructure resilience.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE_SUBSIDIARY"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "LSEG quarterly earnings disclosures (Refinitiv revenue, EBITDA, client net-adds) via 20-F filings",
+        "Regulatory announcements from FCA, SEC, EU DMA on data-licensing and market-infrastructure oversight",
+        "Client churn / win signals via industry reports (e.g., Bloomberg terminal displacement, Eikon adoption rates)",
+        "Product release cadence and API/cloud migration milestones disclosed in LSEG investor presentations"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Refinitiv's revenue run-rate and EBITDA margin trajectory inferred from LSEG segment reporting",
+        "Client concentration and product-mix exposure (Eikon vs. Workspace vs. data-feeds) via LSEG disclosures",
+        "Regulatory compliance posture (FCA, SEC, EU DMA) assessed via enforcement actions and consent orders",
+        "Technology debt and cloud-migration progress estimated from product announcements and customer feedback"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Competitive threat from Bloomberg (terminal stickiness, pricing power) and alternative-data vendors (Palantir, Databricks)",
+        "Regulatory headwinds: EU DMA data-interoperability mandates may erode proprietary data moat",
+        "Client margin compression if institutional asset managers shift to lower-cost data aggregators or build in-house",
+        "Parent-company dependency risk: LSEG's capital allocation and strategic priorities directly constrain Refinitiv's investment"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "FCA oversight of market-data standards and reference-data governance (ISIN, LEI, RIC codes)",
+        "SEC enforcement on data-licensing practices and conflicts of interest in index construction",
+        "EU DMA compliance: interoperability mandates may require API standardization and third-party data access",
+        "GDPR and data-privacy regulations affecting client data handling and cross-border data flows"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight LSEG if Refinitiv revenue growth accelerates (cloud adoption, ESG data demand)",
+        "Hedge: reduce LSEG exposure if EU DMA enforcement tightens or Bloomberg wins material client wins",
+        "Engagement: monitor LSEG investor calls for Refinitiv margin guidance and cloud-migration ROI metrics",
+        "Thesis validation: track Eikon terminal adoption vs. Bloomberg in tier-1 asset-manager RFPs"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "LSEG quarterly earnings: Refinitiv revenue, EBITDA, and client metrics vs. guidance",
+        "Regulatory filings: FCA enforcement actions, SEC comment letters, EU DMA compliance updates",
+        "Industry reports: Bloomberg terminal market share, Refinitiv Eikon adoption, alternative-data vendor traction",
+        "Stock price reaction: LSEG share performance vs. sector peers (ICE, CME, Intercontinental Exchange)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate Refinitiv competitive-threat model if Bloomberg loses material market share or raises pricing",
+        "Update regulatory-risk scoring if EU DMA enforcement accelerates or FCA tightens data-governance standards",
+        "Adjust LSEG valuation multiple if Refinitiv cloud-migration ROI underperforms or client churn accelerates",
+        "Reweight data-dependency assumptions if alternative-data vendors (Palantir, Databricks) gain institutional traction"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Thomson Reuters (historical data & content licensing)",
+        "ticker": null,
+        "cik": null,
+        "slug": "thomson_reuters_legacy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Historical Data",
+        "relationshipNote": "Refinitiv inherited Thomson Reuters' historical news, research, and content archives in the 2018 Blackstone-led acquisition of the Financial & Risk division. This legacy content (pre-2018 news, research reports, company filings) remains a core data asset. Refinitiv continues to license and integrate TR content into Eikon and Workspace platforms..",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ICE (Intercontinental Exchange) — market data & indices",
+        "ticker": "ICE",
+        "cik": "1571949",
+        "slug": "ice_intercontinental",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Data Infrastructure",
+        "relationshipNote": "ICE operates competing market-data and index businesses (ICE Data Services, Markit indices, Refinitiv indices). Both companies distribute real-time and reference data to institutional clients. ICE's acquisition of Markit (2016, $13.5B) created a vertically integrated competitor to LSEG/Refinitiv. Refinitiv and ICE compete on pricing, API coverage, and regulatory-reporting automation (EMIR, MiFID II).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CME Group — market data & derivatives infrastructure",
+        "ticker": "CME",
+        "cik": "1156375",
+        "slug": "cme_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Derivatives Data & Pricing",
+        "relationshipNote": "CME Group distributes real-time and historical derivatives data (futures, options) via CME DataMine and competing platforms. Refinitiv's commodities and derivatives data compete with CME's native data feeds. Both companies serve the same institutional client base (hedge funds, asset managers, proprietary traders). CME's pricing power in energy and agricultural futures data creates competitive pressure on Refinitiv's commodity-data margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Palantir Technologies — alternative data & analytics",
+        "ticker": "PLTR",
+        "cik": "1772743",
+        "slug": "palantir_technologies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Alternative Data & AI-Driven Analytics",
+        "relationshipNote": "Palantir's Gotham and Apollo platforms compete with Refinitiv's analytics and data-integration capabilities, particularly for hedge funds and asset managers seeking alternative-data aggregation and machine-learning workflows. Palantir's 2023–2024 expansion into financial-services analytics (Palantir Apollo for capital markets) represents a direct threat to Refinitiv's proprietary analytics moat..",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "FactSet Research Systems — financial data & analytics",
+        "ticker": "FDS",
+        "cik": "1126328",
+        "slug": "factset_research",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Institutional Data & Workflow Automation",
+        "relationshipNote": "FactSet competes with Refinitiv in the institutional asset-manager segment, offering integrated data, analytics, and portfolio-management workflows. FactSet's 2023 revenue was ~$1.8B (vs. Refinitiv's estimated $6B+). FactSet has gained share in ESG data and alternative-data integration. Both companies compete on API coverage, cloud migration, and regulatory-reporting automation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Databricks — data platform & alternative-data aggregation",
+        "ticker": null,
+        "cik": null,
+        "slug": "databricks",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Cloud Data Infrastructure & AI Analytics",
+        "relationshipNote": "Databricks' Lakehouse platform enables institutional clients to build proprietary data warehouses and analytics pipelines, reducing dependency on Refinitiv's proprietary data distribution. Databricks' 2023 funding round valued the company at $43B. As fintech and alternative-data vendors adopt Databricks, Refinitiv faces margin pressure on data-licensing revenue..",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Amazon Web Services (AWS) — cloud infrastructure & data delivery",
+        "ticker": "AMZN",
+        "cik": "1018724",
+        "slug": "amazon_web_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery Infrastructure",
+        "relationshipNote": "Refinitiv operates Eikon, Workspace, and data-feed infrastructure on AWS cloud services. AWS provides compute, storage, and CDN services for Refinitiv's global data distribution. Refinitiv's cloud-migration strategy (2020–2024) relies on AWS for scalability and latency optimization..",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Microsoft Azure — cloud infrastructure & enterprise integration",
+        "ticker": "MSFT",
+        "cik": "789019",
+        "slug": "microsoft_azure",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Enterprise Cloud & Integration",
+        "relationshipNote": "Refinitiv integrates with Microsoft Azure for enterprise clients requiring on-premises or hybrid cloud deployments. Refinitiv's Workspace platform supports Azure integration for compliance and data-residency requirements (e.g., EU GDPR, UK FCA)..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Akamai Technologies — CDN & content delivery",
+        "ticker": "AKAM",
+        "cik": "1086222",
+        "slug": "akamai_technologies",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Data Delivery & Latency Optimization",
+        "relationshipNote": "Refinitiv uses Akamai's content-delivery network (CDN) to distribute real-time market data globally with low latency. Akamai's edge-computing services optimize Refinitiv's data-feed delivery to institutional clients in multiple geographies. Critical for Eikon terminal responsiveness and Workspace API performance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "BlackRock Inc. — asset manager & Eikon/Workspace user",
+        "ticker": "BLK",
+        "cik": "1364742",
+        "slug": "blackrock_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Institutional Client)",
+        "relationshipNote": "BlackRock is one of Refinitiv's largest institutional clients, using Eikon terminals and Workspace analytics for portfolio management, risk analysis, and compliance reporting. BlackRock's $10.6T AUM (2023) makes it a tier-1 strategic account. Refinitiv's data feeds and regulatory-reporting tools are embedded in BlackRock's Aladdin platform workflows..",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group — asset manager & data consumer",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Institutional Client)",
+        "relationshipNote": "Vanguard, with $7.8T AUM (2023), is a major Refinitiv client for market data, analytics, and regulatory-reporting solutions. Vanguard uses Refinitiv data for fixed-income portfolio management, ESG analysis, and compliance workflows. Vanguard's shift toward passive management and alternative-data integration creates both opportunity (ESG data demand) and risk (lower data-licensing spend per dollar AUM).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Street Corporation — custodian & data consumer",
+        "ticker": "STT",
+        "cik": "93751",
+        "slug": "state_street_corp",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Downstream Client)",
+        "relationshipNote": "State Street uses Refinitiv data and analytics for custody, fund administration, and regulatory reporting. State Street's $42.9T AUM (2023) makes it a critical client for Refinitiv's institutional data products. Refinitiv's regulatory-reporting automation (EMIR, MiFID II, Dodd-Frank) is embedded in State Street's compliance workflows..",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Bloomberg L.P.",
+        "ticker": null,
+        "cik": null,
+        "slug": "bloomberg_lp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Threat",
+        "relationshipNote": "Bloomberg Terminal dominates the professional trader and portfolio-manager segment with ~350K terminals globally. Bloomberg's $60B+ valuation (private) reflects its pricing power ($24K–$30K per terminal annually) and sticky customer base. Refinitiv's Eikon competes on price (~$15K–$20K per terminal) but trails on equities workflow and brand stickiness. Bloomberg's 2023 expansion into cloud-native products (Bloomberg Anywhere) threatens Refinitiv's Workspace adoption.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "FactSet Research Systems Inc.",
+        "ticker": "FDS",
+        "cik": "1126328",
+        "slug": "factset_research",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Threat in Asset-Manager Segment",
+        "relationshipNote": "FactSet's 2023 revenue of $1.8B and 6,500+ institutional clients position it as a strong competitor in the asset-manager segment. FactSet's integrated data, analytics, and portfolio-management workflows compete directly with Refinitiv's Workspace. FactSet's 2023 organic growth of 8% and cloud-migration success (Workstation to cloud) represent a competitive threat to Refinitiv's market share.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "S&P Global Market Intelligence",
+        "ticker": "SPGI",
+        "cik": "1414190",
+        "slug": "sp_global_market_intelligence",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Threat in Commodities & Credit Data",
+        "relationshipNote": "S&P Global's Market Intelligence division (Platts, SNL Financial, RoyaltyRange) competes with Refinitiv in commodities pricing, energy data, and credit analytics. S&P Global's 2023 revenue of $8.9B (parent) and strong position in commodity-price benchmarking create competitive pressure on Refinitiv's energy and metals data margins. S&P Global's credit-rating business creates potential conflicts of interest in data distribution.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ICE Data Services (Intercontinental Exchange)",
+        "ticker": "ICE",
+        "cik": "1571949",
+        "slug": "ice_data_services",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Threat in Market Data & Indices",
+        "relationshipNote": "ICE Data Services (part of ICE Inc., $2.9T notional volume in 2023) competes with Refinitiv in real-time market data, indices, and regulatory-reporting solutions. ICE's acquisition of Markit (2016, $13.5B) created a vertically integrated competitor. ICE's pricing power in derivatives and fixed-income data creates competitive pressure on Refinitiv's margins in these segments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Palantir Technologies Inc.",
+        "ticker": "PLTR",
+        "cik": "1772743",
+        "slug": "palantir_technologies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Emerging Competitive Threat in Alternative Data & AI",
+        "relationshipNote": "Palantir's Gotham and Apollo platforms compete with Refinitiv's analytics and data-integration capabilities. Palantir's 2023–2024 expansion into capital-markets analytics (Apollo for financial services) represents a direct threat to Refinitiv's proprietary analytics moat. Palantir's AI-driven data-fusion capabilities appeal to hedge funds and alternative-asset managers seeking to reduce dependency on Refinitiv's data distribution.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "MSCI Inc. — indices, ESG data, & analytics",
+        "ticker": "MSCI",
+        "cik": "1411167",
+        "slug": "msci_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Index & ESG Data",
+        "relationshipNote": "MSCI competes with Refinitiv in ESG data, sustainability indices, and climate-risk analytics. MSCI's 2023 revenue was ~$2.7B. Both companies serve asset managers and institutional investors seeking ESG and climate-risk data. Refinitiv's acquisition of Eikon ESG data (2020) and Workspace ESG modules position it as a competitor to MSCI's ESG offerings. MSCI's pricing power in ESG indices creates competitive pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Financial Conduct Authority (FCA) — UK financial regulator",
+        "ticker": null,
+        "cik": null,
+        "slug": "fca_uk",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Primary Regulator)",
+        "relationshipNote": "The FCA is Refinitiv's primary regulator as a UK-domiciled subsidiary of LSEG. The FCA oversees Refinitiv's market-data distribution, reference-data governance (ISIN, LEI, RIC codes), and regulatory-reporting services (EMIR, MiFID II). FCA enforcement actions on data-licensing practices and conflicts of interest directly impact Refinitiv's business model..",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec_us",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Secondary Regulator)",
+        "relationshipNote": "The SEC oversees Refinitiv's U.S. market-data distribution, index governance, and regulatory-reporting services (Dodd-Frank, Reg SHO, Form ATS). SEC enforcement on data-licensing practices and conflicts of interest in index construction affects Refinitiv's U.S. revenue. LSEG's 20-F filings disclose SEC matters affecting Refinitiv..",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "European Commission — Digital Markets Act (DMA) & competition",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dma",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic Regulation",
+        "relationshipNote": "The EU's Digital Markets Act (DMA, effective 2024) may designate Refinitiv as a 'gatekeeper' in financial data distribution, requiring interoperability mandates and third-party data access. LSEG disclosed DMA compliance risks in its 2023 20-F filing. DMA enforcement could erode Refinitiv's proprietary data moat and force API standardization, reducing pricing power..",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Commodity Futures Trading Commission (CFTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cftc_us",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Derivatives Oversight",
+        "relationshipNote": "The CFTC oversees Refinitiv's derivatives data distribution, swap-reporting services (Dodd-Frank Title VII), and market-surveillance tools. CFTC enforcement on data-licensing practices and conflicts of interest in derivatives pricing affects Refinitiv's commodities and FX data revenue..",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "UK Competition and Markets Authority (CMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cma_uk",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Market Structure",
+        "relationshipNote": "The CMA oversees LSEG/Refinitiv's market-data pricing and potential anti-competitive practices. CMA's 2022 investigation into LSEG's market-data pricing (concluded with commitments) affects Refinitiv's pricing power. CMA may revisit LSEG/Refinitiv's market position if competitive concerns emerge..",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte LLP (LSEG group auditor)",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_llp",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment & Compliance",
+        "relationshipNote": "Deloitte is the external auditor for LSEG (Refinitiv's parent company). Deloitte audits LSEG's consolidated financial statements, including Refinitiv's revenue, EBITDA, and segment reporting. Deloitte's audit opinions and internal-control assessments are disclosed in LSEG's annual 20-F filings..",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "London Stock Exchange Group plc (LSEG) — parent company & equity holder",
+        "ticker": "LSEG",
+        "cik": "1149222",
+        "slug": "lseg_plc",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance & Ownership)",
+        "relationshipNote": "LSEG owns 100% of Refinitiv (acquired via Blackstone consortium in 2018 for $27B, then acquired by LSEG in 2021 for $27B). LSEG's 2023 revenue was £3.2B (Refinitiv contributed ~£1.8B). LSEG's capital allocation and strategic priorities directly constrain Refinitiv's investment in cloud migration, product development, and M&A. LSEG's 2024 strategic review may affect Refinitiv's organizational structure.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Blackstone Inc. — historical equity holder (2018–2021)",
+        "ticker": "BX",
+        "cik": "1393110",
+        "slug": "blackstone_inc",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital (Historical)",
+        "relationshipNote": "Blackstone led the consortium that acquired Refinitiv from Thomson Reuters in 2018 for $27B. Blackstone held Refinitiv until LSEG's acquisition in 2021. Blackstone's ownership period (2018–2021) drove cloud-migration strategy and cost-reduction initiatives. Blackstone's exit in 2021 marked Refinitiv's transition to LSEG ownership and integration with LSE, Borsa Italiana, and LCH.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "LSEG debt holders — bond market & credit facilities",
+        "ticker": null,
+        "cik": null,
+        "slug": "lseg_debt_holders",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital (Debt Financing)",
+        "relationshipNote": "LSEG finances Refinitiv operations through corporate debt (bonds, credit facilities). LSEG's 2023 net debt was £4.2B. Refinitiv's EBITDA contribution (~£600M estimated) supports LSEG's debt service. Credit-rating agencies (Moody's, S&P, Fitch) assess LSEG's credit quality, which affects Refinitiv's access to capital..",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "David Schwimmer — Chief Executive Officer, LSEG (Refinitiv parent)",
+        "slug": "david_schwimmer_ceo",
+        "title": "CEO, London Stock Exchange Group",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "David Schwimmer became LSEG CEO in 2021, overseeing Refinitiv's integration into LSEG's portfolio. Schwimmer's strategic priorities include cloud migration, cost optimization, and regulatory compliance (FCA, SEC, EU DMA). Schwimmer's 2024 strategic review may affect Refinitiv's organizational structure and capital allocation..",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Kneeland Youngblood — Chief Financial Officer, LSEG",
+        "slug": "kneeland_youngblood_cfo",
+        "title": "CFO, London Stock Exchange Group",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Kneeland Youngblood is LSEG's CFO, responsible for financial planning and capital allocation across LSEG's divisions, including Refinitiv. Youngblood's quarterly earnings guidance and segment reporting provide visibility into Refinitiv's revenue, EBITDA, and margin trends..",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "LSEG share price & valuation multiples",
+        "slug": "lseg_stock_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Market Valuation)",
+        "relationshipNote": "LSEG's share price reflects market expectations for Refinitiv's revenue growth, margin expansion, and regulatory risks. LSEG's 2023 P/E multiple (~20x) and dividend yield (~3.5%) are benchmarks for investor sentiment on Refinitiv's strategic value. LSEG's share price reaction to earnings guidance and regulatory announcements signals market confidence in Refinitiv's competitive positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data"
+        ]
+      },
+      {
+        "name": "Refinitiv client churn & net-adds (disclosed in LSEG earnings)",
+        "slug": "refinitiv_client_metrics",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Customer Retention",
+        "relationshipNote": "LSEG's quarterly earnings disclosures include Refinitiv client metrics (net-adds, churn, AUM-linked revenue). Client churn signals competitive pressure from Bloomberg, FactSet, and alternative-data vendors. Net-adds in cloud-native products (Workspace, APIs) signal successful product migration..",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      }
+    ]
+  }
+}

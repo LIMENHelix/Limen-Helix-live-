@@ -1,0 +1,383 @@
+{
+  "domainId": "neurology_striatum",
+  "title": "Striatum (Caudate/Putamen)",
+  "parentPortal": "neurology_portal.html",
+  "parentLabel": "Neurology",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Striatum (Caudate/Putamen) indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "neurology_striatum_action_portal.html"
+    },
+    {
+      "brainNodeId": "FORN",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Striatum (Caudate/Putamen) activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Striatum (Caudate/Putamen) Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "neurology_striatum_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "CING",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Striatum (Caudate/Putamen), including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "neurology_striatum_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "MAMM",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Striatum (Caudate/Putamen) practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "neurology_striatum_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "SEPT",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Striatum (Caudate/Putamen) methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "neurology_striatum_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "NBM",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Striatum (Caudate/Putamen) stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "neurology_striatum_signal_portal.html"
+    },
+    {
+      "brainNodeId": "PIN",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Striatum (Caudate/Putamen) operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "neurology_striatum_state_portal.html"
+    },
+    {
+      "brainNodeId": "VEST",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Striatum (Caudate/Putamen) outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Striatum (Caudate/Putamen) Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CC",
+      "target": "FORN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FORN",
+      "target": "CING",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CING",
+      "target": "MAMM",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "MAMM",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "SEPT",
+      "target": "NBM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NBM",
+      "target": "PIN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PIN",
+      "target": "VEST",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VEST",
+      "target": "CC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CC",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "MAMM",
+      "target": "PIN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "NEUROLOGY_STRIATUM_SYSTEM_FAILURE",
+      "label": "Striatum (Caudate/Putamen) System Failure",
+      "summary": "Critical breakdown in Striatum (Caudate/Putamen) systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CC",
+          "dir": "Hypo-active",
+          "detail": "Striatum (Caudate/Putamen) Assessment & Diagnostics capacity falling below operational thresholds, reducing Striatum (Caudate/Putamen) output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FORN",
+          "dir": "Hypo-active",
+          "detail": "Striatum (Caudate/Putamen) Core Operations systems underperforming, creating gaps in Striatum (Caudate/Putamen) coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Altered",
+          "detail": "Striatum (Caudate/Putamen) Infrastructure & Capacity behavior deviating from established norms, complicating Striatum (Caudate/Putamen) management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Hyper-active",
+          "detail": "Striatum (Caudate/Putamen) Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Striatum (Caudate/Putamen)",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Hypo-active",
+          "detail": "Striatum (Caudate/Putamen) Performance & Optimization function reduced, compromising Striatum (Caudate/Putamen) system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "NEUROLOGY_STRIATUM_CAPACITY_CRISIS",
+      "label": "Striatum (Caudate/Putamen) Capacity Crisis",
+      "summary": "Demand exceeding available Striatum (Caudate/Putamen) capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "FORN",
+          "dir": "Hyper-active",
+          "detail": "Striatum (Caudate/Putamen) Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Striatum (Caudate/Putamen)",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Hypo-active",
+          "detail": "Striatum (Caudate/Putamen) Infrastructure & Capacity systems underperforming, creating gaps in Striatum (Caudate/Putamen) coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MAMM",
+          "dir": "Altered",
+          "detail": "Striatum (Caudate/Putamen) Standards & Governance behavior deviating from established norms, complicating Striatum (Caudate/Putamen) management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hyper-active",
+          "detail": "Striatum (Caudate/Putamen) Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Striatum (Caudate/Putamen)",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Altered",
+          "detail": "Striatum (Caudate/Putamen) Performance & Optimization operating outside normal parameters, introducing uncertainty into Striatum (Caudate/Putamen) outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "NEUROLOGY_STRIATUM_GOVERNANCE_GAP",
+      "label": "Striatum (Caudate/Putamen) Governance Gap",
+      "summary": "Oversight or regulatory failure in Striatum (Caudate/Putamen) creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "MAMM",
+          "dir": "Hypo-active",
+          "detail": "Striatum (Caudate/Putamen) Standards & Governance capacity falling below operational thresholds, reducing Striatum (Caudate/Putamen) output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "Striatum (Caudate/Putamen) Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Striatum (Caudate/Putamen)",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SEPT",
+          "dir": "Hyper-active",
+          "detail": "Striatum (Caudate/Putamen) Research & Development activity spiking beyond design limits, creating instability across Striatum (Caudate/Putamen) operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Altered",
+          "detail": "Striatum (Caudate/Putamen) Risk & Resilience patterns disrupted, necessitating adaptive responses within Striatum (Caudate/Putamen) frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hypo-active",
+          "detail": "Striatum (Caudate/Putamen) Coordination & Integration function reduced, compromising Striatum (Caudate/Putamen) system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

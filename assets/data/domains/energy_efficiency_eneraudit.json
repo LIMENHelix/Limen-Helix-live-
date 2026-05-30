@@ -1,0 +1,2066 @@
+{
+  "domainId": "energy_efficiency_eneraudit",
+  "title": "Energy Audits",
+  "parentPortal": "energy_efficiency_portal.html",
+  "parentLabel": "Efficiency",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Energy Audits Assessment & Diagnostics",
+      "domainDescription": "Systematic management of energy audits assessment & diagnostics across all energy audits functions and operations",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Energy Audits Assessment & Diagnostics Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a grid decarbonization roadmap for energy audits assessment & diagnostics following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "FRAGMENTED_ENERGY_AUDITS_ASSESSMENT___DIA -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for energy audits assessment & diagnostics using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Energy Audits Assessment & Diagnostics Feedback Loop Design",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop a certified energy manager program for energy audits assessment & diagnostics per AEE CEM body of knowledge with industrial efficiency focus.",
+          "cite": "MIT Energy Initiative (2022). Future of Energy Storage. MIT; Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241",
+          "target": "SILOED_ENERGY_AUDITS_ASSESSMENT___DIA -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess protection engineering skills for energy audits assessment & diagnostics against NERC PRC standards",
+            "Design training in relay coordination, fault analysis, and settings development",
+            "Deliver simulation-based training with ETAP/SKM relay coordination tools",
+            "Conduct competency assessment with practical relay testing and setting exercises",
+            "Track protection system misoperation rates for trained personnel"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy management competency using CEM/CMVP certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy management competency measured biannually. Target: 50 certified energy managers. PHASE 3 (Months 4-6): Midpoint review — compare against AEE certification benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy management competency trending toward 75 managers. Escalate if <30 minimum. ANNUAL REVIEW: Comprehensive audit using AEE certification framework. Report to Energy Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Energy Audits Assessment & Diagnostics Sustainability Audit",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a transmission expansion program for energy audits assessment & diagnostics following FERC Order 1000 planning with multi-value project assessment.",
+          "cite": "NREL (2022). Annual Technology Baseline. NREL; DOE (2023). National Transmission Planning Study. US Department of Energy",
+          "target": "OUTDATED_ENERGY_AUDITS_ASSESSMENT___DIA -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate generation fleet for energy audits assessment & diagnostics using heat rate and availability analysis",
+            "Design efficiency improvements per ASME PTC performance test codes",
+            "Implement combustion tuning, heat recovery, and auxiliary load optimization",
+            "Deploy performance monitoring with real-time analytics and predictive maintenance",
+            "Track capacity factor and heat rate improvements against fleet benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — power plant capacity factor using generation performance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — power plant capacity factor measured monthly. Target: target capacity factor by type. PHASE 3 (Months 4-6): Midpoint review — compare against NREL ATB benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — power plant capacity factor trending toward top-quartile performance. Escalate if <bottom-quartile escalation. ANNUAL REVIEW: Comprehensive audit using NREL ATB framework. Report to Generation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Energy Audits Assessment & Diagnostics Innovation Pipeline",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement an energy efficiency behavior change program for energy audits assessment & diagnostics applying Dietz behavioral wedge methodology with smart meter feedback.",
+          "cite": "Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125; Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003",
+          "target": "INEFFICIENT_ENERGY_AUDITS_ASSESSMENT___DIA -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            },
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Assess energy workforce demographics for energy audits assessment & diagnostics using BLS and utility data",
+            "Design diversity recruitment program with pre-apprenticeship and mentorship",
+            "Partner with HBCUs, tribal colleges, and community organizations",
+            "Implement paid internship and apprenticeship pathways with wraparound support",
+            "Track workforce diversity metrics and retention rates against DOE targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy efficiency behavior adoption using smart meter analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy efficiency behavior adoption measured monthly. Target: 15% voluntary demand reduction. PHASE 3 (Months 4-6): Midpoint review — compare against EPA ENERGY STAR benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy efficiency behavior adoption trending toward 25% reduction. Escalate if <8% reduction floor. ANNUAL REVIEW: Comprehensive audit using EPA ENERGY STAR framework. Report to Demand-Side Management Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Energy Audits Assessment & Diagnostics Feedback Loop Design",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a renewable resource assessment platform for energy audits assessment & diagnostics integrating NREL SAM with GIS-based siting and interconnection analysis.",
+          "cite": "EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute; NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3",
+          "target": "INCONSISTENT_ENERGY_AUDITS_ASSESSMENT___DIA -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate RE siting for energy audits assessment & diagnostics using NREL SAM and wind/solar resource data",
+            "Design GIS-based siting platform with environmental and grid constraint layers",
+            "Implement interconnection screening with hosting capacity and upgrade cost analysis",
+            "Deploy optimization engine for portfolio siting across resource zones",
+            "Measure development success rates and LCOE outcomes against projections"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy data platform completeness using data quality audit system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy data platform completeness measured monthly. Target: 90% data streams validated. PHASE 3 (Months 4-6): Midpoint review — compare against Green Button standard coverage. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy data platform completeness trending toward 95% validated. Escalate if <80% validated floor. ANNUAL REVIEW: Comprehensive audit using Green Button Connect framework. Report to Data Analytics Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Energy Audits Assessment & Diagnostics Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a grid decarbonization roadmap for energy audits assessment & diagnostics following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "UNMONITORED_ENERGY_AUDITS_ASSESSMENT___DIA -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for energy audits assessment & diagnostics using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_efficiency_eneraudit_benchmrk_portal.html"
+    },
+    {
+      "brainNodeId": "PI",
+      "state": "active",
+      "domainLabel": "Energy Audits Core Operations",
+      "domainDescription": "Systematic management of energy audits core operations across all energy audits functions and operations",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Assess Energy Audits Core Operations Capability Maturity Model",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Assess a distributed energy resources integration plan for energy audits core operations per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "INEFFICIENT_ENERGY_AUDITS_CORE_OPERATIONS -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze DER growth for energy audits core operations using IEEE 1547 hosting capacity analysis",
+            "Design interconnection queue reform with technical screens and fast-track provisions",
+            "Implement DERMS platform for visibility, control, and optimization",
+            "Deploy dynamic operating envelopes for voltage and thermal management",
+            "Evaluate DER integration costs and benefits using utility cost-benefit framework"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — carbon intensity of electricity using emissions monitoring system (CEMS). Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — carbon intensity of electricity measured monthly. Target: reduction of 15% in gCO2/kWh. PHASE 3 (Months 4-6): Midpoint review — compare against IEA Net Zero pathway. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — carbon intensity of electricity trending toward 30% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using GHG Protocol Scope 2 framework. Report to Climate and Energy Commissioner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Energy Audits Core Operations Quality Assurance Program",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Create a grid operator certification program for energy audits core operations aligned with NERC System Operator Certification requirements.",
+          "cite": "NERC (2023). Long-Term Reliability Assessment. NERC; Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302",
+          "target": "INCONSISTENT_ENERGY_AUDITS_CORE_OPERATIONS -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Survey energy management skills for energy audits core operations against AEE CEM body of knowledge",
+            "Design CEM preparation program covering energy accounting, economics, and systems",
+            "Deliver training with facility assessments, M&V exercises, and case studies",
+            "Support CEM examination and CMVP certification for verification skills",
+            "Measure energy savings achieved by certified managers in their facilities"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable technology training using NABCEP certification system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable technology training measured quarterly. Target: 60% installers NABCEP certified. PHASE 3 (Months 4-6): Midpoint review — compare against NABCEP industry benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable technology training trending toward 80% certified. Escalate if <40% certified. ANNUAL REVIEW: Comprehensive audit using NABCEP certification standards. Report to RE Training Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Energy Audits Core Operations Integration Architecture",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Evaluate a substation upgrade program for energy audits core operations implementing IEC 61850 communications with digital relay protection schemes.",
+          "cite": "IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE; FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC",
+          "target": "UNMONITORED_ENERGY_AUDITS_CORE_OPERATIONS -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess pipeline integrity for energy audits core operations per 49 CFR 192/195 requirements",
+            "Conduct in-line inspection (ILI) and direct assessment (ECDA/ICDA)",
+            "Design repair and replacement program prioritized by risk assessment",
+            "Implement pipeline monitoring with SCADA, leak detection, and cathodic protection",
+            "Report integrity metrics to PHMSA with annual safety performance tracking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — pipeline integrity index using PHMSA inspection data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — pipeline integrity index measured quarterly. Target: zero serious incidents. PHASE 3 (Months 4-6): Midpoint review — compare against PHMSA Pipeline Safety targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — pipeline integrity index trending toward zero incidents with margin. Escalate if <<3 minor incidents. ANNUAL REVIEW: Comprehensive audit using 49 CFR Parts 192/195. Report to Pipeline Safety Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Energy Audits Core Operations Capability Maturity Model",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Integrate an energy workforce equity program for energy audits core operations with targeted recruitment and pre-apprenticeship per DOE equity initiatives.",
+          "cite": "Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044; Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004",
+          "target": "UNDERPERFORMING_ENERGY_AUDITS_CORE_OPERATIONS -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            },
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            }
+          ],
+          "steps": [
+            "Conduct social acceptance assessment for energy audits core operations using stakeholder mapping",
+            "Design community engagement plan with benefit-sharing and impact mitigation",
+            "Implement iterative consultation with community advisory panels",
+            "Negotiate community benefit agreements with legally binding commitments",
+            "Monitor social license indicators through community survey and complaint tracking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy workforce diversity using EEO workforce data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy workforce diversity measured quarterly. Target: 30% underrepresented groups. PHASE 3 (Months 4-6): Midpoint review — compare against DOE equity initiative targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy workforce diversity trending toward 40% representation. Escalate if <20% minimum. ANNUAL REVIEW: Comprehensive audit using DOE Justice40 framework. Report to Diversity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Conduct Energy Audits Core Operations Quality Assurance Program",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Conduct a SCADA/EMS cybersecurity hardening for energy audits core operations per NERC CIP standards with intrusion detection and access controls.",
+          "cite": "HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy; Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003",
+          "target": "REACTIVE_ENERGY_AUDITS_CORE_OPERATIONS -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Assess storage valuation for energy audits core operations using Sandia StorageVET methodology",
+            "Model value stacks: arbitrage, capacity, ancillary services, T&D deferral",
+            "Design storage procurement with performance requirements and warranty terms",
+            "Deploy storage with controls integration and market participation",
+            "Track storage utilization, revenue, and degradation against performance targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — DER management platform maturity using DERMS capability assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — DER management platform maturity measured quarterly. Target: DERMS level 3 maturity. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 2030.11 DERMS standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — DER management platform maturity trending toward level 4. Escalate if <level 2 floor. ANNUAL REVIEW: Comprehensive audit using IEEE 2030 framework. Report to DER Integration Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Design Energy Audits Core Operations Integration Architecture",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Design a distributed energy resources integration plan for energy audits core operations per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "EIA (2023). Annual Energy Outlook. US Energy Information Administration; Smil, V. (2017). Energy and Civilization: A History. MIT Press",
+          "target": "FRAGMENTED_ENERGY_AUDITS_CORE_OPERATIONS -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze DER growth for energy audits core operations using IEEE 1547 hosting capacity analysis",
+            "Design interconnection queue reform with technical screens and fast-track provisions",
+            "Implement DERMS platform for visibility, control, and optimization",
+            "Deploy dynamic operating envelopes for voltage and thermal management",
+            "Evaluate DER integration costs and benefits using utility cost-benefit framework"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — carbon intensity of electricity using emissions monitoring system (CEMS). Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — carbon intensity of electricity measured monthly. Target: reduction of 15% in gCO2/kWh. PHASE 3 (Months 4-6): Midpoint review — compare against IEA Net Zero pathway. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — carbon intensity of electricity trending toward 30% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using GHG Protocol Scope 2 framework. Report to Climate and Energy Commissioner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_efficiency_eneraudit_detailed_portal.html"
+    },
+    {
+      "brainNodeId": "VV",
+      "state": "active",
+      "domainLabel": "Energy Audits Infrastructure & Capacity",
+      "domainDescription": "Systematic management of energy audits infrastructure & capacity across all energy audits functions and operations",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Deploy Energy Audits Infrastructure & Capacity Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Deploy a grid decarbonization roadmap for energy audits infrastructure & capacity following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "REACTIVE_ENERGY_AUDITS_INFRASTRUCTURE__ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for energy audits infrastructure & capacity using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Energy Audits Infrastructure & Capacity Benchmarking Framework",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Operationalize a certified energy manager program for energy audits infrastructure & capacity per AEE CEM body of knowledge with industrial efficiency focus.",
+          "cite": "Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013; DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy",
+          "target": "FRAGMENTED_ENERGY_AUDITS_INFRASTRUCTURE__ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            },
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess protection engineering skills for energy audits infrastructure & capacity against NERC PRC standards",
+            "Design training in relay coordination, fault analysis, and settings development",
+            "Deliver simulation-based training with ETAP/SKM relay coordination tools",
+            "Conduct competency assessment with practical relay testing and setting exercises",
+            "Track protection system misoperation rates for trained personnel"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy management competency using CEM/CMVP certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy management competency measured biannually. Target: 50 certified energy managers. PHASE 3 (Months 4-6): Midpoint review — compare against AEE certification benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy management competency trending toward 75 managers. Escalate if <30 minimum. ANNUAL REVIEW: Comprehensive audit using AEE certification framework. Report to Energy Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Energy Audits Infrastructure & Capacity Impact Evaluation",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Calibrate a transmission expansion program for energy audits infrastructure & capacity following FERC Order 1000 planning with multi-value project assessment.",
+          "cite": "Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press; IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC",
+          "target": "SILOED_ENERGY_AUDITS_INFRASTRUCTURE__ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate generation fleet for energy audits infrastructure & capacity using heat rate and availability analysis",
+            "Design efficiency improvements per ASME PTC performance test codes",
+            "Implement combustion tuning, heat recovery, and auxiliary load optimization",
+            "Deploy performance monitoring with real-time analytics and predictive maintenance",
+            "Track capacity factor and heat rate improvements against fleet benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — power plant capacity factor using generation performance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — power plant capacity factor measured monthly. Target: target capacity factor by type. PHASE 3 (Months 4-6): Midpoint review — compare against NREL ATB benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — power plant capacity factor trending toward top-quartile performance. Escalate if <bottom-quartile escalation. ANNUAL REVIEW: Comprehensive audit using NREL ATB framework. Report to Generation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Energy Audits Infrastructure & Capacity Performance Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Streamline an energy efficiency behavior change program for energy audits infrastructure & capacity applying Dietz behavioral wedge methodology with smart meter feedback.",
+          "cite": "Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106; Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002",
+          "target": "OUTDATED_ENERGY_AUDITS_INFRASTRUCTURE__ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            },
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            }
+          ],
+          "steps": [
+            "Assess energy workforce demographics for energy audits infrastructure & capacity using BLS and utility data",
+            "Design diversity recruitment program with pre-apprenticeship and mentorship",
+            "Partner with HBCUs, tribal colleges, and community organizations",
+            "Implement paid internship and apprenticeship pathways with wraparound support",
+            "Track workforce diversity metrics and retention rates against DOE targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy efficiency behavior adoption using smart meter analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy efficiency behavior adoption measured monthly. Target: 15% voluntary demand reduction. PHASE 3 (Months 4-6): Midpoint review — compare against EPA ENERGY STAR benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy efficiency behavior adoption trending toward 25% reduction. Escalate if <8% reduction floor. ANNUAL REVIEW: Comprehensive audit using EPA ENERGY STAR framework. Report to Demand-Side Management Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Energy Audits Infrastructure & Capacity Benchmarking Framework",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Assess a renewable resource assessment platform for energy audits infrastructure & capacity integrating NREL SAM with GIS-based siting and interconnection analysis.",
+          "cite": "Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia; PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab",
+          "target": "INEFFICIENT_ENERGY_AUDITS_INFRASTRUCTURE__ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate RE siting for energy audits infrastructure & capacity using NREL SAM and wind/solar resource data",
+            "Design GIS-based siting platform with environmental and grid constraint layers",
+            "Implement interconnection screening with hosting capacity and upgrade cost analysis",
+            "Deploy optimization engine for portfolio siting across resource zones",
+            "Measure development success rates and LCOE outcomes against projections"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy data platform completeness using data quality audit system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy data platform completeness measured monthly. Target: 90% data streams validated. PHASE 3 (Months 4-6): Midpoint review — compare against Green Button standard coverage. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy data platform completeness trending toward 95% validated. Escalate if <80% validated floor. ANNUAL REVIEW: Comprehensive audit using Green Button Connect framework. Report to Data Analytics Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Energy Audits Infrastructure & Capacity Impact Evaluation",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Create a grid decarbonization roadmap for energy audits infrastructure & capacity following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "INCONSISTENT_ENERGY_AUDITS_INFRASTRUCTURE__ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for energy audits infrastructure & capacity using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_efficiency_eneraudit_investgrd_portal.html"
+    },
+    {
+      "brainNodeId": "CAUD",
+      "state": "active",
+      "domainLabel": "Energy Audits Risk & Resilience",
+      "domainDescription": "Systematic management of energy audits risk & resilience across all energy audits functions and operations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Establish Energy Audits Risk & Resilience Process Improvement Initiative",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish an energy security diversification strategy for energy audits risk & resilience using IEA energy security indicators and supply chain risk assessment.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "INCONSISTENT_ENERGY_AUDITS_RISK___RESILIENC -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for energy audits risk & resilience using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Energy Audits Risk & Resilience Resilience Assessment",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Implement a power systems protection training for energy audits risk & resilience covering relay coordination, fault analysis, and NERC PRC compliance.",
+          "cite": "MIT Energy Initiative (2022). Future of Energy Storage. MIT; Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241",
+          "target": "UNMONITORED_ENERGY_AUDITS_RISK___RESILIENC -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess operator qualifications for energy audits risk & resilience against NERC certification requirements",
+            "Design training curriculum covering reliability standards, emergency operations, and restoration",
+            "Deliver simulator-based training with NERC contingency scenarios and real-time drills",
+            "Administer NERC certification exams and continuing education requirements",
+            "Track operator performance metrics and certification maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — utility workforce certification rate using training management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — utility workforce certification rate measured quarterly. Target: 80% technicians certified. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA and NFPA 70E standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — utility workforce certification rate trending toward 95% certified. Escalate if <65% certified. ANNUAL REVIEW: Comprehensive audit using NFPA 70E safety training. Report to Chief Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Energy Audits Risk & Resilience Risk Mitigation Strategy",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Institutionalize a distribution grid modernization for energy audits risk & resilience deploying AMI, ADMS, and DERMS per IEEE 2030 interoperability standards.",
+          "cite": "NREL (2022). Annual Technology Baseline. NREL; DOE (2023). National Transmission Planning Study. US Department of Energy",
+          "target": "UNDERPERFORMING_ENERGY_AUDITS_RISK___RESILIENC -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess transmission needs for energy audits risk & resilience using NERC TPL planning standards",
+            "Conduct multi-value project analysis per FERC Order 1000 methodology",
+            "Design transmission projects with NEPA environmental review and permitting",
+            "Construct facilities with NESC clearance standards and commissioning testing",
+            "Energize with protection coordination verification and NERC FAC compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — transmission capacity utilization using EMS and congestion tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — transmission capacity utilization measured monthly. Target: congestion cost reduction 20%. PHASE 3 (Months 4-6): Midpoint review — compare against FERC transmission planning targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — transmission capacity utilization trending toward 30% cost reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using FERC Order 1000 framework. Report to Transmission Planning Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Energy Audits Risk & Resilience Process Improvement Initiative",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Configure a social license engagement process for energy audits risk & resilience using IAEA stakeholder methodology for energy infrastructure siting.",
+          "cite": "Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125; Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003",
+          "target": "REACTIVE_ENERGY_AUDITS_RISK___RESILIENC -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            },
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Survey energy burden for energy audits risk & resilience using DOE LEAD Tool and census tract data",
+            "Design low-income energy assistance with weatherization and bill assistance",
+            "Implement programs through utility partnerships and community organizations",
+            "Deploy targeted outreach with multilingual materials and enrollment assistance",
+            "Evaluate burden reduction using pre-post billing analysis and participant surveys"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy poverty rate using household energy burden survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy poverty rate measured annually. Target: energy burden <6% for low-income. PHASE 3 (Months 4-6): Midpoint review — compare against LIHEAP eligibility thresholds. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy poverty rate trending toward burden <4%. Escalate if <burden <10% ceiling. ANNUAL REVIEW: Comprehensive audit using DOE LEAD Tool framework. Report to Energy Equity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Energy Audits Risk & Resilience Resilience Assessment",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Strengthen a grid simulation platform for energy audits risk & resilience deploying PSSE/PowerWorld with NERC MOD-032 model validation.",
+          "cite": "EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute; NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3",
+          "target": "FRAGMENTED_ENERGY_AUDITS_RISK___RESILIENC -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid modelling needs for energy audits risk & resilience using NERC MOD-032 requirements",
+            "Configure PSSE/PowerWorld with validated system model and contingency cases",
+            "Implement production cost modelling with PLEXOS for resource planning",
+            "Deploy real-time and planning model coordination with state estimator",
+            "Validate model accuracy through post-event analysis and benchmarking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — SCADA system cybersecurity score using NERC CIP compliance tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — SCADA system cybersecurity score measured quarterly. Target: full NERC CIP compliance. PHASE 3 (Months 4-6): Midpoint review — compare against NERC CIP v7 standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — SCADA system cybersecurity score trending toward zero high-risk findings. Escalate if <<3 medium findings. ANNUAL REVIEW: Comprehensive audit using NERC CIP standards. Report to Cybersecurity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Energy Audits Risk & Resilience Risk Mitigation Strategy",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Monitor an energy security diversification strategy for energy audits risk & resilience using IEA energy security indicators and supply chain risk assessment.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "SILOED_ENERGY_AUDITS_RISK___RESILIENC -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for energy audits risk & resilience using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_efficiency_eneraudit_walkthru_portal.html"
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Energy Audits Policy & Governance",
+      "domainDescription": "Systematic management of energy audits policy & governance across all energy audits functions and operations",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Develop Energy Audits Policy & Governance Stakeholder Engagement Plan",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Develop a hydrogen economy strategy for energy audits policy & governance applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "EIA (2023). Annual Energy Outlook. US Energy Information Administration; Smil, V. (2017). Energy and Civilization: A History. MIT Press",
+          "target": "OUTDATED_ENERGY_AUDITS_POLICY___GOVERNA -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for energy audits policy & governance using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Energy Audits Policy & Governance Training Curriculum",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Establish a renewable energy installer training for energy audits policy & governance using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy; Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013",
+          "target": "INEFFICIENT_ENERGY_AUDITS_POLICY___GOVERNA -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            }
+          ],
+          "steps": [
+            "Assess operator qualifications for energy audits policy & governance against NERC certification requirements",
+            "Design training curriculum covering reliability standards, emergency operations, and restoration",
+            "Deliver simulator-based training with NERC contingency scenarios and real-time drills",
+            "Administer NERC certification exams and continuing education requirements",
+            "Track operator performance metrics and certification maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — utility workforce certification rate using training management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — utility workforce certification rate measured quarterly. Target: 80% technicians certified. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA and NFPA 70E standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — utility workforce certification rate trending toward 95% certified. Escalate if <65% certified. ANNUAL REVIEW: Comprehensive audit using NFPA 70E safety training. Report to Chief Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Energy Audits Policy & Governance Strategic Alignment Review",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Implement a pipeline integrity management system for energy audits policy & governance per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC; Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press",
+          "target": "INCONSISTENT_ENERGY_AUDITS_POLICY___GOVERNA -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess transmission needs for energy audits policy & governance using NERC TPL planning standards",
+            "Conduct multi-value project analysis per FERC Order 1000 methodology",
+            "Design transmission projects with NEPA environmental review and permitting",
+            "Construct facilities with NESC clearance standards and commissioning testing",
+            "Energize with protection coordination verification and NERC FAC compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — transmission capacity utilization using EMS and congestion tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — transmission capacity utilization measured monthly. Target: congestion cost reduction 20%. PHASE 3 (Months 4-6): Midpoint review — compare against FERC transmission planning targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — transmission capacity utilization trending toward 30% cost reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using FERC Order 1000 framework. Report to Transmission Planning Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Energy Audits Policy & Governance Stakeholder Engagement Plan",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Institutionalize an energy justice program for energy audits policy & governance using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002; Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106",
+          "target": "UNMONITORED_ENERGY_AUDITS_POLICY___GOVERNA -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            },
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            }
+          ],
+          "steps": [
+            "Survey energy burden for energy audits policy & governance using DOE LEAD Tool and census tract data",
+            "Design low-income energy assistance with weatherization and bill assistance",
+            "Implement programs through utility partnerships and community organizations",
+            "Deploy targeted outreach with multilingual materials and enrollment assistance",
+            "Evaluate burden reduction using pre-post billing analysis and participant surveys"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy poverty rate using household energy burden survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy poverty rate measured annually. Target: energy burden <6% for low-income. PHASE 3 (Months 4-6): Midpoint review — compare against LIHEAP eligibility thresholds. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy poverty rate trending toward burden <4%. Escalate if <burden <10% ceiling. ANNUAL REVIEW: Comprehensive audit using DOE LEAD Tool framework. Report to Energy Equity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Energy Audits Policy & Governance Training Curriculum",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Configure a smart grid analytics platform for energy audits policy & governance integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab; Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia",
+          "target": "UNDERPERFORMING_ENERGY_AUDITS_POLICY___GOVERNA -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid modelling needs for energy audits policy & governance using NERC MOD-032 requirements",
+            "Configure PSSE/PowerWorld with validated system model and contingency cases",
+            "Implement production cost modelling with PLEXOS for resource planning",
+            "Deploy real-time and planning model coordination with state estimator",
+            "Validate model accuracy through post-event analysis and benchmarking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — SCADA system cybersecurity score using NERC CIP compliance tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — SCADA system cybersecurity score measured quarterly. Target: full NERC CIP compliance. PHASE 3 (Months 4-6): Midpoint review — compare against NERC CIP v7 standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — SCADA system cybersecurity score trending toward zero high-risk findings. Escalate if <<3 medium findings. ANNUAL REVIEW: Comprehensive audit using NERC CIP standards. Report to Cybersecurity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Energy Audits Policy & Governance Strategic Alignment Review",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Strengthen a hydrogen economy strategy for energy audits policy & governance applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard; IEA (2023). World Energy Outlook. IEA Publications",
+          "target": "REACTIVE_ENERGY_AUDITS_POLICY___GOVERNA -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for energy audits policy & governance using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Energy Audits Technology & Innovation",
+      "domainDescription": "Systematic management of energy audits technology & innovation across all energy audits functions and operations",
+      "group": "development",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Deploy Energy Audits Technology & Innovation Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Deploy a grid decarbonization roadmap for energy audits technology & innovation following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "REACTIVE_ENERGY_AUDITS_TECHNOLOGY___INN -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze DER growth for energy audits technology & innovation using IEEE 1547 hosting capacity analysis",
+            "Design interconnection queue reform with technical screens and fast-track provisions",
+            "Implement DERMS platform for visibility, control, and optimization",
+            "Deploy dynamic operating envelopes for voltage and thermal management",
+            "Evaluate DER integration costs and benefits using utility cost-benefit framework"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — carbon intensity of electricity using emissions monitoring system (CEMS). Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — carbon intensity of electricity measured monthly. Target: reduction of 15% in gCO2/kWh. PHASE 3 (Months 4-6): Midpoint review — compare against IEA Net Zero pathway. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — carbon intensity of electricity trending toward 30% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using GHG Protocol Scope 2 framework. Report to Climate and Energy Commissioner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Energy Audits Technology & Innovation Benchmarking Framework",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Operationalize a certified energy manager program for energy audits technology & innovation per AEE CEM body of knowledge with industrial efficiency focus.",
+          "cite": "Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013; DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy",
+          "target": "FRAGMENTED_ENERGY_AUDITS_TECHNOLOGY___INN -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            },
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Survey energy management skills for energy audits technology & innovation against AEE CEM body of knowledge",
+            "Design CEM preparation program covering energy accounting, economics, and systems",
+            "Deliver training with facility assessments, M&V exercises, and case studies",
+            "Support CEM examination and CMVP certification for verification skills",
+            "Measure energy savings achieved by certified managers in their facilities"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable technology training using NABCEP certification system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable technology training measured quarterly. Target: 60% installers NABCEP certified. PHASE 3 (Months 4-6): Midpoint review — compare against NABCEP industry benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable technology training trending toward 80% certified. Escalate if <40% certified. ANNUAL REVIEW: Comprehensive audit using NABCEP certification standards. Report to RE Training Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Energy Audits Technology & Innovation Impact Evaluation",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Calibrate a transmission expansion program for energy audits technology & innovation following FERC Order 1000 planning with multi-value project assessment.",
+          "cite": "Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press; IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC",
+          "target": "SILOED_ENERGY_AUDITS_TECHNOLOGY___INN -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess pipeline integrity for energy audits technology & innovation per 49 CFR 192/195 requirements",
+            "Conduct in-line inspection (ILI) and direct assessment (ECDA/ICDA)",
+            "Design repair and replacement program prioritized by risk assessment",
+            "Implement pipeline monitoring with SCADA, leak detection, and cathodic protection",
+            "Report integrity metrics to PHMSA with annual safety performance tracking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — pipeline integrity index using PHMSA inspection data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — pipeline integrity index measured quarterly. Target: zero serious incidents. PHASE 3 (Months 4-6): Midpoint review — compare against PHMSA Pipeline Safety targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — pipeline integrity index trending toward zero incidents with margin. Escalate if <<3 minor incidents. ANNUAL REVIEW: Comprehensive audit using 49 CFR Parts 192/195. Report to Pipeline Safety Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Energy Audits Technology & Innovation Performance Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Streamline an energy efficiency behavior change program for energy audits technology & innovation applying Dietz behavioral wedge methodology with smart meter feedback.",
+          "cite": "Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106; Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002",
+          "target": "OUTDATED_ENERGY_AUDITS_TECHNOLOGY___INN -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            },
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            }
+          ],
+          "steps": [
+            "Conduct social acceptance assessment for energy audits technology & innovation using stakeholder mapping",
+            "Design community engagement plan with benefit-sharing and impact mitigation",
+            "Implement iterative consultation with community advisory panels",
+            "Negotiate community benefit agreements with legally binding commitments",
+            "Monitor social license indicators through community survey and complaint tracking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy workforce diversity using EEO workforce data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy workforce diversity measured quarterly. Target: 30% underrepresented groups. PHASE 3 (Months 4-6): Midpoint review — compare against DOE equity initiative targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy workforce diversity trending toward 40% representation. Escalate if <20% minimum. ANNUAL REVIEW: Comprehensive audit using DOE Justice40 framework. Report to Diversity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Energy Audits Technology & Innovation Benchmarking Framework",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Assess a renewable resource assessment platform for energy audits technology & innovation integrating NREL SAM with GIS-based siting and interconnection analysis.",
+          "cite": "Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia; PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab",
+          "target": "INEFFICIENT_ENERGY_AUDITS_TECHNOLOGY___INN -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess storage valuation for energy audits technology & innovation using Sandia StorageVET methodology",
+            "Model value stacks: arbitrage, capacity, ancillary services, T&D deferral",
+            "Design storage procurement with performance requirements and warranty terms",
+            "Deploy storage with controls integration and market participation",
+            "Track storage utilization, revenue, and degradation against performance targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — DER management platform maturity using DERMS capability assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — DER management platform maturity measured quarterly. Target: DERMS level 3 maturity. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 2030.11 DERMS standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — DER management platform maturity trending toward level 4. Escalate if <level 2 floor. ANNUAL REVIEW: Comprehensive audit using IEEE 2030 framework. Report to DER Integration Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Energy Audits Technology & Innovation Impact Evaluation",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Create a grid decarbonization roadmap for energy audits technology & innovation following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "INCONSISTENT_ENERGY_AUDITS_TECHNOLOGY___INN -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze DER growth for energy audits technology & innovation using IEEE 1547 hosting capacity analysis",
+            "Design interconnection queue reform with technical screens and fast-track provisions",
+            "Implement DERMS platform for visibility, control, and optimization",
+            "Deploy dynamic operating envelopes for voltage and thermal management",
+            "Evaluate DER integration costs and benefits using utility cost-benefit framework"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — carbon intensity of electricity using emissions monitoring system (CEMS). Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — carbon intensity of electricity measured monthly. Target: reduction of 15% in gCO2/kWh. PHASE 3 (Months 4-6): Midpoint review — compare against IEA Net Zero pathway. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — carbon intensity of electricity trending toward 30% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using GHG Protocol Scope 2 framework. Report to Climate and Energy Commissioner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ENS",
+      "state": "active",
+      "domainLabel": "Energy Audits Human Capital & Development",
+      "domainDescription": "Systematic management of energy audits human capital & development across all energy audits functions and operations",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Configure Energy Audits Human Capital & Development Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Configure a grid decarbonization roadmap for energy audits human capital & development following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "UNDERPERFORMING_ENERGY_AUDITS_HUMAN_CAPITAL___ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for energy audits human capital & development using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Energy Audits Human Capital & Development Feedback Loop Design",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Strengthen a certified energy manager program for energy audits human capital & development per AEE CEM body of knowledge with industrial efficiency focus.",
+          "cite": "MIT Energy Initiative (2022). Future of Energy Storage. MIT; Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241",
+          "target": "REACTIVE_ENERGY_AUDITS_HUMAN_CAPITAL___ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess operator qualifications for energy audits human capital & development against NERC certification requirements",
+            "Design training curriculum covering reliability standards, emergency operations, and restoration",
+            "Deliver simulator-based training with NERC contingency scenarios and real-time drills",
+            "Administer NERC certification exams and continuing education requirements",
+            "Track operator performance metrics and certification maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — utility workforce certification rate using training management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — utility workforce certification rate measured quarterly. Target: 80% technicians certified. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA and NFPA 70E standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — utility workforce certification rate trending toward 95% certified. Escalate if <65% certified. ANNUAL REVIEW: Comprehensive audit using NFPA 70E safety training. Report to Chief Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Energy Audits Human Capital & Development Sustainability Audit",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Monitor a transmission expansion program for energy audits human capital & development following FERC Order 1000 planning with multi-value project assessment.",
+          "cite": "NREL (2022). Annual Technology Baseline. NREL; DOE (2023). National Transmission Planning Study. US Department of Energy",
+          "target": "FRAGMENTED_ENERGY_AUDITS_HUMAN_CAPITAL___ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess transmission needs for energy audits human capital & development using NERC TPL planning standards",
+            "Conduct multi-value project analysis per FERC Order 1000 methodology",
+            "Design transmission projects with NEPA environmental review and permitting",
+            "Construct facilities with NESC clearance standards and commissioning testing",
+            "Energize with protection coordination verification and NERC FAC compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — transmission capacity utilization using EMS and congestion tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — transmission capacity utilization measured monthly. Target: congestion cost reduction 20%. PHASE 3 (Months 4-6): Midpoint review — compare against FERC transmission planning targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — transmission capacity utilization trending toward 30% cost reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using FERC Order 1000 framework. Report to Transmission Planning Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Build Energy Audits Human Capital & Development Innovation Pipeline",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build an energy efficiency behavior change program for energy audits human capital & development applying Dietz behavioral wedge methodology with smart meter feedback.",
+          "cite": "Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125; Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003",
+          "target": "SILOED_ENERGY_AUDITS_HUMAN_CAPITAL___ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            },
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Survey energy burden for energy audits human capital & development using DOE LEAD Tool and census tract data",
+            "Design low-income energy assistance with weatherization and bill assistance",
+            "Implement programs through utility partnerships and community organizations",
+            "Deploy targeted outreach with multilingual materials and enrollment assistance",
+            "Evaluate burden reduction using pre-post billing analysis and participant surveys"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy poverty rate using household energy burden survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy poverty rate measured annually. Target: energy burden <6% for low-income. PHASE 3 (Months 4-6): Midpoint review — compare against LIHEAP eligibility thresholds. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy poverty rate trending toward burden <4%. Escalate if <burden <10% ceiling. ANNUAL REVIEW: Comprehensive audit using DOE LEAD Tool framework. Report to Energy Equity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Energy Audits Human Capital & Development Feedback Loop Design",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Optimize a renewable resource assessment platform for energy audits human capital & development integrating NREL SAM with GIS-based siting and interconnection analysis.",
+          "cite": "EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute; NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3",
+          "target": "OUTDATED_ENERGY_AUDITS_HUMAN_CAPITAL___ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid modelling needs for energy audits human capital & development using NERC MOD-032 requirements",
+            "Configure PSSE/PowerWorld with validated system model and contingency cases",
+            "Implement production cost modelling with PLEXOS for resource planning",
+            "Deploy real-time and planning model coordination with state estimator",
+            "Validate model accuracy through post-event analysis and benchmarking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — SCADA system cybersecurity score using NERC CIP compliance tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — SCADA system cybersecurity score measured quarterly. Target: full NERC CIP compliance. PHASE 3 (Months 4-6): Midpoint review — compare against NERC CIP v7 standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — SCADA system cybersecurity score trending toward zero high-risk findings. Escalate if <<3 medium findings. ANNUAL REVIEW: Comprehensive audit using NERC CIP standards. Report to Cybersecurity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Energy Audits Human Capital & Development Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Launch a grid decarbonization roadmap for energy audits human capital & development following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "INEFFICIENT_ENERGY_AUDITS_HUMAN_CAPITAL___ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for energy audits human capital & development using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "rACC",
+      "state": "active",
+      "domainLabel": "Energy Audits Quality & Performance",
+      "domainDescription": "Systematic management of energy audits quality & performance across all energy audits functions and operations",
+      "group": "performance",
+      "phase": "P3",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Conduct Energy Audits Quality & Performance Capacity Building Initiative",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Conduct an integrated resource plan for energy audits quality & performance using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "INEFFICIENT_ENERGY_AUDITS_QUALITY___PERFOR -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for energy audits quality & performance using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Design Energy Audits Quality & Performance Early Warning System",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Design an energy auditor qualification program for energy audits quality & performance following BPI Building Analyst and RESNET HERS rater pathways.",
+          "cite": "NERC (2023). Long-Term Reliability Assessment. NERC; Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302",
+          "target": "INCONSISTENT_ENERGY_AUDITS_QUALITY___PERFOR -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess protection engineering skills for energy audits quality & performance against NERC PRC standards",
+            "Design training in relay coordination, fault analysis, and settings development",
+            "Deliver simulation-based training with ETAP/SKM relay coordination tools",
+            "Conduct competency assessment with practical relay testing and setting exercises",
+            "Track protection system misoperation rates for trained personnel"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy management competency using CEM/CMVP certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy management competency measured biannually. Target: 50 certified energy managers. PHASE 3 (Months 4-6): Midpoint review — compare against AEE certification benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy management competency trending toward 75 managers. Escalate if <30 minimum. ANNUAL REVIEW: Comprehensive audit using AEE certification framework. Report to Energy Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Deploy Energy Audits Quality & Performance Operational Readiness Check",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Deploy a power plant efficiency optimization for energy audits quality & performance using ASME PTC performance testing with heat rate improvement measures.",
+          "cite": "IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE; FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC",
+          "target": "UNMONITORED_ENERGY_AUDITS_QUALITY___PERFOR -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate generation fleet for energy audits quality & performance using heat rate and availability analysis",
+            "Design efficiency improvements per ASME PTC performance test codes",
+            "Implement combustion tuning, heat recovery, and auxiliary load optimization",
+            "Deploy performance monitoring with real-time analytics and predictive maintenance",
+            "Track capacity factor and heat rate improvements against fleet benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — power plant capacity factor using generation performance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — power plant capacity factor measured monthly. Target: target capacity factor by type. PHASE 3 (Months 4-6): Midpoint review — compare against NREL ATB benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — power plant capacity factor trending toward top-quartile performance. Escalate if <bottom-quartile escalation. ANNUAL REVIEW: Comprehensive audit using NREL ATB framework. Report to Generation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Energy Audits Quality & Performance Capacity Building Initiative",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Operationalize a community energy development initiative for energy audits quality & performance enabling cooperative ownership models per EU Clean Energy Package.",
+          "cite": "Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044; Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004",
+          "target": "UNDERPERFORMING_ENERGY_AUDITS_QUALITY___PERFOR -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            },
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            }
+          ],
+          "steps": [
+            "Assess energy workforce demographics for energy audits quality & performance using BLS and utility data",
+            "Design diversity recruitment program with pre-apprenticeship and mentorship",
+            "Partner with HBCUs, tribal colleges, and community organizations",
+            "Implement paid internship and apprenticeship pathways with wraparound support",
+            "Track workforce diversity metrics and retention rates against DOE targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy efficiency behavior adoption using smart meter analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy efficiency behavior adoption measured monthly. Target: 15% voluntary demand reduction. PHASE 3 (Months 4-6): Midpoint review — compare against EPA ENERGY STAR benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy efficiency behavior adoption trending toward 25% reduction. Escalate if <8% reduction floor. ANNUAL REVIEW: Comprehensive audit using EPA ENERGY STAR framework. Report to Demand-Side Management Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Energy Audits Quality & Performance Early Warning System",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Calibrate an energy storage optimization tool for energy audits quality & performance using Sandia StorageVET methodology for value stacking analysis.",
+          "cite": "HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy; Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003",
+          "target": "REACTIVE_ENERGY_AUDITS_QUALITY___PERFOR -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Evaluate RE siting for energy audits quality & performance using NREL SAM and wind/solar resource data",
+            "Design GIS-based siting platform with environmental and grid constraint layers",
+            "Implement interconnection screening with hosting capacity and upgrade cost analysis",
+            "Deploy optimization engine for portfolio siting across resource zones",
+            "Measure development success rates and LCOE outcomes against projections"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy data platform completeness using data quality audit system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy data platform completeness measured monthly. Target: 90% data streams validated. PHASE 3 (Months 4-6): Midpoint review — compare against Green Button standard coverage. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy data platform completeness trending toward 95% validated. Escalate if <80% validated floor. ANNUAL REVIEW: Comprehensive audit using Green Button Connect framework. Report to Data Analytics Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Energy Audits Quality & Performance Operational Readiness Check",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Streamline an integrated resource plan for energy audits quality & performance using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "EIA (2023). Annual Energy Outlook. US Energy Information Administration; Smil, V. (2017). Energy and Civilization: A History. MIT Press",
+          "target": "FRAGMENTED_ENERGY_AUDITS_QUALITY___PERFOR -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for energy audits quality & performance using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a energy storage systems engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "DMN",
+      "target": "PI",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "PI",
+      "target": "VV",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "VV",
+      "target": "CAUD",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "CAUD",
+      "target": "LC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "LC",
+      "target": "BROCA",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "BROCA",
+      "target": "ENS",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "ENS",
+      "target": "rACC",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "DMN",
+      "target": "rACC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "VV",
+      "target": "DMN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "ENERGY_EFFICIENCY_ENERAUDIT_SYSTEM_FAILURE",
+      "label": "Energy Efficiency Eneraudit System Failure",
+      "summary": "Critical breakdown in Energy Efficiency Eneraudit systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-active",
+          "detail": "Energy Audits Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PI",
+          "dir": "Hypo-active",
+          "detail": "Energy Audits Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VV",
+          "dir": "Altered",
+          "detail": "Energy Audits Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CAUD",
+          "dir": "Hyper-active",
+          "detail": "Energy Audits Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Hypo-active",
+          "detail": "Energy Audits Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_EFFICIENCY_ENERAUDIT_CAPACITY_OVERLOAD",
+      "label": "Energy Efficiency Eneraudit Capacity Overload",
+      "summary": "Demand exceeding available Energy Efficiency Eneraudit capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-active",
+          "detail": "Energy Audits Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PI",
+          "dir": "Hyper-active",
+          "detail": "Energy Audits Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VV",
+          "dir": "Hyper-active",
+          "detail": "Energy Audits Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CAUD",
+          "dir": "Hyper-active",
+          "detail": "Energy Audits Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_EFFICIENCY_ENERAUDIT_QUALITY_DEGRADATION",
+      "label": "Energy Efficiency Eneraudit Quality Degradation",
+      "summary": "Progressive decline in Energy Efficiency Eneraudit quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "DMN",
+          "dir": "Hypo-active",
+          "detail": "Energy Audits Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PI",
+          "dir": "Altered",
+          "detail": "Energy Audits Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VV",
+          "dir": "Hyper-active",
+          "detail": "Energy Audits Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CAUD",
+          "dir": "Hypo-active",
+          "detail": "Energy Audits Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

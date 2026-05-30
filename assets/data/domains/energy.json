@@ -1,0 +1,2414 @@
+{
+  "domainId": "energy",
+  "title": "Energy",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P1",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Power Generation",
+      "domainDescription": "The conversion of primary energy sources into electrical power through thermal, mechanical, or photovoltaic processes.",
+      "domainFunction": "Transforms raw fuel inputs into usable electrical energy via turbines, generators, and photovoltaic arrays, forming the primary output stage of the energy system.",
+      "whyThisNode": "M1 (primary motor cortex) is the brain's final common pathway for producing motor output, directly analogous to how power plants are the final conversion stage that produces usable energy output from raw inputs.",
+      "group": "generation",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Capacity shortfall",
+        "Generator failure",
+        "Frequency deviation"
+      ],
+      "treatments": [
+        {
+          "label": "Diversified Generation Portfolio",
+          "type": "STRUCTURAL",
+          "description": "Deploy a mix of baseload, peaking, and intermediate generation assets across fuel types to reduce single-point-of-failure risk and maintain output stability.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Predictive Maintenance Analytics",
+          "type": "DIAGNOSTIC",
+          "description": "Apply sensor-driven condition monitoring and machine learning to predict turbine and generator failures before they cause unplanned outages.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "energy_power_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "GE Vernova",
+          "ticker_or_id": "GEV",
+          "functional_reason": "Executes core power generation operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Duke Energy",
+          "ticker_or_id": "DUK",
+          "functional_reason": "Executes core power generation operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "ExxonMobil",
+          "ticker_or_id": "XOM",
+          "functional_reason": "Executes core power generation operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Power Generation",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        },
+        {
+          "domain": "population",
+          "role": "Labor Force"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Grid Distribution",
+      "domainDescription": "The interconnected network of substations, transformers, and distribution lines that routes electricity from generators to end consumers.",
+      "domainFunction": "Routes and regulates power flow across voltage levels, balancing supply and demand across geographic regions while maintaining frequency and voltage stability.",
+      "whyThisNode": "The thalamus is the brain's central relay hub, routing sensory and motor signals to appropriate cortical destinations, mirroring how the grid distributes energy from generation sources to consumption endpoints.",
+      "group": "distribution",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Transmission congestion",
+        "Voltage instability",
+        "Line overload"
+      ],
+      "treatments": [
+        {
+          "label": "Smart Grid Infrastructure",
+          "type": "STRUCTURAL",
+          "description": "Deploy advanced metering, automated switches, and real-time monitoring to enable dynamic load balancing and rapid fault isolation across the distribution network.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Grid Topology Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Map and model the full distribution network to identify bottlenecks, redundancy gaps, and optimal reconfiguration paths for resilience improvement.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "energy_grid_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Routes and distributes grid distribution resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Schneider Electric",
+          "ticker_or_id": "SBGSY",
+          "functional_reason": "Routes and distributes grid distribution resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Duke Energy",
+          "ticker_or_id": "DUK",
+          "functional_reason": "Routes and distributes grid distribution resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.94
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Grid Distribution",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        },
+        {
+          "domain": "medicine",
+          "role": "Neurology"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Fossil Fuels",
+      "domainDescription": "Carbon-based energy sources including coal, oil, and natural gas that provide the majority of global primary energy through combustion.",
+      "domainFunction": "Supplies dense, storable, and dispatchable energy through established extraction, processing, and combustion infrastructure that underpins global baseload power and transportation.",
+      "whyThisNode": "The striatum drives habitual, reward-based behavior through deeply established neural pathways, paralleling how fossil fuels represent civilization's deeply entrenched, habit-forming energy dependency built over two centuries of infrastructure investment.",
+      "group": "fossil",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Supply disruption",
+        "Price volatility",
+        "Emissions overshoot"
+      ],
+      "treatments": [
+        {
+          "label": "Carbon Capture and Storage",
+          "type": "STRUCTURAL",
+          "description": "Retrofit fossil generation facilities with post-combustion capture technology to sequester CO2 emissions while maintaining baseload energy output during the transition period.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Stranded Asset Risk Assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate fossil fuel infrastructure against decarbonization timelines to identify assets at risk of premature obsolescence and guide capital reallocation strategies.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "energy_fossil_portal.html",
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Chevron",
+          "ticker_or_id": "CVX",
+          "functional_reason": "Amplifies and scales fossil fuels capacity, driving growth and expanding reach of fossil fuels operations",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "NextEra Energy",
+          "ticker_or_id": "NEE",
+          "functional_reason": "Amplifies and scales fossil fuels capacity, driving growth and expanding reach of fossil fuels operations",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Tesla Energy",
+          "ticker_or_id": "TSLA",
+          "functional_reason": "Amplifies and scales fossil fuels capacity, driving growth and expanding reach of fossil fuels operations",
+          "binding_strength": 0.89
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Fossil Fuels",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        },
+        {
+          "domain": "neurology",
+          "role": "Striatum (Caudate/Putamen)"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Solar and Wind",
+      "domainDescription": "Renewable generation technologies that harvest energy from sunlight and atmospheric motion through photovoltaic panels, concentrated solar, and wind turbines.",
+      "domainFunction": "Provides zero-emission electricity generation with declining cost curves, serving as the primary growth vector for new capacity additions in the global energy transition.",
+      "whyThisNode": "The VTA (ventral tegmental area) is the brain's reward-prediction center that signals novel, high-value opportunities and drives motivational pursuit, mirroring how solar and wind represent the high-potential, rapidly growing reward pathway of the energy system.",
+      "group": "renewable",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Intermittency spike",
+        "Curtailment excess",
+        "Forecast error"
+      ],
+      "treatments": [
+        {
+          "label": "Hybrid Renewable-Storage Pairing",
+          "type": "STRUCTURAL",
+          "description": "Co-locate battery storage with solar and wind installations to smooth output variability and provide firm capacity commitments to grid operators.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Advanced Weather Forecasting Integration",
+          "type": "DIAGNOSTIC",
+          "description": "Deploy high-resolution meteorological models coupled with real-time satellite data to improve generation forecasts and reduce scheduling errors for variable renewables.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "energy_solar_portal.html",
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "ExxonMobil",
+          "ticker_or_id": "XOM",
+          "functional_reason": "Amplifies and scales solar and wind capacity, driving growth and expanding reach of solar and wind operations",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Tesla Energy",
+          "ticker_or_id": "TSLA",
+          "functional_reason": "Amplifies and scales solar and wind capacity, driving growth and expanding reach of solar and wind operations",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Chevron",
+          "ticker_or_id": "CVX",
+          "functional_reason": "Amplifies and scales solar and wind capacity, driving growth and expanding reach of solar and wind operations",
+          "binding_strength": 0.93
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Solar and Wind",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus"
+        },
+        {
+          "domain": "business",
+          "role": "Innovation Engine"
+        },
+        {
+          "domain": "economy",
+          "role": "Entrepreneurship"
+        },
+        {
+          "domain": "environment",
+          "role": "Renewable Resources"
+        },
+        {
+          "domain": "medicine",
+          "role": "Men's Health Optimization"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Dopaminergic Metabolic Signaling"
+        },
+        {
+          "domain": "population",
+          "role": "Youth Demographics"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Dopaminergic Drive Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Nuclear Power",
+      "domainDescription": "Energy generation through controlled nuclear fission reactions in pressurized reactor vessels, providing high-density, zero-carbon baseload electricity.",
+      "domainFunction": "Delivers continuous, high-capacity zero-emission power through sustained fission chain reactions, providing grid-scale baseload stability independent of weather or fuel price volatility.",
+      "whyThisNode": "The PAG (periaqueductal gray) orchestrates the brain's most powerful defensive and survival responses with extreme intensity and tight containment, paralleling nuclear power's enormous energy density held under rigorous containment and safety protocols.",
+      "group": "nuclear",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Coolant anomaly",
+        "Containment breach risk",
+        "Fuel rod degradation"
+      ],
+      "treatments": [
+        {
+          "label": "Advanced Reactor Designs",
+          "type": "STRUCTURAL",
+          "description": "Deploy Generation IV reactor architectures including molten salt and small modular reactors that incorporate passive safety systems and inherent shutdown mechanisms.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Probabilistic Safety Assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Conduct comprehensive fault-tree and event-tree analysis to quantify accident probabilities and identify the highest-impact safety improvements for reactor operations.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "energy_nuclear_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Baker Hughes",
+          "ticker_or_id": "BKR",
+          "functional_reason": "Detects and monitors nuclear power signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "Siemens Energy",
+          "ticker_or_id": "ENR.DE",
+          "functional_reason": "Executes core nuclear power operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "NextEra Energy",
+          "ticker_or_id": "NEE",
+          "functional_reason": "Executes core nuclear power operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.79
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Nuclear Power",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Pain-Defense Gate"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Endogenous Analgesic System"
+        },
+        {
+          "domain": "neurology",
+          "role": "Periaqueductal Gray"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Defense Cascade Modulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Quality & Performance"
+        },
+        {
+          "domain": "culture",
+          "role": "Landscape Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Nuclear Deterrence"
+        },
+        {
+          "domain": "economy",
+          "role": "Rural Development Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Hydroelectric Power",
+      "domainDescription": "Electricity generation from the gravitational potential energy of water flowing through turbines in dams, run-of-river installations, and pumped-storage facilities.",
+      "domainFunction": "Converts gravitational water flow into reliable, dispatchable electricity while providing ancillary services including frequency regulation, black-start capability, and long-duration storage via pumped hydro.",
+      "whyThisNode": "The NTS (nucleus tractus solitarius) is the brain's primary integration hub for visceral fluid-state signals including blood pressure and cardiovascular flow regulation, directly paralleling hydroelectric power's reliance on controlled water flow dynamics.",
+      "group": "renewable",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Drought conditions",
+        "Dam structural concern",
+        "Sedimentation buildup"
+      ],
+      "treatments": [
+        {
+          "label": "Watershed Management Integration",
+          "type": "STRUCTURAL",
+          "description": "Coordinate upstream land use, forestry practices, and water allocation policies to maintain optimal reservoir levels and reduce sedimentation impacts on turbine efficiency.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Hydrological Flow Monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Deploy real-time stream gauge networks and snowpack measurement systems to forecast seasonal water availability and optimize reservoir dispatch scheduling.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "energy_hydro_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Duke Energy",
+          "ticker_or_id": "DUK",
+          "functional_reason": "Routes and distributes hydroelectric power resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Routes and distributes hydroelectric power resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Schneider Electric",
+          "ticker_or_id": "SBGSY",
+          "functional_reason": "Routes and distributes hydroelectric power resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Hydroelectric Power",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Ocean Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Maritime and Ports"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Brainstem Metabolic Integration"
+        },
+        {
+          "domain": "science",
+          "role": "Earth Sciences"
+        },
+        {
+          "domain": "trade",
+          "role": "Container Shipping"
+        },
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation Performance & Optimization"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Battery Storage",
+      "domainDescription": "Electrochemical energy storage systems including lithium-ion, flow batteries, and emerging solid-state technologies that store and release electrical energy on demand.",
+      "domainFunction": "Buffers temporal mismatches between energy generation and consumption by storing surplus production and discharging during peak demand or generation shortfalls.",
+      "whyThisNode": "The hippocampus is the brain's primary memory encoding and retrieval system, storing experiences for later recall, directly paralleling how batteries store energy for later discharge when the system needs to draw on reserves.",
+      "group": "storage",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Capacity degradation",
+        "Thermal runaway risk",
+        "Cycle life depletion"
+      ],
+      "treatments": [
+        {
+          "label": "Battery Management System Optimization",
+          "type": "STRUCTURAL",
+          "description": "Implement advanced charge-discharge algorithms, thermal management, and cell balancing to maximize cycle life, safety, and usable capacity across battery fleet operations.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "State-of-Health Diagnostics",
+          "type": "DIAGNOSTIC",
+          "description": "Deploy electrochemical impedance spectroscopy and capacity fade modeling to track battery degradation trajectories and schedule replacements before performance drops below threshold.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "energy_battery_portal.html",
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Enphase Energy",
+          "ticker_or_id": "ENPH",
+          "functional_reason": "Detects and monitors battery storage signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Siemens Energy",
+          "ticker_or_id": "ENR.DE",
+          "functional_reason": "Executes core battery storage operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Routes and distributes battery storage resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.67
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Battery Storage",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        },
+        {
+          "domain": "legal",
+          "role": "Precedent / Legal Memory"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Transmission Lines",
+      "domainDescription": "High-voltage power lines and cable systems that transport bulk electricity over long distances from generation sites to distribution substations.",
+      "domainFunction": "Connects geographically dispersed generation sources to load centers, enabling regional power sharing, market integration, and access to remote renewable resources.",
+      "whyThisNode": "The corpus callosum is the brain's largest white-matter tract connecting the two hemispheres, enabling long-distance interhemispheric communication, directly paralleling how transmission lines connect distant generation regions to consumption centers.",
+      "group": "distribution",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Line sag thermal limit",
+        "Right-of-way conflict",
+        "Ice loading"
+      ],
+      "treatments": [
+        {
+          "label": "High-Voltage Direct Current Corridors",
+          "type": "STRUCTURAL",
+          "description": "Deploy HVDC transmission for long-distance bulk power transfer, reducing line losses and enabling asynchronous grid interconnection across regions.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Dynamic Line Rating Systems",
+          "type": "DIAGNOSTIC",
+          "description": "Install real-time conductor temperature and weather sensors to calculate actual thermal capacity, safely increasing throughput beyond conservative static ratings during favorable conditions.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "energy_transmission_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Duke Energy",
+          "ticker_or_id": "DUK",
+          "functional_reason": "Routes and distributes transmission lines resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Schneider Electric",
+          "ticker_or_id": "SBGSY",
+          "functional_reason": "Routes and distributes transmission lines resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Routes and distributes transmission lines resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.93
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Transmission Lines",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Road Networks"
+        },
+        {
+          "domain": "neurology",
+          "role": "Corpus Callosum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interhemispheric Connectivity"
+        },
+        {
+          "domain": "technology",
+          "role": "Networking & Internet"
+        },
+        {
+          "domain": "trade",
+          "role": "Freight Forwarding"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Assessment & Diagnostics"
+        },
+        {
+          "domain": "communication",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FORN",
+      "state": "active",
+      "domainLabel": "Pipeline Networks",
+      "domainDescription": "Physical infrastructure for transporting oil, natural gas, hydrogen, and other energy fluids from extraction sites through processing to end-use destinations.",
+      "domainFunction": "Delivers continuous bulk fuel transport across continental distances with high throughput and relatively low per-unit transport cost, forming the arterial supply network for liquid and gaseous fuels.",
+      "whyThisNode": "The fornix is a major white-matter bundle that serves as the primary conduit connecting the hippocampus to subcortical structures, carrying critical information flow through a dedicated physical pathway, mirroring how pipelines serve as dedicated physical conduits for energy commodity transport.",
+      "group": "fossil",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Leak detection alert",
+        "Pressure anomaly",
+        "Corrosion progression"
+      ],
+      "treatments": [
+        {
+          "label": "Inline Inspection Programs",
+          "type": "STRUCTURAL",
+          "description": "Deploy smart pigs and robotic inspection tools for continuous internal assessment of pipe wall integrity, corrosion, and geometric anomalies across the pipeline network.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "SCADA Anomaly Detection",
+          "type": "DIAGNOSTIC",
+          "description": "Apply machine learning to supervisory control and data acquisition streams to identify pressure, flow, and temperature deviations indicative of leaks, blockages, or unauthorized taps.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "ExxonMobil",
+          "ticker_or_id": "XOM",
+          "functional_reason": "Amplifies and scales pipeline networks capacity, driving growth and expanding reach of pipeline networks operations",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "First Solar",
+          "ticker_or_id": "FSLR",
+          "functional_reason": "Executes core pipeline networks operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "Siemens Energy",
+          "ticker_or_id": "ENR.DE",
+          "functional_reason": "Executes core pipeline networks operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        }
+      ],
+      "childPortal": "energy_pipeline_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Pipeline Networks",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Pipelines"
+        },
+        {
+          "domain": "technology",
+          "role": "Blockchain"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Core Operations"
+        },
+        {
+          "domain": "communication",
+          "role": "User Review"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Hospitality Design Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Depot Maintenance Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Refining",
+      "domainDescription": "Industrial processing facilities that convert crude oil into usable petroleum products through distillation, cracking, reforming, and treating operations.",
+      "domainFunction": "Transforms raw hydrocarbon feedstocks into specification-grade fuels, petrochemical intermediates, and specialty products through precisely sequenced thermal and catalytic processes.",
+      "whyThisNode": "The cerebellum performs rapid, precise coordination and fine-tuning of complex motor sequences, directly paralleling how refineries execute precisely timed, multi-stage chemical processes that require exact temperature, pressure, and timing coordination.",
+      "group": "fossil",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Catalyst deactivation",
+        "Distillation upset",
+        "Feedstock quality shift"
+      ],
+      "treatments": [
+        {
+          "label": "Advanced Process Control",
+          "type": "STRUCTURAL",
+          "description": "Implement model-predictive control systems across refinery units to optimize throughput, product quality, and energy efficiency while maintaining safety constraints.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Crude Assay and Blend Optimization",
+          "type": "DIAGNOSTIC",
+          "description": "Characterize incoming crude oil properties and model optimal blend ratios to maximize product yield and margin while staying within unit processing constraints.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Schneider Electric",
+          "ticker_or_id": "SBGSY",
+          "functional_reason": "Detects and monitors refining signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "Enphase Energy",
+          "ticker_or_id": "ENPH",
+          "functional_reason": "Detects and monitors refining signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Chevron",
+          "ticker_or_id": "CVX",
+          "functional_reason": "Executes core refining operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.66
+        }
+      ],
+      "childPortal": "energy_distribution_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Refining",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        },
+        {
+          "domain": "religion",
+          "role": "Ritual Practice"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Energy Trading",
+      "domainDescription": "Financial and physical markets where energy commodities, futures, options, and renewable credits are bought and sold to manage risk and allocate resources.",
+      "domainFunction": "Facilitates price discovery, risk transfer, and efficient allocation of energy resources through spot, forward, and derivatives markets across electricity, gas, oil, and carbon instruments.",
+      "whyThisNode": "The orbitofrontal cortex evaluates the relative value of options and updates reward expectations based on changing conditions, directly paralleling how energy trading continuously evaluates and prices energy commodities based on shifting supply-demand dynamics.",
+      "group": "distribution",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk"
+      ],
+      "treatments": [
+        {
+          "label": "Market Surveillance Systems",
+          "type": "STRUCTURAL",
+          "description": "Deploy automated trade surveillance with pattern recognition to detect wash trading, spoofing, and market manipulation across energy commodity exchanges.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Value-at-Risk Modeling",
+          "type": "DIAGNOSTIC",
+          "description": "Apply Monte Carlo simulation and historical stress testing to quantify portfolio exposure to price moves, basis risk, and counterparty credit events across energy positions.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Siemens Energy",
+          "ticker_or_id": "ENR.DE",
+          "functional_reason": "Executes core energy trading operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "Brookfield Renewable",
+          "ticker_or_id": "BEP",
+          "functional_reason": "Amplifies and scales energy trading capacity, driving growth and expanding reach of energy trading operations",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Constellation Energy",
+          "ticker_or_id": "CEG",
+          "functional_reason": "Executes core energy trading operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.68
+        }
+      ],
+      "childPortal": "energy_efficiency_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Energy Trading",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Reward & Food Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Grid Management",
+      "domainDescription": "The operational control centers and decision systems that coordinate real-time generation dispatch, load balancing, and contingency response across the electrical grid.",
+      "domainFunction": "Executes real-time operational decisions including economic dispatch, frequency regulation, congestion management, and emergency load shedding to maintain continuous grid stability.",
+      "whyThisNode": "The dlPFC (dorsolateral prefrontal cortex) is the brain's executive control center for working memory, planning, and real-time decision coordination, directly paralleling how grid operators hold multiple system variables in mind and make rapid coordinated dispatch decisions.",
+      "group": "distribution",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence"
+      ],
+      "treatments": [
+        {
+          "label": "Energy Management System Upgrade",
+          "type": "STRUCTURAL",
+          "description": "Deploy next-generation SCADA/EMS platforms with enhanced state estimation, contingency analysis, and automated remedial action schemes for faster grid response.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "N-1 Contingency Screening",
+          "type": "DIAGNOSTIC",
+          "description": "Continuously simulate single-element failure scenarios across the grid to pre-identify vulnerabilities and stage corrective actions before contingencies materialize.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Siemens Energy",
+          "ticker_or_id": "ENR.DE",
+          "functional_reason": "Executes core grid management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "NextEra Energy",
+          "ticker_or_id": "NEE",
+          "functional_reason": "Executes core grid management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "First Solar",
+          "ticker_or_id": "FSLR",
+          "functional_reason": "Executes core grid management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        }
+      ],
+      "childPortal": "energy_energydata_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Grid Management",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Urban Planning"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Demand Response",
+      "domainDescription": "Programs and technologies that adjust electricity consumption patterns in response to supply conditions, price signals, or grid reliability needs.",
+      "domainFunction": "Modulates load-side behavior to reduce peak demand, provide frequency regulation, and defer infrastructure investment by shifting or curtailing consumption during system stress events.",
+      "whyThisNode": "The dACC (dorsal anterior cingulate cortex) monitors for conflicts between competing demands and signals the need for behavioral adjustment, directly paralleling how demand response detects supply-demand mismatches and triggers consumption modifications.",
+      "group": "generation",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout"
+      ],
+      "treatments": [
+        {
+          "label": "Automated Demand Response Platforms",
+          "type": "STRUCTURAL",
+          "description": "Deploy OpenADR-compliant systems that automatically curtail or shift loads in commercial and industrial facilities based on real-time grid signals and price thresholds.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Load Flexibility Assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Profile end-use loads across customer segments to quantify shiftable, curtailable, and interruptible capacity available for demand response enrollment and dispatch.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "First Solar",
+          "ticker_or_id": "FSLR",
+          "functional_reason": "Detects and monitors demand response signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Schneider Electric",
+          "ticker_or_id": "SBGSY",
+          "functional_reason": "Detects and monitors demand response signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Enphase Energy",
+          "ticker_or_id": "ENPH",
+          "functional_reason": "Detects and monitors demand response signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.9
+        }
+      ],
+      "childPortal": "energy_energypolicy_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Demand Response",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        },
+        {
+          "domain": "industry",
+          "role": "Quality Control"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Energy Policy",
+      "domainDescription": "Government regulations, incentive structures, and strategic frameworks that shape energy system development, market design, and environmental compliance.",
+      "domainFunction": "Sets the regulatory and incentive landscape that guides investment decisions, technology adoption, emissions targets, and market structures across the energy sector.",
+      "whyThisNode": "The vmPFC (ventromedial prefrontal cortex) integrates emotional valuation with long-term consequence assessment to guide value-based decision-making, directly paralleling how energy policy weighs competing societal values and long-term consequences to set system-level priorities.",
+      "group": "generation",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation"
+      ],
+      "treatments": [
+        {
+          "label": "Technology-Neutral Market Design",
+          "type": "STRUCTURAL",
+          "description": "Establish competitive procurement frameworks that reward performance outcomes rather than prescribing specific technologies, allowing market forces to drive efficient resource selection.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Regulatory Impact Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Model the system-wide effects of proposed energy regulations on generation mix, consumer costs, reliability metrics, and emissions trajectories before implementation.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "First Solar",
+          "ticker_or_id": "FSLR",
+          "functional_reason": "Executes core energy policy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "Schneider Electric",
+          "ticker_or_id": "SBGSY",
+          "functional_reason": "Detects and monitors energy policy signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "GE Vernova",
+          "ticker_or_id": "GEV",
+          "functional_reason": "Executes core energy policy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        }
+      ],
+      "childPortal": "energy_energytrade_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Energy Policy",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        },
+        {
+          "domain": "legal",
+          "role": "Judicial Temperament / Equity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ENS",
+      "state": "active",
+      "domainLabel": "Carbon Emissions",
+      "domainDescription": "The greenhouse gas outputs from fossil fuel combustion and industrial processes that drive climate change and are subject to monitoring, reporting, and reduction mandates.",
+      "domainFunction": "Tracks, reports, and drives reduction of CO2 and other greenhouse gas emissions across the energy value chain through monitoring systems, carbon pricing, and abatement technologies.",
+      "whyThisNode": "The ENS (enteric nervous system) is a distributed sensory network that monitors the body's internal biochemical environment and signals imbalances, paralleling how carbon monitoring systems distributed across the energy infrastructure detect and report emissions as the system's metabolic waste product.",
+      "group": "nuclear",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Emissions cap exceedance",
+        "MRV data gap",
+        "Carbon price collapse"
+      ],
+      "treatments": [
+        {
+          "label": "Continuous Emissions Monitoring",
+          "type": "STRUCTURAL",
+          "description": "Deploy stack-mounted analyzers and satellite-based methane detection to provide real-time, verified emissions data across generation and industrial facilities.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Carbon Accounting Audit",
+          "type": "DIAGNOSTIC",
+          "description": "Conduct comprehensive Scope 1, 2, and 3 emissions inventories with third-party verification to establish accurate baselines and identify highest-impact reduction opportunities.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Schneider Electric",
+          "ticker_or_id": "SBGSY",
+          "functional_reason": "Detects and monitors carbon emissions signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Constellation Energy",
+          "ticker_or_id": "CEG",
+          "functional_reason": "Executes core carbon emissions operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "GE Vernova",
+          "ticker_or_id": "GEV",
+          "functional_reason": "Executes core carbon emissions operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.78
+        }
+      ],
+      "childPortal": "energy_energytrans_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Carbon Emissions",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Forests & Carbon Sinks"
+        },
+        {
+          "domain": "industry",
+          "role": "Waste Treatment"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Waste Management"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Enteric Nervous System Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Human Capital & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Acoustic Design Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Baseline Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Mining and Extraction",
+      "domainDescription": "The upstream processes of locating, accessing, and extracting energy resources including coal, uranium, lithium, rare earths, and hydrocarbons from geological formations.",
+      "domainFunction": "Provides the raw material inputs to the entire energy system through geological exploration, drilling, mining, and well completion operations that access subsurface energy resources.",
+      "whyThisNode": "S1 (primary somatosensory cortex) receives and processes raw sensory input from the physical environment, directly paralleling how mining and extraction operations physically interface with the earth to acquire raw energy resources as the system's primary sensory input stage.",
+      "group": "fossil",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Reserve depletion signal",
+        "Environmental compliance breach",
+        "Worker safety incident"
+      ],
+      "treatments": [
+        {
+          "label": "Autonomous Mining Systems",
+          "type": "STRUCTURAL",
+          "description": "Deploy remotely operated and autonomous drilling, hauling, and processing equipment to improve extraction efficiency, reduce worker exposure to hazards, and enable continuous operations.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Resource Depletion Modeling",
+          "type": "DIAGNOSTIC",
+          "description": "Apply geological simulation and reserve estimation techniques to forecast remaining recoverable resources, optimize extraction sequencing, and plan for resource transitions.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Enphase Energy",
+          "ticker_or_id": "ENPH",
+          "functional_reason": "Detects and monitors mining and extraction signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Baker Hughes",
+          "ticker_or_id": "BKR",
+          "functional_reason": "Detects and monitors mining and extraction signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "First Solar",
+          "ticker_or_id": "FSLR",
+          "functional_reason": "Detects and monitors mining and extraction signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "energy_gridmod_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Mining and Extraction",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Labor Markets"
+        },
+        {
+          "domain": "environment",
+          "role": "Geological Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Raw Materials"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Somatosensory Cortex"
+        },
+        {
+          "domain": "technology",
+          "role": "IoT & Sensors"
+        },
+        {
+          "domain": "trade",
+          "role": "Last-Mile Delivery"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator — Signal Detection & Input — Secondary Node"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Signal Detection — Secondary"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CAUD",
+      "state": "active",
+      "domainLabel": "Hydrogen",
+      "domainDescription": "Hydrogen systems within Energy",
+      "group": "generation",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "energy_hydrogen_portal.html",
+      "companies": [
+        {
+          "name": "Plug Power",
+          "ticker_or_id": "PLUG",
+          "functional_reason": "Hydrogen fuel cell systems require goal-directed energy routing and cognitive flexibility in deployment matching caudate function",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Bloom Energy",
+          "ticker_or_id": "BE",
+          "functional_reason": "Fuel cell technology demands flexible goal-directed optimization of energy conversion paralleling caudate decision circuits",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Air Products",
+          "ticker_or_id": "APD",
+          "functional_reason": "Industrial hydrogen production requires systematic process-reward optimization matching caudate goal-directed behavior",
+          "binding_strength": 0.8
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Hydrogen",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Civil Service"
+        },
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — Feedback & Validation"
+        },
+        {
+          "domain": "environment",
+          "role": "AQ Forecasting Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FEF",
+      "state": "active",
+      "domainLabel": "Offgrid",
+      "domainDescription": "Offgrid systems within Energy",
+      "group": "generation",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "energy_offgrid_portal.html",
+      "companies": [
+        {
+          "name": "Generac Holdings",
+          "ticker_or_id": "GNRC",
+          "functional_reason": "Off-grid power generation requires targeted spatial deployment and directional resource allocation paralleling FEF spatial targeting",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "SunPower",
+          "ticker_or_id": "SPWR",
+          "functional_reason": "Off-grid solar systems demand precise spatial orientation and target-locking for optimal energy capture matching FEF function",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Goal Zero (NRG Energy)",
+          "ticker_or_id": "NRG",
+          "functional_reason": "Portable off-grid energy requires rapid spatial targeting and directional resource scanning paralleling FEF visuospatial search",
+          "binding_strength": 0.8
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Offgrid",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Air Transport"
+        },
+        {
+          "domain": "trade",
+          "role": "Air Freight"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Satellite Systems"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Master Planning Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Storage",
+      "domainDescription": "Storage systems within Energy",
+      "group": "generation",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "energy_storage_portal.html",
+      "companies": [
+        {
+          "name": "Tesla Energy (Megapack)",
+          "ticker_or_id": "TSLA",
+          "functional_reason": "Grid-scale energy storage manages sustained uncertainty in supply-demand balance matching BNST sustained vigilance",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Fluence Energy",
+          "ticker_or_id": "FLNC",
+          "functional_reason": "Battery storage optimization requires continuous contextual threat assessment of grid instability paralleling BNST function",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "ESS Tech",
+          "ticker_or_id": "GWH",
+          "functional_reason": "Long-duration energy storage manages sustained uncertainty and risk buffering matching BNST contextual threat processing",
+          "binding_strength": 0.8
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Storage",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator"
+        },
+        {
+          "domain": "medicine",
+          "role": "Metabolic & Endocrine"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Anticipatory Anxiety & Sustained Fear"
+        },
+        {
+          "domain": "communication",
+          "role": "Pilot Design Evaluation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Interior Architecture Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution — State Assessment"
+        },
+        {
+          "domain": "economy",
+          "role": "Operational Integration Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "Carbon Cap",
+      "domainDescription": "Carbon Cap systems within Energy",
+      "group": "generation",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "energy_carbon_cap_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Carbon Cap",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Client Relations"
+        },
+        {
+          "domain": "legal",
+          "role": "Victim / Witness Services"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pediatric Med"
+        },
+        {
+          "domain": "provider",
+          "role": "Empathic Capacity"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Language Resources — State Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Pilot Design Innovation"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "GRID_COLLAPSE",
+      "label": "Grid Collapse",
+      "summary": "Cascading failure across interconnected transmission and distribution infrastructure leading to widespread blackout, triggered by equipment failure, demand surge, or cyberattack propagating through protection system inadequacies.",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-active",
+          "detail": "Grid distribution routing fails as relay and switching systems lose coordination, preventing orderly load transfer and fault isolation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Grid management decision systems become overwhelmed by cascading alarms, losing the ability to execute coordinated remedial actions",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Demand response signals fire erratically as the system detects conflicts across multiple failing zones simultaneously",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Hypo-active",
+          "detail": "Transmission interconnections trip sequentially as protective relays isolate faulted segments, fragmenting the grid into electrical islands",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Generation output drops as plants trip offline from frequency deviations, removing the primary power production capacity",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "OIL_SHOCK",
+      "label": "Oil Supply Shock",
+      "summary": "Sudden disruption to global oil supply from geopolitical conflict, embargo, or major production facility damage, causing rapid price spikes and fuel shortages that propagate through transportation, petrochemical, and heating sectors.",
+      "circuits": [
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-active",
+          "detail": "Fossil fuel supply chains seize as established distribution patterns are disrupted and habitual consumption patterns can no longer be sustained",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FORN",
+          "dir": "Hypo-active",
+          "detail": "Pipeline throughput drops as supply sources are cut off or rerouted, reducing the physical flow of crude and refined products",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Energy trading markets enter extreme volatility as traders rapidly reprice risk and scramble for alternative supply contracts",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Altered",
+          "detail": "Extraction operations shift urgently to alternative reserves and unconventional sources as primary supply regions become inaccessible",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper-active",
+          "detail": "Energy policy enters emergency mode with strategic reserve releases, emergency regulations, and accelerated alternative energy mandates",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Refining operations must rapidly reconfigure to process different crude slates as feedstock composition changes with supply source shifts",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "NUCLEAR_INCIDENT",
+      "label": "Nuclear Incident",
+      "summary": "A reactor safety event ranging from coolant system malfunction to partial core damage, triggering containment protocols, evacuation procedures, and long-term radiological monitoring with cascading impacts on public trust and nuclear policy.",
+      "circuits": [
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-active",
+          "detail": "Nuclear containment and emergency response systems activate at maximum intensity as reactor parameters exceed safety envelopes",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper-active",
+          "detail": "Energy policy institutions enter crisis response with emergency shutdowns of similar reactor designs, moratorium discussions, and accelerated safety reviews",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Generation capacity drops sharply as the affected plant and potentially similar units are taken offline, creating baseload power deficits",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-active",
+          "detail": "Grid management enters emergency planning mode to compensate for lost nuclear baseload through reserve activation and emergency power imports",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ENS",
+          "dir": "Altered",
+          "detail": "Emissions monitoring shifts to radiological contamination tracking while fossil backup generation increases overall carbon output",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "RENEWABLE_INTERMITTENCY",
+      "label": "Renewable Intermittency Crisis",
+      "summary": "Extended period of low solar irradiance and wind speeds across a major grid region coinciding with high demand, exhausting storage reserves and exposing the system's dependence on variable generation without adequate firm capacity backup.",
+      "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-active",
+          "detail": "Solar and wind generation drops to minimal output during extended weather events, eliminating the primary renewable energy supply",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Battery storage reserves deplete as discharge cycles exhaust stored energy without adequate renewable recharge to restore capacity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Demand response systems activate aggressively to shed non-critical loads as the supply-demand gap widens beyond normal operating margins",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hyper-active",
+          "detail": "Fossil fuel backup generation ramps to maximum output as dispatchable thermal plants are called upon to fill the renewable shortfall",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Altered",
+          "detail": "Hydroelectric dispatch patterns shift to emergency peaking mode, drawing down reservoir levels beyond seasonal planning targets",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Energy spot market prices spike dramatically as scarcity pricing reflects the real-time supply deficit across the grid region",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "PIPELINE_DISRUPTION",
+      "label": "Pipeline Disruption",
+      "summary": "Major pipeline system failure from physical damage, cyberattack on control systems, or regulatory shutdown, cutting off fuel supply to downstream consumers and triggering regional energy shortages and price cascades.",
+      "circuits": [
+        {
+          "nodeId": "FORN",
+          "dir": "Hypo-active",
+          "detail": "Pipeline flow ceases as the physical conduit is compromised, eliminating the primary fuel transport pathway for affected regions",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Refinery operations scale back or shut down as crude feedstock supply is interrupted, halting multi-stage processing operations",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Energy commodity markets reprice rapidly as traders assess supply shortfall duration and seek alternative sourcing contracts",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Grid distribution systems must rapidly reroute power flows to compensate for generation losses at pipeline-dependent plants",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Altered",
+          "detail": "Upstream extraction operations are forced to curtail production or seek alternative transport as pipeline takeaway capacity is lost",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "SYSTEMIC_ENERGY_STRESS",
+      "label": "Systemic Energy Stress",
+      "summary": "Sustained pressure across the energy system from combined high stress, structural strain, and macro shock conditions, creating cumulative load on policy, market, grid, demand, storage, and generation subsystems without a single isolated failure point.",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper-active",
+          "detail": "Energy policy systems remain in elevated response mode as structural stress and macro pressure require continuous adjustment across the domain",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Energy trading and price-evaluation systems process persistent volatility as macro shock conditions distort normal market interpretation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-active",
+          "detail": "Grid management systems sustain elevated planning load as structural stress compresses operating margins and increases contingency demands",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Demand response systems remain highly active as energy high-stress conditions increase the need to balance load against constrained supply",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Storage systems shift from routine buffering toward repeated stress absorption as recurring imbalance reduces recovery time between drawdowns",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Generation and fossil-fuel operating patterns shift under systemic pressure as the domain compensates for stress across adjacent energy subsystems",
+          "evidence": "Strong"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "M1",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "THAL",
+      "target": "CC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CC",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "OFC",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "STRI",
+      "target": "FORN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FORN",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CBLM",
+      "target": "S1",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "VTA",
+      "target": "NTS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "PAG",
+      "target": "ENS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "THAL",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "THAL",
+      "target": "STRI",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "STRI",
+      "target": "VTA",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "VTA",
+      "target": "PAG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PAG",
+      "target": "HIPP",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "HIPP",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "vmPFC",
+      "target": "STRI",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "dlPFC",
+      "target": "VTA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "S1",
+      "target": "PAG",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "NTS",
+      "target": "HIPP",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "ENS",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "HIPP",
+      "target": "THAL",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "M1",
+      "target": "S1",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "dACC",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "OFC",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "CBLM",
+      "target": "NTS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "NTS",
+      "target": "ENS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ENS",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "EV Batteries Quality & Performance → Collection Systems Human Capital & Development (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "EV Batteries Quality & Performance → Battery Storage — Diagnostic Analysis (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "EV Batteries Quality & Performance → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Energy Policy → Collection Systems Human Capital & Development (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Energy Policy → Battery Storage — Diagnostic Analysis (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Energy Policy → Nuclear Power (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Grid Management → Demand Response (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Grid Management → Battery Storage (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "EV Batteries Human Capital & Development → Collection Systems Human Capital & Development (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Demand Response → Collection Systems Human Capital & Development (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Grid Distribution → Battery Storage — Regulation Strategy (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Grid Distribution → Electrolyte Systems Quality & Performance (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Grid Distribution → Mining and Extraction (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Battery Storage — Action Coordination → Battery Storage — Regulation Strategy (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Material Recovery Quality & Performance → Electrolyte Systems Quality & Performance (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Hydroelectric Power → Flow Cell Design — State Assessment (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Flow Cell Design — State Assessment → Demand Response (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "EV Batteries Assessment & Diagnostics → Flow Cell Design — State Assessment (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Collection Systems Human Capital & Development → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Battery Management — State Assessment (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Collection Systems Quality & Performance → Battery Storage (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Battery Storage → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Solar and Wind → evbattery degradation — Signal Acquisition (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "evbattery degradation — Signal Acquisition → Safety Standards Assessment & Diagnostics (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "evbattery degradation — Signal Acquisition → Energy Trading (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Energy Trading → Energy Policy (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Material Recovery Assessment & Diagnostics → Power Generation (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Fossil Fuels → Battery Safety Infrastructure & Capacity (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Battery Safety Infrastructure & Capacity → Grid Distribution (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Refining → Grid Distribution (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Offgrid → Battery Storage — Regulation Strategy (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Flow Cell Design Quality & Performance → Grid Management (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "EV Batteries Risk & Resilience → Collection Systems Human Capital & Development (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "EV Batteries Risk & Resilience → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.747Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

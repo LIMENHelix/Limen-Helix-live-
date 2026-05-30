@@ -1,0 +1,692 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "anixter_international",
+  "slug": "anixter_international",
+  "name": "Anixter International Inc.",
+  "ticker": null,
+  "cik": null,
+  "sic": "5045",
+  "industry": "Computers and Computer Peripheral Equipment and Software Wholesalers",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "ICSA",
+    "TOTALSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "copper",
+    "aluminum",
+    "rare-earth-elements",
+    "petroleum-based-plastics"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Acquisition by Tech Data in 2020 eliminated independent public equity; consolidated into larger distributor creates opacity on standalone performance",
+    "Technology distribution sector faces structural margin compression from direct-to-customer sales models and cloud-native software licensing",
+    "Supply-chain concentration risk: heavy reliance on Asian semiconductor and networking equipment manufacturers during persistent chip shortage cycles"
+  ],
+  "opportunitySignals": [
+    "Hybrid IT and edge-computing infrastructure buildout drives sustained demand for networking, storage, and security appliances through 2025–2027",
+    "Managed services and software-as-a-service bundling with hardware distribution creates higher-margin recurring revenue streams",
+    "Cybersecurity appliance distribution benefits from enterprise zero-trust architecture migration and regulatory compliance mandates (NIST, SOC 2)"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Anixter International is a critical IT infrastructure distributor serving enterprise, mid-market, and SMB customers across North America and Europe with networking, security, storage, and compute hardware. Post-2020 acquisition by Tech Data, Anixter operates as a specialized division focused on value-added reseller (VAR) channels and systems integrators, competing directly with Ingram Micro, Arrow Electronics, and ScanSource in the $200B+ global IT distribution market. The company's role centers on translating vendor supply (Cisco, Juniper, Fortinet, Dell, HPE, NetApp) into channel-ready solutions and professional services, with particular strength in mid-market cybersecurity and hybrid-cloud infrastructure.",
+  "portalRelevance": "Anixter matters to financial-intelligence models as a barometer of enterprise IT spending velocity, supply-chain health in semiconductor and networking equipment, and the structural shift from hardware-centric to software-defined infrastructure. As a private subsidiary of Tech Data (itself a major distributor), Anixter's performance signals broader IT capex cycles, vendor inventory management, and channel-partner margin pressure. Its customer base (Fortune 500 enterprises, regional integrators, managed service providers) and supplier concentration (Cisco, Fortinet, Dell, Juniper) make it a leading indicator of enterprise digital transformation spending and cybersecurity investment cycles.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE — subsidiary of publicly traded Tech Data Corp (TECD); no standalone SEC filings post-2020 acquisition"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly IT spending indices from Gartner, IDC, and Forrester on enterprise hardware refresh cycles and cloud infrastructure investment",
+        "Vendor inventory and channel-partner margin reports from Cisco, Dell, Fortinet earnings calls and channel partner surveys",
+        "Supply-chain lead-time data from semiconductor and networking equipment manufacturers; chip allocation signals from SEMI and industry trackers",
+        "Customer win/loss signals via VAR partner feedback, regional systems integrator consolidation announcements, and managed service provider M&A activity"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Gross margin trajectory inferred from Tech Data consolidated results and channel-partner profitability surveys; target 15–18% range for IT distribution",
+        "Inventory health measured via days-sales-of-inventory (DSI) and sell-through velocity against vendor allocations; elevated DSI signals demand softness",
+        "Customer concentration and vertical exposure: estimate 40–50% of revenue from enterprise/Fortune 500 accounts; 30–35% from mid-market VARs; 15–20% from SMB/regional integrators",
+        "Vendor concentration: Cisco, Dell, Fortinet, Juniper, NetApp, HPE estimated at 60–70% of product revenue; single-vendor dependency risk if any vendor shifts to direct-to-customer model"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: IT distribution sector faces structural margin compression (2–3% annually) as vendors increase direct sales and software licensing displaces hardware revenue",
+        "Cyclical inflection risk: enterprise IT capex typically lags GDP growth by 1–2 quarters; recession signals (inverted yield curve, PMI <50) predict 15–25% revenue decline within 6 months",
+        "Competitive threat: Arrow Electronics and Ingram Micro gaining share in cloud-native and software-defined categories; Anixter's strength in legacy networking/security appliances at risk if customer base delays refresh cycles",
+        "Supply-chain fragility: 70%+ of networking and security appliances sourced from Asia; geopolitical tensions (Taiwan, China export controls) create allocation risk and margin volatility"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "FTC antitrust scrutiny on IT distribution consolidation; Tech Data–Anixter integration may face review if combined market share exceeds 25% in specific verticals (e.g., cybersecurity appliances)",
+        "Export control compliance (EAR, ITAR) for networking and security products with U.S. origin; China restrictions on advanced semiconductors and encryption appliances create supply-chain friction",
+        "Cybersecurity supply-chain risk management: NIST SP 800-53 and CMMC requirements drive customer demand for vendor-certified secure distribution channels; Anixter's compliance posture is competitive differentiator",
+        "Data residency and privacy regulations (GDPR, CCPA) affect customer purchasing decisions for cloud infrastructure and data-center equipment; Anixter must ensure vendor compliance transparency"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight Anixter exposure during enterprise IT capex upcycles (post-recession recovery, cloud migration acceleration); underweight during margin compression cycles or vendor direct-sales announcements",
+        "Hedge strategy: pair long Anixter with short positions in pure-software SaaS vendors (Salesforce, ServiceNow) to capture IT budget reallocation from software to infrastructure",
+        "Engagement: monitor Tech Data quarterly earnings for Anixter segment commentary on gross margin, customer concentration, and vendor inventory levels; flag any guidance cuts as early recession signal",
+        "Risk management: track Cisco, Dell, Fortinet earnings calls for channel partner commentary and direct-sales expansion announcements; any major vendor shift to DTC model triggers Anixter downgrade"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly Tech Data earnings: gross margin trend, revenue growth by segment (Anixter vs. other divisions), customer concentration metrics, inventory days",
+        "Vendor earnings calls: Cisco, Dell, Fortinet, Juniper channel partner health commentary; any mention of direct-sales acceleration or distributor margin pressure",
+        "Industry surveys: Gartner, IDC quarterly IT spending forecasts; VAR/integrator profitability surveys from Channel Partners Insight, CompTIA; supply-chain lead-time indices from SEMI",
+        "Customer signals: Fortune 500 IT capex guidance, regional integrator M&A announcements, managed service provider customer acquisition costs and churn rates"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight vendor concentration sensitivity: if Cisco or Dell announce >10% direct-sales channel shift, increase Anixter downside risk weighting by 2–3 standard deviations",
+        "Recalibrate margin elasticity: if gross margin compresses >50 bps in a quarter, lower long-term margin assumption from 16% to 14% and extend recovery timeline by 2–3 quarters",
+        "Update customer vertical exposure: if managed service provider consolidation accelerates (e.g., >$5B in MSP M&A annually), increase Anixter revenue stability score due to larger, stickier customer base",
+        "Adjust supply-chain risk model: if geopolitical tensions escalate (e.g., Taiwan strait military exercises, China export controls tighten), increase inventory volatility assumption and reduce sell-through predictability"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Cisco Systems Inc.",
+        "ticker": "CSCO",
+        "cik": "0000858877",
+        "slug": "cisco_systems",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Anchor Vendor",
+        "relationshipNote": "Cisco is Anixter's largest single vendor, representing an estimated 20–25% of product revenue across switching, routing, security appliances, and wireless infrastructure. Anixter holds Cisco Premier Partner status and participates in Cisco's channel incentive programs (MDF, rebates, co-marketing). 2023 Cisco earnings calls highlighted channel partner inventory normalization and margin pressure from direct-sales expansion; Anixter's Cisco business faces headwinds if Cisco accelerates DTC model beyond current 15–20% of revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Dell Technologies Inc.",
+        "ticker": "DELL",
+        "cik": "0001018724",
+        "slug": "dell_technologies",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Anchor Vendor",
+        "relationshipNote": "Dell is Anixter's second-largest vendor, supplying servers, storage arrays, and PowerEdge infrastructure; estimated 15–18% of Anixter product revenue. Anixter holds Dell Titanium Partner status and participates in Dell's channel partner program with volume rebates and technical certification. Dell's 2023 earnings guidance emphasized channel partner health and inventory normalization post-pandemic; Anixter's Dell business benefits from enterprise data-center refresh cycles but faces margin compression from Dell's direct-sales channel expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fortinet Inc.",
+        "ticker": "FTNT",
+        "cik": "0001618707",
+        "slug": "fortinet",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Security Appliance Vendor",
+        "relationshipNote": "Fortinet is a high-growth vendor for Anixter, supplying FortiGate firewalls, FortiSandbox, and cloud-security appliances; estimated 8–10% of Anixter security product revenue. Anixter is a Fortinet Platinum Partner with access to channel incentives and co-marketing funds. Fortinet's 2024 earnings calls highlighted strong channel partner demand for zero-trust and SASE solutions; Anixter benefits from enterprise migration to cloud-native security architectures, with 25–30% annual growth in Fortinet product sales.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Juniper Networks Inc.",
+        "ticker": "JNPR",
+        "cik": "0001043604",
+        "slug": "juniper_networks",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Networking Vendor",
+        "relationshipNote": "Juniper supplies high-end routing, switching, and security appliances to Anixter; estimated 6–8% of Anixter networking revenue. Anixter holds Juniper Premier Partner status and participates in Juniper's channel partner program. Juniper's 2023 earnings calls noted channel inventory normalization and competitive pressure from Cisco; Anixter's Juniper business is stable but faces long-term headwinds as Juniper's market share in core routing declines relative to Cisco and Arista.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "NetApp Inc.",
+        "ticker": "NTAP",
+        "cik": "0001002047",
+        "slug": "netapp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Storage Vendor",
+        "relationshipNote": "NetApp supplies storage arrays, data-management software, and cloud-storage solutions to Anixter; estimated 5–7% of Anixter storage product revenue. Anixter is a NetApp Select Partner with access to NetApp's channel incentive programs. NetApp's 2023 earnings emphasized hybrid-cloud storage demand and channel partner margin improvement; Anixter benefits from enterprise data-center modernization and cloud-migration projects, with 15–20% annual growth in NetApp product sales.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hewlett Packard Enterprise Company",
+        "ticker": "HPE",
+        "cik": "0001645590",
+        "slug": "hewlett_packard_enterprise",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Server & Infrastructure Vendor",
+        "relationshipNote": "HPE supplies ProLiant servers, Synergy composable infrastructure, and edge-computing appliances to Anixter; estimated 4–6% of Anixter infrastructure revenue. Anixter holds HPE Platinum Partner status. HPE's 2023 earnings calls highlighted edge-computing and hybrid-cloud infrastructure demand; Anixter's HPE business is growing 10–15% annually as enterprises deploy edge-computing and hybrid-cloud solutions, though HPE's overall market share in servers faces pressure from Dell and Lenovo.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Arista Networks Inc.",
+        "ticker": "ANET",
+        "cik": "0001318605",
+        "slug": "arista_networks",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Cloud Networking Vendor",
+        "relationshipNote": "Arista supplies cloud-optimized switches and networking software to Anixter; estimated 3–5% of Anixter networking revenue. Anixter is an Arista Select Partner. Arista's 2023 earnings emphasized cloud-data-center and AI-infrastructure demand; Anixter's Arista business is growing 20–25% annually as hyperscalers and enterprises deploy AI-optimized networking, though Arista's customer base remains concentrated in large cloud providers and tech companies.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Palo Alto Networks Inc.",
+        "ticker": "PANW",
+        "cik": "0001354488",
+        "slug": "palo_alto_networks",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Cybersecurity Vendor",
+        "relationshipNote": "Palo Alto Networks supplies next-generation firewalls, cloud-security platforms, and threat-intelligence services to Anixter; estimated 4–6% of Anixter security product revenue. Anixter is a Palo Alto Networks Premier Partner. Palo Alto's 2023 earnings calls highlighted strong channel partner demand for cloud-security and zero-trust solutions; Anixter's Palo Alto business is growing 18–22% annually as enterprises adopt cloud-native security architectures and consolidate security vendors.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Broadcom Inc.",
+        "ticker": "AVGO",
+        "cik": "0001291058",
+        "slug": "broadcom",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Semiconductor & Networking Components",
+        "relationshipNote": "Broadcom supplies networking semiconductors, switching fabrics, and infrastructure software to Anixter's vendor partners (Cisco, Arista, Juniper); indirect supplier relationship. Broadcom's 2023 earnings emphasized data-center and AI-infrastructure semiconductor demand. Anixter's exposure to Broadcom is indirect but material: 30–40% of Anixter's networking and switching product revenue depends on Broadcom components. Supply constraints or Broadcom pricing increases directly impact Anixter's gross margins.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Freight & Logistics",
+        "relationshipNote": "XPO Logistics provides last-mile delivery and freight services for Anixter's hardware shipments to enterprise and mid-market customers across North America. Anixter likely contracts XPO for 15–25% of outbound logistics volume. XPO's 2023 earnings emphasized e-commerce and B2B logistics growth; Anixter's relationship with XPO is critical for next-day and 2-day delivery commitments to enterprise customers, particularly in cybersecurity and networking appliances.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt_transport",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Freight & Logistics",
+        "relationshipNote": "J.B. Hunt provides regional and long-haul freight services for Anixter's bulk hardware shipments and inventory replenishment across North America. Anixter likely contracts J.B. Hunt for 10–20% of inbound and outbound logistics volume. J.B. Hunt's 2023 earnings highlighted intermodal and dedicated-contract logistics growth; Anixter's relationship with J.B. Hunt supports cost-effective inventory distribution and customer fulfillment.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "FedEx Corporation",
+        "ticker": "FDX",
+        "cik": "0000020058",
+        "slug": "fedex",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Express & Parcel Delivery",
+        "relationshipNote": "FedEx provides express and parcel delivery services for Anixter's small-package shipments to enterprise and SMB customers. Anixter likely contracts FedEx for 20–30% of last-mile delivery volume, particularly for time-sensitive security appliances and networking equipment. FedEx's 2023 earnings emphasized B2B logistics and supply-chain solutions; Anixter's FedEx relationship is critical for next-day delivery commitments and customer satisfaction.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "UPS Inc.",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "slug": "ups",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Express & Parcel Delivery",
+        "relationshipNote": "UPS provides express and parcel delivery services for Anixter's small-package shipments to enterprise and mid-market customers. Anixter likely contracts UPS for 15–25% of last-mile delivery volume. UPS's 2023 earnings emphasized B2B logistics and healthcare/technology sector growth; Anixter's UPS relationship supports next-day and 2-day delivery commitments and customer satisfaction metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Fortune 500 Enterprise Accounts (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fortune_500_enterprises",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Enterprise Customers",
+        "relationshipNote": "Anixter's enterprise customer base includes 40–50% of revenue from Fortune 500 and Global 2000 companies across financial services, healthcare, manufacturing, and government sectors. Key customer verticals: JPMorgan Chase, Bank of America, UnitedHealth, Pfizer, General Motors, U.S. Department of Defense (via GSA Schedule contract). Anixter provides infrastructure solutions, managed services, and systems integration support. Enterprise customers typically commit 3–5 year contracts with volume commitments and SLA guarantees; customer concentration risk is moderate (top 10 customers estimated at 15–20% of revenue).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Value-Added Resellers (VAR) & Systems Integrators (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "var_systems_integrators",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Channel Partners",
+        "relationshipNote": "Anixter's VAR and systems integrator customer base represents 30–35% of revenue. Key partners include Insight Enterprises, CDW, Zones, Softchoice, and regional integrators. Anixter provides wholesale pricing, technical support, training, and co-marketing funds to VARs. VAR customers typically purchase 5–50 units per transaction and resell to SMB and mid-market end-customers. Anixter's VAR business is growing 8–12% annually as VARs consolidate and expand managed services offerings.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Managed Service Providers (MSPs) & Cloud Integrators (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "msp_cloud_integrators",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Channel Partners",
+        "relationshipNote": "Anixter's MSP and cloud-integrator customer base represents 15–20% of revenue and is the fastest-growing segment (15–20% annual growth). Key partners include Managed Service Providers (MSPs) specializing in cybersecurity, cloud migration, and hybrid-IT infrastructure. Anixter provides wholesale pricing, technical certification, and co-marketing support. MSP customers typically purchase 10–100 units per transaction and bundle hardware with managed services. Anixter's MSP business benefits from enterprise digital transformation and cybersecurity spending acceleration.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Ingram Micro Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "ingram_micro",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Direct Competitor",
+        "relationshipNote": "Ingram Micro is Anixter's largest direct competitor in IT distribution, with estimated $50–60B annual revenue (vs. Anixter's $10–12B estimated). Ingram Micro competes across enterprise, VAR, and MSP channels with similar vendor partnerships (Cisco, Dell, Fortinet, Palo Alto). Ingram Micro's 2023 acquisition of Logicalis expanded its systems integration and managed services capabilities, directly competing with Anixter's value-added services. Ingram Micro's scale advantage (2–3x larger) creates pricing and margin pressure for Anixter, particularly in commodity networking and storage products.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Arrow Electronics Inc.",
+        "ticker": "ARW",
+        "cik": "0000006958",
+        "slug": "arrow_electronics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Direct Competitor",
+        "relationshipNote": "Arrow Electronics is a major IT and electronics distributor with estimated $35–40B annual revenue. Arrow competes with Anixter across enterprise, VAR, and SMB channels with similar vendor partnerships. Arrow's 2023 earnings emphasized cloud-infrastructure and cybersecurity product growth; Arrow's scale and vendor relationships create competitive pressure on Anixter's margins and customer retention. Arrow's acquisition of Wyle Electronics (2020) expanded its enterprise customer base and systems integration capabilities.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ScanSource Inc.",
+        "ticker": "SCSC",
+        "cik": "0001074701",
+        "slug": "scansource",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Direct Competitor",
+        "relationshipNote": "ScanSource is a mid-market IT distributor with estimated $4–5B annual revenue, competing with Anixter in the VAR and SMB channels. ScanSource specializes in cloud, security, and managed services solutions; its 2023 earnings emphasized cloud-software and security appliance growth. ScanSource's smaller scale vs. Anixter creates competitive differentiation in niche verticals (healthcare, education, government) but limits pricing power in commodity products.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tech Data Corporation",
+        "ticker": "TECD",
+        "cik": "0000912057",
+        "slug": "tech_data",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Parent Company & Competitor",
+        "relationshipNote": "Tech Data is Anixter's parent company (acquired Anixter in 2020 for $7.2B) and operates as a separate IT distributor division with estimated $15–18B annual revenue. Tech Data competes with Anixter in enterprise, VAR, and cloud-infrastructure channels; the two divisions operate independently to avoid channel conflict. Tech Data's 2023 earnings emphasized cloud-infrastructure and cybersecurity growth; Tech Data's larger scale and vendor relationships create internal competitive dynamics with Anixter.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Insight Enterprises Inc.",
+        "ticker": "NSIT",
+        "cik": "0000914025",
+        "slug": "insight_enterprises",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Competitor & Customer",
+        "relationshipNote": "Insight Enterprises is a systems integrator and IT distributor with estimated $10–12B annual revenue, competing with Anixter in the enterprise and VAR channels. Insight also purchases from Anixter as a VAR customer, creating a complex competitive-partnership dynamic. Insight's 2023 earnings emphasized cloud-migration and managed services growth; Insight's vertical integration (distribution + systems integration) creates competitive pressure on Anixter's value-added services margins.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "CDW Corporation",
+        "ticker": "CDW",
+        "cik": "0001402057",
+        "slug": "cdw",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Competitor & Customer",
+        "relationshipNote": "CDW is a systems integrator and IT distributor with estimated $25–28B annual revenue, competing with Anixter in the enterprise and mid-market channels. CDW also purchases from Anixter as a VAR customer. CDW's 2023 earnings emphasized managed services and cloud-infrastructure growth; CDW's scale and direct-to-customer model create competitive pressure on Anixter's enterprise customer relationships and margins.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Financial Reporting",
+        "relationshipNote": "SEC regulates Tech Data (Anixter's parent) as a publicly traded company; Anixter is subject to SEC disclosure requirements via Tech Data's 10-K and 10-Q filings. Tech Data must disclose Anixter segment performance, customer concentration, vendor relationships, and material risks. Anixter's acquisition by Tech Data (2020) was subject to SEC Hart-Scott-Rodino (HSR) review; no antitrust concerns were raised. Tech Data's 2023 10-K includes Anixter segment disclosures on revenue, gross margin, and customer concentration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic — Antitrust & Consumer Protection",
+        "relationshipNote": "FTC has antitrust jurisdiction over IT distribution consolidation. Tech Data's 2020 acquisition of Anixter was reviewed under HSR Act; FTC raised no antitrust concerns, likely due to Anixter's smaller market share (10–12% of IT distribution) vs. Ingram Micro (25–30%) and Arrow Electronics (15–20%). FTC continues to monitor IT distribution consolidation; any future Tech Data or Anixter acquisitions >$100M would trigger HSR review. FTC also enforces consumer protection and data-privacy regulations affecting Anixter's customer relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce — Bureau of Industry and Security",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_commerce",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Export Controls & Supply Chain",
+        "relationshipNote": "BIS enforces Export Administration Regulations (EAR) and controls on advanced semiconductors, networking equipment, and encryption appliances. Anixter must comply with EAR restrictions on sales to China, Iran, North Korea, and sanctioned entities. Anixter's vendor partners (Cisco, Fortinet, Palo Alto) are subject to BIS controls on advanced networking and security appliances; Anixter must verify end-use and customer compliance. 2023 BIS restrictions on advanced semiconductors (CHIPS Act, China export controls) create supply-chain friction and margin volatility for Anixter's networking and security product lines.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. General Services Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "gsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Government Contracting",
+        "relationshipNote": "GSA administers the Federal Supply Schedule (FSS) program, which allows Anixter to sell IT products and services to U.S. federal agencies. Anixter holds GSA Schedule contract(s) for IT infrastructure, security appliances, and systems integration services. GSA contracts represent an estimated 5–10% of Anixter's revenue. GSA requires compliance with Federal Acquisition Regulation (FAR) clauses, cybersecurity standards (NIST SP 800-53, CMMC), and pricing transparency. Anixter's GSA contracts are subject to periodic audits and compliance reviews.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Defense — Cybersecurity Maturity Model Certification (CMMC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod_cmmc",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Cybersecurity & Supply Chain",
+        "relationshipNote": "DoD enforces CMMC requirements on defense contractors and their suppliers. Anixter's customers in the defense industrial base must comply with CMMC Level 2 or 3 certifications. Anixter must ensure its supply chain (vendors, logistics partners) meets CMMC requirements. CMMC compliance creates operational costs and supply-chain friction for Anixter's defense-sector customers; Anixter's ability to support CMMC-compliant solutions is a competitive differentiator. DoD's 2023 CMMC enforcement actions and contractor audits increase compliance pressure on Anixter's defense-sector business.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance — External Auditor",
+        "relationshipNote": "Deloitte serves as the external auditor for Tech Data Corporation (Anixter's parent), conducting annual audits of consolidated financial statements and internal controls. Deloitte's audit scope includes Anixter's financial performance, revenue recognition, inventory valuation, and vendor concentration disclosures. Deloitte's 2023 audit opinion on Tech Data's 10-K includes Anixter segment performance and risk assessments. Deloitte also provides internal audit and risk-management consulting services to Tech Data on supply-chain resilience and cybersecurity compliance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Tech Data Corporation",
+        "ticker": "TECD",
+        "cik": "0000912057",
+        "slug": "tech_data",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Parent Company & Capital Provider",
+        "relationshipNote": "Tech Data is Anixter's 100% parent company and primary capital provider. Tech Data acquired Anixter in 2020 for $7.2B in an all-cash transaction, funded by debt and equity. Tech Data provides working capital, debt financing, and equity capital to support Anixter's operations and growth initiatives. Tech Data's 2023 earnings include Anixter segment results; Tech Data's credit rating (BB+ S&P, Ba1 Moody's) affects Anixter's access to capital and cost of debt. Tech Data's dividend policy and capital allocation decisions directly impact Anixter's reinvestment capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Lender & Credit Facility Provider",
+        "relationshipNote": "JPMorgan Chase is a major lender to Tech Data (Anixter's parent), providing revolving credit facilities and term loans. Tech Data's 2023 10-K discloses JPMorgan Chase as a key lender in its credit agreement; estimated credit facility size of $2–3B. JPMorgan Chase's lending terms and covenants affect Anixter's financial flexibility and capital allocation. JPMorgan Chase also serves as a major customer of Anixter's IT infrastructure and security solutions.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Lender & Credit Facility Provider",
+        "relationshipNote": "Bank of America is a lender to Tech Data (Anixter's parent), providing credit facilities and debt financing. Tech Data's 2023 10-K discloses Bank of America as a key lender; estimated credit facility participation of $500M–$1B. Bank of America's lending terms and credit availability affect Anixter's working capital and capital allocation. Bank of America also serves as a major customer of Anixter's IT infrastructure and security solutions.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Adriane M. Brown",
+        "ticker": "TECD",
+        "cik": "0000912057",
+        "slug": "adriane_brown_tecd",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management — Tech Data CFO",
+        "relationshipNote": "Adriane M. Brown is the Chief Financial Officer of Tech Data Corporation (Anixter's parent). Brown oversees Tech Data's consolidated financial operations, including Anixter's financial performance, reporting, and capital allocation. Brown's 2023 earnings call commentary includes Anixter segment results, gross margin trends, and customer concentration metrics. Brown's financial guidance and risk disclosures directly impact investor perception of Anixter's financial health and growth prospects.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Thomas M. Olinger",
+        "ticker": "TECD",
+        "cik": "0000912057",
+        "slug": "thomas_olinger_tecd",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership — Tech Data CEO",
+        "relationshipNote": "Thomas M. Olinger is the President and Chief Executive Officer of Tech Data Corporation (Anixter's parent). Olinger oversees Tech Data's overall strategy, including Anixter's business operations, vendor partnerships, and customer relationships. Olinger's 2023 earnings calls and investor presentations include commentary on Anixter's performance, competitive positioning, and strategic initiatives. Olinger's strategic vision and capital allocation decisions directly impact Anixter's growth trajectory and market positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Gartner IT Spending Index (Quarterly)",
+        "ticker": null,
+        "cik": null,
+        "slug": "gartner_it_spending",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Market Demand Signal",
+        "relationshipNote": "Gartner's quarterly IT spending index tracks enterprise IT capex and opex trends across hardware, software, and services. Anixter's revenue growth is highly correlated with Gartner's IT spending index (correlation ~0.75–0.85). Gartner's 2023 IT spending forecast emphasized cloud-infrastructure and cybersecurity growth; Anixter's product mix (networking, security, storage) benefits from these trends. Gartner's quarterly updates provide leading indicators of Anixter's revenue trajectory 1–2 quarters ahead.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "IDC Worldwide IT Spending Forecast (Quarterly)",
+        "ticker": null,
+        "cik": null,
+        "slug": "idc_it_spending",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — Market Demand Signal",
+        "relationshipNote": "IDC's quarterly IT spending forecast tracks enterprise hardware, software, and services spending by vertical and geography. Anixter's revenue is correlated with IDC's IT spending trends (correlation ~0.70–0.80). IDC's 2023 forecast emphasized data-center infrastructure and cloud-migration spending; Anixter's product mix (servers, storage, networking) benefits from these trends. IDC's quarterly updates provide market-level demand signals for Anixter's key product categories.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

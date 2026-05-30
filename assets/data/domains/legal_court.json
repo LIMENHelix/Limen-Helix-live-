@@ -1,0 +1,511 @@
+{
+  "domainId": "legal_court",
+  "title": "Court Administration / Case Routing",
+  "parentPortal": "legal_portal.html",
+  "parentLabel": "Legal Systems",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "PBN",
+      "state": "active",
+      "domainLabel": "Court Administration / Case Routing Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Court Administration / Case Routing indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves court administration / case routing knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves court administration / case routing knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.65
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Administration / Case Routing Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Administration / Case Routing Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "legal_court_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "PPN",
+      "state": "active",
+      "domainLabel": "Court Administration / Case Routing Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Court Administration / Case Routing activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core court administration / case routing operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Executes core court administration / case routing operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Administration / Case Routing Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Administration / Case Routing Core Operations"
+        }
+      ],
+      "childPortal": "legal_court_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "VERM",
+      "state": "active",
+      "domainLabel": "Court Administration / Case Routing Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Court Administration / Case Routing, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes court administration / case routing oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes court administration / case routing oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.86
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Administration / Case Routing Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Administration / Case Routing Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "legal_court_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "NEOCER",
+      "state": "active",
+      "domainLabel": "Court Administration / Case Routing Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Court Administration / Case Routing practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes court administration / case routing oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes court administration / case routing oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Administration / Case Routing Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Administration / Case Routing Standards & Governance"
+        }
+      ],
+      "childPortal": "legal_court_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "CLAUST",
+      "state": "active",
+      "domainLabel": "Court Administration / Case Routing Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Court Administration / Case Routing methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core court administration / case routing operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Stores and retrieves court administration / case routing knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.69
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Administration / Case Routing Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Administration / Case Routing Research & Development"
+        }
+      ],
+      "childPortal": "legal_court_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "UNC",
+      "state": "active",
+      "domainLabel": "Court Administration / Case Routing Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Court Administration / Case Routing stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Routes and distributes court administration / case routing resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Routes and distributes court administration / case routing resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.9
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Administration / Case Routing Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Administration / Case Routing Risk & Resilience"
+        }
+      ],
+      "childPortal": "legal_court_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "RF",
+      "state": "active",
+      "domainLabel": "Court Administration / Case Routing Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Court Administration / Case Routing operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes court administration / case routing oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes court administration / case routing oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.92
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Administration / Case Routing Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Administration / Case Routing Coordination & Integration"
+        }
+      ],
+      "childPortal": "legal_court_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "OSC",
+      "state": "active",
+      "domainLabel": "Court Administration / Case Routing Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Court Administration / Case Routing outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes court administration / case routing oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes court administration / case routing oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Court Administration / Case Routing Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Court Administration / Case Routing Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "PBN",
+      "target": "PPN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "PPN",
+      "target": "VERM",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "VERM",
+      "target": "NEOCER",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "NEOCER",
+      "target": "CLAUST",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "CLAUST",
+      "target": "UNC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "UNC",
+      "target": "RF",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "RF",
+      "target": "OSC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "OSC",
+      "target": "PBN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "PBN",
+      "target": "CLAUST",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "NEOCER",
+      "target": "RF",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "LEGAL_COURT_SYSTEM_FAILURE",
+      "label": "Court Administration / Case Routing System Failure",
+      "summary": "Critical breakdown in Court Administration / Case Routing systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "PBN",
+          "dir": "Hypo-active",
+          "detail": "Court Administration / Case Routing Assessment & Diagnostics capacity falling below operational thresholds, reducing Court Administration / Case Routing output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PPN",
+          "dir": "Hypo-active",
+          "detail": "Court Administration / Case Routing Core Operations systems underperforming, creating gaps in Court Administration / Case Routing coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VERM",
+          "dir": "Altered",
+          "detail": "Court Administration / Case Routing Infrastructure & Capacity behavior deviating from established norms, complicating Court Administration / Case Routing management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "UNC",
+          "dir": "Hyper-active",
+          "detail": "Court Administration / Case Routing Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Court Administration / Case Routing",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OSC",
+          "dir": "Hypo-active",
+          "detail": "Court Administration / Case Routing Performance & Optimization function reduced, compromising Court Administration / Case Routing system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_COURT_CAPACITY_CRISIS",
+      "label": "Court Administration / Case Routing Capacity Crisis",
+      "summary": "Demand exceeding available Court Administration / Case Routing capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "PPN",
+          "dir": "Hyper-active",
+          "detail": "Court Administration / Case Routing Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Court Administration / Case Routing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VERM",
+          "dir": "Hypo-active",
+          "detail": "Court Administration / Case Routing Infrastructure & Capacity systems underperforming, creating gaps in Court Administration / Case Routing coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NEOCER",
+          "dir": "Altered",
+          "detail": "Court Administration / Case Routing Standards & Governance behavior deviating from established norms, complicating Court Administration / Case Routing management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RF",
+          "dir": "Hyper-active",
+          "detail": "Court Administration / Case Routing Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Court Administration / Case Routing",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OSC",
+          "dir": "Altered",
+          "detail": "Court Administration / Case Routing Performance & Optimization operating outside normal parameters, introducing uncertainty into Court Administration / Case Routing outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_COURT_GOVERNANCE_GAP",
+      "label": "Court Administration / Case Routing Governance Gap",
+      "summary": "Oversight or regulatory failure in Court Administration / Case Routing creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hypo-active",
+          "detail": "Court Administration / Case Routing Standards & Governance capacity falling below operational thresholds, reducing Court Administration / Case Routing output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PBN",
+          "dir": "Altered",
+          "detail": "Court Administration / Case Routing Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Court Administration / Case Routing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CLAUST",
+          "dir": "Hyper-active",
+          "detail": "Court Administration / Case Routing Research & Development activity spiking beyond design limits, creating instability across Court Administration / Case Routing operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "UNC",
+          "dir": "Altered",
+          "detail": "Court Administration / Case Routing Risk & Resilience patterns disrupted, necessitating adaptive responses within Court Administration / Case Routing frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RF",
+          "dir": "Hypo-active",
+          "detail": "Court Administration / Case Routing Coordination & Integration function reduced, compromising Court Administration / Case Routing system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

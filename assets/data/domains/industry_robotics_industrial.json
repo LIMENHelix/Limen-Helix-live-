@@ -1,0 +1,2066 @@
+{
+  "domainId": "industry_robotics_industrial",
+  "title": "Industrial Robots",
+  "parentPortal": "industry_robotics_portal.html",
+  "parentLabel": "Robotics and Automation",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "TPOLE",
+      "state": "active",
+      "domainLabel": "Industrial Robots Assessment & Diagnostics",
+      "domainDescription": "Systematic management of industrial robots assessment & diagnostics across all industrial robots functions and operations",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Implement Industrial Robots Assessment & Diagnostics Governance Structure",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Implement a lean transformation strategy for industrial robots assessment & diagnostics using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business; World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF",
+          "target": "OUTDATED_INDUSTRIAL_ROBOTS_ASSESSMENT__ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for industrial robots assessment & diagnostics using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Industrial Robots Assessment & Diagnostics Assessment Protocol",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Institutionalize a TPM autonomous maintenance training for industrial robots assessment & diagnostics developing operator-level equipment care per JIPM pillar methodology.",
+          "cite": "Rother, M. (2009). Toyota Kata. McGraw-Hill; Deming, W.E. (1986). Out of the Crisis. MIT Press",
+          "target": "INEFFICIENT_INDUSTRIAL_ROBOTS_ASSESSMENT__ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Rother, M.",
+              "year": 2009,
+              "title": "Toyota Kata",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Deming, W.E.",
+              "year": 1986,
+              "title": "Out of the Crisis",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess equipment care capabilities for industrial robots assessment & diagnostics using TPM maturity audit",
+            "Train operators in autonomous maintenance steps per JIPM methodology",
+            "Implement operator cleaning, inspection, and lubrication routines",
+            "Develop visual standards and one-point lessons for equipment care",
+            "Track equipment breakdowns, minor stops, and autonomous maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety training hours per employee using LMS tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety training hours per employee measured monthly. Target: 40 hours per year. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA VPP benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety training hours per employee trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using OSHA training requirements. Report to EHS Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Industrial Robots Assessment & Diagnostics Diagnostic Dashboard",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Configure an automated material handling system for industrial robots assessment & diagnostics deploying AGVs, AS/RS, and conveyor integration per ASME B20.1.",
+          "cite": "NIST (2020). Manufacturing Extension Partnership (MEP) Strategic Plan. NIST; ISO (2015). ISO 14001: Environmental Management Systems. ISO",
+          "target": "INCONSISTENT_INDUSTRIAL_ROBOTS_ASSESSMENT__ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2020,
+              "title": "Manufacturing Extension Partnership (MEP) Strategic Plan",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 14001: Environmental Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze material flow for industrial robots assessment & diagnostics using spaghetti diagram and time studies",
+            "Design cellular layout with one-piece flow, standard WIP, and kanban sizing",
+            "Implement physical rearrangement with team involvement and line balancing",
+            "Establish pull system with kanban cards/signals and supermarket replenishment",
+            "Measure flow metrics: lead time, WIP turns, and labor productivity improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — environmental compliance rate using EMS tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — environmental compliance rate measured monthly. Target: 100% permit compliance. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 14001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — environmental compliance rate trending toward zero violations. Escalate if <<3 minor findings. ANNUAL REVIEW: Comprehensive audit using ISO 14001 framework. Report to Environmental Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Industrial Robots Assessment & Diagnostics Governance Structure",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Strengthen a psychological safety initiative for industrial robots assessment & diagnostics applying Edmondson model to encourage error reporting and experimentation.",
+          "cite": "Spear, S. & Bowen, H.K. (1999). Decoding the DNA of the Toyota Production System. Harvard Business Review, 77(5), 96-106; Juran, J.M. (1988). Jurans Quality Control Handbook. McGraw-Hill",
+          "target": "UNMONITORED_INDUSTRIAL_ROBOTS_ASSESSMENT__ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Spear, S. & Bowen, H.K.",
+              "year": 1999,
+              "title": "Decoding the DNA of the Toyota Production System",
+              "journal": "Harvard Business Review",
+              "volume": "77(5)",
+              "pages": "96-106",
+              "doi": null
+            },
+            {
+              "author": "Juran, J.M.",
+              "year": 1988,
+              "title": "Jurans Quality Control Handbook",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supplier capabilities for industrial robots assessment & diagnostics using supplier scorecard audit",
+            "Design tiered development program with quality, delivery, and cost coaching",
+            "Deploy resident engineers at critical suppliers for process improvement",
+            "Implement supplier kaizen events with shared savings agreements",
+            "Track supplier PPM, on-time delivery, and total cost of ownership"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — innovation submission rate using idea management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — innovation submission rate measured monthly. Target: 10 ideas per employee/year. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota Creative Suggestion benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — innovation submission rate trending toward 20 ideas. Escalate if <5 ideas minimum. ANNUAL REVIEW: Comprehensive audit using Toyota Suggestion System. Report to Innovation Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Industrial Robots Assessment & Diagnostics Assessment Protocol",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Monitor a connected equipment platform for industrial robots assessment & diagnostics deploying MTConnect/OPC-UA for real-time machine data acquisition.",
+          "cite": "ISA (2012). ISA-95: Enterprise-Control System Integration. ISA; MESA International (2021). MES/MOM Methodology Guidelines. MESA",
+          "target": "UNDERPERFORMING_INDUSTRIAL_ROBOTS_ASSESSMENT__ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "ISA",
+              "year": 2012,
+              "title": "ISA-95: Enterprise-Control System Integration",
+              "journal": "ISA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MESA International",
+              "year": 2021,
+              "title": "MES/MOM Methodology Guidelines",
+              "journal": "MESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OT cybersecurity for industrial robots assessment & diagnostics using IEC 62443 risk assessment",
+            "Design zone and conduit model with security levels per asset criticality",
+            "Implement network segmentation, access control, and monitoring",
+            "Deploy intrusion detection and incident response for OT environment",
+            "Conduct annual penetration testing and IEC 62443 compliance audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity OT compliance using IEC 62443 assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity OT compliance measured quarterly. Target: SL-2 across all zones. PHASE 3 (Months 4-6): Midpoint review — compare against IEC 62443 zone/conduit model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity OT compliance trending toward SL-3. Escalate if <SL-1 minimum. ANNUAL REVIEW: Comprehensive audit using IEC 62443 framework. Report to OT Cybersecurity Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Industrial Robots Assessment & Diagnostics Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Build a lean transformation strategy for industrial robots assessment & diagnostics using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "REACTIVE_INDUSTRIAL_ROBOTS_ASSESSMENT__ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for industrial robots assessment & diagnostics using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_robotics_industrial_articulated_portal.html"
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Industrial Robots Core Operations",
+      "domainDescription": "Systematic management of industrial robots core operations across all industrial robots functions and operations",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Conduct Industrial Robots Core Operations Capacity Building Initiative",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Conduct a lean transformation strategy for industrial robots core operations using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF; Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business",
+          "target": "REACTIVE_INDUSTRIAL_ROBOTS_CORE_OPERATI -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for industrial robots core operations using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Industrial Robots Core Operations Early Warning System",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Design a TPM autonomous maintenance training for industrial robots core operations developing operator-level equipment care per JIPM pillar methodology.",
+          "cite": "Deming, W.E. (1986). Out of the Crisis. MIT Press; Rother, M. (2009). Toyota Kata. McGraw-Hill",
+          "target": "FRAGMENTED_INDUSTRIAL_ROBOTS_CORE_OPERATI -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Deming, W.E.",
+              "year": 1986,
+              "title": "Out of the Crisis",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Rother, M.",
+              "year": 2009,
+              "title": "Toyota Kata",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess equipment care capabilities for industrial robots core operations using TPM maturity audit",
+            "Train operators in autonomous maintenance steps per JIPM methodology",
+            "Implement operator cleaning, inspection, and lubrication routines",
+            "Develop visual standards and one-point lessons for equipment care",
+            "Track equipment breakdowns, minor stops, and autonomous maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety training hours per employee using LMS tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety training hours per employee measured monthly. Target: 40 hours per year. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA VPP benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety training hours per employee trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using OSHA training requirements. Report to EHS Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Industrial Robots Core Operations Operational Readiness Check",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Deploy an automated material handling system for industrial robots core operations deploying AGVs, AS/RS, and conveyor integration per ASME B20.1.",
+          "cite": "ISO (2015). ISO 14001: Environmental Management Systems. ISO; NIST (2020). Manufacturing Extension Partnership (MEP) Strategic Plan. NIST",
+          "target": "SILOED_INDUSTRIAL_ROBOTS_CORE_OPERATI -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 14001: Environmental Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2020,
+              "title": "Manufacturing Extension Partnership (MEP) Strategic Plan",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze material flow for industrial robots core operations using spaghetti diagram and time studies",
+            "Design cellular layout with one-piece flow, standard WIP, and kanban sizing",
+            "Implement physical rearrangement with team involvement and line balancing",
+            "Establish pull system with kanban cards/signals and supermarket replenishment",
+            "Measure flow metrics: lead time, WIP turns, and labor productivity improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — environmental compliance rate using EMS tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — environmental compliance rate measured monthly. Target: 100% permit compliance. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 14001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — environmental compliance rate trending toward zero violations. Escalate if <<3 minor findings. ANNUAL REVIEW: Comprehensive audit using ISO 14001 framework. Report to Environmental Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Industrial Robots Core Operations Capacity Building Initiative",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Operationalize a psychological safety initiative for industrial robots core operations applying Edmondson model to encourage error reporting and experimentation.",
+          "cite": "Juran, J.M. (1988). Jurans Quality Control Handbook. McGraw-Hill; Spear, S. & Bowen, H.K. (1999). Decoding the DNA of the Toyota Production System. Harvard Business Review, 77(5), 96-106",
+          "target": "OUTDATED_INDUSTRIAL_ROBOTS_CORE_OPERATI -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Juran, J.M.",
+              "year": 1988,
+              "title": "Jurans Quality Control Handbook",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Spear, S. & Bowen, H.K.",
+              "year": 1999,
+              "title": "Decoding the DNA of the Toyota Production System",
+              "journal": "Harvard Business Review",
+              "volume": "77(5)",
+              "pages": "96-106",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supplier capabilities for industrial robots core operations using supplier scorecard audit",
+            "Design tiered development program with quality, delivery, and cost coaching",
+            "Deploy resident engineers at critical suppliers for process improvement",
+            "Implement supplier kaizen events with shared savings agreements",
+            "Track supplier PPM, on-time delivery, and total cost of ownership"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — innovation submission rate using idea management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — innovation submission rate measured monthly. Target: 10 ideas per employee/year. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota Creative Suggestion benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — innovation submission rate trending toward 20 ideas. Escalate if <5 ideas minimum. ANNUAL REVIEW: Comprehensive audit using Toyota Suggestion System. Report to Innovation Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Industrial Robots Core Operations Early Warning System",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Calibrate a connected equipment platform for industrial robots core operations deploying MTConnect/OPC-UA for real-time machine data acquisition.",
+          "cite": "MESA International (2021). MES/MOM Methodology Guidelines. MESA; ISA (2012). ISA-95: Enterprise-Control System Integration. ISA",
+          "target": "INEFFICIENT_INDUSTRIAL_ROBOTS_CORE_OPERATI -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "MESA International",
+              "year": 2021,
+              "title": "MES/MOM Methodology Guidelines",
+              "journal": "MESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISA",
+              "year": 2012,
+              "title": "ISA-95: Enterprise-Control System Integration",
+              "journal": "ISA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OT cybersecurity for industrial robots core operations using IEC 62443 risk assessment",
+            "Design zone and conduit model with security levels per asset criticality",
+            "Implement network segmentation, access control, and monitoring",
+            "Deploy intrusion detection and incident response for OT environment",
+            "Conduct annual penetration testing and IEC 62443 compliance audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity OT compliance using IEC 62443 assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity OT compliance measured quarterly. Target: SL-2 across all zones. PHASE 3 (Months 4-6): Midpoint review — compare against IEC 62443 zone/conduit model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity OT compliance trending toward SL-3. Escalate if <SL-1 minimum. ANNUAL REVIEW: Comprehensive audit using IEC 62443 framework. Report to OT Cybersecurity Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Industrial Robots Core Operations Operational Readiness Check",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Streamline a lean transformation strategy for industrial robots core operations using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO; Porter, M.E. (1985). Competitive Advantage. Free Press",
+          "target": "INCONSISTENT_INDUSTRIAL_ROBOTS_CORE_OPERATI -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for industrial robots core operations using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_robotics_industrial_cartesian_portal.html"
+    },
+    {
+      "brainNodeId": "LAR",
+      "state": "active",
+      "domainLabel": "Industrial Robots Infrastructure & Capacity",
+      "domainDescription": "Systematic management of industrial robots infrastructure & capacity across all industrial robots functions and operations",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Calibrate Industrial Robots Infrastructure & Capacity Compliance Monitoring System",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Calibrate a supply chain resilience strategy for industrial robots infrastructure & capacity using SCOR model with dual-sourcing, nearshoring, and inventory optimization.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "INEFFICIENT_INDUSTRIAL_ROBOTS_INFRASTRUCTU -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct value stream mapping for industrial robots infrastructure & capacity identifying waste, cycle times, and capacity constraints",
+            "Design future-state map with flow, pull, and level production concepts",
+            "Develop implementation plan with kaizen event calendar and A3 milestones",
+            "Execute lean transformation with daily management and visual KPI boards",
+            "Evaluate improvements using OEE, lead time, and WIP inventory metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — overall equipment effectiveness (OEE) using MES production tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — overall equipment effectiveness (OEE) measured daily. Target: OEE above 75%. PHASE 3 (Months 4-6): Midpoint review — compare against World Class Manufacturing 85% target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — overall equipment effectiveness (OEE) trending toward OEE 85%. Escalate if <OEE 65% floor. ANNUAL REVIEW: Comprehensive audit using TPM methodology framework. Report to VP of Manufacturing.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Industrial Robots Infrastructure & Capacity Standard Operating Procedures",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Streamline a safety leadership program for industrial robots infrastructure & capacity training supervisors in behavior-based observation per DuPont STOP methodology.",
+          "cite": "Liker, J.K. (2004). The Toyota Way. McGraw-Hill; Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press",
+          "target": "INCONSISTENT_INDUSTRIAL_ROBOTS_INFRASTRUCTU -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supervisory skills for industrial robots infrastructure & capacity using TWI Job Instruction evaluation",
+            "Train supervisors in JI four-step method: prepare, present, try out, follow up",
+            "Practice with actual job breakdowns on production floor",
+            "Certify supervisors through demonstrated instruction competency",
+            "Track training quality through new operator learning curves and error rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — operator skill matrix completion using skills management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — operator skill matrix completion measured monthly. Target: 90% skills documented. PHASE 3 (Months 4-6): Midpoint review — compare against TWI Job Instruction standard. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — operator skill matrix completion trending toward 100% documented. Escalate if <75% minimum. ANNUAL REVIEW: Comprehensive audit using TWI framework. Report to Training Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Industrial Robots Infrastructure & Capacity Scalability Framework",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Assess an ISO 45001 occupational safety system for industrial robots infrastructure & capacity with hazard identification, risk assessment, and hierarchy of controls.",
+          "cite": "OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL; ISO (2015). ISO 9001: Quality Management Systems. ISO",
+          "target": "UNMONITORED_INDUSTRIAL_ROBOTS_INFRASTRUCTU -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit QMS for industrial robots infrastructure & capacity against ISO 9001:2015 clause requirements",
+            "Design process-based QMS with documented procedures and quality manual",
+            "Implement with internal auditor training and management review schedule",
+            "Conduct internal audit cycle and close nonconformities with CAPA",
+            "Achieve ISO 9001 certification through accredited registrar audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — plant uptime percentage using CMMS downtime tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — plant uptime percentage measured weekly. Target: 95% planned uptime. PHASE 3 (Months 4-6): Midpoint review — compare against TPM World Class benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — plant uptime percentage trending toward 98% uptime. Escalate if <90% floor. ANNUAL REVIEW: Comprehensive audit using TPM pillar methodology. Report to Maintenance Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Industrial Robots Infrastructure & Capacity Compliance Monitoring System",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Create an innovation culture program for industrial robots infrastructure & capacity implementing Toyota Creative Suggestion System with rapid prototyping labs.",
+          "cite": "Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass; Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press",
+          "target": "UNDERPERFORMING_INDUSTRIAL_ROBOTS_INFRASTRUCTU -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess CI maturity for industrial robots infrastructure & capacity using Shingo Model assessment",
+            "Design kaizen program with structured events, daily kaizen, and gemba walks",
+            "Train facilitators in A3 problem solving and PDCA methodology",
+            "Implement recognition program for improvement contributions",
+            "Track kaizen event count, savings, and participation rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — employee engagement score using annual engagement survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — employee engagement score measured annually. Target: top-quartile engagement. PHASE 3 (Months 4-6): Midpoint review — compare against Gallup Q12 benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — employee engagement score trending toward top-decile. Escalate if <median minimum. ANNUAL REVIEW: Comprehensive audit using Gallup Q12 framework. Report to CHRO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Industrial Robots Infrastructure & Capacity Standard Operating Procedures",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Evaluate a MES/MOM platform for industrial robots infrastructure & capacity per ISA-95 integration layers connecting ERP, SCADA, and shop floor systems.",
+          "cite": "MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect; IEC (2022). IEC 62443: Industrial Cybersecurity. IEC",
+          "target": "REACTIVE_INDUSTRIAL_ROBOTS_INFRASTRUCTU -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess IT/OT integration for industrial robots infrastructure & capacity against ISA-95 functional hierarchy",
+            "Design MES architecture connecting ERP (L4) to SCADA/PLC (L1-2)",
+            "Implement MES with production scheduling, tracking, and quality modules",
+            "Integrate with ERP for real-time production reporting and inventory",
+            "Measure MES ROI through OEE improvement, scrap reduction, and traceability"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — MES system coverage using MES deployment tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — MES system coverage measured quarterly. Target: 80% lines MES-connected. PHASE 3 (Months 4-6): Midpoint review — compare against MESA MES benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — MES system coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using ISA-95 framework. Report to IT/OT Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Industrial Robots Infrastructure & Capacity Scalability Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Integrate a supply chain resilience strategy for industrial robots infrastructure & capacity using SCOR model with dual-sourcing, nearshoring, and inventory optimization.",
+          "cite": "Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press; Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press",
+          "target": "FRAGMENTED_INDUSTRIAL_ROBOTS_INFRASTRUCTU -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct value stream mapping for industrial robots infrastructure & capacity identifying waste, cycle times, and capacity constraints",
+            "Design future-state map with flow, pull, and level production concepts",
+            "Develop implementation plan with kaizen event calendar and A3 milestones",
+            "Execute lean transformation with daily management and visual KPI boards",
+            "Evaluate improvements using OEE, lead time, and WIP inventory metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — overall equipment effectiveness (OEE) using MES production tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — overall equipment effectiveness (OEE) measured daily. Target: OEE above 75%. PHASE 3 (Months 4-6): Midpoint review — compare against World Class Manufacturing 85% target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — overall equipment effectiveness (OEE) trending toward OEE 85%. Escalate if <OEE 65% floor. ANNUAL REVIEW: Comprehensive audit using TPM methodology framework. Report to VP of Manufacturing.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_robotics_industrial_delta_portal.html"
+    },
+    {
+      "brainNodeId": "SNIG",
+      "state": "active",
+      "domainLabel": "Industrial Robots Risk & Resilience",
+      "domainDescription": "Systematic management of industrial robots risk & resilience across all industrial robots functions and operations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Monitor Industrial Robots Risk & Resilience Risk Mitigation Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Monitor a supply chain resilience strategy for industrial robots risk & resilience using SCOR model with dual-sourcing, nearshoring, and inventory optimization.",
+          "cite": "Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business; World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF",
+          "target": "OUTDATED_INDUSTRIAL_ROBOTS_RISK___RESIL -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess Industry 4.0 maturity for industrial robots risk & resilience using RAMI 4.0 and Acatech framework",
+            "Identify high-value digital use cases: predictive maintenance, quality, scheduling",
+            "Design technology architecture with IT/OT convergence and data platform",
+            "Implement pilot use cases with proof of concept and ROI validation",
+            "Scale successful pilots with change management and workforce upskilling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — manufacturing cost per unit using ERP cost accounting module. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — manufacturing cost per unit measured monthly. Target: 10% cost reduction. PHASE 3 (Months 4-6): Midpoint review — compare against industry quartile benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — manufacturing cost per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using Lean accounting framework. Report to CFO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Industrial Robots Risk & Resilience Process Improvement Initiative",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Build a safety leadership program for industrial robots risk & resilience training supervisors in behavior-based observation per DuPont STOP methodology.",
+          "cite": "Rother, M. (2009). Toyota Kata. McGraw-Hill; Deming, W.E. (1986). Out of the Crisis. MIT Press",
+          "target": "INEFFICIENT_INDUSTRIAL_ROBOTS_RISK___RESIL -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Rother, M.",
+              "year": 2009,
+              "title": "Toyota Kata",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Deming, W.E.",
+              "year": 1986,
+              "title": "Out of the Crisis",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Select Green Belt candidates for industrial robots risk & resilience based on project relevance and aptitude",
+            "Deliver DMAIC methodology training with statistical tools (SPC, DOE, regression)",
+            "Coach project execution with weekly reviews and tollgate presentations",
+            "Certify through project completion with documented financial savings",
+            "Build project pipeline and mentor future candidates through alumni network"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — Lean certification rate using Lean program tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — Lean certification rate measured quarterly. Target: 50% workforce green belt. PHASE 3 (Months 4-6): Midpoint review — compare against AME Lean benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — Lean certification rate trending toward 70% green belt. Escalate if <30% minimum. ANNUAL REVIEW: Comprehensive audit using ASQ Lean certification. Report to Continuous Improvement Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Industrial Robots Risk & Resilience Resilience Assessment",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Optimize an ISO 45001 occupational safety system for industrial robots risk & resilience with hazard identification, risk assessment, and hierarchy of controls.",
+          "cite": "NIST (2020). Manufacturing Extension Partnership (MEP) Strategic Plan. NIST; ISO (2015). ISO 14001: Environmental Management Systems. ISO",
+          "target": "INCONSISTENT_INDUSTRIAL_ROBOTS_RISK___RESIL -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2020,
+              "title": "Manufacturing Extension Partnership (MEP) Strategic Plan",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 14001: Environmental Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OH&S risks for industrial robots risk & resilience using ISO 45001 hazard identification process",
+            "Design safety management system with risk register and hierarchy of controls",
+            "Implement operational controls, emergency procedures, and PPE programs",
+            "Conduct internal audits, incident investigations, and management reviews",
+            "Achieve ISO 45001 certification with continual improvement program"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy intensity per unit using energy monitoring system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy intensity per unit measured monthly. Target: 10% intensity reduction. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 50001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy intensity per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISO 50001 EnMS framework. Report to Energy Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Industrial Robots Risk & Resilience Risk Mitigation Strategy",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Launch an innovation culture program for industrial robots risk & resilience implementing Toyota Creative Suggestion System with rapid prototyping labs.",
+          "cite": "Spear, S. & Bowen, H.K. (1999). Decoding the DNA of the Toyota Production System. Harvard Business Review, 77(5), 96-106; Juran, J.M. (1988). Jurans Quality Control Handbook. McGraw-Hill",
+          "target": "UNMONITORED_INDUSTRIAL_ROBOTS_RISK___RESIL -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Spear, S. & Bowen, H.K.",
+              "year": 1999,
+              "title": "Decoding the DNA of the Toyota Production System",
+              "journal": "Harvard Business Review",
+              "volume": "77(5)",
+              "pages": "96-106",
+              "doi": null
+            },
+            {
+              "author": "Juran, J.M.",
+              "year": 1988,
+              "title": "Jurans Quality Control Handbook",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess psychological safety for industrial robots risk & resilience using Edmondson team survey",
+            "Design intervention program with leader behavior coaching and team norms",
+            "Implement error reporting and near-miss systems without blame",
+            "Conduct team retrospectives with structured reflection protocols",
+            "Measure safety climate, error reporting rates, and team performance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture maturity using safety culture assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture maturity measured biannually. Target: Bradley Curve interdependent. PHASE 3 (Months 4-6): Midpoint review — compare against DuPont Safety Culture model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture maturity trending toward generative culture. Escalate if <dependent minimum. ANNUAL REVIEW: Comprehensive audit using DuPont Bradley Curve. Report to Safety Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Industrial Robots Risk & Resilience Process Improvement Initiative",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Develop a MES/MOM platform for industrial robots risk & resilience per ISA-95 integration layers connecting ERP, SCADA, and shop floor systems.",
+          "cite": "ISA (2012). ISA-95: Enterprise-Control System Integration. ISA; MESA International (2021). MES/MOM Methodology Guidelines. MESA",
+          "target": "UNDERPERFORMING_INDUSTRIAL_ROBOTS_RISK___RESIL -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "ISA",
+              "year": 2012,
+              "title": "ISA-95: Enterprise-Control System Integration",
+              "journal": "ISA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MESA International",
+              "year": 2021,
+              "title": "MES/MOM Methodology Guidelines",
+              "journal": "MESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Define digital twin scope for industrial robots risk & resilience using process criticality analysis",
+            "Build physics-based model with material flow and equipment dynamics",
+            "Calibrate model using historical production and sensor data",
+            "Deploy for what-if analysis, process optimization, and virtual commissioning",
+            "Validate twin accuracy quarterly and expand to additional processes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — digital twin model accuracy using simulation validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — digital twin model accuracy measured biannually. Target: model within 5% of actual. PHASE 3 (Months 4-6): Midpoint review — compare against Siemens Digital Twin standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — digital twin model accuracy trending toward within 3%. Escalate if <within 10% ceiling. ANNUAL REVIEW: Comprehensive audit using Siemens/RAMI 4.0 framework. Report to Digital Manufacturing Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Industrial Robots Risk & Resilience Resilience Assessment",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Establish a supply chain resilience strategy for industrial robots risk & resilience using SCOR model with dual-sourcing, nearshoring, and inventory optimization.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "REACTIVE_INDUSTRIAL_ROBOTS_RISK___RESIL -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess Industry 4.0 maturity for industrial robots risk & resilience using RAMI 4.0 and Acatech framework",
+            "Identify high-value digital use cases: predictive maintenance, quality, scheduling",
+            "Design technology architecture with IT/OT convergence and data platform",
+            "Implement pilot use cases with proof of concept and ROI validation",
+            "Scale successful pilots with change management and workforce upskilling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — manufacturing cost per unit using ERP cost accounting module. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — manufacturing cost per unit measured monthly. Target: 10% cost reduction. PHASE 3 (Months 4-6): Midpoint review — compare against industry quartile benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — manufacturing cost per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using Lean accounting framework. Report to CFO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_robotics_industrial_scara_portal.html"
+    },
+    {
+      "brainNodeId": "EI",
+      "state": "active",
+      "domainLabel": "Industrial Robots Policy & Governance",
+      "domainDescription": "Systematic management of industrial robots policy & governance across all industrial robots functions and operations",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Establish Industrial Robots Policy & Governance Resilience Assessment",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish a supply chain resilience strategy for industrial robots policy & governance using SCOR model with dual-sourcing, nearshoring, and inventory optimization.",
+          "cite": "UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO; Porter, M.E. (1985). Competitive Advantage. Free Press",
+          "target": "FRAGMENTED_INDUSTRIAL_ROBOTS_POLICY___GOV -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct value stream mapping for industrial robots policy & governance identifying waste, cycle times, and capacity constraints",
+            "Design future-state map with flow, pull, and level production concepts",
+            "Develop implementation plan with kaizen event calendar and A3 milestones",
+            "Execute lean transformation with daily management and visual KPI boards",
+            "Evaluate improvements using OEE, lead time, and WIP inventory metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — overall equipment effectiveness (OEE) using MES production tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — overall equipment effectiveness (OEE) measured daily. Target: OEE above 75%. PHASE 3 (Months 4-6): Midpoint review — compare against World Class Manufacturing 85% target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — overall equipment effectiveness (OEE) trending toward OEE 85%. Escalate if <OEE 65% floor. ANNUAL REVIEW: Comprehensive audit using TPM methodology framework. Report to VP of Manufacturing.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Industrial Robots Policy & Governance Risk Mitigation Strategy",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Implement a safety leadership program for industrial robots policy & governance training supervisors in behavior-based observation per DuPont STOP methodology.",
+          "cite": "Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press; Liker, J.K. (2004). The Toyota Way. McGraw-Hill",
+          "target": "SILOED_INDUSTRIAL_ROBOTS_POLICY___GOV -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supervisory skills for industrial robots policy & governance using TWI Job Instruction evaluation",
+            "Train supervisors in JI four-step method: prepare, present, try out, follow up",
+            "Practice with actual job breakdowns on production floor",
+            "Certify supervisors through demonstrated instruction competency",
+            "Track training quality through new operator learning curves and error rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — operator skill matrix completion using skills management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — operator skill matrix completion measured monthly. Target: 90% skills documented. PHASE 3 (Months 4-6): Midpoint review — compare against TWI Job Instruction standard. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — operator skill matrix completion trending toward 100% documented. Escalate if <75% minimum. ANNUAL REVIEW: Comprehensive audit using TWI framework. Report to Training Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Industrial Robots Policy & Governance Process Improvement Initiative",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Institutionalize an ISO 45001 occupational safety system for industrial robots policy & governance with hazard identification, risk assessment, and hierarchy of controls.",
+          "cite": "ISO (2015). ISO 9001: Quality Management Systems. ISO; OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL",
+          "target": "OUTDATED_INDUSTRIAL_ROBOTS_POLICY___GOV -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit QMS for industrial robots policy & governance against ISO 9001:2015 clause requirements",
+            "Design process-based QMS with documented procedures and quality manual",
+            "Implement with internal auditor training and management review schedule",
+            "Conduct internal audit cycle and close nonconformities with CAPA",
+            "Achieve ISO 9001 certification through accredited registrar audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — plant uptime percentage using CMMS downtime tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — plant uptime percentage measured weekly. Target: 95% planned uptime. PHASE 3 (Months 4-6): Midpoint review — compare against TPM World Class benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — plant uptime percentage trending toward 98% uptime. Escalate if <90% floor. ANNUAL REVIEW: Comprehensive audit using TPM pillar methodology. Report to Maintenance Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Industrial Robots Policy & Governance Resilience Assessment",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Configure an innovation culture program for industrial robots policy & governance implementing Toyota Creative Suggestion System with rapid prototyping labs.",
+          "cite": "Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press; Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass",
+          "target": "INEFFICIENT_INDUSTRIAL_ROBOTS_POLICY___GOV -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess CI maturity for industrial robots policy & governance using Shingo Model assessment",
+            "Design kaizen program with structured events, daily kaizen, and gemba walks",
+            "Train facilitators in A3 problem solving and PDCA methodology",
+            "Implement recognition program for improvement contributions",
+            "Track kaizen event count, savings, and participation rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — employee engagement score using annual engagement survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — employee engagement score measured annually. Target: top-quartile engagement. PHASE 3 (Months 4-6): Midpoint review — compare against Gallup Q12 benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — employee engagement score trending toward top-decile. Escalate if <median minimum. ANNUAL REVIEW: Comprehensive audit using Gallup Q12 framework. Report to CHRO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Industrial Robots Policy & Governance Risk Mitigation Strategy",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Strengthen a MES/MOM platform for industrial robots policy & governance per ISA-95 integration layers connecting ERP, SCADA, and shop floor systems.",
+          "cite": "IEC (2022). IEC 62443: Industrial Cybersecurity. IEC; MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect",
+          "target": "INCONSISTENT_INDUSTRIAL_ROBOTS_POLICY___GOV -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess IT/OT integration for industrial robots policy & governance against ISA-95 functional hierarchy",
+            "Design MES architecture connecting ERP (L4) to SCADA/PLC (L1-2)",
+            "Implement MES with production scheduling, tracking, and quality modules",
+            "Integrate with ERP for real-time production reporting and inventory",
+            "Measure MES ROI through OEE improvement, scrap reduction, and traceability"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — MES system coverage using MES deployment tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — MES system coverage measured quarterly. Target: 80% lines MES-connected. PHASE 3 (Months 4-6): Midpoint review — compare against MESA MES benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — MES system coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using ISA-95 framework. Report to IT/OT Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Industrial Robots Policy & Governance Process Improvement Initiative",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Monitor a supply chain resilience strategy for industrial robots policy & governance using SCOR model with dual-sourcing, nearshoring, and inventory optimization.",
+          "cite": "Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press; Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press",
+          "target": "UNMONITORED_INDUSTRIAL_ROBOTS_POLICY___GOV -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct value stream mapping for industrial robots policy & governance identifying waste, cycle times, and capacity constraints",
+            "Design future-state map with flow, pull, and level production concepts",
+            "Develop implementation plan with kaizen event calendar and A3 milestones",
+            "Execute lean transformation with daily management and visual KPI boards",
+            "Evaluate improvements using OEE, lead time, and WIP inventory metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — overall equipment effectiveness (OEE) using MES production tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — overall equipment effectiveness (OEE) measured daily. Target: OEE above 75%. PHASE 3 (Months 4-6): Midpoint review — compare against World Class Manufacturing 85% target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — overall equipment effectiveness (OEE) trending toward OEE 85%. Escalate if <OEE 65% floor. ANNUAL REVIEW: Comprehensive audit using TPM methodology framework. Report to VP of Manufacturing.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "MAMM",
+      "state": "active",
+      "domainLabel": "Industrial Robots Technology & Innovation",
+      "domainDescription": "Systematic management of industrial robots technology & innovation across all industrial robots functions and operations",
+      "group": "development",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Assess Industrial Robots Technology & Innovation Integration Architecture",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Assess a manufacturing competitiveness plan for industrial robots technology & innovation integrating Porter value chain analysis with UNIDO industrial benchmarking.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "REACTIVE_INDUSTRIAL_ROBOTS_TECHNOLOGY__ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for industrial robots technology & innovation using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Industrial Robots Technology & Innovation Capability Maturity Model",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Create a TWI Job Instruction program for industrial robots technology & innovation training supervisors in standardized work breakdown and skill transfer.",
+          "cite": "Liker, J.K. (2004). The Toyota Way. McGraw-Hill; Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press",
+          "target": "FRAGMENTED_INDUSTRIAL_ROBOTS_TECHNOLOGY__ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess equipment care capabilities for industrial robots technology & innovation using TPM maturity audit",
+            "Train operators in autonomous maintenance steps per JIPM methodology",
+            "Implement operator cleaning, inspection, and lubrication routines",
+            "Develop visual standards and one-point lessons for equipment care",
+            "Track equipment breakdowns, minor stops, and autonomous maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety training hours per employee using LMS tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety training hours per employee measured monthly. Target: 40 hours per year. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA VPP benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety training hours per employee trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using OSHA training requirements. Report to EHS Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Industrial Robots Technology & Innovation Quality Assurance Program",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Evaluate a production line redesign for industrial robots technology & innovation using cellular manufacturing with one-piece flow and pull-system kanban.",
+          "cite": "OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL; ISO (2015). ISO 9001: Quality Management Systems. ISO",
+          "target": "SILOED_INDUSTRIAL_ROBOTS_TECHNOLOGY__ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze material flow for industrial robots technology & innovation using spaghetti diagram and time studies",
+            "Design cellular layout with one-piece flow, standard WIP, and kanban sizing",
+            "Implement physical rearrangement with team involvement and line balancing",
+            "Establish pull system with kanban cards/signals and supermarket replenishment",
+            "Measure flow metrics: lead time, WIP turns, and labor productivity improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — environmental compliance rate using EMS tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — environmental compliance rate measured monthly. Target: 100% permit compliance. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 14001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — environmental compliance rate trending toward zero violations. Escalate if <<3 minor findings. ANNUAL REVIEW: Comprehensive audit using ISO 14001 framework. Report to Environmental Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Industrial Robots Technology & Innovation Integration Architecture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Integrate a 5S workplace organization for industrial robots technology & innovation establishing visual management, standardized work, and daily audit routines.",
+          "cite": "Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass; Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press",
+          "target": "OUTDATED_INDUSTRIAL_ROBOTS_TECHNOLOGY__ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supplier capabilities for industrial robots technology & innovation using supplier scorecard audit",
+            "Design tiered development program with quality, delivery, and cost coaching",
+            "Deploy resident engineers at critical suppliers for process improvement",
+            "Implement supplier kaizen events with shared savings agreements",
+            "Track supplier PPM, on-time delivery, and total cost of ownership"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — innovation submission rate using idea management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — innovation submission rate measured monthly. Target: 10 ideas per employee/year. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota Creative Suggestion benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — innovation submission rate trending toward 20 ideas. Escalate if <5 ideas minimum. ANNUAL REVIEW: Comprehensive audit using Toyota Suggestion System. Report to Innovation Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Industrial Robots Technology & Innovation Capability Maturity Model",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Conduct a digital twin simulation for industrial robots technology & innovation using discrete event and physics-based modelling for process optimization.",
+          "cite": "MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect; IEC (2022). IEC 62443: Industrial Cybersecurity. IEC",
+          "target": "INEFFICIENT_INDUSTRIAL_ROBOTS_TECHNOLOGY__ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OT cybersecurity for industrial robots technology & innovation using IEC 62443 risk assessment",
+            "Design zone and conduit model with security levels per asset criticality",
+            "Implement network segmentation, access control, and monitoring",
+            "Deploy intrusion detection and incident response for OT environment",
+            "Conduct annual penetration testing and IEC 62443 compliance audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity OT compliance using IEC 62443 assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity OT compliance measured quarterly. Target: SL-2 across all zones. PHASE 3 (Months 4-6): Midpoint review — compare against IEC 62443 zone/conduit model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity OT compliance trending toward SL-3. Escalate if <SL-1 minimum. ANNUAL REVIEW: Comprehensive audit using IEC 62443 framework. Report to OT Cybersecurity Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Industrial Robots Technology & Innovation Quality Assurance Program",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Design a manufacturing competitiveness plan for industrial robots technology & innovation integrating Porter value chain analysis with UNIDO industrial benchmarking.",
+          "cite": "Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press; Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press",
+          "target": "INCONSISTENT_INDUSTRIAL_ROBOTS_TECHNOLOGY__ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for industrial robots technology & innovation using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VEST",
+      "state": "active",
+      "domainLabel": "Industrial Robots Human Capital & Development",
+      "domainDescription": "Systematic management of industrial robots human capital & development across all industrial robots functions and operations",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Build Industrial Robots Human Capital & Development Governance Structure",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Build a lean transformation strategy for industrial robots human capital & development using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business; World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF",
+          "target": "INCONSISTENT_INDUSTRIAL_ROBOTS_HUMAN_CAPITA -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for industrial robots human capital & development using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Industrial Robots Human Capital & Development Assessment Protocol",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Optimize a TPM autonomous maintenance training for industrial robots human capital & development developing operator-level equipment care per JIPM pillar methodology.",
+          "cite": "Rother, M. (2009). Toyota Kata. McGraw-Hill; Deming, W.E. (1986). Out of the Crisis. MIT Press",
+          "target": "UNMONITORED_INDUSTRIAL_ROBOTS_HUMAN_CAPITA -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Rother, M.",
+              "year": 2009,
+              "title": "Toyota Kata",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Deming, W.E.",
+              "year": 1986,
+              "title": "Out of the Crisis",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess equipment care capabilities for industrial robots human capital & development using TPM maturity audit",
+            "Train operators in autonomous maintenance steps per JIPM methodology",
+            "Implement operator cleaning, inspection, and lubrication routines",
+            "Develop visual standards and one-point lessons for equipment care",
+            "Track equipment breakdowns, minor stops, and autonomous maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety training hours per employee using LMS tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety training hours per employee measured monthly. Target: 40 hours per year. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA VPP benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety training hours per employee trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using OSHA training requirements. Report to EHS Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Industrial Robots Human Capital & Development Diagnostic Dashboard",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Launch an automated material handling system for industrial robots human capital & development deploying AGVs, AS/RS, and conveyor integration per ASME B20.1.",
+          "cite": "NIST (2020). Manufacturing Extension Partnership (MEP) Strategic Plan. NIST; ISO (2015). ISO 14001: Environmental Management Systems. ISO",
+          "target": "UNDERPERFORMING_INDUSTRIAL_ROBOTS_HUMAN_CAPITA -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2020,
+              "title": "Manufacturing Extension Partnership (MEP) Strategic Plan",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 14001: Environmental Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze material flow for industrial robots human capital & development using spaghetti diagram and time studies",
+            "Design cellular layout with one-piece flow, standard WIP, and kanban sizing",
+            "Implement physical rearrangement with team involvement and line balancing",
+            "Establish pull system with kanban cards/signals and supermarket replenishment",
+            "Measure flow metrics: lead time, WIP turns, and labor productivity improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — environmental compliance rate using EMS tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — environmental compliance rate measured monthly. Target: 100% permit compliance. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 14001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — environmental compliance rate trending toward zero violations. Escalate if <<3 minor findings. ANNUAL REVIEW: Comprehensive audit using ISO 14001 framework. Report to Environmental Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Industrial Robots Human Capital & Development Governance Structure",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Develop a psychological safety initiative for industrial robots human capital & development applying Edmondson model to encourage error reporting and experimentation.",
+          "cite": "Spear, S. & Bowen, H.K. (1999). Decoding the DNA of the Toyota Production System. Harvard Business Review, 77(5), 96-106; Juran, J.M. (1988). Jurans Quality Control Handbook. McGraw-Hill",
+          "target": "REACTIVE_INDUSTRIAL_ROBOTS_HUMAN_CAPITA -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Spear, S. & Bowen, H.K.",
+              "year": 1999,
+              "title": "Decoding the DNA of the Toyota Production System",
+              "journal": "Harvard Business Review",
+              "volume": "77(5)",
+              "pages": "96-106",
+              "doi": null
+            },
+            {
+              "author": "Juran, J.M.",
+              "year": 1988,
+              "title": "Jurans Quality Control Handbook",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supplier capabilities for industrial robots human capital & development using supplier scorecard audit",
+            "Design tiered development program with quality, delivery, and cost coaching",
+            "Deploy resident engineers at critical suppliers for process improvement",
+            "Implement supplier kaizen events with shared savings agreements",
+            "Track supplier PPM, on-time delivery, and total cost of ownership"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — innovation submission rate using idea management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — innovation submission rate measured monthly. Target: 10 ideas per employee/year. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota Creative Suggestion benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — innovation submission rate trending toward 20 ideas. Escalate if <5 ideas minimum. ANNUAL REVIEW: Comprehensive audit using Toyota Suggestion System. Report to Innovation Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Industrial Robots Human Capital & Development Assessment Protocol",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Establish a connected equipment platform for industrial robots human capital & development deploying MTConnect/OPC-UA for real-time machine data acquisition.",
+          "cite": "ISA (2012). ISA-95: Enterprise-Control System Integration. ISA; MESA International (2021). MES/MOM Methodology Guidelines. MESA",
+          "target": "FRAGMENTED_INDUSTRIAL_ROBOTS_HUMAN_CAPITA -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "ISA",
+              "year": 2012,
+              "title": "ISA-95: Enterprise-Control System Integration",
+              "journal": "ISA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MESA International",
+              "year": 2021,
+              "title": "MES/MOM Methodology Guidelines",
+              "journal": "MESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OT cybersecurity for industrial robots human capital & development using IEC 62443 risk assessment",
+            "Design zone and conduit model with security levels per asset criticality",
+            "Implement network segmentation, access control, and monitoring",
+            "Deploy intrusion detection and incident response for OT environment",
+            "Conduct annual penetration testing and IEC 62443 compliance audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity OT compliance using IEC 62443 assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity OT compliance measured quarterly. Target: SL-2 across all zones. PHASE 3 (Months 4-6): Midpoint review — compare against IEC 62443 zone/conduit model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity OT compliance trending toward SL-3. Escalate if <SL-1 minimum. ANNUAL REVIEW: Comprehensive audit using IEC 62443 framework. Report to OT Cybersecurity Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Industrial Robots Human Capital & Development Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement a lean transformation strategy for industrial robots human capital & development using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "SILOED_INDUSTRIAL_ROBOTS_HUMAN_CAPITA -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for industrial robots human capital & development using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ARC",
+      "state": "active",
+      "domainLabel": "Industrial Robots Quality & Performance",
+      "domainDescription": "Systematic management of industrial robots quality & performance across all industrial robots functions and operations",
+      "group": "performance",
+      "phase": "P3",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Deploy Industrial Robots Quality & Performance Benchmarking Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Deploy an Industry 4.0 roadmap for industrial robots quality & performance applying RAMI 4.0 reference architecture with digital maturity assessment.",
+          "cite": "World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF; Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business",
+          "target": "REACTIVE_INDUSTRIAL_ROBOTS_QUALITY___PE -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct value stream mapping for industrial robots quality & performance identifying waste, cycle times, and capacity constraints",
+            "Design future-state map with flow, pull, and level production concepts",
+            "Develop implementation plan with kaizen event calendar and A3 milestones",
+            "Execute lean transformation with daily management and visual KPI boards",
+            "Evaluate improvements using OEE, lead time, and WIP inventory metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — overall equipment effectiveness (OEE) using MES production tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — overall equipment effectiveness (OEE) measured daily. Target: OEE above 75%. PHASE 3 (Months 4-6): Midpoint review — compare against World Class Manufacturing 85% target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — overall equipment effectiveness (OEE) trending toward OEE 85%. Escalate if <OEE 65% floor. ANNUAL REVIEW: Comprehensive audit using TPM methodology framework. Report to VP of Manufacturing.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Industrial Robots Quality & Performance Impact Evaluation",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Operationalize a Toyota Kata coaching program for industrial robots quality & performance building scientific thinking through improvement and coaching kata routines.",
+          "cite": "Deming, W.E. (1986). Out of the Crisis. MIT Press; Rother, M. (2009). Toyota Kata. McGraw-Hill",
+          "target": "FRAGMENTED_INDUSTRIAL_ROBOTS_QUALITY___PE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Deming, W.E.",
+              "year": 1986,
+              "title": "Out of the Crisis",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Rother, M.",
+              "year": 2009,
+              "title": "Toyota Kata",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supervisory skills for industrial robots quality & performance using TWI Job Instruction evaluation",
+            "Train supervisors in JI four-step method: prepare, present, try out, follow up",
+            "Practice with actual job breakdowns on production floor",
+            "Certify supervisors through demonstrated instruction competency",
+            "Track training quality through new operator learning curves and error rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — operator skill matrix completion using skills management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — operator skill matrix completion measured monthly. Target: 90% skills documented. PHASE 3 (Months 4-6): Midpoint review — compare against TWI Job Instruction standard. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — operator skill matrix completion trending toward 100% documented. Escalate if <75% minimum. ANNUAL REVIEW: Comprehensive audit using TWI framework. Report to Training Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Industrial Robots Quality & Performance Performance Framework",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Calibrate an ISO 9001 quality management system for industrial robots quality & performance with process approach, risk-based thinking, and internal audit program.",
+          "cite": "ISO (2015). ISO 14001: Environmental Management Systems. ISO; NIST (2020). Manufacturing Extension Partnership (MEP) Strategic Plan. NIST",
+          "target": "SILOED_INDUSTRIAL_ROBOTS_QUALITY___PE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 14001: Environmental Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2020,
+              "title": "Manufacturing Extension Partnership (MEP) Strategic Plan",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit QMS for industrial robots quality & performance against ISO 9001:2015 clause requirements",
+            "Design process-based QMS with documented procedures and quality manual",
+            "Implement with internal auditor training and management review schedule",
+            "Conduct internal audit cycle and close nonconformities with CAPA",
+            "Achieve ISO 9001 certification through accredited registrar audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — plant uptime percentage using CMMS downtime tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — plant uptime percentage measured weekly. Target: 95% planned uptime. PHASE 3 (Months 4-6): Midpoint review — compare against TPM World Class benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — plant uptime percentage trending toward 98% uptime. Escalate if <90% floor. ANNUAL REVIEW: Comprehensive audit using TPM pillar methodology. Report to Maintenance Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Industrial Robots Quality & Performance Benchmarking Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Streamline a supplier development partnership for industrial robots quality & performance extending lean principles and quality systems through tiered supplier coaching.",
+          "cite": "Juran, J.M. (1988). Jurans Quality Control Handbook. McGraw-Hill; Spear, S. & Bowen, H.K. (1999). Decoding the DNA of the Toyota Production System. Harvard Business Review, 77(5), 96-106",
+          "target": "OUTDATED_INDUSTRIAL_ROBOTS_QUALITY___PE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Juran, J.M.",
+              "year": 1988,
+              "title": "Jurans Quality Control Handbook",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Spear, S. & Bowen, H.K.",
+              "year": 1999,
+              "title": "Decoding the DNA of the Toyota Production System",
+              "journal": "Harvard Business Review",
+              "volume": "77(5)",
+              "pages": "96-106",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess CI maturity for industrial robots quality & performance using Shingo Model assessment",
+            "Design kaizen program with structured events, daily kaizen, and gemba walks",
+            "Train facilitators in A3 problem solving and PDCA methodology",
+            "Implement recognition program for improvement contributions",
+            "Track kaizen event count, savings, and participation rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — employee engagement score using annual engagement survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — employee engagement score measured annually. Target: top-quartile engagement. PHASE 3 (Months 4-6): Midpoint review — compare against Gallup Q12 benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — employee engagement score trending toward top-decile. Escalate if <median minimum. ANNUAL REVIEW: Comprehensive audit using Gallup Q12 framework. Report to CHRO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Industrial Robots Quality & Performance Impact Evaluation",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Assess a predictive quality analytics system for industrial robots quality & performance using ML classification on process parameters to prevent defects.",
+          "cite": "MESA International (2021). MES/MOM Methodology Guidelines. MESA; ISA (2012). ISA-95: Enterprise-Control System Integration. ISA",
+          "target": "INEFFICIENT_INDUSTRIAL_ROBOTS_QUALITY___PE -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "MESA International",
+              "year": 2021,
+              "title": "MES/MOM Methodology Guidelines",
+              "journal": "MESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISA",
+              "year": 2012,
+              "title": "ISA-95: Enterprise-Control System Integration",
+              "journal": "ISA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess IT/OT integration for industrial robots quality & performance against ISA-95 functional hierarchy",
+            "Design MES architecture connecting ERP (L4) to SCADA/PLC (L1-2)",
+            "Implement MES with production scheduling, tracking, and quality modules",
+            "Integrate with ERP for real-time production reporting and inventory",
+            "Measure MES ROI through OEE improvement, scrap reduction, and traceability"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — MES system coverage using MES deployment tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — MES system coverage measured quarterly. Target: 80% lines MES-connected. PHASE 3 (Months 4-6): Midpoint review — compare against MESA MES benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — MES system coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using ISA-95 framework. Report to IT/OT Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Industrial Robots Quality & Performance Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Create an Industry 4.0 roadmap for industrial robots quality & performance applying RAMI 4.0 reference architecture with digital maturity assessment.",
+          "cite": "UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO; Porter, M.E. (1985). Competitive Advantage. Free Press",
+          "target": "INCONSISTENT_INDUSTRIAL_ROBOTS_QUALITY___PE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct value stream mapping for industrial robots quality & performance identifying waste, cycle times, and capacity constraints",
+            "Design future-state map with flow, pull, and level production concepts",
+            "Develop implementation plan with kaizen event calendar and A3 milestones",
+            "Execute lean transformation with daily management and visual KPI boards",
+            "Evaluate improvements using OEE, lead time, and WIP inventory metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — overall equipment effectiveness (OEE) using MES production tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — overall equipment effectiveness (OEE) measured daily. Target: OEE above 75%. PHASE 3 (Months 4-6): Midpoint review — compare against World Class Manufacturing 85% target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — overall equipment effectiveness (OEE) trending toward OEE 85%. Escalate if <OEE 65% floor. ANNUAL REVIEW: Comprehensive audit using TPM methodology framework. Report to VP of Manufacturing.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a automation and robotics engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "TPOLE",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "IPS",
+      "target": "LAR",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "LAR",
+      "target": "SNIG",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "SNIG",
+      "target": "EI",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "EI",
+      "target": "MAMM",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "MAMM",
+      "target": "VEST",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "VEST",
+      "target": "ARC",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "TPOLE",
+      "target": "ARC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "LAR",
+      "target": "TPOLE",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "INDUSTRY_ROBOTICS_INDUSTRIAL_SYSTEM_FAILURE",
+      "label": "Industry Robotics Industrial System Failure",
+      "summary": "Critical breakdown in Industry Robotics Industrial systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "TPOLE",
+          "dir": "Hyper-active",
+          "detail": "Industrial Robots Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Hypo-active",
+          "detail": "Industrial Robots Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LAR",
+          "dir": "Altered",
+          "detail": "Industrial Robots Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SNIG",
+          "dir": "Hyper-active",
+          "detail": "Industrial Robots Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "EI",
+          "dir": "Hypo-active",
+          "detail": "Industrial Robots Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "INDUSTRY_ROBOTICS_INDUSTRIAL_CAPACITY_OVERLOAD",
+      "label": "Industry Robotics Industrial Capacity Overload",
+      "summary": "Demand exceeding available Industry Robotics Industrial capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "TPOLE",
+          "dir": "Hyper-active",
+          "detail": "Industrial Robots Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Hyper-active",
+          "detail": "Industrial Robots Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LAR",
+          "dir": "Hyper-active",
+          "detail": "Industrial Robots Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SNIG",
+          "dir": "Hyper-active",
+          "detail": "Industrial Robots Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "INDUSTRY_ROBOTICS_INDUSTRIAL_QUALITY_DEGRADATION",
+      "label": "Industry Robotics Industrial Quality Degradation",
+      "summary": "Progressive decline in Industry Robotics Industrial quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "TPOLE",
+          "dir": "Hypo-active",
+          "detail": "Industrial Robots Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Altered",
+          "detail": "Industrial Robots Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LAR",
+          "dir": "Hyper-active",
+          "detail": "Industrial Robots Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SNIG",
+          "dir": "Hypo-active",
+          "detail": "Industrial Robots Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1392 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "exxon_mobil",
+  "slug": "exxon_mobil",
+  "name": "Exxon Mobil Corporation",
+  "ticker": "XOM",
+  "cik": "0000034088",
+  "sic": "2911",
+  "industry": "Petroleum Refining",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "CPIENGSL",
+    "IPG2211A2N",
+    "PCU324110324110",
+    "GASDESW",
+    "MMNRNJ"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000034088.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "DCOILWTICO",
+        "DHHNGSP",
+        "CPIENGSL",
+        "IPG2211A2N",
+        "PCU324110324110"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "XOM"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "liquefied natural gas (LNG)",
+    "refined products (gasoline, diesel, jet fuel)",
+    "petrochemicals",
+    "copper",
+    "steel"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=34088",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Exxon Mobil is the largest integrated oil and gas producer in the United States, with material upstream operations (Guyana, Permian, Papua New Guinea), downstream refining capacity (14 refineries globally, ~4.7M bbl/day), and chemical manufacturing. The company's production volumes, refining margins, and capital allocation directly influence global crude and natural gas supply-demand balances, particularly in LNG export markets where it holds significant liquefaction capacity. XOM's quarterly production guidance, reserve replacement ratios, and free cash flow generation are leading indicators of energy-sector health and macroeconomic stress.",
+  "portalRelevance": "XOM is a tier-1 anchor in the energy domain and a critical input to inflation dynamics, transportation costs, and industrial competitiveness. Its quarterly production guidance, refining utilization rates, and capital expenditure decisions propagate through commodity futures, energy-sector equity valuations, and macroeconomic stress scenarios. Upstream reserve replacement and downstream margin compression are leading indicators of energy-sector health; XOM's dividend sustainability and debt reduction trajectory signal market confidence in long-term energy demand.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly crude and natural gas production volumes disclosed in investor presentations and quarterly earnings; Guyana production ramp guidance (2020–2027 forecast) is primary growth signal",
+        "Refining utilization rates and realized 3-2-1 crack spreads from 10-Q filings and earnings call guidance; seasonal margin volatility (summer driving season vs. winter heating)",
+        "Upstream reserve replacement ratio and proved reserves updates in annual 10-K disclosures; impairment charges signal asset write-downs and stranded-asset risk",
+        "LNG export volumes and contract pricing from quarterly investor updates and 8-K project milestones; Freeport LNG facility utilization and Papua New Guinea production ramp"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Free cash flow trajectory and capital expenditure guidance relative to commodity price assumptions (WTI $50–80/bbl range); dividend coverage ratio (FCF / dividend payout) under stress scenarios",
+        "Debt-to-EBITDA ratio and liquidity position under sustained low-price scenarios (WTI <$40/bbl); revolving credit facility availability and bond maturity schedule",
+        "Upstream production growth rate (Guyana ramp 2020–2027, Permian expansion, deepwater decline curves) vs. reserve replacement expectations; production cost trajectory ($/boe)",
+        "Downstream margin compression or expansion signals from crack spreads, refinery utilization rates, and product demand; chemical segment utilization and feedstock cost exposure"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: sustained low oil prices ($40–50/bbl) + high capex ($30–35B annually) + debt accumulation = cash flow stress signature; dividend cut risk if FCF coverage falls below 1.2x",
+        "Growth inflection: Guyana production ramp (2020–2027 forecast: 750K–1M bbl/day) + Permian scale-up + LNG contract wins create upside scenario; execution risk on project timelines and cost overruns",
+        "Sector contagion: correlation of XOM distress with peer cash flow (Chevron, Shell, BP) and energy-sector credit spreads; dividend cut cascade risk if oil prices remain <$50/bbl for 2+ quarters",
+        "Regulatory risk: ESG divestment pressure from institutional investors (Vanguard, BlackRock voting on climate resolutions), carbon pricing exposure, and stranded-asset risk in mature assets (Gulf of Mexico decline)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: long XOM if Guyana production growth (2024–2027 guidance: +500K bbl/day) + energy demand recovery outpace energy transition headwinds; target debt/EBITDA <1.5x by 2026",
+        "Risk hedge: short energy-sector duration via long-dated put spreads if oil demand destruction accelerates (EV adoption, renewable energy displacement); hedge ratio 20–30% of long XOM position",
+        "Engagement: monitor board-level climate commitments and capital allocation discipline vs. shareholder activism (CalPERS, BlackRock voting on climate resolutions); flag if capex allocation to low-carbon shifts >15% of total",
+        "Dividend sustainability: stress-test payout ratio under $50/bbl WTI scenario; flag if coverage ratio falls below 1.3x or if management signals dividend pause; monitor peer dividend actions (CVX, COP) for contagion signals"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Execute long equity position if Guyana production guidance increases (>750K bbl/day by 2025) and debt/EBITDA declines below 1.5x; target entry on WTI weakness <$70/bbl",
+        "Establish commodity hedge: long crude futures (WTI 12-month contract) if XOM capex guidance signals production growth acceleration; hedge ratio 50–75% of upstream production exposure",
+        "Portfolio rebalancing: reduce XOM weight if energy-sector credit spreads widen >150bps and peer dividend cuts emerge (BP, Shell precedent); exit if FCF coverage ratio falls below 1.2x",
+        "Monitoring setup: daily production volume tracking via investor relations portal; weekly refining margin surveillance via EIA crack spread data; quarterly reserve replacement ratio validation in 10-K filings"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare realized production volumes (vs. guidance), refining margins (3-2-1 crack spreads), and free cash flow vs. prior quarter and guidance; flag if production misses >5%",
+        "Price action: track XOM stock reaction to oil price moves (WTI elasticity ~0.8–1.0), earnings surprises, and peer dividend announcements; monitor relative performance vs. energy sector ETF (XLE)",
+        "Filing delta: monitor 10-K reserve replacement ratio, proved reserves revisions, and impairment charges for asset write-downs; compare Guyana production ramp progress vs. 2020 guidance",
+        "Thesis validation: Guyana production ramp on schedule (2024–2027 forecast), debt reduction trajectory intact (debt/EBITDA <1.5x), dividend coverage >1.3x, and capital discipline maintained"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate commodity price elasticity of XOM free cash flow based on realized quarterly outcomes; update WTI sensitivity model if realized FCF elasticity diverges >20% from prior estimate",
+        "Adjust signal weights: increase Guyana production guidance weight if ramp-up proves predictive of stock outperformance; decrease if execution delays emerge (project cost overruns, regulatory delays)",
+        "Update sector priors: refine energy-sector distress signature based on XOM peer comparison (Chevron, Shell, BP); flag if XOM dividend coverage diverges >10% from peer average",
+        "Model refinement: incorporate ESG-driven capital allocation shifts and stranded-asset risk into long-term valuation scenarios; update energy transition discount rate if institutional investor divestment accelerates"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Exxon Mobil operates as a distributed decision-making system across upstream (exploration, production, reserves management), downstream (refining, marketing, logistics), and chemical segments. The company's neural architecture integrates commodity price signals (crude, gas, NGL), production capacity constraints, refining utilization feedback, and capital allocation discipline. Upstream reserve replacement and production growth drive long-term cash generation; downstream margins and chemical utilization provide cyclical earnings stability. The organization's strategic center (CEO, CFO, board) arbitrates between shareholder returns (dividends, buybacks), debt reduction, and growth capex, with regulatory and ESG pressures increasingly constraining capital deployment. Guyana production ramp (2020–2027 forecast) and Permian scale-up are primary growth vectors; dividend sustainability and debt reduction are critical financial health signals.",
+    "suppliers": [
+      {
+        "name": "Schlumberger Limited",
+        "ticker": "SLB",
+        "cik": "0000091332",
+        "slug": "schlumberger_limited",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Schlumberger is a primary oilfield services provider supplying well completion, drilling, and production optimization services to XOM's upstream operations. SLB's wireline, perforation, and artificial lift technologies are deployed across XOM's Guyana, Permian, and deepwater projects. XOM's 2024 capex guidance ($30–35B) includes significant SLB service contracts for well drilling and completion. SLB's quarterly revenue from XOM is estimated at 8–12% of total oilfield services revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Baker Hughes Company",
+        "ticker": "BKR",
+        "cik": "0001701605",
+        "slug": "baker_hughes",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Baker Hughes supplies drilling equipment, completion systems, and production solutions to XOM's upstream operations. BKR's turbodrill and downhole tool technologies are deployed in XOM's Guyana deepwater wells (Liza, Payara, Yellowtail fields). XOM's 2024 capex includes BKR equipment and service contracts estimated at $500M–$800M annually. BKR's XOM revenue represents 5–8% of total equipment and services revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Halliburton Company",
+        "ticker": "HAL",
+        "cik": "0000045012",
+        "slug": "halliburton_company",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Halliburton supplies cementing, stimulation, and production enhancement services to XOM's upstream operations. HAL's hydraulic fracturing and well completion services are critical to XOM's Permian shale development. XOM's Permian capex (2024: ~$3–4B) includes HAL service contracts for well stimulation and production optimization. HAL's XOM revenue is estimated at 6–10% of total services revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TechnipFMC plc",
+        "ticker": "FTI",
+        "cik": "0001701605",
+        "slug": "technipfmc_plc",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "TechnipFMC is a subsea engineering and production systems provider for XOM's deepwater operations. FTI designed and installed subsea production systems for XOM's Guyana Liza field (2019 first production). FTI's subsea tree and manifold systems are deployed across XOM's Gulf of Mexico and international deepwater projects. XOM's deepwater capex (2024: ~$2–3B) includes FTI engineering and equipment contracts.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Weatherford International plc",
+        "ticker": "WFRD",
+        "cik": null,
+        "slug": "weatherford_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Weatherford supplies well completion, drilling, and production equipment to XOM's upstream operations globally. WFRD's expandable tubular and completion systems are deployed in XOM's Guyana and Permian wells. XOM's 2024 capex includes WFRD equipment and service contracts estimated at $200–400M. WFRD's XOM revenue represents 3–5% of total equipment and services revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Valvoline Global Operations, LLC",
+        "ticker": "VVV",
+        "cik": "0001721093",
+        "slug": "valvoline_global",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Valvoline supplies industrial lubricants and hydraulic fluids for XOM's refinery operations and equipment maintenance. VVV's synthetic lubricants are used in XOM's 14 refineries for compressor and pump applications. XOM's annual lubricant procurement is estimated at $50–100M. Valvoline's XOM revenue represents 2–3% of total industrial lubricants revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0000884996",
+        "slug": "huntsman_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Huntsman supplies specialty chemicals and catalysts for XOM's refinery operations and petrochemical manufacturing. HUN's refining catalysts are used in XOM's 14 refineries for crude oil processing and product upgrading. XOM's annual catalyst and chemical procurement from HUN is estimated at $100–200M. HUN's XOM revenue represents 3–5% of total refining catalyst revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lyondell Basell Industries N.V.",
+        "ticker": "LYB",
+        "cik": "0001453952",
+        "slug": "lyondell_basell",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Lyondell Basell supplies polyethylene, polypropylene, and specialty polymers that compete with XOM's chemical segment products. LYB and XOM compete in commodity plastics markets; LYB's 2023 revenue (~$50B) is comparable to XOM's chemical segment (~$10–12B). Both companies source ethylene and propylene feedstock from crude oil and natural gas. LYB's competitive positioning in polyolefins creates pricing pressure on XOM's chemical margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001751788",
+        "slug": "dow_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Dow is a major chemical competitor and feedstock supplier to XOM's chemical segment. DOW and XOM compete in polyurethanes, silicones, and specialty chemicals. Both source ethylene and propylene from crude oil and natural gas; feedstock cost volatility directly impacts chemical margins. DOW's 2023 revenue (~$57B) exceeds XOM's chemical segment; competitive pricing pressure constrains XOM's chemical profitability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Maersk Line A/S",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk_line",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Maersk is a primary LNG and refined product shipping partner for XOM's global distribution network. Maersk operates LNG carriers that transport XOM's Freeport and Papua New Guinea LNG to Asian and European markets. XOM's LNG shipping contracts with Maersk are estimated at $200–400M annually. Shipping costs (~$1–2/MMBtu) directly impact XOM's realized LNG margins and competitiveness vs. Middle Eastern suppliers.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Clean Harbors, Inc.",
+        "slug": "clean_harbors",
+        "ticker": "CLH",
+        "cik": "0000822818",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Clean Harbors manages hazardous waste streams from ExxonMobil's refining and petrochemical operations, including crude residues, catalysts, and solvents. As a mission-critical environmental services provider, Clean Harbors' volume trends and margin trajectory reflect industrial production cycles, regulatory enforcement intensity, and the evolving cost structure of downstream manufacturing compliance.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.559Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "clean_harbors",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "exxon_mobil|0000033104|exxonmobilcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:43:20.722Z"
+      },
+      {
+        "name": "Emerson Electric Co.",
+        "slug": "emerson_electric",
+        "ticker": "EMR",
+        "cik": "0000032604",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Emerson Electric supplies process automation, instrumentation, and control systems to ExxonMobil's refining and petrochemical facilities. The company's quarterly bookings, backlog conversion, and segment margins serve as a leading indicator of energy-sector capital expenditure cycles and industrial production momentum with two to three quarter lead time.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.559Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "emerson_electric",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "exxonmobil_corp|0000033104|exxonmobilcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:43:20.722Z"
+      },
+      {
+        "name": "Fluor Corporation",
+        "slug": "fluor",
+        "ticker": "FLR",
+        "cik": "1124198",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Fluor executes mega-projects for ExxonMobil including refinery expansions, petrochemical plant construction, and infrastructure upgrades. Its project backlog, cash conversion, and margin trends signal broader capital-project demand, supply-chain inflation, and working-capital stress across the energy and industrial construction sectors.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.559Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "fluor",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "exxonmobil|0000033104|exxonmobilcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:43:20.722Z"
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Kinder Morgan Inc.",
+        "ticker": "KMI",
+        "cik": "0001506104",
+        "slug": "kinder_morgan",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Kinder Morgan operates crude oil and refined product pipelines that transport XOM's Permian and Gulf Coast production. KMI's pipeline network includes the Permian Basin crude system and Gulf Coast product lines serving XOM's refineries. XOM's long-term transportation agreements with KMI lock in tariff rates (~$2–4/bbl) and capacity allocation. KMI's 2024 tariff increases directly impact XOM's downstream logistics costs and realized margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Enterprise Products Partners L.P.",
+        "ticker": "EPD",
+        "cik": "0001104659",
+        "slug": "enterprise_products",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Enterprise Products operates crude, NGL, and refined product pipelines and storage facilities critical to XOM's Permian and Gulf Coast operations. EPD's Permian crude transport system and Gulf Coast product distribution network handle ~500K–800K bbl/day of XOM volumes. XOM's long-term transportation agreements with EPD include capacity commitments and tariff rates (~$2–3/bbl). EPD's 2024 tariff adjustments impact XOM's downstream logistics costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cheniere Energy Inc.",
+        "ticker": "LNG",
+        "cik": "0001379397",
+        "slug": "cheniere_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Cheniere operates the Sabine Pass LNG export terminal in Louisiana, a competing LNG export facility to XOM's Freeport facility. Both facilities compete for US LNG export volumes and Asian/European market share. Sabine Pass (2024 capacity: ~10M tonnes/year) and Freeport (2024 capacity: ~15M tonnes/year post-expansion) are the two largest US LNG exporters. Utilization rates and contract pricing at both facilities are key competitive metrics. XOM's Freeport expansion (2023–2025) aims to increase capacity by 50% vs. Sabine Pass.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "China National Petroleum Corporation (CNPC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cnpc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "CNPC is a major buyer of XOM's crude oil and LNG exports. China accounts for ~15–20% of global crude demand and is XOM's largest LNG customer base. XOM's long-term LNG supply contracts with Chinese utilities (China National Offshore Oil Corporation, China Gas Holdings) lock in pricing and volumes (~2–3M tonnes/year). China's economic growth and energy demand are leading indicators of XOM's upstream revenue; 2024 China crude imports ~10M bbl/day.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Indian Oil Corporation Limited",
+        "ticker": null,
+        "cik": null,
+        "slug": "ioc_india",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Indian Oil is a major customer for XOM's crude oil and refined products. India's energy demand growth (5–7% annually) drives increasing crude imports; 2024 India crude imports ~4–5M bbl/day. XOM supplies crude to Indian refineries and sells refined products into Indian markets. India is a growing LNG customer; XOM's long-term LNG contracts with Indian utilities are estimated at 1–2M tonnes/year.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Japan's Integrated Energy Companies (JERA, Tokyo Gas, Osaka Gas)",
+        "ticker": null,
+        "cik": null,
+        "slug": "japan_energy_utilities",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Japanese utilities are major LNG customers for XOM's Freeport and Papua New Guinea facilities. JERA (Japan's largest LNG buyer) and Tokyo Gas hold long-term LNG supply contracts with XOM totaling ~3–4M tonnes/year. Japan's post-Fukushima energy mix shift toward LNG has increased demand; 2024 Japan LNG imports ~70M tonnes/year. LNG pricing to Japan is a key benchmark for global LNG contract negotiations; XOM's contract pricing is typically indexed to crude oil with 3–6 month lag.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "South Korea's Gas Utilities (SK E&S, Kogas)",
+        "ticker": null,
+        "cik": null,
+        "slug": "korea_gas_utilities",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "South Korean utilities are significant LNG customers for XOM's Freeport facility. SK E&S and Korea Gas Corporation hold long-term LNG supply contracts with XOM estimated at 1–2M tonnes/year. South Korea's 2024 LNG imports ~40M tonnes/year; XOM supplies ~3–5% of Korean LNG demand. LNG pricing to Korea is typically indexed to crude oil; contract terms are disclosed in XOM 10-K Item 1 revenue sources.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Utilities (Shell Energy, Centrica, Engie)",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_utilities",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "European utilities are growing LNG customers for XOM's Freeport facility, particularly post-2022 Russia-Ukraine conflict. Shell Energy, Centrica, and Engie hold long-term LNG supply contracts with XOM estimated at 1–3M tonnes/year. Europe's 2024 LNG imports ~80M tonnes/year; XOM supplies ~2–4% of European LNG demand. European LNG pricing is typically higher than Asian pricing due to supply constraints; XOM's European contracts are disclosed in 10-K Item 1.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Clean Harbors, Inc.",
+        "slug": "clean_harbors",
+        "ticker": "CLH",
+        "cik": "0000822818",
+        "brainNodeId": "S1",
+        "relationshipNote": "Clean Harbors manages hazardous waste streams from ExxonMobil's refining and petrochemical operations, including crude residues, catalysts, and solvents. As a mission-critical environmental services provider, Clean Harbors' volume trends and margin trajectory reflect industrial production cycles, regulatory enforcement intensity, and the evolving cost structure of downstream manufacturing compliance.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.559Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "clean_harbors",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "exxon_mobil|0000033104|exxonmobilcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:43:20.722Z"
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "slug": "eastman_chemical",
+        "ticker": "EMN",
+        "cik": "0000277801",
+        "brainNodeId": "S1",
+        "relationshipNote": "ExxonMobil supplies crude-oil feedstocks and petrochemical intermediates to Eastman Chemical for conversion into specialty materials, coatings, and performance additives. Eastman's demand patterns and margin dynamics reflect downstream industrial production, automotive supply-chain health, and construction-cycle momentum.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.561Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "eastman_chemical",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "exxonmobil|0000033104|exxonmobilcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:43:20.722Z"
+      },
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "slug": "jb_hunt",
+        "ticker": "JBHT",
+        "cik": "0000728535",
+        "brainNodeId": "STRI",
+        "relationshipNote": "ExxonMobil supplies diesel fuel to J.B. Hunt at major distribution terminals, supporting the trucking and intermodal operations critical to U.S. retail supply chains. Fuel costs represent a material component of Hunt's operating expenses; fluctuations in crude prices and refined-product availability directly impact freight margins and logistics competitiveness.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.562Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "jb_hunt",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "exxon_mobil|0000034088|exxonmobilcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:43:20.722Z"
+      },
+      {
+        "name": "Sealed Air Corporation",
+        "slug": "sealed_air",
+        "ticker": "SEE",
+        "cik": "0000086312",
+        "brainNodeId": null,
+        "relationshipNote": "Sealed Air Corporation is a customer of this entity, per reciprocity audit. See sealed_air portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "_orphanedStub": true
+      },
+      {
+        "name": "United Parcel Service, Inc.",
+        "slug": "ups",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "brainNodeId": "STRI",
+        "relationshipNote": "ExxonMobil supplies diesel and jet fuel to United Parcel Service for ground and air fleet operations. As a capital-intensive logistics anchor, UPS's exposure to fuel costs, surcharge pass-through dynamics, and margin compression serves as a real-time indicator of consumer demand, e-commerce velocity, and supply-chain stress.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.563Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "ups",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "exxon_mobil|0000034088|exxonmobilcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:43:20.722Z"
+      },
+      {
+        "name": "Werner Enterprises, Inc.",
+        "slug": "werner_enterprises",
+        "ticker": "WERN",
+        "cik": "0000793074",
+        "brainNodeId": "STRI",
+        "relationshipNote": "ExxonMobil supplies diesel fuel to Werner Enterprises, a dedicated-truckload carrier serving Walmart's last-mile distribution network. Fuel costs represent Werner's largest variable expense; crude-price volatility, fuel-surcharge lag, and freight-margin compression directly signal retail logistics demand and freight-market health.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.563Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "werner_enterprises",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "exxon_mobil|0000034088|exxonmobilcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:43:20.722Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000093410",
+        "slug": "chevron_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Positioning",
+        "relationshipNote": "Chevron is XOM's closest US peer in integrated oil & gas operations. Both compete in Permian shale (CVX acquired Anadarko 2019 for $33B, expanding Permian position to ~600K bbl/day). XOM's Permian production (~500K bbl/day) is comparable to CVX. Dividend coverage, free cash flow generation, and debt reduction are closely watched peer metrics. 2024 dividend yields: XOM ~3.5%, CVX ~3.8%; both companies prioritize dividend sustainability over growth capex.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Shell plc",
+        "ticker": "SHEL",
+        "cik": null,
+        "slug": "shell_plc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Positioning",
+        "relationshipNote": "Shell is a major integrated oil & gas competitor with significant LNG export capacity (Prelude FLNG, Gorgon LNG in Australia). Both companies compete in Permian shale, deepwater, and LNG markets. Shell's energy transition strategy emphasizes renewable energy and hydrogen more aggressively than XOM; Shell targets 50% emissions reduction by 2030 vs. XOM's net-zero 2050 target. Shell's 2024 dividend yield (~3.2%) is lower than XOM; Shell prioritizes energy transition capex over shareholder returns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TotalEnergies SE",
+        "ticker": "TTE",
+        "cik": null,
+        "slug": "totalenergies_se",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Positioning",
+        "relationshipNote": "TotalEnergies is a major European integrated oil & gas company with significant LNG and renewable energy exposure. TTE competes with XOM in deepwater (Gulf of Mexico, West Africa) and LNG markets. TTE's 2024 LNG capacity (~20M tonnes/year) exceeds XOM's Freeport facility (~15M tonnes/year post-expansion). TTE's energy transition strategy emphasizes renewables and hydrogen; TTE targets 40% emissions reduction by 2030. TTE's 2024 dividend yield (~4.5%) exceeds XOM; TTE prioritizes shareholder returns over energy transition capex.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BP plc",
+        "ticker": "BP",
+        "cik": null,
+        "slug": "bp_plc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Positioning",
+        "relationshipNote": "BP is a major integrated oil & gas competitor with significant upstream (Gulf of Mexico, Azerbaijan, Egypt) and downstream operations. BP's 2023 dividend cut (from $0.73 to $0.64/share) signals energy-sector stress and reduced cash flow. BP's energy transition strategy emphasizes renewable energy and low-carbon solutions more aggressively than XOM. BP's 2024 dividend yield (~4.8%) exceeds XOM; BP's dividend sustainability is questioned if oil prices remain <$60/bbl.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ConocoPhillips",
+        "ticker": "COP",
+        "cik": "0000034096",
+        "slug": "conocophillips",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Positioning",
+        "relationshipNote": "ConocoPhillips is a pure-play upstream competitor focused on conventional oil & gas. COP competes with XOM in Alaska (North Slope production ~200K bbl/day), Permian, and deepwater. COP's capital discipline and focus on high-return projects (>15% IRR) contrast with XOM's integrated downstream/chemical operations. COP's 2024 dividend yield (~2.8%) is lower than XOM; COP prioritizes capital discipline and debt reduction over shareholder returns.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SA",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Positioning",
+        "relationshipNote": "Saudi Aramco is the world's largest crude oil producer and a direct competitor in upstream markets. Aramco's production costs (~$2–3/bbl) set the global marginal cost floor; XOM's Guyana projects (~$35–40/bbl all-in) are competitive but dependent on >$60 WTI for acceptable returns. Aramco's 2024 production capacity (~13M bbl/day) exceeds XOM (~3.7M bbl/day); Aramco's scale and cost advantage create structural competitive pressure on XOM's upstream returns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Occidental Petroleum Corporation",
+        "slug": "occidental_petroleum",
+        "ticker": "OXY",
+        "cik": "0000797468",
+        "brainNodeId": "TPJ",
+        "relationshipNote": "Occidental Petroleum competes with ExxonMobil across crude oil and natural gas extraction, downstream refining, and industrial chemicals. OXY's Permian and GOM assets, chemical manufacturing footprint, and emerging carbon-removal ventures create overlapping exposure to commodity cycles, energy-policy shifts, and industrial-demand trends.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "Perspective-Taking / Competitive Positioning",
+        "neuralRole": "Peer",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.563Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "occidental_petroleum",
+          "partnerCategory": "competitors",
+          "partnerFingerprint": "exxonmobil|0000033104|exxonmobilcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:43:20.722Z"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC oversees XOM's disclosure obligations, including 10-K/10-Q filings, 8-K event reporting, and proxy statements (DEF14A). XOM's reserve replacement ratio, proved reserves, and impairment charges are subject to SEC scrutiny under Regulation S-X Item 302. Recent SEC climate disclosure rules (2023 final rule, effective 2024) require XOM to disclose Scope 1, 2, 3 GHG emissions and climate risk. XOM's 2024 10-K includes climate risk disclosures per SEC Order 34-xxxxx.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Interior (DOI) — Bureau of Ocean Energy Management (BOEM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "doi_boem",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "BOEM regulates offshore oil & gas leasing and operations in federal waters (Gulf of Mexico). XOM holds significant deepwater leases in the Gulf (Liza, Payara, Yellowtail fields in Guyana are in Guyana's EEZ, not US federal waters; XOM's Gulf of Mexico deepwater production is ~200K bbl/day). BOEM's lease sale schedules, environmental reviews, and operational permits directly impact XOM's Gulf expansion. Biden administration policy (2021–2024) reduced lease sale frequency; XOM's Gulf capex guidance reflects regulatory headwinds.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "EPA regulates air and water quality, methane emissions, and refinery operations. XOM's 14 refineries are subject to EPA Clean Air Act (CAA) and Clean Water Act (CWA) compliance. EPA methane emissions rule (2023 final rule, effective 2024) requires XOM to reduce fugitive emissions from upstream operations by ~40% by 2030. Non-compliance risks fines (up to $50K/day per violation) and operational shutdowns. XOM's 2024 capex includes ~$500M–$1B for methane emissions reduction equipment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Energy Regulatory Commission (FERC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "FERC regulates natural gas pipelines and LNG export terminals. XOM's Freeport LNG facility requires FERC authorization for export operations (FERC Order 2023-xxxx). FERC's approval of LNG export licenses and pipeline tariff rates directly impact XOM's LNG revenue and logistics costs. FERC's 2023 decision to approve Freeport LNG expansion (capacity increase from 15M to 22.5M tonnes/year) supports XOM's growth strategy. FERC tariff rate-setting affects XOM's pipeline transportation costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of State (DOS) — Energy Resources Bureau",
+        "ticker": null,
+        "cik": null,
+        "slug": "dos_energy",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "DOS oversees international energy diplomacy and sanctions compliance. XOM's operations in Guyana, Papua New Guinea, and other international jurisdictions require DOS approval for certain activities. Sanctions on Russia (2022–2024), Iran, and Venezuela create geopolitical risks for XOM's international operations. XOM's 2024 10-K Item 1A discloses geopolitical risks and sanctions exposure. DOS sanctions compliance is mandatory; violations risk criminal penalties and asset seizures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "EY (Ernst & Young LLP)",
+      "ticker": null,
+      "cik": null,
+      "slug": "ey_llp",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "EY is XOM's external auditor and provides audit services for financial statements and internal controls. EY's audit opinions on XOM's reserve estimates, impairment charges, and contingent liabilities are material to investor confidence. EY's 2024 audit fee is estimated at $15–20M (disclosed in XOM proxy statement DEF14A). Auditor changes or qualifications would signal financial reporting risks. EY's audit committee interactions and management letter findings are disclosed in XOM proxy statements.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan is a major lender and investment banker for XOM. JPM provides credit facilities ($5–10B revolving credit facility), bond underwriting, and M&A advisory services. JPM's credit ratings and lending decisions reflect market confidence in XOM's creditworthiness. XOM's revolving credit facility with JPM and other banks provides liquidity backstop. JPM's 2024 lending fees to XOM are estimated at $50–100M. JPM's equity research team publishes regular XOM analysis and price targets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "BofA is a major lender and investment banker for XOM. BofA provides credit facilities, bond underwriting, and equity research coverage. BofA's equity research team publishes regular XOM analysis and price targets (2024 target: $120–130/share). BofA's credit decisions and lending terms reflect market conditions and XOM's financial health. XOM's 2024 bond issuance (~$5–10B) includes BofA as underwriter. BofA's lending fees to XOM are estimated at $50–100M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Vanguard is XOM's largest institutional shareholder with ~7–8% ownership (as of 2024). Vanguard's voting decisions on board elections, executive compensation, and climate resolutions are material to XOM's governance. Vanguard's engagement with XOM on energy transition strategy and capital allocation discipline influences board-level decisions. Vanguard's 2024 proxy voting on XOM climate resolution (shareholder proposal) signals investor pressure on emissions reduction.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "BlackRock is XOM's second-largest institutional shareholder with ~6–7% ownership (as of 2024). BlackRock's voting on climate and governance resolutions shapes XOM's ESG strategy. BlackRock's engagement on energy transition, dividend sustainability, and capital allocation discipline influences board decisions. BlackRock's 2024 climate commitments create pressure on XOM to accelerate low-carbon investments. BlackRock's proxy voting on XOM climate resolution signals investor pressure on emissions reduction targets.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Street Corporation",
+        "ticker": "STT",
+        "cik": "0000093751",
+        "slug": "state_street",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "State Street is XOM's third-largest institutional shareholder with ~4–5% ownership (as of 2024). State Street's voting on board elections, executive compensation, and climate resolutions influences XOM's governance. State Street's engagement on energy transition strategy and capital allocation discipline shapes board-level decisions. State Street's 2024 proxy voting on XOM climate resolution signals investor pressure on emissions reduction. State Street's voting power is material to XOM's shareholder proposals.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Darren W. Woods",
+        "ticker": null,
+        "cik": null,
+        "slug": "darren_woods",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Darren Woods is Chairman and CEO of Exxon Mobil since 2017. Woods has led XOM's strategic pivot toward Guyana production growth (2020–2027 forecast: 750K–1M bbl/day) and energy transition investments. His capital allocation decisions (dividends, buybacks, capex) directly impact shareholder returns and debt reduction. Woods' 2024 compensation is tied to production growth, cash flow, and return on capital metrics. Woods' strategic vision on energy transition vs. conventional hydrocarbon focus is disclosed in 10-K and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Kathy Mikells",
+        "ticker": null,
+        "cik": null,
+        "slug": "kathy_mikells",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Kathy Mikells is Executive Vice President and Chief Financial Officer of Exxon Mobil. Mikells oversees financial planning, capital allocation, debt management, and investor relations. Her quarterly earnings guidance and financial forecasts are critical signals for XOM's financial health. Mikells' decisions on dividend sustainability and share buyback programs directly impact shareholder returns. Mikells' 2024 guidance on free cash flow and debt reduction trajectory are disclosed in quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Neil Chapman",
+        "ticker": null,
+        "cik": null,
+        "slug": "neil_chapman",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Neil Chapman is Executive Vice President of Upstream. Chapman oversees XOM's upstream operations, including Guyana production ramp (2020–2027 forecast: 750K–1M bbl/day), Permian expansion (~500K bbl/day), and deepwater development. His production guidance and reserve replacement updates are key signals for XOM's long-term cash generation. Chapman's capital discipline and project execution directly impact shareholder returns. Chapman's operational updates are disclosed in 10-K and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Suzet McKinney",
+        "ticker": null,
+        "cik": null,
+        "slug": "suzet_mckinney",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Suzet McKinney is Executive Vice President and General Counsel of Exxon Mobil. McKinney oversees legal compliance, regulatory affairs, and litigation management. Her oversight of environmental compliance (EPA methane rule, Clean Water Act), sanctions adherence (DOS compliance), and shareholder litigation is critical to XOM's risk management. McKinney's legal strategy on climate litigation and regulatory challenges shapes XOM's long-term liability exposure. McKinney's compliance updates are disclosed in 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "WTI Crude Oil Spot Price (DCOILWTICO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "wti_crude_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "WTI crude oil spot price is the primary commodity price driver for XOM's upstream revenue. XOM's free cash flow and dividend coverage are highly sensitive to WTI prices; elasticity ~0.8–1.0. A $10/bbl change in WTI impacts XOM's annual free cash flow by ~$1–2 billion. WTI prices above $70/bbl support XOM's capital expenditure and dividend growth; below $50/bbl creates cash flow stress and dividend cut risk. 2024 WTI range: $70–90/bbl; tracked daily via FRED series DCOILWTICO.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Henry Hub Natural Gas Spot Price (DHHNGSP)",
+        "ticker": null,
+        "cik": null,
+        "slug": "henry_hub_gas",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Henry Hub natural gas spot price drives XOM's LNG export revenue and upstream gas production economics. XOM's Freeport LNG facility and Papua New Guinea operations are sensitive to global LNG pricing. Natural gas prices above $4/MMBtu support LNG project economics; below $3/MMBtu create margin pressure. LNG contract pricing is typically indexed to crude oil prices with 3–6 month lag. 2024 Henry Hub range: $2–4/MMBtu; tracked daily via FRED series DHHNGSP.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Refining Margin (Crack Spread) — 3-2-1 Crack",
+        "ticker": null,
+        "cik": null,
+        "slug": "crack_spread_321",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "The 3-2-1 crack spread (3 barrels crude → 2 barrels gasoline + 1 barrel diesel) measures refining margins. XOM's downstream segment profitability is directly tied to crack spreads. Spreads above $15/bbl support refinery utilization and product margins; below $10/bbl create margin compression. Seasonal patterns (summer driving season, winter heating) create cyclical margin volatility. 2024 crack spread range: $12–18/bbl; tracked weekly via EIA data and futures markets.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "energy",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.303Z",
+      "overrideCount": 11
+    },
+    "overrides": {
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Schlumberger Limited",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Baker Hughes Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Halliburton Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "TechnipFMC plc",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Weatherford International plc",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "J.B. Hunt Transport Services, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "United Parcel Service, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Werner Enterprises, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "S1": {
+        "external_add": [
+          {
+            "name": "Valvoline Global Operations, LLC",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Huntsman Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Lyondell Basell Industries N.V.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Dow Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Clean Harbors, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Eastman Chemical Company",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Maersk Line A/S",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Indian Oil Corporation Limited",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "South Korea's Gas Utilities (SK E&S, Kogas)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "European Utilities (Shell Energy, Centrica, Engie)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Kinder Morgan Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Enterprise Products Partners L.P.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Cheniere Energy Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Clean Harbors, Inc.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Emerson Electric Co.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Fluor Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "China National Petroleum Corporation (CNPC)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Japan's Integrated Energy Companies (JERA, Tokyo Gas, Osaka Gas)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "WTI Crude Oil Spot Price (DCOILWTICO)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "Refining Margin (Crack Spread) — 3-2-1 Crack",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Chevron Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Shell plc",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "TotalEnergies SE",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "BP plc",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "ConocoPhillips",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Saudi Aramco",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Occidental Petroleum Corporation",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Federal Energy Regulatory Commission (FERC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of State (DOS) — Energy Resources Bureau",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Interior (DOI) — Bureau of Ocean Energy Management (BOEM)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Environmental Protection Agency (EPA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Henry Hub Natural Gas Spot Price (DHHNGSP)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Vanguard Group Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "BlackRock Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "State Street Corporation",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "EY (Ernst & Young LLP)",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "EY (Ernst & Young LLP)",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

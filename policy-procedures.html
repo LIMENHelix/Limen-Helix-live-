@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>LIMEN HELIX · Policy & Procedures</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace;padding:20px 24px;max-width:900px;margin:0 auto;font-size:12px;line-height:1.7}h1{font-size:0.6rem;letter-spacing:4px;color:#C9A94E;margin-bottom:4px}h2{font-size:0.48rem;letter-spacing:3px;color:rgba(201,169,78,0.7);margin:20px 0 8px;border-bottom:1px solid rgba(201,169,78,0.1);padding-bottom:4px}h3{font-size:0.42rem;color:#d0c8b8;margin:12px 0 6px}p,.item{font-size:0.4rem;color:#b0a898;margin-bottom:6px}.ref{font-size:0.34rem;color:#908878;padding:4px 8px;border-left:2px solid rgba(201,169,78,0.1);margin:6px 0}.warn{font-size:0.32rem;color:#908878;padding:6px 8px;border:1px solid rgba(201,169,78,0.08);border-radius:3px;margin:8px 0}a{color:rgba(201,169,78,0.5);text-decoration:none}table{width:100%;border-collapse:collapse;margin:8px 0}th{font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);padding:4px 8px;border-bottom:1px solid rgba(201,169,78,0.1);text-align:left}td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.38rem;color:#c0b8a5}@media print{body{background:white;color:black}h1,h2{color:#333}}</style></head>
+<body>
+<a href="/domain-console?domain=energy&mode=operator" style="font-size:0.34rem;display:block;margin-bottom:12px">&larr; Back</a>
+<h1>POLICY & PROCEDURES</h1>
+<p>Global reference for operators, auditors, and approvers. All execution paths follow these rules.</p>
+<div class="warn">Operational reference only — not legal advice. Consult qualified professionals for regulatory compliance.</div>
+
+<div id="policyContent"></div>
+
+<script src="assets/js/execution-policy-config.js"></script>
+<script>
+(function(){
+  var p = window.LIMENExecution && window.LIMENExecution.policy;
+  if (!p) { document.getElementById('policyContent').textContent = 'Policy config not loaded.'; return; }
+  var h = '';
+
+  h += '<h2>1. COMPENSATION MODEL</h2>';
+  h += '<table><tr><th>Path</th><th>Base</th><th>Success</th><th>Description</th></tr>';
+  for (var t in p.compensation.byType) {
+    var c = p.compensation.byType[t];
+    h += '<tr><td>' + c.label + '</td><td>' + Math.round(c.operatorBasePct * 100) + '%</td><td>' + Math.round(c.operatorSuccessPct * 100) + '%</td><td>' + c.description + '</td></tr>';
+  }
+  h += '</table>';
+  for (var ni = 0; ni < p.compensation.notes.length; ni++) h += '<p>' + p.compensation.notes[ni] + '</p>';
+
+  h += '<h2>2. APPROVAL GATES</h2>';
+  for (var gk in p.gates) {
+    var g = p.gates[gk];
+    h += '<h3>' + g.name + ' — ' + g.description + '</h3>';
+    for (var gi = 0; gi < g.checks.length; gi++) h += '<div class="item">\u2022 ' + g.checks[gi] + '</div>';
+  }
+
+  h += '<h2>3. REGULATORY REFERENCES</h2>';
+  for (var rk in p.regulations) {
+    var r = p.regulations[rk];
+    h += '<h3>' + rk.charAt(0).toUpperCase() + rk.slice(1) + '</h3>';
+    for (var ri = 0; ri < r.refs.length; ri++) h += '<div class="ref">' + r.refs[ri] + '</div>';
+    h += '<div class="warn">' + r.note + '</div>';
+  }
+
+  h += '<h2>4. WORKFLOW</h2>';
+  for (var wi = 0; wi < p.workflow.steps.length; wi++) h += '<div class="item">' + (wi+1) + '. ' + p.workflow.steps[wi] + '</div>';
+
+  h += '<h2>5. OUTCOME STANDARDS</h2>';
+  for (var ok in p.outcomeStandards) h += '<div class="item"><b>' + ok.toUpperCase() + ':</b> ' + p.outcomeStandards[ok] + '</div>';
+
+  h += '<h2>6. DISPUTE HANDLING</h2>';
+  for (var di = 0; di < p.disputes.process.length; di++) h += '<div class="item">' + (di+1) + '. ' + p.disputes.process[di] + '</div>';
+  h += '<h3>Valid grounds:</h3>';
+  for (var dgi = 0; dgi < p.disputes.grounds.length; dgi++) h += '<div class="item">\u2022 ' + p.disputes.grounds[dgi] + '</div>';
+
+  h += '<h2>7. MISCONDUCT</h2>';
+  for (var mi = 0; mi < p.misconduct.rules.length; mi++) h += '<div class="item">\u2022 ' + p.misconduct.rules[mi] + '</div>';
+
+  h += '<p style="text-align:center;color:#605850;margin-top:20px;font-size:0.28rem">LIMEN HELIX · Policy v' + p.version + ' · Effective ' + p.effectiveDate + '</p>';
+  document.getElementById('policyContent').innerHTML = h;
+})();
+</script></body></html>

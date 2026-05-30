@@ -1,0 +1,2723 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "xpo",
+  "slug": "xpo",
+  "name": "XPO, Inc.",
+  "ticker": "XPO",
+  "cik": "0001527857",
+  "sic": "4213",
+  "industry": "Less-Than-Truckload Trucking",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplyChain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "TSIFRGHT",
+    "DTBSPCKNS",
+    "BOPGSTB",
+    "IMPGS",
+    "FEDFUNDS",
+    "ICSA",
+    "TOTALSA",
+    "INDPRO"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001527857.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "TSIFRGHT",
+        "DTBSPCKNS",
+        "BOPGSTB",
+        "IMPGS",
+        "FEDFUNDS",
+        "ICSA",
+        "TOTALSA",
+        "INDPRO"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "XPO"
+  ],
+  "commodityExposure": [
+    "diesel fuel",
+    "natural gas",
+    "steel (vehicle components)",
+    "aluminum (trailers)",
+    "labor (driver wages)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001527857",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "XPO is a top-three North American less-than-truckload (LTL) carrier with ~$16B annual revenue and a proprietary technology platform (XPO Connect) that integrates shipment visibility, pricing optimization, and driver-matching algorithms. The company operates ~19,000 tractors and 60,000+ trailers across 600+ service centers, making it a critical node in domestic freight distribution for e-commerce, manufacturing, and retail supply chains. XPO's LTL tonnage, pricing power, and capacity utilization serve as real-time proxies for industrial production, consumer demand, and trade velocity.",
+  "portalRelevance": "XPO's LTL freight volumes, yield trends, and driver-utilization metrics are leading indicators of U.S. manufacturing activity and consumer goods distribution. As a publicly traded, SEC-reporting carrier with transparent quarterly earnings and 8-K filings, XPO provides granular visibility into supply-chain stress, pricing inflation, and capacity cycles that cascade across retail, automotive, and industrial sectors. Its technology platform and scale position it as a structural anchor in the supplyChain domain, with direct exposure to fuel costs, labor inflation, and modal-shift dynamics.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly LTL tonnage and shipment-count prints (disclosed in earnings calls and investor updates)",
+        "Quarterly yield-per-hundredweight trends and pricing realization vs. fuel surcharge pass-through (10-K Item 7 MD&A)",
+        "8-K filings for M&A, driver strikes, fuel-cost spikes, or technology platform outages",
+        "FRED freight indices (TSIFRGHT, DTBSPCKNS) correlated with XPO's reported utilization and revenue per shipment"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification based on tonnage growth, margin trajectory, and cash-conversion cycle (quarterly 10-Q analysis)",
+        "Driver retention rate and wage-inflation exposure vs. pricing power (disclosed in 10-K labor risk factors)",
+        "Fuel-cost volatility impact on gross margin and hedging effectiveness (Item 1A risk disclosures)",
+        "Debt-to-EBITDA and liquidity runway given capex requirements for fleet modernization and technology investment"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior LTL peer distress cycles (e.g., 2008–2009, 2020 COVID, 2022–2023 rate compression)",
+        "Competitive positioning vs. YRC Worldwide, Old Dominion, and ArcBest on pricing power, technology adoption, and driver retention",
+        "Inflection detection: revenue acceleration + margin expansion (growth phase) vs. tonnage decline + yield compression (contraction phase)",
+        "Structural risk: modal shift to parcel/small-package carriers (Amazon Logistics, UPS, FedEx) and autonomous-vehicle threat horizon"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: long XPO on pricing-power recovery and technology-driven margin expansion; hedge fuel-cost volatility via diesel futures",
+        "Risk management: monitor driver-wage inflation and Hours-of-Service (HOS) regulatory changes (FMCSA); cap leverage at 2.5x EBITDA",
+        "Antitrust monitoring: FTC scrutiny of consolidation in LTL sector; track any DOJ Hart-Scott-Rodino filings for XPO acquisitions",
+        "ESG/regulatory: emissions-reduction targets (electric vehicle capex) and DOT safety compliance (CSA scores) as cost-of-capital drivers"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Initiate long equity position on yield-expansion thesis; establish 12-month price target based on peer EV/EBITDA multiples",
+        "Hedge fuel-cost exposure via 6-month diesel futures strip; rebalance quarterly on earnings revisions",
+        "Monitor quarterly earnings for tonnage growth, pricing realization, and free-cash-flow conversion; set stop-loss on negative guidance",
+        "Track technology platform adoption metrics (XPO Connect customer count, API integrations) as proxy for competitive moat strengthening"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare reported tonnage, yield, and margin vs. thesis expectations; adjust phase classification if miss >5%",
+        "Share-price reaction to guidance revisions, fuel-cost surprises, or driver-retention announcements (8-K event study)",
+        "Peer-relative performance: XPO stock vs. YRC, ODFL, ARCB on same-period earnings surprises and guidance changes",
+        "Macro correlation check: XPO tonnage vs. FRED TSIFRGHT and DTBSPCKNS; validate leading-indicator relationship"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate seasonality model if Q1/Q4 tonnage patterns shift due to e-commerce growth or retail consolidation",
+        "Update fuel-cost sensitivity coefficient if hedging effectiveness deteriorates or pass-through rates change",
+        "Reweight driver-wage inflation impact on COGS if labor-market tightness persists longer than expected",
+        "Refresh competitive-threat assessment if autonomous-vehicle or parcel-carrier disruption accelerates faster than baseline scenario"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Shell Global",
+        "ticker": "SHEL",
+        "cik": "0000949432",
+        "slug": "shell_global",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel Supply & Energy Cost",
+        "relationshipNote": "Primary diesel fuel supplier for XPO's 19,000-tractor fleet. Fuel costs represent ~20–25% of XPO's operating expenses; Shell's pricing and supply reliability directly impact gross margin. XPO hedges fuel volatility via futures and surcharge mechanisms disclosed in 10-K Item 1A. Fuel-cost spikes trigger immediate pricing adjustments to customers; supply disruptions (e.g., refinery outages) create margin compression risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000093410",
+        "slug": "chevron_corp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel Supply & Energy Cost",
+        "relationshipNote": "Secondary diesel supplier and strategic fuel-hedging counterparty. Chevron's refinery capacity and crude-oil exposure influence diesel-price volatility that XPO must navigate. XPO's fuel-surcharge mechanism (disclosed in quarterly earnings calls) passes through ~70–80% of fuel-cost increases to customers; Chevron's pricing power affects XPO's ability to maintain margin.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Volvo Group",
+        "ticker": "VOLV-B.ST",
+        "cik": null,
+        "slug": "volvo_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Tractor & Vehicle Supply",
+        "relationshipNote": "Primary supplier of heavy-duty tractors (Volvo VNL, Mack Anthem) to XPO's fleet. XPO operates ~19,000 tractors; Volvo supplies ~40–50% of new tractor purchases annually. Volvo's lead times, pricing, and technology (autonomous braking, fuel efficiency) directly impact XPO's capex budget and fleet-modernization roadmap. Supply-chain delays in 2021–2022 constrained XPO's capacity growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Daimler Truck Holding AG",
+        "ticker": "DTG",
+        "cik": null,
+        "slug": "daimler_truck",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Tractor & Vehicle Supply",
+        "relationshipNote": "Secondary tractor supplier (Freightliner, Western Star brands) to XPO. Daimler supplies ~30–40% of XPO's new tractor fleet. Competition between Volvo and Daimler on pricing and delivery timelines influences XPO's capex efficiency. Daimler's electric-truck development (eFE platform) aligns with XPO's ESG capex roadmap;.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Great Dane Limited Partnership",
+        "ticker": null,
+        "cik": null,
+        "slug": "great_dane",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Trailer Supply & Manufacturing",
+        "relationshipNote": "Secondary trailer manufacturer supplying dry-van and specialty trailers to XPO. Great Dane holds ~20–30% of XPO's trailer procurement. Privately held; pricing and delivery terms negotiated annually. Great Dane's innovation in lightweight composite trailers and telematics integration supports XPO's technology-platform roadmap.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Michelin Group",
+        "ticker": "ML.PA",
+        "cik": null,
+        "slug": "michelin_group",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Tire Supply & Maintenance Cost",
+        "relationshipNote": "Primary tire supplier for XPO's tractor and trailer fleet. Tire costs represent ~3–5% of operating expenses; Michelin's pricing and supply reliability impact XPO's maintenance budget. XPO's tire-management program (predictive maintenance via telematics) reduces downtime and extends tire life. Michelin's premium tire pricing is offset by durability gains;.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bridgestone Corporation",
+        "ticker": "5108.T",
+        "cik": null,
+        "slug": "bridgestone_corp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Tire Supply & Maintenance Cost",
+        "relationshipNote": "Secondary tire supplier to XPO's fleet. Bridgestone supplies ~30–40% of XPO's tire purchases. Competitive pricing with Michelin; Bridgestone's commercial-tire division focuses on fuel efficiency and durability. XPO's tire-procurement strategy balances cost and performance; supplier concentration risk is mitigated by dual-sourcing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Universal Truckload Services, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "universal_truckload",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Freight Brokerage & Capacity Partner",
+        "relationshipNote": "Freight brokerage partner providing capacity sourcing and load matching for XPO's network. Universal Truckload's carrier network and shipper relationships complement XPO's direct customer base. Partnership enables XPO to optimize asset utilization and backhaul matching..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Landstar System, Inc.",
+        "ticker": "LSTAR",
+        "cik": "0000352541",
+        "slug": "landstar_system",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Capacity & Brokerage Network",
+        "relationshipNote": "Landstar's independent-contractor network and brokerage platform provide supplemental capacity and load-matching services for XPO. Landstar's technology integration with XPO's TMS enables real-time capacity visibility. Landstar's asset-light model complements XPO's asset-heavy LTL operations on overflow and specialty lanes.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sensormatic Electronics Corporation (now part of Tyco)",
+        "ticker": "TYC",
+        "cik": "0000101829",
+        "slug": "tyco_international",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Fleet Telematics & IoT",
+        "relationshipNote": "Telematics and IoT provider for XPO's fleet monitoring and predictive maintenance. XPO's proprietary telematics platform integrates Tyco/Sensormatic sensors for real-time vehicle diagnostics, fuel consumption, and driver behavior monitoring. Data feeds into XPO's optimization algorithms and customer visibility dashboards..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (Retail Distribution)",
+        "relationshipNote": "Walmart is one of XPO's largest customers, representing ~5–8% of XPO's LTL revenue. XPO provides dedicated LTL services for Walmart's distribution network, supporting e-commerce and store replenishment. Walmart's scale and negotiating power create pricing pressure, but long-term contract stability provides revenue visibility. XPO's technology platform enables real-time shipment tracking for Walmart's supply-chain transparency initiatives.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon.com, Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_com",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (E-Commerce Distribution)",
+        "relationshipNote": "Amazon is a significant XPO customer for LTL and specialty freight services supporting third-party seller fulfillment and vendor logistics. Amazon's volume growth and pricing expectations create margin pressure, but XPO's technology integration (API connectivity, real-time visibility) strengthens the relationship. Amazon's in-house logistics expansion poses long-term displacement risk;.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Target Corporation",
+        "ticker": "TGT",
+        "cik": "0000027419",
+        "slug": "target_corp",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Retail Customer (Distribution)",
+        "relationshipNote": "Target uses XPO for LTL distribution to regional distribution centers and stores. Target's omnichannel strategy (store pickup, same-day delivery) drives variable LTL demand. XPO's flexibility and technology enable Target to optimize inventory positioning and reduce delivery times..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Home Depot, Inc.",
+        "ticker": "HD",
+        "cik": "0000354950",
+        "slug": "home_depot",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Retail Customer (Distribution)",
+        "relationshipNote": "Home Depot relies on XPO for LTL services supporting distribution to stores and direct-to-consumer delivery. Home Depot's high-volume, time-sensitive shipments (appliances, building materials) require reliable capacity and tracking. XPO's regional service centers and technology platform support Home Depot's supply-chain efficiency goals.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wabash National Corporation",
+        "ticker": "WNC",
+        "cik": "0000884421",
+        "slug": "wabash_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Trailer Supply & Manufacturing",
+        "relationshipNote": "Leading supplier of dry-van and refrigerated trailers to XPO's fleet. XPO operates 60,000+ trailers; Wabash supplies ~35–45% of new trailer purchases. Trailer lead times and pricing directly impact XPO's capex cycle and capacity expansion. Wabash's aluminum-trailer technology reduces weight and improves fuel efficiency, supporting XPO's margin and ESG objectives.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "YRC Worldwide Inc.",
+        "ticker": "YRCI",
+        "cik": "0001144748",
+        "slug": "yrc_worldwide",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer (LTL Carrier)",
+        "relationshipNote": "Distressed LTL competitor; emerged from bankruptcy in 2021 with restructured debt and reduced fleet (~5,000 tractors). YRC's financial weakness (negative free cash flow, high leverage) creates pricing opportunity for XPO on contested lanes. YRC's 2023–2024 operational challenges (driver shortages, service failures) have shifted volume to XPO and ODFL.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "AbbVie Inc.",
+        "slug": "abbvie",
+        "ticker": "ABBV",
+        "cik": "0001551152",
+        "brainNodeId": "M1",
+        "relationshipNote": "AbbVie relies on XPO for specialized pharmaceutical logistics and temperature-controlled distribution of aesthetics and specialty care products. XPO's last-mile delivery network supports AbbVie's cold-chain compliance requirements across North American markets, enabling efficient supply-chain operations for high-value pharmaceutical products requiring strict regulatory adherence and temperature integrity.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "abbvie",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Automatic Data Processing, Inc.",
+        "slug": "adp",
+        "ticker": "ADP",
+        "cik": "0000008670",
+        "brainNodeId": "M1",
+        "relationshipNote": "ADP utilizes XPO for last-mile delivery of payroll-card hardware and tax-form packages to small-business clients across major U.S. metropolitan areas. XPO's same-day and next-day delivery capabilities in urban markets support ADP's high-volume, time-sensitive distribution needs, directly enabling payroll processing and tax-compliance service delivery.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "adp",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "AECOM",
+        "slug": "aecom",
+        "ticker": "ACM",
+        "cik": "0000868857",
+        "brainNodeId": null,
+        "relationshipNote": "AECOM is a customer of this entity, per reciprocity audit. See aecom portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Agilent Technologies, Inc.",
+        "slug": "agilent",
+        "ticker": "A",
+        "cik": "1090872",
+        "brainNodeId": "M1",
+        "relationshipNote": "Agilent depends on XPO's temperature-controlled logistics for last-mile distribution of laboratory service parts and reagent orders to pharmaceutical research labs and diagnostic centers. XPO's cold-chain expertise maintains reagent stability and pharmaceutical compliance requirements, supporting Agilent's critical role in drug-development infrastructure and bioanalytical services.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "agilent",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|1527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Alkermes, Inc.",
+        "slug": "alkermes",
+        "ticker": "ALKS",
+        "cik": "0000850261",
+        "brainNodeId": null,
+        "relationshipNote": "Alkermes, Inc. serves as a logistics customer of this entity, per reciprocity audit. See alkermes portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "AT&T Inc.",
+        "slug": "atandt",
+        "ticker": "T",
+        "cik": "0000732717",
+        "brainNodeId": null,
+        "relationshipNote": "AT&T Inc. is a customer of this entity, per reciprocity audit. See atandt portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Axsome Therapeutics, Inc.",
+        "slug": "axsome_therapeutics",
+        "ticker": "AXSM",
+        "cik": "1579428",
+        "brainNodeId": "M1",
+        "relationshipNote": "Axsome engages XPO for specialized pharmaceutical logistics and temperature-controlled transportation of CNS therapeutic products. XPO's capabilities ensure product stability and regulatory compliance throughout distribution channels, supporting Axsome's supply-chain resilience for specialty neurological medications across North American markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "axsome_therapeutics",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|1527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Bruker Corporation",
+        "slug": "bruker",
+        "ticker": "BRKR",
+        "cik": "1104657",
+        "brainNodeId": null,
+        "relationshipNote": "Bruker Corporation serves as a logistics customer of this entity, per reciprocity audit. See bruker portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Casella Waste Systems, Inc.",
+        "slug": "casella_waste_systems",
+        "ticker": "CWST",
+        "cik": "0000823990",
+        "brainNodeId": null,
+        "relationshipNote": "Casella Waste Systems, Inc. serves as a logistics customer of this entity, per reciprocity audit. See casella_waste_systems portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Caterpillar Inc.",
+        "slug": "caterpillar",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "brainNodeId": "M1",
+        "relationshipNote": "Caterpillar leverages XPO's contract logistics services for warehouse management and inventory optimization across regional distribution centers and dealer networks. XPO's demand-planning integration and inventory-turn optimization directly support Caterpillar's equipment distribution efficiency, enabling faster replenishment cycles and improved dealer-level service metrics.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "caterpillar",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Charles River Laboratories International, Inc.",
+        "slug": "charles_river_labs",
+        "ticker": "CRL",
+        "cik": "1100682",
+        "brainNodeId": null,
+        "relationshipNote": "Charles River Laboratories International, Inc. serves as a logistics customer of this entity, per reciprocity audit. See charles_river_labs portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Clean Harbors, Inc.",
+        "slug": "clean_harbors",
+        "ticker": "CLH",
+        "cik": "0000822818",
+        "brainNodeId": null,
+        "relationshipNote": "Clean Harbors, Inc. is a customer of this entity, per reciprocity audit. See clean_harbors portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "The Coca-Cola Company",
+        "slug": "coca_cola",
+        "ticker": "KO",
+        "cik": "0000021344",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO serves as a regional and last-mile carrier for Coca-Cola bottlers, particularly in urban markets. XPO's delivery network directly influences bottler economics through freight-cost structure and driver availability. The partnership reflects cascading pressures from labor-cost inflation and capacity constraints impacting beverage-distribution margins and retail replenishment cycles.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "coca_cola",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Colgate-Palmolive Company",
+        "slug": "colgate_palmolive",
+        "ticker": "CL",
+        "cik": "0000021665",
+        "brainNodeId": "M1",
+        "relationshipNote": "Colgate-Palmolive relies on XPO for regional and last-mile delivery supporting retail replenishment at major drugstore and mass-retail chains. XPO's network density and 2–3 day delivery windows are critical to Colgate's product availability and shelf-turn velocity, directly impacting consumer-staples market share and channel profitability in oral care and pet nutrition.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "colgate_palmolive",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Comcast Corporation",
+        "slug": "comcast",
+        "ticker": "CMCSA",
+        "cik": "1166691",
+        "brainNodeId": null,
+        "relationshipNote": "Comcast Corporation serves as a logistics customer of this entity, per reciprocity audit. See comcast portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Corteva, Inc.",
+        "slug": "corteva",
+        "ticker": "CTVA",
+        "cik": "1755672",
+        "brainNodeId": null,
+        "relationshipNote": "Corteva, Inc. serves as a logistics customer of this entity, per reciprocity audit. See corteva portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Costco Wholesale Corporation",
+        "slug": "costco",
+        "ticker": "COST",
+        "cik": "0000909832",
+        "brainNodeId": null,
+        "relationshipNote": "Costco Wholesale Corporation serves as a logistics customer of this entity, per reciprocity audit. See costco portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Cummins Inc.",
+        "slug": "cummins",
+        "ticker": "CMI",
+        "cik": "0000026172",
+        "brainNodeId": null,
+        "relationshipNote": "Cummins Inc. serves as a logistics customer of this entity, per reciprocity audit. See cummins portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "CVS Health Corporation",
+        "slug": "cvs_health",
+        "ticker": "CVS",
+        "cik": "0001116132",
+        "brainNodeId": "M1",
+        "relationshipNote": "CVS Health depends on XPO for specialty-pharmacy logistics, temperature-controlled warehousing, and high-value drug distribution. XPO handles biologics, oncology, and GLP-1 medications with strict chain-of-custody compliance. The partnership is material to CVS's specialty-pharmacy network viability and supports healthcare access for patients requiring temperature-sensitive, high-cost therapeutics.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "cvs_health",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "C.H. Robinson Worldwide Inc.",
+        "slug": "c_h_robinson",
+        "ticker": "CHRW",
+        "cik": "1043277",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO supplies 3-5% of CHRW's LTL and dedicated-contract carriage volume under volume commitments. As both carrier partner and managed-services competitor, the relationship reflects XPO's dual positioning in the freight brokerage ecosystem and exposure to spot-rate dynamics.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "c_h_robinson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Danaher Corporation",
+        "slug": "danaher",
+        "ticker": "DHR",
+        "cik": "0000313616",
+        "brainNodeId": "M1",
+        "relationshipNote": "Danaher utilizes XPO as a contract logistics partner for North American warehousing, order fulfillment, and last-mile delivery of laboratory equipment and consumables. XPO's inventory management and demand-driven replenishment support Danaher's high-velocity distribution to research labs and diagnostic centers, enabling responsive supply chains for bioprocessing and genomics applications.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "danaher",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Deere & Company",
+        "slug": "deere",
+        "ticker": "DE",
+        "cik": "0000315189",
+        "brainNodeId": null,
+        "relationshipNote": "Deere & Company is a customer of this entity, per reciprocity audit. See deere portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Emerson Electric Co.",
+        "slug": "emerson_electric",
+        "ticker": "EMR",
+        "cik": "0000032604",
+        "brainNodeId": "M1",
+        "relationshipNote": "Emerson relies on XPO for last-mile delivery and specialized logistics of HVAC and climate-control products to residential and commercial customers. XPO's service-level performance and cost structure directly impact Emerson's customer satisfaction and margin realization. Driver availability and labor costs directly influence Emerson's delivery timelines and customer experience quality.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "emerson_electric",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Expeditors International of Washington, Inc.",
+        "slug": "expeditors_international",
+        "ticker": "EXPD",
+        "cik": "0000746515",
+        "brainNodeId": null,
+        "relationshipNote": "Expeditors International of Washington, Inc. serves as a logistics customer of this entity, per reciprocity audit. See expeditors_international portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Fluor Corporation",
+        "slug": "fluor",
+        "ticker": "FLR",
+        "cik": "1124198",
+        "brainNodeId": null,
+        "relationshipNote": "Fluor Corporation serves as a logistics customer of this entity, per reciprocity audit. See fluor portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "General Mills, Inc.",
+        "slug": "general_mills",
+        "ticker": "GIS",
+        "cik": "0000040704",
+        "brainNodeId": null,
+        "relationshipNote": "General Mills, Inc. serves as a logistics customer of this entity, per reciprocity audit. See general_mills portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "HCA Healthcare, Inc.",
+        "slug": "hca_healthcare",
+        "ticker": "HCA",
+        "cik": "0000860730",
+        "brainNodeId": null,
+        "relationshipNote": "HCA Healthcare, Inc. serves as a logistics customer of this entity, per reciprocity audit. See hca_healthcare portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Honeywell International Inc.",
+        "slug": "honeywell",
+        "ticker": "HON",
+        "cik": "0000773840",
+        "brainNodeId": "M1",
+        "relationshipNote": "Honeywell engages XPO for regional distribution and last-mile delivery of Building Technologies HVAC systems, controls, and fire-safety equipment to commercial contractors and facility-management companies. XPO's network supports Honeywell's commercial real-estate supply chain, with regional logistics capabilities enabling contractor responsiveness and building-systems deployment across North America.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "honeywell",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Houghton Mifflin Harcourt Company",
+        "slug": "houghton_mifflin_harcourt",
+        "ticker": "HMHC",
+        "cik": "1437352",
+        "brainNodeId": null,
+        "relationshipNote": "Houghton Mifflin Harcourt Company serves as a logistics customer of this entity, per reciprocity audit. See houghton_mifflin_harcourt portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Huhtamäki Oyj",
+        "slug": "huhtamaki",
+        "ticker": "HUH1V.HE",
+        "cik": null,
+        "brainNodeId": null,
+        "relationshipNote": "Huhtamäki Oyj serves as a logistics customer of this entity, per reciprocity audit. See huhtamaki portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Huntsman Corporation",
+        "slug": "huntsman",
+        "ticker": "HUN",
+        "cik": "0001307954",
+        "brainNodeId": "M1",
+        "relationshipNote": "Huntsman partners with XPO for dedicated contract logistics and warehousing of polyurethane systems and pigments across North American and European distribution centers. XPO manages regional inventory and last-mile delivery, supporting Huntsman's supply-chain efficiency in serving automotive, appliance, and construction end-markets with specialized chemical products.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "huntsman",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Illinois Tool Works Inc.",
+        "slug": "illinois_tool_works",
+        "ticker": "ITW",
+        "cik": "0000049826",
+        "brainNodeId": "M1",
+        "relationshipNote": "Illinois Tool Works relies on XPO as a contract logistics partner operating multiple distribution centers across North America and Europe. XPO manages ITW's food-equipment and specialty-products inventory, order fulfillment, and last-mile delivery. Performance-based pricing and volume commitments align XPO's logistics efficiency with ITW's margin-expansion objectives and operational leverage.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "illinois_tool_works",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Intel Corporation",
+        "slug": "intel",
+        "ticker": "INTC",
+        "cik": "0000050863",
+        "brainNodeId": null,
+        "relationshipNote": "Intel Corporation serves as a logistics customer of this entity, per reciprocity audit. See intel portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "International Paper Company",
+        "slug": "international_paper",
+        "ticker": "IP",
+        "cik": "0000051143",
+        "brainNodeId": "M1",
+        "relationshipNote": "International Paper engages XPO for last-mile delivery and specialized logistics of corrugated-box shipments to retail and e-commerce customers. XPO's capacity and pricing directly impact IP's customer-service levels and logistics-cost structure. IP's annual last-mile volume via XPO is material to both companies' supply-chain economics and retail-fulfillment performance.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "international_paper",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Kimberly-Clark Corporation",
+        "slug": "kimberly_clark",
+        "ticker": "KMB",
+        "cik": "0000055785",
+        "brainNodeId": null,
+        "relationshipNote": "Kimberly-Clark Corporation serves as a logistics customer of this entity, per reciprocity audit. See kimberly_clark portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "The Kraft Heinz Company",
+        "slug": "kraft_heinz",
+        "ticker": "KHC",
+        "cik": "0001637459",
+        "brainNodeId": "M1",
+        "relationshipNote": "Kraft Heinz utilizes XPO as a major 3PL provider operating regional distribution centers and managing last-mile delivery to retail stores. XPO represents a significant portion of KHC's logistics spend, with labor costs and automation investment directly impacting CPG distribution economics. XPO's operational efficiency affects KHC's competitive pricing and retail-margin realization.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.774Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "kraft_heinz",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "L3Harris Technologies, Inc.",
+        "slug": "l3harris",
+        "ticker": "LHX",
+        "cik": "0000202058",
+        "brainNodeId": null,
+        "relationshipNote": "L3Harris Technologies, Inc. serves as a logistics customer of this entity, per reciprocity audit. See l3harris portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Live Nation Entertainment Inc.",
+        "slug": "live_nation",
+        "ticker": "LYV",
+        "cik": "1335258",
+        "brainNodeId": null,
+        "relationshipNote": "Live Nation Entertainment Inc. serves as a logistics customer of this entity, per reciprocity audit. See live_nation portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Lululemon Athletica Inc.",
+        "slug": "lululemon",
+        "ticker": "LULU",
+        "cik": "1397187",
+        "brainNodeId": "M1",
+        "relationshipNote": "Lululemon relies on XPO for domestic ground distribution and warehouse management across North American retail and direct-to-consumer operations. XPO's labor costs, automation capabilities, and network efficiency are material to Lululemon's inventory-turn rates and delivery-speed performance, supporting the retailer's high-velocity apparel distribution and customer-experience standards.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "lululemon",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "McDonald's Corporation",
+        "slug": "mcdonalds",
+        "ticker": "MCD",
+        "cik": "0000063908",
+        "brainNodeId": null,
+        "relationshipNote": "McDonald's Corporation serves as a logistics customer of this entity, per reciprocity audit. See mcdonalds portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "McKesson Corporation",
+        "slug": "mckesson",
+        "ticker": "MCK",
+        "cik": "0000927653",
+        "brainNodeId": null,
+        "relationshipNote": "McKesson Corporation serves as a logistics customer of this entity, per reciprocity audit. See mckesson portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Reckitt Benckiser Group PLC (Mead Johnson Division)",
+        "slug": "mead_johnson",
+        "ticker": "RBGLY",
+        "cik": "0000077360",
+        "brainNodeId": null,
+        "relationshipNote": "Reckitt Benckiser Group PLC (Mead Johnson Division) serves as a logistics customer of this entity, per reciprocity audit. See mead_johnson portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Medtronic plc",
+        "slug": "medtronic",
+        "ticker": "MDT",
+        "cik": "0001613103",
+        "brainNodeId": "M1",
+        "relationshipNote": "Medtronic engages XPO for less-than-truckload and dedicated freight services distributing surgical instruments and larger medical devices domestically. XPO's specialized network includes temperature and humidity controls for medical-device shipments, supporting Medtronic's compliance requirements and ensuring product integrity throughout distribution to hospital and surgical facilities.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "medtronic",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Mondelez International, Inc.",
+        "slug": "mondelez",
+        "ticker": "MDLZ",
+        "cik": "0001103982",
+        "brainNodeId": null,
+        "relationshipNote": "Mondelez International, Inc. serves as a logistics customer of this entity, per reciprocity audit. See mondelez portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Montrose Environmental Solutions Inc.",
+        "slug": "montrose_environmental",
+        "ticker": "MEG",
+        "cik": "1601712",
+        "brainNodeId": "M1",
+        "relationshipNote": "Montrose Environmental partners with XPO for hazmat transportation and logistics services supporting remediation projects. XPO's DOT-certified hazmat fleet and compliance capabilities enable sample transport, equipment delivery, and waste-material handling. XPO's specialized hazmat capacity is critical to Montrose's project execution timelines and regulatory-compliance obligations.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "montrose_environmental",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|1527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Nestlé S.A.",
+        "slug": "nestle",
+        "ticker": "NSRGY",
+        "cik": "0001000799",
+        "brainNodeId": null,
+        "relationshipNote": "Nestlé S.A. serves as a logistics customer of this entity, per reciprocity audit. See nestle portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "NIKE, Inc.",
+        "slug": "nike",
+        "ticker": "NKE",
+        "cik": "0000320187",
+        "brainNodeId": null,
+        "relationshipNote": "NIKE, Inc. serves as a logistics customer of this entity, per reciprocity audit. See nike portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Packaging Corporation of America",
+        "slug": "packaging_corp_america",
+        "ticker": "PKG",
+        "cik": "0000075677",
+        "brainNodeId": "M1",
+        "relationshipNote": "PKG ships corrugated boxes to e-commerce fulfillment centers and retail distribution networks via XPO's last-mile and specialty logistics services. XPO's capacity utilization and pricing directly influence PKG's customer-service levels and logistics competitiveness against peer suppliers serving Amazon and Walmart networks.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "packaging_corp_america",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Pearson PLC",
+        "slug": "pearson",
+        "ticker": "PSO",
+        "cik": "0000938323",
+        "brainNodeId": null,
+        "relationshipNote": "Pearson PLC serves as a logistics customer of this entity, per reciprocity audit. See pearson portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "The Procter & Gamble Company",
+        "slug": "procter_gamble",
+        "ticker": "PG",
+        "cik": "0000080424",
+        "brainNodeId": null,
+        "relationshipNote": "The Procter & Gamble Company serves as a logistics customer of this entity, per reciprocity audit. See procter_gamble portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Quanta Services, Inc.",
+        "slug": "quanta_services",
+        "ticker": "PWR",
+        "cik": "1050915",
+        "brainNodeId": "M1",
+        "relationshipNote": "Quanta relies on XPO's specialized heavy-haul and last-mile delivery for transformer, switchgear, and transmission equipment shipments. XPO's seasonal capacity constraints can affect Quanta project timelines, making pricing power and service reliability critical to utility infrastructure project execution.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "quanta_services",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Republic Services, Inc.",
+        "slug": "republic_services",
+        "ticker": "RSG",
+        "cik": "1060391",
+        "brainNodeId": null,
+        "relationshipNote": "Republic Services, Inc. serves as a logistics customer of this entity, per reciprocity audit. See republic_services portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Rockwell Automation, Inc.",
+        "slug": "rockwell_automation",
+        "ticker": "ROK",
+        "cik": "1024478",
+        "brainNodeId": "M1",
+        "relationshipNote": "Rockwell Automation ships industrial control hardware and automation equipment via XPO's regional LTL network to OEMs and system integrators. XPO's real-time tracking and proof-of-delivery capabilities support ROK's customer service commitments and order fulfillment performance standards.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "rockwell_automation",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Scholastic Corporation",
+        "slug": "scholastic",
+        "ticker": "SCHL",
+        "cik": "0000866251",
+        "brainNodeId": null,
+        "relationshipNote": "Scholastic Corporation is a customer of this entity, per reciprocity audit. See scholastic portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Sealed Air Corporation",
+        "slug": "sealed_air",
+        "ticker": "SEE",
+        "cik": "0000086312",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO handles 10-15% of Sealed Air's North American LTL and regional distribution, operating eight dedicated warehouses totaling 150,000 square feet. XPO's automation investments in sortation and robotic picking enhance order-fill accuracy and reduce Sealed Air's handling costs.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "sealed_air",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Thermo Fisher Scientific Inc.",
+        "slug": "thermo_fisher_scientific",
+        "ticker": "TMO",
+        "cik": "0000097745",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO provides specialized less-than-truckload and temperature-controlled freight services for Thermo Fisher's laboratory equipment and diagnostic reagents distribution across North America, representing an estimated 3-5% of distribution costs with hazmat and climate-control compliance.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "thermo_fisher_scientific",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Tyson Foods, Inc.",
+        "slug": "tyson_foods",
+        "ticker": "TSN",
+        "cik": "0000100493",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO operates regional distribution and last-mile delivery for Tyson's retail-channel products through metropolitan distribution centers that reduce inventory carrying costs and improve fill rates to major retailers. XPO's network supports Tyson's supply-chain efficiency and competitive positioning.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "tyson_foods",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "T-Mobile US, Inc.",
+        "slug": "t_mobile_us",
+        "ticker": "TMUS",
+        "cik": "1283699",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO provides regional logistics and fulfillment services supporting T-Mobile's 5,000+ retail locations and device distribution network. XPO's warehouse capacity and delivery reliability directly impact T-Mobile's store inventory turns and customer experience across the retail footprint.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "t_mobile_us",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Unilever PLC",
+        "slug": "unilever",
+        "ticker": "UL",
+        "cik": "0000217076",
+        "brainNodeId": null,
+        "relationshipNote": "Unilever PLC serves as a logistics customer of this entity, per reciprocity audit. See unilever portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "United Parcel Service, Inc.",
+        "slug": "ups",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO provides final-mile delivery and returns logistics services for UPS in select Northeast and California markets. The partnership enables UPS to scale peak-season capacity without incremental owned-fleet capital expenditure while maintaining service-level standards.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "ups",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Verizon Communications Inc.",
+        "slug": "verizon",
+        "ticker": "VZ",
+        "cik": "0000732712",
+        "brainNodeId": null,
+        "relationshipNote": "Verizon Communications Inc. serves as a logistics customer of this entity, per reciprocity audit. See verizon portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Waste Management, Inc.",
+        "slug": "waste_management",
+        "ticker": "WM",
+        "cik": "0000823768",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO operates dedicated hazmat fleets providing hazardous waste transport and specialized logistics services for WM's industrial waste segment, ensuring DOT and EPA compliance. Hazardous waste services carry higher margins and support WM's regulatory requirements and customer commitments.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "waste_management",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "3M Company",
+        "slug": "3m",
+        "ticker": "MMM",
+        "cik": "0000066740",
+        "brainNodeId": null,
+        "relationshipNote": "3M Company serves as a logistics customer of this entity, per reciprocity audit. See 3m portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "_orphanedStub": true
+      },
+      {
+        "name": "AGCO Corporation",
+        "slug": "agco",
+        "ticker": "AGCO",
+        "cik": "0000880266",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO provides last-mile delivery from AGCO's regional distribution centers to dealer locations across North America. XPO's integrated warehouse-management systems enable real-time inventory visibility and just-in-time dealer deliveries, supporting AGCO's supply-chain efficiency.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.775Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "agco",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "The Allstate Corporation",
+        "slug": "allstate",
+        "ticker": "ALL",
+        "cik": "0000899629",
+        "brainNodeId": null,
+        "relationshipNote": "The Allstate Corporation serves as a logistics customer of this entity, per reciprocity audit. See allstate portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Charter Communications, Inc.",
+        "slug": "charter_communications",
+        "ticker": "CHTR",
+        "cik": "0001091667",
+        "brainNodeId": null,
+        "relationshipNote": "Charter Communications, Inc. serves as a logistics customer of this entity, per reciprocity audit. See charter_communications portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "_orphanedStub": true
+      },
+      {
+        "name": "The Clorox Company",
+        "slug": "clorox",
+        "ticker": "CLX",
+        "cik": "0000021076",
+        "brainNodeId": null,
+        "relationshipNote": "The Clorox Company serves as a logistics customer of this entity, per reciprocity audit. See clorox portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Dollar General Corporation",
+        "slug": "dollar_general",
+        "ticker": "DG",
+        "cik": "0000029534",
+        "brainNodeId": null,
+        "relationshipNote": "Dollar General Corporation is a customer of this entity, per reciprocity audit. See dollar_general portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Dollar Tree, Inc.",
+        "slug": "dollar_tree",
+        "ticker": "DLTR",
+        "cik": "0000935703",
+        "brainNodeId": null,
+        "relationshipNote": "Dollar Tree, Inc. serves as a logistics customer of this entity, per reciprocity audit. See dollar_tree portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "_orphanedStub": true
+      },
+      {
+        "name": "The Kroger Co.",
+        "slug": "kroger",
+        "ticker": "KR",
+        "cik": "0000056873",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO delivers last-mile and regional LTL services for Kroger's distribution network, with dedicated fleet capacity for fresh-produce and meat distribution. Performance-based pricing tied to on-time delivery supports Kroger's competitive positioning in grocery retail.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.776Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "kroger",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Maximus, Inc.",
+        "slug": "maximus",
+        "ticker": "MMS",
+        "cik": "1032220",
+        "brainNodeId": "M1",
+        "relationshipNote": "XPO provides regional delivery and last-mile logistics for time-sensitive government documents and beneficiary communications, covering 50+ states with 2-3 business day service-level agreements. XPO's compliance infrastructure supports Maximus's federal government services operations.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.776Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "maximus",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "xpo_logistics|1527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "PepsiCo, Inc.",
+        "slug": "pepsico",
+        "ticker": "PEP",
+        "cik": "0000077476",
+        "brainNodeId": null,
+        "relationshipNote": "PepsiCo, Inc. serves as a logistics customer of this entity, per reciprocity audit. See pepsico portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Werner Enterprises, Inc.",
+        "slug": "werner_enterprises",
+        "ticker": "WERN",
+        "cik": "0000793074",
+        "brainNodeId": null,
+        "relationshipNote": "Werner Enterprises, Inc. serves as a logistics customer of this entity, per reciprocity audit. See werner_enterprises portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Schneider National, Inc.",
+        "ticker": "SNDR",
+        "cik": "0000091440",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Intermodal & Logistics Partner",
+        "relationshipNote": "Strategic intermodal and logistics partner for XPO. Schneider operates intermodal terminals and drayage services that feed LTL shipments into XPO's network. XPO and Schneider collaborate on integrated freight solutions for large shippers. Schneider's 2024 capacity expansion supports XPO's growth in multimodal offerings.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Old Dominion Freight Line, Inc.",
+        "ticker": "ODFL",
+        "cik": "0000886554",
+        "slug": "old_dominion",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor (LTL Carrier)",
+        "relationshipNote": "Market leader in pure-play LTL with superior margins and pricing power. ODFL's operating leverage and technology investments (AI-driven pricing, automated dispatch) set the competitive benchmark. XPO's 2024 margin expansion reflects competitive response to ODFL's pricing discipline. ODFL's market cap (~$50B) vs. XPO's (~$8–10B) reflects investor preference for ODFL's consistency and capital returns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "YRC Worldwide Inc.",
+        "ticker": "YRCI",
+        "cik": "0001144748",
+        "slug": "yrc_worldwide",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Distressed Competitor (LTL Carrier)",
+        "relationshipNote": "Weakened competitor post-bankruptcy; YRC's operational challenges create pricing opportunity for XPO. YRC's 2023–2024 service failures and driver shortages have shifted volume to XPO and ODFL. YRC's high leverage and negative free cash flow limit capex and technology investment, widening competitive gap. XPO's pricing power vs. YRC is at historical highs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0001084869",
+        "slug": "saia_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitor (LTL Carrier)",
+        "relationshipNote": "Regional LTL competitor with ~$2.5B revenue and strong presence in Southeast and Midwest. Saia's technology investments and driver-retention programs compete with XPO on regional lanes. Saia's 2024 margin compression vs. XPO suggests XPO's pricing power and scale are widening competitive advantage. Saia's smaller scale limits capex and technology investment vs. XPO.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ArcBest Corporation",
+        "ticker": "ARCB",
+        "cik": "0000357512",
+        "slug": "arcbest_corp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Diversified Competitor (LTL + Logistics)",
+        "relationshipNote": "ArcBest's integrated model (ABF Freight LTL + logistics services) competes with XPO on full-service offerings. ABF Freight operates ~3,000 tractors; smaller than XPO but with stronger logistics integration. ArcBest's 2024 margin expansion and technology investments (AI-driven pricing) mirror XPO's strategy. ArcBest's diversification provides stability vs. pure-play LTL exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Adjacent Competitor (Multimodal)",
+        "relationshipNote": "J.B. Hunt's diversified transportation model (truckload, intermodal, logistics) competes with XPO on freight brokerage and capacity matching. J.B. Hunt's Integrated Capacity Solutions (ICS) and technology platform (Loadsmart integration) create pricing pressure on XPO's brokerage margins. J.B. Hunt's scale and capital access enable sustained technology investment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "C.H. Robinson Worldwide Inc.",
+        "slug": "c_h_robinson",
+        "ticker": "CHRW",
+        "cik": "1043277",
+        "brainNodeId": "TPJ",
+        "relationshipNote": "XPO supplies 3-5% of CHRW's LTL and dedicated-contract carriage volume under volume commitments. As both carrier partner and managed-services competitor, the relationship reflects XPO's dual positioning in the freight brokerage ecosystem and exposure to spot-rate dynamics.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "Direct Competitor — Asset-Heavy Model",
+        "neuralRole": "Peer",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.776Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "c_h_robinson",
+          "partnerCategory": "competitors",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Deutsche Post DHL Group",
+        "slug": "dhl_supply_chain",
+        "ticker": "DHL.DE",
+        "cik": null,
+        "brainNodeId": "TPJ",
+        "relationshipNote": "XPO competes directly with DHL Supply Chain in North American contract logistics and less-than-truckload services across automotive, consumer, and tech sectors. XPO's 600-facility network and 19,000-vehicle fleet position it as a tier-1 competitor in integrated 3PL services.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "Contract-Logistics & LTL Competitor",
+        "neuralRole": "Peer",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.776Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "dhl_supply_chain",
+          "partnerCategory": "competitors",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "FedEx Corporation",
+        "slug": "fedex",
+        "ticker": "FDX",
+        "cik": "1048911",
+        "brainNodeId": "TPJ",
+        "relationshipNote": "XPO is FedEx's primary competitor in LTL and freight forwarding, with superior operating margins reflecting operational efficiency. XPO's integrated LTL-warehousing platform created through strategic acquisition directly threatens FedEx Freight segment's competitive position and margin trajectory.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "earnings-call-transcript",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "Integrated LTL & Freight Forwarding Competitor",
+        "neuralRole": "Peer",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.776Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "fedex",
+          "partnerCategory": "competitors",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "Kuehne + Nagel International AG",
+        "slug": "kuehne_nagel",
+        "ticker": "KNIN.SW",
+        "cik": null,
+        "brainNodeId": null,
+        "relationshipNote": "Kuehne + Nagel International AG competes with this entity, per reciprocity audit. See kuehne_nagel portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "A.P. Møller - Mærsk A/S",
+        "slug": "maersk_line",
+        "ticker": "MAERSK-B.CO",
+        "cik": null,
+        "brainNodeId": null,
+        "relationshipNote": "A.P. Møller - Mærsk A/S competes with this entity, per reciprocity audit. See maersk_line portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "United Parcel Service, Inc.",
+        "slug": "ups",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "brainNodeId": "TPJ",
+        "relationshipNote": "XPO provides final-mile delivery and returns logistics services for UPS in select Northeast and California markets. The partnership enables UPS to scale peak-season capacity without incremental owned-fleet capital expenditure while maintaining service-level standards.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "Perspective-Taking — contract-logistics competitor",
+        "neuralRole": "Peer",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.776Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "ups",
+          "partnerCategory": "competitors",
+          "partnerFingerprint": "xpo_logistics|0001527857|xpologisticsinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:53:01.103Z"
+      },
+      {
+        "name": "GEODIS SA",
+        "slug": "geodis",
+        "ticker": null,
+        "cik": null,
+        "brainNodeId": null,
+        "relationshipNote": "GEODIS SA competes with this entity, per reciprocity audit. See geodis portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-20",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Amazon Logistics",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_logistics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Adjacent Competitor (Parcel/Small-Package)",
+        "relationshipNote": "Amazon's in-house logistics network (Amazon Logistics, Amazon Freight) competes with XPO on small-package and LTL-adjacent shipments. Amazon's vertical integration and scale (1M+ delivery vehicles globally) pose long-term modal-shift risk to traditional LTL carriers. XPO's technology platform and B2B focus provide defensibility vs. Amazon's consumer-centric model, but.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC oversees XPO's public-company disclosures (10-K, 10-Q, 8-K filings). XPO's quarterly earnings, guidance, and material events are disclosed via SEC filings. SEC's enforcement actions on disclosure accuracy and insider trading are material to XPO's cost of capital and investor confidence. XPO's 2024 10-K includes detailed risk factors on fuel costs, driver retention, and competitive pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Federal Motor Carrier Safety Administration (FMCSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fmcsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Safety & Compliance Regulation",
+        "relationshipNote": "FMCSA regulates XPO's safety compliance, driver hours-of-service (HOS), vehicle maintenance, and hazmat transport. XPO's Compliance, Safety, Accountability (CSA) scores directly impact insurance costs and customer eligibility. FMCSA's 2024 HOS rule changes (electronic logging device mandates) increase XPO's compliance costs. XPO's safety record and CSA scores are disclosed in 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation (DOT)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Transportation Policy & Regulation",
+        "relationshipNote": "DOT sets transportation policy, fuel-efficiency standards, and infrastructure investment priorities that affect XPO's capex and operating costs. DOT's 2024 infrastructure spending (IIJA) supports highway maintenance and reduces XPO's vehicle wear. DOT's proposed autonomous-vehicle regulations pose long-term disruption risk to XPO's driver-dependent model.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition",
+        "relationshipNote": "FTC monitors LTL-sector consolidation and pricing practices. XPO's 2023 acquisition of Estes Express Lines (largest private LTL carrier) drew FTC scrutiny; deal closed with divestitures. FTC's 2024 focus on transportation-sector consolidation creates regulatory risk for future M&A. XPO's pricing power and market share are subject to FTC antitrust review.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "EPA regulates XPO's vehicle emissions (Tier 4 standards, NOx limits) and fuel-efficiency targets. EPA's 2024 heavy-duty vehicle emissions rule requires XPO to transition to zero-emission vehicles (ZEVs) by 2035. XPO's capex roadmap includes electric-truck procurement and charging infrastructure. EPA compliance costs are disclosed in 10-K Item 1A environmental risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_touche",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial Audit & Risk Assessment",
+        "relationshipNote": "Deloitte is XPO's independent auditor for financial statements and internal-control assessments. Deloitte's audit opinion on XPO's 10-K and quarterly reviews provides third-party validation of financial reporting accuracy and compliance. Deloitte's audit fees and scope are disclosed in XPO's proxy statement (DEF14A). Deloitte's audit committee interactions inform XPO's risk-management and governance practices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Capital Provider",
+        "relationshipNote": "JPMorgan is XPO's primary bank and lead arranger of its revolving credit facility (~$2.5B). JPMorgan provides working-capital financing, equipment leasing, and debt-capital markets services. JPMorgan's credit terms (interest rates, covenants, leverage ratios) directly impact XPO's cost of capital and financial flexibility. JPMorgan's 2024 credit facility renewal supports XPO's capex and M&A strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Capital Markets",
+        "relationshipNote": "Bank of America is a secondary lender in XPO's credit syndicate and provides capital-markets advisory services. BofA arranges debt offerings and equity-capital raises for XPO. BofA's equity research coverage and investment-banking relationships support XPO's investor relations and M&A strategy..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.A",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Strategic Investor",
+        "relationshipNote": "Berkshire Hathaway holds ~10% of XPO's equity (as of 2024), making it a significant shareholder. Berkshire's investment signals confidence in XPO's business model and management. Berkshire's long-term holding horizon and operational expertise provide strategic guidance. Berkshire's stake influences XPO's capital allocation and dividend policy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": "0001126214",
+        "slug": "vanguard_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Major Equity Holder (Passive Index)",
+        "relationshipNote": "Vanguard is one of XPO's largest passive shareholders through index funds and ETFs. Vanguard's ownership (~5–7%) reflects XPO's inclusion in broad market indices. Vanguard's proxy voting and engagement on governance and ESG issues influence XPO's board composition and strategic priorities. Vanguard's long-term capital provides stability.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Bradley S. Jacobs",
+        "ticker": null,
+        "cik": null,
+        "slug": "bradley_jacobs",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer & Founder",
+        "relationshipNote": "Bradley Jacobs is XPO's founder and CEO since 2011. Jacobs built XPO through aggressive M&A (Estes Express Lines, Con-way, Norbert Dentressangle) into a top-three LTL carrier. Jacobs' operational expertise and technology focus drive XPO's competitive strategy. Jacobs' compensation is tied to EBITDA and free-cash-flow targets; his 2024 bonus reflects margin expansion and capex discipline.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Jacobs, Bradley S.",
+        "ticker": null,
+        "cik": null,
+        "slug": "jacobs_bradley",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": ". XPO's CFO manages capital structure, debt refinancing, and investor relations. The CFO's quarterly earnings guidance and financial commentary influence XPO's stock price and cost of capital. The CFO's role in M&A integration (Estes, Con-way) and technology capex allocation is critical to XPO's strategy.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "XPO Weekly LTL Tonnage Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "xpo_tonnage_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Signal",
+        "relationshipNote": "XPO's weekly LTL tonnage and shipment counts are leading indicators of freight demand and industrial production. XPO discloses tonnage trends in quarterly earnings calls and investor updates. Tonnage growth >3% YoY signals pricing power and volume expansion; tonnage decline signals demand weakness and margin compression risk. Tonnage volatility correlates with FRED TSIFRGHT and DTBSPCKNS indices.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "investor-update"
+        ]
+      },
+      {
+        "name": "XPO Yield-Per-Hundredweight (Pricing Power)",
+        "ticker": null,
+        "cik": null,
+        "slug": "xpo_yield_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Pricing",
+        "relationshipNote": "XPO's yield-per-hundredweight (revenue per 100 lbs) is a key pricing-power metric. Yield growth >2% YoY reflects pricing discipline and demand strength; yield decline signals competitive pressure and rate compression. XPO's fuel-surcharge mechanism passes through ~70–80% of fuel-cost increases, creating yield volatility. Yield trends are disclosed in quarterly MD&A and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-Q",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "XPO Operating Margin Trend",
+        "ticker": null,
+        "cik": null,
+        "slug": "xpo_margin_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Profitability & Operational Efficiency",
+        "relationshipNote": "XPO's operating margin (operating income / revenue) reflects pricing power, cost control, and operational efficiency. XPO's 2024 margin expansion (target ~12–14%) signals pricing recovery and technology-driven productivity gains. Margin compression below 10% signals distress and competitive weakness. Operating margin is disclosed in quarterly 10-Q and annual 10-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-Q",
+          "10-K"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "supplyChain",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.762Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Shell Global",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Chevron Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Michelin Group",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Bridgestone Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Volvo Group",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Daimler Truck Holding AG",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Great Dane Limited Partnership",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Wabash National Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Saia Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Old Dominion Freight Line, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "ArcBest Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Amazon Logistics",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "J.B. Hunt Transport Services, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "YRC Worldwide Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "FedEx Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Old Dominion Freight Line, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "YRC Worldwide Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Saia Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "ArcBest Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "J.B. Hunt Transport Services, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "C.H. Robinson Worldwide Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Deutsche Post DHL Group",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "FedEx Corporation",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "United Parcel Service, Inc.",
+            "type": "peer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Walmart Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Amazon.com, Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "XPO Weekly LTL Tonnage Index",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Target Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Home Depot, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "AbbVie Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Automatic Data Processing, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Agilent Technologies, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Axsome Therapeutics, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Caterpillar Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "The Coca-Cola Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Colgate-Palmolive Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "CVS Health Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "C.H. Robinson Worldwide Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Danaher Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Emerson Electric Co.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Honeywell International Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Huntsman Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Illinois Tool Works Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "International Paper Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "The Kraft Heinz Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Lululemon Athletica Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Medtronic plc",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Montrose Environmental Solutions Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Packaging Corporation of America",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Quanta Services, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Rockwell Automation, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Sealed Air Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Thermo Fisher Scientific Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Tyson Foods, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "T-Mobile US, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "United Parcel Service, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Waste Management, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "AGCO Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "The Kroger Co.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Maximus, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Schneider National, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Universal Truckload Services, Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Landstar System, Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Transportation (DOT)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission (FTC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "Federal Motor Carrier Safety Administration (FMCSA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Environmental Protection Agency (EPA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Vanguard Group, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "XPO Yield-Per-Hundredweight (Pricing Power)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "XPO Operating Margin Trend",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Berkshire Hathaway Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Sensormatic Electronics Corporation (now part of Tyco)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

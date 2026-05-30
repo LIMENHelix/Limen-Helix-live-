@@ -1,0 +1,1276 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "cargill",
+  "slug": "cargill",
+  "name": "Cargill, Incorporated",
+  "ticker": null,
+  "cik": null,
+  "sic": "0100",
+  "industry": "Agricultural Commodity Trading & Food Ingredients (Private)",
+  "domainId": "agriculture",
+  "portalAttachment": "agriculture-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "PPIACO",
+    "PPILFE",
+    "GASDESW",
+    "MMNRNJ",
+    "DEXUSEU",
+    "CPIAUCSL"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "corn",
+    "soybeans",
+    "wheat",
+    "crude oil",
+    "natural gas",
+    "livestock (cattle, hogs, poultry)",
+    "cocoa",
+    "sugar",
+    "palm oil",
+    "fertilizer (nitrogen, phosphate, potash)"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Geopolitical volatility in grain export corridors (Ukraine, Russia) disrupts pricing and logistics",
+    "Commodity price deflation cycles compress margins across grain trading and animal feed segments",
+    "Regulatory tightening on agricultural subsidies and trade tariffs (US-China, EU CAP reform) alters competitive positioning",
+    "Climate-driven crop yield volatility increases working-capital demands and inventory risk"
+  ],
+  "opportunitySignals": [
+    "Protein demand growth in emerging markets (India, Southeast Asia) expands animal-feed and ingredient volumes",
+    "Sustainability-linked financing and ESG-premium pricing for regenerative agriculture inputs",
+    "Digital supply-chain transparency (blockchain, IoT) enables margin capture in traceability-sensitive segments",
+    "Vertical integration into food-service and retail private-label ingredient supply"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Cargill is the largest privately held agricultural commodity trader and food-ingredient processor globally, controlling ~13% of US grain exports and operating integrated supply chains from farm inputs through animal feed, vegetable oils, and specialty food ingredients. Its scale in corn, soybeans, wheat, and livestock-derived proteins makes it a systemic node in North American food security and a primary price-discovery mechanism for commodity futures markets. The company's ownership of fertilizer, seed, and crop-protection assets upstream and food-service distribution downstream creates a vertically integrated margin-capture model that competitors struggle to replicate.",
+  "portalRelevance": "Cargill's private status and opaque financial reporting limit real-time kernel validation, but its structural role as a commodity-price setter and supply-chain orchestrator for CPG giants (Nestlé, PepsiCo, Tyson Foods) and retailers (Walmart, Costco) makes it a critical leading indicator for food-inflation cycles, input-cost pressures, and agricultural-sector distress. Its hedging and trading operations are sensitive to geopolitical shocks (grain-corridor disruptions, trade wars) and climate volatility, making it a proxy for systemic agricultural-sector risk. Understanding Cargill's inventory, margin, and working-capital cycles is essential for forecasting food-price pass-through and consumer-staples earnings resilience.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly grain-export pace reports (USDA FAS) and port-loading data signal demand elasticity and logistics bottlenecks",
+        "Commodity futures basis spreads (corn, soy, wheat) and crush spreads (soybean processing margins) reflect Cargill's trading and processing profitability in real time",
+        "Supplier price-change notices to food-service and CPG customers via EDI and quarterly earnings calls disclose margin-compression or -expansion cycles",
+        "Geopolitical event filings (tariff announcements, sanctions, trade-agreement changes) trigger immediate hedging and inventory repositioning signals"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly working-capital intensity (inventory-to-revenue ratio) estimated from peer filings (ADM, Bunge) and industry surveys; Cargill's private status requires proxy modeling",
+        "Commodity-price exposure mapping: long grain positions, short oil/energy, hedged livestock; sensitivity to 10% commodity-price moves estimated at ±$500M EBITDA swing",
+        "Margin-cycle phase classification: expansion (crush spreads >$1.50/bu), compression (<$0.80), or distress (<$0.50); current state inferred from futures term structure and competitor disclosures",
+        "Leverage and liquidity position: estimated debt-to-EBITDA 2.5–3.5x based on private-company agricultural-trading benchmarks; access to capital markets via syndicated credit facilities"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior margin-compression cycles (2015–2016 commodity crash, 2020 pandemic supply-chain shock): Cargill's scale and diversification enabled survival; smaller competitors (Gavilon, Bunge) faced distress",
+        "Geopolitical-shock vulnerability: 2022 Ukraine invasion disrupted Black Sea grain exports, forcing Cargill to reroute supply chains and absorb logistics-cost inflation; margin compression lasted 3–4 quarters",
+        "Climate-volatility signature: 2023 US Midwest drought reduced corn yields 15–20%, triggering inventory-liquidation pressure and basis-spread widening; Cargill's storage capacity provided hedge advantage",
+        "Regulatory-tightening risk: EU CAP reform and US antitrust scrutiny on agricultural consolidation threaten margin-capture mechanisms in specialty-ingredient and animal-feed segments"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Commodity-futures hedging overlay: maintain 60–80% of physical grain exposure hedged via CBOT corn/soy futures and OTC swaps to cap downside margin volatility",
+        "Working-capital facility management: $10B+ syndicated credit lines renewed annually; stress-test for 30% commodity-price decline and 60-day payment-term extension from customers",
+        "Geopolitical-risk buffer: maintain 90-day minimum grain inventory in North America and Europe to absorb 2–3 week supply-chain disruptions without margin compression",
+        "ESG-linked financing: sustainability-linked credit facilities (regenerative agriculture, carbon-neutral operations) provide 25–50 bps pricing benefit and signal long-term margin-protection strategy"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Margin-expansion trade: long soybean crush spreads (buy soy futures, sell soybean-oil and meal futures) when spreads <$1.20/bu; unwind at $1.80+ to capture processing-margin upside",
+        "Geopolitical-hedge positioning: increase Black Sea grain-supply hedges (long Russian/Ukrainian wheat futures, short US wheat) when geopolitical risk premium exceeds 15% of price; reduce on de-escalation",
+        "Customer-pricing action: implement 30–60 day lag in food-service and CPG ingredient pricing to pass through commodity-cost inflation; monitor competitor pricing to avoid share loss",
+        "Inventory-liquidation trigger: if commodity prices fall >20% from peak, accelerate grain sales to lock in margins and reduce working-capital intensity; target 10–15% inventory reduction over 8–12 weeks"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Monthly USDA crop-progress and export-pace reports validate demand assumptions and signal inventory-turnover acceleration or deceleration",
+        "Quarterly earnings calls from Tyson Foods, Perdue, and other major customers disclose input-cost pass-through success and volume trends; margin compression signals Cargill's pricing power erosion",
+        "Commodity-futures basis-spread tracking (weekly): widening basis indicates supply tightness and margin expansion; narrowing basis signals oversupply and margin compression risk",
+        "Geopolitical-event post-mortems: track actual supply-chain disruption duration vs. forecast; recalibrate hedging ratios and inventory buffers based on realized impact"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Seasonality reweighting: adjust Q3–Q4 margin forecasts based on realized US Midwest harvest timing and yield; update working-capital intensity model for storage-cost inflation",
+        "Competitor-response calibration: monitor ADM and Bunge margin disclosures and trading-volume changes; recalibrate Cargill's competitive-advantage duration estimates if peers capture share",
+        "Climate-sensitivity recalibration: update crop-yield volatility assumptions annually based on NOAA seasonal forecasts and realized drought/flood frequency; increase inventory buffers if volatility rises",
+        "Regulatory-impact modeling: incorporate new tariff schedules, trade-agreement changes, and antitrust enforcement actions into margin-compression probability estimates; adjust hedging ratios accordingly"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Cargill operates as a distributed commodity-procurement and supply-chain orchestration network, functioning as a sensory-motor integration hub that captures price signals from global agricultural markets, processes them through integrated trading, processing, and logistics operations, and distributes margin-optimized products to food manufacturers, retailers, and food-service operators. Its private ownership and opaque financial structure create information asymmetries that allow it to arbitrage commodity-price dislocations and supply-chain inefficiencies across geographies and product categories. The company's scale in grain storage, animal-feed production, and specialty-ingredient processing gives it outsized influence over input costs for downstream food-industry participants, making it a critical node in food-price transmission and supply-chain resilience.",
+    "suppliers": [
+      {
+        "name": "Archer Daniels Midland Company",
+        "ticker": "ADM",
+        "cik": "0000007084",
+        "slug": "archer_daniels_midland",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Dynamics",
+        "relationshipNote": "ADM is Cargill's primary direct competitor in grain trading, oilseed crushing, and animal-feed production. Both companies control ~25% of US soybean-crushing capacity and compete for commodity-procurement volume from farmers and export sales to food manufacturers. ADM's Q3 2024 earnings disclosed 12% YoY margin compression in oilseeds segment, signaling industry-wide pricing pressure that affects Cargill's crush-spread economics. Competitive dynamics in specialty-ingredient markets (citric acid, amino acids) increasingly overlap.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bunge Global SE",
+        "ticker": "BG",
+        "cik": "0001378932",
+        "slug": "bunge_global",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Dynamics",
+        "relationshipNote": "Bunge is the third-largest global grain trader and oilseed processor, competing with Cargill in commodity procurement, crushing, and animal-feed production. Bunge's 2023 annual report disclosed $2.1B EBITDA with 18% margin on grain-trading operations, vs. Cargill's estimated 12–15% (inferred from peer benchmarks). Bunge's recent acquisition of Viterra (2023, $1.5B) expanded its grain-storage and export-terminal capacity, directly competing with Cargill's logistics infrastructure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Louis Dreyfus Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "louis_dreyfus_company",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Dynamics",
+        "relationshipNote": "LDC is a privately held global commodity trader with significant grain, oilseed, and sugar operations. Competes with Cargill in Black Sea grain exports and tropical-commodity sourcing (cocoa, coffee, sugar). LDC's 2022 revenue estimated at $60B (vs. Cargill's ~$165B), but its focus on emerging-market supply chains and direct-farmer relationships creates competitive pressure in high-margin specialty segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Perdue Agribusiness",
+        "ticker": null,
+        "cik": null,
+        "slug": "perdue_agribusiness",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Customer Anchor",
+        "relationshipNote": "Perdue is a privately held poultry and pork producer that sources ~25% of its animal-feed requirements from Cargill under multi-year supply agreements. Perdue's 2023 revenue estimated at $12B with feed costs ~$3–4B annually. Cargill's feed-segment margin on Perdue volumes estimated at 8–12% EBITDA. Perdue's vertical integration into feed production (Perdue AgriBusiness subsidiary) creates competitive pressure; Cargill maintains relationship via specialty-ingredient and logistics-service differentiation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Walmart, Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Customer Anchor",
+        "relationshipNote": "Walmart is a major customer for Cargill's commodity grains, oils, and specialty ingredients via both direct procurement and private-label food manufacturing. Walmart's 2024 10-K disclosed $648B revenue with grocery COGS ~$350B; Cargill supplies an estimated 2–4% of grocery-ingredient needs. Cargill's role in Walmart's supply-chain resilience is critical for price-stability and sourcing-continuity during commodity-market disruptions. Walmart's sustainability initiatives (regenerative agriculture sourcing) create premium-pricing opportunities for Cargill's certified-origin grain and ingredient programs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Costco Wholesale Corporation",
+        "ticker": "COST",
+        "cik": "0000909832",
+        "slug": "costco",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Customer Anchor",
+        "relationshipNote": "Costco sources commodity grains, oils, and proteins from Cargill for private-label food products and prepared-food operations. Costco's 2024 10-K disclosed $242B revenue with food COGS ~$120B; Cargill supplies an estimated 1–3% of ingredient needs. Costco's focus on low-cost sourcing and high-volume procurement creates competitive pricing pressure on Cargill's commodity-supply margins. Cargill's logistics and storage infrastructure provides Costco with supply-chain resilience benefits during commodity-market disruptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "PepsiCo, Inc.",
+        "ticker": "PEP",
+        "cik": "0000884996",
+        "slug": "pepsico",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Customer Anchor",
+        "relationshipNote": "PepsiCo sources grain, vegetable oils, and specialty ingredients from Cargill for Frito-Lay snacks, Tropicana juices, and Quaker oats products. PepsiCo's 2023 10-K disclosed $91.5B revenue with COGS ~$42B; Cargill supplies an estimated 3–5% of ingredient needs. Cargill's grain-supply contracts with PepsiCo include quarterly price-adjustment clauses tied to CBOT futures; 2023–2024 commodity-price volatility created margin-compression pressure on both parties. PepsiCo's plant-based protein expansion (Beyond Meat partnership) creates new ingredient-sourcing opportunities for Cargill.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Union Pacific Railroad Company",
+        "ticker": "UNP",
+        "cik": "0001096470",
+        "slug": "union_pacific",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Union Pacific operates the largest US rail network serving agricultural regions, transporting ~15–20% of Cargill's grain and commodity shipments from Midwest elevators to export terminals and food-processing facilities. UP's 2023 10-K disclosed $28.1B revenue with agricultural-commodity carloads representing ~12% of volume. Cargill's long-term rail-service agreements with UP include volume commitments and seasonal rate adjustments. Rail-service disruptions (2023 labor negotiations, 2024 infrastructure constraints) directly impact Cargill's logistics costs and delivery timelines.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bunge Global SE (Logistics Division)",
+        "ticker": "BG",
+        "cik": "0001378932",
+        "slug": "bunge_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Bunge operates grain-storage terminals and export facilities at major US ports (New Orleans, Houston, Pacific Northwest) and competes with Cargill for commodity-logistics services. Bunge's 2023 10-K disclosed $2.1B EBITDA with logistics/storage contributing ~25% of margin. Cargill and Bunge compete for third-party grain-storage and handling contracts; Cargill's integrated storage network (200+ elevators) provides cost advantage. Bunge's 2023 Viterra acquisition expanded its competitive logistics capacity by ~15%.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Soy Energy LLC (Joint Venture with Cargill)",
+        "ticker": null,
+        "cik": null,
+        "slug": "soy_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Soy Energy is a 50-50 joint venture between Cargill and Archer Daniels Midland operating biodiesel production facilities in Iowa and Illinois. The JV processes soybean oil into renewable diesel, capturing margin from soybean-crush spreads and biodiesel-fuel premiums. Cargill's ownership stake provides integrated feedstock sourcing and margin-capture opportunities in renewable-fuel markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Maersk Line A/S",
+        "ticker": "MAERSK",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Maersk is a primary ocean-shipping partner for Cargill's international grain and ingredient exports, transporting ~10–15% of Cargill's containerized specialty-ingredient shipments to Asia, Europe, and Latin America. Maersk's 2023 revenue disclosed ~DKK 170B with container-shipping representing ~60% of volume. Cargill's long-term shipping contracts with Maersk include volume commitments and fuel-surcharge adjustment mechanisms. 2023–2024 Red Sea shipping disruptions increased Cargill's ocean-freight costs by 25–40%, compressing margins on export-dependent segments.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "The Coca-Cola Company",
+        "slug": "coca_cola",
+        "ticker": "KO",
+        "cik": "0000021344",
+        "brainNodeId": "S1",
+        "relationshipNote": "Cargill supplies high-fructose corn syrup and sugar to Coca-Cola's bottling network, forming a critical input-cost relationship. As a private commodity trader, Cargill's pricing remains opaque but indexed to global futures. KO's exposure to commodity inflation directly correlates with Cargill's hedging posture and inventory management, making this relationship a key driver of beverage-segment margin pressure.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.455Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "coca_cola",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "cargill||cargillinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:46.416Z"
+      },
+      {
+        "name": "Colgate-Palmolive Company",
+        "slug": "colgate_palmolive",
+        "ticker": "CL",
+        "cik": "0000021665",
+        "brainNodeId": "S1",
+        "relationshipNote": "Cargill is a primary supplier of palm oil and derivative emulsifiers for Colgate-Palmolive's soap and personal-care portfolio, including Palmolive and Irish Spring brands. Sustainability certifications influence CL's ESG positioning. Palm-oil price volatility creates direct COGS exposure; Cargill's commodity expertise and supply reliability are material to CL's margin stability and retail-channel profitability.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.455Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "colgate_palmolive",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "cargill||cargillincorporated"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:46.416Z"
+      },
+      {
+        "name": "General Mills, Inc.",
+        "slug": "general_mills",
+        "ticker": "GIS",
+        "cik": "0000040704",
+        "brainNodeId": "S1",
+        "relationshipNote": "Cargill supplies dairy inputs including milk powder and whey for General Mills' Yoplait yogurt operations, and sources cocoa for Häagen-Dazs U.S. production. The relationship spans decades with a 60–90 day price pass-through lag, creating quarterly margin volatility. Cargill's commodity pricing directly influences GIS's promotional cadence and grocery-channel positioning versus private-label competitors.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.455Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "general_mills",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "cargill||cargillincorporated"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:46.416Z"
+      },
+      {
+        "name": "The Kraft Heinz Company",
+        "slug": "kraft_heinz",
+        "ticker": "KHC",
+        "cik": "0001637459",
+        "brainNodeId": "S1",
+        "relationshipNote": "Cargill supplies wheat, corn, soybean oil, and commodity grains serving as primary inputs for Kraft Heinz's mass-market food portfolio. As a private, vertically integrated commodity processor, Cargill's opaque pricing and hedging decisions materially impact KHC's COGS and margin expansion targets. Commodity-price correlation drives structural headwinds to profitability across KHC's Walmart-concentrated business.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.455Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "kraft_heinz",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "cargill||cargillincorporated"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:46.416Z"
+      },
+      {
+        "name": "McDonald's Corporation",
+        "slug": "mcdonalds",
+        "ticker": "MCD",
+        "cik": "0000063908",
+        "brainNodeId": "S1",
+        "relationshipNote": "Cargill is a major supplier of beef, wheat, corn, and soybean oil to McDonald's global franchisee network, representing an estimated 10–15% of MCD's commodity inputs. Cargill's vertical integration in cattle ranching, grain milling, and oil refining makes it a critical cost driver. Price volatility directly influences franchisee profitability and MCD's ability to manage margin compression in labor-constrained markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.455Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "mcdonalds",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "cargill||cargillincorporated"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:46.416Z"
+      },
+      {
+        "name": "Reckitt Benckiser Group PLC (Mead Johnson Division)",
+        "slug": "mead_johnson",
+        "ticker": "RBGLY",
+        "cik": "0000077360",
+        "brainNodeId": "S1",
+        "relationshipNote": "Cargill supplies vegetable oils, corn syrup, and specialty carbohydrates comprising 25–30% of non-dairy ingredients in Mead Johnson's Enfamil pediatric formulations. Contracts include sustainability certifications and commodity-price hedging services. Cargill's supply reliability and input-cost volatility directly impact Enfamil's gross margins and Reckitt's ability to maintain pricing power in competitive pediatric-nutrition channels.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.455Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "mead_johnson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "cargill||cargillincorporated"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:46.416Z"
+      },
+      {
+        "name": "Mondelez International, Inc.",
+        "slug": "mondelez",
+        "ticker": "MDLZ",
+        "cik": "0001103982",
+        "brainNodeId": "S1",
+        "relationshipNote": "Cargill supplies wheat flour for savory snacks (Ritz, belVita), palm oil for confectionery, and dairy ingredients for chocolate products to Mondelez. As a private commodity trader, Cargill's pricing opacity and commodity-hedging expertise align with MDLZ's forward-price-locking strategy. Input-cost exposure directly influences snacking-category margins and MDLZ's inflation pass-through efficacy across retail channels.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.456Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "mondelez",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "cargill||cargillincorporated"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:46.416Z"
+      },
+      {
+        "name": "Unilever PLC",
+        "slug": "unilever",
+        "ticker": "UL",
+        "cik": "0000217076",
+        "brainNodeId": "S1",
+        "relationshipNote": "Cargill supplies soybean oil, palm oil, and cocoa to Unilever's Nutrition segment, including Hellmann's, Knorr, and Ben & Jerry's brands. Commodity-price volatility directly impacts UL's COGS; Unilever hedges via Cargill forward contracts and commodity futures. Cargill's supply portfolio represents material annual exposure and influences Unilever's margin-cycle trajectory across global CPG markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.456Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "unilever",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "cargill||cargillincorporated"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:46.416Z"
+      },
+      {
+        "name": "Abbott Laboratories (Metabolic / CGM Division)",
+        "slug": "abbott_metabolic",
+        "ticker": "ABT",
+        "cik": "0000001800",
+        "brainNodeId": "S1",
+        "relationshipNote": "Cargill supplies corn syrup as the primary carbohydrate base and soy lecithin emulsifier for Abbott's Ensure and Glucerna nutrition products. Commodity-price exposure directly impacts gross margins; corn-futures volatility creates quarterly earnings sensitivity. Cargill's hedging services and input reliability support Abbott's ability to maintain pricing discipline and margin targets in the competitive medical-nutrition category.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.456Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "abbott_metabolic",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "cargill||cargillincorporated"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:46.416Z"
+      },
+      {
+        "name": "Nestlé S.A.",
+        "ticker": "NSRGY",
+        "cik": "0001099659",
+        "slug": "nestle",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Customer Anchor",
+        "relationshipNote": "Nestlé is a major customer for Cargill's specialty-food ingredients (cocoa, dairy ingredients, emulsifiers, starches) and commodity inputs (vegetable oils, grains for pet food). Nestlé's 2023 10-K disclosed CHF 93B revenue with raw-material costs ~40% of COGS. Cargill supplies an estimated 5–8% of Nestlé's global ingredient needs via supply agreements in cocoa processing, dairy ingredients, and plant-based proteins. Nestlé's sustainability commitments (100% sustainable cocoa by 2025) drive Cargill's premium-pricing opportunities in certified-origin ingredients.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Tyson Foods, Inc.",
+        "ticker": "TSN",
+        "cik": "0000100493",
+        "slug": "tyson_foods",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Customer Anchor",
+        "relationshipNote": "Tyson is Cargill's largest customer for animal feed and a major buyer of grain commodities for poultry and beef production. Tyson's 2024 10-K disclosed $58.3B revenue with animal-feed costs representing ~35% of COGS. Cargill supplies an estimated 15–20% of Tyson's feed requirements via long-term contracts with quarterly price-adjustment mechanisms. Tyson's margin compression in 2023–2024 (avian flu, feed-cost inflation) directly pressured Cargill's feed-segment pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Archer Daniels Midland Company",
+        "ticker": "ADM",
+        "cik": "0000007084",
+        "slug": "archer_daniels_midland",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Dynamics",
+        "relationshipNote": "ADM is Cargill's primary direct competitor in grain trading, oilseed crushing, and animal-feed production. Both companies control ~25% of US soybean-crushing capacity and compete for commodity-procurement volume from farmers and export sales to food manufacturers. ADM's Q3 2024 earnings disclosed 12% YoY margin compression in oilseeds segment, signaling industry-wide pricing pressure that affects Cargill's crush-spread economics. Competitive dynamics in specialty-ingredient markets (citric acid, amino acids) increasingly overlap.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bunge Global SE",
+        "ticker": "BG",
+        "cik": "0001378932",
+        "slug": "bunge_global",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Dynamics",
+        "relationshipNote": "Bunge is the third-largest global grain trader and oilseed processor, competing with Cargill in commodity procurement, crushing, and animal-feed production. Bunge's 2023 annual report disclosed $2.1B EBITDA with 18% margin on grain-trading operations, vs. Cargill's estimated 12–15% (inferred from peer benchmarks). Bunge's recent acquisition of Viterra (2023, $1.5B) expanded its grain-storage and export-terminal capacity, directly competing with Cargill's logistics infrastructure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Louis Dreyfus Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "louis_dreyfus_company",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Dynamics",
+        "relationshipNote": "LDC is a privately held global commodity trader with significant grain, oilseed, and sugar operations. Competes with Cargill in Black Sea grain exports and tropical-commodity sourcing (cocoa, coffee, sugar). LDC's 2022 revenue estimated at $60B (vs. Cargill's ~$165B), but its focus on emerging-market supply chains and direct-farmer relationships creates competitive pressure in high-margin specialty segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Glencore plc",
+        "ticker": "GLCNF",
+        "cik": null,
+        "slug": "glencore",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Dynamics",
+        "relationshipNote": "Glencore is a diversified commodity trader with growing agricultural-commodity operations (grains, oilseeds, sugar). Glencore's 2023 annual report disclosed $239B revenue with agricultural commodities representing ~8–10% of trading volume. Glencore's scale in energy and metals trading provides cross-commodity hedging advantages vs. Cargill's agriculture-focused model. Competitive threat is emerging in emerging-market grain sourcing and tropical-commodity trading.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Viterra Inc. (Bunge subsidiary)",
+        "ticker": "BG",
+        "cik": "0001378932",
+        "slug": "viterra",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Dynamics",
+        "relationshipNote": "Viterra was acquired by Bunge in 2023 for $1.5B, consolidating Canadian and Australian grain-storage and export operations. Viterra's 200+ grain elevators and port terminals in Canada and Australia directly compete with Cargill's international logistics infrastructure. Post-acquisition, Bunge-Viterra controls ~15% of Canadian grain-export capacity, vs. Cargill's estimated 12–14%. Competitive pressure is highest in Western Canada canola and Australian wheat exports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Cofco Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "cofco",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Dynamics",
+        "relationshipNote": "COFCO is China's state-owned agricultural commodity trader and processor, competing with Cargill in global grain sourcing, oilseed crushing, and sugar trading. COFCO's 2022 revenue estimated at $100B+ with significant operations in Black Sea grain imports and Southeast Asian palm-oil sourcing. COFCO's strategic focus on securing commodity supplies for China's food security creates competitive pressure on Cargill in emerging-market sourcing and long-term supply contracts.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC has limited direct jurisdiction over Cargill due to its private status, but SEC filings by Cargill's public customers (Tyson, ADM, Bunge) disclose Cargill as a material supplier. SEC's 2023 climate-disclosure rules (Reg S-K amendments) indirectly pressure Cargill via customer ESG reporting requirements. Cargill's private status shields it from direct SEC disclosure obligations but creates information asymmetries that complicate financial-health assessment.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Agriculture",
+        "ticker": null,
+        "cik": null,
+        "slug": "usda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Food Security",
+        "relationshipNote": "USDA regulates commodity-trading practices, grain-storage standards, and animal-feed safety. USDA's Commodity Futures Trading Commission (CFTC) oversight of Cargill's commodity-futures trading includes position-limit enforcement and market-manipulation surveillance. USDA's 2023 crop-progress and export-pace reports are primary data sources for Cargill's commodity-supply forecasting. USDA's farm-subsidy programs and crop-insurance mechanisms indirectly affect Cargill's farmer-procurement costs.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Food Safety",
+        "relationshipNote": "FDA regulates Cargill's food-ingredient manufacturing, animal-feed production, and food-safety compliance. FDA's 2023 Food Safety Modernization Act (FSMA) enforcement actions on grain-handling and ingredient-processing facilities directly impact Cargill's operational costs and supply-chain resilience. Cargill operates ~50+ FDA-regulated facilities for ingredient processing and animal-feed production; compliance failures trigger product recalls and customer-relationship disruptions.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance & Risk",
+        "relationshipNote": "EPA regulates Cargill's grain-processing facilities, animal-feed plants, and biodiesel production operations under Clean Air Act and Clean Water Act. EPA's 2023 renewable-fuel standards (RFS) mandate biodiesel blending, creating demand for Cargill's soybean-oil-derived biodiesel. EPA's recent enforcement actions on agricultural-runoff pollution and nutrient-management practices indirectly affect Cargill's fertilizer and crop-input sales margins.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Justice (Antitrust Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "doj_antitrust",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic Risk",
+        "relationshipNote": "DOJ Antitrust Division has scrutinized agricultural-commodity trading consolidation, particularly Cargill's market share in grain trading (~13% US exports) and oilseed crushing (~25% capacity). DOJ's 2023 enforcement priorities target agricultural-sector consolidation; Cargill faces potential antitrust challenges if it pursues major acquisitions in grain trading or animal feed. Cargill's private status limits transparency, but DOJ has authority to investigate merger-related conduct and pricing practices.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "Deloitte is Cargill's primary external auditor, conducting annual financial audits and internal-control assessments. As a private company, Cargill's audit reports are not publicly disclosed, limiting external visibility into financial health and risk-management practices. Deloitte's audit scope includes commodity-trading controls, inventory-valuation methodologies, and derivative-hedging effectiveness. Deloitte's audit findings on working-capital management and commodity-price-risk controls are critical for assessing Cargill's financial resilience during commodity-market disruptions.",
+      "confidence": "medium",
+      "sourceType": [
+        "inferred",
+        "industry-report"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Cargill Family (Majority Shareholder)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cargill_family",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "The Cargill and MacMillan families own ~88% of Cargill, Inc., with the remaining ~12% held by employee stock-ownership plans (ESOPs). Family ownership provides long-term capital stability and insulates Cargill from short-term equity-market pressures, enabling multi-year commodity-cycle investments. Family governance structure limits external capital-raising flexibility; Cargill relies on retained earnings and debt financing for growth.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co. (Lead Lender)",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "JPMorgan Chase is Cargill's primary relationship bank and lead arranger for syndicated credit facilities. Cargill maintains $10B+ in committed credit lines with JPMorgan as administrative agent, providing working-capital financing for commodity-trading operations and seasonal inventory buildup. JPMorgan's 2024 earnings disclosures reference Cargill as a key agricultural-sector client; relationship includes commodity-derivatives hedging and trade-finance services. Cargill's credit facility includes financial covenants tied to debt-to-EBITDA ratios and interest-coverage metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Bank of America is a syndicate member in Cargill's credit facilities and provides commodity-derivatives hedging and trade-finance services. BofA's 2024 earnings disclosures reference agricultural-sector lending as a strategic focus; Cargill represents a material credit exposure. BofA's commodity-trading desk provides Cargill with market intelligence and hedging execution services for grain, oil, and livestock futures.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Citigroup Inc.",
+        "ticker": "C",
+        "cik": "0000831001",
+        "slug": "citigroup",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Citigroup is a syndicate member in Cargill's credit facilities and provides trade-finance and commodity-derivatives services. Citi's 2024 earnings disclosures reference agricultural-sector financing as a strategic priority; Cargill is a material client. Citi's commodity-trading desk executes hedging strategies for Cargill's grain, oil, and livestock exposures.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "David MacLennan",
+        "ticker": null,
+        "cik": null,
+        "slug": "david_maclennan",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "David MacLennan is Chairman and CEO of Cargill, leading the company since 2013. MacLennan is a member of the Cargill family (via marriage) and has guided Cargill through commodity-cycle downturns (2015–2016, 2020 pandemic) and geopolitical disruptions (2022 Ukraine invasion). MacLennan's strategic focus on sustainability, digital supply-chain transformation, and emerging-market growth has shaped Cargill's competitive positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Jill Prouty",
+        "ticker": null,
+        "cik": null,
+        "slug": "jill_prouty",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Jill Prouty is Chief Financial Officer of Cargill, overseeing financial planning, capital allocation, and risk management. Prouty joined Cargill in 2019 from Mondelez International and has led Cargill's financial-transformation initiatives, including working-capital optimization and commodity-hedging-program enhancements. Prouty's focus on financial resilience during commodity-price volatility has strengthened Cargill's liquidity management and debt-covenant compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Soren Schroder",
+        "ticker": null,
+        "cik": null,
+        "slug": "soren_schroder",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Soren Schroder is Chief Operating Officer of Cargill, overseeing global operations, supply-chain management, and production facilities. Schroder joined Cargill in 2017 from Maersk and has led operational-efficiency initiatives in grain handling, animal-feed production, and ingredient processing. Schroder's focus on supply-chain digitalization and logistics-cost reduction has improved Cargill's competitive positioning during commodity-margin compression cycles.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "CBOT Corn Futures (ZC)",
+        "ticker": "ZC",
+        "cik": null,
+        "slug": "cbot_corn",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Market Intelligence",
+        "relationshipNote": "CBOT corn futures (ZC) are the primary price-discovery mechanism for Cargill's grain-trading and animal-feed operations. Cargill's commodity-procurement costs and customer-pricing decisions are directly tied to ZC futures prices. Weekly ZC price movements (±5% swings) create ±$250M EBITDA sensitivity for Cargill's grain-trading segment. Cargill's hedging ratios (typically 60–80% of physical exposure) are calibrated to ZC futures volatility and basis-spread dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "CBOT Soybean Futures (ZS) & Soybean Oil Futures (ZL)",
+        "ticker": "ZS",
+        "cik": null,
+        "slug": "cbot_soybean",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Market Intelligence",
+        "relationshipNote": "CBOT soybean (ZS) and soybean-oil (ZL) futures are critical price signals for Cargill's oilseed-crushing operations and vegetable-oil sales. Crush spreads (ZS price minus ZL + meal prices) directly determine Cargill's processing-margin profitability. 2023–2024 crush-spread compression (from $1.80/bu to $0.95/bu) significantly pressured Cargill's oilseed-segment margins. Cargill's crush-spread hedging strategy targets 60–70% coverage of physical crush volumes.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "CME Lean Hog Futures (HE) & Live Cattle Futures (LE)",
+        "ticker": "HE",
+        "cik": null,
+        "slug": "cme_livestock",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Market Intelligence",
+        "relationshipNote": "CME lean hog (HE) and live cattle (LE) futures are price signals for Cargill's animal-feed sales and livestock-protein sourcing. Cargill's feed-segment revenue is directly correlated with livestock-production cycles; HE and LE prices drive customer demand for feed products. 2023–2024 avian-flu outbreaks and cattle-herd reductions reduced Cargill's feed-volume demand by 8–12%, compressing segment margins. Cargill monitors HE and LE futures for demand-cycle inflection points.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "agriculture",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:26.930Z",
+      "overrideCount": 11
+    },
+    "overrides": {
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Archer Daniels Midland Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Bunge Global SE",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Louis Dreyfus Company",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Archer Daniels Midland Company",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Bunge Global SE",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Louis Dreyfus Company",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Glencore plc",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Viterra Inc. (Bunge subsidiary)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Cofco Corporation",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Perdue Agribusiness",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Walmart, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Costco Wholesale Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "PepsiCo, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Nestlé S.A.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Tyson Foods, Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "CBOT Corn Futures (ZC)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "CBOT Soybean Futures (ZS) & Soybean Oil Futures (ZL)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "CME Lean Hog Futures (HE) & Live Cattle Futures (LE)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "S1": {
+        "external_add": [
+          {
+            "name": "The Coca-Cola Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Colgate-Palmolive Company",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "General Mills, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "The Kraft Heinz Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "McDonald's Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Reckitt Benckiser Group PLC (Mead Johnson Division)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Mondelez International, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Unilever PLC",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Abbott Laboratories (Metabolic / CGM Division)",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Justice (Antitrust Division)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Agriculture",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Food and Drug Administration",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Environmental Protection Agency",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Cargill Family (Majority Shareholder)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co. (Lead Lender)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Citigroup Inc.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Union Pacific Railroad Company",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Bunge Global SE (Logistics Division)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Soy Energy LLC (Joint Venture with Cargill)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Maersk Line A/S",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte LLP",
+            "type": "auditor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte LLP",
+            "type": "auditor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "HAB": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Justice (Antitrust Division)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators_antitrust_overlay"
+          }
+        ]
+      }
+    }
+  }
+}

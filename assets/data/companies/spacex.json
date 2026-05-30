@@ -1,0 +1,775 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "spacex",
+  "slug": "spacex",
+  "name": "Space Exploration Technologies Corp.",
+  "ticker": null,
+  "cik": null,
+  "sic": "3721",
+  "industry": "Aircraft, Guided Missiles, and Spacecraft Manufacturing",
+  "domainId": "defense",
+  "portalAttachment": "defense-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "MMNRNJ",
+    "TOTALSA",
+    "HOUST",
+    "PERMIT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "aluminum",
+    "titanium",
+    "steel",
+    "rare-earth-elements",
+    "rocket-fuel-RP-1",
+    "liquid-oxygen",
+    "helium"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Regulatory dependency: 100% of revenue from U.S. government contracts (DoD, NASA, NRO); policy shift or budget reallocation poses existential risk",
+    "Launch cadence volatility: Starship development delays impact commercial revenue forecasts; 2024 RUD events delayed orbital refueling milestones",
+    "Supply-chain concentration: Merlin engine production bottleneck; single-source avionics and guidance systems from legacy suppliers",
+    "Starlink satellite constellation risk: FCC spectrum allocation challenges; OneWeb/Amazon Kuiper competition for LEO market share"
+  ],
+  "opportunitySignals": [
+    "Starship operational readiness: Full reusability economics unlock $100M+ per-launch margin vs. Falcon 9; government contracts (NSSL, USSF) pending certification",
+    "Commercial space station demand: Axiom Space partnership and NASA ISS deorbit contract (2030–2031) position SpaceX as anchor logistics provider",
+    "National security imperative: USSF Assured Access to Space (AAS) program allocates $2.3B over 5 years; SpaceX primary beneficiary post-ULA consolidation",
+    "Starlink monetization inflection: 2024 subscriber growth to 2M+ units; satellite internet TAM $150B+ globally; margin expansion via direct-to-consumer pricing"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Falcon 9 operational cadence (2024: 63 launches YTD)",
+      "Falcon Heavy certification for DoD/NRO missions",
+      "Starship integrated flight test campaign (IFT-4 and beyond)",
+      "Starlink constellation deployment and service activation"
+    ],
+    "engineOutputs": [
+      "Falcon 9 launch revenue: ~$62M per commercial mission; government contracts $200M–$500M per year",
+      "Starship development capex: $2B–$3B annually (estimated); revenue phase 2026–2027",
+      "Starlink ARPU: $120–$150/month; churn <5% (industry-leading); 2024 path to profitability"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "SpaceX is the dominant U.S. commercial launch provider and primary contractor for DoD/NRO national security space missions, including NSSL Phase 2 (National Security Space Launch), USSF Assured Access to Space, and classified reconnaissance satellite deployment. The company's Falcon 9 rocket has captured ~60% of global commercial launch market share and serves as the backbone of NASA's Commercial Crew Program (CCP) and cargo resupply missions. Starship development represents a generational shift in reusable heavy-lift capability, with implications for military logistics, rapid-response strike, and space-based ISR architecture.",
+  "portalRelevance": "SpaceX is a tier-1 anchor in the U.S. defense-industrial base and a critical node in the national security space ecosystem. As a private company with no public equity or debt markets, SpaceX's financial health and execution risk are opaque to traditional equity research; however, its role as sole or primary contractor on $10B+ in multi-year government programs makes it systemically important to DoD budget cycles, USSF modernization, and allied space capabilities. The company's Starlink constellation introduces a dual-use (commercial + military) revenue stream and geopolitical leverage in satellite internet markets, making it relevant to intelligence, infrastructure, and technology domains simultaneously.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly Falcon 9 launch cadence and mission manifest (public via FAA/FCC filings and company announcements)",
+        "Starship integrated flight test (IFT) outcomes and anomaly reports (public via FAA mishap investigations and SpaceX statements)",
+        "DoD/NRO contract awards and modifications (public via SAM.gov and press releases; classified mission details withheld)",
+        "Starlink subscriber growth, churn, and ARPU trends (disclosed in investor updates and industry surveys)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Launch vehicle operational readiness: Falcon 9 mature (>150 flights); Falcon Heavy certified; Starship in development phase (IFT-4 target Q4 2024)",
+        "Financial trajectory: Estimated $5B–$8B annual revenue (2024); profitability dependent on Starship commercialization and Starlink ARPU scaling",
+        "Government contract pipeline: NSSL Phase 2 ($2.3B over 5 years); ISS cargo/crew (multi-year); classified NRO missions (ongoing)",
+        "Competitive position: 60% commercial launch share; 100% of U.S. government assured access; Starlink 2M+ subscribers (2024 estimate)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Execution risk: Starship development delays (2023–2024 RUD events) compress timeline for full reusability economics; government contracts contingent on certification milestones",
+        "Regulatory risk: FCC spectrum allocation for Starlink Phase 2 (12.2 GHz band) contested by terrestrial wireless operators; OneWeb/Amazon competition for LEO slots",
+        "Supply-chain risk: Merlin engine production capacity constrains Falcon 9 cadence; avionics and guidance systems single-sourced from legacy suppliers (Northrop Grumman, L3Harris)",
+        "Policy risk: ITAR export controls on Falcon 9 launches of foreign payloads; potential DoD budget reallocation under new administration (2025+)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: SpaceX is systemically important to U.S. national security space architecture; government will backstop development risk via contract awards and regulatory forbearance",
+        "Risk management: Diversify revenue across commercial (Starlink, Falcon 9 commercial), government (NSSL, ISS, classified), and international (subject to ITAR) segments",
+        "Hedge positioning: Monitor FCC spectrum decisions and OneWeb/Amazon competitive moves; track Starship certification timeline vs. government contract milestones",
+        "Engagement: Quarterly review of SAM.gov contract modifications, FAA launch license renewals, and CFIUS foreign investment scrutiny (if applicable)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: If modeling defense-industrial exposure, SpaceX is a core holding (via indirect equity stakes or debt instruments if available); monitor for secondary market transactions",
+        "Scenario planning: Model three paths: (A) Starship on-time certification (2025–2026) → margin expansion and government contract acceleration; (B) 12-month delay → revenue plateau and cash burn; (C) policy shift → government contract cancellation or reallocation",
+        "Engagement strategy: Quarterly earnings-equivalent briefings (if available); track FAA mishap investigations and USSF contract announcements; monitor Starlink subscriber metrics via third-party surveys",
+        "Risk triggers: Starship RUD events, FCC spectrum denial, DoD budget cuts, ITAR enforcement actions, or executive turnover (Elon Musk)"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Launch cadence validation: Compare actual Falcon 9 manifest vs. forecast; track mission success rate and turnaround time (target <30 days)",
+        "Starship milestone tracking: IFT-4 orbital refueling test (Q4 2024), booster catch (Q1 2025), full reusability demo (2025–2026)",
+        "Government contract flow: Monitor SAM.gov for NSSL Phase 2 task orders, ISS cargo/crew extensions, and classified mission announcements",
+        "Starlink metrics: Subscriber growth (target 3M+ by 2025), churn rate, ARPU trends, and geographic expansion (international markets)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Starship economics update: If reusability milestones slip, revise margin assumptions downward; if achieved ahead of schedule, accelerate government contract revenue recognition",
+        "Competitive landscape recalibration: If OneWeb/Amazon Kuiper launch cadence accelerates, reduce Starlink TAM assumptions and pricing power estimates",
+        "Supply-chain sensitivity: If Merlin engine production bottleneck persists, model Falcon 9 cadence cap at 50–60 launches/year (vs. 100+ potential)",
+        "Policy scenario weighting: Adjust government contract probability and timeline based on USSF budget allocation, ITAR enforcement trends, and executive administration changes"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "SpaceX operates as a vertically integrated aerospace manufacturer and launch service provider, functioning as a decision-making node within the U.S. national security space architecture. The company's core business logic centers on rapid iteration (Starship development), operational efficiency (Falcon 9 reusability), and dual-use revenue diversification (government contracts + commercial Starlink). Its neural role is that of a strategic executor within the DoD/USSF ecosystem, receiving policy signals and budget allocations from regulators, sourcing critical materials and subsystems from a concentrated supplier base, and delivering launch services to government and commercial customers. The company's private ownership and opaque financials make it a high-salience node for intelligence and risk assessment, particularly given its role in classified national security missions and its emerging dominance in commercial satellite internet.",
+    "suppliers": [
+      {
+        "name": "Northrop Grumman Corporation",
+        "ticker": "NOC",
+        "cik": "0001133421",
+        "slug": "northrop_grumman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Avionics & Guidance Systems",
+        "relationshipNote": "Northrop supplies guidance and flight-control avionics for Falcon 9 and Falcon Heavy via its Aerospace Systems Division. Contract value estimated $50M–$100M annually (2023–2024). Single-source dependency for inertial measurement units (IMUs) and flight computers; SpaceX has invested in vertical integration of avionics to reduce reliance by 2025. Disclosed in SpaceX supplier briefings and industry reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "L3Harris Technologies Inc.",
+        "ticker": "LHX",
+        "cik": "0001025023",
+        "slug": "l3harris",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Communications & Telemetry Systems",
+        "relationshipNote": "L3Harris provides S-band and X-band telemetry, command, and tracking systems for Falcon 9 and Starship. Contract estimated $30M–$60M annually. Critical for government missions (NRO, USSF) requiring secure, encrypted uplink/downlink. SpaceX has developed proprietary alternatives for commercial missions to reduce cost and lead time. Referenced in SpaceX technical documentation and industry analyses.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Aerojet Rocketdyne (L3Harris subsidiary)",
+        "ticker": "LHX",
+        "cik": "0001025023",
+        "slug": "aerojet_rocketdyne",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Reaction Control Systems & Thrusters",
+        "relationshipNote": "Aerojet supplies reaction control system (RCS) thrusters and cold-gas attitude-control systems for Falcon 9 second stage and Dragon spacecraft. Contract value $20M–$40M annually. SpaceX has developed in-house Merlin Vacuum engine for second stage but relies on Aerojet for RCS redundancy and heritage qualification. Disclosed in SpaceX technical specifications and L3Harris investor relations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Alcoa Corporation",
+        "ticker": "AA",
+        "cik": "0001393595",
+        "slug": "alcoa",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Aluminum Alloys & Forgings",
+        "relationshipNote": "Alcoa supplies 7075-T73 and 2219-T87 aluminum alloys for Falcon 9 and Starship airframes, tanks, and structural components. Estimated 500–1,000 metric tons annually (2023–2024). SpaceX has negotiated long-term supply agreements with price escalation clauses tied to LME aluminum futures. Critical for launch cadence; supply disruptions in 2022 delayed missions by 2–4 weeks. Disclosed in SpaceX supply-chain briefings.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Titanium Metals Corporation (TIMET)",
+        "ticker": "null",
+        "cik": null,
+        "slug": "timet",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Titanium Alloys & Forgings",
+        "relationshipNote": "TIMET (Berkshire Hathaway subsidiary) supplies Ti-6Al-2Sn-4Zr-2Mo and Ti-5Al-5V-5Fe-3Cr titanium alloys for Merlin engine turbopumps, heat shields, and landing legs. Estimated 100–200 metric tons annually. Single-source for aerospace-grade titanium forgings; supply constraints in 2021–2022 compressed Falcon 9 production. SpaceX has explored alternative suppliers (Allegheny Technologies) to reduce concentration risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Eaton Aerospace",
+        "ticker": "ETN",
+        "cik": "0000010456",
+        "slug": "eaton_aerospace",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Hydraulic Systems & Actuators",
+        "relationshipNote": "Eaton supplies hydraulic pumps, actuators, and control systems for Falcon 9 grid fins, landing legs, and stage separation mechanisms. Contract estimated $15M–$30M annually. Eaton has qualified SpaceX as a preferred supplier under its aerospace division; SpaceX has invested in redundant sourcing to mitigate single-point failure risk. Disclosed in Eaton investor relations and SpaceX technical briefings.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Linde plc",
+        "ticker": "LIN",
+        "cik": "0001049657",
+        "slug": "linde",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Liquid Oxygen & Cryogenic Propellants",
+        "relationshipNote": "Linde supplies liquid oxygen (LOX) and liquid nitrogen for Falcon 9/Heavy propellant and ground support. SpaceX operates its own LOX production facility at Boca Chica (Texas) and Cape Canaveral (Florida) to reduce dependency; however, Linde provides backup supply and specialty cryogenic services. Estimated $10M–$20M annually in propellant and services. Critical for launch cadence; LOX supply constraints in 2023 delayed 3–4 missions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Helium One Global Ltd. / Linde (helium supply)",
+        "ticker": "null",
+        "cik": null,
+        "slug": "helium_supply",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Helium Pressurization Gas",
+        "relationshipNote": "SpaceX sources helium for Falcon 9/Heavy pressurization systems and Starship tank pressurization from Linde and specialty gas suppliers. Helium supply constraints (2021–2022) and price volatility ($2,000–$4,000/Mcf) impacted launch costs. SpaceX has negotiated long-term contracts with price caps and developed alternative pressurization methods (autogenous pressurization) for Starship to reduce helium dependency by 50%+. Disclosed in SpaceX technical documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ViaSat Inc. / Viasat Satellite Communications",
+        "ticker": "VSAT",
+        "cik": "0000785969",
+        "slug": "viasat",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Ground Network & Satellite Communications",
+        "relationshipNote": "ViaSat provides ground station network services and satellite communication infrastructure for Starlink operations and SpaceX launch support. Contract estimated $5M–$15M annually. SpaceX has built proprietary ground stations but relies on ViaSat for redundancy and international coverage. Disclosed in ViaSat investor relations and SpaceX technical briefings.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Maxar Technologies Inc.",
+        "ticker": "MAXR",
+        "cik": "0001141022",
+        "slug": "maxar",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Satellite Platforms & Payloads",
+        "relationshipNote": "Maxar supplies satellite bus platforms and optical payloads for commercial Starlink competitors and government ISR missions. Not a direct SpaceX supplier, but a key competitor in the satellite manufacturing and launch services ecosystem. Maxar has launched 30+ satellites on SpaceX Falcon 9 (2018–2024) as a customer, generating $50M–$100M in revenue for SpaceX. Disclosed in Maxar investor relations and SpaceX launch manifests.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "United States Space Force (USSF) / Space Systems Command",
+        "ticker": null,
+        "cik": null,
+        "slug": "ussf_space_systems_command",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Government Launch Operations & Logistics",
+        "relationshipNote": "USSF operates launch facilities at Cape Canaveral Space Force Station (CCSFS) and Vandenberg Space Force Base (VSFB) where SpaceX conducts Falcon 9/Heavy launches for national security missions. USSF provides range support, safety oversight, and logistics coordination. SpaceX has invested $500M+ in facility upgrades (2018–2024) to support 30+ NSSL launches annually. Disclosed in USSF fact sheets and SpaceX press releases.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NASA Kennedy Space Center",
+        "ticker": null,
+        "cik": null,
+        "slug": "nasa_ksc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Commercial Crew & Cargo Operations",
+        "relationshipNote": "NASA Kennedy Space Center hosts SpaceX Crew Dragon and Cargo Dragon operations for International Space Station (ISS) resupply and crew rotation. SpaceX operates Launch Complex 39A (leased from NASA) and has conducted 25+ ISS cargo missions and 6+ crew missions (2019–2024). Contract value: $2.6B for CCP Phase 2 (2019–2024); $5.7B for CRS-2 (2016–2026). Disclosed in NASA and SpaceX press releases.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Port of Long Beach / Port of Los Angeles",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_long_beach",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Cargo & Component Logistics",
+        "relationshipNote": "SpaceX ships Falcon 9 first stages, Starship components, and Starlink satellites via container ships from Long Beach/Los Angeles to Boca Chica (Texas) and Cape Canaveral (Florida). Estimated 50–100 container shipments annually. SpaceX has negotiated preferred rates with major shipping lines (Maersk, CMA CGM) and operates its own logistics coordination. Disclosed in SpaceX supply-chain briefings.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "United Launch Alliance (ULA) / Atlas V / Vulcan",
+        "ticker": "LMT",
+        "cik": "0000060086",
+        "slug": "ula",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Launch Provider",
+        "relationshipNote": "ULA (Lockheed Martin / Boeing JV) is SpaceX's primary competitor for NSSL Phase 2 and government launch contracts. ULA has 50% of NSSL Phase 2 allocation ($2.3B over 5 years); SpaceX has 50%. ULA's Vulcan Centaur (first flight 2024) targets cost parity with Falcon 9 by 2026–2027. SpaceX has captured 60% of commercial launch market share vs. ULA's 20% (2023–2024). Disclosed in USSF announcements and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. Department of Defense / National Reconnaissance Office (NRO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod_nro",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Primary Government Customer & Revenue Driver",
+        "relationshipNote": "DoD/NRO is SpaceX's largest customer, accounting for 40–50% of annual revenue via NSSL Phase 2 contracts, classified reconnaissance satellite launches, and military space operations. NSSL Phase 2 allocates $2.3B to SpaceX over 5 years (2022–2027) for 6–8 national security launches. NRO has launched 15+ classified missions on Falcon 9 (2018–2024). Disclosed in USSF announcements, SAM.gov contract awards, and SpaceX investor briefings.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "National Aeronautics and Space Administration (NASA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nasa",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Government Customer & Strategic Partner",
+        "relationshipNote": "NASA is SpaceX's second-largest customer, with $8.3B in active contracts: Commercial Crew Program Phase 2 ($2.6B, 2019–2024), Commercial Resupply Services 2 ($5.7B, 2016–2026), and ISS deorbit services (contract awarded 2024, value $843M). SpaceX has conducted 25+ cargo missions and 6+ crew missions to ISS (2019–2024). Disclosed in NASA and SpaceX press releases.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Starlink (SpaceX subsidiary) / Commercial Satellite Internet Customers",
+        "ticker": null,
+        "cik": null,
+        "slug": "starlink_customers",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Commercial Revenue & Direct-to-Consumer",
+        "relationshipNote": "Starlink operates as SpaceX's commercial satellite internet service, with 2M+ active subscribers (2024 estimate) and ARPU of $120–$150/month. Starlink is the fastest-growing satellite internet provider globally, with churn <5% and expansion into 70+ countries. 2024 revenue estimated $3B–$4B; path to profitability expected 2024–2025. Disclosed in SpaceX investor updates and third-party subscriber surveys.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Commercial Satellite Operators (Maxar, Planet Labs, Axiom Space, etc.)",
+        "ticker": "MAXR, PL",
+        "cik": "0001141022, 0001822622",
+        "slug": "commercial_satellite_customers",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Commercial Launch Services",
+        "relationshipNote": "SpaceX launches commercial satellites for Earth observation (Planet Labs, Maxar), communications (Intelsat, Eutelsat), and space-station modules (Axiom Space). Commercial launch revenue estimated $1.5B–$2B annually (2023–2024). SpaceX has captured 60% of global commercial launch market share. Disclosed in SpaceX launch manifests and customer press releases.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "United Launch Alliance (ULA)",
+        "ticker": "LMT",
+        "cik": "0000060086",
+        "slug": "ula",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Primary Government Launch Competitor",
+        "relationshipNote": "ULA (Lockheed Martin / Boeing JV) competes with SpaceX for NSSL Phase 2 (50% allocation, $2.3B over 5 years) and government launch contracts. ULA's Vulcan Centaur (first flight 2024) targets cost parity with Falcon 9 by 2026–2027. SpaceX has 60% commercial market share vs. ULA's 20% (2023–2024). ULA's Atlas V retirement (2024) and Vulcan ramp-up create competitive window for SpaceX. Disclosed in USSF announcements and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Rocket Lab USA Inc.",
+        "ticker": "RKLB",
+        "cik": "0001805238",
+        "slug": "rocket_lab",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Small-Lift Launch Competitor",
+        "relationshipNote": "Rocket Lab operates Electron (small-lift, 300 kg to LEO) and Neutron (medium-lift, 8 metric tons to LEO, in development). Rocket Lab competes with SpaceX in dedicated small-satellite launch market but not in heavy-lift or government missions. Rocket Lab has conducted 40+ Electron launches (2017–2024) and secured $500M+ in government contracts (USSF, NRO). SpaceX's Falcon 9 dominates medium-to-heavy lift; Rocket Lab targets niche small-lift segment. Disclosed in Rocket Lab investor relations and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Axiom Space / Commercial Space Station Operators",
+        "ticker": null,
+        "cik": null,
+        "slug": "axiom_space",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Commercial Space Infrastructure Competitor",
+        "relationshipNote": "Axiom Space is developing commercial space-station modules and services, competing with SpaceX's Starship for cargo delivery and crew transport post-ISS deorbit (2030–2031). Axiom has secured $2.1B in funding and partnerships with NASA, ESA, and international space agencies. SpaceX has contracted to deliver Axiom modules via Falcon 9 and will compete for Axiom logistics contracts with Starship. Disclosed in Axiom Space and SpaceX press releases.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "OneWeb / Amazon Kuiper (Satellite Internet Competitors)",
+        "ticker": "ABNB (OneWeb parent), null (Amazon)",
+        "cik": null,
+        "slug": "oneweb_kuiper",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Satellite Internet Competitor",
+        "relationshipNote": "OneWeb (Bharti Airtel / UK government) and Amazon Kuiper compete with Starlink in LEO satellite internet market. OneWeb has 600+ satellites in orbit (2024) and targets 2M+ subscribers by 2026. Amazon Kuiper plans 3,236 satellites and $10B+ capex (2024–2029). Starlink has 5,000+ satellites in orbit and 2M+ subscribers (2024). FCC spectrum allocation and international regulatory approvals are contested. Starlink maintains 2–3 year lead in subscriber base and profitability. Disclosed in company announcements and FCC filings.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Relativity Space / 3D-Printed Rocket Manufacturers",
+        "ticker": null,
+        "cik": null,
+        "slug": "relativity_space",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Emerging Launch Technology Competitor",
+        "relationshipNote": "Relativity Space is developing 3D-printed rockets (Terran 1, Terran R) to reduce manufacturing cost and lead time. Terran 1 (small-lift) first flight targeted 2024; Terran R (medium-lift, 12 metric tons to LEO) in development. Relativity has raised $500M+ in funding and secured USSF contracts. SpaceX's vertical integration and manufacturing scale provide cost advantage; however, 3D-printing technology poses long-term competitive threat if manufacturing costs decline 30%+ by 2027–2030. Disclosed in Relativity Space and USSF announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Blue Origin / New Glenn",
+        "ticker": null,
+        "cik": null,
+        "slug": "blue_origin",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Heavy-Lift Launch Competitor (Future)",
+        "relationshipNote": "Blue Origin is developing New Glenn (heavy-lift, 45 metric tons to LEO) and New Shepard (suborbital tourism). New Glenn first flight targeted 2024–2025 (delayed). Blue Origin has secured $3.2B in USSF contracts (2023) and $10B+ in Amazon funding. SpaceX's Falcon Heavy and Starship provide 3–5 year lead in heavy-lift capability. New Glenn poses competitive threat for government contracts post-2026 if development accelerates. Disclosed in Blue Origin and USSF announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Federal Aviation Administration (FAA) / Commercial Space Transportation",
+        "ticker": null,
+        "cik": null,
+        "slug": "faa_ast",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Launch Licensing & Safety Oversight",
+        "relationshipNote": "FAA's Office of Commercial Space Transportation (AST) issues launch licenses and conducts environmental reviews for all SpaceX launches. SpaceX holds active licenses for Falcon 9 (LC-39A, SLC-40, SLC-4E) and Starship (Boca Chica). FAA has imposed launch delays due to environmental concerns (2023–2024) and mishap investigations (Starship RUD events). Starship orbital flight license approval (2023) required $92M environmental mitigation investment. Disclosed in FAA orders and SpaceX filings.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Federal Communications Commission (FCC) / Spectrum & Satellite Licensing",
+        "ticker": null,
+        "cik": null,
+        "slug": "fcc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Spectrum Allocation & Satellite Licensing",
+        "relationshipNote": "FCC licenses Starlink satellite operations and allocates spectrum (Ku-band, Ka-band, 12.2 GHz). FCC has approved Starlink Phase 1 (4,408 satellites) and Phase 2 (7,518 satellites, pending). FCC spectrum decisions contested by terrestrial wireless operators (AT&T, Verizon) and OneWeb/Amazon. Starlink license modifications (2023–2024) required interference mitigation and power limits. Disclosed in FCC orders and SpaceX filings.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of State / International Traffic in Arms Regulations (ITAR)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_dept_itar",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Export Controls & Foreign Payload Licensing",
+        "relationshipNote": "State Department enforces ITAR restrictions on SpaceX's launch of foreign payloads and technology transfer. SpaceX has faced ITAR compliance scrutiny for Starlink international expansion and foreign satellite launches. ITAR restrictions limit SpaceX's ability to launch certain foreign government and commercial payloads. Starship development (reusable heavy-lift) subject to ITAR review for potential military applications. Disclosed in State Department and SpaceX filings.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Disclosure & Governance (if public)",
+        "relationshipNote": "SEC has no direct oversight of SpaceX (private company). However, SEC monitors Starlink's potential IPO and any public debt issuance. SEC has investigated Elon Musk's Twitter acquisition (2022) and Tesla governance, which may affect SpaceX oversight if company goes public. Disclosed in SEC filings and news reports.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Committee on Foreign Investment in the United States (CFIUS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cfius",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Foreign Investment & National Security Review",
+        "relationshipNote": "CFIUS reviews foreign investment in SpaceX and Starlink due to national security implications (classified government contracts, satellite internet). SpaceX has received CFIUS clearance for foreign funding rounds (2015–2021). Potential CFIUS scrutiny if foreign investors (Saudi PIF, UAE, etc.) seek board seats or significant equity stakes. Disclosed in SpaceX investor briefings and news reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial & Compliance Audit",
+      "relationshipNote": "Deloitte serves as SpaceX's external auditor for financial statements and internal controls (estimated engagement $2M–$5M annually). Deloitte conducts annual audits of SpaceX's consolidated financial statements and subsidiary audits (Starlink, SpaceX Services). Audit scope includes government contract compliance (FAR, DFARS) and classified program security. Disclosed in SpaceX investor briefings and Deloitte client lists.",
+      "confidence": "medium",
+      "sourceType": [
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Elon Musk (Founder & CEO)",
+        "ticker": "TSLA",
+        "cik": "0001018724",
+        "slug": "elon_musk",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Founder, Primary Shareholder & Strategic Vision",
+        "relationshipNote": "Elon Musk founded SpaceX (2002) and owns ~50% of equity (estimated $150B+ valuation, 2024). Musk has invested $100M+ of personal capital and secured $15B+ in external funding (2004–2024). Musk's vision drives Starship development and Starlink expansion; his involvement in Twitter (2022) and Tesla creates potential governance conflicts. Disclosed in SpaceX investor briefings and news reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Google Ventures / Alphabet Inc.",
+        "ticker": "GOOGL",
+        "cik": "0001652044",
+        "slug": "google_ventures",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Investor & Technology Partner",
+        "relationshipNote": "Google Ventures led SpaceX Series D funding round ($1B, 2015) and has invested $2B+ cumulatively. Google is strategic partner for Starlink ground stations and cloud integration. Google has launched 30+ satellites on SpaceX Falcon 9 (2018–2024). Disclosed in Google and SpaceX investor relations.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Fidelity Investments / Fidelity Growth Company Fund",
+        "ticker": null,
+        "cik": null,
+        "slug": "fidelity_investments",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Institutional Investor & Valuation Anchor",
+        "relationshipNote": "Fidelity has invested $1B+ in SpaceX across multiple funding rounds (2015–2023) and values SpaceX at $150B+ (2024). Fidelity's SpaceX stake represents 5–10% of Fidelity Growth Company Fund portfolio. Fidelity's valuation marks serve as market proxy for SpaceX equity value. Disclosed in Fidelity investor relations and news reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Saudi Public Investment Fund (PIF) / UAE Sovereign Wealth Funds",
+        "ticker": null,
+        "cik": null,
+        "slug": "saudi_pif",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Foreign Investor",
+        "relationshipNote": "Saudi PIF and UAE sovereign wealth funds have invested $500M–$1B in SpaceX (2021–2024) for Starlink expansion and strategic positioning. Foreign investment subject to CFIUS review. PIF stake estimated 2–5% of SpaceX equity. Disclosed in SpaceX investor briefings and news reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Elon Musk",
+        "title": "Founder & Chief Executive Officer",
+        "slug": "elon_musk",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Vision",
+        "relationshipNote": "Elon Musk founded SpaceX (2002) and serves as CEO. Musk drives Starship development roadmap, Starlink expansion strategy, and government relations. Musk's involvement in Twitter (2022) and Tesla creates governance and attention-allocation risks. Musk's public statements on Starship timelines and capabilities influence investor expectations and government contract negotiations. Disclosed in SpaceX and news reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Gwynne Shotwell",
+        "title": "President & Chief Operating Officer",
+        "slug": "gwynne_shotwell",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Government Relations",
+        "relationshipNote": "Gwynne Shotwell joined SpaceX (2002) as VP Business Development and became President & COO (2008). Shotwell leads government relations, commercial sales, and operational execution. Shotwell has negotiated NSSL Phase 2, NASA CCP, and international launch contracts. Shotwell's operational expertise and government relationships are critical to SpaceX's execution. Disclosed in SpaceX and news reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kathy Lueders",
+        "title": "Vice President, Build & Flight Reliability",
+        "slug": "kathy_lueders",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Flight Operations & Reliability Engineering",
+        "relationshipNote": "Kathy Lueders joined SpaceX (2013) from NASA and leads flight operations, launch cadence, and reliability engineering. Lueders oversees Falcon 9/Heavy launch operations and Starship development. Lueders' NASA background provides credibility with government customers and regulators. Disclosed in SpaceX and news reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lars Blackmore",
+        "title": "Vice President, Flight Reliability & Starship Development",
+        "slug": "lars_blackmore",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Technical Strategy & Starship Engineering",
+        "relationshipNote": "Lars Blackmore joined SpaceX (2012) from JPL and leads Starship propulsion, guidance, and reusability engineering. Blackmore's expertise in autonomous landing and reusable rocket technology is critical to Starship development. Blackmore's technical leadership influences Starship certification timeline and government contract negotiations. Disclosed in SpaceX and news reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Falcon 9 Launch Cadence (Monthly)",
+        "slug": "falcon9_cadence",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Operational Execution & Revenue Proxy",
+        "relationshipNote": "Falcon 9 launch cadence (target 60+ launches/year, 2024) serves as proxy for SpaceX operational health and government contract execution. Monthly launch manifest published by SpaceX and FAA. 2024 YTD: 63 launches (on pace for 75+ annual). Launch delays signal supply-chain constraints, regulatory issues, or technical problems. Disclosed in SpaceX launch manifests and FAA filings.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Starlink Subscriber Growth & ARPU (Quarterly)",
+        "slug": "starlink_subscribers",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Commercial Revenue Growth & Profitability Path",
+        "relationshipNote": "Starlink subscriber growth (target 3M+ by 2025) and ARPU ($120–$150/month) drive commercial revenue and profitability trajectory. Third-party surveys (Ookla, Speedtest) track subscriber growth and churn. 2024 estimate: 2M+ subscribers, $3B–$4B annual revenue. Subscriber growth acceleration signals Starlink path to profitability and reduces government contract dependency. Disclosed in SpaceX investor updates and third-party surveys.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Starship Integrated Flight Test (IFT) Milestones (Quarterly)",
+        "slug": "starship_ift",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Development Risk & Government Contract Catalyst",
+        "relationshipNote": "Starship IFT milestones (orbital refueling, booster catch, full reusability) drive government contract awards and commercial revenue potential. IFT-4 (Q4 2024) targets orbital refueling; IFT-5+ (2025) target booster catch and full reusability. Successful milestones accelerate NSSL Phase 2 and ISS deorbit contract execution. RUD events delay timeline and increase execution risk. Disclosed in SpaceX announcements and FAA mishap investigations.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

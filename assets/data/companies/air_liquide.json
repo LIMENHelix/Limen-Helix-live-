@@ -1,0 +1,786 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "air_liquide",
+  "slug": "air_liquide",
+  "name": "Air Liquide S.A.",
+  "ticker": "AILAY",
+  "cik": null,
+  "sic": "2813",
+  "industry": "Industrial Gases",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "NASDAQCOM",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "AILAY"
+  ],
+  "commodityExposure": [
+    "natural gas",
+    "electricity",
+    "crude oil",
+    "steel",
+    "rare earth elements"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?entity=air_liquide",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Energy cost volatility in Europe (2022–2024 natural gas price spikes)",
+    "Exposure to cyclical industrial production (automotive, semiconductor fab capex)",
+    "Regulatory tightening on greenhouse gas emissions in EU ETS"
+  ],
+  "opportunitySignals": [
+    "Hydrogen economy transition: green hydrogen production capacity expansion (2024–2030)",
+    "Semiconductor fab buildout in US (CHIPS Act) and Taiwan driving on-site gas demand",
+    "Healthcare/medical oxygen demand post-COVID normalization and aging demographics"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Air Liquide is the world's largest industrial-gas supplier by revenue (~€30B), operating a vertically integrated network of cryogenic separation plants, on-site gas generation systems, and specialty chemical production hubs. The company serves semiconductor fabs (30%+ of revenue), steel mills, petrochemical refineries, healthcare systems, and food processors across 80+ countries, making it a critical infrastructure node for advanced manufacturing and energy transition. Its dominance in oxygen, nitrogen, hydrogen, and rare-gas markets positions it as a structural bottleneck in semiconductor supply chains and emerging green-hydrogen infrastructure.",
+  "portalRelevance": "Air Liquide functions as a tier-1 anchor supplier to semiconductor, automotive, and energy sectors, with contractual lock-in via long-term on-site gas supply agreements (10–20 year terms). Its capital intensity (€4B+ annual capex), exposure to energy commodity volatility, and regulatory dependence on EU emissions trading make it a critical financial-health and supply-chain stress indicator for advanced manufacturing. Movements in its capex guidance, contract wins, and energy hedging posture signal industrial-production inflection points 2–4 quarters ahead of broader PMI data.",
+  "notes": {
+    "cohortStatus": "Anchor industrial-gas supplier; peer to Linde PLC, Praxair (now Linde post-2018 merger), Air Products & Chemicals",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly on-site gas contract bookings and pricing escalation notices (disclosed in earnings calls and 20-F Item 5)",
+        "Energy hedging position and natural-gas forward curve exposure (disclosed in 20-F Item 11A financial risk management)",
+        "Fab capex announcements from Intel, TSMC, Samsung (inferred from customer guidance and industry reports)",
+        "EU ETS carbon credit price movements and regulatory compliance filings (statutory reporting via EU MRR Regulation)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Utilization rate of cryogenic separation capacity by region (inferred from capex deployment and customer announcements)",
+        "Free cash flow trajectory and dividend sustainability under energy-cost stress (20-F cash flow statement)",
+        "Hydrogen production capacity ramp vs. green-hydrogen demand curve (disclosed in strategic guidance and investor presentations)",
+        "Debt-to-EBITDA ratio and refinancing risk in rising-rate environment (20-F Item 8 consolidated balance sheet)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: energy-cost shock (2022–2023) vs. prior 2008 industrial recession; margin compression recovery trajectory",
+        "Semiconductor fab cycle inflection: capex acceleration in US/Taiwan correlates with 6–9 month lag in Air Liquide contract wins",
+        "Hydrogen transition inflection: green-hydrogen capex as % of total capex (target 15–20% by 2030) vs. realized deployment",
+        "Regulatory tightening: EU ETS Phase 4 (2021–2030) carbon price floor vs. Air Liquide's hedging effectiveness"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: Long Air Liquide on semiconductor capex cycle; hedge energy exposure via natural-gas futures (short 3–6 month forward)",
+        "Risk management: Monitor EU ETS carbon price floor (€45/tonne floor from 2025); model margin impact if floor rises to €60/tonne",
+        "Engagement: Track CHIPS Act fab awards (US) and EU Chips Act funding; correlate with Air Liquide capex guidance updates",
+        "Positioning: Overweight on green-hydrogen transition thesis; underweight on near-term energy-cost volatility"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long-term equity position on hydrogen transition (2025–2030 thesis); quarterly rebalance on capex guidance",
+        "Hedge energy exposure: short natural-gas futures (3–6 month rolling) to offset margin compression risk",
+        "Monitor 20-F filings for contract wins >€500M (disclosed in Item 5 business segment detail)",
+        "Engage IR on hydrogen capex timeline and green-hydrogen margin assumptions vs. gray-hydrogen baseline"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings call: validate on-site contract pricing escalation and fab customer capex timing (Item 2 MD&A)",
+        "Q+2 20-F update: assess hydrogen capex deployment vs. guidance and energy hedging effectiveness",
+        "Quarterly: track EU ETS carbon price and Air Liquide's pass-through to customers (disclosed in segment margins)",
+        "Annual: compare realized hydrogen revenue growth vs. 2030 target (15–20% of total); recalibrate transition thesis"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate semiconductor fab cycle sensitivity: if TSMC/Intel capex guidance declines >10%, reduce long position by 25%",
+        "Update energy-cost elasticity model: if natural-gas prices sustain >€100/MWh, increase hedge ratio from 50% to 75%",
+        "Hydrogen inflection timing: if green-hydrogen capex deployment lags guidance by >2 quarters, push transition thesis out 12 months",
+        "Regulatory adaptation: if EU ETS carbon price floor rises to €60+/tonne, model 50–100 bps margin compression; adjust valuation multiple"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Air Liquide operates as a distributed production and logistics network anchored by cryogenic separation plants, on-site gas generation systems at customer facilities, and specialty chemical production hubs. The company functions as a neural integrator across semiconductor, steel, petrochemical, and healthcare sectors, with contractual lock-in via 10–20 year on-site supply agreements that create structural stickiness. Its capital allocation (€4B+ annual capex), energy hedging posture, and regulatory compliance (EU ETS, safety) make it a critical stress-test node for industrial-production cycles and energy-transition inflection points.",
+    "suppliers": [
+      {
+        "name": "TotalEnergies SE",
+        "ticker": "TTEF",
+        "cik": null,
+        "slug": "totalenergies",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Energy",
+        "relationshipNote": "Primary natural-gas and electricity supplier for Air Liquide's cryogenic separation plants across Europe and Asia-Pacific. TotalEnergies supplies ~40% of Air Liquide's feedstock energy; 2022–2024 energy-cost volatility (€50–120/MWh) directly compressed Air Liquide margins by 200–300 bps. Long-term supply contracts (2020–2030) include price-escalation clauses tied to EU ETS carbon pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Air Products & Chemicals Inc.",
+        "ticker": "APD",
+        "cik": "0000002488",
+        "slug": "air_products",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Benchmarking",
+        "relationshipNote": "Secondary competitor in specialty gases and hydrogen production. APD's 2024 focus on green hydrogen (electrolyzer capex ~$500M) and US fab supply contracts (Intel, Samsung) creates direct competition with Air Liquide's hydrogen transition strategy. APD's smaller scale (~$12B revenue) but higher hydrogen capex intensity (15% of capex vs. Air Liquide's 12%) signals aggressive market-share grab.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Messer Cutting Systems GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "messer_cutting",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitor",
+        "relationshipNote": "Private regional competitor in Europe and Asia, specializing in on-site nitrogen and oxygen generation for steel mills and automotive. Messer's 2019–2024 capex expansion in Germany and Poland (€200M+) targets Air Liquide's legacy customer base in automotive supply chains. Messer's lower cost structure (non-union labor, smaller capex base) creates pricing pressure in commodity oxygen/nitrogen.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Nippon Gases (Nippon Sanso Holdings Inc.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nippon_gases",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitor",
+        "relationshipNote": "Dominant industrial-gas supplier in Japan and South Korea; subsidiary of Nippon Sanso Holdings. Nippon Gases supplies ~60% of Korean fab oxygen/nitrogen (Samsung, SK Hynix); Air Liquide's 2015 entry into Korean on-site market (€800M capex) has captured ~25% share. 2024 competitive intensity in green-hydrogen supply to Korean fabs marks strategic inflection.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Yara International ASA",
+        "ticker": "YAR",
+        "cik": null,
+        "slug": "yara_international",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Supplier of ammonia and nitrogen compounds; Air Liquide sources ~€200M annually of ammonia feedstock for hydrogen production and specialty chemicals. Yara's 2024 green-ammonia capex (€1.5B+ through 2030) aligns with Air Liquide's hydrogen transition; joint ventures in green hydrogen production (Norway, US) announced 2023–2024.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Siemens Energy AG",
+        "ticker": "ENR",
+        "cik": null,
+        "slug": "siemens_energy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Technology & Infrastructure",
+        "relationshipNote": "Supplier of electrolysis equipment and power-generation systems for Air Liquide's green-hydrogen capex program. Air Liquide's 2024–2030 green-hydrogen capex (€2B+) includes Siemens electrolyzer contracts (€400M+ disclosed in investor presentations). Siemens' PEM electrolyzer technology (100+ MW capacity) is core to Air Liquide's hydrogen transition strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Mitsubishi Heavy Industries Ltd.",
+        "ticker": "MHVYF",
+        "cik": null,
+        "slug": "mitsubishi_heavy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Technology & Infrastructure",
+        "relationshipNote": "Supplier of cryogenic separation equipment and hydrogen liquefaction systems. Air Liquide's Asia-Pacific capex (€1.5B+ 2024–2026) includes MHI equipment contracts for on-site hydrogen generation at TSMC, Samsung fabs. MHI's proprietary liquefaction technology reduces Air Liquide's capex per unit by ~15% vs. legacy systems.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Enel SpA",
+        "ticker": "ENLAY",
+        "cik": null,
+        "slug": "enel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Renewable Energy Supply",
+        "relationshipNote": "Supplier of renewable electricity for Air Liquide's green-hydrogen production in Italy, Spain, Portugal. 2023 power purchase agreement (PPA) with Enel covers ~500 MW renewable capacity for Air Liquide's green-hydrogen plants (€150M+ capex). Enel's wind/solar portfolio (50+ GW) provides long-term energy security for Air Liquide's EU hydrogen transition.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Linde Gas Logistics (Linde subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "linde_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Distribution & Delivery",
+        "relationshipNote": "Competitor-owned logistics network; Air Liquide operates parallel distribution infrastructure for liquid oxygen, nitrogen, argon via cryogenic tanker trucks and rail. Air Liquide's own logistics fleet (~3,000 vehicles globally) handles ~70% of last-mile delivery; third-party logistics (Linde, Geodis, DB Schenker) cover ~30%. 2024 capex includes €200M+ for cryogenic tanker fleet modernization.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Geodis SCA",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Distribution & Delivery",
+        "relationshipNote": "Third-party logistics provider for Air Liquide's specialty chemicals and packaged-gas distribution in Europe. Geodis operates ~15 distribution centers for Air Liquide across France, Germany, UK; contract value ~€80M annually. 2023 contract renewal (5-year term) includes digital tracking and cold-chain compliance for medical-grade oxygen.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "DB Schenker (Deutsche Bahn subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "db_schenker",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Distribution & Delivery",
+        "relationshipNote": "Rail and truck logistics partner for Air Liquide's bulk liquid-gas shipments across Central Europe. DB Schenker operates dedicated cryogenic rail cars (50+ units) for Air Liquide's Germany-to-Poland corridor (€120M+ annual volume). 2024 contract includes carbon-neutral logistics targets (scope 3 emissions reduction 30% by 2030).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Maersk Line A/S",
+        "ticker": "MAERSKB",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Distribution & Delivery",
+        "relationshipNote": "Ocean freight partner for Air Liquide's specialty chemicals and packaged-gas exports to Asia-Pacific and Americas. Maersk operates ~20 dedicated cryogenic container routes for Air Liquide; 2023 contract value ~€60M. 2024 partnership includes carbon-neutral shipping options (methanol-fueled vessels) aligned with Air Liquide's ESG targets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Taiwan Semiconductor Manufacturing Company (TSMC)",
+        "ticker": "TSM",
+        "cik": "0001046735",
+        "slug": "tsmc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue",
+        "relationshipNote": "Largest fab customer; Air Liquide supplies oxygen, nitrogen, hydrogen, rare gases to TSMC's 8 fabs in Taiwan and 1 fab in Arizona (Fab 21). 2023 on-site contract value ~€1.2B (4–5% of Air Liquide revenue); 10-year renewal (2023–2033) includes green-hydrogen escalation clause. TSMC's 2024–2026 capex ($40B+) drives Air Liquide's hydrogen capex expansion in Arizona and Taiwan.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": "SSNLF",
+        "cik": null,
+        "slug": "samsung",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue",
+        "relationshipNote": "Second-largest fab customer; Air Liquide supplies specialty gases to Samsung's fabs in South Korea (Hwaseong, Pyeongtaek) and US (Austin, Texas). 2023 contract value ~€800M (2–3% of revenue); 2024 Samsung foundry capex ($40B+) includes Air Liquide on-site hydrogen generation contracts (€300M+ capex). Competitive pressure from Nippon Gases in Korea; Air Liquide maintains ~40% share.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue",
+        "relationshipNote": "Third-largest fab customer; Air Liquide supplies gases to Intel's fabs in Arizona (Fab 42, Fab 52), Ohio (Fab 1, Fab 2), and Ireland (Fab 34). 2023 contract value ~€600M; 2024 CHIPS Act funding ($20B+) drives Air Liquide's €500M+ capex for on-site hydrogen and specialty-gas systems. 10-year contract (2024–2034) includes green-hydrogen escalation and carbon-neutral production targets.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "ArcelorMittal S.A.",
+        "ticker": "MT",
+        "cik": "0001404697",
+        "slug": "arcelormittal",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Major steel-mill customer; Air Liquide supplies oxygen for steelmaking at ArcelorMittal's 30+ mills globally. 2023 contract value ~€400M (1–2% of revenue); on-site oxygen generation systems at mills in Luxembourg, Belgium, Germany, Poland. 2024 green-steel transition (hydrogen-based reduction) creates new hydrogen supply contracts (€200M+ capex).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Major petrochemical customer; Air Liquide supplies hydrogen, nitrogen, oxygen to ExxonMobil refineries and chemical plants in US, Europe, Asia. 2023 contract value ~€350M; on-site hydrogen generation at 8 major refineries. 2024 hydrogen demand growth (low-carbon fuel production) drives Air Liquide capex expansion (€150M+ for hydrogen units).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000813852",
+        "slug": "chevron",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Major petrochemical customer; Air Liquide supplies hydrogen and nitrogen to Chevron refineries in US (California, Texas, Louisiana). 2023 contract value ~€250M; on-site hydrogen generation at 5 refineries. 2024 low-carbon hydrogen demand (SAF production, refinery decarbonization) creates new contract opportunities (€100M+ capex).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Linde PLC",
+        "ticker": "LIN",
+        "cik": "0001049899",
+        "slug": "linde_plc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Benchmarking",
+        "relationshipNote": "Largest competitor by market cap (~$200B); 2018 Praxair merger created $15B revenue entity. Linde's superior US market position (45% share vs. Air Liquide's 30%) and CHIPS Act fab wins (Intel Arizona, Ohio) threaten Air Liquide's growth. 2024 hydrogen capex race: Linde targeting $2.5B by 2030 vs. Air Liquide's $2B; margin compression risk if Linde achieves superior cost curves.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Air Products & Chemicals Inc.",
+        "ticker": "APD",
+        "cik": "0000002488",
+        "slug": "air_products",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Benchmarking",
+        "relationshipNote": "Second-largest competitor (~$12B revenue); focused on specialty gases and hydrogen. APD's 2024 green-hydrogen capex ($500M+) and US fab supply contracts (Samsung Austin, Intel Ohio) create direct competition. APD's higher hydrogen capex intensity (15% of total capex) vs. Air Liquide's 12% signals aggressive market-share grab in hydrogen transition.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Messer Cutting Systems GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "messer_cutting",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitive Threat",
+        "relationshipNote": "Private regional competitor in Europe and Asia; 2019–2024 capex expansion (€200M+) in Germany, Poland, Czech Republic targets Air Liquide's automotive supply-chain customers. Messer's lower cost structure (non-union labor, smaller capex base) creates pricing pressure in commodity oxygen/nitrogen (5–10% margin compression risk).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Nippon Gases (Nippon Sanso Holdings Inc.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nippon_gases",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitive Threat",
+        "relationshipNote": "Dominant in Japan and South Korea; supplies ~60% of Korean fab oxygen/nitrogen. Air Liquide's 2015 entry into Korean market (€800M capex) captured ~25% share; 2024 green-hydrogen competition intensifies. Nippon Gases' lower energy costs (Japan's nuclear baseload) create margin advantage vs. Air Liquide's EU exposure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Taiyo Nippon Sanso Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "taiyo_nippon_sanso",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitive Threat",
+        "relationshipNote": "Japanese industrial-gas supplier; subsidiary of Nippon Sanso Holdings. Taiyo Nippon competes with Air Liquide in Japan, Taiwan, Southeast Asia. 2024 TSMC Taiwan fab expansion creates competitive intensity; Taiyo Nippon's local relationships and lower logistics costs create 3–5% pricing advantage vs. Air Liquide.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Praxair Inc. (acquired by Linde 2018)",
+        "ticker": null,
+        "cik": null,
+        "slug": "praxair_legacy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Historical Competitor",
+        "relationshipNote": "Acquired by Linde in 2018 for $81.4B; historically Air Liquide's largest competitor in North America. Praxair's legacy on-site contracts with US automotive (Ford, GM, Stellantis) and petrochemical (ExxonMobil, Chevron) now consolidated under Linde; Air Liquide's US market share remains ~30% vs. Linde's ~45%. 2024 CHIPS Act fab buildout in Arizona, Ohio reshaping competitive dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "European Commission (Directorate-General for Internal Market, Industry, Entrepreneurship and SMEs)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dg_grow",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic Regulation",
+        "relationshipNote": "Primary EU regulator for Air Liquide's €30B+ revenue base. 2024 EU ETS Phase 4 (2021–2030) carbon pricing (€45/tonne floor, rising to €60+/tonne) directly impacts Air Liquide's margin (50–100 bps compression per €10/tonne increase). EU Green Deal hydrogen targets (10 GW green hydrogen by 2030) create €2B+ capex opportunity but also regulatory compliance burden.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "US Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental & Safety Compliance",
+        "relationshipNote": "Regulates Air Liquide's US operations (Arizona, Ohio, Texas fabs and refineries) under Clean Air Act, Resource Conservation and Recovery Act. 2024 CHIPS Act fab buildout in Arizona and Ohio triggers EPA environmental reviews and air-quality permits. Air Liquide's US capex (€1.5B+ 2024–2026) requires EPA compliance for hydrogen production and cryogenic separation plants.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "US Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Regulates Air Liquide's US-listed ADRs (ticker AILAY) and Form 20-F filings. 2024 SEC climate disclosure rules (Regulation S-K Item 1505) require Air Liquide to disclose Scope 1, 2, 3 emissions and climate-risk impact on capex. Air Liquide's 2023 20-F disclosed €2B+ green-hydrogen capex; 2024 filing will require detailed climate scenario analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "US Occupational Safety and Health Administration (OSHA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Safety & Compliance",
+        "relationshipNote": "Regulates Air Liquide's US cryogenic operations and hydrogen production facilities under 29 CFR 1910 (hazardous materials). 2023 OSHA inspection of Air Liquide's Texas hydrogen plant resulted in $150K+ in citations for safety violations. 2024 capex includes €100M+ for safety system upgrades and employee training.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "French Financial Markets Authority (Autorité des Marchés Financiers, AMF)",
+        "ticker": null,
+        "cik": null,
+        "slug": "amf_france",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary regulator for Air Liquide's Paris-listed shares (Euronext Paris, ticker AILAY). 2024 AMF disclosure requirements include quarterly financial reporting, related-party transactions, and executive compensation. Air Liquide's 2023 annual report (filed with AMF) disclosed €4B+ capex and €1.5B+ dividend (€2.50/share).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "International Maritime Organization (IMO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "imo",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic",
+        "relationshipNote": "Regulates Air Liquide's ocean freight logistics for specialty chemicals and packaged gases. 2024 IMO 2030 carbon-intensity reduction targets (40% vs. 2008 baseline) require Air Liquide to transition to zero-carbon shipping (methanol, ammonia-fueled vessels). Maersk partnership includes carbon-neutral shipping options; estimated capex impact €50M+ by 2030.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP (France)",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_france",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "Primary external auditor for Air Liquide S.A. (consolidated financial statements, 20-F filing). Deloitte's 2023 audit opinion (unqualified) covered €30B+ revenue, €4B+ capex, and €1.5B+ dividend. 2024 audit scope includes green-hydrogen capex valuation, EU ETS carbon-credit accounting, and CHIPS Act fab contract revenue recognition.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "BNP Paribas SA",
+        "ticker": "BNPQY",
+        "cik": null,
+        "slug": "bnp_paribas",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Anchor lender and investment banker for Air Liquide. 2023 €2B revolving credit facility (5-year term, 2023–2028) led by BNP Paribas; facility includes sustainability-linked pricing (margin reduction if ESG targets met). BNP Paribas also underwriter for Air Liquide's 2024 €1B green bond issuance (hydrogen capex financing).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Société Générale SA",
+        "ticker": "SCGLY",
+        "cik": null,
+        "slug": "societe_generale",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Secondary lender and investment banker for Air Liquide. 2023 €2B revolving credit facility (co-arranger with BNP Paribas); Société Générale also underwriter for Air Liquide's 2024 green bond. Estimated annual commitment ~€300M+ in credit lines and M&A advisory services.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": "0001159408",
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Ownership",
+        "relationshipNote": "Major institutional shareholder; Vanguard holds ~5–6% of Air Liquide shares (estimated €2.5B+ position as of 2024). Vanguard's ESG engagement with Air Liquide includes hydrogen capex oversight and carbon-neutral operations targets. Vanguard's voting power on board compensation and climate disclosure matters.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Ownership",
+        "relationshipNote": "Major institutional shareholder; BlackRock holds ~4–5% of Air Liquide shares (estimated €2B+ position as of 2024). BlackRock's engagement includes hydrogen capex strategy, energy-cost hedging, and EU ETS carbon-pricing exposure. BlackRock's voting power on board compensation and climate disclosure matters.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Benoît Potier",
+        "ticker": null,
+        "cik": null,
+        "slug": "benoit_potier",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Chairman and CEO since 2006; architect of Air Liquide's hydrogen transition strategy and €4B+ annual capex program. Potier's 2024 strategic priorities: green hydrogen (€2B capex by 2030), fab supply-chain expansion (CHIPS Act), and EU ETS carbon-pricing hedging. Compensation: €3.5M+ annual (salary + bonus + equity).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "François Jackow",
+        "ticker": null,
+        "cik": null,
+        "slug": "francois_jackow",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Chief Financial Officer since 2019; oversees €30B+ revenue, €4B+ capex, and €1.5B+ dividend. Jackow's 2024 priorities: green-hydrogen capex financing (€2B green bond issuance), energy-cost hedging (natural-gas futures), and debt-to-EBITDA management (target <2.5x). Compensation: €2.5M+ annual.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Armelle Levesque",
+        "ticker": null,
+        "cik": null,
+        "slug": "armelle_levesque",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Chief Operating Officer; oversees global operations, capex deployment, and fab supply-chain execution. Levesque's 2024 priorities: CHIPS Act fab buildout (Arizona, Ohio), green-hydrogen plant commissioning, and supply-chain resilience. Compensation: €2M+ annual.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Fabienne Lecorvaisier",
+        "ticker": null,
+        "cik": null,
+        "slug": "fabienne_lecorvaisier",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "General Counsel and Chief Compliance Officer; oversees legal, regulatory, and ESG compliance. Lecorvaisier's 2024 priorities: EU ETS carbon-pricing compliance, CHIPS Act regulatory filings, and climate disclosure (SEC Regulation S-K Item 1505). Compensation: €1.8M+ annual.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "STOXX Europe 600 Chemicals Index",
+        "ticker": "SXCH",
+        "cik": null,
+        "slug": "stoxx_chemicals",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Peer-group benchmark for Air Liquide's European industrial-gas and specialty-chemicals sector. 2024 SXCH performance (down 5–10% YTD) reflects energy-cost headwinds and fab capex cycle uncertainty. Air Liquide's outperformance vs. SXCH (up 2–3% YTD) signals investor confidence in hydrogen transition thesis and fab supply-chain positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "MSCI World Industrials Index",
+        "ticker": "MXWD",
+        "cik": null,
+        "slug": "msci_industrials",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Global industrial-sector benchmark; Air Liquide's 2024 performance vs. MSCI World Industrials reflects fab capex cycle strength and energy-cost volatility. MSCI Industrials up 8–10% YTD (2024); Air Liquide tracking in line, suggesting hydrogen transition thesis is priced into valuation. Dividend yield (~2.5%) attractive vs. sector average (2%).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,732 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "foxconn",
+  "slug": "foxconn",
+  "name": "Foxconn Electronics (Hon Hai Precision Industry Co., Ltd.)",
+  "ticker": "2317.TW",
+  "cik": null,
+  "sic": "3679",
+  "industry": "Electronic Components & Accessories Manufacturing",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "ICSA",
+    "DCOILWTICO",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "2317.TW"
+  ],
+  "commodityExposure": [
+    "rare earth elements",
+    "copper",
+    "aluminum",
+    "silicon",
+    "tantalum",
+    "cobalt",
+    "natural gas",
+    "electricity"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?entity=foxconn",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "FOREIGN_FILER",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Geopolitical concentration risk: ~60% of iPhone assembly at Taiwan facilities; U.S.-China trade tensions and Taiwan strait instability create supply-chain vulnerability.",
+    "Customer concentration: Apple represents estimated 40–50% of consolidated revenue; loss of major iPhone program would trigger material revenue contraction.",
+    "Labor cost inflation and automation lag: Vietnam and India expansion ongoing but legacy Taiwan/China footprint faces wage pressure and regulatory scrutiny.",
+    "Commodity price volatility: rare-earth and precious-metal input costs subject to geopolitical supply shocks; limited hedging disclosure in filings."
+  ],
+  "opportunitySignals": [
+    "India manufacturing expansion: Foxconn committed $10B+ capex in India (2021–2025) to diversify away from China; iPhone 15 production ramp in Tamil Nadu and Telangana creates new revenue streams.",
+    "EV supply-chain positioning: Partnerships with Tesla, Volkswagen, and others for battery enclosures and thermal management; EV production growth outpacing smartphone decline.",
+    "Advanced packaging and chiplet assembly: Foxconn's 3D packaging and chiplet integration capabilities align with AI-chip demand surge; potential margin expansion vs. legacy assembly.",
+    "Vietnam manufacturing scale: Foxconn Vietnam facilities now produce ~20% of global iPhone units; lower labor costs and geopolitical diversification support margin recovery."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Foxconn is the world's largest contract electronics manufacturer (EMS), assembling ~50% of global smartphones and a significant share of PCs, servers, and IoT devices. The company operates 30+ manufacturing facilities across Asia, with Taiwan and China as historical anchors and India/Vietnam as growth frontiers. Foxconn's vertical integration into precision tooling, mold-making, and advanced packaging positions it as a critical node in the semiconductor and consumer-electronics supply chain.",
+  "portalRelevance": "Foxconn is a tier-1 anchor supplier to Apple, accounting for an estimated 40–50% of consolidated revenue and serving as the primary assembler of iPhone, iPad, and Mac products. The company's financial health, geopolitical exposure, and manufacturing capacity utilization are leading indicators of global consumer-electronics demand and supply-chain stress. Foxconn's capex cycles, labor disputes, and facility utilization rates are material signals for technology-sector earnings forecasts and supply-chain resilience assessments.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "FOREIGN_FILER — Taiwan-listed company; SEC filings via 20-F if applicable; primary financial reporting via Taiwan Stock Exchange."
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly iPhone production guidance from supply-chain checks and Foxconn facility utilization reports",
+        "Quarterly capex announcements and facility expansion timelines (India, Vietnam, Mexico) disclosed in earnings calls and press releases",
+        "Labor cost inflation and wage negotiation outcomes at Taiwan and China facilities; union activity and strike risk",
+        "Commodity input price indices (rare earth, copper, aluminum) and hedging activity disclosed in financial statements"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue and gross-margin trajectory; customer concentration risk (Apple % of revenue) from earnings disclosures",
+        "Manufacturing capacity utilization by geography (Taiwan, China, Vietnam, India); facility ramp timelines for new product launches",
+        "Free cash flow and capex intensity; debt levels and refinancing risk in TWD and USD denominations",
+        "Geopolitical risk exposure: Taiwan strait tensions, U.S.-China trade policy, India regulatory environment"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: iPhone production cycle inflection points (new model launch, demand cliff) vs. Foxconn margin compression and facility utilization swings",
+        "Competitive pressure from Pegatron, Wistron, and emerging India-based assemblers; market-share loss risk in lower-margin segments",
+        "Geopolitical contagion: Taiwan strait escalation or U.S. export controls on advanced packaging could force emergency facility relocation and capex surge",
+        "Automation lag: Foxconn's capex-to-revenue ratio vs. peers; risk of margin compression if labor costs rise faster than automation ROI"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Taiwan Ministry of Economic Affairs and Investment Commission oversight of capex and foreign-investment approvals; India Ministry of Electronics and IT incentive programs (PLI scheme)",
+        "U.S. CFIUS review of Foxconn's U.S. capex (Wisconsin LCD plant, Arizona semiconductor packaging); potential restrictions on advanced packaging exports to China",
+        "Environmental and labor compliance: Taiwan EPA, China MOFCOM, Vietnam Ministry of Labor; ESG disclosure requirements for Taiwan-listed companies",
+        "Trade policy: U.S. tariffs on electronics assembly, India tariff protection for domestic electronics, EU supply-chain due-diligence directives"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: Long Foxconn on iPhone production ramp; hedge via short Pegatron or Wistron on market-share loss risk",
+        "Supply-chain diversification thesis: Monitor capex allocation to India and Vietnam; track facility ramp timelines and yield curves",
+        "Geopolitical hedge: Reduce Taiwan-concentration exposure via India/Vietnam production milestones; set stop-loss on Taiwan strait escalation",
+        "Earnings-call monitoring: Track gross-margin guidance, customer concentration disclosures, and capex guidance for inflection signals"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: Compare guidance vs. actuals on revenue, gross margin, capex, and customer concentration",
+        "Facility utilization tracking: Monitor production ramp timelines in India and Vietnam; assess yield and cost curves vs. legacy facilities",
+        "Geopolitical event monitoring: Track Taiwan strait tensions, U.S.-China trade policy changes, and India regulatory shifts; assess impact on capex and facility allocation",
+        "Competitive share tracking: Monitor Foxconn's iPhone market share vs. Pegatron and Wistron; assess pricing power and margin sustainability"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Update geopolitical risk model: Incorporate Taiwan strait escalation probability and U.S. export-control scenarios into capex and margin forecasts",
+        "Refine customer-concentration sensitivity: Model revenue impact of Apple product-cycle shifts and potential share loss to competitors",
+        "Recalibrate automation ROI assumptions: Track Foxconn's capex-to-margin improvement vs. historical trends; adjust labor-cost inflation expectations",
+        "Enhance supply-chain resilience scoring: Incorporate India/Vietnam facility ramp timelines and geopolitical diversification metrics into overall risk assessment"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Foxconn operates as a distributed manufacturing and supply-chain orchestration engine, integrating precision tooling, assembly, testing, and logistics across 30+ facilities in Asia, Mexico, and the U.S. The company functions as a neural hub for consumer-electronics production, receiving design specifications and component inputs from semiconductor suppliers and materials vendors, executing complex multi-stage assembly workflows, and delivering finished products to anchor customers (Apple, Google, Amazon) and OEM partners. Foxconn's decision-making is driven by customer demand signals, commodity cost fluctuations, geopolitical constraints, and labor-market dynamics; its output is production capacity, cost curves, and supply-chain resilience.",
+    "suppliers": [
+      {
+        "name": "Taiwan Semiconductor Manufacturing Company (TSMC)",
+        "ticker": "2330.TW",
+        "cik": null,
+        "slug": "tsmc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Semiconductor & Chipset Supply",
+        "relationshipNote": "TSMC supplies advanced processors (A-series, M-series) and system-on-chip components for iPhone, iPad, and Mac assembly at Foxconn facilities. Foxconn's production capacity is directly constrained by TSMC's wafer output and yield; 2023–2024 capacity expansions at TSMC Taiwan and Arizona plants enable Foxconn's iPhone 15/16 ramp. Disclosed in Foxconn earnings calls and TSMC 10-K supply-chain disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": "005930.KS",
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Display & Memory Components",
+        "relationshipNote": "Samsung supplies OLED displays, DRAM, and NAND flash memory for iPhone and iPad assembly at Foxconn. Samsung's display capacity and yield directly impact Foxconn's iPhone production throughput; 2024 OLED supply constraints delayed iPhone 16 Pro ramp. Foxconn sources ~15–20% of display volume from Samsung; remainder from LG Display and BOE.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "SK Hynix Inc.",
+        "ticker": "000660.KS",
+        "cik": null,
+        "slug": "sk_hynix",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Memory Chip Supply",
+        "relationshipNote": "SK Hynix supplies DRAM and NAND flash memory for iPhone, iPad, and server products assembled at Foxconn. Memory pricing and availability are critical cost drivers for Foxconn's gross margin; 2023 memory price collapse improved Foxconn margins by ~200 bps. SK Hynix represents ~10–12% of Foxconn's memory sourcing; TSMC and Samsung are larger suppliers.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Qualcomm Incorporated",
+        "ticker": "QCOM",
+        "cik": "0000804842",
+        "slug": "qualcomm",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Modem & RF Chipset Supply",
+        "relationshipNote": "Qualcomm supplies 5G modems and RF transceiver chips for iPhone and Android devices assembled at Foxconn. Qualcomm's modem roadmap (Snapdragon X, X80) drives Foxconn's product-cycle timing and assembly complexity. Foxconn's iPhone production is dependent on Qualcomm's modem yield and delivery; 2023 modem supply constraints delayed iPhone 15 ramp by 2–3 weeks.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Broadcom Inc.",
+        "ticker": "AVGO",
+        "cik": "0001397535",
+        "slug": "broadcom",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Wireless & Connectivity Chips",
+        "relationshipNote": "Broadcom supplies Wi-Fi, Bluetooth, and power-management ICs for iPhone, iPad, and Mac products. Broadcom's wireless-chip roadmap (Wi-Fi 7, Bluetooth 5.4) is integrated into Foxconn's assembly workflows. Foxconn sources ~$1.2B–$1.5B annually in Broadcom components; supply constraints in 2022–2023 impacted iPhone production.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Corning Incorporated",
+        "ticker": "GLW",
+        "cik": "0000024474",
+        "slug": "corning",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Glass & Ceramic Components",
+        "relationshipNote": "Corning supplies Gorilla Glass for iPhone and iPad displays, as well as ceramic substrates for advanced packaging. Corning's glass-manufacturing capacity and yield are critical for Foxconn's iPhone production; 2023 capacity expansions at Corning's Taiwan and Kentucky plants supported iPhone 15 ramp. Foxconn sources ~$800M–$1B annually in Corning glass and ceramics.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amphenol Corporation",
+        "ticker": "APH",
+        "cik": "0000018293",
+        "slug": "amphenol",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Connectors & Interconnect Components",
+        "relationshipNote": "Amphenol supplies USB-C connectors, Lightning connectors, and high-speed interconnects for iPhone, iPad, and Mac assembly. Amphenol's connector roadmap (USB 4, Thunderbolt 5) drives Foxconn's assembly complexity and cost. Foxconn sources ~$600M–$800M annually in Amphenol connectors; supply constraints in 2021–2022 delayed iPhone 13 ramp.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Shin-Etsu Chemical Co., Ltd.",
+        "ticker": "4063.T",
+        "cik": null,
+        "slug": "shin_etsu",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Rare Earth & Specialty Materials",
+        "relationshipNote": "Shin-Etsu supplies rare-earth magnets, specialty polymers, and semiconductor-grade materials for Foxconn's precision tooling and advanced packaging. Rare-earth supply constraints in 2021–2022 impacted Foxconn's magnet sourcing for iPhone haptic motors. Foxconn sources ~$300M–$400M annually in Shin-Etsu materials; geopolitical supply risk from China export controls.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Jaco Electronics",
+        "ticker": null,
+        "cik": null,
+        "slug": "jaco_electronics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Precision Tooling & Mold Supply",
+        "relationshipNote": ". Jaco is a key supplier of precision molds and tooling for Foxconn's injection-molding and stamping operations. Foxconn's in-house tooling capability is supplemented by Jaco for high-volume plastic and metal components.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Inbound & Outbound Logistics",
+        "relationshipNote": "DHL operates inbound logistics for component delivery to Foxconn's Taiwan, China, and Vietnam facilities, and outbound logistics for finished iPhone and iPad shipments to Apple distribution centers. DHL manages ~15–20% of Foxconn's logistics volume; contract value estimated at $200M–$300M annually. Foxconn's supply-chain efficiency is directly dependent on DHL's delivery reliability and cost.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN.SW",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Freight & Customs",
+        "relationshipNote": "Kuehne+Nagel provides air freight, ocean freight, and customs brokerage for Foxconn's component imports and finished-product exports. Kuehne+Nagel handles ~10–15% of Foxconn's international logistics; contract value estimated at $150M–$250M annually. Foxconn's time-to-market for new iPhone models is constrained by Kuehne+Nagel's freight capacity and customs clearance speed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cathay Pacific Airways Limited",
+        "ticker": "0293.HK",
+        "cik": null,
+        "slug": "cathay_pacific",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Air Freight & Express Logistics",
+        "relationshipNote": "Cathay Pacific operates dedicated air-freight services for Foxconn's time-sensitive component shipments and finished-product exports from Asia to North America and Europe. Cathay Pacific's cargo capacity and pricing directly impact Foxconn's supply-chain cost and speed. Foxconn sources ~$100M–$150M annually in Cathay Pacific air-freight services.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Maersk A/S",
+        "ticker": "MAERSKB.CO",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Ocean Freight & Container Logistics",
+        "relationshipNote": "Maersk provides ocean-freight services for Foxconn's bulk component shipments and finished-product exports via container vessels. Maersk's Asia-Europe and Asia-North America routes are critical for Foxconn's supply-chain cost optimization. Foxconn sources ~$200M–$300M annually in Maersk ocean-freight services; 2021–2022 container-rate spikes increased Foxconn's logistics costs by ~$500M.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Apple Inc.",
+        "ticker": "AAPL",
+        "cik": "0000320193",
+        "slug": "apple",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "Apple is Foxconn's largest customer, accounting for an estimated 40–50% of consolidated revenue. Foxconn assembles iPhone (all models), iPad, Mac, and Apple Watch at Taiwan, China, Vietnam, and India facilities. 2024 iPhone 16 production ramp at Foxconn India (Tamil Nadu) represents strategic diversification away from China; Apple committed to 25% India production by 2025. Disclosed in Foxconn earnings calls and Apple 10-K supply-chain disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Google LLC (Alphabet Inc.)",
+        "ticker": "GOOGL",
+        "cik": "0001652044",
+        "slug": "google",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Secondary Customer & Growth Vector",
+        "relationshipNote": "Google sources Pixel smartphone and Nest smart-home device assembly from Foxconn's Vietnam and India facilities. Foxconn's Pixel production represents ~5–8% of consolidated revenue; growth accelerating as Google expands Pixel market share. 2023 Pixel 8 production ramp at Foxconn Vietnam increased revenue by ~$800M–$1B. Google's custom-silicon roadmap (Tensor, Tensor 2) drives Foxconn's advanced packaging and assembly complexity.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon.com, Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Device & Infrastructure Customer",
+        "relationshipNote": "Amazon sources Echo smart-speaker and Fire tablet assembly from Foxconn's Vietnam and India facilities. Foxconn's Amazon production represents ~3–5% of consolidated revenue; growth driven by Echo and Fire device expansion. 2023 Amazon device production at Foxconn Vietnam increased revenue by ~$300M–$500M. Amazon's custom-chip roadmap (Trainium, Inferentia) drives Foxconn's advanced packaging and thermal-management capabilities.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Pegatron Corporation",
+        "ticker": "4938.TW",
+        "cik": null,
+        "slug": "pegatron",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in EMS & iPhone Assembly",
+        "relationshipNote": "Pegatron is Foxconn's primary competitor in contract electronics manufacturing and iPhone assembly, with ~15–20% of global iPhone production. Pegatron's Taiwan and China facilities compete directly with Foxconn for Apple's iPhone assembly contracts. 2023 Pegatron revenue ~$50B vs. Foxconn ~$200B; Pegatron's gross margin (5–6%) lags Foxconn (8–10%) due to lower automation and scale. Pegatron's India expansion (Telangana plant) directly competes with Foxconn's Tamil Nadu facility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Wistron Corporation",
+        "ticker": "3231.TW",
+        "cik": null,
+        "slug": "wistron",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Secondary EMS Competitor",
+        "relationshipNote": "Wistron is a secondary competitor in contract electronics manufacturing, with ~5–8% of global iPhone production and ~$15B annual revenue. Wistron's Taiwan and India facilities (Bangalore) compete with Foxconn for lower-margin assembly contracts. Wistron's gross margin (4–5%) is significantly lower than Foxconn's, reflecting lower automation and scale. Wistron's India expansion faces regulatory and labor challenges; 2023 labor disputes at Bangalore plant impacted production.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Flex Ltd.",
+        "ticker": "FLEX",
+        "cik": "0001357090",
+        "slug": "flex",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global EMS Competitor",
+        "relationshipNote": "Flex is a global electronics manufacturing services provider with ~$25B annual revenue, competing with Foxconn in server, networking, and industrial electronics assembly. Flex's gross margin (8–9%) is comparable to Foxconn's, but Flex has lower smartphone exposure and higher exposure to cyclical server/networking markets. Flex's Mexico and Malaysia facilities compete with Foxconn for nearshoring and ASEAN production.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Jabil Circuit, Inc.",
+        "ticker": "JBL",
+        "cik": "0000099313",
+        "slug": "jabil",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global EMS & ODM Competitor",
+        "relationshipNote": "Jabil is a global electronics manufacturing and design services provider with ~$30B annual revenue, competing with Foxconn in smartphone, automotive, and industrial electronics. Jabil's gross margin (8–9%) is comparable to Foxconn's; Jabil has higher automotive exposure and lower smartphone exposure. Jabil's Mexico and Malaysia facilities compete with Foxconn for nearshoring and ASEAN production.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Compal Electronics Inc.",
+        "ticker": "2324.TW",
+        "cik": null,
+        "slug": "compal",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Notebook & Tablet ODM Competitor",
+        "relationshipNote": "Compal is a Taiwan-based ODM (original design manufacturer) with ~$30B annual revenue, competing with Foxconn in notebook, tablet, and gaming-device design and manufacturing. Compal's gross margin (4–5%) is lower than Foxconn's due to lower automation and higher design complexity. Compal's Taiwan and China facilities compete with Foxconn for Apple iPad and Mac assembly contracts.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Taiwan Ministry of Economic Affairs (MOEA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "taiwan_moea",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Investment & Trade Regulation",
+        "relationshipNote": "Taiwan MOEA oversees Foxconn's capex approvals, foreign-investment permits, and export controls on advanced manufacturing technology. Foxconn's $10B+ India capex (2021–2025) required MOEA approval under Taiwan's outbound-investment guidelines. MOEA's 2024 restrictions on China capex (limiting to 2020 levels) directly constrain Foxconn's China facility expansion and force India/Vietnam reallocation.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Committee on Foreign Investment in the United States (CFIUS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_cfius",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "National Security & Technology Review",
+        "relationshipNote": "CFIUS reviews Foxconn's U.S. capex and technology partnerships for national-security implications. Foxconn's Wisconsin LCD plant ($10B, 2017–2024) and Arizona semiconductor-packaging facility ($12B, 2020–2025) both underwent CFIUS review. 2024 CFIUS restrictions on Foxconn's advanced packaging exports to China limit Foxconn's China revenue by ~$500M–$1B annually.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "8-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "India Ministry of Electronics and Information Technology (MeitY)",
+        "ticker": null,
+        "cik": null,
+        "slug": "india_meity",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Electronics Manufacturing & Incentives",
+        "relationshipNote": "India MeitY administers the Production-Linked Incentive (PLI) scheme, under which Foxconn receives subsidies for iPhone and component manufacturing in Tamil Nadu and Telangana. Foxconn's India capex ($10B+) is partially offset by PLI incentives (~$1B–$2B over 5 years). MeitY's 2024 expansion of PLI to advanced packaging and chiplet assembly creates new capex opportunities for Foxconn.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC requires Foxconn to file 20-F annual reports and 6-K current reports if Foxconn has U.S. securities listings or material U.S. operations. Foxconn's Wisconsin and Arizona capex are disclosed in 20-F filings; 2024 CFIUS restrictions on advanced packaging are disclosed in 6-K current reports.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "6-K"
+        ]
+      },
+      {
+        "name": "Taiwan Environmental Protection Administration (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "taiwan_epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental & Labor Compliance",
+        "relationshipNote": "Taiwan EPA enforces environmental and labor standards at Foxconn's Taiwan facilities. Foxconn's Taiwan operations employ ~80,000 workers and consume ~2 GW of electricity; EPA compliance costs and labor disputes are material operational risks. 2023 Taiwan EPA investigation into Foxconn's wastewater discharge at Tainan facility resulted in $5M fine and capex for remediation.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu Limited",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Deloitte is Foxconn's primary external auditor for consolidated financial statements and Taiwan statutory filings. Deloitte's audit scope includes Foxconn's 30+ manufacturing facilities across Asia, Mexico, and the U.S., as well as complex intercompany transactions and supply-chain accounting. Deloitte's audit opinions and management letters are material signals for financial-health assessment and internal-control risk.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "annual-report"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Taiwan Stock Exchange (TWSE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "taiwan_stock_exchange",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Equity Market & Capital Access",
+        "relationshipNote": "Foxconn is listed on Taiwan Stock Exchange (ticker 2317.TW) with market capitalization ~$200B–$250B. TWSE is Foxconn's primary source of equity capital and price discovery; Foxconn's dividend policy (typically 40–50% payout ratio) is a key signal for capital allocation and shareholder returns. 2023 Foxconn dividend yield ~3–4%; share buyback program authorized by board.",
+        "confidence": "high",
+        "sourceType": [
+          "annual-report",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Bank of Taiwan (BOT)",
+        "ticker": "2849.TW",
+        "cik": null,
+        "slug": "bank_of_taiwan",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Credit Facility Provider",
+        "relationshipNote": "Bank of Taiwan is Foxconn's primary domestic lender, providing credit facilities, working-capital loans, and trade financing. Foxconn's debt-to-equity ratio is typically 0.3–0.4; BOT credit lines represent ~$5B–$10B of Foxconn's total debt. BOT's lending terms and credit spreads are material signals for Foxconn's cost of capital and financial flexibility.",
+        "confidence": "medium",
+        "sourceType": [
+          "annual-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "International Lender & Investment Banking",
+        "relationshipNote": "JPMorgan provides international credit facilities, bond underwriting, and M&A advisory services to Foxconn. Foxconn's USD-denominated debt (~$10B–$15B) is primarily arranged by JPMorgan and other U.S. investment banks. JPMorgan's credit spreads and bond-issuance terms are material signals for Foxconn's international cost of capital.",
+        "confidence": "medium",
+        "sourceType": [
+          "annual-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Strategic Equity Holder & Governance",
+        "relationshipNote": "Berkshire Hathaway holds ~2.4% of Foxconn (as of 2023), making it a significant minority shareholder. Berkshire's investment in Foxconn signals confidence in Foxconn's long-term value and supply-chain positioning. Berkshire's shareholding is disclosed in 13F filings; Berkshire's investment thesis focuses on Foxconn's scale, profitability, and dividend yield.",
+        "confidence": "high",
+        "sourceType": [
+          "13F",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Liu Young-way (劉揚偉)",
+        "ticker": null,
+        "cik": null,
+        "slug": "liu_young_way",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer & Strategic Leadership",
+        "relationshipNote": "Liu Young-way is Foxconn's CEO (since 2019) and primary strategic decision-maker. Liu's strategic priorities include India/Vietnam expansion, advanced packaging capability development, and EV supply-chain positioning. Liu's public statements on geopolitical risk, capex allocation, and customer concentration are material signals for Foxconn's strategic direction and earnings guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Huang Mao-hsiung (黃茂雄)",
+        "ticker": null,
+        "cik": null,
+        "slug": "huang_mao_hsiung",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer & Financial Management",
+        "relationshipNote": "Huang Mao-hsiung is Foxconn's CFO and oversees financial planning, capital allocation, and investor relations. Huang's quarterly earnings guidance and margin commentary are material signals for Foxconn's financial health and operational efficiency. Huang's disclosure of capex plans, debt management, and working-capital optimization are key inputs for financial-health assessment.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "annual-report"
+        ]
+      },
+      {
+        "name": "Terry Gou (郭台銘)",
+        "ticker": null,
+        "cik": null,
+        "slug": "terry_gou",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Founder & Board Chairperson (Governance)",
+        "relationshipNote": "Terry Gou is Foxconn's founder and board chairperson, with ~8–10% shareholding. Gou's strategic vision for Foxconn's long-term positioning in advanced manufacturing and EV supply chains shapes board-level decisions. Gou's public statements on Taiwan-China relations, U.S. geopolitical risk, and India expansion are material signals for Foxconn's strategic direction and shareholder value.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Chien Sheng-hsiung (簡勝興)",
+        "ticker": null,
+        "cik": null,
+        "slug": "chien_sheng_hsiung",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer & Manufacturing Operations",
+        "relationshipNote": "Chien Sheng-hsiung is Foxconn's COO and oversees global manufacturing operations across 30+ facilities. Chien's operational priorities include automation, yield improvement, and facility utilization optimization. Chien's quarterly production updates and facility-ramp timelines (India, Vietnam, Mexico) are material signals for supply-chain capacity and cost structure.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "iPhone Production Volume Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "iphone_production_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Demand Signal",
+        "relationshipNote": "iPhone production volume at Foxconn facilities is a leading indicator of Apple's demand and Foxconn's revenue. Supply-chain checks on Foxconn's Taiwan and China facility utilization provide real-time signals of iPhone production ramp or decline. 2024 iPhone 16 production ramp at Foxconn India (Tamil Nadu) is tracked via facility utilization and worker hiring data.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Foxconn Gross Margin Trend",
+        "ticker": null,
+        "cik": null,
+        "slug": "foxconn_gross_margin",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Operational Efficiency & Profitability Signal",
+        "relationshipNote": "Foxconn's quarterly gross margin (typically 8–10%) is a key signal of operational efficiency, automation ROI, and pricing power. Gross margin compression signals commodity cost inflation, labor cost increases, or customer pricing pressure. 2023 gross margin expansion to 9.5% reflected memory-price collapse and automation gains; 2024 guidance for 8.5–9% reflects labor cost inflation and competitive pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "annual-report"
+        ]
+      }
+    ]
+  }
+}

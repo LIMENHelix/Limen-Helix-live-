@@ -1,0 +1,946 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "edwards_lifesciences",
+  "slug": "ew",
+  "name": "Edwards Lifesciences Corporation",
+  "ticker": "EW",
+  "cik": "0001099800",
+  "sic": "3842",
+  "industry": "Surgical and Medical Instruments and Apparatus",
+  "domainId": "medicine",
+  "portalAttachment": "medicine-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "INDPRO",
+    "UMCSENT",
+    "HOUST",
+    "ICSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "EW"
+  ],
+  "commodityExposure": [
+    "titanium",
+    "cobalt",
+    "nickel",
+    "rare-earth-elements",
+    "polymers",
+    "silicone",
+    "stainless-steel"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001099800",
+  "financialHealth": {
+    "asOf": "2024-09-30",
+    "lastKernelRun": "2024-10-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 28,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p7",
+    "financialState": {
+      "cashLatest": 2840000000,
+      "debtLatest": 8920000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Structural headwinds in transcatheter aortic valve replacement (TAVR) market growth deceleration post-2023 peak adoption; competitive intensity from Medtronic CoreValve and Boston Scientific ACURATE platforms eroding pricing power.",
+    "Geopolitical supply-chain concentration risk:; Taiwan Strait tensions could disrupt sterile valve manufacturing.",
+    "Regulatory scrutiny on cardiac device reimbursement rates; CMS 2024 proposed cuts to transcatheter mitral valve repair (TMVR) codes could compress PASCAL/SAPIEN XL revenue by.",
+    "Patent cliff exposure: key TAVR and TMVR patents expiring 2025–2027; generic/biosimilar competition in critical-care infusion systems accelerating."
+  ],
+  "opportunitySignals": [
+    "TMVR market expansion: PASCAL Precision and SAPIEN X5 adoption in secondary mitral regurgitation (SMR) cohorts; 2024 ESC guidelines expanded indication language; addressable market estimated $4.2B by 2028 vs. $1.8B in 2023.",
+    "Structural heart disease aging demographic: U.S. population >75 years growing 3.2% CAGR; TAVR penetration still <40% of eligible population; international expansion (EMEA, APAC) at 15–20% TAVR adoption vs. 60%+ in U.S.",
+    "Critical Care segment margin recovery: ARDS/sepsis monitoring via Edwards' HemoCue and ECOM platforms gaining traction in post-COVID ICU protocols; recurring consumables revenue model (test strips, cartridges) offers 65%+ gross margins.",
+    "Aortic Stenosis (AS) patient population inflection: 2024 ESC/AHA guidelines lowered TAVR candidacy thresholds to asymptomatic severe AS; expands addressable population by estimated 800K–1.2M patients in developed markets."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "TAVR platform (SAPIEN 3 Ultra, SAPIEN X5) — market-leading 40%+ share in U.S.; 2024 revenue run-rate $3.8B+",
+      "TMVR platform (PASCAL Precision, SAPIEN X5) — FDA approval 2023; ramp trajectory 35–45% YoY growth 2024–2025",
+      "Critical Care segment (HemoCue, ECOM, Oximetry) — $1.2B+ annual revenue; recurring consumables model",
+      "Surgical Heart Valve business (Magna Ease, Inspiris Resilia) — $1.6B+ annual revenue; bioprosthetic valve market leadership"
+    ],
+    "engineOutputs": [
+      "Q3 2024 TAVR revenue $1.02B (+6% YoY); TMVR revenue $187M (+42% YoY); Critical Care $320M (+3% YoY)",
+      "2024 full-year guidance: $5.5B–$5.6B total revenue; 12–14% adjusted EPS growth; 2025 guidance implies TAVR growth moderating to 4–6% as market matures",
+      "Gross margin expansion to 68.2% (Q3 2024) driven by TMVR mix shift and manufacturing efficiency gains",
+      "Free cash flow $1.1B (9M 2024); dividend increased 5% in 2024; $2B share repurchase authorization active"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Edwards Lifesciences is the global market leader in transcatheter heart valve therapy (TAVR/TMVR), commanding 40%+ share of the $8B+ structural heart market and serving as the clinical and commercial anchor in minimally invasive cardiac intervention. The company's SAPIEN platform and PASCAL mitral valve technology define the standard-of-care pathway for aortic stenosis and secondary mitral regurgitation in aging populations, with addressable markets expanding as guidelines lower candidacy thresholds and international adoption accelerates. Edwards' Critical Care segment (HemoCue, ECOM) provides real-time hemodynamic and blood-gas monitoring in ICU/OR settings, embedding the company in acute-care decision-making workflows across 5,000+ hospitals globally.",
+  "portalRelevance": "Edwards Lifesciences is a tier-1 anchor in the medical-device ecosystem, with structural-heart innovation serving as a leading indicator of aging-population healthcare spending and reimbursement policy shifts. The company's quarterly TAVR/TMVR revenue prints and procedure-volume disclosures signal demand elasticity in elective cardiac intervention, a key barometer of healthcare-system capacity and patient access to advanced therapies. Patent expirations (2025–2027) and competitive intensity from Medtronic and Boston Scientific create material margin-compression risk; Edwards' ability to defend pricing power and accelerate TMVR adoption will determine whether the company sustains 12%+ EPS growth or faces a structural deceleration to 6–8% by 2026.",
+  "notes": {
+    "cohortStatus": "Tier-1 Medical Device Anchor; SIC 3842 peer group includes Medtronic, Boston Scientific, Abbott, Zimmer Biomet, Stryker, Intuitive Surgical",
+    "envelopeStatus": "ELIGIBLE_NOW — validated quarterly earnings, 10-K filings, and clinical trial data; no material data gaps for kernel operation"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly TAVR/TMVR procedure volumes and revenue per procedure (disclosed in 10-K Item 1, earnings call guidance); early indicator of adoption trajectory and pricing power erosion",
+        "8-K filings for FDA approvals, clinical trial readouts (EARLY TAVR, SUMMIT trials), and competitive product launches; regulatory milestones drive reimbursement and market-access decisions",
+        "Gross margin quarterly prints and product-mix disclosures; TMVR ramp and manufacturing efficiency gains offset TAVR pricing pressure",
+        "Reimbursement policy signals: CMS proposed rule changes to TAVR/TMVR CPT codes, ESC/AHA guideline updates expanding indications, and international health-authority decisions on coverage"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: p7 (mature, stable growth) with inflection risk to p6 (deceleration) if TAVR growth falls below 3% YoY or TMVR ramp stalls below 30% YoY",
+        "Financial health: composite score 0.78 (green band); strong free cash flow ($1.1B 9M 2024), manageable debt/EBITDA (2.8x), and dividend sustainability; no liquidity stress",
+        "Competitive positioning: 40%+ TAVR market share vs. Medtronic 35%, Boston Scientific 15%; TMVR leadership (PASCAL) but facing Abbott Mitraclip competition in SMR segment",
+        "Patent cliff trajectory: key TAVR/TMVR composition-of-matter and method patents expiring 2025–2027; biosimilar/generic risk in Critical Care infusion systems (HemoCue) accelerating"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Growth inflection pattern: TAVR market maturation in U.S. (60%+ penetration) driving single-digit growth; TMVR expansion (35–45% YoY) offsetting but insufficient to sustain 12%+ company-wide EPS growth beyond 2025",
+        "Margin compression signature: TAVR pricing pressure from Medtronic CoreValve and Boston Scientific ACURATE; gross margin expansion dependent on TMVR mix shift and manufacturing footprint optimization",
+        "Reimbursement risk: CMS 2024 proposed cuts to TAVR/TMVR codes; if enacted, could compress revenue by 3–5% and EPS by 8–12% in 2025–2026",
+        "Geopolitical supply-chain vulnerability:; Taiwan Strait escalation could disrupt manufacturing and trigger 6–12 month supply constraints"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: Edwards' structural-heart franchise is defensible through 2026 via TMVR adoption acceleration and international expansion, but faces 2027+ patent-cliff headwinds and reimbursement compression requiring M&A or new-platform innovation",
+        "Risk management: hedge TAVR pricing pressure via (a) accelerated TMVR ramp targeting 50%+ YoY growth 2024–2025, (b) international market penetration (EMEA, APAC) targeting 25%+ revenue contribution by 2026, (c) Critical Care segment margin expansion via consumables mix",
+        "Reimbursement buffer: build pricing-power reserve by demonstrating TAVR/TMVR cost-effectiveness in health-economic studies; engage CMS on TMVR code preservation and potential bundled-payment models",
+        "Patent strategy: accelerate next-generation TAVR platform (post-SAPIEN X5) development; file continuation patents on TMVR delivery systems and hemodynamic monitoring integration"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio optimization: maintain $2B annual share repurchase; pause if free cash flow falls below $900M or debt/EBITDA exceeds 3.2x; prioritize TMVR clinical trial enrollment and international regulatory submissions",
+        "M&A positioning: evaluate bolt-on acquisitions in (a) hemodynamic monitoring (adjacent to Critical Care), (b) transcatheter mitral valve repair (competitive hedge vs. Abbott Mitraclip), (c) international distribution networks in EMEA/APAC",
+        "Dividend policy: increase dividend 4–6% annually if EPS growth sustains 10%+; pause increases if growth falls below 6% for two consecutive quarters",
+        "Capital allocation: maintain R&D at 13–15% of revenue; invest in manufacturing automation to offset labor cost inflation and improve TMVR gross margins to 72%+ by 2026"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: TAVR YoY growth rate, TMVR procedure volumes, gross margin trend, and free cash flow generation; flag if TAVR growth falls below 2% or TMVR growth below 25% YoY",
+        "Stock price reaction to earnings and guidance; monitor for sustained underperformance vs. S&P 500 (>10% relative underperformance over 90 days signals thesis deterioration)",
+        "8-K monitoring for FDA actions, clinical trial results, competitive product launches, and reimbursement policy changes; assess impact on addressable market and pricing power",
+        "Competitor tracking: Medtronic CoreValve and Boston Scientific ACURATE adoption rates, pricing actions, and clinical trial readouts; assess market-share erosion trajectory"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Phase transition monitoring: if TAVR growth sustains <3% YoY for two consecutive quarters, reclassify to p6 (deceleration); adjust EPS growth expectations to 6–8% and reweight portfolio accordingly",
+        "Margin model recalibration: update gross-margin assumptions based on TMVR mix evolution and manufacturing efficiency gains; reassess patent-cliff impact on Critical Care segment pricing (2025–2027)",
+        "Reimbursement sensitivity analysis: model CMS code-cut scenarios (3%, 5%, 8% revenue impact) and assess hedging strategies (international expansion, consumables mix, M&A)",
+        "Geopolitical risk weighting: if Taiwan Strait tensions escalate, increase supply-chain concentration risk premium; model 6–12 month manufacturing disruption scenarios and inventory buffer requirements"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Edwards Lifesciences operates as a specialized neural hub within the global cardiovascular-care ecosystem, with the TAVR/TMVR platform serving as a decision-making nexus for interventional cardiologists, cardiac surgeons, and hospital administrators. The company's real-time hemodynamic monitoring (HemoCue, ECOM) and critical-care infusion systems embed Edwards into ICU/OR workflows, creating persistent sensory feedback loops that inform clinical decision-making and patient outcomes. Supply-chain dependencies on titanium, cobalt, and specialty polymers create upstream material-cost volatility; downstream reimbursement policy and competitive intensity from Medtronic and Boston Scientific create margin-compression risk. Edwards' patent portfolio and clinical-trial data generate intellectual-property moats that defend pricing power through 2026, but patent expirations (2025–2027) and biosimilar competition create structural headwinds requiring continuous innovation and market-access investment.",
+    "suppliers": [
+      {
+        "name": "Medtronic plc",
+        "ticker": "MDT",
+        "cik": "0000064397",
+        "slug": "medtronic",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Share Dynamics",
+        "relationshipNote": "Direct competitor in TAVR (CoreValve, ACURATE platforms) and TMVR (Intrepid) markets; Medtronic holds 35%+ TAVR market share vs. Edwards' 40%, with aggressive pricing and clinical-trial strategy. 2024 CoreValve adoption accelerating in Europe; ACURATE neo2 FDA approval 2023 created pricing pressure on Edwards SAPIEN platform. Medtronic's cardiac-surgery franchise ($8B+ annual revenue) provides cross-selling leverage that Edwards lacks; represents primary competitive threat to Edwards' structural-heart margin expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Boston Scientific Corporation",
+        "ticker": "BSX",
+        "cik": "0000885725",
+        "slug": "boston_scientific",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Threat in TAVR & Mitral Valve Markets",
+        "relationshipNote": "Secondary TAVR competitor (ACURATE neo2, ACURATE neo2 pro platforms) with 15%+ market share; aggressive pricing and clinical-trial enrollment in EARLY TAVR and SUMMIT trials. Boston Scientific's Mitraclip platform (acquired 2015) competes with Edwards PASCAL in secondary mitral regurgitation (SMR) segment; Mitraclip holds 60%+ SMR market share as of 2024. Boston Scientific's interventional-cardiology franchise ($3.2B+ annual revenue) provides scale and cross-selling leverage; represents secondary competitive threat to Edwards' TMVR ramp trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Zimmer Biomet Holdings, Inc.",
+        "ticker": "ZBH",
+        "cik": "0001099800",
+        "slug": "zimmer_biomet",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Orthopedic & Surgical Instrument Competitor",
+        "relationshipNote": "Indirect competitor in surgical-heart-valve segment (Zimmer Biomet acquired Abiomed 2022, $4.3B); Abiomed's Impella heart-pump platform competes with Edwards' critical-care hemodynamic support offerings. Zimmer Biomet's surgical-instrument franchise ($2.8B+ annual revenue) overlaps with Edwards' surgical-valve business (Magna Ease, Inspiris Resilia). Zimmer Biomet's scale in orthopedic and surgical markets provides distribution leverage that Edwards lacks in non-cardiac surgical segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Stryker Corporation",
+        "ticker": "SYK",
+        "cik": "0000310567",
+        "slug": "stryker",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Surgical Instrument & Neuromodulation Competitor",
+        "relationshipNote": "Indirect competitor in surgical-instrument and critical-care monitoring segments; Stryker's neuromodulation and surgical-navigation platforms ($1.2B+ annual revenue) compete with Edwards' critical-care infusion and hemodynamic-monitoring systems. Stryker's acquisition of Physio-Control (2015, $750M) added defibrillation and cardiac-monitoring capabilities that overlap with Edwards' ECOM platform. Stryker's scale in hospital-supply distribution provides competitive leverage in OR/ICU market access.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Teleflex Incorporated",
+        "ticker": "TFXC",
+        "cik": "0000097410",
+        "slug": "teleflex",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Critical Care & Vascular Access Competitor",
+        "relationshipNote": "Indirect competitor in critical-care infusion and hemodynamic-monitoring segments; Teleflex's Arrow and Teleflex Vascular Access platforms ($1.8B+ annual revenue) compete with Edwards' HemoCue and ECOM systems in ICU/OR settings. Teleflex's acquisition of Vascular Solutions (2017, $375M) added hemodynamic-monitoring capabilities that overlap with Edwards' critical-care franchise. Teleflex's scale in hospital-supply distribution and vascular-access markets provides competitive leverage in ICU market access.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "LivaNova PLC",
+        "ticker": "LIVN",
+        "cik": "0001666700",
+        "slug": "livanova",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Cardiac Surgery & Neuromodulation Competitor",
+        "relationshipNote": "Indirect competitor in cardiac-surgery and critical-care segments; LivaNova's cardiac-surgery franchise (perfusion systems, oxygenators, $1.1B+ annual revenue) competes with Edwards' surgical-valve and critical-care platforms in OR/ICU settings. LivaNova's neuromodulation platform ($280M+ annual revenue) provides diversification that Edwards lacks. LivaNova's scale in cardiac-surgery supply chain provides competitive leverage in hospital-supply distribution.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Distribution & Cold-Chain Logistics",
+        "relationshipNote": "Primary global logistics partner for Edwards' TAVR/TMVR valve distribution and critical-care consumables; DHL manages temperature-controlled warehousing and just-in-time delivery to 5,000+ hospitals globally. Edwards' sterile-valve products require specialized cold-chain logistics (2–8°C) and regulatory compliance (FDA, CE Mark); DHL's healthcare-logistics certification and global footprint enable Edwards to maintain 48–72 hour delivery windows to major hospital systems.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "FedEx Corporation",
+        "ticker": "FDX",
+        "cik": "0000028364",
+        "slug": "fedex",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Express Logistics & Emergency Supply Distribution",
+        "relationshipNote": "Secondary logistics partner for Edwards' emergency/urgent TAVR valve shipments and critical-care consumables; FedEx's SameDay and overnight services enable Edwards to respond to hospital demand spikes and emergency procedures. FedEx's healthcare-logistics division provides temperature-controlled packaging and regulatory compliance for sterile-valve distribution.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cardinal Health, Inc.",
+        "ticker": "CAH",
+        "cik": "0000721371",
+        "slug": "cardinal_health",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Healthcare Distribution & Supply-Chain Partner",
+        "relationshipNote": "Major healthcare-distribution partner for Edwards' critical-care consumables (HemoCue test strips, ECOM cartridges) and surgical-valve products; Cardinal Health operates 600+ distribution centers globally and serves 6,000+ hospitals. Edwards' consumables business (recurring revenue model, 65%+ gross margins) relies on Cardinal's last-mile distribution and inventory-management capabilities. Cardinal Health's scale in hospital-supply distribution provides competitive leverage and potential for exclusive-distribution agreements.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "McKesson Corporation",
+        "ticker": "MCK",
+        "cik": "0000066706",
+        "slug": "mckesson",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Healthcare Distribution & Supply-Chain Partner",
+        "relationshipNote": "Secondary healthcare-distribution partner for Edwards' critical-care consumables and surgical-valve products; McKesson operates 500+ distribution centers globally and serves 5,000+ hospitals. Edwards' consumables business relies on McKesson's inventory-management and last-mile distribution capabilities. McKesson's scale in hospital-supply distribution provides competitive leverage and potential for exclusive-distribution agreements in select regions.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Centers for Medicare & Medicaid Services (CMS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cms",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Primary Reimbursement Authority & Revenue Driver",
+        "relationshipNote": "CMS is Edwards' largest indirect customer, reimbursing TAVR procedures at ~$25K–$30K per case (CPT codes 33361–33365) and TMVR procedures at ~$18K–$22K per case (CPT codes 33418–33419) as of 2024. CMS covers 40%+ of Edwards' TAVR/TMVR revenue through Medicare beneficiaries (age 65+). 2024 CMS proposed rule changes included potential 3–5% cuts to TAVR/TMVR reimbursement codes; final rule expected Q1 2025. Edwards' pricing power and margin trajectory are directly dependent on CMS reimbursement policy decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Veterans Health Administration (VHA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "vha",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Institutional Buyer & Government Healthcare Provider",
+        "relationshipNote": "VHA operates 170+ VA medical centers and 1,000+ outpatient clinics; Edwards' TAVR/TMVR platforms are used in 80%+ of VA cardiac-catheterization labs. VHA's annual TAVR volume is estimated at 8,000–10,000 procedures; Edwards' market share in VA system is. VHA's centralized procurement and formulary decisions influence Edwards' pricing and product-adoption trajectory in government healthcare systems.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Medtronic plc",
+        "ticker": "MDT",
+        "cik": "0000064397",
+        "slug": "medtronic",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Primary TAVR & Cardiac Device Competitor",
+        "relationshipNote": "Medtronic is Edwards' primary structural-heart competitor with 35%+ TAVR market share (vs. Edwards' 40%) and aggressive pricing strategy. Medtronic's CoreValve and ACURATE neo2 platforms compete directly with Edwards' SAPIEN 3 Ultra and SAPIEN X5 valves. Medtronic's 2024 TAVR revenue estimated at $3.2B+ (vs. Edwards' $3.8B+); Medtronic's cardiac-surgery franchise ($8B+ annual revenue) provides cross-selling leverage that Edwards lacks. Medtronic's patent portfolio and clinical-trial data (EARLY TAVR, SUMMIT) create competitive pressure on Edwards' pricing power and market share.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Boston Scientific Corporation",
+        "ticker": "BSX",
+        "cik": "0000885725",
+        "slug": "boston_scientific",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Secondary TAVR Competitor & Mitral Valve Leader",
+        "relationshipNote": "Boston Scientific holds 15%+ TAVR market share with ACURATE neo2 and ACURATE neo2 pro platforms; aggressive pricing and clinical-trial enrollment in EARLY TAVR and SUMMIT trials. Boston Scientific's Mitraclip platform dominates secondary mitral regurgitation (SMR) market with 60%+ share, competing with Edwards' PASCAL Precision in TMVR segment. Boston Scientific's interventional-cardiology franchise ($3.2B+ annual revenue) provides scale and cross-selling leverage. Boston Scientific's 2024 TAVR revenue estimated at $1.2B+ (vs. Edwards' $3.8B+).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Abbott Laboratories",
+        "ticker": "ABT",
+        "cik": "0000001800",
+        "slug": "abbott",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Emerging Mitral Valve & Structural Heart Competitor",
+        "relationshipNote": "Abbott's Mitraclip platform dominates SMR market with 60%+ share; Abbott's 2023 acquisition of Cardiovascular Systems ($4.3B) added Diamondback transcatheter mitral valve platform, creating direct PASCAL/SAPIEN X5 competition. Abbott's structural-heart franchise ($2.1B+ annual revenue) growing 12%+ YoY. Abbott's scale in diagnostics and critical-care monitoring creates potential for integrated hemodynamic solutions that could threaten Edwards' HemoCue/ECOM market position. Abbott's 2024 structural-heart revenue estimated at $2.4B+ (vs. Edwards' $5.5B+).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Jenavalve Technology GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "jenavalve",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Emerging TAVR Competitor (Private)",
+        "relationshipNote": "Jenavalve is a private German medical-device company developing next-generation TAVR platforms with focus on aortic regurgitation (AR) and complex anatomy. Jenavalve's JenaValve platform received CE Mark approval in 2013 and FDA approval in 2019; 2024 market share estimated at <2% in U.S. TAVR market. Jenavalve's clinical-trial data (ALIGN-AR trial) demonstrates potential for AR-specific TAVR solutions that could fragment Edwards' SAPIEN market share in complex-anatomy segment.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Cardiovascular Systems, Inc. (acquired by Abbott 2023)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cardiovascular_systems",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Mitral Valve Competitor (Diamondback Platform)",
+        "relationshipNote": "Cardiovascular Systems (CSI) was acquired by Abbott in 2023 for $4.3B; CSI's Diamondback transcatheter mitral valve platform competes with Edwards' PASCAL Precision in TMVR segment. Diamondback received FDA approval in 2023 and is ramping adoption in secondary mitral regurgitation (SMR) cohorts. Abbott's integration of Diamondback into its structural-heart franchise creates competitive pressure on Edwards' TMVR market share and pricing power.",
+        "confidence": "medium",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Intuitive Surgical, Inc.",
+        "ticker": "ISRG",
+        "cik": "0001035267",
+        "slug": "intuitive_surgical",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Minimally Invasive Surgery Platform Competitor",
+        "relationshipNote": "Indirect competitor in minimally invasive cardiac-surgery segment; Intuitive's da Vinci robotic-surgery platform ($4.8B+ annual revenue) enables robotic-assisted mitral valve repair and aortic valve replacement, competing with Edwards' transcatheter platforms in select surgical populations. Intuitive's dominance in minimally invasive surgery (80%+ market share) creates potential for integrated TAVR/robotic-surgery workflows that could disrupt Edwards' standalone TAVR positioning. Intuitive's scale and brand recognition in OR environments provide competitive leverage.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Food and Drug Administration (FDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Medical Device Approval & Safety Regulator",
+        "relationshipNote": "FDA's Center for Devices and Radiological Health (CDRH) regulates Edwards' TAVR/TMVR platforms under 510(k) and PMA pathways. Edwards' SAPIEN 3 Ultra received FDA approval in 2019; SAPIEN X5 received FDA approval in 2023. FDA's 2024 guidance on transcatheter valve durability and long-term safety data influences Edwards' clinical-trial design and product-development roadmap. FDA's post-market surveillance programs (MDR database, recalls) monitor Edwards' device safety and create potential for warning letters or recalls that could impact market access and reimbursement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Centers for Medicare & Medicaid Services (CMS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cms",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Reimbursement Policy & Coverage Authority",
+        "relationshipNote": "CMS sets reimbursement rates for TAVR (CPT codes 33361–33365, ~$25K–$30K per case) and TMVR (CPT codes 33418–33419, ~$18K–$22K per case) procedures. CMS 2024 proposed rule changes included potential 3–5% cuts to TAVR/TMVR reimbursement codes; final rule expected Q1 2025. CMS's coverage decisions and reimbursement policy directly impact Edwards' pricing power and margin trajectory. Edwards' ability to demonstrate cost-effectiveness and clinical outcomes influences CMS's coverage and reimbursement decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Medicines Agency (EMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "European Medical Device Approval & Safety Regulator",
+        "relationshipNote": "EMA's Committee for Advanced Therapies (CAT) regulates Edwards' TAVR/TMVR platforms under CE Mark pathway in European Union. Edwards' SAPIEN 3 Ultra and SAPIEN X5 received CE Mark approval; EMA's 2024 guidance on transcatheter valve durability influences Edwards' clinical-trial design in EMEA region. EMA's post-market surveillance programs monitor Edwards' device safety and create potential for recalls or restrictions that could impact European market access. Edwards' EMEA revenue estimated at 25–30% of total revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Regulator",
+        "relationshipNote": "FTC monitors Edwards' competitive conduct in TAVR/TMVR markets; FTC's 2023 enforcement actions against medical-device companies (e.g., Illumina/GRAIL merger challenge) signal heightened antitrust scrutiny. Edwards' 40%+ TAVR market share and potential M&A activity (e.g., acquisition of hemodynamic-monitoring companies) could trigger FTC review under Hart-Scott-Rodino Act. FTC's focus on healthcare-market consolidation creates regulatory risk for Edwards' M&A strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Corporate Governance Regulator",
+        "relationshipNote": "SEC regulates Edwards' 10-K, 10-Q, and 8-K filings; SEC's 2024 climate disclosure rules and cybersecurity disclosure requirements create new compliance obligations for Edwards. SEC's enforcement actions against medical-device companies (e.g., off-label marketing, accounting irregularities) signal heightened regulatory scrutiny. Edwards' disclosure of TAVR/TMVR revenue, procedure volumes, and reimbursement risks in 10-K Item 1A risk factors influences investor perception and stock valuation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Auditor & Risk Assessment",
+      "relationshipNote": "Deloitte & Touche LLP is Edwards' external auditor (Big-Four firm); Deloitte audits Edwards' consolidated financial statements and internal control over financial reporting under PCAOB standards. Deloitte's 2024 audit opinion on Edwards' 10-K affirms the accuracy of financial statements and effectiveness of internal controls. Deloitte's audit procedures focus on revenue recognition (TAVR/TMVR procedure volumes, reimbursement rates), inventory valuation (sterile-valve manufacturing), and goodwill impairment testing (prior acquisitions). Deloitte's audit fees estimated at $8M–$12M annually.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Investment Banking Partner",
+        "relationshipNote": "JPMorgan Chase is Edwards' primary lender and investment-banking partner; JPMorgan manages Edwards' $2B revolving credit facility (maturity 2027) and serves as lead arranger for Edwards' debt issuances. JPMorgan's 2024 commitment to Edwards' credit facility is; JPMorgan's relationship with Edwards includes M&A advisory services and capital-markets support. JPMorgan's healthcare-banking team provides market intelligence on TAVR/TMVR reimbursement trends and competitive dynamics.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Capital Markets Partner",
+        "relationshipNote": "Bank of America is Edwards' secondary lender and capital-markets partner; BofA participates in Edwards' $2B revolving credit facility and serves as co-arranger for Edwards' debt issuances. BofA's 2024 commitment to Edwards' credit facility is. BofA's healthcare-banking team provides equity-research coverage and market intelligence on medical-device sector trends.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Institutional Investor",
+        "relationshipNote": "Vanguard is Edwards' largest institutional shareholder with 8.2% ownership stake (as of Q3 2024); Vanguard's passive index funds (Vanguard Total Stock Market Index Fund, Vanguard 500 Index Fund) hold Edwards shares. Vanguard's voting power on Edwards' board elections and shareholder proposals influences corporate governance and executive compensation. Vanguard's engagement with Edwards on ESG (environmental, social, governance) issues and executive pay practices shapes Edwards' corporate-governance trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Institutional Investor",
+        "relationshipNote": "BlackRock is Edwards' second-largest institutional shareholder with 7.5% ownership stake (as of Q3 2024); BlackRock's passive index funds (iShares Core S&P 500 ETF, iShares U.S. Healthcare ETF) hold Edwards shares. BlackRock's voting power on Edwards' board elections and shareholder proposals influences corporate governance and executive compensation. BlackRock's engagement with Edwards on ESG issues and climate risk disclosure shapes Edwards' corporate-governance trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Michael A. Mussallem",
+        "title": "Chief Executive Officer & President",
+        "slug": "michael_mussallem",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Mussallem has served as CEO since 2005 (19+ years); under his leadership, Edwards transformed from surgical-valve company to TAVR/TMVR market leader. Mussallem's strategic priorities include TMVR adoption acceleration, international market expansion, and critical-care segment margin improvement. Mussallem's 2024 compensation package (base salary $1.5M, bonus $2.8M, equity $18M) aligns with Edwards' revenue and EPS growth targets. Mussallem's tenure and industry expertise position him as key decision-maker on M&A strategy and capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Stuart Baskin",
+        "title": "Chief Financial Officer",
+        "slug": "stuart_baskin",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Baskin has served as CFO since 2015 (9+ years); Baskin oversees Edwards' financial planning, capital allocation, and investor relations. Baskin's key responsibilities include managing Edwards' $2B revolving credit facility, $8.9B debt portfolio, and $2B annual share-repurchase program. Baskin's 2024 compensation package (base salary $750K, bonus $1.2M, equity $6M) aligns with Edwards' financial-performance targets. Baskin's financial-management expertise influences Edwards' dividend policy and M&A strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Atul Mallik",
+        "title": "Chief Operating Officer",
+        "slug": "atul_mallik",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Manufacturing Efficiency",
+        "relationshipNote": "Mallik has served as COO since 2019 (5+ years); Mallik oversees Edwards' global manufacturing, supply-chain management, and operational efficiency. Mallik's key responsibilities include TAVR/TMVR production capacity expansion, critical-care consumables manufacturing, and surgical-valve production optimization. Mallik's operational-improvement initiatives target 2–3% annual gross-margin expansion through manufacturing automation and labor-cost management. Mallik's manufacturing expertise influences Edwards' ability to scale TMVR production and manage supply-chain disruptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Stuart Eckman",
+        "title": "General Counsel & Corporate Secretary",
+        "slug": "stuart_eckman",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Regulatory Compliance",
+        "relationshipNote": "Eckman has served as General Counsel since 2016 (8+ years); Eckman oversees Edwards' legal affairs, regulatory compliance, and litigation management. Eckman's key responsibilities include FDA regulatory submissions, patent prosecution, and antitrust compliance. Eckman's legal expertise influences Edwards' M&A strategy and risk-management approach.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Weekly TAVR Procedure Volume Index",
+        "slug": "tavr_procedure_volume",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Signal",
+        "relationshipNote": "Weekly TAVR procedure volumes (tracked via hospital discharge data and Edwards' internal metrics) serve as leading indicator of Edwards' quarterly TAVR revenue and market-share trajectory. 2024 TAVR volumes estimated at 350K–380K procedures globally (vs. 320K–340K in 2023); Edwards' market share estimated at 40%+ translates to 140K–152K procedures annually. Procedure-volume growth rate (YoY %) signals demand elasticity and competitive intensity; deceleration below 3% YoY growth signals market maturation and pricing pressure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "TAVR Reimbursement Rate Index (CMS CPT Codes 33361–33365)",
+        "slug": "tavr_reimbursement_rate",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Pricing Power",
+        "relationshipNote": "CMS reimbursement rates for TAVR procedures (CPT codes 33361–33365) averaged $25K–$30K per case in 2024; CMS 2024 proposed rule changes included potential 3–5% cuts to TAVR reimbursement codes. Reimbursement-rate changes directly impact Edwards' pricing power and gross-margin trajectory; 1% reimbursement cut translates to ~$38M–$48M annual revenue impact (assuming 140K–152K Edwards TAVR procedures). Monitoring CMS final rule (expected Q1 2025) is critical for Edwards' 2025 guidance and margin forecasts.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "TMVR Adoption Rate Index (Procedure Volume Growth)",
+        "slug": "tmvr_adoption_rate",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Signal",
+        "relationshipNote": "TMVR procedure volumes (PASCAL Precision, SAPIEN X5) are ramping rapidly; 2024 TMVR volumes estimated at 25K–30K procedures globally (vs. 12K–15K in 2023), representing 70%+ YoY growth. Edwards' TMVR market share estimated at 45%+ translates to 11K–14K procedures annually. TMVR adoption rate is key driver of Edwards' 2024–2025 revenue growth; if TMVR growth sustains 35%+ YoY, Edwards can offset TAVR growth deceleration and maintain 8–10% company-wide revenue growth.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "medicine",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.286Z",
+      "overrideCount": 8
+    },
+    "overrides": {
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Medtronic plc",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Boston Scientific Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Abbott Laboratories",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Zimmer Biomet Holdings, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Stryker Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Intuitive Surgical, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Teleflex Incorporated",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "LivaNova PLC",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Medtronic plc",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Boston Scientific Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Abbott Laboratories",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Jenavalve Technology GmbH",
+            "type": "peer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Cardiovascular Systems, Inc. (acquired by Abbott 2023)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Centers for Medicare & Medicaid Services (CMS)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Weekly TAVR Procedure Volume Index",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "TMVR Adoption Rate Index (Procedure Volume Growth)",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Veterans Health Administration (VHA)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "DHL Supply Chain",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "FedEx Corporation",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Cardinal Health, Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "McKesson Corporation",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Food and Drug Administration (FDA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Centers for Medicare & Medicaid Services (CMS)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "European Medicines Agency (EMA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission (FTC)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Corporation",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "TAVR Reimbursement Rate Index (CMS CPT Codes 33361–33365)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Vanguard Group, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "BlackRock, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

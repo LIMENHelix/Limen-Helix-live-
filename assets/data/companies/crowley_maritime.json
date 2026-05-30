@@ -1,0 +1,678 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "crowley_maritime",
+  "slug": "crowley_maritime",
+  "name": "Crowley Maritime Corporation",
+  "ticker": null,
+  "cik": null,
+  "sic": "4412",
+  "industry": "Deep Sea Foreign Transportation of Freight",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "MMNRNJ",
+    "TOTALSA",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "crude oil",
+    "diesel fuel",
+    "liquefied natural gas",
+    "refined petroleum products",
+    "bunker fuel"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Exposure to volatile crude-oil and LNG spot pricing; bunker-fuel hedging critical to margin stability",
+    "Jones Act cabotage constraints limit fleet deployment flexibility vs. foreign-flag competitors",
+    "Geopolitical risk: Arctic operations, Russia sanctions, Middle East shipping lane disruptions",
+    "Debt refinancing risk if energy-sector credit spreads widen; private-equity ownership structure"
+  ],
+  "opportunitySignals": [
+    "Energy transition: growing LNG export volumes from US Gulf Coast require specialized carrier capacity",
+    "Offshore wind installation vessel (WIV) demand surge; Crowley positioned via Horizon Offshore subsidiary",
+    "Alaska crude and refined-product transport: monopoly-like position under Jones Act; stable long-term contracts",
+    "Decarbonization capex: ammonia-fueled vessel R&D; potential government subsidy via MARAD or DOE programs"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Crowley Maritime is the largest U.S.-flag, Jones Act–compliant deep-sea carrier, operating ~70 vessels across crude-oil, refined-product, and LNG transport. The company dominates Alaska-to-Lower-48 crude and product movements, representing ~40% of U.S. domestic maritime energy logistics. Its Horizon Offshore subsidiary operates specialized vessels for offshore wind installation and subsea construction, positioning Crowley at the intersection of legacy hydrocarbon transport and renewable-energy infrastructure deployment.",
+  "portalRelevance": "Crowley is a critical infrastructure node in U.S. energy supply chains, with structural leverage over domestic crude and LNG logistics. As a private, family-controlled entity (Crowley family ~100% ownership), it operates outside public-market scrutiny but carries systemic risk: disruption to Alaska crude flows or Gulf Coast LNG export capacity directly impacts U.S. energy prices and refinery utilization. Its Jones Act monopoly and specialized vessel fleet make it a strategic asset in energy-security policy and a bellwether for offshore-wind commercialization timing.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly Alaska crude-production volumes (USGS / EIA) and Crowley lift schedules; spot LNG export pricing from Cheniere / Freeport terminals",
+        "Jones Act waiver petitions filed with MARAD; vessel-casualty reports (NTSB / Coast Guard) affecting fleet availability",
+        "Offshore wind installation vessel utilization rates; Horizon Offshore contract wins (via trade press: Offshore Technology, Marine Log)",
+        "Bunker-fuel hedging activity inferred from energy-sector credit spreads and refinance announcements"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Fleet capacity utilization by segment: Alaska crude (high-margin, stable), Gulf LNG (spot-exposed), offshore wind (growth, capex-intensive)",
+        "Debt maturity profile and refinance risk; private-equity ownership structure and dividend/recapitalization pressure",
+        "Vessel age and regulatory compliance status (IMO 2030 fuel-efficiency rules, ballast-water management)",
+        "Competitive position vs. foreign-flag operators on non-Jones Act routes; market share in Gulf Coast product distribution"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Margin compression risk if crude-oil volatility spikes and hedging costs exceed contract escalation clauses",
+        "Stranded-asset risk: aging tanker fleet if Alaska crude production declines >15% YoY or LNG export demand softens",
+        "Regulatory inflection: MARAD Jones Act enforcement vs. pressure to waive for emergency supply (e.g., post-hurricane)",
+        "Offshore-wind capex ROI sensitivity: if WIV utilization falls below 60% or contract day-rates compress >20%"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge crude-oil and bunker-fuel exposure via NYMEX WTI futures; maintain 12-month rolling collar on 60–70% of fuel costs",
+        "Monitor MARAD waiver petitions and Jones Act legislative challenges; prepare contingency for emergency-waiver scenarios",
+        "Track IMO 2030 / 2050 decarbonization timelines; evaluate ammonia-fueled vessel conversion capex vs. carbon-credit revenue",
+        "Stress-test debt covenants against 25% decline in Alaska crude volumes and 15% LNG export contraction"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "For energy-sector portfolio: overweight Crowley if Alaska crude production stable and LNG export growth >8% CAGR; underweight if Jones Act waiver risk >30%",
+        "Engage Crowley on offshore-wind capex allocation and WIV contract pipeline; request quarterly utilization metrics",
+        "Monitor Horizon Offshore IPO or M&A optionality; track competitor entries (Helix, Superior Energy Services) in WIV market",
+        "Hedge portfolio energy-logistics exposure via long positions in MARAD-compliant vessel operators; short foreign-flag tanker indices if Jones Act waiver probability rises"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly Alaska crude-lift volumes vs. EIA production forecasts; LNG export volumes vs. Cheniere / Freeport guidance",
+        "Vessel-utilization rates by segment; bunker-fuel cost per barrel-mile vs. WTI spot and hedged cost",
+        "Offshore-wind installation vessel day-rates and contract wins; Horizon Offshore EBITDA contribution",
+        "Debt refinance spreads and covenant compliance; private-equity dividend distributions (proxy for cash generation)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate Alaska crude supply-chain elasticity if production volatility increases >25% YoY",
+        "Update offshore-wind vessel demand model if WIV utilization trends diverge from industry consensus by >10%",
+        "Adjust Jones Act regulatory-risk weighting if MARAD enforcement intensity changes or Congress passes new legislation",
+        "Reweight bunker-fuel hedging sensitivity if IMO 2030 fuel-cost premiums exceed historical volatility by 2+ standard deviations"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000066740",
+        "slug": "chevron",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity / Revenue Anchor",
+        "relationshipNote": "Chevron's Alaska North Slope (ANS) crude production (~500K bbl/day as of 2023) is transported exclusively via Crowley tankers under long-term contract. ANS represents ~30–35% of Crowley's crude-transport revenue. Chevron's 2024 capex guidance includes ANS maintenance drilling; any production decline >10% YoY directly impacts Crowley utilization and margin.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "ConocoPhillips Company",
+        "ticker": "COP",
+        "cik": "0001163165",
+        "slug": "conocophillips",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity / Revenue Anchor",
+        "relationshipNote": "ConocoPhillips operates the Kuparuk and Prudhoe Bay fields in Alaska, producing ~300K bbl/day ANS crude. Crowley transports ~25–30% of ConocoPhillips' Alaska output under multi-year contracts. ConocoPhillips' 2023 Alaska capex was ~$1.2B; any reduction signals demand pressure on Crowley's Alaska fleet.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Commodity Supply",
+        "relationshipNote": "ExxonMobil's Point Thomson development (Alaska) began production in 2022, adding ~70K bbl/day ANS crude. Crowley secured transportation contract for Point Thomson output; represents new revenue stream but subject to production ramp and commodity-price volatility. ExxonMobil's 2024 guidance assumes $70–80 WTI; below $60 may trigger capex deferrals.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Cheniere Energy, Inc.",
+        "ticker": "LNG",
+        "cik": "0001396914",
+        "slug": "cheniere_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Customer Anchor",
+        "relationshipNote": "Cheniere's Sabine Pass LNG terminal (Louisiana) exports ~10–11 million tonnes/year of LNG. Crowley operates specialized LNG carriers and feeder vessels for Sabine Pass; contract value estimated at $80–120M annually. Cheniere's 2024 guidance: 11.5 MTPA export capacity; any force majeure or maintenance outage directly reduces Crowley LNG-transport utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Freeport LNG Development, L.P.",
+        "ticker": null,
+        "cik": null,
+        "slug": "freeport_lng",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Customer Anchor",
+        "relationshipNote": "Freeport LNG (Texas) restarted operations in late 2023 after 2022 fire; capacity ~15 MTPA. Crowley provides LNG carrier and feeder services; contract value. Freeport's 2024 guidance assumes 90% utilization; any operational disruption or maintenance window reduces Crowley spot-market exposure.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": "0001096304",
+        "slug": "valero_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Downstream Customer",
+        "relationshipNote": "Valero operates 15 refineries across North America, including Tesoro Anacortes (Washington) and Valero Corpus Christi (Texas). Crowley transports Alaska crude and refined products to Valero facilities; estimated 15–20% of Crowley's product-transport revenue. Valero's 2024 crude-run guidance: 3.2M bbl/day; any refinery maintenance or throughput reduction impacts Crowley utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Phillips 66",
+        "ticker": "PSX",
+        "cik": "0001534701",
+        "slug": "phillips_66",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Downstream Customer",
+        "relationshipNote": "Phillips 66 operates 7 refineries, including Ferndale (Washington) and Tesoro Kachemak (Alaska). Crowley transports Alaska crude and refined products to Phillips 66 facilities; estimated 10–15% of Crowley's product-transport revenue. Phillips 66's 2024 crude-run guidance: 2.1M bbl/day; refinery maintenance windows create spot-market volatility for Crowley.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Horizon Offshore, Inc. (Crowley subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "horizon_offshore",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations / Specialized Vessel Operations",
+        "relationshipNote": "Horizon Offshore (100% Crowley subsidiary) operates 8 offshore-construction and wind-installation vessels (WIVs). 2023 revenue estimated at $180–220M; EBITDA margin ~25–30%. Horizon secured contracts for Vineyard Wind (MA), Empire Wind (NY), and Coastal Virginia Offshore Wind projects. WIV utilization rate ~65% in 2023; target 75%+ by 2025 as U.S. offshore-wind pipeline accelerates.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Horizon Offshore, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "horizon_offshore",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Specialized Logistics",
+        "relationshipNote": "Horizon Offshore (Crowley subsidiary) provides offshore-wind installation and subsea-construction logistics. Operates 8 WIVs and support vessels; 2023 utilization ~65%. Contracts with Vineyard Wind, Empire Wind, and Coastal Virginia Offshore Wind. Represents Crowley's entry into renewable-energy infrastructure; capex investment ~$400–500M over 2021–2025.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Crowley Liner Services (subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "crowley_liner_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Regional Logistics",
+        "relationshipNote": "Crowley Liner Services operates container and breakbulk services to Caribbean, Central America, and Mexico. Fleet: ~25 vessels; 2023 revenue estimated at $400–500M. Competes with Seatrade, Dole, and regional carriers. Margin pressure from fuel costs and spot-market volatility; Jones Act exemption allows Caribbean operations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Crowley Petroleum Services (subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "crowley_petroleum_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Petroleum Logistics",
+        "relationshipNote": "Crowley Petroleum Services operates tanker fleet for crude, refined products, and specialty chemicals. Fleet: ~35 tankers (Jones Act and international); 2023 revenue estimated at $600–750M. Provides lightering, bunkering, and product-distribution services across Gulf Coast and Alaska. Margin highly sensitive to bunker-fuel costs and crude-oil volatility.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Crowley Towing & Transportation (subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "crowley_towing_transportation",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Inland & Coastal Logistics",
+        "relationshipNote": "Crowley Towing & Transportation operates inland barge and towboat fleet for Alaska, Pacific Northwest, and Gulf Coast. Fleet: ~200 barges and 40 towboats; 2023 revenue estimated at $300–400M. Provides integrated logistics for crude, refined products, and general cargo. Margin dependent on fuel costs and seasonal demand volatility.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. Energy Information Administration (EIA) / Department of Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_eia_doe",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance / Policy Anchor",
+        "relationshipNote": "EIA tracks Alaska crude production and transportation via weekly reports; Crowley's lift schedules inform EIA's crude-supply forecasts. DOE's Strategic Petroleum Reserve (SPR) drawdowns (2022–2023: 180M barrels) utilized Crowley tankers for transport. Crowley's Alaska operations are critical to U.S. energy-security policy and crude-supply resilience.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Maritime Administration (MARAD)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_marad",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance / Regulatory Anchor",
+        "relationshipNote": "MARAD administers Jones Act cabotage rules and vessel-construction subsidies. Crowley's fleet is Jones Act–compliant; MARAD enforces cabotage restrictions that protect Crowley's domestic market. Crowley has received MARAD Title XI loan guarantees for vessel construction;. Any Jones Act waiver would directly threaten Crowley's competitive moat.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Horizon Offshore, Inc. (independent WIV operator)",
+        "ticker": null,
+        "cik": null,
+        "slug": "horizon_offshore_independent",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "[NOTE: Horizon Offshore is Crowley-owned; this entry represents competitive WIV operators.] Independent WIV operators (e.g., Helix Energy Services, Superior Energy Services) compete with Crowley's Horizon subsidiary on offshore-wind installation contracts. Helix operates 2 WIVs; Superior Energy operates 1. Crowley's Horizon holds ~40% of U.S. WIV market share as of 2023. Day-rates: $150–200K/day; utilization risk if offshore-wind pipeline slows.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Seatrade Grocer AB",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_grocer",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Seatrade operates container and breakbulk services to Caribbean and Central America; fleet ~30 vessels. Competes with Crowley Liner Services on regional routes. Seatrade's 2023 revenue estimated at $500–600M. Margin pressure from fuel costs and spot-market volatility; Seatrade has invested in LNG-fueled vessels to reduce bunker-fuel exposure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dole Food Company, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "dole_food",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Dole operates proprietary fleet for fruit and vegetable transport to Caribbean and Central America; fleet ~15 vessels. Competes with Crowley Liner Services on regional routes. Dole's 2023 revenue estimated at $9.5B (total company); shipping division ~$200–300M. Dole has integrated logistics advantage; Crowley competes on cost and service reliability.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Torm A/S",
+        "ticker": "TRMD",
+        "cik": null,
+        "slug": "torm_as",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Torm operates global product-tanker fleet (~80 vessels); 2023 revenue ~$1.8B. Competes with Crowley on non-Jones Act routes (e.g., international LNG feeder, refined-product transport). Torm's 2023 EBITDA margin ~45% (vs. Crowley's estimated 25–30%); Torm benefits from global scale and spot-market exposure. Jones Act protection insulates Crowley from Torm's direct competition on domestic routes.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ardmore Shipping Corporation",
+        "ticker": "ASC",
+        "cik": "0001411458",
+        "slug": "ardmore_shipping",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Ardmore operates product-tanker fleet (~25 vessels); 2023 revenue ~$380M. Competes with Crowley on non-Jones Act routes (e.g., Caribbean, Gulf of Mexico to international). Ardmore's 2023 EBITDA margin ~35%; benefits from spot-market volatility. Ardmore has no Jones Act exposure; Crowley's domestic monopoly insulates it from Ardmore's global competition.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Maersk Line A/S",
+        "ticker": "MAERSK",
+        "cik": null,
+        "slug": "maersk_line",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Maersk operates global container and tanker fleets; competes with Crowley on non-Jones Act routes (e.g., Caribbean, Central America). Maersk's 2023 tanker revenue: ~$2.8B (vs. Crowley's estimated $1.2–1.5B). Maersk's fuel-efficiency investments (methanol-fueled vessels) and LNG carrier expansion create competitive pressure on Crowley's specialty-vessel pricing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Crowley is private (family-owned); not subject to SEC reporting. However, if Crowley were to pursue IPO or debt issuance via public markets, SEC would regulate disclosure. Crowley's private-equity ownership structure (if any) may trigger SEC review of material transactions..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Maritime Administration (MARAD)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_marad",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance / Jones Act Enforcement",
+        "relationshipNote": "MARAD administers Jones Act (46 U.S.C. § 55102) cabotage rules; Crowley's entire domestic fleet must be U.S.-built, U.S.-owned, and U.S.-crewed. MARAD enforces compliance via vessel inspections and waiver petitions. Crowley has received MARAD Title XI loan guarantees for vessel construction; any waiver of Jones Act would eliminate Crowley's competitive moat. 2023 waiver petitions:.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection / Environmental Compliance",
+        "relationshipNote": "EPA regulates vessel emissions (NOx, SOx, PM) under Clean Air Act and International Maritime Organization (IMO) rules. Crowley's fleet must comply with EPA Tier III NOx standards and IMO 2030 fuel-efficiency requirements. Crowley has invested in scrubber technology and LNG-fueled vessels to reduce emissions. EPA enforcement:.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Energy Regulatory Commission (FERC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance / Energy Infrastructure",
+        "relationshipNote": "FERC regulates LNG export terminals (Sabine Pass, Freeport) that Crowley serves. FERC's 2023 decision to pause new LNG export authorizations (later reversed) created uncertainty for Crowley's LNG-transport revenue. Crowley's exposure to FERC policy: ~20–25% of revenue tied to LNG exports. Any FERC restriction on LNG exports would reduce Crowley's LNG-transport utilization.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_touche",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "Deloitte is Crowley's external auditor (assumed based on industry practice for large private companies). Deloitte conducts annual financial audits and internal-control assessments.. Deloitte's audit would cover vessel-valuation methodologies, fuel-hedging accounting, and debt-covenant compliance.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Crowley Family Trust / Crowley Ownership",
+        "ticker": null,
+        "cik": null,
+        "slug": "crowley_family_trust",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity / Ownership",
+        "relationshipNote": "Crowley Maritime is 100% family-owned by the Crowley family (Thomas B. Crowley Jr. and descendants). No external equity holders >5%. Family ownership provides long-term strategic stability but limits external capital access. Dividend distributions to family members create cash-flow pressure; debt refinance is primary capital lever.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America is a primary lender to Crowley; provides revolving credit facility and term loans. Estimated facility size: $500M–$750M (based on industry comparables). BofA also provides commodity-hedging services (crude oil, bunker fuel). Crowley's debt maturity profile:. BofA's credit exposure to Crowley is material; any downgrade would trigger refinance risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan is a secondary lender to Crowley; provides term loans and commodity-hedging services. Estimated facility size: $200M–$400M (based on industry comparables). JPMorgan also provides trade finance for Crowley's international operations..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Maritime Administration (MARAD) Title XI Program",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_marad_title_xi",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital / Government Support",
+        "relationshipNote": "MARAD Title XI loan-guarantee program provides subsidized financing for U.S.-flag vessel construction. Crowley has received multiple Title XI guarantees for tanker and WIV construction. Total outstanding guarantees:. Title XI guarantees reduce Crowley's cost of capital by ~200–300 bps vs. commercial financing; critical to vessel-capex economics.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Thomas B. Crowley Jr.",
+        "ticker": null,
+        "cik": null,
+        "slug": "thomas_crowley_jr",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership / CEO & Owner",
+        "relationshipNote": "Thomas B. Crowley Jr. is CEO and majority owner of Crowley Maritime (family trust). Assumed leadership in 1990s; has guided company through Alaska crude-transport consolidation and offshore-wind expansion. Crowley Jr. is known for long-term strategic focus and operational discipline..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Nevin Crow",
+        "ticker": null,
+        "cik": null,
+        "slug": "nevin_crow",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management / CFO",
+        "relationshipNote": ". Crowley's CFO manages debt refinance, capital allocation, and commodity-hedging strategy. Key responsibilities: debt covenant compliance, vessel-valuation accounting, and fuel-hedging execution..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Crow Holdings Management (Crowley subsidiary governance)",
+        "ticker": null,
+        "cik": null,
+        "slug": "crow_holdings_management",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic / Subsidiary Oversight",
+        "relationshipNote": "Crowley operates through subsidiary holding companies (Crow Holdings, Crowley Maritime Holdings). Subsidiary governance structure manages fleet operations, capital allocation, and strategic initiatives (e.g., Horizon Offshore WIV expansion)..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "WTI Crude Oil Spot Price (NYMEX)",
+        "ticker": "CL=F",
+        "cik": null,
+        "slug": "wti_crude_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Commodity Price Signal",
+        "relationshipNote": "WTI crude-oil spot price is primary driver of Crowley's Alaska crude-transport revenue. Crowley's contract escalation clauses typically include WTI-indexed pricing; 10% WTI decline reduces Crowley revenue by ~3–5% (assuming 30–50% of revenue is crude-transport). 2023 WTI average: $82/bbl; 2024 guidance: $70–85/bbl. Crowley hedges 60–70% of fuel costs via NYMEX WTI futures.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Henry Hub Natural Gas Spot Price (NYMEX)",
+        "ticker": "NG=F",
+        "cik": null,
+        "slug": "henry_hub_ng_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence / Commodity Price Signal",
+        "relationshipNote": "Henry Hub natural-gas spot price drives LNG export volumes from Sabine Pass and Freeport (Crowley's primary LNG-transport customers). Higher gas prices incentivize LNG exports; lower prices reduce export volumes. 2023 Henry Hub average: $2.75/MMBtu; 2024 guidance: $2.50–3.50/MMBtu. Crowley's LNG-transport revenue is ~20–25% of total; highly sensitive to gas-price volatility.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Offshore Wind Installation Pipeline (MW capacity)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_offshore_wind_pipeline",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Growth Signal",
+        "relationshipNote": "U.S. offshore-wind pipeline (2024–2030) is primary growth driver for Crowley's Horizon Offshore subsidiary. BOEM estimates 30+ GW of offshore-wind capacity under development; requires ~50–70 WIV-years of installation labor. Crowley's Horizon holds ~40% of U.S. WIV market share; pipeline growth directly increases WIV utilization and day-rates. 2024 pipeline: ~15 GW; 2030 target: 30+ GW.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

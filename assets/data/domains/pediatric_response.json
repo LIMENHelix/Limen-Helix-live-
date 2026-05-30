@@ -1,0 +1,383 @@
+{
+  "domainId": "pediatric_response",
+  "title": "Response Inhibition & Emotion Regulation",
+  "parentPortal": "pediatric_portal.html",
+  "parentLabel": "Pediatric Neurodevelopment",
+  "phase": "P0",
+  "activations": [
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Response Inhibition & Emotion Regulation indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P0",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "pediatric_response_action_portal.html"
+    },
+    {
+      "brainNodeId": "FORN",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Response Inhibition & Emotion Regulation activities and deliverables",
+      "group": "operations",
+      "phase": "P0",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Response Inhibition & Emotion Regulation Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "pediatric_response_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "CING",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Response Inhibition & Emotion Regulation, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "pediatric_response_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "MAMM",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Response Inhibition & Emotion Regulation practices and compliance obligations",
+      "group": "governance",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "pediatric_response_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "SEPT",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Response Inhibition & Emotion Regulation methods and capabilities",
+      "group": "innovation",
+      "phase": "P0",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "pediatric_response_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "NBM",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Response Inhibition & Emotion Regulation stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "pediatric_response_signal_portal.html"
+    },
+    {
+      "brainNodeId": "PIN",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Response Inhibition & Emotion Regulation operations and interfaces",
+      "group": "systems",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "pediatric_response_state_portal.html"
+    },
+    {
+      "brainNodeId": "VEST",
+      "state": "active",
+      "domainLabel": "Response Inhibition & Emotion Regulation Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Response Inhibition & Emotion Regulation outputs and resource utilization",
+      "group": "operations",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Response Inhibition & Emotion Regulation Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CC",
+      "target": "FORN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FORN",
+      "target": "CING",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CING",
+      "target": "MAMM",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "MAMM",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "SEPT",
+      "target": "NBM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NBM",
+      "target": "PIN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PIN",
+      "target": "VEST",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VEST",
+      "target": "CC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CC",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "MAMM",
+      "target": "PIN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "PEDIATRIC_RESPONSE_SYSTEM_FAILURE",
+      "label": "Response Inhibition & Emotion Regulation System Failure",
+      "summary": "Critical breakdown in Response Inhibition & Emotion Regulation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CC",
+          "dir": "Hypo-active",
+          "detail": "Response Inhibition & Emotion Regulation Assessment & Diagnostics capacity falling below operational thresholds, reducing Response Inhibition & Emotion Regulation output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FORN",
+          "dir": "Hypo-active",
+          "detail": "Response Inhibition & Emotion Regulation Core Operations systems underperforming, creating gaps in Response Inhibition & Emotion Regulation coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Altered",
+          "detail": "Response Inhibition & Emotion Regulation Infrastructure & Capacity behavior deviating from established norms, complicating Response Inhibition & Emotion Regulation management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Hyper-active",
+          "detail": "Response Inhibition & Emotion Regulation Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Response Inhibition & Emotion Regulation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Hypo-active",
+          "detail": "Response Inhibition & Emotion Regulation Performance & Optimization function reduced, compromising Response Inhibition & Emotion Regulation system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PEDIATRIC_RESPONSE_CAPACITY_CRISIS",
+      "label": "Response Inhibition & Emotion Regulation Capacity Crisis",
+      "summary": "Demand exceeding available Response Inhibition & Emotion Regulation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "FORN",
+          "dir": "Hyper-active",
+          "detail": "Response Inhibition & Emotion Regulation Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Response Inhibition & Emotion Regulation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Hypo-active",
+          "detail": "Response Inhibition & Emotion Regulation Infrastructure & Capacity systems underperforming, creating gaps in Response Inhibition & Emotion Regulation coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MAMM",
+          "dir": "Altered",
+          "detail": "Response Inhibition & Emotion Regulation Standards & Governance behavior deviating from established norms, complicating Response Inhibition & Emotion Regulation management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hyper-active",
+          "detail": "Response Inhibition & Emotion Regulation Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Response Inhibition & Emotion Regulation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Altered",
+          "detail": "Response Inhibition & Emotion Regulation Performance & Optimization operating outside normal parameters, introducing uncertainty into Response Inhibition & Emotion Regulation outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PEDIATRIC_RESPONSE_GOVERNANCE_GAP",
+      "label": "Response Inhibition & Emotion Regulation Governance Gap",
+      "summary": "Oversight or regulatory failure in Response Inhibition & Emotion Regulation creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "MAMM",
+          "dir": "Hypo-active",
+          "detail": "Response Inhibition & Emotion Regulation Standards & Governance capacity falling below operational thresholds, reducing Response Inhibition & Emotion Regulation output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "Response Inhibition & Emotion Regulation Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Response Inhibition & Emotion Regulation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SEPT",
+          "dir": "Hyper-active",
+          "detail": "Response Inhibition & Emotion Regulation Research & Development activity spiking beyond design limits, creating instability across Response Inhibition & Emotion Regulation operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Altered",
+          "detail": "Response Inhibition & Emotion Regulation Risk & Resilience patterns disrupted, necessitating adaptive responses within Response Inhibition & Emotion Regulation frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hypo-active",
+          "detail": "Response Inhibition & Emotion Regulation Coordination & Integration function reduced, compromising Response Inhibition & Emotion Regulation system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

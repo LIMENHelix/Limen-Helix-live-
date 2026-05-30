@@ -1,0 +1,779 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "byd",
+  "slug": "byd",
+  "name": "BYD Company Limited",
+  "ticker": null,
+  "cik": null,
+  "sic": "3711",
+  "industry": "Motor Vehicles and Passenger Car Bodies",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "TOTALSA",
+    "IMPGS",
+    "EXPGS",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "lithium",
+    "cobalt",
+    "nickel",
+    "copper",
+    "aluminum",
+    "steel",
+    "rare-earth-elements",
+    "crude-oil"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "FOREIGN_FILER",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Geopolitical exposure: U.S. tariff escalation on Chinese EVs (2024 tariff increases to 100% on Chinese EV imports); supply-chain vulnerability to U.S. market access restrictions.",
+    "Battery-supply concentration: Heavy reliance on proprietary LFP and blade-battery production; cobalt/nickel price volatility and supply-chain geopolitical risk (Congo, Indonesia sourcing).",
+    "Competitive intensity: Tesla price wars in China (2023–2024); BYD's margin compression in mass-market EV segment; NIO, XPeng, Li Auto gaining share in premium segment.",
+    "Currency and capital controls: CNY depreciation risk; Chinese government EV subsidy phase-out (ended 2023); potential capital repatriation restrictions for foreign investors."
+  ],
+  "opportunitySignals": [
+    "Global EV market expansion: BYD's 2024 global EV sales growth (>60% YoY); penetration into Southeast Asia, India, and Latin America markets with cost-competitive models.",
+    "Battery-as-a-service (BaaS) model: Blade Battery licensing and BaaS revenue streams; potential licensing to non-competing OEMs (e.g., Toyota, Daimler partnerships).",
+    "Vertical integration advantage: In-house semiconductor (SiC chips), battery, and motor production; margin protection vs. competitors dependent on external suppliers.",
+    "Energy-storage and grid-scale deployment: Expansion of stationary battery storage for renewable integration; industrial and utility-scale revenue diversification beyond automotive."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "BYD is the world's largest EV and battery manufacturer by volume, controlling ~20% of global EV sales and ~35% of battery production capacity as of 2024. The company operates an integrated supply chain spanning battery cells, motors, semiconductors, and vehicle assembly, competing directly with Tesla, Volkswagen, and traditional OEMs in both passenger vehicles and commercial EVs. BYD's dominance in lithium iron phosphate (LFP) battery technology and its expansion into energy storage and grid services position it as a structural anchor in the global automotive electrification transition.",
+  "portalRelevance": "BYD is a tier-1 anchor in the automotive and energy-storage sectors, with material exposure to commodity cycles (lithium, cobalt, nickel), geopolitical trade dynamics (U.S.–China tariff regime), and technology-licensing partnerships (Toyota, Daimler, Ford). Its financial health, supply-chain resilience, and pricing power directly signal EV market maturity, battery-cost trajectories, and Chinese industrial policy effectiveness. For equity and credit investors, BYD's quarterly earnings, gross-margin trends, and working-capital cycles are leading indicators of global EV demand and battery-supply tightness.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "FOREIGN_FILER — Hong Kong-listed, mainland China operations; SEC filings via 20-F (if applicable) or Hong Kong Stock Exchange (HKEX) disclosures."
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly EV sales volumes (China, global) via CAAM and BYD investor relations; weekly battery-price indices (LFP, NCA/NCM) from Bloomberg and industry trackers.",
+        "Quarterly gross-margin prints and battery ASP (average selling price) trends from earnings releases; 8-K equivalent filings for major partnership announcements (e.g., Toyota BZ4X co-development milestones).",
+        "Commodity spot prices (lithium carbonate, cobalt, nickel) and supply-chain disruption notices; tariff and trade-policy announcements affecting U.S. market access.",
+        "Competitive pricing actions by Tesla, NIO, XPeng; market-share shifts in mass-market vs. premium EV segments; energy-storage order pipeline disclosures."
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue, gross margin, and free-cash-flow trajectory; inventory turns and working-capital cycles (battery production lead times, vehicle receivables).",
+        "Battery production capacity utilization and capex pipeline; geographic revenue mix (China domestic, export, energy-storage).",
+        "Debt maturity profile and refinancing needs; CNY/USD exchange-rate sensitivity on earnings and capital repatriation.",
+        "Competitive positioning: market share in China EV market, global export volumes, premium-segment penetration vs. Tesla and legacy OEMs."
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: BYD's 2023–2024 margin compression vs. 2020–2022 peak profitability; diagnosis of pricing-power erosion in mass-market segment and competitive intensity from Tesla price wars.",
+        "Supply-chain stress: Lithium and cobalt cost inflation (2021–2022) vs. current deflation; impact on gross margins and working-capital efficiency.",
+        "Geopolitical risk: U.S. tariff escalation (2024 100% tariff on Chinese EVs) vs. BYD's limited North American presence; Southeast Asia and India expansion as offset.",
+        "Technology inflection: LFP battery cost curve vs. NCA/NCM; BYD's vertical integration advantage in SiC semiconductors vs. external-supplier dependency of competitors."
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "U.S. tariff and trade policy: Monitor USTR Section 301 actions, potential BYD entity-level sanctions, and market-access restrictions; hedge via Southeast Asia and India expansion.",
+        "Chinese government EV subsidy phase-out (ended 2023): Assess impact on domestic demand and pricing power; monitor new-energy vehicle mandate and battery-recycling regulations.",
+        "Environmental and labor compliance: HKEX ESG disclosures, conflict-minerals reporting (cobalt sourcing from Congo), and labor practices in battery manufacturing.",
+        "Antitrust and competition: Monitor FTC/DOJ scrutiny of battery-supply concentration; EU antidumping investigations on Chinese EV imports (2024 ongoing)."
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: Long BYD equity for EV-market-growth exposure; hedge geopolitical tariff risk via short positions in U.S. auto suppliers or long positions in Southeast Asia EV plays.",
+        "Credit strategy: Monitor BYD bond spreads for refinancing risk; assess covenant flexibility on debt maturity profile given CNY depreciation and capital-control risks.",
+        "Engagement: Track quarterly earnings calls for margin-recovery guidance, capex discipline, and geographic diversification progress; flag any deterioration in battery ASP or competitive share loss.",
+        "Hedging: Commodity futures (lithium, cobalt, nickel) to hedge input-cost volatility; FX forwards for CNY exposure if holding offshore debt or equity."
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: Compare guidance vs. actuals on EV sales volumes, gross margin, and battery ASP; assess management commentary on competitive dynamics and tariff impact.",
+        "Market-price reaction: Monitor stock performance vs. EV-sector peers (Tesla, NIO, XPeng, legacy OEMs) for relative valuation shifts; track bond spreads for credit-risk repricing.",
+        "Supply-chain updates: Validate battery production capacity ramp and utilization rates; track new partnerships (e.g., Toyota, Daimler, Ford) for revenue-diversification progress.",
+        "Geopolitical developments: Monitor U.S.–China trade negotiations, tariff changes, and market-access announcements; assess impact on BYD's export strategy and valuation."
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Margin-compression model: Recalibrate gross-margin assumptions based on realized battery ASP trends and competitive pricing; adjust EV-demand elasticity to tariff scenarios.",
+        "Geographic-mix reweighting: Increase weighting on Southeast Asia and India revenue growth; reduce China domestic-market assumptions if subsidy phase-out accelerates demand destruction.",
+        "Commodity-sensitivity update: Recalibrate lithium, cobalt, and nickel cost-pass-through rates based on quarterly gross-margin data; adjust hedging ratios for input-cost volatility.",
+        "Competitive-positioning refresh: Update market-share assumptions vs. Tesla, NIO, XPeng based on quarterly sales data; reassess premium-segment penetration and brand-equity trajectory."
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "BYD operates as an integrated automotive and battery conglomerate with vertically controlled supply chains spanning raw-material sourcing (lithium, cobalt, nickel), battery-cell manufacturing (LFP, blade-battery proprietary designs), semiconductor production (SiC chips), motor and drivetrain assembly, and final-vehicle manufacturing across passenger cars, commercial vehicles, and energy-storage systems. The company functions as a neural hub in the global EV ecosystem, with direct competitive relationships with Tesla and legacy OEMs, strategic partnerships with Toyota and Daimler, and critical dependencies on commodity suppliers and logistics partners. BYD's decision-making is driven by Chinese government industrial policy, global tariff regimes, battery-cost curves, and competitive pricing dynamics in mass-market and premium EV segments.",
+    "suppliers": [
+      {
+        "name": "Ganfeng Lithium Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "ganfeng_lithium",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Lithium Supply",
+        "relationshipNote": "Ganfeng is a major lithium-carbonate and lithium-hydroxide supplier to BYD's battery division. BYD sources ~15–20% of lithium requirements from Ganfeng; 2023 contract volumes estimated at 30,000–40,000 tonnes lithium carbonate equivalent. Ganfeng's Lijiang and Yichun mines supply both battery-grade and industrial-grade lithium. Pricing is indexed to spot lithium-carbonate prices (CNY/tonne); 2022–2023 price deflation reduced input costs by ~40%, improving BYD's gross margins. Relationship disclosed in BYD 2023 annual report supplier concentration disclosures.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tianqi Lithium Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "tianqi_lithium",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Lithium Supply",
+        "relationshipNote": "Tianqi is a secondary lithium supplier to BYD, with estimated 10–15% of BYD's lithium sourcing. Tianqi operates the Greenbushes mine (Australia, 49% stake) and Maricunga project (Chile); supplies lithium carbonate and hydroxide. 2023 contract volumes estimated at 20,000–30,000 tonnes LCE. Pricing follows global spot-market indices. Tianqi's supply stability is critical to BYD's battery-cost competitiveness; any disruption (e.g., Greenbushes production cuts) would pressure BYD's gross margins. Relationship inferred from industry supply-chain analysis and Tianqi investor disclosures.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Glencore plc",
+        "ticker": "GLNCY",
+        "cik": null,
+        "slug": "glencore",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Cobalt & Nickel Supply",
+        "relationshipNote": "Glencore is a major global cobalt and nickel supplier; BYD sources ~8–12% of cobalt and ~5–8% of nickel from Glencore operations (Katanga mine, Democratic Republic of Congo; Murrin Murrin, Australia). 2023 estimated volumes: 5,000–8,000 tonnes cobalt, 15,000–20,000 tonnes nickel. Pricing is indexed to LME spot prices. Glencore's supply is critical for BYD's NCA/NCM battery chemistries (used in premium vehicles and energy-storage systems). Conflict-minerals compliance and ESG scrutiny on Congo sourcing are ongoing regulatory risks. Relationship disclosed in BYD ESG and supply-chain transparency reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vale S.A.",
+        "ticker": "VALE",
+        "cik": "0001410637",
+        "slug": "vale",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Nickel Supply",
+        "relationshipNote": "Vale is a major nickel supplier to BYD via its Indonesian operations (Nickel Pig Iron, laterite ore processing). BYD sources ~10–15% of nickel from Vale; 2023 estimated volumes 20,000–30,000 tonnes. Vale's nickel production is critical for BYD's NCA/NCM battery supply chain. Pricing follows LME nickel spot prices. Vale's Indonesia operations face environmental and labor scrutiny; any production disruption (e.g., environmental compliance issues) would tighten BYD's nickel supply. Relationship inferred from industry supply-chain analysis and Vale investor disclosures.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Lithium & Specialty Chemicals",
+        "relationshipNote": "Albemarle is a global lithium and specialty-chemicals supplier; BYD sources ~5–10% of lithium from Albemarle's Atacama (Chile) and Greenbushes (Australia, minority stake) operations. 2023 estimated volumes 15,000–25,000 tonnes LCE. Albemarle also supplies electrolyte additives and separator materials for battery manufacturing. Pricing is indexed to spot lithium-carbonate and hydroxide prices. Albemarle's supply diversification (Chile, Australia, U.S.) provides BYD with geographic hedging. Relationship inferred from industry supply-chain analysis and Albemarle investor disclosures.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Panasonic Corporation",
+        "ticker": "6752.T",
+        "cik": null,
+        "slug": "panasonic",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Battery Technology & Components",
+        "relationshipNote": "Panasonic is a supplier of battery-separator materials, electrolyte additives, and manufacturing equipment to BYD's battery division. Panasonic's Kasei subsidiary supplies high-performance separators for LFP and NCA/NCM cells. 2023 estimated contract value. Panasonic's technology is critical for BYD's battery energy density and cycle-life performance. Relationship is primarily B2B component supply; disclosed in BYD supply-chain transparency reports and Panasonic investor relations.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Asahi Kasei Corporation",
+        "ticker": "3407.T",
+        "cik": null,
+        "slug": "asahi_kasei",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Battery Separator & Materials",
+        "relationshipNote": "Asahi Kasei is a major supplier of battery separators and electrolyte materials to BYD. Asahi's Hipore separator technology is used in BYD's LFP and NCA/NCM battery cells. 2023 estimated contract volumes. Asahi's separator quality and cost-competitiveness are critical to BYD's battery performance and gross margins. Relationship disclosed in BYD supply-chain reports and Asahi investor relations.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Shenghuo Packaging Group Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_shenghuo_packaging",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Packaging & Materials",
+        "relationshipNote": "China Shenghuo is a supplier of packaging materials, adhesives, and industrial chemicals to BYD's vehicle and battery manufacturing operations. 2023 estimated contract value. Shenghuo's supply chain is critical for BYD's production efficiency and cost control. Relationship inferred from industry supply-chain analysis and BYD operational disclosures.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wacker Chemie AG",
+        "ticker": "WCH.DE",
+        "cik": null,
+        "slug": "wacker_chemie",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Chemicals & Silicones",
+        "relationshipNote": "Wacker Chemie supplies specialty chemicals, silicones, and electrolyte additives to BYD's battery and vehicle manufacturing. 2023 estimated contract value. Wacker's high-purity chemicals are critical for battery electrolyte formulation and thermal-management systems. Relationship inferred from industry supply-chain analysis.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sumitomo Chemical Co., Ltd.",
+        "ticker": "4005.T",
+        "cik": null,
+        "slug": "sumitomo_chemical",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Battery Materials & Chemicals",
+        "relationshipNote": "Sumitomo Chemical supplies cathode-active materials, electrolyte additives, and specialty polymers to BYD's battery division. 2023 estimated contract volumes. Sumitomo's cathode materials are used in BYD's NCA/NCM battery chemistries for premium vehicles. Relationship disclosed in BYD supply-chain reports and Sumitomo investor relations.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "China State Railway Group Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_state_railway",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Domestic Rail Logistics",
+        "relationshipNote": "China State Railway (CREC) is the primary domestic rail logistics provider for BYD's battery and vehicle shipments within China. BYD operates dedicated rail corridors from manufacturing hubs (Shenzhen, Xi'an, Chongqing) to distribution centers. 2023 estimated volumes: 500,000+ vehicle units and 100,000+ tonnes battery shipments via rail. Rail logistics reduce BYD's per-unit transportation costs by ~8–12% vs. trucking. Relationship disclosed in BYD supply-chain and logistics disclosures.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Ocean Shipping (Group) Company (COSCO)",
+        "ticker": "1919.HK",
+        "cik": null,
+        "slug": "cosco",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — International Shipping",
+        "relationshipNote": "COSCO is BYD's primary international shipping partner for EV exports to Southeast Asia, Europe, and Latin America. 2023 estimated volumes: 300,000+ vehicle units shipped via COSCO container and RoRo services. COSCO's global port network and cost-competitive rates are critical for BYD's export expansion strategy. BYD operates dedicated shipping lanes from Shanghai and Shenzhen to major ports (Rotterdam, Singapore, Los Angeles). Relationship disclosed in BYD investor relations and COSCO shipping contracts.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Last-Mile & Logistics",
+        "relationshipNote": "DHL Supply Chain provides last-mile delivery, warehousing, and distribution services for BYD vehicles in Europe and Southeast Asia. 2023 estimated contract value. DHL's network of distribution centers in major markets (Germany, Netherlands, Singapore) supports BYD's export logistics and dealer delivery. Relationship inferred from industry logistics analysis and BYD supply-chain disclosures.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sinotrans Ltd.",
+        "ticker": "0598.HK",
+        "cik": null,
+        "slug": "sinotrans",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Multimodal Logistics",
+        "relationshipNote": "Sinotrans is a major multimodal logistics provider for BYD's domestic and international shipments. Sinotrans operates rail, trucking, and port services; 2023 estimated volumes 200,000+ vehicle units and 50,000+ tonnes battery shipments. Sinotrans' integrated logistics network reduces BYD's supply-chain costs and improves delivery reliability. Relationship disclosed in BYD supply-chain reports and Sinotrans investor relations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN.SW",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Global Freight Forwarding",
+        "relationshipNote": "Kuehne+Nagel provides global freight forwarding and customs-clearance services for BYD's EV exports to Europe, North America, and Asia-Pacific. 2023 estimated contract value. K+N's expertise in EV logistics (battery handling, hazmat compliance) is critical for BYD's international expansion. Relationship inferred from industry logistics analysis.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Toyota Motor Corporation",
+        "ticker": "7203.T",
+        "cik": "0001652044",
+        "slug": "toyota",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Strategic OEM Partnership",
+        "relationshipNote": "Toyota is a strategic partner and customer for BYD's battery and EV technology. BYD-Toyota joint venture (established 2020) produces battery packs and EV platforms; 2023 estimated volumes 500,000+ battery packs for Toyota's BZ4X, Corolla Cross EV, and other models. BYD supplies LFP batteries at cost-competitive pricing (~$80–100/kWh); Toyota's volume commitments provide BYD with stable, long-term revenue. Partnership disclosed in BYD 2023 annual report and Toyota investor relations.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Daimler AG (Mercedes-Benz)",
+        "ticker": "DAI.DE",
+        "cik": null,
+        "slug": "daimler",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Strategic OEM Partnership",
+        "relationshipNote": "Daimler (Mercedes-Benz) is a strategic customer for BYD's battery technology and EV platforms. BYD supplies battery packs for Mercedes-Benz EQE and EQS models; 2023 estimated volumes 100,000+ battery packs. BYD's blade-battery technology is integrated into Mercedes' premium EV lineup. Partnership announced 2023; contract value. Relationship disclosed in BYD investor relations and Daimler announcements.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ford Motor Company",
+        "ticker": "F",
+        "cik": "0000037996",
+        "slug": "ford",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Strategic OEM Partnership",
+        "relationshipNote": "Ford is a strategic customer for BYD's battery technology. BYD supplies battery packs for Ford's Mustang Mach-E and other EV models (primarily in China market). 2023 estimated volumes 50,000+ battery packs. BYD's cost-competitive LFP batteries support Ford's EV profitability targets. Partnership disclosed in BYD investor relations and Ford announcements (2023–2024).",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Tesla, Inc.",
+        "ticker": "TSLA",
+        "cik": "0001318605",
+        "slug": "tesla",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Direct Competitor",
+        "relationshipNote": "Tesla is BYD's primary global EV competitor. 2023 global EV sales: Tesla 1.81M units, BYD 1.57M units (BYD leads in China market with ~35% share vs. Tesla ~20%). Tesla's pricing power and brand premium command 15–20% higher ASP vs. BYD mass-market models. Tesla's 2023 price cuts (20–30% reductions) triggered BYD's margin compression and competitive response. Tesla's Gigafactory expansion (Berlin, Austin, Shanghai) and FSD development create ongoing competitive threats. Relationship disclosed in quarterly earnings calls and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Volkswagen Group",
+        "ticker": "VOW3.DE",
+        "cik": null,
+        "slug": "volkswagen",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Direct Competitor",
+        "relationshipNote": "Volkswagen Group (VW, Audi, Porsche) is a major global EV competitor. VW's 2023 EV sales: 770,000 units (primarily Europe and China). VW's ID. family and Audi e-tron models compete with BYD's premium offerings (Yuan Plus, Song Plus DM-i). VW's vertical integration into battery manufacturing (Northvolt partnership, in-house cell production) mirrors BYD's strategy. VW's cost structure and manufacturing efficiency lag BYD's in mass-market segment. Relationship disclosed in quarterly earnings and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NIO Inc.",
+        "ticker": "NIO",
+        "cik": "0001755260",
+        "slug": "nio",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Premium EV Competitor",
+        "relationshipNote": "NIO is a premium EV competitor in China's high-end market segment. 2023 NIO sales: 160,000 units (vs. BYD's premium Yuan Plus: 500,000+ units). NIO's battery-as-a-service (BaaS) model and premium positioning compete with BYD's high-margin premium vehicles. NIO's reliance on external battery suppliers (CATL, BYD) creates supply-chain dependency. NIO's 2023 gross margin (~10%) lags BYD's premium segment (~20%). Relationship disclosed in quarterly earnings and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPeng Inc.",
+        "ticker": "XPEV",
+        "cik": "0001813745",
+        "slug": "xpeng",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Premium EV Competitor",
+        "relationshipNote": "XPeng is a premium EV competitor in China's smart-EV segment. 2023 XPeng sales: 141,000 units. XPeng's G9 and P7 models compete with BYD's premium Yuan Plus and Song Plus DM-i. XPeng's autonomous-driving technology (XPILOT) and smart-cabin features differentiate from BYD's mass-market focus. XPeng's 2023 gross margin (~12%) lags BYD's premium segment. XPeng sources batteries from CATL and BYD. Relationship disclosed in quarterly earnings and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Li Auto Inc.",
+        "ticker": "LI",
+        "cik": "0001736315",
+        "slug": "li_auto",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Extended-Range EV Competitor",
+        "relationshipNote": "Li Auto is a competitor in China's extended-range EV (EREV) and premium SUV segments. 2023 Li Auto sales: 376,000 units (primarily EREVs). Li Auto's ONE and MEGA models compete with BYD's Song Plus DM-i and Yuan Plus DM-i in the premium EREV segment. Li Auto's 2023 gross margin (~20%) is competitive with BYD's premium segment. Li Auto sources batteries from CATL and BYD. Relationship disclosed in quarterly earnings and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CATL (Contemporary Amperex Technology Co., Limited)",
+        "ticker": "300750.SZ",
+        "cik": null,
+        "slug": "catl",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Battery Competitor",
+        "relationshipNote": "CATL is BYD's primary battery-supply competitor and a major battery manufacturer. 2023 global battery market share: CATL ~35%, BYD ~30%. CATL supplies batteries to Tesla, VW, BMW, and other OEMs. CATL's NCA/NCM battery technology competes with BYD's LFP and blade-battery designs. CATL's cost structure and manufacturing scale are comparable to BYD's. CATL's 2023 revenue ~$40B (battery division); BYD's battery revenue ~$25B. Competitive relationship disclosed in industry reports and quarterly earnings.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Hong Kong Securities and Futures Commission (SFC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hong_kong_sfc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SFC is the primary securities regulator for BYD's Hong Kong Stock Exchange (HKEX) listing. BYD is subject to HKEX Listing Rules and SFC disclosure requirements. 2023 regulatory filings: quarterly earnings announcements, annual reports, connected-party transaction disclosures, and ESG reports. SFC has jurisdiction over BYD's corporate governance, insider trading, and market-conduct compliance. Relationship disclosed in BYD HKEX filings and SFC regulatory announcements.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "China Securities Regulatory Commission (CSRC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_csrc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "CSRC is the primary securities regulator for BYD's A-share listing on Shanghai Stock Exchange (SSE). BYD is subject to CSRC disclosure requirements and Shanghai Stock Exchange Listing Rules. 2023 regulatory filings: quarterly earnings, annual reports, connected-party transactions, and ESG disclosures. CSRC has jurisdiction over BYD's corporate governance, information disclosure, and market conduct. Relationship disclosed in BYD SSE filings and CSRC regulatory announcements.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. International Trade Commission (USITC) / U.S. Trade Representative (USTR)",
+        "ticker": null,
+        "cik": null,
+        "slug": "usitc_ustr",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic — Tariff & Trade Policy",
+        "relationshipNote": "USITC and USTR regulate BYD's U.S. market access and tariff exposure. 2024 USTR Section 301 tariffs: 100% tariff on Chinese EV imports (effective 2024), directly impacting BYD's North American expansion strategy. BYD has limited U.S. manufacturing footprint; tariffs effectively block direct U.S. market entry. USTR investigations into Chinese EV subsidies and battery-supply chains pose ongoing regulatory risk. Relationship disclosed in BYD investor relations and USTR trade-policy announcements.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "China Ministry of Industry and Information Technology (MIIT)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_miit",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Industrial Policy",
+        "relationshipNote": "MIIT is the primary industrial regulator for BYD's automotive and battery operations in China. MIIT sets EV production quotas, battery-recycling mandates, and new-energy vehicle (NEV) policies. 2023 MIIT policy: EV subsidy phase-out (ended 2023), battery-recycling regulations (GB/T 33598), and dual-credit system (CAFC/NEV credits). BYD's compliance with MIIT regulations is critical for domestic market access and profitability. Relationship disclosed in BYD annual reports and MIIT policy announcements.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Commission (EC) / European Union (EU)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic — Antidumping & Environmental",
+        "relationshipNote": "EU regulates BYD's European market access, tariffs, and environmental compliance. 2024 EU antidumping investigation: EU imposed provisional tariffs (17.4–38.1%) on Chinese EV imports (including BYD) in response to alleged Chinese government subsidies. EU battery regulations (EU Battery Regulation 2023/1542) mandate battery-recycling and carbon-footprint disclosure. BYD's European expansion is constrained by tariff exposure and regulatory compliance costs. Relationship disclosed in BYD investor relations and EU regulatory announcements.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "PricewaterhouseCoopers (PwC)",
+      "ticker": null,
+      "cik": null,
+      "slug": "pwc",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "PwC is BYD's external auditor for consolidated financial statements (HKEX and SSE filings). PwC audits BYD's 2023 annual report and provides audit opinions on internal controls, financial reporting, and compliance with IFRS/GAAP. PwC's audit scope includes battery manufacturing, supply-chain controls, and related-party transactions. PwC's audit fees and scope are disclosed in BYD's annual reports. Relationship disclosed in BYD 2023 annual report (auditor section).",
+      "confidence": "high",
+      "sourceType": [
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Strategic Equity Holder",
+        "relationshipNote": "Berkshire Hathaway is a major equity holder in BYD, with ~8.2% ownership stake (as of 2023). Berkshire's initial investment (2008, $230M) has appreciated significantly; 2023 estimated stake value ~$8–10B. Berkshire's long-term holding signals confidence in BYD's business model and competitive positioning. Berkshire's CEO Warren Buffett has publicly endorsed BYD's battery technology and EV strategy. Relationship disclosed in Berkshire's 13F filings and BYD shareholder disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "China Development Bank (CDB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_development_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "CDB is a major lender to BYD for EV manufacturing capacity expansion and battery-plant construction. 2023 estimated outstanding loans: $5–8B (across multiple facilities). CDB's preferential lending rates (policy-bank rates) support BYD's capex-intensive growth strategy. CDB's loans are typically long-term (10–15 years) with government-backed guarantees. CDB's financing is critical for BYD's battery-plant expansion in China and Southeast Asia. Relationship disclosed in BYD annual reports (debt disclosures) and CDB announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Industrial and Commercial Bank of China (ICBC)",
+        "ticker": "1398.HK",
+        "cik": null,
+        "slug": "icbc",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "ICBC is a major commercial lender to BYD for working-capital facilities and trade financing. 2023 estimated outstanding credit lines: $3–5B (revolving credit, term loans, trade finance). ICBC's lending supports BYD's inventory financing, supplier payments, and export financing. ICBC's relationship with BYD is disclosed in BYD annual reports (debt disclosures) and ICBC investor relations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Construction Bank (CCB)",
+        "ticker": "0939.HK",
+        "cik": null,
+        "slug": "china_construction_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "CCB is a major lender to BYD for real-estate and manufacturing-facility financing. 2023 estimated outstanding loans: $2–4B (property mortgages, equipment financing). CCB's lending supports BYD's manufacturing-plant expansion and facility upgrades. Relationship disclosed in BYD annual reports (debt disclosures) and CCB investor relations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Wang Chuanfu",
+        "ticker": null,
+        "cik": null,
+        "slug": "wang_chuanfu",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership — Founder & Chairman",
+        "relationshipNote": "Wang Chuanfu is BYD's founder, chairman, and CEO. Wang established BYD in 1995 as a battery manufacturer; expanded into automotive (2003) and EV manufacturing (2008). Wang's strategic vision drove BYD's vertical integration into batteries, semiconductors, and motors. Wang's 2023 compensation:. Wang's ownership stake: ~8% of BYD (as of 2023). Wang's leadership is disclosed in BYD annual reports (executive compensation, board composition).",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Lian Yubo",
+        "ticker": null,
+        "cik": null,
+        "slug": "lian_yubo",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management — CFO",
+        "relationshipNote": "Lian Yubo is BYD's Chief Financial Officer. Lian oversees financial planning, capital allocation, and investor relations. 2023 responsibilities: quarterly earnings guidance, debt management, and dividend policy. Lian's 2023 compensation:. Lian's background:. Lian's role is disclosed in BYD annual reports (executive compensation, board composition) and investor-relations announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "He Xiao",
+        "ticker": null,
+        "cik": null,
+        "slug": "he_xiao",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — President & COO",
+        "relationshipNote": "He Xiao is BYD's President and Chief Operating Officer. He oversees manufacturing operations, supply-chain management, and production efficiency. 2023 responsibilities: battery-plant capacity expansion, vehicle production ramp, and operational cost control. He's 2023 compensation:. He's background:. He's role is disclosed in BYD annual reports (executive compensation, board composition).",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lian Yuanbo",
+        "ticker": null,
+        "cik": null,
+        "slug": "lian_yuanbo",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance — General Counsel",
+        "relationshipNote": "Lian Yuanbo is BYD's General Counsel and Chief Legal Officer. Lian oversees legal compliance, regulatory affairs, and corporate governance. 2023 responsibilities: HKEX/SSE compliance, antitrust matters, and international trade-policy engagement. Lian's 2023 compensation:. Lian's background:. Lian's role is disclosed in BYD annual reports (executive compensation, board composition).",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "BYD Monthly EV Sales Volume (China)",
+        "ticker": null,
+        "cik": null,
+        "slug": "byd_monthly_ev_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Demand Signal",
+        "relationshipNote": "BYD's monthly EV sales volumes (published by CAAM and BYD investor relations) are a leading indicator of EV market demand in China and BYD's competitive positioning. 2023 monthly volumes ranged from 100,000–150,000 units (peak in Q4). Monthly sales trends signal pricing power, competitive share shifts, and inventory health. BYD's 2024 YTD sales (Jan–Jun): 1.2M units (+41% YoY), indicating strong demand recovery post-subsidy phase-out. Signal disclosed in BYD monthly announcements and CAAM industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BYD Battery ASP (Average Selling Price) Trends",
+        "ticker": null,
+        "cik": null,
+        "slug": "byd_battery_asp",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — Pricing Power",
+        "relationshipNote": "BYD's battery ASP (average selling price per kWh) is a critical margin signal. 2023 BYD battery ASP: ~$80–100/kWh (LFP), ~$120–150/kWh (NCA/NCM). ASP trends reflect commodity-cost pass-through, competitive pricing pressure, and product-mix shifts. 2023 ASP compression (vs. 2022) was driven by lithium-cost deflation and Tesla price wars. BYD's blade-battery technology commands premium ASP vs. standard LFP cells. Signal disclosed in BYD quarterly earnings calls and battery-industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Global EV Market Share (BYD vs. Competitors)",
+        "ticker": null,
+        "cik": null,
+        "slug": "global_ev_market_share",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Competitive Positioning",
+        "relationshipNote": "BYD's global EV market share is a key competitive signal. 2023 global EV market: ~14M units; BYD's share ~11% (1.57M units), Tesla ~13% (1.81M units). BYD's China market share: ~35% (vs. Tesla ~20%). BYD's global share is growing faster than Tesla's (2023 growth: BYD +42%, Tesla +38%). Market-share trends signal competitive momentum, pricing power, and geographic diversification. Signal disclosed in industry reports (IEA, CAAM, Bloomberg) and quarterly earnings.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

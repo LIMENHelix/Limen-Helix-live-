@@ -1,0 +1,383 @@
+{
+  "domainId": "neurology_globus",
+  "title": "Globus Pallidus",
+  "parentPortal": "neurology_portal.html",
+  "parentLabel": "Neurology",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Globus Pallidus Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Globus Pallidus indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "neurology_globus_action_portal.html"
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Globus Pallidus Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Globus Pallidus activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Globus Pallidus Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "neurology_globus_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "Globus Pallidus Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Globus Pallidus, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "neurology_globus_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Globus Pallidus Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Globus Pallidus practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "neurology_globus_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "CMZ",
+      "state": "active",
+      "domainLabel": "Globus Pallidus Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Globus Pallidus methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "neurology_globus_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "SMN",
+      "state": "active",
+      "domainLabel": "Globus Pallidus Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Globus Pallidus stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "neurology_globus_signal_portal.html"
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Globus Pallidus Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Globus Pallidus operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "neurology_globus_state_portal.html"
+    },
+    {
+      "brainNodeId": "ARC",
+      "state": "active",
+      "domainLabel": "Globus Pallidus Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Globus Pallidus outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Globus Pallidus Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CeA",
+      "target": "BNST",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "BNST",
+      "target": "EMP",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "EMP",
+      "target": "CON",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "CON",
+      "target": "CMZ",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "CMZ",
+      "target": "SMN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "SMN",
+      "target": "LANG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "LANG",
+      "target": "ARC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ARC",
+      "target": "CeA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CeA",
+      "target": "CMZ",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CON",
+      "target": "LANG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "NEUROLOGY_GLOBUS_SYSTEM_FAILURE",
+      "label": "Globus Pallidus System Failure",
+      "summary": "Critical breakdown in Globus Pallidus systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hypo-active",
+          "detail": "Globus Pallidus Assessment & Diagnostics capacity falling below operational thresholds, reducing Globus Pallidus output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BNST",
+          "dir": "Hypo-active",
+          "detail": "Globus Pallidus Core Operations systems underperforming, creating gaps in Globus Pallidus coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Altered",
+          "detail": "Globus Pallidus Infrastructure & Capacity behavior deviating from established norms, complicating Globus Pallidus management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Hyper-active",
+          "detail": "Globus Pallidus Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Globus Pallidus",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Hypo-active",
+          "detail": "Globus Pallidus Performance & Optimization function reduced, compromising Globus Pallidus system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "NEUROLOGY_GLOBUS_CAPACITY_CRISIS",
+      "label": "Globus Pallidus Capacity Crisis",
+      "summary": "Demand exceeding available Globus Pallidus capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper-active",
+          "detail": "Globus Pallidus Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Globus Pallidus",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Hypo-active",
+          "detail": "Globus Pallidus Infrastructure & Capacity systems underperforming, creating gaps in Globus Pallidus coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Altered",
+          "detail": "Globus Pallidus Standards & Governance behavior deviating from established norms, complicating Globus Pallidus management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hyper-active",
+          "detail": "Globus Pallidus Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Globus Pallidus",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Altered",
+          "detail": "Globus Pallidus Performance & Optimization operating outside normal parameters, introducing uncertainty into Globus Pallidus outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "NEUROLOGY_GLOBUS_GOVERNANCE_GAP",
+      "label": "Globus Pallidus Governance Gap",
+      "summary": "Oversight or regulatory failure in Globus Pallidus creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hypo-active",
+          "detail": "Globus Pallidus Standards & Governance capacity falling below operational thresholds, reducing Globus Pallidus output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Altered",
+          "detail": "Globus Pallidus Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Globus Pallidus",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CMZ",
+          "dir": "Hyper-active",
+          "detail": "Globus Pallidus Research & Development activity spiking beyond design limits, creating instability across Globus Pallidus operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Altered",
+          "detail": "Globus Pallidus Risk & Resilience patterns disrupted, necessitating adaptive responses within Globus Pallidus frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hypo-active",
+          "detail": "Globus Pallidus Coordination & Integration function reduced, compromising Globus Pallidus system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

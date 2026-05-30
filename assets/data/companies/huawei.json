@@ -1,0 +1,709 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "huawei",
+  "slug": "huawei",
+  "name": "Huawei Technologies Co., Ltd.",
+  "ticker": null,
+  "cik": null,
+  "sic": "3661",
+  "industry": "Telephone and Telegraph Apparatus",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "FOREIGN_FILER",
+  "fredSeries": [
+    "DEXUSEU",
+    "DEXCHUS",
+    "INDPRO",
+    "UMCSENT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "rare-earth-elements",
+    "silicon",
+    "copper",
+    "aluminum",
+    "tantalum",
+    "cobalt",
+    "lithium"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "FOREIGN_FILER",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "U.S. export controls on advanced semiconductor design tools and 5G/6G IP (EAR Part 740.17, ongoing since 2019)",
+    "Geopolitical supply-chain fragmentation: restricted access to TSMC, Samsung foundry capacity for cutting-edge nodes",
+    "Smartphone market share erosion in developed markets due to Google Play Services restrictions post-2020",
+    "Carrier capex cyclicality in 5G rollout; customer concentration risk in China domestic telecom operators"
+  ],
+  "opportunitySignals": [
+    "Cloud and data-center expansion (Huawei Cloud) in Southeast Asia, Middle East, Africa markets with lower geopolitical friction",
+    "Enterprise software and AI services (Kunpeng processor ecosystem, MindSpore framework) targeting non-U.S. jurisdictions",
+    "Vertical integration in semiconductor design (HiSilicon) and manufacturing partnerships to reduce U.S. supply-chain dependency",
+    "5G/6G standards leadership in 3GPP and ITU; licensing revenue from non-Chinese OEMs"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Huawei is the world's largest telecommunications equipment manufacturer and a top-three smartphone vendor, commanding ~19% global telecom infrastructure market share and ~8% smartphone share as of 2023. The company operates across three core business groups—Carrier (5G/6G networks, optical transport), Enterprise (cloud, data center, edge computing), and Consumer (smartphones, tablets, wearables)—making it a critical node in global digital infrastructure despite U.S. export controls and geopolitical restrictions. Huawei's vertical integration from chip design (HiSilicon) through software (Harmony OS, MindSpore) and hardware manufacturing positions it as a strategic alternative to Western vendors in non-aligned markets.",
+  "portalRelevance": "Huawei is a tier-1 anchor in the global technology supply chain and a critical bellwether for U.S.-China technology decoupling, semiconductor supply-chain resilience, and 5G/6G standards competition. Its financial opacity (private, Chinese-domiciled, no SEC filings), combined with its systemic importance to telecom operators, cloud providers, and device manufacturers across Asia, Middle East, and Africa, makes it essential for modeling geopolitical risk, supply-chain fragmentation, and alternative-technology adoption patterns. Understanding Huawei's capex cycles, R&D spending, and market-share shifts in non-Western regions is critical for forecasting competitive dynamics in infrastructure, semiconductors, and consumer electronics.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "FOREIGN_FILER — private Chinese entity; no SEC filings; financial data sourced from company disclosures, industry reports, and third-party estimates"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly carrier capex announcements from China Mobile, China Unicom, China Telecom (primary revenue drivers for Carrier BG)",
+        "Smartphone shipment data from IDC, Counterpoint Research; Huawei Cloud adoption metrics in Southeast Asia and Middle East",
+        "U.S. and EU regulatory filings: BIS Entity List updates, CFIUS reviews, 3GPP standards committee voting patterns",
+        "HiSilicon chip design wins and foundry capacity allocation (SMIC, Samsung); Harmony OS adoption by OEM partners"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Revenue mix by geography and business group (Carrier ~50%, Enterprise ~20%, Consumer ~30% as of 2022; China domestic ~60% of total)",
+        "R&D intensity (~15% of revenue annually); capex trajectory in semiconductor design and manufacturing partnerships",
+        "Supply-chain resilience score: dependency on TSMC/Samsung vs. SMIC; rare-earth element sourcing concentration",
+        "Geopolitical exposure index: market access restrictions in U.S., EU, Five Eyes; growth potential in ASEAN, Middle East, Africa"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: U.S. export controls (2019–present) have forced vertical integration and alternative-supplier development; similar to Cold War semiconductor bifurcation",
+        "Smartphone segment inflection: loss of Google Play Services (2020) triggered shift to Harmony OS and enterprise/cloud focus; consumer revenue decline offset by B2B growth",
+        "Carrier capex cycle: 5G buildout peaked 2020–2022 in China; 6G R&D spending rising; telecom operator debt levels constraining future capex in developed markets",
+        "Competitive threat: Western vendors (Ericsson, Nokia, Cisco) gaining share in non-Chinese markets due to geopolitical preference; Huawei gaining share in developing markets"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Monitor BIS Entity List and EAR Part 740 updates quarterly; model impact of advanced node restrictions on HiSilicon roadmap",
+        "Track 3GPP and ITU standards votes; assess Huawei's 6G IP licensing potential in non-U.S. markets",
+        "Assess CFIUS and EU foreign-subsidy-regulation exposure for any M&A or JV activity in Western markets",
+        "Model supply-chain resilience scenarios: TSMC Taiwan contingency, SMIC capacity constraints, rare-earth export restrictions from China"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight telecom-equipment suppliers (Ericsson, Nokia) in developed markets; monitor Huawei's market-share gains in ASEAN/Middle East as leading indicator of Western vendor pressure",
+        "Supply-chain hedge: long positions in SMIC, Samsung foundry capacity; track HiSilicon design wins as proxy for Huawei's semiconductor self-sufficiency progress",
+        "Geopolitical arbitrage: monitor Huawei Cloud adoption in non-aligned markets (India, Vietnam, Indonesia, Saudi Arabia) as indicator of cloud-infrastructure bifurcation",
+        "Engagement: quarterly calls with Ericsson, Nokia, Cisco IR teams to assess Huawei competitive threat and pricing pressure in each region"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly: Huawei revenue and margin trends (via company disclosures and third-party estimates); smartphone shipment data; carrier capex guidance from Chinese operators",
+        "Semi-annual: HiSilicon chip design wins and process-node achievements; Harmony OS adoption metrics; Huawei Cloud revenue and customer wins",
+        "Annual: Huawei R&D spending and patent filings; supply-chain diversification progress (SMIC capacity, Samsung partnerships); geopolitical risk index updates",
+        "Event-driven: BIS Entity List updates, CFIUS decisions, 3GPP standards outcomes, major customer wins/losses in key markets"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate supply-chain fragmentation model based on realized SMIC capacity and HiSilicon design-win data; update semiconductor self-sufficiency timeline",
+        "Adjust geopolitical risk weights by region based on actual Huawei market-share trends and regulatory actions; refine developed-market vs. developing-market bifurcation thesis",
+        "Update competitive-threat model for Western telecom vendors based on quarterly capex allocation and win/loss data; assess pricing-power erosion in non-Chinese markets",
+        "Revise cloud-infrastructure adoption forecasts for non-aligned markets based on Huawei Cloud customer wins and regional capex trends"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Huawei operates as a vertically integrated technology conglomerate spanning semiconductor design (HiSilicon), network infrastructure (5G/6G), cloud computing, and consumer devices. The company functions as a strategic node in the non-Western technology supply chain, with decision-making concentrated in China-based executive leadership and R&D, capital allocation driven by Chinese government industrial policy and state-owned carrier demand, and market access constrained by U.S./EU geopolitical restrictions. Huawei's functional network exhibits high internal integration (chip-to-device vertical control) but fragmented external dependencies (foundry reliance on TSMC/Samsung/SMIC, component sourcing from Japan/South Korea/Taiwan, customer concentration in Chinese state-owned telecom operators and developing-market governments).",
+    "suppliers": [
+      {
+        "name": "Taiwan Semiconductor Manufacturing Company (TSMC)",
+        "ticker": "TSM",
+        "cik": null,
+        "slug": "tsmc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Advanced Semiconductor Manufacturing",
+        "relationshipNote": "TSMC manufactures HiSilicon Kirin and Kunpeng processors at 5nm and 7nm nodes; relationship severely constrained by U.S. export controls (EAR Part 740.17) since 2020. Huawei shifted non-restricted orders to SMIC (28nm+) and Samsung; TSMC capacity for Huawei estimated at <5% of total wafer starts post-2021. Historical: TSMC was primary foundry for Kirin flagship chips (2015–2019) before restrictions.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": "005930",
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Semiconductor Manufacturing & Components",
+        "relationshipNote": "Samsung supplies foundry services (14nm, 28nm nodes) and DRAM/NAND flash memory to Huawei; also competes directly in smartphones and 5G infrastructure. Huawei's foundry orders shifted to Samsung post-TSMC restrictions (2020–2021); estimated 10–15% of Huawei semiconductor volume. Samsung also supplies display panels and memory chips for Huawei consumer devices.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Semiconductor Manufacturing International Corporation (SMIC)",
+        "ticker": "0981.HK",
+        "cik": null,
+        "slug": "smic",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Domestic Semiconductor Manufacturing",
+        "relationshipNote": "SMIC is Huawei's primary alternative foundry for 28nm and older nodes; capacity allocation to Huawei increased significantly post-2020 as TSMC restrictions tightened. SMIC manufactures HiSilicon chips for 4G/5G infrastructure and older smartphone processors; estimated 30–40% of Huawei's non-restricted semiconductor volume. SMIC capacity constraints and U.S. export-control exposure limit advanced-node access.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Qualcomm Incorporated",
+        "ticker": "QCOM",
+        "cik": "0000804969",
+        "slug": "qualcomm",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Wireless Modem & RF Chipsets (Historical)",
+        "relationshipNote": "Qualcomm supplied 5G modem chips (Snapdragon X series) and RF components to Huawei until 2019; relationship terminated due to U.S. export controls. Huawei shifted to HiSilicon Balong modems and Kirin SoCs with integrated modems; Qualcomm licensing revenue from Huawei patents ceased post-2020. Historical: Qualcomm was critical supplier for Huawei flagship smartphones (2015–2019).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SK Hynix Inc.",
+        "ticker": "000660",
+        "cik": null,
+        "slug": "sk_hynix",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Memory Semiconductors (DRAM/NAND)",
+        "relationshipNote": "SK Hynix supplies DRAM and NAND flash memory to Huawei for smartphones, tablets, and data-center equipment; relationship ongoing but subject to U.S. export-control scrutiny. Estimated 5–10% of Huawei's memory volume; competing with Samsung and Micron for allocation. SK Hynix disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Broadcom Inc.",
+        "ticker": "AVGO",
+        "cik": "0001397914",
+        "slug": "broadcom",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "RF & Analog Semiconductors (Restricted)",
+        "relationshipNote": "Broadcom supplied RF front-end modules and analog chips for Huawei 5G infrastructure and smartphones; relationship restricted by U.S. export controls (EAR Part 740) since 2019. Huawei shifted to domestic suppliers (RDA Microelectronics, Vanchip) and HiSilicon integration; Broadcom's Huawei revenue declined >90% post-2020. Historical: Broadcom was major supplier for Huawei base-station RF modules (2015–2019).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Data-Center Processors (Restricted)",
+        "relationshipNote": "Intel supplied Xeon processors for Huawei data-center and cloud infrastructure; relationship restricted by U.S. export controls (EAR Part 740.17) since 2020. Huawei shifted to ARM-based Kunpeng processors (HiSilicon design, SMIC/Samsung manufacturing) and AMD EPYC (where permitted). Intel's Huawei revenue estimated at <2% of total post-2021.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Applied Materials Inc.",
+        "ticker": "AMAT",
+        "cik": "0000006951",
+        "slug": "applied_materials",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Semiconductor Equipment (Restricted)",
+        "relationshipNote": "Applied Materials supplied semiconductor manufacturing equipment (CVD, etch, deposition tools) to SMIC and other Huawei foundry partners; direct sales to Huawei restricted by U.S. export controls (EAR Part 740) since 2019. Huawei's foundry partners (SMIC, Samsung) purchase equipment subject to U.S. license restrictions; impacts Huawei's advanced-node roadmap. Applied Materials disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Corning Incorporated",
+        "ticker": "GLW",
+        "cik": "0000024545",
+        "slug": "corning",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Optical Components & Glass Substrates",
+        "relationshipNote": "Corning supplies optical fiber, connectors, and glass substrates for Huawei 5G/6G network infrastructure and smartphone displays; relationship ongoing with U.S. export-control compliance. Estimated 2–5% of Huawei's optical-component volume; competing with Fujikura, Furukawa, and domestic Chinese suppliers. Corning's Huawei exposure disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "China State Shipbuilding Industry Corporation (CSIC) / China Ocean Shipping Company (COSCO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cosco_shipping",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International Logistics & Shipping",
+        "relationshipNote": "COSCO is primary international shipping partner for Huawei's global device and infrastructure exports; handles containerized shipments from China to Southeast Asia, Middle East, Africa, and Europe. Huawei's logistics volume estimated at 5–10% of COSCO's total container throughput; relationship deepened post-2020 as Huawei reduced Western logistics partners (DHL, FedEx) due to geopolitical restrictions. COSCO disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Express (Deutsche Post DHL Group)",
+        "ticker": "DPW",
+        "cik": null,
+        "slug": "deutsche_post_dhl",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Last-Mile Delivery & Logistics (Restricted)",
+        "relationshipNote": "DHL provided international express and last-mile delivery for Huawei consumer devices and spare parts; relationship constrained by U.S. export-control compliance and geopolitical restrictions post-2020. Huawei shifted to regional logistics partners (S.F. Express, ZTO Express) in Asia and Middle East; DHL's Huawei volume declined significantly. DHL disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "S.F. Express Co., Ltd.",
+        "ticker": "002352.SZ",
+        "cik": null,
+        "slug": "sf_express",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Domestic & Regional Logistics",
+        "relationshipNote": "S.F. Express is primary domestic and regional logistics partner for Huawei in China, Southeast Asia, and Middle East; handles last-mile delivery for consumer devices and enterprise equipment. Estimated 10–15% of S.F. Express's total volume; relationship strengthened post-2020 as Huawei reduced Western logistics exposure. S.F. Express disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "China Mobile Limited",
+        "ticker": "0941.HK",
+        "cik": null,
+        "slug": "china_mobile",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Telecom Carrier Customer",
+        "relationshipNote": "China Mobile is Huawei's largest customer, accounting for ~15–20% of total revenue (estimated $8–12B annually). Huawei supplies 5G/6G network infrastructure, base stations, and core network equipment; relationship spans 20+ years with deep integration. China Mobile's capex cycles (typically $30–40B annually) directly drive Huawei's Carrier BG revenue; 2023 capex guidance indicated continued 5G densification and 6G R&D investment.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Unicom (United Networks Communications Group Company Limited)",
+        "ticker": "0762.HK",
+        "cik": null,
+        "slug": "china_unicom",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Telecom Carrier Customer",
+        "relationshipNote": "China Unicom is Huawei's second-largest customer, accounting for ~8–12% of total revenue (estimated $4–7B annually). Huawei supplies 5G infrastructure and network equipment; relationship includes joint 5G network sharing agreements with China Telecom (2020–present). China Unicom's capex (~$10–15B annually) is critical for Huawei's Carrier BG; 2023 capex guidance indicated continued 5G investment and 6G pilot programs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Telecom Corporation Limited",
+        "ticker": "0728.HK",
+        "cik": null,
+        "slug": "china_telecom",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Telecom Carrier Customer",
+        "relationshipNote": "China Telecom is Huawei's third-largest customer, accounting for ~6–10% of total revenue (estimated $3–6B annually). Huawei supplies 5G infrastructure and network equipment; relationship includes joint 5G network sharing with China Unicom (2020–present). China Telecom's capex (~$8–12B annually) drives Huawei's Carrier BG; 2023 capex guidance indicated continued 5G densification and 6G R&D.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Ericsson AB",
+        "ticker": "ERIC",
+        "cik": null,
+        "slug": "ericsson",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Telecom Infrastructure Competitor",
+        "relationshipNote": "Ericsson is Huawei's primary global competitor in 5G/6G network infrastructure; market share ~30% globally vs. Huawei's ~19% (2023). Ericsson dominates developed markets (North America, Western Europe, Japan) while Huawei leads in China and developing markets (ASEAN, Middle East, Africa). Ericsson's 2023 capex guidance indicated continued 5G densification and 6G R&D; pricing pressure from Huawei in non-Western markets estimated at 10–15% margin compression.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Nokia Oyj",
+        "ticker": "NOKIA",
+        "cik": null,
+        "slug": "nokia",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Telecom Infrastructure Competitor",
+        "relationshipNote": "Nokia is Huawei's second-largest global competitor in 5G/6G infrastructure; market share ~15% globally vs. Huawei's ~19% (2023). Nokia competes primarily in developed markets (Europe, North America, Japan) with strong carrier relationships; losing share in developing markets to Huawei. Nokia's 2023 capex guidance indicated cost reduction and 6G R&D investment; competitive threat from Huawei estimated at 5–10% market-share erosion in ASEAN and Middle East.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Apple Inc.",
+        "ticker": "AAPL",
+        "cik": "0000320193",
+        "slug": "apple",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Smartphone & Consumer Device Competitor",
+        "relationshipNote": "Apple is Huawei's primary competitor in premium smartphones; Apple's market share ~27% globally vs. Huawei's ~8% (2023). Huawei's smartphone segment declined post-2020 due to Google Play Services restrictions and Harmony OS adoption challenges; Apple's iPhone dominates developed markets while Huawei competes in China and developing markets. Apple's 2023 iPhone shipments estimated at 230M units vs. Huawei's 35–40M units.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": "005930",
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Smartphone & Infrastructure Competitor",
+        "relationshipNote": "Samsung competes with Huawei across smartphones (market share ~21% globally), 5G infrastructure (~10%), and cloud services. Samsung's smartphone share in China declined post-2020 as Huawei recovered; Huawei's infrastructure share in developed markets constrained by geopolitical restrictions. Samsung's 2023 capex guidance indicated continued 5G/6G R&D; competitive threat from Huawei estimated at 3–5% market-share pressure in ASEAN.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Cisco Systems, Inc.",
+        "ticker": "CSCO",
+        "cik": "0000858877",
+        "slug": "cisco",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Enterprise Networking & Cloud Competitor",
+        "relationshipNote": "Cisco competes with Huawei in enterprise networking, data-center switching, and cloud infrastructure; Cisco's market share ~15% in enterprise switching vs. Huawei's ~5% (2023). Huawei's Enterprise BG (cloud, data center) is growing 20%+ annually while Cisco's growth is 5–8%; Huawei gaining share in non-Western markets. Cisco's 2023 capex guidance indicated continued cloud/AI investment; competitive threat from Huawei estimated at 2–3% market-share erosion in ASEAN and Middle East.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Xiaomi Corporation",
+        "ticker": "1810.HK",
+        "cik": null,
+        "slug": "xiaomi",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Smartphone & IoT Competitor",
+        "relationshipNote": "Xiaomi is Huawei's primary competitor in mid-range smartphones and IoT devices in China and ASEAN; Xiaomi's market share ~13% globally vs. Huawei's ~8% (2023). Xiaomi's smartphone shipments 2023 estimated at 140M units; Huawei's estimated at 35–40M units. Xiaomi's 2023 capex guidance indicated continued smartphone R&D and EV expansion; competitive threat from Huawei in China estimated at 2–3% market-share pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Department of Commerce, Bureau of Industry and Security (BIS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_commerce",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Export Control & Sanctions Enforcement",
+        "relationshipNote": "BIS administers Export Administration Regulations (EAR Part 740.17) restricting Huawei's access to advanced semiconductors, semiconductor equipment, and software since 2019. Huawei placed on Entity List (2019) and Unverified List (2020); restrictions expanded in 2022 to include advanced chip design tools and 5G/6G IP. BIS maintains ongoing enforcement actions and license denials; estimated impact: $10–15B annual revenue loss from restricted markets and suppliers.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Communications Commission (FCC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fcc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Spectrum & Network Security Regulation",
+        "relationshipNote": "FCC restricts Huawei's participation in U.S. 5G/6G network buildout and spectrum auctions; Huawei banned from U.S. federal procurement (2019). FCC Order 19-126 (2019) and subsequent orders prohibit Huawei equipment in U.S. telecom networks; FCC Rip-and-Replace program (2021–present) requires removal of Huawei equipment from U.S. carriers. Estimated impact: $0 revenue from U.S. market; $2–3B annual revenue loss from restricted equipment sales.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "European Union, European Commission (Directorate-General for Communications Networks, Content and Technology)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_commission_dg_connect",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "5G Security & Foreign Subsidy Regulation",
+        "relationshipNote": "EU imposes security restrictions on Huawei 5G equipment (2020–present); EU Toolbox recommends limiting Huawei's market share to <30% in 5G networks. EU Foreign Subsidies Regulation (2022–present) investigates Huawei's state-owned enterprise status and subsidy exposure; potential fines up to 10% of global revenue. Estimated impact: 10–15% market-share constraint in EU; $1–2B annual revenue loss from restricted markets.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Committee on Foreign Investment in the United States (CFIUS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cfius",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Foreign Investment & National Security Review",
+        "relationshipNote": "CFIUS reviews Huawei's M&A and JV activity in the U.S.; Huawei's acquisition attempts in U.S. technology and telecom sectors have been blocked or forced to divest (e.g., 3Com acquisition blocked 2008, Motorola Mobility deal scrutinized 2011). CFIUS maintains heightened scrutiny of Huawei's U.S. subsidiary activities and technology partnerships. Estimated impact: $0 M&A activity in U.S. market; restricted technology partnerships.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "China Ministry of Industry and Information Technology (MIIT)",
+        "ticker": null,
+        "cik": null,
+        "slug": "miit_china",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Industrial Policy & Telecom Regulation",
+        "relationshipNote": "MIIT regulates Huawei's domestic telecom operations and industrial policy; Huawei receives preferential treatment in Chinese government procurement and state-owned carrier contracts. MIIT's 5G/6G roadmap (2020–2030) prioritizes Huawei's technology development; estimated government subsidies and preferential contracts: $5–10B annually. MIIT disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu Limited (Deloitte China)",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Deloitte China provides financial audit and compliance services to Huawei; Huawei's financial statements are not publicly filed (private company) but Deloitte conducts annual audits for internal governance and lender requirements. Deloitte's audit scope includes revenue recognition, supply-chain controls, and export-control compliance. Deloitte disclosed.",
+      "confidence": "medium",
+      "sourceType": [
+        "industry-report",
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Huawei Investment & Holding Co., Ltd. (Huawei Founder Ren Zhengfei & Employee Stock Ownership Plan)",
+        "ticker": null,
+        "cik": null,
+        "slug": "huawei_esop",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Founder & Employee Ownership",
+        "relationshipNote": "Ren Zhengfei (founder, ~1% direct ownership) and Huawei's employee stock ownership plan (ESOP, ~99% of shares) control Huawei; no external equity holders >5%. Huawei's capital structure is opaque; estimated annual capex $15–20B funded by retained earnings and internal cash flow. Huawei disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China Development Bank (CDB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_development_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Policy Bank & Strategic Lending",
+        "relationshipNote": "CDB provides preferential financing for Huawei's international expansion and 5G/6G R&D; estimated outstanding loans: $5–10B. CDB's lending terms reflect Chinese government industrial policy support; interest rates estimated at 2–4% below market rates. CDB disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Industrial and Commercial Bank of China (ICBC)",
+        "ticker": "1398.HK",
+        "cik": null,
+        "slug": "icbc",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Commercial Banking & Working Capital",
+        "relationshipNote": "ICBC provides working capital financing, trade finance, and cash management services to Huawei; estimated outstanding credit facilities: $3–5B. ICBC's relationship with Huawei reflects state-owned bank support for strategic national champion; interest rates estimated at 3–5% below market rates. ICBC disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Ren Zhengfei",
+        "ticker": null,
+        "cik": null,
+        "slug": "ren_zhengfei",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Founder & Strategic Leadership",
+        "relationshipNote": "Ren Zhengfei founded Huawei in 1987 and serves as Chief Executive Officer; ~1% direct ownership with majority control through ESOP. Ren's strategic vision emphasizes vertical integration, R&D investment (15% of revenue annually), and geopolitical resilience; known for aggressive 5G/6G technology development and supply-chain diversification. Ren disclosed.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Meng Wanzhou",
+        "ticker": null,
+        "cik": null,
+        "slug": "meng_wanzhou",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer & Finance Leadership",
+        "relationshipNote": "Meng Wanzhou (Ren's daughter) serves as Chief Financial Officer and Deputy Chairperson; arrested in Canada (2018–2021) on U.S. extradition charges related to Iran sanctions violations, then released. Meng's return to Huawei (2021) signaled continued family control and strategic continuity; oversees capital allocation, debt management, and investor relations. Meng disclosed.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eric Xu Zhijun",
+        "ticker": null,
+        "cik": null,
+        "slug": "eric_xu_zhijun",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Rotating Chairperson & Strategic Operations",
+        "relationshipNote": "Eric Xu Zhijun serves as Rotating Chairperson (rotates annually with other executives); oversees strategic operations and long-term technology roadmap. Xu is known for aggressive 5G/6G R&D investment and supply-chain resilience initiatives; leads Huawei's response to U.S. export controls. Xu disclosed.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ken Hu Houkun",
+        "ticker": null,
+        "cik": null,
+        "slug": "ken_hu_houkun",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Rotating Chairperson & Business Operations",
+        "relationshipNote": "Ken Hu Houkun serves as Rotating Chairperson (rotates annually with other executives); oversees business operations and market expansion. Hu is known for aggressive international expansion in ASEAN, Middle East, and Africa; leads Huawei's cloud and enterprise business growth. Hu disclosed.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Huawei Smartphone Shipment Data (IDC, Counterpoint Research)",
+        "ticker": null,
+        "cik": null,
+        "slug": "huawei_smartphone_shipments",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Consumer Device Revenue & Market Share",
+        "relationshipNote": "Quarterly smartphone shipment data from IDC and Counterpoint Research provides leading indicator of Huawei's Consumer BG revenue and market-share trends. 2023 shipments estimated at 35–40M units (down from 240M in 2019 pre-restrictions); market share ~8% globally. Shipment trends reflect Google Play Services restrictions, Harmony OS adoption, and competitive pressure from Apple/Samsung in developed markets.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Chinese Telecom Operator Capex Guidance (China Mobile, China Unicom, China Telecom)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_telecom_capex",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Infrastructure Revenue & Capex Cycles",
+        "relationshipNote": "Quarterly capex guidance from China Mobile (~$30–40B annually), China Unicom (~$10–15B), and China Telecom (~$8–12B) provides leading indicator of Huawei's Carrier BG revenue. 2023 capex guidance indicated continued 5G densification and 6G pilot programs; estimated Huawei's Carrier BG revenue at $25–35B annually. Capex cycles are critical for modeling Huawei's revenue and cash flow.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

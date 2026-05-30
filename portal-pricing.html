@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>LIMEN HELIX · Portal Pricing</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace;padding:20px 24px;max-width:900px;margin:0 auto;font-size:12px}h1{font-size:0.6rem;letter-spacing:4px;color:#C9A94E;margin-bottom:4px;text-align:center}p{font-size:0.4rem;color:#b0a898;margin-bottom:8px;text-align:center}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:20px 0}.card{padding:16px;border:1px solid rgba(201,169,78,0.1);border-radius:4px;background:rgba(10,12,20,0.6)}.card-name{font-size:0.5rem;color:#C9A94E;letter-spacing:2px;margin-bottom:4px}.card-price{font-size:0.7rem;color:#e8e3d9;margin-bottom:8px}.card-price span{font-size:0.34rem;color:#807868}.card-feat{font-size:0.34rem;color:#b0a898;padding:2px 0}.card-btn{display:block;width:100%;padding:8px;margin-top:12px;font-family:inherit;font-size:0.38rem;letter-spacing:1.5px;border-radius:2px;cursor:pointer;text-align:center;transition:all 0.2s;text-decoration:none}.btn-primary{background:rgba(90,181,160,0.12);border:1px solid rgba(90,181,160,0.3);color:#5ab5a0}.btn-contact{background:rgba(201,169,78,0.08);border:1px solid rgba(201,169,78,0.2);color:#C9A94E}.form-section{margin:20px 0;padding:16px;border:1px solid rgba(201,169,78,0.08);border-radius:4px;background:rgba(0,0,0,0.15)}.form-section h2{font-size:0.42rem;color:rgba(201,169,78,0.6);margin-bottom:8px;letter-spacing:2px;text-align:left}input,select{width:100%;padding:6px 8px;margin-bottom:6px;background:#0a0c14;border:1px solid rgba(201,169,78,0.12);border-radius:2px;color:#e8e3d9;font-family:inherit;font-size:0.38rem}a{color:rgba(201,169,78,0.5);text-decoration:none}@media print{body{background:white;color:black}}</style></head>
+<body>
+<a href="/" style="font-size:0.34rem;display:block;margin-bottom:12px">&larr; Home</a>
+<h1>HELIX PORTAL</h1>
+<p>Phase-state diagnostics for any public company. Kernel-validated. Board-ready reports in 60 seconds.</p>
+
+<div class="cards" id="pricingCards"></div>
+
+<div class="form-section">
+<h2>REQUEST ACCESS</h2>
+<input id="leadName" placeholder="Name">
+<input id="leadEmail" placeholder="Email" type="email">
+<input id="leadCompany" placeholder="Company">
+<select id="leadInterest"><option>General interest</option><option>Starter tier</option><option>Professional tier</option><option>Enterprise tier</option><option>White-label licensing</option></select>
+<input id="leadDomain" placeholder="Primary domain of interest (e.g., Energy, Finance, Medicine)">
+<button class="card-btn btn-primary" id="leadSubmit" style="margin-top:4px">SUBMIT REQUEST</button>
+<div id="leadResult" style="font-size:0.34rem;margin-top:6px"></div>
+</div>
+
+<p style="font-size:0.28rem;color:#605850;margin-top:20px">LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC</p>
+
+<script src="assets/js/portal-pricing-config.js"></script>
+<script>
+(function(){
+  var pp = window.LIMENExecution && window.LIMENExecution.phase4 && window.LIMENExecution.phase4.portalPricing;
+  if (!pp) return;
+
+  var el = document.getElementById('pricingCards');
+  var h = '';
+  for (var tk in pp.tiers) {
+    var t = pp.tiers[tk];
+    h += '<div class="card">';
+    h += '<div class="card-name">' + t.name.toUpperCase() + '</div>';
+    if (t.monthlyPrice) {
+      h += '<div class="card-price">$' + t.monthlyPrice.toLocaleString() + '<span>/mo</span></div>';
+      h += '<div style="font-size:0.32rem;color:#807868">$' + t.annualPrice.toLocaleString() + '/year (save ' + Math.round((1 - t.annualPrice / (t.monthlyPrice * 12)) * 100) + '%)</div>';
+    } else {
+      h += '<div class="card-price">Custom</div>';
+    }
+    h += '<div style="font-size:0.30rem;color:#807868;margin:6px 0">' + t.reports + ' reports \u00b7 ' + t.seats + ' seat' + (t.seats > 1 ? 's' : '') + ' \u00b7 ' + t.domains + ' domain' + (t.domains > 1 ? 's' : '') + '</div>';
+    for (var fi = 0; fi < t.features.length; fi++) h += '<div class="card-feat">\u2713 ' + t.features[fi] + '</div>';
+    h += '<a href="#" class="card-btn ' + (t.monthlyPrice ? 'btn-primary' : 'btn-contact') + '" onclick="document.getElementById(\'leadInterest\').value=\'' + t.name + ' tier\';document.getElementById(\'leadName\').focus();return false">' + (t.monthlyPrice ? 'REQUEST ACCESS' : 'CONTACT SALES') + '</a>';
+    h += '</div>';
+  }
+  el.innerHTML = h;
+
+  document.getElementById('leadSubmit').addEventListener('click', function() {
+    var name = document.getElementById('leadName').value;
+    var email = document.getElementById('leadEmail').value;
+    if (!name || !email) { document.getElementById('leadResult').innerHTML = '<span style="color:#e85454">Name and email required.</span>'; return; }
+    pp.saveLead({ name: name, email: email, company: document.getElementById('leadCompany').value, interest: document.getElementById('leadInterest').value, domain: document.getElementById('leadDomain').value });
+    document.getElementById('leadResult').innerHTML = '<span style="color:#5ab5a0">\u2713 Request submitted. We will contact you.</span>';
+  });
+})();
+</script></body></html>

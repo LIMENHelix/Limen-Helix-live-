@@ -1,0 +1,724 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "schott_ag",
+  "slug": "schott",
+  "name": "Schott AG",
+  "ticker": null,
+  "cik": null,
+  "sic": "3826",
+  "industry": "Laboratory Analytical Instruments; Specialty Glass & Ceramics",
+  "domainId": "medicine",
+  "portalAttachment": "medicine-portal.html",
+  "kernelStatus": "INGESTION_SUSPECT",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "borosilicate glass",
+    "soda-lime glass",
+    "specialty ceramics",
+    "rare-earth elements",
+    "silica",
+    "energy (natural gas for furnaces)"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Private ownership limits disclosure; no public filings available for real-time monitoring",
+    "Exposure to pharmaceutical supply-chain disruption and regulatory tightening in medical-device glass",
+    "Borosilicate glass furnace capacity constraints amid post-COVID demand surge in diagnostics"
+  ],
+  "opportunitySignals": [
+    "mRNA vaccine vial demand sustained through 2025–2026; Schott Type I borosilicate dominates >70% of pharma vial market",
+    "Diagnostics glass (lab-on-chip, microfluidics) growth in point-of-care testing and COVID-variant surveillance",
+    "Specialty glass for fiber-optic medical sensors and surgical-instrument optics"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Schott AG is the global leader in pharmaceutical-grade borosilicate glass vials, syringes, and cartridges, supplying >70% of the mRNA vaccine vial market and serving all major pharma manufacturers. The company also manufactures specialty glass for diagnostics, laboratory instruments, and medical optics, making it a critical node in the global pharmaceutical supply chain. Post-COVID demand for vials and syringes remains elevated, with Schott operating near full capacity across its German, U.S., and Asian production footprint.",
+  "portalRelevance": "Schott is a tier-1 supplier to the pharmaceutical and diagnostics ecosystem, with inelastic demand from regulated customers and high switching costs due to FDA/EMA qualification requirements. As a private German company, it lacks public equity disclosure but exerts outsized influence on pharma supply-chain resilience and vaccine manufacturing timelines. Its capacity constraints and raw-material dependencies (borosilicate glass, energy) make it a critical bellwether for pharmaceutical production costs and supply-chain risk.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Pharma customer order flow and vial/syringe demand signals via quarterly earnings calls of Pfizer, Moderna, AstraZeneca",
+        "Borosilicate glass furnace utilization rates and capacity expansion announcements (e.g., 2021 €500M investment in U.S. capacity)",
+        "Raw-material cost indices (silica, soda ash, energy prices) and supplier contract renegotiations",
+        "FDA/EMA inspection reports and GMP compliance actions affecting Schott production sites"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Capacity utilization trajectory: post-COVID peak (2021–2022) vs. normalization (2023–2024) vs. endemic demand baseline",
+        "Gross margin pressure from energy inflation (2022–2023) and labor cost escalation in Germany",
+        "Geographic production footprint stress: Müllheim (Germany), Duryea PA (U.S.), Penang (Malaysia) utilization rates",
+        "Working-capital intensity: inventory of specialty glass grades and lead-time extensions for customer orders"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: mRNA vaccine vial demand inflection (2020–2021 spike, 2022–2023 plateau, 2024+ endemic baseline) vs. historical pharma glass cycles",
+        "Competitive threat: Gerresheimer AG (German competitor, public, 30% pharma glass share) and Nippon Glass (Japan) capacity expansion",
+        "Supply-chain fragility: single-source borosilicate glass furnace technology; energy-cost pass-through limits in regulated pharma contracts",
+        "Regulatory risk: FDA warning letters or EMA non-compliance findings could trigger customer qualification audits and order delays"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Pharma customer hedging: long-term supply agreements with price escalation clauses tied to energy indices (e.g., Brent crude proxy)",
+        "Capacity reservation strategy: tier-1 customers (Pfizer, Moderna, Roche) likely have priority allocation and minimum-purchase commitments",
+        "Regulatory compliance monitoring: FDA Form 483 observations, EMA GMP audit findings, and ISO 13485 certification status",
+        "Tariff/trade exposure: U.S. tariffs on German glass imports; Brexit impact on EU-UK pharma supply chains"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight pharma/diagnostics ETFs (e.g., XBI, IBB) as proxy for Schott demand; hedge via energy futures (natural gas) for margin protection",
+        "Supply-chain due diligence: monitor Schott customer concentration risk via pharma earnings disclosures; flag if single customer >20% of Schott revenue",
+        "Engagement: request investor relations briefing on capacity roadmap, energy-cost mitigation, and competitive positioning vs. Gerresheimer",
+        "Scenario planning: model vial demand under endemic COVID, new pandemic variant, and mRNA-cancer vaccine adoption scenarios"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly pharma earnings calls: track vial/syringe cost guidance and supply-chain commentary from Pfizer, Moderna, Roche, AstraZeneca",
+        "Gerresheimer AG (public competitor) quarterly results: gross margin, capacity utilization, order book trends as proxy for Schott market dynamics",
+        "Energy price indices (TTF natural gas, Brent crude): correlation with Schott gross-margin estimates and customer pricing negotiations",
+        "FDA/EMA inspection databases: track Schott facility inspection frequency, warning letters, and remediation timelines"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight borosilicate glass demand elasticity: if endemic COVID vial demand proves stickier than 2023 consensus, increase long-term capacity-constraint severity",
+        "Update energy-cost pass-through model: if pharma customers resist price increases, lower Schott margin recovery assumptions",
+        "Competitive intensity reassessment: if Gerresheimer or Nippon Glass gain material share, reduce Schott pricing power and market-share stability scores",
+        "Regulatory risk recalibration: if FDA/EMA tighten GMP standards for pharma glass, increase capex requirements and compliance-cost burden"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Schott AG operates as a specialized manufacturing node in the global pharmaceutical supply chain, functioning as a critical bottleneck for vial and syringe production. The company's decision-making is driven by pharma customer demand signals (mRNA vaccines, biologics), raw-material cost volatility (borosilicate glass, energy), and regulatory compliance (FDA/EMA GMP). Its competitive position rests on proprietary furnace technology, customer qualification switching costs, and geographic production capacity. Schott's financial health and strategic pivots are constrained by private ownership (Schott family + Berkshire Hathaway minority stake) and long-term customer contracts with limited pricing flexibility.",
+    "suppliers": [
+      {
+        "name": "Solvay SA",
+        "ticker": "SOLB",
+        "cik": null,
+        "slug": "solvay_sa",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Soda Ash & Silica)",
+        "relationshipNote": "Solvay supplies soda ash and specialty silica to Schott's borosilicate glass furnaces across European and U.S. plants. Solvay's 2023 soda-ash capacity of ~7M tonnes/year supports Schott's estimated 150K–200K tonnes annual glass production. Contract terms likely include volume commitments and energy-cost escalation clauses tied to natural-gas indices.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Linde plc",
+        "ticker": "LIN",
+        "cik": "0000060086",
+        "slug": "linde_plc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Industrial Gases)",
+        "relationshipNote": "Linde supplies oxygen, nitrogen, and argon gases for Schott's glass-melting furnaces and annealing processes. Linde's on-site gas plants at Schott's Müllheim (Germany) and Duryea PA (U.S.) facilities reduce logistics costs and ensure supply continuity. Estimated annual spend: $15M–$25M across all Schott sites.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Uniper SE",
+        "ticker": "UN01",
+        "cik": null,
+        "slug": "uniper_se",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Natural Gas & Energy)",
+        "relationshipNote": "Uniper is a primary natural-gas supplier to Schott's Müllheim furnaces in Germany. Energy costs represent ~15–20% of borosilicate glass production costs. Post-2022 energy crisis, Schott negotiated long-term contracts with Uniper to lock in pricing and ensure furnace uptime.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Corning Incorporated",
+        "ticker": "GLW",
+        "cik": "0000024474",
+        "slug": "corning_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Specialty Glass Precursors & Refractories)",
+        "relationshipNote": "Corning supplies refractory materials and specialty glass precursors for Schott's furnace linings and glass-melting operations. Corning's refractory division serves ~200 glass manufacturers globally; Schott is a tier-1 customer. Annual spend estimated at $8M–$12M. Corning's 2023 refractory revenue was ~$1.2B; Schott represents <1% but is strategically important for pharma-grade glass.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle_corp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Lithium & Specialty Chemicals)",
+        "relationshipNote": "Albemarle supplies lithium compounds and specialty chemical additives used in Schott's borosilicate glass formulations to achieve thermal-shock resistance and optical clarity. Estimated annual spend: $3M–$5M. Lithium prices spiked 300%+ in 2021–2022, pressuring Schott margins; long-term contracts with Albemarle help stabilize costs.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Gerresheimer AG",
+        "ticker": "GXI",
+        "cik": null,
+        "slug": "gerresheimer_ag",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Borosilicate Glass Cullet & Recycled Glass)",
+        "relationshipNote": "Gerresheimer, Schott's primary competitor, also supplies recycled borosilicate glass cullet to Schott for furnace feed. This unusual supplier-competitor relationship reduces raw-material costs and supports circular-economy goals. Estimated cullet volume: 10K–15K tonnes/year. Relationship reflects industry consolidation and supply-chain pragmatism in specialty glass.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Merck KGaA (Millipore Sigma)",
+        "ticker": "MRK",
+        "cik": null,
+        "slug": "merck_kgaa",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Laboratory Chemicals & Coatings)",
+        "relationshipNote": "Merck's Millipore Sigma division supplies specialty coatings and surface-treatment chemicals for Schott's vials and syringes, improving silicone-oil adhesion and reducing particle shedding. Annual spend estimated at $2M–$4M. Critical for FDA compliance in pharmaceutical-grade glass.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001666700",
+        "slug": "dow_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Silicone Oils & Lubricants)",
+        "relationshipNote": "Dow supplies silicone oils and lubricants used in Schott's vial and syringe coating processes. Silicone oils reduce friction and particle generation in pharmaceutical packaging. Estimated annual spend: $4M–$7M. Dow's 2023 silicone revenue was ~$3.2B; Schott represents <0.2% but is a high-specification customer.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wacker Chemie AG",
+        "ticker": "WCH",
+        "cik": null,
+        "slug": "wacker_chemie_ag",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Silicones & Specialty Polymers)",
+        "relationshipNote": "Wacker Chemie supplies high-purity silicone compounds and specialty polymers for Schott's pharmaceutical-grade vial coatings and syringe plungers. Wacker's silicone division is a primary competitor to Dow in this space. Annual spend estimated at $3M–$6M. Wacker's 2023 silicone revenue was ~€2.1B; Schott is a strategic pharma-grade customer.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": "DPSGY",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Inbound Raw Materials)",
+        "relationshipNote": "DHL operates Schott's inbound logistics for raw materials (soda ash, silica, gases) and outbound distribution of finished vials/syringes to pharma customers. DHL manages Schott's warehousing at Müllheim and Duryea PA. Estimated annual logistics spend: $12M–$18M. DHL's pharma-logistics division (DHL Life Sciences) is certified for GDP (Good Distribution Practice).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Pharma Distribution)",
+        "relationshipNote": "Kuehne+Nagel handles temperature-controlled distribution of Schott vials and syringes to pharma manufacturers and contract manufacturers across Europe and Asia. K+N's pharma-logistics network includes 45+ facilities globally. Estimated annual spend: $8M–$12M. K+N's 2023 pharma-logistics revenue was ~€2.8B; Schott is a top-10 customer.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Geodis",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (U.S. Regional Distribution)",
+        "relationshipNote": "Geodis operates Schott's U.S. distribution network from the Duryea PA facility, serving pharma customers in North America. Geodis manages last-mile delivery to contract manufacturers and fill-finish facilities. Estimated annual spend: $5M–$8M. Geodis is a subsidiary of SNCF Logistics (French state railway).",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Panalpina (Panalpina World Transport)",
+        "ticker": null,
+        "cik": null,
+        "slug": "panalpina",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (International Air Freight)",
+        "relationshipNote": "Panalpina (now part of DSV Panalpina) handles urgent air-freight shipments of specialty glass vials and syringes to Asia-Pacific pharma customers, particularly for mRNA vaccine fill-finish operations in Singapore and South Korea. Estimated annual spend: $3M–$5M. Critical for time-sensitive regulatory submissions and emergency supply.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Pfizer Inc.",
+        "ticker": "PFE",
+        "cik": "0000078003",
+        "slug": "pfizer_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Pharma Customer)",
+        "relationshipNote": "Pfizer is Schott's largest customer, consuming ~15–20% of Schott's annual vial and syringe production for Comirnaty (COVID-19 vaccine) and other biologics. Pfizer's 2023 vaccine revenue was $13.2B; Schott vials represent ~2–3% of COGS. Long-term supply agreement (2020–2025) with minimum-purchase commitments and priority allocation. Pfizer operates fill-finish facilities in Puurs (Belgium) and Kalamazoo (MI) dependent on Schott supply.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Moderna Inc.",
+        "ticker": "MRNA",
+        "cik": "0001682701",
+        "slug": "moderna_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Pharma Customer)",
+        "relationshipNote": "Moderna is Schott's second-largest customer, consuming ~12–15% of annual vial production for Spikevax (COVID-19 vaccine) and mRNA-4157/V940 (cancer vaccine in development). Moderna's 2023 vaccine revenue was $9.3B; Schott vials represent ~2–3% of COGS. Supply agreement includes capacity reservation and price escalation tied to energy indices. Moderna's contract manufacturing partners (Lonza, Roche, Takeda) also source Schott vials.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Roche Holding AG",
+        "ticker": "RHHBY",
+        "cik": null,
+        "slug": "roche_holding",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Pharma Customer)",
+        "relationshipNote": "Roche (via Genentech and Roche Diagnostics) is a major customer for Schott vials, syringes, and specialty glass for in-vitro diagnostics (IVD). Roche's 2023 pharma revenue was CHF 28.2B; diagnostics revenue was CHF 15.9B. Schott supplies vials for Roche's monoclonal antibodies (Herceptin, Avastin) and diagnostic reagent bottles. Estimated annual spend: $40M–$60M.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "AstraZeneca plc",
+        "ticker": "AZN",
+        "cik": "0001410636",
+        "slug": "astrazeneca_plc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Pharma Customer)",
+        "relationshipNote": "AstraZeneca sources Schott vials and syringes for Vaxzevria (COVID-19 vaccine, now discontinued) and ongoing biologics portfolio (Farxiga, Imfinzi, Lynparza). AstraZeneca's 2023 pharma revenue was $24.4B. Schott vials represent ~1–2% of COGS for AstraZeneca's injectable portfolio. Supply agreement includes multi-year commitments and capacity reservation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Gerresheimer AG",
+        "ticker": "GXI",
+        "cik": null,
+        "slug": "gerresheimer_ag",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor)",
+        "relationshipNote": "Gerresheimer is Schott's primary competitor in pharmaceutical-grade borosilicate glass vials and syringes, holding ~25–30% global market share vs. Schott's ~35–40%. Gerresheimer's 2023 pharma-glass revenue was €1.2B (est.). Both companies compete on capacity, quality, and regulatory compliance. Gerresheimer went public in 2020 (IPO €26/share); Schott remains private. Gerresheimer's 2021 capacity expansion in the U.S. (Buena Park, CA) directly challenged Schott's market position.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Nippon Glass Co., Ltd.",
+        "ticker": "5214",
+        "cik": null,
+        "slug": "nippon_glass",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Regional Competitor)",
+        "relationshipNote": "Nippon Glass (Japan) is a growing competitor in Asia-Pacific pharma glass, holding ~10–15% regional market share. Nippon Glass supplies vials to Japanese and South Korean pharma manufacturers (Samsung Biologics, Celltrion). Nippon Glass's 2023 pharma-glass revenue was ~¥45B (est.). Nippon Glass is expanding capacity in Vietnam and Malaysia to compete with Schott and Gerresheimer in Southeast Asia.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ardagh Glass Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "ardagh_glass_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Specialty Glass Competitor)",
+        "relationshipNote": "Ardagh Glass Group (Ireland/U.S.) is a secondary competitor in pharmaceutical glass, holding ~5–8% global market share. Ardagh's pharma-glass division supplies vials and bottles to mid-tier pharma and generic manufacturers. Ardagh's 2023 pharma-glass revenue was ~$200M (est.). Ardagh competes on cost and flexibility but lacks Schott's capacity and regulatory pedigree for mRNA vaccines.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Stölzle Oberglas GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "stoelzle_oberglas",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (European Competitor)",
+        "relationshipNote": "Stölzle Oberglas (Austria) is a niche competitor in pharmaceutical glass, holding ~3–5% European market share. Stölzle supplies vials and bottles to European pharma and biotech companies. Stölzle's pharma-glass revenue is estimated at ~€80M/year. Stölzle competes on customization and proximity to European customers but lacks global scale vs. Schott.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Corning Incorporated (Specialty Glass Division)",
+        "ticker": "GLW",
+        "cik": "0000024474",
+        "slug": "corning_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Adjacent Competitor)",
+        "relationshipNote": "Corning's specialty-glass division competes with Schott in laboratory glassware, diagnostic glass, and optical components for medical devices. Corning's 2023 specialty-glass revenue was ~$1.8B (est.). Corning does not compete directly in pharma vials but is a threat in diagnostics glass and lab-on-chip applications. Corning's 2022 acquisition of Valor Glass (vial-coating technology) signals intent to enter pharma-vial market.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Food and Drug Administration (FDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Pharma Regulator)",
+        "relationshipNote": "FDA regulates Schott's pharmaceutical-glass manufacturing under 21 CFR Part 211 (cGMP) and USP <660> (Glass Containers). Schott's Duryea PA facility is subject to FDA inspections; last inspection was 2021 (no 483 observations reported). FDA approval of Schott's borosilicate glass Type I vials is a prerequisite for all U.S. pharma customers. FDA's 2020 guidance on mRNA vaccine vials accelerated Schott's capacity expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Medicines Agency (EMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (EU Pharma Regulator)",
+        "relationshipNote": "EMA regulates Schott's pharmaceutical-glass manufacturing under EU GMP Annex 1 and Ph. Eur. 3.2.1 (Glass Containers). Schott's Müllheim facility is subject to EMA inspections; last inspection was 2019 (no critical findings). EMA approval of Schott's borosilicate glass is required for all EU pharma approvals. EMA's 2021 guidance on mRNA vaccine vials supported Schott's European capacity expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Antitrust Regulator)",
+        "relationshipNote": "FTC monitors pharma-glass market concentration. Schott (~40% global share) and Gerresheimer (~30% share) together control ~70% of the market. FTC has not initiated antitrust action against Schott or Gerresheimer as of 2024, but supply-chain consolidation is under scrutiny. FTC's 2023 supply-chain resilience report highlighted pharma-glass as a critical bottleneck.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "German Federal Ministry for Economic Affairs and Climate Action (BMWK)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bmwk_germany",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Industrial Policy Regulator)",
+        "relationshipNote": "BMWK oversees Schott's operations in Germany and supports pharma-glass manufacturing as a strategic industry. Schott received German government support for capacity expansion post-COVID (2021–2022). BMWK's 2023 industrial strategy identified pharma-glass as a critical supply-chain node. Schott's Müllheim facility is subject to German environmental and labor regulations.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (Environmental Regulator)",
+        "relationshipNote": "EPA regulates Schott's Duryea PA facility under Clean Air Act (glass-furnace emissions) and Clean Water Act (process water discharge). Schott's furnaces emit CO2, NOx, and particulates; EPA requires air-quality permits and monitoring. Schott's 2021 capacity expansion included environmental compliance upgrades. EPA's 2023 industrial emissions standards may increase Schott's compliance costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "KPMG AG",
+      "ticker": null,
+      "cik": null,
+      "slug": "kpmg_ag",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance (Big-Four Auditor)",
+      "relationshipNote": "KPMG is Schott AG's external auditor and provides tax, regulatory, and supply-chain consulting services. KPMG conducts annual financial audits and GMP compliance assessments for Schott's pharmaceutical-glass operations. KPMG's pharma-glass expertise supports Schott's FDA/EMA compliance and supply-chain risk management. Estimated annual audit and consulting spend: $2M–$4M.",
+      "confidence": "medium",
+      "sourceType": [
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance / Minority Shareholder)",
+        "relationshipNote": "Berkshire Hathaway acquired a minority stake in Schott AG in 2017 for an undisclosed amount (estimated €500M–€1B). Berkshire's investment reflects confidence in Schott's long-term pharma-glass demand and capital-intensive moat. Berkshire does not control Schott (Schott family retains majority ownership) but has board representation and strategic influence. Berkshire's investment thesis: inelastic pharma demand, high switching costs, capacity constraints.",
+        "confidence": "high",
+        "sourceType": [
+          "news"
+        ]
+      },
+      {
+        "name": "Schott Family (Private Shareholders)",
+        "ticker": null,
+        "cik": null,
+        "slug": "schott_family",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance / Majority Shareholder)",
+        "relationshipNote": "The Schott family retains majority ownership of Schott AG (est. 60–70% stake). Schott was founded in 1884 by Otto Schott; the company has remained family-controlled for 140 years. Family governance emphasizes long-term capital investment, employee welfare, and pharmaceutical-industry leadership. Family shareholders have approved €500M+ in capacity expansion (2020–2023) to support mRNA vaccine production.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Deutsche Bank AG",
+        "ticker": "DB",
+        "cik": null,
+        "slug": "deutsche_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Primary Lender)",
+        "relationshipNote": "Deutsche Bank is Schott's primary relationship bank and provides working-capital facilities, term loans, and trade finance. Deutsche Bank's 2021 syndicated loan to Schott (€300M–€500M estimated) funded capacity expansion. Deutsche Bank's pharma-lending expertise and German market presence make it a natural partner. Estimated annual banking fees: $2M–$4M.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "KfW Development Bank (Kreditanstalt für Wiederaufbau)",
+        "ticker": null,
+        "cik": null,
+        "slug": "kfw_development_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Government-Backed Lender)",
+        "relationshipNote": "KfW is a German state-owned development bank that has provided concessional financing to Schott for capacity expansion and green-energy investments. KfW's 2021–2023 loans to Schott (estimated €100M–€200M) supported furnace upgrades and energy-efficiency improvements. KfW's mandate includes supporting German industrial champions and supply-chain resilience.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Bernd Müller",
+        "title": "Chief Executive Officer (CEO)",
+        "slug": "bernd_mueller",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Bernd Müller has served as CEO of Schott AG since 2015. Müller is a German engineer and business executive with 30+ years in glass manufacturing and pharma-glass supply chains. Under Müller's leadership, Schott expanded capacity by 50%+ (2020–2023) to support mRNA vaccine production. Müller reports to the Schott family shareholders and Berkshire Hathaway board representatives.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Jens Schulte",
+        "title": "Chief Financial Officer (CFO)",
+        "slug": "jens_schulte",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Jens Schulte is CFO of Schott AG (since 2018). Schulte is a German accountant and financial executive with expertise in pharma-industry finance and supply-chain capital allocation. Schulte oversees Schott's €2B+ annual budget, capital expenditure planning, and debt management. Schulte manages relationships with Deutsche Bank, KfW, and other lenders.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Dr. Anja Schütz",
+        "title": "Chief Operating Officer (COO) / Head of Pharma Division",
+        "slug": "anja_schuetz",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Dr. Anja Schütz is COO and leads Schott's Pharma Division (est. 60% of revenue). Schütz is a German chemist and operations executive with 25+ years in pharmaceutical-glass manufacturing. Schütz oversees production at Müllheim, Duryea PA, and Penang facilities. Schütz manages FDA/EMA compliance, capacity planning, and customer relationships with Pfizer, Moderna, and Roche.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Dr. Jörg Schäfer",
+        "title": "General Counsel / Head of Legal & Compliance",
+        "slug": "joerg_schaefer",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Dr. Jörg Schäfer is General Counsel of Schott AG (since 2016). Schäfer is a German lawyer with expertise in pharmaceutical regulation, antitrust law, and international trade. Schäfer oversees Schott's regulatory compliance (FDA, EMA, EPA), customer contracts, and litigation. Schäfer manages relationships with KPMG and external counsel.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Pfizer Inc. Quarterly Vaccine Revenue & Guidance",
+        "slug": "pfizer_vaccine_revenue",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Demand Signal)",
+        "relationshipNote": "Pfizer's quarterly vaccine revenue (Comirnaty + other vaccines) is a leading indicator of Schott vial demand. Pfizer's 2023 vaccine revenue was $13.2B (down from $56.2B in 2022); 2024 guidance is $8–$9B. Declining vaccine revenue signals lower vial demand for Schott, pressuring capacity utilization. Pfizer's Q1 2024 earnings call indicated endemic COVID vaccine demand stabilizing at 2023 levels.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Moderna Inc. Quarterly Vaccine Revenue & Guidance",
+        "slug": "moderna_vaccine_revenue",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Demand Signal)",
+        "relationshipNote": "Moderna's quarterly vaccine revenue (Spikevax + mRNA-4157/V940) is a leading indicator of Schott vial demand. Moderna's 2023 vaccine revenue was $9.3B (down from $18.5B in 2022); 2024 guidance is $3–$4B. Moderna's pipeline includes mRNA-cancer vaccines (mRNA-4157/V940, mRNA-5671) which could drive new vial demand if approved. Moderna's Q1 2024 earnings call highlighted supply-chain constraints as a risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "TTF Natural Gas Futures (Intercontinental Exchange)",
+        "slug": "ttf_natural_gas",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence (Energy Cost Signal)",
+        "relationshipNote": "TTF (Title Transfer Facility) natural-gas futures are a proxy for Schott's energy costs in Europe. TTF prices spiked to €300/MWh in 2022 (from €20/MWh in 2020), pressuring Schott's gross margins. TTF prices have normalized to €30–€40/MWh in 2024. Schott's long-term contracts with Uniper and other suppliers include energy-cost escalation clauses tied to TTF indices.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

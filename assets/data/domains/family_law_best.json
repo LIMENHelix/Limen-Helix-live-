@@ -1,0 +1,383 @@
+{
+  "domainId": "family_law_best",
+  "title": "Best Interest of the Child",
+  "parentPortal": "family_law_portal.html",
+  "parentLabel": "Family Law",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "MDT",
+      "state": "active",
+      "domainLabel": "Best Interest of the Child Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Best Interest of the Child indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Best Interest of the Child Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Best Interest of the Child Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "family_law_best_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "ANT",
+      "state": "active",
+      "domainLabel": "Best Interest of the Child Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Best Interest of the Child activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Best Interest of the Child Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Best Interest of the Child Core Operations"
+        }
+      ],
+      "childPortal": "family_law_best_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "PULV",
+      "state": "active",
+      "domainLabel": "Best Interest of the Child Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Best Interest of the Child, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Best Interest of the Child Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Best Interest of the Child Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "family_law_best_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "V1",
+      "state": "active",
+      "domainLabel": "Best Interest of the Child Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Best Interest of the Child practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Best Interest of the Child Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Best Interest of the Child Standards & Governance"
+        }
+      ],
+      "childPortal": "family_law_best_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "A1",
+      "state": "active",
+      "domainLabel": "Best Interest of the Child Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Best Interest of the Child methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Best Interest of the Child Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Best Interest of the Child Research & Development"
+        }
+      ],
+      "childPortal": "family_law_best_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "Best Interest of the Child Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Best Interest of the Child stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Best Interest of the Child Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Best Interest of the Child Risk & Resilience"
+        }
+      ],
+      "childPortal": "family_law_best_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Best Interest of the Child Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Best Interest of the Child operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Best Interest of the Child Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Best Interest of the Child Coordination & Integration"
+        }
+      ],
+      "childPortal": "family_law_best_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "STS",
+      "state": "active",
+      "domainLabel": "Best Interest of the Child Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Best Interest of the Child outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Best Interest of the Child Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Best Interest of the Child Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "MDT",
+      "target": "ANT",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ANT",
+      "target": "PULV",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "PULV",
+      "target": "V1",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "V1",
+      "target": "A1",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "A1",
+      "target": "FG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FG",
+      "target": "WERN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "WERN",
+      "target": "STS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "STS",
+      "target": "MDT",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "MDT",
+      "target": "A1",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "V1",
+      "target": "WERN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "FAMILY_LAW_BEST_SYSTEM_FAILURE",
+      "label": "Best Interest of the Child System Failure",
+      "summary": "Critical breakdown in Best Interest of the Child systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "MDT",
+          "dir": "Hypo-active",
+          "detail": "Best Interest of the Child Assessment & Diagnostics capacity falling below operational thresholds, reducing Best Interest of the Child output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ANT",
+          "dir": "Hypo-active",
+          "detail": "Best Interest of the Child Core Operations systems underperforming, creating gaps in Best Interest of the Child coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PULV",
+          "dir": "Altered",
+          "detail": "Best Interest of the Child Infrastructure & Capacity behavior deviating from established norms, complicating Best Interest of the Child management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Hyper-active",
+          "detail": "Best Interest of the Child Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Best Interest of the Child",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STS",
+          "dir": "Hypo-active",
+          "detail": "Best Interest of the Child Performance & Optimization function reduced, compromising Best Interest of the Child system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_BEST_CAPACITY_CRISIS",
+      "label": "Best Interest of the Child Capacity Crisis",
+      "summary": "Demand exceeding available Best Interest of the Child capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "ANT",
+          "dir": "Hyper-active",
+          "detail": "Best Interest of the Child Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Best Interest of the Child",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PULV",
+          "dir": "Hypo-active",
+          "detail": "Best Interest of the Child Infrastructure & Capacity systems underperforming, creating gaps in Best Interest of the Child coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "V1",
+          "dir": "Altered",
+          "detail": "Best Interest of the Child Standards & Governance behavior deviating from established norms, complicating Best Interest of the Child management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper-active",
+          "detail": "Best Interest of the Child Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Best Interest of the Child",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STS",
+          "dir": "Altered",
+          "detail": "Best Interest of the Child Performance & Optimization operating outside normal parameters, introducing uncertainty into Best Interest of the Child outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_BEST_GOVERNANCE_GAP",
+      "label": "Best Interest of the Child Governance Gap",
+      "summary": "Oversight or regulatory failure in Best Interest of the Child creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "V1",
+          "dir": "Hypo-active",
+          "detail": "Best Interest of the Child Standards & Governance capacity falling below operational thresholds, reducing Best Interest of the Child output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MDT",
+          "dir": "Altered",
+          "detail": "Best Interest of the Child Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Best Interest of the Child",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "A1",
+          "dir": "Hyper-active",
+          "detail": "Best Interest of the Child Research & Development activity spiking beyond design limits, creating instability across Best Interest of the Child operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Altered",
+          "detail": "Best Interest of the Child Risk & Resilience patterns disrupted, necessitating adaptive responses within Best Interest of the Child frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo-active",
+          "detail": "Best Interest of the Child Coordination & Integration function reduced, compromising Best Interest of the Child system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

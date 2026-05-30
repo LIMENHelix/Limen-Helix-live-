@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · PROVIDER PORTAL</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:wght@300;400;600&display=swap');
+
+:root {
+  --bg: #0c0d10;
+  --panel: #131519;
+  --border: rgba(201,169,78,0.12);
+  --gold: #C9A94E;
+  --gold-dim: rgba(201,169,78,0.55);
+  --gold-ghost: rgba(201,169,78,0.08);
+  --text: #dad5c8;
+  --text-dim: rgba(220,215,200,0.82);
+  --text-ghost: rgba(200,195,184,0.4);
+  --hyper: #e85454;
+  --hypo: #4a8fd4;
+  --altered: #d4a84a;
+  --evidence-a: #4aaa6a;
+  --evidence-b: #7a9ad4;
+  --evidence-c: #c4a44a;
+  --evidence-d: #8a7a6a;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html,body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Mono', monospace;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 320px 1fr 400px;
+  grid-template-rows: 48px 28px 1fr 36px;
+  height: 100vh;
+  gap: 0;
+}
+
+.portal-nav{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:0;padding:0 20px;background:rgba(0,0,0,0.4);border-bottom:1px solid var(--border);font-size:0.45rem;letter-spacing:3px;text-transform:uppercase;font-family:'SF Mono',monospace;height:28px;overflow-x:auto}
+.portal-nav a{color:rgba(201,169,78,0.25);text-decoration:none;padding:0 10px;transition:color .2s;white-space:nowrap}
+.portal-nav a:hover{color:rgba(201,169,78,0.6)}
+.portal-nav a.pn-current{color:rgba(201,169,78,0.8)}
+.portal-nav .pn-sep{color:rgba(201,169,78,0.1);font-size:0.5rem}
+
+.topbar {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; border-bottom: 1px solid var(--border); background: var(--panel);
+}
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.topbar-brand { font-size: 0.65rem; letter-spacing: 4px; color: var(--gold-dim); text-transform: uppercase; }
+.topbar-brand a { color: inherit; text-decoration: none; }
+.topbar-brand a:hover { color: var(--gold); }
+.topbar-separator { color: var(--gold-ghost); }
+.topbar-title { font-size: 0.6rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
+.topbar-right { font-size: 0.45rem; letter-spacing: 1.5px; color: rgba(232,84,84,0.5); text-transform: uppercase; }
+
+.left-panel {
+  background: var(--panel); border-right: 1px solid var(--border);
+  overflow-y: auto; padding: 16px 0;
+}
+.left-panel::-webkit-scrollbar { width: 3px; }
+.left-panel::-webkit-scrollbar-thumb { background: var(--gold-ghost); }
+
+.panel-section-title {
+  font-size: 0.5rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold-dim); padding: 8px 16px 6px; margin-top: 8px;
+}
+
+.input-group { padding: 0 16px; margin-bottom: 12px; }
+.input-group label {
+  display: block; font-size: 0.45rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-ghost); margin-bottom: 4px;
+}
+.input-group input {
+  width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+  padding: 8px 12px; outline: none; transition: border-color 0.3s;
+}
+.input-group input:focus { border-color: var(--gold-dim); }
+.input-group input::placeholder { color: var(--text-ghost); font-size: 0.65rem; letter-spacing: 1px; }
+
+.btn-fetch {
+  display: block; width: calc(100% - 32px); margin: 0 16px 12px;
+  background: rgba(201,169,78,0.08); border: 1px solid rgba(201,169,78,0.2);
+  color: var(--gold-dim); font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase;
+  padding: 10px; cursor: pointer; transition: all 0.3s;
+}
+.btn-fetch:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,169,78,0.12); }
+.btn-fetch:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.fetch-status {
+  padding: 0 16px; font-size: 0.45rem; letter-spacing: 1.5px;
+  color: var(--text-ghost); margin-bottom: 8px; min-height: 1.2rem;
+}
+.fetch-status.error { color: rgba(232,84,84,0.7); }
+.fetch-status.success { color: rgba(106,170,106,0.7); }
+
+.center-view { position: relative; background: var(--bg); overflow: hidden; }
+.center-view canvas { width: 100%; height: 100%; }
+
+.dx-overlay { position: absolute; top: 16px; left: 20px; right: 20px; pointer-events: none; z-index: 10; }
+.dx-overlay-name { font-family: 'Crimson Pro', serif; font-size: 1.4rem; font-weight: 300; color: var(--gold); letter-spacing: 1px; margin-bottom: 2px; }
+.dx-overlay-dsm { font-size: 0.55rem; color: var(--gold-dim); letter-spacing: 2px; margin-bottom: 6px; }
+.dx-overlay-prevalence { font-size: 0.55rem; color: var(--text-ghost); letter-spacing: 1px; margin-bottom: 8px; }
+
+.circuit-legend {
+  position: absolute; bottom: 16px; left: 20px;
+  display: flex; gap: 16px; z-index: 10; pointer-events: none;
+}
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.5rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-ghost); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+.node-tooltip {
+  position: absolute; background: rgba(10,11,13,0.95); border: 1px solid var(--border);
+  padding: 8px 12px; pointer-events: none; z-index: 20; display: none; max-width: 280px;
+}
+.node-tooltip .tt-name { font-size: 0.7rem; color: var(--gold); letter-spacing: 1.5px; margin-bottom: 2px; }
+.node-tooltip .tt-dir { font-size: 0.6rem; letter-spacing: 1px; margin-bottom: 4px; font-weight: 500; }
+.node-tooltip .tt-detail { font-family: 'Crimson Pro', serif; font-size: 0.78rem; color: var(--text-dim); line-height: 1.4; }
+
+.right-panel {
+  background: var(--panel); border-left: 1px solid var(--border);
+  overflow-y: auto; padding: 0;
+}
+.right-panel::-webkit-scrollbar { width: 3px; }
+.right-panel::-webkit-scrollbar-thumb { background: var(--gold-ghost); }
+
+.right-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; text-align: center; padding: 40px;
+}
+
+.right-tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: var(--panel); z-index: 5;
+}
+.right-tab {
+  flex: 1; padding: 10px 8px; font-size: 0.4rem; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-ghost); text-align: center;
+  cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s;
+  background: none; border-top: none; border-left: none; border-right: none;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.right-tab:hover { color: var(--text-dim); }
+.right-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+.tab-content { display: none; padding: 14px 16px; }
+.tab-content.active { display: block; }
+
+.diag-section { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(201,169,78,0.06); }
+.diag-label { font-size: 0.4rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-ghost); margin-bottom: 4px; }
+.diag-value { font-size: 0.7rem; color: var(--text); letter-spacing: 0.5px; }
+.diag-value.alert { color: var(--hyper); }
+.diag-value.stable { color: var(--evidence-a); }
+.diag-value.warning { color: var(--altered); }
+
+.phase-bar-row { display: flex; align-items: center; gap: 6px; margin: 3px 0; font-size: 0.5rem; }
+.phase-bar-label { min-width: 45px; color: var(--text-ghost); letter-spacing: 1px; font-size: 0.4rem; text-transform: uppercase; }
+.phase-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.03); border-radius: 3px; overflow: hidden; }
+.phase-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+.phase-bar-val { min-width: 28px; text-align: right; font-size: 0.42rem; color: var(--text-ghost); }
+
+.int-phase-group { margin-bottom: 14px; }
+.int-phase-header {
+  font-size: 0.42rem; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--gold-dim); padding: 6px 0 4px; border-bottom: 1px solid rgba(201,169,78,0.06); margin-bottom: 6px;
+}
+.int-item {
+  padding: 6px 8px; margin: 3px 0; font-size: 0.55rem; line-height: 1.4;
+  border-left: 2px solid rgba(201,169,78,0.1); background: rgba(201,169,78,0.02);
+}
+.int-item .int-name { color: var(--text); font-weight: 400; }
+.int-item .int-detail { color: var(--text-ghost); font-size: 0.48rem; margin-top: 2px; }
+.int-item.referral { border-left-color: rgba(85,136,187,0.4); background: rgba(85,136,187,0.03); }
+
+.report-section { margin-bottom: 12px; }
+.report-heading {
+  font-size: 0.42rem; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--gold-dim); margin-bottom: 6px; padding-bottom: 3px;
+  border-bottom: 1px solid rgba(201,169,78,0.06);
+}
+.report-line { font-size: 0.55rem; color: var(--text-dim); margin: 3px 0; line-height: 1.5; }
+
+.bottombar {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; font-size: 0.45rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-ghost); border-top: 1px solid var(--border); background: var(--panel);
+}
+
+.print-btn {
+  background: none; border: 1px solid rgba(201,169,78,0.15);
+  color: var(--gold-dim); font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.45rem; letter-spacing: 2px; padding: 4px 10px;
+  cursor: pointer; margin-right: 12px; transition: all 0.2s;
+}
+.print-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* === PROVIDER-SPECIFIC === */
+.mode-switcher {
+  display: flex; gap: 0; margin: 0 16px 12px; border: 1px solid var(--border);
+}
+.mode-btn {
+  flex: 1; padding: 10px 8px; font-size: 0.42rem; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-ghost); text-align: center;
+  cursor: pointer; background: none; border: none;
+  font-family: 'IBM Plex Mono', monospace; transition: all 0.2s;
+}
+.mode-btn.active {
+  color: var(--gold); background: rgba(201,169,78,0.08);
+  border-bottom: 2px solid var(--gold);
+}
+.mode-btn:hover:not(.active) { color: var(--text-dim); }
+
+.target-badge {
+  display: inline-block; padding: 2px 6px; font-size: 0.38rem;
+  letter-spacing: 1.5px; border-radius: 2px; margin: 2px 2px; text-transform: uppercase;
+}
+.target-badge.hot { background: rgba(232,84,84,0.12); border: 1px solid rgba(232,84,84,0.3); color: rgba(232,84,84,0.8); }
+.target-badge.warm { background: rgba(212,168,74,0.12); border: 1px solid rgba(212,168,74,0.3); color: rgba(212,168,74,0.8); }
+.target-badge.cool { background: rgba(106,170,106,0.12); border: 1px solid rgba(106,170,106,0.3); color: rgba(106,170,106,0.8); }
+
+.relevance-box {
+  padding: 10px; margin: 8px 0; border-radius: 4px;
+  border: 1px solid rgba(201,169,78,0.1); text-align: center;
+}
+
+.referral-gauge {
+  width: 100%; height: 10px; background: rgba(255,255,255,0.03);
+  border-radius: 5px; overflow: hidden; margin: 6px 0;
+}
+.referral-gauge-fill { height: 100%; border-radius: 5px; transition: width 0.6s ease; }
+
+.health-score-big {
+  font-size: 2.2rem; font-family: 'IBM Plex Mono', monospace;
+  text-align: center; padding: 12px 0; letter-spacing: 4px;
+}
+
+.tier-badge {
+  display: inline-block; padding: 4px 14px; font-size: 0.5rem;
+  letter-spacing: 3px; border-radius: 3px; font-weight: 500;
+  text-transform: uppercase; margin: 4px 0;
+}
+
+.quick-pick {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 8px; margin: 3px 0; cursor: pointer; transition: all 0.2s;
+  border: 1px solid rgba(201,169,78,0.06); font-size: 0.48rem;
+}
+.quick-pick:hover { border-color: rgba(201,169,78,0.3); background: rgba(201,169,78,0.04); }
+.quick-pick .qp-name { color: var(--text-dim); }
+.quick-pick .qp-note { color: var(--text-ghost); font-size: 0.4rem; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<!-- CODE GATE OVERLAY -->
+<div id="codeGate" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.95);align-items:center;justify-content:center;flex-direction:column">
+  <div style="text-align:center;max-width:340px;padding:2rem">
+    <div style="font-size:.55rem;letter-spacing:6px;color:rgba(201,169,78,0.4);text-transform:uppercase;font-family:monospace;margin-bottom:1.5rem;font-weight:bold">Access Required</div>
+    <div style="font-size:.85rem;color:rgba(201,169,78,0.3);font-style:italic;font-family:Georgia,serif;margin-bottom:2rem;line-height:1.8">This gateway is restricted.<br>Enter the access code to proceed.</div>
+    <div id="codeDisplay" style="font-size:2.2rem;letter-spacing:18px;color:rgba(201,169,78,0.7);font-family:monospace;min-height:3rem;margin-bottom:1.5rem;text-shadow:0 0 20px rgba(201,169,78,0.3)">____</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:240px;margin:0 auto 1.5rem">
+      <button class="ck" onclick="codeKey(1)">1</button>
+      <button class="ck" onclick="codeKey(2)">2</button>
+      <button class="ck" onclick="codeKey(3)">3</button>
+      <button class="ck" onclick="codeKey(4)">4</button>
+      <button class="ck" onclick="codeKey(5)">5</button>
+      <button class="ck" onclick="codeKey(6)">6</button>
+      <button class="ck" onclick="codeKey(7)">7</button>
+      <button class="ck" onclick="codeKey(8)">8</button>
+      <button class="ck" onclick="codeKey(9)">9</button>
+      <button class="ck" onclick="codeClear()" style="font-size:.6rem;letter-spacing:2px">CLR</button>
+      <button class="ck" onclick="codeKey(0)">0</button>
+      <button class="ck" onclick="codeSubmit()" style="font-size:.6rem;letter-spacing:2px;color:rgba(201,169,78,0.6)">&crarr;</button>
+    </div>
+    <div id="codeMsg" style="font-size:.6rem;letter-spacing:3px;color:rgba(255,60,40,0);font-family:monospace;text-transform:uppercase;min-height:1.2rem;transition:color .3s"></div>
+    <a href="fractal-connectome.html" style="display:inline-block;background:none;border:1px solid rgba(201,169,78,0.1);color:rgba(201,169,78,0.25);padding:6px 18px;font-size:.55rem;letter-spacing:3px;cursor:pointer;text-transform:uppercase;font-family:monospace;margin-top:1rem;text-decoration:none;transition:all .3s" onmouseover="this.style.borderColor='rgba(201,169,78,0.3)';this.style.color='rgba(201,169,78,0.5)'" onmouseout="this.style.borderColor='rgba(201,169,78,0.1)';this.style.color='rgba(201,169,78,0.25)'">&larr; Return</a>
+  </div>
+</div>
+<style>
+.ck{background:none;border:1px solid rgba(201,169,78,0.15);color:rgba(201,169,78,0.6);font-size:1.3rem;font-family:monospace;padding:14px;cursor:pointer;transition:all .2s;border-radius:3px}
+.ck:hover{border-color:rgba(201,169,78,0.4);background:rgba(201,169,78,0.05);color:rgba(201,169,78,0.9)}
+.ck:active{background:rgba(201,169,78,0.12);transform:scale(0.95)}
+@media(max-width:600px){.ck{padding:12px;font-size:1.1rem}#codeDisplay{font-size:1.8rem;letter-spacing:14px}}
+</style>
+<script>
+if(sessionStorage.getItem('limen_access')!=='granted'){window.location.replace('/?return='+encodeURIComponent('/'+'provider-portal.html'+location.search));}
+</script>
+
+<div class="app">
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel" id="leftPanel">
+    <div class="panel-section-title">Provider Type</div>
+    <div style="padding:0 16px;margin-bottom:12px">
+      <div style="font-size:0.6rem;color:var(--gold);letter-spacing:1px">BANKRUPTCY ATTORNEY</div>
+      <div style="font-size:0.38rem;color:var(--text-ghost);margin-top:4px;letter-spacing:1px">
+        Target Market: <span class="target-badge hot">P3</span> <span class="target-badge hot">P7a</span> <span class="target-badge hot">P9</span>
+      </div>
+    </div>
+
+    <div class="panel-section-title">Analysis Mode</div>
+    <div class="mode-switcher">
+      <button class="mode-btn active" data-mode="outward" onclick="switchMode('outward')">
+        OUTWARD<br><span style="font-size:0.35rem;color:inherit;opacity:0.6">Analyze Client</span>
+      </button>
+      <button class="mode-btn" data-mode="inward" onclick="switchMode('inward')">
+        INWARD<br><span style="font-size:0.35rem;color:inherit;opacity:0.6">Self-Assessment</span>
+      </button>
+    </div>
+
+    <div class="panel-section-title" id="cikLabel">Client CIK Number</div>
+    <div class="input-group">
+      <input type="text" id="cikInput" placeholder="e.g. 12927 (Boeing)">
+    </div>
+    <button class="btn-fetch" id="fetchBtn" onclick="fetchScore()">Analyze Client</button>
+    <div class="fetch-status" id="fetchStatus"></div>
+
+    <div id="quickPicks" style="padding:0 16px;margin-top:4px">
+      <div class="panel-section-title" style="padding-left:0">Known Distressed</div>
+      <div id="quickPickList"></div>
+    </div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center-view" id="centerView">
+    <canvas id="c"></canvas>
+    <div class="dx-overlay" id="dxOverlay" style="display:none">
+      <div class="dx-overlay-name" id="overlayName"></div>
+      <div class="dx-overlay-dsm" id="overlayPhase"></div>
+      <div class="dx-overlay-prevalence" id="overlayScore"></div>
+    </div>
+    <div class="node-tooltip" id="tooltip"></div>
+    <div class="circuit-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--hyper)"></div>STRESS</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--hypo)"></div>SUPPRESSED</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--altered)"></div>ALTERED</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.15)"></div>NOMINAL</div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel" id="rightPanel">
+    <div class="right-empty" id="rightEmpty">
+      <div style="font-family:'Crimson Pro',serif;font-size:0.85rem;color:rgba(200,195,184,0.35);line-height:1.7;padding:30px 24px">
+        Provider intelligence portal for bankruptcy attorneys. Analyze prospective clients for distress signals or assess your own firm's health and referral ranking within the LIMEN provider network.
+      </div>
+      <div style="font-size:0.5rem;color:rgba(201,169,78,0.3);letter-spacing:2px;text-transform:uppercase;padding:0 24px;margin-top:8px">
+        Outward: Client Diagnosis &middot; Inward: Self-Assessment
+      </div>
+      <div style="font-size:0.42rem;color:rgba(201,169,78,0.15);letter-spacing:1.5px;text-transform:uppercase;padding:0 24px;margin-top:16px">
+        Target Phases: P3 Instability &middot; P7a Terminal &middot; P9 Collapse
+      </div>
+    </div>
+    <div id="rightContent" style="display:none">
+      <div class="right-tabs" id="tabButtons"></div>
+      <div id="tabContents"></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottombar">
+    <div>LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC &middot; PROVIDER INTELLIGENCE</div>
+    <div>13 PHASES &middot; 111 NODES &middot; BK ATTORNEY</div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// PROVIDER PORTAL — Engine + Visualization
+// ═══════════════════════════════════════════════════════════════════
+
+var API_BASE = '';
+var currentMode = 'outward';
+var _currentData = null;
+
+// ═══ CONSTANTS ═══
+// Kernel constants live server-side only. The browser does not see formulas,
+// thresholds, or weights. See KERNEL-ARCHITECTURE.md for the bridge contract.
+
+var PHASE_META = {
+  p0:  { name: 'Source',        label: 'P0 \u00b7 SOURCE' },
+  p1:  { name: 'Rupture',       label: 'P1 \u00b7 RUPTURE' },
+  p2:  { name: 'Rhythm',        label: 'P2 \u00b7 RHYTHM' },
+  p3:  { name: 'Instability',   label: 'P3 \u00b7 INSTABILITY' },
+  p4:  { name: 'Stabilisation', label: 'P4 \u00b7 STABILISATION' },
+  p5:  { name: 'Endurance',     label: 'P5 \u00b7 ENDURANCE' },
+  p6:  { name: 'Order',         label: 'P6 \u00b7 ORDER' },
+  p7:  { name: 'Divergence',    label: 'P7 \u00b7 DIVERGENCE' },
+  p7a: { name: 'Terminal',      label: 'P7a \u00b7 TERMINAL' },
+  p7b: { name: 'Separation',    label: 'P7b \u00b7 SEPARATION' },
+  p8:  { name: 'Pivot',         label: 'P8 \u00b7 PIVOT' },
+  p9:  { name: 'Collapse',      label: 'P9 \u00b7 COLLAPSE' },
+  p10: { name: 'Resurrection',  label: 'P10 \u00b7 RESURRECTION' },
+};
+
+var PHASE_COLORS = {
+  p0: '#6aaa6a', p1: '#aa6a4a', p2: '#4a8aaa', p3: '#e85454',
+  p4: '#6a9a6a', p5: '#7a8a6a', p6: '#4a8fd4', p7: '#d4a84a',
+  p7a: '#d4644a', p7b: '#6ab4d4', p8: '#8a7aaa', p9: '#e85454', p10: '#4aaa6a'
+};
+
+var BK_TARGET_PHASES = ['p3', 'p7a', 'p9'];
+
+var BK_PLAYBOOK = {
+  p3: {
+    title: 'P3 INSTABILITY \u2014 PRE-ENGAGEMENT',
+    actions: [
+      { name: 'Initial consultation \u2014 assess restructuring viability', detail: 'Client is in active cash distress. Determine Chapter 11 vs. out-of-court restructuring potential.' },
+      { name: 'Evaluate director/officer liability exposure', detail: 'Review D&O insurance adequacy. Identify preference payment windows and fraudulent transfer risks.' },
+      { name: 'Map secured vs unsecured creditor landscape', detail: 'Identify primary secured lenders, trade creditor concentration, and lease obligations.' },
+      { name: 'Prepare 13-week cash flow model', detail: 'Required for any DIP financing application. Establish cash runway timeline.' },
+    ]
+  },
+  p7a: {
+    title: 'P7a STRUCTURAL-DIVERGENCE STATE \u2014 ACTIVE ENGAGEMENT',
+    actions: [
+      { name: 'Prepare Chapter 11 petition or out-of-court proposal', detail: 'Long-arc tracker shows p7a structural-divergence posture (interpretive, unvalidated). File voluntary petition or propose assignment for benefit of creditors only after independent professional assessment confirms structural distress.' },
+      { name: 'Negotiate DIP financing terms', detail: 'Debtor-in-possession financing required for operational continuity during reorganization.' },
+      { name: 'Draft first-day motions', detail: 'Cash collateral usage, employee wage payment, critical vendor payment, utility service continuation.' },
+      { name: 'Assess Section 363 sale viability', detail: 'If reorganization unlikely, Section 363 asset sale may maximize recovery for creditors.' },
+    ]
+  },
+  p9: {
+    title: 'P9 COLLAPSE \u2014 EMERGENCY ENGAGEMENT',
+    actions: [
+      { name: 'Emergency board advisory session', detail: 'P9 means convergence of P3 stress + liquidity crisis + macro headwinds. Time-critical.' },
+      { name: 'Chapter 7 vs Chapter 11 decision matrix', detail: 'Binary analysis: is reorganization viable? If not, orderly liquidation preserves more value than free-fall.' },
+      { name: 'Preferential transfer audit (90-day lookback)', detail: 'Review all payments >$6,425 to creditors in 90 days pre-filing. Flag potential clawback exposure.' },
+      { name: 'Establish creditor committee framework', detail: 'Anticipate UST appointment of unsecured creditors committee. Prepare negotiation strategy.' },
+    ]
+  }
+};
+
+var QUICK_PICKS = [
+  { cik: '12927',   name: 'Boeing',        note: 'P7a Terminal' },
+  { cik: '1655210', name: 'Beyond Meat',    note: 'P7a Terminal' },
+  { cik: '789019',  name: 'Microsoft',      note: 'Healthy' },
+  { cik: '320193',  name: 'Apple',          note: 'Stable' },
+];
+
+// ═══ PHASE NODE STATES (circuit-specific activation) ═══
+var PHASE_NODE_STATES = {
+  // P1 — Rupture: alarm circuits
+  p1: [
+    {node:'dACC', dir:'hyper'}, {node:'AI', dir:'hyper'},
+    {node:'LC', dir:'hyper'},   {node:'BLA', dir:'hyper'},
+  ],
+  // P2 — Alliance Building: bonding + regulation
+  p2: [
+    {node:'OXY', dir:'altered'}, {node:'vmPFC', dir:'altered'},
+    {node:'VV', dir:'altered'},  {node:'mPFC', dir:'altered'},
+  ],
+  // P3 — Darkness: amygdala + fear + HPA → RED
+  p3: [
+    {node:'BLA', dir:'hyper'},  {node:'CeA', dir:'hyper'},
+    {node:'HPA', dir:'hyper'},  {node:'HYPO', dir:'hyper'},
+    {node:'ADR', dir:'hyper'},  {node:'LC', dir:'hyper'},
+    {node:'PAG', dir:'hyper'},
+    {node:'dlPFC', dir:'hypo'}, {node:'vmPFC', dir:'hypo'},
+  ],
+  // P4 — Peace: vagal + regulation recovering
+  p4: [
+    {node:'VV', dir:'altered'},    {node:'vmPFC', dir:'altered'},
+    {node:'RAPHE', dir:'altered'}, {node:'HIPP', dir:'altered'},
+  ],
+  // P5 — Endurance: executive under load
+  p5: [
+    {node:'dlPFC', dir:'hyper'}, {node:'dACC', dir:'hyper'},
+    {node:'HPA', dir:'hyper'},   {node:'LC', dir:'hyper'},
+  ],
+  // P6 — Order: DLPFC + executive → GOLD
+  p6: [
+    {node:'dlPFC', dir:'altered'}, {node:'vlPFC', dir:'altered'},
+    {node:'ECN', dir:'altered'},   {node:'dACC', dir:'altered'},
+    {node:'FEF', dir:'altered'},
+  ],
+  // P7 — Dissolution: structural divergence
+  p7: [
+    {node:'mPFC', dir:'altered'}, {node:'PCC', dir:'altered'},
+    {node:'DMN', dir:'altered'},  {node:'TPJ', dir:'altered'},
+  ],
+  // P7a — Terminal Divergence: dissolution + amygdala → RED
+  p7a: [
+    {node:'mPFC', dir:'hyper'}, {node:'PCC', dir:'hyper'},
+    {node:'DMN', dir:'hyper'},
+    {node:'BLA', dir:'hyper'},  {node:'CeA', dir:'hyper'},
+    {node:'DV', dir:'hyper'},   {node:'PAG', dir:'hyper'},
+  ],
+  // P7b — Controlled Separation: dissolution + plasticity → BLUE
+  p7b: [
+    {node:'mPFC', dir:'hypo'}, {node:'PCC', dir:'hypo'},
+    {node:'DMN', dir:'hypo'},
+    {node:'BDNF', dir:'hypo'}, {node:'TrkB', dir:'hypo'},
+  ],
+  // P8 — Conscience: self-reflection
+  p8: [
+    {node:'mPFC', dir:'altered'}, {node:'PCC', dir:'altered'},
+    {node:'AI', dir:'altered'},   {node:'dACC', dir:'altered'},
+  ],
+  // P9 — Threshold: cascade failure
+  p9: [
+    {node:'BLA', dir:'hyper'},  {node:'CeA', dir:'hyper'},
+    {node:'HPA', dir:'hyper'},  {node:'DV', dir:'hyper'},
+    {node:'PAG', dir:'hyper'},
+    {node:'DMN', dir:'altered'}, {node:'SN', dir:'altered'},
+    {node:'dlPFC', dir:'hypo'}, {node:'NAcc', dir:'altered'},
+  ],
+  // P10 — Resurrection: plasticity + new patterns
+  p10: [
+    {node:'BDNF', dir:'altered'}, {node:'TrkB', dir:'altered'},
+    {node:'HIPP', dir:'altered'}, {node:'dlPFC', dir:'altered'},
+  ],
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// VISUALIZATION ENGINE (from business.html)
+// ═══════════════════════════════════════════════════════════════════
+
+var canvas = document.getElementById('c');
+var ctx = canvas.getContext('2d');
+var W, H, CX, CY;
+var DPR = Math.min(window.devicePixelRatio || 1, 2);
+var t = 0;
+var hoveredNode = null;
+var nodeStates = [];
+
+var NODES = {};
+var NODE_LIST = [];
+var EDGES = [];
+
+var SYS_COLORS = {
+  dmn:{r:201,g:169,b:78}, salience:{r:255,g:180,b:60}, executive:{r:80,g:140,b:220},
+  limbic:{r:180,g:50,b:50}, autonomic:{r:42,g:107,b:90}, hpa:{r:200,g:120,b:40},
+  plasticity:{r:100,g:180,b:120}, gutbrain:{r:140,g:100,b:160}, entrainment:{r:180,g:160,b:60},
+  reward:{r:220,g:80,b:80}, motor:{r:160,g:80,b:60}, thalamic:{r:160,g:160,b:160},
+  sensory:{r:120,g:160,b:180}, language:{r:180,g:140,b:100}, basal:{r:140,g:120,b:80},
+  neuromod:{r:100,g:140,b:140}, memory:{r:160,g:120,b:180}, other:{r:120,g:120,b:120},
+};
+
+function addNode(id,label,sys,angle,radius,size){var n={id:id,label:label,sys:sys,angle:angle,radius:radius,size:size||4,x:0,y:0,affected:null};NODES[id]=n;NODE_LIST.push(n);return n;}
+var TAU=Math.PI*2;
+function S(system,nodes,startAngle,sweep,rMin,rMax){var n=nodes.length;for(var i=0;i<n;i++){var a=startAngle+(sweep*i/Math.max(n-1,1));var r=n===1?(rMin+rMax)/2:rMin+(rMax-rMin)*(i%2===0?0.3:0.7);addNode(nodes[i][0],nodes[i][1],system,a,r,nodes[i][2]||4);}}
+
+// DMN Core
+addNode('DMN','DEFAULT MODE\nNETWORK','dmn',0,0,12);
+S('dmn',[['mPFC','mPFC',7],['PCC','PCC',7],['PRECUNEUS','Precuneus',5],['AG','Angular\nGyrus',4],['TPOLE','Temporal\nPole',4],['RSC','Retrosplenial',4],['OFC','OFC',4],['EC','Entorhinal',3]],0,TAU*0.9,0.06,0.12);
+S('salience',[['SN','Salience\nNetwork',6],['AI','Anterior\nInsula',6],['dACC','dACC',5],['TPJ','TPJ',4],['PI','Posterior\nInsula',3]],TAU*0.02,TAU*0.12,0.22,0.34);
+S('executive',[['ECN','Executive\nControl',5],['dlPFC','dlPFC',6],['vlPFC','vlPFC',4],['FEF','FEF',3],['IPS','IPS',3]],TAU*0.14,TAU*0.10,0.22,0.34);
+S('limbic',[['BLA','BLA',6],['CeA','CeA',4],['BNST','BNST',4],['vmPFC','vmPFC',6],['PAG','PAG',4],['EMP','Empathy',3],['HIPP','Hippocampus',6]],TAU*0.26,TAU*0.14,0.22,0.38);
+S('autonomic',[['VV','Ventral\nVagal',5],['DV','Dorsal\nVagal',4],['NTS','NTS',3],['SNS','Sympathetic',4],['CARD','Cardiac',3],['LAR','Laryngeal',2]],TAU*0.42,TAU*0.10,0.22,0.36);
+S('hpa',[['HPA','HPA Axis',5],['HYPO','Hypothalamus',5],['PIT','Pituitary',3],['ADR','Adrenal',3]],TAU*0.54,TAU*0.08,0.22,0.34);
+S('reward',[['NAcc','Nucleus\nAccumbens',6],['VTA','VTA',5],['STRI','Striatum',4]],TAU*0.63,TAU*0.06,0.24,0.34);
+S('basal',[['CAUD','Caudate',4],['PUT','Putamen',4],['GP','Globus\nPallidus',3],['STN','STN',3],['VP','Ventral\nPallidum',3],['SNIG','Substantia\nNigra',3]],TAU*0.70,TAU*0.08,0.22,0.36);
+S('thalamic',[['THAL','Thalamus',5],['MDT','Mediodorsal',3],['ANT','Anterior\nThalamus',3],['PULV','Pulvinar',3],['LGN','LGN',2],['MGN','MGN',2]],TAU*0.80,TAU*0.08,0.22,0.34);
+S('neuromod',[['RAPHE','Raphe\nNuclei',4],['LC','Locus\nCoeruleus',4],['ENDO','Endocannabinoid',3],['OPIOID','Opioid\nSystem',3],['OXY','Oxytocin',3],['GABA_GLU','E/I\nBalance',4],['EI','E/I\nRatio',3]],TAU*0.90,TAU*0.18,0.40,0.48);
+S('sensory',[['V1','V1',3],['A1','A1',3],['S1','S1',3]],TAU*0.15,TAU*0.06,0.40,0.44);
+S('motor',[['M1','M1',3],['SMA','SMA',3],['CMZ','CMZ',2],['SMN','Somatomotor',3]],TAU*0.22,TAU*0.06,0.40,0.44);
+S('language',[['BROCA','Broca',3],['WERN','Wernicke',3],['LANG','Language\nNetwork',3],['STS','STS',4],['FG','Fusiform',4]],TAU*0.37,TAU*0.08,0.40,0.48);
+S('memory',[['MAMM','Mammillary',2],['SEPT','Septal',2],['NBM','Nucleus\nBasalis',2],['FORN','Fornix',2],['CING','Cingulum',3]],TAU*0.48,TAU*0.06,0.40,0.46);
+S('plasticity',[['BDNF','BDNF /\nPlasticity',4],['TrkB','TrkB',2]],TAU*0.58,TAU*0.03,0.40,0.44);
+S('gutbrain',[['GBA','Gut-Brain\nAxis',3],['ENS','Enteric\nNS',2],['MICRO','Microbiome',2]],TAU*0.62,TAU*0.04,0.40,0.46);
+S('entrainment',[['OSC','Oscillatory',3],['RF','Reticular\nFormation',3]],TAU*0.68,TAU*0.03,0.40,0.44);
+addNode('PIN','Pineal','other',TAU*0.73,0.42,2);addNode('VEST','Vestibular','other',TAU*0.76,0.42,2);
+addNode('CBLM','Cerebellum','other',TAU*0.85,0.42,4);addNode('SC','Superior\nColliculus','other',TAU*0.87,0.44,2);
+addNode('IC','Inferior\nColliculus','other',TAU*0.89,0.44,2);addNode('PBN','Parabrachial','other',TAU*0.52,0.44,3);
+addNode('PPN','PPN','other',TAU*0.84,0.46,2);addNode('HAB','Habenula','reward',TAU*0.66,0.36,3);
+addNode('OLF','Olfactory','sensory',TAU*0.10,0.44,2);addNode('rACC','rACC','dmn',TAU*0.95,0.10,3);
+addNode('CLAUST','Claustrum','other',TAU*0.78,0.36,3);addNode('DISS','Dissolution','dmn',TAU*0.97,0.14,3);
+addNode('CC','Corpus\nCallosum','other',TAU*0.50,0.38,3);addNode('UNC','Uncinate','other',TAU*0.34,0.42,2);
+addNode('ARC','Arcuate','language',TAU*0.39,0.46,2);addNode('DAN','Dorsal\nAttention','sensory',TAU*0.12,0.36,3);
+addNode('VAN','Ventral\nAttention','salience',TAU*0.06,0.38,3);addNode('FPN','Frontoparietal','executive',TAU*0.17,0.36,3);
+addNode('CON','Cingulo-\nOpercular','salience',TAU*0.04,0.32,2);addNode('VERM','Vermis','other',TAU*0.86,0.46,2);
+addNode('NEOCER','Neo-\ncerebellum','other',TAU*0.88,0.46,2);
+
+// Typed Edges
+var EDGE_TYPES={fast:{speed:[0.012,0.020],rate:0.025,size:[0.8,1.4]},excit:{speed:[0.006,0.012],rate:0.030,size:[1.0,1.8]},inhib:{speed:[0.005,0.009],rate:0.018,size:[0.8,1.3]},modul:{speed:[0.003,0.006],rate:0.012,size:[1.0,1.6]},auto:{speed:[0.002,0.005],rate:0.010,size:[0.8,1.2]},hormonal:{speed:[0.001,0.003],rate:0.005,size:[1.2,2.0]},peptide:{speed:[0.001,0.004],rate:0.006,size:[1.0,1.5]},plastic:{speed:[0.001,0.002],rate:0.003,size:[0.6,1.0]}};
+function addTypedEdge(a,b,type){if(NODES[a]&&NODES[b])EDGES.push({a:a,b:b,w:0.3,type:type||'excit'});}
+
+addTypedEdge('DMN','mPFC','excit');addTypedEdge('DMN','PCC','excit');addTypedEdge('DMN','PRECUNEUS','excit');addTypedEdge('DMN','AG','excit');
+addTypedEdge('mPFC','PCC','excit');addTypedEdge('PCC','PRECUNEUS','excit');addTypedEdge('PCC','AG','excit');addTypedEdge('PCC','HIPP','excit');
+addTypedEdge('mPFC','vmPFC','excit');addTypedEdge('mPFC','dlPFC','excit');addTypedEdge('dlPFC','dACC','excit');addTypedEdge('dlPFC','vlPFC','excit');
+addTypedEdge('AI','dACC','fast');addTypedEdge('AI','BLA','fast');addTypedEdge('AI','vmPFC','excit');
+addTypedEdge('BLA','CeA','fast');addTypedEdge('BLA','HIPP','fast');addTypedEdge('BLA','BNST','excit');
+addTypedEdge('vmPFC','BLA','inhib');addTypedEdge('vmPFC','NAcc','excit');addTypedEdge('PAG','CeA','fast');addTypedEdge('PAG','DV','fast');
+addTypedEdge('THAL','dlPFC','fast');addTypedEdge('THAL','BLA','fast');addTypedEdge('THAL','V1','fast');
+addTypedEdge('LC','dlPFC','fast');addTypedEdge('LC','BLA','fast');addTypedEdge('LC','dACC','fast');
+addTypedEdge('RAPHE','mPFC','modul');addTypedEdge('RAPHE','BLA','modul');addTypedEdge('RAPHE','NAcc','modul');
+addTypedEdge('VTA','NAcc','modul');addTypedEdge('NAcc','STRI','excit');addTypedEdge('HAB','VTA','inhib');addTypedEdge('HAB','RAPHE','inhib');
+addTypedEdge('STRI','CAUD','excit');addTypedEdge('STRI','PUT','excit');addTypedEdge('CAUD','GP','inhib');addTypedEdge('PUT','GP','inhib');
+addTypedEdge('GP','THAL','inhib');addTypedEdge('STN','GP','excit');
+addTypedEdge('VV','NTS','auto');addTypedEdge('DV','NTS','auto');addTypedEdge('NTS','BLA','auto');
+addTypedEdge('HYPO','PIT','hormonal');addTypedEdge('PIT','ADR','hormonal');addTypedEdge('HYPO','PAG','fast');
+addTypedEdge('HIPP','FORN','excit');addTypedEdge('FORN','MAMM','excit');addTypedEdge('MAMM','ANT','excit');
+addTypedEdge('BROCA','WERN','excit');addTypedEdge('STS','FG','excit');addTypedEdge('STS','TPJ','excit');
+addTypedEdge('OXY','VV','peptide');addTypedEdge('OXY','BLA','peptide');addTypedEdge('ENDO','BLA','peptide');addTypedEdge('OPIOID','PAG','peptide');
+addTypedEdge('BDNF','HIPP','plastic');addTypedEdge('BDNF','dlPFC','plastic');
+addTypedEdge('GBA','VV','auto');addTypedEdge('GBA','ENS','auto');
+addTypedEdge('PIN','HYPO','hormonal');addTypedEdge('CBLM','THAL','fast');
+addTypedEdge('PBN','NTS','fast');addTypedEdge('PBN','BLA','fast');
+
+// Pulse System
+var PULSES=[];var MAX_PULSES=150;
+function spawnPulses(){EDGES.forEach(function(e){if(PULSES.length>=MAX_PULSES)return;var a=NODES[e.a],b=NODES[e.b];if(!a||!b)return;var et=EDGE_TYPES[e.type]||EDGE_TYPES.excit;var rate=et.rate;if(nodeStates.length>0){if(a.affected&&b.affected)rate*=1.8;else if(a.affected||b.affected)rate*=0.4;else rate*=0.15;}if(Math.random()<rate){var dir=Math.random()>0.5?1:-1;PULSES.push({a:e.a,b:e.b,type:e.type,progress:dir>0?0:1,speed:(et.speed[0]+Math.random()*(et.speed[1]-et.speed[0]))*dir,size:et.size[0]+Math.random()*(et.size[1]-et.size[0]),life:1});}});}
+function drawPulses(){for(var i=PULSES.length-1;i>=0;i--){var p=PULSES[i];p.progress+=p.speed;if(p.progress>1||p.progress<0){PULSES.splice(i,1);continue;}var na=NODES[p.a],nb=NODES[p.b];if(!na||!nb){PULSES.splice(i,1);continue;}var px=na.x+(nb.x-na.x)*p.progress;var py=na.y+(nb.y-na.y)*p.progress;var c;if(nodeStates.length>0&&na.affected&&nb.affected){var ca=getNodeColor(na),cb=getNodeColor(nb);c={r:Math.round((ca.r+cb.r)/2),g:Math.round((ca.g+cb.g)/2),b:Math.round((ca.b+cb.b)/2)};}else if(nodeStates.length>0&&(na.affected||nb.affected)){c=getNodeColor(na.affected?na:nb);}else{var sca=SYS_COLORS[na.sys]||SYS_COLORS.other;var scb=SYS_COLORS[nb.sys]||SYS_COLORS.other;c={r:Math.round((sca.r+scb.r)/2),g:Math.round((sca.g+scb.g)/2),b:Math.round((sca.b+scb.b)/2)};}var alpha=nodeStates.length>0?(na.affected&&nb.affected?0.7:0.15):0.3;var edgeFade=Math.min(p.progress*5,(1-p.progress)*5,1);alpha*=edgeFade;ctx.beginPath();ctx.arc(px,py,p.size,0,TAU);ctx.fillStyle='rgba('+c.r+','+c.g+','+c.b+','+alpha+')';ctx.fill();}}
+
+function layoutNodes(){var vw=canvas.parentElement.clientWidth;var vh=canvas.parentElement.clientHeight;W=vw;H=vh;canvas.width=vw*DPR;canvas.height=vh*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);CX=vw/2;CY=vh/2;}
+
+function getNodeColor(n){if(nodeStates.length===0){var c=SYS_COLORS[n.sys]||SYS_COLORS.other;return{r:c.r,g:c.g,b:c.b,a:0.5};}if(!n.affected)return{r:80,g:80,b:80,a:0.12};var dir=n.affected.dir.toLowerCase();if(dir==='hyper')return{r:232,g:84,b:84,a:0.9};if(dir==='hypo')return{r:74,g:143,b:212,a:0.9};return{r:212,g:168,b:74,a:0.9};}
+
+var galaxyAngle=0;var galaxySpeed=0.0003;
+
+function draw(){
+  t+=0.016;galaxyAngle+=galaxySpeed;ctx.clearRect(0,0,W,H);var R=Math.min(W,H)*0.45;
+  NODE_LIST.forEach(function(n){var a=n.angle+galaxyAngle;n.x=CX+Math.cos(a)*n.radius*R*2;n.y=CY+Math.sin(a)*n.radius*R*2;});
+  EDGES.forEach(function(e){var a=NODES[e.a],b=NODES[e.b];if(!a||!b)return;var alpha=0.06;if(nodeStates.length>0){if(a.affected&&b.affected)alpha=0.2;else if(a.affected||b.affected)alpha=0.06;else alpha=0.02;}var ca=getNodeColor(a),cb=getNodeColor(b);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba('+Math.round((ca.r+cb.r)/2)+','+Math.round((ca.g+cb.g)/2)+','+Math.round((ca.b+cb.b)/2)+','+alpha+')';ctx.lineWidth=nodeStates.length>0&&a.affected&&b.affected?1.5:0.5;ctx.stroke();});
+  spawnPulses();drawPulses();
+  NODE_LIST.forEach(function(n){var c=getNodeColor(n);var sz=n.size;var isHovered=(hoveredNode===n);if(nodeStates.length>0&&n.affected){var pulse=1+Math.sin(t*2+n.angle*5)*0.15;sz*=pulse*1.3;var grad=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,sz*4);grad.addColorStop(0,'rgba('+c.r+','+c.g+','+c.b+',0.2)');grad.addColorStop(1,'rgba('+c.r+','+c.g+','+c.b+',0)');ctx.beginPath();ctx.arc(n.x,n.y,sz*4,0,TAU);ctx.fillStyle=grad;ctx.fill();}if(isHovered)sz*=1.5;ctx.beginPath();ctx.arc(n.x,n.y,sz,0,TAU);ctx.fillStyle='rgba('+c.r+','+c.g+','+c.b+','+c.a+')';ctx.fill();if(isHovered||(nodeStates.length>0&&n.affected)){ctx.strokeStyle='rgba('+c.r+','+c.g+','+c.b+','+Math.min(c.a+0.3,1)+')';ctx.lineWidth=1;ctx.stroke();}if(sz>2.5||isHovered||(nodeStates.length>0&&n.affected)){var labelAlpha=nodeStates.length>0?(n.affected?0.8:0.1):0.35;if(isHovered)labelAlpha=1;ctx.fillStyle='rgba('+c.r+','+c.g+','+c.b+','+labelAlpha+')';var fontSize=Math.max(7,Math.min(sz*1.3,13));ctx.font=(sz>5?'500 ':'')+fontSize+'px IBM Plex Mono';ctx.textAlign='center';var labelOffset=sz>8?sz+18:sz+10;n.label.split('\n').forEach(function(line,i){ctx.fillText(line,n.x,n.y+labelOffset+i*(fontSize+2));});}});
+  requestAnimationFrame(draw);
+}
+
+// Mouse
+function getMouseNode(mx,my){var best=null,bestD=20;NODE_LIST.forEach(function(n){var dx=mx-n.x,dy=my-n.y;var d=Math.sqrt(dx*dx+dy*dy);var hitR=Math.max(n.size*2,12);if(d<hitR&&d<bestD){best=n;bestD=d;}});return best;}
+canvas.addEventListener('mousemove',function(e){var rect=canvas.getBoundingClientRect();hoveredNode=getMouseNode(e.clientX-rect.left,e.clientY-rect.top);canvas.style.cursor=hoveredNode?'pointer':'default';});
+canvas.addEventListener('click',function(e){var rect=canvas.getBoundingClientRect();var mx=e.clientX-rect.left,my=e.clientY-rect.top;var n=getMouseNode(mx,my);var tt=document.getElementById('tooltip');if(n){var desc=n.label.replace(/\n/g,' ');if(n.affected){var dirColor=n.affected.dir==='hyper'?'var(--hyper)':n.affected.dir==='hypo'?'var(--hypo)':'var(--altered)';tt.innerHTML='<div class="tt-name">'+n.id+'</div><div class="tt-dir" style="color:'+dirColor+'">'+n.affected.dir.toUpperCase()+'</div><div class="tt-detail">System: '+n.sys+'</div>';}else{tt.innerHTML='<div class="tt-name">'+n.id+'</div><div class="tt-detail" style="color:var(--text-dim)">'+desc+'</div>';}tt.style.display='block';var px=mx+14,py=my-10;if(px+260>rect.width-10)px=mx-260-14;if(px<10)px=10;if(py+80>rect.height-10)py=rect.height-90;tt.style.left=px+'px';tt.style.top=py+'px';}else{tt.style.display='none';}});
+canvas.addEventListener('mouseleave',function(){hoveredNode=null;document.getElementById('tooltip').style.display='none';});
+
+// ═══════════════════════════════════════════════════════════════════
+// PROVIDER LOGIC
+// ═══════════════════════════════════════════════════════════════════
+
+function findPhaseScore(data, phaseId) {
+  var phase = data.phases.find(function(p) { return p.id === phaseId; });
+  return phase ? phase.score : 0;
+}
+
+function setStatus(id, msg, cls) {
+  var el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'fetch-status' + (cls ? ' ' + cls : '');
+}
+
+// ═══ MODE SWITCHING ═══
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  document.getElementById('cikLabel').textContent = mode === 'outward' ? 'Client CIK Number' : 'Your Firm CIK Number';
+  document.getElementById('fetchBtn').textContent = mode === 'outward' ? 'Analyze Client' : 'Self-Assessment';
+  document.getElementById('quickPicks').style.display = mode === 'outward' ? 'block' : 'none';
+  document.getElementById('cikInput').placeholder = mode === 'outward' ? 'e.g. 12927 (Boeing)' : 'Your firm CIK';
+  document.getElementById('cikInput').value = '';
+  resetResults();
+  buildTabs();
+}
+
+function resetResults() {
+  _currentData = null;
+  document.getElementById('rightEmpty').style.display = 'flex';
+  document.getElementById('rightContent').style.display = 'none';
+  document.getElementById('dxOverlay').style.display = 'none';
+  nodeStates = [];
+  NODE_LIST.forEach(function(n) { n.affected = null; });
+  setStatus('fetchStatus', '', '');
+}
+
+// ═══ TAB SYSTEM ═══
+function buildTabs() {
+  var tabs, labels;
+  if (currentMode === 'outward') {
+    tabs = ['diagnosis', 'signals', 'playbook', 'report'];
+    labels = { diagnosis: 'Client Dx', signals: 'Engagement', playbook: 'BK Playbook', report: 'Report' };
+  } else {
+    tabs = ['diagnosis', 'signals', 'ranking', 'report'];
+    labels = { diagnosis: 'Firm Dx', signals: 'Health', ranking: 'Referral Rank', report: 'Report' };
+  }
+  var tabsHtml = '';
+  var contentHtml = '';
+  tabs.forEach(function(tab, i) {
+    tabsHtml += '<button class="right-tab' + (i === 0 ? ' active' : '') + '" data-tab="' + tab + '" onclick="switchTab(\'' + tab + '\')">' + labels[tab] + '</button>';
+    contentHtml += '<div class="tab-content' + (i === 0 ? ' active' : '') + '" id="tab-' + tab + '"></div>';
+  });
+  document.getElementById('tabButtons').innerHTML = tabsHtml;
+  document.getElementById('tabContents').innerHTML = contentHtml;
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.right-tab').forEach(function(b) { b.classList.toggle('active', b.dataset.tab === name); });
+  document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.toggle('active', c.id === 'tab-' + name); });
+}
+
+// ═══ API FETCH ═══
+function fetchScore() {
+  var cik = document.getElementById('cikInput').value.trim();
+  if (!cik) { setStatus('fetchStatus', 'Enter a CIK number', 'error'); return; }
+  var btn = document.getElementById('fetchBtn');
+  btn.disabled = true;
+  setStatus('fetchStatus', 'Scoring via API...');
+
+  fetch(API_BASE + '/api/helix/score/' + encodeURIComponent(cik))
+    .then(function(r) {
+      if (!r.ok) throw new Error('API returned ' + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      _currentData = data;
+      applyResults(data);
+      setStatus('fetchStatus', data.entity_name + ' scored', 'success');
+      btn.disabled = false;
+    })
+    .catch(function(err) {
+      setStatus('fetchStatus', 'Error: ' + err.message, 'error');
+      btn.disabled = false;
+    });
+}
+
+// ═══ APPLY RESULTS ═══
+function applyResults(data) {
+  var dom = data.dominant_phase || 'p0';
+
+  // Resolve node states from dominant phase (circuit-specific)
+  var scores = {};
+  data.phases.forEach(function(p) { scores[p.id] = p.score; });
+  var states = (function(phase, sc) {
+    if (!phase) return [];
+    if (phase === 'p3' && (sc.p7 || 0) > 0.5)
+      return (PHASE_NODE_STATES.p3 || []).concat(PHASE_NODE_STATES.p7 || []);
+    return PHASE_NODE_STATES[phase] || [];
+  })(dom, scores);
+  nodeStates = states;
+  NODE_LIST.forEach(function(n) { n.affected = null; });
+  states.forEach(function(s) {
+    var node = NODES[s.node];
+    if (node) node.affected = { dir: s.dir, detail: 'Phase-driven: ' + s.dir };
+  });
+
+  // Center overlay
+  var overlay = document.getElementById('dxOverlay');
+  overlay.style.display = 'block';
+  var activeMeta = data.phases.find(function(p) { return p.active; }) || {};
+  var modeLabel = currentMode === 'inward' ? 'YOUR FIRM: ' : '';
+  document.getElementById('overlayName').textContent = modeLabel + (data.entity_name || '');
+  document.getElementById('overlayPhase').textContent = (activeMeta.label || dom.toUpperCase()) + (data.alert ? ' \u2014 ALERT' : '');
+  document.getElementById('overlayScore').textContent = data.trajectory + ' | Composite: ' + data.composite.toFixed(3);
+
+  // Show right panel
+  document.getElementById('rightEmpty').style.display = 'none';
+  document.getElementById('rightContent').style.display = 'block';
+  buildTabs();
+
+  if (currentMode === 'outward') {
+    renderOutwardDiagnosis(data);
+    renderOutwardSignals(data);
+    renderOutwardPlaybook(data);
+    renderOutwardReport(data);
+  } else {
+    renderInwardDiagnosis(data);
+    renderInwardSignals(data);
+    renderInwardRanking(data);
+    renderInwardReport(data);
+  }
+}
+
+// ═══ BK RELEVANCE ═══
+function getBKRelevance(data) {
+  var dom = data.dominant_phase;
+  var p3 = findPhaseScore(data, 'p3');
+  var p7a = findPhaseScore(data, 'p7a');
+  var p9 = findPhaseScore(data, 'p9');
+
+  if (BK_TARGET_PHASES.indexOf(dom) !== -1) {
+    return { level: 'HIGH', color: '#e85454', bg: 'rgba(232,84,84,0.08)', reason: 'Dominant phase is in BK target market' };
+  }
+  if (p3 > 0.5 || p7a > 0.5 || p9 > 0.5) {
+    return { level: 'ELEVATED', color: '#d4a84a', bg: 'rgba(212,168,74,0.06)', reason: 'Target phase scores elevated' };
+  }
+  if (p3 > 0.3 || p7a > 0.3) {
+    return { level: 'WATCH', color: '#7a8a6a', bg: 'rgba(122,138,106,0.06)', reason: 'Early signals of distress' };
+  }
+  return { level: 'LOW', color: '#6aaa6a', bg: 'rgba(106,170,106,0.05)', reason: 'No significant distress signals' };
+}
+
+// ═══ REFERRAL RANKING ═══
+function computeReferralRanking(data) {
+  var p0 = findPhaseScore(data, 'p0');
+  var p4 = findPhaseScore(data, 'p4');
+  var p5 = findPhaseScore(data, 'p5');
+  var p6 = findPhaseScore(data, 'p6');
+  var p10 = findPhaseScore(data, 'p10');
+  var p3 = findPhaseScore(data, 'p3');
+  var p7a = findPhaseScore(data, 'p7a');
+  var p9 = findPhaseScore(data, 'p9');
+
+  var healthBase = (p0 * 0.15 + p4 * 0.20 + p5 * 0.15 + p6 * 0.30 + p10 * 0.20);
+  var stressPenalty = (p3 * 0.40 + p7a * 0.35 + p9 * 0.25) * 0.5;
+  var healthScore = Math.max(0, Math.min(1, healthBase - stressPenalty));
+
+  var tier, tierColor, tierLabel;
+  if (healthScore >= 0.65) { tier = 'A'; tierColor = '#4aaa6a'; tierLabel = 'PREFERRED PROVIDER'; }
+  else if (healthScore >= 0.50) { tier = 'B'; tierColor = '#6a9a6a'; tierLabel = 'QUALIFIED PROVIDER'; }
+  else if (healthScore >= 0.35) { tier = 'C'; tierColor = '#d4a84a'; tierLabel = 'CONDITIONAL'; }
+  else { tier = 'D'; tierColor = '#e85454'; tierLabel = 'AT RISK'; }
+
+  return {
+    healthScore: healthScore,
+    healthBase: healthBase,
+    stressPenalty: stressPenalty,
+    tier: tier,
+    tierColor: tierColor,
+    tierLabel: tierLabel,
+    components: { p0: p0, p4: p4, p5: p5, p6: p6, p10: p10, p3: p3, p7a: p7a, p9: p9 }
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// OUTWARD MODE RENDERERS
+// ═══════════════════════════════════════════════════════════════════
+
+function renderOutwardDiagnosis(data) {
+  var alertClass = data.alert ? 'alert' : 'stable';
+  var rel = getBKRelevance(data);
+  var h = '';
+
+  // Entity
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">CLIENT ENTITY</div>';
+  h += '<div class="diag-value">' + (data.entity_name || 'Unknown') + '</div>';
+  h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:2px">CIK: ' + data.cik + '</div>';
+  h += '</div>';
+
+  // BK Relevance
+  h += '<div class="relevance-box" style="border-color:' + rel.color + ';background:' + rel.bg + '">';
+  h += '<div style="font-size:0.4rem;letter-spacing:2.5px;color:var(--text-ghost);text-transform:uppercase;margin-bottom:4px">BK Attorney Relevance</div>';
+  h += '<div style="font-size:1.2rem;color:' + rel.color + ';font-weight:500;letter-spacing:3px">' + rel.level + '</div>';
+  h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:4px">' + rel.reason + '</div>';
+  h += '</div>';
+
+  // Dominant Phase
+  var activeMeta = data.phases.find(function(p) { return p.active; }) || {};
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">DOMINANT PHASE</div>';
+  h += '<div class="diag-value" style="color:' + (PHASE_COLORS[data.dominant_phase] || 'var(--text)') + '">' + (activeMeta.label || data.dominant_phase) + '</div>';
+  h += '</div>';
+
+  // Trajectory
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">TRAJECTORY</div>';
+  // ALERT FIRED only when validated Thing 1 alert is active. Provider portal
+  // currently consumes the sectioned safe packet from /api/helix/helix-report/score
+  // via the legacy /api/helix/score/{cik} adapter; data.alert is not the validated
+  // signal under the new architecture. Inline the Thing 1 gate here.
+  var _t1 = data.validated_signal || {};
+  var _validatedAlert = (_t1.alert === true)
+    && (_t1.validation_status === 'validated')
+    && (_t1.kernel_id === 'limen_backtest.py');
+  h += '<div class="diag-value ' + alertClass + '">' + data.trajectory + (_validatedAlert ? ' \u2014 ALERT FIRED' : '') + '</div>';
+  h += '</div>';
+
+  // Composite
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">COMPOSITE SCORE</div>';
+  h += '<div class="diag-value">' + data.composite.toFixed(4) + '</div>';
+  h += '</div>';
+
+  // Target Phase Scores
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">TARGET PHASE SCORES</div>';
+  BK_TARGET_PHASES.forEach(function(pid) {
+    var score = findPhaseScore(data, pid);
+    var meta = PHASE_META[pid] || {};
+    var pct = Math.round(score * 100);
+    var hot = score > 0.45;
+    h += '<div style="display:flex;align-items:center;gap:8px;margin:4px 0">';
+    h += '<div style="min-width:80px;font-size:0.42rem;letter-spacing:1.5px;color:' + (hot ? PHASE_COLORS[pid] : 'var(--text-ghost)') + '">' + (meta.label || pid) + '</div>';
+    h += '<div class="phase-bar-track" style="flex:1"><div class="phase-bar-fill" style="width:' + pct + '%;background:' + (PHASE_COLORS[pid] || '#888') + '"></div></div>';
+    h += '<div style="min-width:28px;text-align:right;font-size:0.42rem;color:' + (hot ? PHASE_COLORS[pid] : 'var(--text-ghost)') + '">' + score.toFixed(2) + '</div>';
+    h += '</div>';
+  });
+  h += '</div>';
+
+  // P7a/P7b split
+  var p7a = data.phases.find(function(p) { return p.id === 'p7a'; });
+  var p7b = data.phases.find(function(p) { return p.id === 'p7b'; });
+  if (p7a && p7b && (p7a.score > 0.1 || p7b.score > 0.1)) {
+    var termColor = p7a.score >= p7b.score ? 'var(--gold)' : 'var(--text-dim)';
+    var sepColor = p7b.score > p7a.score ? 'var(--gold)' : 'var(--text-dim)';
+    h += '<div class="diag-section">';
+    h += '<div class="diag-label">STRUCTURAL DIVERGENCE SPLIT</div>';
+    h += '<div style="display:flex;gap:12px;margin-top:4px">';
+    h += '<div style="flex:1;border:1px solid rgba(201,169,78,0.15);border-radius:4px;padding:8px">';
+    h += '<div style="font-size:0.45rem;letter-spacing:2px;color:' + termColor + ';font-weight:bold;margin-bottom:4px">P7a TERMINAL</div>';
+    h += '<div style="font-size:0.75rem;color:' + termColor + ';font-family:monospace">' + p7a.score.toFixed(3) + '</div>';
+    h += '<div style="font-size:0.38rem;color:var(--text-ghost);margin-top:3px">\u2192 P9 Collapse</div>';
+    h += '</div>';
+    h += '<div style="flex:1;border:1px solid rgba(201,169,78,0.15);border-radius:4px;padding:8px">';
+    h += '<div style="font-size:0.45rem;letter-spacing:2px;color:' + sepColor + ';font-weight:bold;margin-bottom:4px">P7b SEPARATION</div>';
+    h += '<div style="font-size:0.75rem;color:' + sepColor + ';font-family:monospace">' + p7b.score.toFixed(3) + '</div>';
+    h += '<div style="font-size:0.38rem;color:var(--text-ghost);margin-top:3px">\u2192 P10 New Baseline</div>';
+    h += '</div>';
+    h += '</div></div>';
+  }
+
+  document.getElementById('tab-diagnosis').innerHTML = h;
+}
+
+function renderOutwardSignals(data) {
+  var h = '<div class="diag-label" style="margin-bottom:10px">PHASE SCORES \u2014 BK TARGET HIGHLIGHTED</div>';
+  data.phases.forEach(function(p) {
+    var isTarget = BK_TARGET_PHASES.indexOf(p.id) !== -1;
+    var pct = Math.round(p.score * 100);
+    var rowStyle = isTarget ? 'background:rgba(232,84,84,0.04);border-left:3px solid ' + (PHASE_COLORS[p.id] || '#888') + ';padding-left:4px' : 'opacity:0.6';
+    h += '<div class="phase-bar-row" style="' + rowStyle + '">';
+    h += '<div class="phase-bar-label">' + p.id.toUpperCase() + '</div>';
+    h += '<div class="phase-bar-track"><div class="phase-bar-fill" style="width:' + pct + '%;background:' + (PHASE_COLORS[p.id] || '#888') + '"></div></div>';
+    h += '<div class="phase-bar-val">' + p.score.toFixed(2) + '</div>';
+    h += '</div>';
+  });
+
+  h += '<div style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(201,169,78,0.06)">';
+  h += '<div class="diag-label">ALERT STATUS</div>';
+  h += '<div class="diag-value ' + (data.alert ? 'alert' : 'stable') + '">' + (data.alert ? 'ALERT ACTIVE' : 'NO ALERT') + '</div>';
+  h += '</div>';
+
+  document.getElementById('tab-signals').innerHTML = h;
+}
+
+function renderOutwardPlaybook(data) {
+  var h = '';
+  var activeTargets = BK_TARGET_PHASES.filter(function(pid) {
+    return findPhaseScore(data, pid) > 0.3;
+  }).sort(function(a, b) {
+    return findPhaseScore(data, b) - findPhaseScore(data, a);
+  });
+
+  if (activeTargets.length === 0) {
+    h += '<div class="int-phase-group">';
+    h += '<div class="int-phase-header">MONITORING \u2014 NO ACTIVE BK ENGAGEMENT</div>';
+    h += '<div class="int-item">';
+    h += '<div class="int-name">No active BK engagement recommended</div>';
+    h += '<div class="int-detail">Client phase does not indicate restructuring need. Continue monitoring for phase transitions toward P3, P7a, or P9.</div>';
+    h += '</div></div>';
+  } else {
+    activeTargets.forEach(function(pid) {
+      var playbook = BK_PLAYBOOK[pid];
+      if (!playbook) return;
+      var score = findPhaseScore(data, pid);
+      h += '<div class="int-phase-group">';
+      h += '<div class="int-phase-header" style="color:' + (PHASE_COLORS[pid] || 'var(--gold-dim)') + '">' + playbook.title + ' \u2014 ' + score.toFixed(2) + '</div>';
+      playbook.actions.forEach(function(action) {
+        h += '<div class="int-item">';
+        h += '<div class="int-name">' + action.name + '</div>';
+        h += '<div class="int-detail">' + action.detail + '</div>';
+        h += '</div>';
+      });
+      h += '</div>';
+    });
+  }
+
+  // General providers from API
+  var activePhase = data.phases.find(function(p) { return p.active; });
+  if (activePhase && activePhase.providers && activePhase.providers.length > 0) {
+    h += '<div class="int-phase-group">';
+    h += '<div class="int-phase-header">GENERAL PROVIDERS \u2014 ' + activePhase.label + '</div>';
+    activePhase.providers.forEach(function(prov) {
+      h += '<div class="int-item referral"><div class="int-name">REFERRAL: ' + prov + '</div></div>';
+    });
+    h += '</div>';
+  }
+
+  document.getElementById('tab-playbook').innerHTML = h;
+}
+
+function renderOutwardReport(data) {
+  var rel = getBKRelevance(data);
+  var activeMeta = data.phases.find(function(p) { return p.active; }) || {};
+  var now = new Date().toISOString().slice(0, 10);
+  var h = '';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">CLIENT ASSESSMENT REPORT</div>';
+  h += '<div class="report-line">Entity: ' + (data.entity_name || 'Unknown') + '</div>';
+  h += '<div class="report-line">CIK: ' + data.cik + '</div>';
+  h += '<div class="report-line">Date: ' + now + '</div>';
+  h += '<div class="report-line">Provider Type: Bankruptcy Attorney</div>';
+  h += '</div>';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">BK RELEVANCE</div>';
+  h += '<div class="report-line" style="color:' + rel.color + '">Level: ' + rel.level + ' \u2014 ' + rel.reason + '</div>';
+  h += '</div>';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">PHASE DIAGNOSIS</div>';
+  h += '<div class="report-line">Dominant: ' + (activeMeta.label || data.dominant_phase) + '</div>';
+  h += '<div class="report-line">Trajectory: ' + data.trajectory + '</div>';
+  h += '<div class="report-line">Composite: ' + data.composite.toFixed(4) + '</div>';
+  h += '<div class="report-line">Alert: ' + (data.alert ? 'YES' : 'NO') + '</div>';
+  h += '</div>';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">TARGET PHASE SCORES</div>';
+  BK_TARGET_PHASES.forEach(function(pid) {
+    var score = findPhaseScore(data, pid);
+    var meta = PHASE_META[pid] || {};
+    h += '<div class="report-line">' + (meta.label || pid) + ': ' + score.toFixed(4) + (score > 0.45 ? ' *ELEVATED*' : '') + '</div>';
+  });
+  h += '</div>';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">ALL PHASE SCORES</div>';
+  data.phases.forEach(function(p) {
+    h += '<div class="report-line">' + p.id.toUpperCase() + ': ' + p.score.toFixed(4) + (p.active ? ' (DOMINANT)' : '') + '</div>';
+  });
+  h += '</div>';
+
+  h += '<div class="report-section" style="margin-top:16px;padding-top:10px;border-top:1px solid var(--border)">';
+  h += '<div style="font-size:0.38rem;color:var(--text-ghost);letter-spacing:1px;line-height:1.6">';
+  h += 'LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC \u2014 Provider Intelligence.<br>';
+  h += 'This report is generated from SEC EDGAR public filings and computational phase analysis. It does not constitute legal advice. Phase classifications are probabilistic assessments, not determinations of legal status.';
+  h += '</div></div>';
+
+  document.getElementById('tab-report').innerHTML = h;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// INWARD MODE RENDERERS
+// ═══════════════════════════════════════════════════════════════════
+
+function renderInwardDiagnosis(data) {
+  var alertClass = data.alert ? 'alert' : 'stable';
+  var activeMeta = data.phases.find(function(p) { return p.active; }) || {};
+  var h = '';
+
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">YOUR FIRM</div>';
+  h += '<div class="diag-value">' + (data.entity_name || 'Unknown') + '</div>';
+  h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:2px">CIK: ' + data.cik + '</div>';
+  h += '</div>';
+
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">FIRM DOMINANT PHASE</div>';
+  h += '<div class="diag-value" style="color:' + (PHASE_COLORS[data.dominant_phase] || 'var(--text)') + '">' + (activeMeta.label || data.dominant_phase) + '</div>';
+  h += '</div>';
+
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">TRAJECTORY</div>';
+  h += '<div class="diag-value ' + alertClass + '">' + data.trajectory + (data.alert ? ' \u2014 ALERT' : '') + '</div>';
+  h += '</div>';
+
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">COMPOSITE</div>';
+  h += '<div class="diag-value">' + data.composite.toFixed(4) + '</div>';
+  h += '</div>';
+
+  // Context from active phase
+  if (activeMeta.context) {
+    h += '<div class="diag-section">';
+    h += '<div class="diag-label">PHASE CONTEXT</div>';
+    h += '<div style="font-size:0.55rem;color:var(--text-dim);line-height:1.5;font-family:\'Crimson Pro\',serif">' + activeMeta.context + '</div>';
+    h += '</div>';
+  }
+
+  document.getElementById('tab-diagnosis').innerHTML = h;
+}
+
+function renderInwardSignals(data) {
+  var healthPhases = ['p0', 'p4', 'p5', 'p6', 'p10'];
+  var h = '<div class="diag-label" style="margin-bottom:10px">PHASE SCORES \u2014 HEALTH PHASES HIGHLIGHTED</div>';
+  data.phases.forEach(function(p) {
+    var isHealth = healthPhases.indexOf(p.id) !== -1;
+    var pct = Math.round(p.score * 100);
+    var rowStyle = isHealth ? 'background:rgba(106,170,106,0.04);border-left:3px solid ' + (PHASE_COLORS[p.id] || '#888') + ';padding-left:4px' : 'opacity:0.6';
+    h += '<div class="phase-bar-row" style="' + rowStyle + '">';
+    h += '<div class="phase-bar-label">' + p.id.toUpperCase() + '</div>';
+    h += '<div class="phase-bar-track"><div class="phase-bar-fill" style="width:' + pct + '%;background:' + (PHASE_COLORS[p.id] || '#888') + '"></div></div>';
+    h += '<div class="phase-bar-val">' + p.score.toFixed(2) + '</div>';
+    h += '</div>';
+  });
+  document.getElementById('tab-signals').innerHTML = h;
+}
+
+function renderInwardRanking(data) {
+  var rank = computeReferralRanking(data);
+  var pct = Math.round(rank.healthScore * 100);
+  var h = '';
+
+  h += '<div style="text-align:center;padding:8px 0 16px">';
+  h += '<div class="diag-label" style="text-align:center;margin-bottom:8px">PROVIDER HEALTH SCORE</div>';
+  h += '<div class="health-score-big" style="color:' + rank.tierColor + '">' + pct + '</div>';
+  h += '<div class="tier-badge" style="background:' + rank.tierColor + '22;border:1px solid ' + rank.tierColor + '55;color:' + rank.tierColor + '">TIER ' + rank.tier + ' \u2014 ' + rank.tierLabel + '</div>';
+  h += '</div>';
+
+  h += '<div class="referral-gauge"><div class="referral-gauge-fill" style="width:' + pct + '%;background:' + rank.tierColor + '"></div></div>';
+
+  h += '<div style="font-size:0.45rem;color:var(--text-ghost);margin:8px 0 14px;line-height:1.5">';
+  h += 'Referral ranking is computed from your firm\'s organizational health. Higher health scores receive higher referral priority within the LIMEN provider network.';
+  h += '</div>';
+
+  // Breakdown
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">HEALTH COMPONENTS (weighted)</div>';
+  var healthItems = [
+    { label: 'P0 Source', val: rank.components.p0, weight: '15%' },
+    { label: 'P4 Stabilisation', val: rank.components.p4, weight: '20%' },
+    { label: 'P5 Endurance', val: rank.components.p5, weight: '15%' },
+    { label: 'P6 Order', val: rank.components.p6, weight: '30%' },
+    { label: 'P10 Resurrection', val: rank.components.p10, weight: '20%' },
+  ];
+  healthItems.forEach(function(item) {
+    h += '<div style="display:flex;justify-content:space-between;font-size:0.48rem;margin:3px 0">';
+    h += '<span style="color:var(--evidence-a)">' + item.label + ' (' + item.weight + ')</span>';
+    h += '<span style="color:var(--text-dim)">' + item.val.toFixed(3) + '</span>';
+    h += '</div>';
+  });
+  h += '<div style="display:flex;justify-content:space-between;font-size:0.48rem;margin:6px 0 3px;padding-top:6px;border-top:1px solid rgba(201,169,78,0.06)">';
+  h += '<span style="color:var(--text-dim)">Health Base</span>';
+  h += '<span style="color:var(--evidence-a)">' + rank.healthBase.toFixed(3) + '</span>';
+  h += '</div>';
+  h += '</div>';
+
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">STRESS PENALTIES</div>';
+  var stressItems = [
+    { label: 'P3 Instability', val: rank.components.p3, weight: '40%' },
+    { label: 'P7a Terminal', val: rank.components.p7a, weight: '35%' },
+    { label: 'P9 Collapse', val: rank.components.p9, weight: '25%' },
+  ];
+  stressItems.forEach(function(item) {
+    h += '<div style="display:flex;justify-content:space-between;font-size:0.48rem;margin:3px 0">';
+    h += '<span style="color:var(--hyper)">' + item.label + ' (' + item.weight + ')</span>';
+    h += '<span style="color:var(--text-dim)">' + item.val.toFixed(3) + '</span>';
+    h += '</div>';
+  });
+  h += '<div style="display:flex;justify-content:space-between;font-size:0.48rem;margin:6px 0 3px;padding-top:6px;border-top:1px solid rgba(201,169,78,0.06)">';
+  h += '<span style="color:var(--text-dim)">Stress Penalty (\u00d70.5)</span>';
+  h += '<span style="color:var(--hyper)">-' + rank.stressPenalty.toFixed(3) + '</span>';
+  h += '</div>';
+  h += '</div>';
+
+  // Improvement recs if low tier
+  if (rank.tier === 'C' || rank.tier === 'D') {
+    h += '<div class="diag-section">';
+    h += '<div class="diag-label" style="color:var(--altered)">IMPROVEMENT RECOMMENDATIONS</div>';
+    h += '<div class="int-item"><div class="int-name">Stabilize firm operations</div>';
+    h += '<div class="int-detail">Elevated stress phases reduce referral priority. Focus on cash flow management, debt reduction, and operational stability.</div></div>';
+    h += '<div class="int-item"><div class="int-name">Seek firm-specific advisory</div>';
+    h += '<div class="int-detail">Consider engaging a turnaround consultant or fractional CFO to address your own firm\'s phase trajectory before advising clients.</div></div>';
+    h += '</div>';
+  }
+
+  document.getElementById('tab-ranking').innerHTML = h;
+}
+
+function renderInwardReport(data) {
+  var rank = computeReferralRanking(data);
+  var activeMeta = data.phases.find(function(p) { return p.active; }) || {};
+  var now = new Date().toISOString().slice(0, 10);
+  var h = '';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">FIRM SELF-ASSESSMENT REPORT</div>';
+  h += '<div class="report-line">Entity: ' + (data.entity_name || 'Unknown') + '</div>';
+  h += '<div class="report-line">CIK: ' + data.cik + '</div>';
+  h += '<div class="report-line">Date: ' + now + '</div>';
+  h += '</div>';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">REFERRAL RANKING</div>';
+  h += '<div class="report-line" style="color:' + rank.tierColor + '">Health Score: ' + Math.round(rank.healthScore * 100) + ' / 100</div>';
+  h += '<div class="report-line" style="color:' + rank.tierColor + '">Tier: ' + rank.tier + ' \u2014 ' + rank.tierLabel + '</div>';
+  h += '</div>';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">PHASE DIAGNOSIS</div>';
+  h += '<div class="report-line">Dominant: ' + (activeMeta.label || data.dominant_phase) + '</div>';
+  h += '<div class="report-line">Trajectory: ' + data.trajectory + '</div>';
+  h += '<div class="report-line">Composite: ' + data.composite.toFixed(4) + '</div>';
+  h += '</div>';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">ALL PHASE SCORES</div>';
+  data.phases.forEach(function(p) {
+    h += '<div class="report-line">' + p.id.toUpperCase() + ': ' + p.score.toFixed(4) + (p.active ? ' (DOMINANT)' : '') + '</div>';
+  });
+  h += '</div>';
+
+  h += '<div class="report-section" style="margin-top:16px;padding-top:10px;border-top:1px solid var(--border)">';
+  h += '<div style="font-size:0.38rem;color:var(--text-ghost);letter-spacing:1px;line-height:1.6">';
+  h += 'LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC \u2014 Provider Intelligence.<br>';
+  h += 'Self-assessment based on SEC EDGAR public filings. Health scores and referral rankings are computational assessments used for internal provider network prioritization.';
+  h += '</div></div>';
+
+  document.getElementById('tab-report').innerHTML = h;
+}
+
+// ═══ PRINT ═══
+function printReport() {
+  if (!_currentData) return;
+  var reportTab = currentMode === 'outward'
+    ? document.getElementById('tab-report')
+    : document.getElementById('tab-report');
+  if (!reportTab) return;
+  var w = window.open('', '_blank');
+  w.document.write('<html><head><title>LIMEN Helix Provider Report</title>');
+  w.document.write('<style>body{font-family:"IBM Plex Mono",monospace;background:#fff;color:#222;padding:40px;max-width:800px;margin:0 auto;font-size:14px}');
+  w.document.write('.report-heading{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#666;margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid #ddd}');
+  w.document.write('.report-line{font-size:13px;color:#333;margin:4px 0;line-height:1.6}');
+  w.document.write('.report-section{margin-bottom:16px}</style></head><body>');
+  w.document.write('<div style="font-size:11px;letter-spacing:4px;color:#999;text-transform:uppercase;margin-bottom:20px">LIMEN HELIX \u00b7 PROVIDER PORTAL \u00b7 BK ATTORNEY</div>');
+  w.document.write(reportTab.innerHTML);
+  w.document.write('</body></html>');
+  w.document.close();
+  w.print();
+}
+
+// ═══ QUICK PICKS ═══
+function buildQuickPicks() {
+  var list = document.getElementById('quickPickList');
+  var h = '';
+  QUICK_PICKS.forEach(function(qp) {
+    h += '<div class="quick-pick" onclick="document.getElementById(\'cikInput\').value=\'' + qp.cik + '\';fetchScore()">';
+    h += '<span class="qp-name">' + qp.name + '</span>';
+    h += '<span class="qp-note">' + qp.note + '</span>';
+    h += '</div>';
+  });
+  list.innerHTML = h;
+}
+
+// ═══ INIT ═══
+layoutNodes();
+window.addEventListener('resize', layoutNodes);
+draw();
+buildTabs();
+buildQuickPicks();
+</script>
+</body>
+</html>

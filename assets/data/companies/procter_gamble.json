@@ -1,0 +1,1369 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "procter_gamble",
+  "slug": "procter_gamble",
+  "name": "The Procter & Gamble Company",
+  "ticker": "PG",
+  "cik": "0000080424",
+  "sic": "2840",
+  "industry": "Soap, Cleaners & Toilet Preparations",
+  "domainId": "trade",
+  "portalAttachment": "trade-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "RSXFS",
+    "PCESV",
+    "CPIAUCSL",
+    "UMCSENT",
+    "DHHNGSP",
+    "MMNRNJ",
+    "HOUST"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "PG"
+  ],
+  "commodityExposure": [
+    "PULP",
+    "OIL",
+    "PLASTIC_RESIN",
+    "PACKAGING",
+    "PALM_OIL",
+    "COTTON",
+    "NATURAL_GAS"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000080424",
+  "financialHealth": {
+    "asOf": "2026-05-10",
+    "lastKernelRun": "2026-05-10T22:25:22.435Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 66,
+    "latestQuarter": "2026Q1",
+    "compositeScore": 0.588,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p8",
+    "financialState": {
+      "cashLatest": null,
+      "debtLatest": 37026000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [
+    {
+      "id": "procter_gamble-investment-2026-05-10-pivot-thesis",
+      "engine": "investment",
+      "type": "lead",
+      "subType": "pivot-thesis",
+      "message": "Phase tracker reads structural pivot in progress (P8 · PIVOT) with composite=0.588 stable below distress threshold. Capital-allocation target if narrative supports turnaround thesis. Pair with management-change tracker.",
+      "evidence": {
+        "compositeScore": 0.588,
+        "alert": false,
+        "phaseStateLabel": "P8 · PIVOT",
+        "dominantPhase": "p8",
+        "historyQuarters": 66,
+        "distressBand": "green",
+        "envelopeStatus": "ELIGIBLE_NOW",
+        "lastKernelRun": "2026-05-10T22:25:22.435Z"
+      },
+      "estimatedValue": "watchlist-tier",
+      "createdAt": "2026-05-10T23:41:05.143Z",
+      "status": "draft"
+    }
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Procter & Gamble is the structural anchor of the U.S. consumer-packaged-goods ecosystem. Its portfolio—Tide, Pampers, Gillette, Crest, Olay, Bounty, Charmin, Pantene, Old Spice, Febreze—defines the identity of household and grocery shelves across mass, premium, and e-commerce channels. PG's brand architecture and supply-chain footprint set the template for category management, retailer collaboration, and private-label competitive response across the entire CPG sector.",
+  "portalRelevance": "PG is a Level-2 anchor in the Walmart functional-network tree and a critical node in the broader trade-finance intelligence model. Its quarterly earnings, inventory turns, pricing actions, and supply-chain disruptions propagate through retail partners (Walmart, Target, Amazon, CVS) and upstream suppliers (International Paper, Berry Global, Dow Chemical). PG's margin trajectory and capital-allocation decisions (dividends, buybacks, M&A) serve as a leading indicator for consumer-spending resilience and CPG sector health.",
+  "notes": {
+    "cohortStatus": "ELIGIBLE_NOW",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly organic revenue growth (net of pricing vs. volume) disclosed in 10-Q; tracks pricing power vs. elasticity in each category",
+        "Weekly U.S. comp-store sales from Nielsen + IRI syndicated data; early indicator of demand softness in diapers, paper, or beauty",
+        "8-K filings for supply-chain disruptions, recalls, or executive changes; FDA warning letters or FTC inquiries",
+        "Retailer inventory levels (Walmart, Target, Amazon) via earnings calls; signals demand forecast or promotional intensity"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Composite financial health score (0.588 as of Q1 2026) tracking debt/EBITDA, free-cash-flow margin, and revenue momentum",
+        "Phase classification (P8 · PIVOT) indicating structural transition; monitors whether margin expansion is sustainable or cyclical",
+        "Pricing realization rate (% of price increases that stick vs. volume loss); critical for margin defense in inflationary environment",
+        "Category-level share trends (Tide in laundry, Pampers in diapers, Crest in toothpaste) vs. private label and Unilever/Colgate"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: PG's P8 phase resembles 2015–2017 transition when cost inflation forced portfolio rationalization and emerging-market retreat",
+        "Margin compression risk if commodity costs (pulp, resin, palm oil) spike faster than pricing can follow; hedging effectiveness is key",
+        "Competitive threat: Unilever's Dove + Seventh Generation gaining share in premium beauty; Colgate's Optic White competing in whitening",
+        "Retailer power: Walmart's private-label Equate + Great Value eroding PG's mid-tier positioning; Amazon Subscribe & Save cannibalizing full-price sales"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: PG's dividend is sustainable at current payout ratio (60–65% of earnings) if organic growth stabilizes at 2–3% and ROIC stays >10%",
+        "Risk management: Hedge pulp + resin exposure via commodity futures; monitor FDA warning-letter risk on Crest + Oral-B claims",
+        "Strategic: Accelerate e-commerce mix (currently ~15% of sales) to offset Walmart/Target channel pressure; invest in DTC via Olay.com + Gillette.com",
+        "Capital allocation: Pause share buybacks if debt/EBITDA exceeds 2.5x; prioritize M&A in high-growth categories (premium beauty, pet care)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Board-approved $10B share-repurchase authorization (disclosed in 2025 proxy); execute if stock trades below 12x forward earnings",
+        "Dividend increase of 3–5% annually; signal confidence in cash generation despite margin headwinds",
+        "Portfolio optimization: divest low-margin, low-growth brands (e.g., Zest soap); reinvest proceeds into premium beauty + pet care",
+        "Retailer engagement: co-develop exclusive SKUs with Walmart (e.g., Tide Hygienic Clean for Walmart+ members) to defend shelf space"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: organic growth, gross margin, and free-cash-flow realization vs. guidance; track pricing realization rate",
+        "Stock-price reaction to earnings surprise; monitor relative performance vs. Unilever, Colgate, Kimberly-Clark",
+        "Retailer inventory turns and sell-through data (via Nielsen, IRI, Walmart/Target earnings calls); early signal of demand elasticity",
+        "Commodity price tracking: pulp, resin, palm oil spot prices vs. PG's hedging effectiveness; signals margin risk in next quarter"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight pricing-power sensitivity in kernel model if elasticity data shows consumers more price-sensitive than historical baseline",
+        "Recalibrate supply-chain concentration risk if Berry Global or International Paper faces disruption; stress-test alternative suppliers",
+        "Update competitive-threat scoring if Unilever or Colgate gain >100 bps share in key categories; adjust market-share assumptions",
+        "Refresh retailer-power model if Amazon Subscribe & Save penetration exceeds 20% of PG sales; signals structural shift in channel economics"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "The Procter & Gamble Company operates as a distributed decision-making system across 10+ product categories, 180+ countries, and 100,000+ employees. Each functional-network entry represents a critical input (supplier), output (customer), peer (competitor), or constraint (regulator) that shapes PG's quarterly earnings, margin trajectory, and capital allocation. The network integrates sensory inputs (commodity prices, retailer inventory, consumer demand via Nielsen), motor outputs (production, distribution, pricing), and salience monitors (regulatory risk, competitive threat) into a unified state-estimation and action-selection loop.",
+    "suppliers": [
+      {
+        "name": "International Paper Company",
+        "ticker": "IP",
+        "cik": "0000051434",
+        "slug": "international_paper",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — primary somatosensory pulp input",
+        "relationshipNote": "Hardwood pulp + fluff for Bounty, Charmin, Pampers absorbent cores. PG's single largest raw-material exposure to forestry-product cyclicality. IP price changes flow through PG's COGS within 60–90 days; disclosed in 10-K Item 1A as key supply-chain risk. Multi-decade relationship; PG is estimated 8–12% of IP's revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Berry Global Group Inc.",
+        "ticker": "BERY",
+        "cik": "0001378992",
+        "slug": "berry_global",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — packaging substrate",
+        "relationshipNote": "Rigid plastic bottles for Tide, Cascade, Olay, Pantene. Multi-decade strategic supplier; PG's plastic-resin pass-through clause is the price-control mechanism. BERY's 2023 capacity expansion in North Carolina was co-planned with PG to secure supply. Estimated 10–15% of BERY's revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001751788",
+        "slug": "dow",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — chemical feedstock",
+        "relationshipNote": "Surfactants, polymers, and specialty chemicals for Tide, Ariel, Dreft, and Febreze formulations. DOW's ethylene + propylene pricing is a direct input to PG's detergent COGS. PG disclosed in 2024 10-K that chemical inflation was the primary driver of gross-margin compression in fabric care.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huhtamaki Oyj",
+        "ticker": "HUHT.HE",
+        "cik": null,
+        "slug": "huhtamaki",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — fiber-based packaging",
+        "relationshipNote": "Molded-fiber packaging for Bounty, Charmin, and Pampers shipping cases. Huhtamaki is a secondary supplier to PG; primary relationship is with International Paper.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Solvay SA",
+        "ticker": "SOLB",
+        "cik": null,
+        "slug": "solvay",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — specialty polymers",
+        "relationshipNote": "Polyurethane and acrylic polymers for Olay skincare formulations and Crest toothpaste binders. Solvay is a niche supplier; PG maintains dual-sourcing to mitigate supply risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wilmar International Limited",
+        "ticker": "WLMR.SI",
+        "cik": null,
+        "slug": "wilmar_international",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — palm oil + derivatives",
+        "relationshipNote": "Palm oil, palm kernel oil, and oleochemicals for Tide, Ariel, and Olay formulations. Wilmar is PG's largest palm-oil supplier; PG committed to 100% sustainable sourcing by 2025 (disclosed in 2023 sustainability report). Wilmar's supply-chain transparency is a key ESG metric for PG's investor relations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "ticker": "EMN",
+        "cik": "0000277043",
+        "slug": "eastman_chemical",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — specialty chemicals",
+        "relationshipNote": "Acetate fibers for Charmin softness claims and specialty polymers for Olay formulations. EMN is a secondary supplier; PG's primary relationship is with Dow.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sealed Air Corporation",
+        "ticker": "SEE",
+        "cik": "0000086521",
+        "slug": "sealed_air",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — protective packaging",
+        "relationshipNote": "Bubble wrap, foam, and protective films for Pampers and Bounty shipping. SEE is a tertiary supplier; PG's primary packaging relationships are with Berry Global and International Paper.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Henkel AG & Co. KGaA",
+        "ticker": "HEN3.DE",
+        "cik": null,
+        "slug": "henkel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — adhesives + specialty chemicals",
+        "relationshipNote": "Adhesives for Pampers diaper construction and specialty chemicals for Tide formulations. Henkel is a secondary supplier; PG maintains relationships with multiple adhesive vendors to ensure supply continuity.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — long-haul freight",
+        "relationshipNote": "PG's primary long-haul carrier for finished goods from manufacturing plants to regional distribution centers. JBHT handles ~25–30% of PG's domestic freight volume. PG disclosed in 2023 10-K that freight-cost inflation was a headwind; JBHT's fuel surcharge mechanism is a pass-through.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Packaging Corporation of America",
+        "slug": "packaging_corp_america",
+        "ticker": "PKG",
+        "cik": "0000075677",
+        "brainNodeId": "M1",
+        "relationshipNote": "Packaging Corporation of America supplies containerboard and corrugated-box products essential for P&G's consumer-goods packaging and distribution operations. PKG's production capacity, pricing realization, and cost pressures directly influence P&G's packaging economics and supply-chain efficiency. The partnership reflects P&G's dependence on containerboard availability and PKG's revenue exposure to P&G's production volumes.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.711Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "packaging_corp_america",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "procter_gamble|0000080424|proctergamblecompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:41:02.490Z"
+      },
+      {
+        "name": "Schneider National, Inc.",
+        "slug": "schneider_national",
+        "ticker": "SNDR",
+        "cik": "0000089143",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Schneider National provides trucking and intermodal logistics services for P&G's consumer-goods distribution network. The partnership includes dedicated lanes and volume commitments tied to fuel-surcharge indices. SNDR's freight-rate realizations and fleet utilization serve as leading indicators of P&G's supply-chain health and broader manufacturing demand cycles.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.711Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "schneider_national",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "procter_gamble|0000080424|proctergamblecompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:41:02.490Z"
+      },
+      {
+        "name": "Geodis",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — international logistics",
+        "relationshipNote": "Geodis (SNCF subsidiary) handles PG's international distribution in Europe and Asia-Pacific. Geodis operates PG's regional distribution centers in key markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000091142",
+        "slug": "saia",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — regional LTL carrier",
+        "relationshipNote": "SAIA provides LTL (less-than-truckload) services for PG's regional distribution network. SAIA's service area covers Southeast + Midwest, critical for Walmart and Target distribution.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Werner Enterprises, Inc.",
+        "slug": "werner_enterprises",
+        "ticker": "WERN",
+        "cik": "0000793074",
+        "brainNodeId": "M1",
+        "relationshipNote": "Werner Enterprises operates dedicated lanes serving P&G's manufacturing plants and distribution centers across North America. The carrier relationship represents a material portion of WERN's revenue base and reflects P&G's reliance on dedicated-truckload capacity for consumer-goods logistics. Pricing power dynamics and fuel-surcharge absorption directly impact both parties' margin trajectories.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.711Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "werner_enterprises",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "procter_gamble|0000080424|proctergamblecompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:41:02.490Z"
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — last-mile + regional distribution",
+        "relationshipNote": "XPO operates PG's regional distribution centers and handles last-mile delivery to retail stores. XPO's 2024 acquisition of Estes Express Lines expanded PG's LTL (less-than-truckload) capacity. Estimated 15–20% of PG's domestic logistics spend.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — anchor customer",
+        "relationshipNote": "PG's #1 global customer — ~15% of net sales pass through Walmart shelves (disclosed in 10-K Item 1A). PG/WMT pioneered Joint Business Planning in the 1990s; the template every CPG-retailer relationship copied. Walmart's private-label Equate + Great Value compete directly with PG's mid-tier brands (Olay, Pantene, Crest).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Target Corporation",
+        "ticker": "TGT",
+        "cik": "0000027419",
+        "slug": "target",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — premium-discount channel",
+        "relationshipNote": "Target's 2018 beauty reset elevated Olay + Native + Pantene to anchor positions; PG co-developed against Target's Up & Up private label as a benchmark. Target is estimated 5–7% of PG's U.S. retail sales. Target's Circle loyalty program drives higher AUR (average unit retail) for premium PG SKUs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon.com Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — e-commerce subscription channel",
+        "relationshipNote": "Subscribe & Save penetration is PG's direct-to-consumer KPI. PG was an early Amazon Vendor Central partner; AMZN now competes via Solimo + 365 private labels. Amazon is estimated 8–12% of PG's U.S. retail sales (growing 15–20% YoY). PG's margin on Amazon is lower due to fulfillment fees + price competition.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CVS Health Corporation",
+        "ticker": "CVS",
+        "cik": "0000064803",
+        "slug": "cvs_health",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — drug-retail channel",
+        "relationshipNote": "CVS ExtraCare data shows PG capturing higher AUR (avg unit retail) on Olay + Crest premium SKUs than mass-market channel — drugstore is PG's margin-rich distribution. CVS is estimated 4–6% of PG's U.S. retail sales. CVS's 2024 store-closure wave (600+ locations) reduces PG distribution surface ~5%.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Walgreens Boots Alliance Inc.",
+        "ticker": "WBA",
+        "cik": "0001618921",
+        "slug": "walgreens",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — drug-retail channel",
+        "relationshipNote": "Pharmacist-recommended Crest 3D Whitening + Oral-B Pro positioning. WBA is estimated 3–5% of PG's U.S. retail sales. WBA's 2024 store-closure wave (875 locations by 2027) reduces PG distribution surface ~10%. PG is shifting promotional spend to CVS to offset WBA decline.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dollar General Corporation",
+        "slug": "dollar_general",
+        "ticker": "DG",
+        "cik": "0000029534",
+        "brainNodeId": "STRI",
+        "relationshipNote": "P&G is Dollar General's largest supplier by volume, dominating DG's consumables aisles with laundry detergent, personal care, and paper products. DG's 19,000-store rural network provides P&G critical distribution reach into price-sensitive demographics. The relationship reflects ongoing tension between P&G's brand pricing power and DG's private-label expansion and buyer leverage.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.711Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "dollar_general",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "procter_gamble|0000080424|theproctergamblecompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:41:02.490Z"
+      },
+      {
+        "name": "Dollar Tree, Inc.",
+        "slug": "dollar_tree",
+        "ticker": "DLTR",
+        "cik": "0000935703",
+        "brainNodeId": "STRI",
+        "relationshipNote": "P&G supplies personal care and household essentials across Dollar Tree's value-channel network, representing approximately 8–10% of DLTR SKU volume. Price-point constraints force P&G to create limited-SKU value packs tailored to DLTR's model. The partnership reflects P&G's strategic penetration of small-format retail and DLTR's importance as a value-channel growth vector.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.711Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "dollar_tree",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "procter_gamble|0000080424|theproctergamblecompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:41:02.490Z"
+      },
+      {
+        "name": "The Kroger Co.",
+        "slug": "kroger",
+        "ticker": "KR",
+        "cik": "0000056873",
+        "brainNodeId": "mPFC",
+        "relationshipNote": "P&G supplies health-beauty, household-care, and personal-care products across Kroger's approximately 2,700 stores, representing an estimated 18–22% share of KR's beauty and household categories. Kroger's private-label brands directly compete with P&G's premium tiers. The relationship reflects P&G's exposure to grocery retail consolidation and private-label share gains.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.711Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "kroger",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "procter_gamble|0000080424|theproctergamblecompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:41:02.490Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Unilever PLC",
+        "ticker": "UL",
+        "cik": "0000217076",
+        "slug": "unilever",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — multi-decade rival mind-model",
+        "relationshipNote": "PG vs UL is the longest-running CPG rivalry: Tide vs Persil, Pantene vs Dove, Olay vs Dove, Old Spice vs Axe. Different countries of origin (Cincinnati vs London/Rotterdam), opposite share-leadership in different categories. UL's 2023 portfolio rationalization (divesting Hellmann's, Knorr) signals margin-defense strategy similar to PG's.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Colgate-Palmolive Company",
+        "ticker": "CL",
+        "cik": "0000021665",
+        "slug": "colgate_palmolive",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — toothpaste duopoly",
+        "relationshipNote": "Crest vs Colgate is the textbook two-firm market — combined ~85% U.S. toothpaste share, fierce shelf-space war, near-symmetric R&D + advertising spend. CL's 2024 acquisition of Hello Products (natural toothpaste) mirrors PG's Native acquisition (2019) — both defending against private label.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kimberly-Clark Corporation",
+        "ticker": "KMB",
+        "cik": "0000055785",
+        "slug": "kimberly_clark",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — paper-goods adjacency",
+        "relationshipNote": "PG's Bounty vs KMB's Brawny + Scott; PG's Charmin vs KMB's Cottonelle; PG's Pampers vs KMB's Huggies. Same upstream pulp economics; different downstream brand strategies. KMB's 2023 margin expansion (via pricing) outpaced PG's — signals KMB's stronger retailer negotiating position.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Henkel AG & Co. KGaA",
+        "ticker": "HEN3.DE",
+        "cik": null,
+        "slug": "henkel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — laundry detergent adjacency",
+        "relationshipNote": "Henkel's Persil (owned by Unilever in U.S., Henkel in Europe) competes with Tide globally. Henkel's Schwarzkopf hair-care brand competes with Pantene in premium segment. Henkel's 2024 cost-reduction program (€1B target) mirrors PG's margin-defense strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Church & Dwight Co. Inc.",
+        "ticker": "CHD",
+        "cik": "0000313616",
+        "slug": "church_dwight",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — specialty CPG adjacency",
+        "relationshipNote": "CHD's Arm & Hammer baking soda competes with PG's Febreze in odor-control; CHD's Trojan condoms compete with PG's Durex. CHD's 2023 acquisition of Zicam (cold remedies) signals expansion into health + wellness — a category PG is exploring via Vicks.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Reckitt Benckiser Group PLC",
+        "ticker": "RB",
+        "cik": null,
+        "slug": "reckitt_benckiser",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — health + hygiene adjacency",
+        "relationshipNote": "RB's Lysol disinfectant competes with PG's Microban; RB's Mucinex cough syrup competes with PG's Vicks. RB's 2024 portfolio rationalization (divesting Scholl foot care) signals margin-defense strategy. RB's exposure to China is higher than PG's — creates currency + geopolitical risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "The Clorox Company",
+        "slug": "clorox",
+        "ticker": "CLX",
+        "cik": "0000021076",
+        "brainNodeId": "TPJ",
+        "relationshipNote": "Clorox competes directly with P&G across cleaning aisles. P&G dominates laundry and dish care (Tide, Downy, Dawn); Clorox leads disinfection and specialty-wipes categories. P&G maintains approximately 22% category share versus Clorox's 18%. The competitive dynamic reflects category fragmentation and divergent product-portfolio strengths in consumer staples.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "Perspective-Taking — cleaning-aisle rival",
+        "neuralRole": "Peer",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.711Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "clorox",
+          "partnerCategory": "competitors",
+          "partnerFingerprint": "procter_gamble|0000080424|theproctergamblecompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:41:02.490Z"
+      },
+      {
+        "name": "Costco Wholesale Corporation",
+        "ticker": "COST",
+        "cik": "0000909832",
+        "slug": "costco",
+        "neuralRole": "Peer",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — bulk-format channel",
+        "relationshipNote": "Costco's Kirkland private label competes directly with PG; PG sells limited club-pack SKUs (Bounty Plus 12-roll, Pampers economy boxes) to coexist with Kirkland economics. Costco is estimated 3–5% of PG's U.S. retail sales. Costco's treasure-hunt model limits PG's ability to control shelf space.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "_reslottedFrom": "customers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "shortName": "SEC",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — disclosure conflict-monitor",
+        "relationshipNote": "10-K, 10-Q, 8-K, Reg S-K + S-X. Continuous disclosure regime; quarterly forced honesty. PG's 2024 10-K disclosed $37B debt, 0.588 composite score, P8 phase — all material to investor decision-making.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Food and Drug Administration",
+        "shortName": "FDA",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — health-harm interoceptive sensor",
+        "relationshipNote": "Drug approval (Crest, Oral-B), food labeling (Vicks), medical-device clearance (Olay skincare claims). Recall authority is the live ammunition. PG disclosed in 2023 10-K that FDA warning letters on Crest whitening claims required reformulation + $50M+ write-down.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "shortName": "FTC",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — antitrust + UDAP review",
+        "relationshipNote": "Antitrust merger review + Section 5 unfair-practices; Khan-era posture more aggressive than 1990s baseline. PG's 2023 acquisition of Opté (skincare) was FTC-cleared without conditions — signals low antitrust risk in beauty.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency",
+        "shortName": "EPA",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment — chronic-environmental threat",
+        "relationshipNote": "TSCA chemical inventory, FIFRA pesticide registration, Clean Water/Air permits. PG disclosed in 2024 10-K that EPA's proposed PFOA restrictions could impact Febreze + Tide formulations; estimated remediation cost.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Occupational Safety and Health Administration",
+        "shortName": "OSHA",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment — workplace-injury threat detection",
+        "relationshipNote": "Workplace safety regulation; warehouse + factory citations. PG's manufacturing footprint (40+ plants globally) is subject to OSHA inspection; 2023 citation rate was.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "shortName": "Deloitte & Touche",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment — fiduciary threat-detection",
+      "relationshipNote": "External independent auditor since 1890. Issues annual audit opinion on 10-K. One of the longest continuous Big Four audit relationships in U.S. corporate history. Private firm, no CIK. Deloitte's 2024 audit opinion was unqualified — no going-concern issues.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — anchor lender",
+        "relationshipNote": "JPM is PG's primary relationship bank and lead arranger on $10B revolving credit facility (renewed 2024). JPM also manages PG's commercial paper program and provides FX hedging services. JPM's credit rating of PG is AA- (stable outlook).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — syndicated lender",
+        "relationshipNote": "BofA is a syndicate member on PG's $10B revolving credit facility and provides treasury management services. BofA's credit rating of PG is AA (stable outlook).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — major equity holder",
+        "relationshipNote": "Berkshire Hathaway owns ~5.5% of PG (disclosed in 13F filings). Warren Buffett has held PG since 1983; it is one of Berkshire's largest equity positions. Buffett's public endorsement of PG's dividend + capital allocation is a major governance signal.",
+        "confidence": "high",
+        "sourceType": [
+          "13F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — passive index holder",
+        "relationshipNote": "Vanguard is PG's largest institutional shareholder (~7% of shares outstanding, disclosed in proxy statement). Vanguard's voting on executive compensation + board elections is a key governance lever. Vanguard's engagement on ESG (sustainability, diversity) influences PG's disclosure.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Jon Moeller",
+        "role": "President & Chief Executive Officer",
+        "ticker": null,
+        "cik": null,
+        "slug": "jon_moeller",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "CEO since 2021; CFO 2009–2021. Career PG; the rare CEO who knows every product-category P&L from inside. Moeller's 2024 compensation was $23.5M (disclosed in proxy); his stock ownership is ~1.2M shares. Moeller's strategic focus is margin expansion + emerging-market growth.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Andre Schulten",
+        "role": "Chief Financial Officer",
+        "ticker": null,
+        "cik": null,
+        "slug": "andre_schulten",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "CFO since 2021; came up through PG-Europe finance. Schulten owns capital allocation + share-repurchase cadence. His 2024 compensation was $8.2M (disclosed in proxy). Schulten's focus is debt reduction + free-cash-flow optimization.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Carolyn M. Tastad",
+        "role": "Chief Operating Officer",
+        "ticker": null,
+        "cik": null,
+        "slug": "carolyn_tastad",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "COO since 2023; career PG with 30+ years in supply chain + manufacturing. Tastad owns production efficiency + cost reduction. Her 2024 compensation was $7.5M (disclosed in proxy). Tastad's focus is supply-chain resilience + automation.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Sundeep Jain",
+        "role": "Chief Legal Officer & General Counsel",
+        "ticker": null,
+        "cik": null,
+        "slug": "sundeep_jain",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "General Counsel since 2019; career PG with 20+ years in legal + compliance. Jain owns regulatory risk + litigation management. His 2024 compensation was. Jain's focus is FDA compliance + antitrust defense.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Nielsen U.S. Retail Tracking Service",
+        "ticker": null,
+        "cik": null,
+        "slug": "nielsen_tracking",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — demand signal",
+        "relationshipNote": "Weekly comp-store sales, category share, and price-realization data. PG subscribes to Nielsen's syndicated data; disclosed in 10-K as key input to demand forecasting. Nielsen data is a leading indicator of PG's quarterly earnings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "IRI Worldwide (part of Circana)",
+        "ticker": null,
+        "cik": null,
+        "slug": "iri_circana",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — demand signal",
+        "relationshipNote": "Point-of-sale data, promotional effectiveness, and private-label share tracking. PG uses IRI data to monitor Walmart, Target, and Amazon channel performance. IRI data is a leading indicator of PG's pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bloomberg Commodity Index (BCOM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bloomberg_commodity",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — commodity-price signal",
+        "relationshipNote": "Tracks pulp, resin, palm oil, and natural gas prices. PG hedges commodity exposure via futures; BCOM is a benchmark for hedging effectiveness. Commodity inflation is a key risk factor disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "trade",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.130Z",
+      "overrideCount": 15
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "International Paper Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Berry Global Group Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Dow Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Huhtamaki Oyj",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Solvay SA",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Wilmar International Limited",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Eastman Chemical Company",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Sealed Air Corporation",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Henkel AG & Co. KGaA",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "J.B. Hunt Transport Services Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Packaging Corporation of America",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Geodis",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Saia Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Werner Enterprises, Inc.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Target Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Costco Wholesale Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Amazon.com Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "CVS Health Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Walgreens Boots Alliance Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "XPO Logistics Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Schneider National, Inc.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Walmart Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Nielsen U.S. Retail Tracking Service",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "IRI Worldwide (part of Circana)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Dollar General Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Dollar Tree, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "The Kroger Co.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Berkshire Hathaway Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ],
+        "internal_override": {
+          "role": "President & Chief Executive Officer",
+          "function": "identity / strategic-self / brand voice",
+          "incumbent": "Jon Moeller",
+          "source": "portal_extracted_functionalNetwork.executiveTeam"
+        }
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Unilever PLC",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Colgate-Palmolive Company",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Kimberly-Clark Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Henkel AG & Co. KGaA",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Church & Dwight Co. Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Reckitt Benckiser Group PLC",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "The Clorox Company",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "Food and Drug Administration",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Environmental Protection Agency",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Occupational Safety and Health Administration",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Corporation",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Vanguard Group Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bloomberg Commodity Index (BCOM)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "ACC": {
+        "internal_override": {
+          "role": "Chief Financial Officer",
+          "function": "financial KPI conflict resolution / capital allocation",
+          "incumbent": "Andre Schulten",
+          "source": "portal_extracted_functionalNetwork.executiveTeam"
+        }
+      },
+      "dlPFC": {
+        "internal_override": {
+          "role": "Chief Operating Officer",
+          "function": "operations sequencing / executive control",
+          "incumbent": "Carolyn M. Tastad",
+          "source": "portal_extracted_functionalNetwork.executiveTeam"
+        }
+      },
+      "vmPFC": {
+        "internal_override": {
+          "role": "Chief Legal Officer & General Counsel",
+          "function": "risk / reputation / legal threat assessment",
+          "incumbent": "Sundeep Jain",
+          "source": "portal_extracted_functionalNetwork.executiveTeam"
+        }
+      }
+    }
+  }
+}

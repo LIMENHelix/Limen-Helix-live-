@@ -1,0 +1,383 @@
+{
+  "domainId": "family_law_client",
+  "title": "Client Emotional State Detection",
+  "parentPortal": "family_law_portal.html",
+  "parentLabel": "Family Law",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "vlPFC",
+      "state": "active",
+      "domainLabel": "Client Emotional State Detection Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Client Emotional State Detection indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Client Emotional State Detection Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Client Emotional State Detection Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "family_law_client_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Client Emotional State Detection Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Client Emotional State Detection activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Client Emotional State Detection Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Client Emotional State Detection Core Operations"
+        }
+      ],
+      "childPortal": "family_law_client_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Client Emotional State Detection Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Client Emotional State Detection, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Client Emotional State Detection Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Client Emotional State Detection Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "family_law_client_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "RSC",
+      "state": "active",
+      "domainLabel": "Client Emotional State Detection Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Client Emotional State Detection practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Client Emotional State Detection Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Client Emotional State Detection Standards & Governance"
+        }
+      ],
+      "childPortal": "family_law_client_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "rACC",
+      "state": "active",
+      "domainLabel": "Client Emotional State Detection Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Client Emotional State Detection methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Client Emotional State Detection Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Client Emotional State Detection Research & Development"
+        }
+      ],
+      "childPortal": "family_law_client_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "TPOLE",
+      "state": "active",
+      "domainLabel": "Client Emotional State Detection Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Client Emotional State Detection stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Client Emotional State Detection Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Client Emotional State Detection Risk & Resilience"
+        }
+      ],
+      "childPortal": "family_law_client_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "DAN",
+      "state": "active",
+      "domainLabel": "Client Emotional State Detection Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Client Emotional State Detection operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Client Emotional State Detection Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Client Emotional State Detection Coordination & Integration"
+        }
+      ],
+      "childPortal": "family_law_client_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "VAN",
+      "state": "active",
+      "domainLabel": "Client Emotional State Detection Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Client Emotional State Detection outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Client Emotional State Detection Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Client Emotional State Detection Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "vlPFC",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "TPJ",
+      "target": "PRECUNEUS",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "RSC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "RSC",
+      "target": "rACC",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "rACC",
+      "target": "TPOLE",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "TPOLE",
+      "target": "DAN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "DAN",
+      "target": "VAN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VAN",
+      "target": "vlPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "vlPFC",
+      "target": "rACC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "RSC",
+      "target": "DAN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "FAMILY_LAW_CLIENT_SYSTEM_FAILURE",
+      "label": "Client Emotional State Detection System Failure",
+      "summary": "Critical breakdown in Client Emotional State Detection systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo-active",
+          "detail": "Client Emotional State Detection Assessment & Diagnostics capacity falling below operational thresholds, reducing Client Emotional State Detection output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Client Emotional State Detection Core Operations systems underperforming, creating gaps in Client Emotional State Detection coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Altered",
+          "detail": "Client Emotional State Detection Infrastructure & Capacity behavior deviating from established norms, complicating Client Emotional State Detection management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPOLE",
+          "dir": "Hyper-active",
+          "detail": "Client Emotional State Detection Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Client Emotional State Detection",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VAN",
+          "dir": "Hypo-active",
+          "detail": "Client Emotional State Detection Performance & Optimization function reduced, compromising Client Emotional State Detection system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_CLIENT_CAPACITY_CRISIS",
+      "label": "Client Emotional State Detection Capacity Crisis",
+      "summary": "Demand exceeding available Client Emotional State Detection capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hyper-active",
+          "detail": "Client Emotional State Detection Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Client Emotional State Detection",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hypo-active",
+          "detail": "Client Emotional State Detection Infrastructure & Capacity systems underperforming, creating gaps in Client Emotional State Detection coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RSC",
+          "dir": "Altered",
+          "detail": "Client Emotional State Detection Standards & Governance behavior deviating from established norms, complicating Client Emotional State Detection management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DAN",
+          "dir": "Hyper-active",
+          "detail": "Client Emotional State Detection Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Client Emotional State Detection",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VAN",
+          "dir": "Altered",
+          "detail": "Client Emotional State Detection Performance & Optimization operating outside normal parameters, introducing uncertainty into Client Emotional State Detection outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_CLIENT_GOVERNANCE_GAP",
+      "label": "Client Emotional State Detection Governance Gap",
+      "summary": "Oversight or regulatory failure in Client Emotional State Detection creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "RSC",
+          "dir": "Hypo-active",
+          "detail": "Client Emotional State Detection Standards & Governance capacity falling below operational thresholds, reducing Client Emotional State Detection output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Altered",
+          "detail": "Client Emotional State Detection Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Client Emotional State Detection",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Hyper-active",
+          "detail": "Client Emotional State Detection Research & Development activity spiking beyond design limits, creating instability across Client Emotional State Detection operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPOLE",
+          "dir": "Altered",
+          "detail": "Client Emotional State Detection Risk & Resilience patterns disrupted, necessitating adaptive responses within Client Emotional State Detection frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DAN",
+          "dir": "Hypo-active",
+          "detail": "Client Emotional State Detection Coordination & Integration function reduced, compromising Client Emotional State Detection system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

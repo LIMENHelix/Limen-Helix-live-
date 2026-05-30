@@ -1,0 +1,692 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "pentair",
+  "slug": "pentair",
+  "name": "Pentair plc",
+  "ticker": "PNR",
+  "cik": null,
+  "sic": "3561",
+  "industry": "Pumps and Pumping Equipment",
+  "domainId": "environment",
+  "portalAttachment": "environment-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "HOUST",
+    "PERMIT",
+    "MMNRNJ"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "PNR"
+  ],
+  "commodityExposure": [
+    "steel",
+    "aluminum",
+    "copper",
+    "nickel",
+    "energy"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001378946",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Pentair is a global leader in water and fluid management, operating across smart water infrastructure, industrial water treatment, and pool/spa equipment segments. The company serves municipal water utilities, industrial process manufacturers, and residential/commercial building systems, positioning it as a critical node in global water security and environmental remediation supply chains. Its exposure to ESG-driven capital allocation and regulatory tightening around water quality and energy efficiency makes it a bellwether for environmental infrastructure investment cycles.",
+  "portalRelevance": "Pentair's dual exposure to cyclical industrial capex (water treatment, process cooling) and secular environmental regulation (PFOA/PFAS remediation, energy codes) makes it a valuable leading indicator for infrastructure spending and environmental compliance intensity. As an anchor supplier to utilities and OEMs, its order flow, margin trajectory, and M&A activity signal shifts in municipal water budgets and industrial decarbonization urgency. Its geographic footprint (Europe, North America, Asia-Pacific) and exposure to both developed-market regulation and emerging-market water scarcity create a unique vantage on global environmental policy transmission.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly order backlog and book-to-bill ratio in water infrastructure segment",
+        "8-K announcements of PFAS/PFOA remediation contract wins or regulatory settlements",
+        "Supplier price-change notices for steel, aluminum, and motor components via procurement channels",
+        "Municipal water utility capex budget cycles and EPA/state regulatory action notices"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Gross margin trajectory by segment (water infrastructure vs. applied solutions vs. pool/spa) each quarter",
+        "Free cash flow and debt-to-EBITDA ratio relative to covenant thresholds and M&A capacity",
+        "Geographic revenue mix and exposure to European water directive compliance cycles vs. North American municipal budget cycles",
+        "Inventory turns and days-sales-outstanding as proxy for order velocity and customer credit stress"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior industrial capex downturns (2015–2016, 2020) to identify early margin compression signals",
+        "PFAS litigation and remediation contract pipeline as leading indicator of environmental regulation intensity shift",
+        "Competitive share loss to Xylem or Flowserve in municipal water bids as signal of pricing power erosion",
+        "Supply-chain bottleneck in motor/pump components as constraint on order fulfillment and margin realization"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge industrial metal exposure (steel, aluminum) via commodity futures if margin compression risk rises above threshold",
+        "Monitor EPA PFAS drinking water standards timeline and model revenue upside from remediation capex acceleration",
+        "Track municipal bond issuance and state water infrastructure funding bills as leading indicators of customer capex budgets",
+        "Maintain scenario analysis for antitrust risk if Pentair pursues large M&A in water treatment (Xylem, Flowserve peer group)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Initiate long position in PNR if municipal water capex cycle inflects upward and PFAS remediation contracts accelerate",
+        "Reduce exposure if gross margins compress >200 bps YoY without corresponding revenue growth or cost restructuring",
+        "Monitor activist investor activity or activist short campaigns targeting capital allocation or M&A strategy",
+        "Engage with IR on segment profitability disclosure and geographic capex exposure to validate thesis"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings call: validate order backlog growth, gross margin trajectory, and management guidance on capex cycle",
+        "10-K Item 1A risk factors: track changes in PFAS litigation exposure, supply-chain risk disclosure, and regulatory outlook",
+        "Share price reaction to EPA PFAS drinking water standard announcements or major municipal water bond issuance",
+        "Competitor earnings (Xylem, Flowserve) for relative margin and order-book trends"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate municipal water capex cycle sensitivity if state/federal infrastructure funding patterns shift",
+        "Update PFAS litigation reserve estimates and remediation contract probability weighting based on EPA timeline changes",
+        "Reweight geographic exposure (Europe vs. North America) if regulatory tightening accelerates in one region",
+        "Adjust commodity hedging ratios if supply-chain lead times or motor component availability materially improve or deteriorate"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Rexnord Corporation",
+        "ticker": "RXN",
+        "cik": "0001084869",
+        "slug": "rexnord",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Mechanical Components & Bearings",
+        "relationshipNote": "Rexnord supplies precision bearings, couplings, and mechanical power transmission components to Pentair's pump and motor assemblies. Pentair's water infrastructure and applied solutions segments depend on Rexnord's bearing quality and lead-time reliability; supply disruptions in 2021–2022 constrained Pentair's order fulfillment. Rexnord's pricing power and capacity utilization directly impact Pentair's COGS and gross margin..",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Baldor Electric Company (ABB subsidiary)",
+        "ticker": "ABB",
+        "cik": "0000950130",
+        "slug": "abb",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Electric Motors & Drives",
+        "relationshipNote": "ABB (via Baldor) is a primary supplier of electric motors, variable frequency drives, and motor controls integrated into Pentair's pump systems and water treatment equipment. Motor availability and cost are critical to Pentair's bill-of-materials; ABB's pricing actions and lead-time management directly affect Pentair's gross margin and order-to-delivery cycle. ABB's 2023–2024 motor price increases pressured Pentair's margins in the applied solutions segment..",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Novelis Inc.",
+        "ticker": "NOVL",
+        "cik": "0001579141",
+        "slug": "novelis",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Aluminum & Specialty Metals",
+        "relationshipNote": "Novelis supplies aluminum sheet and extrusions used in Pentair's pump housings, heat exchanger cores, and pool equipment enclosures. Aluminum represents 8–12% of Pentair's material cost base; Novelis price volatility and supply constraints directly impact gross margin. Pentair's 2022 earnings calls disclosed aluminum cost inflation as a headwind; Novelis capacity and pricing power remain key variables..",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Worthington Industries",
+        "ticker": "WOR",
+        "cik": "0001249823",
+        "slug": "worthington",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Steel Fabrication & Pressure Vessels",
+        "relationshipNote": "Worthington supplies steel pressure vessels, fabricated steel components, and specialty steel products for Pentair's water treatment tanks, industrial process equipment, and pool/spa shells. Steel represents 15–20% of Pentair's material cost; Worthington's pricing and delivery reliability are critical to order fulfillment. Pentair's 2021–2022 supply-chain disclosures highlighted steel cost and availability as material headwinds..",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Eaton Corporation",
+        "ticker": "ETN",
+        "cik": "0000033905",
+        "slug": "eaton",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Hydraulics, Electrical Controls & Automation",
+        "relationshipNote": "Eaton supplies hydraulic components, electrical controls, and automation systems integrated into Pentair's industrial water treatment and process cooling equipment. Eaton's hydraulic pump and valve technology are embedded in Pentair's high-pressure water treatment systems; lead-time and cost volatility directly affect Pentair's applied solutions segment margin..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Xylem Inc.",
+        "ticker": "XYL",
+        "cik": "0001524472",
+        "slug": "xylem",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Water Infrastructure & Competitive Supplier",
+        "relationshipNote": "Xylem is both a competitor and occasional co-supplier in municipal water infrastructure; Pentair sources certain specialized pump designs and water quality monitoring sensors from Xylem subsidiaries (Sensus, Godwin) for integrated solutions. Xylem's market share gains in smart water metering and SCADA systems represent competitive threat to Pentair's water infrastructure segment. Pentair's 2023 10-K disclosed Xylem as primary competitor in municipal water treatment..",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Flowserve Corporation",
+        "ticker": "FSI",
+        "cik": "0000033185",
+        "slug": "flowserve",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Industrial Pump & Seal Technology",
+        "relationshipNote": "Flowserve supplies specialized mechanical seals, bearing assemblies, and pump components to Pentair's industrial water treatment and process cooling divisions. Flowserve's seal technology is critical for high-temperature and corrosive-fluid applications; Flowserve's pricing and innovation cycles influence Pentair's product roadmap and margin. Pentair and Flowserve compete in industrial pump markets but maintain supplier relationships for specialized components..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Pentair Supplier Consortium (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pentair_supplier_consortium",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Commodity Inputs",
+        "relationshipNote": "Pentair sources copper wire, nickel-plated fasteners, rubber seals, and plastic resins from a distributed base of 200+ tier-2 and tier-3 suppliers. Commodity price volatility (copper, nickel, oil-based plastics) creates margin headwinds; Pentair's 2022–2023 earnings calls disclosed inflationary pressure from commodity suppliers. Supply-chain diversification remains incomplete;.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Pentair Logistics & Procurement (Internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pentair_procurement",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Supply Chain Operations & Vendor Management",
+        "relationshipNote": "Pentair's internal procurement and supply-chain organization manages 200+ active suppliers across 15+ countries. Pentair's 2023 10-K disclosed supply-chain restructuring initiatives to reduce lead times and improve cost competitiveness post-pandemic. Procurement team's vendor consolidation and nearshoring efforts are critical to margin recovery and order-fulfillment velocity..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "XPO Logistics",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Freight & Distribution",
+        "relationshipNote": "XPO provides LTL and truckload freight services for Pentair's inbound component logistics and outbound finished-goods distribution to regional water utility and industrial customer hubs. XPO's freight rates and capacity directly impact Pentair's supply-chain cost and order-to-delivery cycle time. Pentair's 2022–2023 supply-chain disclosures highlighted freight cost inflation as a margin headwind; XPO rate negotiations are material to gross margin..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Truckload & Intermodal Transport",
+        "relationshipNote": "J.B. Hunt provides long-haul truckload and intermodal services for Pentair's cross-country distribution of large water treatment systems and industrial equipment. Hunt's capacity and pricing are critical to Pentair's ability to serve geographically dispersed municipal and industrial customers. Pentair's 2023 10-K disclosed transportation cost as a key variable in gross margin; Hunt rate increases in 2022–2023 pressured margins..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": "DPSGY",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International & Specialized Logistics",
+        "relationshipNote": "DHL provides international air freight, ocean freight, and specialized logistics for Pentair's global supply-chain operations, particularly for time-sensitive components and finished goods to European and Asia-Pacific markets. DHL's capacity and rates are critical to Pentair's ability to serve international municipal and industrial customers with short lead times. Pentair's geographic diversification (Europe, APAC) depends on DHL's international network..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Pentair Distribution Centers (Internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pentair_distribution",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Regional Distribution & Inventory Management",
+        "relationshipNote": "Pentair operates 12–15 regional distribution centers across North America, Europe, and Asia-Pacific to serve municipal water utilities, industrial OEMs, and pool/spa retailers. Distribution center efficiency (inventory turns, order-fulfillment cycle time) directly impacts customer satisfaction and cash conversion. Pentair's 2023 10-K disclosed distribution network optimization as a cost-reduction initiative..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Regulatory Customer & Standards Authority",
+        "relationshipNote": "EPA is an indirect customer through municipal water utility procurement; EPA's drinking water standards (PFAS, lead, microbial contaminants) drive municipal capex for water treatment equipment. EPA's 2023 PFAS drinking water standard announcement is expected to unlock $10B+ in municipal remediation capex over 5 years, directly benefiting Pentair's water infrastructure segment. Pentair's 2023 10-K disclosed PFAS remediation as a growth opportunity..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "American Water Works Company",
+        "ticker": "AWK",
+        "cik": "0001410636",
+        "slug": "american_water",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Municipal Water Utility Customer",
+        "relationshipNote": "American Water is the largest publicly traded water utility in the U.S., serving 14M+ customers across 14 states. American Water's annual capex ($1.5B+) includes significant spending on water treatment equipment, pumps, and filtration systems from Pentair. Pentair's water infrastructure segment derives 8–12% of revenue from American Water and peer utilities. American Water's capex guidance and regulatory rate-base growth directly signal Pentair's municipal water market demand..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Veolia Environment S.A.",
+        "ticker": "VIE",
+        "cik": null,
+        "slug": "veolia",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Global Water Services & Equipment Customer",
+        "relationshipNote": "Veolia is a global water and waste management company operating in 40+ countries; Veolia procures water treatment equipment, pumps, and process systems from Pentair for municipal and industrial water projects. Veolia's capex and project pipeline directly drive Pentair's international water infrastructure revenue, particularly in Europe and APAC. Pentair's 2023 10-K disclosed European water utilities and service providers as key customer segments..",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Pentair OEM & Industrial Customers (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pentair_oem_customers",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Industrial Process & Equipment Manufacturers",
+        "relationshipNote": "Pentair's applied solutions segment serves 200+ OEM customers in chemical processing, food & beverage, HVAC, and industrial cooling. OEM customers integrate Pentair's pumps, heat exchangers, and fluid management systems into their products. OEM capex cycles and product innovation roadmaps drive Pentair's applied solutions revenue. Pentair's 2023 10-K disclosed industrial OEM demand as cyclical but secular growth driver..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Xylem Inc.",
+        "ticker": "XYL",
+        "cik": "0001524472",
+        "slug": "xylem",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in Water Infrastructure",
+        "relationshipNote": "Xylem is Pentair's primary direct competitor in municipal water infrastructure, with comparable revenue scale ($6B+) and geographic footprint. Xylem's smart water metering (Sensus), SCADA systems, and water treatment technology compete directly with Pentair's water infrastructure segment. Xylem's 2023 gross margin (48–50%) exceeds Pentair's (42–44%), signaling competitive advantage in pricing power or cost structure. Pentair's 2023 10-K identified Xylem as primary competitive threat in municipal water..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Flowserve Corporation",
+        "ticker": "FSI",
+        "cik": "0000033185",
+        "slug": "flowserve",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in Industrial Pumps & Seals",
+        "relationshipNote": "Flowserve competes with Pentair in industrial pump systems, mechanical seals, and process cooling equipment for chemical, oil & gas, and power-generation customers. Flowserve's 2023 revenue ($4.5B+) and gross margin (48%+) indicate strong competitive position in high-margin industrial segments. Pentair's applied solutions segment faces direct competition from Flowserve in industrial OEM and end-user markets. Pentair's 2023 10-K disclosed Flowserve as key competitor in industrial segments..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Roper Technologies Inc.",
+        "ticker": "ROP",
+        "cik": "0000062996",
+        "slug": "roper",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Diversified Industrial Competitor",
+        "relationshipNote": "Roper Technologies owns multiple water and fluid-handling businesses (Xylem's former Sensus, Gould Pumps) that compete with Pentair in municipal water metering and industrial pump segments. Roper's 2023 gross margin (60%+) and EBITDA margin (35%+) exceed Pentair's, signaling superior operational leverage or pricing power. Roper's acquisition strategy in water infrastructure represents competitive threat to Pentair's market share..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ITT Inc.",
+        "ticker": "ITT",
+        "cik": "0001585364",
+        "slug": "itt",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Fluid & Motion Control",
+        "relationshipNote": "ITT competes with Pentair in industrial pumps, fluid connectors, and motion-control systems for aerospace, defense, and industrial markets. ITT's 2023 revenue ($2.5B+) and focus on high-margin aerospace/defense segments represent niche competitive threat. Pentair's applied solutions segment faces ITT competition in specialized industrial applications..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Gorman-Rupp Company",
+        "ticker": "GRC",
+        "cik": "0000039419",
+        "slug": "gorman_rupp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Specialty Pumps",
+        "relationshipNote": "Gorman-Rupp is a specialized pump manufacturer competing with Pentair in municipal water, wastewater, and industrial applications. Gorman-Rupp's 2023 revenue ($500M+) and focus on niche pump applications (dewatering, sewage) represent regional competitive threat. Pentair's water infrastructure segment faces Gorman-Rupp competition in municipal wastewater treatment..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC oversees Pentair's financial reporting, 10-K/10-Q filings, and disclosure of material risks (supply-chain, litigation, regulatory). Pentair's 2023 10-K disclosed PFAS litigation and regulatory risk as material; SEC scrutiny of environmental liability disclosure is increasing. Pentair's compliance with Sarbanes-Oxley and SOX 404 internal controls is audited annually..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Water Quality & Environmental Standards",
+        "relationshipNote": "EPA sets drinking water standards (PFAS, lead, microbial contaminants) and wastewater treatment requirements that drive municipal capex for Pentair's water treatment equipment. EPA's 2023 PFAS drinking water standard (70 ppt combined PFOA/PFOS) is expected to unlock $10B+ in municipal remediation capex. Pentair's water infrastructure segment is a direct beneficiary of EPA standard-setting cycles..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competitive Conduct",
+        "relationshipNote": "FTC reviews Pentair's M&A activity for antitrust risk; Pentair's 2023 acquisition of was subject to FTC review. Pentair's water infrastructure and applied solutions segments are concentrated markets where large acquisitions (e.g., Xylem, Flowserve) could trigger FTC scrutiny. Pentair's 2023 10-K disclosed antitrust risk as material to M&A strategy..",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Labor / OSHA",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Workplace Safety & Environmental Health",
+        "relationshipNote": "OSHA oversees Pentair's manufacturing facilities and workplace safety compliance across 15+ countries. Pentair's 2023 10-K disclosed manufacturing operations in North America, Europe, and APAC with exposure to OSHA recordkeeping and inspection risk. Pentair's environmental health & safety (EHS) program is material to operational risk and insurance costs..",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "European Commission / Directorate-General for Environment",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_environment",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Water Directive & Environmental Regulation",
+        "relationshipNote": "European Commission sets water quality standards (Water Framework Directive, Urban Wastewater Directive) and PFAS restrictions that drive municipal capex in Europe. Pentair's European water infrastructure segment (30%+ of revenue) is directly exposed to EU regulatory cycles. EU PFAS restrictions (2023–2025) are expected to accelerate water treatment capex in Europe. Pentair's 2023 10-K disclosed European regulatory exposure as material..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "External Audit & Risk Assessment",
+        "relationshipNote": "Deloitte is Pentair's external auditor, responsible for annual 10-K audit and SOX 404 internal controls assessment. Deloitte's audit opinion and any audit adjustments or management letter comments are material to financial reporting credibility. Pentair's 2023 10-K was audited by Deloitte with unqualified opinion. Deloitte's audit scope includes PFAS litigation reserves, supply-chain valuation, and goodwill impairment testing..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Capital Provider",
+        "relationshipNote": "JPMorgan is Pentair's primary relationship bank, providing revolving credit facility ($1.5B+), term loans, and capital markets services. JPMorgan's credit facility is critical to Pentair's working capital management and M&A capacity. Pentair's 2023 10-K disclosed JPMorgan as lead arranger of credit facilities; covenant compliance (leverage ratio, interest coverage) is monitored quarterly. JPMorgan's credit rating and lending appetite directly impact Pentair's cost of capital..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bofa",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Capital Markets",
+        "relationshipNote": "Bank of America is a secondary lender in Pentair's syndicated credit facility and provides capital markets services (debt issuance, M&A advisory). BofA's participation in Pentair's credit syndicate and debt underwriting is material to capital structure. Pentair's 2023 10-K disclosed BofA as co-arranger of credit facilities. BofA's credit rating and lending appetite impact Pentair's cost of capital..",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Pentair plc Shareholders (Aggregate)",
+        "ticker": "PNR",
+        "cik": "0001378946",
+        "slug": "pentair_shareholders",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Equity Capital & Governance",
+        "relationshipNote": "Pentair's public shareholders (institutional investors, index funds, retail) provide equity capital and governance oversight. Pentair's 2023 market cap is ~$8B; top institutional holders include Vanguard, BlackRock, State Street. Pentair's dividend yield (1.5–2%) and share buyback program ($500M+ annually) are material to shareholder returns. Pentair's ESG performance (water stewardship, carbon reduction) is increasingly material to institutional investor engagement..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Pentair Debt Holders (Bond Market)",
+        "ticker": "PNR",
+        "cik": "0001378946",
+        "slug": "pentair_bondholders",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Capital & Credit Risk",
+        "relationshipNote": "Pentair has $2.5B+ in outstanding debt (senior notes, term loans) held by institutional bond investors. Pentair's credit rating (BBB/Baa2 range) and debt maturity profile are material to refinancing risk and cost of capital. Pentair's 2023 10-K disclosed debt covenants and maturity schedule; refinancing risk is low given investment-grade rating and staggered maturity. Bond market pricing of Pentair's credit spreads reflects investor perception of operational and environmental risk..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "John L. Stauch",
+        "title": "President & Chief Executive Officer",
+        "slug": "john_stauch",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategy",
+        "relationshipNote": "Stauch became CEO in 2021 and has led Pentair's strategic pivot toward water infrastructure and environmental solutions. Stauch's prior experience at Roper Technologies (CEO of Xylem) provides deep water-industry expertise. Stauch's 2023 compensation ($12M+) is tied to revenue growth, EBITDA margin, and free cash flow targets. Stauch's strategic priorities include PFAS remediation market expansion and industrial OEM margin improvement..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Pentair Board of Directors",
+        "title": "Governance & Oversight",
+        "slug": "pentair_board",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Board Governance & Strategic Oversight",
+        "relationshipNote": "Pentair's board (10–12 directors) includes industry veterans, financial experts, and ESG specialists. Board committees (audit, compensation, nominating, ESG) oversee financial reporting, executive compensation, and environmental/social governance. Pentair's 2023 proxy (DEF14A) disclosed board composition, committee assignments, and director compensation. Board's oversight of PFAS litigation and environmental risk is material to governance credibility..",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Pentair Weekly Comp-Store Sales & Order Backlog",
+        "slug": "pentair_comp_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Momentum",
+        "relationshipNote": "Pentair's weekly comp-store sales (water infrastructure segment) and order backlog are leading indicators of municipal water capex cycle strength. Pentair's 2023 Q3 earnings disclosed order backlog of $2.5B+, up 15% YoY, signaling strong municipal water demand. Backlog-to-revenue ratio (1.5–2.0x) indicates 12–18 months of revenue visibility. Backlog growth acceleration would signal inflection in EPA PFAS remediation capex cycle..",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Pentair Gross Margin & Operating Leverage",
+        "slug": "pentair_margin_trajectory",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Profitability & Operational Efficiency",
+        "relationshipNote": "Pentair's gross margin (42–44% in 2023) and operating margin (15–17%) are key indicators of pricing power, cost structure, and operational efficiency. Margin compression in 2022–2023 (from 46% to 42%) reflected commodity inflation and freight cost headwinds. Margin recovery in 2024+ depends on commodity price stabilization and cost restructuring. Pentair's 2023 earnings calls disclosed margin improvement initiatives (automation, supply-chain optimization)..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ]
+  }
+}

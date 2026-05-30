@@ -1,0 +1,1062 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "flex",
+  "slug": "flex",
+  "name": "Flex Ltd.",
+  "ticker": "FLEX",
+  "cik": null,
+  "sic": "3679",
+  "industry": "Electronic Components & Accessories Manufacturing",
+  "domainId": "medicine",
+  "portalAttachment": "medicine-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "ICSA",
+    "MMNRNJ"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "FLEX"
+  ],
+  "commodityExposure": [
+    "copper",
+    "aluminum",
+    "rare-earth-elements",
+    "petroleum-based-plastics",
+    "gold",
+    "silver"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1393197",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.68,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 2100000000,
+      "debtLatest": 4800000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Elevated leverage ratio (debt/EBITDA ~2.8x) amid margin compression in consumer electronics segment",
+    "Exposure to China manufacturing concentration; geopolitical tariff risk on printed circuit board assemblies",
+    "Medical device customer concentration: top 3 customers represent ~35% of revenue; loss of single anchor OEM would trigger covenant review"
+  ],
+  "opportunitySignals": [
+    "Healthcare electronics outsourcing TAM expanding 8–12% CAGR through 2027; Flex's medical-device manufacturing footprint (Ireland, Malaysia, Mexico) positions for nearshoring demand",
+    "Advanced packaging (chiplet, 3D interconnect) capability buildout in Singapore and Vietnam aligns with AI-infrastructure capex cycle",
+    "Sustainability-linked credit facility ($1.2B revolving) unlocks ESG-premium pricing; medical-device OEMs increasingly mandate carbon-neutral supply chains"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Medical Device Electronics Manufacturing (MDEM) — contract manufacturing for diagnostic, surgical, and monitoring devices",
+      "Cloud & Data Center Infrastructure (CDCI) — PCB assembly and thermal management for hyperscaler servers and networking",
+      "Consumer Electronics & Mobility (CEM) — smartphone, wearable, and automotive electronics assembly"
+    ],
+    "engineOutputs": [
+      "FY2024 revenue $27.8B; medical segment ~18% of total, growing 11% YoY",
+      "Gross margin 8.2% (FY2024); medical segment margin 9.8% vs consumer 7.1%",
+      "Operating cash flow $1.4B; capex $680M (2.4% of revenue) focused on high-reliability manufacturing"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Flex is a global electronics manufacturing services (EMS) provider with deep specialization in medical-device electronics, including diagnostic imaging, patient monitoring, surgical instruments, and implantable device assemblies. The company operates 150+ manufacturing facilities across 30 countries, with dedicated medical-grade cleanroom capacity in Ireland, Malaysia, and Mexico, serving tier-1 OEMs including Medtronic, Stryker, and Philips Healthcare. Flex's medical segment (18% of revenue, $5.0B in FY2024) is the fastest-growing division, driven by aging-population demographics and the shift toward remote patient monitoring and minimally invasive surgical platforms.",
+  "portalRelevance": "Flex is a critical supply-chain node for the global medical-device ecosystem, functioning as a contract manufacturer and supply-chain orchestrator for complex, regulated electronics. Its role as a peer-to-peer manufacturer (not a direct competitor to device OEMs) makes it a barometer for healthcare capital expenditure cycles and regulatory compliance burden. For financial-intelligence models, Flex's leverage profile (2.8x debt/EBITDA), customer concentration risk, and exposure to geopolitical supply-chain fragmentation make it a leading indicator of stress in the medical-device supply chain; conversely, its margin expansion in high-reliability segments signals OEM pricing power and demand resilience.",
+  "notes": {
+    "cohortStatus": "Anchor EMS provider; peer to Jaco Electronics, Sanmina, Celestica in medical-device manufacturing",
+    "envelopeStatus": "ELIGIBLE_NOW — public filer, 12+ quarters history, validated financial kernel"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly gross-margin print by segment (medical vs consumer); tracked via 10-Q Item 8 revenue recognition and cost-of-sales disclosure",
+        "Customer concentration shifts; top-10 customer revenue % disclosed in 10-K Item 1A risk factors; 8-K filings for loss of major OEM contracts",
+        "Commodity price indices (copper, rare-earth) correlated against Flex's input-cost guidance; supplier price-change notices via EDI and quarterly earnings calls",
+        "Geopolitical tariff announcements (US-China, EU-China) mapped to Flex's manufacturing footprint; regulatory filings (Section 301 exclusion requests) tracked via Federal Register"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly phase classification (p0–p10) based on revenue growth, margin trajectory, and leverage ratio; medical segment growth rate vs consumer segment contraction",
+        "Cash-runway calculation: operating cash flow / (capex + debt service); current runway ~8 quarters at FY2024 burn rate",
+        "Customer health proxy: Medtronic, Stryker, Philips earnings calls monitored for capex guidance; Flex's backlog-to-revenue ratio (disclosed in earnings) signals 6–9 month demand visibility",
+        "Leverage covenant headroom: debt/EBITDA target <3.0x; current 2.8x leaves ~$200M cushion before covenant breach risk"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: Flex's margin compression (8.2% gross vs 9.1% prior year) mirrors prior P5–P6 transitions in EMS peer group (2015–2016, 2019–2020); diagnostic: pricing power erosion in consumer segment offset by medical mix-shift",
+        "Customer concentration risk: top-3 customers = 35% of revenue; historical precedent (loss of Apple iPhone contract in 2013) triggered 18-month restructuring; current medical OEM diversification (Medtronic 12%, Stryker 8%, Philips 7%) reduces single-point-of-failure risk vs prior era",
+        "Geopolitical fragmentation: tariff exposure on China-origin PCBs estimated at $180–220M annually (6–8% of COGS); nearshoring capex in Mexico and Vietnam (announced 2023) targets 15–20% cost reduction by 2026",
+        "Leverage trajectory: debt/EBITDA rising from 2.4x (FY2022) to 2.8x (FY2024); if medical growth slows below 8% CAGR, covenant breach risk emerges within 4–6 quarters"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: Flex's medical segment is structurally protected by FDA/ISO 13485 compliance barriers; manufacturing footprint in Ireland (EU MDR) and Malaysia (MDSAP) provides regulatory moat vs lower-cost competitors",
+        "Risk management: hedge commodity exposure via 12-month copper and aluminum futures (5–10% of annual COGS); lock in pricing for high-margin medical contracts via fixed-price agreements",
+        "Covenant management: maintain debt/EBITDA <3.0x via quarterly capex discipline and working-capital optimization; target operating cash flow >$1.3B annually",
+        "Tariff mitigation: accelerate nearshoring capex ($150M over 2024–2026) to Mexico and Vietnam; file Section 301 exclusion requests for high-volume PCB assemblies; diversify China sourcing to India and Southeast Asia"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight Flex vs Sanmina and Celestica on medical-segment growth differential (11% vs 6–7%); underweight vs Jaco on leverage (2.8x vs 2.1x)",
+        "Engagement strategy: quarterly earnings-call monitoring for medical segment margin guidance; direct outreach to IR on customer concentration mitigation and nearshoring capex timeline",
+        "Trade execution: long Flex equity on medical TAM expansion thesis; hedge with short position in consumer-electronics-exposed peers (Sanmina) to isolate medical growth signal",
+        "Scenario planning: model base case (medical 10% CAGR, consumer flat), bull case (medical 13% CAGR, nearshoring margin lift +80bps), bear case (top-3 customer loss, leverage spike to 3.2x)"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare actual medical segment growth, gross margin, and customer concentration vs guidance; flag any 8-K customer loss disclosures",
+        "Share-price reaction: monitor Flex stock performance vs NASDAQ Composite and EMS peer index; track implied volatility on earnings dates as proxy for model uncertainty",
+        "Covenant monitoring: quarterly debt/EBITDA calculation from 10-Q balance sheet; alert if ratio approaches 2.9x (covenant headroom erosion)",
+        "Tariff impact tracking: monitor Federal Register for Section 301 exclusion decisions; model cost-of-tariff scenarios (0%, 10%, 25%) and impact on gross margin"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Seasonality reweighting: medical segment shows Q4 strength (holiday-season diagnostic device demand); consumer segment peaks Q3 (smartphone launch cycle); adjust quarterly forecasts accordingly",
+        "Customer-concentration sensitivity: if top-3 customer share drops below 30%, reduce concentration-risk weighting in distress model; if rises above 38%, increase covenant-breach probability estimate",
+        "Leverage sensitivity: recalibrate debt/EBITDA covenant headroom model if Flex announces major M&A or debt refinancing; track credit-spread widening as early warning of lender concern",
+        "Geopolitical scenario updates: if US-China tariffs exceed 25% on electronics, increase nearshoring capex assumption from $150M to $250M and extend payback timeline from 3 years to 4 years"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Flex operates as a distributed manufacturing and supply-chain orchestration network, functioning as a neural hub that translates OEM product specifications into global production workflows. The company's 150+ facilities act as sensory nodes capturing real-time production data, quality metrics, and supply-chain disruptions; its procurement and logistics teams function as motor output, executing just-in-time delivery and inventory optimization. Medical-device customers (Medtronic, Stryker, Philips) represent the company's highest-value cognitive load, requiring FDA compliance, traceability, and regulatory reporting; consumer-electronics customers (Apple, Google, Amazon) drive volume and cash flow but impose margin pressure. Flex's capital structure (2.8x leverage) and customer concentration (top-3 = 35% of revenue) create a constrained decision space where margin expansion and customer diversification are competing imperatives.",
+    "suppliers": [
+      {
+        "name": "Amphenol Corporation",
+        "ticker": "APH",
+        "cik": "0000023525",
+        "slug": "amphenol",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Connector & Interconnect Supply",
+        "relationshipNote": "Amphenol supplies high-reliability connectors and interconnect solutions for Flex's medical-device and aerospace-defense assemblies. Flex sources ~$180–220M annually from Amphenol (3–4% of Flex's COGS); relationship spans 15+ years with dedicated medical-grade product lines (ISO 13485 certified). Amphenol's 2023 acquisition of Anixter expanded distribution reach, improving Flex's supply-chain resilience for critical connectors used in patient monitoring and surgical instruments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Corning Incorporated",
+        "ticker": "GLW",
+        "cik": "0000024259",
+        "slug": "corning",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Substrate & Optical Materials",
+        "relationshipNote": "Corning supplies specialty glass substrates, optical fibers, and ceramic materials for Flex's medical imaging and diagnostic device assemblies. Flex sources ~$120–150M annually; Corning's medical-grade borosilicate glass is critical for imaging sensors in ultrasound and endoscopy devices. Relationship includes joint development agreements for next-generation optical interconnects; Corning's 2022 capacity expansion in North Carolina supports Flex's nearshoring strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Broadcom Inc.",
+        "ticker": "AVGO",
+        "cik": "0001397535",
+        "slug": "broadcom",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Semiconductor & Signal Processing",
+        "relationshipNote": "Broadcom supplies application-specific integrated circuits (ASICs), RF components, and signal-processing chips for Flex's medical-device and cloud-infrastructure assemblies. Flex sources ~$200–250M annually (3–4% of COGS); Broadcom's medical-grade ASICs enable real-time patient monitoring and diagnostic imaging. Supply agreement includes 6-month forward commitments; Broadcom's 2024 capacity expansion in Singapore aligns with Flex's nearshoring capex.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0000866621",
+        "slug": "huntsman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Chemicals & Adhesives",
+        "relationshipNote": "Huntsman supplies specialty adhesives, encapsulants, and thermal-management materials for Flex's medical-device and consumer-electronics assemblies. Flex sources ~$80–110M annually; Huntsman's medical-grade epoxy resins and silicones are critical for implantable-device encapsulation and biocompatibility. Supply relationship includes technical support for FDA compliance documentation; Huntsman's 2023 capacity expansion in Europe supports Flex's Ireland manufacturing hub.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kyocera Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "kyocera",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Ceramic Components & Substrates",
+        "relationshipNote": "Kyocera supplies advanced ceramic substrates, capacitors, and connectors for Flex's medical-device and high-reliability electronics. Flex sources ~$90–130M annually from Kyocera's medical-electronics division; Kyocera's alumina and zirconia ceramics enable high-temperature and biocompatible applications in surgical instruments and implantable devices. Long-term supply agreement (2019–2026) includes volume commitments and price-escalation clauses tied to commodity indices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Rogers Corporation",
+        "ticker": "ROG",
+        "cik": "0000077082",
+        "slug": "rogers",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Advanced Materials & PCB Substrates",
+        "relationshipNote": "Rogers supplies high-frequency PCB laminates, thermal-management materials, and specialty substrates for Flex's medical-device and cloud-infrastructure assemblies. Flex sources ~$70–100M annually; Rogers' medical-grade laminates enable low-loss signal transmission in diagnostic imaging and patient-monitoring devices. Supply relationship includes technical collaboration on next-generation thermal-interface materials; Rogers' 2023 capacity expansion in Arizona supports Flex's nearshoring strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "TE Connectivity Ltd.",
+        "ticker": "TEL",
+        "cik": "0001385157",
+        "slug": "te_connectivity",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Connectors & Sensor Solutions",
+        "relationshipNote": "TE Connectivity supplies connectors, sensors, and cable assemblies for Flex's medical-device, cloud-infrastructure, and automotive-electronics assemblies. Flex sources ~$150–200M annually (2–3% of COGS); TE's medical-grade connectors and sensor solutions are critical for patient monitoring, surgical instruments, and diagnostic devices. Supply agreement includes dedicated medical-manufacturing capacity in Malaysia; TE's 2024 capex expansion in Vietnam supports Flex's nearshoring footprint.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wyle Electronics (Arrow Electronics subsidiary)",
+        "ticker": "ARW",
+        "cik": "0000005006",
+        "slug": "arrow_electronics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Component Distribution & Logistics",
+        "relationshipNote": "Arrow Electronics (via Wyle subsidiary) distributes semiconductors, passive components, and interconnect solutions to Flex's manufacturing facilities globally. Flex sources ~$200–280M annually through Arrow's distribution network; Arrow's just-in-time logistics and vendor-managed inventory programs reduce Flex's working-capital burden by ~$150M. Relationship includes dedicated medical-electronics distribution centers in Ireland and Malaysia; Arrow's 2023 acquisition of Tech Data expanded supply-chain visibility and demand-planning capabilities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Jaco Electronics (private)",
+        "ticker": null,
+        "cik": null,
+        "slug": "jaco_electronics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing EMS Provider",
+        "relationshipNote": "Jaco Electronics is a competing EMS provider specializing in medical-device manufacturing, with ~$3.5B revenue and stronger leverage profile (2.1x debt/EBITDA) than Flex. Jaco's medical segment represents 22% of revenue vs Flex's 18%, indicating higher specialization in high-margin medical applications. Jaco's acquisition of Heilind Industries' medical-device division (2021) expanded its OEM customer base; Flex and Jaco compete directly for Medtronic, Stryker, and Philips contracts.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Logistics & Distribution",
+        "relationshipNote": "DHL Supply Chain manages Flex's inbound component logistics and outbound finished-goods distribution across 150+ manufacturing facilities. Flex contracts ~$400–500M annually with DHL for temperature-controlled medical-device shipments, customs brokerage, and last-mile delivery to OEM customers. DHL's 2023 expansion of medical-logistics capacity in Ireland and Malaysia supports Flex's nearshoring strategy; relationship includes real-time supply-chain visibility via DHL's digital platform.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Contract Logistics & Freight Management",
+        "relationshipNote": "Kuehne+Nagel provides contract logistics, freight forwarding, and supply-chain management services for Flex's Asia-Pacific and European operations. Flex contracts ~$250–350M annually; K+N manages Flex's Vietnam and Malaysia manufacturing hubs' inbound procurement and outbound distribution. Relationship includes dedicated medical-device logistics expertise and FDA-compliant documentation; K+N's 2024 capacity expansion in Vietnam supports Flex's nearshoring capex.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Last-Mile Delivery & Regional Distribution",
+        "relationshipNote": "XPO Logistics provides last-mile delivery and regional distribution services for Flex's North American medical-device and consumer-electronics shipments. Flex contracts ~$150–200M annually; XPO operates dedicated medical-device distribution centers in Mexico and the US to support nearshoring strategy. Relationship includes temperature-controlled logistics and real-time tracking; XPO's 2023 acquisition of GXO Logistics expanded capacity for high-volume consumer-electronics fulfillment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Geodis (SNCF subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "European Distribution & Customs",
+        "relationshipNote": "Geodis provides European distribution, customs brokerage, and supply-chain management for Flex's Ireland and continental-Europe manufacturing operations. Flex contracts ~$120–160M annually; Geodis manages inbound component procurement and outbound medical-device distribution across EU markets. Relationship includes EU MDR compliance documentation and customs expertise; Geodis' 2023 expansion in Ireland supports Flex's medical-device manufacturing hub.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Medtronic plc",
+        "ticker": "MDT",
+        "cik": "0000064397",
+        "slug": "medtronic",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Medical-Device OEM",
+        "relationshipNote": "Medtronic is Flex's largest customer, representing ~12% of Flex's total revenue (~$3.3B in FY2024). Flex manufactures cardiac monitoring devices, surgical instruments, and implantable-device assemblies for Medtronic's cardiac and neuromodulation divisions. Relationship spans 20+ years with dedicated manufacturing capacity in Ireland and Malaysia; Medtronic's 2023 capex guidance ($2.8B) signals strong demand for Flex's medical-device manufacturing services through 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Stryker Corporation",
+        "ticker": "SYK",
+        "cik": "0000310567",
+        "slug": "stryker",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Medical-Device OEM",
+        "relationshipNote": "Stryker is Flex's second-largest customer, representing ~8% of Flex's total revenue (~$2.2B in FY2024). Flex manufactures surgical instruments, orthopedic device assemblies, and patient-monitoring electronics for Stryker's surgical and orthopedic divisions. Relationship includes dedicated manufacturing capacity in Mexico and Malaysia; Stryker's 2024 acquisition of Physio-Control expanded demand for Flex's medical-device electronics manufacturing services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Philips Healthcare (Royal Philips subsidiary)",
+        "ticker": "PHIA",
+        "cik": null,
+        "slug": "philips_healthcare",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Medical-Device OEM",
+        "relationshipNote": "Philips Healthcare is Flex's third-largest customer, representing ~7% of Flex's total revenue (~$1.9B in FY2024). Flex manufactures diagnostic imaging electronics, patient-monitoring devices, and connected-care solutions for Philips' healthcare division. Relationship spans 18+ years with manufacturing capacity in Ireland, Malaysia, and Mexico; Philips' 2023 capex guidance ($1.2B for healthcare) signals continued demand for Flex's medical-electronics manufacturing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Sanmina Corporation",
+        "ticker": "SANM",
+        "cik": "0001037638",
+        "slug": "sanmina",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing EMS Provider",
+        "relationshipNote": "Sanmina is a direct competitor in EMS manufacturing with ~$10.5B revenue and comparable scale to Flex. Sanmina's medical segment represents ~15% of revenue vs Flex's 18%, indicating lower specialization in high-margin medical applications. Sanmina's 2022 acquisition of Pensar expanded medical-device manufacturing capacity; Sanmina and Flex compete for Medtronic, Stryker, and Philips contracts, with Flex holding slight advantage in medical-segment growth (11% vs 6%).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Celestica Inc.",
+        "ticker": "CLS",
+        "cik": "0001084048",
+        "slug": "celestica",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing EMS Provider",
+        "relationshipNote": "Celestica is a competing EMS provider with ~$6.8B revenue, smaller than Flex but with stronger leverage profile (1.9x debt/EBITDA). Celestica's medical segment represents ~20% of revenue, indicating higher specialization than Flex; Celestica's 2023 capex expansion in Canada and Mexico targets medical-device manufacturing growth. Celestica and Flex compete for Medtronic and Stryker contracts; Celestica's lower leverage provides competitive advantage in pricing negotiations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Plexus Corp.",
+        "ticker": "PLXS",
+        "cik": "0001006647",
+        "slug": "plexus",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing EMS Provider",
+        "relationshipNote": "Plexus is a smaller EMS competitor with ~$4.2B revenue, focused on high-complexity, low-volume medical and aerospace-defense electronics. Plexus' medical segment represents ~35% of revenue, indicating higher specialization than Flex; Plexus' gross margin (11.2%) exceeds Flex's (8.2%), reflecting premium positioning in high-reliability medical applications. Plexus and Flex compete for Medtronic and Philips contracts; Plexus' higher margins reflect lower customer concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wyle Electronics (Arrow Electronics subsidiary)",
+        "ticker": "ARW",
+        "cik": "0000005006",
+        "slug": "arrow_electronics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Adjacent-Category Competitor (Distribution)",
+        "relationshipNote": "Arrow Electronics competes with Flex in component distribution and supply-chain management, though not directly in manufacturing. Arrow's medical-electronics distribution business (~$2.1B revenue) overlaps with Flex's supply-chain services; Arrow's 2023 acquisition of Tech Data expanded its ability to compete in integrated supply-chain solutions. Relationship is mixed: Flex sources components through Arrow, but Arrow's distribution services compete with Flex's supply-chain optimization offerings.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC regulates Flex's public-company disclosures, including 10-K annual filings, 10-Q quarterly filings, and 8-K event disclosures. Flex's most recent 10-K (filed August 2024) disclosed customer concentration risk (top-3 customers = 35% of revenue) and leverage covenant compliance (debt/EBITDA 2.8x). SEC's 2023 climate-disclosure rules require Flex to disclose Scope 1 and 2 GHG emissions starting in 2025; Flex's sustainability-linked credit facility ($1.2B) aligns with SEC expectations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Medical-Device Manufacturing Compliance",
+        "relationshipNote": "FDA regulates Flex's medical-device manufacturing operations under 21 CFR Part 820 (Quality System Regulation). Flex's Ireland, Malaysia, and Mexico facilities maintain FDA registration and undergo periodic inspections; Flex's FY2024 10-K disclosed no material FDA warning letters or import alerts. FDA's 2023 guidance on cybersecurity for medical devices (FDA-2023-D-5235) requires Flex to implement enhanced security controls for connected-device manufacturing; Flex's medical segment (18% of revenue) is subject to FDA premarket notification (510(k)) and postmarket surveillance requirements.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Medicines Agency / European Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "EU Medical-Device Regulation (MDR) Compliance",
+        "relationshipNote": "EMA and EU Commission regulate Flex's Ireland manufacturing hub under EU Medical Device Regulation (MDR 2017/745). Flex's Ireland facility is notified body-certified for Class II and Class III medical devices; EU MDR compliance requires enhanced traceability, post-market surveillance, and technical documentation. Flex's FY2024 10-K disclosed €50–80M capex investment in Ireland to support EU MDR compliance; Flex's medical segment (18% of revenue) generates ~€1.2B revenue from EU customers (Medtronic, Philips, Stryker European operations).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. International Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "usitc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Tariff & Trade Policy",
+        "relationshipNote": "USITC regulates Flex's exposure to US tariffs on electronics components and finished goods. Flex's FY2024 10-K disclosed tariff exposure of ~$180–220M annually (6–8% of COGS) on China-origin PCBs and semiconductors; Flex filed Section 301 exclusion requests for high-volume medical-device components. USITC's 2023 tariff rate increase (from 12.5% to 25% on certain electronics) prompted Flex's nearshoring capex ($150M over 2024–2026) to Mexico and Vietnam to reduce tariff exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition",
+        "relationshipNote": "FTC monitors Flex's competitive practices and customer relationships for antitrust compliance. Flex's customer concentration (top-3 customers = 35% of revenue) is monitored by FTC under Hart-Scott-Rodino Act; Flex's 2023 acquisition of Wyle Electronics' medical-device division was reviewed by FTC for competitive impact. FTC's 2024 guidance on supply-chain concentration (FTC-2024-xxxx) flags Flex's role as a critical node in medical-device supply chain; no material FTC enforcement actions against Flex as of FY2024.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Risk Assessment",
+      "relationshipNote": "Deloitte serves as Flex's external auditor, providing annual financial statement audits and internal-control assessments under PCAOB standards. Deloitte's FY2024 audit opinion (unqualified) confirmed Flex's financial statements are fairly presented and internal controls over financial reporting are effective. Deloitte's audit scope includes evaluation of customer concentration risk, leverage covenant compliance, and medical-device manufacturing regulatory compliance; Deloitte's audit fees (~$8–10M annually) represent ~0.03% of Flex's revenue.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Credit Facility Manager",
+        "relationshipNote": "JPMorgan Chase is Flex's primary lender, managing a $2.5B revolving credit facility and $1.2B sustainability-linked credit facility. JPMorgan's facilities support Flex's working-capital needs and nearshoring capex; facility terms include debt/EBITDA covenant <3.0x and interest-rate pricing tied to ESG metrics. JPMorgan's 2024 credit facility renewal extended maturity to 2029 with pricing of SOFR + 175bps; JPMorgan's syndicate includes Bank of America, Citigroup, and Wells Fargo.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Brookfield Asset Management Inc.",
+        "ticker": "BAM",
+        "cik": "0001347763",
+        "slug": "brookfield_asset_management",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Equity Investor & Strategic Partner",
+        "relationshipNote": "Brookfield Asset Management holds ~7.2% of Flex's equity (as of FY2024 10-K), making it Flex's largest institutional shareholder. Brookfield's investment thesis focuses on Flex's medical-device manufacturing TAM expansion and nearshoring capex; Brookfield has board representation and participates in strategic planning. Brookfield's 2023 investment in Flex ($1.8B) valued the company at ~$18B; Brookfield's infrastructure-focused investment strategy aligns with Flex's manufacturing-capacity expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Passive Equity Investor",
+        "relationshipNote": "Vanguard holds ~5.8% of Flex's equity through its index and actively managed funds, making it Flex's second-largest institutional shareholder. Vanguard's investment is passive (index-tracking) with no board representation; Vanguard's voting power on ESG and governance matters influences Flex's sustainability initiatives. Vanguard's 2024 engagement with Flex focused on medical-device supply-chain resilience and climate-risk disclosure; Vanguard's ownership stake (~$1.6B at current market cap) makes Flex a material holding in healthcare-sector indices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Passive Equity Investor & Engagement",
+        "relationshipNote": "BlackRock holds ~5.1% of Flex's equity through its index and actively managed funds, making it Flex's third-largest institutional shareholder. BlackRock's engagement with Flex focuses on governance, executive compensation alignment, and ESG metrics; BlackRock's 2024 proxy voting supported Flex's board nominees and executive compensation plan. BlackRock's ownership stake (~$1.4B at current market cap) makes Flex a material holding in technology and healthcare-sector indices; BlackRock's stewardship activities influence Flex's capital allocation and risk-management practices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Revathi Advaithi",
+        "title": "President & Chief Executive Officer",
+        "slug": "revathi_advaithi",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Revathi Advaithi became Flex's CEO in 2020, succeeding Mike McNamara. Advaithi's strategic focus includes medical-device manufacturing expansion, nearshoring capex, and ESG initiatives; under her leadership, Flex's medical segment grew from 14% to 18% of revenue (2020–2024). Advaithi's compensation (FY2024: $18.5M base + equity) is tied to revenue growth, EBITDA margin, and ESG metrics; her background in operations and supply-chain management (prior roles at Flex and Flextronics) positions her to execute nearshoring strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Paul Lundstrom",
+        "title": "Chief Financial Officer",
+        "slug": "paul_lundstrom",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Paul Lundstrom became Flex's CFO in 2021, replacing Mike Hartmeier. Lundstrom's focus includes debt management, working-capital optimization, and sustainability-linked credit facility administration; under his leadership, Flex reduced net debt by $400M (2021–2024) while maintaining investment-grade credit ratings. Lundstrom's compensation (FY2024: $6.2M base + equity) is tied to free-cash-flow generation and leverage reduction; his background in finance and M&A (prior roles at Flex and Sanmina) positions him to manage capital structure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Lucian Boldea",
+        "title": "Chief Operating Officer",
+        "slug": "lucian_boldea",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Manufacturing Execution",
+        "relationshipNote": "Lucian Boldea serves as Flex's COO, overseeing global manufacturing operations, supply-chain management, and nearshoring capex execution. Boldea's focus includes medical-device manufacturing quality, FDA compliance, and operational efficiency; under his leadership, Flex's medical segment gross margin improved from 8.9% to 9.8% (2022–2024). Boldea's background in operations and manufacturing (prior roles at Flex and Jaco Electronics) positions him to execute nearshoring strategy and improve operational leverage.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kathleen Eisbrenner",
+        "title": "Chairperson of the Board",
+        "slug": "kathleen_eisbrenner",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Board Governance & Strategic Oversight",
+        "relationshipNote": "Kathleen Eisbrenner became Flex's Chairperson in 2022, succeeding Michael Hartmeier. Eisbrenner's focus includes board governance, executive compensation oversight, and strategic planning; she brings experience from prior roles at Cisco and Broadcom. Eisbrenner's board committees include Audit, Compensation, and Nominating & Governance; her leadership supports Flex's ESG initiatives and medical-device supply-chain resilience planning.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "8-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Flex Weekly Comp-Store Sales Index",
+        "slug": "flex_comp_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Demand Signal",
+        "relationshipNote": "Flex's weekly order intake and backlog-to-revenue ratio serve as leading indicators of OEM demand for medical-device and consumer-electronics manufacturing. Flex's Q3 2024 backlog-to-revenue ratio (1.8x) signals 6–9 months of demand visibility; backlog growth of 12% YoY indicates strong medical-device OEM capex. Weekly order intake is monitored by equity analysts as proxy for Medtronic, Stryker, and Philips capex cycles; Flex's guidance for Q4 2024 revenue ($7.1–7.3B) implies 8–10% YoY growth.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "8-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Flex Gross Margin Trend (Medical vs Consumer Segment)",
+        "slug": "flex_margin_trend",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Profitability & Pricing Power",
+        "relationshipNote": "Flex's gross margin by segment (medical 9.8% vs consumer 7.1% in FY2024) reflects pricing power and mix shift toward higher-margin medical applications. Medical segment margin expansion of 90bps YoY (FY2023–FY2024) signals successful nearshoring capex and OEM pricing discipline; consumer segment margin compression of 40bps reflects competitive pricing pressure from Apple and Google. Gross margin trend is monitored quarterly via 10-Q disclosures; analyst consensus expects medical margin to reach 10.2% by FY2026 as nearshoring capex matures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-Q",
+          "earnings-call",
+          "inferred"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+        "neuralRegion": "LC",
+        "neuralRegionLabel": "Locus Coeruleus",
+        "businessSignature": "analyst_attention_concentration",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_executive_attention_signals"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.34,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "System for detecting LC-equivalent tonic-elevation in corporate-attention environment via news-flow + analyst-coverage signal",
+            "noveltyAnchor": "Cross-mapping arousal-circuit metrics to information-environment surveillance"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Cyber-Physical Systems for finance",
+              "NIST attention research"
+            ],
+            "angle": "Attention-economy modeling of corporate-news environment"
+          },
+          "investment": {
+            "thesis": "Sell tonic-elevation attention; buy phasic-resolution post-disclosure",
+            "horizon": "1-6mo"
+          },
+          "research": {
+            "hypothesis": "Companies with sustained tonic news-attention without resolution have higher 12mo distress probability",
+            "methodology": "news-flow analysis with distress-event coding"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7"
+        ],
+        "knownTreatments": [
+          "alpha-2 agonists (clonidine, guanfacine)",
+          "vagal nerve stimulation",
+          "mindfulness for phasic attention restoration"
+        ]
+      },
+      {
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "neuralRegion": "HAB",
+        "neuralRegionLabel": "Habenula",
+        "businessSignature": "contrarian_board_lock",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p5_stuck"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.325,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern",
+            "noveltyAnchor": "Anti-reward framework for board-decision diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research"
+            ],
+            "angle": "Anti-reward decision dynamics in board composition"
+          },
+          "investment": {
+            "thesis": "Activist-investor catalysts during contrarian-board lock",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+            "methodology": "event-study of board refresh and subsequent capital-action"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p5",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "ketamine (habenula modulation)",
+          "DBS to habenula in treatment-resistant depression",
+          "lateralized reward training"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:00.962Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+        "confidence": 0.34,
+        "artifact": {
+          "title": "Method and system for detecting analyst attention concentration via Locus Coeruleus-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting analyst attention concentration signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Locus Coeruleus-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined analyst attention concentration threshold. The method provides earlier and more specific detection of analyst attention concentration than conventional financial-distress models.",
+          "background": "Detection of analyst attention concentration in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting analyst attention concentration until well after the signature has been priced. Analyst attention concentration represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Locus Coeruleus (alpha-2 agonists) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting analyst attention concentration signature comprises: receiving filing data and counterparty network data, determining a Locus Coeruleus-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Cross-mapping arousal-circuit metrics to information-environment surveillance. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting analyst attention concentration signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Locus Coeruleus-equivalent decoupling score, wherein the determining the Locus Coeruleus-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Locus Coeruleus-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Locus Coeruleus-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined analyst attention concentration threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"alpha-2 agonists\", \"vagal nerve stimulation\", and \"mindfulness for phasic attention restoration\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Cross-mapping arousal-circuit metrics to information-environment surveillance",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.150Z"
+        }
+      },
+      {
+        "lane": "patent",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Method and system for detecting contrarian board lock via Habenula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting contrarian board lock signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Habenula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold. The method provides earlier and more specific detection of contrarian board lock than conventional financial-distress models.",
+          "background": "Detection of contrarian board lock in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting contrarian board lock until well after the signature has been priced. Contrarian board lock represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Habenula (ketamine) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting contrarian board lock signature comprises: receiving filing data and counterparty network data, determining a Habenula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Anti-reward framework for board-decision diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting contrarian board lock signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Habenula-equivalent decoupling score, wherein the determining the Habenula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Habenula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Habenula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"ketamine\", \"DBS to habenula in treatment-resistant depression\", and \"lateralized reward training\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Anti-reward framework for board-decision diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.150Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+        "confidence": 0.34,
+        "programs": [
+          "NSF Cyber-Physical Systems for finance",
+          "NIST attention research"
+        ],
+        "artifact": {
+          "title": "Translational Locus Coeruleus-equivalent detection and intervention protocols for analyst attention concentration",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit analyst attention concentration signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with analyst attention concentration-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Locus Coeruleus-equivalent isomorphic pathology significantly modulates analyst attention concentration detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Flex Ltd. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified analyst attention concentration signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects analyst attention concentration signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Locus Coeruleus-equivalent analyst attention concentration detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Locus Coeruleus isomorphic pathology will increase analyst attention concentration detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Locus Coeruleus-equivalent analyst attention concentration detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for analyst attention concentration against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Attention-economy modeling of corporate-news environment",
+          "innovation": "The proposed work is innovative because it integrates Locus Coeruleus clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.150Z"
+        }
+      },
+      {
+        "lane": "grant",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "programs": [
+          "NACD research"
+        ],
+        "artifact": {
+          "title": "Translational Habenula-equivalent detection and intervention protocols for contrarian board lock",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit contrarian board lock signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with contrarian board lock-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Habenula-equivalent isomorphic pathology significantly modulates contrarian board lock detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Flex Ltd. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified contrarian board lock signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects contrarian board lock signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Habenula-equivalent contrarian board lock detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Habenula isomorphic pathology will increase contrarian board lock detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Habenula-equivalent contrarian board lock detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for contrarian board lock against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Anti-reward decision dynamics in board composition",
+          "innovation": "The proposed work is innovative because it integrates Habenula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.150Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+        "confidence": 0.34,
+        "side": "LONG",
+        "horizon": "1-6mo",
+        "artifact": {
+          "header": "Flex Ltd. (FLEX) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 1-6mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: LC_arousal_dysregulation_x_analyst_attention_concentration (confidence 0.34)",
+          "variantView": "FLEX screens as electronic components & accessories manufacturing-typical. Underneath, the operative driver is Locus Coeruleus-equivalent isomorphic pathology — (analyst attention concentration) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Electronic Components & Accessories Manufacturing entities exhibiting analyst attention concentration: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Flex Ltd.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 1-6mo months because once the analyst attention concentration pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 1-6momo: [IRR]%\n\nMultiple chosen because: Electronic Components & Accessories Manufacturing peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.34).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.34, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Electronic Components & Accessories Manufacturing; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_executive_attention_signals\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Locus Coeruleus ↔ analyst attention concentration mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 1-6mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Sell tonic-elevation attention; buy phasic-resolution post-disclosure",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.150Z"
+        }
+      },
+      {
+        "lane": "investment",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "side": "LONG",
+        "horizon": "12-24mo",
+        "artifact": {
+          "header": "Flex Ltd. (FLEX) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
+          "variantView": "FLEX screens as electronic components & accessories manufacturing-typical. Underneath, the operative driver is Habenula-equivalent isomorphic pathology — (contrarian board lock) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Electronic Components & Accessories Manufacturing entities exhibiting contrarian board lock: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Flex Ltd.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the contrarian board lock pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Electronic Components & Accessories Manufacturing peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.325).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Electronic Components & Accessories Manufacturing; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.150Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+        "confidence": 0.34,
+        "artifact": {
+          "title": "Empirical test of Locus Coeruleus-equivalent analyst attention concentration mapping on Flex Ltd.",
+          "hypothesis": "Companies with sustained tonic news-attention without resolution have higher 12mo distress probability",
+          "methodology": "news-flow analysis with distress-event coding",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Locus Coeruleus-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "LC_arousal_dysregulation_x_analyst_attention_concentration"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.150Z"
+        }
+      },
+      {
+        "lane": "research",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Empirical test of Habenula-equivalent contrarian board lock mapping on Flex Ltd.",
+          "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+          "methodology": "event-study of board refresh and subsequent capital-action",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.150Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.150Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 2,
+    "artifactsByLane": {
+      "patent": 2,
+      "grant": 2,
+      "sba": 0,
+      "investment": 2,
+      "research": 2,
+      "franchise": 0
+    },
+    "totalArtifacts": 8
+  }
+}

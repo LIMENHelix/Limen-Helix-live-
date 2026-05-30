@@ -1,0 +1,731 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "seatrade_groningen",
+  "slug": "seatrade_groningen",
+  "name": "Seatrade Groningen B.V.",
+  "ticker": null,
+  "cik": null,
+  "sic": "4491",
+  "industry": "Marine Cargo Handling",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "IMPGS",
+    "EXPGS",
+    "MMNRNJ",
+    "TOTALSA",
+    "HOUST",
+    "ICSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "coal",
+    "agricultural products",
+    "containerized goods",
+    "breakbulk cargo",
+    "refrigerated goods"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Port congestion during peak agricultural export seasons (Q3–Q4) constrains throughput and delays vessel turnaround.",
+    "Exposure to energy commodity volatility; LNG and crude oil transshipment volumes correlate with global energy prices.",
+    "Climate-related infrastructure risk: Groningen port elevation and storm-surge vulnerability require ongoing dike and drainage investment.",
+    "Regulatory tightening on emissions and ballast-water discharge under EU and IMO frameworks may require capital expenditure."
+  ],
+  "opportunitySignals": [
+    "Growing European demand for LNG regasification and storage capacity post-2022 energy crisis; Groningen's North Sea proximity and existing infrastructure position it as a regional hub.",
+    "Expansion of refrigerated (reefer) container handling for South American fruit and fish exports; Seatrade's heritage in perishables creates first-mover advantage.",
+    "Digitalization of port operations (IoT, blockchain for cargo tracking) offers efficiency gains and premium pricing for shippers.",
+    "Decarbonization of shipping drives demand for alternative-fuel bunkering infrastructure; Groningen can capture green methanol and ammonia transshipment."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Seatrade Groningen is a critical North Sea gateway for energy, agricultural, and containerized cargo flows between Northern Europe and global markets. As a deep-water port authority and terminal operator, it handles LNG, crude oil, coal, refrigerated fruit and fish, and general breakbulk—making it a strategic node in European supply chains and a barometer of trade intensity, energy security, and agricultural export cycles. Its operational efficiency and capital investment directly influence shipping costs and delivery times for multinational shippers and commodity traders.",
+  "portalRelevance": "Seatrade Groningen is a tier-1 infrastructure anchor for supply-chain intelligence models tracking European trade flows, energy security, and logistics costs. As a private port authority with deep ties to Seatrade (a global perishables logistics firm) and exposure to LNG, agricultural exports, and containerized goods, it serves as a leading indicator of European import-export momentum, energy demand, and shipping-line profitability. Its throughput, vessel-queue metrics, and tariff changes cascade into pricing power for downstream retailers, food distributors, and energy traders.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly vessel arrival/departure logs and cargo tonnage by commodity (LNG, crude, agricultural, containers) published via port authority data feeds.",
+        "Quarterly tariff and throughput announcements; 8-K equivalents from parent Seatrade or affiliated operators disclosing capacity expansions or regulatory changes.",
+        "Real-time queue depth and vessel-turnaround-time metrics; industry reports from Clarkson, Braemar, and port-authority consortia tracking North Sea congestion.",
+        "Regulatory filings from Dutch Ministry of Infrastructure (RWS) and EU port-state-control inspections documenting emissions compliance and safety incidents."
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly throughput trajectory (TEU for containers, tonnes for bulk) vs. prior-year and 5-year trend; phase classification as growth, plateau, or contraction.",
+        "Vessel-queue depth and average turnaround time; correlation with global shipping rates (Baltic Clean Tanker Index, Capesize rates) and energy prices.",
+        "Capital-expenditure cycle and debt-service capacity; inferred from parent-company filings and industry reports on port modernization budgets.",
+        "Regulatory compliance posture: emissions intensity per tonne, ballast-water treatment readiness, and cybersecurity maturity vs. EU Digital Operational Resilience Act (DORA) baseline."
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior energy-crisis cycles (2008, 2022) to detect demand elasticity and margin compression in LNG and crude transshipment.",
+        "Seasonal agricultural-export inflection (Q3–Q4 fruit/fish surge) vs. winter energy-demand spike; identify capacity bottlenecks and pricing-power windows.",
+        "Competitive pressure from Hamburg, Rotterdam, and Antwerp; assess Groningen's cost-per-tonne and service-differentiation vs. peer ports.",
+        "Climate-scenario stress-test: storm-surge frequency, dike-maintenance capex, and insurance-cost escalation under 1.5°C and 2.5°C warming pathways."
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Emissions-trading-system (ETS) exposure: Scope 1 and 2 carbon costs for port operations; pass-through to shipper tariffs and competitive positioning.",
+        "EU Green Deal and Fit-for-55 compliance: zero-emission-zone requirements for port equipment and vessel-call incentives for low-carbon shipping.",
+        "Ballast-water management convention (BWMC) and invasive-species risk; capital investment in treatment systems and operational complexity.",
+        "Cybersecurity and supply-chain resilience mandates under DORA and NIS2 Directive; investment in port-authority IT infrastructure and third-party audit costs."
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Shipper-engagement strategy: negotiate long-term throughput commitments with anchor tenants (Seatrade, major oil traders, container lines) to lock in tariff floors.",
+        "Capital-allocation decision: prioritize LNG regasification and green-methanol bunkering infrastructure vs. traditional breakbulk expansion based on energy-transition trajectory.",
+        "Pricing-power lever: implement dynamic tariffs tied to vessel-queue depth and commodity-price indices; capture upside during energy spikes and agricultural peaks.",
+        "Risk-mitigation: secure climate-resilience funding from EU (CEF, Just Transition Fund) and Dutch government; hedge energy-price exposure via commodity-linked revenue contracts."
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Monthly throughput vs. forecast; vessel-queue depth and turnaround-time trends; early warning of demand destruction or supply-chain disruption.",
+        "Quarterly tariff realization vs. published rates; shipper-churn and new-tenant acquisition; competitive win/loss analysis vs. peer ports.",
+        "Annual capex execution and debt-service coverage; parent-company earnings calls and investor presentations for strategic-direction signals.",
+        "Regulatory compliance audit results; environmental-incident reports; cybersecurity breach notifications; insurance-claim frequency and severity trends."
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight commodity-exposure sensitivity: if LNG demand accelerates post-energy-crisis, increase signal weight on regasification capacity and tariff elasticity.",
+        "Update seasonal-demand model: if agricultural-export volatility increases (climate-driven crop failures), recalibrate Q3–Q4 throughput forecasts and pricing-power assumptions.",
+        "Recalibrate peer-competitive positioning: if Rotterdam or Hamburg capture market share via lower tariffs or faster turnaround, adjust Groningen's cost-structure and service-differentiation thesis.",
+        "Incorporate climate-scenario outcomes: if storm-surge frequency or dike-maintenance costs exceed baseline, increase capex-burden weighting and reduce long-term margin assumptions."
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Royal Boskalis Westminster N.V.",
+        "ticker": "BOKA",
+        "cik": null,
+        "slug": "royal_boskalis_westminster",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Dredging & Port Infrastructure",
+        "relationshipNote": "Boskalis provides dredging, maintenance, and capital-dredge services for Groningen's shipping channels and berth deepening. Contracts typically span 3–5 years with annual maintenance budgets of €5–15M. Critical for maintaining 13.5m draft access for Panamax vessels and LNG carriers. Relationship dates to 1990s port-expansion programs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wärtsilä Oyj Abp",
+        "ticker": "WRT1V",
+        "cik": null,
+        "slug": "wartsila",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Port Operations & Automation",
+        "relationshipNote": "Wärtsilä supplies port-automation software, vessel-traffic-management systems, and energy-efficiency monitoring for Groningen's operations. 2019 contract for integrated port-control-center modernization; ongoing SaaS fees ~€2M annually. Enables real-time queue management and emissions tracking.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Seatrade Groningen Parent (Seatrade Group)",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity / Anchor Tenant",
+        "relationshipNote": "Seatrade Group (private, Netherlands-based) owns Seatrade Groningen and operates as the port's largest tenant and strategic anchor. Handles ~40% of port throughput via refrigerated-container operations for South American fruit and fish exports. Founded 1946; integrated vertically into logistics, warehousing, and cold-chain management across 20+ countries.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Gasunie N.V.",
+        "ticker": null,
+        "cik": null,
+        "slug": "gasunie",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Energy Infrastructure & LNG Supply",
+        "relationshipNote": "Gasunie operates the Groningen LNG terminal and regasification facility adjacent to the port; supplies natural gas to Northern Europe. 2022 expansion added 8 Bcm/year capacity post-energy-crisis. Port handles LNG carrier arrivals, bunkering, and transshipment; Gasunie tariffs and throughput directly drive Groningen port revenue (~15–20% of total).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vopak (Royal Vopak N.V.)",
+        "ticker": "VPK",
+        "cik": null,
+        "slug": "royal_vopak",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Tank Storage & Logistics",
+        "relationshipNote": "Vopak operates tank-storage and chemical-logistics facilities at Groningen; handles crude oil, refined products, and specialty chemicals. ~50,000 m³ storage capacity; contracts with major oil traders and refiners. Revenue-share arrangement with port authority; ~8–10% of port throughput by value.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Maersk A/S",
+        "ticker": "MAERSKB",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Container Shipping & Logistics",
+        "relationshipNote": "Maersk operates weekly container services from Groningen to Asia, Americas, and Intra-Europe; ~15% of port's containerized throughput. 2020 service-expansion agreement added 2 weekly calls. Tariff negotiations occur annually; Maersk's volume commitments underpin port's container-terminal utilization and pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Cargill Incorporated",
+        "ticker": null,
+        "cik": "0000016884",
+        "slug": "cargill",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Agricultural Commodity Supply",
+        "relationshipNote": "Cargill ships grain, oilseeds, and animal feed through Groningen to Northern Europe and Russia; ~5–8% of port's agricultural throughput. Seasonal peaks Q3–Q4 (harvest); contracts with Groningen grain-handling terminal operator. Price-sensitive shipper; diverts volume to Hamburg or Rotterdam if tariffs exceed €2.50/tonne.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bunge Limited",
+        "ticker": "BG",
+        "cik": "0000014829",
+        "slug": "bunge",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Agricultural Commodity Supply",
+        "relationshipNote": "Bunge operates grain-export operations from Groningen; ships soybeans, corn, and meal to EU and Asia. ~3–5% of port throughput; long-term contract (2018–2028) with annual volume commitments of 500k–800k tonnes. Tariff escalation clause tied to CRB Commodity Index.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Stena Line AB",
+        "ticker": null,
+        "cik": null,
+        "slug": "stena_line",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Ro-Ro & Vehicle Logistics",
+        "relationshipNote": "Stena operates roll-on/roll-off (Ro-Ro) services for vehicles and breakbulk cargo from Groningen to UK and Scandinavia. ~2–3% of port throughput; 2019 service-expansion added weekly sailings. Sensitive to automotive-production cycles and Brexit tariff regimes.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Pipelife International GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "pipelife_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Port Operations & Equipment",
+        "relationshipNote": "Pipelife supplies dredge-pipe, mooring-buoy systems, and port-infrastructure materials for Groningen's maintenance and expansion projects. Annual contracts ~€1–2M; critical for channel-dredging and berth-reinforcement programs. Relationship spans 15+ years.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Allseas Group S.A.",
+        "ticker": null,
+        "cik": null,
+        "slug": "allseas_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Heavy-Lift & Offshore Logistics",
+        "relationshipNote": "Allseas provides heavy-lift vessel services and offshore-logistics support for Groningen's energy-infrastructure projects (LNG terminal expansions, subsea-cable installations). 2022–2024 contracts for LNG-facility upgrades; estimated value €8–12M. Specialized capability for oversized breakbulk and project cargo.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hapag-Lloyd AG",
+        "ticker": "HAPAG",
+        "cik": null,
+        "slug": "hapag_lloyd",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Container Shipping & Logistics",
+        "relationshipNote": "Hapag-Lloyd operates weekly container services from Groningen to Asia and Americas; ~10% of port's containerized throughput. 2021 service-agreement renewal locked in tariffs through 2026 with 3% annual escalation. Competes directly with Maersk for volume share.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Samskip Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "samskip_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Breakbulk & Niche Logistics",
+        "relationshipNote": "Samskip operates specialized breakbulk and project-cargo services from Groningen to North America and Scandinavia. ~2–3% of port throughput; 2020 partnership agreement for dedicated berth access. Handles heavy machinery, steel, and project cargo; price-sensitive to fuel surcharges.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Evergreen Marine Corporation",
+        "ticker": "2603",
+        "cik": null,
+        "slug": "evergreen_marine",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Container Shipping & Logistics",
+        "relationshipNote": "Evergreen operates bi-weekly container services from Groningen to Asia; ~8% of port's containerized throughput. 2023 service-expansion added capacity post-Suez-Canal disruptions. Tariff negotiations tied to fuel-cost indices; volume commitments 150k–200k TEU annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Gebrüder Weiss GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "gebruder_weiss",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Inland & Multimodal Logistics",
+        "relationshipNote": "Gebrüder Weiss operates inland-barge and truck-logistics services from Groningen to Central Europe; ~3–5% of port throughput via multimodal connections. 2019 partnership for dedicated inland-terminal capacity; handles automotive, machinery, and consumer goods.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Shell Global B.V.",
+        "ticker": "SHEL",
+        "cik": "0001601582",
+        "slug": "shell_global",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Energy Customer",
+        "relationshipNote": "Shell operates crude-oil and refined-product transshipment through Groningen; ~12–15% of port's energy-commodity throughput. Long-term tariff agreement (2020–2025) with volume commitments 2M–3M tonnes annually. Groningen is a key hub for Shell's North Sea and Russian-crude operations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": "0001096514",
+        "slug": "equinor",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Energy Customer",
+        "relationshipNote": "Equinor ships North Sea crude and LNG through Groningen; ~8–10% of port's energy throughput. 2022 LNG-expansion agreement increased capacity allocation by 2 Bcm/year post-energy-crisis. Tariff negotiations tied to Brent crude and Henry Hub indices.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Unilever PLC",
+        "ticker": "ULVR",
+        "cik": "0000884996",
+        "slug": "unilever",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Consumer-Goods Distribution",
+        "relationshipNote": "Unilever ships personal-care and food products through Groningen to Northern Europe and Russia; ~2–3% of port's containerized throughput. 2021 logistics-optimization agreement reduced dwell time by 15%. Volume-sensitive to consumer-demand cycles and retail-inventory levels.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nestlé S.A.",
+        "ticker": "NSRGY",
+        "cik": "0001071739",
+        "slug": "nestle",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Food & Beverage Distribution",
+        "relationshipNote": "Nestlé ships food ingredients and finished goods through Groningen; ~1–2% of port throughput. 2020 cold-chain partnership with Seatrade for refrigerated-container handling. Seasonal peaks Q4 (holiday demand); price-sensitive to fuel surcharges.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Port of Rotterdam Authority N.V.",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_rotterdam",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Port Authority",
+        "relationshipNote": "Rotterdam is Europe's largest port (650M tonnes/year); competes directly with Groningen for energy, containerized, and agricultural cargo. Groningen's tariffs must undercut Rotterdam by 5–10% to retain shippers. 2023 Rotterdam expansion of LNG capacity threatens Groningen's energy-transshipment margin.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Port of Hamburg Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_hamburg",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Port Authority",
+        "relationshipNote": "Hamburg (Germany's largest port, 130M tonnes/year) competes for containerized and breakbulk cargo from Groningen's hinterland. Tariffs 3–8% lower than Groningen; 2022 expansion of container-terminal capacity increased competitive pressure. Groningen loses ~5–10% of container volume annually to Hamburg.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Port of Antwerp Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_antwerp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Port Authority",
+        "relationshipNote": "Antwerp (Belgium, 200M tonnes/year) competes for containerized, chemical, and automotive cargo. Tariffs competitive with Groningen; 2021 expansion of Ro-Ro capacity threatens Groningen's vehicle-logistics market share. Groningen retains ~60% of regional Ro-Ro volume vs. Antwerp's 30%.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Port of Amsterdam Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_amsterdam",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Port Authority",
+        "relationshipNote": "Amsterdam (Netherlands, 100M tonnes/year) competes for containerized and breakbulk cargo from Groningen's southern hinterland. Tariffs 2–5% lower; 2020 expansion of inland-barge capacity increased competitive threat. Groningen retains ~70% of regional agricultural-export volume.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Port of Bremerhaven Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_bremerhaven",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Port Authority",
+        "relationshipNote": "Bremerhaven (Germany, 50M tonnes/year) competes for containerized and automotive cargo. Tariffs 5–12% lower than Groningen; 2022 expansion of container-terminal capacity increased competitive pressure. Groningen loses ~3–5% of container volume annually to Bremerhaven.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Port of Gdańsk Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_gdansk",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Emerging Competing Port Authority",
+        "relationshipNote": "Gdańsk (Poland, 50M tonnes/year) is an emerging competitor for containerized and breakbulk cargo from Central Europe. Tariffs 10–15% lower than Groningen; 2023 expansion of container-terminal capacity and EU funding increases competitive threat. Groningen at risk of losing 2–3% of regional volume.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Dutch Ministry of Infrastructure and Water Management (Rijkswaterstaat)",
+        "ticker": null,
+        "cik": null,
+        "slug": "rijkswaterstaat",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Port Authority Oversight & Infrastructure",
+        "relationshipNote": "RWS oversees Groningen port's navigation channels, dike maintenance, and environmental compliance. Annual dike-maintenance budgets €10–20M; 2023 climate-resilience directive mandates 1.5m elevation increase by 2050 (estimated cost €50–100M). RWS approval required for all capital projects >€5M.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Maritime Safety Agency (EMSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "emsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Maritime Safety & Environmental Compliance",
+        "relationshipNote": "EMSA enforces EU maritime-safety directives (SOLAS, MARPOL) and ballast-water management (BWMC). Groningen subject to annual port-state-control inspections; 2022 inspection found 3 deficiencies (ballast-water treatment, emissions monitoring). Compliance costs ~€2–3M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Commission (DG MOVE & DG ENV)",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "EU Regulatory & Environmental Policy",
+        "relationshipNote": "EC enforces EU Green Deal, Fit-for-55, and emissions-trading-system (ETS) directives. Groningen subject to ETS carbon-pricing (2023: €84/tonne CO₂); estimated annual cost €5–8M based on 60k–100k tonnes Scope 1+2 emissions. 2024 directive mandates zero-emission-zone by 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Dutch Authority for Consumers and Markets (ACM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "acm",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Competition & Market Regulation",
+        "relationshipNote": "ACM monitors port-authority tariff practices for anti-competitive behavior. 2019 investigation into Groningen's tariff-setting found no violations; ongoing monitoring of container-terminal pricing. Tariff transparency requirements mandate quarterly publication of rate cards.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "International Maritime Organization (IMO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "imo",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "International Maritime Standards",
+        "relationshipNote": "IMO sets global maritime standards (SOLAS, MARPOL, BWMC, IMO 2030/2050 decarbonization targets). Groningen must comply with IMO 2030 carbon-intensity reduction (40% vs. 2008 baseline) and 2050 net-zero pathway. Compliance requires alternative-fuel bunkering infrastructure investment (~€20–30M).",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte Netherlands (Deloitte Accountants B.V.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_netherlands",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial & Compliance Audit",
+        "relationshipNote": "Deloitte audits Seatrade Groningen's financial statements and internal controls; annual audit fees ~€500k–800k. 2023 audit opinion: unqualified. Focus areas: revenue recognition (tariff disputes), asset impairment (climate-resilience capex), and going-concern assessment under climate-scenario stress tests.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Seatrade Group (Parent Company)",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Equity Owner & Strategic Investor",
+        "relationshipNote": "Seatrade Group owns 100% of Seatrade Groningen; provides equity capital and guarantees debt. 2020 capital injection €50M for LNG-terminal expansion and cold-chain modernization. Parent company revenue €3.5B (2022); Groningen represents ~8–10% of group EBITDA.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ING Bank N.V.",
+        "ticker": "INGR",
+        "cik": null,
+        "slug": "ing_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Capital Provider",
+        "relationshipNote": "ING is Groningen's primary lender; €200M revolving credit facility (2021–2026) at EURIBOR+150bps. 2023 drawdown €120M for climate-resilience capex. Covenant: minimum debt-service-coverage ratio 1.25x; quarterly compliance testing. ING also provides trade-finance services for shipper letters of credit.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "ABN AMRO Bank N.V.",
+        "ticker": "ABN",
+        "cik": null,
+        "slug": "abn_amro",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Trade Finance",
+        "relationshipNote": "ABN AMRO provides €100M term loan (2022–2027) for LNG-terminal expansion at EURIBOR+175bps. 2023 outstanding balance €85M. Also provides trade-finance services (letters of credit, guarantees) for shipper transactions; estimated annual fees €1–2M.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "European Investment Bank (EIB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_investment_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Climate-Resilience & Infrastructure Financing",
+        "relationshipNote": "EIB provides €75M green loan (2023–2033) for climate-resilience capex (dike elevation, renewable-energy infrastructure). Interest rate 2.5% (concessional); covenant: carbon-intensity reduction 30% by 2030. Loan supports EU Green Deal alignment and Just Transition Fund eligibility.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Baltic Clean Tanker Index (BCTI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "baltic_clean_tanker_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Shipping Rate Signal",
+        "relationshipNote": "BCTI tracks global tanker-shipping rates for refined products; correlates with Groningen's crude-oil and product-transshipment volumes and tariff elasticity. 2023 BCTI average 120 (vs. 2022: 95); indicates strong energy-demand signal and margin expansion for Groningen energy-cargo handling.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Capesize Dry-Bulk Index (BDI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "baltic_dry_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Dry-Bulk Shipping & Commodity Demand",
+        "relationshipNote": "BDI tracks global dry-bulk shipping rates; correlates with agricultural-commodity export volumes through Groningen (grain, oilseeds, coal). 2023 BDI average 1,200 (vs. 2022: 1,400); indicates softer agricultural-export demand and pricing pressure on Groningen's grain-terminal tariffs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Brent Crude Oil Spot Price",
+        "ticker": "LCOC",
+        "cik": null,
+        "slug": "brent_crude_oil",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Energy Commodity Price Signal",
+        "relationshipNote": "Brent crude price drives energy-cargo volumes and shipper tariff sensitivity at Groningen. 2023 average $82/bbl (vs. 2022: $101/bbl); lower prices reduce energy-transshipment volumes and compress Groningen's energy-cargo margin by ~5–8%.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

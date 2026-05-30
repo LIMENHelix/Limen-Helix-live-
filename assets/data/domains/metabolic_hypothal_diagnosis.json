@@ -1,0 +1,99 @@
+{
+  "domainId": "metabolic_hypothal_diagnosis",
+  "title": "Hypothalamic Energy Sensing — Diagnostic Pattern Recognition",
+  "parentPortal": "metabolic_hypothal_portal.html",
+  "parentLabel": "Hypothalamic Energy Sensing",
+  "phase": "P2",
+  "activations": [
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Hypothalamic Energy Sensing — Diagnostic Pattern Recognition — Primary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Hypothalamic Energy Sensing dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "metabolic_hypothal_diagnosis_assess_portal.html"
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Hypothalamic Energy Sensing — Diagnostic Pattern Recognition — Secondary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Hypothalamic Energy Sensing dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "metabolic_hypothal_diagnosis_impl_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Hypothalamic Energy Sensing — Diagnostic Pattern Recognition — Tertiary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Hypothalamic Energy Sensing dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "metabolic_hypothal_diagnosis_optim_portal.html"
+    }
+  ]
+}

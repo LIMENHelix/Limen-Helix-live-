@@ -1,0 +1,2404 @@
+{
+  "domainId": "metabolic",
+  "title": "Metabolic & Endocrine",
+  "parentPortal": "clinical.html",
+  "parentLabel": "Clinical",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Hypothalamic Energy Sensing",
+      "domainDescription": "Central hub for metabolic homeostasis integrating leptin, insulin, ghrelin, and glucose signals",
+      "domainFunction": "Coordinates appetite, satiety, thermogenesis, and autonomic metabolic regulation via arcuate, ventromedial, and lateral hypothalamic nuclei",
+      "whyThisNode": "The hypothalamus is the master integrator of peripheral metabolic signals — leptin/insulin resistance here is the upstream driver of obesity, diabetes, and neuroendocrine dysfunction",
+      "group": "hypothalamic_pituitary",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "TYPE_2_DIABETES",
+        "METABOLIC_SYNDROME",
+        "OBESITY_NEUROMETABOLIC",
+        "INSULIN_RESISTANCE",
+        "PCOS"
+      ],
+      "treatments": [
+        {
+          "label": "GLP-1 receptor agonist therapy",
+          "type": "PHARMACOLOGICAL",
+          "description": "Semaglutide/tirzepatide restores hypothalamic satiety signaling and reduces appetite drive via GLP-1R activation in arcuate nucleus",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Time-restricted eating protocol",
+          "type": "BEHAVIORAL",
+          "description": "Aligning food intake with circadian hypothalamic rhythms restores insulin sensitivity cycling and leptin signaling fidelity",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "metabolic_hypothal_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Hypothalamic Energy Sensing",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        },
+        {
+          "domain": "population",
+          "role": "Gender Demographics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PIT",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination",
+      "domainDescription": "Master endocrine gland transducing hypothalamic signals into peripheral hormone cascades",
+      "domainFunction": "Secretes ACTH, TSH, GH, LH/FSH, and prolactin in response to hypothalamic releasing factors, governing adrenal, thyroid, gonadal, and growth axes",
+      "whyThisNode": "The pituitary is the signal transducer between central neural commands and peripheral endocrine organs — its dysfunction cascades across every metabolic axis",
+      "group": "hypothalamic_pituitary",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "CUSHINGS",
+        "ADRENAL_INSUFFICIENCY",
+        "HYPOTHYROIDISM",
+        "PCOS"
+      ],
+      "treatments": [
+        {
+          "label": "Targeted hormone replacement",
+          "type": "PHARMACOLOGICAL",
+          "description": "Axis-specific replacement (levothyroxine, hydrocortisone, GH) restores downstream signaling cascades disrupted by pituitary dysfunction",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Dynamic pituitary function testing",
+          "type": "DIAGNOSTIC",
+          "description": "ACTH stimulation, TRH stimulation, and insulin tolerance testing to map residual pituitary reserve across all axes",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Pituitary Hormone Coordination",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway Core Operations"
+        },
+        {
+          "domain": "communication",
+          "role": "Adaptive Iteration Systems"
+        },
+        {
+          "domain": "culture",
+          "role": "Interior Architecture Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Depot Maintenance Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Resource Mobilization Analysis"
+        },
+        {
+          "domain": "education",
+          "role": "College Admissions Human Capital & Development"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Economics Technology & Innovation"
+        },
+        {
+          "domain": "environment",
+          "role": "AQI Systems Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "HPA Axis Stress-Metabolism Coupling",
+      "domainDescription": "Hypothalamic-pituitary-adrenal axis linking stress responses to metabolic regulation",
+      "domainFunction": "Regulates cortisol output that modulates hepatic gluconeogenesis, visceral adiposity, insulin resistance, and hippocampal vulnerability",
+      "whyThisNode": "Chronic HPA dysregulation is the central mediator between psychological stress and metabolic disease — cortisol excess drives insulin resistance, visceral fat accumulation, and hippocampal atrophy",
+      "group": "stress_metabolic",
+      "phase": "P5",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "CUSHINGS",
+        "ADRENAL_INSUFFICIENCY",
+        "METABOLIC_SYNDROME",
+        "INSULIN_RESISTANCE",
+        "PCOS"
+      ],
+      "treatments": [
+        {
+          "label": "Cortisol synthesis inhibitors",
+          "type": "PHARMACOLOGICAL",
+          "description": "Osilodrostat or ketoconazole blocks adrenal steroidogenesis to normalize cortisol in Cushing's, protecting hippocampus and restoring insulin sensitivity",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Stress reduction and HPA normalization",
+          "type": "BEHAVIORAL",
+          "description": "Mindfulness-based stress reduction attenuates cortisol output, reducing cortisol-mediated insulin resistance and visceral adipogenesis",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "metabolic_hpa_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "HPA Axis Stress-Metabolism Coupling",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Stress-Relapse Cascade"
+        },
+        {
+          "domain": "business",
+          "role": "Organizational Stress"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal System Stress / Backlog"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Stress Response System"
+        },
+        {
+          "domain": "provider",
+          "role": "Provider Stress Response"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Stress Axis Normalization"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Infrastructure & Capacity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control — Feedback & Validation — Tertiary Node"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ADR",
+      "state": "active",
+      "domainLabel": "Adrenal Steroidogenesis",
+      "domainDescription": "Adrenal cortex production of cortisol, aldosterone, and androgens",
+      "domainFunction": "Synthesizes glucocorticoids for metabolic regulation, mineralocorticoids for electrolyte balance, and androgens as sex hormone precursors",
+      "whyThisNode": "The adrenal gland is the effector organ for both cortisol excess (Cushing's) and deficiency (Addison's) — its output directly determines metabolic substrate availability and vascular tone",
+      "group": "neuroendocrine",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "CUSHINGS",
+        "ADRENAL_INSUFFICIENCY",
+        "PCOS"
+      ],
+      "treatments": [
+        {
+          "label": "Physiologic glucocorticoid replacement",
+          "type": "PHARMACOLOGICAL",
+          "description": "Modified-release hydrocortisone mimics circadian cortisol rhythm, restoring metabolic substrate regulation in adrenal insufficiency",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Adrenal crisis prevention education",
+          "type": "BEHAVIORAL",
+          "description": "Structured self-management training for stress dosing prevents life-threatening adrenal crisis during metabolic demands",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "metabolic_adrenal_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Adrenal Steroidogenesis",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Assessment & Diagnostics"
+        },
+        {
+          "domain": "culture",
+          "role": "Hospitality Design Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "transport special — Signal Acquisition"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Transfer Policies Infrastructure & Capacity"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Storage Risk & Resilience"
+        },
+        {
+          "domain": "environment",
+          "role": "Electrostatic Precipitators — State Assessment"
+        },
+        {
+          "domain": "finance",
+          "role": "Variance Analysis Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Executive Metabolic Control",
+      "domainDescription": "Prefrontal executive function governing dietary decisions, treatment adherence, and impulse regulation",
+      "domainFunction": "Provides top-down inhibitory control over hedonic eating, supports working memory for glycemic management, and sustains attention for self-care behaviors",
+      "whyThisNode": "Prefrontal cortex is the first cortical casualty of metabolic disease — cerebral glucose hypometabolism, insulin resistance, and thyroid deficiency all impair executive function, creating a vicious cycle of poor self-management",
+      "group": "executive_behavioral",
+      "phase": "P5",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "TYPE_2_DIABETES",
+        "HYPOTHYROIDISM",
+        "METABOLIC_SYNDROME",
+        "CUSHINGS",
+        "OBESITY_NEUROMETABOLIC",
+        "INSULIN_RESISTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Cognitive rehabilitation during metabolic optimization",
+          "type": "BEHAVIORAL",
+          "description": "Structured executive function training concurrent with metabolic correction addresses residual prefrontal deficits from chronic hyperglycemia or thyroid deficiency",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Diabetes self-management education",
+          "type": "BEHAVIORAL",
+          "description": "Structured behavioral program leveraging prefrontal executive capacity to improve glycemic control and reduce cognitive burden of disease management",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "metabolic_executive_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Executive Metabolic Control",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Hippocampal Metabolic Vulnerability",
+      "domainDescription": "Hippocampal plasticity and memory function as targets of metabolic injury",
+      "domainFunction": "Hippocampal insulin receptors regulate synaptic plasticity and neurogenesis — chronic hyperglycemia, cortisol excess, and thyroid deficiency each independently drive hippocampal atrophy",
+      "whyThisNode": "The hippocampus is exquisitely sensitive to metabolic insult — it contains the highest density of insulin receptors, glucocorticoid receptors, and thyroid hormone receptors in the brain, making it the convergence point for metabolic neurodegeneration",
+      "group": "stress_metabolic",
+      "phase": "P5",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "TYPE_2_DIABETES",
+        "CUSHINGS",
+        "HYPOTHYROIDISM",
+        "INSULIN_RESISTANCE",
+        "METABOLIC_SYNDROME"
+      ],
+      "treatments": [
+        {
+          "label": "Aerobic exercise for hippocampal neurogenesis",
+          "type": "SOMATIC",
+          "description": "Structured aerobic exercise upregulates hippocampal BDNF, improves insulin sensitivity, and reverses diabetes-associated hippocampal atrophy",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Mediterranean dietary pattern",
+          "type": "NUTRITIONAL",
+          "description": "Anti-inflammatory polyphenols and omega-3 fatty acids enhance cerebrovascular function and reduce AGE-mediated hippocampal damage",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "metabolic_hippocampal_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Hippocampal Metabolic Vulnerability",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Reward-Appetite Circuit",
+      "domainDescription": "Nucleus accumbens hedonic food reward processing and dopaminergic appetite drive",
+      "domainFunction": "Integrates dopaminergic reward signals with metabolic state to drive food-seeking behavior — hyperinsulinemia and leptin resistance amplify hedonic eating via mesolimbic sensitization",
+      "whyThisNode": "The nucleus accumbens is where metabolic disease hijacks reward circuitry — insulin resistance increases food cue responsivity, and GLP-1 receptor agonists reduce appetite partly by dampening NAcc activation to food cues",
+      "group": "reward_appetite",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "OBESITY_NEUROMETABOLIC",
+        "INSULIN_RESISTANCE",
+        "METABOLIC_SYNDROME",
+        "PCOS"
+      ],
+      "treatments": [
+        {
+          "label": "GLP-1RA reward circuit modulation",
+          "type": "PHARMACOLOGICAL",
+          "description": "Semaglutide reduces nucleus accumbens food cue reactivity via central GLP-1 receptors, decoupling hedonic drive from metabolic hunger",
+          "evidence": "Strong"
+        },
+        {
+          "label": "CBT for emotional and hedonic eating",
+          "type": "BEHAVIORAL",
+          "description": "Cognitive-behavioral therapy addresses maladaptive reward-seeking eating patterns by strengthening prefrontal inhibitory control over NAcc-driven cravings",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "metabolic_rewardappetite_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Reward-Appetite Circuit",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        },
+        {
+          "domain": "trade",
+          "role": "Commodity Exchanges"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Dopaminergic Metabolic Signaling",
+      "domainDescription": "Ventral tegmental area dopamine output modulated by peripheral metabolic hormones",
+      "domainFunction": "Insulin and leptin receptors on VTA dopamine neurons modulate reward valuation of food — metabolic hormone resistance shifts dopaminergic tone toward compulsive eating",
+      "whyThisNode": "VTA dopamine neurons express insulin and leptin receptors — metabolic hormone resistance directly alters reward circuit gain, transforming normal appetite into pathological food-seeking in obesity and metabolic syndrome",
+      "group": "reward_appetite",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "OBESITY_NEUROMETABOLIC",
+        "INSULIN_RESISTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Naltrexone/bupropion combination",
+          "type": "PHARMACOLOGICAL",
+          "description": "Opioid antagonism plus norepinephrine/dopamine reuptake inhibition normalizes VTA reward signaling to reduce compulsive food intake",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Structured physical activity program",
+          "type": "SOMATIC",
+          "description": "Regular exercise normalizes VTA dopamine signaling and restores insulin sensitivity in mesolimbic reward circuits",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "metabolic_dopaminergic_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Dopaminergic Metabolic Signaling",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus"
+        },
+        {
+          "domain": "business",
+          "role": "Innovation Engine"
+        },
+        {
+          "domain": "economy",
+          "role": "Entrepreneurship"
+        },
+        {
+          "domain": "energy",
+          "role": "Solar and Wind"
+        },
+        {
+          "domain": "environment",
+          "role": "Renewable Resources"
+        },
+        {
+          "domain": "medicine",
+          "role": "Men's Health Optimization"
+        },
+        {
+          "domain": "population",
+          "role": "Youth Demographics"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Dopaminergic Drive Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Interoceptive Metabolic Sensing",
+      "domainDescription": "Anterior insular cortex processing visceral metabolic signals including glucose status, gut distension, and autonomic state",
+      "domainFunction": "Integrates interoceptive signals from peripheral metabolic sensors into conscious awareness of hunger, satiety, and metabolic distress — dysregulated in diabetes and obesity",
+      "whyThisNode": "The anterior insula is the cortical gateway for visceral metabolic signals — disrupted interoception in diabetes impairs glucose sensing, while insular hyperactivation in obesity amplifies food cue responsivity",
+      "group": "executive_behavioral",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "TYPE_2_DIABETES",
+        "OBESITY_NEUROMETABOLIC",
+        "METABOLIC_SYNDROME"
+      ],
+      "treatments": [
+        {
+          "label": "Interoceptive awareness training",
+          "type": "BEHAVIORAL",
+          "description": "Mindful eating and body scan practices recalibrate insular interoceptive processing to improve hunger-satiety discrimination",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Continuous glucose monitoring biofeedback",
+          "type": "DIAGNOSTIC",
+          "description": "Real-time CGM data provides external interoceptive signal to compensate for disrupted insular glucose sensing in diabetes",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Interoceptive Metabolic Sensing",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Intuition / Pattern Recognition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "GBA",
+      "state": "active",
+      "domainLabel": "Gut-Brain Metabolic Axis",
+      "domainDescription": "Bidirectional communication between gut microbiome and brain affecting metabolic regulation",
+      "domainFunction": "Gut microbiota produce SCFAs, modulate incretin secretion, regulate intestinal permeability, and influence central appetite circuits via vagal afferents and humoral signaling",
+      "whyThisNode": "The gut-brain axis is the second metabolic brain — microbiome dysbiosis in metabolic syndrome drives endotoxemia, neuroinflammation, and disrupted incretin signaling that worsen insulin resistance and central appetite dysregulation",
+      "group": "gut_brain",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "TYPE_2_DIABETES",
+        "OBESITY_NEUROMETABOLIC",
+        "METABOLIC_SYNDROME",
+        "INSULIN_RESISTANCE",
+        "PCOS"
+      ],
+      "treatments": [
+        {
+          "label": "Prebiotic fiber supplementation",
+          "type": "NUTRITIONAL",
+          "description": "Prebiotic fibers increase Akkermansia and Bifidobacteria populations, improving gut barrier integrity and GLP-1 secretion to restore metabolic signaling",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Mediterranean dietary pattern for microbiome restoration",
+          "type": "NUTRITIONAL",
+          "description": "Plant-rich Mediterranean diet increases microbial diversity, SCFA production, and reduces LPS translocation driving neuroinflammation",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Gut-Brain Metabolic Axis",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Gut-Brain Inflammation Axis"
+        },
+        {
+          "domain": "environment",
+          "role": "Soil Ecosystems"
+        },
+        {
+          "domain": "communication",
+          "role": "Screen Reader Compatibility Human Capital & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Aircraft Maintenance Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Infrastructure & Capacity"
+        },
+        {
+          "domain": "education",
+          "role": "Test Preparation Human Capital & Development"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Management Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ENS",
+      "state": "active",
+      "domainLabel": "Enteric Nervous System Integration",
+      "domainDescription": "Intrinsic gut nervous system coordinating digestion and metabolic hormone release",
+      "domainFunction": "The enteric nervous system independently regulates GI motility, incretin hormone secretion, and nutrient absorption, relaying metabolic information centrally via vagal and spinal afferents",
+      "whyThisNode": "The ENS contains more neurons than the spinal cord and directly controls incretin release (GLP-1, GIP) that is the target of the most effective obesity and diabetes therapeutics — enteric dysfunction disrupts the metabolic signaling chain at its source",
+      "group": "gut_brain",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "TYPE_2_DIABETES",
+        "OBESITY_NEUROMETABOLIC",
+        "METABOLIC_SYNDROME"
+      ],
+      "treatments": [
+        {
+          "label": "Prokinetic and incretin optimization",
+          "type": "PHARMACOLOGICAL",
+          "description": "GLP-1 receptor agonists enhance enteric incretin signaling, improving glucose-dependent insulin secretion and gastric emptying regulation",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Probiotic multi-strain therapy",
+          "type": "NUTRITIONAL",
+          "description": "Targeted probiotic strains restore enteric nervous system signaling fidelity and reduce gut-mediated metabolic inflammation",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Enteric Nervous System Integration",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Carbon Emissions"
+        },
+        {
+          "domain": "environment",
+          "role": "Forests & Carbon Sinks"
+        },
+        {
+          "domain": "industry",
+          "role": "Waste Treatment"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Waste Management"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Human Capital & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Acoustic Design Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Baseline Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VV",
+      "state": "active",
+      "domainLabel": "Vagal Metabolic Afferents",
+      "domainDescription": "Ventral vagal pathways conveying gut nutrient and metabolic status to brainstem and hypothalamus",
+      "domainFunction": "Vagal afferents from hepatoportal glucose sensors, intestinal nutrient detectors, and adipose tissue relay real-time metabolic state to NTS and hypothalamus for energy homeostasis",
+      "whyThisNode": "The vagus nerve is the primary information highway between peripheral metabolism and the brain — vagal afferent signaling of nutrient status is critical for meal termination, and bariatric surgery works partly by altering vagal metabolic signaling",
+      "group": "autonomic_metabolic",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "OBESITY_NEUROMETABOLIC",
+        "TYPE_2_DIABETES",
+        "METABOLIC_SYNDROME"
+      ],
+      "treatments": [
+        {
+          "label": "Vagal nerve stimulation for appetite modulation",
+          "type": "SOMATIC",
+          "description": "Transcutaneous auricular vagal nerve stimulation modulates vagal metabolic afferents to reduce appetite and improve glucose regulation",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Post-bariatric vagal remodeling support",
+          "type": "BEHAVIORAL",
+          "description": "Structured eating protocols after bariatric surgery optimize altered vagal satiety signaling for sustained metabolic benefit",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Vagal Metabolic Afferents",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Vagal Tone / Parasympathetic"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Ventral Vagal Restoration"
+        },
+        {
+          "domain": "religion",
+          "role": "Relmedia"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Ecological Design — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Portfolio Review Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Brainstem Metabolic Integration",
+      "domainDescription": "Nucleus tractus solitarius integrating vagal metabolic afferents with autonomic outflow",
+      "domainFunction": "NTS receives vagal afferents carrying hepatoportal glucose, gut peptide, and cardiovascular information, integrating these into autonomic metabolic regulation and relaying to hypothalamus",
+      "whyThisNode": "The NTS is the first central relay for peripheral metabolic signals — it integrates gut-derived GLP-1, CCK, and glucose information before forwarding to hypothalamus, making it a critical node in the metabolic sensing chain",
+      "group": "autonomic_metabolic",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "TYPE_2_DIABETES",
+        "OBESITY_NEUROMETABOLIC"
+      ],
+      "treatments": [
+        {
+          "label": "Slow-paced eating for NTS satiety signaling",
+          "type": "BEHAVIORAL",
+          "description": "Extending meal duration allows vagal-NTS satiety signaling to reach threshold before caloric overconsumption, improving portion calibration",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "GLP-1RA brainstem activation",
+          "type": "PHARMACOLOGICAL",
+          "description": "GLP-1 receptor agonists activate NTS neurons directly via area postrema access, reducing appetite through brainstem satiety circuits",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Brainstem Metabolic Integration",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Hydroelectric Power"
+        },
+        {
+          "domain": "environment",
+          "role": "Ocean Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Maritime and Ports"
+        },
+        {
+          "domain": "science",
+          "role": "Earth Sciences"
+        },
+        {
+          "domain": "trade",
+          "role": "Container Shipping"
+        },
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation Performance & Optimization"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SNS",
+      "state": "active",
+      "domainLabel": "Sympathetic Metabolic Activation",
+      "domainDescription": "Sympathetic nervous system regulation of metabolic rate, lipolysis, and thermogenesis",
+      "domainFunction": "Sympathetic outflow drives adipose tissue lipolysis, hepatic glucose output, and adaptive thermogenesis — chronic sympathetic overactivation in metabolic syndrome worsens insulin resistance and hypertension",
+      "whyThisNode": "Sympathetic overdrive is both a consequence and driver of metabolic syndrome — catecholamine excess worsens insulin resistance, promotes visceral adiposity, and increases cardiovascular risk through the metabolic-autonomic feedback loop",
+      "group": "autonomic_metabolic",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "METABOLIC_SYNDROME",
+        "CUSHINGS",
+        "ADRENAL_INSUFFICIENCY"
+      ],
+      "treatments": [
+        {
+          "label": "Sympatholytic therapy for metabolic hypertension",
+          "type": "PHARMACOLOGICAL",
+          "description": "Alpha/beta-adrenergic blockade in pheochromocytoma and metabolic syndrome reduces sympathetic-driven insulin resistance and cardiovascular risk",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Heart rate variability biofeedback",
+          "type": "SOMATIC",
+          "description": "HRV training reduces sympathetic dominance, improving autonomic balance to lower metabolic syndrome cardiovascular risk",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Sympathetic Metabolic Activation",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Energy Econ"
+        },
+        {
+          "domain": "religion",
+          "role": "Religionlaw"
+        },
+        {
+          "domain": "communication",
+          "role": "Baseline Calibration Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "commercial office — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift Assessment & Diagnostics"
+        },
+        {
+          "domain": "education",
+          "role": "Trend Analysis Infrastructure & Capacity"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Policy & Governance"
+        },
+        {
+          "domain": "environment",
+          "role": "Stratospheric Ozone Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Neurotrophic Metabolic Protection",
+      "domainDescription": "BDNF-mediated neuroplasticity as a target of metabolic injury and recovery",
+      "domainFunction": "BDNF expression is suppressed by hyperglycemia, cortisol excess, and thyroid deficiency while being upregulated by exercise, insulin sensitizers, and metabolic correction — it is the molecular bridge between metabolic health and brain plasticity",
+      "whyThisNode": "BDNF is the convergence point for metabolic neuroprotection — every major metabolic insult (diabetes, cortisol excess, thyroid deficiency) suppresses BDNF, and every effective intervention (exercise, metformin, thyroid replacement) restores it",
+      "group": "stress_metabolic",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "TYPE_2_DIABETES",
+        "CUSHINGS",
+        "HYPOTHYROIDISM",
+        "OBESITY_NEUROMETABOLIC",
+        "INSULIN_RESISTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Exercise-induced BDNF upregulation",
+          "type": "SOMATIC",
+          "description": "Moderate-to-vigorous aerobic exercise increases circulating BDNF 2-3x, promoting hippocampal neurogenesis and synaptic plasticity despite metabolic disease",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Metabolic optimization for BDNF restoration",
+          "type": "PHARMACOLOGICAL",
+          "description": "Metformin AMPK activation and thyroid hormone replacement both independently restore BDNF expression suppressed by metabolic dysfunction",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Neurotrophic Metabolic Protection",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Neuroplastic Recovery Factor"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Neuroplasticity Signaling"
+        },
+        {
+          "domain": "medicine",
+          "role": "Rehabilitation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Brain-Derived Neurotrophic Factor"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Neuroplasticity Window"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Feedback & Validation — Primary"
+        },
+        {
+          "domain": "culture",
+          "role": "Digital Cult"
+        },
+        {
+          "domain": "defense",
+          "role": "Bomber Aircraft Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Serotonergic Metabolic Modulation",
+      "domainDescription": "Raphe nuclei serotonin synthesis dependent on thyroid hormone and metabolic cofactors",
+      "domainFunction": "T3 is a direct cofactor for tryptophan hydroxylase-2 expression — thyroid deficiency reduces serotonin synthesis, while gut-derived serotonin from enterochromaffin cells modulates appetite and GI motility",
+      "whyThisNode": "The raphe nuclei link endocrine and mood dysfunction — hypothyroidism-induced serotonin deficiency explains the high comorbidity of depression with thyroid disease, and 95% of body serotonin is gut-derived, linking metabolic and affective pathways",
+      "group": "neuroendocrine",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "HYPOTHYROIDISM",
+        "METABOLIC_SYNDROME"
+      ],
+      "treatments": [
+        {
+          "label": "Thyroid hormone restoration of serotonergic tone",
+          "type": "PHARMACOLOGICAL",
+          "description": "Levothyroxine restores T3-dependent tryptophan hydroxylase-2 expression, normalizing raphe serotonin synthesis in hypothyroidism",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Tryptophan-adequate nutritional support",
+          "type": "NUTRITIONAL",
+          "description": "Ensuring dietary tryptophan sufficiency supports serotonin synthesis when thyroid optimization restores enzymatic capacity",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Serotonergic Metabolic Modulation",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Serotonergic Mood Regulation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Serotonergic Tone"
+        },
+        {
+          "domain": "neurology",
+          "role": "Raphe Nuclei"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Serotonin System Development"
+        },
+        {
+          "domain": "population",
+          "role": "Aging Population"
+        },
+        {
+          "domain": "provider",
+          "role": "System Morale / Well-Being"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Serotonergic Reset Center"
+        },
+        {
+          "domain": "religion",
+          "role": "Mystical Experience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Emotional-Metabolic Regulation",
+      "domainDescription": "Ventromedial prefrontal cortex integrating emotional processing with metabolic decision-making",
+      "domainFunction": "vmPFC atrophy from cortisol excess impairs emotional regulation and value-based dietary decision-making — it is the convergence point for mood disorders comorbid with metabolic disease",
+      "whyThisNode": "The vmPFC integrates emotional valence with metabolic choices — cortisol-induced vmPFC atrophy in Cushing's syndrome explains the 50-80% depression comorbidity, and vmPFC dysfunction drives emotional eating in obesity",
+      "group": "executive_behavioral",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CUSHINGS",
+        "OBESITY_NEUROMETABOLIC",
+        "METABOLIC_SYNDROME"
+      ],
+      "treatments": [
+        {
+          "label": "CBT for metabolic comorbid depression",
+          "type": "BEHAVIORAL",
+          "description": "Cognitive-behavioral therapy addresses cortisol-amplified cognitive distortions and emotional dysregulation in metabolic disease comorbid depression",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Cortisol normalization for vmPFC recovery",
+          "type": "PHARMACOLOGICAL",
+          "description": "Surgical or pharmacological cortisol normalization in Cushing's allows partial vmPFC volume recovery over 12-24 months",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Emotional-Metabolic Regulation",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Food Reward Valuation",
+      "domainDescription": "Orbitofrontal cortex encoding hedonic food value and reward prediction",
+      "domainFunction": "OFC assigns subjective value to food stimuli and integrates taste, smell, and texture into reward representations — hyperactivation in obesity overvalues calorie-dense foods relative to metabolic need",
+      "whyThisNode": "The OFC is the hedonic evaluator that assigns disproportionate reward value to calorie-dense foods in obesity — its hyperactivation explains why food choices resist rational dietary planning despite intact prefrontal knowledge",
+      "group": "reward_appetite",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "OBESITY_NEUROMETABOLIC",
+        "METABOLIC_SYNDROME"
+      ],
+      "treatments": [
+        {
+          "label": "Mindful eating revaluation training",
+          "type": "BEHAVIORAL",
+          "description": "Structured mindful eating practices reduce OFC hypervaluation of calorie-dense foods by increasing conscious awareness of reward-satiety mismatch",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "GLP-1RA food reward dampening",
+          "type": "PHARMACOLOGICAL",
+          "description": "GLP-1 receptor agonists reduce OFC response to food cues, normalizing reward valuation to align with metabolic need rather than hedonic drive",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Food Reward Valuation",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Reward & Food Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Metabolic Anxiety and Threat",
+      "domainDescription": "Basolateral amygdala threat processing amplified by metabolic hormonal dysregulation",
+      "domainFunction": "Cortisol excess, hyperandrogenism, and hypoglycemia each independently amplify BLA threat reactivity — driving anxiety comorbidity across metabolic and endocrine disorders",
+      "whyThisNode": "The BLA is hyperactivated across metabolic disorders — cortisol excess in Cushing's, androgen excess in PCOS, and catecholamine surges in hypoglycemia all converge on amygdala threat circuits, explaining the 2-3x elevated anxiety prevalence",
+      "group": "stress_metabolic",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CUSHINGS",
+        "PCOS",
+        "ADRENAL_INSUFFICIENCY"
+      ],
+      "treatments": [
+        {
+          "label": "Hormonal normalization of amygdala reactivity",
+          "type": "PHARMACOLOGICAL",
+          "description": "Cortisol normalization in Cushing's and androgen reduction in PCOS reduce BLA hyperactivation, alleviating metabolic-driven anxiety",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Exposure-based anxiety management",
+          "type": "BEHAVIORAL",
+          "description": "Graduated exposure therapy for hypoglycemia fear and metabolic-condition-related anxiety retrains amygdala threat calibration",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Metabolic Anxiety and Threat",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver"
+        },
+        {
+          "domain": "business",
+          "role": "Risk Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Markets"
+        },
+        {
+          "domain": "environment",
+          "role": "Wildlife Management"
+        },
+        {
+          "domain": "legal",
+          "role": "Criminal Threat Assessment"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Threat Detection & Emotional Reactivity"
+        },
+        {
+          "domain": "provider",
+          "role": "Risk Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Metabolic Conflict Monitoring",
+      "domainDescription": "Dorsal anterior cingulate cortex monitoring conflicts between metabolic drives and behavioral goals",
+      "domainFunction": "dACC detects conflicts between appetite drives and dietary goals, signaling the need for executive intervention — its activation reflects the cognitive effort of metabolic self-management",
+      "whyThisNode": "The dACC is continuously engaged in metabolic disease self-management — monitoring conflicts between food cravings and glycemic targets, mediating the cognitive burden of chronic disease management that drives diabetes distress",
+      "group": "executive_behavioral",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "TYPE_2_DIABETES",
+        "OBESITY_NEUROMETABOLIC",
+        "METABOLIC_SYNDROME"
+      ],
+      "treatments": [
+        {
+          "label": "Acceptance and commitment therapy for metabolic management",
+          "type": "BEHAVIORAL",
+          "description": "ACT reduces dACC hyperactivation from metabolic self-management burden by changing relationship to dietary urges rather than suppressing them",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Decision fatigue reduction protocols",
+          "type": "BEHAVIORAL",
+          "description": "Meal planning and structured dietary routines reduce dACC conflict-monitoring demands, freeing executive resources for other self-management tasks",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Metabolic Conflict Monitoring",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Noradrenergic Metabolic Arousal",
+      "domainDescription": "Locus coeruleus norepinephrine output modulated by thyroid hormone and metabolic state",
+      "domainFunction": "LC noradrenergic tone is reduced in hypothyroidism and amplified during hypoglycemia and pheochromocytoma — driving fatigue or hyperarousal depending on metabolic context",
+      "whyThisNode": "The locus coeruleus translates metabolic state into arousal level — thyroid hormone deficiency reduces LC output causing fatigue, while hypoglycemia triggers LC noradrenergic storms causing panic-like autonomic activation",
+      "group": "neuroendocrine",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "HYPOTHYROIDISM",
+        "ADRENAL_INSUFFICIENCY"
+      ],
+      "treatments": [
+        {
+          "label": "Thyroid hormone restoration of noradrenergic tone",
+          "type": "PHARMACOLOGICAL",
+          "description": "Levothyroxine normalizes LC norepinephrine output, improving arousal, attention, and fatigue in hypothyroidism",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Graded activity for noradrenergic calibration",
+          "type": "SOMATIC",
+          "description": "Progressive exercise increases LC tonic firing and noradrenergic tone without metabolic destabilization in endocrine fatigue states",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Noradrenergic Metabolic Arousal",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Noradrenergic Withdrawal Storm"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Arousal Regulation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Locus Coeruleus"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Arousal Regulation & Hypervigilance"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Policy & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Park Design Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Cerebellar Metabolic Sensitivity",
+      "domainDescription": "Cerebellar function affected by thyroid deficiency and mitochondrial energy failure",
+      "domainFunction": "Cerebellar Purkinje cells are exquisitely dependent on thyroid hormone for maturation and on oxidative phosphorylation for sustained firing — hypothyroidism and mitochondrial disease cause cerebellar ataxia",
+      "whyThisNode": "The cerebellum is a sentinel for metabolic disease — Purkinje cell dysfunction in severe hypothyroidism causes ataxia, while cerebellar energy demands make it vulnerable to mitochondrial dysfunction and hypoglycemia",
+      "group": "neuroendocrine",
+      "phase": "P5",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "HYPOTHYROIDISM"
+      ],
+      "treatments": [
+        {
+          "label": "Thyroid replacement for cerebellar recovery",
+          "type": "PHARMACOLOGICAL",
+          "description": "Adequate levothyroxine dosing restores thyroid-dependent cerebellar Purkinje cell function, improving coordination and balance",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Balance and coordination rehabilitation",
+          "type": "SOMATIC",
+          "description": "Vestibular and cerebellar rehabilitation exercises accelerate functional recovery during thyroid hormone optimization",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Cerebellar Metabolic Sensitivity",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        },
+        {
+          "domain": "religion",
+          "role": "Ritual Practice"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Thalamocortical Metabolic Relay",
+      "domainDescription": "Thalamic relay function disrupted by glycemic excursions and metabolic encephalopathy",
+      "domainFunction": "Thalamocortical gating is disrupted during acute glycemic excursions and metabolic encephalopathy — thalamic relay integrity is essential for sensory processing and cortical arousal that depend on stable glucose supply",
+      "whyThisNode": "The thalamus is the cortical gatekeeper that fails during metabolic crisis — acute hypoglycemia, diabetic ketoacidosis, and hepatic encephalopathy all disrupt thalamocortical relay, producing the confusion and altered consciousness of metabolic emergencies",
+      "group": "neuroendocrine",
+      "phase": "P5",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "TYPE_2_DIABETES",
+        "METABOLIC_SYNDROME"
+      ],
+      "treatments": [
+        {
+          "label": "Glycemic stabilization for thalamocortical integrity",
+          "type": "PHARMACOLOGICAL",
+          "description": "Tight glycemic control with CGM-guided insulin management prevents glycemic excursions that disrupt thalamocortical relay function",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Arousal and attention monitoring during metabolic correction",
+          "type": "DIAGNOSTIC",
+          "description": "Serial neurological assessment during metabolic correction tracks thalamocortical recovery as a proxy for central metabolic normalization",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Thalamocortical Metabolic Relay",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "MICRO",
+      "state": "active",
+      "domainLabel": "Metabolic Neuroinflammation",
+      "domainDescription": "Microbiome-driven endotoxemia and adipose-derived cytokine signaling causing central neuroinflammation",
+      "domainFunction": "Gut dysbiosis increases LPS translocation across compromised intestinal barrier, while visceral adipose tissue secretes TNF-alpha and IL-6 that cross the BBB, activating microglia and driving neuroinflammation that worsens insulin resistance in hippocampus and hypothalamus",
+      "whyThisNode": "Metabolic inflammation is the unifying pathology linking obesity, insulin resistance, and neurodegeneration — microbiome-derived endotoxemia and adipokine signaling create a chronic low-grade neuroinflammatory state that accelerates brain aging in metabolic disease",
+      "group": "inflammatory",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "OBESITY_NEUROMETABOLIC",
+        "INSULIN_RESISTANCE",
+        "TYPE_2_DIABETES",
+        "METABOLIC_SYNDROME"
+      ],
+      "treatments": [
+        {
+          "label": "Targeted microbiome restoration",
+          "type": "NUTRITIONAL",
+          "description": "High-fiber Mediterranean diet combined with fermented foods increases microbial diversity and SCFA production to restore metabolic signaling",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Metformin microbiome modulation",
+          "type": "PHARMACOLOGICAL",
+          "description": "Metformin's metabolic benefits are partially mediated through microbiome changes including increased Akkermansia muciniphila abundance",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Support",
+      "brainNodeRoleCanonical": "Metabolic Neuroinflammation",
+      "brainNodeLabelCanonical": "Metabolic & Endocrine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Biodiversity"
+        },
+        {
+          "domain": "medicine",
+          "role": "Immunology"
+        },
+        {
+          "domain": "neurology",
+          "role": "Microglial Neuroinflammation"
+        },
+        {
+          "domain": "communication",
+          "role": "Timeline Management"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Technology & Innovation"
+        },
+        {
+          "domain": "defense",
+          "role": "Wmd"
+        },
+        {
+          "domain": "economy",
+          "role": "Protocol Development Operations"
+        },
+        {
+          "domain": "education",
+          "role": "Demographic Analysis Human Capital & Development"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "HYPO",
+      "target": "PIT",
+      "type": "HORMONAL",
+      "weight": 1
+    },
+    {
+      "source": "PIT",
+      "target": "ADR",
+      "type": "HORMONAL",
+      "weight": 0.95
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "MODULATES",
+      "weight": 0.95
+    },
+    {
+      "source": "HPA",
+      "target": "dlPFC",
+      "type": "MODULATES",
+      "weight": 0.9
+    },
+    {
+      "source": "HYPO",
+      "target": "NAcc",
+      "type": "MODULATES",
+      "weight": 0.85
+    },
+    {
+      "source": "NAcc",
+      "target": "VTA",
+      "type": "SIGNALS",
+      "weight": 0.9
+    },
+    {
+      "source": "VTA",
+      "target": "dlPFC",
+      "type": "MODULATES",
+      "weight": 0.8
+    },
+    {
+      "source": "GBA",
+      "target": "VV",
+      "type": "SIGNALS",
+      "weight": 0.85
+    },
+    {
+      "source": "VV",
+      "target": "NTS",
+      "type": "SIGNALS",
+      "weight": 0.9
+    },
+    {
+      "source": "NTS",
+      "target": "HYPO",
+      "type": "SIGNALS",
+      "weight": 0.9
+    },
+    {
+      "source": "GBA",
+      "target": "ENS",
+      "type": "SIGNALS",
+      "weight": 0.85
+    },
+    {
+      "source": "MICRO",
+      "target": "GBA",
+      "type": "MODULATES",
+      "weight": 0.85
+    },
+    {
+      "source": "BDNF",
+      "target": "HIPP",
+      "type": "SUPPORTS",
+      "weight": 0.9
+    },
+    {
+      "source": "RAPHE",
+      "target": "vmPFC",
+      "type": "MODULATES",
+      "weight": 0.8
+    },
+    {
+      "source": "dlPFC",
+      "target": "NAcc",
+      "type": "CONTROLS",
+      "weight": 0.85
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "SIGNALS",
+      "weight": 0.85
+    },
+    {
+      "source": "BLA",
+      "target": "vmPFC",
+      "type": "SIGNALS",
+      "weight": 0.8
+    },
+    {
+      "source": "HYPO",
+      "target": "SNS",
+      "type": "CONTROLS",
+      "weight": 0.85
+    },
+    {
+      "source": "LC",
+      "target": "dlPFC",
+      "type": "MODULATES",
+      "weight": 0.75
+    },
+    {
+      "source": "THAL",
+      "target": "dlPFC",
+      "type": "RELAYS",
+      "weight": 0.8
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Adrenal Steroidogenesis — Regulation Strategy — Primary Node → Metabolic Anxiety and Threat (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Adrenal Steroidogenesis — Regulation Strategy — Primary Node → Executive Metabolic Control Assessment & Diagnostics (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Adrenal Steroidogenesis — Regulation Strategy — Primary Node → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Emotional-Metabolic Regulation → Metabolic Anxiety and Threat (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Emotional-Metabolic Regulation → Executive Metabolic Control Assessment & Diagnostics (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Emotional-Metabolic Regulation → [PAG] (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Executive Metabolic Control → Metabolic Conflict Monitoring (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Executive Metabolic Control → Hippocampal Metabolic Vulnerability (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Adrenal Steroidogenesis Research & Development → Metabolic Anxiety and Threat (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Metabolic Conflict Monitoring → Metabolic Anxiety and Threat (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Thalamocortical Metabolic Relay → Pituitary Hormone Coordination Standards & Governance (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Thalamocortical Metabolic Relay → Pituitary Hormone Coordination Research & Development (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Thalamocortical Metabolic Relay → Adrenal Steroidogenesis — Signal Detection & Input — Secondary Node (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Hippocampal Metabolic Vulnerability Assessment & Diagnostics → Pituitary Hormone Coordination Standards & Governance (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Hippocampal Metabolic Vulnerability Core Operations → Pituitary Hormone Coordination Research & Development (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Brainstem Metabolic Integration → Interoceptive Metabolic Sensing (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[PI] → Interoceptive Metabolic Sensing (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Metabolic Anxiety and Threat → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Hypothalamic Energy Sensing (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Hippocampal Metabolic Vulnerability → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Dopaminergic Metabolic Signaling → Reward-Appetite Circuit (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Reward-Appetite Circuit → Hippocampal Metabolic Vulnerability Infrastructure & Capacity (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Reward-Appetite Circuit → Food Reward Valuation (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Food Reward Valuation → Emotional-Metabolic Regulation (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[SMA] → Adrenal Steroidogenesis — Adaptation & Self-Healing — Tertiary Node (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "[STRI] → Hypothalamic Energy Sensing Coordination & Integration (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Hypothalamic Energy Sensing Coordination & Integration → Thalamocortical Metabolic Relay (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Cerebellar Metabolic Sensitivity → Thalamocortical Metabolic Relay (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "[FEF] → Pituitary Hormone Coordination Standards & Governance (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[FPN] → Executive Metabolic Control (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Noradrenergic Metabolic Arousal → Metabolic Anxiety and Threat (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Noradrenergic Metabolic Arousal → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "TYPE_2_DIABETES",
+      "label": "Type 2 Diabetes",
+      "summary": "Chronic hyperglycemia and insulin resistance drive cerebral glucose hypometabolism, hippocampal atrophy, and accelerated cognitive decline via hypothalamic insulin signaling disruption and HPA axis dysregulation",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered insulin sensing",
+          "detail": "Hypothalamic insulin receptor desensitization disrupts appetite-satiety signaling and autonomic glucose regulation via arcuate nucleus leptin/insulin resistance",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-metabolic",
+          "detail": "Hippocampal atrophy from chronic hyperglycemia and advanced glycation end-product accumulation impairs episodic memory and spatial navigation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-metabolic",
+          "detail": "Reduced cerebral glucose utilization in dorsolateral prefrontal cortex impairs executive function, working memory, and treatment adherence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered interoception",
+          "detail": "Insular cortex interoceptive processing disrupted — impaired visceral glucose sensing leads to poor glycemic awareness",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper-activated",
+          "detail": "Chronic HPA axis activation with elevated cortisol accelerates hippocampal neurodegeneration and compounds insulin resistance",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BDNF",
+          "dir": "Hypo-expressed",
+          "detail": "Hyperglycemia suppresses BDNF expression, impairing synaptic plasticity and neuronal survival in hippocampus and prefrontal cortex",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GBA",
+          "dir": "Altered microbiome",
+          "detail": "Gut microbiome dysbiosis alters SCFA production and incretin signaling, driving endotoxemia that worsens central and peripheral insulin resistance",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHYROIDISM",
+      "label": "Hypothyroidism",
+      "summary": "Thyroid hormone deficiency reduces cerebral metabolic rate, impairs myelination and synaptic plasticity, and slows serotonin/norepinephrine synthesis critical for hippocampal neurogenesis and prefrontal function",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-metabolic",
+          "detail": "Prefrontal hypometabolism causes executive dysfunction, poor concentration, and psychomotor slowing from reduced T3-dependent neuronal energy production",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-neurogenic",
+          "detail": "Impaired hippocampal neurogenesis and LTP from T3-dependent BDNF expression reduction causes memory consolidation deficits",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hypo-serotonergic",
+          "detail": "Serotonin synthesis reduced because T3 is a direct cofactor for tryptophan hydroxylase-2 expression in raphe nuclei",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Hypo-noradrenergic",
+          "detail": "Noradrenergic output reduced contributing to characteristic fatigue, cognitive slowing, and cold intolerance of hypothyroidism",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered TRH axis",
+          "detail": "Hypothalamic TRH hypersecretion in primary hypothyroidism from loss of T3/T4 negative feedback",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-functional",
+          "detail": "Cerebellar Purkinje cell dysfunction in severe hypothyroidism causes ataxia, dysmetria, and balance impairment",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "METABOLIC_SYNDROME",
+      "label": "Metabolic Syndrome",
+      "summary": "Cluster of insulin resistance, visceral adiposity, dyslipidemia, and hypertension driven by hypothalamic energy sensing failure, sympathetic overdrive, and chronic low-grade neuroinflammation",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered energy sensing",
+          "detail": "Hypothalamic leptin and insulin receptor resistance disrupts energy homeostasis signaling, maintaining elevated body weight set-point despite caloric excess",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SNS",
+          "dir": "Hyper-activated",
+          "detail": "Chronic sympathetic overdrive drives hypertension, promotes lipolysis dysregulation, and worsens insulin resistance through catecholamine excess",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper-activated",
+          "detail": "Elevated cortisol promotes visceral adipogenesis, hepatic gluconeogenesis, and central insulin resistance in a self-amplifying metabolic loop",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GBA",
+          "dir": "Altered permeability",
+          "detail": "Increased gut permeability and metabolic endotoxemia drive systemic and neuroinflammation that worsen insulin resistance across all tissues",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-metabolic",
+          "detail": "Prefrontal hypometabolism proportional to insulin resistance severity impairs executive dietary control and self-management",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-responsive",
+          "detail": "Nucleus accumbens hyperresponsive to food cues from dopaminergic reward dysregulation driven by hyperinsulinemia",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-interoceptive",
+          "detail": "Insular cortex amplifies visceral metabolic distress signals, contributing to somatic complaints and interoceptive confusion",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PCOS",
+      "label": "Polycystic Ovary Syndrome",
+      "summary": "Neuroendocrine disorder with hypothalamic GnRH pulse frequency acceleration, hyperandrogenism, and insulin resistance affecting prefrontal function, reward circuits, and mood regulation",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper-pulsatile",
+          "detail": "Accelerated GnRH pulse frequency drives LH hypersecretion and ovarian/adrenal androgen excess as the primary neuroendocrine defect",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-metabolic",
+          "detail": "Insulin resistance-mediated prefrontal hypometabolism impairs executive function and contributes to cognitive complaints",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered reward",
+          "detail": "Reward processing altered by hyperinsulinemia with elevated food cravings and emotional eating patterns",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper-androgenic",
+          "detail": "Adrenal androgen excess with HPA axis hyperactivation amplifies hyperandrogenism beyond ovarian contribution",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-reactive",
+          "detail": "Anxiety prevalence 3x higher than controls from combined androgen and insulin effects on amygdala threat circuits",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GBA",
+          "dir": "Altered microbiome",
+          "detail": "Gut microbiome dysbiosis correlates with androgen levels and may amplify metabolic and hormonal dysregulation",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CUSHINGS",
+      "label": "Cushing's Syndrome",
+      "summary": "Chronic cortisol excess is profoundly neurotoxic causing hippocampal volume loss up to 25%, prefrontal atrophy, and amygdala hyperactivation with depression in 50-80% of patients",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-atrophied",
+          "detail": "Hippocampal atrophy from glucocorticoid neurotoxicity causes up to 25% volume loss with severe declarative memory impairment",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper-autonomous",
+          "detail": "Autonomous cortisol overproduction disrupts negative feedback, creating sustained glucocorticoid excess throughout the brain",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-atrophied",
+          "detail": "Prefrontal cortex thinning causes executive dysfunction, poor working memory, and impaired cognitive flexibility",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-reactive",
+          "detail": "Amygdala hyperactivation drives anxiety, emotional lability, and irritability through cortisol-sensitized threat circuits",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-atrophied",
+          "detail": "Ventromedial PFC atrophy impairs emotional regulation, contributing to the 50-80% depression prevalence in active Cushing's",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BDNF",
+          "dir": "Hypo-suppressed",
+          "detail": "Cortisol directly suppresses BDNF gene expression, reducing hippocampal neurogenesis and synaptic plasticity",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "ADRENAL_INSUFFICIENCY",
+      "label": "Adrenal Insufficiency",
+      "summary": "Cortisol and aldosterone deficiency impairs prefrontal executive function, hippocampal memory, and energy homeostasis with fatigue and cognitive complaints persisting despite replacement therapy",
+      "circuits": [
+        {
+          "nodeId": "HPA",
+          "dir": "Hypo-cortisol",
+          "detail": "Cortisol deficiency causes loss of permissive glucocorticoid signaling throughout the brain, impairing metabolic substrate availability for neurons",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-functional",
+          "detail": "Executive function and concentration impaired even with cortisol replacement, suggesting non-physiologic replacement kinetics",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-functional",
+          "detail": "Memory impairment from inadequate mineralocorticoid receptor activation despite glucocorticoid replacement",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper-CRH",
+          "detail": "CRH hypersecretion from loss of cortisol negative feedback drives fatigue and mood symptoms independent of cortisol levels",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SNS",
+          "dir": "Altered adrenergic",
+          "detail": "Adrenergic insufficiency with crisis risk from sympathetic dysregulation during metabolic stress",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered interoception",
+          "detail": "Fatigue perception amplified through insular interoceptive processing, contributing to persistent quality-of-life impairment",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "OBESITY_NEUROMETABOLIC",
+      "label": "Neurometabolic Obesity",
+      "summary": "Hypothalamic leptin/insulin resistance, reward circuit hijacking, and prefrontal inhibitory failure drive pathological weight gain while neuroinflammation from adipose tissue crosses the BBB to impair hippocampal plasticity",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered leptin/insulin resistance",
+          "detail": "Leptin and insulin resistance in arcuate nucleus disrupts satiety signaling, maintaining elevated body weight set-point",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-responsive",
+          "detail": "Nucleus accumbens hyperresponsive to food cues with dopaminergic reward circuit sensitization driving compulsive eating",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-inhibitory",
+          "detail": "Prefrontal inhibitory control impaired — reduced capacity to override hedonic eating despite intact dietary knowledge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-responsive",
+          "detail": "Insular cortex hyperresponsive to food taste and smell cues, amplifying anticipated reward from calorie-dense foods",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GBA",
+          "dir": "Altered dysbiosis",
+          "detail": "Gut dysbiosis increases LPS translocation, driving central neuroinflammation that impairs hippocampal and hypothalamic function",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-inflamed",
+          "detail": "Hippocampal atrophy from adipose-derived neuroinflammation impairs meal-related memory encoding and satiety learning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-valuating",
+          "detail": "Orbitofrontal cortex hypervalues food reward, assigning disproportionate hedonic weight to calorie-dense stimuli",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "INSULIN_RESISTANCE",
+      "label": "Insulin Resistance",
+      "summary": "Central insulin resistance impairs hypothalamic energy sensing, prefrontal executive function, and hippocampal plasticity before overt diabetes develops, representing the earliest neurocognitive stage of metabolic disease",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered insulin/leptin resistance",
+          "detail": "Hypothalamic insulin and leptin receptor resistance disrupts energy homeostasis signaling before peripheral glucose rises",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-plastic",
+          "detail": "Hippocampal insulin resistance reduces long-term potentiation and spatial memory performance in pre-diabetic state",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-metabolic",
+          "detail": "Prefrontal hypometabolism proportional to insulin resistance severity detectable before diabetes diagnosis",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-responsive",
+          "detail": "Nucleus accumbens hyperresponsive to food cues from dopaminergic reward dysregulation amplified by hyperinsulinemia",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper-cortisol",
+          "detail": "Elevated cortisol worsens visceral adiposity and hepatic insulin resistance in a bidirectional metabolic-stress amplification loop",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GBA",
+          "dir": "Altered permeability",
+          "detail": "Gut permeability and endotoxemia drive systemic and neuroinflammation that precedes and accelerates progression to overt diabetes",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:39.378Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

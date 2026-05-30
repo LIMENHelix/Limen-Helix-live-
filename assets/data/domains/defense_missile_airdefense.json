@@ -1,0 +1,2066 @@
+{
+  "domainId": "defense_missile_airdefense",
+  "title": "Air Defense Systems",
+  "parentPortal": "defense_missile_portal.html",
+  "parentLabel": "Missile",
+  "phase": "P7",
+  "activations": [
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Air Defense Systems Assessment & Diagnostics",
+      "domainDescription": "Systematic management of air defense systems assessment & diagnostics across all air defense systems functions and operations",
+      "group": "analysis",
+      "phase": "P7",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Configure Air Defense Systems Assessment & Diagnostics Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Configure a defense modernization roadmap for air defense systems assessment & diagnostics using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Allison, G. & Zelikow, P. (1999). Essence of Decision 2e. Longman; Biddle, S. (2004). Military Power: Explaining Victory and Defeat in Modern Battle. Princeton University Press",
+          "target": "OUTDATED_AIR_DEFENSE_SYSTEMS_ASSESSMENT -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Allison, G. & Zelikow, P.",
+              "year": 1999,
+              "title": "Essence of Decision 2e",
+              "journal": "Longman",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Biddle, S.",
+              "year": 2004,
+              "title": "Military Power: Explaining Victory and Defeat in Modern Battle",
+              "journal": "Princeton University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess threat environment for air defense systems assessment & diagnostics using intelligence community assessments and wargaming",
+            "Conduct force structure analysis with capability gap identification",
+            "Design strategy with ends-ways-means alignment and risk assessment",
+            "Implement through PPBE with program objective memoranda and budget submissions",
+            "Evaluate through Quadrennial Defense Review and combatant command assessments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — force readiness level using DRRS-S readiness reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — force readiness level measured monthly. Target: C1/C2 readiness across force. PHASE 3 (Months 4-6): Midpoint review — compare against DOD readiness benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — force readiness level trending toward C1 all major units. Escalate if <C3 floor for any unit. ANNUAL REVIEW: Comprehensive audit using DOD Global Force Management. Report to Secretary of Defense.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Air Defense Systems Assessment & Diagnostics Innovation Pipeline",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Strengthen a cyber operations workforce development for air defense systems assessment & diagnostics implementing DOD 8570 certification and NICE framework.",
+          "cite": "Klein, G. (1998). Sources of Power: How People Make Decisions. MIT Press; US Army (2019). ADP 7-0: Training. Department of the Army",
+          "target": "INEFFICIENT_AIR_DEFENSE_SYSTEMS_ASSESSMENT -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Klein, G.",
+              "year": 1998,
+              "title": "Sources of Power: How People Make Decisions",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "US Army",
+              "year": 2019,
+              "title": "ADP 7-0: Training",
+              "journal": "Department of the Army",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess unit training readiness for air defense systems assessment & diagnostics using METL proficiency evaluation",
+            "Design training plan with live, virtual, and constructive exercise integration",
+            "Execute collective training events with observer-controller evaluation",
+            "Conduct after-action reviews with task proficiency rating updates",
+            "Certify unit readiness through mission rehearsal and evaluation exercise"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — combat readiness certification rate using unit training management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — combat readiness certification rate measured quarterly. Target: 90% units mission-qualified. PHASE 3 (Months 4-6): Midpoint review — compare against Army METL standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — combat readiness certification rate trending toward 95% qualified. Escalate if <80% qualified floor. ANNUAL REVIEW: Comprehensive audit using TRADOC METL framework. Report to Training Command.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Air Defense Systems Assessment & Diagnostics Feedback Loop Design",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Monitor a weapons system modernization for air defense systems assessment & diagnostics using DOD 5000 adaptive acquisition framework with DevSecOps.",
+          "cite": "DOD (2021). DOD Zero Trust Reference Architecture. DISA/NSA; DOD (2023). DOD Architecture Framework (DoDAF) 2.02. DOD CIO",
+          "target": "INCONSISTENT_AIR_DEFENSE_SYSTEMS_ASSESSMENT -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "DOD",
+              "year": 2021,
+              "title": "DOD Zero Trust Reference Architecture",
+              "journal": "DISA/NSA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOD",
+              "year": 2023,
+              "title": "DOD Architecture Framework (DoDAF) 2.02",
+              "journal": "DOD CIO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess weapons system readiness for air defense systems assessment & diagnostics using MC rate and sustainment data",
+            "Design modernization program with DOD 5000 pathway and DevSecOps for software",
+            "Implement with iterative development, test, and deployment sprints",
+            "Conduct operational testing per DOT&E evaluation criteria",
+            "Deploy with logistics planning and initial operational capability declaration"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — weapons system availability rate using maintenance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — weapons system availability rate measured monthly. Target: mission capable rate 80%. PHASE 3 (Months 4-6): Midpoint review — compare against DOD MC rate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — weapons system availability rate trending toward 85% MC rate. Escalate if <70% MC rate floor. ANNUAL REVIEW: Comprehensive audit using DOD maintenance standards. Report to Logistics Command.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Air Defense Systems Assessment & Diagnostics Sustainability Audit",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build a command climate improvement program for air defense systems assessment & diagnostics using DEOCS assessment with leadership accountability measures.",
+          "cite": "King, A. (2013). The Combat Soldier: Infantry Tactics and Cohesion in the World and Korean Wars. Oxford University Press; Kohn, R.H. (1997). An Essay on Civilian Control of the Military. American Diplomacy, 3(1)",
+          "target": "UNMONITORED_AIR_DEFENSE_SYSTEMS_ASSESSMENT -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "King, A.",
+              "year": 2013,
+              "title": "The Combat Soldier: Infantry Tactics and Cohesion in the World and Korean Wars",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Kohn, R.H.",
+              "year": 1997,
+              "title": "An Essay on Civilian Control of the Military",
+              "journal": "American Diplomacy",
+              "volume": "3(1)",
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess civil-military dynamics for air defense systems assessment & diagnostics using public opinion and institutional survey data",
+            "Design public engagement strategy with transparency and community partnership",
+            "Implement through community liaison, public affairs, and civic education programs",
+            "Deploy measurement through trust surveys and community relations indicators",
+            "Evaluate impact on recruitment, retention, and public support metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — military-civilian relations index using public opinion and internal survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — military-civilian relations index measured annually. Target: 70% public confidence in military. PHASE 3 (Months 4-6): Midpoint review — compare against Gallup military confidence benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — military-civilian relations index trending toward 80% confidence. Escalate if <55% confidence floor. ANNUAL REVIEW: Comprehensive audit using civil-military relations framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Air Defense Systems Assessment & Diagnostics Innovation Pipeline",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Optimize a space domain awareness capability for air defense systems assessment & diagnostics deploying sensor networks per Space Force SSA architecture.",
+          "cite": "DOD (2023). Joint All-Domain Command and Control (JADC2) Implementation Plan. Joint Chiefs; Lockheed Martin (2020). Digital Thread and Digital Twin for Defense. Lockheed Martin",
+          "target": "UNDERPERFORMING_AIR_DEFENSE_SYSTEMS_ASSESSMENT -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "DOD",
+              "year": 2023,
+              "title": "Joint All-Domain Command and Control (JADC2) Implementation Plan",
+              "journal": "Joint Chiefs",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lockheed Martin",
+              "year": 2020,
+              "title": "Digital Thread and Digital Twin for Defense",
+              "journal": "Lockheed Martin",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess C2 connectivity for air defense systems assessment & diagnostics using JADC2 integration requirements",
+            "Design all-domain data fabric with standards-based interfaces and APIs",
+            "Implement sensor-to-shooter data links with coalition partner interoperability",
+            "Conduct integration testing through joint exercises and demonstrations",
+            "Measure C2 decision speed, data sharing, and cross-domain engagement times"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — JADC2 integration maturity using systems integration testing. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — JADC2 integration maturity measured quarterly. Target: 80% platforms JADC2-connected. PHASE 3 (Months 4-6): Midpoint review — compare against Joint Staff integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — JADC2 integration maturity trending toward 90% connected. Escalate if <60% connected floor. ANNUAL REVIEW: Comprehensive audit using JADC2 Implementation Plan. Report to Joint Staff J6.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Air Defense Systems Assessment & Diagnostics Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Launch a defense modernization roadmap for air defense systems assessment & diagnostics using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Freedman, L. (2013). Strategy: A History. Oxford University Press; Schelling, T.C. (1960). The Strategy of Conflict. Harvard University Press",
+          "target": "REACTIVE_AIR_DEFENSE_SYSTEMS_ASSESSMENT -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Freedman, L.",
+              "year": 2013,
+              "title": "Strategy: A History",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Schelling, T.C.",
+              "year": 1960,
+              "title": "The Strategy of Conflict",
+              "journal": "Harvard University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess threat environment for air defense systems assessment & diagnostics using intelligence community assessments and wargaming",
+            "Conduct force structure analysis with capability gap identification",
+            "Design strategy with ends-ways-means alignment and risk assessment",
+            "Implement through PPBE with program objective memoranda and budget submissions",
+            "Evaluate through Quadrennial Defense Review and combatant command assessments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — force readiness level using DRRS-S readiness reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — force readiness level measured monthly. Target: C1/C2 readiness across force. PHASE 3 (Months 4-6): Midpoint review — compare against DOD readiness benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — force readiness level trending toward C1 all major units. Escalate if <C3 floor for any unit. ANNUAL REVIEW: Comprehensive audit using DOD Global Force Management. Report to Secretary of Defense.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "defense_missile_airdefense_counter_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Air Defense Systems Core Operations",
+      "domainDescription": "Systematic management of air defense systems core operations across all air defense systems functions and operations",
+      "group": "operations",
+      "phase": "P7",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Create Air Defense Systems Core Operations Benchmarking Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Create a defense modernization roadmap for air defense systems core operations using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Biddle, S. (2004). Military Power: Explaining Victory and Defeat in Modern Battle. Princeton University Press; Allison, G. & Zelikow, P. (1999). Essence of Decision 2e. Longman",
+          "target": "UNMONITORED_AIR_DEFENSE_SYSTEMS_CORE_OPERA -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Biddle, S.",
+              "year": 2004,
+              "title": "Military Power: Explaining Victory and Defeat in Modern Battle",
+              "journal": "Princeton University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Allison, G. & Zelikow, P.",
+              "year": 1999,
+              "title": "Essence of Decision 2e",
+              "journal": "Longman",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct deterrence assessment for air defense systems core operations using strategic stability analysis",
+            "Design deterrence posture with nuclear and conventional force integration",
+            "Implement signaling strategy with exercises, deployments, and diplomatic messaging",
+            "Conduct red team assessment of deterrence credibility and escalation dynamics",
+            "Evaluate through intelligence assessment and allied consultation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — allied interoperability score using NATO STANAG compliance tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — allied interoperability score measured biannually. Target: 85% STANAG compliance. PHASE 3 (Months 4-6): Midpoint review — compare against NATO interoperability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — allied interoperability score trending toward 95% compliance. Escalate if <75% compliance floor. ANNUAL REVIEW: Comprehensive audit using NATO Interoperability Standards. Report to NATO Liaison.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Air Defense Systems Core Operations Impact Evaluation",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Evaluate a cyber operations workforce development for air defense systems core operations implementing DOD 8570 certification and NICE framework.",
+          "cite": "US Army (2019). ADP 7-0: Training. Department of the Army; Klein, G. (1998). Sources of Power: How People Make Decisions. MIT Press",
+          "target": "UNDERPERFORMING_AIR_DEFENSE_SYSTEMS_CORE_OPERA -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "US Army",
+              "year": 2019,
+              "title": "ADP 7-0: Training",
+              "journal": "Department of the Army",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Klein, G.",
+              "year": 1998,
+              "title": "Sources of Power: How People Make Decisions",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess cyber workforce for air defense systems core operations against DOD 8570 and NICE framework requirements",
+            "Design training pathway with certification preparation and hands-on ranges",
+            "Deliver through cyber range exercises, CTF competitions, and team training",
+            "Support certification attainment for Security+, CISSP, and specialty certs",
+            "Track certification rates, cyber exercise performance, and operational outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — combat medic proficiency using medical readiness tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — combat medic proficiency measured quarterly. Target: 95% medics combat-certified. PHASE 3 (Months 4-6): Midpoint review — compare against TCCC proficiency standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — combat medic proficiency trending toward 100% certified. Escalate if <85% certified floor. ANNUAL REVIEW: Comprehensive audit using NAEMT TCCC standards. Report to Medical Training Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Air Defense Systems Core Operations Performance Framework",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Integrate a weapons system modernization for air defense systems core operations using DOD 5000 adaptive acquisition framework with DevSecOps.",
+          "cite": "DOD (2023). DOD Architecture Framework (DoDAF) 2.02. DOD CIO; DOD (2021). DOD Zero Trust Reference Architecture. DISA/NSA",
+          "target": "REACTIVE_AIR_DEFENSE_SYSTEMS_CORE_OPERA -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "DOD",
+              "year": 2023,
+              "title": "DOD Architecture Framework (DoDAF) 2.02",
+              "journal": "DOD CIO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOD",
+              "year": 2021,
+              "title": "DOD Zero Trust Reference Architecture",
+              "journal": "DISA/NSA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate COMMS infrastructure for air defense systems core operations using network analysis and resilience testing",
+            "Design resilient architecture with SATCOM, HF, and mesh network redundancy",
+            "Implement with encryption, TRANSEC, and anti-jam capabilities",
+            "Conduct network stress testing and denial-of-service resilience verification",
+            "Measure through network availability, latency, and failover performance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — communications network resilience using network operations monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — communications network resilience measured daily. Target: 99.9% uptime, <5s failover. PHASE 3 (Months 4-6): Midpoint review — compare against DOD DISA network standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — communications network resilience trending toward 99.99% uptime. Escalate if <99.5% uptime floor. ANNUAL REVIEW: Comprehensive audit using DOD network architecture. Report to DISA Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Air Defense Systems Core Operations Benchmarking Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Conduct a command climate improvement program for air defense systems core operations using DEOCS assessment with leadership accountability measures.",
+          "cite": "Kohn, R.H. (1997). An Essay on Civilian Control of the Military. American Diplomacy, 3(1); King, A. (2013). The Combat Soldier: Infantry Tactics and Cohesion in the World and Korean Wars. Oxford University Press",
+          "target": "FRAGMENTED_AIR_DEFENSE_SYSTEMS_CORE_OPERA -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Kohn, R.H.",
+              "year": 1997,
+              "title": "An Essay on Civilian Control of the Military",
+              "journal": "American Diplomacy",
+              "volume": "3(1)",
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "King, A.",
+              "year": 2013,
+              "title": "The Combat Soldier: Infantry Tactics and Cohesion in the World and Korean Wars",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess transition readiness for air defense systems core operations using TAP participation and outcome data",
+            "Design comprehensive transition program with career planning starting 18 months prior",
+            "Implement skills translation, credentialing, and employer matching services",
+            "Deploy veteran employment partnerships with industry and government hiring programs",
+            "Measure through employment rates, income levels, and veteran satisfaction at 12 months"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — veteran transition success rate using transition assistance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — veteran transition success rate measured annually. Target: 85% employed within 6 months. PHASE 3 (Months 4-6): Midpoint review — compare against DOL VETS benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — veteran transition success rate trending toward 90% employed. Escalate if <75% employed floor. ANNUAL REVIEW: Comprehensive audit using TAP/VETS framework. Report to Transition Assistance Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Air Defense Systems Core Operations Impact Evaluation",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Design a space domain awareness capability for air defense systems core operations deploying sensor networks per Space Force SSA architecture.",
+          "cite": "Lockheed Martin (2020). Digital Thread and Digital Twin for Defense. Lockheed Martin; DOD (2023). Joint All-Domain Command and Control (JADC2) Implementation Plan. Joint Chiefs",
+          "target": "SILOED_AIR_DEFENSE_SYSTEMS_CORE_OPERA -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Lockheed Martin",
+              "year": 2020,
+              "title": "Digital Thread and Digital Twin for Defense",
+              "journal": "Lockheed Martin",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOD",
+              "year": 2023,
+              "title": "Joint All-Domain Command and Control (JADC2) Implementation Plan",
+              "journal": "Joint Chiefs",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI opportunities for air defense systems core operations using DOD CDAO AI use case framework",
+            "Design AI system with responsible AI principles: reliable, equitable, traceable, governable",
+            "Implement with MLOps pipeline, testing, and human oversight mechanisms",
+            "Deploy with monitoring, bias detection, and performance degradation alerts",
+            "Evaluate operational impact with responsible AI metrics and user feedback"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defense AI adoption using AI project portfolio dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defense AI adoption measured quarterly. Target: 15 AI systems in operational use. PHASE 3 (Months 4-6): Midpoint review — compare against DOD CDAO targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defense AI adoption trending toward 25 systems. Escalate if <8 systems minimum. ANNUAL REVIEW: Comprehensive audit using DOD RAI Strategy. Report to Chief Digital & AI Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Air Defense Systems Core Operations Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Deploy a defense modernization roadmap for air defense systems core operations using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Schelling, T.C. (1960). The Strategy of Conflict. Harvard University Press; Freedman, L. (2013). Strategy: A History. Oxford University Press",
+          "target": "OUTDATED_AIR_DEFENSE_SYSTEMS_CORE_OPERA -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Schelling, T.C.",
+              "year": 1960,
+              "title": "The Strategy of Conflict",
+              "journal": "Harvard University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Freedman, L.",
+              "year": 2013,
+              "title": "Strategy: A History",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct deterrence assessment for air defense systems core operations using strategic stability analysis",
+            "Design deterrence posture with nuclear and conventional force integration",
+            "Implement signaling strategy with exercises, deployments, and diplomatic messaging",
+            "Conduct red team assessment of deterrence credibility and escalation dynamics",
+            "Evaluate through intelligence assessment and allied consultation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — allied interoperability score using NATO STANAG compliance tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — allied interoperability score measured biannually. Target: 85% STANAG compliance. PHASE 3 (Months 4-6): Midpoint review — compare against NATO interoperability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — allied interoperability score trending toward 95% compliance. Escalate if <75% compliance floor. ANNUAL REVIEW: Comprehensive audit using NATO Interoperability Standards. Report to NATO Liaison.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "defense_missile_airdefense_integrated_portal.html"
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Air Defense Systems Infrastructure & Capacity",
+      "domainDescription": "Systematic management of air defense systems infrastructure & capacity across all air defense systems functions and operations",
+      "group": "systems",
+      "phase": "P7",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Create Air Defense Systems Infrastructure & Capacity Benchmarking Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Create a defense modernization roadmap for air defense systems infrastructure & capacity using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Biddle, S. (2004). Military Power: Explaining Victory and Defeat in Modern Battle. Princeton University Press; Allison, G. & Zelikow, P. (1999). Essence of Decision 2e. Longman",
+          "target": "SILOED_AIR_DEFENSE_SYSTEMS_INFRASTRUC -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Biddle, S.",
+              "year": 2004,
+              "title": "Military Power: Explaining Victory and Defeat in Modern Battle",
+              "journal": "Princeton University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Allison, G. & Zelikow, P.",
+              "year": 1999,
+              "title": "Essence of Decision 2e",
+              "journal": "Longman",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess threat environment for air defense systems infrastructure & capacity using intelligence community assessments and wargaming",
+            "Conduct force structure analysis with capability gap identification",
+            "Design strategy with ends-ways-means alignment and risk assessment",
+            "Implement through PPBE with program objective memoranda and budget submissions",
+            "Evaluate through Quadrennial Defense Review and combatant command assessments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — force readiness level using DRRS-S readiness reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — force readiness level measured monthly. Target: C1/C2 readiness across force. PHASE 3 (Months 4-6): Midpoint review — compare against DOD readiness benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — force readiness level trending toward C1 all major units. Escalate if <C3 floor for any unit. ANNUAL REVIEW: Comprehensive audit using DOD Global Force Management. Report to Secretary of Defense.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Air Defense Systems Infrastructure & Capacity Impact Evaluation",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Evaluate a cyber operations workforce development for air defense systems infrastructure & capacity implementing DOD 8570 certification and NICE framework.",
+          "cite": "US Army (2019). ADP 7-0: Training. Department of the Army; Klein, G. (1998). Sources of Power: How People Make Decisions. MIT Press",
+          "target": "OUTDATED_AIR_DEFENSE_SYSTEMS_INFRASTRUC -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "US Army",
+              "year": 2019,
+              "title": "ADP 7-0: Training",
+              "journal": "Department of the Army",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Klein, G.",
+              "year": 1998,
+              "title": "Sources of Power: How People Make Decisions",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess unit training readiness for air defense systems infrastructure & capacity using METL proficiency evaluation",
+            "Design training plan with live, virtual, and constructive exercise integration",
+            "Execute collective training events with observer-controller evaluation",
+            "Conduct after-action reviews with task proficiency rating updates",
+            "Certify unit readiness through mission rehearsal and evaluation exercise"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — combat readiness certification rate using unit training management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — combat readiness certification rate measured quarterly. Target: 90% units mission-qualified. PHASE 3 (Months 4-6): Midpoint review — compare against Army METL standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — combat readiness certification rate trending toward 95% qualified. Escalate if <80% qualified floor. ANNUAL REVIEW: Comprehensive audit using TRADOC METL framework. Report to Training Command.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Air Defense Systems Infrastructure & Capacity Performance Framework",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Integrate a weapons system modernization for air defense systems infrastructure & capacity using DOD 5000 adaptive acquisition framework with DevSecOps.",
+          "cite": "DOD (2023). DOD Architecture Framework (DoDAF) 2.02. DOD CIO; DOD (2021). DOD Zero Trust Reference Architecture. DISA/NSA",
+          "target": "INEFFICIENT_AIR_DEFENSE_SYSTEMS_INFRASTRUC -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "DOD",
+              "year": 2023,
+              "title": "DOD Architecture Framework (DoDAF) 2.02",
+              "journal": "DOD CIO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOD",
+              "year": 2021,
+              "title": "DOD Zero Trust Reference Architecture",
+              "journal": "DISA/NSA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess weapons system readiness for air defense systems infrastructure & capacity using MC rate and sustainment data",
+            "Design modernization program with DOD 5000 pathway and DevSecOps for software",
+            "Implement with iterative development, test, and deployment sprints",
+            "Conduct operational testing per DOT&E evaluation criteria",
+            "Deploy with logistics planning and initial operational capability declaration"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — weapons system availability rate using maintenance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — weapons system availability rate measured monthly. Target: mission capable rate 80%. PHASE 3 (Months 4-6): Midpoint review — compare against DOD MC rate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — weapons system availability rate trending toward 85% MC rate. Escalate if <70% MC rate floor. ANNUAL REVIEW: Comprehensive audit using DOD maintenance standards. Report to Logistics Command.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Air Defense Systems Infrastructure & Capacity Benchmarking Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Conduct a command climate improvement program for air defense systems infrastructure & capacity using DEOCS assessment with leadership accountability measures.",
+          "cite": "Kohn, R.H. (1997). An Essay on Civilian Control of the Military. American Diplomacy, 3(1); King, A. (2013). The Combat Soldier: Infantry Tactics and Cohesion in the World and Korean Wars. Oxford University Press",
+          "target": "INCONSISTENT_AIR_DEFENSE_SYSTEMS_INFRASTRUC -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Kohn, R.H.",
+              "year": 1997,
+              "title": "An Essay on Civilian Control of the Military",
+              "journal": "American Diplomacy",
+              "volume": "3(1)",
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "King, A.",
+              "year": 2013,
+              "title": "The Combat Soldier: Infantry Tactics and Cohesion in the World and Korean Wars",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess civil-military dynamics for air defense systems infrastructure & capacity using public opinion and institutional survey data",
+            "Design public engagement strategy with transparency and community partnership",
+            "Implement through community liaison, public affairs, and civic education programs",
+            "Deploy measurement through trust surveys and community relations indicators",
+            "Evaluate impact on recruitment, retention, and public support metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — military-civilian relations index using public opinion and internal survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — military-civilian relations index measured annually. Target: 70% public confidence in military. PHASE 3 (Months 4-6): Midpoint review — compare against Gallup military confidence benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — military-civilian relations index trending toward 80% confidence. Escalate if <55% confidence floor. ANNUAL REVIEW: Comprehensive audit using civil-military relations framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Air Defense Systems Infrastructure & Capacity Impact Evaluation",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Design a space domain awareness capability for air defense systems infrastructure & capacity deploying sensor networks per Space Force SSA architecture.",
+          "cite": "Lockheed Martin (2020). Digital Thread and Digital Twin for Defense. Lockheed Martin; DOD (2023). Joint All-Domain Command and Control (JADC2) Implementation Plan. Joint Chiefs",
+          "target": "UNMONITORED_AIR_DEFENSE_SYSTEMS_INFRASTRUC -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Lockheed Martin",
+              "year": 2020,
+              "title": "Digital Thread and Digital Twin for Defense",
+              "journal": "Lockheed Martin",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOD",
+              "year": 2023,
+              "title": "Joint All-Domain Command and Control (JADC2) Implementation Plan",
+              "journal": "Joint Chiefs",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess C2 connectivity for air defense systems infrastructure & capacity using JADC2 integration requirements",
+            "Design all-domain data fabric with standards-based interfaces and APIs",
+            "Implement sensor-to-shooter data links with coalition partner interoperability",
+            "Conduct integration testing through joint exercises and demonstrations",
+            "Measure C2 decision speed, data sharing, and cross-domain engagement times"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — JADC2 integration maturity using systems integration testing. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — JADC2 integration maturity measured quarterly. Target: 80% platforms JADC2-connected. PHASE 3 (Months 4-6): Midpoint review — compare against Joint Staff integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — JADC2 integration maturity trending toward 90% connected. Escalate if <60% connected floor. ANNUAL REVIEW: Comprehensive audit using JADC2 Implementation Plan. Report to Joint Staff J6.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Air Defense Systems Infrastructure & Capacity Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Deploy a defense modernization roadmap for air defense systems infrastructure & capacity using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Schelling, T.C. (1960). The Strategy of Conflict. Harvard University Press; Freedman, L. (2013). Strategy: A History. Oxford University Press",
+          "target": "UNDERPERFORMING_AIR_DEFENSE_SYSTEMS_INFRASTRUC -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Schelling, T.C.",
+              "year": 1960,
+              "title": "The Strategy of Conflict",
+              "journal": "Harvard University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Freedman, L.",
+              "year": 2013,
+              "title": "Strategy: A History",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess threat environment for air defense systems infrastructure & capacity using intelligence community assessments and wargaming",
+            "Conduct force structure analysis with capability gap identification",
+            "Design strategy with ends-ways-means alignment and risk assessment",
+            "Implement through PPBE with program objective memoranda and budget submissions",
+            "Evaluate through Quadrennial Defense Review and combatant command assessments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — force readiness level using DRRS-S readiness reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — force readiness level measured monthly. Target: C1/C2 readiness across force. PHASE 3 (Months 4-6): Midpoint review — compare against DOD readiness benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — force readiness level trending toward C1 all major units. Escalate if <C3 floor for any unit. ANNUAL REVIEW: Comprehensive audit using DOD Global Force Management. Report to Secretary of Defense.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "defense_missile_airdefense_manpad_portal.html"
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Air Defense Systems Risk & Resilience",
+      "domainDescription": "Systematic management of air defense systems risk & resilience across all air defense systems functions and operations",
+      "group": "governance",
+      "phase": "P7",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Configure Air Defense Systems Risk & Resilience Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Configure a defense modernization roadmap for air defense systems risk & resilience using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Schelling, T.C. (1960). The Strategy of Conflict. Harvard University Press; Freedman, L. (2013). Strategy: A History. Oxford University Press",
+          "target": "OUTDATED_AIR_DEFENSE_SYSTEMS_RISK___RES -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Schelling, T.C.",
+              "year": 1960,
+              "title": "The Strategy of Conflict",
+              "journal": "Harvard University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Freedman, L.",
+              "year": 2013,
+              "title": "Strategy: A History",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess threat environment for air defense systems risk & resilience using intelligence community assessments and wargaming",
+            "Conduct force structure analysis with capability gap identification",
+            "Design strategy with ends-ways-means alignment and risk assessment",
+            "Implement through PPBE with program objective memoranda and budget submissions",
+            "Evaluate through Quadrennial Defense Review and combatant command assessments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — force readiness level using DRRS-S readiness reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — force readiness level measured monthly. Target: C1/C2 readiness across force. PHASE 3 (Months 4-6): Midpoint review — compare against DOD readiness benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — force readiness level trending toward C1 all major units. Escalate if <C3 floor for any unit. ANNUAL REVIEW: Comprehensive audit using DOD Global Force Management. Report to Secretary of Defense.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Air Defense Systems Risk & Resilience Sustainability Audit",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Strengthen a cyber operations workforce development for air defense systems risk & resilience implementing DOD 8570 certification and NICE framework.",
+          "cite": "McChrystal, S. (2015). Team of Teams. Portfolio/Penguin; Kolb, D.A. (1984). Experiential Learning. Prentice Hall",
+          "target": "INEFFICIENT_AIR_DEFENSE_SYSTEMS_RISK___RES -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "McChrystal, S.",
+              "year": 2015,
+              "title": "Team of Teams",
+              "journal": "Portfolio/Penguin",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Kolb, D.A.",
+              "year": 1984,
+              "title": "Experiential Learning",
+              "journal": "Prentice Hall",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess unit training readiness for air defense systems risk & resilience using METL proficiency evaluation",
+            "Design training plan with live, virtual, and constructive exercise integration",
+            "Execute collective training events with observer-controller evaluation",
+            "Conduct after-action reviews with task proficiency rating updates",
+            "Certify unit readiness through mission rehearsal and evaluation exercise"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — combat readiness certification rate using unit training management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — combat readiness certification rate measured quarterly. Target: 90% units mission-qualified. PHASE 3 (Months 4-6): Midpoint review — compare against Army METL standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — combat readiness certification rate trending toward 95% qualified. Escalate if <80% qualified floor. ANNUAL REVIEW: Comprehensive audit using TRADOC METL framework. Report to Training Command.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Air Defense Systems Risk & Resilience Innovation Pipeline",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Monitor a weapons system modernization for air defense systems risk & resilience using DOD 5000 adaptive acquisition framework with DevSecOps.",
+          "cite": "NATO (2023). NATO Standardization Agreements (STANAGs). NATO Standardization Office; MIL-STD-882E (2012). System Safety Standard Practices. US DOD",
+          "target": "INCONSISTENT_AIR_DEFENSE_SYSTEMS_RISK___RES -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NATO",
+              "year": 2023,
+              "title": "NATO Standardization Agreements (STANAGs)",
+              "journal": "NATO Standardization Office",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MIL-STD-882E",
+              "year": 2012,
+              "title": "System Safety Standard Practices",
+              "journal": "US DOD",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess weapons system readiness for air defense systems risk & resilience using MC rate and sustainment data",
+            "Design modernization program with DOD 5000 pathway and DevSecOps for software",
+            "Implement with iterative development, test, and deployment sprints",
+            "Conduct operational testing per DOT&E evaluation criteria",
+            "Deploy with logistics planning and initial operational capability declaration"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — weapons system availability rate using maintenance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — weapons system availability rate measured monthly. Target: mission capable rate 80%. PHASE 3 (Months 4-6): Midpoint review — compare against DOD MC rate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — weapons system availability rate trending toward 85% MC rate. Escalate if <70% MC rate floor. ANNUAL REVIEW: Comprehensive audit using DOD maintenance standards. Report to Logistics Command.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Air Defense Systems Risk & Resilience Feedback Loop Design",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build a command climate improvement program for air defense systems risk & resilience using DEOCS assessment with leadership accountability measures.",
+          "cite": "Janowitz, M. (1960). The Professional Soldier. Free Press; Coker, C. (2007). The Warrior Ethos: Military Culture and the War on Terror. Routledge",
+          "target": "UNMONITORED_AIR_DEFENSE_SYSTEMS_RISK___RES -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Janowitz, M.",
+              "year": 1960,
+              "title": "The Professional Soldier",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Coker, C.",
+              "year": 2007,
+              "title": "The Warrior Ethos: Military Culture and the War on Terror",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess civil-military dynamics for air defense systems risk & resilience using public opinion and institutional survey data",
+            "Design public engagement strategy with transparency and community partnership",
+            "Implement through community liaison, public affairs, and civic education programs",
+            "Deploy measurement through trust surveys and community relations indicators",
+            "Evaluate impact on recruitment, retention, and public support metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — military-civilian relations index using public opinion and internal survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — military-civilian relations index measured annually. Target: 70% public confidence in military. PHASE 3 (Months 4-6): Midpoint review — compare against Gallup military confidence benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — military-civilian relations index trending toward 80% confidence. Escalate if <55% confidence floor. ANNUAL REVIEW: Comprehensive audit using civil-military relations framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Air Defense Systems Risk & Resilience Sustainability Audit",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Optimize a space domain awareness capability for air defense systems risk & resilience deploying sensor networks per Space Force SSA architecture.",
+          "cite": "NATO (2022). NATO Modelling and Simulation Standards. NATO M&S COE; NSA (2023). Commercial National Security Algorithm Suite 2.0. NSA Cybersecurity",
+          "target": "UNDERPERFORMING_AIR_DEFENSE_SYSTEMS_RISK___RES -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NATO",
+              "year": 2022,
+              "title": "NATO Modelling and Simulation Standards",
+              "journal": "NATO M&S COE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NSA",
+              "year": 2023,
+              "title": "Commercial National Security Algorithm Suite 2.0",
+              "journal": "NSA Cybersecurity",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess C2 connectivity for air defense systems risk & resilience using JADC2 integration requirements",
+            "Design all-domain data fabric with standards-based interfaces and APIs",
+            "Implement sensor-to-shooter data links with coalition partner interoperability",
+            "Conduct integration testing through joint exercises and demonstrations",
+            "Measure C2 decision speed, data sharing, and cross-domain engagement times"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — JADC2 integration maturity using systems integration testing. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — JADC2 integration maturity measured quarterly. Target: 80% platforms JADC2-connected. PHASE 3 (Months 4-6): Midpoint review — compare against Joint Staff integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — JADC2 integration maturity trending toward 90% connected. Escalate if <60% connected floor. ANNUAL REVIEW: Comprehensive audit using JADC2 Implementation Plan. Report to Joint Staff J6.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Air Defense Systems Risk & Resilience Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Launch a defense modernization roadmap for air defense systems risk & resilience using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "DOD (2022). National Defense Strategy. US Department of Defense; Clausewitz, C. von (1832). On War (trans. Howard & Paret). Princeton University Press",
+          "target": "REACTIVE_AIR_DEFENSE_SYSTEMS_RISK___RES -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "DOD",
+              "year": 2022,
+              "title": "National Defense Strategy",
+              "journal": "US Department of Defense",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Clausewitz, C. von",
+              "year": 1832,
+              "title": "On War (trans. Howard & Paret)",
+              "journal": "Princeton University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess threat environment for air defense systems risk & resilience using intelligence community assessments and wargaming",
+            "Conduct force structure analysis with capability gap identification",
+            "Design strategy with ends-ways-means alignment and risk assessment",
+            "Implement through PPBE with program objective memoranda and budget submissions",
+            "Evaluate through Quadrennial Defense Review and combatant command assessments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — force readiness level using DRRS-S readiness reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — force readiness level measured monthly. Target: C1/C2 readiness across force. PHASE 3 (Months 4-6): Midpoint review — compare against DOD readiness benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — force readiness level trending toward C1 all major units. Escalate if <C3 floor for any unit. ANNUAL REVIEW: Comprehensive audit using DOD Global Force Management. Report to Secretary of Defense.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "defense_missile_airdefense_shorad_portal.html"
+    },
+    {
+      "brainNodeId": "LGN",
+      "state": "active",
+      "domainLabel": "Air Defense Systems Policy & Governance",
+      "domainDescription": "Systematic management of air defense systems policy & governance across all air defense systems functions and operations",
+      "group": "innovation",
+      "phase": "P7",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Build Air Defense Systems Policy & Governance Assessment Protocol",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Build a national defense strategy for air defense systems policy & governance applying Clausewitz ends-ways-means framework with threat assessment and force structure analysis.",
+          "cite": "Clausewitz, C. von (1832). On War (trans. Howard & Paret). Princeton University Press; DOD (2022). National Defense Strategy. US Department of Defense",
+          "target": "FRAGMENTED_AIR_DEFENSE_SYSTEMS_POLICY___G -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Clausewitz, C. von",
+              "year": 1832,
+              "title": "On War (trans. Howard & Paret)",
+              "journal": "Princeton University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOD",
+              "year": 2022,
+              "title": "National Defense Strategy",
+              "journal": "US Department of Defense",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess modernization priorities for air defense systems policy & governance using capability portfolio review",
+            "Design acquisition programs with DOD 5000 pathway selection",
+            "Implement with milestone decision reviews and test and evaluation",
+            "Deploy with initial and full operational capability milestones",
+            "Evaluate through operational testing and GAO acquisition assessment"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defense spending efficiency using PPBE cost tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defense spending efficiency measured quarterly. Target: acquisition on-budget 90%. PHASE 3 (Months 4-6): Midpoint review — compare against GAO acquisition benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defense spending efficiency trending toward 95% on-budget. Escalate if <80% on-budget floor. ANNUAL REVIEW: Comprehensive audit using DOD PPBE framework. Report to Under Secretary (Comptroller).",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Air Defense Systems Policy & Governance Diagnostic Dashboard",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Optimize a combat lifesaver and TCCC training for air defense systems policy & governance per NAEMT Tactical Combat Casualty Care standards.",
+          "cite": "Builder, C.H. (1989). The Masks of War. RAND Corporation; Sinek, S. (2009). Leaders Eat Last. Portfolio",
+          "target": "SILOED_AIR_DEFENSE_SYSTEMS_POLICY___G -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Builder, C.H.",
+              "year": 1989,
+              "title": "The Masks of War",
+              "journal": "RAND Corporation",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sinek, S.",
+              "year": 2009,
+              "title": "Leaders Eat Last",
+              "journal": "Portfolio",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess PME requirements for air defense systems policy & governance against Goldwater-Nichols joint education mandate",
+            "Design curriculum with strategic studies, operational art, and joint competencies",
+            "Deliver through resident and distance education with seminar and exercise methods",
+            "Evaluate through research papers, wargame performance, and seminar participation",
+            "Track graduate career progression and joint assignment performance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — professional military education completion using PME tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — professional military education completion measured annually. Target: 100% eligible completing PME. PHASE 3 (Months 4-6): Midpoint review — compare against DOD PME requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — professional military education completion trending toward 100% with distinction. Escalate if <95% minimum. ANNUAL REVIEW: Comprehensive audit using Joint PME standards. Report to PME Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Air Defense Systems Policy & Governance Governance Structure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Launch an installation energy resilience program for air defense systems policy & governance deploying microgrids and renewable generation per DOD energy policy.",
+          "cite": "NIST (2023). Risk Management Framework SP 800-37. NIST; GAO (2023). Defense Acquisition Annual Assessment. Government Accountability Office",
+          "target": "OUTDATED_AIR_DEFENSE_SYSTEMS_POLICY___G -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2023,
+              "title": "Risk Management Framework SP 800-37",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "GAO",
+              "year": 2023,
+              "title": "Defense Acquisition Annual Assessment",
+              "journal": "Government Accountability Office",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit cybersecurity posture for air defense systems policy & governance using NIST RMF and STIG compliance scans",
+            "Design zero-trust implementation per DOD reference architecture",
+            "Implement network segmentation, identity management, and continuous monitoring",
+            "Deploy with authority-to-operate process and ongoing authorization",
+            "Measure through compliance dashboard, red team results, and incident metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity compliance using STIG and RMF compliance scanner. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity compliance measured monthly. Target: 100% systems ATO current. PHASE 3 (Months 4-6): Midpoint review — compare against NIST RMF/DOD STIG standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity compliance trending toward zero POA&Ms overdue. Escalate if <<5% overdue ceiling. ANNUAL REVIEW: Comprehensive audit using NIST SP 800-37 RMF. Report to CISO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Air Defense Systems Policy & Governance Assessment Protocol",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Develop a force diversity and inclusion initiative for air defense systems policy & governance per DOD Diversity Strategy with recruitment and retention reforms.",
+          "cite": "Schein, E.H. (2010). Organizational Culture and Leadership 4e. Jossey-Bass; Huntington, S.P. (1957). The Soldier and the State. Harvard University Press",
+          "target": "INEFFICIENT_AIR_DEFENSE_SYSTEMS_POLICY___G -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Schein, E.H.",
+              "year": 2010,
+              "title": "Organizational Culture and Leadership 4e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Huntington, S.P.",
+              "year": 1957,
+              "title": "The Soldier and the State",
+              "journal": "Harvard University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess force demographics for air defense systems policy & governance using DOD diversity data and pipeline analysis",
+            "Design inclusive recruitment targeting underrepresented communities",
+            "Implement mentoring, professional development, and barrier removal programs",
+            "Deploy retention initiatives with career development and quality of life improvements",
+            "Measure through representation, promotion rates, and climate survey results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — force diversity representation using demographic data analysis. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — force diversity representation measured quarterly. Target: representation reflecting national demographics. PHASE 3 (Months 4-6): Midpoint review — compare against DOD diversity targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — force diversity representation trending toward exceeding demographics. Escalate if <within 15% of demographics. ANNUAL REVIEW: Comprehensive audit using DOD Diversity Strategy. Report to Diversity and Inclusion Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Air Defense Systems Policy & Governance Diagnostic Dashboard",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Establish a defense AI deployment for air defense systems policy & governance implementing responsible AI principles per DOD CDAO governance framework.",
+          "cite": "DOD (2022). Responsible AI Strategy and Implementation Pathway. DOD AI Center; DARPA (2023). Strategic Technology Office Programs. DARPA",
+          "target": "INCONSISTENT_AIR_DEFENSE_SYSTEMS_POLICY___G -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "DOD",
+              "year": 2022,
+              "title": "Responsible AI Strategy and Implementation Pathway",
+              "journal": "DOD AI Center",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DARPA",
+              "year": 2023,
+              "title": "Strategic Technology Office Programs",
+              "journal": "DARPA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess training simulation for air defense systems policy & governance using LVC federation architecture review",
+            "Design simulation environment with NATO M&S standards and HLA/DIS protocols",
+            "Implement federated training with multiple sites and coalition partners",
+            "Conduct training events with AAR capture and performance data analytics",
+            "Measure training effectiveness through task proficiency and cost comparison"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training utilization using LVC training system analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training utilization measured monthly. Target: 70% training via simulation. PHASE 3 (Months 4-6): Midpoint review — compare against NATO M&S utilization targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training utilization trending toward 80% simulated. Escalate if <50% simulated floor. ANNUAL REVIEW: Comprehensive audit using NATO M&S standards. Report to Modeling & Simulation Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Air Defense Systems Policy & Governance Governance Structure",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement a national defense strategy for air defense systems policy & governance applying Clausewitz ends-ways-means framework with threat assessment and force structure analysis.",
+          "cite": "Biddle, S. (2004). Military Power: Explaining Victory and Defeat in Modern Battle. Princeton University Press; Allison, G. & Zelikow, P. (1999). Essence of Decision 2e. Longman",
+          "target": "UNMONITORED_AIR_DEFENSE_SYSTEMS_POLICY___G -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Biddle, S.",
+              "year": 2004,
+              "title": "Military Power: Explaining Victory and Defeat in Modern Battle",
+              "journal": "Princeton University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Allison, G. & Zelikow, P.",
+              "year": 1999,
+              "title": "Essence of Decision 2e",
+              "journal": "Longman",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess modernization priorities for air defense systems policy & governance using capability portfolio review",
+            "Design acquisition programs with DOD 5000 pathway selection",
+            "Implement with milestone decision reviews and test and evaluation",
+            "Deploy with initial and full operational capability milestones",
+            "Evaluate through operational testing and GAO acquisition assessment"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defense spending efficiency using PPBE cost tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defense spending efficiency measured quarterly. Target: acquisition on-budget 90%. PHASE 3 (Months 4-6): Midpoint review — compare against GAO acquisition benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defense spending efficiency trending toward 95% on-budget. Escalate if <80% on-budget floor. ANNUAL REVIEW: Comprehensive audit using DOD PPBE framework. Report to Under Secretary (Comptroller).",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Air Defense Systems Technology & Innovation",
+      "domainDescription": "Systematic management of air defense systems technology & innovation across all air defense systems functions and operations",
+      "group": "development",
+      "phase": "P7",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Operationalize Air Defense Systems Technology & Innovation Continuous Improvement Cycle",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Operationalize a defense acquisition reform for air defense systems technology & innovation applying GAO best practices with agile development and modular open systems.",
+          "cite": "Freedman, L. (2013). Strategy: A History. Oxford University Press; Schelling, T.C. (1960). The Strategy of Conflict. Harvard University Press",
+          "target": "UNMONITORED_AIR_DEFENSE_SYSTEMS_TECHNOLOGY -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Freedman, L.",
+              "year": 2013,
+              "title": "Strategy: A History",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Schelling, T.C.",
+              "year": 1960,
+              "title": "The Strategy of Conflict",
+              "journal": "Harvard University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct deterrence assessment for air defense systems technology & innovation using strategic stability analysis",
+            "Design deterrence posture with nuclear and conventional force integration",
+            "Implement signaling strategy with exercises, deployments, and diplomatic messaging",
+            "Conduct red team assessment of deterrence credibility and escalation dynamics",
+            "Evaluate through intelligence assessment and allied consultation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — allied interoperability score using NATO STANAG compliance tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — allied interoperability score measured biannually. Target: 85% STANAG compliance. PHASE 3 (Months 4-6): Midpoint review — compare against NATO interoperability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — allied interoperability score trending toward 95% compliance. Escalate if <75% compliance floor. ANNUAL REVIEW: Comprehensive audit using NATO Interoperability Standards. Report to NATO Liaison.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Air Defense Systems Technology & Innovation Adaptive Management System",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Calibrate a joint professional military education for air defense systems technology & innovation building strategic thinking and interservice competency per Goldwater-Nichols.",
+          "cite": "Kolb, D.A. (1984). Experiential Learning. Prentice Hall; McChrystal, S. (2015). Team of Teams. Portfolio/Penguin",
+          "target": "UNDERPERFORMING_AIR_DEFENSE_SYSTEMS_TECHNOLOGY -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Kolb, D.A.",
+              "year": 1984,
+              "title": "Experiential Learning",
+              "journal": "Prentice Hall",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "McChrystal, S.",
+              "year": 2015,
+              "title": "Team of Teams",
+              "journal": "Portfolio/Penguin",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess cyber workforce for air defense systems technology & innovation against DOD 8570 and NICE framework requirements",
+            "Design training pathway with certification preparation and hands-on ranges",
+            "Deliver through cyber range exercises, CTF competitions, and team training",
+            "Support certification attainment for Security+, CISSP, and specialty certs",
+            "Track certification rates, cyber exercise performance, and operational outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — combat medic proficiency using medical readiness tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — combat medic proficiency measured quarterly. Target: 95% medics combat-certified. PHASE 3 (Months 4-6): Midpoint review — compare against TCCC proficiency standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — combat medic proficiency trending toward 100% certified. Escalate if <85% certified floor. ANNUAL REVIEW: Comprehensive audit using NAEMT TCCC standards. Report to Medical Training Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Air Defense Systems Technology & Innovation Knowledge Transfer Program",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Streamline a communications network resilience upgrade for air defense systems technology & innovation per DISA architecture with SATCOM and mesh networking.",
+          "cite": "MIL-STD-882E (2012). System Safety Standard Practices. US DOD; NATO (2023). NATO Standardization Agreements (STANAGs). NATO Standardization Office",
+          "target": "REACTIVE_AIR_DEFENSE_SYSTEMS_TECHNOLOGY -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "MIL-STD-882E",
+              "year": 2012,
+              "title": "System Safety Standard Practices",
+              "journal": "US DOD",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NATO",
+              "year": 2023,
+              "title": "NATO Standardization Agreements (STANAGs)",
+              "journal": "NATO Standardization Office",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate COMMS infrastructure for air defense systems technology & innovation using network analysis and resilience testing",
+            "Design resilient architecture with SATCOM, HF, and mesh network redundancy",
+            "Implement with encryption, TRANSEC, and anti-jam capabilities",
+            "Conduct network stress testing and denial-of-service resilience verification",
+            "Measure through network availability, latency, and failover performance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — communications network resilience using network operations monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — communications network resilience measured daily. Target: 99.9% uptime, <5s failover. PHASE 3 (Months 4-6): Midpoint review — compare against DOD DISA network standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — communications network resilience trending toward 99.99% uptime. Escalate if <99.5% uptime floor. ANNUAL REVIEW: Comprehensive audit using DOD network architecture. Report to DISA Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Air Defense Systems Technology & Innovation Continuous Improvement Cycle",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Assess a civil-military relations strengthening program for air defense systems technology & innovation implementing Huntington professional military ethic framework.",
+          "cite": "Coker, C. (2007). The Warrior Ethos: Military Culture and the War on Terror. Routledge; Janowitz, M. (1960). The Professional Soldier. Free Press",
+          "target": "FRAGMENTED_AIR_DEFENSE_SYSTEMS_TECHNOLOGY -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Coker, C.",
+              "year": 2007,
+              "title": "The Warrior Ethos: Military Culture and the War on Terror",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Janowitz, M.",
+              "year": 1960,
+              "title": "The Professional Soldier",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess transition readiness for air defense systems technology & innovation using TAP participation and outcome data",
+            "Design comprehensive transition program with career planning starting 18 months prior",
+            "Implement skills translation, credentialing, and employer matching services",
+            "Deploy veteran employment partnerships with industry and government hiring programs",
+            "Measure through employment rates, income levels, and veteran satisfaction at 12 months"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — veteran transition success rate using transition assistance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — veteran transition success rate measured annually. Target: 85% employed within 6 months. PHASE 3 (Months 4-6): Midpoint review — compare against DOL VETS benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — veteran transition success rate trending toward 90% employed. Escalate if <75% employed floor. ANNUAL REVIEW: Comprehensive audit using TAP/VETS framework. Report to Transition Assistance Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Air Defense Systems Technology & Innovation Adaptive Management System",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Create an autonomous systems integration for air defense systems technology & innovation deploying unmanned platforms per DOD Autonomous Systems Strategy.",
+          "cite": "NSA (2023). Commercial National Security Algorithm Suite 2.0. NSA Cybersecurity; NATO (2022). NATO Modelling and Simulation Standards. NATO M&S COE",
+          "target": "SILOED_AIR_DEFENSE_SYSTEMS_TECHNOLOGY -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "NSA",
+              "year": 2023,
+              "title": "Commercial National Security Algorithm Suite 2.0",
+              "journal": "NSA Cybersecurity",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NATO",
+              "year": 2022,
+              "title": "NATO Modelling and Simulation Standards",
+              "journal": "NATO M&S COE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI opportunities for air defense systems technology & innovation using DOD CDAO AI use case framework",
+            "Design AI system with responsible AI principles: reliable, equitable, traceable, governable",
+            "Implement with MLOps pipeline, testing, and human oversight mechanisms",
+            "Deploy with monitoring, bias detection, and performance degradation alerts",
+            "Evaluate operational impact with responsible AI metrics and user feedback"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defense AI adoption using AI project portfolio dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defense AI adoption measured quarterly. Target: 15 AI systems in operational use. PHASE 3 (Months 4-6): Midpoint review — compare against DOD CDAO targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defense AI adoption trending toward 25 systems. Escalate if <8 systems minimum. ANNUAL REVIEW: Comprehensive audit using DOD RAI Strategy. Report to Chief Digital & AI Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Air Defense Systems Technology & Innovation Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Evaluate a defense acquisition reform for air defense systems technology & innovation applying GAO best practices with agile development and modular open systems.",
+          "cite": "Clausewitz, C. von (1832). On War (trans. Howard & Paret). Princeton University Press; DOD (2022). National Defense Strategy. US Department of Defense",
+          "target": "OUTDATED_AIR_DEFENSE_SYSTEMS_TECHNOLOGY -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Clausewitz, C. von",
+              "year": 1832,
+              "title": "On War (trans. Howard & Paret)",
+              "journal": "Princeton University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOD",
+              "year": 2022,
+              "title": "National Defense Strategy",
+              "journal": "US Department of Defense",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct deterrence assessment for air defense systems technology & innovation using strategic stability analysis",
+            "Design deterrence posture with nuclear and conventional force integration",
+            "Implement signaling strategy with exercises, deployments, and diplomatic messaging",
+            "Conduct red team assessment of deterrence credibility and escalation dynamics",
+            "Evaluate through intelligence assessment and allied consultation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — allied interoperability score using NATO STANAG compliance tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — allied interoperability score measured biannually. Target: 85% STANAG compliance. PHASE 3 (Months 4-6): Midpoint review — compare against NATO interoperability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — allied interoperability score trending toward 95% compliance. Escalate if <75% compliance floor. ANNUAL REVIEW: Comprehensive audit using NATO Interoperability Standards. Report to NATO Liaison.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Air Defense Systems Human Capital & Development",
+      "domainDescription": "Systematic management of air defense systems human capital & development across all air defense systems functions and operations",
+      "group": "quality",
+      "phase": "P7",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Air Defense Systems Human Capital & Development Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a defense modernization roadmap for air defense systems human capital & development using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Clausewitz, C. von (1832). On War (trans. Howard & Paret). Princeton University Press; DOD (2022). National Defense Strategy. US Department of Defense",
+          "target": "FRAGMENTED_AIR_DEFENSE_SYSTEMS_HUMAN_CAPI -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Clausewitz, C. von",
+              "year": 1832,
+              "title": "On War (trans. Howard & Paret)",
+              "journal": "Princeton University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOD",
+              "year": 2022,
+              "title": "National Defense Strategy",
+              "journal": "US Department of Defense",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess modernization priorities for air defense systems human capital & development using capability portfolio review",
+            "Design acquisition programs with DOD 5000 pathway selection",
+            "Implement with milestone decision reviews and test and evaluation",
+            "Deploy with initial and full operational capability milestones",
+            "Evaluate through operational testing and GAO acquisition assessment"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defense spending efficiency using PPBE cost tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defense spending efficiency measured quarterly. Target: acquisition on-budget 90%. PHASE 3 (Months 4-6): Midpoint review — compare against GAO acquisition benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defense spending efficiency trending toward 95% on-budget. Escalate if <80% on-budget floor. ANNUAL REVIEW: Comprehensive audit using DOD PPBE framework. Report to Under Secretary (Comptroller).",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Air Defense Systems Human Capital & Development Feedback Loop Design",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop a cyber operations workforce development for air defense systems human capital & development implementing DOD 8570 certification and NICE framework.",
+          "cite": "Builder, C.H. (1989). The Masks of War. RAND Corporation; Sinek, S. (2009). Leaders Eat Last. Portfolio",
+          "target": "SILOED_AIR_DEFENSE_SYSTEMS_HUMAN_CAPI -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Builder, C.H.",
+              "year": 1989,
+              "title": "The Masks of War",
+              "journal": "RAND Corporation",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sinek, S.",
+              "year": 2009,
+              "title": "Leaders Eat Last",
+              "journal": "Portfolio",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess PME requirements for air defense systems human capital & development against Goldwater-Nichols joint education mandate",
+            "Design curriculum with strategic studies, operational art, and joint competencies",
+            "Deliver through resident and distance education with seminar and exercise methods",
+            "Evaluate through research papers, wargame performance, and seminar participation",
+            "Track graduate career progression and joint assignment performance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — professional military education completion using PME tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — professional military education completion measured annually. Target: 100% eligible completing PME. PHASE 3 (Months 4-6): Midpoint review — compare against DOD PME requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — professional military education completion trending toward 100% with distinction. Escalate if <95% minimum. ANNUAL REVIEW: Comprehensive audit using Joint PME standards. Report to PME Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Air Defense Systems Human Capital & Development Sustainability Audit",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a weapons system modernization for air defense systems human capital & development using DOD 5000 adaptive acquisition framework with DevSecOps.",
+          "cite": "NIST (2023). Risk Management Framework SP 800-37. NIST; GAO (2023). Defense Acquisition Annual Assessment. Government Accountability Office",
+          "target": "OUTDATED_AIR_DEFENSE_SYSTEMS_HUMAN_CAPI -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2023,
+              "title": "Risk Management Framework SP 800-37",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "GAO",
+              "year": 2023,
+              "title": "Defense Acquisition Annual Assessment",
+              "journal": "Government Accountability Office",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit cybersecurity posture for air defense systems human capital & development using NIST RMF and STIG compliance scans",
+            "Design zero-trust implementation per DOD reference architecture",
+            "Implement network segmentation, identity management, and continuous monitoring",
+            "Deploy with authority-to-operate process and ongoing authorization",
+            "Measure through compliance dashboard, red team results, and incident metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity compliance using STIG and RMF compliance scanner. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity compliance measured monthly. Target: 100% systems ATO current. PHASE 3 (Months 4-6): Midpoint review — compare against NIST RMF/DOD STIG standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity compliance trending toward zero POA&Ms overdue. Escalate if <<5% overdue ceiling. ANNUAL REVIEW: Comprehensive audit using NIST SP 800-37 RMF. Report to CISO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Air Defense Systems Human Capital & Development Innovation Pipeline",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement a command climate improvement program for air defense systems human capital & development using DEOCS assessment with leadership accountability measures.",
+          "cite": "Schein, E.H. (2010). Organizational Culture and Leadership 4e. Jossey-Bass; Huntington, S.P. (1957). The Soldier and the State. Harvard University Press",
+          "target": "INEFFICIENT_AIR_DEFENSE_SYSTEMS_HUMAN_CAPI -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Schein, E.H.",
+              "year": 2010,
+              "title": "Organizational Culture and Leadership 4e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Huntington, S.P.",
+              "year": 1957,
+              "title": "The Soldier and the State",
+              "journal": "Harvard University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess force demographics for air defense systems human capital & development using DOD diversity data and pipeline analysis",
+            "Design inclusive recruitment targeting underrepresented communities",
+            "Implement mentoring, professional development, and barrier removal programs",
+            "Deploy retention initiatives with career development and quality of life improvements",
+            "Measure through representation, promotion rates, and climate survey results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — force diversity representation using demographic data analysis. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — force diversity representation measured quarterly. Target: representation reflecting national demographics. PHASE 3 (Months 4-6): Midpoint review — compare against DOD diversity targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — force diversity representation trending toward exceeding demographics. Escalate if <within 15% of demographics. ANNUAL REVIEW: Comprehensive audit using DOD Diversity Strategy. Report to Diversity and Inclusion Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Air Defense Systems Human Capital & Development Feedback Loop Design",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a space domain awareness capability for air defense systems human capital & development deploying sensor networks per Space Force SSA architecture.",
+          "cite": "DOD (2022). Responsible AI Strategy and Implementation Pathway. DOD AI Center; DARPA (2023). Strategic Technology Office Programs. DARPA",
+          "target": "INCONSISTENT_AIR_DEFENSE_SYSTEMS_HUMAN_CAPI -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "DOD",
+              "year": 2022,
+              "title": "Responsible AI Strategy and Implementation Pathway",
+              "journal": "DOD AI Center",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DARPA",
+              "year": 2023,
+              "title": "Strategic Technology Office Programs",
+              "journal": "DARPA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess training simulation for air defense systems human capital & development using LVC federation architecture review",
+            "Design simulation environment with NATO M&S standards and HLA/DIS protocols",
+            "Implement federated training with multiple sites and coalition partners",
+            "Conduct training events with AAR capture and performance data analytics",
+            "Measure training effectiveness through task proficiency and cost comparison"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training utilization using LVC training system analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training utilization measured monthly. Target: 70% training via simulation. PHASE 3 (Months 4-6): Midpoint review — compare against NATO M&S utilization targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training utilization trending toward 80% simulated. Escalate if <50% simulated floor. ANNUAL REVIEW: Comprehensive audit using NATO M&S standards. Report to Modeling & Simulation Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Air Defense Systems Human Capital & Development Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a defense modernization roadmap for air defense systems human capital & development using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Biddle, S. (2004). Military Power: Explaining Victory and Defeat in Modern Battle. Princeton University Press; Allison, G. & Zelikow, P. (1999). Essence of Decision 2e. Longman",
+          "target": "UNMONITORED_AIR_DEFENSE_SYSTEMS_HUMAN_CAPI -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Biddle, S.",
+              "year": 2004,
+              "title": "Military Power: Explaining Victory and Defeat in Modern Battle",
+              "journal": "Princeton University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Allison, G. & Zelikow, P.",
+              "year": 1999,
+              "title": "Essence of Decision 2e",
+              "journal": "Longman",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess modernization priorities for air defense systems human capital & development using capability portfolio review",
+            "Design acquisition programs with DOD 5000 pathway selection",
+            "Implement with milestone decision reviews and test and evaluation",
+            "Deploy with initial and full operational capability milestones",
+            "Evaluate through operational testing and GAO acquisition assessment"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defense spending efficiency using PPBE cost tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defense spending efficiency measured quarterly. Target: acquisition on-budget 90%. PHASE 3 (Months 4-6): Midpoint review — compare against GAO acquisition benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defense spending efficiency trending toward 95% on-budget. Escalate if <80% on-budget floor. ANNUAL REVIEW: Comprehensive audit using DOD PPBE framework. Report to Under Secretary (Comptroller).",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PPN",
+      "state": "active",
+      "domainLabel": "Air Defense Systems Quality & Performance",
+      "domainDescription": "Systematic management of air defense systems quality & performance across all air defense systems functions and operations",
+      "group": "performance",
+      "phase": "P7",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Deploy Air Defense Systems Quality & Performance Benchmarking Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Deploy a defense modernization roadmap for air defense systems quality & performance using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Biddle, S. (2004). Military Power: Explaining Victory and Defeat in Modern Battle. Princeton University Press; Allison, G. & Zelikow, P. (1999). Essence of Decision 2e. Longman",
+          "target": "REACTIVE_AIR_DEFENSE_SYSTEMS_QUALITY___ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Biddle, S.",
+              "year": 2004,
+              "title": "Military Power: Explaining Victory and Defeat in Modern Battle",
+              "journal": "Princeton University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Allison, G. & Zelikow, P.",
+              "year": 1999,
+              "title": "Essence of Decision 2e",
+              "journal": "Longman",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess threat environment for air defense systems quality & performance using intelligence community assessments and wargaming",
+            "Conduct force structure analysis with capability gap identification",
+            "Design strategy with ends-ways-means alignment and risk assessment",
+            "Implement through PPBE with program objective memoranda and budget submissions",
+            "Evaluate through Quadrennial Defense Review and combatant command assessments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — force readiness level using DRRS-S readiness reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — force readiness level measured monthly. Target: C1/C2 readiness across force. PHASE 3 (Months 4-6): Midpoint review — compare against DOD readiness benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — force readiness level trending toward C1 all major units. Escalate if <C3 floor for any unit. ANNUAL REVIEW: Comprehensive audit using DOD Global Force Management. Report to Secretary of Defense.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Air Defense Systems Quality & Performance Impact Evaluation",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Operationalize a cyber operations workforce development for air defense systems quality & performance implementing DOD 8570 certification and NICE framework.",
+          "cite": "US Army (2019). ADP 7-0: Training. Department of the Army; Klein, G. (1998). Sources of Power: How People Make Decisions. MIT Press",
+          "target": "FRAGMENTED_AIR_DEFENSE_SYSTEMS_QUALITY___ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "US Army",
+              "year": 2019,
+              "title": "ADP 7-0: Training",
+              "journal": "Department of the Army",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Klein, G.",
+              "year": 1998,
+              "title": "Sources of Power: How People Make Decisions",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess unit training readiness for air defense systems quality & performance using METL proficiency evaluation",
+            "Design training plan with live, virtual, and constructive exercise integration",
+            "Execute collective training events with observer-controller evaluation",
+            "Conduct after-action reviews with task proficiency rating updates",
+            "Certify unit readiness through mission rehearsal and evaluation exercise"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — combat readiness certification rate using unit training management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — combat readiness certification rate measured quarterly. Target: 90% units mission-qualified. PHASE 3 (Months 4-6): Midpoint review — compare against Army METL standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — combat readiness certification rate trending toward 95% qualified. Escalate if <80% qualified floor. ANNUAL REVIEW: Comprehensive audit using TRADOC METL framework. Report to Training Command.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Air Defense Systems Quality & Performance Performance Framework",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Calibrate a weapons system modernization for air defense systems quality & performance using DOD 5000 adaptive acquisition framework with DevSecOps.",
+          "cite": "DOD (2023). DOD Architecture Framework (DoDAF) 2.02. DOD CIO; DOD (2021). DOD Zero Trust Reference Architecture. DISA/NSA",
+          "target": "SILOED_AIR_DEFENSE_SYSTEMS_QUALITY___ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "DOD",
+              "year": 2023,
+              "title": "DOD Architecture Framework (DoDAF) 2.02",
+              "journal": "DOD CIO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOD",
+              "year": 2021,
+              "title": "DOD Zero Trust Reference Architecture",
+              "journal": "DISA/NSA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess weapons system readiness for air defense systems quality & performance using MC rate and sustainment data",
+            "Design modernization program with DOD 5000 pathway and DevSecOps for software",
+            "Implement with iterative development, test, and deployment sprints",
+            "Conduct operational testing per DOT&E evaluation criteria",
+            "Deploy with logistics planning and initial operational capability declaration"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — weapons system availability rate using maintenance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — weapons system availability rate measured monthly. Target: mission capable rate 80%. PHASE 3 (Months 4-6): Midpoint review — compare against DOD MC rate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — weapons system availability rate trending toward 85% MC rate. Escalate if <70% MC rate floor. ANNUAL REVIEW: Comprehensive audit using DOD maintenance standards. Report to Logistics Command.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Air Defense Systems Quality & Performance Benchmarking Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Streamline a command climate improvement program for air defense systems quality & performance using DEOCS assessment with leadership accountability measures.",
+          "cite": "Kohn, R.H. (1997). An Essay on Civilian Control of the Military. American Diplomacy, 3(1); King, A. (2013). The Combat Soldier: Infantry Tactics and Cohesion in the World and Korean Wars. Oxford University Press",
+          "target": "OUTDATED_AIR_DEFENSE_SYSTEMS_QUALITY___ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Kohn, R.H.",
+              "year": 1997,
+              "title": "An Essay on Civilian Control of the Military",
+              "journal": "American Diplomacy",
+              "volume": "3(1)",
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "King, A.",
+              "year": 2013,
+              "title": "The Combat Soldier: Infantry Tactics and Cohesion in the World and Korean Wars",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess civil-military dynamics for air defense systems quality & performance using public opinion and institutional survey data",
+            "Design public engagement strategy with transparency and community partnership",
+            "Implement through community liaison, public affairs, and civic education programs",
+            "Deploy measurement through trust surveys and community relations indicators",
+            "Evaluate impact on recruitment, retention, and public support metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — military-civilian relations index using public opinion and internal survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — military-civilian relations index measured annually. Target: 70% public confidence in military. PHASE 3 (Months 4-6): Midpoint review — compare against Gallup military confidence benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — military-civilian relations index trending toward 80% confidence. Escalate if <55% confidence floor. ANNUAL REVIEW: Comprehensive audit using civil-military relations framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Air Defense Systems Quality & Performance Impact Evaluation",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Assess a space domain awareness capability for air defense systems quality & performance deploying sensor networks per Space Force SSA architecture.",
+          "cite": "Lockheed Martin (2020). Digital Thread and Digital Twin for Defense. Lockheed Martin; DOD (2023). Joint All-Domain Command and Control (JADC2) Implementation Plan. Joint Chiefs",
+          "target": "INEFFICIENT_AIR_DEFENSE_SYSTEMS_QUALITY___ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Lockheed Martin",
+              "year": 2020,
+              "title": "Digital Thread and Digital Twin for Defense",
+              "journal": "Lockheed Martin",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOD",
+              "year": 2023,
+              "title": "Joint All-Domain Command and Control (JADC2) Implementation Plan",
+              "journal": "Joint Chiefs",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess C2 connectivity for air defense systems quality & performance using JADC2 integration requirements",
+            "Design all-domain data fabric with standards-based interfaces and APIs",
+            "Implement sensor-to-shooter data links with coalition partner interoperability",
+            "Conduct integration testing through joint exercises and demonstrations",
+            "Measure C2 decision speed, data sharing, and cross-domain engagement times"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — JADC2 integration maturity using systems integration testing. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — JADC2 integration maturity measured quarterly. Target: 80% platforms JADC2-connected. PHASE 3 (Months 4-6): Midpoint review — compare against Joint Staff integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — JADC2 integration maturity trending toward 90% connected. Escalate if <60% connected floor. ANNUAL REVIEW: Comprehensive audit using JADC2 Implementation Plan. Report to Joint Staff J6.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Air Defense Systems Quality & Performance Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Create a defense modernization roadmap for air defense systems quality & performance using DOD PPBE process with capability portfolio management and gap analysis.",
+          "cite": "Schelling, T.C. (1960). The Strategy of Conflict. Harvard University Press; Freedman, L. (2013). Strategy: A History. Oxford University Press",
+          "target": "INCONSISTENT_AIR_DEFENSE_SYSTEMS_QUALITY___ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Schelling, T.C.",
+              "year": 1960,
+              "title": "The Strategy of Conflict",
+              "journal": "Harvard University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Freedman, L.",
+              "year": 2013,
+              "title": "Strategy: A History",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess threat environment for air defense systems quality & performance using intelligence community assessments and wargaming",
+            "Conduct force structure analysis with capability gap identification",
+            "Design strategy with ends-ways-means alignment and risk assessment",
+            "Implement through PPBE with program objective memoranda and budget submissions",
+            "Evaluate through Quadrennial Defense Review and combatant command assessments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — force readiness level using DRRS-S readiness reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — force readiness level measured monthly. Target: C1/C2 readiness across force. PHASE 3 (Months 4-6): Midpoint review — compare against DOD readiness benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — force readiness level trending toward C1 all major units. Escalate if <C3 floor for any unit. ANNUAL REVIEW: Comprehensive audit using DOD Global Force Management. Report to Secretary of Defense.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a ground force operations and tactics advisor for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CON",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "AI",
+      "target": "PAG",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "PAG",
+      "target": "NAcc",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "NAcc",
+      "target": "LGN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "LGN",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "SMA",
+      "target": "BDNF",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "BDNF",
+      "target": "PPN",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "CON",
+      "target": "PPN",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "PAG",
+      "target": "CON",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "DEFENSE_MISSILE_AIRDEFENSE_SYSTEM_FAILURE",
+      "label": "Defense Missile Airdefense System Failure",
+      "summary": "Critical breakdown in Defense Missile Airdefense systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hyper-active",
+          "detail": "Air Defense Systems Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hypo-active",
+          "detail": "Air Defense Systems Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Altered",
+          "detail": "Air Defense Systems Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-active",
+          "detail": "Air Defense Systems Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LGN",
+          "dir": "Hypo-active",
+          "detail": "Air Defense Systems Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "DEFENSE_MISSILE_AIRDEFENSE_CAPACITY_OVERLOAD",
+      "label": "Defense Missile Airdefense Capacity Overload",
+      "summary": "Demand exceeding available Defense Missile Airdefense capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hyper-active",
+          "detail": "Air Defense Systems Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-active",
+          "detail": "Air Defense Systems Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-active",
+          "detail": "Air Defense Systems Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-active",
+          "detail": "Air Defense Systems Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "DEFENSE_MISSILE_AIRDEFENSE_QUALITY_DEGRADATION",
+      "label": "Defense Missile Airdefense Quality Degradation",
+      "summary": "Progressive decline in Defense Missile Airdefense quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hypo-active",
+          "detail": "Air Defense Systems Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered",
+          "detail": "Air Defense Systems Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-active",
+          "detail": "Air Defense Systems Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Air Defense Systems Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

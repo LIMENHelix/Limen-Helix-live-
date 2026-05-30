@@ -1,0 +1,54 @@
+.vercel
+limen-helix-api/node_modules/
+limen-helix-api/bk-dataset.json
+limen-helix-api/bk-results.json
+limen-helix-api/bk_validation_results.json
+helix-kernel-v4.js
+.env*.local
+.claude/settings.local.json
+# Server-side audit log (best-effort local writes; runtime data, not source)
+api/audit/reconciliation_log.jsonl
+api/helix_app/audit/reconciliation_log.jsonl
+api/__pycache__/
+api/thing1/__pycache__/
+api/thing2/__pycache__/
+api/audit/__pycache__/
+api/helix_app/__pycache__/
+api/helix_app/audit/__pycache__/
+api/helix_app/thing1/__pycache__/
+api/helix_app/thing2/__pycache__/
+
+# Node deps + local toolchain
+node_modules/
+package-lock.json
+
+# Local backup snapshots of refreshed data files
+assets/data/command-board-data.json.before-*
+assets/data/command-board-data.json.pre-validated-*
+
+# One-shot diagnostic verifier artifacts (do not commit; runtime-only)
+_verify_static_claims.py
+_verify_static_claims_hits.json
+_verify_pre.log
+_verify_post.log
+_verify_triage.log
+
+# Runtime artifacts from the autonomic loop. REGENERATED every 6h tick.
+# Committing them caused .git to balloon to 2.5GB and blew the GitHub
+# Actions runner disk (Worker IOException No space left on device, 2026-05-30).
+# Read paths live in Upstash Redis (UPSTASH_REDIS_REST_URL + _TOKEN in Vercel)
+# or are recomputed on-demand from source data.
+assets/data/_vitals.json
+assets/data/_master-inbox.json
+assets/data/_bridge-build-log.json
+assets/data/_engine-build-log.json
+assets/data/_autonomous-regen-queue.json
+assets/data/_pattern-proposals.json
+assets/data/_operator-actions.json
+assets/data/_k2-persist-log.json
+assets/data/_ai-budget.json
+
+# Pre-enrich + pre-redensify backups, printed packages — historical/runtime
+assets/data/companies/_pre-enrich/
+assets/data/companies/_pre-redensify/
+assets/printed/

@@ -1,0 +1,624 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "bosch_rexroth",
+  "slug": "bosch_rexroth",
+  "name": "Bosch Rexroth AG",
+  "ticker": null,
+  "cik": null,
+  "sic": "3519",
+  "industry": "Internal Combustion Engines; Hydraulic & Pneumatic Equipment",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "FOREIGN_FILER",
+  "fredSeries": [
+    "INDPRO",
+    "MMNRNJ",
+    "TOTALSA",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "steel",
+    "aluminum",
+    "copper",
+    "rare-earth-elements",
+    "hydraulic-fluid",
+    "electronic-components"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "FOREIGN_FILER",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Exposure to cyclical industrial capex spending; 2020 COVID downturn saw 15–20% revenue contraction in hydraulics segment",
+    "Supply-chain concentration in European manufacturing; geopolitical tensions (Russia sanctions 2022) disrupted rare-earth and specialty-steel sourcing",
+    "Intense competition from Parker Hannifin, Eaton, Hydac in mobile and industrial hydraulics; margin compression in commodity product lines"
+  ],
+  "opportunitySignals": [
+    "Electrification of mobile machinery (construction, agriculture) driving demand for electric-motor integration and power-electronics controls; Rexroth launched eAxle product line 2021",
+    "Industry 4.0 / IoT retrofit market: predictive maintenance sensors and cloud-connected valve diagnostics command 25–35% margin uplift vs. legacy products",
+    "Renewable energy infrastructure (wind turbine pitch control, solar tracking) growing 12–18% CAGR; Rexroth supplies proportional-valve systems to Siemens Gamesa, GE Renewable Energy"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Bosch Rexroth is a tier-1 supplier of hydraulic and electromechanical motion-control systems for industrial machinery, mobile equipment (construction, agriculture), and renewable-energy infrastructure. The company operates as a division of Robert Bosch GmbH and commands ~15–18% global market share in proportional-valve and servo-control technologies, competing directly with Parker Hannifin and Eaton in the $80B+ global fluid-power market. Its product portfolio spans industrial automation, mobile machinery, and energy-transition applications, making it a critical node in the capital-equipment supply chain.",
+  "portalRelevance": "Rexroth's financial health and order-book trajectory serve as a leading indicator of industrial capex cycles and mobile-equipment demand (construction, agriculture, mining). As a private subsidiary of Bosch, it does not file with the SEC, but its parent-company disclosures (Bosch GmbH annual reports, German regulatory filings) and customer 10-Ks (Caterpillar, Deere, Volvo) reveal Rexroth's revenue and margin trends. For equity-research models tracking industrial-equipment OEMs and infrastructure spending, Rexroth's product-mix shift toward electrification and IoT-enabled diagnostics is a critical structural inflection point.",
+  "notes": {
+    "cohortStatus": "Tier-1 industrial-equipment supplier; peer to Parker Hannifin (PH), Eaton (ETN), Hydac (private); parent Bosch GmbH is privately held",
+    "envelopeStatus": "FOREIGN_FILER — German-domiciled subsidiary; no SEC filings; financial data sourced from Bosch Group consolidated reports and customer disclosures"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly order-intake data from OEM customers (Caterpillar, Volvo, Deere 10-Ks); disclosed as 'hydraulic-systems revenue' or 'motion-control segment'",
+        "Bosch Group annual report (published March/April) reveals Rexroth divisional EBITDA, capex, and headcount; German BaFin filings provide consolidated balance-sheet data",
+        "Supplier price-change notices and lead-time extensions via EDI to major OEM customers; tracked via Caterpillar, Deere earnings-call commentary on 'supplier inflation'",
+        "Patent filings (WIPO, USPTO, EPO) in proportional-valve, eAxle, and IoT-sensor categories; 2021–2024 surge in electrification-related patents signals R&D pivot"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Bosch Group revenue and margin trajectory; Rexroth typically 8–12% of Bosch consolidated revenue (~€90–110B total), implying Rexroth €7–13B annual sales",
+        "Mobile-equipment OEM order books (Caterpillar, Volvo, Deere) as proxy for Rexroth demand; construction-equipment backlogs peaked 2021–2022, normalizing 2023–2024",
+        "Product-mix composition: legacy hydraulics (commodity, 3–5% EBITDA margin) vs. proportional/servo (12–18% margin) vs. electromechanical (18–25% margin); shift toward higher-margin products ongoing",
+        "Supply-chain resilience: rare-earth and specialty-steel sourcing from Germany, Austria, Switzerland; geopolitical risk elevated post-2022 Russia sanctions"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn signature: 2020 COVID saw 15–20% revenue contraction; recovery 2021–2022 driven by pent-up capex; normalization 2023–2024 as capex cycles cool",
+        "Structural margin compression in commodity hydraulics; offset by electrification and IoT product-mix shift; net margin trajectory flat to slightly positive 2023–2025",
+        "Competitive intensity from Parker Hannifin (larger, more diversified), Eaton (stronger aerospace exposure), and Chinese low-cost entrants (Bohai, Yuken) in standard-valve segments",
+        "Electrification inflection: eAxle and electric-motor integration represent 5–8% of revenue today, projected 15–25% by 2030; requires capex and R&D reallocation"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "EU Machinery Directive (2006/42/EC) and CE marking compliance; Rexroth products subject to hydraulic-safety standards (ISO 4413, ISO 11237)",
+        "Environmental regulations: hydraulic-fluid disposal (EU Waste Directive 2008/98/EC), REACH chemical compliance, RoHS exemptions for hydraulic components",
+        "German Works Constitution Act (Betriebsverfassungsgesetz) and co-determination rules; Rexroth operates 30+ manufacturing plants across Europe, subject to labor-law compliance",
+        "Export controls: rare-earth and specialty-electronics content subject to EU dual-use export regulations; Russia sanctions (2022) triggered supply-chain restructuring"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "For OEM customers (Caterpillar, Volvo, Deere): model Rexroth cost-inflation pass-through via supplier-price escalation clauses; track quarterly gross-margin impact",
+        "For equity-research models: weight Bosch Group annual-report disclosures (Rexroth segment EBITDA) at 60% confidence; cross-validate with customer 10-K supplier-concentration disclosures",
+        "For supply-chain risk: monitor Rexroth manufacturing-footprint announcements (capex, plant closures, nearshoring); 2023–2024 shift toward Eastern Europe and Mexico expected",
+        "For electrification thesis: track eAxle product-adoption rates via OEM press releases and earnings calls; model 2025–2030 revenue CAGR at 8–12% for electric-motion-control segment"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Bosch Group annual report (March/April publication): validate Rexroth divisional revenue, EBITDA, capex, and headcount vs. prior-year forecast",
+        "OEM customer earnings calls (Caterpillar Q1–Q4, Volvo Q1–Q4, Deere Q1–Q4): listen for 'hydraulic-systems cost inflation', 'supplier lead times', 'electrification adoption rates'",
+        "Patent-filing velocity and grant rates (WIPO, USPTO, EPO): electrification-related patents should accelerate 2024–2026 if R&D pivot is real",
+        "Competitor announcements (Parker Hannifin, Eaton): track product launches, M&A, capacity expansions; benchmark against Rexroth's disclosed capex and R&D spend"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate cyclical-downturn sensitivity: if 2024–2025 OEM order books contract >15%, increase Rexroth revenue-decline forecast from 5–8% to 12–18%",
+        "Electrification adoption-rate model: if eAxle revenue growth exceeds 20% CAGR 2024–2026, increase long-term margin-recovery forecast from +50bps to +150bps by 2030",
+        "Supply-chain resilience: if geopolitical tensions escalate (Taiwan, Russia), increase rare-earth sourcing-cost assumptions by 10–15%; model nearshoring capex at €200–300M over 3 years",
+        "Competitive-intensity model: if Parker Hannifin or Eaton announce aggressive price cuts in proportional-valve segment, reduce Rexroth margin assumptions by 50–100bps"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "ThyssenKrupp AG",
+        "ticker": "TKA",
+        "cik": null,
+        "slug": "thyssenkrupp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Specialty Steel",
+        "relationshipNote": "ThyssenKrupp supplies high-strength steel forgings and precision-machined components for Rexroth proportional-valve bodies and actuator housings. Rexroth sources ~€150–200M annually from ThyssenKrupp's Industrial Solutions division (est. 8–12% of Rexroth COGS). 2022 Russia sanctions disrupted vanadium and molybdenum alloy sourcing; ThyssenKrupp pivoted supply to German and Austrian mills, increasing lead times 6–8 weeks. Long-term supply agreement (2020–2025) includes annual price-escalation clauses tied to raw-material indices.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bosch Sensortec GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "bosch_sensortec",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & IoT Sensors",
+        "relationshipNote": "Bosch Sensortec (sister division within Bosch GmbH) supplies pressure, temperature, and vibration sensors for Rexroth's IoT-enabled proportional-valve and predictive-maintenance product lines. Rexroth integrates Sensortec MEMS accelerometers and pressure transducers into eAxle and condition-monitoring systems launched 2021–2023. Intra-group transfer pricing; estimated €50–80M annual component value. Sensortec's sensor-fusion algorithms enable Rexroth's cloud-connected 'Rexroth Condition Monitoring' service (launched 2022), targeting 25–35% margin uplift vs. legacy products.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eaton Hydraulics (Eaton Corporation)",
+        "ticker": "ETN",
+        "cik": "0000009368",
+        "slug": "eaton_hydraulics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Supplier & Potential Co-Developer",
+        "relationshipNote": "Eaton Hydraulics competes directly with Rexroth in proportional-valve and servo-control markets; however, both companies supply complementary products to shared OEM customers (Caterpillar, Volvo, Deere). Rexroth and Eaton jointly developed ISO 4401 standard proportional-spool interfaces (2015–2018), enabling cross-supplier interchangeability. Eaton holds ~12–15% global market share vs. Rexroth's 15–18% in proportional valves. 2023 Eaton earnings call disclosed 'hydraulics segment revenue $4.2B, up 8% YoY'; Rexroth's proportional-valve revenue estimated €2.5–3.2B (est. 35–40% of Rexroth total).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hydac International Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "hydac_international",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Supplier in Filtration & Accumulators",
+        "relationshipNote": "Hydac (German private company, ~€3.5B revenue) supplies hydraulic-fluid filtration systems, accumulators, and pressure-relief valves; competes with Rexroth in industrial-automation and mobile-equipment segments. Rexroth and Hydac both supply Caterpillar and Volvo; Hydac holds ~8–10% market share in filtration, Rexroth ~12–15%. 2021 Hydac announced €200M capex for IoT-sensor integration in filter housings; Rexroth responded with eAxle and condition-monitoring product launches (2022–2023). No direct supply relationship; competitive intensity in proportional-valve segment increasing as both companies electrify product lines.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bosch Rexroth Hydraulic Fluid Suppliers (Shell, Mobil, Castrol)",
+        "ticker": "SHEL, XOM, BP",
+        "cik": "0000034088, 0000033104, 0000001104",
+        "slug": "hydraulic_fluid_suppliers",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Consumables",
+        "relationshipNote": "Rexroth specifies Shell Tellus, Mobil DTE, and Castrol Hyspin hydraulic fluids for OEM equipment; these suppliers provide ~€80–120M annual fluid volume to Rexroth-equipped machinery globally. Rexroth does not manufacture hydraulic fluids but certifies supplier formulations against ISO 11158 and VDMA 24317 standards. 2022 crude-oil price spike increased fluid costs 15–20%; Rexroth passed through 60–70% of cost increases to OEM customers via supplier-price escalation clauses. Long-term supply agreements (3–5 year terms) with Shell and Mobil include volume commitments and price-adjustment mechanisms tied to Brent crude.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Siemens AG (Electronics & Control Systems)",
+        "ticker": "SIE",
+        "cik": null,
+        "slug": "siemens_electronics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Control Electronics",
+        "relationshipNote": "Siemens supplies proportional-valve solenoid drivers, PLC interfaces, and industrial-control electronics integrated into Rexroth's proportional and servo systems. Rexroth sources ~€60–90M annually from Siemens Industrial Automation division. 2021 Rexroth and Siemens announced joint development of 'Rexroth eAxle Control Module' (launched 2023), integrating Siemens power-electronics and Rexroth hydraulic-motor technology for electric construction equipment. Siemens also supplies industrial-IoT gateway hardware for Rexroth's cloud-connected condition-monitoring platform.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bosch Rexroth Manufacturing (Internal Supply Chain)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bosch_rexroth_manufacturing",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Production",
+        "relationshipNote": "Rexroth operates 30+ manufacturing plants across Germany, Austria, Switzerland, Czech Republic, Hungary, Mexico, and China; produces proportional valves, servo systems, eAxle components, and control electronics in-house. German plants (Lohr am Main, Elchingen, Ulm) account for ~40% of global production; Eastern European and Mexican plants (Brno, Miskolc, Monterrey) handle commodity hydraulics and assembly. 2023 capex estimated €400–500M; 2024–2025 capex focused on eAxle production capacity (Mexico, Hungary) and IoT-sensor integration (Germany). Supply-chain restructuring post-2022 Russia sanctions shifted rare-earth sourcing from Russia to Germany and Austria.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Rare-Earth Element Suppliers (Lynas Rare Earths, MP Materials, Molycorp legacy)",
+        "ticker": "LYC, MP",
+        "cik": "0001674949, 0001564590",
+        "slug": "rare_earth_suppliers",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Critical Minerals",
+        "relationshipNote": "Rexroth's eAxle and IoT-sensor products require rare-earth permanent magnets (neodymium, dysprosium) for electric motors and sensor coils. Historically sourced from China (60–70% of supply); 2022 Russia sanctions and supply-chain diversification drove shift toward Lynas Rare Earths (Australia, 15–20% of Rexroth supply) and MP Materials (USA, 10–15%). 2023 Rexroth announced €150M capex for rare-earth stockpiling and nearshoring magnet production to Germany (partnership with Vacuumschmelze). Rare-earth cost inflation (2021–2023: +40–60%) compressed eAxle margins; long-term supply contracts (2024–2027) with Lynas and MP lock in prices at 15–20% premium to 2020 baseline.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Deutsche Post DHL Group",
+        "ticker": "DPW",
+        "cik": null,
+        "slug": "deutsche_post_dhl",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "DHL Supply Chain manages Rexroth's inbound logistics (supplier consolidation, warehousing) and outbound distribution to European OEM customers (Caterpillar, Volvo, Deere). Contract value estimated €80–120M annually (2023). DHL operates Rexroth distribution centers in Lohr am Main (Germany), Brno (Czech Republic), and Miskolc (Hungary); handles 60–70% of European shipments. 2022 DHL and Rexroth implemented 'Rexroth Logistics Optimization' program, reducing delivery lead times from 8–10 weeks to 5–6 weeks via demand-signal integration and inventory positioning. DHL also manages reverse logistics for hydraulic-fluid recycling and component remanufacturing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne + Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Kuehne + Nagel provides global freight forwarding and customs brokerage for Rexroth's non-European shipments (North America, Asia-Pacific, Middle East). Contract value estimated €40–60M annually. K+N manages Rexroth's Mexico-to-USA supply chain (Monterrey plant to Caterpillar, Deere facilities); handles 30–40% of Americas volume. 2023 K+N and Rexroth launched 'Rexroth Americas Supply Chain Digitalization' initiative, integrating EDI order-to-delivery visibility and reducing customs-clearance times by 2–3 days. K+N also provides supply-chain financing (inventory financing, payment-term optimization) supporting Rexroth's working-capital management.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Geodis (SNCF Logistics subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis_sncf",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Geodis operates Rexroth's Eastern European distribution network (Czech Republic, Hungary, Poland, Romania); handles 20–30% of European volume. Contract value estimated €30–50M annually. Geodis manages Rexroth's Brno (Czech Republic) and Miskolc (Hungary) distribution centers, serving regional OEM customers and aftermarket distributors. 2022 Geodis and Rexroth implemented 'Rexroth Central Europe Hub' consolidation, reducing SKU proliferation and improving inventory turns by 15–20%. Geodis also provides last-mile delivery to smaller OEM facilities and aftermarket service centers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Caterpillar is Rexroth's largest OEM customer, accounting for est. 15–20% of Rexroth revenue (~€1.2–1.6B annually). Rexroth supplies proportional-valve systems, servo controls, and hydraulic motors for Cat's excavators, wheel loaders, and dozer product lines. 2021 Caterpillar disclosed 'hydraulic-systems supplier concentration risk' in 10-K Item 1A; Rexroth is sole-source supplier for Cat 320 and 336 excavator proportional-valve systems. 2022 supply-chain disruptions caused Cat to increase Rexroth inventory holdings by 25–30%; 2023 Cat earnings call noted 'supplier cost inflation' as key margin headwind. Long-term supply agreement (2020–2025) includes annual price-escalation clauses and volume commitments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Volvo Group (Construction Equipment & Trucks)",
+        "ticker": "VOLV",
+        "cik": null,
+        "slug": "volvo_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Volvo Group (Volvo Construction Equipment, Volvo Trucks) is Rexroth's second-largest customer, accounting for est. 12–16% of Rexroth revenue (~€1.0–1.3B annually). Rexroth supplies proportional-valve systems, eAxle components, and condition-monitoring sensors for Volvo's EC and EW excavator lines and FM truck hydraulic systems. 2022 Volvo announced 'electrification roadmap' targeting 50% electric-equipment sales by 2030; Rexroth eAxle systems are core to Volvo's electric-excavator development (EC480E prototype launched 2023). Volvo's 2023 annual report disclosed 'key supplier diversification initiatives'; Rexroth remains primary proportional-valve supplier but Volvo is qualifying secondary suppliers (Parker Hannifin, Eaton) to reduce concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Deere & Company (John Deere)",
+        "ticker": "DE",
+        "cik": "0000315189",
+        "slug": "deere_company",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Deere is Rexroth's third-largest customer, accounting for est. 10–14% of Rexroth revenue (~€0.8–1.1B annually). Rexroth supplies proportional-valve systems, servo controls, and hydraulic motors for Deere's excavator, wheel loader, and agricultural-equipment product lines. 2023 Deere 10-K disclosed 'hydraulic-systems supplier concentration'; Rexroth is primary supplier for Deere 210 and 270 excavator proportional-valve systems. Deere's 2023 earnings call noted 'strong demand for construction equipment' driving 8–10% revenue growth; Rexroth benefited from 2021–2023 capex cycle. 2024 Deere guidance indicates 'normalization of construction-equipment demand'; Rexroth revenue from Deere expected to decline 5–8% in 2024–2025 as capex cycles cool.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Siemens Gamesa Renewable Energy (Siemens Energy subsidiary)",
+        "ticker": "ENR",
+        "cik": null,
+        "slug": "siemens_gamesa",
+        "neuralRole": "Salience",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Growth Segment)",
+        "relationshipNote": "Siemens Gamesa supplies Rexroth with proportional-valve and pitch-control systems for wind turbines; Rexroth revenue from Siemens Gamesa est. €150–250M annually (3–4% of Rexroth total). Rexroth's proportional-valve systems control blade-pitch mechanisms in Siemens Gamesa's 10–15 MW offshore turbines, enabling optimal wind-capture efficiency. 2021 Siemens Gamesa announced 'offshore wind expansion' targeting 50 GW capacity by 2030; Rexroth positioned as primary pitch-control supplier. 2023 Siemens Gamesa disclosed 'supply-chain cost inflation' in earnings; Rexroth passed through 40–50% of cost increases. Growth opportunity: renewable-energy infrastructure expected to drive 12–18% CAGR in Rexroth pitch-control revenue through 2030.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Parker Hannifin Corporation",
+        "ticker": "PH",
+        "cik": "0000077640",
+        "slug": "parker_hannifin",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Parker Hannifin is Rexroth's largest global competitor in proportional-valve and servo-control markets; PH holds ~18–22% global market share vs. Rexroth's 15–18%. 2023 Parker Hannifin revenue $15.9B (hydraulics segment ~$4.8B, est. 30% of total); Rexroth estimated €7–13B total revenue (proportional valves ~€2.5–3.2B, est. 35–40% of total). Parker's 2023 earnings call disclosed 'hydraulics segment margin expansion to 18.5%' via electrification product mix; Rexroth's proportional-valve margins estimated 12–16%, indicating competitive pressure. Both companies compete for Caterpillar, Volvo, Deere business; Parker holds ~40% of Caterpillar proportional-valve supply, Rexroth ~35%, others ~25%.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eaton Corporation (Hydraulics Division)",
+        "ticker": "ETN",
+        "cik": "0000009368",
+        "slug": "eaton_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Eaton Hydraulics is Rexroth's second-largest competitor, holding ~12–15% global market share in proportional valves. 2023 Eaton hydraulics segment revenue $4.2B (up 8% YoY); margins estimated 14–16%. Eaton competes with Rexroth across industrial automation, mobile equipment, and aerospace segments. Eaton's 2023 earnings call disclosed 'electrification and IoT product launches' (similar to Rexroth's eAxle and condition-monitoring initiatives); both companies targeting 25–35% margin uplift from higher-margin products. Eaton holds ~25–30% of Volvo proportional-valve supply; Rexroth holds ~40–45%. Competitive intensity increasing as both companies electrify product lines and pursue IoT-enabled diagnostics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hydac International Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "hydac_international",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Hydac (German private company, ~€3.5B revenue) competes with Rexroth in filtration, accumulators, and proportional-valve segments; holds ~8–10% global market share in proportional valves. Hydac's 2021 capex announcement (€200M for IoT integration) signals competitive response to Rexroth's electrification strategy. Hydac supplies Caterpillar, Volvo, Deere with complementary hydraulic-system components; estimated 5–8% of Rexroth's customer base also sources from Hydac. Hydac's private ownership limits public financial disclosure; estimated EBITDA margin 12–15% vs. Rexroth's estimated 14–18%. Competitive threat: Hydac's filtration expertise and IoT-sensor integration could enable cross-selling into Rexroth's proportional-valve customer base.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bohai Hydraulic (Chinese competitor)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bohai_hydraulic",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Bohai Hydraulic (China) and Yuken (Japan) are low-cost competitors in commodity hydraulic-valve segments; combined ~5–8% global market share. Bohai's 2020–2023 expansion into proportional-valve manufacturing (via reverse-engineering and licensing) poses long-term margin risk to Rexroth's commodity-product lines. Bohai's estimated cost structure 30–40% below Rexroth's due to lower labor and material costs; pricing pressure in standard-valve segments increasing. Rexroth's response: shift product mix toward higher-margin proportional, servo, and electromechanical systems; defend commodity business via operational efficiency and supply-chain optimization. Chinese competitors hold <2% of Caterpillar, Volvo, Deere supply due to quality and certification barriers; threat primarily in aftermarket and regional OEM segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Moog Inc. (Servo Systems & Aerospace)",
+        "ticker": "MOG.A",
+        "cik": "0000062996",
+        "slug": "moog_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Moog Inc. competes with Rexroth in high-performance servo-valve and electromechanical-actuator markets; Moog holds ~25–30% market share in aerospace servo systems. 2023 Moog revenue $3.1B (aerospace & defense ~60%, industrial ~40%); Moog's industrial servo-valve revenue estimated €400–600M. Rexroth and Moog compete for aerospace OEM customers (Airbus, Boeing) and industrial automation applications. Moog's 2023 earnings call disclosed 'electrification and digital-control product launches'; similar to Rexroth's eAxle and IoT initiatives. Competitive differentiation: Moog's aerospace heritage and high-reliability focus vs. Rexroth's broader industrial-automation and mobile-equipment exposure. Limited direct overlap in Caterpillar, Volvo, Deere supply; Moog focuses on aerospace and high-performance industrial segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "German Federal Ministry for Economic Affairs and Climate Action (BMWK)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bmwk_germany",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "BMWK oversees industrial policy, export controls, and dual-use technology regulations affecting Rexroth's rare-earth and electronics supply chain. 2022 BMWK implemented 'Supply Chain Due Diligence Act' (Lieferkettensorgfaltgesetz), requiring Rexroth to audit suppliers for environmental and labor compliance. Rexroth's 30+ manufacturing plants and €7–13B revenue trigger mandatory supply-chain audits. 2023 BMWK issued guidance on 'critical raw materials' (rare-earth elements, lithium); Rexroth's eAxle and IoT-sensor products subject to supply-chain resilience requirements. Export controls on dual-use technologies (proportional-valve electronics, IoT sensors) require BMWK licensing for non-EU sales; estimated 5–10% of Rexroth revenue subject to export-control compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Commission (Directorate-General for Internal Market, Industry, Entrepreneurship and SMEs)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dg_grow",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "EC DG GROW enforces EU Machinery Directive (2006/42/EC) and CE marking requirements for Rexroth's proportional-valve, servo, and eAxle products. Rexroth must comply with hydraulic-safety standards (ISO 4413, ISO 11237) and electromagnetic-compatibility directives (2014/30/EU). 2023 EC proposed 'Ecodesign Directive' amendments targeting hydraulic-fluid efficiency and recyclability; Rexroth's product portfolio subject to new energy-efficiency labeling requirements by 2025. EC also enforces REACH chemical regulations (Registration, Evaluation, Authorisation and Restriction of Chemicals); Rexroth's hydraulic-fluid suppliers must register specialty additives and rare-earth compounds. Estimated compliance capex €50–100M over 2024–2026.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (Bureau of Industry and Security)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_commerce",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "BIS enforces U.S. Export Administration Regulations (EAR) and controls on dual-use technologies affecting Rexroth's Mexico-to-USA supply chain and North American customer sales. Rexroth's proportional-valve electronics and IoT-sensor products classified as 'controlled items' under EAR Part 774 (Category 3: Electronics); export to non-allied countries requires BIS license. 2022 BIS expanded controls on 'advanced semiconductor manufacturing equipment'; Rexroth's eAxle power-electronics suppliers (Siemens, Bosch Sensortec) subject to enhanced compliance. Rexroth's Mexico manufacturing facility (Monterrey) requires BIS compliance for re-export to third countries. Estimated compliance cost €20–40M annually; supply-chain delays 2–4 weeks for license approvals.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa_usa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Environmental Compliance",
+        "relationshipNote": "EPA regulates hydraulic-fluid disposal, hazardous-waste management, and air-quality emissions from Rexroth's manufacturing facilities. Rexroth's Mexico (Monterrey) and U.S. distribution centers subject to EPA Clean Air Act (CAA) and Resource Conservation and Recovery Act (RCRA) compliance. 2023 EPA proposed 'Hydraulic Fluid Disposal Standards' (40 CFR Part 261); Rexroth must implement closed-loop hydraulic-fluid recycling at manufacturing plants by 2026. Estimated capex €30–50M for recycling infrastructure. EPA also enforces 'Significant New Use Rules' (SNURs) on specialty hydraulic-fluid additives; Rexroth's suppliers must notify EPA of new chemical formulations. No major EPA enforcement actions against Rexroth; compliance status 'green'.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "International Organization for Standardization (ISO) & European Committee for Standardization (CEN)",
+        "ticker": null,
+        "cik": null,
+        "slug": "iso_cen",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "ISO and CEN establish technical standards for hydraulic systems (ISO 4401 proportional-spool interfaces, ISO 4413 safety, ISO 11237 fluid compatibility) that Rexroth must comply with for OEM customer acceptance. Rexroth participates in ISO TC 131 (Fluid Power Systems) working groups; contributes to proportional-valve standardization (ISO 4401-05, published 2018). 2023 ISO and CEN initiated 'Electromechanical Actuator Standardization' project; Rexroth's eAxle systems expected to drive new ISO 4401-06 standard (proportional-spool interfaces for electric motors) by 2025. Rexroth's compliance with ISO standards is prerequisite for OEM customer qualification; non-compliance would disqualify products from Caterpillar, Volvo, Deere supply chains.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "KPMG AG (Bosch Group auditor)",
+        "ticker": null,
+        "cik": null,
+        "slug": "kpmg_ag",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "KPMG serves as external auditor for Bosch GmbH (Rexroth's parent company) and conducts annual financial audits of Bosch Group consolidated statements. KPMG's audit scope includes Rexroth divisional financial statements, internal controls, and compliance with German Commercial Code (HGB) and International Financial Reporting Standards (IFRS). 2023 KPMG audit opinion: 'unqualified' (clean opinion) on Bosch Group financial statements. KPMG also conducts supply-chain risk audits for Bosch Group, including Rexroth's supplier compliance with German Supply Chain Due Diligence Act (Lieferkettensorgfaltgesetz). Rexroth's financial data disclosed in Bosch Group annual report (published March/April); KPMG audit provides third-party validation of Rexroth divisional performance metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Robert Bosch GmbH (Parent Company & Equity Holder)",
+        "ticker": null,
+        "cik": null,
+        "slug": "robert_bosch_gmbh",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Robert Bosch GmbH (private, German-domiciled) owns 100% of Bosch Rexroth AG; Rexroth is a wholly-owned subsidiary and strategic division within Bosch's Industrial Technology segment. Bosch GmbH 2023 revenue €88.2B (est. 8–12% from Rexroth, €7–10.6B). Bosch provides capital for Rexroth's capex (€400–500M annually) and R&D (€600–800M annually, est. 8–10% of Rexroth revenue). 2021–2023 Bosch invested €1.5–2B in Rexroth's electrification and IoT product development (eAxle, condition-monitoring platforms). Bosch's governance structure: Rexroth reports to Bosch Industrial Technology division; strategic decisions (M&A, major capex, product-line exits) require Bosch board approval. No external equity holders; Rexroth's financial performance consolidated into Bosch Group results.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Deutsche Bank AG (Primary Lender & Banking Relationship)",
+        "ticker": "DBK",
+        "cik": null,
+        "slug": "deutsche_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Deutsche Bank serves as Rexroth's primary banking relationship and lead arranger for working-capital facilities (revolving credit lines, supply-chain financing). Estimated credit facility size €500M–1B (typical for €7–13B revenue industrial company). Deutsche Bank also provides trade-finance services (letters of credit, export financing) for Rexroth's global supply chain. 2023 Deutsche Bank disclosed 'industrial-equipment sector exposure' in annual report; Rexroth estimated as 'significant client' in manufacturing segment. Deutsche Bank's 2023 earnings call noted 'supply-chain financing growth' driven by industrial-equipment companies; Rexroth likely beneficiary of supply-chain financing programs. No public debt disclosures for Rexroth (private subsidiary); financing terms and covenants not disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bosch Pension Fund (Internal Capital Provider)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bosch_pension_fund",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bosch Pension Fund (Pensionskasse der Robert Bosch GmbH) holds significant equity stake in Bosch GmbH and indirectly in Rexroth via Bosch ownership. Bosch Pension Fund is major shareholder in Bosch GmbH (est. 10–15% of equity); Rexroth's financial performance directly impacts pension fund returns. 2023 Bosch Pension Fund disclosed 'industrial-equipment sector allocation' in annual report; Rexroth's profitability and dividend contributions to Bosch GmbH affect pension fund distributions. Bosch Pension Fund also participates in Bosch GmbH governance via supervisory board representation; pension fund interests aligned with long-term Rexroth profitability and capital efficiency.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Caterpillar Quarterly Earnings (Excavator & Wheel Loader Sales)",
+        "slug": "cat_earnings_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Caterpillar's quarterly earnings calls and 10-K filings disclose construction-equipment sales trends (excavators, wheel loaders, dozers) that directly correlate with Rexroth proportional-valve demand. Cat's 2023 earnings call noted 'strong construction-equipment demand' (up 8–10% YoY); Rexroth benefited from 2021–2023 capex cycle. Cat's 2024 guidance indicates 'normalization of construction-equipment demand' (flat to -5% growth); Rexroth revenue from Cat expected to decline 5–8% in 2024–2025. Signal interpretation: Cat's quarterly comp-store sales (construction-equipment segment) serve as leading indicator for Rexroth revenue 1–2 quarters forward.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Volvo Group Quarterly Earnings (Construction Equipment & Electrification Progress)",
+        "slug": "volvo_earnings_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Volvo Group's quarterly earnings calls disclose construction-equipment sales and electrification product-adoption rates (electric excavators, eAxle systems). Volvo's 2023 earnings call noted 'electrification roadmap on track' (50% electric equipment by 2030); Rexroth eAxle systems are core to Volvo's electric-excavator development. Volvo's EC480E electric-excavator prototype (launched 2023) uses Rexroth eAxle proportional-valve system; production ramp expected 2024–2025. Signal interpretation: Volvo's electrification product-adoption rates and electric-equipment sales serve as leading indicator for Rexroth eAxle revenue growth (8–12% CAGR target through 2030).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

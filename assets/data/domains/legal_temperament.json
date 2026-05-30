@@ -1,0 +1,511 @@
+{
+  "domainId": "legal_temperament",
+  "title": "Judicial Temperament / Equity",
+  "parentPortal": "legal_portal.html",
+  "parentLabel": "Legal Systems",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "LGN",
+      "state": "active",
+      "domainLabel": "Judicial Temperament / Equity Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Judicial Temperament / Equity indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "U.S. Federal Courts (PACER)",
+          "ticker_or_id": "PACER_GOV",
+          "functional_reason": "Routes and distributes judicial temperament / equity resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Routes and distributes judicial temperament / equity resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Temperament / Equity Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Temperament / Equity Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "legal_temperament_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "MGN",
+      "state": "active",
+      "domainLabel": "Judicial Temperament / Equity Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Judicial Temperament / Equity activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Routes and distributes judicial temperament / equity resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Routes and distributes judicial temperament / equity resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Temperament / Equity Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Temperament / Equity Core Operations"
+        }
+      ],
+      "childPortal": "legal_temperament_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "VP",
+      "state": "active",
+      "domainLabel": "Judicial Temperament / Equity Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Judicial Temperament / Equity, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Harvey AI",
+          "ticker_or_id": "HARVEY_AI",
+          "functional_reason": "Models and simulates judicial temperament / equity scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core judicial temperament / equity operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Temperament / Equity Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Temperament / Equity Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "legal_temperament_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "SNIG",
+      "state": "active",
+      "domainLabel": "Judicial Temperament / Equity Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Judicial Temperament / Equity practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Executes core judicial temperament / equity operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core judicial temperament / equity operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Temperament / Equity Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Temperament / Equity Standards & Governance"
+        }
+      ],
+      "childPortal": "legal_temperament_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "HAB",
+      "state": "active",
+      "domainLabel": "Judicial Temperament / Equity Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Judicial Temperament / Equity methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves judicial temperament / equity knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves judicial temperament / equity knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.74
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Temperament / Equity Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Temperament / Equity Research & Development"
+        }
+      ],
+      "childPortal": "legal_temperament_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "OLF",
+      "state": "active",
+      "domainLabel": "Judicial Temperament / Equity Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Judicial Temperament / Equity stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Detects and monitors judicial temperament / equity signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Detects and monitors judicial temperament / equity signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Temperament / Equity Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Temperament / Equity Risk & Resilience"
+        }
+      ],
+      "childPortal": "legal_temperament_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "SC",
+      "state": "active",
+      "domainLabel": "Judicial Temperament / Equity Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Judicial Temperament / Equity operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors judicial temperament / equity signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Detects and monitors judicial temperament / equity signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Temperament / Equity Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Temperament / Equity Coordination & Integration"
+        }
+      ],
+      "childPortal": "legal_temperament_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "IC",
+      "state": "active",
+      "domainLabel": "Judicial Temperament / Equity Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Judicial Temperament / Equity outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Detects and monitors judicial temperament / equity signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors judicial temperament / equity signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Temperament / Equity Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Temperament / Equity Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "LGN",
+      "target": "MGN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "MGN",
+      "target": "VP",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "VP",
+      "target": "SNIG",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "SNIG",
+      "target": "HAB",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "HAB",
+      "target": "OLF",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "OLF",
+      "target": "SC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "SC",
+      "target": "IC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "IC",
+      "target": "LGN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "LGN",
+      "target": "HAB",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "SNIG",
+      "target": "SC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "LEGAL_TEMPERAMENT_SYSTEM_FAILURE",
+      "label": "Judicial Temperament / Equity System Failure",
+      "summary": "Critical breakdown in Judicial Temperament / Equity systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "LGN",
+          "dir": "Hypo-active",
+          "detail": "Judicial Temperament / Equity Assessment & Diagnostics capacity falling below operational thresholds, reducing Judicial Temperament / Equity output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MGN",
+          "dir": "Hypo-active",
+          "detail": "Judicial Temperament / Equity Core Operations systems underperforming, creating gaps in Judicial Temperament / Equity coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VP",
+          "dir": "Altered",
+          "detail": "Judicial Temperament / Equity Infrastructure & Capacity behavior deviating from established norms, complicating Judicial Temperament / Equity management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OLF",
+          "dir": "Hyper-active",
+          "detail": "Judicial Temperament / Equity Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Judicial Temperament / Equity",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IC",
+          "dir": "Hypo-active",
+          "detail": "Judicial Temperament / Equity Performance & Optimization function reduced, compromising Judicial Temperament / Equity system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_TEMPERAMENT_CAPACITY_CRISIS",
+      "label": "Judicial Temperament / Equity Capacity Crisis",
+      "summary": "Demand exceeding available Judicial Temperament / Equity capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "MGN",
+          "dir": "Hyper-active",
+          "detail": "Judicial Temperament / Equity Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Judicial Temperament / Equity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VP",
+          "dir": "Hypo-active",
+          "detail": "Judicial Temperament / Equity Infrastructure & Capacity systems underperforming, creating gaps in Judicial Temperament / Equity coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SNIG",
+          "dir": "Altered",
+          "detail": "Judicial Temperament / Equity Standards & Governance behavior deviating from established norms, complicating Judicial Temperament / Equity management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SC",
+          "dir": "Hyper-active",
+          "detail": "Judicial Temperament / Equity Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Judicial Temperament / Equity",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IC",
+          "dir": "Altered",
+          "detail": "Judicial Temperament / Equity Performance & Optimization operating outside normal parameters, introducing uncertainty into Judicial Temperament / Equity outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_TEMPERAMENT_GOVERNANCE_GAP",
+      "label": "Judicial Temperament / Equity Governance Gap",
+      "summary": "Oversight or regulatory failure in Judicial Temperament / Equity creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "SNIG",
+          "dir": "Hypo-active",
+          "detail": "Judicial Temperament / Equity Standards & Governance capacity falling below operational thresholds, reducing Judicial Temperament / Equity output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LGN",
+          "dir": "Altered",
+          "detail": "Judicial Temperament / Equity Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Judicial Temperament / Equity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HAB",
+          "dir": "Hyper-active",
+          "detail": "Judicial Temperament / Equity Research & Development activity spiking beyond design limits, creating instability across Judicial Temperament / Equity operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OLF",
+          "dir": "Altered",
+          "detail": "Judicial Temperament / Equity Risk & Resilience patterns disrupted, necessitating adaptive responses within Judicial Temperament / Equity frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SC",
+          "dir": "Hypo-active",
+          "detail": "Judicial Temperament / Equity Coordination & Integration function reduced, compromising Judicial Temperament / Equity system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,383 @@
+{
+  "domainId": "addiction_executive",
+  "title": "Executive Inhibition Gateway",
+  "parentPortal": "addiction_portal.html",
+  "parentLabel": "Addiction Medicine",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Executive Inhibition Gateway Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Executive Inhibition Gateway indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "addiction_executive_action_portal.html"
+    },
+    {
+      "brainNodeId": "PIT",
+      "state": "active",
+      "domainLabel": "Executive Inhibition Gateway Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Executive Inhibition Gateway activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Executive Inhibition Gateway Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "addiction_executive_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Executive Inhibition Gateway Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Executive Inhibition Gateway, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "addiction_executive_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Executive Inhibition Gateway Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Executive Inhibition Gateway practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "addiction_executive_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "CAUD",
+      "state": "active",
+      "domainLabel": "Executive Inhibition Gateway Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Executive Inhibition Gateway methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "addiction_executive_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "PUT",
+      "state": "active",
+      "domainLabel": "Executive Inhibition Gateway Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Executive Inhibition Gateway stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "addiction_executive_signal_portal.html"
+    },
+    {
+      "brainNodeId": "GP",
+      "state": "active",
+      "domainLabel": "Executive Inhibition Gateway Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Executive Inhibition Gateway operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "addiction_executive_state_portal.html"
+    },
+    {
+      "brainNodeId": "STN",
+      "state": "active",
+      "domainLabel": "Executive Inhibition Gateway Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Executive Inhibition Gateway outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Executive Inhibition Gateway Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "HYPO",
+      "target": "PIT",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "PIT",
+      "target": "RAPHE",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "RAPHE",
+      "target": "LC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "LC",
+      "target": "CAUD",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "CAUD",
+      "target": "PUT",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "PUT",
+      "target": "GP",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "GP",
+      "target": "STN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "STN",
+      "target": "HYPO",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "HYPO",
+      "target": "CAUD",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "LC",
+      "target": "GP",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "ADDICTION_EXECUTIVE_SYSTEM_FAILURE",
+      "label": "Executive Inhibition Gateway System Failure",
+      "summary": "Critical breakdown in Executive Inhibition Gateway systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo-active",
+          "detail": "Executive Inhibition Gateway Assessment & Diagnostics capacity falling below operational thresholds, reducing Executive Inhibition Gateway output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PIT",
+          "dir": "Hypo-active",
+          "detail": "Executive Inhibition Gateway Core Operations systems underperforming, creating gaps in Executive Inhibition Gateway coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Altered",
+          "detail": "Executive Inhibition Gateway Infrastructure & Capacity behavior deviating from established norms, complicating Executive Inhibition Gateway management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PUT",
+          "dir": "Hyper-active",
+          "detail": "Executive Inhibition Gateway Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Executive Inhibition Gateway",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STN",
+          "dir": "Hypo-active",
+          "detail": "Executive Inhibition Gateway Performance & Optimization function reduced, compromising Executive Inhibition Gateway system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ADDICTION_EXECUTIVE_CAPACITY_CRISIS",
+      "label": "Executive Inhibition Gateway Capacity Crisis",
+      "summary": "Demand exceeding available Executive Inhibition Gateway capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hyper-active",
+          "detail": "Executive Inhibition Gateway Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Executive Inhibition Gateway",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hypo-active",
+          "detail": "Executive Inhibition Gateway Infrastructure & Capacity systems underperforming, creating gaps in Executive Inhibition Gateway coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Altered",
+          "detail": "Executive Inhibition Gateway Standards & Governance behavior deviating from established norms, complicating Executive Inhibition Gateway management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GP",
+          "dir": "Hyper-active",
+          "detail": "Executive Inhibition Gateway Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Executive Inhibition Gateway",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STN",
+          "dir": "Altered",
+          "detail": "Executive Inhibition Gateway Performance & Optimization operating outside normal parameters, introducing uncertainty into Executive Inhibition Gateway outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ADDICTION_EXECUTIVE_GOVERNANCE_GAP",
+      "label": "Executive Inhibition Gateway Governance Gap",
+      "summary": "Oversight or regulatory failure in Executive Inhibition Gateway creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hypo-active",
+          "detail": "Executive Inhibition Gateway Standards & Governance capacity falling below operational thresholds, reducing Executive Inhibition Gateway output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered",
+          "detail": "Executive Inhibition Gateway Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Executive Inhibition Gateway",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CAUD",
+          "dir": "Hyper-active",
+          "detail": "Executive Inhibition Gateway Research & Development activity spiking beyond design limits, creating instability across Executive Inhibition Gateway operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PUT",
+          "dir": "Altered",
+          "detail": "Executive Inhibition Gateway Risk & Resilience patterns disrupted, necessitating adaptive responses within Executive Inhibition Gateway frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GP",
+          "dir": "Hypo-active",
+          "detail": "Executive Inhibition Gateway Coordination & Integration function reduced, compromising Executive Inhibition Gateway system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

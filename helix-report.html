@@ -1,0 +1,2883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; HELIX REPORT</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:wght@300;400;600&display=swap');
+:root{--bg:#0c0d10;--panel:#131519;--border:rgba(201,169,78,0.12);--gold:#C9A94E;--gold-dim:rgba(201,169,78,0.55);--gold-ghost:rgba(201,169,78,0.08);--text:#dad5c8;--text-dim:rgba(220,215,200,0.82);--text-ghost:rgba(200,195,184,0.4);--hyper:#e85454;--hypo:#4a8fd4;--altered:#d4a84a;--evidence-a:#4aaa6a;--evidence-b:#7a9ad4;--evidence-c:#c4a44a;--evidence-d:#8a7a6a}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',monospace;height:100%;overflow:hidden}
+.app{display:grid;grid-template-columns:320px 1fr 400px;grid-template-rows:48px 28px 1fr 36px;height:100vh;gap:0}
+.portal-nav{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:0;padding:0 20px;background:rgba(0,0,0,0.4);border-bottom:1px solid var(--border);font-size:0.45rem;letter-spacing:3px;text-transform:uppercase;font-family:'SF Mono',monospace;height:28px;overflow-x:auto}
+.portal-nav a{color:rgba(201,169,78,0.25);text-decoration:none;padding:0 10px;transition:color .2s;white-space:nowrap}
+.portal-nav a:hover{color:rgba(201,169,78,0.6)}.portal-nav a.pn-current{color:rgba(201,169,78,0.8)}.portal-nav .pn-sep{color:rgba(201,169,78,0.1);font-size:0.5rem}
+.topbar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--border);background:var(--panel)}
+.topbar-left{display:flex;align-items:center;gap:16px}
+.topbar-brand{font-size:0.65rem;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase}
+.topbar-brand a{color:inherit;text-decoration:none}.topbar-brand a:hover{color:var(--gold)}
+.topbar-separator{color:var(--gold-ghost)}
+.topbar-title{font-size:0.6rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase}
+.topbar-right{font-size:0.45rem;letter-spacing:1.5px;color:rgba(232,84,84,0.5);text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.left-panel{background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;padding:16px 0}
+.left-panel::-webkit-scrollbar{width:3px}.left-panel::-webkit-scrollbar-thumb{background:var(--gold-ghost)}
+.panel-section-title{font-size:0.5rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dim);padding:8px 16px 6px;margin-top:8px}
+.input-group{padding:0 16px;margin-bottom:12px}
+.input-group label{display:block;font-size:0.45rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-ghost);margin-bottom:4px}
+.input-group input{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:0.75rem;padding:8px 12px;outline:none;transition:border-color 0.3s}
+.input-group input:focus{border-color:var(--gold-dim)}.input-group input::placeholder{color:var(--text-ghost);font-size:0.65rem;letter-spacing:1px}
+.btn-fetch{display:block;width:calc(100% - 32px);margin:0 16px 12px;background:rgba(201,169,78,0.08);border:1px solid rgba(201,169,78,0.2);color:var(--gold-dim);font-family:'IBM Plex Mono',monospace;font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;padding:10px;cursor:pointer;transition:all 0.3s}
+.btn-fetch:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,169,78,0.12)}.btn-fetch:disabled{opacity:0.4;cursor:not-allowed}
+.fetch-status{padding:0 16px;font-size:0.45rem;letter-spacing:1.5px;color:var(--text-ghost);margin-bottom:8px;min-height:1.2rem}
+.fetch-status.error{color:rgba(232,84,84,0.7)}.fetch-status.success{color:rgba(106,170,106,0.7)}
+.manual-section{border-top:1px solid var(--border);margin-top:8px;padding-top:8px}
+.manual-toggle{padding:0 16px;margin-bottom:8px;font-size:0.45rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dim);cursor:pointer;transition:color 0.2s}.manual-toggle:hover{color:var(--gold)}
+.manual-grid{display:none;padding:0 12px}.manual-grid.visible{display:block}
+.manual-grid table{width:100%;border-collapse:collapse;font-size:0.5rem}
+.manual-grid th{font-size:0.38rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-ghost);padding:3px 2px;border-bottom:1px solid var(--border);text-align:center}.manual-grid th:first-child{text-align:left}
+.manual-grid td{padding:2px 1px}.manual-grid td:first-child{font-size:0.42rem;letter-spacing:1px;color:var(--text-ghost);padding-right:4px}
+.manual-grid input{width:100%;background:rgba(255,255,255,0.02);border:1px solid rgba(201,169,78,0.06);color:var(--text-dim);font-family:'IBM Plex Mono',monospace;font-size:0.5rem;padding:3px 4px;text-align:right;outline:none}.manual-grid input:focus{border-color:var(--gold-dim)}
+.btn-run{display:block;width:calc(100% - 32px);margin:12px 16px;background:rgba(201,169,78,0.12);border:1px solid rgba(201,169,78,0.3);color:var(--gold);font-family:'IBM Plex Mono',monospace;font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;padding:10px;cursor:pointer;transition:all 0.3s}.btn-run:hover{background:rgba(201,169,78,0.2);border-color:var(--gold)}
+.center-view{position:relative;background:var(--bg);overflow:hidden}.center-view canvas{width:100%;height:100%}
+.dx-overlay{position:absolute;top:16px;left:20px;right:20px;pointer-events:none;z-index:10}
+.dx-overlay-name{font-family:'Crimson Pro',serif;font-size:1.4rem;font-weight:300;color:var(--gold);letter-spacing:1px;margin-bottom:2px}
+.dx-overlay-dsm{font-size:0.55rem;color:var(--gold-dim);letter-spacing:2px;margin-bottom:6px}
+.dx-overlay-prevalence{font-size:0.55rem;color:var(--text-ghost);letter-spacing:1px;margin-bottom:8px}
+.circuit-legend{position:absolute;bottom:16px;left:20px;display:flex;gap:16px;z-index:10;pointer-events:none}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.5rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-ghost)}.legend-dot{width:8px;height:8px;border-radius:50%}
+.node-tooltip{position:absolute;background:rgba(10,11,13,0.95);border:1px solid var(--border);padding:8px 12px;pointer-events:none;z-index:20;display:none;max-width:280px}
+.node-tooltip .tt-name{font-size:0.7rem;color:var(--gold);letter-spacing:1.5px;margin-bottom:2px}
+.node-tooltip .tt-dir{font-size:0.6rem;letter-spacing:1px;margin-bottom:4px;font-weight:500}
+.node-tooltip .tt-detail{font-family:'Crimson Pro',serif;font-size:0.78rem;color:var(--text-dim);line-height:1.4}
+.right-panel{background:var(--panel);border-left:1px solid var(--border);overflow-y:auto;padding:0}
+.right-panel::-webkit-scrollbar{width:3px}.right-panel::-webkit-scrollbar-thumb{background:var(--gold-ghost)}
+.right-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:40px}
+.right-tabs{display:flex;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);z-index:5}
+.right-tab{flex:1;padding:10px 8px;font-size:0.4rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-ghost);text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;font-family:'IBM Plex Mono',monospace}
+.right-tab:hover{color:var(--text-dim)}.right-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-content{display:none;padding:14px 16px}.tab-content.active{display:block}
+.diag-section{margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(201,169,78,0.06)}
+.diag-label{font-size:0.4rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-ghost);margin-bottom:4px}
+.diag-value{font-size:0.7rem;color:var(--text);letter-spacing:0.5px}
+.diag-value.alert{color:var(--hyper)}.diag-value.stable{color:var(--evidence-a)}.diag-value.warning{color:var(--altered)}
+.phase-bar-row{display:flex;align-items:center;gap:6px;margin:3px 0;font-size:0.5rem}
+.phase-bar-label{min-width:45px;color:var(--text-ghost);letter-spacing:1px;font-size:0.4rem;text-transform:uppercase}
+.phase-bar-track{flex:1;height:6px;background:rgba(255,255,255,0.03);border-radius:3px;overflow:hidden}
+.phase-bar-fill{height:100%;border-radius:3px;transition:width 0.6s ease}
+.phase-bar-val{min-width:28px;text-align:right;font-size:0.42rem;color:var(--text-ghost)}
+.cluster-callout{margin-bottom:16px;padding:10px 12px;background:rgba(201,169,78,0.02);border:1px solid rgba(201,169,78,0.06);border-radius:4px}
+.cluster-header{padding-left:10px;border-left:3px solid var(--gold-dim);margin-bottom:8px;display:flex;flex-direction:column;gap:2px}
+.cluster-phase{font-size:0.42rem;letter-spacing:2px;text-transform:uppercase;font-weight:500}
+.cluster-name{font-size:0.5rem;color:var(--text);letter-spacing:1px}
+.cluster-bio{font-size:0.46rem;color:var(--text-ghost);line-height:1.55;margin-bottom:10px;padding:6px 8px;background:rgba(0,0,0,0.15);border-radius:3px}
+.cluster-nodes{display:flex;flex-direction:column;gap:6px}
+.cluster-dir-group{margin-bottom:8px}
+.cluster-dir-label{font-size:0.36rem;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:4px;font-weight:500}
+.cluster-node-item{padding:5px 8px;border-left:2px solid var(--gold-dim);margin:2px 0;background:rgba(0,0,0,0.1)}
+.cluster-node-id{font-size:0.42rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;margin-bottom:2px}
+.cluster-node-biz{font-size:0.44rem;color:var(--text-dim);line-height:1.5}
+.int-phase-group{margin-bottom:14px}
+.int-phase-header{font-size:0.42rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dim);padding:6px 0 4px;border-bottom:1px solid rgba(201,169,78,0.06);margin-bottom:6px}
+.int-item{padding:6px 8px;margin:3px 0;font-size:0.55rem;line-height:1.4;border-left:2px solid rgba(201,169,78,0.1);background:rgba(201,169,78,0.02)}
+.int-item .int-name{color:var(--text);font-weight:400}.int-item .int-detail{color:var(--text-ghost);font-size:0.48rem;margin-top:2px}
+.int-item.referral{border-left-color:rgba(85,136,187,0.4);background:rgba(85,136,187,0.03)}
+.report-section{margin-bottom:12px}
+.report-heading{font-size:0.42rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dim);margin-bottom:6px;padding-bottom:3px;border-bottom:1px solid rgba(201,169,78,0.06)}
+.report-line{font-size:0.55rem;color:var(--text-dim);margin:3px 0;line-height:1.5}
+.rpt-entity{margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.rpt-entity-name{font-size:0.7rem;color:var(--text);font-weight:500;letter-spacing:1px}
+.rpt-entity-sub{font-size:0.42rem;color:var(--text-ghost);margin-top:3px;letter-spacing:1px}
+.rpt-state{margin-bottom:16px;padding:10px 12px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:4px}
+.rpt-phase{font-size:0.6rem;font-weight:600;letter-spacing:2px;text-transform:uppercase}
+.rpt-trajectory{font-size:0.5rem;letter-spacing:2px;margin-top:4px}.rpt-trajectory.alert{color:var(--hyper)}.rpt-trajectory.stable{color:var(--evidence-a)}
+.rpt-sv{font-size:0.42rem;color:var(--text-ghost);margin-top:6px;font-family:'IBM Plex Mono',monospace}
+.rpt-section{margin-bottom:16px}
+.rpt-heading{font-size:0.38rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid rgba(201,169,78,0.08)}
+.rpt-metrics{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px}
+.rpt-metric{display:flex;justify-content:space-between;padding:3px 0;font-size:0.48rem;border-bottom:1px solid rgba(255,255,255,0.03)}
+.rpt-metric-label{color:var(--text-ghost)}.rpt-metric-val{color:var(--text);font-family:'IBM Plex Mono',monospace}.rpt-metric-val.rpt-danger{color:var(--hyper)}
+.rpt-node{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:0.48rem;line-height:1.5}
+.rpt-node-id{min-width:50px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.42rem;letter-spacing:1px;flex-shrink:0}
+.rpt-node-role{color:var(--text-dim)}
+.rpt-narrative{font-size:0.5rem;color:var(--text-dim);line-height:1.65;padding:8px 10px;background:rgba(0,0,0,0.15);border-radius:3px;border-left:2px solid var(--gold-dim)}
+.rpt-narrative.research{border-left-color:rgba(100,180,212,0.5);background:rgba(74,143,212,0.04);color:var(--text-ghost);font-style:italic}
+.rpt-research{margin-top:4px}
+.rpt-sequence{display:flex;flex-direction:column;gap:6px}
+.rpt-step{display:flex;gap:10px;padding:6px 8px;font-size:0.5rem;line-height:1.5;border-left:2px solid var(--gold-dim);background:rgba(201,169,78,0.02)}
+.rpt-step.biz{border-left-color:rgba(100,180,120,0.5);background:rgba(100,180,120,0.03)}
+.rpt-step-num{min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(201,169,78,0.12);color:var(--gold);font-size:0.4rem;font-weight:600;flex-shrink:0}
+.rpt-step.biz .rpt-step-num{background:rgba(100,180,120,0.12);color:var(--evidence-a)}
+.rpt-step-text{color:var(--text-dim)}
+.rpt-phase-row{display:flex;align-items:center;gap:8px;margin:3px 0}
+.rpt-phase-id{min-width:36px;font-size:0.4rem;letter-spacing:1.5px;font-family:'IBM Plex Mono',monospace}
+.rpt-phase-val{min-width:40px;text-align:right;font-size:0.42rem;font-family:'IBM Plex Mono',monospace}
+.rpt-footer{margin-top:16px;padding:10px 0;border-top:1px solid var(--border);font-size:0.36rem;color:var(--text-ghost);letter-spacing:1.5px;text-align:center}
+.bottombar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:0.45rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-ghost);border-top:1px solid var(--border);background:var(--panel)}
+.print-btn{background:none;border:1px solid rgba(201,169,78,0.15);color:var(--gold-dim);font-family:'IBM Plex Mono',monospace;font-size:0.45rem;letter-spacing:2px;padding:4px 10px;cursor:pointer;margin-right:12px;transition:all 0.2s}.print-btn:hover{border-color:var(--gold);color:var(--gold)}
+.st-hud{position:absolute;bottom:16px;right:20px;background:rgba(10,11,13,0.85);border:1px solid var(--border);padding:10px 14px;z-index:10;pointer-events:none;min-width:180px}
+.st-hud-title{font-size:0.38rem;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(201,169,78,0.08);padding-bottom:4px}
+.st-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:0.48rem}
+.st-label{color:var(--gold-dim);letter-spacing:1.5px;font-size:0.4rem;min-width:36px}
+.st-val{color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:0.5rem}.st-val.alert{color:var(--hyper)}.st-val.stable{color:var(--evidence-a)}
+.bio-btn{position:absolute;top:16px;right:20px;z-index:15;background:rgba(201,169,78,0.06);border:1px solid rgba(201,169,78,0.2);color:var(--gold-dim);font-family:'IBM Plex Mono',monospace;font-size:0.5rem;letter-spacing:3px;padding:6px 14px;cursor:pointer;transition:all 0.3s;text-transform:uppercase}
+.bio-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,169,78,0.12)}
+.bio-btn.active{border-color:var(--evidence-a);color:var(--evidence-a);background:rgba(74,170,106,0.08);animation:bioPulse 2s ease-in-out infinite}
+@keyframes bioPulse{0%,100%{box-shadow:0 0 4px rgba(74,170,106,0.2)}50%{box-shadow:0 0 12px rgba(74,170,106,0.4)}}
+.bio-status{position:absolute;top:46px;right:20px;z-index:15;font-size:0.38rem;letter-spacing:1.5px;color:var(--text-ghost);text-transform:uppercase;pointer-events:none}
+</style>
+</head>
+<body>
+<script src="assets/js/auth-gate.js"></script>
+<script>
+(function(){
+  if(localStorage.getItem('limen_gate')==='1') return;
+  var ov=document.createElement('div');ov.id='directGate';
+  ov.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column';
+  ov.innerHTML='<div style="text-align:center;max-width:340px;padding:2rem"><div style="font-size:.55rem;letter-spacing:6px;color:rgba(201,169,78,0.4);text-transform:uppercase;font-family:monospace;margin-bottom:1.5rem;font-weight:bold">Access Required</div><div id="dg-display" style="font-size:2.2rem;letter-spacing:18px;color:rgba(201,169,78,0.7);font-family:monospace;min-height:3rem;margin-bottom:1.5rem">_ _ _ _</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:240px;margin:0 auto 1.5rem">'+[1,2,3,4,5,6,7,8,9].map(function(n){return '<button class="dgk" onclick="dgKey('+n+')">'+n+'</button>'}).join('')+'<button class="dgk" onclick="dgClear()">CLR</button><button class="dgk" onclick="dgKey(0)">0</button><button class="dgk" onclick="dgSubmit()">\u21b5</button></div><div id="dg-msg" style="font-size:.6rem;letter-spacing:3px;color:rgba(255,60,40,0);font-family:monospace;text-transform:uppercase;min-height:1.2rem;transition:color .3s"></div></div>';
+  var sty=document.createElement('style');sty.textContent='.dgk{background:none;border:1px solid rgba(201,169,78,0.15);color:rgba(201,169,78,0.6);font-size:1.3rem;font-family:monospace;padding:14px;cursor:pointer;transition:all .2s;border-radius:3px}.dgk:hover{border-color:rgba(201,169,78,0.4);background:rgba(201,169,78,0.05)}.dgk:active{background:rgba(201,169,78,0.12);transform:scale(0.95)}';
+  document.head.appendChild(sty);document.body.appendChild(ov);
+  window._dgInput='';
+  window.dgKey=function(n){if(window._dgInput.length>=4)return;window._dgInput+=String(n);dgUpdate();if(window._dgInput.length===4)setTimeout(dgSubmit,200)};
+  window.dgClear=function(){window._dgInput='';dgUpdate();document.getElementById('dg-msg').style.color='rgba(255,60,40,0)'};
+  window.dgSubmit=function(){if(window._dgInput==='1092'){document.getElementById('dg-msg').textContent='ACCESS GRANTED';document.getElementById('dg-msg').style.color='rgba(201,169,78,0.7)';localStorage.setItem('limen_gate','1');setTimeout(function(){ov.style.transition='opacity 0.6s';ov.style.opacity='0';setTimeout(function(){ov.remove()},600)},600)}else{document.getElementById('dg-msg').textContent='INCORRECT CODE';document.getElementById('dg-msg').style.color='rgba(255,60,40,0.7)';setTimeout(function(){window._dgInput='';dgUpdate();document.getElementById('dg-msg').style.color='rgba(255,60,40,0)'},1200)}};
+  window.dgUpdate=function(){var d='';for(var i=0;i<4;i++){d+=i<window._dgInput.length?window._dgInput[i]:'_';if(i<3)d+=' ';}document.getElementById('dg-display').textContent=d};
+  document.addEventListener('keydown',function(e){if(!document.getElementById('directGate'))return;if(e.key>='0'&&e.key<='9')dgKey(parseInt(e.key));else if(e.key==='Backspace'){window._dgInput=window._dgInput.slice(0,-1);dgUpdate();}else if(e.key==='Enter')dgSubmit()});
+})();
+</script>
+<div class="app">
+  <div class="topbar"><div class="topbar-left"><div class="topbar-brand"><a href="connectome.html">LIMEN HELIX</a> <span class="topbar-separator">&middot;</span></div><div class="topbar-title">HELIX REPORT</div></div><div class="topbar-right"><button class="print-btn" onclick="printReport()">PRINT</button><span>NOT FINANCIAL ADVICE</span></div></div>
+  <div class="portal-nav"><a href="civilization.html">CIVILIZATION</a><span class="pn-sep">&middot;</span><a href="/portal?domain=finance">FINANCE</a><span class="pn-sep">&middot;</span><a href="opportunities.html">OPPORTUNITIES</a><span class="pn-sep">&middot;</span><a href="helix-artifacts.html?lane=investment">INVESTMENT THESES</a><span class="pn-sep">&middot;</span><a href="#" onclick="openNewsFeed(event)" id="navNewsFeed">NEWS FEED</a><span class="pn-sep">&middot;</span><a href="helix-report.html" class="pn-current">HELIX PORTAL</a></div>
+  <div class="left-panel" id="leftPanel">
+    <div class="panel-section-title">Company Lookup</div>
+    <div class="input-group"><label>SEC CIK Number</label><input type="text" id="cikInput" placeholder="e.g. 0000034088 (ExxonMobil)"></div>
+    <button class="btn-fetch" id="fetchBtn" onclick="fetchFromSEC()">Fetch SEC EDGAR</button>
+    <div class="fetch-status" id="fetchStatus" style="padding:0 16px;font-size:0.4rem;color:var(--text-ghost);letter-spacing:1px;min-height:1rem"></div>
+    <button class="btn-run" id="runBtn" onclick="runAnalysis()">Run Phase Analysis</button>
+    <div id="analysisStatus" style="padding:0 16px;font-size:0.45rem;color:var(--text-ghost);letter-spacing:1.5px;min-height:1.2rem"></div>
+    <div style="padding:0 16px;margin-top:12px;font-size:0.36rem;color:var(--text-ghost);letter-spacing:1px;line-height:1.5">Phase 0 runtime: scoring runs client-side. Thing 2 phase tracker only — interpretive output, not a validated distress assessment. Server-side formula protection is not active in this deployment.</div>
+  </div>
+  <div class="center-view" id="centerView">
+    <canvas id="c"></canvas>
+    <div class="dx-overlay" id="dxOverlay" style="display:none"><div class="dx-overlay-name" id="overlayName"></div><div class="dx-overlay-dsm" id="overlayPhase"></div><div class="dx-overlay-prevalence" id="overlayScore"></div><a id="cmdBoardLink" href="kernel-comparison.html" style="display:none;font-size:0.34rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);text-decoration:none;margin-top:4px" target="_blank">VIEW ON COMMAND BOARD</a></div>
+    <button class="bio-btn" id="bioBtn">BIO</button>
+    <div class="bio-status" id="bioStatus"></div>
+    <div class="node-tooltip" id="tooltip"></div>
+    <div class="circuit-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--hyper)"></div>STRESS</div><div class="legend-item"><div class="legend-dot" style="background:var(--hypo)"></div>SUPPRESSED</div><div class="legend-item"><div class="legend-dot" style="background:var(--altered)"></div>ALTERED</div><div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.15)"></div>NOMINAL</div></div>
+    <div class="st-hud" id="stHud" style="display:none"><div class="st-hud-title">S(t) STATE VECTOR</div><div class="st-row"><span class="st-label">&phi;(t)</span><span class="st-val" id="stPhi">&mdash;</span></div><div class="st-row"><span class="st-label">C(t)</span><span class="st-val" id="stC">&mdash;</span></div><div class="st-row"><span class="st-label">&tau;(t)</span><span class="st-val" id="stTau">&mdash;</span></div><div class="st-row"><span class="st-label">H(t)</span><span class="st-val" id="stH">&mdash;</span></div></div>
+  </div>
+  <div class="right-panel" id="rightPanel">
+    <div class="right-empty" id="rightEmpty"><div style="font-family:'Crimson Pro',serif;font-size:0.85rem;color:rgba(200,195,184,0.35);line-height:1.7;padding:30px 24px">Phase report rendered from the protected server kernel. Enter a company CIK to fetch a labels-and-bands summary. No kernel formula, constants, or raw rows are returned to the browser.</div><div style="font-size:0.5rem;color:rgba(201,169,78,0.3);letter-spacing:2px;text-transform:uppercase;padding:0 24px">CIK &rarr; server kernel &rarr; safe packet</div><div style="margin-top:28px;padding:0 24px"><div style="font-size:0.45rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px">Or browse without kernel</div><a href="helix-artifacts.html?lane=investment" style="display:block;padding:10px 14px;margin-bottom:8px;background:rgba(201,169,78,0.06);border:1px solid rgba(201,169,78,0.18);color:var(--gold-dim);text-decoration:none;font-size:0.55rem;letter-spacing:2px;text-transform:uppercase;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(201,169,78,0.18)';this.style.color='var(--gold-dim)'">Investment Theses &rarr;</a><a href="helix-artifacts.html" style="display:block;padding:10px 14px;margin-bottom:8px;background:rgba(201,169,78,0.06);border:1px solid rgba(201,169,78,0.18);color:var(--gold-dim);text-decoration:none;font-size:0.55rem;letter-spacing:2px;text-transform:uppercase;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(201,169,78,0.18)';this.style.color='var(--gold-dim)'">All Engine Artifacts &rarr;</a><a href="#" onclick="openNewsFeed(event)" style="display:block;padding:10px 14px;background:rgba(201,169,78,0.06);border:1px solid rgba(201,169,78,0.18);color:var(--gold-dim);text-decoration:none;font-size:0.55rem;letter-spacing:2px;text-transform:uppercase;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(201,169,78,0.18)';this.style.color='var(--gold-dim)'">News Feed &rarr;</a></div></div>
+    <div id="rightContent" style="display:none"><div class="right-tabs"><button class="right-tab active" data-tab="diagnosis" onclick="switchTab('diagnosis')">Diagnosis</button><button class="right-tab" data-tab="signals" onclick="switchTab('signals')">Signals</button><button class="right-tab" data-tab="interventions" onclick="switchTab('interventions')">Interventions</button><button class="right-tab" data-tab="report" onclick="switchTab('report')">Report</button></div><div class="tab-content active" id="tab-diagnosis"></div><div class="tab-content" id="tab-signals"></div><div class="tab-content" id="tab-interventions"></div><div class="tab-content" id="tab-report"></div></div>
+  </div>
+  <div class="bottombar"><div>LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC</div><div id="bottomStats">Renderer only &middot; 111 nodes &middot; scoring runs server-side</div></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// LIMEN Helix — Helix Report frontend (PHASE 0 CLIENT-SIDE RUNTIME)
+// ═══════════════════════════════════════════════════════════════════
+//
+// PHASE 0 — single-user private gated deployment.
+// Server-side formula protection is NOT active. The Thing 2 long-arc
+// phase kernel is loaded into the browser and runs client-side. This
+// is acceptable for the current single-user (Chris-only) access mode.
+// Phase 1 (server-side protection) is REQUIRED before any second user
+// receives an access code.
+//
+// Runtime in this build:
+//   1. Browser fetches SEC EDGAR companyfacts via the legacy
+//      cross-origin endpoint
+//      (https://limen-helix-api.vercel.app/api/edgar/facts/{cik}).
+//   2. Browser converts companyfacts → {Revenue, OCF, Cash, Debt}
+//      quarterly dict via _buildCompanyData(secFacts).
+//   3. Browser loads assets/js/limen-thing2-kernel.js (Thing 2 lineage,
+//      v4 patent recursive kernel, interpretive only) via dynamic
+//      ESM import().
+//   4. Browser calls runLimenPipeline(companyData, fredDelta||{}).
+//   5. Result is wrapped via _wrapPhase0Result(...) into the existing
+//      sectioned-packet shape (validated_signal / phase_tracker_signal /
+//      reconciliation / warnings) so the existing renderer is unchanged.
+//
+// validated_signal.available is ALWAYS false in Phase 0 — Thing 1
+// (api/thing1/limen_backtest.py) is not deployed. Thing 2 client output
+// CANNOT carry validation_status="validated" or alert=true and CANNOT
+// authorize "validated financial distress" / "ALERT FIRED" / clinical
+// referral language. _alertActive(t1) and _clinicalNarrativeAllowed()
+// already gate on those fields and remain truthful.
+//
+// Phase 1 path: api/helix.py serverless function reaches Vercel
+// detection, /api/helix/helix-report/score returns 200, and this file
+// reverts to fetching that endpoint instead of running the kernel
+// in-browser.
+
+var RENDERER_VERSION = 'renderer-only-1.0';
+
+// ─── Renderer constants ──────────────────────────────────────────
+// NO kernel constants live in browser-visible code anymore.
+// Threshold-bearing comparisons (e.g. "score > 0.45 means active") are
+// presentation-only and intentionally non-load-bearing for any decision.
+var DISPLAY_ACTIVE_BAR = 0.45; // bar shading threshold; not a kernel gate.
+console.log('[LIMEN] Renderer ' + RENDERER_VERSION + ' loaded.');
+
+// Phase id list — pure label set for renderer iteration. Order is display-only.
+var PHASE_KEYS = ['p0','p1','p2','p3','p4','p5','p6','p7','p7a','p7b','p8','p9','p10'];
+
+
+// ─── Node State Resolution ────────────────────────────────────────
+function resolveNodeStates(dominantPhase, scores) {
+  if (!dominantPhase) return [];
+  if (dominantPhase === 'p3' && (scores.p7a || 0) > 0.5) {
+    return (PHASE_NODE_STATES.p3 || []).concat(PHASE_NODE_STATES.p7a || []);
+  }
+  return PHASE_NODE_STATES[dominantPhase] || [];
+}
+
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// PHASE METADATA & INTERVENTIONS
+// ═══════════════════════════════════════════════════════════════════
+
+var PHASE_META = {
+  p0:  { name: 'Source',        label: 'P0 · SOURCE',        summary: 'Stable baseline — low variance, moderate positive growth, predictable operations.' },
+  p1:  { name: 'Rupture',       label: 'P1 · RUPTURE',       summary: 'First disruption — revenue variance spike, sudden margin compression, first negative surprise.' },
+  p2:  { name: 'Rhythm',        label: 'P2 · RHYTHM',        summary: 'Alliance building — revenue diversification increasing, growth accelerating under coordination.' },
+  p3:  { name: 'Darkness',      label: 'P3 · INSTABILITY',   summary: 'Core instability — high variance, rising autocorrelation, declining slope, accelerating burn.' },
+  p4:  { name: 'Peace',         label: 'P4 · STABILISATION', summary: 'Stabilisation — variance decreasing after crisis, cash burn decelerating, slope flattening.' },
+  p5:  { name: 'Endurance',     label: 'P5 · ENDURANCE',     summary: 'Stress inoculation — revenue recovering under elevated variance, debt being serviced.' },
+  p6:  { name: 'Order',         label: 'P6 · ORDER',         summary: 'Control restored — low variance, stable metrics, debt declining, cash building.' },
+  p7:  { name: 'Dissolution',   label: 'P7 · DIVERGENCE',    summary: 'Structural divergence — revenue/OCF breakpoints detected, accelerating debt.' },
+  p8:  { name: 'Conscience',    label: 'P8 · PIVOT',         summary: 'Business-model pivot — structural break with positive slope, new revenue pattern emerging.' },
+  p9:  { name: 'Threshold',     label: 'P9 · COLLAPSE',      summary: 'Collapse threshold — P3 elevated + liquidity risk + macro headwinds converging.' },
+  p10: { name: 'Resurrection',  label: 'P10 · RESURRECTION',  summary: 'New baseline — structural break happened but variance now low, new steady state.' },
+};
+
+var PHASE_INTERVENTIONS = {
+  p0: {
+    operational: [
+      { name: 'Maintain quarterly monitoring cadence', detail: 'Continue standard KPI review cycle; document baseline for drift detection.' },
+      { name: 'Quarterly board strategic review', detail: 'Regular governance check; no crisis-mode actions needed.' },
+    ],
+    strategic: [
+      { name: 'Invest in growth capacity', detail: 'Stable baseline is the optimal time to build capacity, hire, and expand.' },
+    ],
+    referral: [],
+  },
+  p1: {
+    operational: [
+      { name: 'Stabilize operations — identify disruption source', detail: 'Isolate the revenue variance spike to specific segment, client, or product line.' },
+      { name: 'Assess exposure concentration', detail: 'Map revenue dependency: top-3 clients, top-3 products, geographic concentration.' },
+      { name: 'Do not overreact — single quarter may be noise', detail: 'Phase 1 is a signal, not a verdict. Investigate before restructuring.' },
+    ],
+    strategic: [],
+    referral: [],
+  },
+  p2: {
+    operational: [
+      { name: 'Communication audit', detail: 'Verify alignment between revenue signals and operational narrative. Are metrics matching the story?' },
+      { name: 'Team alignment check', detail: 'Growth phases mask misalignment — verify departments are synchronized.' },
+      { name: 'Culture health survey', detail: 'Fast growth erodes culture silently. Measure before it compounds.' },
+    ],
+    strategic: [],
+    referral: [],
+  },
+  p3: {
+    operational: [
+      { name: '90-day cash conservation protocol', detail: 'Freeze discretionary spend. Weekly cash position reporting. 13-week rolling forecast.' },
+      { name: 'Key client retention audit', detail: 'Identify top-10 revenue clients and assess churn risk individually.' },
+      { name: 'Flight risk assessment — key personnel', detail: 'Instability is visible to employees. Identify and retain critical talent.' },
+    ],
+    strategic: [
+      { name: 'Scenario planning: 3 trajectories', detail: 'Model recovery (P4-6), sustained stress (P3 plateau), and collapse (P9). Board-ready.' },
+    ],
+    referral: [
+      { name: 'Restructuring attorney', detail: 'Engage advisory relationship before crisis. Pre-positioning is 10x cheaper than emergency.' },
+      { name: 'Turnaround CFO / interim financial officer', detail: 'Specialized distress-phase financial management. Different skill from growth-CFO.' },
+    ],
+  },
+  p4: {
+    operational: [
+      { name: 'Protect cash gains — do not re-expand prematurely', detail: 'The most dangerous moment is stabilization: temptation to spend before recovery is confirmed.' },
+      { name: 'Reduce variable costs incrementally', detail: 'Continue cost discipline. Variable cost reduction, not headcount slashing.' },
+      { name: 'Monitor weekly — variance may spike again', detail: 'P4 can revert to P3. Weekly KPIs, not quarterly, until 2 consecutive stable quarters.' },
+    ],
+    strategic: [],
+    referral: [],
+  },
+  p5: {
+    operational: [
+      { name: 'Prevent leadership burnout', detail: 'Extended stress phases deplete executive function. Ensure rest cycles for key decision-makers.' },
+      { name: 'Hormetic pacing — controlled stress exposure', detail: 'Growth under stress is possible but requires pacing. Set realistic stretch targets.' },
+      { name: 'Delegate operational decisions', detail: 'Leadership must shift from reactive firefighting to strategic positioning.' },
+    ],
+    strategic: [],
+    referral: [],
+  },
+  p6: {
+    operational: [
+      { name: 'Systems documentation and process optimization', detail: 'Stability is the window for systematization. Document what works before the next disruption.' },
+      { name: 'Hiring plan — build bench depth', detail: 'Replace crisis-mode skeleton crew with sustainable staffing.' },
+      { name: 'Process optimization — automate recurring tasks', detail: 'Reduce human error surface. Stable operations can absorb process changes.' },
+    ],
+    strategic: [],
+    referral: [
+      { name: 'ERP / systems consultant', detail: 'Stable phase is optimal for systems implementation. Don\'t implement during crisis.' },
+      { name: 'Growth advisor / fractional CRO', detail: 'Controlled growth planning from a position of stability.' },
+    ],
+  },
+  p7: {
+    operational: [
+      { name: 'Pivot protocol — assess structural viability', detail: 'Revenue/OCF breakpoints mean the old model may be breaking. Evaluate honestly.' },
+      { name: 'Restructure investor narrative', detail: 'Structural divergence requires narrative update. Transparency preserves trust.' },
+      { name: 'Redefine mission and value proposition', detail: 'The business that enters P7 may not be the one that exits it. Strategic clarity required.' },
+    ],
+    strategic: [],
+    referral: [],
+  },
+  p8: {
+    operational: [
+      { name: 'Strategic realignment — new revenue model validation', detail: 'The break is positive if slope is up. Validate the new pattern with unit economics.' },
+      { name: 'Leadership consolidation', detail: 'Pivots require unified leadership. Misalignment kills pivots faster than competition.' },
+      { name: 'Investor communication — evidence-based narrative', detail: 'Show the structural break with data. Revenue break + positive slope = pivot working.' },
+    ],
+    strategic: [],
+    referral: [],
+  },
+  p9: {
+    operational: [
+      { name: 'Board emergency session — decision required', detail: 'P9 means P3 elevated + liquidity risk + macro headwinds. This is not a drill.' },
+      { name: 'Pivot vs wind-down decision', detail: 'Binary: either a credible 90-day turnaround plan exists, or it doesn\'t. Decide.' },
+      { name: 'Legal and financial protection', detail: 'Personal liability review. D&O coverage confirmation. Fiduciary duty documentation.' },
+    ],
+    strategic: [],
+    referral: [
+      { name: 'M&A advisor', detail: 'If turnaround is not viable, an orderly sale preserves more value than bankruptcy.' },
+      { name: 'Bankruptcy / restructuring attorney', detail: 'Chapter 11 (reorganization) vs Chapter 7 (liquidation) analysis.' },
+    ],
+  },
+  p10: {
+    operational: [
+      { name: 'New model live — growth protocol', detail: 'Post-restructuring or post-pivot: the new baseline is established. Execute.' },
+      { name: 'Culture rebuild', detail: 'Crisis survivors carry trauma. Organizational healing is an operational requirement.' },
+      { name: 'New KPI framework', detail: 'Old metrics may not apply. Define new success criteria for the new model.' },
+    ],
+    strategic: [],
+    referral: [],
+  },
+};
+
+// ─── Phase-to-Node Mappings (circuit-specific activation) ───────
+var PHASE_NODE_STATES = {
+  // P0 — Stable Baseline: quiet (no activation)
+  // P1 — Rupture / First Disruption: alarm circuits
+  p1: [
+    {node:'dACC', dir:'hyper'}, {node:'AI', dir:'hyper'},
+    {node:'LC', dir:'hyper'},   {node:'BLA', dir:'hyper'},
+  ],
+  // P2 — Rhythm / Alliance Building: bonding + regulation
+  p2: [
+    {node:'OXY', dir:'altered'}, {node:'vmPFC', dir:'altered'},
+    {node:'VV', dir:'altered'},  {node:'mPFC', dir:'altered'},
+  ],
+  // P3 — Darkness / Instability: amygdala + fear + HPA → RED
+  p3: [
+    {node:'BLA', dir:'hyper'},  {node:'CeA', dir:'hyper'},
+    {node:'HPA', dir:'hyper'},  {node:'HYPO', dir:'hyper'},
+    {node:'ADR', dir:'hyper'},  {node:'LC', dir:'hyper'},
+    {node:'PAG', dir:'hyper'},
+    {node:'dlPFC', dir:'hypo'}, {node:'vmPFC', dir:'hypo'},
+  ],
+  // P4 — Peace / Stabilisation: vagal + regulation recovering
+  p4: [
+    {node:'VV', dir:'altered'},    {node:'vmPFC', dir:'altered'},
+    {node:'RAPHE', dir:'altered'}, {node:'HIPP', dir:'altered'},
+  ],
+  // P5 — Endurance / Stress Inoculation: executive under load
+  p5: [
+    {node:'dlPFC', dir:'hyper'}, {node:'dACC', dir:'hyper'},
+    {node:'HPA', dir:'hyper'},   {node:'LC', dir:'hyper'},
+  ],
+  // P6 — Order / Control: DLPFC + executive → GOLD
+  p6: [
+    {node:'dlPFC', dir:'altered'}, {node:'vlPFC', dir:'altered'},
+    {node:'ECN', dir:'altered'},   {node:'dACC', dir:'altered'},
+    {node:'FEF', dir:'altered'},
+  ],
+  // P7 — Dissolution / Structural Divergence
+  p7: [
+    {node:'mPFC', dir:'altered'}, {node:'PCC', dir:'altered'},
+    {node:'DMN', dir:'altered'},  {node:'TPJ', dir:'altered'},
+  ],
+  // P7a — Terminal Divergence: dissolution + amygdala → RED
+  p7a: [
+    {node:'mPFC', dir:'hyper'}, {node:'PCC', dir:'hyper'},
+    {node:'DMN', dir:'hyper'},
+    {node:'BLA', dir:'hyper'},  {node:'CeA', dir:'hyper'},
+    {node:'DV', dir:'hyper'},   {node:'PAG', dir:'hyper'},
+  ],
+  // P7b — Controlled Separation: dissolution + plasticity → BLUE
+  p7b: [
+    {node:'mPFC', dir:'hypo'}, {node:'PCC', dir:'hypo'},
+    {node:'DMN', dir:'hypo'},
+    {node:'BDNF', dir:'hypo'}, {node:'TrkB', dir:'hypo'},
+  ],
+  // P8 — Conscience / Business-Model Pivot: self-reflection
+  p8: [
+    {node:'mPFC', dir:'altered'}, {node:'PCC', dir:'altered'},
+    {node:'AI', dir:'altered'},   {node:'dACC', dir:'altered'},
+  ],
+  // P9 — Threshold / Collapse: cascade failure
+  p9: [
+    {node:'BLA', dir:'hyper'},  {node:'CeA', dir:'hyper'},
+    {node:'HPA', dir:'hyper'},  {node:'DV', dir:'hyper'},
+    {node:'PAG', dir:'hyper'},
+    {node:'DMN', dir:'altered'}, {node:'SN', dir:'altered'},
+    {node:'dlPFC', dir:'hypo'}, {node:'NAcc', dir:'altered'},
+  ],
+  // P10 — Resurrection / New Baseline: plasticity + new patterns
+  p10: [
+    {node:'BDNF', dir:'altered'}, {node:'TrkB', dir:'altered'},
+    {node:'HIPP', dir:'altered'}, {node:'dlPFC', dir:'altered'},
+  ],
+};
+
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// BUSINESS NEURAL MAP — Visualization Engine
+// ═══════════════════════════════════════════════════════════════════
+
+var canvas = document.getElementById('c');
+var ctx = canvas.getContext('2d');
+var W, H, CX, CY;
+var DPR = Math.min(window.devicePixelRatio || 1, 2);
+var t = 0;
+var hoveredNode = null;
+var currentResult = null;
+var nodeStates = [];
+
+// ═══ NODE POSITIONS ═══
+var NODES = {};
+var NODE_LIST = [];
+var EDGES = [];
+
+var SYS_COLORS = {
+  dmn:       {r:201,g:169,b:78},
+  salience:  {r:255,g:180,b:60},
+  executive: {r:80,g:140,b:220},
+  limbic:    {r:180,g:50,b:50},
+  autonomic: {r:42,g:107,b:90},
+  hpa:       {r:200,g:120,b:40},
+  plasticity:{r:100,g:180,b:120},
+  gutbrain:  {r:140,g:100,b:160},
+  entrainment:{r:180,g:160,b:60},
+  reward:    {r:220,g:80,b:80},
+  motor:     {r:160,g:80,b:60},
+  thalamic:  {r:160,g:160,b:160},
+  sensory:   {r:120,g:160,b:180},
+  language:  {r:180,g:140,b:100},
+  basal:     {r:140,g:120,b:80},
+  neuromod:  {r:100,g:140,b:140},
+  memory:    {r:160,g:120,b:180},
+  other:     {r:120,g:120,b:120},
+};
+
+function addNode(id, label, sys, angle, radius, size) {
+  var n = {id:id, label:label, sys:sys, angle:angle, radius:radius, size:size||4, x:0, y:0, affected:null};
+  NODES[id] = n;
+  NODE_LIST.push(n);
+  return n;
+}
+
+var TAU = Math.PI * 2;
+function S(system, nodes, startAngle, sweep, rMin, rMax) {
+  var n = nodes.length;
+  for (var i = 0; i < n; i++) {
+    var a = startAngle + (sweep * i / Math.max(n-1, 1));
+    var r = n === 1 ? (rMin+rMax)/2 : rMin + (rMax-rMin) * (i%2 === 0 ? 0.3 : 0.7);
+    addNode(nodes[i][0], nodes[i][1], system, a, r, nodes[i][2]||4);
+  }
+}
+
+// DMN Core
+addNode('DMN', 'DEFAULT MODE\nNETWORK', 'dmn', 0, 0, 12);
+S('dmn', [
+  ['mPFC','mPFC',7], ['PCC','PCC',7], ['PRECUNEUS','Precuneus',5],
+  ['AG','Angular\nGyrus',4], ['TPOLE','Temporal\nPole',4], ['RSC','Retrosplenial',4],
+  ['OFC','OFC',4], ['EC','Entorhinal',3],
+], 0, TAU*0.9, 0.06, 0.12);
+
+S('salience', [
+  ['SN','Salience\nNetwork',6], ['AI','Anterior\nInsula',6], ['dACC','dACC',5],
+  ['TPJ','TPJ',4], ['PI','Posterior\nInsula',3],
+], TAU*0.02, TAU*0.12, 0.22, 0.34);
+
+S('executive', [
+  ['ECN','Executive\nControl',5], ['dlPFC','dlPFC',6], ['vlPFC','vlPFC',4],
+  ['FEF','FEF',3], ['IPS','IPS',3],
+], TAU*0.14, TAU*0.10, 0.22, 0.34);
+
+S('limbic', [
+  ['BLA','BLA',6], ['CeA','CeA',4], ['BNST','BNST',4],
+  ['vmPFC','vmPFC',6], ['PAG','PAG',4], ['EMP','Empathy',3],
+  ['HIPP','Hippocampus',6],
+], TAU*0.26, TAU*0.14, 0.22, 0.38);
+
+S('autonomic', [
+  ['VV','Ventral\nVagal',5], ['DV','Dorsal\nVagal',4], ['NTS','NTS',3],
+  ['SNS','Sympathetic',4], ['CARD','Cardiac',3], ['LAR','Laryngeal',2],
+], TAU*0.42, TAU*0.10, 0.22, 0.36);
+
+S('hpa', [
+  ['HPA','HPA Axis',5], ['HYPO','Hypothalamus',5], ['PIT','Pituitary',3],
+  ['ADR','Adrenal',3],
+], TAU*0.54, TAU*0.08, 0.22, 0.34);
+
+S('reward', [
+  ['NAcc','Nucleus\nAccumbens',6], ['VTA','VTA',5], ['STRI','Striatum',4],
+], TAU*0.63, TAU*0.06, 0.24, 0.34);
+
+S('basal', [
+  ['CAUD','Caudate',4], ['PUT','Putamen',4], ['GP','Globus\nPallidus',3],
+  ['STN','STN',3], ['VP','Ventral\nPallidum',3], ['SNIG','Substantia\nNigra',3],
+], TAU*0.70, TAU*0.08, 0.22, 0.36);
+
+S('thalamic', [
+  ['THAL','Thalamus',5], ['MDT','Mediodorsal',3], ['ANT','Anterior\nThalamus',3],
+  ['PULV','Pulvinar',3], ['LGN','LGN',2], ['MGN','MGN',2],
+], TAU*0.80, TAU*0.08, 0.22, 0.34);
+
+S('neuromod', [
+  ['RAPHE','Raphe\nNuclei',4], ['LC','Locus\nCoeruleus',4],
+  ['ENDO','Endocannabinoid',3], ['OPIOID','Opioid\nSystem',3],
+  ['OXY','Oxytocin',3], ['GABA_GLU','E/I\nBalance',4],
+  ['EI','E/I\nRatio',3],
+], TAU*0.90, TAU*0.18, 0.40, 0.48);
+
+S('sensory', [
+  ['V1','V1',3], ['A1','A1',3], ['S1','S1',3],
+], TAU*0.15, TAU*0.06, 0.40, 0.44);
+
+S('motor', [
+  ['M1','M1',3], ['SMA','SMA',3], ['CMZ','CMZ',2],
+  ['SMN','Somatomotor',3],
+], TAU*0.22, TAU*0.06, 0.40, 0.44);
+
+S('language', [
+  ['BROCA','Broca',3], ['WERN','Wernicke',3], ['LANG','Language\nNetwork',3],
+  ['STS','STS',4], ['FG','Fusiform',4],
+], TAU*0.37, TAU*0.08, 0.40, 0.48);
+
+S('memory', [
+  ['MAMM','Mammillary',2], ['SEPT','Septal',2], ['NBM','Nucleus\nBasalis',2],
+  ['FORN','Fornix',2], ['CING','Cingulum',3],
+], TAU*0.48, TAU*0.06, 0.40, 0.46);
+
+S('plasticity', [['BDNF','BDNF /\nPlasticity',4], ['TrkB','TrkB',2]], TAU*0.58, TAU*0.03, 0.40, 0.44);
+S('gutbrain', [['GBA','Gut-Brain\nAxis',3], ['ENS','Enteric\nNS',2], ['MICRO','Microbiome',2]], TAU*0.62, TAU*0.04, 0.40, 0.46);
+S('entrainment', [['OSC','Oscillatory',3], ['RF','Reticular\nFormation',3]], TAU*0.68, TAU*0.03, 0.40, 0.44);
+
+addNode('PIN', 'Pineal', 'other', TAU*0.73, 0.42, 2);
+addNode('VEST', 'Vestibular', 'other', TAU*0.76, 0.42, 2);
+addNode('CBLM', 'Cerebellum', 'other', TAU*0.85, 0.42, 4);
+addNode('SC', 'Superior\nColliculus', 'other', TAU*0.87, 0.44, 2);
+addNode('IC', 'Inferior\nColliculus', 'other', TAU*0.89, 0.44, 2);
+addNode('PBN', 'Parabrachial', 'other', TAU*0.52, 0.44, 3);
+addNode('PPN', 'PPN', 'other', TAU*0.84, 0.46, 2);
+addNode('HAB', 'Habenula', 'reward', TAU*0.66, 0.36, 3);
+addNode('OLF', 'Olfactory', 'sensory', TAU*0.10, 0.44, 2);
+addNode('rACC', 'rACC', 'dmn', TAU*0.95, 0.10, 3);
+addNode('CLAUST', 'Claustrum', 'other', TAU*0.78, 0.36, 3);
+addNode('DISS', 'Dissolution', 'dmn', TAU*0.97, 0.14, 3);
+addNode('CC', 'Corpus\nCallosum', 'other', TAU*0.50, 0.38, 3);
+addNode('UNC', 'Uncinate', 'other', TAU*0.34, 0.42, 2);
+addNode('ARC', 'Arcuate', 'language', TAU*0.39, 0.46, 2);
+addNode('DAN', 'Dorsal\nAttention', 'sensory', TAU*0.12, 0.36, 3);
+addNode('VAN', 'Ventral\nAttention', 'salience', TAU*0.06, 0.38, 3);
+addNode('FPN', 'Frontoparietal', 'executive', TAU*0.17, 0.36, 3);
+addNode('CON', 'Cingulo-\nOpercular', 'salience', TAU*0.04, 0.32, 2);
+addNode('VERM', 'Vermis', 'other', TAU*0.86, 0.46, 2);
+addNode('NEOCER', 'Neo-\ncerebellum', 'other', TAU*0.88, 0.46, 2);
+
+// ═══ TYPED EDGES ═══
+var EDGE_TYPES = {
+  fast:     {speed:[0.012,0.020], rate:0.025, size:[0.8,1.4]},
+  excit:    {speed:[0.006,0.012], rate:0.030, size:[1.0,1.8]},
+  inhib:    {speed:[0.005,0.009], rate:0.018, size:[0.8,1.3]},
+  modul:    {speed:[0.003,0.006], rate:0.012, size:[1.0,1.6]},
+  auto:     {speed:[0.002,0.005], rate:0.010, size:[0.8,1.2]},
+  hormonal: {speed:[0.001,0.003], rate:0.005, size:[1.2,2.0]},
+  peptide:  {speed:[0.001,0.004], rate:0.006, size:[1.0,1.5]},
+  plastic:  {speed:[0.001,0.002], rate:0.003, size:[0.6,1.0]},
+};
+
+function addTypedEdge(a, b, type) {
+  if (NODES[a] && NODES[b]) EDGES.push({a:a, b:b, w:0.3, type:type||'excit'});
+}
+
+// DMN internal
+addTypedEdge('DMN','mPFC','excit'); addTypedEdge('DMN','PCC','excit');
+addTypedEdge('DMN','PRECUNEUS','excit'); addTypedEdge('DMN','AG','excit');
+addTypedEdge('mPFC','PCC','excit'); addTypedEdge('PCC','PRECUNEUS','excit');
+addTypedEdge('PCC','AG','excit'); addTypedEdge('PCC','HIPP','excit');
+
+// Prefrontal
+addTypedEdge('mPFC','vmPFC','excit'); addTypedEdge('mPFC','dlPFC','excit');
+addTypedEdge('dlPFC','dACC','excit'); addTypedEdge('dlPFC','vlPFC','excit');
+
+// Salience
+addTypedEdge('AI','dACC','fast'); addTypedEdge('AI','BLA','fast'); addTypedEdge('AI','vmPFC','excit');
+
+// Amygdala
+addTypedEdge('BLA','CeA','fast'); addTypedEdge('BLA','HIPP','fast');
+addTypedEdge('BLA','BNST','excit'); addTypedEdge('vmPFC','BLA','inhib');
+addTypedEdge('vmPFC','NAcc','excit'); addTypedEdge('PAG','CeA','fast'); addTypedEdge('PAG','DV','fast');
+
+// Thalamic relay
+addTypedEdge('THAL','dlPFC','fast'); addTypedEdge('THAL','BLA','fast'); addTypedEdge('THAL','V1','fast');
+
+// Locus coeruleus
+addTypedEdge('LC','dlPFC','fast'); addTypedEdge('LC','BLA','fast'); addTypedEdge('LC','dACC','fast');
+
+// Raphe
+addTypedEdge('RAPHE','mPFC','modul'); addTypedEdge('RAPHE','BLA','modul'); addTypedEdge('RAPHE','NAcc','modul');
+
+// Dopamine
+addTypedEdge('VTA','NAcc','modul'); addTypedEdge('NAcc','STRI','excit');
+addTypedEdge('HAB','VTA','inhib'); addTypedEdge('HAB','RAPHE','inhib');
+
+// Basal ganglia
+addTypedEdge('STRI','CAUD','excit'); addTypedEdge('STRI','PUT','excit');
+addTypedEdge('CAUD','GP','inhib'); addTypedEdge('PUT','GP','inhib');
+addTypedEdge('GP','THAL','inhib'); addTypedEdge('STN','GP','excit');
+
+// Autonomic/vagal
+addTypedEdge('VV','NTS','auto'); addTypedEdge('DV','NTS','auto'); addTypedEdge('NTS','BLA','auto');
+
+// HPA axis
+addTypedEdge('HYPO','PIT','hormonal'); addTypedEdge('PIT','ADR','hormonal'); addTypedEdge('HYPO','PAG','fast');
+
+// Hippocampal
+addTypedEdge('HIPP','FORN','excit'); addTypedEdge('FORN','MAMM','excit'); addTypedEdge('MAMM','ANT','excit');
+
+// Language
+addTypedEdge('BROCA','WERN','excit'); addTypedEdge('STS','FG','excit'); addTypedEdge('STS','TPJ','excit');
+
+// Peptide
+addTypedEdge('OXY','VV','peptide'); addTypedEdge('OXY','BLA','peptide');
+addTypedEdge('ENDO','BLA','peptide'); addTypedEdge('OPIOID','PAG','peptide');
+
+// Plasticity
+addTypedEdge('BDNF','HIPP','plastic'); addTypedEdge('BDNF','dlPFC','plastic');
+
+// Gut-brain
+addTypedEdge('GBA','VV','auto'); addTypedEdge('GBA','ENS','auto');
+
+// Pineal
+addTypedEdge('PIN','HYPO','hormonal');
+
+// Cerebellar
+addTypedEdge('CBLM','THAL','fast');
+
+// Brainstem
+addTypedEdge('PBN','NTS','fast'); addTypedEdge('PBN','BLA','fast');
+
+// ═══ NEURAL PULSE PARTICLES ═══
+var PULSES = [];
+var MAX_PULSES = 150;
+
+function spawnPulses() {
+  EDGES.forEach(function(e) {
+    if (PULSES.length >= MAX_PULSES) return;
+    var a = NODES[e.a], b = NODES[e.b];
+    if (!a || !b) return;
+    var et = EDGE_TYPES[e.type] || EDGE_TYPES.excit;
+    var rate = et.rate;
+    if (nodeStates.length > 0) {
+      if (a.affected && b.affected) rate *= 1.8;
+      else if (a.affected || b.affected) rate *= 0.4;
+      else rate *= 0.15;
+    }
+    if (Math.random() < rate) {
+      var dir = Math.random() > 0.5 ? 1 : -1;
+      PULSES.push({
+        a: e.a, b: e.b, type: e.type,
+        progress: dir > 0 ? 0 : 1,
+        speed: (et.speed[0] + Math.random() * (et.speed[1] - et.speed[0])) * dir,
+        size: et.size[0] + Math.random() * (et.size[1] - et.size[0]),
+        life: 1
+      });
+    }
+  });
+}
+
+function drawPulses() {
+  for (var i = PULSES.length - 1; i >= 0; i--) {
+    var p = PULSES[i];
+    p.progress += p.speed;
+    if (p.progress > 1 || p.progress < 0) { PULSES.splice(i, 1); continue; }
+    var na = NODES[p.a], nb = NODES[p.b];
+    if (!na || !nb) { PULSES.splice(i, 1); continue; }
+    var px = na.x + (nb.x - na.x) * p.progress;
+    var py = na.y + (nb.y - na.y) * p.progress;
+    var c;
+    if (nodeStates.length > 0 && na.affected && nb.affected) {
+      var ca = getNodeColor(na), cb = getNodeColor(nb);
+      c = {r: Math.round((ca.r+cb.r)/2), g: Math.round((ca.g+cb.g)/2), b: Math.round((ca.b+cb.b)/2)};
+    } else if (nodeStates.length > 0 && (na.affected || nb.affected)) {
+      c = getNodeColor(na.affected ? na : nb);
+    } else {
+      var sca = SYS_COLORS[na.sys] || SYS_COLORS.other;
+      var scb = SYS_COLORS[nb.sys] || SYS_COLORS.other;
+      c = {r: Math.round((sca.r+scb.r)/2), g: Math.round((sca.g+scb.g)/2), b: Math.round((sca.b+scb.b)/2)};
+    }
+    var alpha = nodeStates.length > 0 ? (na.affected && nb.affected ? 0.7 : 0.15) : 0.3;
+    var edgeFade = Math.min(p.progress * 5, (1 - p.progress) * 5, 1);
+    alpha *= edgeFade;
+    ctx.beginPath();
+    ctx.arc(px, py, p.size, 0, TAU);
+    ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + alpha + ')';
+    ctx.fill();
+  }
+}
+
+function layoutNodes() {
+  var vw = canvas.parentElement.clientWidth;
+  var vh = canvas.parentElement.clientHeight;
+  W = vw; H = vh;
+  canvas.width = vw * DPR;
+  canvas.height = vh * DPR;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  CX = vw / 2; CY = vh / 2;
+}
+
+function getNodeColor(n) {
+  if (nodeStates.length === 0) {
+    var c = SYS_COLORS[n.sys] || SYS_COLORS.other;
+    return {r:c.r, g:c.g, b:c.b, a:0.5};
+  }
+  if (!n.affected) return {r:80, g:80, b:80, a:0.12};
+  var dir = n.affected.dir.toLowerCase();
+  if (dir === 'hyper') return {r:232, g:84, b:84, a:0.9};
+  if (dir === 'hypo') return {r:74, g:143, b:212, a:0.9};
+  return {r:212, g:168, b:74, a:0.9};
+}
+
+var galaxyAngle = 0;
+var galaxySpeed = 0.0003;
+
+function draw() {
+  t += 0.016;
+  galaxyAngle += galaxySpeed;
+  ctx.clearRect(0, 0, W, H);
+  var R = Math.min(W, H) * 0.45;
+  NODE_LIST.forEach(function(n) {
+    var a = n.angle + galaxyAngle;
+    n.x = CX + Math.cos(a) * n.radius * R * 2;
+    n.y = CY + Math.sin(a) * n.radius * R * 2;
+  });
+  // Edges
+  EDGES.forEach(function(e) {
+    var a = NODES[e.a], b = NODES[e.b];
+    if (!a || !b) return;
+    var alpha = 0.06;
+    if (nodeStates.length > 0) {
+      if (a.affected && b.affected) alpha = 0.2;
+      else if (a.affected || b.affected) alpha = 0.06;
+      else alpha = 0.02;
+    }
+    var ca = getNodeColor(a), cb = getNodeColor(b);
+    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+    ctx.strokeStyle = 'rgba(' + Math.round((ca.r+cb.r)/2) + ',' + Math.round((ca.g+cb.g)/2) + ',' + Math.round((ca.b+cb.b)/2) + ',' + alpha + ')';
+    ctx.lineWidth = nodeStates.length > 0 && a.affected && b.affected ? 1.5 : 0.5;
+    ctx.stroke();
+  });
+  spawnPulses();
+  drawPulses();
+  // Nodes
+  NODE_LIST.forEach(function(n) {
+    var c = getNodeColor(n);
+    var sz = n.size;
+    var isHovered = (hoveredNode === n);
+    if (nodeStates.length > 0 && n.affected) {
+      var pulse = 1 + Math.sin(t * 2 + n.angle * 5) * 0.15;
+      sz *= pulse * 1.3;
+      var grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, sz * 4);
+      grad.addColorStop(0, 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.2)');
+      grad.addColorStop(1, 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',0)');
+      ctx.beginPath(); ctx.arc(n.x, n.y, sz * 4, 0, TAU); ctx.fillStyle = grad; ctx.fill();
+    }
+    if (isHovered) sz *= 1.5;
+    ctx.beginPath(); ctx.arc(n.x, n.y, sz, 0, TAU);
+    ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + c.a + ')';
+    ctx.fill();
+    if (isHovered || (nodeStates.length > 0 && n.affected)) {
+      ctx.strokeStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + Math.min(c.a + 0.3, 1) + ')';
+      ctx.lineWidth = 1; ctx.stroke();
+    }
+    if (sz > 2.5 || isHovered || (nodeStates.length > 0 && n.affected)) {
+      var labelAlpha = nodeStates.length > 0 ? (n.affected ? 0.8 : 0.1) : 0.35;
+      if (isHovered) labelAlpha = 1;
+      ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + labelAlpha + ')';
+      var fontSize = Math.max(7, Math.min(sz * 1.3, 13));
+      ctx.font = (sz > 5 ? '500 ' : '') + fontSize + 'px IBM Plex Mono';
+      ctx.textAlign = 'center';
+      var labelOffset = sz > 8 ? sz + 18 : sz + 10;
+      n.label.split('\n').forEach(function(line, i) {
+        ctx.fillText(line, n.x, n.y + labelOffset + i * (fontSize + 2));
+      });
+    }
+  });
+  requestAnimationFrame(draw);
+}
+
+// ═══ MOUSE ═══
+function getMouseNode(mx, my) {
+  var best = null, bestD = 20;
+  NODE_LIST.forEach(function(n) {
+    var dx = mx - n.x, dy = my - n.y;
+    var d = Math.sqrt(dx*dx + dy*dy);
+    var hitR = Math.max(n.size * 2, 12);
+    if (d < hitR && d < bestD) { best = n; bestD = d; }
+  });
+  return best;
+}
+
+canvas.addEventListener('mousemove', function(e) {
+  var rect = canvas.getBoundingClientRect();
+  hoveredNode = getMouseNode(e.clientX - rect.left, e.clientY - rect.top);
+  canvas.style.cursor = hoveredNode ? 'pointer' : 'default';
+});
+
+canvas.addEventListener('click', function(e) {
+  var rect = canvas.getBoundingClientRect();
+  var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  var n = getMouseNode(mx, my);
+  var tt = document.getElementById('tooltip');
+  if (n) {
+    var desc = n.label.replace(/\n/g,' ');
+    if (n.affected) {
+      var dirColor = n.affected.dir === 'hyper' ? 'var(--hyper)' : n.affected.dir === 'hypo' ? 'var(--hypo)' : 'var(--altered)';
+      tt.innerHTML = '<div class="tt-name">' + n.id + '</div>' +
+        '<div class="tt-dir" style="color:' + dirColor + '">' + n.affected.dir.toUpperCase() + '</div>' +
+        '<div class="tt-detail">System: ' + n.sys + '</div>';
+    } else {
+      tt.innerHTML = '<div class="tt-name">' + n.id + '</div>' +
+        '<div class="tt-detail" style="color:var(--text-dim)">' + desc + '</div>';
+    }
+    tt.style.display = 'block';
+    var px = mx + 14, py = my - 10;
+    if (px + 260 > rect.width - 10) px = mx - 260 - 14;
+    if (px < 10) px = 10;
+    if (py + 80 > rect.height - 10) py = rect.height - 90;
+    tt.style.left = px + 'px'; tt.style.top = py + 'px';
+  } else {
+    tt.style.display = 'none';
+  }
+});
+
+canvas.addEventListener('mouseleave', function() {
+  hoveredNode = null;
+  document.getElementById('tooltip').style.display = 'none';
+});
+
+
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+// RUN ANALYSIS \u2014 protected server endpoint only
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+//
+// CIK + safe context goes out. Labels-and-bands packet comes back.
+// No formula, no constants, no raw rows, no thresholds in this file.
+
+var _entityName = '';
+var currentResult = null; // last safe packet from server
+
+function setStatus(id, msg, cls) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'fetch-status' + (cls ? ' ' + cls : '');
+}
+
+function _sourceSurfaceFromUrl() {
+  var p = new URLSearchParams(window.location.search);
+  var s = p.get('source_surface');
+  if (s) return s;
+  return 'helix_report_direct';
+}
+
+function _requestedReportTypeFromUrl() {
+  var p = new URLSearchParams(window.location.search);
+  var t = p.get('requested_report_type');
+  if (t) return t;
+  return 'partial_phase_snapshot';
+}
+
+// \u2500\u2500\u2500 Phase 0 client-side helpers \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// SEC EDGAR companyfacts JSON \u2192 {Revenue, OCF, Cash, Debt} quarter dict.
+// Picks first available SEC concept-tag candidate per metric.
+// Sorts observations by 'filed' desc so the most recent restatement
+// of any (fy, fp) pair wins. Skips non-quarterly observations.
+function _buildCompanyData(secFacts) {
+  var usGaap = (secFacts.facts || {})['us-gaap'] || {};
+  function pickConcept(candidates) {
+    for (var i = 0; i < candidates.length; i++) {
+      if (usGaap[candidates[i]]) return usGaap[candidates[i]];
+    }
+    return null;
+  }
+  var revenueConcept = pickConcept(['Revenues','RevenueFromContractWithCustomerExcludingAssessedTax','SalesRevenueNet']);
+  var ocfConcept     = pickConcept(['NetCashProvidedByOperatingActivities']);
+  var cashConcept    = pickConcept(['CashAndCashEquivalentsAtCarryingValue','Cash','CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents']);
+  var debtConcept    = pickConcept(['LongTermDebtNoncurrent','LongTermDebt']);
+  function toQuarterDict(concept) {
+    if (!concept) return {};
+    var map = {};
+    var usd = (concept.units || {}).USD || [];
+    var sorted = usd.slice().sort(function(a,b){ return (b.filed || '').localeCompare(a.filed || ''); });
+    for (var i = 0; i < sorted.length; i++) {
+      var obs = sorted[i];
+      if (!obs.fy || !obs.fp) continue;
+      if (!/^Q[1-4]$/.test(obs.fp)) continue;
+      var key = obs.fy + obs.fp;
+      if (!(key in map)) map[key] = obs.val;
+    }
+    return map;
+  }
+  return {
+    Revenue: toQuarterDict(revenueConcept),
+    OCF:     toQuarterDict(ocfConcept),
+    Cash:    toQuarterDict(cashConcept),
+    Debt:    toQuarterDict(debtConcept),
+  };
+}
+
+// Wrap client-kernel result into the sectioned-packet shape the renderer
+// expects. validated_signal is ALWAYS available:false in Phase 0 (Thing 1
+// not deployed). phase_tracker_signal carries the Thing 2 client output.
+// reconciliation locks primacy=thing1 / action_authority=none so the
+// existing _alertActive() / _clinicalNarrativeAllowed() gates evaluate to
+// false and clinical/referral templates remain suppressed.
+function _wrapPhase0Result(secFacts, kernelResult, cik) {
+  var rows = (kernelResult && kernelResult.rows) || [];
+  var latest = rows.length ? rows[rows.length - 1] : {};
+  var phases = ['p0','p1','p2','p3','p4','p5','p6','p7','p7a','p7b','p8','p9','p10'];
+  var phaseScores = {};
+  var dominant = 'p0', bestVal = -1;
+  for (var i = 0; i < phases.length; i++) {
+    var v = latest[phases[i]];
+    var num = (typeof v === 'number') ? v : 0;
+    phaseScores[phases[i]] = num;
+    if (num > bestVal) { bestVal = num; dominant = phases[i]; }
+  }
+  var stateLabel = (typeof PHASE_STATE_LABELS !== 'undefined' && PHASE_STATE_LABELS[dominant])
+    ? PHASE_STATE_LABELS[dominant]
+    : (dominant + ' state');
+  return {
+    request_id: 'phase0-' + Date.now(),
+    cik: cik,
+    entity_name: secFacts.entityName || ('CIK ' + cik),
+    is_financial: false,
+    sic_code: null,
+    latest_quarter: latest.quarter || null,
+    history_quarters: rows.length,
+    history_sufficiency: rows.length >= 32 ? 'ample' : (rows.length >= 16 ? 'moderate' : 'thin'),
+    confidence_status: rows.length >= 32 ? 'moderate' : 'low',
+    formula_visibility: 'browser_visible_phase0',
+    runtime_label: 'client-side private gated kernel',
+    validated_signal: (function() {
+      var kr = kernelResult || {};
+      var hasResult = !!(kr.rows && kr.rows.length);
+      var faQ = kr.first_alert_quarter;
+      var faStr = (faQ && faQ.length === 2) ? (faQ[0] + 'Q' + faQ[1]) : null;
+      var thresh = (typeof kr.alert_threshold === 'number') ? kr.alert_threshold : 2.5;
+      var peak = (typeof kr.peak_distress === 'number') ? kr.peak_distress : null;
+      var latest = (typeof kr.latest_distress_score === 'number') ? kr.latest_distress_score : null;
+      var narrative = [];
+      if (hasResult) {
+        narrative.push('Distress band: ' + (kr.distress_band || 'unknown')
+                     + ' · peak distress: ' + (peak !== null ? peak.toFixed(3) : 'n/a')
+                     + ' (alert threshold ' + thresh.toFixed(1) + ')');
+        narrative.push('Latest quarter distress score: ' + (latest !== null ? latest.toFixed(3) : 'n/a')
+                     + ' · alert: ' + (kr.alert ? 'FIRED' + (faStr ? ' first at ' + faStr : '') : 'not fired')
+                     + (kr.recovered ? ' · recovered after alert' : ''));
+        narrative.push('Phase 0 runtime: client-side execution — server hash-locked envelope is not active.');
+      } else {
+        narrative.push('Validated distress scorer produced no rows from this CIK’s SEC data.');
+      }
+      return {
+        kernel_id: 'limen_backtest.py',
+        kernel_runtime: hasResult ? 'browser-client-side (Phase 0)' : 'absent',
+        kernel_version: '4.0-validated',
+        available: hasResult,
+        alert: hasResult ? !!kr.alert : null,
+        first_alert_quarter: faStr,
+        distress_band: hasResult ? (kr.distress_band || null) : null,
+        recovered: hasResult ? !!kr.recovered : null,
+        peak_distress: peak,
+        latest_distress_score: latest,
+        alert_threshold: hasResult ? thresh : null,
+        fingerprint_status: { state: hasResult ? 'phase0_browser_runtime' : 'absent',
+                              kernel_sha256: null, lock_sha256: null },
+        narrative_safe: narrative,
+        unsupported_reasons: hasResult
+          ? ['Phase 0 deployment: server-side hash-locked runtime envelope is not active. Phase 1 will move scoring server-side.']
+          : ['Thing 1 kernel did not produce rows.'],
+        validation_status: hasResult ? 'phase0_client_runtime' : 'unavailable'
+      };
+    })(),
+    phase_tracker_signal: {
+      available: true,
+      kernel_id: 'assets/js/limen-thing2-kernel.js',
+      kernel_runtime: 'browser-client-side',
+      kernel_version: '4.0.1-validated',
+      validation_status: 'experimental',
+      interpretive_only: true,
+      phase_state_label: stateLabel,
+      dominant_phase: dominant,
+      phase_scores: phaseScores,
+      state_summary: {
+        C_t_present: false,
+        C_t_bucket: null,
+        H_length_quarters: 0,
+        hysteresis_active: null,
+        runway_classification: 'n/a'
+      },
+      narrative_safe: [
+        'Long-arc phase tracker is interpretive only. It is not a validated distress alert.',
+        'Phase posture is descriptive, not diagnostic. Authority for distress assertions belongs to Thing 1.'
+      ],
+      unsupported_reasons: []
+    },
+    reconciliation: {
+      primacy: 'thing1',
+      agree: 'indeterminate',
+      summary: 'Validated distress scorer unavailable. Client-side Thing 2 phase tracker is interpretive only and cannot substitute for validated assessment.',
+      action_authority: 'none',
+      language_constraints: [
+        'thing2_section_must_label_unvalidated',
+        'thing2_section_no_alert_field',
+        'validated_brand_only_when_kernel_id_is_limen_backtest_py_and_validation_status_is_validated',
+        'do_not_use_term:ALERT FIRED',
+        'do_not_use_term:TERMINAL DIVERGENCE',
+        'do_not_use_term:validated financial distress',
+        'do_not_use_phrase:M&A advisor',
+        'do_not_use_phrase:Bankruptcy referral',
+        'do_not_use_phrase:Chapter 11',
+        'do_not_use_phrase:intervention window closing',
+        'suppress_PHASE_INTERVENTIONS_referral_blocks',
+        'suppress_PHASE_CLINICAL_bioAnalog_clinicalSeq_businessSeq_researchFlag'
+      ]
+    },
+    warnings: [
+      'Server-side protection inactive \u2014 kernel running client-side at this deployment.',
+      'requested validated kernel; served validation_status=unavailable (Thing 1 not yet imported).'
+    ],
+    requested_report_type: 'partial_phase_snapshot'
+  };
+}
+
+// "Fetch SEC EDGAR" button — same backend call as Run Phase Analysis,
+// surfaces fetch progress in the dedicated fetchStatus div so the
+// two-button layout mirrors the original (and business.html). Both
+// buttons call /api/limen/score; the server fetches SEC + runs the
+// validated three-path composite kernel + returns intermediate phase
+// scores in one shot.
+function _setFetchStatus(msg, cls) {
+  var el = document.getElementById('fetchStatus');
+  if (!el) return;
+  el.textContent = msg || '';
+  el.className = 'fetch-status' + (cls ? ' ' + cls : '');
+}
+
+async function fetchFromSEC() {
+  var cik = document.getElementById('cikInput').value.trim();
+  if (!cik) { _setFetchStatus('Enter a CIK number', 'error'); return; }
+  if (!/^\d{1,10}$/.test(cik)) { _setFetchStatus('CIK must be 1-10 digits', 'error'); return; }
+  var btn = document.getElementById('fetchBtn');
+  btn.disabled = true;
+  _setFetchStatus('Fetching SEC EDGAR + running validated kernel…');
+  try {
+    await runAnalysis({ thing1Label: true });
+    var er = currentResult || {};
+    _setFetchStatus(
+      (er.entity_name || ('CIK ' + cik))
+      + ' · ' + (er.history_quarters || 0) + ' quarters'
+      + ' · latest ' + (er.latest_quarter || '—'),
+      'success'
+    );
+  } catch (e) {
+    _setFetchStatus('Fetch error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// "Run Phase Analysis" \u2014 long-arc phase tracker (Thing 2). Interpretive only.
+// The phase scores (p0\u2013p10) are intermediate outputs of the same backend
+// pipeline; this button surfaces them as the Thing 2 posture without
+// branding the run as "validated kernel" \u2014 that branding belongs to the
+// Fetch SEC EDGAR (Thing 1) path.
+async function runAnalysis(opts) {
+  opts = opts || {};
+  var thing1Label = !!opts.thing1Label;
+  var cik = document.getElementById('cikInput').value.trim();
+  var btn = document.getElementById('runBtn');
+  if (!cik) {
+    setStatus('analysisStatus', 'Enter a CIK number', 'error');
+    return;
+  }
+  if (!/^\d{1,10}$/.test(cik)) {
+    setStatus('analysisStatus', 'CIK must be 1-10 digits', 'error');
+    return;
+  }
+  btn.disabled = true;
+  setStatus('analysisStatus', thing1Label
+    ? 'Running validated kernel (server-side)\u2026'
+    : 'Running phase analysis\u2026');
+  try {
+    var paddedCik = ('0000000000' + cik).slice(-10);
+    var resp = await fetch('/api/limen/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cik: paddedCik })
+    });
+    if (!resp.ok) {
+      var errText = await resp.text();
+      throw new Error('Server HTTP ' + resp.status + ': ' + errText.slice(0, 200));
+    }
+    var t1 = await resp.json();
+    var packet = _packServerResult(t1);
+    currentResult = packet;
+    _entityName = packet.entity_name || ('CIK ' + cik);
+    applyResults(packet);
+    var statusBits;
+    if (thing1Label) {
+      statusBits = [
+        _entityName, '\u2014',
+        t1.alert ? ('ALERT \u00b7 Path ' + (t1.pathway || '?')) : 'NO ALERT',
+        '\u00b7',
+        'composite ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : '\u2014')
+      ];
+    } else {
+      var dom = t1.dominant_phase || null;
+      var domTxt = dom ? dom.toUpperCase() : '\u2014';
+      statusBits = [
+        _entityName, '\u2014',
+        'phase ' + domTxt + ' (interpretive)',
+      ];
+    }
+    setStatus('analysisStatus', statusBits.join(' '), (thing1Label && t1.alert) ? 'error' : 'success');
+    btn.disabled = false;
+  } catch (err) {
+    setStatus('analysisStatus', 'Server error: ' + err.message, 'error');
+    console.error('[Helix] /api/limen/score failed:', err);
+    btn.disabled = false;
+  }
+}
+
+// Map the flat /api/limen/score response into the sectioned-packet shape
+// the renderer expects (validated_signal / phase_tracker_signal / reconciliation).
+function _packServerResult(t1) {
+  var hist = t1.history_quarters || 0;
+
+  // Operating Envelope §4.1–§4.4. §4.5 (sector membership) deferred to a
+  // separate render policy. When a gate fails, validation_status downgrades
+  // to envelope_* so _isValidatedThing1 returns false and §6.2 INTERPRETIVE
+  // rendering takes over downstream.
+  var envelope = (function() {
+    var ip = t1.input_presence || {};
+    var dc = ip.dc_coverage_quarters || 0;
+    var dl = ip.dl_coverage_quarters || 0;
+    if (hist < 8) {
+      return { status: 'envelope_insufficient_history',
+               reasons: ['§4.1 history: ' + hist + ' quarters (need ≥8)'] };
+    }
+    if (t1.latest_quarter) {
+      var m = String(t1.latest_quarter).match(/^(\d{4})Q([1-4])$/);
+      if (m) {
+        var monthEnd = [0,3,6,9,12][parseInt(m[2],10)];
+        var qend = new Date(Date.UTC(parseInt(m[1],10), monthEnd, 0));
+        var weeks = Math.floor((Date.now() - qend.getTime()) / (1000*60*60*24*7));
+        if (weeks > 26) {
+          return { status: 'envelope_stale',
+                   reasons: ['§4.2 recency: latest filing ' + weeks + ' weeks old (need ≤26)'] };
+        }
+      }
+    }
+    var hi = Math.max(dc, dl), lo = Math.min(dc, dl);
+    if (hi === 0) {
+      return { status: 'envelope_ingestion_suspect',
+               reasons: ['§4.4 coverage: no debt XBRL coverage on either bucket'] };
+    }
+    if ((lo / hi) < 0.5) {
+      return { status: 'envelope_ingestion_suspect',
+               reasons: ['§4.4 coverage: dc=' + dc + 'Q dl=' + dl + 'Q ratio=' + (lo/hi).toFixed(2) + ' (need ≥0.5)'] };
+    }
+    return { status: 'validated', reasons: [] };
+  })();
+
+  var distressBand = (function() {
+    var c = t1.composite_score;
+    if (c == null) return null;
+    if (c >= 5.0) return 'severe';
+    if (c >= 1.5) return 'elevated';
+    if (c >= 1.0) return 'moderate';
+    return 'low';
+  })();
+  var narrative = [];
+  narrative.push('Composite score: ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a')
+               + ' \u00b7 distress band: ' + (distressBand || 'unknown'));
+  narrative.push('Path A (stress): ' + t1.path_a_score.toFixed(3) + '/' + t1.path_a_threshold
+               + ' \u00b7 Path B (cash): ' + t1.path_b_score.toFixed(3) + '/' + t1.path_b_threshold
+               + ' \u00b7 Path C (rupture): ' + t1.path_c_score.toFixed(3) + '/' + t1.path_c_threshold);
+  if (t1.alert) {
+    narrative.push('Alert fired via Path ' + (t1.pathway || '?')
+                 + (t1.first_alert_quarter ? ' first at ' + t1.first_alert_quarter : ''));
+  } else {
+    narrative.push('No alert. Hysteresis of 2 quarters required to fire.');
+  }
+  return {
+    request_id: 'server-' + Date.now(),
+    cik: t1.cik,
+    entity_name: t1.entity_name || ('CIK ' + t1.cik),
+    is_financial: false,
+    sic_code: null,
+    latest_quarter: t1.latest_quarter || null,
+    history_quarters: hist,
+    history_sufficiency: hist >= 32 ? 'ample' : (hist >= 16 ? 'moderate' : 'thin'),
+    confidence_status: hist >= 32 ? 'moderate' : 'low',
+    formula_visibility: 'server_only',
+    runtime_label: 'server-side validated kernel',
+    financial_state: t1.financial_state || null,
+    phase_history: Array.isArray(t1.phase_history) ? t1.phase_history : [],
+    input_presence: t1.input_presence || null,
+    validated_signal: {
+      kernel_id: t1.kernel_id || 'limen_backtest.py',
+      kernel_runtime: t1.kernel_runtime || 'python-vercel',
+      kernel_version: '4.0-validated',
+      kernel_sha256_lock: t1.kernel_sha256_lock || null,
+      available: true,
+      alert: !!t1.alert,
+      first_alert_quarter: t1.first_alert_quarter || null,
+      distress_band: distressBand,
+      pathway: t1.pathway || null,
+      composite_score: t1.composite_score,
+      path_a_score: t1.path_a_score,
+      path_b_score: t1.path_b_score,
+      path_c_score: t1.path_c_score,
+      fingerprint_status: { state: 'server_validated', kernel_sha256: t1.kernel_sha256_lock || null, lock_sha256: t1.kernel_sha256_lock || null },
+      narrative_safe: narrative,
+      unsupported_reasons: envelope.reasons,
+      validation_status: envelope.status
+    },
+    phase_tracker_signal: (function() {
+      var ps = (t1 && t1.phase_scores) || {};
+      var hasScores = Object.keys(ps).length > 0;
+      var dom = (t1 && t1.dominant_phase) || null;
+      var domLabel = dom
+        ? (typeof PHASE_STATE_LABELS !== 'undefined' && PHASE_STATE_LABELS[dom]
+            ? PHASE_STATE_LABELS[dom] : (dom + ' state'))
+        : null;
+      // C(t) bucketing from the kernel's stress accumulator. Buckets follow
+      // the validated kernel's own thresholds (Path A fires at stress_rate
+      // accumulator territory ~1.1+).
+      var ct = (typeof t1.stress_accum_latest === 'number') ? t1.stress_accum_latest : null;
+      var ctPresent = ct != null;
+      var ctBucket = null;
+      if (ctPresent) {
+        if (ct >= 1.1) ctBucket = 'critical';
+        else if (ct >= 0.7) ctBucket = 'high';
+        else if (ct >= 0.3) ctBucket = 'moderate';
+        else ctBucket = 'low';
+      }
+      var hLen = t1.history_quarters || 0;
+      var maxConsec = (typeof t1.max_consec_stressed === 'number') ? t1.max_consec_stressed : 0;
+      return {
+        available: hasScores,
+        kernel_id: 'limen_backtest.py (phase intermediate)',
+        kernel_runtime: 'python-vercel',
+        validation_status: 'interpretive',
+        interpretive_only: true,
+        phase_state_label: domLabel,
+        dominant_phase: dom,
+        phase_scores: ps,
+        state_summary: {
+          C_t_present: ctPresent,
+          C_t_value: ct,
+          C_t_bucket: ctBucket,
+          H_length_quarters: hLen,
+          hysteresis_active: maxConsec >= 2,
+          max_consec_stressed: maxConsec,
+          runway_classification: 'n/a'
+        },
+        narrative_safe: hasScores
+          ? ['Per-quarter phase scores below are intermediate values from the validated kernel’s pipeline. Interpretive only — alert authority belongs to Thing 1 above.']
+          : ['Phase scores not returned by server.'],
+        unsupported_reasons: hasScores ? [] : ['No phase_scores in server response']
+      };
+    })(),
+    reconciliation: {
+      primacy: 'thing1',
+      agree: 'indeterminate',
+      summary: t1.alert
+        ? ('Validated kernel fired alert via Path ' + (t1.pathway || '?') + '. Composite score ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a') + '.')
+        : 'Validated kernel reports no alert.',
+      action_authority: t1.alert ? 'thing1' : 'none',
+      language_constraints: [
+        'thing2_section_must_label_unvalidated',
+        'thing2_section_no_alert_field',
+        'validated_brand_only_when_kernel_id_is_limen_backtest_py_and_validation_status_is_validated'
+      ]
+    },
+    warnings: [],
+    requested_report_type: 'partial_phase_snapshot'
+  };
+}
+
+// \u2500\u2500\u2500 Neutral phase-state labels (no loaded language) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// These appear in the Thing 2 (long-arc tracker) section. The renderer
+// must NOT use words like "instability", "terminal", "collapse", "alert"
+// in any phase label.
+var PHASE_STATE_LABELS = {
+  p0:  'p0 baseline state',
+  p1:  'p1 rupture state',
+  p2:  'p2 rhythm state',
+  p3:  'p3 elevated-variance state',
+  p4:  'p4 stabilization state',
+  p5:  'p5 endurance state',
+  p6:  'p6 ordered state',
+  p7:  'p7 structural-divergence state',
+  p7a: 'p7a structural-divergence state',
+  p7b: 'p7b structural-divergence state',
+  p8:  'p8 pivot state',
+  p9:  'p9 threshold state',
+  p10: 'p10 post-event state',
+};
+
+// Forbidden phrases \u2014 renderer-side defense in depth. Server filters
+// narrative_safe[] before sending; renderer also strips any sentence
+// containing these unless allowTerminal === true.
+var FORBIDDEN_PHRASES = [
+  'ALERT FIRED', 'TERMINAL DIVERGENCE', 'TERMINAL_DIVERGENCE',
+  'validated financial distress', 'Validated decision kernel',
+  'M&A advisor', 'M and A advisor',
+  'Bankruptcy', 'Chapter 11', 'Chapter 7',
+  'intervention window closing', 'terminal path', 'point of no return',
+];
+
+function _filterForbidden(arr, allowTerminal) {
+  if (allowTerminal) return arr || [];
+  return (arr || []).filter(function(s) {
+    if (typeof s !== 'string') return false;
+    var lower = s.toLowerCase();
+    for (var i = 0; i < FORBIDDEN_PHRASES.length; i++) {
+      if (lower.indexOf(FORBIDDEN_PHRASES[i].toLowerCase()) !== -1) return false;
+    }
+    return true;
+  });
+}
+
+// \u2500\u2500\u2500 Adapter: sectioned safe packet \u2192 renderer-friendly shape \u2500\u2500
+// The server returns:
+//   { cik, entity_name, is_financial, sic_code, latest_quarter,
+//     history_quarters, history_sufficiency, confidence_status,
+//     input_presence, validated_signal: {...}, phase_tracker_signal: {...},
+//     reconciliation: {...}, warnings: [...] }
+// This adapter flattens into a `t1`/`t2`/`reconciliation` shape for the
+// renderers. It does not invent data; fields the server does not return
+// remain null.
+function _adapt(packet) {
+  packet = packet || {};
+  var t1 = packet.validated_signal || {};
+  var t2 = packet.phase_tracker_signal || {};
+  var rec = packet.reconciliation || {};
+
+  // Build phases array from Thing 2's phase_scores (Thing 2 owns phase posture).
+  var pscores = t2.phase_scores || {};
+  var dom = t2.dominant_phase || null;
+  var phases = PHASE_KEYS.map(function(pid) {
+    var meta = PHASE_META[pid] || { name: pid, label: pid.toUpperCase() };
+    var score = (typeof pscores[pid] === 'number') ? pscores[pid] : 0;
+    return {
+      id: pid,
+      name: meta.name || pid,
+      label: meta.label || pid.toUpperCase(),
+      neutralLabel: PHASE_STATE_LABELS[pid] || pid,
+      score: score,
+      active: pid === dom,
+    };
+  });
+
+  return {
+    // \u2500\u2500 Identity \u2500\u2500
+    cik: packet.cik || '',
+    entity_name: packet.entity_name || '',
+    is_financial: !!packet.is_financial,
+    sic_code: packet.sic_code || 0,
+    latest_quarter: packet.latest_quarter || null,
+    history_quarters: packet.history_quarters || 0,
+    history_sufficiency: packet.history_sufficiency || 'insufficient',
+    confidence_status: packet.confidence_status || 'unsupported',
+    input_presence: packet.input_presence || {},
+    formula_visibility: packet.formula_visibility || 'server_only',
+
+    // \u2500\u2500 Section 1: Thing 1 \u2500\u2500
+    t1: {
+      available: !!t1.available,
+      kernel_id: t1.kernel_id || null,
+      kernel_runtime: t1.kernel_runtime || null,
+      kernel_version: t1.kernel_version || null,
+      validation_status: t1.validation_status || 'unsupported',
+      alert: t1.alert === true ? true : (t1.alert === false ? false : null),
+      first_alert_quarter: t1.first_alert_quarter || null,
+      distress_band: t1.distress_band || null,
+      composite_score: (typeof t1.composite_score === 'number') ? t1.composite_score : null,
+      pathway: t1.pathway || null,
+      path_a_score: (typeof t1.path_a_score === 'number') ? t1.path_a_score : null,
+      path_b_score: (typeof t1.path_b_score === 'number') ? t1.path_b_score : null,
+      path_c_score: (typeof t1.path_c_score === 'number') ? t1.path_c_score : null,
+      recovered: t1.recovered === true ? true : (t1.recovered === false ? false : null),
+      narrative_safe: t1.narrative_safe || [],
+      unsupported_reasons: t1.unsupported_reasons || [],
+      fingerprint_status: t1.fingerprint_status || null,
+    },
+    financial_state: packet.financial_state || null,
+    phase_history: Array.isArray(packet.phase_history) ? packet.phase_history : [],
+
+    // \u2500\u2500 Section 2: Thing 2 \u2500\u2500
+    t2: {
+      available: !!t2.available,
+      kernel_id: t2.kernel_id || null,
+      kernel_runtime: t2.kernel_runtime || null,
+      kernel_version: t2.kernel_version || null,
+      validation_status: t2.validation_status || 'unsupported',
+      interpretive_only: true,           // hard true; never surface as anything else
+      phase_state_label: t2.phase_state_label || null,
+      dominant_phase: dom,
+      phase_scores: pscores,             // raw phase_scores dict for downstream consumers
+      phases: phases,
+      state_summary: t2.state_summary || {
+        C_t_present: false, C_t_bucket: null, H_length_quarters: null,
+        hysteresis_active: null, runway_classification: 'n/a',
+      },
+      narrative_safe: t2.narrative_safe || [],
+      unsupported_reasons: t2.unsupported_reasons || [],
+
+      // Polyvagal coupling fields (commits 1dcd11cb1b8 + 7b838d0dab4).
+      // Always emitted by the server; pass through unmodified so the
+      // helix-report Thing 2 section can surface the intrinsic-vs-coupled
+      // delta + bias contributions + context source.
+      coupling_mode:             t2.coupling_mode || 'intrinsic_only',
+      polyvagal_context_source:  t2.polyvagal_context_source || 'none',
+      intrinsic_dominant_phase:  t2.intrinsic_dominant_phase || null,
+      intrinsic_phase_scores:    t2.intrinsic_phase_scores || null,
+      coupled_phase_scores:      t2.coupled_phase_scores || null,
+      bias_contributions:        t2.bias_contributions || null,
+    },
+
+    // \u2500\u2500 Section 3: Reconciliation \u2500\u2500
+    reconciliation: {
+      primacy: 'thing1',                 // hard string; renderer cannot change
+      agree: rec.agree === true ? true : (rec.agree === false ? false : 'indeterminate'),
+      summary: rec.summary || '',
+      action_authority: rec.action_authority || 'none',
+      language_constraints: rec.language_constraints || [],
+    },
+
+    warnings: packet.warnings || [],
+  };
+}
+
+// True only when the server says the validated kernel ran AND the file
+// is the real Thing 1. NEVER infer from a phase label or trajectory.
+function _isValidatedThing1(t1) {
+  return t1 && t1.validation_status === 'validated' && t1.kernel_id === 'limen_backtest.py';
+}
+
+// Action authority comes from the reconciliation block, not from heuristics.
+function _alertActive(t1) {
+  return t1 && t1.alert === true && _isValidatedThing1(t1);
+}
+
+// Clinical/business templates (PHASE_CLINICAL.bioAnalog, businessSeq, etc.)
+// and PHASE_INTERVENTIONS referrals (M&A advisor, Bankruptcy, Chapter 11)
+// are renderable ONLY when Thing 1 alert is active AND server agrees.
+function _clinicalNarrativeAllowed(data) {
+  return _alertActive(data.t1) && data.reconciliation.action_authority === 'thing1';
+}
+
+function applyResults(packet) {
+  var data = _adapt(packet);
+  var dom = data.t2.dominant_phase || null;
+  var pscoresMap = {};
+  data.t2.phases.forEach(function(p){ pscoresMap[p.id] = p.score; });
+  // Visualization wiring uses the Thing 2 dominant phase (interpretive only).
+  var states = (data.t2.available && dom) ? resolveNodeStates(dom, pscoresMap) : [];
+  nodeStates = states;
+  NODE_LIST.forEach(function(n){ n.affected = null; });
+  states.forEach(function(s) {
+    NODE_LIST.forEach(function(n) {
+      if (n.id === s.node) { n.affected = { dir: s.dir, detail: 'phase posture: ' + s.dir }; }
+    });
+  });
+
+  // Overlay \u2014 Thing 1 verdict has primacy. Only Thing 1 may surface "ALERT".
+  var overlay = document.getElementById('dxOverlay');
+  overlay.style.display = 'block';
+  var alertActive = _alertActive(data.t1);
+  var overlayPhaseText;
+  if (alertActive) {
+    overlayPhaseText = 'VALIDATED DISTRESS \u2014 ALERT'
+      + (data.t1.first_alert_quarter ? ' \u00b7 ' + data.t1.first_alert_quarter : '');
+  } else if (data.t1.validation_status === 'bank_adapter_required') {
+    overlayPhaseText = 'BANK ADAPTER REQUIRED';
+  } else if (data.t1.validation_status === 'unvalidated_after_modification') {
+    overlayPhaseText = 'VALIDATED SCORER LOCKED OUT';
+  } else if (data.t1.validation_status && data.t1.validation_status.indexOf('envelope_') === 0) {
+    overlayPhaseText = 'INTERPRETIVE · KERNEL CANNOT ANSWER';
+  } else if (!data.t1.available && data.t2.available) {
+    overlayPhaseText = 'VALIDATED DISTRESS UNAVAILABLE \u00b7 ' + _phaseLabel(dom).toUpperCase();
+  } else if (data.t2.available) {
+    overlayPhaseText = _phaseLabel(dom).toUpperCase();
+  } else {
+    overlayPhaseText = 'NO VALIDATED ASSESSMENT';
+  }
+  document.getElementById('overlayName').textContent = data.entity_name || '';
+  document.getElementById('overlayPhase').textContent = overlayPhaseText;
+  // Provenance line: kernel ids of both sections, separated. No "composite: high" alone.
+  var prov = 'thing1: ' + (data.t1.kernel_id || 'none') + ':' + data.t1.validation_status
+    + ' \u00b7 thing2: ' + (data.t2.kernel_id || 'none') + ':' + data.t2.validation_status;
+  document.getElementById('overlayScore').textContent = prov;
+
+  // S(t) HUD \u2014 Thing 2 substrate, labeled as such
+  document.getElementById('stHud').style.display = 'block';
+  document.getElementById('stPhi').textContent = dom ? (dom.toUpperCase() + ' (tracker)') : '\u2014';
+  document.getElementById('stPhi').className = 'st-val' + (alertActive ? ' alert' : '');
+  var ctBucket = data.t2.state_summary.C_t_bucket;
+  var ctVal = data.t2.state_summary.C_t_value;
+  document.getElementById('stC').textContent = data.t2.state_summary.C_t_present
+    ? ('C(t): ' + (ctBucket || 'present') + (typeof ctVal === 'number' ? ' (' + ctVal.toFixed(2) + ')' : ''))
+    : 'C(t): not computed';
+  document.getElementById('stC').className = 'st-val' + ((ctBucket === 'high' || ctBucket === 'critical') ? ' alert' : '');
+  document.getElementById('stTau').textContent = alertActive ? 'thing1 alert' : 'no thing1 alert';
+  document.getElementById('stTau').className = 'st-val' + (alertActive ? ' alert' : ' stable');
+  var hLen = data.t2.state_summary.H_length_quarters;
+  document.getElementById('stH').textContent = (typeof hLen === 'number' && hLen > 0)
+    ? (hLen + ' quarters') : '\u2014';
+
+  document.getElementById('rightEmpty').style.display = 'none';
+  document.getElementById('rightContent').style.display = 'block';
+
+  var cmdLink = document.getElementById('cmdBoardLink');
+  if (cmdLink && data.entity_name) {
+    cmdLink.style.display = 'block';
+    cmdLink.href = 'kernel-comparison.html';
+  }
+
+  renderDiagnosis(data);
+  renderSignals(data);
+  renderInterventions(data);
+  renderReport(data);
+}
+
+function switchTab(tabName) {
+  document.querySelectorAll('.right-tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active')});
+  document.querySelector('[data-tab="'+tabName+'"]').classList.add('active');
+  document.getElementById('tab-'+tabName).classList.add('active');
+}
+
+var PHASE_COLORS = {p0:'#6aaa6a',p1:'#aa6a4a',p2:'#4a8aaa',p3:'#e85454',p4:'#6a9a6a',p5:'#7a8a6a',p6:'#4a8fd4',p7:'#d4a84a',p7a:'#d4644a',p7b:'#6ab4d4',p8:'#8a7aaa',p9:'#e85454',p10:'#4aaa6a'};
+var TARGET_PHASES = ['p3','p7a','p9'];
+
+function _esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// Section 1 \u2014 Validated financial distress (Thing 1) banner.
+// "ALERT FIRED" only allowed here, only when t1.alert === true AND validated.
+function _renderThing1Section(data) {
+  var t1 = data.t1;
+  var alertActive = _alertActive(t1);
+  var color = alertActive ? 'var(--hyper)'
+            : t1.validation_status === 'bank_adapter_required' ? 'var(--altered)'
+            : t1.validation_status === 'unvalidated_after_modification' ? 'var(--hyper)'
+            : 'var(--gold-dim)';
+  var ENVELOPE_FAIL_LABEL = {
+    'envelope_insufficient_history': 'INTERPRETIVE \u00b7 INSUFFICIENT HISTORY',
+    'envelope_stale': 'INTERPRETIVE \u00b7 FILINGS STALE',
+    'envelope_ingestion_suspect': 'INTERPRETIVE \u00b7 DEBT COVERAGE GAP'
+  };
+  var sectionLabel = _isValidatedThing1(t1)
+    ? 'VALIDATED FINANCIAL DISTRESS \u2014 Thing 1'
+    : 'FINANCIAL DISTRESS SCORER \u2014 Thing 1 \u00b7 INTERPRETIVE';
+  var h = '<div class="diag-section" style="border:1px solid ' + color + ';padding:10px 12px;background:rgba(0,0,0,0.18)">';
+  h += '<div class="diag-label" style="color:' + color + '">' + sectionLabel + '</div>';
+  if (alertActive) {
+    h += '<div class="diag-value" style="color:var(--hyper);font-weight:600">ALERT FIRED'
+       + (t1.first_alert_quarter ? ' \u00b7 ' + _esc(t1.first_alert_quarter) : '') + '</div>';
+    if (t1.distress_band) {
+      h += '<div style="font-size:0.46rem;color:var(--text-dim);margin-top:3px">distress band: ' + _esc(t1.distress_band) + '</div>';
+    }
+  } else {
+    var statusLabel = ENVELOPE_FAIL_LABEL[t1.validation_status]
+      || (t1.validation_status || 'unsupported').toUpperCase().replace(/_/g, ' ');
+    h += '<div class="diag-value" style="color:' + color + '">' + _esc(statusLabel) + '</div>';
+  }
+  h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-top:6px;line-height:1.5">';
+  h += 'kernel_id: <b>' + _esc(t1.kernel_id || 'none') + '</b> \u00b7 ';
+  h += 'validation: <b>' + _esc(t1.validation_status) + '</b>';
+  h += '</div>';
+  (t1.unsupported_reasons || []).forEach(function(r) {
+    h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:3px;line-height:1.5">\u00b7 ' + _esc(r) + '</div>';
+  });
+  // narrative_safe is server-filtered; render as-is
+  (t1.narrative_safe || []).forEach(function(s) {
+    h += '<div style="font-size:0.46rem;color:var(--text-dim);margin-top:6px;line-height:1.55;font-style:italic">' + _esc(s) + '</div>';
+  });
+  h += '</div>';
+  return h;
+}
+
+// Section 2 \u2014 Long-arc phase tracker (Thing 2). Interpretive only.
+// Cannot show "ALERT", "validated", or terminal language.
+function _renderThing2Section(data) {
+  var t2 = data.t2;
+  var bankBadge = data.is_financial ? ' \u00b7 BANK \u00b7 INTERPRETIVE' : '';
+  var headerColor = 'var(--altered)';   // gold \u2014 never red. Thing 2 is never an alert.
+  var h = '<div class="diag-section" style="border:1px solid ' + headerColor + ';padding:10px 12px;background:rgba(0,0,0,0.12);margin-top:10px">';
+  h += '<div class="diag-label" style="color:' + headerColor + '">LONG-ARC PHASE TRACKER \u2014 Thing 2 \u00b7 INTERPRETIVE \u00b7 UNVALIDATED' + _esc(bankBadge) + '</div>';
+  if (!t2.available) {
+    h += '<div class="diag-value" style="color:var(--text-ghost)">tracker not available</div>';
+    (t2.unsupported_reasons || []).forEach(function(r) {
+      h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:3px;line-height:1.5">\u00b7 ' + _esc(r) + '</div>';
+    });
+  } else {
+    var domId = t2.dominant_phase || null;
+    var domColor = (domId && PHASE_COLORS[domId]) ? PHASE_COLORS[domId] : 'var(--text)';
+    h += '<div class="diag-label" style="color:var(--text-ghost);margin-top:6px">DOMINANT PHASE</div>';
+    h += '<div class="diag-value" style="color:' + domColor + ';font-weight:600;font-size:0.7rem;letter-spacing:1px">'
+       + _esc(_phaseLabel(domId))
+       + '</div>';
+    var ss = t2.state_summary || {};
+    var ctTxt = ss.C_t_present
+      ? (_esc(ss.C_t_bucket || 'present') + (typeof ss.C_t_value === 'number' ? ' (' + ss.C_t_value.toFixed(2) + ')' : ''))
+      : 'not computed';
+    h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-top:6px;line-height:1.6">';
+    h += 'C(t): ' + ctTxt;
+    h += ' \u00b7 H(t): ' + ((typeof ss.H_length_quarters === 'number' && ss.H_length_quarters > 0) ? (ss.H_length_quarters + 'Q') : '\u2014');
+    h += ' \u00b7 hysteresis: ' + (ss.hysteresis_active === true ? 'active' : ss.hysteresis_active === false ? 'inactive' : '\u2014');
+    h += '<br>kernel_id: <b>' + _esc(t2.kernel_id || 'none') + '</b> \u00b7 validation: <b>' + _esc(t2.validation_status) + '</b>';
+    h += '</div>';
+
+    // \u2500\u2500 Polyvagal coupling block \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    // Surface coupling_mode + provenance + intrinsic-vs-coupled delta +
+    // bias contributions. See:
+    //   memory: limen_thing2_polyvagal_coupling.md
+    //   kernel: api/helix_app/thing2/phase_engine.py
+    //   wire:   api/helix_app/index.py ::_build_polyvagal_context_from_server
+    //
+    // Honest framing throughout: when polyvagal_coupled, the page declares
+    // the output IS multi-system; when intrinsic_only, the page declares
+    // the output is single-channel ECG-equivalent (not phase-complete).
+    var cmode = t2.coupling_mode || 'intrinsic_only';
+    var psource = t2.polyvagal_context_source || 'none';
+    var couplingColor = cmode === 'polyvagal_coupled' ? 'rgba(168,148,204,0.75)' : 'var(--text-ghost)';
+    var couplingBg = cmode === 'polyvagal_coupled' ? 'rgba(168,148,204,0.06)' : 'rgba(0,0,0,0.18)';
+
+    h += '<div style="margin-top:10px;padding:8px 10px;border:1px solid ' + couplingColor + ';background:' + couplingBg + '">';
+    h += '<div class="diag-label" style="color:' + couplingColor + ';letter-spacing:2px">POLYVAGAL COUPLING</div>';
+    h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:4px;line-height:1.5">';
+    h += 'mode: <b style="color:' + couplingColor + '">' + _esc(cmode) + '</b>';
+    h += ' \u00b7 context source: <b>' + _esc(psource) + '</b>';
+    h += '</div>';
+
+    if (cmode === 'polyvagal_coupled') {
+      var intDom = t2.intrinsic_dominant_phase;
+      var intScores = t2.intrinsic_phase_scores || {};
+      var coupScores = t2.coupled_phase_scores || {};
+      var biasContrib = t2.bias_contributions || {};
+
+      var intColor = (intDom && PHASE_COLORS[intDom]) ? PHASE_COLORS[intDom] : 'var(--text-ghost)';
+
+      h += '<div style="margin-top:8px;font-size:0.44rem;color:var(--text-dim);line-height:1.55">';
+      h += 'Intrinsic (SEC EDGAR only): <b style="color:' + intColor + '">' + _esc(_phaseLabel(intDom)) + '</b>';
+      h += '<br>Coupled (with supporting cast): <b style="color:' + domColor + '">' + _esc(_phaseLabel(domId)) + '</b>';
+      h += (intDom !== domId
+            ? '  <span style="color:' + couplingColor + '">\u2014 phase SHIFTED by coupling</span>'
+            : '  <span style="color:var(--text-ghost)">\u2014 phase preserved under coupling</span>');
+      h += '</div>';
+
+      // Phases where intrinsic vs coupled differ by >= 0.05 (signal-bearing deltas)
+      var deltaRows = [];
+      var phasesUnion = {};
+      Object.keys(intScores).forEach(function (p) { phasesUnion[p] = true; });
+      Object.keys(coupScores).forEach(function (p) { phasesUnion[p] = true; });
+      Object.keys(phasesUnion).forEach(function (p) {
+        var iv = typeof intScores[p] === 'number' ? intScores[p] : 0;
+        var cv = typeof coupScores[p] === 'number' ? coupScores[p] : 0;
+        var d = cv - iv;
+        if (Math.abs(d) >= 0.05) deltaRows.push({ p: p, intrinsic: iv, coupled: cv, delta: d });
+      });
+      deltaRows.sort(function (a, b) { return Math.abs(b.delta) - Math.abs(a.delta); });
+
+      if (deltaRows.length > 0) {
+        h += '<div style="margin-top:8px;font-size:0.4rem;color:var(--text-ghost);line-height:1.5">';
+        h += '<b>Phase score shifts (intrinsic \u2192 coupled, |\u0394|\u22650.05):</b>';
+        deltaRows.slice(0, 8).forEach(function (r) {
+          var pColor = PHASE_COLORS[r.p] || 'var(--text)';
+          var sign = r.delta > 0 ? '+' : '';
+          var arrowColor = r.delta > 0 ? 'rgba(232,84,84,0.65)' : 'rgba(90,181,160,0.65)';
+          h += '<br>&nbsp;&nbsp;<b style="color:' + pColor + '">' + _esc(r.p.toUpperCase()) + '</b>'
+             + ' ' + r.intrinsic.toFixed(3) + ' \u2192 ' + r.coupled.toFixed(3)
+             + ' <span style="color:' + arrowColor + '">(' + sign + r.delta.toFixed(3) + ')</span>';
+        });
+        h += '</div>';
+      }
+
+      var signalNames = Object.keys(biasContrib);
+      if (signalNames.length > 0) {
+        h += '<div style="margin-top:8px;font-size:0.4rem;color:var(--text-ghost);line-height:1.5">';
+        h += '<b>Bias contributions (which supporting-cast signal lifted which phase):</b>';
+        signalNames.forEach(function (sn) {
+          var contrib = biasContrib[sn] || {};
+          var parts = Object.keys(contrib).map(function (p) {
+            var v = contrib[p];
+            var pColor = PHASE_COLORS[p] || 'var(--text)';
+            var sign = v > 0 ? '+' : '';
+            return '<b style="color:' + pColor + '">' + _esc(p) + '</b> ' + sign + v.toFixed(3);
+          }).join(' \u00b7 ');
+          var snLabel = sn.replace(/_/g, ' ');
+          h += '<br>&nbsp;&nbsp;<i style="color:' + couplingColor + '">' + _esc(snLabel) + '</i>: ' + parts;
+        });
+        h += '</div>';
+      }
+    } else {
+      h += '<div style="margin-top:6px;font-size:0.4rem;color:var(--text-ghost);line-height:1.5;font-style:italic">';
+      h += 'No supporting-cast context applied. Phase scored on intrinsic SEC EDGAR financials only \u2014 single-channel ECG-equivalent, not phase-complete in the polyvagal/allostatic-load sense.';
+      h += '</div>';
+    }
+
+    h += '</div>';
+  }
+  // Server-filtered narrative
+  (t2.narrative_safe || []).forEach(function(s) {
+    h += '<div style="font-size:0.44rem;color:var(--text-dim);margin-top:6px;line-height:1.55;font-style:italic">' + _esc(s) + '</div>';
+  });
+  h += '<div style="font-size:0.36rem;color:var(--text-ghost);margin-top:6px;line-height:1.5">'
+     + '\u24d8 Long-arc tracker is interpretive only and cannot authorize distress action. Authority belongs to Thing 1.</div>';
+  h += '</div>';
+  return h;
+}
+
+// Section 3 \u2014 Reconciliation. Renderer never freelances; uses server copy verbatim.
+function _renderReconciliation(data) {
+  var rec = data.reconciliation;
+  var color = rec.agree === true ? 'var(--evidence-a)'
+            : rec.agree === false ? 'var(--hyper)'
+            : 'var(--gold-dim)';
+  var h = '<div class="diag-section" style="border:1px solid ' + color + ';padding:10px 12px;background:rgba(0,0,0,0.12);margin-top:10px">';
+  h += '<div class="diag-label" style="color:' + color + '">RECONCILIATION</div>';
+  h += '<div class="diag-value" style="color:' + color + '">'
+     + (rec.agree === true ? 'AGREE' : rec.agree === false ? 'DIVERGE' : 'INDETERMINATE') + '</div>';
+  h += '<div style="font-size:0.46rem;color:var(--text-dim);margin-top:6px;line-height:1.55">' + _esc(rec.summary || '') + '</div>';
+  h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-top:6px;line-height:1.5">'
+     + 'primacy: <b>thing1</b> \u00b7 action authority: <b>' + _esc(rec.action_authority) + '</b></div>';
+  h += '</div>';
+  return h;
+}
+
+// VERDICT_TAG \u2014 alert-verdict register. Renderable ONLY when Thing 1
+// has fired alert AND the row was scored by the validated kernel
+// (_alertActive checks both). Anything else displays Thing 2's native
+// PHASE_META.label register, which makes no validated-result claim.
+var VERDICT_TAG = {
+  p0: 'BASELINE_EQUILIBRIUM', p1: 'ALARM_ACTIVATION', p2: 'BONDING_REGULATION',
+  p3: 'STRESS_ESCALATION', p4: 'VAGAL_RECOVERY', p5: 'EXECUTIVE_UNDER_LOAD',
+  p6: 'EXECUTIVE_RESTORED', p7: 'STRUCTURAL_DIVERGENCE',
+  p7a: 'TERMINAL_DIVERGENCE', p7b: 'CONTROLLED_PIVOT',
+  p8: 'PIVOT_RECOGNIZED', p9: 'CASCADE_FAILURE', p10: 'NEUROPLASTIC_REFORMATION'
+};
+// Single shared phase label across Helix Report + Command Board:
+// PHASE_META.label ("P7a \u00b7 TERMINAL"). Thing 2 native, byte-identical
+// to api/helix_app/thing2/phase_engine.py PHASE_META.
+function _phaseLabel(pid) {
+  if (!pid) return '\u2014';
+  return (PHASE_META[pid] && PHASE_META[pid].label) || pid.toUpperCase();
+}
+
+// v4.0 phase hero \u2014 big phase id, headline line, compact metrics, time
+// window. Renders the same way in Diagnosis and Report tabs so the phase
+// is the first thing the user sees in both places.
+function _renderPhaseHero(data) {
+  var t1 = data.t1, t2 = data.t2;
+  var dom = (t2 && t2.dominant_phase) || null;
+  if (!dom) return '';
+  var alertActive = _alertActive(t1);
+  var ss = (t2 && t2.state_summary) || {};
+  var domColor = PHASE_COLORS[dom] || 'var(--text)';
+  // Verdict register only when Thing 1 has fired alert AND ran the
+  // validated kernel (alertActive enforces both). On alert, render the
+  // VERDICT_TAG line. Without alert, no verdict claim \u2014 just a posture
+  // disclaimer (the big line above already carries the PHASE_META.label).
+  var verdictLine = alertActive
+    ? ((VERDICT_TAG[dom] || 'PHASE_' + dom.toUpperCase()) + ' \u2014 ALERT FIRED'
+       + (t1.first_alert_quarter ? ' \u00b7 ' + _esc(t1.first_alert_quarter) : ''))
+    : 'phase posture (interpretive, not a validated alert)';
+  var verdictColor = alertActive ? 'var(--hyper)' : 'var(--gold-dim)';
+  var ctTxt = ss.C_t_present
+    ? ((typeof ss.C_t_value === 'number') ? ss.C_t_value.toFixed(3) : (ss.C_t_bucket || 'present'))
+    : '0.000';
+  var hLen = (typeof ss.H_length_quarters === 'number') ? (ss.H_length_quarters + 'Q') : '0Q';
+  var compTxt = (typeof t1.composite_score === 'number') ? t1.composite_score.toFixed(3) : '\u2014';
+  var h = '<div class="rpt-phase-hero" style="margin-top:14px;padding:10px;text-align:center;border:1px solid ' + verdictColor + ';background:rgba(0,0,0,0.18)">';
+  // Big line — PHASE_META.label, the single shared vocabulary across
+  // Thing 1, Thing 2, Command Board, and Helix Report.
+  h += '<div style="font-size:1.05rem;color:' + domColor + ';font-weight:700;letter-spacing:2px;line-height:1">' + _esc(_phaseLabel(dom)) + '</div>';
+  h += '<div style="font-size:0.62rem;color:' + verdictColor + ';margin-top:6px;letter-spacing:1.5px;font-weight:600">' + _esc(verdictLine) + '</div>';
+  h += '<div class="rpt-sv" style="margin-top:6px">'
+     + 'C(t): ' + ctTxt + ' \u00b7 H(t): ' + hLen + ' \u00b7 Composite: ' + compTxt
+     + (t1.pathway ? ' \u00b7 Path ' + _esc(t1.pathway) : '')
+     + '</div>';
+  h += '<div style="font-size:0.36rem;color:var(--text-ghost);margin-top:4px;letter-spacing:1px">'
+     + 'window: 4Q rolling \u00b7 8Q stability \u00b7 z-scored vs full SEC EDGAR history (' + (data.history_quarters || 0) + 'Q)'
+     + '</div>';
+  h += '</div>';
+  return h;
+}
+
+function renderDiagnosis(data) {
+  var h = '';
+  h += '<div class="diag-section"><div class="diag-label">ENTITY</div><div class="diag-value">' + _esc(data.entity_name || '') + '</div><div style="font-size:0.42rem;color:var(--text-ghost);margin-top:2px">CIK: ' + _esc(data.cik || '') + ' \u00b7 history: ' + (data.history_quarters || 0) + 'Q (' + _esc(data.history_sufficiency) + ') \u00b7 confidence: ' + _esc(data.confidence_status) + '</div></div>';
+
+  // v4.0 phase hero \u2014 first thing visible after entity in Diagnosis tab.
+  h += _renderPhaseHero(data);
+
+  // Three sections in order: Thing 1, Thing 2, Reconciliation
+  h += _renderThing1Section(data);
+  h += _renderThing2Section(data);
+  h += _renderReconciliation(data);
+
+  // Warnings (cross-cutting) \u2014 bank lock, etc.
+  if ((data.warnings || []).length > 0) {
+    h += '<div class="diag-section" style="margin-top:10px;padding:8px 10px;border:1px solid var(--altered);background:rgba(0,0,0,0.12)">';
+    h += '<div class="diag-label" style="color:var(--altered)">WARNINGS</div>';
+    data.warnings.forEach(function(w) {
+      h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:3px;line-height:1.5">\u26a0 ' + _esc(w) + '</div>';
+    });
+    h += '</div>';
+  }
+
+  document.getElementById('tab-diagnosis').innerHTML = h;
+}
+
+// Time-series rhythm chart \u2014 Thing 2 phase trajectory left \u2192 right.
+// Y axis: stress accumulator C(t), the kernel's continuous trajectory metric.
+// Each quarter is a dot colored by that quarter's dominant phase (PHASE_COLORS).
+// Threshold line at C(t)=1.1 marks Path A's alert level.
+function _renderPhaseRhythmChart(data) {
+  var hist = data.phase_history || [];
+  if (!hist.length) {
+    return '<div style="padding:14px;border:1px solid var(--border);background:rgba(0,0,0,0.12);font-size:0.42rem;color:var(--text-ghost);font-style:italic;margin-bottom:14px">Phase history unavailable \u2014 server returned no per-quarter trajectory.</div>';
+  }
+
+  var W = 600, H = 140;
+  var pad = { l: 36, r: 12, t: 14, b: 22 };
+  var iw = W - pad.l - pad.r;
+  var ih = H - pad.t - pad.b;
+  var n = hist.length;
+
+  // Y range \u2014 clamp to [0, max(2.0, ymax+0.2)] so the 1.1 threshold is always visible
+  var maxCt = 0;
+  for (var i = 0; i < n; i++) { if (hist[i].ct > maxCt) maxCt = hist[i].ct; }
+  var yMax = Math.max(2.0, maxCt + 0.2);
+  function xAt(idx) { return pad.l + (n <= 1 ? iw / 2 : (idx / (n - 1)) * iw); }
+  function yAt(v)   { return pad.t + ih - (Math.max(0, Math.min(yMax, v)) / yMax) * ih; }
+
+  var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" preserveAspectRatio="none" style="display:block;background:rgba(0,0,0,0.18);border:1px solid var(--border)">';
+
+  // Gridlines + Y labels at 0, 0.5, 1.0, 1.5, 2.0
+  for (var g = 0; g <= 4; g++) {
+    var gv = (g / 4) * yMax;
+    var gy = yAt(gv);
+    svg += '<line x1="' + pad.l + '" x2="' + (W - pad.r) + '" y1="' + gy + '" y2="' + gy + '" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>';
+    svg += '<text x="' + (pad.l - 4) + '" y="' + (gy + 3) + '" font-size="8" fill="rgba(200,195,184,0.35)" text-anchor="end" font-family="IBM Plex Mono,monospace">' + gv.toFixed(1) + '</text>';
+  }
+
+  // Path A threshold line at C(t)=1.1 \u2014 below this, no alert; above, Path A fires
+  var threshY = yAt(1.1);
+  svg += '<line x1="' + pad.l + '" x2="' + (W - pad.r) + '" y1="' + threshY + '" y2="' + threshY + '" stroke="rgba(232,84,84,0.4)" stroke-width="1" stroke-dasharray="3,3"/>';
+  svg += '<text x="' + (W - pad.r - 4) + '" y="' + (threshY - 3) + '" font-size="8" fill="rgba(232,84,84,0.55)" text-anchor="end" font-family="IBM Plex Mono,monospace">PATH A \u00b7 1.10</text>';
+
+  // Connecting line \u2014 subtle gold
+  if (n > 1) {
+    var d = '';
+    for (var k = 0; k < n; k++) {
+      d += (k === 0 ? 'M' : 'L') + xAt(k).toFixed(1) + ',' + yAt(hist[k].ct).toFixed(1) + ' ';
+    }
+    svg += '<path d="' + d + '" fill="none" stroke="rgba(201,169,78,0.35)" stroke-width="1"/>';
+  }
+
+  // Dots \u2014 one per quarter, colored by dominant phase
+  for (var j = 0; j < n; j++) {
+    var p = hist[j];
+    var color = (p.dom && PHASE_COLORS[p.dom]) ? PHASE_COLORS[p.dom] : 'rgba(200,195,184,0.4)';
+    var isLast = (j === n - 1);
+    var r = isLast ? 4 : 2.5;
+    svg += '<circle cx="' + xAt(j).toFixed(1) + '" cy="' + yAt(p.ct).toFixed(1) + '" r="' + r + '" fill="' + color + '"'
+         + (isLast ? ' stroke="rgba(255,255,255,0.6)" stroke-width="1"' : '')
+         + '><title>' + (p.q || '') + ' \u00b7 ' + (p.dom || '') + ' \u00b7 C(t)=' + p.ct.toFixed(3) + '</title></circle>';
+  }
+
+  // X axis labels \u2014 first, middle, last quarter
+  var xLabels = [{ i: 0, q: hist[0].q }];
+  if (n > 2) xLabels.push({ i: Math.floor(n / 2), q: hist[Math.floor(n / 2)].q });
+  if (n > 1) xLabels.push({ i: n - 1, q: hist[n - 1].q });
+  xLabels.forEach(function(lab) {
+    svg += '<text x="' + xAt(lab.i).toFixed(1) + '" y="' + (H - 8) + '" font-size="8" fill="rgba(200,195,184,0.45)" text-anchor="middle" font-family="IBM Plex Mono,monospace">' + _esc(lab.q || '') + '</text>';
+  });
+
+  // Y axis label
+  svg += '<text x="6" y="' + (pad.t + 4) + '" font-size="8" fill="rgba(200,195,184,0.4)" font-family="IBM Plex Mono,monospace">C(t)</text>';
+
+  svg += '</svg>';
+
+  // Compact legend \u2014 phase IDs in chronological order they appear, max 6
+  var seen = {};
+  var legend = '';
+  for (var L = 0; L < hist.length; L++) {
+    var dp = hist[L].dom;
+    if (!dp || seen[dp]) continue;
+    seen[dp] = true;
+    var dc = PHASE_COLORS[dp] || '#888';
+    legend += '<span style="display:inline-flex;align-items:center;gap:3px;margin-right:8px"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:' + dc + '"></span>' + (PHASE_META[dp] && PHASE_META[dp].label ? _esc(PHASE_META[dp].label) : dp) + '</span>';
+    if (Object.keys(seen).length >= 6) break;
+  }
+
+  var hWrap = '<div style="margin-bottom:14px">';
+  hWrap += '<div class="diag-label" style="margin-bottom:6px">PHASE RHYTHM \u2014 Thing 2 trajectory \u00b7 ' + n + 'Q</div>';
+  hWrap += '<div style="font-size:0.38rem;color:var(--text-ghost);margin-bottom:6px;font-style:italic">Stress accumulator C(t) over time. Left = oldest, right = current. Dots colored by that quarter\u2019s dominant phase. Dashed line = Path A alert threshold (1.10).</div>';
+  hWrap += svg;
+  if (legend) hWrap += '<div style="margin-top:6px;font-size:0.36rem;color:var(--text-ghost);line-height:1.6">' + legend + '</div>';
+  hWrap += '</div>';
+  return hWrap;
+}
+
+function renderSignals(data) {
+  var t2 = data.t2;
+  var h = '';
+  // Time-series rhythm chart \u2014 first thing in Signals tab so the user sees
+  // the company's trajectory before drilling into the per-phase scores.
+  h += _renderPhaseRhythmChart(data);
+  // Thing 2 phase scores only \u2014 Thing 1 is a labeled alert/no-alert decision, not a phase
+  h += '<div class="diag-label" style="margin-bottom:6px">LONG-ARC PHASE TRACKER \u2014 Thing 2 (interpretive)</div>';
+  h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-bottom:10px;font-style:italic">Phase scores below are tracker output. They do not constitute a validated distress signal.</div>';
+  if (t2.available && Array.isArray(t2.phases)) {
+    t2.phases.forEach(function(p) {
+      var pct = Math.round(p.score * 100);
+      var color = PHASE_COLORS[p.id] || '#888';
+      var rs = '';
+      h += '<div class="phase-bar-row" style="' + rs + '"><div class="phase-bar-label">' + _esc(p.neutralLabel || p.id) + '</div><div class="phase-bar-track"><div class="phase-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div><div class="phase-bar-val">' + p.score.toFixed(2) + '</div></div>';
+    });
+  } else {
+    h += '<div style="font-size:0.46rem;color:var(--text-ghost);padding:8px 0;font-style:italic">Long-arc tracker not available for this report.</div>';
+  }
+
+  // Thing 1 alert status \u2014 verbatim from server
+  h += '<div style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(201,169,78,0.08)"><div class="diag-label">VALIDATED ALERT STATUS \u2014 Thing 1</div>';
+  if (_alertActive(data.t1)) {
+    h += '<div class="diag-value alert">ALERT FIRED</div>';
+  } else {
+    var label = (data.t1.validation_status || 'unsupported').toUpperCase().replace(/_/g, ' ');
+    h += '<div class="diag-value" style="color:var(--gold-dim)">' + _esc(label) + ' (no validated alert)</div>';
+  }
+  h += '</div>';
+
+  // Provenance \u2014 both kernels
+  h += '<div style="margin-top:14px;padding-top:8px;border-top:1px solid var(--border);font-size:0.38rem;color:var(--text-ghost);letter-spacing:1px;line-height:1.6">';
+  h += 'Thing 1: ' + _esc(data.t1.kernel_id || 'none') + ' \u00b7 ' + _esc(data.t1.validation_status) + '<br>';
+  h += 'Thing 2: ' + _esc(t2.kernel_id || 'none') + ' \u00b7 ' + _esc(t2.validation_status) + '<br>';
+  h += 'Formula visibility: ' + _esc(data.formula_visibility || 'server_only') + '<br>';
+  h += 'History: ' + (data.history_quarters || 0) + ' quarters (' + _esc(data.history_sufficiency) + ') \u00b7 latest: ' + _esc(data.latest_quarter || '\u2014');
+  h += '</div>';
+  document.getElementById('tab-signals').innerHTML = h;
+}
+
+// ─── Node-to-Business Analog Map (111 Node Directory) ────────────
+var NODE_BIZ_ANALOG = {
+  // Limbic / Threat
+  BLA:'Risk Detection — identifies incoming threats before conscious awareness (accounts receivable aging, covenant breach signals)',
+  CeA:'Fear Response Coordinator — triggers automatic defensive actions (emergency cost cuts, hiring freezes)',
+  BNST:'Chronic Anxiety Circuit — sustained low-grade worry state (ongoing margin compression, slow cash erosion)',
+  vmPFC:'Value Judgment Center — weighs risk vs reward for strategic decisions (M&A evaluation, market entry/exit)',
+  PAG:'Survival Override — last-resort freeze/fight response (emergency board action, Chapter 11 filing)',
+  HIPP:'Institutional Memory — pattern matching against historical outcomes (prior recession playbooks, cycle recognition)',
+  EMP:'Stakeholder Empathy — reads counterparty emotional state (customer sentiment, employee morale)',
+  // HPA Axis
+  HPA:'Stress Hormone Cascade — the full alarm-to-cortisol pipeline (crisis escalation chain: CFO → Board → Counsel)',
+  HYPO:'Resource Allocation Command — directs energy to survival systems (capex freeze, working capital triage)',
+  PIT:'Signal Amplifier — broadcasts stress signal systemwide (investor relations crisis comms, 8-K filings)',
+  ADR:'Emergency Energy Release — dumps adrenaline for acute response (cash liquidation, asset fire sales)',
+  // Autonomic
+  VV:'Social Engagement System — calm negotiation and relationship repair (creditor negotiation, covenant waiver requests)',
+  DV:'Shutdown / Collapse — total system withdrawal (operations cease, going-concern doubt)',
+  NTS:'Internal Sensor Hub — monitors vital signs in real time (daily cash position, 13-week cash flow model)',
+  SNS:'Sympathetic Activation — fight-or-flight mobilization (aggressive restructuring, workforce reduction)',
+  CARD:'Cardiac Output — raw operational throughput capacity (revenue run-rate, order backlog)',
+  LAR:'Voice / Communication Channel — ability to signal externally (earnings calls, press releases)',
+  // DMN
+  DMN:'Strategic Self-Model — the company\'s narrative about itself (brand identity, mission statement, investor story)',
+  mPFC:'Identity Core — who the company believes it is (core competency, strategic vision)',
+  PCC:'Backward-Looking Integration — connecting past to present (historical performance narrative, trend extrapolation)',
+  PRECUNEUS:'Self-Awareness — meta-cognition about own state (board self-assessment, governance review)',
+  AG:'Semantic Integration — making meaning from data (analyst interpretation, strategic planning)',
+  TPOLE:'Social Knowledge — understanding market relationships (competitive positioning, industry mapping)',
+  RSC:'Spatial Context — where the company sits in the landscape (market share, sector positioning)',
+  OFC:'Reward Valuation — expected value of opportunities (DCF modeling, project IRR assessment)',
+  EC:'Memory Gateway — encoding new experiences (lessons-learned processes, institutional knowledge capture)',
+  rACC:'Emotional Regulation — managing internal sentiment (board confidence, management tone)',
+  DISS:'Dissolution Process — identity fragmentation under extreme stress (brand erosion, strategic incoherence)',
+  // Salience
+  SN:'Priority Filter — what demands attention right now (crisis triage, board agenda prioritization)',
+  AI:'Interoception — feeling internal state (management gut-check, leading indicator awareness)',
+  dACC:'Conflict Monitor — detects when plans diverge from reality (budget variance, forecast miss detection)',
+  TPJ:'Perspective-Taking — modeling other agents\' views (competitor analysis, regulator stance prediction)',
+  PI:'Pain Processing — registering operational distress (customer churn signals, employee attrition data)',
+  // Executive
+  ECN:'Executive Control Network — coordinated top-down planning (C-suite strategic alignment, integrated planning)',
+  dlPFC:'Working Memory / Planning — holding complex plans in mind (financial modeling, scenario planning)',
+  vlPFC:'Impulse Control — inhibiting reactive decisions (disciplined capital allocation, saying no to bad deals)',
+  FEF:'Attentional Direction — focusing organizational gaze (strategic initiative prioritization)',
+  IPS:'Quantitative Processing — numerical analysis capacity (financial analysis, data-driven decision making)',
+  // Reward
+  NAcc:'Reward Anticipation — expecting positive outcomes (growth projections, market opportunity excitement)',
+  VTA:'Motivation Engine — dopamine-driven drive (entrepreneurial energy, growth-at-all-costs mindset)',
+  STRI:'Habit Formation — established operational routines (standard operating procedures, recurring revenue)',
+  HAB:'Disappointment Signal — expected reward not received (missed earnings, failed product launch)',
+  // Neuromodulatory
+  RAPHE:'Serotonin / Mood Baseline — organizational optimism vs pessimism (corporate culture, employee engagement)',
+  LC:'Arousal / Alertness — vigilance level (management attention, monitoring intensity)',
+  ENDO:'Stress Buffering — natural resilience mechanisms (cash reserves, credit facilities, insurance)',
+  OPIOID:'Pain Suppression — ability to tolerate distress (management endurance, stakeholder patience)',
+  OXY:'Trust / Bonding — relationship-driven cooperation (partnership strength, customer loyalty, team cohesion)',
+  GABA_GLU:'Excitation/Inhibition Balance — organizational stability vs agility (growth vs efficiency trade-off)',
+  EI:'E/I Ratio — net balance of risk-taking vs risk-aversion (leverage ratio, investment intensity)',
+  // Plasticity
+  BDNF:'Neuroplasticity Factor — capacity to rewire and adapt (R&D investment, business model innovation)',
+  TrkB:'Growth Signal Receptor — ability to receive and act on adaptation signals (management receptivity to change)',
+  // Basal Ganglia
+  CAUD:'Goal Selection — choosing which objectives to pursue (strategic planning, portfolio prioritization)',
+  PUT:'Motor Execution — turning decisions into action (operational execution, project delivery)',
+  GP:'Action Gating — go/no-go on planned actions (investment committee decisions, stage-gate processes)',
+  STN:'Emergency Brake — halts action when new information arrives (stop-loss triggers, project kill decisions)',
+  VP:'Reward-Action Link — connecting incentives to behavior (compensation structure, performance metrics)',
+  SNIG:'Dopamine Supply — sustained motivation capacity (leadership energy, organizational momentum)',
+  // Thalamic
+  THAL:'Information Relay — routes data to the right decision-maker (management information systems, reporting structure)',
+  MDT:'Executive Relay — connects analysis to strategy (CFO-to-CEO information flow, board reporting)',
+  ANT:'Memory Relay — connects institutional memory to planning (historical data access, precedent review)',
+  PULV:'Attentional Filter — screens what reaches executive attention (executive dashboard, KPI filtering)',
+  LGN:'Visual Processing Relay — external market data intake (market research, competitive intelligence)',
+  MGN:'Auditory Processing Relay — stakeholder voice intake (customer feedback, employee surveys)',
+  // Gut-Brain
+  GBA:'Gut-Brain Axis — bidirectional operations-strategy feedback (field operations → HQ feedback loops)',
+  ENS:'Enteric Nervous System — autonomous operational intelligence (frontline decision-making, branch autonomy)',
+  MICRO:'Microbiome — ecosystem of partners and suppliers (supply chain health, vendor relationships)',
+  // Entrainment
+  OSC:'Oscillatory Synchronization — organizational rhythm and timing (quarterly cadence, planning cycles)',
+  RF:'Reticular Formation — baseline arousal and wakefulness (organizational energy, operational tempo)',
+  // Other
+  PIN:'Circadian Rhythm — seasonal and cyclical patterns (seasonal demand, fiscal year cycles)',
+  VEST:'Balance / Orientation — proprioceptive sense of position (market position awareness, competitive bearing)',
+  CBLM:'Motor Coordination — smooth operational execution (supply chain coordination, multi-unit operations)',
+  SC:'Visual Orienting — rapid attention to new threats/opportunities (market scanning, opportunity detection)',
+  IC:'Auditory Orienting — detecting signal in noise (signal extraction from market chatter)',
+  PBN:'Visceral Alarm — deep body alarm signal (fundamental business model viability concern)',
+  PPN:'Locomotion Initiation — starting new action sequences (new initiative launch, turnaround kickoff)',
+  CC:'Hemispheric Integration — connecting analytical and creative functions (finance ↔ operations alignment)',
+  UNC:'Emotional Memory Link — connecting feelings to decisions (institutional trauma, past crisis memory)',
+  ARC:'Language Production Link — translating strategy into communication (investor narrative, strategic messaging)',
+  CLAUST:'Consciousness Integration — unified awareness across systems (enterprise-wide situational awareness)',
+  // Networks
+  DAN:'Dorsal Attention — top-down focused analysis (deep-dive financial analysis, due diligence)',
+  VAN:'Ventral Attention — bottom-up surprise detection (unexpected variance, black swan monitoring)',
+  FPN:'Frontoparietal Network — flexible cognitive control (adaptive management, pivoting under uncertainty)',
+  CON:'Cingulo-Opercular — sustained task maintenance (long-term project execution, turnaround endurance)',
+  // Sensory
+  V1:'Primary Visual — raw data intake from markets (real-time market data feeds)',
+  A1:'Primary Auditory — raw stakeholder signal intake (customer/employee voice-of channels)',
+  S1:'Primary Somatosensory — operational feel (hands-on operational assessment)',
+  OLF:'Olfactory — early faint signals (weak signal detection, emerging trend sensing)',
+  // Motor
+  M1:'Primary Motor — direct operational action (order execution, production runs)',
+  SMA:'Supplementary Motor — action planning and sequencing (project planning, initiative roadmapping)',
+  CMZ:'Cingulate Motor Zone — effort allocation under conflict (resource allocation during competing priorities)',
+  SMN:'Somatomotor Network — coordinated physical operations (logistics, manufacturing, service delivery)',
+  // Language
+  BROCA:'Speech Production — strategy articulation (earnings guidance, strategic communication)',
+  WERN:'Speech Comprehension — understanding external signals (regulatory filings, competitor announcements)',
+  LANG:'Language Network — full communication system (corporate communications, IR, PR)',
+  STS:'Social Signal Processing — reading market social cues (sentiment analysis, social listening)',
+  FG:'Pattern Recognition — identifying faces and patterns (brand recognition, market pattern detection)',
+  // Memory
+  MAMM:'Memory Consolidation — converting experience to learning (post-mortem analysis, knowledge management)',
+  SEPT:'Emotional Memory Modulation — how feelings shape what gets remembered (crisis imprinting, success bias)',
+  NBM:'Cholinergic Attention — neurochemical attention spotlight (management focus, resource concentration)',
+  FORN:'Memory Highway — connecting experience to decision centers (institutional learning pathways)',
+  CING:'Cingulum Bundle — emotion-cognition bridge (how organizational culture affects strategic decisions)',
+  VERM:'Cerebellar Vermis — emotional motor coordination (executing under emotional pressure)',
+  NEOCER:'Neocerebellum — cognitive coordination (complex multi-variable decision optimization)',
+};
+
+// ─── Phase Cluster Labels ────────────────────────────────────────
+var PHASE_CLUSTER_LABEL = {
+  p0: {name:'Baseline Equilibrium', bio:'Default Mode Network — quiet resting state, self-referential processing. Business analog: stable operations, predictable cash flows, routine strategic planning.'},
+  p1: {name:'Alarm Circuit Activation', bio:'Salience Network + Locus Coeruleus — acute threat detection, norepinephrine surge. Business analog: first revenue miss triggers heightened monitoring, variance detection, emergency scanning.'},
+  p2: {name:'Bonding & Regulation Cluster', bio:'Oxytocin + Ventral Vagal + vmPFC — social engagement, trust formation, cooperative regulation. Business analog: alliance building, partnership formation, coordinated market entry.'},
+  p3: {name:'HPA Axis Activation Cluster', bio:'Amygdala → Hypothalamus → Pituitary → Adrenal cascade. Full stress hormone mobilization with prefrontal suppression. Business analog: crisis mode — reactive cost-cutting, cash hoarding, executive tunnel vision, loss of strategic planning capacity.'},
+  p4: {name:'Vagal Recovery Cluster', bio:'Ventral Vagal + Raphe (serotonin) + Hippocampus — parasympathetic restoration, mood stabilization, memory consolidation. Business analog: post-crisis stabilization, variance declining, burn rate decelerating, lessons being encoded.'},
+  p5: {name:'Executive Under Load', bio:'dlPFC + dACC + HPA sustained — executive control operating against elevated stress hormones. Business analog: recovery under fire — management executing turnaround while stress metrics remain elevated.'},
+  p6: {name:'Executive Control Restored', bio:'dlPFC + vlPFC + ECN + dACC + FEF — full executive network online, impulse control active, attentional direction focused. Business analog: order restored — disciplined capital allocation, stable metrics, debt declining, cash building.'},
+  p7: {name:'Default Mode Fragmentation', bio:'mPFC + PCC + DMN disrupted — the self-model is breaking apart, identity dissolution. Business analog: the company\'s strategic narrative no longer coheres — structural divergence between stated strategy and financial reality.'},
+  p7a: {name:'Terminal Dissolution Cascade', bio:'DMN fragmentation + Amygdala hyper + Dorsal Vagal — identity collapse meets fear cascade meets shutdown. Business analog: structural break confirmed + liquidity breach — terminal path toward insolvency, board-level emergency.'},
+  p7b: {name:'Controlled Separation', bio:'DMN quieting + Plasticity (BDNF/TrkB) — old identity dissolving but new neural pathways forming. Business analog: strategic pivot — old business model winding down while new model emerges (spin-off, controlled restructuring).'},
+  p8: {name:'Self-Reflection / Pivot', bio:'mPFC + PCC + Anterior Insula + dACC — metacognitive awareness, interoceptive insight, conflict detection. Business analog: business-model pivot — structural break with positive slope, new revenue pattern recognized and pursued.'},
+  p9: {name:'Cascade Failure', bio:'Full amygdala + HPA + Dorsal Vagal + DMN/SN disruption + prefrontal collapse + reward system altered. Business analog: multi-system collapse — liquidity crisis + revenue collapse + macro headwinds converging, all defensive systems overwhelmed.'},
+  p10:{name:'Neuroplastic Reformation', bio:'BDNF + TrkB + Hippocampus + dlPFC — new synaptic connections forming, old patterns pruned, executive function rebuilding on new substrate. Business analog: post-restructuring new baseline — new revenue model, cleaned balance sheet, emergent stability.'},
+};
+
+function renderInterventions(data) {
+  var h = '';
+  // Bank / unvalidated / no-alert: do NOT render PHASE_INTERVENTIONS templates
+  // (which include "M&A advisor", "Bankruptcy / restructuring attorney",
+  // "Chapter 11" referrals). Authority for those phrases is Thing 1 alert only.
+  if (!_clinicalNarrativeAllowed(data)) {
+    h += '<div class="diag-section" style="border:1px solid var(--gold-dim);padding:10px 12px;background:rgba(0,0,0,0.12)">';
+    h += '<div class="diag-label" style="color:var(--gold-dim)">CLINICAL INTERVENTIONS — gated</div>';
+    h += '<div style="font-size:0.46rem;color:var(--text-dim);margin-top:6px;line-height:1.6">';
+    h += 'Phase-specific clinical and referral guidance (including M&amp;A and bankruptcy advisory referrals) renders only when ';
+    h += 'Thing 1 (validated distress scorer) reports an active alert and the reconciliation block grants action authority. ';
+    h += 'This report shows: Thing 1 = <b>' + _esc(data.t1.validation_status) + '</b>, ';
+    h += 'reconciliation.action_authority = <b>' + _esc(data.reconciliation.action_authority) + '</b>. No clinical or referral templates are rendered.';
+    h += '</div></div>';
+
+    // Optional interpretive neural map (purely visual; no advisor language)
+    if (data.t2.available && Array.isArray(data.t2.phases)) {
+      var active = data.t2.phases.filter(function(p){ return p.score > DISPLAY_ACTIVE_BAR; })
+                                 .sort(function(a,b){ return b.score - a.score; });
+      if (active.length > 0) {
+        h += '<div class="diag-label" style="margin-top:14px;margin-bottom:10px">INTERPRETIVE NEURAL ACTIVATION MAP — Thing 2</div>';
+        h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-bottom:8px;font-style:italic">Visual context only. No clinical or business advisory language is asserted.</div>';
+        active.forEach(function(p) {
+          var nodes = PHASE_NODE_STATES[p.id] || [];
+          if (!nodes.length) return;
+          var phColor = PHASE_COLORS[p.id] || 'var(--gold-dim)';
+          h += '<div class="cluster-callout">';
+          h += '<div class="cluster-header" style="border-left-color:' + phColor + '">';
+          h += '<span class="cluster-phase" style="color:' + phColor + '">' + _esc(p.neutralLabel || p.id) + ' — ' + p.score.toFixed(2) + '</span>';
+          h += '</div>';
+          h += '<div class="cluster-nodes">';
+          var byDir = { hyper: [], hypo: [], altered: [] };
+          nodes.forEach(function(ns){ (byDir[ns.dir] || byDir.altered).push(ns); });
+          ['hyper','hypo','altered'].forEach(function(dir) {
+            if (byDir[dir].length === 0) return;
+            var dirLabel = dir === 'hyper' ? 'elevated' : dir === 'hypo' ? 'suppressed' : 'altered';
+            var dirColor = dir === 'hyper' ? 'var(--hyper)' : dir === 'hypo' ? 'var(--hypo)' : 'var(--altered)';
+            h += '<div class="cluster-dir-group"><div class="cluster-dir-label" style="color:' + dirColor + '">' + dirLabel + '</div>';
+            byDir[dir].forEach(function(ns) {
+              h += '<div class="cluster-node-item" style="border-left-color:' + dirColor + '">';
+              h += '<div class="cluster-node-id" style="color:' + dirColor + '">' + _esc(ns.node) + '</div>';
+              h += '</div>';
+            });
+            h += '</div>';
+          });
+          h += '</div></div>';
+        });
+      }
+    }
+    document.getElementById('tab-interventions').innerHTML = h;
+    return;
+  }
+
+  // Validated alert IS active. Phases come from Thing 2 tracker (the recursive
+  // tracker's phase posture defines which intervention templates fit). Even
+  // here, every PHASE_INTERVENTIONS string was authored with neutral wording
+  // for non-distress phases and only contains advisor referrals on p3 / p9.
+  var t2phases = (data.t2 && data.t2.phases) || [];
+  var active = t2phases.filter(function(p){ return p.score > DISPLAY_ACTIVE_BAR; })
+                       .sort(function(a,b){ return b.score - a.score; });
+  if (active.length > 0) {
+    h += '<div class="diag-label" style="margin-bottom:10px">NEURAL CIRCUIT ACTIVATION MAP</div>';
+    active.forEach(function(p) {
+      var nodes = PHASE_NODE_STATES[p.id] || [];
+      var cluster = PHASE_CLUSTER_LABEL[p.id];
+      if (!cluster && !nodes.length) return;
+      var phColor = PHASE_COLORS[p.id] || 'var(--gold-dim)';
+      h += '<div class="cluster-callout">';
+      h += '<div class="cluster-header" style="border-left-color:' + phColor + '">';
+      h += '<span class="cluster-phase" style="color:' + phColor + '">' + _esc(p.neutralLabel || p.id) + ' — ' + p.score.toFixed(2) + '</span>';
+      if (cluster) h += '<span class="cluster-name">' + _esc(cluster.name) + '</span>';
+      h += '</div>';
+      if (cluster) h += '<div class="cluster-bio">' + _esc(cluster.bio) + '</div>';
+      h += '</div>';
+    });
+    h += '<div style="height:14px"></div>';
+    h += '<div class="diag-label" style="margin-bottom:10px">ACTIVE PHASE INTERVENTIONS</div>';
+    active.forEach(function(p){ h += _renderPhaseInt(p.id, p.score); });
+  }
+  var inactive = t2phases.filter(function(p){ return p.score <= DISPLAY_ACTIVE_BAR; });
+  if (inactive.length > 0) {
+    h += '<div class="diag-label" style="margin-top:14px;margin-bottom:10px">LATENT</div>';
+    inactive.forEach(function(p){ h += _renderPhaseInt(p.id, p.score); });
+  }
+  document.getElementById('tab-interventions').innerHTML = h;
+}
+function _renderPhaseInt(phase, score) {
+  var meta=PHASE_META[phase]||{label:phase},ints=PHASE_INTERVENTIONS[phase];
+  if(!ints) return '';
+  var h='<div class="int-phase-group"><div class="int-phase-header">'+meta.label+' \u2014 '+score.toFixed(2)+'</div>';
+  (ints.operational||[]).forEach(function(i){h+='<div class="int-item"><div class="int-name">'+i.name+'</div><div class="int-detail">'+i.detail+'</div></div>'});
+  (ints.strategic||[]).forEach(function(i){h+='<div class="int-item"><div class="int-name">'+i.name+'</div><div class="int-detail">'+i.detail+'</div></div>'});
+  (ints.referral||[]).forEach(function(i){h+='<div class="int-item referral"><div class="int-name">REFERRAL: '+i.name+'</div><div class="int-detail">'+i.detail+'</div></div>'});
+  return h+'</div>';
+}
+
+// ─── Phase Clinical Protocol Data (Polyvagal-Informed) ───────────
+var PHASE_CLINICAL = {
+  p0: {
+    nodeCluster: [],
+    bioAnalog: 'Autonomic equilibrium. Default mode network active in resting state. Parasympathetic dominant. No stress hormone elevation. Clinical presentation: healthy baseline with full regulatory capacity.',
+    clinicalSeq: ['Maintain regulatory capacity','Periodic health screening','Build resilience reserves'],
+    businessSeq: ['Quarterly KPI review — maintain monitoring cadence','Build cash reserves and credit facilities during stability','Strategic planning and capacity investment — optimal window'],
+    researchFlag: null,
+  },
+  p1: {
+    nodeCluster: [
+      {node:'dACC',role:'Conflict Monitor — first detection of expectation violation'},
+      {node:'AI',role:'Interoceptive Alarm — "something is wrong" signal before conscious analysis'},
+      {node:'LC',role:'Locus Coeruleus — norepinephrine surge, arousal spike, heightened vigilance'},
+      {node:'BLA',role:'Basolateral Amygdala — threat evaluation initiated, fear learning begins'},
+    ],
+    bioAnalog: 'Salience network activation. Initial alarm response — norepinephrine-mediated arousal without full HPA engagement. Analogous to orienting response: system detects anomaly and redirects attention. Not yet pathological. Clinical presentation: acute alertness, narrowed attention, increased heart rate variability.',
+    clinicalSeq: ['Assess threat severity — distinguish signal from noise','Orient attention to source of disruption','Maintain executive oversight — prevent amygdala hijack'],
+    businessSeq: ['Isolate the variance spike — which segment, client, or product','Assess exposure concentration — top-3 dependency mapping','Do not overreact — one quarter may be noise. Investigate before restructuring.'],
+    researchFlag: null,
+  },
+  p2: {
+    nodeCluster: [
+      {node:'OXY',role:'Oxytocin System — trust and bonding neurochemistry active'},
+      {node:'vmPFC',role:'Value Judgment — cooperative reward valuation elevated'},
+      {node:'VV',role:'Ventral Vagal Complex — social engagement system online'},
+      {node:'mPFC',role:'Identity Core — self-model integrating new partnership identity'},
+    ],
+    bioAnalog: 'Social engagement system activated. Oxytocin-mediated bonding and ventral vagal tone support cooperative behavior. vmPFC online for value-based decision making. Clinical presentation: prosocial orientation, increased trust signaling, collaborative regulation.',
+    clinicalSeq: ['Support social engagement without over-extension','Monitor for codependency or boundary dissolution','Maintain individual regulatory capacity'],
+    businessSeq: ['Communication audit — are metrics matching the growth narrative?','Team alignment check — fast growth masks misalignment','Culture health survey — growth erodes culture silently'],
+    researchFlag: null,
+  },
+  p3: {
+    nodeCluster: [
+      {node:'HPA',role:'HPA Axis — master stress cascade: CRH \u2192 ACTH \u2192 cortisol. Chronically engaged.'},
+      {node:'HYPO',role:'Hypothalamus PVN — master stress initiator, resource allocation override'},
+      {node:'ADR',role:'Adrenal Cortex — cortisol analog: sustained cash burn rate, metabolic emergency'},
+      {node:'LC',role:'Locus Coeruleus — norepinephrine analog: volatility spike, hypervigilance'},
+      {node:'BLA',role:'Basolateral Amygdala — fear conditioning: loss of strategic coherence'},
+      {node:'CeA',role:'Central Amygdala — autonomic fear output: reflexive defensive actions'},
+      {node:'PAG',role:'Periaqueductal Gray — survival override: freeze/fight at organizational level'},
+      {node:'dlPFC',role:'dlPFC SUPPRESSED — executive planning capacity offline under cortisol load'},
+      {node:'vmPFC',role:'vmPFC SUPPRESSED — value-based judgment degraded, tunnel vision'},
+    ],
+    bioAnalog: 'Sympathetic hyperactivation. HPA axis chronically engaged. Cortisol elevation sustained beyond acute phase — prefrontal suppression means executive function is degraded precisely when it is most needed. Amygdala-driven fear conditioning creates self-reinforcing stress loops. Clinical presentation: acute stress response without resolution. Allostatic load accumulating.',
+    clinicalSeq: ['Restore physiological baseline — reduce cortisol, stabilize autonomic tone','Restore social engagement — ventral vagal activation through co-regulation','Restore executive function — prefrontal re-engagement requires safety signal first'],
+    businessSeq: ['Stop the bleed — 13-week cash forecast, freeze discretionary spend, weekly cash position','Stakeholder stabilization — board, lenders, top clients. Co-regulation = transparent communication.','Strategic decision capacity — scenario planning requires calm. Restore executive bandwidth first.'],
+    researchFlag: 'Bidirectional hypothesis: organizational interventions that restore P3\u2192P4 transition may follow identical sequence constraints as polyvagal clinical protocol. Safety first (cash), then social engagement (stakeholders), then executive function (strategy). Violating this sequence — e.g. attempting strategy while cash is burning — mirrors clinical failure pattern of cognitive therapy before autonomic stabilization. Not yet validated. Scenario candidate.',
+  },
+  p4: {
+    nodeCluster: [
+      {node:'VV',role:'Ventral Vagal — parasympathetic restoration, social engagement recovering'},
+      {node:'vmPFC',role:'vmPFC — value judgment returning, risk/reward evaluation normalizing'},
+      {node:'RAPHE',role:'Raphe Nuclei — serotonin stabilization, mood baseline resetting'},
+      {node:'HIPP',role:'Hippocampus — memory consolidation, encoding crisis lessons'},
+    ],
+    bioAnalog: 'Parasympathetic recovery phase. Vagal tone increasing, cortisol declining. Serotonergic mood stabilization active. Hippocampal memory consolidation converting crisis experience into learned patterns. Clinical presentation: post-acute stabilization — variance decreasing but system still fragile. Relapse risk highest in early P4.',
+    clinicalSeq: ['Protect parasympathetic gains — do not re-expose prematurely','Consolidate learning — encode adaptive patterns','Monitor for relapse — P4\u2192P3 reversion is common'],
+    businessSeq: ['Protect cash gains — do NOT re-expand prematurely. This is the most dangerous moment.','Reduce variable costs incrementally — cost discipline, not panic cuts','Monitor weekly — variance can spike again. Weekly KPIs until 2 consecutive stable quarters.'],
+    researchFlag: 'P4 is the most fragile transition. Clinical data shows parasympathetic recovery is non-linear — small stressors can re-trigger full HPA activation if ventral vagal tone is not yet consolidated. Business analog: premature expansion after stabilization is the #1 cause of P4\u2192P3 reversion.',
+  },
+  p5: {
+    nodeCluster: [
+      {node:'dlPFC',role:'dlPFC HYPERACTIVE — executive control operating against elevated cortisol'},
+      {node:'dACC',role:'dACC — conflict monitor under sustained load, error detection overdrive'},
+      {node:'HPA',role:'HPA Axis — still elevated but managed. Hormetic stress zone.'},
+      {node:'LC',role:'Locus Coeruleus — sustained norepinephrine, heightened but controlled vigilance'},
+    ],
+    bioAnalog: 'Executive function operating under sustained stress load. dlPFC hyperactivation compensating for ongoing HPA elevation — this is the hormetic zone where stress builds capacity, but only if the load doesn\'t exceed the system\'s compensatory ability. Clinical presentation: high-performing under duress. Sustainable only with deliberate pacing.',
+    clinicalSeq: ['Prevent allostatic overload — pacing is critical','Support executive function — protect decision-making capacity','Build adaptive resilience — hormetic exposure builds tolerance'],
+    businessSeq: ['Prevent leadership burnout — extended stress depletes executive function','Hormetic pacing — set realistic stretch targets, not heroic ones','Delegate operational decisions — leadership must shift from firefighting to positioning'],
+    researchFlag: null,
+  },
+  p6: {
+    nodeCluster: [
+      {node:'dlPFC',role:'dlPFC — full executive control restored, planning capacity online'},
+      {node:'vlPFC',role:'vlPFC — impulse control active, disciplined capital allocation'},
+      {node:'ECN',role:'Executive Control Network — coordinated top-down governance'},
+      {node:'dACC',role:'dACC — conflict monitor in maintenance mode, low-frequency scanning'},
+      {node:'FEF',role:'Frontal Eye Fields — attentional direction focused and stable'},
+    ],
+    bioAnalog: 'Full executive network restored. Prefrontal cortex fully online with parasympathetic support. Low variance, high regulatory capacity. Clinical presentation: controlled, predictable, disciplined. Optimal window for system-level interventions.',
+    clinicalSeq: ['Consolidate regulatory gains','Build systemic resilience','Prepare for future disruption from position of strength'],
+    businessSeq: ['Systems documentation and process optimization — stability is the window','Build bench depth — replace crisis skeleton crew with sustainable staffing','Process automation — reduce human error surface while operations are stable'],
+    researchFlag: null,
+  },
+  p7: {
+    nodeCluster: [
+      {node:'mPFC',role:'mPFC — identity core destabilizing, self-model fragmenting'},
+      {node:'PCC',role:'PCC — backward integration failing, narrative incoherence'},
+      {node:'DMN',role:'Default Mode Network — the organizational self-story is breaking apart'},
+      {node:'TPJ',role:'TPJ — perspective-taking disrupted, unable to model stakeholder views'},
+    ],
+    bioAnalog: 'Default mode network fragmentation. The system\'s self-model — its narrative about who it is and where it\'s going — is losing coherence. PELT structural breaks in revenue/OCF mean the historical pattern no longer predicts the future. Clinical presentation: identity crisis. The entity that entered P7 may not be the one that exits it.',
+    clinicalSeq: ['Acknowledge identity disruption — denial prevents adaptation','Support narrative reconstruction','Facilitate controlled dissolution of non-viable elements'],
+    businessSeq: ['Assess structural viability honestly — the old model may be breaking','Restructure investor narrative — transparency preserves trust through transition','Redefine mission and value proposition — strategic clarity required'],
+    researchFlag: null,
+  },
+  p7a: {
+    nodeCluster: [
+      {node:'DMN',role:'DMN HYPERACTIVE — identity fragmentation with ruminative loop'},
+      {node:'mPFC',role:'mPFC — self-model collapsed, strategic narrative incoherent'},
+      {node:'PCC',role:'PCC — backward integration severed, no longer learning from history'},
+      {node:'BLA',role:'BLA — fear cascade active, threat detection overwhelming decision-making'},
+      {node:'CeA',role:'CeA — autonomic fear output driving reflexive actions'},
+      {node:'DV',role:'Dorsal Vagal — shutdown circuit activating: operational paralysis'},
+      {node:'PAG',role:'PAG — survival override: freeze response at organizational level'},
+    ],
+    bioAnalog: 'Terminal dissolution cascade. DMN fragmentation meets amygdala fear cascade meets dorsal vagal shutdown. The three worst systems are converging: identity collapse (who are we?), fear paralysis (what do we do?), and metabolic shutdown (can we survive?). PELT structural break confirmed with viability breach. Clinical presentation: system approaching point of no return. Intervention window closing.',
+    clinicalSeq: ['Emergency stabilization — prevent dorsal vagal collapse','Assess viability — is the system recoverable?','If yes: intensive co-regulation. If no: controlled wind-down.'],
+    businessSeq: ['Emergency board session — binary decision required within 30 days','If turnaround viable: 90-day plan with weekly milestones, restructuring counsel engaged','If not viable: orderly wind-down preserves more value than chaotic collapse. M&A advisor or Chapter 11.'],
+    researchFlag: 'P7a represents the clinical concept of "window of tolerance" closure. Once dorsal vagal dominance is established (operational shutdown), the intervention sequence reverses: you cannot restore social engagement without first addressing metabolic survival. Business analog: you cannot negotiate with creditors if you cannot make payroll next Friday.',
+  },
+  p7b: {
+    nodeCluster: [
+      {node:'mPFC',role:'mPFC QUIETING — old identity dissolving without panic'},
+      {node:'PCC',role:'PCC — backward integration releasing, not clinging to old patterns'},
+      {node:'DMN',role:'DMN — self-model transitioning, not collapsing'},
+      {node:'BDNF',role:'BDNF — neuroplasticity factor active, new pathways forming'},
+      {node:'TrkB',role:'TrkB — growth signal receptor engaged, adaptation in progress'},
+    ],
+    bioAnalog: 'Controlled dissolution with plasticity. The old identity is dissolving but — critically — new neural pathways are forming simultaneously. BDNF/TrkB activation means the system is rewiring, not dying. Clinical presentation: managed transition. Grief for the old model coexists with emergence of the new.',
+    clinicalSeq: ['Support grief process for old identity','Nurture emergent new patterns','Protect plasticity window from premature closure'],
+    businessSeq: ['Manage legacy wind-down with dignity — honor commitments, preserve relationships','Resource the new model — capital, talent, infrastructure for the pivot','Communicate transition narrative — stakeholders need to see the bridge, not just the departure'],
+    researchFlag: null,
+  },
+  p8: {
+    nodeCluster: [
+      {node:'mPFC',role:'mPFC — self-reflection active, metacognition about strategic position'},
+      {node:'PCC',role:'PCC — integrating past experience with new direction'},
+      {node:'AI',role:'Anterior Insula — interoceptive awareness: "this feels right/wrong"'},
+      {node:'dACC',role:'dACC — conflict detection between old model and new evidence'},
+    ],
+    bioAnalog: 'Metacognitive awareness cluster. The system is observing itself — structural break detected but slope is positive, meaning the break may be generative. Anterior insula interoception provides the "gut feeling" that the pivot is working. Clinical presentation: self-aware transition. The system knows it is changing and is monitoring the change.',
+    clinicalSeq: ['Support metacognitive awareness','Validate interoceptive signals','Facilitate integration of new identity elements'],
+    businessSeq: ['Validate new revenue model with unit economics — the break is positive if slope is up','Leadership consolidation — pivots require unified leadership, misalignment kills pivots','Evidence-based investor narrative — show the structural break with data'],
+    researchFlag: null,
+  },
+  p9: {
+    nodeCluster: [
+      {node:'BLA',role:'BLA — full amygdala activation, threat processing saturated'},
+      {node:'CeA',role:'CeA — autonomic fear output maximal, reflexive defensive actions'},
+      {node:'HPA',role:'HPA Axis — cortisol at pathological levels, allostatic overload'},
+      {node:'DV',role:'Dorsal Vagal — shutdown imminent, metabolic conservation mode'},
+      {node:'PAG',role:'PAG — survival override active, freeze/collapse response'},
+      {node:'DMN',role:'DMN DISRUPTED — self-model fragmenting under multi-system cascade'},
+      {node:'SN',role:'Salience Network DISRUPTED — can no longer prioritize threats'},
+      {node:'dlPFC',role:'dlPFC COLLAPSED — executive function offline, planning impossible'},
+      {node:'NAcc',role:'NAcc — reward system altered, motivation circuits dysregulated'},
+    ],
+    bioAnalog: 'Multi-system cascade failure. P3 (HPA) + liquidity crisis (dorsal vagal) + macro headwinds (external stressor) converging simultaneously. Every major regulatory system is overwhelmed. Prefrontal cortex offline means the system cannot plan its own rescue. Salience network disrupted means it cannot even triage. Clinical presentation: the biological equivalent of multi-organ failure. Intervention must come from outside the system.',
+    clinicalSeq: ['External stabilization — the system cannot self-rescue','Metabolic survival first — prevent shutdown','Triage: what can be saved?'],
+    businessSeq: ['Board emergency session — this is not a drill. Decision required NOW.','Pivot vs wind-down — binary: a credible 90-day plan exists, or it does not. Decide.','Legal and financial protection — D&O coverage, fiduciary duty documentation, personal liability review.'],
+    researchFlag: 'P9 cascade mirrors clinical concept of "allostatic overload" — the point at which the cumulative cost of adaptation exceeds the system\'s capacity. Key insight: intervention must be exogenous. An organism in multi-organ failure cannot perform its own surgery. Business analog: a company in P9 cannot restructure itself — external expertise (restructuring attorney, turnaround specialist, M&A advisor) is not optional, it is physiologically necessary.',
+  },
+  p10: {
+    nodeCluster: [
+      {node:'BDNF',role:'BDNF — neuroplasticity maximal, new synaptic architecture forming'},
+      {node:'TrkB',role:'TrkB — growth signal receptors fully engaged'},
+      {node:'HIPP',role:'Hippocampus — new memories encoding, fresh institutional knowledge base'},
+      {node:'dlPFC',role:'dlPFC — executive function rebuilt on new substrate'},
+    ],
+    bioAnalog: 'Neuroplastic reformation. New neural architecture established on post-crisis substrate. BDNF-mediated plasticity has built new pathways. Executive function is online but operating from a different structural base. Clinical presentation: post-traumatic growth. The system is not "recovered" — it is rebuilt. Different, potentially stronger, but carrying the memory of what happened.',
+    clinicalSeq: ['Consolidate new architecture','Integrate trauma memory without re-activation','Build forward from new baseline'],
+    businessSeq: ['New model live — execute on validated revenue streams','Culture rebuild — crisis survivors carry organizational trauma. Healing is operational.','New KPI framework — old metrics may not apply. Define new success criteria.'],
+    researchFlag: 'P10 maps to post-traumatic growth literature. Key finding: systems that encode the crisis experience (hippocampal consolidation) and integrate it into the new self-model (mPFC) show greater resilience to future disruption. Business analog: companies that conduct genuine post-mortems and institutionalize crisis learning outperform those that "move on."',
+  },
+};
+
+
+// Escape user-influenced strings before inserting into innerHTML
+function _esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+
+function _kernelBrand(data) {
+  // Validated brand renders ONLY when the server says so AND the file is real Thing 1.
+  if (_isValidatedThing1(data.t1)) {
+    return 'Thing 1 (validated): ' + _esc(data.t1.kernel_id) + ' · validated';
+  }
+  return 'Thing 1: ' + _esc(data.t1.kernel_id || 'none') + ' · ' + _esc(data.t1.validation_status)
+       + ' | Thing 2: ' + _esc(data.t2.kernel_id || 'none') + ' · ' + _esc(data.t2.validation_status);
+}
+
+function renderReport(data) {
+  var date = new Date().toLocaleDateString();
+  var allowClinical = _clinicalNarrativeAllowed(data);
+  var dom = data.t2.dominant_phase || null;
+  var clin = (allowClinical && dom) ? (PHASE_CLINICAL[dom] || {}) : {};
+  var ip = data.input_presence || {};
+  var t2ss = data.t2.state_summary || {};
+  var t1 = data.t1;
+  var t2 = data.t2;
+  var rec = data.reconciliation;
+  var alertActive = _alertActive(t1);
+  var h = '';
+
+  // Entity header
+  h += '<div class="rpt-entity">';
+  h += '<div class="rpt-entity-name">' + _esc(data.entity_name) + '</div>';
+  h += '<div class="rpt-entity-sub">CIK: ' + _esc(data.cik) + ' · ' + date
+     + ' · history: ' + (data.history_quarters || 0) + 'Q (' + _esc(data.history_sufficiency)
+     + ') · confidence: ' + _esc(data.confidence_status) + '</div>';
+  h += '</div>';
+
+  // v4.0 phase hero — same helper as Diagnosis tab, ensures consistent
+  // big-phase / verdict / metrics presentation in both views.
+  h += _renderPhaseHero(data);
+
+  // ── FINANCIAL STATE — raw values from validated kernel's latest quarter ──
+  var fs = data.financial_state || null;
+  if (fs) {
+    function _fmt(v, dp) {
+      if (v == null || (typeof v === 'number' && isNaN(v))) return '—';
+      if (typeof v !== 'number') return _esc(String(v));
+      return v.toFixed(dp == null ? 4 : dp);
+    }
+    function _fmtMoney(v) {
+      if (v == null || (typeof v === 'number' && isNaN(v))) return '—';
+      var n = Number(v);
+      if (Math.abs(n) >= 1e9) return '$' + (n/1e9).toFixed(1) + 'B';
+      if (Math.abs(n) >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+      if (Math.abs(n) >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
+      return '$' + n.toFixed(0);
+    }
+    function _fmtPct(v) {
+      if (v == null || (typeof v === 'number' && isNaN(v))) return '—';
+      return (Number(v) * 100).toFixed(2) + '%';
+    }
+    function _fmtRunway(v) {
+      if (v == null || (typeof v === 'number' && isNaN(v))) return '—';
+      return Number(v).toFixed(1) + 'Q';
+    }
+    h += '<div class="rpt-section" style="margin-top:10px"><div class="rpt-heading">FINANCIAL STATE</div>';
+    h += '<div class="rpt-sv">'
+       + 'Rev Variance: ' + _fmtPct(fs.rev_variance)
+       + ' · Rev Slope: ' + _fmt(fs.rev_slope, 4)
+       + '<br>OCF Slope: ' + _fmt(fs.ocf_slope, 4)
+       + ' · Cash: ' + _fmtMoney(fs.cash_latest)
+       + ' · Debt: ' + _fmtMoney(fs.debt_latest)
+       + '<br>Cash Runway: ' + _fmtRunway(fs.cash_runway_q)
+       + '</div>';
+    h += '</div>';
+  }
+
+  // ── Section 1: VALIDATED FINANCIAL DISTRESS — Thing 1 ──
+  var t1Color = alertActive ? 'var(--hyper)'
+              : t1.validation_status === 'bank_adapter_required' ? 'var(--altered)'
+              : t1.validation_status === 'unvalidated_after_modification' ? 'var(--hyper)'
+              : 'var(--gold-dim)';
+  h += '<div class="rpt-section" style="border:1px solid ' + t1Color + ';padding:10px 12px;background:rgba(0,0,0,0.16)">';
+  h += '<div class="rpt-heading" style="color:' + t1Color + '">VALIDATED FINANCIAL DISTRESS — Thing 1</div>';
+  if (alertActive) {
+    h += '<div class="rpt-trajectory alert">ALERT FIRED'
+       + (t1.first_alert_quarter ? ' · ' + _esc(t1.first_alert_quarter) : '') + '</div>';
+    if (t1.distress_band) h += '<div class="rpt-sv">distress band: ' + _esc(t1.distress_band) + '</div>';
+  } else {
+    var statusLabel = (t1.validation_status || 'unsupported').toUpperCase().replace(/_/g, ' ');
+    h += '<div class="rpt-trajectory" style="color:' + t1Color + '">' + _esc(statusLabel) + '</div>';
+  }
+  h += '<div class="rpt-sv">kernel: ' + _esc(t1.kernel_id || 'none')
+     + ' · validation: ' + _esc(t1.validation_status) + '</div>';
+  (t1.unsupported_reasons || []).forEach(function(r) {
+    h += '<div style="font-size:0.46rem;color:var(--text-ghost);margin-top:3px;line-height:1.5">· ' + _esc(r) + '</div>';
+  });
+  (t1.narrative_safe || []).forEach(function(s) {
+    h += '<div style="font-size:0.5rem;color:var(--text-dim);margin-top:6px;line-height:1.55;font-style:italic">' + _esc(s) + '</div>';
+  });
+  h += '</div>';
+
+  // ── Section 2: LONG-ARC PHASE TRACKER — Thing 2 (interpretive) ──
+  var bankBadge = data.is_financial ? ' · BANK · INTERPRETIVE' : '';
+  h += '<div class="rpt-section" style="border:1px solid var(--altered);padding:10px 12px;background:rgba(0,0,0,0.10);margin-top:10px">';
+  h += '<div class="rpt-heading" style="color:var(--altered)">LONG-ARC PHASE TRACKER — Thing 2 · INTERPRETIVE · UNVALIDATED' + _esc(bankBadge) + '</div>';
+  if (!t2.available) {
+    h += '<div class="rpt-trajectory" style="color:var(--text-ghost)">tracker not available</div>';
+    (t2.unsupported_reasons || []).forEach(function(r) {
+      h += '<div style="font-size:0.46rem;color:var(--text-ghost);margin-top:3px;line-height:1.5">· ' + _esc(r) + '</div>';
+    });
+  } else {
+    var rDomId = t2.dominant_phase || null;
+    var rDomColor = (rDomId && PHASE_COLORS[rDomId]) ? PHASE_COLORS[rDomId] : 'var(--text)';
+    h += '<div class="rpt-heading" style="color:var(--text-ghost);margin-top:4px">DOMINANT PHASE</div>';
+    h += '<div class="rpt-phase" style="color:' + rDomColor + ';font-weight:600">'
+       + _esc(_phaseLabel(rDomId))
+       + '</div>';
+    var rCtTxt = t2ss.C_t_present
+      ? (_esc(t2ss.C_t_bucket || 'present') + (typeof t2ss.C_t_value === 'number' ? ' (' + t2ss.C_t_value.toFixed(2) + ')' : ''))
+      : 'not computed';
+    h += '<div class="rpt-sv">'
+       + 'C(t): ' + rCtTxt
+       + ' · H(t): ' + ((typeof t2ss.H_length_quarters === 'number' && t2ss.H_length_quarters > 0) ? (t2ss.H_length_quarters + 'Q') : '—')
+       + ' · hysteresis: ' + (t2ss.hysteresis_active === true ? 'active' : t2ss.hysteresis_active === false ? 'inactive' : '—')
+       + '</div>';
+    h += '<div class="rpt-sv">kernel: ' + _esc(t2.kernel_id || 'none')
+       + ' · validation: ' + _esc(t2.validation_status) + '</div>';
+  }
+  (t2.narrative_safe || []).forEach(function(s) {
+    h += '<div style="font-size:0.46rem;color:var(--text-dim);margin-top:6px;line-height:1.55;font-style:italic">' + _esc(s) + '</div>';
+  });
+  h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-top:6px">'
+     + 'ⓘ Long-arc tracker is interpretive only and cannot authorize distress action. Authority belongs to Thing 1.</div>';
+  h += '</div>';
+
+  // ── Section 3: RECONCILIATION ──
+  var recColor = rec.agree === true ? 'var(--evidence-a)'
+              : rec.agree === false ? 'var(--hyper)' : 'var(--gold-dim)';
+  h += '<div class="rpt-section" style="border:1px solid ' + recColor + ';padding:10px 12px;background:rgba(0,0,0,0.10);margin-top:10px">';
+  h += '<div class="rpt-heading" style="color:' + recColor + '">RECONCILIATION</div>';
+  h += '<div class="rpt-trajectory" style="color:' + recColor + '">'
+     + (rec.agree === true ? 'AGREE' : rec.agree === false ? 'DIVERGE' : 'INDETERMINATE') + '</div>';
+  h += '<div style="font-size:0.5rem;color:var(--text-dim);margin-top:6px;line-height:1.55">' + _esc(rec.summary || '') + '</div>';
+  h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-top:6px">'
+     + 'primacy: <b>thing1</b> · action authority: <b>' + _esc(rec.action_authority) + '</b></div>';
+  h += '</div>';
+
+  // ── Input presence — color-coded so data gaps are visible at a glance.
+  // Zero-quarter series flags an XBRL tag mismatch in the kernel's TAG_MAP
+  // for that concept (the company has the data, the kernel just couldn't
+  // find it under the concept names it knows).
+  function _ipColor(n) {
+    if (!n || n < 4)  return 'var(--hyper)';      // red: empty or near-empty
+    if (n < 16)       return 'var(--altered)';    // gold: thin
+    return 'var(--evidence-a)';                   // green: ample
+  }
+  function _ipCell(label, n) {
+    var c = _ipColor(n);
+    return '<div class="rpt-metric"><span class="rpt-metric-label">' + label
+         + '</span><span class="rpt-metric-val" style="color:' + c + '">' + (n || 0) + '</span></div>';
+  }
+  h += '<div class="rpt-section"><div class="rpt-heading">INPUT PRESENCE — SEC EDGAR (per-series quarters extracted)</div>';
+  h += '<div class="rpt-metrics">';
+  h += _ipCell('Revenue (quarters)', ip.revenue_quarters);
+  h += _ipCell('OCF (quarters)',     ip.ocf_quarters);
+  h += _ipCell('Cash (quarters)',    ip.cash_quarters);
+  h += _ipCell('Debt (quarters)',    ip.debt_quarters);
+  if (data.is_financial) {
+    h += _ipCell('Deposits (quarters)', ip.deposits_quarters);
+    h += '<div class="rpt-metric"><span class="rpt-metric-label">Cash Runway</span><span class="rpt-metric-val">n/a (bank)</span></div>';
+  }
+  h += '<div class="rpt-metric"><span class="rpt-metric-label">Latest quarter</span><span class="rpt-metric-val">' + _esc(data.latest_quarter || '—') + '</span></div>';
+  h += '<div class="rpt-metric"><span class="rpt-metric-label">History</span><span class="rpt-metric-val">' + (data.history_quarters || 0) + 'Q (' + _esc(data.history_sufficiency) + ')</span></div>';
+  h += '</div>';
+  // Data gap warning — only renders when a required series came back empty
+  var gaps = [];
+  if (!ip.revenue_quarters) gaps.push('Revenue');
+  if (!ip.ocf_quarters)     gaps.push('OCF');
+  if (!ip.cash_quarters)    gaps.push('Cash');
+  if (!ip.debt_quarters)    gaps.push('Debt');
+  if (gaps.length) {
+    h += '<div style="margin-top:8px;padding:6px 10px;border-left:3px solid var(--hyper);background:rgba(232,84,84,0.08);font-size:0.4rem;color:var(--hyper);line-height:1.5">'
+       + '⚠ DATA GAP — kernel ran with empty series for: <b>' + gaps.join(', ') + '</b>. '
+       + 'Likely XBRL tag mismatch in TAG_MAP for this filer. The composite reflects only the series that had data.</div>';
+  }
+  h += '</div>';
+
+  // ── Clinical / business narratives — only when Thing 1 alert is active ──
+  if (allowClinical && clin.nodeCluster && clin.nodeCluster.length > 0) {
+    h += '<div class="rpt-section"><div class="rpt-heading">ACTIVE NODE CLUSTER</div>';
+    clin.nodeCluster.forEach(function(nc) {
+      var ns = PHASE_NODE_STATES[dom] ? PHASE_NODE_STATES[dom].find(function(s){ return s.node === nc.node; }) : null;
+      var dir = ns ? ns.dir : 'altered';
+      var dirColor = dir === 'hyper' ? 'var(--hyper)' : dir === 'hypo' ? 'var(--hypo)' : 'var(--altered)';
+      h += '<div class="rpt-node"><span class="rpt-node-id" style="color:' + dirColor + '">' + _esc(nc.node) + '</span><span class="rpt-node-role">' + _esc(nc.role) + '</span></div>';
+    });
+    h += '</div>';
+  }
+  if (allowClinical && clin.bioAnalog) {
+    h += '<div class="rpt-section"><div class="rpt-heading">BIOLOGICAL ANALOG</div>';
+    h += '<div class="rpt-narrative">' + _esc(clin.bioAnalog) + '</div></div>';
+  }
+  if (allowClinical && clin.clinicalSeq && clin.clinicalSeq.length > 0) {
+    h += '<div class="rpt-section"><div class="rpt-heading">CLINICAL INTERVENTION SEQUENCE (POLYVAGAL)</div>';
+    h += '<div class="rpt-sequence">';
+    clin.clinicalSeq.forEach(function(step, i) {
+      h += '<div class="rpt-step"><span class="rpt-step-num">' + (i+1) + '</span><span class="rpt-step-text">' + _esc(step) + '</span></div>';
+    });
+    h += '</div></div>';
+  }
+  if (allowClinical && clin.businessSeq && clin.businessSeq.length > 0) {
+    h += '<div class="rpt-section"><div class="rpt-heading">BUSINESS TRANSLATION</div>';
+    h += '<div class="rpt-sequence">';
+    clin.businessSeq.forEach(function(step, i) {
+      h += '<div class="rpt-step biz"><span class="rpt-step-num">' + (i+1) + '</span><span class="rpt-step-text">' + _esc(step) + '</span></div>';
+    });
+    h += '</div></div>';
+  }
+  if (allowClinical && clin.researchFlag) {
+    h += '<div class="rpt-section rpt-research"><div class="rpt-heading">RESEARCH FLAG</div>';
+    h += '<div class="rpt-narrative research">' + _esc(clin.researchFlag) + '</div></div>';
+  }
+
+  // ── Phase tracker scores (neutral labels) ──
+  h += '<div class="rpt-section"><div class="rpt-heading">PHASE TRACKER SCORES — Thing 2</div>';
+  if (t2.available && Array.isArray(t2.phases)) {
+    t2.phases.forEach(function(p) {
+      var pct = Math.round(p.score * 100);
+      var color = PHASE_COLORS[p.id] || '#888';
+      var hot = p.score > DISPLAY_ACTIVE_BAR;
+      h += '<div class="rpt-phase-row"><span class="rpt-phase-id" style="color:' + (hot ? color : 'var(--text-ghost)') + '">' + _esc(p.neutralLabel || p.id) + '</span>';
+      h += '<span class="phase-bar-track" style="flex:1"><span class="phase-bar-fill" style="width:' + pct + '%;background:' + color + '"></span></span>';
+      h += '<span class="rpt-phase-val" style="color:' + (hot ? color : 'var(--text-ghost)') + '">' + p.score.toFixed(3) + '</span></div>';
+    });
+  } else {
+    h += '<div style="font-size:0.46rem;color:var(--text-ghost);font-style:italic">tracker not available</div>';
+  }
+  h += '</div>';
+
+  // ── Warnings ──
+  if ((data.warnings || []).length > 0) {
+    h += '<div class="rpt-section"><div class="rpt-heading">WARNINGS</div>';
+    data.warnings.forEach(function(w) {
+      h += '<div style="font-size:0.46rem;color:var(--altered);margin:3px 0;line-height:1.5">⚠ ' + _esc(w) + '</div>';
+    });
+    h += '</div>';
+  }
+
+  // ── Footer — kernel attribution ──
+  h += '<div class="rpt-footer">LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC<br>'
+     + _kernelBrand(data) + '<br>'
+     + 'Not Financial Advice · ' + date + '</div>';
+
+  document.getElementById('tab-report').innerHTML = h;
+}
+
+// Kernel-independent outlets so the page stays useful when the
+// kernel isn't eligible (per the helix-report premise shift: only
+// ~17% of the §3.3 universe currently produces a validated read).
+function openNewsFeed(ev) {
+  if (ev && ev.preventDefault) ev.preventDefault();
+  var input = document.getElementById('cikInput');
+  var cikRaw = input && input.value ? input.value.trim() : '';
+  var cikNum = cikRaw.replace(/^0+/, '');
+  // SEC EDGAR filings list — closest thing to a "live news feed" that
+  // doesn't require any internal system. When no CIK is entered, drop
+  // the user on EDGAR's full-text search start page.
+  var url = cikNum
+    ? 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=' + encodeURIComponent(cikNum) + '&type=&dateb=&owner=include&count=20'
+    : 'https://efts.sec.gov/LATEST/search-index?q=&forms=8-K&dateRange=custom&startdt=' + new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10) + '&enddt=' + new Date().toISOString().slice(0, 10);
+  window.open(url, '_blank', 'noopener');
+}
+
+function printReport() {
+  if (!currentResult) return;
+  var data = _adapt(currentResult);
+  var date = new Date().toLocaleDateString();
+  var allowClinical = _clinicalNarrativeAllowed(data);
+  var dom = data.t2.dominant_phase || null;
+  var clin = (allowClinical && dom) ? (PHASE_CLINICAL[dom] || {}) : {};
+  var ip = data.input_presence || {};
+  var t1 = data.t1;
+  var t2 = data.t2;
+  var t2ss = t2.state_summary || {};
+  var rec = data.reconciliation;
+  var alertActive = _alertActive(t1);
+
+  var h = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Helix Report</title>'
+        + '<style>body{font-family:"Courier New",monospace;max-width:720px;margin:40px auto;padding:20px;color:#222;line-height:1.6;font-size:13px}'
+        + 'h1{font-size:18px;border-bottom:2px solid #c9a94e;padding-bottom:6px}'
+        + 'h2{font-size:13px;color:#333;margin-top:18px;margin-bottom:6px;text-transform:uppercase;letter-spacing:2px;border-bottom:1px solid #999;padding-bottom:3px}'
+        + '.field{margin:2px 0}.alert{color:#c00;font-weight:bold}'
+        + '.section-t1{padding:10px 12px;border:1px solid #c9a94e;background:#fff8e0;margin:10px 0}'
+        + '.section-t1.alert-on{border-color:#c00;background:#ffefef}'
+        + '.section-t2{padding:10px 12px;border:1px solid #c9a94e;background:#f5f3ee;margin:10px 0}'
+        + '.section-rec{padding:10px 12px;border:1px solid #999;background:#f0f0e8;margin:10px 0}'
+        + '.section-rec.agree{border-color:#3a3;background:#e9f4e9}'
+        + '.section-rec.diverge{border-color:#c00;background:#fff0f0}'
+        + '.tag{display:inline-block;padding:1px 6px;font-size:9px;letter-spacing:1.5px;border:1px solid #999;color:#666;text-transform:uppercase}'
+        + '.tag.warn{border-color:#c80;color:#a80}'
+        + '.node{margin:3px 0;padding-left:10px;border-left:2px solid #c9a94e}.node b{color:#333}'
+        + '.narrative{padding:8px 12px;background:#f5f3ee;border-left:3px solid #c9a94e;margin:6px 0;font-size:12px;line-height:1.7}'
+        + '.narrative.research{border-left-color:#4a8fd4;background:#f0f4f8;font-style:italic;color:#555}'
+        + '.step{margin:4px 0;padding-left:8px}.step b{display:inline-block;width:20px;color:#c9a94e}.step.biz b{color:#4a8a5a}'
+        + '.warn{color:#a55;font-size:11px;margin:3px 0}'
+        + '.disc{margin-top:30px;padding-top:12px;border-top:2px solid #c9a94e;font-size:9px;color:#999;text-align:center}'
+        + '@media print{body{margin:20px}}'
+        + '</style></head><body>';
+  h += '<h1>LIMEN Helix · Helix Report</h1>';
+  h += '<div class="field"><b>' + _esc(data.entity_name) + '</b></div>';
+  h += '<div class="field">CIK: ' + _esc(data.cik) + ' · ' + date
+     + ' · history: ' + (data.history_quarters || 0) + 'Q (' + _esc(data.history_sufficiency)
+     + ') · confidence: ' + _esc(data.confidence_status) + '</div>';
+
+  // Section 1
+  h += '<div class="section-t1' + (alertActive ? ' alert-on' : '') + '">';
+  h += '<h2 style="border:0;padding:0;margin:0 0 4px">VALIDATED FINANCIAL DISTRESS — Thing 1</h2>';
+  if (alertActive) {
+    h += '<div class="field alert"><b>ALERT FIRED</b>'
+       + (t1.first_alert_quarter ? ' · ' + _esc(t1.first_alert_quarter) : '') + '</div>';
+    if (t1.distress_band) h += '<div class="field">distress band: ' + _esc(t1.distress_band) + '</div>';
+  } else {
+    h += '<div class="field"><b>' + _esc((t1.validation_status || 'unsupported').toUpperCase().replace(/_/g, ' ')) + '</b></div>';
+  }
+  h += '<div class="field" style="font-size:11px;color:#666">kernel: ' + _esc(t1.kernel_id || 'none')
+     + ' · validation: ' + _esc(t1.validation_status) + '</div>';
+  (t1.unsupported_reasons || []).forEach(function(r) { h += '<div class="field" style="font-size:11px">· ' + _esc(r) + '</div>'; });
+  (t1.narrative_safe || []).forEach(function(s) { h += '<div class="field" style="font-size:11px;font-style:italic;color:#555">' + _esc(s) + '</div>'; });
+  h += '</div>';
+
+  // Section 2
+  h += '<div class="section-t2">';
+  h += '<h2 style="border:0;padding:0;margin:0 0 4px">LONG-ARC PHASE TRACKER — Thing 2 <span class="tag warn">interpretive · unvalidated' + (data.is_financial ? ' · bank' : '') + '</span></h2>';
+  if (!t2.available) {
+    h += '<div class="field" style="color:#888">tracker not available</div>';
+    (t2.unsupported_reasons || []).forEach(function(r) { h += '<div class="field" style="font-size:11px">· ' + _esc(r) + '</div>'; });
+  } else {
+    h += '<div class="field"><b>phase posture:</b> ' + _esc(t2.phase_state_label || '—') + '</div>';
+    h += '<div class="field" style="font-size:11px">'
+       + 'C(t): ' + (t2ss.C_t_present ? _esc(t2ss.C_t_bucket || 'present') : 'not computed')
+       + ' · H(t): ' + ((typeof t2ss.H_length_quarters === 'number' && t2ss.H_length_quarters > 0) ? (t2ss.H_length_quarters + 'Q') : '—')
+       + ' · runway: ' + _esc(t2ss.runway_classification || 'n/a') + '</div>';
+    h += '<div class="field" style="font-size:11px;color:#666">kernel: ' + _esc(t2.kernel_id || 'none')
+       + ' · validation: ' + _esc(t2.validation_status) + '</div>';
+  }
+  (t2.narrative_safe || []).forEach(function(s) { h += '<div class="field" style="font-size:11px;font-style:italic;color:#555">' + _esc(s) + '</div>'; });
+  h += '<div class="field" style="font-size:10px;color:#888;margin-top:4px">ⓘ Long-arc tracker is interpretive only and cannot authorize distress action.</div>';
+  h += '</div>';
+
+  // Section 3
+  var recCls = rec.agree === true ? ' agree' : rec.agree === false ? ' diverge' : '';
+  h += '<div class="section-rec' + recCls + '">';
+  h += '<h2 style="border:0;padding:0;margin:0 0 4px">RECONCILIATION</h2>';
+  h += '<div class="field"><b>' + (rec.agree === true ? 'AGREE' : rec.agree === false ? 'DIVERGE' : 'INDETERMINATE') + '</b></div>';
+  h += '<div class="field" style="font-size:11px">' + _esc(rec.summary || '') + '</div>';
+  h += '<div class="field" style="font-size:10px;color:#666">primacy: <b>thing1</b> · action authority: <b>' + _esc(rec.action_authority) + '</b></div>';
+  h += '</div>';
+
+  // Input presence
+  h += '<h2>Input Presence</h2>';
+  h += '<div class="field">Revenue: ' + (ip.revenue_quarters || 0) + 'Q · OCF: ' + (ip.ocf_quarters || 0) + 'Q · Cash: ' + (ip.cash_quarters || 0) + 'Q · Debt: ' + (ip.debt_quarters || 0) + 'Q' + (data.is_financial ? ' · Deposits: ' + (ip.deposits_quarters || 0) + 'Q' : '') + '</div>';
+  h += '<div class="field">Latest quarter: ' + _esc(data.latest_quarter || '—') + ' · History: ' + (data.history_quarters || 0) + 'Q (' + _esc(data.history_sufficiency) + ')</div>';
+
+  // Clinical templates — only when Thing 1 alert is active
+  if (allowClinical && clin.nodeCluster && clin.nodeCluster.length > 0) {
+    h += '<h2>Active Node Cluster</h2>';
+    clin.nodeCluster.forEach(function(nc) {
+      h += '<div class="node"><b>' + _esc(nc.node) + '</b> — ' + _esc(nc.role) + '</div>';
+    });
+  }
+  if (allowClinical && clin.bioAnalog) {
+    h += '<h2>Biological Analog</h2><div class="narrative">' + _esc(clin.bioAnalog) + '</div>';
+  }
+  if (allowClinical && clin.clinicalSeq) {
+    h += '<h2>Clinical Intervention Sequence (Polyvagal)</h2>';
+    clin.clinicalSeq.forEach(function(s, i) { h += '<div class="step"><b>' + (i+1) + '.</b> ' + _esc(s) + '</div>'; });
+  }
+  if (allowClinical && clin.businessSeq) {
+    h += '<h2>Business Translation</h2>';
+    clin.businessSeq.forEach(function(s, i) { h += '<div class="step biz"><b>' + (i+1) + '.</b> ' + _esc(s) + '</div>'; });
+  }
+  if (allowClinical && clin.researchFlag) {
+    h += '<h2>Research Flag</h2><div class="narrative research">' + _esc(clin.researchFlag) + '</div>';
+  }
+
+  // Phase tracker scores (neutral labels)
+  h += '<h2>Phase Tracker Scores — Thing 2</h2>';
+  if (t2.available && Array.isArray(t2.phases)) {
+    t2.phases.forEach(function(p) {
+      h += '<div class="field">' + _esc(p.neutralLabel || p.id) + ': ' + p.score.toFixed(3) + '</div>';
+    });
+  } else {
+    h += '<div class="field" style="color:#888;font-style:italic">tracker not available</div>';
+  }
+
+  // Warnings
+  if ((data.warnings || []).length > 0) {
+    h += '<h2>Warnings</h2>';
+    data.warnings.forEach(function(w) { h += '<div class="warn">⚠ ' + _esc(w) + '</div>'; });
+  }
+
+  h += '<div class="disc">LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC<br>'
+     + _kernelBrand(data) + '<br>'
+     + 'Not Financial Advice · ' + date + '</div></body></html>';
+
+  var w = window.open('', '_blank');
+  w.document.write(h);
+  w.document.close();
+  w.focus();
+  setTimeout(function(){ w.print(); }, 600);
+}
+
+// === BIO BUTTON ===
+var _bioEngine=null,_bioLPTimer=null,_bioLastTap=0;
+document.getElementById('bioBtn').addEventListener('mousedown',function(){_bioLPTimer=setTimeout(function(){_bioLPTimer=null;activateBioRPPG()},500)});
+document.getElementById('bioBtn').addEventListener('mouseup',function(){if(_bioLPTimer){clearTimeout(_bioLPTimer);_bioLPTimer=null;var now=Date.now();if(now-_bioLastTap<300){activateBioBLE();_bioLastTap=0}else{_bioLastTap=now}}});
+document.getElementById('bioBtn').addEventListener('mouseleave',function(){if(_bioLPTimer){clearTimeout(_bioLPTimer);_bioLPTimer=null}});
+function activateBioRPPG(){var btn=document.getElementById('bioBtn'),st=document.getElementById('bioStatus');if(typeof BiosensorEngine==='undefined'){st.textContent='biosensorEngine.js not loaded';return}if(!_bioEngine)_bioEngine=new BiosensorEngine();btn.classList.add('active');st.textContent='rPPG CAMERA ACTIVE';try{_bioEngine.startChannel('rPPG')}catch(e){st.textContent='rPPG: '+e.message}}
+function activateBioBLE(){var btn=document.getElementById('bioBtn'),st=document.getElementById('bioStatus');if(typeof BiosensorEngine==='undefined'){st.textContent='biosensorEngine.js not loaded';return}if(!_bioEngine)_bioEngine=new BiosensorEngine();btn.classList.add('active');st.textContent='BLE HRV ACTIVE';try{_bioEngine.startChannel('BLE')}catch(e){st.textContent='BLE: '+e.message}}
+
+// === INIT ===
+window.addEventListener('resize', layoutNodes);
+layoutNodes();
+draw();
+
+// === URL PARAM AUTO-POPULATE ===
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var cikParam = params.get('cik');
+  var companyParam = params.get('company');
+  if (cikParam) {
+    document.getElementById('cikInput').value = cikParam;
+    if (companyParam) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'assets/data/companies/' + companyParam + '.json', true);
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          try {
+            var co = JSON.parse(xhr.responseText);
+            var banner = document.createElement('div');
+            banner.style.cssText = 'padding:8px 16px;background:rgba(201,169,78,0.04);border-bottom:1px solid rgba(201,169,78,0.1);font-size:0.45rem;letter-spacing:1.5px;color:rgba(201,169,78,0.6)';
+            banner.innerHTML = '<strong>' + (co.name || '').replace(/</g,'&lt;') + '</strong> &middot; ' +
+              (co.ticker || '') + ' &middot; CIK ' + (co.cik || '') +
+              ' &middot; <a href="company-portal.html?company=' + companyParam + '" style="color:rgba(201,169,78,0.5);text-decoration:none">&larr; Company Portal</a>';
+            var leftPanel = document.getElementById('leftPanel');
+            leftPanel.insertBefore(banner, leftPanel.firstChild);
+          } catch(e) {}
+        }
+      };
+      xhr.send();
+    }
+    // Auto-run protected server kernel after brief delay to let UI settle
+    setTimeout(function() { runAnalysis(); }, 300);
+  }
+})();
+
+</script>
+<script src="biosensorEngine.js"></script>
+</body>
+</html>

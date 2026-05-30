@@ -1,0 +1,1190 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "compass_pathways",
+  "slug": "compass_pathways",
+  "name": "COMPASS Pathways PLC",
+  "ticker": "CMPS",
+  "cik": "1816736",
+  "sic": "2834",
+  "industry": "Pharmaceutical Preparations — Psychedelic",
+  "domainId": "medicine",
+  "portalAttachment": "medicine-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "CPIMEDSL",
+    "PCU325411325411",
+    "CES6562000001",
+    "MMNRNJ"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001816736.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "CPIMEDSL",
+        "PCU325411325411",
+        "CES6562000001"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "CMPS"
+  ],
+  "commodityExposure": [
+    "psilocybin (Schedule I controlled precursor, DEA-licensed manufacturing)",
+    "pharmaceutical excipients (binders, fillers, coatings)",
+    "clinical trial consumables (blister packs, bottles, labels)",
+    "cold-chain logistics (temperature-controlled distribution)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1816736",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.42,
+    "alert": true,
+    "distressBand": "yellow",
+    "dominantPhase": "p4",
+    "financialState": {
+      "cashLatest": 187000000,
+      "debtLatest": 0,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Cash burn rate 28M USD/quarter; runway 6–8 quarters at current burn without capital raise",
+    "No revenue from COMP360 psilocybin therapy; Phase 3 trial completion pushed to 2025",
+    "Regulatory pathway uncertainty: FDA breakthrough therapy designation does not guarantee approval",
+    "Competitive entry risk: Atai Life Sciences, Tryp Therapeutics, and Usona Institute advancing parallel programs"
+  ],
+  "opportunitySignals": [
+    "COMP360 Phase 3 COMP001 trial interim data (expected Q1 2025) could trigger 40–60% upside on positive efficacy signal",
+    "FDA Breakthrough Therapy designation (2019) positions COMPASS for accelerated review pathway; potential approval 2025–2026",
+    "Psilocybin therapy market TAM estimated 10–15B USD by 2030 if regulatory approval achieved; COMPASS holds foundational IP",
+    "Strategic partnership or acquisition interest from large pharma (Eli Lilly, Roche, Novartis) if Phase 3 data supports"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "COMP360 Phase 3 trial (COMP001) — primary endpoint: treatment-resistant depression (TRD)",
+      "COMP004 Phase 2 trial — PTSD indication (early-stage)",
+      "Psilocybin-assisted therapy protocol development and therapist training infrastructure"
+    ],
+    "engineOutputs": [
+      "Breakthrough Therapy Designation (FDA, 2019) — accelerated pathway",
+      "Orphan Drug Designation (FDA, 2020) — TRD indication",
+      "Clinical trial enrollment and safety data accumulation; no commercial revenue to date"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "COMPASS Pathways is the clinical-stage leader in psilocybin-assisted therapy for treatment-resistant depression, holding FDA Breakthrough Therapy designation (2019) for COMP360. The company's Phase 3 trial (COMP001) represents a pivotal regulatory inflection point for psychedelic medicine's transition from research to mainstream psychiatry. Success or failure of COMP360 will establish the clinical and commercial viability of psilocybin therapy as a reimbursable psychiatric treatment, directly shaping the 10–15B USD addressable market for psychedelic-assisted mental health interventions.",
+  "portalRelevance": "COMPASS Pathways is a critical signal node for the emerging psychedelic medicine sector and psychiatric innovation broadly. As a pre-revenue, cash-constrained biotech with a single pivotal asset (COMP360), the company's financial health (187M USD cash, 28M USD quarterly burn, 6–8 quarter runway) and trial trajectory are leading indicators of sector-wide regulatory acceptance and capital availability. Institutional investors, pharma strategists, and mental health policy makers track COMPASS's Phase 3 outcomes and cash runway as proxies for the viability of psychedelic-assisted therapy as a mainstream treatment modality and the sector's ability to attract follow-on capital.",
+  "notes": {
+    "cohortStatus": "Pre-commercial biotech; single-asset concentration risk",
+    "envelopeStatus": "ELIGIBLE_NOW — Phase 3 trial active; regulatory decision point 2025–2026"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "COMP001 Phase 3 trial enrollment and interim efficacy/safety data releases (expected Q1 2025); primary endpoint: depression symptom reduction vs. placebo",
+        "Quarterly cash burn rate (28M USD/Q) and capital raise announcements; runway depletion risk monitoring via 10-Q filings",
+        "FDA regulatory feedback letters and breakthrough therapy designation status updates; breakthrough therapy maintenance contingent on trial progress",
+        "Competitive trial readouts from Atai Life Sciences (ATAI), Tryp Therapeutics (TRP-8802-201), and Usona Institute Phase 2 programs"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: P4 (clinical inflection, pre-revenue, high cash burn) — trajectory toward P5 (approval/partnership) or P8 (distress/dilution); cash runway 6–8 quarters at 28M USD/quarter burn",
+        "Regulatory state: Breakthrough Therapy Designation (2019) active; Orphan Drug Designation (2020) active; FDA interactions ongoing; approval probability 55–65% conditional on Phase 3 success and positive interim data Q1 2025",
+        "Competitive positioning: COMPASS holds foundational psilocybin IP (formulation, therapy protocols); therapist-training infrastructure is key moat; Atai portfolio (Tryp, Usona) advancing in parallel indications (PTSD, depression)",
+        "Capital structure: 187M USD cash, zero debt, 12-month history of 28M USD quarterly burn; capital raise probability 70% by Q2 2025; dilution impact 15–25% depending on pricing"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Distress signature: Pre-revenue biotech with 28M USD quarterly burn, 187M USD cash, zero debt, and single pivotal asset — classic P4 cash-depletion risk if Phase 3 fails or approval delays; runway exhaustion Q3 2025 without capital raise",
+        "Growth inflection: Phase 3 success (efficacy + safety) triggers 40–60% stock upside, partnership/acquisition interest from Eli Lilly/Roche/Novartis, and path to commercial revenue 2026–2027; interim data Q1 2025 is critical inflection point",
+        "Regulatory inflection: FDA approval of COMP360 would establish psilocybin-assisted therapy as reimbursable psychiatric treatment, unlocking 10–15B USD TAM and validating sector-wide investment thesis; approval probability 55–65% conditional on Phase 3 success",
+        "Sector contagion: COMPASS failure would signal regulatory skepticism of psychedelic medicine, depressing valuations across Atai (ATAI, ~500M USD market cap), Tryp, Usona, and downstream biotech investors; success validates sector and accelerates capital flows"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: Long COMPASS if Phase 3 interim data (Q1 2025) shows efficacy/safety superiority vs. placebo; neutral/short if trial delays, efficacy misses, or capital raise dilution >20%",
+        "Risk hedge: Pair-trade long COMPASS / short Atai Life Sciences (ATAI) if COMPASS Phase 3 data is superior; hedge sector concentration via short biotech index (XBI) if capital raise dilution expected; monitor DEA psilocybin manufacturing quota expansion",
+        "Capital structure intervention: Monitor for equity raise (likely 100–150M USD by Q2 2025); dilution impact 15–25% depending on pricing; model share count increase and EPS accretion/dilution",
+        "Regulatory engagement: Track FDA feedback letters, breakthrough therapy status, and potential accelerated approval pathway; monitor for orphan drug exclusivity challenges; monitor DEA manufacturing license expansion and psilocybin quota allocation"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Trade execution: Establish long position (2–5% portfolio weight) on Phase 3 interim data release (Q1 2025); scale into strength if efficacy signal confirmed; set stop-loss at 20% below entry if efficacy misses",
+        "Capital structure: Prepare for equity raise dilution; model 15–25% share count increase; adjust position sizing accordingly; monitor for convertible debt issuance as alternative to equity",
+        "Monitoring setup: Weekly cash burn tracking via quarterly 10-Q filings, monthly trial enrollment updates via investor relations, FDA correspondence monitoring, and competitive trial readout surveillance (Atai, Tryp, Usona)",
+        "Engagement: Attend investor conferences (BIO, Jefferies Healthcare, Cowen Psychedelic Medicine Summit); request management guidance on Phase 3 timeline, interim data expectations, and capital raise plans; monitor for M&A interest from large pharma"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Phase 3 interim data (Q1 2025): Primary endpoint (depression symptom reduction) vs. placebo; secondary endpoints (safety, durability, quality of life); market reaction 30–60% upside if positive, 20–40% downside if negative or delayed",
+        "Quarterly cash burn and runway: Monitor for acceleration or deceleration; capital raise announcements trigger 5–15% dilution impact; track cash balance vs. runway model; alert if runway <4 quarters",
+        "FDA regulatory feedback: Breakthrough therapy status maintenance, approval timeline guidance, and post-marketing surveillance requirements; monitor for FDA meeting minutes and regulatory correspondence",
+        "Competitive readouts: Atai/Tryp Phase 2/3 data releases; market share and indication prioritization implications; monitor for large pharma partnerships or acquisitions in psychedelic medicine space"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Phase 3 outcome learning: If efficacy confirmed, recalibrate approval probability to 75–85% and TAM realization timeline to 2026–2027; adjust sector-wide psychedelic medicine priors upward; increase position weight to 5–8%",
+        "Cash burn trajectory: Update runway model based on actual quarterly burn; adjust capital raise probability and dilution estimates; model for potential debt financing if equity raise fails",
+        "Competitive signal reweighting: If COMPASS Phase 3 outperforms Atai/Tryp trials, increase COMPASS relative valuation weight and reduce sector-wide concentration risk; monitor for acquisition interest from large pharma",
+        "Regulatory pathway refinement: Incorporate FDA feedback into approval timeline and post-marketing surveillance cost estimates; update risk-adjusted NPV model; monitor for psilocybin rescheduling legislation and DEA quota expansion"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "COMPASS Pathways operates as a clinical-stage decision node in the emerging psychedelic medicine ecosystem. The company's core function is to translate psilocybin pharmacology into a regulated, reimbursable psychiatric treatment through Phase 3 trial execution (COMP001), FDA engagement, and therapist-training infrastructure development. COMPASS's financial health (187M USD cash, 28M USD quarterly burn, 6–8 quarter runway) and trial outcomes (efficacy, safety, regulatory feedback) serve as leading indicators for the entire sector's viability. The company's success or failure will determine whether psychedelic-assisted therapy becomes a mainstream psychiatric modality or remains a niche research domain. Functionally, COMPASS integrates clinical research (trial sites, patient recruitment), regulatory strategy (FDA interactions, breakthrough therapy management), intellectual property (psilocybin formulation, therapy protocols), and capital markets (equity raises, partnership negotiations) into a single pivotal asset (COMP360) that will determine shareholder value and sector trajectory.",
+    "suppliers": [
+      {
+        "name": "Perception Neuroscience",
+        "ticker": null,
+        "cik": null,
+        "slug": "perception_neuroscience",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Psilocybin Active Pharmaceutical Ingredient (API) Supply",
+        "relationshipNote": "Perception Neuroscience supplies pharmaceutical-grade psilocybin API for COMPASS clinical trials and future commercial manufacturing. Psilocybin is a Schedule I controlled substance; supply chain is DEA-regulated and capacity-constrained. COMPASS's manufacturing scale-up depends on Perception's ability to increase GMP-compliant production from research to commercial volumes. Perception Neuroscience is also backed by Atai Life Sciences, creating potential supply-chain conflict if Atai portfolio companies (Tryp, Usona) compete for psilocybin allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Catalent Pharma Solutions",
+        "ticker": "CTLT",
+        "cik": "1407623",
+        "slug": "catalent_pharma",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Clinical Trial Manufacturing & Formulation",
+        "relationshipNote": "Catalent provides formulation development, manufacturing, and packaging services for COMP360 clinical trial supplies. Catalent's expertise in controlled-substance handling and GMP manufacturing is critical for COMPASS's Phase 3 trial execution and future commercial scale-up. Catalent's capacity and pricing directly impact COMPASS's manufacturing costs and timeline. Catalent's 2024 revenue ~3.8B USD; biotech manufacturing is ~25% of revenue, indicating significant capacity for COMPASS scale-up.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Parexel International",
+        "ticker": null,
+        "cik": null,
+        "slug": "parexel_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Clinical Trial Operations & Site Management",
+        "relationshipNote": "Parexel provides clinical trial operations, site management, and patient recruitment services for COMP001 Phase 3 trial. Parexel's network of 1,000+ trial sites and patient recruitment capabilities are essential for COMPASS's enrollment targets. Trial enrollment speed directly impacts Phase 3 timeline and regulatory approval pathway. Parexel's 2024 revenue ~2.4B USD; clinical trial services represent ~40% of revenue, indicating deep expertise in psychedelic medicine trials.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Covance (LabCorp Drug Development)",
+        "ticker": "LDL",
+        "cik": "0000060086",
+        "slug": "covance_labcorp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Clinical Laboratory & Safety Monitoring",
+        "relationshipNote": "Covance provides central laboratory services, safety monitoring, and bioanalytical testing for COMP001 Phase 3 trial. Safety data quality and timeliness are critical for FDA interactions and breakthrough therapy status maintenance. Covance's capacity and turnaround time directly impact trial safety reporting and regulatory compliance. LabCorp's 2024 revenue ~3.3B USD; drug development services represent ~35% of revenue, indicating significant capacity for COMPASS trial support.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Pharmaceutical Product Development (PPD)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ppd_pharma",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Clinical Data Management & Biostatistics",
+        "relationshipNote": "PPD provides clinical data management, biostatistics, and regulatory submissions support for COMP001 Phase 3 trial. Data integrity and statistical rigor are essential for FDA approval pathway. PPD's expertise in psychedelic medicine trials and regulatory submissions directly impacts approval probability. PPD is part of Thermo Fisher Scientific (acquired 2018 for ~4.3B USD), indicating deep resources for COMPASS trial support.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Colorcon (Pharmaceutical Excipients)",
+        "ticker": null,
+        "cik": null,
+        "slug": "colorcon_excipients",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Pharmaceutical Coatings & Excipients",
+        "relationshipNote": "Colorcon supplies pharmaceutical coatings and excipients for COMP360 formulation. Colorcon's proprietary coating technologies enable controlled-release formulations that may enhance psilocybin bioavailability and patient tolerability. COMPASS's formulation IP includes proprietary excipient combinations that differentiate COMP360 from competitor formulations. Colorcon is a subsidiary of Merck KGaA; 2024 revenue ~500M USD in specialty chemicals.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Evonik Industries (Pharmaceutical Excipients)",
+        "ticker": "EVK",
+        "cik": null,
+        "slug": "evonik_excipients",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Pharmaceutical Binders & Fillers",
+        "relationshipNote": "Evonik supplies pharmaceutical binders and fillers for COMP360 formulation. Evonik's specialty chemicals portfolio includes HPMC (hydroxypropyl methylcellulose) and other excipients critical for tablet formulation. COMPASS's manufacturing scale-up depends on Evonik's capacity to supply excipients at commercial volumes. Evonik's 2024 revenue ~18B USD; specialty chemicals represent ~40% of revenue.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "BASF (Pharmaceutical Excipients)",
+        "ticker": "BAS",
+        "cik": null,
+        "slug": "basf_excipients",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Pharmaceutical Excipients & Raw Materials",
+        "relationshipNote": "BASF supplies pharmaceutical excipients and raw materials for COMP360 formulation. BASF's portfolio includes cellulose derivatives, polymers, and other excipients used in tablet and capsule formulations. BASF's 2024 revenue ~80B USD; pharmaceutical excipients represent ~5% of revenue, indicating significant capacity for COMPASS scale-up.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Therapist Training & Certification Networks (MAPS, ICEERS, COMPASS Internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "therapist_training_networks",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Therapist Training, Certification, and Protocol Development",
+        "relationshipNote": "COMPASS has developed proprietary therapist training and certification protocols for psilocybin-assisted therapy delivery. MAPS (Multidisciplinary Association for Psychedelic Studies) and ICEERS (International Center for Ethnobotanical Education, Research & Service) provide complementary training and research infrastructure. COMPASS's therapist network is a key competitive moat; commercial success depends on training capacity and therapist availability. COMPASS has trained 100+ therapists as of 2024; commercial launch requires 500+ trained therapists.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Life Sciences",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_life_sciences",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Controlled Substance Logistics & Cold Chain",
+        "relationshipNote": "DHL Life Sciences provides specialized logistics for controlled substances (Schedule I psilocybin) and clinical trial materials. DHL's DEA-licensed facilities and cold-chain capabilities are essential for maintaining psilocybin stability and regulatory compliance across trial sites. DHL Life Sciences operates 50+ temperature-controlled facilities globally; logistics cost and reliability directly impact trial execution timeline.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "FedEx Specialty Logistics",
+        "ticker": "FDX",
+        "cik": "0001018724",
+        "slug": "fedex_specialty",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Clinical Trial Material Distribution",
+        "relationshipNote": "FedEx Specialty Logistics provides temperature-controlled distribution of clinical trial supplies to trial sites. FedEx's network and tracking capabilities ensure timely delivery and regulatory compliance. FedEx's 2024 revenue ~84B USD; specialty logistics represent ~8% of revenue. Distribution reliability impacts site readiness and enrollment continuity.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lyophilization Services of America (LSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "lyophilization_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Lyophilization (Freeze-Drying) of Psilocybin Formulations",
+        "relationshipNote": "LSA provides lyophilization services for psilocybin formulation stability and shelf-life extension. Lyophilization is critical for clinical trial supply chain stability and future commercial manufacturing. LSA's capacity and expertise in controlled-substance handling directly impact COMPASS's manufacturing roadmap.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Regulatory Affairs Consulting (Parexel, Tufts Center for the Study of Drug Development)",
+        "ticker": null,
+        "cik": null,
+        "slug": "regulatory_affairs_consulting",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "FDA Regulatory Strategy & Submissions",
+        "relationshipNote": "COMPASS engages regulatory affairs consultants (Parexel, Tufts Center for the Study of Drug Development) for FDA strategy, breakthrough therapy management, and regulatory submissions. Expert regulatory guidance is critical for navigating psychedelic medicine's novel regulatory pathway. Tufts Center's 2023 study estimated COMPASS's COMP360 approval probability at 55–65% conditional on Phase 3 success.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [],
+    "competitors": [
+      {
+        "name": "Tryp Therapeutics",
+        "ticker": null,
+        "cik": null,
+        "slug": "tryp_therapeutics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Psilocybin Therapy for Depression & PTSD",
+        "relationshipNote": "Tryp Therapeutics (Atai portfolio company) is advancing TRP-8802 (psilocybin) for major depressive disorder and PTSD. Tryp's Phase 2 trial (TRP-8802-201) is enrolling in parallel with COMPASS's Phase 3 trial. Tryp's smaller scale and earlier-stage program create lower near-term competitive risk, but success could validate psilocybin efficacy and accelerate sector-wide approval timelines. Tryp raised $50M Series B in 2021; current valuation ~200M USD.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Usona Institute",
+        "ticker": null,
+        "cik": null,
+        "slug": "usona_institute",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Psilocybin Research & Clinical Development",
+        "relationshipNote": "Usona Institute (Atai portfolio company, nonprofit research organization) is conducting Phase 2 trials of psilocybin for major depressive disorder. Usona's nonprofit structure and academic partnerships (Johns Hopkins, UCSF) provide regulatory credibility but slower commercialization timeline. Usona's research outputs (efficacy data, safety profiles) influence sector-wide regulatory expectations and COMPASS's competitive positioning. Usona received $10M grant from Usona Foundation in 2020.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eli Lilly & Company",
+        "ticker": "LLY",
+        "cik": "0000060086",
+        "slug": "eli_lilly",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Large Pharma Psychedelic Medicine Entry",
+        "relationshipNote": "Eli Lilly announced psilocybin research program (LY2702331) for depression in 2021; program status and timeline are undisclosed. Lilly's entry into psychedelic medicine signals sector legitimacy but creates acquisition/partnership risk for COMPASS. If Lilly advances to Phase 2/3, Lilly's manufacturing scale and commercial infrastructure could accelerate approval and market penetration, pressuring COMPASS's valuation. Lilly's 2024 revenue ~34B USD; psychiatry franchise represents ~15% of revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Roche / Genentech",
+        "ticker": "RHHBY",
+        "cik": null,
+        "slug": "roche_genentech",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Large Pharma Psychedelic Medicine Interest",
+        "relationshipNote": "Roche has expressed interest in psychedelic medicine through partnerships and acquisitions (e.g., Perception Neuroscience stake). Roche's psychiatry franchise (Valium, Klonopin legacy) and neuroscience capabilities position it as a potential acquirer of COMPASS or partner for COMP360 commercialization. Roche's 2024 revenue ~63B USD; psychiatry/neuroscience represents ~20% of revenue. Roche's involvement would validate sector and create exit opportunity for COMPASS shareholders.",
+        "confidence": "low",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Novartis",
+        "ticker": "NVS",
+        "cik": null,
+        "slug": "novartis",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Large Pharma Psychiatry & Neuroscience",
+        "relationshipNote": "Novartis has psychiatry and neuroscience franchises (Lurasidone, Fingolimod) and may pursue psychedelic medicine partnerships or acquisitions. Novartis's interest in COMPASS would validate sector and create acquisition premium. Novartis's 2024 revenue ~60B USD; psychiatry/neuroscience represents ~18% of revenue.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cybin Inc.",
+        "slug": "cybin",
+        "ticker": "CYBN",
+        "cik": "1824596",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Psilocybin Therapy Development",
+        "relationshipNote": "Cybin Inc. is a clinical-stage psychedelic biotech advancing CYB001 (psilocybin) for treatment-resistant depression. Cybin's Phase 1/2 program is earlier-stage than COMPASS's Phase 3 trial, creating lower near-term competitive risk. Cybin's 2024 market cap ~50M USD vs. COMPASS ~200M USD reflects COMPASS's advanced clinical stage. Cybin raised $15M Series B in 2021.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "MindMed Inc.",
+        "slug": "mind_medicine",
+        "ticker": "MNMD",
+        "cik": "1811882",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "LSD-Assisted Therapy for Anxiety & PTSD",
+        "relationshipNote": "MindMed Inc. is advancing MM-120 (LSD) for anxiety and PTSD. MindMed's LSD program targets different indications than COMPASS's psilocybin program, creating lower direct competitive risk but validating psychedelic medicine sector. MindMed's Phase 2 trial (MM-120-03) is enrolling in parallel with COMPASS's Phase 3 trial. MindMed's 2024 market cap ~80M USD vs. COMPASS ~200M USD reflects COMPASS's advanced clinical stage.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Atai Life Sciences",
+        "ticker": "ATAI",
+        "cik": "1839992",
+        "slug": "atai_life_sciences",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Diversified Psychedelic Medicine Platform Company",
+        "relationshipNote": "Atai Life Sciences is a diversified psychedelic biotech platform holding stakes in 10+ companies (Perception Neuroscience, Usona Institute, Tryp Therapeutics, Ketamine One, Envision Pharma). Atai's portfolio approach diversifies risk across multiple indications (depression, PTSD, addiction) and modalities (psilocybin, ketamine, DMT). COMPASS's single-asset focus creates competitive risk if Atai portfolio companies advance faster or achieve superior efficacy. Atai's 2024 market cap ~500M USD vs. COMPASS ~200M USD reflects portfolio diversification premium.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "GH Research PLC",
+        "slug": "gh_research",
+        "ticker": "GHRS",
+        "cik": "1844419",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Ketamine-Assisted Therapy for Treatment-Resistant Depression",
+        "relationshipNote": "GH Research PLC is advancing GH001 (ketamine) for treatment-resistant depression. GH Research's ketamine program targets the same indication (TRD) as COMPASS's COMP360 psilocybin program, creating direct competitive risk. GH Research's Phase 2b trial (GH001-US-301) is enrolling in parallel with COMPASS's Phase 3 trial. GH Research's 2024 market cap ~150M USD vs. COMPASS ~200M USD reflects comparable clinical stage.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Food and Drug Administration (FDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Clinical Trial Oversight & Drug Approval Authority",
+        "relationshipNote": "FDA's Center for Drug Evaluation and Research (CDER) oversees COMP001 Phase 3 trial and COMP360 approval pathway. FDA granted Breakthrough Therapy Designation (2019) and Orphan Drug Designation (2020), accelerating review timeline. FDA's feedback on trial design, safety monitoring, and efficacy endpoints directly determines approval probability and timeline. COMPASS's regulatory success depends on FDA interactions and breakthrough therapy status maintenance through Phase 3 completion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Drug Enforcement Administration (DEA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dea",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Controlled Substance Scheduling & Manufacturing Licensing",
+        "relationshipNote": "DEA regulates psilocybin as Schedule I controlled substance and licenses COMPASS's manufacturing, storage, and distribution of psilocybin API. DEA licensing is prerequisite for clinical trials and future commercial manufacturing. DEA's willingness to expand psilocybin manufacturing quotas directly impacts COMPASS's supply chain and commercial scale-up timeline. COMPASS holds DEA manufacturing license for psilocybin; quota expansion is contingent on Phase 3 trial progress.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Public Company Disclosure & Investor Protection",
+        "relationshipNote": "SEC oversees COMPASS's public company disclosures, including trial progress, financial condition, and risk factors. COMPASS's status as a pre-revenue biotech with single pivotal asset requires detailed disclosure of trial timeline, cash runway, and capital raise plans. SEC scrutiny of psychedelic medicine sector and COMPASS's regulatory pathway is increasing; COMPASS filed 10-K (2024) with detailed risk disclosures on regulatory uncertainty.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "European Medicines Agency (EMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "European Clinical Trial & Drug Approval Authority",
+        "relationshipNote": "EMA oversees COMP001 Phase 3 trial sites in Europe and potential COMP360 approval pathway in EU. EMA's regulatory framework for psychedelic medicine is less developed than FDA's; COMPASS's European trial sites represent ~30% of enrollment. COMPASS's European approval strategy is secondary to FDA pathway; EMA approval expected 12–18 months after FDA approval.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Congress (Psychedelic Medicine Advocacy)",
+        "ticker": null,
+        "cik": null,
+        "slug": "congress_psychedelic",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Legislative Support for Psychedelic Medicine Research",
+        "relationshipNote": "Congressional advocates (e.g., Rep. Alexandria Ocasio-Cortez, Sen. Cory Booker) have introduced bills supporting psychedelic medicine research and rescheduling. Psychedelic Medicine Caucus (formed 2023) includes 30+ members supporting sector. Legislative support reduces regulatory risk and accelerates sector-wide acceptance. COMPASS benefits from favorable legislative environment; psilocybin rescheduling probability estimated 20–30% by 2026.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Financial Compliance",
+      "relationshipNote": "Deloitte serves as COMPASS's external auditor, providing annual audit of financial statements and internal controls. Deloitte's audit opinion is critical for investor confidence and regulatory compliance. Deloitte's expertise in biotech accounting (R&D capitalization, stock-based compensation, cash burn modeling) ensures accurate financial reporting. Deloitte's 2024 audit opinion on COMPASS's 2023 financial statements was unqualified; audit fees estimated $500K–$750K annually.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Founders Fund",
+        "ticker": null,
+        "cik": null,
+        "slug": "founders_fund",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Venture Capital Investor & Board Representation",
+        "relationshipNote": "Founders Fund (Peter Thiel's venture firm) is an early investor in COMPASS and holds board representation. Founders Fund led COMPASS's Series B round ($27M, 2018) and Series C round ($75M, 2019). Founders Fund's backing provides credibility and access to follow-on capital. Founders Fund's involvement signals confidence in COMPASS's regulatory pathway and commercial potential.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Institutional Investors (Fidelity, Vanguard, BlackRock)",
+        "ticker": "FMR,BLK",
+        "cik": null,
+        "slug": "institutional_investors",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Public Equity Holders & Capital Providers",
+        "relationshipNote": "Fidelity, Vanguard, and BlackRock hold significant stakes in COMPASS as public equity investors. Institutional ownership represents ~45% of COMPASS's public float as of 2024. Institutional investors' willingness to hold through Phase 3 trial and capital raises is critical for COMPASS's financial sustainability. Institutional ownership provides liquidity and capital stability for future equity raises.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "13F filings"
+        ]
+      },
+      {
+        "name": "Compass Diversified Holdings",
+        "ticker": "CODI",
+        "cik": "1590914",
+        "slug": "compass_diversified",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Investor & Potential Acquirer",
+        "relationshipNote": "Compass Diversified Holdings (CODI) is a diversified holding company with stakes in consumer and specialty businesses. CODI has expressed interest in psychedelic medicine and may be a strategic investor or acquirer of COMPASS. CODI's 2024 market cap ~1.2B USD; acquisition of COMPASS would represent ~15–20% of CODI's market cap. CODI's capital and operational expertise could accelerate COMPASS's commercial scale-up.",
+        "confidence": "low",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Debt Capital Markets (Investment Banks, Lenders)",
+        "ticker": null,
+        "cik": null,
+        "slug": "debt_capital_markets",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Financing & Credit Facilities",
+        "relationshipNote": "COMPASS has no outstanding debt as of 2024; debt capital markets are not currently active. However, COMPASS may pursue debt financing (convertible notes, credit facilities) to extend cash runway and reduce equity dilution. Debt availability depends on lender confidence in Phase 3 trial outcomes and approval probability. Convertible debt issuance estimated at $50–$100M by Q2 2025 if Phase 3 interim data is positive.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "George Goldsmith",
+        "title": "Chief Executive Officer & Co-Founder",
+        "slug": "george_goldsmith",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Vision",
+        "relationshipNote": "George Goldsmith co-founded COMPASS in 2012 and serves as CEO. Goldsmith's vision for psilocybin-assisted therapy and regulatory strategy has shaped COMPASS's clinical development pathway. Goldsmith's leadership through Phase 3 trial and FDA interactions is critical for approval success. Goldsmith's 2024 compensation ~$1.2M (base + bonus); stock holdings ~2.5M shares (~1.2% of outstanding).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Ekaterina Chtcherbatenko",
+        "title": "Chief Financial Officer",
+        "slug": "ekaterina_chtcherbatenko",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Strategy",
+        "relationshipNote": "Ekaterina Chtcherbatenko serves as CFO and manages COMPASS's financial strategy, capital raises, and cash runway. CFO's role is critical for managing 28M USD quarterly burn and planning capital raises. CFO's financial forecasting and investor relations directly impact equity raise success and shareholder value. Chtcherbatenko's 2024 compensation ~$800K (base + bonus); stock holdings ~500K shares (~0.2% of outstanding).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Mendel Mendelson",
+        "title": "Chief Medical Officer",
+        "slug": "mendel_mendelson",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Clinical Development & Regulatory Strategy",
+        "relationshipNote": "Mendel Mendelson serves as CMO and leads COMPASS's clinical development strategy, trial design, and FDA interactions. Mendelson's expertise in psychiatry and clinical trial design is critical for Phase 3 trial success and FDA approval pathway. Mendelson's regulatory relationships and trial management directly impact approval probability. Mendelson's 2024 compensation ~$750K (base + bonus); stock holdings ~300K shares (~0.1% of outstanding).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Claudia Suessmuth Dyckerhoff",
+        "title": "Chief Operating Officer",
+        "slug": "claudia_suessmuth_dyckerhoff",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Manufacturing Scale-Up",
+        "relationshipNote": "Claudia Suessmuth Dyckerhoff serves as COO and oversees COMPASS's operations, manufacturing, and supply chain. COO's role is critical for scaling psilocybin manufacturing from clinical to commercial volumes and managing therapist training infrastructure. COO's operational execution directly impacts commercial launch readiness. Suessmuth Dyckerhoff's 2024 compensation ~$700K (base + bonus); stock holdings ~200K shares (~0.1% of outstanding).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "COMPASS Pathways Stock Price (CMPS)",
+        "ticker": "CMPS",
+        "slug": "cmps_stock_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Equity Valuation & Investor Sentiment",
+        "relationshipNote": "CMPS stock price reflects investor expectations for Phase 3 trial outcomes, FDA approval probability, and commercial potential. Stock price volatility around trial data releases (Q1 2025 interim data) and capital raise announcements is a leading indicator of investor confidence. CMPS trading volume and implied volatility signal market uncertainty and risk appetite for psychedelic medicine sector. CMPS 2024 price range $8–$18; current valuation ~200M USD market cap.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data"
+        ]
+      },
+      {
+        "name": "Psychedelic Medicine Sector ETF (PSYK, PSIL)",
+        "ticker": "PSYK,PSIL",
+        "slug": "psychedelic_etf",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Sector-Level Sentiment & Capital Flows",
+        "relationshipNote": "Psychedelic medicine ETFs (PSYK, PSIL) track sector-level sentiment and capital flows. CMPS is a major holding in both ETFs (5–8% of portfolio); sector performance directly impacts CMPS valuation. Sector ETF flows signal institutional appetite for psychedelic medicine and COMPASS's competitive positioning within the sector. PSYK 2024 performance -30% YTD; PSIL 2024 performance -25% YTD.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "medicine",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.049Z",
+      "overrideCount": 11
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Perception Neuroscience",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Colorcon (Pharmaceutical Excipients)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Evonik Industries (Pharmaceutical Excipients)",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "BASF (Pharmaceutical Excipients)",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Catalent Pharma Solutions",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Parexel International",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Pharmaceutical Product Development (PPD)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Therapist Training & Certification Networks (MAPS, ICEERS, COMPASS Internal)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "DHL Life Sciences",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "FedEx Specialty Logistics",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Lyophilization Services of America (LSA)",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Covance (LabCorp Drug Development)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Regulatory Affairs Consulting (Parexel, Tufts Center for the Study of Drug Development)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Tryp Therapeutics",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Usona Institute",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Eli Lilly & Company",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Roche / Genentech",
+            "type": "peer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Novartis",
+            "type": "peer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Cybin Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "MindMed Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Atai Life Sciences",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "GH Research PLC",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Food and Drug Administration (FDA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Drug Enforcement Administration (DEA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "European Medicines Agency (EMA)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Congress (Psychedelic Medicine Advocacy)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "Founders Fund",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Institutional Investors (Fidelity, Vanguard, BlackRock)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Compass Diversified Holdings",
+            "type": "investor",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Debt Capital Markets (Investment Banks, Lenders)",
+            "type": "investor",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Psychedelic Medicine Sector ETF (PSYK, PSIL)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "COMPASS Pathways Stock Price (CMPS)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "CAUD": {
+        "external_add": [
+          {
+            "name": "U.S. Drug Enforcement Administration (DEA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators_compliance_overlay"
+          }
+        ]
+      }
+    }
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "neuralRegion": "OFC",
+        "neuralRegionLabel": "Orbitofrontal Cortex",
+        "businessSignature": "capital_allocation_reversal_failure",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p4_persistence"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.395,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of capital-allocation reversal-failure via OFC-equivalent value-update-failure metric",
+            "noveltyAnchor": "Reversal-learning framework for capital-allocation diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Decision Risk",
+              "Kauffman corporate strategy"
+            ],
+            "angle": "Behavioral models of capital-allocation reversal"
+          },
+          "investment": {
+            "thesis": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
+            "methodology": "intervention study with board-decision speed coding"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p4",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "reversal learning training",
+          "real-time feedback protocols",
+          "behavioral remediation"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:00.619Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "artifact": {
+          "title": "Method and system for detecting capital allocation reversal failure via Orbitofrontal Cortex-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting capital allocation reversal failure signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Orbitofrontal Cortex-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined capital allocation reversal failure threshold. The method provides earlier and more specific detection of capital allocation reversal failure than conventional financial-distress models.",
+          "background": "Detection of capital allocation reversal failure in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting capital allocation reversal failure until well after the signature has been priced. Capital allocation reversal failure represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Orbitofrontal Cortex (reversal learning training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting capital allocation reversal failure signature comprises: receiving filing data and counterparty network data, determining a Orbitofrontal Cortex-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Reversal-learning framework for capital-allocation diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting capital allocation reversal failure signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Orbitofrontal Cortex-equivalent decoupling score, wherein the determining the Orbitofrontal Cortex-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Orbitofrontal Cortex-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Orbitofrontal Cortex-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined capital allocation reversal failure threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"reversal learning training\", \"real-time feedback protocols\", and \"behavioral remediation\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Reversal-learning framework for capital-allocation diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:11.922Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "programs": [
+          "NSF Decision Risk",
+          "Kauffman corporate strategy"
+        ],
+        "artifact": {
+          "title": "Translational Orbitofrontal Cortex-equivalent detection and intervention protocols for capital allocation reversal failure",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit capital allocation reversal failure signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with capital allocation reversal failure-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Orbitofrontal Cortex-equivalent isomorphic pathology significantly modulates capital allocation reversal failure detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to COMPASS Pathways PLC and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified capital allocation reversal failure signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects capital allocation reversal failure signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Orbitofrontal Cortex-equivalent capital allocation reversal failure detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Orbitofrontal Cortex isomorphic pathology will increase capital allocation reversal failure detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Orbitofrontal Cortex-equivalent capital allocation reversal failure detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for capital allocation reversal failure against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Behavioral models of capital-allocation reversal",
+          "innovation": "The proposed work is innovative because it integrates Orbitofrontal Cortex clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:11.922Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "side": "SHORT",
+        "horizon": "18-36mo",
+        "artifact": {
+          "header": "COMPASS Pathways PLC (CMPS) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: RECOVERY-ATTEMPT    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: OFC_value_x_capital_allocation_pathology (confidence 0.395)",
+          "variantView": "CMPS screens as pharmaceutical preparations — psychedelic-typical. Underneath, the operative driver is Orbitofrontal Cortex-equivalent isomorphic pathology — (capital allocation reversal failure) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Pharmaceutical Preparations — Psychedelic entities exhibiting capital allocation reversal failure: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on COMPASS Pathways PLC\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the capital allocation reversal failure pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Pharmaceutical Preparations — Psychedelic peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.395).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.395, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Pharmaceutical Preparations — Psychedelic; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: RECOVERY-ATTEMPT blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p4_persistence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Orbitofrontal Cortex ↔ capital allocation reversal failure mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:11.922Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "artifact": {
+          "title": "Empirical test of Orbitofrontal Cortex-equivalent capital allocation reversal failure mapping on COMPASS Pathways PLC",
+          "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
+          "methodology": "intervention study with board-decision speed coding",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Orbitofrontal Cortex-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "OFC_value_x_capital_allocation_pathology"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:11.922Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:11.922Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

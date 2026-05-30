@@ -1,0 +1,2377 @@
+{
+  "domainId": "medicine_diagnostics_pathology",
+  "title": "Pathology",
+  "parentPortal": "medicine_diagnostics_portal.html",
+  "parentLabel": "Diagnostics & Imaging",
+  "phase": "P8",
+  "activations": [
+    {
+      "brainNodeId": "CING",
+      "state": "active",
+      "domainLabel": "Pathology Assessment & Diagnostics",
+      "domainDescription": "Systematic management of pathology assessment & diagnostics across all pathology functions and operations",
+      "group": "analysis",
+      "phase": "P8",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Optimize Pathology Assessment & Diagnostics Resource Optimization Model",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Optimize a clinical quality improvement program for pathology assessment & diagnostics applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "OUTDATED_PATHOLOGY_ASSESSMENT___DIAGNOS -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for pathology assessment & diagnostics using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Pathology Assessment & Diagnostics Data-Driven Decision Framework",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Launch a simulation-based clinical training for pathology assessment & diagnostics using high-fidelity mannequins and standardized patients per SSH accreditation.",
+          "cite": "Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181; Gawande, A. (2009). The Checklist Manifesto. Henry Holt",
+          "target": "INEFFICIENT_PATHOLOGY_ASSESSMENT___DIAGNOS -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            },
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish mentoring matches for pathology assessment & diagnostics based on career goals and clinical interests",
+            "Train mentors in effective mentoring practices and IDP development",
+            "Implement structured mentoring agreements with quarterly goal review",
+            "Deploy mentoring circles for peer support and knowledge sharing",
+            "Evaluate mentorship outcomes through mentee career progression and satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interprofessional education participation using IPE program tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interprofessional education participation measured biannually. Target: 80% clinical staff participated. PHASE 3 (Months 4-6): Midpoint review — compare against IPEC competency framework. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interprofessional education participation trending toward 95% participated. Escalate if <60% participated floor. ANNUAL REVIEW: Comprehensive audit using IPEC Core Competencies. Report to IPE Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Pathology Assessment & Diagnostics Accountability Mechanism",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Develop a laboratory modernization for pathology assessment & diagnostics implementing CAP accreditation standards with LIS integration and point-of-care testing.",
+          "cite": "Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust; JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International",
+          "target": "INCONSISTENT_PATHOLOGY_ASSESSMENT___DIAGNOS -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate medication use for pathology assessment & diagnostics using ISMP Medication Safety Self Assessment",
+            "Design closed-loop medication management with CPOE, pharmacy verification, and BCMA",
+            "Implement smart pump drug libraries with dose limits and alerts",
+            "Deploy automated dispensing with par optimization and diversion detection",
+            "Track medication error rates, near-misses, and ADR reporting against ISMP benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — laboratory turnaround time using LIS analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — laboratory turnaround time measured daily. Target: stat TAT <60 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against CAP benchmarking standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — laboratory turnaround time trending toward <45 minutes. Escalate if <<90 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CAP accreditation standards. Report to Laboratory Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Pathology Assessment & Diagnostics Resource Optimization Model",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Establish a safety culture transformation for pathology assessment & diagnostics using AHRQ SOPS assessment with high-reliability organization principles.",
+          "cite": "Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139; Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383",
+          "target": "UNMONITORED_PATHOLOGY_ASSESSMENT___DIAGNOS -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            },
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess health equity for pathology assessment & diagnostics using CMS stratified quality measures",
+            "Design intervention targeting identified disparities with community partnerships",
+            "Implement language access, cultural competency training, and health literacy tools",
+            "Deploy CHW programs in underserved communities with social determinant screening",
+            "Measure disparity reduction across clinical outcomes and access metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — shared decision-making rate using OPTION-12 observation tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — shared decision-making rate measured quarterly. Target: 70% encounters with SDM. PHASE 3 (Months 4-6): Midpoint review — compare against Dartmouth SDM benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — shared decision-making rate trending toward 85% encounters. Escalate if <50% encounters floor. ANNUAL REVIEW: Comprehensive audit using Ottawa Decision Support Framework. Report to Patient-Centered Care Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Pathology Assessment & Diagnostics Data-Driven Decision Framework",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Implement a healthcare interoperability platform for pathology assessment & diagnostics implementing HL7 FHIR R4 APIs per ONC TEFCA requirements.",
+          "cite": "HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7; HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics",
+          "target": "UNDERPERFORMING_PATHOLOGY_ASSESSMENT___DIAGNOS -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate telehealth for pathology assessment & diagnostics using ATA practice guideline criteria",
+            "Design virtual care pathways for appropriate conditions with safety protocols",
+            "Implement telehealth platform with EHR integration and patient scheduling",
+            "Train clinicians in virtual examination techniques and remote monitoring",
+            "Measure telehealth utilization, outcomes equivalence, and patient satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — telehealth utilization using telehealth platform analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — telehealth utilization measured monthly. Target: 25% visits via telehealth. PHASE 3 (Months 4-6): Midpoint review — compare against ATA practice guidelines targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — telehealth utilization trending toward 35% telehealth. Escalate if <15% telehealth floor. ANNUAL REVIEW: Comprehensive audit using ATA Telehealth Framework. Report to Telehealth Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Pathology Assessment & Diagnostics Accountability Mechanism",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Institutionalize a clinical quality improvement program for pathology assessment & diagnostics applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027; Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759",
+          "target": "REACTIVE_PATHOLOGY_ASSESSMENT___DIAGNOS -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            },
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for pathology assessment & diagnostics using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_diagnostics_pathology_autopsy_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Anesthetic Monitoring Policy & Governance",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Transit"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Scripted Description"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Ecological Design Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Aeromedical Evacuation Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Monitoring & Evaluation"
+        },
+        {
+          "domain": "education",
+          "role": "admit eqty — Signal Acquisition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PBN",
+      "state": "active",
+      "domainLabel": "Pathology Core Operations",
+      "domainDescription": "Systematic management of pathology core operations across all pathology functions and operations",
+      "group": "operations",
+      "phase": "P8",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Operationalize Pathology Core Operations Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Operationalize a healthcare system redesign for pathology core operations following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "UNMONITORED_PATHOLOGY_CORE_OPERATIONS -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for pathology core operations using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Pathology Core Operations Continuous Improvement Cycle",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Calibrate a competency-based medical education program for pathology core operations aligned with ACGME milestones and entrustable professional activities.",
+          "cite": "Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81; Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226",
+          "target": "UNDERPERFORMING_PATHOLOGY_CORE_OPERATIONS -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            },
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for pathology core operations using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Pathology Core Operations Adaptive Management System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Streamline a pharmacy automation system for pathology core operations deploying CPOE, clinical decision support, and automated dispensing per ISMP guidelines.",
+          "cite": "Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press; AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ",
+          "target": "REACTIVE_PATHOLOGY_CORE_OPERATIONS -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for pathology core operations against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Pathology Core Operations Knowledge Transfer Program",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Assess a just culture implementation for pathology core operations using Reason human error framework with transparent event reporting and learning systems.",
+          "cite": "Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969; Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851",
+          "target": "FRAGMENTED_PATHOLOGY_CORE_OPERATIONS -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            },
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for pathology core operations using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Pathology Core Operations Continuous Improvement Cycle",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Create a clinical AI governance framework for pathology core operations deploying validated algorithms with AMA augmented intelligence policy safeguards.",
+          "cite": "SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED; ONC (2023). Health IT Certification Program. Office of the National Coordinator",
+          "target": "SILOED_PATHOLOGY_CORE_OPERATIONS -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for pathology core operations using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Pathology Core Operations Adaptive Management System",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Evaluate a healthcare system redesign for pathology core operations following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "OUTDATED_PATHOLOGY_CORE_OPERATIONS -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for pathology core operations using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_diagnostics_pathology_cytology_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Anesthetic Monitoring Technology & Innovation",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Atmospheric Regulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Assessment & Diagnostics"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Aeromedical Evacuation Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Livestock Economics Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Transfer Policies Human Capital & Development"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Storage Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Pathology Infrastructure & Capacity",
+      "domainDescription": "Systematic management of pathology infrastructure & capacity across all pathology functions and operations",
+      "group": "systems",
+      "phase": "P8",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Integrate Pathology Infrastructure & Capacity Scalability Framework",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Integrate a population health management strategy for pathology infrastructure & capacity using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "SILOED_PATHOLOGY_INFRASTRUCTURE___CAP -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for pathology infrastructure & capacity using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Pathology Infrastructure & Capacity Compliance Monitoring System",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Conduct an evidence-based practice training for pathology infrastructure & capacity teaching critical appraisal, GRADE methodology, and clinical guideline application.",
+          "cite": "Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81; Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226",
+          "target": "OUTDATED_PATHOLOGY_INFRASTRUCTURE___CAP -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            },
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            }
+          ],
+          "steps": [
+            "Assess EBP competency for pathology infrastructure & capacity using Fresno test or Berlin questionnaire",
+            "Design training in literature search, critical appraisal, and evidence synthesis",
+            "Deliver journal club facilitation training with structured appraisal tools",
+            "Implement bedside teaching of evidence application and GRADE interpretation",
+            "Measure EBP knowledge, attitudes, and clinical practice change outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical decision support utilization using CDS analytics dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical decision support utilization measured monthly. Target: 70% alert acknowledgment rate. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ CDS Five Rights benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical decision support utilization trending toward 85% acknowledgment. Escalate if <50% acknowledgment floor. ANNUAL REVIEW: Comprehensive audit using AHRQ CDS framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Pathology Infrastructure & Capacity Standard Operating Procedures",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Design an infection prevention bundle for pathology infrastructure & capacity deploying CDC NHSN surveillance with evidence-based prevention practices per SHEA guidelines.",
+          "cite": "Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press; AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ",
+          "target": "INEFFICIENT_PATHOLOGY_INFRASTRUCTURE___CAP -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess surgical care for pathology infrastructure & capacity using ACS NSQIP outcomes data",
+            "Design ERAS protocol with evidence-based pre-, intra-, and post-operative elements",
+            "Implement standardized surgical safety checklist per WHO Safe Surgery framework",
+            "Deploy real-time surgical site surveillance with NHSN reporting",
+            "Measure ERAS compliance, LOS reduction, and complication rate improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — medication error rate using medication event reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — medication error rate measured monthly. Target: 50% reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against ISMP safety benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — medication error rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISMP Guidelines. Report to Pharmacy Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Pathology Infrastructure & Capacity Scalability Framework",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Deploy a health equity program for pathology infrastructure & capacity addressing disparities using CMS equity framework with disaggregated outcomes data.",
+          "cite": "Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969; Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851",
+          "target": "INCONSISTENT_PATHOLOGY_INFRASTRUCTURE___CAP -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            },
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            }
+          ],
+          "steps": [
+            "Evaluate HRO readiness for pathology infrastructure & capacity using Weick and Sutcliffe HRO assessment",
+            "Design high-reliability program with preoccupation with failure and deference to expertise",
+            "Implement safety behaviors: stop-the-line, cross-checking, and three-way communication",
+            "Deploy real-time safety dashboards with tiered daily management huddles",
+            "Measure safety event rates, near-miss reporting, and HRO culture maturity"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — health equity metric using CMS health disparity measures. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — health equity metric measured quarterly. Target: disparity gap <10% across groups. PHASE 3 (Months 4-6): Midpoint review — compare against CMS equity targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — health equity metric trending toward gap <5%. Escalate if <gap <20% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS Framework for Health Equity. Report to Health Equity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Pathology Infrastructure & Capacity Compliance Monitoring System",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Operationalize an EHR optimization for pathology infrastructure & capacity advancing HIMSS EMRAM maturity with clinical decision support and order set standardization.",
+          "cite": "SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED; ONC (2023). Health IT Certification Program. Office of the National Coordinator",
+          "target": "UNMONITORED_PATHOLOGY_INFRASTRUCTURE___CAP -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess cybersecurity for pathology infrastructure & capacity using NIST CSF and HIPAA Security Rule gaps",
+            "Design defense-in-depth with network segmentation, encryption, and access controls",
+            "Implement SIEM, endpoint protection, and medical device security program",
+            "Conduct tabletop exercises and penetration testing with incident response drills",
+            "Achieve HHS 405(d) HICP alignment with annual risk assessment and attestation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity healthcare maturity using NIST CSF + HIPAA assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity healthcare maturity measured quarterly. Target: NIST tier 3 with HIPAA compliance. PHASE 3 (Months 4-6): Midpoint review — compare against HHS 405(d) HICP benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity healthcare maturity trending toward tier 4. Escalate if <tier 2 with HIPAA floor. ANNUAL REVIEW: Comprehensive audit using HHS 405(d) HICP framework. Report to CISO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Pathology Infrastructure & Capacity Standard Operating Procedures",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Calibrate a population health management strategy for pathology infrastructure & capacity using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "UNDERPERFORMING_PATHOLOGY_INFRASTRUCTURE___CAP -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for pathology infrastructure & capacity using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_diagnostics_pathology_digital_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Anesthetic Monitoring Human Capital & Development",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "legal",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "provider",
+          "role": "Continuity of Care Network"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Cultural Adaptation — Regulation Strategy"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "interior acoustics — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Aeromedical Evacuation Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Pathology Risk & Resilience",
+      "domainDescription": "Systematic management of pathology risk & resilience across all pathology functions and operations",
+      "group": "governance",
+      "phase": "P8",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Implement Pathology Risk & Resilience Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Implement an evidence-based clinical pathway for pathology risk & resilience integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "OUTDATED_PATHOLOGY_RISK___RESILIENCE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for pathology risk & resilience using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Pathology Risk & Resilience Governance Structure",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Institutionalize a patient safety coaching initiative for pathology risk & resilience using TeamSTEPPS communication tools and crew resource management principles.",
+          "cite": "ACGME (2022). Common Program Requirements. Accreditation Council for GME; Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge",
+          "target": "INEFFICIENT_PATHOLOGY_RISK___RESILIENCE -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for pathology risk & resilience using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Pathology Risk & Resilience Assessment Protocol",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Configure a perioperative care optimization for pathology risk & resilience implementing Enhanced Recovery After Surgery (ERAS) protocols with standardized pathways.",
+          "cite": "WHO (2020). World Health Statistics. WHO; CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid",
+          "target": "INCONSISTENT_PATHOLOGY_RISK___RESILIENCE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for pathology risk & resilience against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Pathology Risk & Resilience Diagnostic Dashboard",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Strengthen a patient engagement initiative for pathology risk & resilience implementing shared decision-making using Ottawa Decision Support Framework tools.",
+          "cite": "Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768; Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115",
+          "target": "UNMONITORED_PATHOLOGY_RISK___RESILIENCE -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            },
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for pathology risk & resilience using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Pathology Risk & Resilience Governance Structure",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Monitor a telehealth program for pathology risk & resilience implementing ATA practice guidelines with remote monitoring and virtual care pathways.",
+          "cite": "WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO; DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA",
+          "target": "UNDERPERFORMING_PATHOLOGY_RISK___RESILIENCE -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for pathology risk & resilience using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Pathology Risk & Resilience Assessment Protocol",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Build an evidence-based clinical pathway for pathology risk & resilience integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "REACTIVE_PATHOLOGY_RISK___RESILIENCE -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for pathology risk & resilience using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_diagnostics_pathology_surgical_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Addiction Medicine",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 1,
+      "linkedCompanies": [],
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Pathology Policy & Governance",
+      "domainDescription": "Systematic management of pathology policy & governance across all pathology functions and operations",
+      "group": "innovation",
+      "phase": "P8",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Pathology Policy & Governance Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a value-based care transformation for pathology policy & governance implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "FRAGMENTED_PATHOLOGY_POLICY___GOVERNANCE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for pathology policy & governance using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Pathology Policy & Governance Innovation Pipeline",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop a clinical mentorship program for pathology policy & governance pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181; Gawande, A. (2009). The Checklist Manifesto. Henry Holt",
+          "target": "SILOED_PATHOLOGY_POLICY___GOVERNANCE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            },
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish mentoring matches for pathology policy & governance based on career goals and clinical interests",
+            "Train mentors in effective mentoring practices and IDP development",
+            "Implement structured mentoring agreements with quarterly goal review",
+            "Deploy mentoring circles for peer support and knowledge sharing",
+            "Evaluate mentorship outcomes through mentee career progression and satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interprofessional education participation using IPE program tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interprofessional education participation measured biannually. Target: 80% clinical staff participated. PHASE 3 (Months 4-6): Midpoint review — compare against IPEC competency framework. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interprofessional education participation trending toward 95% participated. Escalate if <60% participated floor. ANNUAL REVIEW: Comprehensive audit using IPEC Core Competencies. Report to IPE Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Pathology Policy & Governance Feedback Loop Design",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a JCI-accredited quality infrastructure for pathology policy & governance implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust; JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International",
+          "target": "OUTDATED_PATHOLOGY_POLICY___GOVERNANCE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate medication use for pathology policy & governance using ISMP Medication Safety Self Assessment",
+            "Design closed-loop medication management with CPOE, pharmacy verification, and BCMA",
+            "Implement smart pump drug libraries with dose limits and alerts",
+            "Deploy automated dispensing with par optimization and diversion detection",
+            "Track medication error rates, near-misses, and ADR reporting against ISMP benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — laboratory turnaround time using LIS analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — laboratory turnaround time measured daily. Target: stat TAT <60 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against CAP benchmarking standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — laboratory turnaround time trending toward <45 minutes. Escalate if <<90 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CAP accreditation standards. Report to Laboratory Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Pathology Policy & Governance Sustainability Audit",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement a clinician well-being program for pathology policy & governance addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139; Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383",
+          "target": "INEFFICIENT_PATHOLOGY_POLICY___GOVERNANCE -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            },
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess health equity for pathology policy & governance using CMS stratified quality measures",
+            "Design intervention targeting identified disparities with community partnerships",
+            "Implement language access, cultural competency training, and health literacy tools",
+            "Deploy CHW programs in underserved communities with social determinant screening",
+            "Measure disparity reduction across clinical outcomes and access metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — shared decision-making rate using OPTION-12 observation tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — shared decision-making rate measured quarterly. Target: 70% encounters with SDM. PHASE 3 (Months 4-6): Midpoint review — compare against Dartmouth SDM benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — shared decision-making rate trending toward 85% encounters. Escalate if <50% encounters floor. ANNUAL REVIEW: Comprehensive audit using Ottawa Decision Support Framework. Report to Patient-Centered Care Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Pathology Policy & Governance Innovation Pipeline",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a healthcare cybersecurity program for pathology policy & governance implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7; HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics",
+          "target": "INCONSISTENT_PATHOLOGY_POLICY___GOVERNANCE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate telehealth for pathology policy & governance using ATA practice guideline criteria",
+            "Design virtual care pathways for appropriate conditions with safety protocols",
+            "Implement telehealth platform with EHR integration and patient scheduling",
+            "Train clinicians in virtual examination techniques and remote monitoring",
+            "Measure telehealth utilization, outcomes equivalence, and patient satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — telehealth utilization using telehealth platform analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — telehealth utilization measured monthly. Target: 25% visits via telehealth. PHASE 3 (Months 4-6): Midpoint review — compare against ATA practice guidelines targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — telehealth utilization trending toward 35% telehealth. Escalate if <15% telehealth floor. ANNUAL REVIEW: Comprehensive audit using ATA Telehealth Framework. Report to Telehealth Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Pathology Policy & Governance Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a value-based care transformation for pathology policy & governance implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027; Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759",
+          "target": "UNMONITORED_PATHOLOGY_POLICY___GOVERNANCE -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            },
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for pathology policy & governance using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Anesthesia — Action Coordination",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Pain-Defense Gate"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Endogenous Analgesic System"
+        },
+        {
+          "domain": "energy",
+          "role": "Nuclear Power"
+        },
+        {
+          "domain": "neurology",
+          "role": "Periaqueductal Gray"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Defense Cascade Modulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Quality & Performance"
+        },
+        {
+          "domain": "culture",
+          "role": "Landscape Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Nuclear Deterrence"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Pathology Technology & Innovation",
+      "domainDescription": "Systematic management of pathology technology & innovation across all pathology functions and operations",
+      "group": "development",
+      "phase": "P8",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Create Pathology Technology & Innovation Benchmarking Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Create a value-based care transformation for pathology technology & innovation implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "UNMONITORED_PATHOLOGY_TECHNOLOGY___INNOVAT -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess value delivery for pathology technology & innovation using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Pathology Technology & Innovation Impact Evaluation",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Evaluate a clinical mentorship program for pathology technology & innovation pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "Gawande, A. (2009). The Checklist Manifesto. Henry Holt; Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181",
+          "target": "UNDERPERFORMING_PATHOLOGY_TECHNOLOGY___INNOVAT -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map educational objectives for pathology technology & innovation to ACGME competencies and EPAs",
+            "Design competency-based curriculum with workplace-based assessments",
+            "Implement portfolio-based evaluation with entrustment decisions",
+            "Conduct competency committee reviews with aggregated assessment data",
+            "Graduate learners based on demonstrated competency achievement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — CME completion rate using CME tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — CME completion rate measured annually. Target: 100% physicians current. PHASE 3 (Months 4-6): Midpoint review — compare against ACCME accreditation requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — CME completion rate trending toward 100% with specialty credits. Escalate if <95% minimum. ANNUAL REVIEW: Comprehensive audit using ACCME framework. Report to CME Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Pathology Technology & Innovation Performance Framework",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Integrate a JCI-accredited quality infrastructure for pathology technology & innovation implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International; Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust",
+          "target": "REACTIVE_PATHOLOGY_TECHNOLOGY___INNOVAT -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit HAI rates for pathology technology & innovation using CDC NHSN standardized infection ratios",
+            "Design prevention bundles per SHEA/IDSA practice recommendations",
+            "Implement bundles with education, audit, and feedback for hand hygiene and line care",
+            "Deploy electronic surveillance for real-time HAI detection and reporting",
+            "Measure SIR reduction and sustain with ongoing bundle compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — surgical site infection rate using NHSN surgical surveillance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — surgical site infection rate measured monthly. Target: SSI below national benchmark. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN procedure-specific SIR. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — surgical site infection rate trending toward SIR below 0.7. Escalate if <SIR below 1.0 ceiling. ANNUAL REVIEW: Comprehensive audit using CDC SSI prevention bundle. Report to Surgical Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Pathology Technology & Innovation Benchmarking Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Conduct a clinician well-being program for pathology technology & innovation addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383; Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139",
+          "target": "FRAGMENTED_PATHOLOGY_TECHNOLOGY___INNOVAT -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            },
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            }
+          ],
+          "steps": [
+            "Evaluate patient engagement for pathology technology & innovation using patient activation measure (PAM)",
+            "Design shared decision-making program with condition-specific decision aids",
+            "Train clinicians in motivational interviewing and SDM techniques",
+            "Implement patient portals with care plan access and messaging capabilities",
+            "Measure PAM scores, SDM utilization, and patient experience improvements"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture score using AHRQ SOPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture score measured annually. Target: 75% positive safety culture. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ SOPS national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture score trending toward 85% positive. Escalate if <65% positive floor. ANNUAL REVIEW: Comprehensive audit using AHRQ SOPS framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Pathology Technology & Innovation Impact Evaluation",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Design a healthcare cybersecurity program for pathology technology & innovation implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics; HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7",
+          "target": "SILOED_PATHOLOGY_TECHNOLOGY___INNOVAT -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate interoperability for pathology technology & innovation against ONC TEFCA requirements",
+            "Design FHIR R4 API implementation with patient access and provider exchange",
+            "Implement health information exchange connections with ADT and clinical summary sharing",
+            "Deploy patient data matching and identity management solution",
+            "Measure data exchange volume, query response times, and care gap closure rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interoperability score using ONC Interoperability Standards. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interoperability score measured quarterly. Target: FHIR R4 API live. PHASE 3 (Months 4-6): Midpoint review — compare against ONC TEFCA framework requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interoperability score trending toward TEFCA participation. Escalate if <FHIR read-only minimum. ANNUAL REVIEW: Comprehensive audit using ONC TEFCA framework. Report to CIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Pathology Technology & Innovation Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Deploy a value-based care transformation for pathology technology & innovation implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "OUTDATED_PATHOLOGY_TECHNOLOGY___INNOVAT -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Assess value delivery for pathology technology & innovation using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Addiction Medicine — Action Coordination — Primary",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 1,
+      "linkedCompanies": [],
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LGN",
+      "state": "active",
+      "domainLabel": "Pathology Human Capital & Development",
+      "domainDescription": "Systematic management of pathology human capital & development across all pathology functions and operations",
+      "group": "quality",
+      "phase": "P8",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Pathology Human Capital & Development Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a value-based care transformation for pathology human capital & development implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "FRAGMENTED_PATHOLOGY_HUMAN_CAPITAL___DEVE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Assess value delivery for pathology human capital & development using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Pathology Human Capital & Development Innovation Pipeline",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop a clinical mentorship program for pathology human capital & development pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181; Gawande, A. (2009). The Checklist Manifesto. Henry Holt",
+          "target": "SILOED_PATHOLOGY_HUMAN_CAPITAL___DEVE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            },
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map educational objectives for pathology human capital & development to ACGME competencies and EPAs",
+            "Design competency-based curriculum with workplace-based assessments",
+            "Implement portfolio-based evaluation with entrustment decisions",
+            "Conduct competency committee reviews with aggregated assessment data",
+            "Graduate learners based on demonstrated competency achievement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — CME completion rate using CME tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — CME completion rate measured annually. Target: 100% physicians current. PHASE 3 (Months 4-6): Midpoint review — compare against ACCME accreditation requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — CME completion rate trending toward 100% with specialty credits. Escalate if <95% minimum. ANNUAL REVIEW: Comprehensive audit using ACCME framework. Report to CME Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Pathology Human Capital & Development Feedback Loop Design",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a JCI-accredited quality infrastructure for pathology human capital & development implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust; JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International",
+          "target": "OUTDATED_PATHOLOGY_HUMAN_CAPITAL___DEVE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit HAI rates for pathology human capital & development using CDC NHSN standardized infection ratios",
+            "Design prevention bundles per SHEA/IDSA practice recommendations",
+            "Implement bundles with education, audit, and feedback for hand hygiene and line care",
+            "Deploy electronic surveillance for real-time HAI detection and reporting",
+            "Measure SIR reduction and sustain with ongoing bundle compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — surgical site infection rate using NHSN surgical surveillance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — surgical site infection rate measured monthly. Target: SSI below national benchmark. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN procedure-specific SIR. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — surgical site infection rate trending toward SIR below 0.7. Escalate if <SIR below 1.0 ceiling. ANNUAL REVIEW: Comprehensive audit using CDC SSI prevention bundle. Report to Surgical Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Pathology Human Capital & Development Sustainability Audit",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement a clinician well-being program for pathology human capital & development addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139; Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383",
+          "target": "INEFFICIENT_PATHOLOGY_HUMAN_CAPITAL___DEVE -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            },
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate patient engagement for pathology human capital & development using patient activation measure (PAM)",
+            "Design shared decision-making program with condition-specific decision aids",
+            "Train clinicians in motivational interviewing and SDM techniques",
+            "Implement patient portals with care plan access and messaging capabilities",
+            "Measure PAM scores, SDM utilization, and patient experience improvements"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture score using AHRQ SOPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture score measured annually. Target: 75% positive safety culture. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ SOPS national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture score trending toward 85% positive. Escalate if <65% positive floor. ANNUAL REVIEW: Comprehensive audit using AHRQ SOPS framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Pathology Human Capital & Development Innovation Pipeline",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a healthcare cybersecurity program for pathology human capital & development implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7; HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics",
+          "target": "INCONSISTENT_PATHOLOGY_HUMAN_CAPITAL___DEVE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate interoperability for pathology human capital & development against ONC TEFCA requirements",
+            "Design FHIR R4 API implementation with patient access and provider exchange",
+            "Implement health information exchange connections with ADT and clinical summary sharing",
+            "Deploy patient data matching and identity management solution",
+            "Measure data exchange volume, query response times, and care gap closure rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interoperability score using ONC Interoperability Standards. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interoperability score measured quarterly. Target: FHIR R4 API live. PHASE 3 (Months 4-6): Midpoint review — compare against ONC TEFCA framework requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interoperability score trending toward TEFCA participation. Escalate if <FHIR read-only minimum. ANNUAL REVIEW: Comprehensive audit using ONC TEFCA framework. Report to CIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Pathology Human Capital & Development Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a value-based care transformation for pathology human capital & development implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027; Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759",
+          "target": "UNMONITORED_PATHOLOGY_HUMAN_CAPITAL___DEVE -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            },
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            }
+          ],
+          "steps": [
+            "Assess value delivery for pathology human capital & development using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Radiology",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Metric Design Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Assessment & Diagnostics"
+        },
+        {
+          "domain": "culture",
+          "role": "Landscape Architecture Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Aeromedical Evacuation Human Capital & Development"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Finance Assessment & Diagnostics"
+        },
+        {
+          "domain": "education",
+          "role": "Transfer Pathways Assessment & Diagnostics"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage — Action Coordination"
+        },
+        {
+          "domain": "environment",
+          "role": "Air Filtration Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Pathology Quality & Performance",
+      "domainDescription": "Systematic management of pathology quality & performance across all pathology functions and operations",
+      "group": "performance",
+      "phase": "P8",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Evaluate Pathology Quality & Performance Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Evaluate a healthcare system redesign for pathology quality & performance following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "REACTIVE_PATHOLOGY_QUALITY___PERFORMANC -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for pathology quality & performance using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Pathology Quality & Performance Continuous Improvement Cycle",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Integrate a competency-based medical education program for pathology quality & performance aligned with ACGME milestones and entrustable professional activities.",
+          "cite": "Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81; Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226",
+          "target": "FRAGMENTED_PATHOLOGY_QUALITY___PERFORMANC -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            },
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            }
+          ],
+          "steps": [
+            "Assess EBP competency for pathology quality & performance using Fresno test or Berlin questionnaire",
+            "Design training in literature search, critical appraisal, and evidence synthesis",
+            "Deliver journal club facilitation training with structured appraisal tools",
+            "Implement bedside teaching of evidence application and GRADE interpretation",
+            "Measure EBP knowledge, attitudes, and clinical practice change outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical decision support utilization using CDS analytics dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical decision support utilization measured monthly. Target: 70% alert acknowledgment rate. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ CDS Five Rights benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical decision support utilization trending toward 85% acknowledgment. Escalate if <50% acknowledgment floor. ANNUAL REVIEW: Comprehensive audit using AHRQ CDS framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Pathology Quality & Performance Adaptive Management System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Conduct a pharmacy automation system for pathology quality & performance deploying CPOE, clinical decision support, and automated dispensing per ISMP guidelines.",
+          "cite": "Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press; AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ",
+          "target": "SILOED_PATHOLOGY_QUALITY___PERFORMANC -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess surgical care for pathology quality & performance using ACS NSQIP outcomes data",
+            "Design ERAS protocol with evidence-based pre-, intra-, and post-operative elements",
+            "Implement standardized surgical safety checklist per WHO Safe Surgery framework",
+            "Deploy real-time surgical site surveillance with NHSN reporting",
+            "Measure ERAS compliance, LOS reduction, and complication rate improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — medication error rate using medication event reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — medication error rate measured monthly. Target: 50% reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against ISMP safety benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — medication error rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISMP Guidelines. Report to Pharmacy Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Pathology Quality & Performance Knowledge Transfer Program",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Design a just culture implementation for pathology quality & performance using Reason human error framework with transparent event reporting and learning systems.",
+          "cite": "Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969; Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851",
+          "target": "OUTDATED_PATHOLOGY_QUALITY___PERFORMANC -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            },
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            }
+          ],
+          "steps": [
+            "Evaluate HRO readiness for pathology quality & performance using Weick and Sutcliffe HRO assessment",
+            "Design high-reliability program with preoccupation with failure and deference to expertise",
+            "Implement safety behaviors: stop-the-line, cross-checking, and three-way communication",
+            "Deploy real-time safety dashboards with tiered daily management huddles",
+            "Measure safety event rates, near-miss reporting, and HRO culture maturity"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — health equity metric using CMS health disparity measures. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — health equity metric measured quarterly. Target: disparity gap <10% across groups. PHASE 3 (Months 4-6): Midpoint review — compare against CMS equity targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — health equity metric trending toward gap <5%. Escalate if <gap <20% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS Framework for Health Equity. Report to Health Equity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Pathology Quality & Performance Continuous Improvement Cycle",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Deploy a clinical AI governance framework for pathology quality & performance deploying validated algorithms with AMA augmented intelligence policy safeguards.",
+          "cite": "SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED; ONC (2023). Health IT Certification Program. Office of the National Coordinator",
+          "target": "INEFFICIENT_PATHOLOGY_QUALITY___PERFORMANC -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess cybersecurity for pathology quality & performance using NIST CSF and HIPAA Security Rule gaps",
+            "Design defense-in-depth with network segmentation, encryption, and access controls",
+            "Implement SIEM, endpoint protection, and medical device security program",
+            "Conduct tabletop exercises and penetration testing with incident response drills",
+            "Achieve HHS 405(d) HICP alignment with annual risk assessment and attestation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity healthcare maturity using NIST CSF + HIPAA assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity healthcare maturity measured quarterly. Target: NIST tier 3 with HIPAA compliance. PHASE 3 (Months 4-6): Midpoint review — compare against HHS 405(d) HICP benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity healthcare maturity trending toward tier 4. Escalate if <tier 2 with HIPAA floor. ANNUAL REVIEW: Comprehensive audit using HHS 405(d) HICP framework. Report to CISO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Pathology Quality & Performance Adaptive Management System",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Operationalize a healthcare system redesign for pathology quality & performance following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "INCONSISTENT_PATHOLOGY_QUALITY___PERFORMANC -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for pathology quality & performance using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Advanced Monitoring Risk & Resilience",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Teacher Training"
+        },
+        {
+          "domain": "governance",
+          "role": "Military Command"
+        },
+        {
+          "domain": "industry",
+          "role": "Heavy Equipment"
+        },
+        {
+          "domain": "neurology",
+          "role": "Supplementary Motor Area"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Process Improvement"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Theater & Performance"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CING",
+      "target": "PBN",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "PBN",
+      "target": "CON",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CON",
+      "target": "AI",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "AI",
+      "target": "PAG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PAG",
+      "target": "NAcc",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "NAcc",
+      "target": "LGN",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "LGN",
+      "target": "SMA",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "CING",
+      "target": "SMA",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CON",
+      "target": "CING",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "MEDICINE_DIAGNOSTICS_PATHOLOGY_SYSTEM_FAILURE",
+      "label": "Medicine Diagnostics Pathology System Failure",
+      "summary": "Critical breakdown in Medicine Diagnostics Pathology systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CING",
+          "dir": "Hyper-active",
+          "detail": "Pathology Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PBN",
+          "dir": "Hypo-active",
+          "detail": "Pathology Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Altered",
+          "detail": "Pathology Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-active",
+          "detail": "Pathology Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hypo-active",
+          "detail": "Pathology Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MEDICINE_DIAGNOSTICS_PATHOLOGY_CAPACITY_OVERLOAD",
+      "label": "Medicine Diagnostics Pathology Capacity Overload",
+      "summary": "Demand exceeding available Medicine Diagnostics Pathology capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "CING",
+          "dir": "Hyper-active",
+          "detail": "Pathology Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PBN",
+          "dir": "Hyper-active",
+          "detail": "Pathology Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Hyper-active",
+          "detail": "Pathology Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-active",
+          "detail": "Pathology Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MEDICINE_DIAGNOSTICS_PATHOLOGY_QUALITY_DEGRADATION",
+      "label": "Medicine Diagnostics Pathology Quality Degradation",
+      "summary": "Progressive decline in Medicine Diagnostics Pathology quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "CING",
+          "dir": "Hypo-active",
+          "detail": "Pathology Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PBN",
+          "dir": "Altered",
+          "detail": "Pathology Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Hyper-active",
+          "detail": "Pathology Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hypo-active",
+          "detail": "Pathology Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:36.785Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

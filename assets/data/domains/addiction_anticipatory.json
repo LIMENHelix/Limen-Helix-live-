@@ -1,0 +1,383 @@
+{
+  "domainId": "addiction_anticipatory",
+  "title": "Anticipatory Anxiety Generator",
+  "parentPortal": "addiction_portal.html",
+  "parentLabel": "Addiction Medicine",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Anticipatory Anxiety Generator Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Anticipatory Anxiety Generator indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "addiction_anticipatory_action_portal.html"
+    },
+    {
+      "brainNodeId": "FORN",
+      "state": "active",
+      "domainLabel": "Anticipatory Anxiety Generator Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Anticipatory Anxiety Generator activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Anticipatory Anxiety Generator Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "addiction_anticipatory_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "CING",
+      "state": "active",
+      "domainLabel": "Anticipatory Anxiety Generator Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Anticipatory Anxiety Generator, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "addiction_anticipatory_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "MAMM",
+      "state": "active",
+      "domainLabel": "Anticipatory Anxiety Generator Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Anticipatory Anxiety Generator practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "addiction_anticipatory_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "SEPT",
+      "state": "active",
+      "domainLabel": "Anticipatory Anxiety Generator Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Anticipatory Anxiety Generator methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "addiction_anticipatory_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "NBM",
+      "state": "active",
+      "domainLabel": "Anticipatory Anxiety Generator Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Anticipatory Anxiety Generator stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "addiction_anticipatory_signal_portal.html"
+    },
+    {
+      "brainNodeId": "PIN",
+      "state": "active",
+      "domainLabel": "Anticipatory Anxiety Generator Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Anticipatory Anxiety Generator operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "addiction_anticipatory_state_portal.html"
+    },
+    {
+      "brainNodeId": "VEST",
+      "state": "active",
+      "domainLabel": "Anticipatory Anxiety Generator Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Anticipatory Anxiety Generator outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Anticipatory Anxiety Generator Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CC",
+      "target": "FORN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FORN",
+      "target": "CING",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CING",
+      "target": "MAMM",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "MAMM",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "SEPT",
+      "target": "NBM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NBM",
+      "target": "PIN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PIN",
+      "target": "VEST",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VEST",
+      "target": "CC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CC",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "MAMM",
+      "target": "PIN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "ADDICTION_ANTICIPATORY_SYSTEM_FAILURE",
+      "label": "Anticipatory Anxiety Generator System Failure",
+      "summary": "Critical breakdown in Anticipatory Anxiety Generator systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CC",
+          "dir": "Hypo-active",
+          "detail": "Anticipatory Anxiety Generator Assessment & Diagnostics capacity falling below operational thresholds, reducing Anticipatory Anxiety Generator output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FORN",
+          "dir": "Hypo-active",
+          "detail": "Anticipatory Anxiety Generator Core Operations systems underperforming, creating gaps in Anticipatory Anxiety Generator coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Altered",
+          "detail": "Anticipatory Anxiety Generator Infrastructure & Capacity behavior deviating from established norms, complicating Anticipatory Anxiety Generator management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Hyper-active",
+          "detail": "Anticipatory Anxiety Generator Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Anticipatory Anxiety Generator",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Hypo-active",
+          "detail": "Anticipatory Anxiety Generator Performance & Optimization function reduced, compromising Anticipatory Anxiety Generator system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ADDICTION_ANTICIPATORY_CAPACITY_CRISIS",
+      "label": "Anticipatory Anxiety Generator Capacity Crisis",
+      "summary": "Demand exceeding available Anticipatory Anxiety Generator capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "FORN",
+          "dir": "Hyper-active",
+          "detail": "Anticipatory Anxiety Generator Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Anticipatory Anxiety Generator",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Hypo-active",
+          "detail": "Anticipatory Anxiety Generator Infrastructure & Capacity systems underperforming, creating gaps in Anticipatory Anxiety Generator coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MAMM",
+          "dir": "Altered",
+          "detail": "Anticipatory Anxiety Generator Standards & Governance behavior deviating from established norms, complicating Anticipatory Anxiety Generator management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hyper-active",
+          "detail": "Anticipatory Anxiety Generator Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Anticipatory Anxiety Generator",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Altered",
+          "detail": "Anticipatory Anxiety Generator Performance & Optimization operating outside normal parameters, introducing uncertainty into Anticipatory Anxiety Generator outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ADDICTION_ANTICIPATORY_GOVERNANCE_GAP",
+      "label": "Anticipatory Anxiety Generator Governance Gap",
+      "summary": "Oversight or regulatory failure in Anticipatory Anxiety Generator creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "MAMM",
+          "dir": "Hypo-active",
+          "detail": "Anticipatory Anxiety Generator Standards & Governance capacity falling below operational thresholds, reducing Anticipatory Anxiety Generator output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "Anticipatory Anxiety Generator Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Anticipatory Anxiety Generator",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SEPT",
+          "dir": "Hyper-active",
+          "detail": "Anticipatory Anxiety Generator Research & Development activity spiking beyond design limits, creating instability across Anticipatory Anxiety Generator operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Altered",
+          "detail": "Anticipatory Anxiety Generator Risk & Resilience patterns disrupted, necessitating adaptive responses within Anticipatory Anxiety Generator frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hypo-active",
+          "detail": "Anticipatory Anxiety Generator Coordination & Integration function reduced, compromising Anticipatory Anxiety Generator system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

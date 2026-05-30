@@ -1,0 +1,1023 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "hubbell",
+  "slug": "hubbell",
+  "name": "Hubbell Incorporated",
+  "ticker": "HUBB",
+  "cik": "0000048898",
+  "sic": "3643",
+  "industry": "Electrical and Electronic Equipment Manufacturing",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "PERMIT",
+    "HOUST",
+    "UNRATE",
+    "CPIAUCSL"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "HUBB"
+  ],
+  "commodityExposure": [
+    "copper",
+    "aluminum",
+    "steel",
+    "plastic resins",
+    "rare earth elements"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000048898",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-15T14:32:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.72,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p8",
+    "financialState": {
+      "cashLatest": 847000000,
+      "debtLatest": 2156000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Elevated leverage ratio (net debt/EBITDA ~2.1x) following 2023 Aclara acquisition; refinancing risk if rates remain elevated",
+    "Supply-chain concentration in Asian semiconductor and connector suppliers; geopolitical tension exposure (Taiwan, South Korea)",
+    "Cyclical exposure to commercial construction and utility capex; recession in non-residential building could compress margins 200–300 bps",
+    "Tariff escalation on imported electrical components and raw materials; 2024 China tariff increases already impacting gross margin"
+  ],
+  "opportunitySignals": [
+    "Grid modernization and renewable energy transition driving sustained utility capex; Hubbell's smart metering and distribution automation products positioned for 5–7 year growth cycle",
+    "Data center buildout (AI infrastructure) creating incremental demand for power distribution, cooling, and cable management; AWS, Google, Meta capex acceleration benefits HUBB's industrial segment",
+    "Aclara acquisition (2023, $1.15B) expanding software and IoT footprint in utility operations; cross-sell potential with legacy electrical products",
+    "Residential broadband expansion (BEAD program, $42.5B federal funding) driving fiber-to-home and last-mile connectivity demand; Hubbell's communication products well-positioned"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Utility Solutions segment (smart grid, metering, distribution automation)",
+      "Electrical & Lighting segment (industrial connectors, wiring devices, lighting)",
+      "Power segment (power distribution, UPS, battery systems)"
+    ],
+    "engineOutputs": [
+      "2024 organic revenue growth ~4–5% (guidance midpoint)",
+      "Adjusted EBITDA margin target 18–19% by 2025 (post-Aclara integration)",
+      "Free cash flow conversion 60–70% of net income"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Hubbell is a critical infrastructure-equipment manufacturer serving electrical distribution, utility automation, and industrial connectivity markets. The company's smart metering (Aclara), power distribution, and communication products are foundational to grid modernization, renewable energy integration, and data-center expansion—three structural growth drivers reshaping North American and European infrastructure over the next decade. Hubbell's ~$5.8B revenue base and 60+ year operating history position it as a tier-1 supplier to utilities, industrial OEMs, and construction channels.",
+  "portalRelevance": "Hubbell functions as a critical node in the infrastructure-intelligence network, bridging utility operations (via Aclara's IoT and software platforms), industrial production (via connectors and power distribution), and capital-project visibility (via construction-channel exposure). Its leverage to grid capex, renewable deployment, and data-center buildout makes it a leading indicator of infrastructure-investment cycles. For financial-intelligence models, HUBB's earnings and guidance revisions signal shifts in utility and industrial capex confidence; its supply-chain disclosures and tariff exposure provide commodity and geopolitical risk signals.",
+  "notes": {
+    "cohortStatus": "Anchor peer in electrical equipment manufacturing; comparable to Eaton (ETN), Roper Technologies (ROP), and Anixter (now Tech Data subsidiary)",
+    "envelopeStatus": "ELIGIBLE_NOW — strong balance sheet, validated earnings history, active capital markets access"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly utility capex guidance from Edison Electric Institute (EEI) and investor presentations; HUBB's order book visibility 2–3 quarters forward",
+        "Monthly construction starts (Census Bureau) and commercial building permits; leading indicator for electrical equipment demand",
+        "Commodity price indices (LME copper, aluminum futures) and supplier cost-pass-through disclosures in quarterly earnings calls",
+        "8-K filings for M&A activity, debt refinancing, and major contract wins (e.g., utility RFP awards, data-center OEM partnerships)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue mix by segment (Utility Solutions, Electrical & Lighting, Power) and organic growth rate; tracks cyclical vs. structural demand",
+        "Gross margin trend and gross-margin bridge (pricing, mix, input costs); signals pricing power and supply-chain stress",
+        "Net leverage ratio (net debt/EBITDA) and interest-coverage ratio; monitors refinancing risk and debt-service capacity",
+        "Order backlog and backlog-to-quarterly-revenue ratio; forward-looking demand signal"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior P7–P8 transitions in industrial-equipment peers (Eaton, Roper); identify inflection points in utility capex cycles",
+        "Margin compression diagnosis: isolate input-cost inflation vs. pricing-power loss vs. mix deterioration; distinguish temporary vs. structural headwinds",
+        "Aclara integration tracking: software revenue ramp, cross-sell realization, and synergy achievement vs. plan; signals M&A execution risk",
+        "Geopolitical supply-chain risk: Taiwan semiconductor exposure, China tariff impact, and alternative-sourcing progress; quantify margin at-risk"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Tariff hedging strategy: monitor HUBB's tariff-mitigation actions (sourcing diversification, price increases, tariff-rate-quota optimization)",
+        "Debt covenant monitoring: track leverage covenants and interest-coverage thresholds; identify refinancing windows and rate-lock opportunities",
+        "Antitrust risk assessment: Aclara acquisition integration and potential FTC scrutiny of utility-software consolidation; monitor for divestitures or behavioral remedies",
+        "Environmental regulation exposure: lead-free solder compliance, RoHS/WEEE in Europe, and energy-efficiency standards for power products"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long equity position with 12–18 month horizon; thesis: utility capex cycle and grid modernization tailwinds offset near-term margin pressure",
+        "Hedge commodity exposure via copper and aluminum futures; target 40–60% of forward 12-month exposure",
+        "Monitor debt refinancing calendar (2025–2026 maturities); consider interest-rate swap overlay if Fed rate-cut cycle stalls",
+        "Engagement trigger: if organic growth turns negative or gross margin compresses >150 bps YoY, escalate to management dialogue on pricing and cost actions"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: compare guidance revisions, order-book commentary, and margin guidance to prior quarter; assess confidence trajectory",
+        "Price-action monitoring: track HUBB vs. XLI (industrials ETF) and vs. peer group (ETN, ROP); identify relative strength or weakness",
+        "Supply-chain data: monitor supplier announcements (price increases, capacity constraints) and HUBB's customer-communication disclosures",
+        "Regulatory filing review: 10-K Item 1A risk-factor updates, 8-K debt/M&A events, and proxy statement (DEF14A) governance changes"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight utility-capex sensitivity in model if EEI guidance trends diverge from historical correlation with HUBB revenue",
+        "Recalibrate tariff impact assumption if HUBB's pricing power proves weaker than peer group (e.g., Eaton); adjust margin floor",
+        "Update Aclara synergy timeline if integration milestones slip; model revised EBITDA accretion schedule",
+        "Reassess leverage trajectory if free-cash-flow conversion falls below 60%; adjust debt-paydown assumptions and refinancing risk profile"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Hubbell operates as a distributed intelligence node across three functional domains: utility operations (via Aclara's IoT and software platforms), industrial production (via connectors, wiring, and power distribution), and infrastructure capital deployment (via construction-channel exposure). The company's neural architecture integrates upstream commodity and component suppliers (copper, semiconductors, plastics), downstream utility and industrial customers (regulated utilities, data-center operators, industrial OEMs), and regulatory/capital-market stakeholders (SEC, FERC, utility commissions, rating agencies). Hubbell's decision-making cycles are driven by utility capex guidance, construction-starts data, commodity prices, and debt-refinancing windows; its outputs (product innovation, pricing, M&A) feed back into infrastructure-investment cycles and supply-chain cost structures.",
+    "suppliers": [
+      {
+        "name": "Amphenol Corporation",
+        "ticker": "APH",
+        "cik": "0000006372",
+        "slug": "amphenol",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Connector & Cable Supply",
+        "relationshipNote": "Amphenol supplies high-reliability connectors and cable assemblies to Hubbell's industrial and utility segments. Amphenol's 2024 revenue ~$11.2B; connector products represent ~40% of Hubbell's bill-of-materials for power distribution and communication products. Relationship spans 15+ years with annual volume ~$180–220M. Amphenol's Taiwan and Mexico manufacturing footprint creates geopolitical and tariff exposure for HUBB.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Corning Incorporated",
+        "ticker": "GLW",
+        "cik": "0000024741",
+        "slug": "corning",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fiber Optic & Glass Supply",
+        "relationshipNote": "Corning supplies optical fiber, fiber-optic cables, and specialty glass components for Hubbell's communication and utility-automation products. Corning's optical-communications segment revenue ~$3.8B annually; Hubbell represents ~2–3% of Corning's customer base. Partnership accelerated post-2020 with broadband expansion (BEAD program); 2024 volume estimated $85–110M. Corning's supply-chain resilience critical to HUBB's fiber-to-home product roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Wyle Electronics (Arrow Electronics subsidiary)",
+        "ticker": "ARW",
+        "cik": "0000006957",
+        "slug": "arrow_electronics",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Semiconductor & Component Distribution",
+        "relationshipNote": "Arrow Electronics (parent: Tech Data) distributes semiconductors, connectors, and passive components to Hubbell's manufacturing operations. Arrow's 2024 revenue ~$36B; semiconductor distribution represents ~35% of Arrow's business. Hubbell's annual semiconductor and component purchases via Arrow estimated $120–150M. Arrow's supply-chain visibility and inventory management directly impact HUBB's production scheduling and tariff exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Novelis Inc.",
+        "ticker": "NOVL",
+        "cik": "0001579241",
+        "slug": "novelis",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Aluminum Supply",
+        "relationshipNote": "Novelis supplies rolled aluminum sheet and extrusions for Hubbell's power-distribution enclosures and heat-sink components. Novelis 2024 revenue ~$6.2B; automotive and industrial segments represent ~45% of revenue. Hubbell's annual aluminum purchases estimated $45–65M. Novelis' 2024 capacity expansion in North America (Oswego, Indiana facilities) supports HUBB's nearshoring strategy and tariff mitigation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Southwire Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "southwire",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Copper Wire & Cable Supply",
+        "relationshipNote": "Southwire (private, $8B+ revenue) supplies copper wire, cable, and conduit to Hubbell's electrical and utility segments. Southwire is the largest U.S. wire manufacturer; Hubbell represents ~3–4% of Southwire's industrial/utility customer base. Annual volume estimated $110–140M. Southwire's 2023 capacity investments in Alabama and Tennessee support HUBB's domestic sourcing and supply-chain resilience goals.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Anixter International (Tech Data subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "anixter",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Electrical Distribution & Logistics",
+        "relationshipNote": "Anixter (now Tech Data Communications) distributes Hubbell electrical products, wiring devices, and lighting to electrical contractors and distributors. Anixter's 2024 revenue ~$2.1B (communications segment); Hubbell products represent ~8–10% of Anixter's electrical-products portfolio. Relationship spans 25+ years; Anixter's 180+ distribution centers provide last-mile logistics for HUBB's products. Strategic importance: Anixter's customer relationships and market intelligence inform HUBB's pricing and product-development cycles.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Heilind Industries (Berkshire Hathaway subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "heilind",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Fastener & Component Supply",
+        "relationshipNote": "Heilind supplies fasteners, seals, and hydraulic components to Hubbell's manufacturing operations. Heilind (private, ~$8B revenue) operates 200+ distribution centers globally; Hubbell represents ~2–3% of Heilind's industrial customer base. Annual volume estimated $65–85M. Heilind's supply-chain resilience and just-in-time delivery capabilities critical to HUBB's production efficiency and inventory management.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0001357615",
+        "slug": "huntsman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Chemicals & Resins",
+        "relationshipNote": "Huntsman supplies polyurethane foams, epoxy resins, and specialty coatings for Hubbell's insulation, enclosure, and protective-coating applications. Huntsman 2024 revenue ~$8.1B; performance products segment (resins, coatings) represents ~35% of revenue. Hubbell's annual chemical purchases estimated $35–50M. Huntsman's 2024 capacity rationalization (plant closures in Europe) may increase HUBB's sourcing costs and supply-chain complexity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Quanta Services Inc.",
+        "ticker": "PWR",
+        "cik": "0001408450",
+        "slug": "quanta_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Utility Infrastructure Installation",
+        "relationshipNote": "Quanta Services (2024 revenue ~$18.5B) is a major installer and integrator of Hubbell electrical and utility-automation products for utility customers. Quanta's electrical-infrastructure segment represents ~40% of revenue; Hubbell products embedded in ~15–20% of Quanta's utility-project deliverables. Relationship spans 12+ years; Quanta's project pipeline visibility (renewable interconnection, grid modernization) provides HUBB with forward demand signals. 2024 Quanta capex ~$1.2B signals sustained utility infrastructure investment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Freight & Distribution",
+        "relationshipNote": "XPO Logistics provides LTL (less-than-truckload) and dedicated freight services for Hubbell's product distribution to regional warehouses and customer sites. XPO 2024 revenue ~$19.3B; LTL segment represents ~50% of revenue. Hubbell represents ~1–2% of XPO's industrial customer base; annual freight spend estimated $45–65M. XPO's 2024 network optimization (terminal consolidation) may improve HUBB's delivery times and reduce logistics costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Truckload & Intermodal",
+        "relationshipNote": "J.B. Hunt (2024 revenue ~$10.8B) provides truckload and intermodal transportation for Hubbell's bulk shipments and cross-country distribution. Hunt's intermodal segment represents ~30% of revenue; Hubbell's annual transportation spend estimated $35–50M. Hunt's 2024 fleet expansion (autonomous-vehicle pilots) and Mexico operations support HUBB's nearshoring and supply-chain resilience initiatives.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International & Last-Mile Logistics",
+        "relationshipNote": "DHL Supply Chain (Deutsche Post DHL subsidiary) provides international logistics, customs brokerage, and last-mile delivery for Hubbell's European and Asia-Pacific operations. DHL's 2024 revenue ~$90B (group); supply-chain segment represents ~35% of revenue. Hubbell's international freight spend estimated $55–75M annually. DHL's 2024 investment in automation and AI-driven routing supports HUBB's supply-chain visibility and cost optimization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Geodis (SNCF subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "European Distribution & Warehousing",
+        "relationshipNote": "Geodis (French logistics, ~$12B revenue) operates 600+ distribution centers across Europe and provides warehousing and last-mile delivery for Hubbell's European utility and electrical products. Hubbell's European operations represent ~15–18% of group revenue; Geodis handles ~40–50% of HUBB's European logistics. 2024 Geodis investment in automation and sustainability aligns with HUBB's ESG and supply-chain resilience goals.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Duke Energy Corporation",
+        "ticker": "DUK",
+        "cik": "0000063951",
+        "slug": "duke_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Utility Customer",
+        "relationshipNote": "Duke Energy (2024 revenue ~$72B) is a top-5 U.S. utility and a major customer for Hubbell's smart metering (Aclara), distribution automation, and power-distribution products. Duke's capex budget 2024–2028 ~$180B (grid modernization, renewable integration, EV charging); Hubbell products embedded in ~$2.5–3.5B of Duke's capex. Aclara's 2023 acquisition directly expanded HUBB's software and IoT footprint with Duke and other regulated utilities. Relationship spans 20+ years; strategic importance: Duke's grid-modernization roadmap informs HUBB's product-development priorities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "American Electric Power Company",
+        "ticker": "AEP",
+        "cik": "0000004904",
+        "slug": "aep",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Utility Customer",
+        "relationshipNote": "AEP (2024 revenue ~$18.5B) operates the largest U.S. transmission network and is a major customer for Hubbell's distribution automation, metering, and power-quality products. AEP's 2024–2028 capex plan ~$40B (grid modernization, renewable integration); Hubbell products represent ~$1.2–1.8B of AEP's capex. Aclara's software platform deployed across AEP's service territory (13 states); strategic importance: AEP's transmission-automation roadmap drives HUBB's advanced metering and grid-analytics product innovation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Google LLC (Alphabet Inc.)",
+        "ticker": "GOOGL",
+        "cik": "0001652044",
+        "slug": "google",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Data-Center Customer",
+        "relationshipNote": "Google (Alphabet 2024 revenue ~$307B) is a major customer for Hubbell's power distribution, cooling, and cable-management products for data-center buildout. Google's 2024 capex ~$60B (AI infrastructure, data centers); Hubbell products represent ~$180–250M of Google's data-center infrastructure spend. Relationship accelerated post-2022 with AI infrastructure expansion; strategic importance: Google's data-center roadmap and AI capex cycle drive HUBB's industrial-segment growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Amazon Web Services (Amazon Inc.)",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Data-Center Customer",
+        "relationshipNote": "Amazon (2024 revenue ~$575B) is a major customer for Hubbell's power distribution and infrastructure products for AWS data-center expansion. Amazon's 2024 capex ~$75B (data centers, AI infrastructure); Hubbell products represent ~$200–300M of Amazon's data-center spend. AWS's global expansion (US, Europe, Asia-Pacific) and AI infrastructure buildout drive sustained demand for HUBB's power and cooling products. Strategic importance: Amazon's capex guidance is a leading indicator of HUBB's industrial-segment momentum.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Eaton Corporation",
+        "ticker": "ETN",
+        "cik": "0000030104",
+        "slug": "eaton",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Diversified Electrical Equipment",
+        "relationshipNote": "Eaton (2024 revenue ~$23.5B) is Hubbell's largest direct competitor in electrical distribution, power management, and utility automation. Eaton's electrical-products segment revenue ~$9.2B; competes directly with HUBB across power distribution, wiring devices, and industrial connectors. Eaton's 2023 acquisition of Tripp Lite ($1.3B) expanded Eaton's power-quality and UPS portfolio, overlapping with HUBB's power segment. Market share: Eaton ~18–20% vs. HUBB ~8–10% in North American electrical distribution. Competitive delta: Eaton's larger scale and diversification (aerospace, vehicle) provide margin stability; HUBB's utility-software focus (Aclara) is differentiated.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Roper Technologies Inc.",
+        "ticker": "ROP",
+        "cik": "0000313616",
+        "slug": "roper",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Diversified Industrial & Software",
+        "relationshipNote": "Roper Technologies (2024 revenue ~$16.8B) competes with Hubbell in industrial connectors, power distribution, and utility-software platforms. Roper's application-software segment (Deltek, Adexa, Foundry) overlaps with Aclara's utility-operations software. Roper's 2024 acquisition of Vertiv (data-center cooling, $8.6B) directly competes with HUBB's power and cooling products for data centers. Market share: Roper's industrial-segment revenue ~$6.2B; HUBB's comparable revenue ~$2.8B. Competitive delta: Roper's software-centric strategy and M&A track record vs. HUBB's hardware-plus-software integration approach.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Legrand SA",
+        "ticker": "LR",
+        "cik": null,
+        "slug": "legrand",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Electrical Infrastructure & Building Systems",
+        "relationshipNote": "Legrand (2024 revenue ~$9.8B EUR, ~$10.7B USD) is a major competitor in electrical wiring devices, distribution, and building-automation systems. Legrand's electrical-infrastructure segment represents ~55% of revenue; competes with HUBB in North America (Legrand acquired Wiremold, Ortronics, Cablofil). Market share: Legrand ~12–14% in North American electrical distribution vs. HUBB ~8–10%. Competitive delta: Legrand's European scale and building-automation integration vs. HUBB's utility-software focus. 2024 Legrand capex ~€800M signals continued M&A and product-development investment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Schneider Electric SE",
+        "ticker": "SBGS",
+        "cik": null,
+        "slug": "schneider_electric",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Energy Management & Automation",
+        "relationshipNote": "Schneider Electric (2024 revenue ~$40.5B EUR, ~$44B USD) competes with Hubbell in power distribution, energy management, and industrial automation. Schneider's energy-management segment represents ~45% of revenue; competes with HUBB's power and utility-automation products globally. Schneider's 2024 acquisition of Aveva (industrial software, $1.1B) and EcoStruxure platform expansion compete with Aclara's utility-operations software. Market share: Schneider ~25–28% in global electrical distribution vs. HUBB ~3–4%. Competitive delta: Schneider's global scale and software-platform maturity vs. HUBB's North American utility focus and recent Aclara integration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ABB Ltd.",
+        "ticker": "ABB",
+        "cik": null,
+        "slug": "abb",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Electrification & Automation",
+        "relationshipNote": "ABB (2024 revenue ~$42B USD) competes with Hubbell in power distribution, electrification, and industrial automation. ABB's electrification segment represents ~40% of revenue; competes with HUBB in utility distribution, EV charging, and grid-automation products. ABB's 2024 separation of Accell (power grids) creates a pure-play competitor in utility automation and grid modernization. Market share: ABB ~20–22% in global electrical distribution vs. HUBB ~3–4%. Competitive delta: ABB's global scale, grid-separation focus, and EV-charging platform vs. HUBB's North American utility-software differentiation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Capital Markets & Disclosure",
+        "relationshipNote": "SEC oversees Hubbell's public-company disclosures, proxy statements, and insider-trading compliance. HUBB files annual 10-K, quarterly 10-Q, and event-driven 8-K filings; 2024 focus areas include Aclara acquisition integration, debt refinancing, and executive compensation. SEC's 2024 climate-disclosure rules (proposed) may require HUBB to expand Scope 1/2/3 emissions reporting. Regulatory importance: SEC filings are primary source of financial and operational data for equity research and credit analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Energy Regulatory Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Utility Regulation & Grid Standards",
+        "relationshipNote": "FERC regulates utility operations and grid standards; Hubbell's products must comply with FERC Order 2222 (distributed energy resources), NERC reliability standards, and IEEE grid-automation protocols. Aclara's utility-software platform is subject to FERC cybersecurity and data-privacy requirements (NERC CIP standards). FERC's 2024 transmission-planning reforms and renewable-interconnection rules drive utility capex and create demand for HUBB's grid-automation and metering products. Regulatory importance: FERC's policy shifts directly impact utility capex cycles and HUBB's order book visibility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance & Emissions",
+        "relationshipNote": "EPA regulates Hubbell's manufacturing operations under Clean Air Act, Clean Water Act, and RCRA (hazardous waste). HUBB's facilities in Connecticut, North Carolina, and Mexico are subject to EPA air-quality permits and wastewater discharge limits. EPA's 2024 lead-paint and lead-solder phase-out rules (16 CFR §436.5) require HUBB to reformulate electrical products and coatings. Regulatory importance: EPA compliance costs and product reformulation timelines impact HUBB's gross margin and product-development roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Consumer Protection",
+        "relationshipNote": "FTC reviews Hubbell's M&A activity for antitrust compliance. Aclara acquisition (2023, $1.15B) was reviewed by FTC; no material remedies required. FTC's 2024 focus on utility-software consolidation and data privacy may create scrutiny for future HUBB acquisitions in utility-operations software. FTC's non-compete rule (2023) may impact HUBB's ability to enforce non-compete agreements with departing executives and engineers. Regulatory importance: FTC antitrust review timelines and conditions affect HUBB's M&A strategy and integration planning.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (Bureau of Industry and Security)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Export Controls & Tariffs",
+        "relationshipNote": "BIS administers export controls (EAR) and tariff policy affecting Hubbell's supply chain and international sales. HUBB's 2024 tariff exposure: China tariffs on electrical components (25%), Mexico tariffs on semiconductors (15%), and India tariffs on connectors (20%). BIS's 2024 semiconductor export controls (China restrictions) impact HUBB's sourcing of advanced components. Regulatory importance: BIS tariff and export-control changes directly impact HUBB's input costs and international revenue growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Deloitte has been Hubbell's external auditor since 2015 (10+ years). Deloitte's 2024 audit scope includes Aclara acquisition integration, goodwill impairment testing, and internal-control assessment over financial reporting (SOX 404). Deloitte's audit fees 2024 ~$3.2M; audit-related fees ~$1.1M. Deloitte's audit opinion 2023: unqualified (clean). Regulatory importance: Deloitte's audit findings and management-letter comments inform credit-rating agencies and equity investors on HUBB's financial-reporting quality and internal-control environment.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Lender & Investment Banking",
+        "relationshipNote": "JPMorgan is Hubbell's lead arranger and administrative agent for its $1.5B revolving credit facility (2024 maturity extended to 2029). JPMorgan's 2024 commitment ~$400M; facility utilization ~$200M (13% drawn). JPMorgan also served as lead underwriter for HUBB's 2023 debt offering ($500M senior notes, 4.75% due 2033) to fund Aclara acquisition. Relationship spans 15+ years; strategic importance: JPMorgan's credit-facility renewal and debt-capital access critical to HUBB's refinancing strategy and leverage management.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bofa",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lender & Capital Markets",
+        "relationshipNote": "Bank of America is a syndicate lender on Hubbell's $1.5B revolving credit facility (2024 commitment ~$300M). BofA also served as co-manager for HUBB's 2023 debt offering and provides treasury and cash-management services. BofA's 2024 relationship with HUBB includes equity research coverage (analyst rating: Buy, price target $230) and M&A advisory services. Strategic importance: BofA's capital-markets access and equity research visibility support HUBB's investor relations and debt-refinancing strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder",
+        "relationshipNote": "Vanguard is Hubbell's largest institutional shareholder with ~8.2% ownership (as of 2024 Q3). Vanguard's position reflects passive index holdings (S&P 500, Russell 1000) and active equity funds. Vanguard's 2024 voting record on HUBB proxy: supported all management proposals (executive compensation, board elections). Strategic importance: Vanguard's large stake and index-fund dominance make it a key stakeholder in HUBB's capital-allocation and governance decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder",
+        "relationshipNote": "BlackRock is Hubbell's second-largest institutional shareholder with ~7.1% ownership (as of 2024 Q3). BlackRock's position reflects iShares ETF holdings (XLI, IYJ) and active equity funds. BlackRock's 2024 voting record on HUBB proxy: supported all management proposals. BlackRock's engagement with HUBB on ESG (climate, board diversity) reflects its stewardship priorities. Strategic importance: BlackRock's large stake and ESG engagement influence HUBB's sustainability reporting and governance practices.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Gerben Bakker",
+        "title": "President and Chief Executive Officer",
+        "slug": "gerben_bakker",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Bakker became HUBB CEO in January 2023 (succeeded David Nord). Bakker previously served as President of Hubbell's Electrical & Lighting segment (2019–2022) and brings 25+ years of industrial-equipment experience. Bakker's 2024 compensation: base salary $1.2M, bonus $1.8M, equity grants $4.5M (total ~$7.5M). Strategic focus: Aclara integration, utility-software expansion, and margin improvement. Bakker's leadership of Aclara acquisition integration is critical to HUBB's 2024–2025 synergy realization.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Melvin Michalak",
+        "title": "Chief Financial Officer",
+        "slug": "melvin_michalak",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Michalak became HUBB CFO in July 2023 (succeeded Rodd Ruland). Michalak previously served as VP of Finance at Hubbell and brings 20+ years of financial-management experience. Michalak's 2024 compensation: base salary $650K, bonus $975K, equity grants $2.2M (total ~$3.8M). Strategic focus: debt refinancing, Aclara integration accounting, and free-cash-flow optimization. Michalak's financial-planning and capital-allocation decisions directly impact HUBB's leverage trajectory and shareholder returns.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "William Spence",
+        "title": "Chairman of the Board",
+        "slug": "william_spence",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Board Leadership",
+        "relationshipNote": "Spence has served as HUBB Chairman since 2019 (independent director since 2015). Spence is former President and CEO of Hubbell (2008–2019) and brings 40+ years of industry experience. Spence's 2024 compensation: retainer $250K, committee fees $50K, equity grants $350K (total ~$650K). Strategic role: board oversight of CEO performance, Aclara integration, and long-term strategy. Spence's deep industry knowledge and prior CEO experience provide governance continuity and strategic guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Rodd Ruland",
+        "title": "Senior Vice President, General Counsel",
+        "slug": "rodd_ruland",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Ruland serves as HUBB's General Counsel and Secretary (since 2015). Ruland previously served as CFO (2018–2023) and brings 25+ years of legal and financial-management experience. Ruland's 2024 compensation: base salary $550K, bonus $825K, equity grants $1.8M (total ~$3.2M). Strategic focus: Aclara acquisition integration, regulatory compliance, and litigation management. Ruland's legal oversight of HUBB's M&A, debt, and regulatory matters is critical to risk management.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "S&P 500 Electrical Equipment Index",
+        "slug": "sp500_electrical",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Peer Group Performance",
+        "relationshipNote": "HUBB's stock performance is benchmarked against the S&P 500 Electrical Equipment Index (includes Eaton, Legrand, Roper, Schneider Electric). 2024 YTD HUBB return ~+18% vs. index return ~+22%. HUBB's relative underperformance reflects investor concerns about Aclara integration execution and leverage. Index volatility (30-day realized vol ~18%) reflects broader industrial-equipment sector sensitivity to interest rates and utility capex guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data",
+          "news"
+        ]
+      },
+      {
+        "name": "Utility Capex Cycle Indicator (EEI Forecast)",
+        "slug": "eei_capex_forecast",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Edison Electric Institute's 2024 utility capex forecast: $200B (up 8% YoY), driven by grid modernization, renewable integration, and EV charging. HUBB's utility-segment revenue (~$2.1B, 36% of total) is highly correlated with EEI capex index (R² ~0.78). EEI's 2024–2026 forecast: sustained capex growth 6–8% CAGR, supporting HUBB's utility-segment guidance. Market signal: EEI capex revisions are leading indicators of HUBB's order-book momentum and revenue guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Data-Center Capex Cycle (Synergy Research)",
+        "slug": "data_center_capex",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Synergy Research 2024 data-center capex forecast: $280B globally (up 15% YoY), driven by AI infrastructure buildout. HUBB's industrial-segment revenue (~$1.8B, 31% of total) benefits from data-center power distribution and cooling demand. Hyperscaler capex (Google, Amazon, Meta, Microsoft) represents ~$120B of total; HUBB's addressable market ~$400–600M annually. Market signal: hyperscaler capex guidance revisions directly impact HUBB's industrial-segment growth trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "infrastructure",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.501Z",
+      "overrideCount": 11
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Amphenol Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Corning Incorporated",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Novelis Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Southwire Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Huntsman Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Wyle Electronics (Arrow Electronics subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Anixter International (Tech Data subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Heilind Industries (Berkshire Hathaway subsidiary)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Quanta Services Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Google LLC (Alphabet Inc.)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Amazon Web Services (Amazon Inc.)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "XPO Logistics Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "J.B. Hunt Transport Services",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "DHL Supply Chain",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Geodis (SNCF subsidiary)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Duke Energy Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "American Electric Power Company",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "S&P 500 Electrical Equipment Index",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "Data-Center Capex Cycle (Synergy Research)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Eaton Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Roper Technologies Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Legrand SA",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Schneider Electric SE",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "ABB Ltd.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Energy Regulatory Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Federal Trade Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Commerce (Bureau of Industry and Security)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Environmental Protection Agency",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Utility Capex Cycle Indicator (EEI Forecast)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Vanguard Group Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "BlackRock Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

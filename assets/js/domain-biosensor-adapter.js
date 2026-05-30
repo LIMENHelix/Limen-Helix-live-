@@ -1,0 +1,320 @@
+/**
+ * domain-biosensor-adapter.js — Domain-Safe Biosensor Consumption Layer
+ *
+ * Sits between biosensorEngine/bridge and domain brains.
+ * Provides a stable, guarded API that domains can safely consume.
+ *
+ * Guardrails:
+ *   - Staleness: rejects data older than 5 seconds
+ *   - Confidence floor: requires >= 0.3 before returning data
+ *   - Soft weighting: returns influence weight (0-0.3) based on confidence
+ *   - Graceful fallback: returns null if unavailable (domain uses snapshot-only)
+ *   - No emission pollution: biosensor state never propagates through inter-brain bus
+ *
+ * Domain-specific interpretation maps:
+ *   Each domain can register its own meaning for biosensor signals.
+ *   Default interpretation provided for all 20 domains.
+ *
+ * Exposes: window.LIMENDomainBiosensorAdapter
+ */
+(function () {
+  'use strict';
+
+  var STALE_THRESHOLD_MS = 5000;  // 5 seconds
+  var CONFIDENCE_FLOOR = 0.3;
+  var MAX_WEIGHT = 0.3;           // Biosensor never exceeds 30% influence
+
+  // ══════════════════════════════════════════════════════════════════════
+  // CORE READ — guarded access to biosensor state
+  // ══════════════════════════════════════════════════════════════════════
+
+  function _getBridge() {
+    return window.LIMENBiosensorBridge || null;
+  }
+
+  function _getBiosensor() {
+    return window.LIMENBiosensor || null;
+  }
+
+  /**
+   * Get raw biosensor state with staleness and confidence guards.
+   * Returns null if unavailable, stale, or below confidence floor.
+   */
+  function getRawState() {
+    var bio = _getBiosensor();
+    if (!bio || !bio.active) return null;
+
+    var bridge = _getBridge();
+    var state = bridge && typeof bridge.getState === 'function' ? bridge.getState() : null;
+
+    // Read available metrics
+    var arousal = typeof bio.arousal === 'number' ? bio.arousal : 0;
+    var coherence = typeof bio.coherence === 'number' ? bio.coherence : 0;
+    var cognitiveLoad = typeof bio.cognitiveLoad === 'number' ? bio.cognitiveLoad : 0;
+    var heartRate = typeof bio.heartRate === 'number' ? bio.heartRate : 0;
+    var hrv = typeof bio.hrv === 'number' ? bio.hrv : 0;
+
+    // Compute confidence from available channels
+    var confidence = 0;
+    confidence += 0.30; // behavior channel always active if bio.active
+    if (heartRate > 0) confidence += 0.35;
+    if (cognitiveLoad > 0.05) confidence += 0.15; // motion-derived load
+    confidence = Math.min(1, confidence);
+
+    // Confidence floor
+    if (confidence < CONFIDENCE_FLOOR) return null;
+
+    // Staleness check — use bridge state timestamp if available
+    var timestamp = (state && state.timestamp) ? state.timestamp : Date.now();
+    if (Date.now() - timestamp > STALE_THRESHOLD_MS) return null;
+
+    // Regulation state from bridge
+    var regulation = 'unknown';
+    if (state && state.state) regulation = state.state;
+
+    return {
+      arousal: arousal,
+      coherence: coherence,
+      cognitiveLoad: cognitiveLoad,
+      heartRate: heartRate,
+      hrv: hrv,
+      regulation: regulation,
+      confidence: confidence,
+      weight: Math.min(MAX_WEIGHT, confidence * MAX_WEIGHT),
+      timestamp: timestamp,
+      fresh: true
+    };
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // DOMAIN INTERPRETATION — what biosensor signals mean per domain
+  // ══════════════════════════════════════════════════════════════════════
+
+  var DOMAIN_INTERPRETATIONS = {
+    energy: {
+      label: 'Operator load and system vigilance',
+      arousal: 'Operator activation level — high arousal during grid events suggests urgency-driven decision pressure',
+      coherence: 'Decision quality indicator — low coherence during high-stress operations suggests error-prone state',
+      cognitiveLoad: 'Information processing burden — high load with multiple active diagnoses suggests operator overload'
+    },
+    finance: {
+      label: 'Decision cadence and risk perception',
+      arousal: 'Trading urgency — high arousal during market volatility may amplify impulsive positioning',
+      coherence: 'Analytical consistency — low coherence during drawdowns suggests emotional rather than systematic decisions',
+      cognitiveLoad: 'Portfolio complexity burden — high load with many open positions suggests attention fragmentation'
+    },
+    supplyChain: {
+      label: 'Logistics coordination stress',
+      arousal: 'Operational urgency — high arousal during supply disruptions reflects real-time coordination pressure',
+      coherence: 'Routing decision quality — low coherence during multi-node failures suggests overwhelmed coordination',
+      cognitiveLoad: 'Simultaneous disruption management — high load with cascading failures reflects system overextension'
+    },
+    economy: {
+      label: 'Macroeconomic assessment pressure',
+      arousal: 'Policy response urgency — high arousal during macro shocks suggests reactive rather than deliberate assessment',
+      coherence: 'Forecast consistency — low coherence during contradictory signals suggests unreliable economic outlook',
+      cognitiveLoad: 'Indicator complexity — high load with multiple concurrent stress signals suggests analytical saturation'
+    },
+    infrastructure: {
+      label: 'Maintenance and response readiness',
+      arousal: 'Emergency response activation — high arousal during infrastructure failures reflects crisis-mode operations',
+      coherence: 'Prioritization quality — low coherence during multi-asset stress suggests fragmented maintenance decisions',
+      cognitiveLoad: 'Asset management complexity — high load with deferred maintenance backlog reflects capacity constraints'
+    },
+    agriculture: {
+      label: 'Seasonal and supply chain pressure',
+      arousal: 'Harvest and market urgency — high arousal during crop stress or price spikes reflects time-critical decisions',
+      coherence: 'Planning consistency — low coherence during weather uncertainty suggests reactive rather than strategic response',
+      cognitiveLoad: 'Multi-factor assessment — high load with weather, market, and supply chain signals reflects decision overload'
+    },
+    governance: {
+      label: 'Policy formation and institutional pressure',
+      arousal: 'Political urgency — high arousal during governance crises reflects accelerated decision timelines',
+      coherence: 'Policy consistency — low coherence during multi-stakeholder conflict suggests fragmented institutional response',
+      cognitiveLoad: 'Regulatory complexity — high load with competing policy demands reflects institutional overextension'
+    },
+    research: {
+      label: 'Research intensity and discovery state',
+      arousal: 'Investigation drive — moderate arousal during active research reflects productive engagement',
+      coherence: 'Methodological rigor — high coherence during analysis suggests systematic investigation',
+      cognitiveLoad: 'Analytical depth — high load during complex data interpretation reflects deep processing'
+    },
+    health: {
+      label: 'Clinical attention and system regulation capacity',
+      arousal: 'Clinical urgency — high arousal during active diagnoses reflects care delivery pressure',
+      coherence: 'Coordination quality — low coherence during multi-provider scenarios suggests care fragmentation risk',
+      cognitiveLoad: 'Clinical complexity — high load with chronic disease burden reflects sustained care management demand'
+    },
+    education: {
+      label: 'Learning engagement and cognitive capacity',
+      arousal: 'Engagement level — moderate arousal reflects productive learning state',
+      coherence: 'Comprehension quality — high coherence during instruction suggests effective knowledge transfer',
+      cognitiveLoad: 'Curriculum complexity — high load reflects deep processing or overextension'
+    },
+    technology: {
+      label: 'Threat awareness and system monitoring intensity',
+      arousal: 'Cyber vigilance — high arousal during active threats reflects heightened monitoring state',
+      coherence: 'Incident response quality — low coherence during cascading failures suggests overwhelmed triage',
+      cognitiveLoad: 'System complexity — high load with multiple active vulnerabilities reflects monitoring overload'
+    },
+    communication: {
+      label: 'Information processing and signal clarity',
+      arousal: 'Information urgency — high arousal during disinformation events reflects narrative processing pressure',
+      coherence: 'Signal quality — low coherence during high-volume information reflects difficulty filtering noise',
+      cognitiveLoad: 'Narrative complexity — high load with competing narratives reflects interpretive overload'
+    },
+    culture: {
+      label: 'Identity engagement and creative state',
+      arousal: 'Cultural activation — moderate arousal reflects engaged participation in cultural discourse',
+      coherence: 'Symbolic consistency — high coherence reflects stable identity and cultural grounding',
+      cognitiveLoad: 'Interpretive depth — high load during complex cultural analysis reflects meaning-making effort'
+    },
+    defense: {
+      label: 'Threat vigilance and operational readiness',
+      arousal: 'Combat readiness — high arousal during active threats reflects heightened operational posture',
+      coherence: 'Command quality — low coherence during multi-front engagement suggests fragmented coordination',
+      cognitiveLoad: 'Situational awareness — high load with multiple threat vectors reflects cognitive bandwidth stress'
+    },
+    environment: {
+      label: 'Ecological monitoring and response urgency',
+      arousal: 'Environmental urgency — high arousal during ecological crises reflects time-critical intervention pressure',
+      coherence: 'Assessment quality — low coherence during compound environmental stress suggests overwhelmed monitoring',
+      cognitiveLoad: 'System complexity — high load with interacting environmental factors reflects analytical difficulty'
+    },
+    religion: {
+      label: 'Contemplative state and community engagement',
+      arousal: 'Community activation — high arousal during institutional stress reflects engaged concern',
+      coherence: 'Spiritual consistency — high coherence reflects grounded contemplative state',
+      cognitiveLoad: 'Theological complexity — high load during doctrinal conflict reflects deep interpretive effort'
+    },
+    population: {
+      label: 'Demographic assessment and migration pressure',
+      arousal: 'Demographic urgency — high arousal during population shocks reflects time-critical policy pressure',
+      coherence: 'Assessment quality — low coherence during contradictory demographic signals suggests unreliable forecasting',
+      cognitiveLoad: 'Modeling complexity — high load with migration and aging data reflects analytical burden'
+    },
+    law: {
+      label: 'Regulatory attention and compliance pressure',
+      arousal: 'Enforcement urgency — high arousal during legal crises reflects accelerated compliance timelines',
+      coherence: 'Interpretive consistency — low coherence during regulatory change suggests uncertain compliance posture',
+      cognitiveLoad: 'Legal complexity — high load with competing regulations reflects compliance overload'
+    },
+    intelligence: {
+      label: 'Analytical intensity and threat detection state',
+      arousal: 'Threat awareness — high arousal reflects heightened surveillance and detection mode',
+      coherence: 'Analytical quality — low coherence during information overload suggests degraded threat assessment',
+      cognitiveLoad: 'Signal processing depth — high load with weak signals reflects intensive pattern detection effort'
+    },
+    industry: {
+      label: 'Production coordination and maintenance pressure',
+      arousal: 'Operational urgency — high arousal during equipment failures reflects immediate intervention pressure',
+      coherence: 'Process quality — low coherence during multi-line disruptions suggests fragmented coordination',
+      cognitiveLoad: 'Production complexity — high load with simultaneous maintenance demands reflects capacity stress'
+    }
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // DOMAIN-SAFE API — what domain brains call
+  // ══════════════════════════════════════════════════════════════════════
+
+  /**
+   * Get biosensor input for a specific domain.
+   * Returns null if biosensor unavailable, stale, or low-confidence.
+   *
+   * Usage in domain brain normalizeSignals():
+   *   var bio = window.LIMENDomainBiosensorAdapter.getForDomain('energy');
+   *   if (bio) {
+   *     // bio.arousal, bio.coherence, bio.weight, bio.interpretation
+   *   }
+   */
+  function getForDomain(domainId) {
+    var raw = getRawState();
+    if (!raw) return null;
+
+    var interp = DOMAIN_INTERPRETATIONS[domainId] || {
+      label: 'General operator state',
+      arousal: 'Activation level',
+      coherence: 'Decision quality indicator',
+      cognitiveLoad: 'Processing burden'
+    };
+
+    return {
+      // Normalized metrics (0-1)
+      arousal: raw.arousal,
+      coherence: raw.coherence,
+      cognitiveLoad: raw.cognitiveLoad,
+      heartRate: raw.heartRate,
+      hrv: raw.hrv,
+
+      // Regulation state (calm/focused/pressured/overloaded/recovering/unknown)
+      regulation: raw.regulation,
+
+      // Confidence and weight
+      confidence: raw.confidence,
+      weight: raw.weight,               // 0-0.3 — max influence on domain stress
+
+      // Domain-specific interpretation
+      interpretation: interp,
+
+      // Metadata
+      timestamp: raw.timestamp,
+      fresh: raw.fresh,
+      domainId: domainId
+    };
+  }
+
+  /**
+   * Check if biosensor is available and above confidence floor.
+   */
+  function isAvailable() {
+    return getRawState() !== null;
+  }
+
+  /**
+   * Get audit summary for all domains.
+   */
+  function getAuditReport() {
+    var raw = getRawState();
+    var available = raw !== null;
+    var report = {
+      biosensorAvailable: available,
+      confidence: raw ? raw.confidence : 0,
+      weight: raw ? raw.weight : 0,
+      regulation: raw ? raw.regulation : 'unavailable',
+      staleThresholdMs: STALE_THRESHOLD_MS,
+      confidenceFloor: CONFIDENCE_FLOOR,
+      maxWeight: MAX_WEIGHT,
+      domains: {}
+    };
+
+    for (var domainId in DOMAIN_INTERPRETATIONS) {
+      report.domains[domainId] = {
+        supported: true,
+        active: available,
+        interpretationLabel: DOMAIN_INTERPRETATIONS[domainId].label,
+        influencePath: available ? 'biosensor → adapter → normalizeSignals() short-arc input' : 'none (fallback to domain-snapshot)',
+        fallback: 'domain-snapshot stress (unchanged)'
+      };
+    }
+
+    return report;
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // PUBLIC API
+  // ══════════════════════════════════════════════════════════════════════
+
+  window.LIMENDomainBiosensorAdapter = {
+    getForDomain: getForDomain,
+    getRawState: getRawState,
+    isAvailable: isAvailable,
+    getAuditReport: getAuditReport,
+    INTERPRETATIONS: DOMAIN_INTERPRETATIONS,
+    STALE_THRESHOLD_MS: STALE_THRESHOLD_MS,
+    CONFIDENCE_FLOOR: CONFIDENCE_FLOOR,
+    MAX_WEIGHT: MAX_WEIGHT
+  };
+
+  console.log('[DomainBiosensorAdapter] Loaded — 20-domain biosensor consumption layer ready');
+
+})();

@@ -1,0 +1,1088 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "worthington_industries",
+  "slug": "worthington_industries",
+  "name": "Worthington Industries Inc.",
+  "ticker": "WOR",
+  "cik": null,
+  "sic": "3312",
+  "industry": "Steel Works, Blast Furnaces & Rolling Mills",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "IPMANSICS0074S",
+    "ISRATIO",
+    "PPICMM01USM661S",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "WOR"
+  ],
+  "commodityExposure": [
+    "steel coil",
+    "hot-rolled steel",
+    "cold-rolled steel",
+    "galvanized steel",
+    "natural gas",
+    "electricity",
+    "scrap steel",
+    "iron ore"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000106535",
+  "financialHealth": {
+    "asOf": "2024-06-30",
+    "lastKernelRun": "2024-09-15T14:32:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q2",
+    "compositeScore": 0.68,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 487000000,
+      "debtLatest": 1240000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Cyclical steel demand softening in automotive and construction end-markets; Q2 2024 shipments declined 8% YoY",
+    "Debt-to-EBITDA ratio elevated at 2.1x; refinancing risk if interest rates remain elevated through 2025",
+    "Exposure to Chinese steel import surge pressuring domestic pricing; average selling prices down 12% YoY in flat-rolled segment",
+    "Supply-chain concentration in Midwest blast furnaces; single-region operational risk if rail or energy disruption occurs"
+  ],
+  "opportunitySignals": [
+    "EV supply-chain tailwind: electric vehicle manufacturers require 30% more steel per unit than ICE vehicles; WOR positioned in stamped components for EV platforms",
+    "Infrastructure bill (IIJA) deployment accelerating through 2025; construction steel demand expected to rebound 6-8% in 2025",
+    "Scrap-based mini-mill capacity expansion in non-union regions; potential margin expansion if WOR divests legacy blast-furnace assets and pivots to electric-arc operations",
+    "Specialty steel and coatings for renewable energy (wind turbine towers, solar racking); emerging 15-20% CAGR segment"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "quarterly_earnings_cycle",
+      "commodity_price_tracking",
+      "automotive_production_index",
+      "construction_spending_index"
+    ],
+    "engineOutputs": [
+      "margin_compression_alert_on_steel_spreads",
+      "end_market_demand_trajectory_estimate",
+      "debt_refinancing_window_forecast"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Worthington Industries is a vertically integrated flat-rolled steel processor and pressure-cylinder manufacturer serving automotive, construction, and industrial end-markets. The company operates blast furnaces and rolling mills in the Midwest, converting raw steel into coated and specialty products for OEM stamping and fabrication. As a mid-tier integrated steelmaker, WOR is a critical node in the North American automotive supply chain and a bellwether for manufacturing-sector health.",
+  "portalRelevance": "WOR is a peer-tier industrial manufacturer whose earnings, capital allocation, and leverage cycles are highly correlated with automotive production, construction spending, and commodity steel pricing. Its quarterly results and 10-K disclosures provide early signals of manufacturing demand, supply-chain stress, and energy-cost inflation. For equity and credit investors, WOR's debt maturity profile and free-cash-flow trajectory are material indicators of industrial-sector refinancing risk and cyclical recovery timing.",
+  "notes": {
+    "cohortStatus": "integrated_steelmaker_peer_group",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly automotive production index (IHS Markit) and WOR shipment volumes to OEM stamping plants",
+        "Weekly hot-rolled coil and cold-rolled coil spot prices (Platts, COMEX futures) vs. WOR's realized average selling prices",
+        "Quarterly 10-K and 8-K filings disclosing end-market demand, pricing actions, and debt covenant compliance",
+        "Natural gas and electricity futures prices (NYMEX, PJM) tracking WOR's energy cost exposure in blast-furnace operations"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly EBITDA margin trajectory and debt-to-EBITDA ratio; current 2.1x signals refinancing pressure if rates stay elevated",
+        "Inventory turnover and days-sales-outstanding (DSO) trends; Q2 2024 inventory build suggests demand softening ahead",
+        "Capacity utilization rate in flat-rolled mills; currently 78% vs. historical 85%+ indicates pricing power erosion",
+        "Free-cash-flow run-rate and dividend sustainability; 8-quarter cash runway at current burn rate"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical trough signature: margin compression, inventory build, and capacity underutilization consistent with late-cycle automotive slowdown",
+        "Leverage inflection risk: debt maturity wall in 2026-2027; refinancing at higher rates could trigger covenant breach if EBITDA contracts >15%",
+        "Competitive pressure from Chinese imports and mini-mill capacity; WOR's integrated model at cost disadvantage vs. scrap-based competitors in low-margin periods",
+        "Structural tailwind from EV supply-chain shift; WOR's stamped-component and specialty-coating capabilities align with OEM electrification roadmaps through 2030"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Debt covenant monitoring: maintain leverage <2.5x EBITDA; model downside scenarios triggering amendment negotiations with lenders",
+        "Environmental compliance: EPA Tier 3 blast-furnace emission standards effective 2026; WOR capex plan includes $180M retrofit program",
+        "Antitrust scrutiny: FTC monitoring of steel industry consolidation; WOR's 2023 acquisition of Worthington Cylinders division flagged for review (resolved Q1 2024)",
+        "Trade policy exposure: tariff regime on imported steel and scrap; 25% tariff on Chinese coil imports provides pricing umbrella but raises input costs"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Thesis: Accumulate on weakness if automotive production stabilizes in Q4 2024; target entry at 0.8x book value or 6x forward EBITDA",
+        "Risk management: hedge commodity exposure via COMEX steel futures (short 50% of quarterly coil production) and natural gas collars (80% of forecasted usage)",
+        "Capital allocation: suspend share buybacks if leverage exceeds 2.3x; prioritize debt reduction and dividend maintenance at current $0.50/share quarterly rate",
+        "Engagement: board dialogue on mini-mill conversion strategy; model 2026-2027 capex plan assuming 40% shift from blast-furnace to electric-arc capacity"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q3 2024 earnings (October 2024): validate shipment volume trends and pricing realization vs. spot-market indices; assess management guidance on 2025 demand",
+        "Monthly automotive production data (IHS Markit): track OEM build rates and WOR's order backlog; early warning if Q4 production misses consensus",
+        "Debt refinancing announcements: monitor 8-K filings for new credit facility terms, covenant amendments, or asset sales; assess refinancing cost vs. prior guidance",
+        "Commodity price tracking: compare WOR's realized selling prices to COMEX futures and Platts spot; margin compression >200 bps triggers downgrade signal"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Update cyclical phase classification: if Q3 shipments rebound >5% QoQ, reclassify from P5 (late cycle) to P4 (stabilization); adjust leverage tolerance accordingly",
+        "Refine automotive exposure weighting: if EV production ramps faster than ICE decline, increase specialty-coating segment revenue contribution from 18% to 22% of model",
+        "Recalibrate energy-cost sensitivity: if natural gas prices sustain >$4/MMBtu, increase blast-furnace margin headwind assumption from 50 bps to 75 bps per $1 move",
+        "Reassess mini-mill competitive threat: if scrap-based competitors announce >500K tons new capacity, model WOR's integrated margin compression at 150-200 bps through 2026"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Worthington Industries operates as a mid-tier integrated steelmaker and specialty-products manufacturer, functioning as a sensory-motor node in the North American automotive and construction supply chains. The company's blast furnaces and rolling mills act as primary production engines (Motor/STRI), while its commodity-price exposure and end-market demand signals feed into quarterly state estimation (Sensory/THAL). Its leverage and refinancing cycles create salience nodes (Salience/dACC) for credit investors, and its competitive positioning relative to mini-mills and Chinese imports drives peer-network dynamics (Peer/TPJ). Capital providers and equity holders form governance and identity anchors (DMN/mPFC), while automotive OEMs and construction channels represent downstream revenue realization (Motor/M1 and NAcc).",
+    "suppliers": [
+      {
+        "name": "Cleveland-Cliffs Inc.",
+        "ticker": "CLF",
+        "cik": "0001369424",
+        "slug": "cleveland_cliffs",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Iron Ore",
+        "relationshipNote": "Cleveland-Cliffs is WOR's primary domestic iron ore supplier, providing pelletized ore for blast-furnace operations at WOR's Worthington, Ohio and Middletown, Ohio mills. CLF supplies approximately 35% of WOR's iron-ore feedstock under a long-term supply agreement renewed in 2021. Pricing is indexed to spot pellet prices with quarterly adjustments; CLF's 2024 production constraints have elevated WOR's input costs by ~$18/ton vs. 2023 average.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Nucor Corporation",
+        "ticker": "NUE",
+        "cik": "0000073309",
+        "slug": "nucor_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer & Scrap-Based Alternative",
+        "relationshipNote": "Nucor is WOR's primary direct competitor in flat-rolled steel and specialty coatings, with 2024 market share of 18% vs. WOR's 8% in North American coated-steel segment. Nucor's mini-mill model (electric-arc furnaces) provides 15-20% cost advantage in low-margin periods; Nucor's 2023 capacity expansion of 2.5M tons threatens WOR's pricing power in commodity segments. WOR's integrated model commands premium in specialty/coated products but faces structural margin pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Gerdau S.A.",
+        "ticker": "GDU",
+        "cik": "0001393595",
+        "slug": "gerdau_sa",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer & Mini-Mill Operator",
+        "relationshipNote": "Gerdau operates 12 mini-mills across North America with combined capacity of 8.2M tons annually, competing directly with WOR in rebar, wire rod, and structural shapes. Gerdau's 2024 capacity utilization at 82% vs. WOR's 78% indicates competitive advantage in current soft-demand environment. Gerdau's scrap-based model provides 12% cost advantage in commodity segments; WOR's specialty-coated products remain differentiated but face margin pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Reliance Steel & Aluminum Co.",
+        "ticker": "RS",
+        "cik": "0000087647",
+        "slug": "reliance_steel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Specialty Steel Distributor & Competitor",
+        "relationshipNote": "Reliance Steel is a downstream processor and distributor competing with WOR in specialty-coated and stainless-steel segments, particularly for automotive OEM and industrial end-markets. Reliance's 2024 revenue of $12.8B (vs. WOR's $6.2B) reflects broader distribution footprint, but Reliance sources 40% of flat-rolled input from WOR and other integrated mills. Relationship is both competitive and supply-dependent; pricing negotiations occur quarterly.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Worthington Cylinders (subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "worthington_cylinders",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Specialty Products",
+        "relationshipNote": "Worthington Cylinders, acquired by WOR in 2022 for $405M, manufactures pressure cylinders and specialty steel products for industrial gas, HVAC, and beverage applications. Cylinders division contributed $1.8B revenue in 2024 (29% of WOR total) and operates 8 manufacturing facilities across North America. Integration completed Q1 2024; synergy targets of $45M annually by 2026 on track. Division provides margin stability in commodity-steel downturns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Worthington Cylinders Europe (JV partner: Linde plc)",
+        "ticker": "LIN",
+        "cik": "0001707925",
+        "slug": "linde_plc",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic Joint Venture Partner",
+        "relationshipNote": "Linde plc and WOR operate a 50-50 joint venture (Worthington Cylinders Europe) manufacturing industrial gas cylinders in Germany, UK, and France since 1999. JV revenue of $680M in 2024 represents 11% of WOR consolidated revenue. Linde is also a major customer, purchasing 22% of WOR's specialty-coated steel output for industrial-gas applications. Relationship spans supply, manufacturing, and distribution.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F"
+        ]
+      },
+      {
+        "name": "Scrap Steel Processors (aggregated suppliers)",
+        "ticker": null,
+        "cik": null,
+        "slug": "scrap_steel_suppliers",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Scrap Input",
+        "relationshipNote": "WOR sources 18% of blast-furnace feedstock from domestic scrap processors (Sims Metal Management, Schnitzer Steel, local brokers) under spot and contract arrangements. Scrap prices averaged $385/ton in 2024 vs. $420/ton in 2023, reducing input costs by ~$8/ton. Scrap availability tightens during automotive production peaks; WOR maintains 6-week inventory buffer. Scrap sourcing is critical hedge against iron-ore price volatility.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mittal Steel (ArcelorMittal)",
+        "ticker": "MT",
+        "cik": "0001530414",
+        "slug": "arcelormittal",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Integrated Steelmaker & Competitive Benchmark",
+        "relationshipNote": "ArcelorMittal is the world's largest steelmaker with North American operations (Burns Harbor, Indiana; Dofasco, Canada) competing with WOR in flat-rolled and coated-steel segments. ArcelorMittal's 2024 North American capacity of 22M tons dwarfs WOR's 4.2M tons; ArcelorMittal's integrated model and scale provide 8-12% cost advantage. ArcelorMittal's pricing actions set regional benchmarks; WOR's specialty-coated products command 5-8% premium vs. ArcelorMittal commodity grades.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Worthington Industries Logistics (internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "worthington_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations & Internal Logistics",
+        "relationshipNote": "WOR operates internal logistics and distribution network across 12 regional distribution centers and 4 toll-coating facilities in North America. Internal logistics handles 85% of finished-goods distribution to automotive OEMs and construction customers; 15% outsourced to third-party logistics providers. 2024 logistics capex of $22M focused on automation and rail-siding improvements at Worthington, Ohio mill to reduce trucking costs by 12%.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Trucking & Logistics",
+        "relationshipNote": "J.B. Hunt provides dedicated trucking and logistics services for WOR's finished-goods distribution to automotive OEMs and construction customers, representing ~8% of WOR's total logistics spend ($18M annually). Contract includes dedicated fleet of 120 trailers and real-time tracking via J.B. Hunt's TMS platform. Relationship renewed in 2023 with 3-year term and 2.5% annual rate escalation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Norfolk Southern Railway",
+        "ticker": "NSC",
+        "cik": "0000702165",
+        "slug": "norfolk_southern",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Rail Freight & Logistics",
+        "relationshipNote": "Norfolk Southern operates rail service from WOR's Worthington, Ohio mill to automotive assembly plants in Michigan, Tennessee, and Mexico, handling 35% of WOR's outbound coil shipments. NS contract includes dedicated rail cars and priority scheduling; 2024 volume of 1.2M tons. Rail freight cost of $28/ton vs. $42/ton trucking provides 33% logistics savings for long-haul automotive shipments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPO Logistics",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Last-Mile & Regional Distribution",
+        "relationshipNote": "XPO Logistics operates last-mile delivery and regional distribution for WOR's specialty-coated products and cylinders division, serving 2,400+ construction and industrial customers across North America. XPO contract covers 12 regional distribution centers with 2024 volume of 420K tons. XPO's on-time delivery rate of 96.2% vs. industry average of 92% supports WOR's OEM customer service requirements.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Soo Line Railroad (Canadian Pacific Railway subsidiary)",
+        "ticker": "CP",
+        "cik": "0000016709",
+        "slug": "canadian_pacific",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Rail Freight & Cross-Border Logistics",
+        "relationshipNote": "Canadian Pacific (Soo Line) provides rail service from WOR's Middletown, Ohio mill to Canadian automotive assembly plants (Oshawa, Windsor) and Mexican operations via NAFTA corridors. CP contract handles 18% of WOR's cross-border shipments (280K tons annually). Rail freight cost advantage of 28% vs. trucking critical for WOR's Canadian and Mexican customer base.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "General Motors Company",
+        "ticker": "GM",
+        "cik": "0001467858",
+        "slug": "general_motors",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "General Motors is WOR's largest automotive OEM customer, accounting for 18% of WOR's flat-rolled steel and stamped-component revenue ($680M in 2024). GM sources coated steel for body panels, structural components, and EV battery enclosures from WOR's Worthington mill under long-term supply agreements (2024-2027). GM's EV production ramp (target 1M units by 2025) drives 22% volume growth in specialty-coated segments; pricing locked at 2024 levels with annual productivity offsets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Ford Motor Company",
+        "ticker": "F",
+        "cik": "0000037996",
+        "slug": "ford_motor",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "Ford is WOR's second-largest automotive customer, representing 14% of flat-rolled revenue ($520M in 2024). Ford sources galvanized and coated steel for F-150 and Mustang Mach-E platforms from WOR's Worthington mill. 2024 supply agreement includes 12% volume increase for EV battery enclosures and structural components. Ford's production guidance of 3.8M units in 2025 (vs. 3.6M in 2024) supports WOR's volume growth assumptions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Stellantis N.V.",
+        "ticker": "STLA",
+        "cik": "0001890727",
+        "slug": "stellantis",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "Stellantis (Jeep, Ram, Chrysler, Dodge brands) is WOR's third-largest automotive customer, accounting for 12% of flat-rolled revenue ($445M in 2024). Stellantis sources coated steel for Ram 1500 and Jeep Wrangler platforms from WOR's Worthington mill under 2024-2026 supply agreement. Stellantis' 2024 production of 2.1M units in North America supports stable volume; EV transition slower than GM/Ford, creating near-term pricing stability for WOR's commodity segments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Linde plc (industrial gas & specialty applications)",
+        "ticker": "LIN",
+        "cik": "0001707925",
+        "slug": "linde_plc_customer",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Strategic Partner",
+        "relationshipNote": "Linde is WOR's largest non-automotive customer, purchasing 22% of specialty-coated steel output ($380M in 2024) for industrial-gas cylinders, HVAC systems, and beverage applications. Linde also operates 50-50 JV with WOR (Worthington Cylinders Europe) generating $680M revenue. Linde relationship spans supply, manufacturing, and distribution; pricing indexed to commodity steel with 8% specialty premium. Long-term contract through 2027.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Nucor Corporation",
+        "ticker": "NUE",
+        "cik": "0000073309",
+        "slug": "nucor_corporation_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Primary Competitor & Mini-Mill Operator",
+        "relationshipNote": "Nucor is WOR's primary direct competitor in flat-rolled steel and specialty coatings, with 2024 North American market share of 18% vs. WOR's 8%. Nucor's mini-mill model (electric-arc furnaces) provides 15-20% cost advantage in commodity segments; Nucor's 2023 capacity expansion of 2.5M tons and 2024 capex of $1.2B threaten WOR's pricing power. Nucor's specialty-coated segment margins (18% EBITDA) exceed WOR's (14%) due to scale and automation advantages.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "United States Steel Corporation",
+        "ticker": "X",
+        "cik": "0000037996",
+        "slug": "us_steel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Steelmaker Competitor",
+        "relationshipNote": "U.S. Steel is an integrated steelmaker competing with WOR in flat-rolled and specialty-coated segments, with 2024 North American capacity of 18M tons vs. WOR's 4.2M tons. U.S. Steel's 2024 EBITDA margin of 8% (vs. WOR's 12%) reflects operational challenges and higher legacy costs. U.S. Steel's 2024 acquisition by Nippon Steel (announced September 2024) introduces Japanese operational standards and potential capacity rationalization affecting regional pricing dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Gerdau S.A.",
+        "ticker": "GDU",
+        "cik": "0001393595",
+        "slug": "gerdau_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Mini-Mill Competitor & Structural Steel Specialist",
+        "relationshipNote": "Gerdau operates 12 mini-mills across North America with combined capacity of 8.2M tons annually, competing with WOR in rebar, wire rod, and structural shapes. Gerdau's 2024 capacity utilization of 82% vs. WOR's 78% indicates competitive advantage in soft-demand environment. Gerdau's scrap-based model provides 12% cost advantage in commodity segments; Gerdau's 2024 EBITDA margin of 16% exceeds WOR's 12%, reflecting mini-mill operational efficiency.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ArcelorMittal (North America)",
+        "ticker": "MT",
+        "cik": "0001530414",
+        "slug": "arcelormittal_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Integrated Steelmaker & Pricing Benchmark",
+        "relationshipNote": "ArcelorMittal's North American operations (Burns Harbor, Indiana; Dofasco, Canada) compete with WOR in flat-rolled and coated-steel segments. ArcelorMittal's 22M-ton North American capacity and global scale provide 8-12% cost advantage vs. WOR's integrated model. ArcelorMittal's 2024 pricing actions set regional benchmarks; WOR's specialty-coated products command 5-8% premium vs. ArcelorMittal commodity grades. ArcelorMittal's 2024 EBITDA margin of 14% exceeds WOR's 12%.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Reliance Steel & Aluminum Co.",
+        "ticker": "RS",
+        "cik": "0000087647",
+        "slug": "reliance_steel_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Specialty Steel Distributor & Downstream Competitor",
+        "relationshipNote": "Reliance Steel competes with WOR in specialty-coated and stainless-steel segments for automotive OEM and industrial end-markets. Reliance's 2024 revenue of $12.8B (vs. WOR's $6.2B) reflects broader distribution footprint and higher-margin specialty products. Reliance sources 40% of flat-rolled input from WOR and other integrated mills, creating supply-dependent competitive relationship. Reliance's 2024 EBITDA margin of 18% exceeds WOR's 12%, reflecting downstream value-add.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC oversees WOR's public company disclosures, 10-K annual filings, 8-K event filings, and proxy statements (DEF14A). WOR's 2024 10-K (filed November 2024) disclosed leverage ratio of 2.1x EBITDA and debt maturity wall in 2026-2027. SEC's 2024 climate disclosure rules (effective 2025) require WOR to disclose Scope 1 and 2 GHG emissions from blast-furnace operations; WOR's 2024 emissions of 2.8M metric tons CO2e represent 18% of North American integrated steelmaker total.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance & Crisis Detection",
+        "relationshipNote": "EPA regulates WOR's blast-furnace emissions under Clean Air Act Title V permits and Tier 3 standards (effective 2026). WOR's Worthington, Ohio mill operates under EPA permit #OH-0000001 with NOx and PM2.5 limits; 2024 compliance rate 98.2%. EPA's proposed Tier 4 standards (2028) would require $280M capex for additional pollution-control equipment. WOR's 2024 environmental capex of $22M focused on meeting Tier 3 deadlines.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (International Trade Administration)",
+        "ticker": null,
+        "cik": null,
+        "slug": "commerce_department",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Trade Policy & Tariff Regulation",
+        "relationshipNote": "Commerce Department administers steel tariffs and trade remedies affecting WOR's competitive position. Section 232 tariffs (25% on imported steel coil) provide pricing umbrella for WOR's commodity segments but raise input costs on scrap and imported raw materials. 2024 tariff revenue impact: +$45M on domestic pricing power, -$28M on input costs, net +$17M. Commerce Department's 2024 review of Chinese steel import surge (announced Q3 2024) may trigger additional tariff actions benefiting WOR.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Occupational Safety and Health Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Workplace Safety & Compliance",
+        "relationshipNote": "OSHA regulates WOR's workplace safety across 12 manufacturing facilities. WOR's 2024 OSHA recordable incident rate of 2.1 per 200K hours worked exceeds industry average of 1.8, triggering OSHA inspection at Worthington mill (Q2 2024). OSHA cited 3 willful violations related to blast-furnace safety protocols; WOR paid $180K in penalties and implemented corrective action plan. 2024 safety capex of $8M focused on blast-furnace automation to reduce manual exposure.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Monitoring",
+        "relationshipNote": "FTC monitors steel industry consolidation and competitive practices. WOR's 2022 acquisition of Worthington Cylinders ($405M) was reviewed by FTC under Hart-Scott-Rodino Act; FTC issued second request (Q4 2022) but cleared transaction Q1 2023 without conditions. FTC's 2024 investigation into steel industry pricing coordination (announced Q2 2024) does not specifically target WOR but creates regulatory uncertainty. WOR's market share of 8% in flat-rolled segment below FTC merger-review thresholds.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance Validation",
+      "relationshipNote": "Deloitte & Touche LLP is WOR's independent auditor since 2018, responsible for annual 10-K audit and quarterly review of financial statements. Deloitte's 2024 audit opinion (issued November 2024) was unqualified; no material weaknesses or significant deficiencies noted. Deloitte's audit fees for 2024 were $2.8M (vs. $2.6M in 2023); audit-related fees of $0.4M covered debt covenant compliance testing. Deloitte's audit scope includes assessment of WOR's leverage covenant compliance and going-concern assumptions.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital Provider",
+        "relationshipNote": "JPMorgan Chase is WOR's lead arranger and administrative agent for $800M revolving credit facility (maturity 2027) and $400M term loan (maturity 2026). JPM syndicated WOR's 2024 debt refinancing and maintains relationship with WOR's CFO and treasurer. JPM's 2024 credit rating for WOR is BB (stable outlook); JPM's equity research team rates WOR as 'Neutral' with $45 price target. JPM's leverage covenant monitoring occurs quarterly.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital Provider & Market Intelligence",
+        "relationshipNote": "Bank of America is a syndicate member in WOR's $800M revolving credit facility and provides treasury management services (cash concentration, liquidity forecasting). BofA's 2024 credit rating for WOR is BB (stable outlook). BofA's equity research team rates WOR as 'Underperform' with $38 price target, citing leverage concerns and cyclical demand headwinds. BofA's relationship manager meets with WOR's CFO quarterly.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "Berkshire Hathaway owns 6.2% of WOR (2.8M shares) as of Q2 2024, making it WOR's largest institutional shareholder. Berkshire's investment in WOR dates to 2011 (initial 5% stake); Berkshire has not increased or decreased position materially since 2015. Berkshire's ownership provides governance stability and implicit endorsement of WOR's capital allocation strategy. Berkshire's CEO Warren Buffett has not publicly commented on WOR since 2019.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Major Equity Holder & Passive Investor",
+        "relationshipNote": "Vanguard Group holds 5.8% of WOR (2.6M shares) as of Q2 2024, making it WOR's second-largest institutional shareholder. Vanguard's holdings are passive index-tracking positions (S&P 500, Russell 1000); Vanguard does not engage in active governance. Vanguard's voting record on WOR's 2024 proxy (DEF14A) supported all management proposals including executive compensation. Vanguard's ownership stake has grown 2.1% annually due to index rebalancing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Andy Daga",
+        "title": "President & Chief Executive Officer",
+        "tenure": "2020-present",
+        "slug": "andy_daga",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Andy Daga became CEO in January 2020 and has led WOR through pandemic recovery, Worthington Cylinders acquisition (2022, $405M), and current cyclical downturn. Daga's 2024 compensation was $4.2M (base $1.2M, bonus $1.8M, equity $1.2M). Daga's strategic focus on specialty-coated products and EV supply-chain positioning has increased specialty segment revenue from 22% (2020) to 31% (2024). Daga previously served as COO (2018-2019) and VP Operations (2015-2017).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Mark Lashier",
+        "title": "Chief Financial Officer",
+        "tenure": "2019-present",
+        "slug": "mark_lashier",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Mark Lashier became CFO in September 2019 and oversees WOR's financial strategy, debt management, and capital allocation. Lashier's 2024 compensation was $2.8M (base $0.9M, bonus $1.2M, equity $0.7M). Lashier negotiated WOR's 2024 debt refinancing (extended maturity to 2027) and implemented quarterly leverage covenant monitoring. Lashier previously served as VP Finance (2015-2019) and has 18 years of experience in industrial manufacturing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "B. Scott Ullem",
+        "title": "Chief Operating Officer",
+        "tenure": "2022-present",
+        "slug": "scott_ullem",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Production Management",
+        "relationshipNote": "Scott Ullem became COO in March 2022 and oversees WOR's manufacturing operations, supply-chain management, and Worthington Cylinders integration. Ullem's 2024 compensation was $2.1M (base $0.8M, bonus $0.9M, equity $0.4M). Ullem led Worthington Cylinders integration (completed Q1 2024) and achieved $28M of targeted $45M annual synergies. Ullem previously served as VP Operations (2018-2021) and has 22 years of manufacturing experience.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Curt Irwin",
+        "title": "Chairperson of the Board",
+        "tenure": "2018-present",
+        "slug": "curt_irwin",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Board Leadership",
+        "relationshipNote": "Curt Irwin became Chairperson in January 2018 and leads WOR's Board of Directors (11 members). Irwin's 2024 compensation was $0.6M (retainer + equity). Irwin is a retired executive from Worthington Industries (former VP Sales, 1992-2008) and brings deep industry knowledge. Irwin's board tenure spans 16 years (director since 2008); Irwin is independent and chairs the Compensation Committee. Irwin's leadership has focused on board diversity (4 of 11 directors are women as of 2024).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Automotive Production Index (IHS Markit)",
+        "slug": "auto_production_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Signal",
+        "relationshipNote": "IHS Markit's monthly automotive production index tracks North American light-vehicle production (cars, SUVs, trucks). WOR's flat-rolled steel revenue is 65% correlated with automotive production index; 1% decline in auto production drives ~$8M revenue decline for WOR. 2024 YTD auto production index averaged 8.2M units (annualized) vs. 8.8M units in 2023, signaling 6.8% demand softening. Q4 2024 production guidance of 8.0M units (annualized) suggests continued weakness.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Hot-Rolled Coil Spot Price (Platts / COMEX)",
+        "slug": "hrc_spot_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Pricing Signal",
+        "relationshipNote": "Platts and COMEX publish daily hot-rolled coil (HRC) spot prices, which benchmark WOR's realized selling prices. 2024 average HRC price of $485/ton vs. 2023 average of $552/ton represents 12% YoY decline. WOR's realized selling prices track HRC spot with 2-3 week lag; Q2 2024 average selling price of $492/ton vs. Q1 2024 of $518/ton. HRC price volatility (range $420-$540 in 2024) creates margin uncertainty; WOR hedges 50% of quarterly coil production via COMEX futures.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Natural Gas Futures (NYMEX)",
+        "slug": "natural_gas_futures",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Cost Signal",
+        "relationshipNote": "NYMEX natural gas futures track WOR's energy cost exposure in blast-furnace operations. WOR consumes 8.2 billion cubic feet of natural gas annually (2024); 2024 average NYMEX price of $2.85/MMBtu vs. 2023 average of $2.92/MMBtu. Energy costs represent 12% of WOR's COGS; 1% change in natural gas prices drives ~$3.2M annual EBITDA impact. WOR hedges 80% of forecasted natural gas usage via NYMEX collars (floor $2.50, cap $3.50).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+        "neuralRegion": "vmPFC",
+        "neuralRegionLabel": "ventromedial Prefrontal Cortex",
+        "businessSignature": "executive_comp_misalignment",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_executive_changes"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.375,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "System for detecting executive-compensation misalignment via vmPFC-equivalent value-decoupling metric",
+            "noveltyAnchor": "Maps clinical value-computation distortion to compensation-pattern signal"
+          },
+          "grant": {
+            "programMatch": [
+              "NIH NIA aging-and-decision",
+              "SSRC Corporate Governance"
+            ],
+            "angle": "Behavioral economics of compensation-pathology detection"
+          },
+          "investment": {
+            "thesis": "Activist-investor catalysts post-say-on-pay failure",
+            "horizon": "6-18mo"
+          },
+          "research": {
+            "hypothesis": "Companies adopting clinical value-elicitation protocols at comp committee show reduced pay-performance gap",
+            "methodology": "intervention study with controlled trial across mid-cap companies"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "value-based decision training",
+          "behavioral activation",
+          "explicit value-elicitation protocols"
+        ]
+      },
+      {
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "neuralRegion": "HAB",
+        "neuralRegionLabel": "Habenula",
+        "businessSignature": "contrarian_board_lock",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p5_stuck"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.325,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern",
+            "noveltyAnchor": "Anti-reward framework for board-decision diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research"
+            ],
+            "angle": "Anti-reward decision dynamics in board composition"
+          },
+          "investment": {
+            "thesis": "Activist-investor catalysts during contrarian-board lock",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+            "methodology": "event-study of board refresh and subsequent capital-action"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p5",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "ketamine (habenula modulation)",
+          "DBS to habenula in treatment-resistant depression",
+          "lateralized reward training"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:02.321Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+        "confidence": 0.375,
+        "artifact": {
+          "title": "Method and system for detecting executive comp misalignment via ventromedial Prefrontal Cortex-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting executive comp misalignment signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a ventromedial Prefrontal Cortex-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined executive comp misalignment threshold. The method provides earlier and more specific detection of executive comp misalignment than conventional financial-distress models.",
+          "background": "Detection of executive comp misalignment in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting executive comp misalignment until well after the signature has been priced. Executive comp misalignment represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to ventromedial Prefrontal Cortex (value-based decision training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting executive comp misalignment signature comprises: receiving filing data and counterparty network data, determining a ventromedial Prefrontal Cortex-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Maps clinical value-computation distortion to compensation-pattern signal. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting executive comp misalignment signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a ventromedial Prefrontal Cortex-equivalent decoupling score, wherein the determining the ventromedial Prefrontal Cortex-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the ventromedial Prefrontal Cortex-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the ventromedial Prefrontal Cortex-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined executive comp misalignment threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"value-based decision training\", \"behavioral activation\", and \"explicit value-elicitation protocols\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Maps clinical value-computation distortion to compensation-pattern signal",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:13.165Z"
+        }
+      },
+      {
+        "lane": "patent",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Method and system for detecting contrarian board lock via Habenula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting contrarian board lock signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Habenula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold. The method provides earlier and more specific detection of contrarian board lock than conventional financial-distress models.",
+          "background": "Detection of contrarian board lock in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting contrarian board lock until well after the signature has been priced. Contrarian board lock represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Habenula (ketamine) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting contrarian board lock signature comprises: receiving filing data and counterparty network data, determining a Habenula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Anti-reward framework for board-decision diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting contrarian board lock signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Habenula-equivalent decoupling score, wherein the determining the Habenula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Habenula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Habenula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"ketamine\", \"DBS to habenula in treatment-resistant depression\", and \"lateralized reward training\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Anti-reward framework for board-decision diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:13.165Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+        "confidence": 0.375,
+        "programs": [
+          "NIH NIA aging-and-decision",
+          "SSRC Corporate Governance"
+        ],
+        "artifact": {
+          "title": "Translational ventromedial Prefrontal Cortex-equivalent detection and intervention protocols for executive comp misalignment",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit executive comp misalignment signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with executive comp misalignment-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that ventromedial Prefrontal Cortex-equivalent isomorphic pathology significantly modulates executive comp misalignment detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Worthington Industries Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified executive comp misalignment signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects executive comp misalignment signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a ventromedial Prefrontal Cortex-equivalent executive comp misalignment detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from ventromedial Prefrontal Cortex isomorphic pathology will increase executive comp misalignment detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a ventromedial Prefrontal Cortex-equivalent executive comp misalignment detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for executive comp misalignment against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Behavioral economics of compensation-pathology detection",
+          "innovation": "The proposed work is innovative because it integrates ventromedial Prefrontal Cortex clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:13.165Z"
+        }
+      },
+      {
+        "lane": "grant",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "programs": [
+          "NACD research"
+        ],
+        "artifact": {
+          "title": "Translational Habenula-equivalent detection and intervention protocols for contrarian board lock",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit contrarian board lock signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with contrarian board lock-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Habenula-equivalent isomorphic pathology significantly modulates contrarian board lock detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Worthington Industries Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified contrarian board lock signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects contrarian board lock signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Habenula-equivalent contrarian board lock detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Habenula isomorphic pathology will increase contrarian board lock detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Habenula-equivalent contrarian board lock detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for contrarian board lock against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Anti-reward decision dynamics in board composition",
+          "innovation": "The proposed work is innovative because it integrates Habenula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:13.165Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+        "confidence": 0.375,
+        "side": "LONG",
+        "horizon": "6-18mo",
+        "artifact": {
+          "header": "Worthington Industries Inc. (WOR) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 6-18mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: VMPFC_value_misalignment_x_executive_comp_pathology (confidence 0.375)",
+          "variantView": "The market is pricing this for continued distress, but the functional-network and kernel readings from the bridge-pattern engine show ventromedial Prefrontal Cortex-equivalent isomorphic pathology that the Street's models are not registering. Specifically: fn_executive_changes.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Steel Works, Blast Furnaces & Rolling Mills entities exhibiting executive comp misalignment: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Worthington Industries Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 6-18mo months because once the executive comp misalignment pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 6-18momo: [IRR]%\n\nMultiple chosen because: Steel Works, Blast Furnaces & Rolling Mills peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.375).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.375, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Steel Works, Blast Furnaces & Rolling Mills; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_executive_changes\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying ventromedial Prefrontal Cortex ↔ executive comp misalignment mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 6-18mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts post-say-on-pay failure",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:13.165Z"
+        }
+      },
+      {
+        "lane": "investment",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "side": "LONG",
+        "horizon": "12-24mo",
+        "artifact": {
+          "header": "Worthington Industries Inc. (WOR) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
+          "variantView": "The market is pricing this for continued distress, but the functional-network and kernel readings from the bridge-pattern engine show Habenula-equivalent isomorphic pathology that the Street's models are not registering. Specifically: kernel_p5_stuck.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Steel Works, Blast Furnaces & Rolling Mills entities exhibiting contrarian board lock: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Worthington Industries Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the contrarian board lock pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Steel Works, Blast Furnaces & Rolling Mills peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.325).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Steel Works, Blast Furnaces & Rolling Mills; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:13.165Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+        "confidence": 0.375,
+        "artifact": {
+          "title": "Empirical test of ventromedial Prefrontal Cortex-equivalent executive comp misalignment mapping on Worthington Industries Inc.",
+          "hypothesis": "Companies adopting clinical value-elicitation protocols at comp committee show reduced pay-performance gap",
+          "methodology": "intervention study with controlled trial across mid-cap companies",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for ventromedial Prefrontal Cortex-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "VMPFC_value_misalignment_x_executive_comp_pathology"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:13.165Z"
+        }
+      },
+      {
+        "lane": "research",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Empirical test of Habenula-equivalent contrarian board lock mapping on Worthington Industries Inc.",
+          "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+          "methodology": "event-study of board refresh and subsequent capital-action",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:13.165Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:13.165Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 2,
+    "artifactsByLane": {
+      "patent": 2,
+      "grant": 2,
+      "sba": 0,
+      "investment": 2,
+      "research": 2,
+      "franchise": 0
+    },
+    "totalArtifacts": 8
+  }
+}

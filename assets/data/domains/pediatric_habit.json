@@ -1,0 +1,383 @@
+{
+  "domainId": "pediatric_habit",
+  "title": "Habit Circuits & Repetitive Behavior",
+  "parentPortal": "pediatric_portal.html",
+  "parentLabel": "Pediatric Neurodevelopment",
+  "phase": "P0",
+  "activations": [
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Habit Circuits & Repetitive Behavior indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P0",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "pediatric_habit_action_portal.html"
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Habit Circuits & Repetitive Behavior activities and deliverables",
+      "group": "operations",
+      "phase": "P0",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Habit Circuits & Repetitive Behavior Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "pediatric_habit_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Habit Circuits & Repetitive Behavior, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "pediatric_habit_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Habit Circuits & Repetitive Behavior practices and compliance obligations",
+      "group": "governance",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "pediatric_habit_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "CMZ",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Habit Circuits & Repetitive Behavior methods and capabilities",
+      "group": "innovation",
+      "phase": "P0",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "pediatric_habit_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "SMN",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Habit Circuits & Repetitive Behavior stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "pediatric_habit_signal_portal.html"
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Habit Circuits & Repetitive Behavior operations and interfaces",
+      "group": "systems",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "pediatric_habit_state_portal.html"
+    },
+    {
+      "brainNodeId": "ARC",
+      "state": "active",
+      "domainLabel": "Habit Circuits & Repetitive Behavior Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Habit Circuits & Repetitive Behavior outputs and resource utilization",
+      "group": "operations",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Habit Circuits & Repetitive Behavior Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CeA",
+      "target": "BNST",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "BNST",
+      "target": "EMP",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "EMP",
+      "target": "CON",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "CON",
+      "target": "CMZ",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "CMZ",
+      "target": "SMN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "SMN",
+      "target": "LANG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "LANG",
+      "target": "ARC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ARC",
+      "target": "CeA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CeA",
+      "target": "CMZ",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CON",
+      "target": "LANG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "PEDIATRIC_HABIT_SYSTEM_FAILURE",
+      "label": "Habit Circuits & Repetitive Behavior System Failure",
+      "summary": "Critical breakdown in Habit Circuits & Repetitive Behavior systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hypo-active",
+          "detail": "Habit Circuits & Repetitive Behavior Assessment & Diagnostics capacity falling below operational thresholds, reducing Habit Circuits & Repetitive Behavior output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BNST",
+          "dir": "Hypo-active",
+          "detail": "Habit Circuits & Repetitive Behavior Core Operations systems underperforming, creating gaps in Habit Circuits & Repetitive Behavior coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Altered",
+          "detail": "Habit Circuits & Repetitive Behavior Infrastructure & Capacity behavior deviating from established norms, complicating Habit Circuits & Repetitive Behavior management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Hyper-active",
+          "detail": "Habit Circuits & Repetitive Behavior Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Habit Circuits & Repetitive Behavior",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Hypo-active",
+          "detail": "Habit Circuits & Repetitive Behavior Performance & Optimization function reduced, compromising Habit Circuits & Repetitive Behavior system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PEDIATRIC_HABIT_CAPACITY_CRISIS",
+      "label": "Habit Circuits & Repetitive Behavior Capacity Crisis",
+      "summary": "Demand exceeding available Habit Circuits & Repetitive Behavior capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper-active",
+          "detail": "Habit Circuits & Repetitive Behavior Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Habit Circuits & Repetitive Behavior",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Hypo-active",
+          "detail": "Habit Circuits & Repetitive Behavior Infrastructure & Capacity systems underperforming, creating gaps in Habit Circuits & Repetitive Behavior coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Altered",
+          "detail": "Habit Circuits & Repetitive Behavior Standards & Governance behavior deviating from established norms, complicating Habit Circuits & Repetitive Behavior management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hyper-active",
+          "detail": "Habit Circuits & Repetitive Behavior Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Habit Circuits & Repetitive Behavior",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Altered",
+          "detail": "Habit Circuits & Repetitive Behavior Performance & Optimization operating outside normal parameters, introducing uncertainty into Habit Circuits & Repetitive Behavior outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PEDIATRIC_HABIT_GOVERNANCE_GAP",
+      "label": "Habit Circuits & Repetitive Behavior Governance Gap",
+      "summary": "Oversight or regulatory failure in Habit Circuits & Repetitive Behavior creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hypo-active",
+          "detail": "Habit Circuits & Repetitive Behavior Standards & Governance capacity falling below operational thresholds, reducing Habit Circuits & Repetitive Behavior output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Altered",
+          "detail": "Habit Circuits & Repetitive Behavior Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Habit Circuits & Repetitive Behavior",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CMZ",
+          "dir": "Hyper-active",
+          "detail": "Habit Circuits & Repetitive Behavior Research & Development activity spiking beyond design limits, creating instability across Habit Circuits & Repetitive Behavior operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Altered",
+          "detail": "Habit Circuits & Repetitive Behavior Risk & Resilience patterns disrupted, necessitating adaptive responses within Habit Circuits & Repetitive Behavior frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hypo-active",
+          "detail": "Habit Circuits & Repetitive Behavior Coordination & Integration function reduced, compromising Habit Circuits & Repetitive Behavior system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

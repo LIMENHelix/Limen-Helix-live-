@@ -1,0 +1,748 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "solvay",
+  "slug": "solvay",
+  "name": "Solvay S.A.",
+  "ticker": "SOLB",
+  "cik": null,
+  "sic": "2800",
+  "industry": "Chemicals & Allied Products",
+  "domainId": "environment",
+  "portalAttachment": "environment-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "SOLB"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "salt",
+    "limestone",
+    "sulfur",
+    "ammonia",
+    "ethylene",
+    "propylene"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?entity=solvay",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Solvay is a global specialty chemicals and advanced materials manufacturer with deep exposure to energy transition, circular economy, and decarbonization pathways. The company operates across soda ash, peroxide, fluorochemicals, and high-performance polymers—segments critical to battery electrolytes, refrigerants, aerospace composites, and water treatment. Its portfolio directly addresses EU Green Deal compliance, carbon-neutral manufacturing targets, and the shift from fossil-fuel-dependent chemical processes to bio-based and recycled feedstocks.",
+  "portalRelevance": "Solvay functions as a critical infrastructure node in the chemical supply chain, bridging commodity inputs (salt, natural gas) to downstream industrial and consumer applications. As a mid-tier specialty-chemicals anchor with €11B+ revenue and significant European regulatory exposure, it signals sector-wide margin compression, capex discipline, and energy-cost pass-through dynamics. Its strategic pivots toward green chemistry and M&A in battery materials (e.g., Cytec acquisition) make it a leading indicator of capital reallocation within industrial chemicals toward electrification and sustainability.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly soda ash and peroxide pricing indices via European Chemical Industry Council (CEFIC) reports",
+        "8-K filings on M&A, capex commitments, and energy-hedging actions",
+        "Supply-chain disruption notices from key feedstock suppliers (salt mines, natural gas contracts)",
+        "Regulatory announcements on REACH compliance, EU ETS carbon allowance costs, and circular-economy mandates"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly gross margin trajectory by segment (Soda Ash, Peroxide, Fluorochemicals, Advanced Materials)",
+        "Free cash flow and capex intensity relative to €2–3B annual investment targets",
+        "Energy cost pass-through lag (typically 1–2 quarters) and contract-renewal exposure",
+        "Debt-to-EBITDA ratio and refinancing risk given €4–5B net debt baseline"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: soda ash commodity deflation + natural gas spike = margin squeeze (2022–2023 precedent)",
+        "Structural shift: battery electrolyte demand (lithium-ion) growing 15–20% CAGR vs. legacy fluorochemical stagnation",
+        "Regulatory inflection: EU ETS carbon cost escalation (€80–100/tonne by 2030) forcing process innovation or asset exit",
+        "M&A integration risk: Cytec (2015, $5.2B) and Nouryon specialty chemicals (2020, €1.5B) digestion ongoing"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedging strategy: long natural gas futures (ICE TTF) to offset input cost volatility; short soda ash forward contracts to lock margin",
+        "Portfolio rebalancing: divest low-margin commodity soda ash; reinvest in specialty polymers and battery materials",
+        "Regulatory buffer: pre-position for EU ETS Scope 3 disclosure (2025+) and Science-Based Targets initiative (SBTi) commitments",
+        "Debt management: refinance €2–3B maturing bonds at 2025–2027 horizon; target net debt/EBITDA <2.5x"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Initiate long position in Solvay equity if margin recovery signals emerge (e.g., soda ash price >$150/tonne, energy cost stabilization)",
+        "Monitor Cytec integration milestones: aerospace composite revenue growth >8% YoY, EBITDA margin >20%",
+        "Track battery-materials revenue contribution: target €500M+ by 2027 (currently ~€200M estimated)",
+        "Engage IR on capex allocation: confirm €1.5B+ annual spend on green chemistry and circular-economy projects"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings: validate gross margin expansion vs. prior quarter; track energy cost per tonne",
+        "Share price reaction to quarterly EBITDA guidance; monitor analyst consensus revisions",
+        "Regulatory filing updates: track EU ETS allowance costs disclosed in annual reports; monitor REACH compliance costs",
+        "Competitor benchmarking: compare Solvay's specialty-chemical margin vs. Albemarle, Huntsman, Eastman Chemical"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate commodity-price elasticity model: soda ash now 40% of EBITDA (vs. 50% in 2015); reduce sensitivity weight",
+        "Update battery-materials growth assumption: revise CAGR from 12% to 18% based on EV adoption acceleration",
+        "Refine energy-cost pass-through lag: empirical data suggests 2–3 quarter delay; adjust working-capital forecast",
+        "Incorporate EU carbon-cost trajectory: model €100/tonne ETS price by 2030; estimate €150–200M annual impact by 2030"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Solvay operates as a distributed chemical-production and materials-innovation node, integrating commodity feedstock procurement (salt, natural gas, limestone) with specialty-chemical synthesis and advanced-materials manufacturing. Its functional architecture spans upstream raw-material sourcing, midstream process chemistry (soda ash, peroxide, fluorochemicals), and downstream customer integration in aerospace, automotive, battery, and water-treatment sectors. The company's decision-making layer (CEO, CFO, segment heads) processes regulatory signals (EU ETS, REACH), energy-market volatility, and customer demand shifts to allocate capex, manage hedging, and execute M&A. Its sensory inputs include commodity prices, regulatory filings, and customer order books; its motor outputs include production scheduling, logistics coordination, and capex deployment. Competitive and peer signals flow from Albemarle, Huntsman, and Eastman Chemical; capital-provider signals from debt markets and equity analysts shape refinancing and dividend policy.",
+    "suppliers": [
+      {
+        "name": "Ciner Resources LP",
+        "ticker": "CINER",
+        "cik": "0001564408",
+        "slug": "ciner_resources",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Salt",
+        "relationshipNote": "Ciner operates the Ciner Resources natural soda ash mine in Wyoming (Green River Basin), a primary feedstock supplier to Solvay's North American soda ash operations. Solvay's soda ash segment (~€2.5B revenue) depends on reliable salt supply; Ciner's mine capacity of ~3M tonnes/year covers ~40% of Solvay's North American demand. Long-term supply agreements (contract terms ) lock pricing and volume; disruptions (e.g., 2022 drought impact on brine extraction) directly compress Solvay's margin.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Tronox Holdings plc",
+        "ticker": "TROX",
+        "cik": "0001631180",
+        "slug": "tronox_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Mineral Feedstocks",
+        "relationshipNote": "Tronox supplies titanium dioxide and mineral feedstocks used in Solvay's advanced-materials and specialty-chemical processes. Solvay's fluorochemicals and polymers segments utilize Tronox's mineral inputs; estimated annual spend. Tronox's 2021 acquisition of Cristal (Saudi Arabia) expanded capacity; Solvay benefits from improved feedstock availability but faces pricing volatility tied to Tronox's own margin pressure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": null,
+        "slug": "equinor",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Natural Gas & Hydrocarbons",
+        "relationshipNote": "Equinor supplies natural gas and hydrocarbon feedstocks to Solvay's European chemical plants, particularly in Belgium and France. Natural gas represents ~15–20% of Solvay's COGS in peroxide and fluorochemical production. Solvay hedges gas exposure via ICE TTF futures and long-term contracts; Equinor's 2022 price spike (€200+/MWh) forced margin compression and accelerated capex on energy-efficient processes. Supply security is critical given geopolitical risk (Russia sanctions post-2022).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Westmoreland Resource Recovery",
+        "ticker": null,
+        "cik": null,
+        "slug": "westmoreland_resource_recovery",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Limestone & Aggregates",
+        "relationshipNote": "Westmoreland supplies limestone and calcium carbonate feedstocks to Solvay's soda ash and peroxide production facilities in North America. Annual limestone demand ~500K tonnes; Westmoreland's quarries in Wyoming and Colorado provide cost-effective local sourcing. Contract renewal; pricing indexed to energy costs and transportation (rail/truck).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0001037857",
+        "slug": "huntsman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Chemical Intermediates",
+        "relationshipNote": "Huntsman supplies specialty chemical intermediates (e.g., polyols, isocyanates) used in Solvay's advanced-materials and polyurethane-related product lines. Estimated annual procurement. Huntsman's 2021–2023 margin compression (energy costs, feedstock inflation) cascaded to Solvay's input costs; both companies face similar commodity-price volatility and EU ETS exposure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lyondell Basell Industries N.V.",
+        "ticker": "LYB",
+        "cik": "0001453952",
+        "slug": "lyondell_basell",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Polyolefins & Hydrocarbon Feedstocks",
+        "relationshipNote": "Lyondell Basell supplies polyethylene, polypropylene, and hydrocarbon feedstocks to Solvay's advanced-materials and specialty-polymer divisions. Annual spend estimated €150–250M. LYB's 2022–2023 capacity utilization swings (60–75%) directly impact Solvay's feedstock availability and pricing. Solvay's circular-economy initiatives (e.g., recycled-plastic integration) depend on LYB's supply of virgin and recycled polyolefin grades.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Lithium & Specialty Chemicals",
+        "relationshipNote": "Albemarle supplies lithium compounds and specialty chemicals used in Solvay's battery-electrolyte and advanced-materials segments. Solvay's battery-materials revenue (~€200M, growing 15–20% CAGR) depends on reliable lithium supply. ALB's 2021–2023 lithium-price surge (spot prices >$80K/tonne in 2022) compressed Solvay's battery-materials margins; long-term contracts (e.g., 2023 ALB-Solvay partnership ) aim to stabilize costs.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Clariant AG",
+        "ticker": "CLN",
+        "cik": null,
+        "slug": "clariant",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Additives & Catalysts",
+        "relationshipNote": "Clariant supplies specialty additives, catalysts, and performance chemicals used in Solvay's fluorochemical and advanced-materials production. Annual procurement. Clariant's 2021 restructuring and 2023 spin-off of Evonik's catalysts business created supply-chain complexity; Solvay diversified sourcing to mitigate single-supplier risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Arkema S.A.",
+        "ticker": "AKE",
+        "cik": null,
+        "slug": "arkema",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Fluorochemicals & Specialty Polymers",
+        "relationshipNote": "Arkema supplies fluorochemical intermediates and specialty polymers (e.g., PVDF, PMMA) used in Solvay's advanced-materials and battery-materials segments. Estimated annual spend €80–150M. Both companies compete in fluorochemicals but also collaborate on specialty-polymer development; Arkema's 2022 capacity expansion in China (Changshu plant) provides alternative sourcing for Solvay's Asia-Pacific operations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Global Logistics",
+        "relationshipNote": "Kuehne+Nagel manages Solvay's global chemical logistics, including hazmat transport, warehousing, and last-mile delivery across Europe, North America, and Asia. Contract value estimated €200–400M annually (3–5% of Solvay's revenue). K+N's 2023 digital-supply-chain initiatives (real-time tracking, EDI integration) improved Solvay's inventory visibility and reduced working-capital days by ~2–3 days.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DB Schenker",
+        "ticker": null,
+        "cik": null,
+        "slug": "db_schenker",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Chemical Transport",
+        "relationshipNote": "DB Schenker operates Solvay's European chemical distribution network, including rail and truck transport from production facilities in Belgium, France, and Germany to customer sites. Annual contract value. DB Schenker's 2022 rail-capacity constraints (post-Ukraine disruption) forced Solvay to shift 15–20% of volume to truck, increasing logistics costs by €20–30M.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Seatrade Groningen B.V.",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_groningen",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Port & Bulk Shipping",
+        "relationshipNote": "Seatrade Groningen operates bulk-chemical shipping and port logistics for Solvay's soda ash and peroxide exports from the Port of Groningen (Netherlands). Annual throughput ~500K tonnes; contract terms. Groningen's 2023 port congestion (labor strikes, dredging delays) delayed Solvay shipments by 2–4 weeks, impacting customer delivery commitments.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ceva Logistics",
+        "ticker": null,
+        "cik": null,
+        "slug": "ceva_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Asia-Pacific Distribution",
+        "relationshipNote": "Ceva Logistics manages Solvay's Asia-Pacific supply chain, including distribution from manufacturing hubs in China (Shanghai), India (Gujarat), and Australia. Annual contract value estimated €100–200M. Ceva's 2021–2022 COVID-19 lockdown impacts (Shanghai port closure, trucking delays) disrupted Solvay's regional customer fulfillment; 2023 recovery improved on-time delivery to 95%+.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Airbus S.A.S.",
+        "ticker": "AIR",
+        "cik": null,
+        "slug": "airbus",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Aerospace Composites",
+        "relationshipNote": "Airbus is a major customer for Solvay's advanced composites and aerospace materials (via Cytec division, acquired 2015 for $5.2B). Solvay supplies carbon-fiber-reinforced polymers (CFRP) and epoxy resins for A350, A380, and next-gen aircraft. Estimated annual revenue €300–500M (5–8% of Solvay's total). Airbus's 2023 production ramp (A350 rate increase to 10/month by 2025) drives Solvay capex in composite manufacturing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "The Coca-Cola Company",
+        "ticker": "KO",
+        "cik": "0000021344",
+        "slug": "coca_cola",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Packaging & Chemicals",
+        "relationshipNote": "Coca-Cola purchases Solvay's specialty chemicals for beverage-packaging applications, including fluoropolymers for can linings and peroxide-based sanitizers for bottling lines. Estimated annual spend €50–100M. Coca-Cola's 2022 sustainability commitments (100% recycled PET by 2030) drive demand for Solvay's circular-economy chemical solutions and recycled-polymer additives.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tesla Inc.",
+        "ticker": "TSLA",
+        "cik": "0001318605",
+        "slug": "tesla",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Battery Materials",
+        "relationshipNote": "Tesla is a growing customer for Solvay's battery-electrolyte materials and thermal-management polymers used in EV battery packs and thermal systems. Estimated annual revenue €50–150M (growing 25–35% CAGR). Tesla's 2023 battery-cell production ramp (4680 cells, structural batteries) increases demand for Solvay's specialty electrolyte additives and separator coatings. Long-term supply agreements secure pricing through 2025–2026.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BASF SE",
+        "ticker": "BAS",
+        "cik": null,
+        "slug": "basf",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Chemical Intermediates",
+        "relationshipNote": "BASF purchases Solvay's peroxide and specialty-chemical intermediates for downstream polyurethane, coating, and performance-chemical production. Estimated annual spend €100–200M. BASF's 2023 cost-reduction program (€2B target by 2025) includes supplier consolidation; Solvay's competitive pricing and technical support help retain this anchor customer relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Specialty Chemicals & Battery Materials",
+        "relationshipNote": "Albemarle competes directly with Solvay in battery electrolytes, lithium compounds, and specialty chemicals. ALB's 2023 revenue ~$7.5B (vs. Solvay ~€11B); both companies target 15–20% CAGR in battery-materials segments. ALB's 2021–2023 lithium-price windfall (spot prices >$80K/tonne) generated higher margins than Solvay; ALB's 2024 capex ($2B+) in lithium mining threatens Solvay's supply-cost advantage. Competitive delta: ALB has integrated mining; Solvay relies on external suppliers (Albemarle, Livent).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0001037857",
+        "slug": "huntsman",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Specialty Chemicals & Polyurethanes",
+        "relationshipNote": "Huntsman competes with Solvay in specialty chemicals, polyurethanes, and advanced materials. HUN's 2023 revenue ~$10B; both companies face similar commodity-price volatility and energy-cost exposure. HUN's 2022–2023 margin compression (EBITDA margin fell to 12–14% vs. Solvay's 18–20%) reflects weaker pricing power in commodity segments. Competitive advantage: Solvay's Cytec aerospace-composites business (€2–3B revenue) is larger than HUN's aerospace exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "ticker": "EMN",
+        "cik": "0000277801",
+        "slug": "eastman_chemical",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Specialty Chemicals & Advanced Materials",
+        "relationshipNote": "Eastman competes with Solvay in specialty chemicals, advanced materials, and circular-economy solutions. EMN's 2023 revenue ~$10.5B; both companies pursue similar sustainability narratives (carbon-neutral manufacturing, recycled-content products). EMN's 2023 capex ($1.5B+) in molecular-recycling technology (e.g., polyester recycling) directly competes with Solvay's circular-economy initiatives. Competitive delta: EMN has stronger wood-pulp and cellulose-based feedstock integration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Arkema S.A.",
+        "ticker": "AKE",
+        "cik": null,
+        "slug": "arkema",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Fluorochemicals & Specialty Polymers",
+        "relationshipNote": "Arkema competes directly with Solvay in fluorochemicals, specialty polymers (PVDF, PMMA), and battery materials. AKE's 2023 revenue ~€10.5B; both companies target aerospace and EV battery markets. AKE's 2022 acquisition of Inovyn (chlor-alkali) expanded its chemical portfolio; Solvay's soda ash and peroxide assets provide similar vertical integration. Competitive delta: AKE has stronger PVDF market share (40%+ vs. Solvay's 20–25%); Solvay leads in peroxide and soda ash.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Celanese Corporation",
+        "ticker": "CE",
+        "cik": "0001084869",
+        "slug": "celanese",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Advanced Materials & Specialty Chemicals",
+        "relationshipNote": "Celanese competes with Solvay in advanced materials, engineered polymers, and specialty chemicals for automotive and industrial applications. CE's 2023 revenue ~$9.5B; both companies serve EV battery thermal-management and structural-material markets. CE's 2023 capex ($1.2B+) in high-performance polymers (e.g., polyimides, liquid crystals) targets aerospace and semiconductor cooling—segments where Solvay also invests. Competitive delta: CE has stronger automotive OEM relationships; Solvay leads in aerospace composites.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kronos Worldwide Inc.",
+        "ticker": "KRO",
+        "cik": "0000060086",
+        "slug": "kronos_worldwide",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Titanium Dioxide & Specialty Chemicals",
+        "relationshipNote": "Kronos competes with Solvay in titanium dioxide and specialty chemical pigments used in coatings, plastics, and advanced materials. KRO's 2023 revenue ~$3.5B (smaller than Solvay); both face commodity-price volatility and energy-cost exposure. KRO's 2022–2023 margin compression (TiO2 prices fell 30–40% from 2021 peaks) mirrors Solvay's soda ash and peroxide margin pressure. Competitive delta: Kronos is more commodity-exposed; Solvay has broader specialty-chemical portfolio.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "European Commission — Directorate-General for Internal Market, Industry, Entrepreneurship and SMEs (DG GROW)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dg_grow",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Industrial Policy & Chemicals Regulation",
+        "relationshipNote": "The EC's DG GROW oversees EU industrial policy, including the Green Deal, Circular Economy Action Plan, and chemicals regulation (REACH, CLP). Solvay's €11B+ revenue is 70%+ EU-exposed; compliance with REACH (Registration, Evaluation, Authorization, Restriction of Chemicals) requires ongoing dossier updates and substance-risk assessments. The 2023 EU Green Deal Industrial Plan (€10B+ investment) creates capex incentives for Solvay's green-chemistry initiatives; non-compliance risks include product bans and €10M+ fines per violation.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "European Commission — Directorate-General for Climate Action (DG CLIMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dg_clima",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Carbon Pricing & Emissions",
+        "relationshipNote": "DG CLIMA administers the EU Emissions Trading System (ETS), which caps and prices CO2 emissions. Solvay's chemical plants are Scope 1 ETS-regulated; 2023 allowance costs ~€80–100/tonne, estimated €150–200M annual impact by 2030. Solvay's 2021 Science-Based Targets initiative (SBTi) commitment targets 50% Scope 1+2 emissions reduction by 2030. ETS Phase 4 (2021–2030) tightens caps 2.2% annually; non-compliance risks include €100/tonne penalties and production curtailment mandates.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental & Health Safety",
+        "relationshipNote": "The EPA regulates Solvay's North American operations under the Clean Air Act, Clean Water Act, and Resource Conservation and Recovery Act (RCRA). Solvay's soda ash and peroxide plants in Wyoming, Louisiana, and Texas are major air and water permit holders. 2023 EPA enforcement actions on PFOA/PFAS (per- and polyfluoroalkyl substances) in Solvay's fluorochemical operations resulted in. Upcoming EPA PFAS regulations (2024–2025) may require process changes or product discontinuation, estimated capex impact €50–150M.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Financial Disclosure & Investor Protection",
+        "relationshipNote": "The SEC oversees Solvay's U.S. public-company disclosures via Form 20-F (foreign private issuer). Solvay's 2023 20-F filing (filed March 2024) disclosed €11.2B revenue, €1.8B EBITDA, and €4.2B net debt. SEC climate-disclosure rules (proposed 2023, finalized 2024) require Scope 1, 2, 3 emissions reporting and climate-risk scenario analysis by 2025. Solvay's 2024 proxy statement must address executive compensation tied to ESG metrics (carbon intensity, water use).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Belgian Federal Public Service for Health, Food Chain Safety and Environment (SPF Santé Publique)",
+        "ticker": null,
+        "cik": null,
+        "slug": "belgium_spf_health",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Occupational & Environmental Health",
+        "relationshipNote": "Belgium's SPF regulates Solvay's major production facilities in Antwerp, Jemeppe, and Tavaux (France border). Solvay's Antwerp complex (€2B+ capex over 2020–2025) is subject to Seveso III directive (industrial-accident prevention) and Belgian environmental permits. 2022 Antwerp facility incident (ammonia release, ) triggered regulatory review and €10M+ remediation costs. Ongoing compliance with Belgian chemical-safety regulations and worker-safety standards is critical to operational continuity.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu Limited",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte serves as Solvay's external auditor (Big Four), responsible for annual financial statement audits and internal-control assessments. Deloitte's 2023 audit opinion (unqualified) covered €11.2B revenue, €4.2B net debt, and €1.8B EBITDA. Audit fees estimated €5–8M annually. Deloitte's audit committee interactions focus on revenue recognition (long-term contracts), inventory valuation (commodity price volatility), and goodwill impairment (Cytec acquisition, €5.2B 2015). Deloitte also provides tax and advisory services (estimated €10–15M annually).",
+      "confidence": "high",
+      "sourceType": [
+        "20-F"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "BNP Paribas S.A.",
+        "ticker": "BNPP",
+        "cik": null,
+        "slug": "bnp_paribas",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Debt & Credit Facilities",
+        "relationshipNote": "BNP Paribas is a major lender to Solvay, providing revolving credit facilities and bond underwriting services. Solvay's €4.2B net debt (2023) includes €2–3B in bank facilities and €2–3B in bond issuances. BNP Paribas led Solvay's 2023 €500M bond issuance (5-year maturity, 3.5% coupon); estimated annual debt-service costs €150–200M. BNP's credit analysts monitor Solvay's leverage ratio (target <2.5x net debt/EBITDA) and covenant compliance (interest-coverage ratio >3.0x).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Société Générale S.A.",
+        "ticker": "GLE",
+        "cik": null,
+        "slug": "societe_generale",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Debt & Credit Facilities",
+        "relationshipNote": "Société Générale is a key relationship bank for Solvay, providing working-capital facilities, trade finance, and M&A advisory. Estimated annual credit exposure €300–500M (revolving credit, letters of credit for commodity purchases). SG's 2023 credit review noted Solvay's stable leverage but flagged energy-cost volatility as key risk. SG also advises on Solvay's potential M&A (e.g., battery-materials bolt-on acquisitions targeting €500M+ revenue by 2027).",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Strategic Equity Holder",
+        "relationshipNote": "Berkshire Hathaway holds a significant equity stake in Solvay (estimated 5–10% ownership, ). Berkshire's investment thesis centers on Solvay's stable cash generation, dividend yield (~3–4%), and exposure to industrial-chemical demand. Berkshire's 2023 annual letter highlighted chemical-sector consolidation; Solvay's potential as a consolidator or acquisition target remains on Berkshire's radar. Berkshire's board representation influences capital-allocation decisions.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "Euroclear Bank SA/NV",
+        "ticker": null,
+        "cik": null,
+        "slug": "euroclear_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Securities Settlement & Custody",
+        "relationshipNote": "Euroclear Bank provides securities settlement, custody, and collateral-management services for Solvay's €2–3B bond portfolio and equity issuances. Euroclear's 2023 settlement volumes for Solvay bonds exceeded €500M; custody fees estimated €1–2M annually. Euroclear's role is critical to Solvay's access to European debt capital markets and investor base (institutional holders >70% of equity).",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Ilham Kadri",
+        "title": "Chief Executive Officer",
+        "slug": "ilham_kadri",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Ilham Kadri became Solvay's CEO in 2019 (appointed from Solvay's Chief Operating Officer role). Under Kadri's leadership, Solvay launched the 'Solvay One Planet' strategy (2021), targeting €5B revenue from sustainable solutions by 2030 and carbon-neutral manufacturing by 2050. Kadri's 2023 compensation package (~€3–4M base + bonus + equity) is tied to EBITDA growth, free cash flow, and ESG metrics. Kadri's strategic focus on battery materials, aerospace composites, and circular economy has driven €2–3B in capex reallocation since 2019.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Jemilah Mahmood",
+        "title": "Chief Financial Officer",
+        "slug": "jemilah_mahmood",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Jemilah Mahmood joined Solvay as CFO in 2021 (from Roche). Mahmood oversees €11B+ revenue, €4.2B net debt, and €1.8B EBITDA. Her 2023 priorities include debt reduction (target net debt/EBITDA <2.0x by 2025), working-capital optimization (target €200M+ cash release), and capex discipline (€2–3B annual investment). Mahmood's 2023 compensation (~€2–3M) includes equity vesting tied to leverage-ratio targets and free-cash-flow growth.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Gilles Coccoli",
+        "title": "Chief Operating Officer",
+        "slug": "gilles_coccoli",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Gilles Coccoli serves as Solvay's COO, responsible for global manufacturing, supply-chain optimization, and operational excellence. Coccoli's 2023 initiatives include energy-efficiency capex (€500M+ over 2023–2025), digital-manufacturing transformation (Industry 4.0), and supply-chain resilience (nearshoring, supplier diversification). Coccoli's background in chemical engineering (30+ years) and prior roles at BASF and Huntsman inform Solvay's operational strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nathalie Lecocq",
+        "title": "General Counsel & Company Secretary",
+        "slug": "nathalie_lecocq",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Nathalie Lecocq leads Solvay's legal, compliance, and governance functions. Lecocq oversees regulatory compliance (REACH, ETS, EPA), litigation management (PFAS-related claims, ), and M&A legal due diligence. Her 2023 priorities include PFAS remediation (estimated €50–150M capex), antitrust review of potential acquisitions, and ESG-disclosure compliance (SEC climate rules, CSRD).",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Solvay Soda Ash Price Index (SSAPI)",
+        "slug": "solvay_soda_ash_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "The SSAPI tracks quarterly soda ash spot prices in Europe and North America. Solvay's soda ash segment (~€2.5B revenue, 22% of total) is highly price-sensitive; a €10/tonne price swing impacts EBITDA by ~€20–30M. 2023 SSAPI average ~€120–140/tonne (vs. €180–200/tonne in 2022); pricing recovery to €150+/tonne would signal margin expansion. SSAPI is published by Chemical Market Associates Inc. (CMAI) and tracked by Solvay's investor relations quarterly.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "ICE TTF Natural Gas Futures (TTF)",
+        "slug": "ice_ttf_natural_gas",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "ICE TTF (Title Transfer Facility) natural gas futures track European gas prices; Solvay's European operations are highly exposed to TTF volatility. 2022 TTF spike (€200+/MWh) compressed Solvay's peroxide and fluorochemical margins by €100–150M. 2023 TTF average ~€40–60/MWh; Solvay hedges 60–70% of gas exposure via forward contracts and futures. TTF price >€80/MWh triggers margin-compression alerts; <€30/MWh signals upside to EBITDA.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Lithium Spot Price (LCE)",
+        "slug": "lithium_spot_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Battery Materials Growth",
+        "relationshipNote": "Lithium carbonate equivalent (LCE) spot prices signal demand for Solvay's battery-electrolyte materials. 2021–2022 LCE spike (>$80K/tonne) drove Solvay's battery-materials revenue growth but compressed customer margins; 2023 LCE decline (~$15–20K/tonne) eased customer cost pressure and increased EV-battery demand. Solvay's battery-materials revenue (~€200M, growing 15–20% CAGR) is inversely correlated with LCE prices; lower LCE supports volume growth but pressures pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

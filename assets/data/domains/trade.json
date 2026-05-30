@@ -1,0 +1,2298 @@
+{
+  "domainId": "trade",
+  "title": "Trade & Logistics",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Container Shipping",
+      "domainDescription": "Maritime containerized freight, shipping lanes, vessel operations, and port-to-port logistics",
+      "domainFunction": "Processes bulk cargo through autonomic routing systems that connect global production to consumption",
+      "whyThisNode": "Autonomic relay hub — NTS integrates visceral signals and routes them to appropriate targets, just as container shipping routes bulk cargo through the global trade autonomic system",
+      "group": "shipping",
+      "phase": "P0",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "SUPPLY_CHAIN_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Vessel tracking and capacity audit",
+          "type": "DIAGNOSTIC",
+          "description": "AIS-based monitoring of fleet utilization rates, route efficiency, and capacity allocation across trade lanes",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Route diversification strategy",
+          "type": "STRUCTURAL",
+          "description": "Develop alternative shipping corridors and transshipment hubs to reduce single-chokepoint vulnerability",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "trade_container_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Amazon (Marketplace)",
+          "ticker_or_id": "AMZN",
+          "functional_reason": "Routes and distributes container shipping resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Flexport",
+          "ticker_or_id": "FLEXPORT",
+          "functional_reason": "Routes and distributes container shipping resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "FedEx Corporation",
+          "ticker_or_id": "FDX",
+          "functional_reason": "Routes and distributes container shipping resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.88
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Container Shipping",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Hydroelectric Power"
+        },
+        {
+          "domain": "environment",
+          "role": "Ocean Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Maritime and Ports"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Brainstem Metabolic Integration"
+        },
+        {
+          "domain": "science",
+          "role": "Earth Sciences"
+        },
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation Performance & Optimization"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FEF",
+      "state": "active",
+      "domainLabel": "Air Freight",
+      "domainDescription": "Cargo aviation, express delivery, high-value and perishable air transport",
+      "domainFunction": "Directs rapid, targeted movement of high-priority cargo to precise destinations",
+      "whyThisNode": "Frontal eye fields for saccadic targeting — FEF directs rapid, precise eye movements to targets of interest, just as air freight rapidly targets high-value cargo to precise global destinations",
+      "group": "freight",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "SHIPPING_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Air cargo capacity analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Model belly cargo vs dedicated freighter capacity against demand forecasts by trade lane and commodity type",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Express logistics hub optimization",
+          "type": "STRUCTURAL",
+          "description": "Position regional air freight hubs at optimal network nodes for time-sensitive supply chain redundancy",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "trade_air_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "COSCO Shipping",
+          "ticker_or_id": "1919.HK",
+          "functional_reason": "Executes core air freight operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "FedEx Corporation",
+          "ticker_or_id": "FDX",
+          "functional_reason": "Executes core air freight operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Alibaba Group",
+          "ticker_or_id": "BABA",
+          "functional_reason": "Executes core air freight operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Air Freight",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Offgrid"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Air Transport"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Satellite Systems"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Master Planning Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Rail Transport",
+      "domainDescription": "Freight rail networks, intermodal connections, and transcontinental rail corridors",
+      "domainFunction": "Coordinates precise, rhythmic movement of heavy cargo along fixed pathways with high reliability",
+      "whyThisNode": "Cerebellar motor coordination — CBLM orchestrates rhythmic, precise sequential movement, just as rail transport moves freight in coordinated, scheduled sequences along fixed tracks",
+      "group": "freight",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "treatments": [
+        {
+          "label": "Network throughput analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Map rail corridor capacity utilization, bottleneck points, and intermodal transfer efficiency across the network",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Intermodal integration upgrade",
+          "type": "STRUCTURAL",
+          "description": "Invest in seamless rail-port and rail-truck transfer facilities to reduce dwell time and handling costs",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "trade_rail_portal.html",
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Descartes Systems",
+          "ticker_or_id": "DSGX",
+          "functional_reason": "Detects and monitors rail transport signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "United Parcel Service",
+          "ticker_or_id": "UPS",
+          "functional_reason": "Executes core rail transport operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "COSCO Shipping",
+          "ticker_or_id": "1919.HK",
+          "functional_reason": "Executes core rail transport operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.7
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Rail Transport",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Trucking",
+      "domainDescription": "Road freight, fleet management, driver workforce, and highway logistics",
+      "domainFunction": "Executes the final motor output of the logistics chain — physical delivery of goods to their destinations",
+      "whyThisNode": "Primary motor cortex — M1 executes voluntary movement, just as trucking is the primary motor executor of logistics, moving goods through the last miles of the supply chain",
+      "group": "freight",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "treatments": [
+        {
+          "label": "Fleet utilization monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Track load factors, empty-mile ratios, and driver hour compliance across fleet operations",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Driver retention program",
+          "type": "STRUCTURAL",
+          "description": "Address driver shortage through improved compensation, scheduling, and working condition investments",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "trade_trucking_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "COSCO Shipping",
+          "ticker_or_id": "1919.HK",
+          "functional_reason": "Executes core trucking operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Alibaba Group",
+          "ticker_or_id": "BABA",
+          "functional_reason": "Executes core trucking operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "United Parcel Service",
+          "ticker_or_id": "UPS",
+          "functional_reason": "Executes core trucking operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Trucking",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Port Operations",
+      "domainDescription": "Container terminals, port authorities, stevedoring, and harbor management",
+      "domainFunction": "Relays and sorts incoming cargo streams, routing each shipment to the appropriate downstream channel",
+      "whyThisNode": "Thalamic relay and gating — THAL sorts and routes all sensory input to appropriate cortical targets, just as ports sort and route all incoming cargo to appropriate inland destinations",
+      "group": "ports",
+      "phase": "P5",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "PORT_BLOCKADE",
+        "SHIPPING_CRISIS",
+        "SUPPLY_CHAIN_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Port throughput benchmarking",
+          "type": "DIAGNOSTIC",
+          "description": "Compare crane moves per hour, vessel turnaround times, and dwell times against global best-practice ports",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Automated terminal upgrade",
+          "type": "STRUCTURAL",
+          "description": "Deploy automated stacking cranes, truck appointment systems, and digital twin modeling for terminal optimization",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "trade_port_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "United Parcel Service",
+          "ticker_or_id": "UPS",
+          "functional_reason": "Routes and distributes port operations resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Descartes Systems",
+          "ticker_or_id": "DSGX",
+          "functional_reason": "Routes and distributes port operations resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "DP World",
+          "ticker_or_id": "DPWORLD.DU",
+          "functional_reason": "Routes and distributes port operations resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Port Operations",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Customs & Tariffs",
+      "domainDescription": "Trade duties, customs clearance, regulatory compliance, and border control",
+      "domainFunction": "Computes the cost-benefit valuation of goods crossing borders, applying rules to determine passage or restriction",
+      "whyThisNode": "Orbitofrontal reward valuation and rule application — OFC computes expected value and applies behavioral rules, just as customs evaluates goods against tariff schedules and trade regulations",
+      "group": "customs",
+      "phase": "P7",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR"
+      ],
+      "treatments": [
+        {
+          "label": "Clearance time audit",
+          "type": "DIAGNOSTIC",
+          "description": "Measure average customs processing times by port, commodity, and origin country to identify bottlenecks",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Single-window digital customs",
+          "type": "STRUCTURAL",
+          "description": "Implement unified electronic customs platform integrating all agency requirements into one submission and approval process",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "trade_customs_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "XPO Logistics",
+          "ticker_or_id": "XPO",
+          "functional_reason": "Executes core customs & tariffs operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "DP World",
+          "ticker_or_id": "DPWORLD.DU",
+          "functional_reason": "Routes and distributes customs & tariffs resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "United Parcel Service",
+          "ticker_or_id": "UPS",
+          "functional_reason": "Executes core customs & tariffs operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.79
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Customs & Tariffs",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Supply Chain Management",
+      "domainDescription": "End-to-end supply chain orchestration, vendor management, and demand planning",
+      "domainFunction": "Applies executive planning and working memory to coordinate complex multi-stage logistics operations",
+      "whyThisNode": "Dorsolateral prefrontal executive control — dlPFC holds multiple variables in working memory and plans multi-step sequences, just as supply chain management orchestrates complex global logistics",
+      "group": "supply_chain",
+      "phase": "P6",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR",
+        "SHIPPING_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Supply chain stress test",
+          "type": "DIAGNOSTIC",
+          "description": "Simulate disruption scenarios across suppliers, transport modes, and geopolitical events to identify vulnerabilities",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Multi-sourcing diversification",
+          "type": "STRUCTURAL",
+          "description": "Establish qualified alternative suppliers in 2+ geopolitical regions for all critical inputs and components",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "trade_supply_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Shopify",
+          "ticker_or_id": "SHOP",
+          "functional_reason": "Executes core supply chain management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Alibaba Group",
+          "ticker_or_id": "BABA",
+          "functional_reason": "Executes core supply chain management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "COSCO Shipping",
+          "ticker_or_id": "1919.HK",
+          "functional_reason": "Executes core supply chain management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Supply Chain Management",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Warehousing",
+      "domainDescription": "Storage facilities, distribution centers, fulfillment operations, and inventory holding",
+      "domainFunction": "Stores and retrieves goods from organized memory locations, enabling rapid fulfillment on demand",
+      "whyThisNode": "Hippocampal memory storage and retrieval — HIPP encodes, stores, and retrieves information, just as warehousing stores and retrieves physical goods from organized locations",
+      "group": "warehousing",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "PORT_BLOCKADE"
+      ],
+      "treatments": [
+        {
+          "label": "Warehouse utilization audit",
+          "type": "DIAGNOSTIC",
+          "description": "Measure cubic utilization, pick accuracy, and order-to-ship time across distribution network",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Automation and WMS upgrade",
+          "type": "STRUCTURAL",
+          "description": "Deploy warehouse management systems with robotic picking, automated storage/retrieval, and real-time inventory visibility",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "trade_warehousing_portal.html",
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Descartes Systems",
+          "ticker_or_id": "DSGX",
+          "functional_reason": "Detects and monitors warehousing signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Amazon (Marketplace)",
+          "ticker_or_id": "AMZN",
+          "functional_reason": "Executes core warehousing operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "DP World",
+          "ticker_or_id": "DPWORLD.DU",
+          "functional_reason": "Routes and distributes warehousing resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.79
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Warehousing",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Last-Mile Delivery",
+      "domainDescription": "Final delivery to consumer, parcel logistics, urban distribution, and doorstep fulfillment",
+      "domainFunction": "Senses and responds to the specific location and requirements of each individual delivery endpoint",
+      "whyThisNode": "Primary somatosensory cortex — S1 processes fine-grained tactile information from specific body locations, just as last-mile delivery requires precise, location-specific fulfillment to individual addresses",
+      "group": "supply_chain",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Delivery density analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Map delivery volume against route density, failed delivery rates, and cost-per-stop across service areas",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Micro-fulfillment network",
+          "type": "STRUCTURAL",
+          "description": "Position urban micro-fulfillment centers within 2 miles of high-density demand zones for sub-hour delivery capability",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Flexport",
+          "ticker_or_id": "FLEXPORT",
+          "functional_reason": "Detects and monitors last-mile delivery signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "U.S. International Trade Commission",
+          "ticker_or_id": "USITC_GOV",
+          "functional_reason": "Detects and monitors last-mile delivery signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Descartes Systems",
+          "ticker_or_id": "DSGX",
+          "functional_reason": "Detects and monitors last-mile delivery signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "trade_lastmile_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Last-Mile Delivery",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Labor Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Mining and Extraction"
+        },
+        {
+          "domain": "environment",
+          "role": "Geological Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Raw Materials"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Somatosensory Cortex"
+        },
+        {
+          "domain": "technology",
+          "role": "IoT & Sensors"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator — Signal Detection & Input — Secondary Node"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Signal Detection — Secondary"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Cold Chain",
+      "domainDescription": "Temperature-controlled logistics for pharmaceuticals, food, and biologics",
+      "domainFunction": "Regulates thermal conditions throughout the supply chain to maintain product integrity",
+      "whyThisNode": "Hypothalamic thermoregulation — HYPO maintains precise body temperature, just as cold chain logistics maintains precise temperature control throughout the supply chain",
+      "group": "supply_chain",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "SHIPPING_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Cold chain integrity monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Deploy continuous temperature logging with real-time alerts across all cold chain links from origin to destination",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Redundant refrigeration infrastructure",
+          "type": "STRUCTURAL",
+          "description": "Install backup power, dual-system cooling, and emergency cold storage capacity at all critical transfer points",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Maersk",
+          "ticker_or_id": "MAERSK-B.CO",
+          "functional_reason": "Executes core cold chain operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "Alibaba Group",
+          "ticker_or_id": "BABA",
+          "functional_reason": "Executes core cold chain operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "FedEx Corporation",
+          "ticker_or_id": "FDX",
+          "functional_reason": "Executes core cold chain operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.76
+        }
+      ],
+      "childPortal": "trade_agritrade_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Cold Chain",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Trade Agreements",
+      "domainDescription": "Bilateral and multilateral trade treaties, free trade zones, and trade diplomacy",
+      "domainFunction": "Evaluates long-term value of trade relationships and negotiates cooperative agreements that benefit both parties",
+      "whyThisNode": "Value-based social decision making — vmPFC weighs long-term cooperative value against short-term competitive advantage, just as trade agreements balance national interests for mutual long-term benefit",
+      "group": "customs",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "TRADE_WAR",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "treatments": [
+        {
+          "label": "Trade agreement impact assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Model GDP, employment, and sector-specific effects of proposed and existing trade agreements using computable general equilibrium models",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Diversified trade partnership portfolio",
+          "type": "STRUCTURAL",
+          "description": "Negotiate parallel trade agreements across multiple regions to reduce dependence on any single trading bloc",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "XPO Logistics",
+          "ticker_or_id": "XPO",
+          "functional_reason": "Executes core trade agreements operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Descartes Systems",
+          "ticker_or_id": "DSGX",
+          "functional_reason": "Detects and monitors trade agreements signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "U.S. International Trade Commission",
+          "ticker_or_id": "USITC_GOV",
+          "functional_reason": "Detects and monitors trade agreements signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.66
+        }
+      ],
+      "childPortal": "trade_ecommerce_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Trade Agreements",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Commodity Exchanges",
+      "domainDescription": "Futures markets, spot trading, commodity pricing, and trade finance",
+      "domainFunction": "Processes reward signals from trade transactions and drives the incentive structure of global commerce",
+      "whyThisNode": "Nucleus accumbens as reward processing — NAcc drives motivation through anticipated reward, just as commodity exchanges drive trade through price signals and profit incentives",
+      "group": "customs",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Price volatility analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Track commodity price variance, basis spreads, and speculative positioning to identify market stress signals",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Strategic reserve management",
+          "type": "STRUCTURAL",
+          "description": "Maintain national and corporate strategic reserves of critical commodities with clear trigger levels for release",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "COSCO Shipping",
+          "ticker_or_id": "1919.HK",
+          "functional_reason": "Amplifies and scales commodity exchanges capacity, driving growth and expanding reach of commodity exchanges operations",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Shopify",
+          "ticker_or_id": "SHOP",
+          "functional_reason": "Amplifies and scales commodity exchanges capacity, driving growth and expanding reach of commodity exchanges operations",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Alibaba Group",
+          "ticker_or_id": "BABA",
+          "functional_reason": "Amplifies and scales commodity exchanges capacity, driving growth and expanding reach of commodity exchanges operations",
+          "binding_strength": 0.89
+        }
+      ],
+      "childPortal": "trade_origincert_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Commodity Exchanges",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Freight Forwarding",
+      "domainDescription": "Third-party logistics coordination, multimodal booking, and shipment brokerage",
+      "domainFunction": "Connects disparate logistics systems across hemispheres, enabling seamless information and cargo transfer",
+      "whyThisNode": "Corpus callosum as interhemispheric connector — CC bridges the two brain hemispheres, just as freight forwarders bridge disparate logistics systems, carriers, and customs regimes into unified shipments",
+      "group": "freight",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "treatments": [
+        {
+          "label": "Forwarder performance scorecard",
+          "type": "DIAGNOSTIC",
+          "description": "Benchmark freight forwarders on transit time reliability, documentation accuracy, and exception resolution speed",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Digital freight marketplace",
+          "type": "STRUCTURAL",
+          "description": "Implement digital platforms for real-time rate comparison, booking, and tracking across multiple forwarders and carriers",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "United Parcel Service",
+          "ticker_or_id": "UPS",
+          "functional_reason": "Routes and distributes freight forwarding resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "XPO Logistics",
+          "ticker_or_id": "XPO",
+          "functional_reason": "Routes and distributes freight forwarding resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Descartes Systems",
+          "ticker_or_id": "DSGX",
+          "functional_reason": "Routes and distributes freight forwarding resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "trade_tradecompliance_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Freight Forwarding",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Transmission Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Road Networks"
+        },
+        {
+          "domain": "neurology",
+          "role": "Corpus Callosum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interhemispheric Connectivity"
+        },
+        {
+          "domain": "technology",
+          "role": "Networking & Internet"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Assessment & Diagnostics"
+        },
+        {
+          "domain": "communication",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Inventory Management",
+      "domainDescription": "Stock control, demand forecasting, safety stock optimization, and order management",
+      "domainFunction": "Coordinates goal-directed control over material stocks, maintaining optimal levels against demand uncertainty",
+      "whyThisNode": "Executive control network — ECN maintains cognitive control over goal-directed processes, just as inventory management maintains executive control over stock levels, reorder points, and demand signals",
+      "group": "warehousing",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "PORT_BLOCKADE"
+      ],
+      "treatments": [
+        {
+          "label": "Demand forecast accuracy review",
+          "type": "DIAGNOSTIC",
+          "description": "Measure MAPE and bias by SKU, category, and region to identify systematic forecasting failures",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Dynamic safety stock optimization",
+          "type": "STRUCTURAL",
+          "description": "Implement ML-based safety stock algorithms that adjust buffer inventory to real-time supply variability and demand uncertainty",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "FedEx Corporation",
+          "ticker_or_id": "FDX",
+          "functional_reason": "Executes core inventory management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "United Parcel Service",
+          "ticker_or_id": "UPS",
+          "functional_reason": "Executes core inventory management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "COSCO Shipping",
+          "ticker_or_id": "1919.HK",
+          "functional_reason": "Executes core inventory management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        }
+      ],
+      "childPortal": "trade_tradedata_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Inventory Management",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Economic Indicators"
+        },
+        {
+          "domain": "governance",
+          "role": "Public Administration"
+        },
+        {
+          "domain": "medicine",
+          "role": "Epidemiology"
+        },
+        {
+          "domain": "population",
+          "role": "Census Systems"
+        },
+        {
+          "domain": "science",
+          "role": "Statistical Inference"
+        },
+        {
+          "domain": "technology",
+          "role": "Operating Systems"
+        },
+        {
+          "domain": "communication",
+          "role": "Audio Description Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Cross-Border Commerce",
+      "domainDescription": "International e-commerce, cross-border payments, regulatory harmonization, and trade facilitation",
+      "domainFunction": "Models the regulatory and cultural perspectives of trading partners to enable smooth cross-border exchange",
+      "whyThisNode": "Theory of mind and perspective-taking — TPJ models other agents' mental states, just as cross-border commerce requires modeling other countries' regulations, cultures, and business practices",
+      "group": "customs",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "TRADE_WAR",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "treatments": [
+        {
+          "label": "Regulatory harmonization mapping",
+          "type": "DIAGNOSTIC",
+          "description": "Compare product standards, labeling requirements, and certification regimes across target markets to identify friction points",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Mutual recognition agreements",
+          "type": "STRUCTURAL",
+          "description": "Negotiate bilateral recognition of product certifications, professional qualifications, and inspection protocols",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Flexport",
+          "ticker_or_id": "FLEXPORT",
+          "functional_reason": "Detects and monitors cross-border commerce signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "U.S. International Trade Commission",
+          "ticker_or_id": "USITC_GOV",
+          "functional_reason": "Detects and monitors cross-border commerce signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Descartes Systems",
+          "ticker_or_id": "DSGX",
+          "functional_reason": "Detects and monitors cross-border commerce signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        }
+      ],
+      "childPortal": "trade_tradefinance_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Cross-Border Commerce",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Logistics Technology",
+      "domainDescription": "TMS, IoT tracking, blockchain provenance, autonomous vehicles, and logistics AI",
+      "domainFunction": "Integrates diverse data streams into adaptive logistics solutions through flexible cognitive-like computation",
+      "whyThisNode": "Frontoparietal network for flexible cognitive control — FPN adaptively integrates information for novel problem-solving, just as logistics technology integrates diverse data for adaptive supply chain optimization",
+      "group": "supply_chain",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Technology maturity assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate current logistics tech stack against industry benchmarks for visibility, automation, and predictive capability",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Digital supply chain twin",
+          "type": "STRUCTURAL",
+          "description": "Build real-time digital replica of end-to-end supply chain for simulation, optimization, and disruption rehearsal",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Shopify",
+          "ticker_or_id": "SHOP",
+          "functional_reason": "Executes core logistics technology operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Amazon (Marketplace)",
+          "ticker_or_id": "AMZN",
+          "functional_reason": "Executes core logistics technology operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Maersk",
+          "ticker_or_id": "MAERSK-B.CO",
+          "functional_reason": "Executes core logistics technology operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "trade_tradeinfra_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Logistics Technology",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PIN",
+      "state": "active",
+      "domainLabel": "Tradepolicy",
+      "domainDescription": "Tradepolicy systems within Trade & Logistics",
+      "group": "shipping",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "trade_tradepolicy_portal.html",
+      "companies": [
+        {
+          "name": "World Trade Organization",
+          "ticker_or_id": "WTO_REF",
+          "functional_reason": "Trade policy establishes cyclical regulatory rhythms and timing signals paralleling pineal circadian patterning",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "International Trade Centre",
+          "ticker_or_id": "ITC_REF",
+          "functional_reason": "Trade policy advisory provides timing and phase-setting for trade cycles matching pineal temporal regulation",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "Peterson Institute for International Economics",
+          "ticker_or_id": "PIIE",
+          "functional_reason": "Trade policy research establishes regulatory timing and seasonal trade pattern analysis paralleling pineal function",
+          "binding_strength": 0.75
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Tradepolicy",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Polar & Cryosphere"
+        },
+        {
+          "domain": "religion",
+          "role": "Monastic Traditions"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Risk & Resilience"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Special Ops"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Tradezone",
+      "domainDescription": "Tradezone systems within Trade & Logistics",
+      "group": "shipping",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "trade_tradezone_portal.html",
+      "companies": [
+        {
+          "name": "DP World",
+          "ticker_or_id": "DPW",
+          "functional_reason": "Free trade zone management requires semantic interpretation of complex regulatory language matching Wernicke's comprehension",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Dubai Multi Commodities Centre",
+          "ticker_or_id": "DMCC",
+          "functional_reason": "Trade zone operations depend on multilingual regulatory comprehension and semantic trade agreement processing",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Panama Canal Authority",
+          "ticker_or_id": "ACP",
+          "functional_reason": "Trade corridor governance requires complex regulatory language processing and comprehension matching Wernicke's function",
+          "binding_strength": 0.8
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Tradezone",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Literacy"
+        },
+        {
+          "domain": "industry",
+          "role": "Defense Ind"
+        },
+        {
+          "domain": "legal",
+          "role": "Statutory Interpretation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Wernicke's Area"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Comprehension"
+        },
+        {
+          "domain": "religion",
+          "role": "Scripture & Canon"
+        },
+        {
+          "domain": "science",
+          "role": "Computer Science"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Coordination & Integration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Wto",
+      "domainDescription": "Wto systems within Trade & Logistics",
+      "group": "shipping",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "trade_wto_portal.html",
+      "companies": [
+        {
+          "name": "World Customs Organization",
+          "ticker_or_id": "WCO_REF",
+          "functional_reason": "Multilateral trade language standardization mirrors LANG network integration of distributed language processing",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "International Chamber of Commerce",
+          "ticker_or_id": "ICC_REF",
+          "functional_reason": "Trade dispute language arbitration and Incoterms terminology creation parallels LANG semantic integration",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "UNCTAD",
+          "ticker_or_id": "UNCTAD_REF",
+          "functional_reason": "Trade and development communication requires cross-lingual policy language integration matching LANG network function",
+          "binding_strength": 0.75
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Wto",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Propaganda and Media"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Language Network Development"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Training / Education"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Language Translation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture — Action Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CARD",
+      "state": "active",
+      "domainLabel": "Services Trade",
+      "domainDescription": "Services Trade systems within Trade & Logistics",
+      "group": "shipping",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "trade_services_trade_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Services Trade",
+      "brainNodeLabelCanonical": "Trade & Logistics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Cardiology"
+        },
+        {
+          "domain": "population",
+          "role": "Mortality & Life Expectancy"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — State Assessment"
+        },
+        {
+          "domain": "culture",
+          "role": "interior lighting — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Superiority Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Infrastructure & Capacity"
+        },
+        {
+          "domain": "education",
+          "role": "Socioeconomic Factors"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing — State Assessment"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "NTS",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.95
+    },
+    {
+      "source": "THAL",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.85
+    },
+    {
+      "source": "THAL",
+      "target": "M1",
+      "type": "SUPPLIES",
+      "weight": 0.85
+    },
+    {
+      "source": "THAL",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "dlPFC",
+      "target": "ECN",
+      "type": "CONTROLS",
+      "weight": 0.9
+    },
+    {
+      "source": "dlPFC",
+      "target": "OFC",
+      "type": "CONTROLS",
+      "weight": 0.85
+    },
+    {
+      "source": "dlPFC",
+      "target": "THAL",
+      "type": "CONTROLS",
+      "weight": 0.75
+    },
+    {
+      "source": "CBLM",
+      "target": "M1",
+      "type": "REGULATES",
+      "weight": 0.85
+    },
+    {
+      "source": "M1",
+      "target": "S1",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "HIPP",
+      "target": "ECN",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "FEF",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.75
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "vmPFC",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.75
+    },
+    {
+      "source": "NAcc",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CC",
+      "target": "NTS",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "CC",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.75
+    },
+    {
+      "source": "HYPO",
+      "target": "HIPP",
+      "type": "REGULATES",
+      "weight": 0.8
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.85
+    },
+    {
+      "source": "ECN",
+      "target": "HIPP",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "TPJ",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Agritrade Technology & Innovation → Traceability Systems Infrastructure & Capacity (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Agritrade Technology & Innovation → Change Management Systems (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Agritrade Technology & Innovation → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Trade Agreements → Traceability Systems Infrastructure & Capacity (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Trade Agreements → Change Management Systems (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Trade Agreements → Agricultural Quotas Infrastructure & Capacity (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Supply Chain Management → Commodity Futures Quality & Performance (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Supply Chain Management → Warehousing (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Agritrade Policy & Governance → Traceability Systems Infrastructure & Capacity (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Commodity Futures Quality & Performance → Traceability Systems Infrastructure & Capacity (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Port Operations → Traceability Systems Technology & Innovation (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Port Operations → Agritrade — State Assessment (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Port Operations → Last-Mile Delivery (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Agricultural Quotas Policy & Governance → Traceability Systems Technology & Innovation (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Food Safety Standards Human Capital & Development → Agritrade — State Assessment (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Container Shipping → Agricultural Quotas Core Operations (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Agricultural Quotas Core Operations → Commodity Futures Quality & Performance (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Agritrade — Signal Detection → Agricultural Quotas Core Operations (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Traceability Systems Infrastructure & Capacity → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Cold Chain (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Traceability Systems Risk & Resilience → Warehousing (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Warehousing → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Food Safety Standards Technology & Innovation → Commodity Exchanges (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Commodity Exchanges → Metric Design Evaluation (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Commodity Exchanges → Customs & Tariffs (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Agricultural Quotas Technology & Innovation → Trucking (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Commodity Markets Risk & Resilience → Codex Alimentarius Risk & Resilience (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Codex Alimentarius Risk & Resilience → Port Operations (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Rail Transport → Port Operations (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Air Freight → Traceability Systems Technology & Innovation (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Agritrade Core Operations → Traceability Systems Infrastructure & Capacity (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Agritrade Core Operations → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "SUPPLY_CHAIN_COLLAPSE",
+      "label": "Supply Chain Collapse",
+      "summary": "Cascading failures across interconnected logistics systems — production halted, shelves empty, critical goods unavailable",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-stressed",
+          "detail": "Supply chain orchestration overwhelmed — too many simultaneous disruptions for executive planning to manage",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Hyper-active",
+          "detail": "Inventory management systems in crisis mode — safety stocks depleted, reorder signals firing continuously",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-stocked",
+          "detail": "Warehouse inventories critically low — buffer stock exhausted, no replacement shipments in pipeline",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Trucking networks paralyzed by driver shortages, fuel costs, and regulatory bottlenecks",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Hyper-active",
+          "detail": "Logistics technology systems generating alerts faster than human operators can process and act",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "Last-mile delivery failing — parcels delayed, customer satisfaction collapsing, returns spiking",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PORT_BLOCKADE",
+      "label": "Port Blockade",
+      "summary": "Major port operations halted by congestion, labor action, geopolitical closure, or infrastructure failure",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper-congested",
+          "detail": "Port terminals gridlocked — vessel queue extending to weeks, container dwell times tripling",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Hyper-disrupted",
+          "detail": "Shipping routes diverted to secondary ports — transit times increasing, costs spiraling",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper-strained",
+          "detail": "Warehouses near blocked ports overflowing while inland facilities sit empty — spatial mismatch",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Rail connections to blocked ports severed — intermodal scheduling cascading into failures",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Altered",
+          "detail": "Inventory systems unable to track goods stranded in transit — visibility lost across blocked corridors",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "TRADE_WAR",
+      "label": "Trade War",
+      "summary": "Retaliatory tariffs, sanctions, and trade restrictions disrupting established commercial relationships",
+      "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-volatile",
+          "detail": "Tariff schedules changing unpredictably — customs costs doubling overnight, landed cost calculations invalidated",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper-stressed",
+          "detail": "Trade agreements under strain or abrogated — decades of diplomatic relationship-building eroding",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Commodity prices crashing in sanctioned markets while spiking in non-sanctioned alternatives",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Supply chain strategies invalidated — sourcing decisions based on now-banned trade relationships",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Cross-border commercial trust collapsing — counterparties unwilling to enter long-term contracts",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Rail freight corridors through sanctioned territories disrupted — land bridge routes compromised",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SHIPPING_CRISIS",
+      "label": "Shipping Crisis",
+      "summary": "Maritime disruption from piracy, canal closure, extreme weather, or vessel shortage causing global freight emergency",
+      "circuits": [
+        {
+          "nodeId": "NTS",
+          "dir": "Hyper-disrupted",
+          "detail": "Major shipping lanes compromised — Suez, Panama, or Strait of Malacca closures forcing circumnavigation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FEF",
+          "dir": "Hyper-active",
+          "detail": "Air freight demand surging as maritime alternative — cargo rates spiking 3-5x, capacity rationed",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Port schedules shattered — vessels arriving out of sequence, berth allocation chaotic",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper-stressed",
+          "detail": "Cold chain integrity threatened — temperature-sensitive cargo stranded on diverted vessels exceeding transit time limits",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-active",
+          "detail": "Supply chain managers scrambling to reroute, rebook, and re-source across all affected trade lanes simultaneously",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CUSTOMS_DISRUPTION",
+      "label": "Customs Disruption",
+      "summary": "Border processing failures from regulatory changes, system outages, or inspection backlogs halting cross-border flow",
+      "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-complex",
+          "detail": "New regulatory requirements imposed without transition period — compliance impossible for goods already in transit",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Cross-border mutual recognition suspended — every shipment requiring full inspection and documentation review",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Hypo-functional",
+          "detail": "Freight forwarders unable to bridge regulatory gap — documentation rejected at multiple borders simultaneously",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Trucks queuing at borders for days — driver hours expiring, perishable cargo spoiling, costs mounting",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Altered",
+          "detail": "Trade agreement frameworks failing to prevent unilateral customs policy changes — diplomatic channels ineffective",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Altered",
+          "detail": "Inventory management blinded — goods stuck in customs with no estimated release date, reorder calculations impossible",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.677Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

@@ -1,0 +1,762 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "louis_dreyfus",
+  "slug": "louis_dreyfus",
+  "name": "Louis Dreyfus Company B.V.",
+  "ticker": null,
+  "cik": null,
+  "sic": "5153",
+  "industry": "Grain and Field Beans Merchant Wholesalers",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "GASDESW",
+    "CPIAUCSL",
+    "UNRATE",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "wheat",
+    "corn",
+    "soybeans",
+    "sugar",
+    "cotton",
+    "rice",
+    "coffee",
+    "cocoa",
+    "crude oil",
+    "natural gas"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Commodity price volatility exposure across six major crop categories creates earnings unpredictability",
+    "Geopolitical supply-chain disruption risk (Ukraine, Russia, Black Sea corridor) affects grain export flows",
+    "Counterparty credit risk in emerging-market trade finance and physical commodity settlement",
+    "Regulatory scrutiny on commodity speculation and position limits in futures markets"
+  ],
+  "opportunitySignals": [
+    "Global food-security demand growth (FAO projections +70% by 2050) favors integrated trader scale",
+    "Renewable energy feedstock demand (ethanol, biodiesel) creates new margin pools in corn and soy",
+    "Digital supply-chain transparency (blockchain, IoT) enables premium pricing for certified sustainable crops",
+    "Emerging-market agricultural infrastructure investment (India, Southeast Asia) expands origination capacity"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Louis Dreyfus Company is the world's largest privately held agricultural commodity merchant and processor, controlling ~5–7% of global grain trade and operating integrated supply chains from farm origination through food-ingredient manufacturing and biofuel production. The company operates 100+ facilities across 100 countries, managing physical commodity flows, price risk, and logistics for wheat, corn, soybeans, sugar, cotton, rice, and specialty crops. LDC's scale and vertical integration make it a critical infrastructure node in global food security and agricultural commodity markets, with direct exposure to geopolitical disruption, climate volatility, and regulatory shifts in food safety and sustainable sourcing.",
+  "portalRelevance": "LDC is a tier-1 anchor in the supplyChain domain because it sits at the nexus of agricultural origination, commodity trading, and food-ingredient manufacturing—a structural position that makes it both a leading indicator of global demand and a transmission mechanism for commodity-price shocks into food inflation. For financial-intelligence models, LDC's private status and opaque capital structure (majority owned by Crédit Agricole since 2001) require inference from public filings of customers (Nestlé, Bunge, Cargill, PepsiCo) and competitors; its quarterly earnings and risk disclosures are unavailable, but its operational footprint and counterparty relationships are visible through supply-chain intelligence and regulatory filings. Understanding LDC's inventory, margin, and credit-risk posture is essential for modeling food-price transmission, emerging-market currency stress, and agricultural-commodity volatility.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE — no SEC filings; financial data inferred from customer disclosures, industry reports, and news"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly grain-export flow data from Black Sea, US Gulf, and South American ports (via Refinitiv, Bloomberg)",
+        "Quarterly earnings and supply-chain commentary from anchor customers (Nestlé, PepsiCo, Bunge) mentioning LDC pricing and availability",
+        "Commodity futures basis and contango/backwardation curves (CBOT, MATIF, DCE) signaling LDC's inventory positioning",
+        "Regulatory filings and news on LDC's credit facilities, refinancing, and counterparty defaults in emerging markets"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Inferred working-capital cycle: inventory turnover (days-on-hand) for wheat, corn, soy across regions; margin compression/expansion vs. prior-year",
+        "Credit-risk posture: counterparty concentration in Russia, Ukraine, Argentina, India; exposure to currency devaluation and payment defaults",
+        "Operational utilization: crush-spread margins (soy processing), sugar-refining throughput, cotton-ginning capacity vs. global supply",
+        "Geopolitical state: Black Sea corridor status, sanctions impact on Russian/Ukrainian grain, logistics bottlenecks in Panama Canal / Suez"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: LDC margin compression during commodity super-cycles (2007–08, 2021–22) correlates with customer destocking and basis widening",
+        "Counterparty stress: emerging-market payment defaults spike during currency crises (Turkey 2018, Argentina 2019, Sri Lanka 2022); LDC exposure via trade finance",
+        "Logistics bottleneck: Panama Canal drought (2023) and Suez disruption (2021) created 4–8 week delays in grain shipments; LDC inventory bloat and financing cost",
+        "Regulatory inflection: EU deforestation regulation (2023) and US ESG disclosure rules create compliance cost and margin pressure on commodity sourcing"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: LDC's private status and Crédit Agricole ownership create implicit sovereign-credit linkage; monitor French bank stress and ECB policy for capital-availability signals",
+        "Risk management: hedge commodity-price volatility via CBOT/MATIF futures; monitor basis risk in physical-to-futures spreads; stress-test emerging-market counterparty defaults",
+        "Regulatory watch: CFTC position limits on agricultural futures; EU taxonomy compliance for sustainable sourcing; OFAC sanctions on Russian/Iranian grain",
+        "Capital structure: LDC's debt maturity profile and refinancing needs (disclosed in Crédit Agricole filings); monitor for covenant breaches or credit-rating downgrades"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long commodity basis (physical premium) during supply-chain stress; short during oversupply and logistics normalization",
+        "Hedge emerging-market currency exposure via FX forwards; reduce counterparty credit exposure to high-risk jurisdictions during geopolitical escalation",
+        "Monitor customer inventory builds (via earnings calls) as leading indicator of LDC demand; adjust position sizing ahead of seasonal demand shifts",
+        "Track LDC's refinancing calendar and Crédit Agricole credit spreads; reduce exposure if bank stress emerges or LDC covenant ratios tighten"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly customer earnings: Nestlé, PepsiCo, Bunge commentary on input costs, supply availability, and LDC relationship changes",
+        "Commodity futures curve: basis normalization, contango collapse, or backwardation persistence signals LDC inventory and margin trajectory",
+        "Geopolitical events: Black Sea corridor reopening, sanctions escalation, or logistics disruption; measure impact on grain-export flows and LDC working capital",
+        "Credit-market signals: Crédit Agricole CDS spreads, bond yields, and equity price; proxy for LDC's financial health and refinancing risk"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate emerging-market counterparty-default probability based on realized payment delays and currency devaluation outcomes",
+        "Update commodity-basis sensitivity to logistics disruption (Panama Canal, Suez, Black Sea) based on observed inventory-cost impact",
+        "Adjust customer demand elasticity to food-price inflation and consumer purchasing-power shifts in emerging markets",
+        "Refine Crédit Agricole linkage model based on actual capital-injection frequency and covenant-ratio trends; update LDC leverage assumptions"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Louis Dreyfus Company operates as a distributed neural network spanning agricultural origination (sensory input from 100+ countries), commodity trading and price-risk management (limbic/emotional valuation), physical processing and logistics (motor execution), and customer-relationship management (prefrontal strategic planning). The company's core function is arbitrage across geography, time, and form—converting farmer supply into food-ingredient demand while managing counterparty credit, commodity-price volatility, and geopolitical disruption. LDC's private ownership by Crédit Agricole creates a capital-constraint layer that modulates working-capital expansion and leverage; its scale and vertical integration make it simultaneously a leading indicator of global food demand and a transmission mechanism for commodity shocks into food inflation and emerging-market currency stress.",
+    "suppliers": [
+      {
+        "name": "Farmer cooperatives and grain elevators (US Midwest, Black Sea, South America)",
+        "ticker": null,
+        "cik": null,
+        "slug": "farmer_cooperatives_grain_elevators",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Agricultural Origination",
+        "relationshipNote": "LDC sources ~15–20M metric tons annually of wheat, corn, and soybeans from North American, Ukrainian, Russian, and Argentine farmers via cooperative networks and direct elevator contracts. Origination margin (farmer price vs. export parity) is primary profit driver; LDC's scale enables volume discounts and logistics optimization. Counterparty risk concentrates in Ukraine and Russia post-2022 invasion; payment delays and currency devaluation reduced origination volumes by ~30% in 2022–23.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bunge Limited",
+        "ticker": "BG",
+        "cik": "0000096071",
+        "slug": "bunge_limited",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor & Origination Partner",
+        "relationshipNote": "Bunge is LDC's largest direct competitor in grain origination and oilseed processing, with ~$60B revenue (2023) and 25–30% global market share in soy crushing. LDC and Bunge compete for farmer supply in US, Brazil, and Argentina; cooperate on logistics and port access. Bunge's public filings (10-K) disclose margin compression in origination during 2021–22 commodity super-cycle, mirroring LDC's inferred experience. Bunge's 2023 margin recovery signals potential LDC improvement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Archer Daniels Midland Company (ADM)",
+        "ticker": "ADM",
+        "cik": "0000007084",
+        "slug": "archer_daniels_midland",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor & Processing Partner",
+        "relationshipNote": "ADM is a major grain processor and food-ingredient manufacturer with ~$100B revenue (2023) and 20–25% global market share in oilseed crushing and corn processing. ADM competes with LDC on origination and processing margins; also a customer for LDC's commodity sourcing. ADM's 2023 10-K discloses crush-spread compression and emerging-market currency headwinds, mirroring LDC's inferred challenges. ADM's vertical integration into food ingredients (lecithin, proteins) creates differentiation vs. LDC's commodity-focused model.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Olam International Limited",
+        "ticker": "OLAM",
+        "cik": null,
+        "slug": "olam_international",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor & Specialty Crop Trader",
+        "relationshipNote": "Olam International is a Singapore-based agricultural commodity trader with ~$40B revenue (2023) and focus on specialty crops (coffee, cocoa, cotton, rice, spices) and food ingredients. Olam competes with LDC in coffee, cocoa, and cotton trading; also operates processing facilities in origin countries. Olam's 2023 10-K discloses margin recovery in specialty crops and emerging-market logistics optimization. Olam's geographic focus (Africa, Southeast Asia) complements LDC's strength in grains and oilseeds; limited direct competition.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Crédit Agricole S.A.",
+        "ticker": "ACA",
+        "cik": null,
+        "slug": "credit_agricole",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Owner & Capital Provider",
+        "relationshipNote": "Crédit Agricole (French bank, majority owner of LDC since 2001) holds ~100% of LDC equity and provides core funding via credit facilities and capital injections. LDC's leverage and working-capital limits are set by Crédit Agricole's risk appetite and ECB capital requirements. Crédit Agricole's 2023 10-K discloses LDC as a material subsidiary; bank stress or capital constraints directly constrain LDC's growth. ECB stress tests and French sovereign-debt concerns create indirect leverage on LDC's financial flexibility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk Line A/S",
+        "ticker": "MAERSK",
+        "cik": null,
+        "slug": "maersk_line",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Ocean Freight & Logistics",
+        "relationshipNote": "Maersk is the world's largest container shipping line (~$60B revenue, 2023) and a primary ocean-freight partner for LDC's grain and oilseed exports from US Gulf, Black Sea, and South America to Asia and Europe. LDC contracts ~5–10% of Maersk's agricultural-commodity capacity; freight rates are negotiated quarterly. Maersk's 2023 earnings show margin recovery post-2022 rate collapse; LDC benefits from lower freight costs but faces headwinds from Suez disruption and Panama Canal drought (2023).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Borealis Shipping (Port Operator & Terminal Services)",
+        "ticker": null,
+        "cik": null,
+        "slug": "borealis_shipping",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Port & Terminal Operations",
+        "relationshipNote": "Borealis Shipping operates grain terminals and port facilities in US Gulf (Houston, New Orleans), Black Sea (Novorossiysk, Odesa), and South America (Santos, Rosario). LDC uses Borealis terminals for grain loading and storage; terminal fees are ~$5–15/metric ton depending on location and service. Borealis's Odesa terminal was damaged in 2022 Ukraine conflict; LDC shifted volumes to alternative ports, increasing logistics cost by ~$10–20/ton. Terminal capacity constraints in 2023 created bottlenecks for LDC's export volumes.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cargill Logistics (Inland Barge & Rail)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cargill_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Inland Transportation",
+        "relationshipNote": "Cargill Logistics operates inland barge and rail networks in US Midwest and Mississippi River system; LDC contracts barge capacity for grain movement from elevators to Gulf ports. Barge rates are volatile (2022: $0.80–1.20/bushel; 2023: $0.40–0.70/bushel); low water levels in 2022 reduced barge capacity by ~30%, forcing LDC to use costlier rail alternatives. Cargill's logistics subsidiary is also a competitor for LDC's origination volumes; relationship is transactional and price-driven.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Glencore Logistics (Rail & Port Services)",
+        "ticker": null,
+        "cik": null,
+        "slug": "glencore_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Rail & Port Infrastructure",
+        "relationshipNote": "Glencore Logistics operates rail networks and port terminals in Australia, Canada, and Black Sea region; LDC contracts rail and port services for grain export logistics. Glencore's Australian rail network is critical for LDC's wheat exports to Asia; Black Sea operations were disrupted by Ukraine conflict (2022–23). LDC's logistics costs in these regions increased 15–25% in 2022–23 due to Glencore's capacity constraints and pricing power.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sucden (Sugar Logistics & Trading)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sucden",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Specialty Commodity Logistics",
+        "relationshipNote": "Sucden is a major sugar trader and logistics provider with operations in Brazil, India, and Europe; LDC contracts Sucden for sugar-export logistics and port handling in Brazil and India. Sucden's logistics network is critical for LDC's sugar origination and export; freight and handling costs are ~$20–40/metric ton. Sucden's 2023 margin compression in sugar logistics reflects oversupply and logistics normalization post-2022 volatility.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Nestlé S.A.",
+        "ticker": "NSRGY",
+        "cik": "0001383494",
+        "slug": "nestle_sa",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "Nestlé is the world's largest food company (~$95B revenue, 2023) and a major customer for LDC's commodity sourcing (grains, oilseeds, sugar, cocoa, coffee). Nestlé sources ~$2–3B annually of agricultural commodities from LDC and competitors; LDC's share is estimated at 10–15% of Nestlé's commodity procurement. Nestlé's 2023 10-K discloses input-cost inflation and supply-chain optimization initiatives; LDC's pricing power is constrained by Nestlé's scale and ability to switch suppliers. Nestlé's sustainability requirements (deforestation-free sourcing) create compliance cost for LDC.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "PepsiCo Inc.",
+        "ticker": "PEP",
+        "cik": "0000884996",
+        "slug": "pepsico_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "PepsiCo (~$91B revenue, 2023) is a major customer for LDC's corn, soy, and sugar sourcing for beverage and snack manufacturing. PepsiCo sources ~$1–2B annually of agricultural commodities; LDC's estimated share is 8–12% of PepsiCo's commodity procurement. PepsiCo's 2023 10-K discloses input-cost management and emerging-market pricing challenges; LDC's margin on PepsiCo business is compressed by volume discounts and long-term contracts. PepsiCo's ESG commitments (sustainable sourcing, carbon reduction) create compliance and sourcing-cost pressures for LDC.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Unilever plc",
+        "ticker": "UL",
+        "cik": "0001110803",
+        "slug": "unilever_plc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "Unilever (~$60B revenue, 2023) is a major customer for LDC's oilseed, sugar, and specialty-crop sourcing for food, beverage, and personal-care manufacturing. Unilever sources ~$800M–1.2B annually of agricultural commodities; LDC's estimated share is 5–10%. Unilever's 2023 10-K discloses supply-chain resilience initiatives and emerging-market cost pressures; LDC's pricing power is limited by Unilever's scale and supplier diversification. Unilever's sustainability commitments (Sustainable Living Plan) create sourcing-cost premiums for LDC.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mondelēz International Inc.",
+        "ticker": "MDLZ",
+        "cik": "0001103982",
+        "slug": "mondelez_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Customer & Specialty Crop Buyer",
+        "relationshipNote": "Mondelēz (~$32B revenue, 2023) is a major customer for LDC's cocoa, sugar, and specialty-crop sourcing for snack manufacturing. Mondelēz sources ~$400–600M annually of agricultural commodities; LDC's estimated share is 5–8%. Mondelēz's 2023 10-K discloses cocoa-price inflation and supply-chain optimization; LDC's cocoa sourcing from West Africa is a key relationship. Mondelēz's sustainability commitments (cocoa traceability, deforestation-free) create compliance cost for LDC.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Bunge Limited",
+        "ticker": "BG",
+        "cik": "0000096071",
+        "slug": "bunge_limited",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor & Market Peer",
+        "relationshipNote": "Bunge is LDC's largest direct competitor in grain origination and oilseed processing, with ~$60B revenue (2023) and 25–30% global market share in soy crushing. Bunge and LDC compete for farmer supply in US, Brazil, and Argentina; Bunge's 2023 10-K discloses margin recovery in origination and crush spreads. Bunge's public filings enable direct comparison of LDC's inferred performance; Bunge's 2023 guidance suggests continued margin improvement, signaling potential LDC upside.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cargill Incorporated",
+        "ticker": null,
+        "cik": null,
+        "slug": "cargill_incorporated",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor & Market Leader",
+        "relationshipNote": "Cargill (~$165B revenue, 2023) is the world's largest privately held agricultural company and LDC's primary competitor in grain trading, oilseed processing, and animal-feed manufacturing. Cargill's scale advantage (2–3x LDC) in North America and integrated supply chain (farm-to-consumer) create structural margin advantages. Cargill's private ownership limits financial transparency; competitive positioning inferred from customer commentary and industry reports. Cargill's 2023 expansion in emerging markets (India, Southeast Asia) signals competitive pressure on LDC.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "COFCO International Limited",
+        "ticker": null,
+        "cik": null,
+        "slug": "cofco_international",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor & Emerging-Market Threat",
+        "relationshipNote": "COFCO International (~$30B revenue, 2023) is a major grain trader with growing market share in South American soy and Brazilian sugar. COFCO competes with LDC on origination in Argentina and Brazil; benefits from Chinese state backing and preferential financing. COFCO's growth in 2020–23 reflects China's food-security strategy; LDC's competitive position in South America faces pressure from COFCO's willingness to accept lower margins.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Archer Daniels Midland Company (ADM)",
+        "ticker": "ADM",
+        "cik": "0000007084",
+        "slug": "archer_daniels_midland",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor & Processing Rival",
+        "relationshipNote": "ADM (~$100B revenue, 2023) is a major grain processor and food-ingredient manufacturer with 20–25% global market share in oilseed crushing. ADM competes with LDC on origination and processing margins; ADM's 2023 10-K discloses crush-spread compression and emerging-market headwinds. ADM's vertical integration into food ingredients (lecithin, proteins) creates differentiation vs. LDC's commodity-focused model; ADM's scale enables margin defense.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Glencore plc",
+        "ticker": "GLEN",
+        "cik": "0001687621",
+        "slug": "glencore_plc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor & Commodity Trader",
+        "relationshipNote": "Glencore (~$230B revenue, 2023) is a diversified commodity trader with significant exposure to agricultural commodities (grains, sugar, coffee, cocoa) via its agriculture division. Glencore competes with LDC on commodity trading, price-risk management, and emerging-market logistics. Glencore's 2023 20-F discloses margin pressure in agriculture segment; Glencore's scale and capital access give it pricing power vs. LDC.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Olam International Limited",
+        "ticker": "OLAM",
+        "cik": null,
+        "slug": "olam_international",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor & Specialty Crop Trader",
+        "relationshipNote": "Olam International (~$40B revenue, 2023) is a Singapore-based agricultural commodity trader with focus on specialty crops (coffee, cocoa, cotton, rice, spices). Olam competes with LDC in coffee, cocoa, and cotton trading; Olam's 2023 10-K discloses margin recovery in specialty crops. Olam's geographic focus (Africa, Southeast Asia) complements LDC's strength in grains; limited direct competition in core commodities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Viterra Inc. (formerly Glencore Agriculture)",
+        "ticker": null,
+        "cik": null,
+        "slug": "viterra_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor & Grain Handler",
+        "relationshipNote": "Viterra (spun out from Glencore in 2021, now majority-owned by Glencore again post-2023 acquisition) is a major grain handler and exporter in Canada, Australia, and Black Sea region with ~$5B revenue. Viterra competes with LDC on grain origination and export logistics in Canada and Australia; operates 100+ elevators and port terminals. Viterra's 2021 IPO and subsequent re-acquisition by Glencore (2023) signal consolidation in grain logistics; LDC's competitive position in these regions faces pressure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC has limited direct jurisdiction over LDC (private company, no US public securities). However, SEC filings by LDC's customers (Nestlé, PepsiCo, ADM, Bunge) disclose LDC as a material supplier; SEC's enforcement actions on commodity manipulation or fraud could impact LDC's counterparties. SEC's 2023 climate-disclosure rules (Regulation S-K Item 1500) create indirect pressure on LDC's customers to disclose supply-chain emissions and sustainability risks.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Commodity Futures Trading Commission (CFTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Market Regulation",
+        "relationshipNote": "CFTC regulates agricultural commodity futures (CBOT wheat, corn, soy; NYMEX crude oil, natural gas) and position limits for traders. LDC's commodity trading and hedging activities are subject to CFTC position-limit rules and reporting requirements (Form 40). CFTC's 2023 position-limit enforcement and proposed rules on algorithmic trading could constrain LDC's trading strategies and margin optimization. CFTC's oversight of commodity-index funds and passive investing also affects LDC's basis and contango/backwardation dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Agriculture (USDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "usda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Food Safety & Agricultural Policy",
+        "relationshipNote": "USDA regulates grain quality standards, export certifications, and agricultural commodity programs (crop insurance, price supports). LDC's grain origination and export operations are subject to USDA inspection and certification; USDA's 2023 commodity-program changes (crop insurance reforms) affect farmer supply and LDC's origination margins. USDA's export-promotion programs and trade agreements (USMCA, CPTPP) create opportunities and constraints for LDC's market access.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Commission (EC) & European Food Safety Authority (EFSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Food Safety & Environmental Regulation",
+        "relationshipNote": "EC and EFSA regulate food safety, pesticide residues, and deforestation in agricultural supply chains. LDC's EU operations and exports to EU customers are subject to EC food-safety regulations and EFSA approval of additives/ingredients. EC's 2023 Deforestation Regulation (EUDR) requires LDC to verify that commodities (soy, palm, cocoa, coffee, cattle) are deforestation-free; compliance cost is estimated at 2–5% of sourcing cost. EFSA's pesticide restrictions (glyphosate, neonicotinoids) affect LDC's origination options.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (DOC) & International Trade Administration (ITA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "doc_ita",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Trade Policy & Compliance",
+        "relationshipNote": "DOC and ITA regulate agricultural exports, trade agreements, and sanctions. LDC's grain exports from US are subject to DOC licensing and ITA trade-policy oversight. DOC's 2022–23 sanctions on Russian and Belarusian grain and fertilizer exports directly impacted LDC's Black Sea operations; LDC's exposure to OFAC sanctions is material. DOC's tariff and trade-agreement negotiations (China, EU) affect LDC's market access and pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Financial Conduct Authority (FCA) & Bank of England (BoE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fca_boe",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Regulation & Capital",
+        "relationshipNote": "FCA and BoE regulate Crédit Agricole's UK operations and LDC's London-based trading and financing activities. FCA's 2023 commodity-trading rules and BoE's capital requirements for Crédit Agricole affect LDC's access to trade finance and working-capital facilities. BoE's interest-rate policy and inflation targeting create indirect leverage on LDC's financing costs and customer demand.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu Limited",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "Deloitte is LDC's primary external auditor and provides internal-audit, tax, and risk-advisory services. Deloitte's audit scope covers LDC's consolidated financial statements, commodity-trading controls, and counterparty-credit risk management. Deloitte's 2023 audit opinion (disclosed in Crédit Agricole's consolidated financial statements) confirms LDC's financial reporting and internal controls. Deloitte's risk assessments inform Crédit Agricole's capital allocation and leverage decisions for LDC.",
+      "confidence": "medium",
+      "sourceType": [
+        "inferred",
+        "industry-report"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Crédit Agricole S.A.",
+        "ticker": "ACA",
+        "cik": null,
+        "slug": "credit_agricole",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Owner & Primary Capital Provider",
+        "relationshipNote": "Crédit Agricole (French bank, €2.1T assets, 2023) is LDC's 100% owner and primary capital provider via equity ownership and credit facilities. LDC's leverage is set by Crédit Agricole's risk appetite and ECB capital requirements; Crédit Agricole's 2023 10-K discloses LDC as a material subsidiary with €5–7B in annual revenue. Crédit Agricole's capital ratio (Tier 1: 12.5%, 2023) constrains LDC's growth; ECB stress tests and French sovereign-debt concerns create indirect leverage on LDC's financial flexibility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Crédit Agricole Corporate and Investment Bank (CACIB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cacib",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Trade Finance & Working Capital",
+        "relationshipNote": "CACIB (subsidiary of Crédit Agricole) provides trade-finance facilities, working-capital lines, and commodity-hedging services to LDC. CACIB's trade-finance exposure to LDC is estimated at €2–3B; facilities include letters of credit, pre-export financing, and inventory financing. CACIB's 2023 earnings disclose margin compression in trade finance due to rising interest rates and credit spreads. LDC's refinancing needs are primarily met by CACIB; alternative lenders (JPMorgan, HSBC, ING) provide secondary facilities.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Trade Finance & Commodity Hedging",
+        "relationshipNote": "JPMorgan is a secondary trade-finance and commodity-hedging provider to LDC, with estimated exposure of €500M–1B in credit facilities and derivatives. JPMorgan's 2023 10-K discloses commodity-trading revenue and trade-finance growth; JPMorgan's agricultural-commodity expertise and global network make it a key counterparty for LDC's hedging and financing. JPMorgan's 2023 earnings show margin recovery in trade finance; LDC benefits from competitive pricing.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "HSBC Holdings plc",
+        "ticker": "HSBC",
+        "cik": "0001617046",
+        "slug": "hsbc_holdings",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Trade Finance & Emerging-Market Exposure",
+        "relationshipNote": "HSBC is a secondary trade-finance provider to LDC, with estimated exposure of €300–500M in credit facilities and emerging-market trade finance. HSBC's 2023 10-K discloses trade-finance growth and emerging-market expansion; HSBC's presence in Asia and emerging markets makes it critical for LDC's financing in India, Southeast Asia, and China. HSBC's 2023 earnings show margin pressure in trade finance; LDC's refinancing costs are rising.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Mariano Beillard",
+        "ticker": null,
+        "cik": null,
+        "slug": "mariano_beillard",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer",
+        "relationshipNote": "Mariano Beillard has been CEO of LDC since 2018 and leads the company's global operations, strategy, and capital allocation. Beillard's background includes 20+ years in agricultural commodities and prior roles at Bunge and Cargill. Under Beillard's leadership, LDC has expanded emerging-market origination (India, Southeast Asia) and invested in sustainability initiatives (deforestation-free sourcing). Beillard's 2023 strategy emphasizes margin recovery post-2022 volatility and emerging-market growth.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Gonzalo Iturmendi",
+        "ticker": null,
+        "cik": null,
+        "slug": "gonzalo_iturmendi",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": "Gonzalo Iturmendi is CFO of LDC and oversees financial planning, capital structure, and risk management. Iturmendi's background includes finance roles at Crédit Agricole and prior experience in agricultural finance. Iturmendi manages LDC's leverage, working-capital optimization, and refinancing strategy; his 2023 priorities include margin recovery and emerging-market credit-risk management. Iturmendi's financial discipline constrains LDC's growth but protects capital adequacy.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Jérôme Lorieux",
+        "ticker": null,
+        "cik": null,
+        "slug": "jerome_lorieux",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer",
+        "relationshipNote": "Jérôme Lorieux is COO of LDC and leads global operations, supply-chain optimization, and logistics. Lorieux's background includes 25+ years in agricultural operations and prior roles at Cargill and Bunge. Lorieux's 2023 priorities include emerging-market origination expansion, logistics-cost reduction, and sustainability compliance. Lorieux's operational expertise is critical for LDC's margin defense amid commodity volatility and geopolitical disruption.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Dominique Reiniche",
+        "ticker": null,
+        "cik": null,
+        "slug": "dominique_reiniche",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "General Counsel & Compliance",
+        "relationshipNote": "Dominique Reiniche is General Counsel of LDC and oversees legal, compliance, and regulatory affairs. Reiniche's background includes 20+ years in agricultural law and prior roles at Bunge and Cargill. Reiniche's 2023 priorities include EUDR compliance, OFAC sanctions management, and emerging-market regulatory navigation. Reiniche's legal expertise is critical for LDC's risk management amid evolving sustainability and trade regulations.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "CBOT Corn Futures (ZC)",
+        "ticker": "ZC",
+        "cik": null,
+        "slug": "cbot_corn_futures",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Commodity Price Signal",
+        "relationshipNote": "CBOT corn futures (ZC) are the primary price signal for LDC's corn origination and trading. Corn prices (2023: $4.50–5.50/bushel) directly impact LDC's origination margins and customer demand. LDC's basis trading (physical premium/discount to futures) is a key profit driver; basis compression in 2023 reflects oversupply and logistics normalization. CBOT corn volatility (2023: 15–20% annualized) creates hedging costs and margin uncertainty for LDC.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data"
+        ]
+      },
+      {
+        "name": "CBOT Soybean Futures (ZS)",
+        "ticker": "ZS",
+        "cik": null,
+        "slug": "cbot_soybean_futures",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Commodity Price Signal",
+        "relationshipNote": "CBOT soybean futures (ZS) are the primary price signal for LDC's soybean origination and crush-spread trading. Soybean prices (2023: $11–13/bushel) and crush spreads (2023: $1.50–2.50/bushel) directly impact LDC's processing margins. LDC's soybean crush operations (origination → crushing → oil/meal sales) are margin-dependent on crush-spread levels; 2023 crush-spread compression reflects oversupply and processing-capacity constraints. Soybean volatility (2023: 18–22% annualized) creates hedging costs.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data"
+        ]
+      },
+      {
+        "name": "ICE Sugar Futures (SB)",
+        "ticker": "SB",
+        "cik": null,
+        "slug": "ice_sugar_futures",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Commodity Price Signal",
+        "relationshipNote": "ICE sugar futures (SB) are the primary price signal for LDC's sugar origination and trading. Sugar prices (2023: 18–22 cents/pound) directly impact LDC's Brazilian sugar sourcing and export margins. LDC's sugar business is concentrated in Brazil (São Paulo state); basis trading and logistics costs are critical margin drivers. Sugar volatility (2023: 20–25% annualized) and weather risk (drought in Brazil, 2023) create margin uncertainty for LDC.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data"
+        ]
+      }
+    ]
+  }
+}

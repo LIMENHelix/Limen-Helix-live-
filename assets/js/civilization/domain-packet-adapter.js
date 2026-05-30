@@ -1,0 +1,583 @@
+/**
+ * civilization/domain-packet-adapter.js
+ * LIMEN HELIX — Domain → Civilization packet bridge
+ *
+ * Civilization is an OBSERVER. Domain brains are the source of truth.
+ *
+ * For each of the 20 canonical domains this adapter produces ONE normalized
+ * packet that Civilization's UI consumes. Brain truth wins; signal-engine
+ * data is used only when no brain payload is present, and is clearly marked.
+ *
+ * READ-ONLY. Does not modify domain state, does not change brain logic,
+ * does not rewrite window.LIMENDomains. Audit fields are additive and live
+ * on the packet only — never on the domain slot.
+ *
+ * Reads:
+ *   - window.LIMENDomains[id]     (signal-engine + brain-adapter merged slot)
+ *   - window.LIMENBalance[id]     (optional)
+ *   - window.LIMENPolarity[id]    (optional)
+ *
+ * Listens:
+ *   - limen:domain-update         (signal-engine wrote a snapshot)
+ *   - limen:domain-brain-update   (a brain finished a cycle)
+ *
+ * Provides:
+ *   - window.LIMENCivilizationPackets   { [domainId]: Packet }
+ *   - window.LIMENCivilizationAdapter   { getAll(), get(id), getOrder() }
+ *   - event: limen:civilization-packets-update
+ *
+ * Packet shape — see PACKET_FIELDS comment below.
+ */
+(function () {
+  'use strict';
+
+  // Canonical 20 domains (mirrors console-clarity DOMAIN_ORDER).
+  var DOMAIN_ORDER = [
+    'economy', 'energy', 'environment', 'health', 'technology', 'research',
+    'supplyChain', 'governance', 'infrastructure', 'agriculture', 'industry',
+    'education', 'communication', 'culture', 'defense', 'religion',
+    'population', 'law', 'finance', 'intelligence'
+  ];
+
+  var DOMAIN_LABELS = {
+    economy: 'Economy', energy: 'Energy', environment: 'Environment',
+    health: 'Health', technology: 'Technology', research: 'Research',
+    supplyChain: 'Supply Chain', governance: 'Governance',
+    infrastructure: 'Infrastructure', agriculture: 'Agriculture',
+    industry: 'Industry', education: 'Education',
+    communication: 'Communication', culture: 'Culture',
+    defense: 'Defense', religion: 'Religion',
+    population: 'Population', law: 'Law',
+    finance: 'Finance', intelligence: 'Intelligence'
+  };
+
+  // Stale = brain payload older than 6 minutes (TTL on adapter is 5min,
+  // but signal-engine snapshot writes every 30s, so a brain that hasn't
+  // refreshed within ~6min is treated as stale at the packet layer).
+  var BRAIN_STALE_MS = 6 * 60 * 1000;
+  var SNAPSHOT_STALE_MS = 5 * 60 * 1000;
+
+  // Throttle rebuilds — bursty event sources should not thrash the UI.
+  var REBUILD_THROTTLE_MS = 400;
+
+  var _packets = {};
+  var _rebuildTimer = null;
+  var _lastRebuildAt = 0;
+
+  // -----------------------------------------------------------------------
+  // Helpers
+  // -----------------------------------------------------------------------
+
+  function _num(v) { return typeof v === 'number' && !isNaN(v) ? v : null; }
+  function _arr(v) { return Array.isArray(v) ? v : []; }
+  function _str(v) { return typeof v === 'string' ? v : null; }
+  function _clamp01(v) { return Math.max(0, Math.min(1, v)); }
+
+  function _stressBand(stress) {
+    if (stress == null) return 'unknown';
+    if (stress >= 0.85) return 'critical';
+    if (stress >= 0.65) return 'high';
+    if (stress >= 0.40) return 'elevated';
+    if (stress >= 0.20) return 'moderate';
+    return 'baseline';
+  }
+
+  function _activityLevel(slot) {
+    var a = _num(slot && slot.activity);
+    if (a == null) return null;
+    if (a >= 0.7) return 'high';
+    if (a >= 0.3) return 'medium';
+    if (a > 0)   return 'low';
+    return 'idle';
+  }
+
+  function _brainAgeMs(slot) {
+    var ts = _num(slot && slot.brainUpdatedAt) || _num(slot && slot.brainUpdated);
+    if (!ts) return null;
+    return Math.max(0, Date.now() - ts);
+  }
+
+  function _snapshotAgeMs(slot) {
+    var ts = _num(slot && slot.updated);
+    if (!ts) return null;
+    return Math.max(0, Date.now() - ts);
+  }
+
+  // Best-effort registry lookup. Returns the declared-feed count for a
+  // domain or null when no registry is loaded. Read-only.
+  function _declaredFeedCount(domainId) {
+    var reg = (typeof window !== 'undefined') ? window.LIMENDomainRegistry : null;
+    if (!reg) return null;
+    var entry = null;
+    try { entry = reg.getById ? reg.getById(domainId) : null; } catch (e) { entry = null; }
+    if (!entry && reg.DOMAINS) {
+      for (var i = 0; i < reg.DOMAINS.length; i++) {
+        var d = reg.DOMAINS[i];
+        if (d && (d.id === domainId || d.civId === domainId || d.runtimeKey === domainId)) {
+          entry = d; break;
+        }
+      }
+    }
+    if (entry && Array.isArray(entry.feeds)) return entry.feeds.length;
+    return null;
+  }
+
+  function _hasBrainPayload(slot) {
+    if (!slot) return false;
+    if (Array.isArray(slot.brainDiagnoses) && slot.brainDiagnoses.length > 0) return true;
+    if (Array.isArray(slot.brainTreatments) && slot.brainTreatments.length > 0) return true;
+    if (typeof slot.brainStress === 'number') return true;
+    if (typeof slot.brainConfidence === 'number') return true;
+    if (slot.brainPhase || slot.brainPhaseLabel) return true;
+    if (slot.brainStatus || slot.brainUpdated || slot.brainUpdatedAt) return true;
+    return false;
+  }
+
+  // -----------------------------------------------------------------------
+  // Pick top diagnoses (active, weighted) — never invent.
+  // -----------------------------------------------------------------------
+  function _topDiagnoses(slot, max) {
+    var dx = _arr(slot && slot.brainDiagnoses);
+    if (dx.length === 0) return [];
+    var scored = dx.map(function (d) {
+      var rel = _num(d && d.relevance);
+      var act = !!(d && d.active);
+      // Active dx with relevance dominate; inactive sorted by relevance only.
+      var score = (act ? 100 : 0) + (rel == null ? 0 : rel);
+      return {
+        id: _str(d && d.id) || '',
+        label: _str(d && d.label) || _str(d && d.id) || '',
+        summary: _str(d && d.summary) || '',
+        active: act,
+        relevance: rel,
+        score: score
+      };
+    });
+    scored.sort(function (a, b) { return b.score - a.score; });
+    return scored.slice(0, max || 3);
+  }
+
+  function _topEvidence(slot, max) {
+    var out = [];
+    var sources = _arr(slot && slot.sources);
+    for (var i = 0; i < sources.length && out.length < (max || 3); i++) {
+      var s = sources[i] || {};
+      if (!s.label && !s.name) continue;
+      out.push({
+        kind: 'source',
+        label: _str(s.label) || _str(s.name) || '',
+        live: !!s.live,
+        updated: _num(s.updated)
+      });
+    }
+    var sigs = _arr(slot && slot.signals);
+    for (var j = 0; j < sigs.length && out.length < (max || 3); j++) {
+      var sg = sigs[j];
+      var t = typeof sg === 'string' ? sg : _str(sg && sg.label);
+      if (!t) continue;
+      out.push({ kind: 'signal', label: t });
+    }
+    return out;
+  }
+
+  // -----------------------------------------------------------------------
+  // Audit-only fields (never overwrite domain truth — observer math only)
+  // -----------------------------------------------------------------------
+  function _computeAudit(slot, brainAge, snapshotAge, sourceType, domainId) {
+    var warnings = [];
+
+    // Feed integrity uses the SAME max-of-totals rule as feedHealth so audit
+    // warnings (NO_LIVE_FEEDS, LOW_LIVE_FEED_COUNT) reflect the true denom.
+    var liveBrain  = _num(slot && slot.brainSourcesLive);
+    var totalBrain = _num(slot && slot.brainSourcesTotal);
+    var liveSig    = _num(slot && slot.liveCount);
+    var sigSources = _arr(slot && slot.sources);
+    var sigLiveCnt = sigSources.filter(function (s) { return s && s.live; }).length;
+    var declared  = _declaredFeedCount(domainId);
+    var totalsArr = [];
+    if (declared != null)        totalsArr.push(declared);
+    if (sigSources.length > 0)   totalsArr.push(sigSources.length);
+    if (totalBrain != null)      totalsArr.push(totalBrain);
+    var totalCount = totalsArr.length > 0 ? Math.max.apply(null, totalsArr) : 0;
+    var liveCount  = liveBrain != null ? liveBrain
+                   : liveSig  != null ? liveSig
+                   : sigLiveCnt;
+    if (liveCount > totalCount) liveCount = totalCount;
+    var feedIntegrity = totalCount > 0 ? _clamp01(liveCount / totalCount) : 0;
+
+    // Coherence: do brain stress and signal-engine stress agree?
+    var bs = _num(slot && slot.brainStress);
+    var ss = _num(slot && slot.stress);
+    var coherenceScore = null;
+    if (bs != null && ss != null) {
+      coherenceScore = _clamp01(1 - Math.abs(bs - ss));
+      if (Math.abs(bs - ss) >= 0.25) warnings.push('BRAIN_DIVERGENT');
+    }
+
+    // Cross-domain support: emissions + ingestion volume (capped).
+    var emissions = _arr(slot && slot.brainEmissions).length;
+    var ingest    = _arr(slot && slot.brainIngest).length;
+    var crossDomainSupport = _clamp01((emissions + ingest) / 6);
+
+    // Evidence quality: brain confidence × dx-active fraction × phase confidence (when present).
+    var confB = _num(slot && slot.brainConfidence);
+    var phaseConf = _num(slot && slot.brainPhaseConfidence);
+    var dx = _arr(slot && slot.brainDiagnoses);
+    var dxActive = 0;
+    for (var di = 0; di < dx.length; di++) if (dx[di] && dx[di].active) dxActive++;
+    var dxRatio = dx.length > 0 ? dxActive / dx.length : 0;
+    var evidenceQuality;
+    if (confB != null) {
+      evidenceQuality = confB;
+      if (phaseConf != null) evidenceQuality = (evidenceQuality + phaseConf) / 2;
+      // Slight uplift when there is at least one active brain diagnosis.
+      if (dxRatio > 0) evidenceQuality = _clamp01(evidenceQuality + 0.1 * dxRatio);
+    } else {
+      var confS = _num(slot && slot.confidence);
+      evidenceQuality = confS != null ? confS : 0;
+    }
+
+    // Audit confidence: weighted blend of evidence + integrity + coherence.
+    var pieces = [];
+    if (evidenceQuality != null) pieces.push({ w: 0.5, v: evidenceQuality });
+    pieces.push({ w: 0.3, v: feedIntegrity });
+    if (coherenceScore != null) pieces.push({ w: 0.2, v: coherenceScore });
+    var wsum = 0, vsum = 0;
+    for (var pi = 0; pi < pieces.length; pi++) { wsum += pieces[pi].w; vsum += pieces[pi].w * pieces[pi].v; }
+    var auditConfidence = wsum > 0 ? _clamp01(vsum / wsum) : 0;
+
+    // Warnings.
+    if (sourceType === 'fallback') warnings.push('FALLBACK');
+    if (sourceType === 'estimated') warnings.push('PROVISIONAL');
+    if (totalCount > 0 && liveCount === 0) warnings.push('NO_LIVE_FEEDS');
+    if (totalCount > 0 && liveCount > 0 && (liveCount / totalCount) < 0.34) warnings.push('LOW_LIVE_FEED_COUNT');
+    if (slot && slot.status === 'STALE') warnings.push('STALE_SNAPSHOT');
+    if (sourceType === 'domain-brain' && brainAge != null && brainAge > BRAIN_STALE_MS) warnings.push('STALE_BRAIN');
+    if (sourceType === 'domain-snapshot' && snapshotAge != null && snapshotAge > SNAPSHOT_STALE_MS) warnings.push('STALE_SNAPSHOT');
+    if (slot && slot.cadence === 'fallback') warnings.push('HEURISTIC');
+    if (sourceType === 'domain-brain' && (!slot.brainFeeds || slot.brainFeeds.length === 0)) warnings.push('BRAIN_NO_FEED_LIST');
+    if (evidenceQuality != null && bs != null && bs >= 0.65 && evidenceQuality < 0.4) warnings.push('HIGH_STRESS_LOW_EVIDENCE');
+
+    // Diagnosis-provenance honesty (representation-only — no brain logic
+    // changes). When the brain emits ALL diagnoses as active and feed
+    // integrity is low, the displayed dx are likely baseline / always-on
+    // pushes rather than fresh feed evidence. Flag so the UI can label.
+    var dxAll = _arr(slot && slot.brainDiagnoses);
+    var dxAllActive = dxAll.length > 0 && dxAll.every(function (d) { return d && d.active; });
+    if (dxAllActive && dxAll.length >= 3 && feedIntegrity < 0.5) {
+      warnings.push('BASELINE_HEAVY');
+    }
+    // Stress-derived dx: when brain stress is elevated and evidence quality
+    // is mediocre, dx are likely stress-pushed (not feed-evidenced).
+    if (bs != null && bs >= 0.5 && evidenceQuality != null && evidenceQuality < 0.5 && dxActive >= 1) {
+      warnings.push('STRESS_DERIVED_DX');
+    }
+    // Low feed provenance — brain reports dx but feeds list is empty/sparse.
+    var brainFeedCount = _arr(slot && slot.brainFeeds).length;
+    if (dxActive >= 1 && brainFeedCount === 0 && totalCount > 0) {
+      warnings.push('LOW_FEED_PROVENANCE');
+    }
+
+    return {
+      auditConfidence:    auditConfidence,
+      evidenceQuality:    evidenceQuality,
+      feedIntegrity:      feedIntegrity,
+      coherenceScore:     coherenceScore,
+      crossDomainSupport: crossDomainSupport,
+      auditWarnings:      warnings
+    };
+  }
+
+  // -----------------------------------------------------------------------
+  // Build a single packet for one domain
+  // -----------------------------------------------------------------------
+  function _buildPacket(domainId) {
+    var domains = window.LIMENDomains || {};
+    var slot = domains[domainId];
+
+    var hasBrain = _hasBrainPayload(slot);
+    var brainAge = _brainAgeMs(slot);
+    var snapAge  = _snapshotAgeMs(slot);
+
+    // Determine the source type — domain-brain (truth) preferred.
+    var sourceType;
+    if (hasBrain && (brainAge == null || brainAge <= BRAIN_STALE_MS)) {
+      sourceType = 'domain-brain';
+    } else if (hasBrain) {
+      sourceType = 'domain-brain-stale';
+    } else if (slot && slot.cadence === 'fallback') {
+      sourceType = 'fallback';
+    } else if (slot && typeof slot.stress === 'number') {
+      sourceType = 'domain-snapshot';
+    } else {
+      sourceType = 'missing';
+    }
+
+    // ── DOMAIN TRUTH FIELDS (brain-preferred) ────────────────────────────
+    // Each field records its origin so the renderer can tag chips with
+    // [brain] / [snap] and the user never confuses domain truth with
+    // Civilization-side audit. Brain wins when present.
+    var stress = null, stressOrigin = 'unknown';
+    if (sourceType.indexOf('domain-brain') === 0 && _num(slot.brainStress) != null) {
+      stress = _num(slot.brainStress); stressOrigin = 'brain';
+    } else if (slot && typeof slot.stress === 'number') {
+      stress = _num(slot.stress); stressOrigin = (slot.cadence === 'fallback') ? 'fallback' : 'snapshot';
+    }
+
+    var confidence = null, confidenceOrigin = 'unknown';
+    if (sourceType.indexOf('domain-brain') === 0 && _num(slot.brainConfidence) != null) {
+      confidence = _num(slot.brainConfidence); confidenceOrigin = 'brain';
+    } else if (slot && typeof slot.confidence === 'number') {
+      confidence = _num(slot.confidence); confidenceOrigin = 'snapshot';
+    }
+
+    // Maturity: prefer brain emission when present, else snapshot.
+    var maturity = null, maturityOrigin = 'unknown';
+    if (slot && slot.brainMaturity) { maturity = slot.brainMaturity; maturityOrigin = 'brain'; }
+    else if (slot && slot.maturity)  { maturity = slot.maturity;      maturityOrigin = 'snapshot'; }
+
+    // Activity: brains do not currently emit a brainActivity field, so this
+    // is snapshot/civ-derived. Marking the origin keeps it honest in the UI.
+    var activity = null, activityOrigin = 'unknown';
+    if (typeof (slot && slot.brainActivity) === 'number') {
+      activity = slot.brainActivity; activityOrigin = 'brain';
+    } else if (slot && typeof slot.activity === 'number') {
+      activity = slot.activity; activityOrigin = 'snapshot';
+    }
+
+    // Phase — kernel-derived, brain-only.
+    var phase      = slot ? slot.brainPhase : null;
+    var phaseLabel = slot ? slot.brainPhaseLabel : null;
+
+    // Active diagnoses + top evidence (always real, never invented)
+    var activeDiagnoses = _topDiagnoses(slot, 3);
+    var topEvidence     = _topEvidence(slot, 3);
+
+    // Source-depth carry-through (2026-05-25 loop-tightening). The domain brain
+    // ALREADY emits these onto the slot via the A–M payload (domain-brain-adapter:
+    // brainTreatments / brainOpportunities / brainDirectives); they were dropped
+    // here — the #1 open loop. Carry by reference so Civilization + the Main Brain
+    // handoff receive treatment/opportunity/directive depth, not just diagnoses.
+    var treatments    = _arr(slot && slot.brainTreatments);
+    var opportunities = _arr(slot && slot.brainOpportunities);
+    var directives    = _arr(slot && slot.brainDirectives);
+
+    // Feed health. Configured count is the MAX of every honest declaration
+    // available — the snapshot's full source list (live + dead), the brain's
+    // own count, and the registry's declared feeds. Trusting brain alone (or
+    // signal-engine alone) under-reports when one knows fewer feeds than the
+    // other. We never claim more LIVE than CONFIGURED.
+    var liveBrain  = _num(slot && slot.brainSourcesLive);
+    var totalBrain = _num(slot && slot.brainSourcesTotal);
+    var sigSources = _arr(slot && slot.sources);
+    var sigLive    = sigSources.filter(function (s) { return s && s.live; }).length;
+    var declaredCount = _declaredFeedCount(domainId);
+    var totalCandidates = [];
+    if (declaredCount != null) totalCandidates.push(declaredCount);
+    if (sigSources.length > 0) totalCandidates.push(sigSources.length);
+    if (totalBrain != null)    totalCandidates.push(totalBrain);
+    var configured = totalCandidates.length > 0 ? Math.max.apply(null, totalCandidates) : 0;
+    var liveCandidate = liveBrain != null ? liveBrain : sigLive;
+    var live = Math.min(configured, Math.max(0, liveCandidate));
+    var failed = Math.max(0, configured - live);
+    var stale = (sourceType === 'domain-brain-stale') ? 1
+              : (slot && slot.status === 'STALE') ? 1
+              : 0;
+    // Origin tag honesty: which signal won? (registry / snapshot / brain)
+    var feedHealthOrigin = (declaredCount != null && declaredCount === configured) ? 'registry'
+                         : (sigSources.length === configured) ? 'snapshot'
+                         : (totalBrain != null && totalBrain === configured) ? 'brain'
+                         : 'snapshot';
+
+    // Activity / band / level
+    var stressBand    = _stressBand(stress);
+    var activityLevel = _activityLevel(slot);
+
+    // Audit-only fields
+    var audit = _computeAudit(slot, brainAge, snapAge, sourceType, domainId);
+
+    // Summary line — prefer brain status, fall back to top diagnosis or band text.
+    var summaryLine = '';
+    if (slot && slot.brainStatus) summaryLine = String(slot.brainStatus);
+    else if (activeDiagnoses.length > 0 && activeDiagnoses[0].label) summaryLine = activeDiagnoses[0].label;
+    else if (topEvidence.length > 0 && topEvidence[0].label) summaryLine = topEvidence[0].label;
+    else if (sourceType === 'missing') summaryLine = 'awaiting domain output';
+    else summaryLine = stressBand + ' band';
+
+    // Raw quality
+    var realDataCount     = live;
+    var fallbackCount     = (sourceType === 'fallback' || sourceType === 'missing') ? 1 : 0;
+    var proxyDataCount    = 0;
+    if (slot && slot.normalizationReason && /baseline|persistence/i.test(slot.normalizationReason)) {
+      proxyDataCount = 1;
+      audit.auditWarnings.push('PROXY_HEAVY');
+    }
+
+    // ── BACKWARDS-COMPAT FLAT FIELDS + TWO EXPLICIT NAMESPACES ────────────
+    // truth.*    — domain truth (brain or snapshot), drives the visible row
+    // civAudit.* — observer fields only, never overrides truth
+    var phaseLabelOut = phase ? (String(phase).toUpperCase() + (phaseLabel ? ' ' + phaseLabel : '')) : null;
+
+    var truthBlock = {
+      // Each field is paired with its origin: 'brain' | 'snapshot' | 'fallback' | 'missing' | 'unknown'.
+      stressScore:     stress,
+      stressOrigin:    stressOrigin,
+      stressBand:      stressBand,
+
+      confidence:      confidence,
+      confidenceOrigin: confidenceOrigin,
+
+      maturity:        maturity,
+      maturityOrigin:  maturityOrigin,
+
+      activity:        activity,
+      activityLevel:   activityLevel,
+      activityOrigin:  activityOrigin,
+
+      phase:           phase,
+      phaseLabel:      phaseLabelOut,
+      phaseOrigin:     phase ? 'brain' : 'unknown',
+
+      activeDiagnoses: activeDiagnoses,
+      diagnosesOrigin: activeDiagnoses.length > 0 ? 'brain' : 'unknown',
+
+      topEvidence:     topEvidence,
+      summaryLine:     summaryLine,
+
+      treatments:      treatments,
+      opportunities:   opportunities,
+      directives:      directives,
+
+      feedHealth:      { configured: configured, live: live, failed: failed, stale: stale },
+      feedHealthOrigin: feedHealthOrigin
+    };
+
+    var civAuditBlock = {
+      // Civilization is observer-only. These fields never replace truth.
+      role:               'observer',
+      sourceType:         sourceType,
+      brainAgeMs:         brainAge,
+      snapshotAgeMs:      snapAge,
+      auditConfidence:    audit.auditConfidence,
+      evidenceQuality:    audit.evidenceQuality,
+      feedIntegrity:      audit.feedIntegrity,
+      coherenceScore:     audit.coherenceScore,
+      crossDomainSupport: audit.crossDomainSupport,
+      auditWarnings:      audit.auditWarnings,
+      auditFlags:         audit.auditWarnings.slice(),
+      rawQuality:         { realDataCount: realDataCount, proxyDataCount: proxyDataCount, fallbackCount: fallbackCount }
+    };
+
+    return {
+      domainId:       domainId,
+      domainLabel:    DOMAIN_LABELS[domainId] || domainId,
+      timestamp:      Date.now(),
+
+      // ─── Explicit role-separated containers ──────────────
+      truth:    truthBlock,
+      civAudit: civAuditBlock,
+
+      // ─── Flat fields kept for backwards compatibility with existing
+      // consumers (renderer reads both). New consumers should prefer the
+      // namespaced fields above.
+      stressScore:    stress,
+      stressBand:     stressBand,
+      confidence:     confidence,
+      activityLevel:  activityLevel,
+      activeDiagnoses: activeDiagnoses,
+      topEvidence:     topEvidence,
+      treatments:      treatments,
+      opportunities:   opportunities,
+      directives:      directives,
+      sourceType:     sourceType,
+      brainAgeMs:     brainAge,
+      snapshotAgeMs:  snapAge,
+      feedHealth:     truthBlock.feedHealth,
+      phaseLabel:     phaseLabelOut,
+      phase:          phase,
+      summaryLine:    summaryLine,
+      rawQuality:     civAuditBlock.rawQuality,
+      auditFlags:     audit.auditWarnings.slice(),
+      audit:          {
+        auditConfidence:    audit.auditConfidence,
+        evidenceQuality:    audit.evidenceQuality,
+        feedIntegrity:      audit.feedIntegrity,
+        coherenceScore:     audit.coherenceScore,
+        crossDomainSupport: audit.crossDomainSupport,
+        auditWarnings:      audit.auditWarnings
+      }
+    };
+  }
+
+  // -----------------------------------------------------------------------
+  // Rebuild all 20 packets and publish
+  // -----------------------------------------------------------------------
+  function _rebuild() {
+    var next = {};
+    for (var i = 0; i < DOMAIN_ORDER.length; i++) {
+      var id = DOMAIN_ORDER[i];
+      next[id] = _buildPacket(id);
+    }
+    _packets = next;
+    window.LIMENCivilizationPackets = _packets;
+    _lastRebuildAt = Date.now();
+    try {
+      window.dispatchEvent(new CustomEvent('limen:civilization-packets-update', {
+        detail: { packets: _packets, timestamp: _lastRebuildAt }
+      }));
+    } catch (err) { /* ignore — older browsers */ }
+  }
+
+  function _scheduleRebuild() {
+    if (_rebuildTimer) return;
+    _rebuildTimer = setTimeout(function () {
+      _rebuildTimer = null;
+      try { _rebuild(); } catch (err) { /* observer must never throw */ }
+    }, REBUILD_THROTTLE_MS);
+  }
+
+  // -----------------------------------------------------------------------
+  // Wire up
+  // -----------------------------------------------------------------------
+  window.addEventListener('limen:domain-update', _scheduleRebuild);
+  window.addEventListener('limen:domain-brain-update', _scheduleRebuild);
+
+  // First render — even before any event fires, packets exist (all 20, marked
+  // missing) so Civilization renders all rows immediately and fills in.
+  _rebuild();
+  // Periodic refresh so audit timestamps and stale flags stay current
+  // even when no event fires (e.g., domain-only sites where signal-engine idle).
+  setInterval(_scheduleRebuild, 5000);
+
+  // -----------------------------------------------------------------------
+  // Public API (read-only)
+  // -----------------------------------------------------------------------
+  window.LIMENCivilizationAdapter = {
+    getOrder:       function () { return DOMAIN_ORDER.slice(); },
+    getLabels:      function () { var o = {}; for (var k in DOMAIN_LABELS) o[k] = DOMAIN_LABELS[k]; return o; },
+    getAll:         function () { return _packets; },
+    get:            function (id) { return _packets[id] || null; },
+    rebuildNow:     function () { _rebuild(); return _packets; },
+    lastRebuildAt:  function () { return _lastRebuildAt; }
+  };
+
+  /**
+   * PACKET_FIELDS (canonical contract — keep stable)
+   *   domainId, domainLabel, timestamp
+   *   stressScore (0..1 | null), stressBand
+   *   confidence (0..1 | null), activityLevel
+   *   activeDiagnoses[]: { id, label, summary, active, relevance, score }
+   *   topEvidence[]:     { kind:'source'|'signal', label, live?, updated? }
+   *   treatments[]:      domain-brain treatment objects (source-depth carry-through)
+   *   opportunities[]:   domain-brain opportunity objects (source-depth carry-through)
+   *   directives[]:      domain-brain directive objects (source-depth carry-through)
+   *   sourceType: 'domain-brain' | 'domain-brain-stale' | 'domain-snapshot' | 'fallback' | 'missing'
+   *   brainAgeMs, snapshotAgeMs
+   *   feedHealth: { configured, live, failed, stale }
+   *   phase, phaseLabel
+   *   summaryLine
+   *   rawQuality: { realDataCount, proxyDataCount, fallbackCount }
+   *   auditFlags[]
+   *   audit: { auditConfidence, evidenceQuality, feedIntegrity, coherenceScore, crossDomainSupport, auditWarnings }
+   */
+})();

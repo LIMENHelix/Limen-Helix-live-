@@ -1,0 +1,383 @@
+{
+  "domainId": "addiction_reward",
+  "title": "Reward Valuation Hub",
+  "parentPortal": "addiction_portal.html",
+  "parentLabel": "Addiction Medicine",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Reward Valuation Hub Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Reward Valuation Hub indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "addiction_reward_action_portal.html"
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Reward Valuation Hub Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Reward Valuation Hub activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Reward Valuation Hub Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "addiction_reward_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Reward Valuation Hub Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Reward Valuation Hub, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "addiction_reward_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Reward Valuation Hub Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Reward Valuation Hub practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "addiction_reward_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Reward Valuation Hub Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Reward Valuation Hub methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "addiction_reward_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Reward Valuation Hub Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Reward Valuation Hub stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "addiction_reward_signal_portal.html"
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Reward Valuation Hub Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Reward Valuation Hub operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "addiction_reward_state_portal.html"
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Reward Valuation Hub Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Reward Valuation Hub outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Reward Valuation Hub Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "M1",
+      "target": "S1",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "S1",
+      "target": "dlPFC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "HIPP",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "dACC",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "THAL",
+      "target": "OFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "OFC",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "CBLM",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "M1",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "HIPP",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "ADDICTION_REWARD_SYSTEM_FAILURE",
+      "label": "Reward Valuation Hub System Failure",
+      "summary": "Critical breakdown in Reward Valuation Hub systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Reward Valuation Hub Assessment & Diagnostics capacity falling below operational thresholds, reducing Reward Valuation Hub output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "Reward Valuation Hub Core Operations systems underperforming, creating gaps in Reward Valuation Hub coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Reward Valuation Hub Infrastructure & Capacity behavior deviating from established norms, complicating Reward Valuation Hub management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper-active",
+          "detail": "Reward Valuation Hub Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Reward Valuation Hub",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Reward Valuation Hub Performance & Optimization function reduced, compromising Reward Valuation Hub system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ADDICTION_REWARD_CAPACITY_CRISIS",
+      "label": "Reward Valuation Hub Capacity Crisis",
+      "summary": "Demand exceeding available Reward Valuation Hub capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "S1",
+          "dir": "Hyper-active",
+          "detail": "Reward Valuation Hub Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Reward Valuation Hub",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Reward Valuation Hub Infrastructure & Capacity systems underperforming, creating gaps in Reward Valuation Hub coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Reward Valuation Hub Standards & Governance behavior deviating from established norms, complicating Reward Valuation Hub management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Reward Valuation Hub Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Reward Valuation Hub",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Reward Valuation Hub Performance & Optimization operating outside normal parameters, introducing uncertainty into Reward Valuation Hub outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ADDICTION_REWARD_GOVERNANCE_GAP",
+      "label": "Reward Valuation Hub Governance Gap",
+      "summary": "Oversight or regulatory failure in Reward Valuation Hub creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Reward Valuation Hub Standards & Governance capacity falling below operational thresholds, reducing Reward Valuation Hub output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Reward Valuation Hub Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Reward Valuation Hub",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Reward Valuation Hub Research & Development activity spiking beyond design limits, creating instability across Reward Valuation Hub operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Reward Valuation Hub Risk & Resilience patterns disrupted, necessitating adaptive responses within Reward Valuation Hub frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo-active",
+          "detail": "Reward Valuation Hub Coordination & Integration function reduced, compromising Reward Valuation Hub system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

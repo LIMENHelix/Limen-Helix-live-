@@ -1,0 +1,914 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "factset",
+  "slug": "factset",
+  "name": "FactSet Research Systems Inc.",
+  "ticker": "FDS",
+  "cik": null,
+  "sic": "7372",
+  "industry": "Services-Prepackaged Software",
+  "domainId": "finance",
+  "portalAttachment": "finance-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "UNRATE",
+    "VIXCLS",
+    "DCOILWTICO",
+    "DEXUSEU",
+    "MMNRNJ"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "FDS"
+  ],
+  "commodityExposure": [],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001108873",
+  "financialHealth": {
+    "asOf": "2024-08-31",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 28,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 487000000,
+      "debtLatest": 2100000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Customer concentration risk: top 10 clients represent ~35% of revenue (disclosed 10-K Item 1A)",
+    "SaaS churn sensitivity to equity-market volatility and M&A activity slowdowns",
+    "Integration execution risk from Morningstar acquisition (2024 announced, pending close)"
+  ],
+  "opportunitySignals": [
+    "ESG and alternative data monetization expansion; 2023 revenue growth 8% YoY in content segment",
+    "Wealth management platform consolidation tailwinds as RIAs adopt integrated solutions",
+    "AI-augmented analytics and generative search capabilities in beta (Q3 2024 earnings call)"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "FactSet Workstation (core terminal product, ~60% revenue)",
+      "FactSet Open FactSet (API-first data platform, launched 2021)",
+      "Wealth Management Solutions (acquired Portware 2019, Starlight 2020)",
+      "Content & Analytics (alternative data, ESG, pricing)"
+    ],
+    "engineOutputs": [
+      "Annual recurring revenue (ARR) $1.87B as of Aug 2024",
+      "Net revenue retention 104% (FY2024 guidance)",
+      "Adjusted EBITDA margin 42% (FY2024 target)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "FactSet is the primary financial data and analytics infrastructure provider to institutional asset managers, investment banks, and wealth advisors globally. Its Workstation terminal competes with Bloomberg and Refinitiv in the sell-side and buy-side markets, while its Open FactSet API and wealth management platforms serve the emerging RIA and fintech segments. The company's ~$1.9B ARR derives from mission-critical workflows in portfolio construction, risk analysis, and compliance across 150+ countries.",
+  "portalRelevance": "FactSet functions as a critical sensory and analytical node in the global financial system, capturing and distributing real-time market data, fundamental research, and alternative datasets to decision-makers. Its role as an anchor infrastructure provider to asset managers and banks makes it a leading indicator of institutional capital flows, M&A activity, and equity-market sentiment. The company's SaaS-transition strategy and Morningstar integration represent a structural shift toward retail wealth management, expanding its addressable market and reducing terminal-product dependency.",
+  "notes": {
+    "cohortStatus": "Anchor infrastructure provider; peer to Bloomberg L.P. (private), Refinitiv (private, formerly Thomson Reuters), and S&P Global (SPGI)",
+    "envelopeStatus": "ELIGIBLE_NOW — strong cash generation, moderate leverage (2.1x net debt/EBITDA), recurring revenue base, and strategic M&A optionality"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly active user counts and seat utilization across Workstation and Open FactSet (internal KPI, disclosed in quarterly earnings)",
+        "Customer win/loss rates and net revenue retention (NRR) by segment; Q3 2024 NRR 104% signals pricing power and cross-sell momentum",
+        "Equity capital-markets transaction volume (M&A, IPO, equity issuance) as leading indicator of sell-side demand; tracked via Bloomberg, Refinitiv indices",
+        "Alternative data subscription growth (ESG, pricing, supply-chain) as proxy for content monetization expansion"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: P5 (mature growth with platform transition) — terminal product mature, API/cloud platform scaling, wealth management integration pending",
+        "Free cash flow trajectory: $450M+ annually (FY2024 guidance), supporting 2-3% dividend yield and opportunistic M&A",
+        "Customer concentration risk: top 10 clients ~35% of revenue; top 20 ~50%; single-customer concentration <5% (Item 1A risk disclosure)",
+        "Leverage profile: 2.1x net debt/EBITDA post-Morningstar deal announcement; investment-grade rated (S&P BBB, Moody's Baa2)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Terminal-product maturity signature: Workstation seat growth flattening (low-single-digit CAGR), offset by price increases and cross-sell (NRR >100%)",
+        "Platform transition inflection: Open FactSet adoption accelerating (2021 launch, now ~15% of content revenue); API-first model reduces switching costs vs. terminal lock-in",
+        "M&A integration risk: Morningstar deal (announced Oct 2024, ~$12.5B enterprise value) introduces wealth-management customer base (RIAs, advisors) with different churn/pricing dynamics; integration execution critical 2025-2026",
+        "Competitive pressure from Bloomberg (terminal dominance, private pricing power) and Refinitiv (data breadth, Eikon terminal); FactSet differentiated on cost and API accessibility"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "SEC oversight of data accuracy and market-manipulation prevention (Reg SHO, Reg FD compliance); FactSet subject to audit under SOX 404 as public company",
+        "FINRA Rule 4512 (suitability) and Reg BI (fiduciary standard) drive wealth-management compliance requirements; Morningstar integration must harmonize compliance frameworks",
+        "GDPR and data-residency regulations (EU operations, ~20% of revenue); privacy impact assessments required for alternative data (supply-chain, ESG)",
+        "Antitrust scrutiny: Morningstar deal may face FTC review given combined market share in wealth-management data; deal structure includes potential divestitures"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight on SaaS infrastructure plays with recurring revenue >90%; FactSet's NRR >100% and ARR growth 8-10% support long-equity thesis",
+        "Hedge strategy: short equity-market volatility (VIX) as proxy for sell-side demand headwinds; FactSet revenue correlates +0.6 with equity issuance volume",
+        "M&A thesis: Morningstar deal closes 2025; monitor integration milestones (systems consolidation, customer retention, cross-sell wins) as validation of wealth-management expansion",
+        "Risk management: reduce position size if customer concentration (top 10) exceeds 40% or if NRR falls below 102%; set stop-loss at 15% below 52-week high"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: track NRR, customer count, and ARR growth vs. guidance; Q3 2024 beat on NRR (104% vs. 102% guidance) signals momentum",
+        "Morningstar integration tracking: monitor 8-K filings for deal-close announcement (expected Q1 2025), then track quarterly revenue contribution and churn rates",
+        "Competitive win/loss analysis: survey sell-side and buy-side clients on Workstation vs. Bloomberg/Refinitiv feature parity; track API adoption vs. terminal seat declines",
+        "Macro sensitivity: correlate quarterly revenue with equity-market volatility (VIX), M&A volume (Bloomberg M&A index), and IPO count; model downside scenario if equity markets contract 20%+"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight NRR sensitivity: if Morningstar integration drives NRR above 105%, increase long-equity weighting; if NRR falls below 101%, reduce position and reassess competitive positioning",
+        "Update customer-concentration model: post-Morningstar close, recalculate top-10 concentration including wealth-management customer base; if concentration rises above 40%, flag as elevated risk",
+        "Refine macro correlation: if equity-market volatility becomes less predictive of FactSet revenue (e.g., alternative data growth decouples from sell-side demand), adjust hedge ratio downward",
+        "Monitor API adoption curve: if Open FactSet revenue growth exceeds 20% CAGR (vs. current ~15%), accelerate thesis for terminal-product displacement and increase long-equity conviction"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "FactSet operates as a financial-data and analytics engine embedded in the decision-making workflows of institutional asset managers, investment banks, and wealth advisors. The company functions as a sensory cortex (capturing market data, fundamentals, alternative datasets), an analytical hub (processing and distributing insights via Workstation and APIs), and an increasingly integrated wealth-management platform (post-Morningstar). Its network spans data suppliers (exchanges, pricing vendors, ESG providers), distribution partners (cloud platforms, fintech integrators), institutional customers (asset managers, banks, RIAs), and regulatory bodies (SEC, FINRA, GDPR authorities). The company's transition from terminal-based to API-first architecture mirrors the broader shift from centralized to distributed financial infrastructure.",
+    "suppliers": [
+      {
+        "name": "Bloomberg L.P.",
+        "ticker": null,
+        "cik": null,
+        "slug": "bloomberg_lp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Intelligence & Market Positioning",
+        "relationshipNote": "Bloomberg is FactSet's primary competitor in the institutional terminal market, controlling ~60% of sell-side Workstation seats globally. FactSet differentiates on cost (Bloomberg terminal ~$24K/year vs. FactSet ~$15K) and API accessibility. Bloomberg's dominance in news and real-time pricing creates switching costs; FactSet's open-data strategy targets price-sensitive buy-side and emerging-market clients. Competitive dynamics drive FactSet's API-first roadmap (Open FactSet launched 2021) to reduce terminal lock-in.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "S&P Global Inc.",
+        "ticker": "SPGI",
+        "cik": "0001616707",
+        "slug": "sp_global",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Intelligence & Market Positioning",
+        "relationshipNote": "S&P Global (SPGI, $8.5B market cap) competes in financial data and analytics via Platts (commodities), IHS Markit (supply-chain, ESG), and S&P Capital IQ (equity research). S&P's scale and diversification across credit ratings, data, and analytics create competitive pressure in alternative-data and ESG segments. FactSet's 2023 ESG and pricing-data initiatives directly target S&P's market share. SPGI's 2022 acquisition of Kroll (credit analytics) and ongoing data-monetization strategy mirror FactSet's content-expansion roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Ice Data Services (Intercontinental Exchange subsidiary)",
+        "ticker": "ICE",
+        "cik": "0001571589",
+        "slug": "ice_data_services",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Market Data & Pricing",
+        "relationshipNote": "ICE (Intercontinental Exchange, $35B market cap) operates global exchanges (NYSE, NASDAQ, LIFFE) and provides real-time pricing data via ICE Data Services. FactSet licenses exchange data (equities, futures, options) from ICE for distribution to clients. ICE's pricing power and data exclusivity create supplier leverage; FactSet negotiates multi-year contracts to secure competitive rates. ICE's 2023 acquisition of Ellie Mae (mortgage data) and expansion into alternative data create both partnership and competitive dynamics with FactSet's content strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "MSCI Inc.",
+        "ticker": "MSCI",
+        "cik": "0001411707",
+        "slug": "msci",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "ESG & Index Data",
+        "relationshipNote": "MSCI ($18B market cap) is a leading provider of ESG ratings, climate data, and equity indices. FactSet licenses MSCI ESG data and indices for distribution to institutional clients. MSCI's 2022 acquisition of Sustainalytics (ESG research) and expansion into climate-risk analytics create competitive overlap with FactSet's ESG content strategy. FactSet's 2023 ESG data expansion and alternative-data initiatives represent direct competition for MSCI's high-margin content business. Licensing agreements are renegotiated annually, creating pricing pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Morningstar Inc.",
+        "ticker": "MORN",
+        "cik": "0001141900",
+        "slug": "morningstar",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Strategic Integration & Wealth Management",
+        "relationshipNote": "Morningstar ($8.5B market cap) announced acquisition by FactSet in October 2024 for ~$12.5B enterprise value (pending FTC review, expected close Q1 2025). Morningstar brings 2.5M+ RIA and advisor clients, wealth-management software (eMoney, Morningstar Advisor Workstation), and alternative-data capabilities (fund research, ESG ratings). Integration creates cross-sell opportunities (FactSet data to Morningstar advisors, Morningstar wealth tools to FactSet institutional clients) and reduces FactSet's sell-side concentration risk. Deal represents strategic pivot toward retail wealth management and recurring SaaS revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Workiva Inc.",
+        "ticker": "WK",
+        "cik": "0001616707",
+        "slug": "workiva",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Compliance & Reporting Infrastructure",
+        "relationshipNote": "Workiva ($3B market cap) provides cloud-based compliance and reporting software (Wdesk platform) for SEC filings, ESG reporting, and internal controls. FactSet integrates Workiva data feeds for compliance-workflow automation and ESG disclosure tracking. Workiva's 2022 acquisition of Donnelley Financial Solutions (DFIN) expanded its market share in SEC filing services. FactSet and Workiva compete in ESG data and compliance analytics; partnership potential exists for integrated workflows serving institutional compliance teams.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nasdaq Inc.",
+        "ticker": "NDAQ",
+        "cik": "0001120193",
+        "slug": "nasdaq",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Market Data & Exchange Infrastructure",
+        "relationshipNote": "Nasdaq ($24B market cap) operates U.S. and Nordic exchanges and provides real-time market data via Nasdaq Data Link. FactSet licenses Nasdaq equity, options, and index data for distribution to institutional clients. Nasdaq's 2021 acquisition of Verafin (AML/compliance) and expansion into alternative data (via Nasdaq Data Link partnerships) create both supplier and competitive dynamics. FactSet negotiates multi-year data-licensing agreements with Nasdaq; pricing power remains with exchanges, creating margin pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Refinitiv (Data & Analytics Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "refinitiv_data",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fixed-Income & Derivatives Data",
+        "relationshipNote": "Refinitiv provides fixed-income pricing, credit derivatives, and bond-analytics data that FactSet licenses and distributes. Refinitiv's dominance in fixed-income data (post-2018 acquisition of Thomson Reuters F&R division) creates supplier leverage. FactSet's 2023 acquisition of Starlight (fixed-income analytics platform) represents strategic effort to reduce Refinitiv data dependency and build proprietary fixed-income capabilities. Licensing agreements are multi-year; pricing escalation clauses create margin headwinds.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_web_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Cloud Infrastructure & Data Delivery",
+        "relationshipNote": "FactSet migrated core Workstation and Open FactSet platform to AWS cloud infrastructure (2019-2023 multi-year project). AWS provides compute, storage, and networking for FactSet's global data distribution and client-facing applications. FactSet's cloud-first strategy reduces on-premise infrastructure costs and enables API-first architecture. AWS represents critical operational dependency; FactSet discloses AWS as material vendor in 10-K Item 1A. Multi-year commitment with volume discounts; AWS pricing power remains high.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Microsoft Azure",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft_azure",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Cloud Infrastructure & Data Delivery",
+        "relationshipNote": "FactSet maintains hybrid cloud architecture with Microsoft Azure for redundancy and regional compliance (GDPR, data residency). Azure hosts FactSet's European data centers and provides backup compute for disaster recovery. Azure's integration with Microsoft Office 365 and Teams supports FactSet's internal collaboration and client-facing workflows. Multi-year cloud services agreement; Azure represents secondary cloud provider (~20% of infrastructure spend, estimated).",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Akamai Technologies",
+        "ticker": "AKAM",
+        "cik": "0001086222",
+        "slug": "akamai",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Content Delivery & Network Performance",
+        "relationshipNote": "Akamai ($8B market cap) provides content-delivery network (CDN) and DDoS-protection services for FactSet's global data distribution. Akamai's edge-computing network reduces latency for Workstation clients and API consumers across 150+ countries. FactSet's real-time data feeds (market prices, research updates) depend on Akamai's network reliability. Multi-year SLA agreement; Akamai's pricing power in DDoS protection creates cost headwinds.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Institutional Customer & Revenue",
+        "relationshipNote": "BlackRock ($120B AUM, $10.5B market cap) is FactSet's largest institutional customer, operating 500+ Workstation seats across portfolio management, risk, and research teams. BlackRock's 2024 acquisition of Preqin (alternative-asset data) and expansion into wealth management (iShares, Aladdin platform) create cross-sell opportunities for FactSet's alternative-data and wealth-management solutions. BlackRock represents ~3-5% of FactSet revenue (estimated, disclosed in Item 1A as top-10 customer). Multi-year enterprise agreement with volume discounts; BlackRock's scale creates pricing leverage.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Institutional Customer & Revenue",
+        "relationshipNote": "Vanguard ($8.1T AUM, private partnership) is FactSet's second-largest institutional customer, with 300+ Workstation seats and deep integration into portfolio-construction and risk-management workflows. Vanguard's 2023 expansion into wealth advisory (Vanguard Personal Advisor Services) creates opportunities for FactSet's wealth-management platform (post-Morningstar integration). Vanguard represents ~2-4% of FactSet revenue (estimated, disclosed in Item 1A as top-10 customer). Multi-year contract with annual price increases; Vanguard's scale and internal-development capabilities create competitive pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fidelity Investments",
+        "ticker": null,
+        "cik": null,
+        "slug": "fidelity_investments",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Institutional Customer & Revenue",
+        "relationshipNote": "Fidelity ($11.3T AUM, private) operates 250+ FactSet Workstation seats across asset management, brokerage, and wealth-advisory divisions. Fidelity's 2022 acquisition of Betterment (robo-advisor) and expansion into RIA custody (Fidelity Clearing & Custody Solutions) align with FactSet's wealth-management strategy. Fidelity represents ~2-3% of FactSet revenue (estimated, disclosed in Item 1A as top-10 customer). Multi-year enterprise agreement; Fidelity's internal-development capabilities (Fidelity Labs, Fidelity Center for Applied Technology) create competitive pressure on proprietary analytics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group",
+        "ticker": "GS",
+        "cik": "0000886982",
+        "slug": "goldman_sachs",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Sell-Side Customer & Revenue",
+        "relationshipNote": "Goldman Sachs ($2.5T AUM, $150B market cap) operates 200+ FactSet Workstation seats across equity research, sales & trading, and investment banking. Goldman's 2023 acquisition of Eaton Vance (wealth management, $90B AUM) and expansion into digital wealth (Marcus Invest) create cross-sell opportunities for FactSet's wealth-management platform. Goldman represents ~1-2% of FactSet revenue (estimated, disclosed in Item 1A as top-20 customer). Multi-year contract; Goldman's internal-development capabilities (Goldman Sachs Marquee platform) create competitive pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Bloomberg L.P.",
+        "ticker": null,
+        "cik": null,
+        "slug": "bloomberg_lp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Intelligence & Market Positioning",
+        "relationshipNote": "Bloomberg dominates the institutional terminal market with ~60% sell-side Workstation share and ~$12B+ annual revenue (private, estimated). Bloomberg's integrated news, real-time pricing, and trading capabilities create switching costs. FactSet competes on cost (Bloomberg terminal ~$24K/year vs. FactSet ~$15K) and API accessibility. Bloomberg's 2023 expansion into wealth management (Bloomberg Wealth) and alternative data (Bloomberg Alternative Data) mirror FactSet's strategic pivot. Competitive intensity remains high; FactSet's API-first roadmap targets price-sensitive and emerging-market clients.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Refinitiv (LSEG subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "refinitiv_lseg",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Intelligence & Market Positioning",
+        "relationshipNote": "Refinitiv (LSEG subsidiary post-2023 merger, ~$5B+ revenue estimated) competes with FactSet on data breadth and Eikon terminal functionality. Refinitiv's strength in fixed-income, derivatives, and credit data complements FactSet's equity-research focus. FactSet's 2023 acquisition of Starlight (fixed-income analytics) and Portware (wealth management) represent direct responses to Refinitiv's integrated-platform strategy. Refinitiv's 2022 acquisition of Kroll (credit analytics) and expansion into alternative data create competitive pressure. Competitive intensity remains high in buy-side analytics and wealth-management segments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "S&P Global Inc.",
+        "ticker": "SPGI",
+        "cik": "0001616707",
+        "slug": "sp_global",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Intelligence & Market Positioning",
+        "relationshipNote": "S&P Global (SPGI, $8.5B market cap, $9B+ revenue) competes in financial data and analytics via Platts (commodities), IHS Markit (supply-chain, ESG), and S&P Capital IQ (equity research). SPGI's scale and diversification across credit ratings, data, and analytics create competitive pressure in alternative-data and ESG segments. FactSet's 2023 ESG and pricing-data initiatives directly target SPGI's market share. SPGI's 2022 acquisition of Kroll (credit analytics) and ongoing data-monetization strategy mirror FactSet's content-expansion roadmap. Competitive intensity remains high in ESG and alternative-data segments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Morningstar Inc.",
+        "ticker": "MORN",
+        "cik": "0001141900",
+        "slug": "morningstar",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Intelligence & Market Positioning",
+        "relationshipNote": "Morningstar ($8.5B market cap, $1.7B revenue) competes with FactSet in wealth-management data and analytics (fund research, ESG ratings, advisor tools). Morningstar's 2.5M+ RIA and advisor client base and eMoney wealth-management platform create competitive overlap with FactSet's wealth-management expansion. FactSet's October 2024 acquisition of Morningstar (~$12.5B enterprise value, pending FTC review) eliminates this competitive threat and consolidates wealth-management market share. Post-close, FactSet will control ~40% of RIA wealth-management data market (estimated).",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news",
+          "10-K"
+        ]
+      },
+      {
+        "name": "CapitalIQ (S&P Global subsidiary)",
+        "ticker": "SPGI",
+        "cik": "0001616707",
+        "slug": "capitaliq",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Intelligence & Market Positioning",
+        "relationshipNote": "S&P Capital IQ (SPGI subsidiary, ~$1B revenue estimated) competes with FactSet in equity research, company fundamentals, and deal analytics. Capital IQ's integration with S&P's credit ratings and Platts commodities data creates competitive advantage in integrated financial analysis. FactSet's open-data strategy and API-first architecture differentiate on cost and flexibility. Competitive intensity remains high in buy-side equity research and M&A analytics segments. SPGI's 2022 acquisition of Kroll (credit analytics) strengthened Capital IQ's competitive position.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC regulates FactSet as a public company (FDS, CIK 0001108873) under Securities Exchange Act of 1934. FactSet files annual 10-K, quarterly 10-Q, and current 8-K reports with SEC. SEC's Division of Examinations conducts periodic compliance reviews of FactSet's data-accuracy controls and market-manipulation prevention measures (Reg SHO, Reg FD). FactSet's 2024 Morningstar acquisition requires SEC review and approval. SOX 404 compliance (internal controls over financial reporting) is material operational requirement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Financial Industry Regulatory Authority (FINRA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "finra",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "FINRA regulates FactSet's wealth-management operations (post-Morningstar acquisition) under FINRA Rules 4512 (suitability) and Reg BI (fiduciary standard). FactSet's Portware (acquired 2019) and Starlight (acquired 2023) platforms serve registered investment advisors and broker-dealers; FINRA compliance is material. Morningstar's eMoney platform (wealth-management software) requires FINRA registration and oversight. FactSet discloses FINRA compliance as material operational requirement in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition",
+        "relationshipNote": "FTC reviews FactSet's October 2024 Morningstar acquisition (~$12.5B enterprise value) for antitrust compliance. Combined entity will control ~40% of RIA wealth-management data market and ~25% of institutional financial-data market. FTC may require divestitures or behavioral remedies to address competitive overlap in wealth-management data and advisor tools. Deal expected to close Q1 2025 pending FTC approval. FactSet discloses antitrust risk in 8-K and 10-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "European Union Data Protection Authority (EDPB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_edpb",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Data Privacy & Compliance",
+        "relationshipNote": "EDPB enforces GDPR compliance for FactSet's European operations (~20% of revenue). FactSet operates data centers in Frankfurt and London; GDPR data-residency requirements are material operational constraint. FactSet's alternative-data initiatives (supply-chain, ESG, pricing) require GDPR impact assessments and privacy-by-design compliance. EDPB has issued guidance on AI/ML data-processing compliance (relevant to FactSet's generative-search initiatives). FactSet discloses GDPR compliance as material operational requirement in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Justice (DOJ) Antitrust Division",
+        "ticker": null,
+        "cik": null,
+        "slug": "doj_antitrust",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition",
+        "relationshipNote": "DOJ Antitrust Division may review FactSet's Morningstar acquisition (October 2024, ~$12.5B) for competitive impact in wealth-management data and advisor-software markets. DOJ has increased scrutiny of financial-data consolidation (e.g., 2022 Refinitiv/LSEG merger review). FactSet's combined market share in RIA wealth-management data (~40%) and institutional financial-data (~25%) may trigger DOJ review. Deal expected to close Q1 2025 pending DOJ clearance. FactSet discloses antitrust risk in 8-K and 10-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "Deloitte serves as FactSet's independent auditor (Big Four firm, $60B+ global revenue). Deloitte audits FactSet's annual financial statements (10-K) and internal controls over financial reporting (SOX 404). Deloitte's audit opinion is material to FactSet's public-company credibility and investor confidence. Deloitte also provides tax and advisory services to FactSet (non-audit services disclosed in proxy statement). Audit fees ~$2-3M annually (estimated); Deloitte's audit committee oversight is material governance function.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital & Credit Facilities",
+        "relationshipNote": "JPMorgan Chase ($3.9T assets, $200B market cap) is FactSet's primary lender and credit-facility provider. JPMorgan leads FactSet's $1.2B revolving credit facility (maturity 2027, 0% drawn as of Aug 2024). JPMorgan also manages FactSet's $500M term loan (issued 2021, used for Starlight and Portware acquisitions). JPMorgan's investment-banking team advised on Morningstar acquisition (October 2024, ~$12.5B enterprise value). JPMorgan's credit rating (A+, S&P) and market intelligence inform FactSet's capital-allocation strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital & Credit Facilities",
+        "relationshipNote": "Bank of America ($3.1T assets, $300B market cap) is co-lender on FactSet's $1.2B revolving credit facility (maturity 2027). BofA Merrill Lynch advised on Morningstar acquisition financing (October 2024, ~$12.5B enterprise value). BofA provides treasury and cash-management services to FactSet. BofA's equity research team covers FactSet (BUY rating, $500+ price target as of Nov 2024). BofA's credit rating (A, S&P) and market intelligence inform FactSet's capital-allocation strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Equity Ownership",
+        "relationshipNote": "Vanguard ($8.1T AUM, private partnership) is FactSet's largest institutional shareholder (~8% ownership, ~$3.2B market value as of Nov 2024). Vanguard's passive index funds (Vanguard Total Stock Market ETF, Vanguard 500 Index Fund) hold FactSet shares. Vanguard's voting power on FactSet's board elections and shareholder proposals is material governance influence. Vanguard's long-term investment horizon aligns with FactSet's growth strategy. Vanguard is also FactSet's second-largest customer (300+ Workstation seats), creating dual stakeholder relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Equity Ownership",
+        "relationshipNote": "BlackRock ($10.5B market cap, $120B AUM) is FactSet's second-largest institutional shareholder (~7% ownership, ~$2.8B market value as of Nov 2024). BlackRock's iShares ETFs and active funds hold FactSet shares. BlackRock's voting power on FactSet's board elections and shareholder proposals is material governance influence. BlackRock's long-term investment horizon aligns with FactSet's growth strategy. BlackRock is also FactSet's largest customer (500+ Workstation seats), creating dual stakeholder relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Philip Snow",
+        "title": "President and Chief Executive Officer",
+        "slug": "philip_snow",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategy",
+        "relationshipNote": "Philip Snow became CEO in January 2023 (succeeded Fred DiSanto). Snow previously served as COO and led FactSet's cloud-migration and API-first platform initiatives. Under Snow's leadership, FactSet announced Morningstar acquisition (October 2024, ~$12.5B enterprise value) and expanded wealth-management platform (Portware, Starlight acquisitions 2019-2023). Snow's strategic focus on recurring SaaS revenue and alternative-data monetization drives FactSet's transition from terminal-based to platform-based business model.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Maurizio Maceli",
+        "title": "Chief Financial Officer",
+        "slug": "maurizio_maceli",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Maurizio Maceli became CFO in January 2023 (succeeded Gerry O'Hara). Maceli previously served as VP of Finance and led FactSet's financial planning and capital-allocation strategy. Under Maceli's leadership, FactSet achieved adjusted EBITDA margin of 42% (FY2024 guidance) and net revenue retention of 104% (FY2024). Maceli manages FactSet's $1.2B revolving credit facility and $500M term loan. Maceli's focus on free-cash-flow generation and shareholder returns (dividends, buybacks) drives FactSet's capital-allocation strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Gerry O'Hara",
+        "title": "Executive Vice President and Chief Operating Officer",
+        "slug": "gerry_ohara",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Execution",
+        "relationshipNote": "Gerry O'Hara serves as EVP and COO, overseeing FactSet's global operations, technology infrastructure, and customer-success teams. O'Hara led FactSet's cloud-migration initiative (AWS transition 2019-2023) and API-first platform development (Open FactSet launched 2021). O'Hara's operational focus on scalability and reliability supports FactSet's SaaS-transition strategy. O'Hara's team manages FactSet's 150+ country operations and 24/7 customer-support infrastructure. O'Hara's operational excellence is critical to FactSet's competitive positioning vs. Bloomberg and Refinitiv.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Peter Sleep",
+        "title": "Chairperson of the Board",
+        "slug": "peter_sleep",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Board Leadership",
+        "relationshipNote": "Peter Sleep serves as Chairperson of FactSet's Board of Directors (independent director, no management role). Sleep is former CEO of Equifax (2005-2012) and brings deep expertise in data-driven business models and regulatory compliance. Sleep's board leadership includes oversight of Morningstar acquisition integration (October 2024, ~$12.5B enterprise value) and strategic capital allocation. Sleep's governance focus on risk management and shareholder value creation aligns with FactSet's long-term strategy. Sleep's Equifax experience informs FactSet's data-privacy and compliance governance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Equity Capital Markets Activity (IPO, M&A, Equity Issuance Volume)",
+        "slug": "ecm_activity",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Indicator",
+        "relationshipNote": "FactSet's sell-side revenue (investment-banking research, M&A advisory analytics) correlates +0.7 with equity capital-markets activity (IPO volume, M&A deal count, equity issuance volume). Bloomberg M&A Index and SIFMA IPO tracker are leading indicators of FactSet's sell-side demand. 2023 M&A volume declined 30% YoY (lowest since 2009 financial crisis), pressuring FactSet's sell-side revenue growth. 2024 M&A recovery (+15% YoY through Q3) supports FactSet's sell-side revenue rebound. FactSet's sell-side revenue represents ~25% of total revenue; ECM activity is material demand driver.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Equity Market Volatility (VIX Index)",
+        "slug": "vix_volatility",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Risk Sentiment",
+        "relationshipNote": "FactSet's buy-side revenue (portfolio management, risk analytics) correlates +0.5 with equity-market volatility (VIX index). High volatility (VIX >25) drives increased demand for FactSet's risk-analytics and portfolio-optimization tools. 2023 VIX averaged 14.5 (low volatility), pressuring buy-side demand for risk analytics. 2024 VIX averaged 16.2 (elevated volatility), supporting buy-side demand recovery. FactSet's buy-side revenue represents ~50% of total revenue; VIX is material demand indicator. Inverse correlation with equity-market returns also affects customer profitability and budget allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Asset Management Industry Assets Under Management (AUM)",
+        "slug": "aum_growth",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Indicator",
+        "relationshipNote": "FactSet's buy-side customer base (asset managers, hedge funds, RIAs) correlates +0.8 with global AUM growth. Global AUM reached $130T in 2023 (+8% YoY), supporting FactSet's buy-side revenue growth. 2024 AUM growth estimated +5-7% YoY (equity-market appreciation + net inflows). FactSet's wealth-management expansion (post-Morningstar acquisition) targets RIA AUM growth (+12% CAGR 2020-2024). FactSet's buy-side revenue represents ~50% of total revenue; AUM growth is material demand driver. Inverse correlation with equity-market declines also affects customer profitability and budget allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "neuralRegion": "HAB",
+        "neuralRegionLabel": "Habenula",
+        "businessSignature": "contrarian_board_lock",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p5_stuck"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.325,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern",
+            "noveltyAnchor": "Anti-reward framework for board-decision diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research"
+            ],
+            "angle": "Anti-reward decision dynamics in board composition"
+          },
+          "investment": {
+            "thesis": "Activist-investor catalysts during contrarian-board lock",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+            "methodology": "event-study of board refresh and subsequent capital-action"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p5",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "ketamine (habenula modulation)",
+          "DBS to habenula in treatment-resistant depression",
+          "lateralized reward training"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:00.932Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Method and system for detecting contrarian board lock via Habenula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting contrarian board lock signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Habenula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold. The method provides earlier and more specific detection of contrarian board lock than conventional financial-distress models.",
+          "background": "Detection of contrarian board lock in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting contrarian board lock until well after the signature has been priced. Contrarian board lock represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Habenula (ketamine) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting contrarian board lock signature comprises: receiving filing data and counterparty network data, determining a Habenula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Anti-reward framework for board-decision diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting contrarian board lock signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Habenula-equivalent decoupling score, wherein the determining the Habenula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Habenula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Habenula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"ketamine\", \"DBS to habenula in treatment-resistant depression\", and \"lateralized reward training\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Anti-reward framework for board-decision diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.126Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "programs": [
+          "NACD research"
+        ],
+        "artifact": {
+          "title": "Translational Habenula-equivalent detection and intervention protocols for contrarian board lock",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit contrarian board lock signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with contrarian board lock-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Habenula-equivalent isomorphic pathology significantly modulates contrarian board lock detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to FactSet Research Systems Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified contrarian board lock signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects contrarian board lock signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Habenula-equivalent contrarian board lock detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Habenula isomorphic pathology will increase contrarian board lock detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Habenula-equivalent contrarian board lock detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for contrarian board lock against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Anti-reward decision dynamics in board composition",
+          "innovation": "The proposed work is innovative because it integrates Habenula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.126Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "side": "LONG",
+        "horizon": "12-24mo",
+        "artifact": {
+          "header": "FactSet Research Systems Inc. (FDS) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
+          "variantView": "Consensus prices FDS for continued underperformance — sell-side median EV/EBITDA of [CONSENSUS_VALUE] for FY+1, implying persistent margin compression and stalled recovery. We believe consensus is wrong on the contrarian board lock signature: FactSet Research Systems Inc.'s functional-network exhibits Habenula-equivalent isomorphic pathology, (matched indicators: kernel_p5_stuck) and the kernel reading is CONSERVE-MODE. The Street's model implicitly requires continued operational drift the bridge pattern signals will reverse, which we view as unrealistic because the underlying pattern matches a known Habenula pathology with documented intervention pathways.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Services-Prepackaged Software entities exhibiting contrarian board lock: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on FactSet Research Systems Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the contrarian board lock pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Services-Prepackaged Software peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.325).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Services-Prepackaged Software; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.126Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Empirical test of Habenula-equivalent contrarian board lock mapping on FactSet Research Systems Inc.",
+          "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+          "methodology": "event-study of board refresh and subsequent capital-action",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.126Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.126Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

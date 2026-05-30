@@ -1,0 +1,1550 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "scholastic",
+  "slug": "scholastic",
+  "name": "Scholastic Corporation",
+  "ticker": "SCHL",
+  "cik": "0000866251",
+  "sic": "2731",
+  "industry": "Publishing",
+  "domainId": "education",
+  "portalAttachment": "education-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "CPIRECSL",
+    "CES7071100001",
+    "RSXFS",
+    "FEDFUNDS",
+    "DSPIC96",
+    "MMNRNJ",
+    "ICSA"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000866251.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "CPIRECSL",
+        "CES7071100001",
+        "RSXFS",
+        "FEDFUNDS",
+        "DSPIC96"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "SCHL"
+  ],
+  "commodityExposure": [
+    "paper",
+    "ink",
+    "cardboard",
+    "freight"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000866251",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Scholastic is the largest publisher and distributor of children's educational materials in North America, commanding ~50% of the school book club market and operating in 180+ countries. Its portfolio spans trade publishing (Harry Potter, Clifford, The Baby-Sitters Club), educational content, and classroom book fairs—making it a primary vector for literacy formation and values transmission in K–12 education. The company's book-selection curation and distribution network directly shape reading habits and cultural narratives for 100+ million students annually.",
+  "portalRelevance": "Scholastic serves as a critical financial-intelligence node for education-sector health, consumer discretionary spending on children's goods, and publishing-industry structural change. Its book-fair revenue, school-channel penetration, and trade-publishing performance signal household spending confidence, parental investment in education, and the viability of print-based content distribution in a digital-native generation. As a mid-cap equity with cyclical exposure to school budgets and consumer discretionary, Scholastic's earnings and cash-flow trajectory offer leading indicators for education spending and family-formation trends.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly school book-fair revenue and unit sales (disclosed in 10-Q; leading indicator of K–12 discretionary spending)",
+        "Trade publishing backlist performance and new-release sell-through rates (tracked via BookScan and internal sales reports)",
+        "International segment revenue from UK, Australia, and emerging markets (8-K events on acquisition/divestiture; 10-K Item 1A geographic breakdown)",
+        "Paper and freight cost inflation signals from supplier announcements and commodity indices (FRED CPIRECSL, freight indices)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification based on revenue growth trajectory, operating-margin trend, and free-cash-flow sign (quarterly 10-Q filings)",
+        "School-channel market-share position vs. competitors (Penguin Random House, Hachette, Simon & Schuster) via industry reports",
+        "Debt-to-EBITDA ratio and liquidity runway given seasonal working-capital swings (10-K Item 7 MD&A)",
+        "Digital-content adoption rate and e-book penetration as offset to print decline (investor calls, 10-K forward-looking statements)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Print-to-digital transition risk: structural headwind vs. cyclical dip (pattern-match against Penguin Random House, HachettteBook Group margin compression 2020–2023)",
+        "School-budget cycle dependency: revenue cliff if K–12 discretionary spending contracts (correlation with state education appropriations, FRED CES7071100001)",
+        "Working-capital volatility: book-fair seasonality creates Q4 cash surge, Q1–Q2 burn (10-K Item 1A liquidity risk)",
+        "Acquisition integration risk: Scholastic has divested underperforming segments; assess synergy realization from retained assets (8-K M&A filings, 10-K Item 8 goodwill impairment)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: cyclical recovery play if school budgets stabilize post-pandemic; long-duration print-to-digital transition requires margin discipline",
+        "Risk hedge: short paper/cardboard futures if commodity inflation persists; monitor freight indices for margin compression signals",
+        "Regulatory watch: FTC antitrust scrutiny on trade-publishing consolidation (Penguin Random House / Simon & Schuster merger review precedent); SEC disclosure of related-party transactions with book-club partners",
+        "Capital allocation: monitor dividend sustainability if free-cash-flow turns negative; assess share-buyback authorization vs. debt reduction priority"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Quarterly earnings-call monitoring for school-channel guidance revisions and international segment commentary",
+        "Book-fair revenue tracking as leading indicator; set alert thresholds for YoY decline >10%",
+        "Debt refinancing calendar: monitor maturity schedule and covenant compliance (10-K Item 5 debt table)",
+        "Competitive positioning: track market-share gains/losses vs. Amazon (direct-to-consumer children's books) and indie publishers via BookScan data"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Post-earnings validation: compare guidance vs. actuals for school-channel revenue and trade-publishing sell-through",
+        "Price reaction to 10-K filing: assess market's confidence in digital-transition narrative and margin-recovery path",
+        "Competitor earnings cross-check: Penguin Random House (private; monitor via news), Simon & Schuster (Paramount ownership; track via 10-K references)",
+        "Commodity-cost pass-through: measure gross-margin resilience vs. paper/freight inflation (10-Q Item 2 MD&A)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate school-budget sensitivity: if state education appropriations show structural decline, lower revenue-growth assumptions",
+        "Update digital-adoption curve: track e-book and audiobook revenue as % of total; adjust long-term margin expectations",
+        "Reassess working-capital model: if book-fair seasonality shifts (e.g., earlier/later timing), update cash-flow forecasts",
+        "Refine competitive-threat scoring: if Amazon or indie publishers gain school-channel share, increase competitive-risk weighting in phase classification"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "International Paper Company",
+        "ticker": "IP",
+        "cik": "0000051143",
+        "slug": "international_paper",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Primary supplier of coated and uncoated paper for Scholastic's book printing. International Paper supplies ~30–40% of Scholastic's paper needs via long-term supply agreements. Pricing volatility in IP's commodity grades (coated freesheet, newsprint) directly impacts Scholastic's cost of goods sold and gross margins. Disclosed in 10-K Item 1A as key supplier concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Domtar Corporation",
+        "ticker": "UFS",
+        "cik": "0001558891",
+        "slug": "domtar",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Secondary paper supplier to Scholastic; provides specialty grades for educational workbooks and trade-book covers. Domtar's capacity utilization and pricing announcements influence Scholastic's procurement strategy and inventory planning.. Tracked via commodity-price indices and supplier announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Quad/Graphics Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "quad_graphics",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Major print-production partner for Scholastic's trade-publishing and educational-materials divisions. Quad/Graphics operates dedicated production lines for Scholastic's high-volume titles (e.g., Clifford, Baby-Sitters Club reprints). Relationship includes supply-chain optimization initiatives and just-in-time inventory management.. Disclosed in 10-K supplier concentration section.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cimpress plc (Vistaprint)",
+        "ticker": "CMPR",
+        "cik": "0001393255",
+        "slug": "cimpress",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Digital printing and fulfillment partner for Scholastic's on-demand and short-run book production. Cimpress's platform enables Scholastic to reduce inventory carrying costs and accelerate time-to-market for niche titles and international editions. Partnership expanded post-2020 as Scholastic shifted toward print-on-demand models for backlist titles.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Smurfit Westrock Company",
+        "ticker": "SW",
+        "cik": "0001084869",
+        "slug": "smurfit_westrock",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Supplier of corrugated cardboard and shipping materials for Scholastic's book-club and book-fair fulfillment operations. Smurfit Westrock's containerboard pricing and capacity directly affect Scholastic's logistics costs, particularly during peak book-fair season (Aug–Oct). Freight and packaging represent ~8–12% of Scholastic's distribution expense.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huhtamaki Oyj",
+        "ticker": "HUHBF",
+        "cik": null,
+        "slug": "huhtamaki",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Supplier of packaging materials and protective wrapping for Scholastic's international shipments and book-club packaging. Huhtamaki's sustainable-packaging innovations align with Scholastic's ESG commitments.. Tracked via supplier announcements and 10-K environmental disclosures.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ingram Content Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "ingram_content_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Major book-distribution and logistics partner for Scholastic's trade-publishing titles in retail channels. Ingram operates warehousing and fulfillment for Scholastic's backlist inventory, enabling rapid order fulfillment to independent bookstores and regional chains. Relationship includes data-sharing on retail sell-through and returns..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Baker & Taylor Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "baker_taylor",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Secondary book-distribution partner for Scholastic's trade-publishing and educational-materials segments. Baker & Taylor provides inventory management and fulfillment services to school libraries and independent retailers. Partnership includes returns processing and demand-forecasting collaboration. Disclosed in 10-K as key distribution channel.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Penguin Random House LLC",
+        "ticker": null,
+        "cik": null,
+        "slug": "penguin_random_house",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow",
+        "relationshipNote": "Content-licensing and co-publishing partner for select Scholastic titles. Penguin Random House provides distribution and retail-channel access for Scholastic's trade-publishing titles in certain territories. Relationship includes subsidiary-level agreements and royalty arrangements.. Tracked via 10-K related-party transactions.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Last-mile logistics and fulfillment partner for Scholastic's book-club and book-fair shipments to schools. XPO operates dedicated routes for Scholastic's seasonal peak volumes and provides real-time tracking for school-channel deliveries. Partnership includes cost-per-unit optimization and network-density improvements. Freight costs represent ~5–7% of Scholastic's operating expenses.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Regional carrier for Scholastic's long-haul book shipments to distribution centers and school warehouses. J.B. Hunt provides dedicated contract carriage and intermodal services. Relationship includes seasonal capacity planning and fuel-surcharge negotiations.. Tracked via freight-cost trends in 10-Q MD&A.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Penguin Random House (Bertelsmann SE & Co. KGaA subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "penguin_random_house_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Largest trade-publishing competitor globally; competes with Scholastic in children's and young-adult trade publishing. Penguin Random House's portfolio includes major franchises (Harry Potter competitor titles, Diary of a Wimpy Kid competitor) and stronger retail distribution. Bertelsmann's ownership provides capital advantage.. Tracked via industry reports and BookScan data.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Simon & Schuster (Paramount Global subsidiary)",
+        "ticker": "PARA",
+        "cik": "0001193125",
+        "slug": "simon_schuster",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Trade-publishing competitor with significant children's and educational-content portfolio. Simon & Schuster's school-channel presence and curriculum-aligned titles compete with Scholastic's educational segment. Paramount's ownership provides distribution leverage via media properties. Disclosed in 10-K Item 1A as competitive threat.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Scholastic Book Clubs (internal division)",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "scholastic_book_clubs",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Internal revenue engine: Scholastic Book Clubs generates ~25–30% of total revenue via school-based book-club orders. Book clubs serve as direct-to-student sales channel and customer-acquisition funnel. Seasonal revenue concentration (Aug–Oct peak) creates working-capital volatility. Disclosed in 10-K segment reporting.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "Scholastic Book Fairs (internal division)",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "scholastic_book_fairs",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Internal revenue engine: Scholastic Book Fairs generates ~20–25% of total revenue via school-based book-fair events. Book fairs serve as community engagement and fundraising vehicle for schools. Fairs operate in ~25,000 schools annually. Pandemic disruption (2020–2021) caused significant revenue decline; recovery trajectory disclosed in 10-Q earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary federal regulator of Scholastic's public-company disclosures and financial reporting. SEC monitors 10-K/10-Q filings, 8-K event disclosures, and proxy statements (DEF14A). SEC enforcement actions on disclosure accuracy and related-party transactions apply. Scholastic's CIK 0000866251 is active in SEC EDGAR system.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Regulator of Scholastic's consumer-protection practices, advertising claims, and data-privacy compliance. FTC monitors children's online privacy (COPPA compliance for Scholastic.com and digital platforms). FTC has authority over unfair/deceptive practices in book-club marketing and school-channel sales..",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Education",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_dept_education",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "Regulator of K–12 education policy, school-funding mechanisms, and curriculum standards. Department of Education's Title I funding, special-education mandates, and literacy initiatives directly impact school-district budgets and Scholastic's addressable market. Policy changes (e.g., remote learning, school closures) create demand shocks. Disclosed in 10-K Item 1A as regulatory risk.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Education Departments (50 U.S. states)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_education_depts",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "Regulators of school-district budgets, curriculum adoption, and book-selection policies. State education departments control K–12 discretionary spending and set standards for educational materials. Budget cycles and appropriations directly affect Scholastic's school-channel revenue. Disclosed in 10-K Item 1A as market-dependency risk.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "External auditor of Scholastic Corporation. Deloitte provides annual audit opinion on financial statements and internal-control effectiveness (SOX 404 compliance). Audit scope includes revenue recognition (book-club and book-fair channels), inventory valuation, and goodwill impairment testing. Disclosed in 10-K Item 8 and proxy statement (DEF14A).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Lead arranger and administrative agent for Scholastic's revolving credit facility. JPMorgan provides working-capital financing for seasonal book-club and book-fair inventory buildup. Credit facility includes covenant compliance monitoring and pricing adjustments tied to leverage ratios. Disclosed in 10-K Item 7 debt schedule and 10-Q liquidity section.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Co-lender and syndicate participant in Scholastic's credit facility. Bank of America provides capital-markets advisory on debt refinancing and M&A transactions. Relationship includes equity research coverage and institutional-investor outreach.. Disclosed in 10-K debt schedule.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Scholastic Corporation Board of Directors",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "scholastic_board",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity",
+        "relationshipNote": "Governance body overseeing Scholastic's strategic direction, capital allocation, and risk management. Board includes independent directors with education, publishing, and retail expertise. Board committees (Audit, Compensation, Nominating) manage compliance, executive incentives, and director nomination. Disclosed in proxy statement (DEF14A) with director bios and committee assignments.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Richard Robinson (Executive Chairman & Founder)",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "richard_robinson",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Founder and Executive Chairman of Scholastic Corporation; controls ~30% of voting shares via Class A stock. Robinson's vision for children's literacy and education shapes corporate strategy and long-term capital allocation. His tenure spans 50+ years; succession planning disclosed in proxy statements. Disclosed in DEF14A beneficial-ownership section.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Peter Warwick (Chief Executive Officer)",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "peter_warwick",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Chief Executive Officer responsible for operational execution and financial performance. Warwick's background includes publishing and retail experience. CEO compensation tied to revenue growth, EBITDA margin, and free-cash-flow targets. Disclosed in proxy statement (DEF14A) with compensation details and performance metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Maureen O'Connell (Chief Financial Officer)",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "maureen_oconnell",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Chief Financial Officer responsible for financial planning, capital structure, and investor relations. O'Connell oversees quarterly earnings guidance, debt management, and working-capital optimization. CFO compensation includes cash bonus and equity incentives tied to financial metrics. Disclosed in proxy statement (DEF14A) and 10-K Item 1B executive officers.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Scholastic Book Clubs Revenue (Weekly Sales Tracking)",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "scholastic_book_clubs_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Internal leading indicator: weekly book-club order volumes and average order values signal near-term revenue trajectory and school-district spending confidence. Book-club orders typically placed 4–6 weeks before fulfillment; order trends predict quarterly revenue. Disclosed in 10-Q earnings calls and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-Q",
+          "news"
+        ]
+      },
+      {
+        "name": "School District Budget Appropriations (State-Level Tracking)",
+        "ticker": null,
+        "cik": null,
+        "slug": "school_district_budgets",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Macro leading indicator: state education-budget appropriations and school-district discretionary spending directly correlate with Scholastic's school-channel revenue. Budget cycles (typically spring/summer) create visibility into fall book-fair and book-club demand. Tracked via state education department announcements and FRED series CES7071100001 (education employment).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "FedEx Corporation",
+        "ticker": "FDX",
+        "cik": "0000040545",
+        "slug": "fedex",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Parcel and small-package carrier for Scholastic's direct-to-consumer book-club shipments and international orders. FedEx provides tracking and delivery confirmation for time-sensitive school-channel orders. Partnership includes volume discounts and service-level agreements..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Primary last-mile fulfillment partner for Scholastic's book-club and book-fair shipments. XPO operates dedicated routes to 25,000+ schools and manages seasonal peak-volume surges (Aug–Oct). Partnership includes real-time tracking and cost-per-unit optimization. Freight costs represent ~5–7% of Scholastic's operating expenses.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Regional long-haul carrier for Scholastic's book shipments to distribution centers and regional warehouses. J.B. Hunt provides dedicated contract carriage and intermodal services. Relationship includes seasonal capacity planning and fuel-surcharge negotiations..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ingram Content Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "ingram_content_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Book-distribution and warehousing partner for Scholastic's trade-publishing titles in retail channels. Ingram operates fulfillment centers and manages inventory for independent bookstores and regional chains. Partnership includes demand-forecasting and returns processing..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Baker & Taylor Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "baker_taylor",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Secondary book-distribution and fulfillment partner for Scholastic's educational materials and trade-publishing segments. Baker & Taylor provides inventory management to school libraries and independent retailers. Partnership includes returns processing and demand-forecasting collaboration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. K–12 Public School Districts (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "k12_school_districts",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Primary customer base: ~130,000 K–12 schools in the U.S. purchase Scholastic books via book clubs, book fairs, and direct orders. School-district budgets represent ~60–65% of Scholastic's total revenue. Customer concentration risk: top 10 districts represent ~5–8% of revenue. Disclosed in 10-K Item 1A customer concentration section.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "Independent Bookstores & Regional Retail Chains",
+        "ticker": null,
+        "cik": null,
+        "slug": "independent_bookstores",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Secondary customer base: ~5,000 independent bookstores and regional chains purchase Scholastic trade-publishing titles via Ingram and Baker & Taylor distribution. Retail channel represents ~15–20% of trade-publishing revenue. Customer concentration risk: no single retailer represents >3% of revenue. Tracked via BookScan data and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Amazon.com Inc. (Retail Channel)",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_retail",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Major retail customer for Scholastic's trade-publishing titles via Amazon Books and Kindle Direct Publishing. Amazon represents ~10–15% of trade-publishing revenue. Relationship includes pricing negotiations and promotional placement. Amazon's direct-to-consumer model and print-on-demand capabilities pose competitive threat. Disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "International School Districts & Educational Institutions",
+        "ticker": null,
+        "cik": null,
+        "slug": "intl_school_districts",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "International customer base: Scholastic operates in 180+ countries with localized book-club and book-fair programs. International segment represents ~15–20% of total revenue. Key markets include UK, Australia, Canada, and emerging markets.. Disclosed in 10-K Item 1 geographic breakdown.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "Houghton Mifflin Harcourt Company",
+        "slug": "houghton_mifflin_harcourt",
+        "ticker": "HMHC",
+        "cik": "1437352",
+        "brainNodeId": "S1",
+        "relationshipNote": "HMH is a key customer purchasing supplemental materials and classroom content from Scholastic to complement its core curriculum offerings in K–12 education. The partnership reflects HMH's reliance on third-party content providers as school districts evaluate print and digital learning resources. HMH's budget cycles and adoption decisions signal broader K–12 spending momentum.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.734Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "houghton_mifflin_harcourt",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "scholastic|0000087476|scholasticcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:37:16.727Z"
+      },
+      {
+        "name": "Pearson PLC",
+        "slug": "pearson",
+        "ticker": "PSO",
+        "cik": "0000938323",
+        "brainNodeId": "S1",
+        "relationshipNote": "Pearson licenses Scholastic content for K–8 reading and language-arts programs, integrating supplemental materials into digital platforms through revenue-sharing agreements. This customer relationship demonstrates Scholastic's role as a content supplier to major EdTech players modernizing curriculum delivery. Pearson's adoption velocity reflects education-sector digitalization trends.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.734Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "pearson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "scholastic|0000087476|scholasticcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:37:16.727Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Penguin Random House LLC",
+        "ticker": null,
+        "cik": null,
+        "slug": "penguin_random_house",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Largest trade-publishing competitor globally; competes with Scholastic in children's and young-adult publishing. Penguin Random House's portfolio includes major franchises and stronger retail distribution. Bertelsmann's ownership provides capital advantage.. Tracked via industry reports and BookScan data.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Hachette Book Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "hachette_book_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Major trade-publishing competitor with strong presence in children's and educational publishing. Hachette's Little, Brown Books for Young Readers competes directly with Scholastic's trade titles. Hachette's retail-channel strength and author relationships pose competitive threat..",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Simon & Schuster (Paramount Global subsidiary)",
+        "ticker": "PARA",
+        "cik": "0001193125",
+        "slug": "simon_schuster",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Trade-publishing competitor with significant children's and educational-content portfolio. Simon & Schuster's school-channel presence and curriculum-aligned titles compete with Scholastic's educational segment. Paramount's ownership provides distribution leverage via media properties. Disclosed in 10-K Item 1A as competitive threat.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon.com Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Direct competitor in children's books and educational materials via Amazon Books and Kindle Direct Publishing. Amazon's direct-to-consumer model and print-on-demand capabilities pose structural threat to Scholastic's school-channel and book-club distribution. Amazon's market share in children's books grew ~15–20% CAGR 2015–2023. Disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Indie Authors & Self-Publishing Platforms (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "indie_authors",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Emerging competitive threat: indie authors and self-publishing platforms (Wattpad, Smashwords, Draft2Digital) capture price-sensitive and niche-genre segments. Indie titles represent ~15–20% of children's e-book market. Scholastic's traditional publishing model faces margin pressure from lower-cost indie alternatives. Tracked via industry reports and Amazon bestseller lists.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Pearson PLC",
+        "slug": "pearson",
+        "ticker": "PSO",
+        "cik": "0000938323",
+        "brainNodeId": "TPJ",
+        "relationshipNote": "Pearson licenses Scholastic content for K–8 reading and language-arts programs, integrating supplemental materials into digital platforms through revenue-sharing agreements. This customer relationship demonstrates Scholastic's role as a content supplier to major EdTech players modernizing curriculum delivery. Pearson's adoption velocity reflects education-sector digitalization trends.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "Perspective-Taking — Adjacent Competitor",
+        "neuralRole": "Peer",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.734Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "pearson",
+          "partnerCategory": "competitors",
+          "partnerFingerprint": "scholastic_competitor|0000087476|scholasticcorporation"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:37:16.727Z"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary federal regulator of Scholastic's public-company disclosures and financial reporting. SEC monitors 10-K/10-Q filings, 8-K event disclosures, and proxy statements (DEF14A). SEC enforcement actions on disclosure accuracy and related-party transactions apply. Scholastic's CIK 0000866251 is active in SEC EDGAR system.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Regulator of Scholastic's consumer-protection practices, advertising claims, and data-privacy compliance. FTC monitors children's online privacy (COPPA compliance for Scholastic.com and digital platforms). FTC has authority over unfair/deceptive practices in book-club marketing and school-channel sales..",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Education",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_dept_education",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "Regulator of K–12 education policy, school-funding mechanisms, and curriculum standards. Department of Education's Title I funding, special-education mandates, and literacy initiatives directly impact school-district budgets and Scholastic's addressable market. Policy changes (e.g., remote learning, school closures) create demand shocks. Disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Education Departments (50 U.S. states)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_education_depts",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "Regulators of school-district budgets, curriculum adoption, and book-selection policies. State education departments control K–12 discretionary spending and set standards for educational materials. Budget cycles and appropriations directly affect Scholastic's school-channel revenue. Disclosed in 10-K Item 1A as market-dependency risk.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Copyright Office (Library of Congress)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_copyright_office",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Regulator of copyright registration and intellectual-property protection for Scholastic's published titles. Copyright Office enforces DMCA provisions on digital-content protection. Scholastic's trade-publishing portfolio includes thousands of copyrighted titles; IP protection is material to business model..",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "External auditor of Scholastic Corporation. Deloitte provides annual audit opinion on financial statements and internal-control effectiveness (SOX 404 compliance). Audit scope includes revenue recognition (book-club and book-fair channels), inventory valuation, and goodwill impairment testing. Disclosed in 10-K Item 8 and proxy statement (DEF14A).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Lead arranger and administrative agent for Scholastic's revolving credit facility. JPMorgan provides working-capital financing for seasonal book-club and book-fair inventory buildup. Credit facility includes covenant compliance monitoring and pricing adjustments tied to leverage ratios. Disclosed in 10-K Item 7 debt schedule and 10-Q liquidity section.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Co-lender and syndicate participant in Scholastic's credit facility. Bank of America provides capital-markets advisory on debt refinancing and M&A transactions. Relationship includes equity research coverage and institutional-investor outreach.. Disclosed in 10-K debt schedule.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Richard Robinson (Founder & Executive Chairman)",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "richard_robinson_capital",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity",
+        "relationshipNote": "Founder and major equity holder controlling ~30% of voting shares via Class A stock. Robinson's personal wealth and family office provide strategic capital and governance oversight. Robinson's long-term vision shapes capital allocation and dividend policy. Disclosed in DEF14A beneficial-ownership section and 10-K Item 5.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Institutional Investors (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "institutional_investors",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Public equity holders: mutual funds, pension funds, and hedge funds own ~70% of Scholastic's outstanding shares. Top institutional holders include Vanguard, BlackRock, and State Street. Institutional investors influence capital allocation via proxy voting and earnings-call engagement.. Disclosed in proxy statement (DEF14A).",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Richard Robinson (Executive Chairman & Founder)",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "richard_robinson",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Founder and Executive Chairman of Scholastic Corporation; controls ~30% of voting shares via Class A stock. Robinson's vision for children's literacy and education shapes corporate strategy and long-term capital allocation. His tenure spans 50+ years; succession planning disclosed in proxy statements. Disclosed in DEF14A beneficial-ownership section.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Peter Warwick (Chief Executive Officer)",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "peter_warwick",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Chief Executive Officer responsible for operational execution and financial performance. Warwick's background includes publishing and retail experience. CEO compensation tied to revenue growth, EBITDA margin, and free-cash-flow targets. Disclosed in proxy statement (DEF14A) with compensation details and performance metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Maureen O'Connell (Chief Financial Officer)",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "maureen_oconnell",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Chief Financial Officer responsible for financial planning, capital structure, and investor relations. O'Connell oversees quarterly earnings guidance, debt management, and working-capital optimization. CFO compensation includes cash bonus and equity incentives tied to financial metrics. Disclosed in proxy statement (DEF14A) and 10-K Item 1B.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Scholastic Book Clubs Weekly Sales Tracking",
+        "ticker": null,
+        "cik": "0000866251",
+        "slug": "scholastic_book_clubs_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Internal leading indicator: weekly book-club order volumes and average order values signal near-term revenue trajectory and school-district spending confidence. Book-club orders typically placed 4–6 weeks before fulfillment; order trends predict quarterly revenue. Disclosed in 10-Q earnings calls and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-Q",
+          "news"
+        ]
+      },
+      {
+        "name": "School District Budget Appropriations (State-Level Tracking)",
+        "ticker": null,
+        "cik": null,
+        "slug": "school_district_budgets",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Macro leading indicator: state education-budget appropriations and school-district discretionary spending directly correlate with Scholastic's school-channel revenue. Budget cycles (typically spring/summer) create visibility into fall book-fair and book-club demand. Tracked via state education department announcements and FRED series CES7071100001.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Children's Book Market Share (BookScan Data)",
+        "ticker": null,
+        "cik": null,
+        "slug": "childrens_book_market_share",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Market signal: BookScan tracks retail sell-through of children's titles by publisher. Scholastic's market share in children's trade publishing (~8–12% of U.S. market) indicates competitive positioning vs. Penguin Random House, Hachette, and Simon & Schuster. Tracked via industry reports and publisher announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "education",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.309Z",
+      "overrideCount": 14
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "International Paper Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Domtar Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Smurfit Westrock Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Huhtamaki Oyj",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Houghton Mifflin Harcourt Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Pearson PLC",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Quad/Graphics Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Cimpress plc (Vistaprint)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Ingram Content Group",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Baker & Taylor Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "XPO Logistics Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "J.B. Hunt Transport Services Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Scholastic Book Clubs (internal division)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Scholastic Book Fairs (internal division)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "FedEx Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Independent Bookstores & Regional Retail Chains",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Amazon.com Inc. (Retail Channel)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "International School Districts & Educational Institutions",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "XPO Logistics Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "J.B. Hunt Transport Services Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Ingram Content Group",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Baker & Taylor Company",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Penguin Random House LLC",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Amazon.com Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Penguin Random House (Bertelsmann SE & Co. KGaA subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Hachette Book Group (Lagardère SCA subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Simon & Schuster (Paramount Global subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Penguin Random House LLC",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Hachette Book Group",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Simon & Schuster (Paramount Global subsidiary)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Amazon.com Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Indie Authors & Self-Publishing Platforms (Aggregate)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Pearson PLC",
+            "type": "peer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Federal Trade Commission",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Copyright Office (Library of Congress)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Education",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "State Education Departments (50 U.S. states)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "U.S. Department of Education",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "State Education Departments (50 U.S. states)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "School District Budget Appropriations (State-Level Tracking)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Institutional Investors (Aggregate)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "School District Budget Appropriations (State-Level Tracking)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Scholastic Corporation Board of Directors",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Richard Robinson (Founder & Executive Chairman)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "FPN": {
+        "external_add": [
+          {
+            "name": "Richard Robinson (Executive Chairman & Founder)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Peter Warwick (Chief Executive Officer)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "vmPFC": {
+        "external_add": [
+          {
+            "name": "Maureen O'Connell (Chief Financial Officer)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Scholastic Book Clubs Revenue (Weekly Sales Tracking)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "U.S. K–12 Public School Districts (Aggregate)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Scholastic Book Clubs Weekly Sales Tracking",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "Children's Book Market Share (BookScan Data)",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,4001 @@
+{
+  "_schema": "node-entity-mapping-v2",
+  "_generated": "2026-03-16T23:50:01.861Z",
+  "_total_nodes": 123,
+  "_connectome_matched": 123,
+  "_total_signals": 254,
+  "_unique_fred": [
+    "BAMLH0A0HYM2",
+    "BOGZ1FL103165103Q",
+    "CES0500000003",
+    "CES6561100001",
+    "CES6562000001",
+    "CES7071300001",
+    "CPIAPPSL",
+    "CPIAUCSL",
+    "CPIEDU",
+    "CPIMEDSL",
+    "CPIRECSL",
+    "CPIUFDSL",
+    "CSUSHPINSA",
+    "DCOILWTICO",
+    "DGORDER",
+    "DGS10",
+    "DGS2",
+    "DHHNGSP",
+    "DRCCLACBS",
+    "DSPIC96",
+    "FEDFUNDS",
+    "FGEXPND",
+    "HOUST",
+    "INDPRO",
+    "IPB3361T3S",
+    "IPB50001N",
+    "IPG3344S",
+    "IPUHN517110U100000000",
+    "NEWORDER",
+    "NFCI",
+    "PAYEMS",
+    "PCU3344133441",
+    "POPTHM",
+    "PPIACO",
+    "PPIIDC",
+    "RSAFS",
+    "TTLCONS",
+    "UNRATE",
+    "WPU012",
+    "WPU36"
+  ],
+  "_domains_covered": [
+    "communication",
+    "culture",
+    "defense",
+    "economy",
+    "education",
+    "energy",
+    "environment",
+    "finance",
+    "governance",
+    "health",
+    "industry",
+    "infrastructure",
+    "intelligence",
+    "law",
+    "medicine",
+    "p2_agri",
+    "population",
+    "science",
+    "technology"
+  ],
+  "mappings": [
+    {
+      "node_id": "A1",
+      "brain_region": "A1",
+      "system": "sensory",
+      "mapped_entity": "Dolby Labs",
+      "entity_type": "public company",
+      "ticker": "DLB",
+      "cik": "1308547",
+      "sic": "3679",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "communication"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0001",
+          "fred_series": "IPUHN517110U100000000",
+          "source": "FRED",
+          "node_id": "A1",
+          "entity": "Dolby Labs"
+        },
+        {
+          "signal_id": "SIG_0002",
+          "fred_series": "CPIRECSL",
+          "source": "FRED",
+          "node_id": "A1",
+          "entity": "Dolby Labs"
+        }
+      ]
+    },
+    {
+      "node_id": "ACC",
+      "brain_region": "Anterior Cingulate Cortex",
+      "system": "salience",
+      "mapped_entity": "Honeywell",
+      "entity_type": "public company",
+      "ticker": "HON",
+      "cik": "773840",
+      "sic": "3724",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "industry"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0003",
+          "fred_series": "INDPRO",
+          "source": "FRED",
+          "node_id": "ACC",
+          "entity": "Honeywell"
+        },
+        {
+          "signal_id": "SIG_0004",
+          "fred_series": "IPB50001N",
+          "source": "FRED",
+          "node_id": "ACC",
+          "entity": "Honeywell"
+        }
+      ]
+    },
+    {
+      "node_id": "ADR",
+      "brain_region": "Adrenal",
+      "system": "hpa",
+      "mapped_entity": "Motorola Solutions",
+      "entity_type": "public company",
+      "ticker": "MSI",
+      "cik": "68505",
+      "sic": "3663",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "defense",
+        "governance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0005",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "ADR",
+          "entity": "Motorola Solutions"
+        },
+        {
+          "signal_id": "SIG_0006",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "ADR",
+          "entity": "Motorola Solutions"
+        }
+      ]
+    },
+    {
+      "node_id": "AG",
+      "brain_region": "Angular Gyrus",
+      "system": "dmn",
+      "mapped_entity": "Thomson Reuters",
+      "entity_type": "public company",
+      "ticker": "TRI",
+      "cik": "1075124",
+      "sic": "7389",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "law",
+        "communication"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0007",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "AG",
+          "entity": "Thomson Reuters"
+        },
+        {
+          "signal_id": "SIG_0008",
+          "fred_series": "BAMLH0A0HYM2",
+          "source": "FRED",
+          "node_id": "AG",
+          "entity": "Thomson Reuters"
+        }
+      ]
+    },
+    {
+      "node_id": "AI",
+      "brain_region": "Anterior Insula",
+      "system": "salience",
+      "mapped_entity": "Abbott Laboratories",
+      "entity_type": "public company",
+      "ticker": "ABT",
+      "cik": "1800",
+      "sic": "3841",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "health",
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0009",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "AI",
+          "entity": "Abbott Laboratories"
+        },
+        {
+          "signal_id": "SIG_0010",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "AI",
+          "entity": "Abbott Laboratories"
+        }
+      ]
+    },
+    {
+      "node_id": "ANT",
+      "brain_region": "Anterior Thalamus",
+      "system": "thalamic",
+      "mapped_entity": "Mobileye",
+      "entity_type": "public company",
+      "ticker": "MBLY",
+      "cik": "1900478",
+      "sic": "3674",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "infrastructure"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0011",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "ANT",
+          "entity": "Mobileye"
+        },
+        {
+          "signal_id": "SIG_0012",
+          "fred_series": "TTLCONS",
+          "source": "FRED",
+          "node_id": "ANT",
+          "entity": "Mobileye"
+        }
+      ]
+    },
+    {
+      "node_id": "ARC",
+      "brain_region": "Arcuate",
+      "system": "language",
+      "mapped_entity": "Duolingo",
+      "entity_type": "public company",
+      "ticker": "DUOL",
+      "cik": "1562088",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "education",
+        "communication"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0013",
+          "fred_series": "CPIEDU",
+          "source": "FRED",
+          "node_id": "ARC",
+          "entity": "Duolingo"
+        },
+        {
+          "signal_id": "SIG_0014",
+          "fred_series": "CES6561100001",
+          "source": "FRED",
+          "node_id": "ARC",
+          "entity": "Duolingo"
+        }
+      ]
+    },
+    {
+      "node_id": "ASTRO",
+      "brain_region": "Astrocytes",
+      "system": "other",
+      "mapped_entity": "Denali Therapeutics",
+      "entity_type": "public company",
+      "ticker": "DNLI",
+      "cik": "1666162",
+      "sic": "2836",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "science"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0015",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "ASTRO",
+          "entity": "Denali Therapeutics"
+        },
+        {
+          "signal_id": "SIG_0016",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "ASTRO",
+          "entity": "Denali Therapeutics"
+        }
+      ]
+    },
+    {
+      "node_id": "BBB",
+      "brain_region": "Blood-Brain Barrier",
+      "system": "other",
+      "mapped_entity": "Denali Therapeutics",
+      "entity_type": "public company",
+      "ticker": "DNLI",
+      "cik": "1666162",
+      "sic": "2836",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "science",
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0017",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "BBB",
+          "entity": "Denali Therapeutics"
+        },
+        {
+          "signal_id": "SIG_0018",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "BBB",
+          "entity": "Denali Therapeutics"
+        }
+      ]
+    },
+    {
+      "node_id": "BDNF",
+      "brain_region": "BDNF / Plasticity",
+      "system": "plasticity",
+      "mapped_entity": "Planet Fitness",
+      "entity_type": "public company",
+      "ticker": "PLNT",
+      "cik": "1637207",
+      "sic": "7941",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health",
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0019",
+          "fred_series": "CPIRECSL",
+          "source": "FRED",
+          "node_id": "BDNF",
+          "entity": "Planet Fitness"
+        },
+        {
+          "signal_id": "SIG_0020",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "BDNF",
+          "entity": "Planet Fitness"
+        }
+      ]
+    },
+    {
+      "node_id": "BLA",
+      "brain_region": "BLA",
+      "system": "limbic",
+      "mapped_entity": "CrowdStrike",
+      "entity_type": "public company",
+      "ticker": "CRWD",
+      "cik": "1535527",
+      "sic": "7372",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "defense"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0021",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "BLA",
+          "entity": "CrowdStrike"
+        },
+        {
+          "signal_id": "SIG_0022",
+          "fred_series": "BAMLH0A0HYM2",
+          "source": "FRED",
+          "node_id": "BLA",
+          "entity": "CrowdStrike"
+        }
+      ]
+    },
+    {
+      "node_id": "BNST",
+      "brain_region": "BNST",
+      "system": "limbic",
+      "mapped_entity": "Verisk Analytics",
+      "entity_type": "public company",
+      "ticker": "VRSK",
+      "cik": "1442145",
+      "sic": "7389",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "finance",
+        "defense"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0023",
+          "fred_series": "BAMLH0A0HYM2",
+          "source": "FRED",
+          "node_id": "BNST",
+          "entity": "Verisk Analytics"
+        },
+        {
+          "signal_id": "SIG_0024",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "BNST",
+          "entity": "Verisk Analytics"
+        }
+      ]
+    },
+    {
+      "node_id": "BROCA",
+      "brain_region": "Broca",
+      "system": "language",
+      "mapped_entity": "Duolingo",
+      "entity_type": "public company",
+      "ticker": "DUOL",
+      "cik": "1562088",
+      "sic": "7372",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "education"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0025",
+          "fred_series": "CPIEDU",
+          "source": "FRED",
+          "node_id": "BROCA",
+          "entity": "Duolingo"
+        },
+        {
+          "signal_id": "SIG_0026",
+          "fred_series": "CES6561100001",
+          "source": "FRED",
+          "node_id": "BROCA",
+          "entity": "Duolingo"
+        }
+      ]
+    },
+    {
+      "node_id": "CARD",
+      "brain_region": "Cardiac",
+      "system": "autonomic",
+      "mapped_entity": "Edwards Lifesciences",
+      "entity_type": "public company",
+      "ticker": "EW",
+      "cik": "1099800",
+      "sic": "3841",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0027",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "CARD",
+          "entity": "Edwards Lifesciences"
+        },
+        {
+          "signal_id": "SIG_0028",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "CARD",
+          "entity": "Edwards Lifesciences"
+        }
+      ]
+    },
+    {
+      "node_id": "CAUD",
+      "brain_region": "Caudate",
+      "system": "basal",
+      "mapped_entity": "Asana",
+      "entity_type": "public company",
+      "ticker": "ASAN",
+      "cik": "1477720",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0029",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "CAUD",
+          "entity": "Asana"
+        },
+        {
+          "signal_id": "SIG_0030",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "CAUD",
+          "entity": "Asana"
+        }
+      ]
+    },
+    {
+      "node_id": "CBLM",
+      "brain_region": "Cerebellum",
+      "system": "other",
+      "mapped_entity": "Keysight Technologies",
+      "entity_type": "public company",
+      "ticker": "KEYS",
+      "cik": "1495922",
+      "sic": "3825",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "science"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0031",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "CBLM",
+          "entity": "Keysight Technologies"
+        },
+        {
+          "signal_id": "SIG_0032",
+          "fred_series": "INDPRO",
+          "source": "FRED",
+          "node_id": "CBLM",
+          "entity": "Keysight Technologies"
+        }
+      ]
+    },
+    {
+      "node_id": "CC",
+      "brain_region": "Corpus Callosum",
+      "system": "other",
+      "mapped_entity": "Cisco Systems",
+      "entity_type": "public company",
+      "ticker": "CSCO",
+      "cik": "858877",
+      "sic": "3577",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "communication",
+        "technology"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0033",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "CC",
+          "entity": "Cisco Systems"
+        },
+        {
+          "signal_id": "SIG_0034",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "CC",
+          "entity": "Cisco Systems"
+        }
+      ]
+    },
+    {
+      "node_id": "CeA",
+      "brain_region": "CeA",
+      "system": "limbic",
+      "mapped_entity": "ADT Inc",
+      "entity_type": "public company",
+      "ticker": "ADT",
+      "cik": "1703056",
+      "sic": "7382",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "defense"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0035",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "CeA",
+          "entity": "ADT Inc"
+        },
+        {
+          "signal_id": "SIG_0036",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "CeA",
+          "entity": "ADT Inc"
+        }
+      ]
+    },
+    {
+      "node_id": "CING",
+      "brain_region": "Cingulum",
+      "system": "memory",
+      "mapped_entity": "Amazon/AWS",
+      "entity_type": "public company",
+      "ticker": "AMZN",
+      "cik": "1018724",
+      "sic": "5961",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "technology"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0037",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "CING",
+          "entity": "Amazon/AWS"
+        },
+        {
+          "signal_id": "SIG_0038",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "CING",
+          "entity": "Amazon/AWS"
+        }
+      ]
+    },
+    {
+      "node_id": "CLAUST",
+      "brain_region": "Claustrum",
+      "system": "other",
+      "mapped_entity": "Microsoft (AI proxy)",
+      "entity_type": "public company",
+      "ticker": "MSFT",
+      "cik": "789019",
+      "sic": "7372",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "intelligence",
+        "technology"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0039",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "CLAUST",
+          "entity": "Microsoft (AI proxy)"
+        },
+        {
+          "signal_id": "SIG_0040",
+          "fred_series": "BOGZ1FL103165103Q",
+          "source": "FRED",
+          "node_id": "CLAUST",
+          "entity": "Microsoft (AI proxy)"
+        }
+      ]
+    },
+    {
+      "node_id": "CMZ",
+      "brain_region": "CMZ",
+      "system": "motor",
+      "mapped_entity": "Rockwell Automation",
+      "entity_type": "public company",
+      "ticker": "ROK",
+      "cik": "1024478",
+      "sic": "3569",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "industry"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0041",
+          "fred_series": "INDPRO",
+          "source": "FRED",
+          "node_id": "CMZ",
+          "entity": "Rockwell Automation"
+        },
+        {
+          "signal_id": "SIG_0042",
+          "fred_series": "IPB50001N",
+          "source": "FRED",
+          "node_id": "CMZ",
+          "entity": "Rockwell Automation"
+        }
+      ]
+    },
+    {
+      "node_id": "CON",
+      "brain_region": "Cingulo- Opercular",
+      "system": "salience",
+      "mapped_entity": "Splunk",
+      "entity_type": "public company",
+      "ticker": "SPLK",
+      "cik": "1353283",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "intelligence",
+        "technology"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0043",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "CON",
+          "entity": "Splunk"
+        },
+        {
+          "signal_id": "SIG_0044",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "CON",
+          "entity": "Splunk"
+        }
+      ]
+    },
+    {
+      "node_id": "dACC",
+      "brain_region": "dACC",
+      "system": "salience",
+      "mapped_entity": "Emerson Electric",
+      "entity_type": "public company",
+      "ticker": "EMR",
+      "cik": "32604",
+      "sic": "3823",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "industry"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0045",
+          "fred_series": "INDPRO",
+          "source": "FRED",
+          "node_id": "dACC",
+          "entity": "Emerson Electric"
+        },
+        {
+          "signal_id": "SIG_0046",
+          "fred_series": "NEWORDER",
+          "source": "FRED",
+          "node_id": "dACC",
+          "entity": "Emerson Electric"
+        }
+      ]
+    },
+    {
+      "node_id": "DAN",
+      "brain_region": "Dorsal Attention",
+      "system": "sensory",
+      "mapped_entity": "Lockheed Martin (ISR)",
+      "entity_type": "public company",
+      "ticker": "LMT",
+      "cik": "936468",
+      "sic": "3760",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "defense",
+        "intelligence"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0047",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "DAN",
+          "entity": "Lockheed Martin (ISR)"
+        },
+        {
+          "signal_id": "SIG_0048",
+          "fred_series": "IPB3361T3S",
+          "source": "FRED",
+          "node_id": "DAN",
+          "entity": "Lockheed Martin (ISR)"
+        }
+      ]
+    },
+    {
+      "node_id": "DISS",
+      "brain_region": "Dissolution",
+      "system": "dmn",
+      "mapped_entity": "COMPASS Pathways",
+      "entity_type": "public company",
+      "ticker": "CMPS",
+      "cik": "1816431",
+      "sic": "2836",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0049",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "DISS",
+          "entity": "COMPASS Pathways"
+        },
+        {
+          "signal_id": "SIG_0050",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "DISS",
+          "entity": "COMPASS Pathways"
+        }
+      ]
+    },
+    {
+      "node_id": "dlPFC",
+      "brain_region": "dlPFC",
+      "system": "executive",
+      "mapped_entity": "Accenture",
+      "entity_type": "public company",
+      "ticker": "ACN",
+      "cik": "1281761",
+      "sic": "7389",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "governance",
+        "economy"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0051",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "dlPFC",
+          "entity": "Accenture"
+        },
+        {
+          "signal_id": "SIG_0052",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "dlPFC",
+          "entity": "Accenture"
+        }
+      ]
+    },
+    {
+      "node_id": "DMN",
+      "brain_region": "DEFAULT MODE NETWORK",
+      "system": "dmn",
+      "mapped_entity": "Salesforce",
+      "entity_type": "public company",
+      "ticker": "CRM",
+      "cik": "1108524",
+      "sic": "7372",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "economy"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0053",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "DMN",
+          "entity": "Salesforce"
+        },
+        {
+          "signal_id": "SIG_0054",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "DMN",
+          "entity": "Salesforce"
+        }
+      ]
+    },
+    {
+      "node_id": "DMNMTL",
+      "brain_region": "DMN Subsystem (MTL)",
+      "system": "dmn",
+      "mapped_entity": "Shell plc",
+      "entity_type": "public company",
+      "ticker": "SHEL",
+      "cik": "1306965",
+      "sic": "2911",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "energy"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0055",
+          "fred_series": "DCOILWTICO",
+          "source": "FRED",
+          "node_id": "DMNMTL",
+          "entity": "Shell plc"
+        },
+        {
+          "signal_id": "SIG_0056",
+          "fred_series": "DHHNGSP",
+          "source": "FRED",
+          "node_id": "DMNMTL",
+          "entity": "Shell plc"
+        }
+      ]
+    },
+    {
+      "node_id": "DV",
+      "brain_region": "Dorsal Vagal",
+      "system": "autonomic",
+      "mapped_entity": "Exact Sciences",
+      "entity_type": "public company",
+      "ticker": "EXAS",
+      "cik": "1124140",
+      "sic": "2835",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0057",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "DV",
+          "entity": "Exact Sciences"
+        },
+        {
+          "signal_id": "SIG_0058",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "DV",
+          "entity": "Exact Sciences"
+        }
+      ]
+    },
+    {
+      "node_id": "EBA",
+      "brain_region": "Extrastriate Body Area",
+      "system": "sensory",
+      "mapped_entity": "Garmin",
+      "entity_type": "public company",
+      "ticker": "GRMN",
+      "cik": "1121788",
+      "sic": "3812",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health",
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0059",
+          "fred_series": "CPIRECSL",
+          "source": "FRED",
+          "node_id": "EBA",
+          "entity": "Garmin"
+        },
+        {
+          "signal_id": "SIG_0060",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "EBA",
+          "entity": "Garmin"
+        }
+      ]
+    },
+    {
+      "node_id": "EC",
+      "brain_region": "Entorhinal",
+      "system": "dmn",
+      "mapped_entity": "Trimble",
+      "entity_type": "public company",
+      "ticker": "TRMB",
+      "cik": "864749",
+      "sic": "3825",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "infrastructure"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0061",
+          "fred_series": "HOUST",
+          "source": "FRED",
+          "node_id": "EC",
+          "entity": "Trimble"
+        },
+        {
+          "signal_id": "SIG_0062",
+          "fred_series": "TTLCONS",
+          "source": "FRED",
+          "node_id": "EC",
+          "entity": "Trimble"
+        }
+      ]
+    },
+    {
+      "node_id": "ECN",
+      "brain_region": "Executive Control",
+      "system": "executive",
+      "mapped_entity": "Microsoft",
+      "entity_type": "public company",
+      "ticker": "MSFT",
+      "cik": "789019",
+      "sic": "7372",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "governance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0063",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "ECN",
+          "entity": "Microsoft"
+        },
+        {
+          "signal_id": "SIG_0064",
+          "fred_series": "BOGZ1FL103165103Q",
+          "source": "FRED",
+          "node_id": "ECN",
+          "entity": "Microsoft"
+        }
+      ]
+    },
+    {
+      "node_id": "EI",
+      "brain_region": "E/I Ratio",
+      "system": "neuromod",
+      "mapped_entity": "Johnson & Johnson",
+      "entity_type": "public company",
+      "ticker": "JNJ",
+      "cik": "200406",
+      "sic": "2834",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "medicine",
+        "science"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0065",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "EI",
+          "entity": "Johnson & Johnson"
+        },
+        {
+          "signal_id": "SIG_0066",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "EI",
+          "entity": "Johnson & Johnson"
+        }
+      ]
+    },
+    {
+      "node_id": "EMP",
+      "brain_region": "Empathy",
+      "system": "limbic",
+      "mapped_entity": "Airbnb (empathy proxy)",
+      "entity_type": "public company",
+      "ticker": "ABNB",
+      "cik": "1559720",
+      "sic": "7011",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "population",
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0067",
+          "fred_series": "DSPIC96",
+          "source": "FRED",
+          "node_id": "EMP",
+          "entity": "Airbnb (empathy proxy)"
+        },
+        {
+          "signal_id": "SIG_0068",
+          "fred_series": "POPTHM",
+          "source": "FRED",
+          "node_id": "EMP",
+          "entity": "Airbnb (empathy proxy)"
+        }
+      ]
+    },
+    {
+      "node_id": "ENDO",
+      "brain_region": "Endocannabinoid",
+      "system": "neuromod",
+      "mapped_entity": "Tilray Brands",
+      "entity_type": "public company",
+      "ticker": "TLRY",
+      "cik": "1731348",
+      "sic": "2111",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0069",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "ENDO",
+          "entity": "Tilray Brands"
+        },
+        {
+          "signal_id": "SIG_0070",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "ENDO",
+          "entity": "Tilray Brands"
+        }
+      ]
+    },
+    {
+      "node_id": "ENS",
+      "brain_region": "Enteric NS",
+      "system": "gutbrain",
+      "mapped_entity": "Campbell Soup",
+      "entity_type": "public company",
+      "ticker": "CPB",
+      "cik": "16732",
+      "sic": "2030",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health",
+        "p2_agri"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0071",
+          "fred_series": "PPIACO",
+          "source": "FRED",
+          "node_id": "ENS",
+          "entity": "Campbell Soup"
+        },
+        {
+          "signal_id": "SIG_0072",
+          "fred_series": "CPIUFDSL",
+          "source": "FRED",
+          "node_id": "ENS",
+          "entity": "Campbell Soup"
+        }
+      ]
+    },
+    {
+      "node_id": "FEF",
+      "brain_region": "FEF",
+      "system": "executive",
+      "mapped_entity": "Luminar Technologies",
+      "entity_type": "public company",
+      "ticker": "LAZR",
+      "cik": "1758057",
+      "sic": "3827",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "science"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0073",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "FEF",
+          "entity": "Luminar Technologies"
+        },
+        {
+          "signal_id": "SIG_0074",
+          "fred_series": "PCU3344133441",
+          "source": "FRED",
+          "node_id": "FEF",
+          "entity": "Luminar Technologies"
+        }
+      ]
+    },
+    {
+      "node_id": "FG",
+      "brain_region": "Fusiform",
+      "system": "language",
+      "mapped_entity": "Meta Platforms",
+      "entity_type": "public company",
+      "ticker": "META",
+      "cik": "1326801",
+      "sic": "7370",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "communication",
+        "population"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0075",
+          "fred_series": "CPIAPPSL",
+          "source": "FRED",
+          "node_id": "FG",
+          "entity": "Meta Platforms"
+        },
+        {
+          "signal_id": "SIG_0076",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "FG",
+          "entity": "Meta Platforms"
+        }
+      ]
+    },
+    {
+      "node_id": "FORN",
+      "brain_region": "Fornix",
+      "system": "memory",
+      "mapped_entity": "Cisco Systems",
+      "entity_type": "public company",
+      "ticker": "CSCO",
+      "cik": "858877",
+      "sic": "3577",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "communication",
+        "technology"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0077",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "FORN",
+          "entity": "Cisco Systems"
+        },
+        {
+          "signal_id": "SIG_0078",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "FORN",
+          "entity": "Cisco Systems"
+        }
+      ]
+    },
+    {
+      "node_id": "FPC",
+      "brain_region": "Frontopolar Cortex (BA10)",
+      "system": "dmn",
+      "mapped_entity": "Booz Allen Hamilton",
+      "entity_type": "public company",
+      "ticker": "BAH",
+      "cik": "1443646",
+      "sic": "8748",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "governance",
+        "intelligence"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0079",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "FPC",
+          "entity": "Booz Allen Hamilton"
+        },
+        {
+          "signal_id": "SIG_0080",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "FPC",
+          "entity": "Booz Allen Hamilton"
+        }
+      ]
+    },
+    {
+      "node_id": "FPN",
+      "brain_region": "Frontoparietal",
+      "system": "executive",
+      "mapped_entity": "Atlassian",
+      "entity_type": "public company",
+      "ticker": "TEAM",
+      "cik": "1650372",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0081",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "FPN",
+          "entity": "Atlassian"
+        },
+        {
+          "signal_id": "SIG_0082",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "FPN",
+          "entity": "Atlassian"
+        }
+      ]
+    },
+    {
+      "node_id": "GABA_GLU",
+      "brain_region": "E/I Balance",
+      "system": "neuromod",
+      "mapped_entity": "Jazz Pharmaceuticals",
+      "entity_type": "public company",
+      "ticker": "JAZZ",
+      "cik": "1232524",
+      "sic": "2834",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0083",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "GABA_GLU",
+          "entity": "Jazz Pharmaceuticals"
+        },
+        {
+          "signal_id": "SIG_0084",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "GABA_GLU",
+          "entity": "Jazz Pharmaceuticals"
+        }
+      ]
+    },
+    {
+      "node_id": "GBA",
+      "brain_region": "Gut-Brain Axis",
+      "system": "gutbrain",
+      "mapped_entity": "Herbalife",
+      "entity_type": "public company",
+      "ticker": "HLF",
+      "cik": "1180262",
+      "sic": "2099",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0085",
+          "fred_series": "CPIUFDSL",
+          "source": "FRED",
+          "node_id": "GBA",
+          "entity": "Herbalife"
+        },
+        {
+          "signal_id": "SIG_0086",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "GBA",
+          "entity": "Herbalife"
+        }
+      ]
+    },
+    {
+      "node_id": "GP",
+      "brain_region": "Globus Pallidus",
+      "system": "basal",
+      "mapped_entity": "ICE/NYSE",
+      "entity_type": "public company",
+      "ticker": "ICE",
+      "cik": "1571949",
+      "sic": "6200",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "finance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0087",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "GP",
+          "entity": "ICE/NYSE"
+        },
+        {
+          "signal_id": "SIG_0088",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "GP",
+          "entity": "ICE/NYSE"
+        }
+      ]
+    },
+    {
+      "node_id": "HAB",
+      "brain_region": "Habenula",
+      "system": "reward",
+      "mapped_entity": "Moodys Corporation",
+      "entity_type": "public company",
+      "ticker": "MCO",
+      "cik": "1059556",
+      "sic": "7323",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "law",
+        "finance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0089",
+          "fred_series": "BAMLH0A0HYM2",
+          "source": "FRED",
+          "node_id": "HAB",
+          "entity": "Moodys Corporation"
+        },
+        {
+          "signal_id": "SIG_0090",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "HAB",
+          "entity": "Moodys Corporation"
+        },
+        {
+          "signal_id": "SIG_0091",
+          "fred_series": "NFCI",
+          "source": "FRED",
+          "node_id": "HAB",
+          "entity": "Moodys Corporation"
+        }
+      ]
+    },
+    {
+      "node_id": "HIPP",
+      "brain_region": "Hippocampus",
+      "system": "limbic",
+      "mapped_entity": "Snowflake",
+      "entity_type": "public company",
+      "ticker": "SNOW",
+      "cik": "1640147",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0092",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "HIPP",
+          "entity": "Snowflake"
+        },
+        {
+          "signal_id": "SIG_0093",
+          "fred_series": "BOGZ1FL103165103Q",
+          "source": "FRED",
+          "node_id": "HIPP",
+          "entity": "Snowflake"
+        }
+      ]
+    },
+    {
+      "node_id": "HPA",
+      "brain_region": "HPA Axis",
+      "system": "hpa",
+      "mapped_entity": "JPMorgan Chase",
+      "entity_type": "public company",
+      "ticker": "JPM",
+      "cik": "19617",
+      "sic": "6021",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "finance",
+        "economy"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0094",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "HPA",
+          "entity": "JPMorgan Chase"
+        },
+        {
+          "signal_id": "SIG_0095",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "HPA",
+          "entity": "JPMorgan Chase"
+        },
+        {
+          "signal_id": "SIG_0096",
+          "fred_series": "DRCCLACBS",
+          "source": "FRED",
+          "node_id": "HPA",
+          "entity": "JPMorgan Chase"
+        }
+      ]
+    },
+    {
+      "node_id": "HYPO",
+      "brain_region": "Hypothalamus",
+      "system": "hpa",
+      "mapped_entity": "CME Group",
+      "entity_type": "public company",
+      "ticker": "CME",
+      "cik": "1156375",
+      "sic": "6200",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "economy",
+        "finance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0097",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "HYPO",
+          "entity": "CME Group"
+        },
+        {
+          "signal_id": "SIG_0098",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "HYPO",
+          "entity": "CME Group"
+        },
+        {
+          "signal_id": "SIG_0099",
+          "fred_series": "DGS2",
+          "source": "FRED",
+          "node_id": "HYPO",
+          "entity": "CME Group"
+        },
+        {
+          "signal_id": "SIG_0100",
+          "fred_series": "CPIAUCSL",
+          "source": "FRED",
+          "node_id": "HYPO",
+          "entity": "CME Group"
+        }
+      ]
+    },
+    {
+      "node_id": "IC",
+      "brain_region": "Inferior Colliculus",
+      "system": "other",
+      "mapped_entity": "Sonos",
+      "entity_type": "public company",
+      "ticker": "SONO",
+      "cik": "1314727",
+      "sic": "3651",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "communication"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0101",
+          "fred_series": "CPIRECSL",
+          "source": "FRED",
+          "node_id": "IC",
+          "entity": "Sonos"
+        },
+        {
+          "signal_id": "SIG_0102",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "IC",
+          "entity": "Sonos"
+        }
+      ]
+    },
+    {
+      "node_id": "IPL",
+      "brain_region": "Inferior Parietal Lobule",
+      "system": "executive",
+      "mapped_entity": "S&P Global",
+      "entity_type": "public company",
+      "ticker": "SPGI",
+      "cik": "64040",
+      "sic": "7389",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "finance",
+        "law"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0103",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "IPL",
+          "entity": "S&P Global"
+        },
+        {
+          "signal_id": "SIG_0104",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "IPL",
+          "entity": "S&P Global"
+        },
+        {
+          "signal_id": "SIG_0105",
+          "fred_series": "NFCI",
+          "source": "FRED",
+          "node_id": "IPL",
+          "entity": "S&P Global"
+        }
+      ]
+    },
+    {
+      "node_id": "IPS",
+      "brain_region": "IPS",
+      "system": "executive",
+      "mapped_entity": "Virtu Financial",
+      "entity_type": "public company",
+      "ticker": "VIRT",
+      "cik": "1592386",
+      "sic": "6211",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "finance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0106",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "IPS",
+          "entity": "Virtu Financial"
+        },
+        {
+          "signal_id": "SIG_0107",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "IPS",
+          "entity": "Virtu Financial"
+        }
+      ]
+    },
+    {
+      "node_id": "LANG",
+      "brain_region": "Language Network",
+      "system": "language",
+      "mapped_entity": "Pearson",
+      "entity_type": "public company",
+      "ticker": "PSO",
+      "cik": "938323",
+      "sic": "2731",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "education"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0108",
+          "fred_series": "CPIEDU",
+          "source": "FRED",
+          "node_id": "LANG",
+          "entity": "Pearson"
+        },
+        {
+          "signal_id": "SIG_0109",
+          "fred_series": "CES6561100001",
+          "source": "FRED",
+          "node_id": "LANG",
+          "entity": "Pearson"
+        }
+      ]
+    },
+    {
+      "node_id": "LAR",
+      "brain_region": "Laryngeal",
+      "system": "autonomic",
+      "mapped_entity": "Nuance/Microsoft",
+      "entity_type": "public company",
+      "ticker": "MSFT",
+      "cik": "789019",
+      "sic": "7372",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "communication"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0110",
+          "fred_series": "IPUHN517110U100000000",
+          "source": "FRED",
+          "node_id": "LAR",
+          "entity": "Nuance/Microsoft"
+        },
+        {
+          "signal_id": "SIG_0111",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "LAR",
+          "entity": "Nuance/Microsoft"
+        }
+      ]
+    },
+    {
+      "node_id": "LC",
+      "brain_region": "Locus Coeruleus",
+      "system": "neuromod",
+      "mapped_entity": "Axon Enterprise",
+      "entity_type": "public company",
+      "ticker": "AXON",
+      "cik": "1069183",
+      "sic": "3699",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "defense",
+        "governance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0112",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "LC",
+          "entity": "Axon Enterprise"
+        },
+        {
+          "signal_id": "SIG_0113",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "LC",
+          "entity": "Axon Enterprise"
+        }
+      ]
+    },
+    {
+      "node_id": "LGN",
+      "brain_region": "LGN",
+      "system": "thalamic",
+      "mapped_entity": "Applied Materials",
+      "entity_type": "public company",
+      "ticker": "AMAT",
+      "cik": "6951",
+      "sic": "3559",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "technology"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0114",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "LGN",
+          "entity": "Applied Materials"
+        },
+        {
+          "signal_id": "SIG_0115",
+          "fred_series": "PCU3344133441",
+          "source": "FRED",
+          "node_id": "LGN",
+          "entity": "Applied Materials"
+        }
+      ]
+    },
+    {
+      "node_id": "M1",
+      "brain_region": "M1",
+      "system": "motor",
+      "mapped_entity": "Caterpillar",
+      "entity_type": "public company",
+      "ticker": "CAT",
+      "cik": "18230",
+      "sic": "3531",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "industry"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0116",
+          "fred_series": "INDPRO",
+          "source": "FRED",
+          "node_id": "M1",
+          "entity": "Caterpillar"
+        },
+        {
+          "signal_id": "SIG_0117",
+          "fred_series": "DGORDER",
+          "source": "FRED",
+          "node_id": "M1",
+          "entity": "Caterpillar"
+        }
+      ]
+    },
+    {
+      "node_id": "MAMM",
+      "brain_region": "Mammillary",
+      "system": "memory",
+      "mapped_entity": "Palantir",
+      "entity_type": "public company",
+      "ticker": "PLTR",
+      "cik": "1321655",
+      "sic": "7372",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "intelligence"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0118",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "MAMM",
+          "entity": "Palantir"
+        },
+        {
+          "signal_id": "SIG_0119",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "MAMM",
+          "entity": "Palantir"
+        }
+      ]
+    },
+    {
+      "node_id": "MDT",
+      "brain_region": "Mediodorsal",
+      "system": "thalamic",
+      "mapped_entity": "Palantir Technologies",
+      "entity_type": "public company",
+      "ticker": "PLTR",
+      "cik": "1321655",
+      "sic": "7372",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "intelligence",
+        "defense"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0120",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "MDT",
+          "entity": "Palantir Technologies"
+        },
+        {
+          "signal_id": "SIG_0121",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "MDT",
+          "entity": "Palantir Technologies"
+        }
+      ]
+    },
+    {
+      "node_id": "MFC",
+      "brain_region": "Medial Frontal Cortex",
+      "system": "executive",
+      "mapped_entity": "Workday",
+      "entity_type": "public company",
+      "ticker": "WDAY",
+      "cik": "1327811",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "economy"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0122",
+          "fred_series": "PAYEMS",
+          "source": "FRED",
+          "node_id": "MFC",
+          "entity": "Workday"
+        },
+        {
+          "signal_id": "SIG_0123",
+          "fred_series": "CES0500000003",
+          "source": "FRED",
+          "node_id": "MFC",
+          "entity": "Workday"
+        }
+      ]
+    },
+    {
+      "node_id": "MGN",
+      "brain_region": "MGN",
+      "system": "thalamic",
+      "mapped_entity": "Dolby Labs",
+      "entity_type": "public company",
+      "ticker": "DLB",
+      "cik": "1308547",
+      "sic": "3679",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "communication",
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0124",
+          "fred_series": "IPUHN517110U100000000",
+          "source": "FRED",
+          "node_id": "MGN",
+          "entity": "Dolby Labs"
+        },
+        {
+          "signal_id": "SIG_0125",
+          "fred_series": "CPIRECSL",
+          "source": "FRED",
+          "node_id": "MGN",
+          "entity": "Dolby Labs"
+        }
+      ]
+    },
+    {
+      "node_id": "MI",
+      "brain_region": "Mid-Insula",
+      "system": "salience",
+      "mapped_entity": "WW International",
+      "entity_type": "public company",
+      "ticker": "WW",
+      "cik": "1064728",
+      "sic": "7991",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0126",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "MI",
+          "entity": "WW International"
+        },
+        {
+          "signal_id": "SIG_0127",
+          "fred_series": "DSPIC96",
+          "source": "FRED",
+          "node_id": "MI",
+          "entity": "WW International"
+        }
+      ]
+    },
+    {
+      "node_id": "MICRO",
+      "brain_region": "Microbiome",
+      "system": "gutbrain",
+      "mapped_entity": "Seres Therapeutics",
+      "entity_type": "public company",
+      "ticker": "MCRB",
+      "cik": "1564824",
+      "sic": "2836",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "science",
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0128",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "MICRO",
+          "entity": "Seres Therapeutics"
+        },
+        {
+          "signal_id": "SIG_0129",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "MICRO",
+          "entity": "Seres Therapeutics"
+        }
+      ]
+    },
+    {
+      "node_id": "mPFC",
+      "brain_region": "mPFC",
+      "system": "dmn",
+      "mapped_entity": "Korn Ferry",
+      "entity_type": "public company",
+      "ticker": "KFY",
+      "cik": "56159",
+      "sic": "7361",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "governance",
+        "economy"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0130",
+          "fred_series": "UNRATE",
+          "source": "FRED",
+          "node_id": "mPFC",
+          "entity": "Korn Ferry"
+        },
+        {
+          "signal_id": "SIG_0131",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "mPFC",
+          "entity": "Korn Ferry"
+        }
+      ]
+    },
+    {
+      "node_id": "NAcc",
+      "brain_region": "Nucleus Accumbens",
+      "system": "reward",
+      "mapped_entity": "DraftKings",
+      "entity_type": "public company",
+      "ticker": "DKNG",
+      "cik": "1883685",
+      "sic": "7993",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0132",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "NAcc",
+          "entity": "DraftKings"
+        },
+        {
+          "signal_id": "SIG_0133",
+          "fred_series": "DSPIC96",
+          "source": "FRED",
+          "node_id": "NAcc",
+          "entity": "DraftKings"
+        }
+      ]
+    },
+    {
+      "node_id": "NBM",
+      "brain_region": "Nucleus Basalis",
+      "system": "memory",
+      "mapped_entity": "Biogen (Eisai proxy)",
+      "entity_type": "public company",
+      "ticker": "BIIB",
+      "cik": "875045",
+      "sic": "2836",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0134",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "NBM",
+          "entity": "Biogen (Eisai proxy)"
+        },
+        {
+          "signal_id": "SIG_0135",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "NBM",
+          "entity": "Biogen (Eisai proxy)"
+        }
+      ]
+    },
+    {
+      "node_id": "NEOCER",
+      "brain_region": "Neo- cerebellum",
+      "system": "other",
+      "mapped_entity": "Boston Scientific",
+      "entity_type": "public company",
+      "ticker": "BSX",
+      "cik": "885725",
+      "sic": "3841",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0136",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "NEOCER",
+          "entity": "Boston Scientific"
+        },
+        {
+          "signal_id": "SIG_0137",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "NEOCER",
+          "entity": "Boston Scientific"
+        }
+      ]
+    },
+    {
+      "node_id": "NTS",
+      "brain_region": "NTS",
+      "system": "autonomic",
+      "mapped_entity": "Masimo",
+      "entity_type": "public company",
+      "ticker": "MASI",
+      "cik": "937556",
+      "sic": "3841",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0138",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "NTS",
+          "entity": "Masimo"
+        },
+        {
+          "signal_id": "SIG_0139",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "NTS",
+          "entity": "Masimo"
+        }
+      ]
+    },
+    {
+      "node_id": "OFC",
+      "brain_region": "OFC",
+      "system": "dmn",
+      "mapped_entity": "Estee Lauder",
+      "entity_type": "public company",
+      "ticker": "EL",
+      "cik": "1001250",
+      "sic": "2844",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "culture",
+        "economy"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0140",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "OFC",
+          "entity": "Estee Lauder"
+        },
+        {
+          "signal_id": "SIG_0141",
+          "fred_series": "CPIAPPSL",
+          "source": "FRED",
+          "node_id": "OFC",
+          "entity": "Estee Lauder"
+        }
+      ]
+    },
+    {
+      "node_id": "OLF",
+      "brain_region": "Olfactory",
+      "system": "sensory",
+      "mapped_entity": "Intl Flavors & Fragrances",
+      "entity_type": "public company",
+      "ticker": "IFF",
+      "cik": "51253",
+      "sic": "2860",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "culture",
+        "p2_agri"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0142",
+          "fred_series": "PPIACO",
+          "source": "FRED",
+          "node_id": "OLF",
+          "entity": "Intl Flavors & Fragrances"
+        },
+        {
+          "signal_id": "SIG_0143",
+          "fred_series": "WPU012",
+          "source": "FRED",
+          "node_id": "OLF",
+          "entity": "Intl Flavors & Fragrances"
+        }
+      ]
+    },
+    {
+      "node_id": "OPIOID",
+      "brain_region": "Opioid System",
+      "system": "neuromod",
+      "mapped_entity": "Indivior",
+      "entity_type": "public company",
+      "ticker": "INDV",
+      "cik": "1592242",
+      "sic": "2834",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0144",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "OPIOID",
+          "entity": "Indivior"
+        },
+        {
+          "signal_id": "SIG_0145",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "OPIOID",
+          "entity": "Indivior"
+        }
+      ]
+    },
+    {
+      "node_id": "OSC",
+      "brain_region": "Oscillatory",
+      "system": "entrainment",
+      "mapped_entity": "Integra LifeSciences",
+      "entity_type": "public company",
+      "ticker": "IART",
+      "cik": "917520",
+      "sic": "3841",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "science",
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0146",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "OSC",
+          "entity": "Integra LifeSciences"
+        },
+        {
+          "signal_id": "SIG_0147",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "OSC",
+          "entity": "Integra LifeSciences"
+        }
+      ]
+    },
+    {
+      "node_id": "OXY",
+      "brain_region": "Oxytocin",
+      "system": "neuromod",
+      "mapped_entity": "Airbnb",
+      "entity_type": "public company",
+      "ticker": "ABNB",
+      "cik": "1559720",
+      "sic": "7011",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "population",
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0148",
+          "fred_series": "POPTHM",
+          "source": "FRED",
+          "node_id": "OXY",
+          "entity": "Airbnb"
+        },
+        {
+          "signal_id": "SIG_0149",
+          "fred_series": "CSUSHPINSA",
+          "source": "FRED",
+          "node_id": "OXY",
+          "entity": "Airbnb"
+        }
+      ]
+    },
+    {
+      "node_id": "PAG",
+      "brain_region": "PAG",
+      "system": "limbic",
+      "mapped_entity": "Teva Pharmaceutical",
+      "entity_type": "public company",
+      "ticker": "TEVA",
+      "cik": "818686",
+      "sic": "2834",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0150",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "PAG",
+          "entity": "Teva Pharmaceutical"
+        },
+        {
+          "signal_id": "SIG_0151",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "PAG",
+          "entity": "Teva Pharmaceutical"
+        }
+      ]
+    },
+    {
+      "node_id": "PBN",
+      "brain_region": "Parabrachial",
+      "system": "other",
+      "mapped_entity": "ResMed",
+      "entity_type": "public company",
+      "ticker": "RMD",
+      "cik": "943819",
+      "sic": "3841",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0152",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "PBN",
+          "entity": "ResMed"
+        },
+        {
+          "signal_id": "SIG_0153",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "PBN",
+          "entity": "ResMed"
+        }
+      ]
+    },
+    {
+      "node_id": "PCC",
+      "brain_region": "PCC",
+      "system": "dmn",
+      "mapped_entity": "Iron Mountain",
+      "entity_type": "public company",
+      "ticker": "IRM",
+      "cik": "1020569",
+      "sic": "4226",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "communication"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0154",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "PCC",
+          "entity": "Iron Mountain"
+        },
+        {
+          "signal_id": "SIG_0155",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "PCC",
+          "entity": "Iron Mountain"
+        }
+      ]
+    },
+    {
+      "node_id": "PI",
+      "brain_region": "Posterior Insula",
+      "system": "salience",
+      "mapped_entity": "Apple",
+      "entity_type": "public company",
+      "ticker": "AAPL",
+      "cik": "320193",
+      "sic": "3571",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0156",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "PI",
+          "entity": "Apple"
+        },
+        {
+          "signal_id": "SIG_0157",
+          "fred_series": "PCU3344133441",
+          "source": "FRED",
+          "node_id": "PI",
+          "entity": "Apple"
+        }
+      ]
+    },
+    {
+      "node_id": "PIN",
+      "brain_region": "Pineal",
+      "system": "other",
+      "mapped_entity": "Sleep Number",
+      "entity_type": "public company",
+      "ticker": "SNBR",
+      "cik": "827187",
+      "sic": "2515",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0158",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "PIN",
+          "entity": "Sleep Number"
+        },
+        {
+          "signal_id": "SIG_0159",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "PIN",
+          "entity": "Sleep Number"
+        }
+      ]
+    },
+    {
+      "node_id": "PIT",
+      "brain_region": "Pituitary",
+      "system": "hpa",
+      "mapped_entity": "Goldman Sachs",
+      "entity_type": "public company",
+      "ticker": "GS",
+      "cik": "886982",
+      "sic": "6211",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "finance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0160",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "PIT",
+          "entity": "Goldman Sachs"
+        },
+        {
+          "signal_id": "SIG_0161",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "PIT",
+          "entity": "Goldman Sachs"
+        },
+        {
+          "signal_id": "SIG_0162",
+          "fred_series": "BAMLH0A0HYM2",
+          "source": "FRED",
+          "node_id": "PIT",
+          "entity": "Goldman Sachs"
+        }
+      ]
+    },
+    {
+      "node_id": "PMC",
+      "brain_region": "Premotor Cortex",
+      "system": "motor",
+      "mapped_entity": "ABB Ltd",
+      "entity_type": "public company",
+      "ticker": "ABB",
+      "cik": "",
+      "sic": "3699",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "industry"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0163",
+          "fred_series": "INDPRO",
+          "source": "FRED",
+          "node_id": "PMC",
+          "entity": "ABB Ltd"
+        },
+        {
+          "signal_id": "SIG_0164",
+          "fred_series": "DGORDER",
+          "source": "FRED",
+          "node_id": "PMC",
+          "entity": "ABB Ltd"
+        }
+      ]
+    },
+    {
+      "node_id": "PPA",
+      "brain_region": "Parahippocampal Place Area",
+      "system": "memory",
+      "mapped_entity": "CoStar Group",
+      "entity_type": "public company",
+      "ticker": "CSGP",
+      "cik": "1057352",
+      "sic": "7370",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "population"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0165",
+          "fred_series": "CSUSHPINSA",
+          "source": "FRED",
+          "node_id": "PPA",
+          "entity": "CoStar Group"
+        },
+        {
+          "signal_id": "SIG_0166",
+          "fred_series": "HOUST",
+          "source": "FRED",
+          "node_id": "PPA",
+          "entity": "CoStar Group"
+        }
+      ]
+    },
+    {
+      "node_id": "PPN",
+      "brain_region": "PPN",
+      "system": "other",
+      "mapped_entity": "Ekso Bionics",
+      "entity_type": "public company",
+      "ticker": "EKSO",
+      "cik": "1549084",
+      "sic": "3842",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0167",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "PPN",
+          "entity": "Ekso Bionics"
+        },
+        {
+          "signal_id": "SIG_0168",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "PPN",
+          "entity": "Ekso Bionics"
+        }
+      ]
+    },
+    {
+      "node_id": "PRC",
+      "brain_region": "Perirhinal Cortex",
+      "system": "memory",
+      "mapped_entity": "Nielsen",
+      "entity_type": "public company",
+      "ticker": "NLSN",
+      "cik": "1492633",
+      "sic": "7389",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "communication",
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0169",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "PRC",
+          "entity": "Nielsen"
+        },
+        {
+          "signal_id": "SIG_0170",
+          "fred_series": "CPIAPPSL",
+          "source": "FRED",
+          "node_id": "PRC",
+          "entity": "Nielsen"
+        }
+      ]
+    },
+    {
+      "node_id": "PRECUNEUS",
+      "brain_region": "Precuneus",
+      "system": "dmn",
+      "mapped_entity": "Unity Technologies",
+      "entity_type": "public company",
+      "ticker": "U",
+      "cik": "1810806",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0171",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "PRECUNEUS",
+          "entity": "Unity Technologies"
+        },
+        {
+          "signal_id": "SIG_0172",
+          "fred_series": "BOGZ1FL103165103Q",
+          "source": "FRED",
+          "node_id": "PRECUNEUS",
+          "entity": "Unity Technologies"
+        }
+      ]
+    },
+    {
+      "node_id": "PULV",
+      "brain_region": "Pulvinar",
+      "system": "thalamic",
+      "mapped_entity": "Palo Alto Networks",
+      "entity_type": "public company",
+      "ticker": "PANW",
+      "cik": "1327567",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "defense"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0173",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "PULV",
+          "entity": "Palo Alto Networks"
+        },
+        {
+          "signal_id": "SIG_0174",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "PULV",
+          "entity": "Palo Alto Networks"
+        }
+      ]
+    },
+    {
+      "node_id": "PUT",
+      "brain_region": "Putamen",
+      "system": "basal",
+      "mapped_entity": "Peloton",
+      "entity_type": "public company",
+      "ticker": "PTON",
+      "cik": "1639825",
+      "sic": "3949",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "culture",
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0175",
+          "fred_series": "CPIRECSL",
+          "source": "FRED",
+          "node_id": "PUT",
+          "entity": "Peloton"
+        },
+        {
+          "signal_id": "SIG_0176",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "PUT",
+          "entity": "Peloton"
+        }
+      ]
+    },
+    {
+      "node_id": "rACC",
+      "brain_region": "rACC",
+      "system": "dmn",
+      "mapped_entity": "L3Harris (proxy)",
+      "entity_type": "public company",
+      "ticker": "LHX",
+      "cik": "202058",
+      "sic": "3812",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "economy",
+        "governance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0177",
+          "fred_series": "UNRATE",
+          "source": "FRED",
+          "node_id": "rACC",
+          "entity": "L3Harris (proxy)"
+        },
+        {
+          "signal_id": "SIG_0178",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "rACC",
+          "entity": "L3Harris (proxy)"
+        }
+      ]
+    },
+    {
+      "node_id": "RAPHE",
+      "brain_region": "Raphe Nuclei",
+      "system": "neuromod",
+      "mapped_entity": "Eli Lilly",
+      "entity_type": "public company",
+      "ticker": "LLY",
+      "cik": "59478",
+      "sic": "2834",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0179",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "RAPHE",
+          "entity": "Eli Lilly"
+        },
+        {
+          "signal_id": "SIG_0180",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "RAPHE",
+          "entity": "Eli Lilly"
+        }
+      ]
+    },
+    {
+      "node_id": "RF",
+      "brain_region": "Reticular Formation",
+      "system": "entrainment",
+      "mapped_entity": "ResMed",
+      "entity_type": "public company",
+      "ticker": "RMD",
+      "cik": "943819",
+      "sic": "3841",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0181",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "RF",
+          "entity": "ResMed"
+        },
+        {
+          "signal_id": "SIG_0182",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "RF",
+          "entity": "ResMed"
+        }
+      ]
+    },
+    {
+      "node_id": "rPFC",
+      "brain_region": "Right Prefrontal Cortex",
+      "system": "executive",
+      "mapped_entity": "Berkshire Hathaway",
+      "entity_type": "public company",
+      "ticker": "BRK.B",
+      "cik": "1067983",
+      "sic": "6331",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "finance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0183",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "rPFC",
+          "entity": "Berkshire Hathaway"
+        },
+        {
+          "signal_id": "SIG_0184",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "rPFC",
+          "entity": "Berkshire Hathaway"
+        },
+        {
+          "signal_id": "SIG_0185",
+          "fred_series": "BAMLH0A0HYM2",
+          "source": "FRED",
+          "node_id": "rPFC",
+          "entity": "Berkshire Hathaway"
+        }
+      ]
+    },
+    {
+      "node_id": "RSC",
+      "brain_region": "Retrosplenial",
+      "system": "dmn",
+      "mapped_entity": "Trimble",
+      "entity_type": "public company",
+      "ticker": "TRMB",
+      "cik": "864749",
+      "sic": "3825",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "infrastructure",
+        "population"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0186",
+          "fred_series": "HOUST",
+          "source": "FRED",
+          "node_id": "RSC",
+          "entity": "Trimble"
+        },
+        {
+          "signal_id": "SIG_0187",
+          "fred_series": "TTLCONS",
+          "source": "FRED",
+          "node_id": "RSC",
+          "entity": "Trimble"
+        }
+      ]
+    },
+    {
+      "node_id": "S1",
+      "brain_region": "S1",
+      "system": "sensory",
+      "mapped_entity": "Intuitive Surgical",
+      "entity_type": "public company",
+      "ticker": "ISRG",
+      "cik": "1035267",
+      "sic": "3841",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0188",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "S1",
+          "entity": "Intuitive Surgical"
+        },
+        {
+          "signal_id": "SIG_0189",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "S1",
+          "entity": "Intuitive Surgical"
+        }
+      ]
+    },
+    {
+      "node_id": "S2",
+      "brain_region": "Secondary Somatosensory",
+      "system": "sensory",
+      "mapped_entity": "Hanger Inc",
+      "entity_type": "public company",
+      "ticker": "HNGR",
+      "cik": "866563",
+      "sic": "5047",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0190",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "S2",
+          "entity": "Hanger Inc"
+        },
+        {
+          "signal_id": "SIG_0191",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "S2",
+          "entity": "Hanger Inc"
+        }
+      ]
+    },
+    {
+      "node_id": "SC",
+      "brain_region": "Superior Colliculus",
+      "system": "other",
+      "mapped_entity": "Luminar Technologies",
+      "entity_type": "public company",
+      "ticker": "LAZR",
+      "cik": "1758057",
+      "sic": "3827",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "defense"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0192",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "SC",
+          "entity": "Luminar Technologies"
+        },
+        {
+          "signal_id": "SIG_0193",
+          "fred_series": "TTLCONS",
+          "source": "FRED",
+          "node_id": "SC",
+          "entity": "Luminar Technologies"
+        }
+      ]
+    },
+    {
+      "node_id": "SCN",
+      "brain_region": "Suprachiasmatic Nucleus",
+      "system": "autonomic",
+      "mapped_entity": "Philips",
+      "entity_type": "public company",
+      "ticker": "PHG",
+      "cik": "313216",
+      "sic": "3641",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "environment",
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0194",
+          "fred_series": "CPIUFDSL",
+          "source": "FRED",
+          "node_id": "SCN",
+          "entity": "Philips"
+        },
+        {
+          "signal_id": "SIG_0195",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "SCN",
+          "entity": "Philips"
+        }
+      ]
+    },
+    {
+      "node_id": "SDH",
+      "brain_region": "Spinal Dorsal Horn",
+      "system": "autonomic",
+      "mapped_entity": "Nevro",
+      "entity_type": "public company",
+      "ticker": "NVRO",
+      "cik": "1444380",
+      "sic": "3841",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0196",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "SDH",
+          "entity": "Nevro"
+        },
+        {
+          "signal_id": "SIG_0197",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "SDH",
+          "entity": "Nevro"
+        }
+      ]
+    },
+    {
+      "node_id": "SEPT",
+      "brain_region": "Septal",
+      "system": "memory",
+      "mapped_entity": "Match Group",
+      "entity_type": "public company",
+      "ticker": "MTCH",
+      "cik": "1575515",
+      "sic": "7370",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "population"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0198",
+          "fred_series": "POPTHM",
+          "source": "FRED",
+          "node_id": "SEPT",
+          "entity": "Match Group"
+        },
+        {
+          "signal_id": "SIG_0199",
+          "fred_series": "DSPIC96",
+          "source": "FRED",
+          "node_id": "SEPT",
+          "entity": "Match Group"
+        }
+      ]
+    },
+    {
+      "node_id": "sgACC",
+      "brain_region": "Subgenual ACC",
+      "system": "limbic",
+      "mapped_entity": "Talkspace",
+      "entity_type": "public company",
+      "ticker": "TALK",
+      "cik": "1810560",
+      "sic": "7389",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "medicine",
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0200",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "sgACC",
+          "entity": "Talkspace"
+        },
+        {
+          "signal_id": "SIG_0201",
+          "fred_series": "UNRATE",
+          "source": "FRED",
+          "node_id": "sgACC",
+          "entity": "Talkspace"
+        }
+      ]
+    },
+    {
+      "node_id": "SMA",
+      "brain_region": "SMA",
+      "system": "motor",
+      "mapped_entity": "Rockwell Automation",
+      "entity_type": "public company",
+      "ticker": "ROK",
+      "cik": "1024478",
+      "sic": "3569",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "industry"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0202",
+          "fred_series": "INDPRO",
+          "source": "FRED",
+          "node_id": "SMA",
+          "entity": "Rockwell Automation"
+        },
+        {
+          "signal_id": "SIG_0203",
+          "fred_series": "NEWORDER",
+          "source": "FRED",
+          "node_id": "SMA",
+          "entity": "Rockwell Automation"
+        }
+      ]
+    },
+    {
+      "node_id": "SMN",
+      "brain_region": "Somatomotor",
+      "system": "motor",
+      "mapped_entity": "Deere",
+      "entity_type": "public company",
+      "ticker": "DE",
+      "cik": "315189",
+      "sic": "3523",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "industry",
+        "p2_agri"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0204",
+          "fred_series": "PPIACO",
+          "source": "FRED",
+          "node_id": "SMN",
+          "entity": "Deere"
+        },
+        {
+          "signal_id": "SIG_0205",
+          "fred_series": "INDPRO",
+          "source": "FRED",
+          "node_id": "SMN",
+          "entity": "Deere"
+        }
+      ]
+    },
+    {
+      "node_id": "SN",
+      "brain_region": "Salience Network",
+      "system": "salience",
+      "mapped_entity": "Datadog",
+      "entity_type": "public company",
+      "ticker": "DDOG",
+      "cik": "1561550",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "intelligence"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0206",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "SN",
+          "entity": "Datadog"
+        },
+        {
+          "signal_id": "SIG_0207",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "SN",
+          "entity": "Datadog"
+        }
+      ]
+    },
+    {
+      "node_id": "SNIG",
+      "brain_region": "Substantia Nigra",
+      "system": "basal",
+      "mapped_entity": "Emerson Electric",
+      "entity_type": "public company",
+      "ticker": "EMR",
+      "cik": "32604",
+      "sic": "3823",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "industry"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0208",
+          "fred_series": "INDPRO",
+          "source": "FRED",
+          "node_id": "SNIG",
+          "entity": "Emerson Electric"
+        },
+        {
+          "signal_id": "SIG_0209",
+          "fred_series": "IPB50001N",
+          "source": "FRED",
+          "node_id": "SNIG",
+          "entity": "Emerson Electric"
+        }
+      ]
+    },
+    {
+      "node_id": "SNS",
+      "brain_region": "Sympathetic",
+      "system": "autonomic",
+      "mapped_entity": "Lockheed Martin",
+      "entity_type": "public company",
+      "ticker": "LMT",
+      "cik": "936468",
+      "sic": "3760",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "defense"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0210",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "SNS",
+          "entity": "Lockheed Martin"
+        },
+        {
+          "signal_id": "SIG_0211",
+          "fred_series": "IPB3361T3S",
+          "source": "FRED",
+          "node_id": "SNS",
+          "entity": "Lockheed Martin"
+        }
+      ]
+    },
+    {
+      "node_id": "SPL",
+      "brain_region": "Superior Parietal Lobule",
+      "system": "executive",
+      "mapped_entity": "Autodesk",
+      "entity_type": "public company",
+      "ticker": "ADSK",
+      "cik": "769397",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "infrastructure"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0212",
+          "fred_series": "TTLCONS",
+          "source": "FRED",
+          "node_id": "SPL",
+          "entity": "Autodesk"
+        },
+        {
+          "signal_id": "SIG_0213",
+          "fred_series": "HOUST",
+          "source": "FRED",
+          "node_id": "SPL",
+          "entity": "Autodesk"
+        }
+      ]
+    },
+    {
+      "node_id": "STN",
+      "brain_region": "STN",
+      "system": "basal",
+      "mapped_entity": "ICE (circuit breakers)",
+      "entity_type": "public company",
+      "ticker": "ICE",
+      "cik": "1571949",
+      "sic": "6200",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "finance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0214",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "STN",
+          "entity": "ICE (circuit breakers)"
+        },
+        {
+          "signal_id": "SIG_0215",
+          "fred_series": "BAMLH0A0HYM2",
+          "source": "FRED",
+          "node_id": "STN",
+          "entity": "ICE (circuit breakers)"
+        }
+      ]
+    },
+    {
+      "node_id": "STRI",
+      "brain_region": "Striatum",
+      "system": "reward",
+      "mapped_entity": "Las Vegas Sands",
+      "entity_type": "public company",
+      "ticker": "LVS",
+      "cik": "1300514",
+      "sic": "7011",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0216",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "STRI",
+          "entity": "Las Vegas Sands"
+        },
+        {
+          "signal_id": "SIG_0217",
+          "fred_series": "CPIRECSL",
+          "source": "FRED",
+          "node_id": "STRI",
+          "entity": "Las Vegas Sands"
+        }
+      ]
+    },
+    {
+      "node_id": "STS",
+      "brain_region": "STS",
+      "system": "language",
+      "mapped_entity": "Zoom Video",
+      "entity_type": "public company",
+      "ticker": "ZM",
+      "cik": "1585521",
+      "sic": "7372",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "communication"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0218",
+          "fred_series": "IPUHN517110U100000000",
+          "source": "FRED",
+          "node_id": "STS",
+          "entity": "Zoom Video"
+        },
+        {
+          "signal_id": "SIG_0219",
+          "fred_series": "WPU36",
+          "source": "FRED",
+          "node_id": "STS",
+          "entity": "Zoom Video"
+        }
+      ]
+    },
+    {
+      "node_id": "THAL",
+      "brain_region": "Thalamus",
+      "system": "thalamic",
+      "mapped_entity": "Qualcomm",
+      "entity_type": "public company",
+      "ticker": "QCOM",
+      "cik": "804328",
+      "sic": "3674",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "communication"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0220",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "THAL",
+          "entity": "Qualcomm"
+        },
+        {
+          "signal_id": "SIG_0221",
+          "fred_series": "PCU3344133441",
+          "source": "FRED",
+          "node_id": "THAL",
+          "entity": "Qualcomm"
+        }
+      ]
+    },
+    {
+      "node_id": "TPJ",
+      "brain_region": "TPJ",
+      "system": "salience",
+      "mapped_entity": "Marsh McLennan (ICG proxy)",
+      "entity_type": "public company",
+      "ticker": "MMC",
+      "cik": "62996",
+      "sic": "6411",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "governance",
+        "defense"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0222",
+          "fred_series": "FGEXPND",
+          "source": "FRED",
+          "node_id": "TPJ",
+          "entity": "Marsh McLennan (ICG proxy)"
+        },
+        {
+          "signal_id": "SIG_0223",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "TPJ",
+          "entity": "Marsh McLennan (ICG proxy)"
+        }
+      ]
+    },
+    {
+      "node_id": "TPOLE",
+      "brain_region": "Temporal Pole",
+      "system": "dmn",
+      "mapped_entity": "Alphabet/Google",
+      "entity_type": "public company",
+      "ticker": "GOOGL",
+      "cik": "1652044",
+      "sic": "7372",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "education",
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0224",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "TPOLE",
+          "entity": "Alphabet/Google"
+        },
+        {
+          "signal_id": "SIG_0225",
+          "fred_series": "CPIRECSL",
+          "source": "FRED",
+          "node_id": "TPOLE",
+          "entity": "Alphabet/Google"
+        }
+      ]
+    },
+    {
+      "node_id": "TrkB",
+      "brain_region": "TrkB",
+      "system": "plasticity",
+      "mapped_entity": "COMPASS Pathways",
+      "entity_type": "public company",
+      "ticker": "CMPS",
+      "cik": "1816431",
+      "sic": "2836",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "medicine",
+        "science"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0226",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "TrkB",
+          "entity": "COMPASS Pathways"
+        },
+        {
+          "signal_id": "SIG_0227",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "TrkB",
+          "entity": "COMPASS Pathways"
+        }
+      ]
+    },
+    {
+      "node_id": "UNC",
+      "brain_region": "Uncinate",
+      "system": "other",
+      "mapped_entity": "Accolade",
+      "entity_type": "public company",
+      "ticker": "ACCD",
+      "cik": "1481646",
+      "sic": "7389",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0228",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "UNC",
+          "entity": "Accolade"
+        },
+        {
+          "signal_id": "SIG_0229",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "UNC",
+          "entity": "Accolade"
+        }
+      ]
+    },
+    {
+      "node_id": "V1",
+      "brain_region": "V1",
+      "system": "sensory",
+      "mapped_entity": "Alcon",
+      "entity_type": "public company",
+      "ticker": "ALC",
+      "cik": "1167379",
+      "sic": "3851",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "health",
+        "science"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0230",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "V1",
+          "entity": "Alcon"
+        },
+        {
+          "signal_id": "SIG_0231",
+          "fred_series": "PPIIDC",
+          "source": "FRED",
+          "node_id": "V1",
+          "entity": "Alcon"
+        }
+      ]
+    },
+    {
+      "node_id": "V4V5",
+      "brain_region": "Visual Association (V4/V5)",
+      "system": "sensory",
+      "mapped_entity": "Adobe",
+      "entity_type": "public company",
+      "ticker": "ADBE",
+      "cik": "796343",
+      "sic": "7372",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0232",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "V4V5",
+          "entity": "Adobe"
+        },
+        {
+          "signal_id": "SIG_0233",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "V4V5",
+          "entity": "Adobe"
+        }
+      ]
+    },
+    {
+      "node_id": "VAN",
+      "brain_region": "Ventral Attention",
+      "system": "salience",
+      "mapped_entity": "PagerDuty",
+      "entity_type": "public company",
+      "ticker": "PD",
+      "cik": "1568100",
+      "sic": "7372",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "technology"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0234",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "VAN",
+          "entity": "PagerDuty"
+        },
+        {
+          "signal_id": "SIG_0235",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "VAN",
+          "entity": "PagerDuty"
+        }
+      ]
+    },
+    {
+      "node_id": "VERM",
+      "brain_region": "Vermis",
+      "system": "other",
+      "mapped_entity": "Garmin",
+      "entity_type": "public company",
+      "ticker": "GRMN",
+      "cik": "1121788",
+      "sic": "3812",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0236",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "VERM",
+          "entity": "Garmin"
+        },
+        {
+          "signal_id": "SIG_0237",
+          "fred_series": "CPIRECSL",
+          "source": "FRED",
+          "node_id": "VERM",
+          "entity": "Garmin"
+        }
+      ]
+    },
+    {
+      "node_id": "VEST",
+      "brain_region": "Vestibular",
+      "system": "other",
+      "mapped_entity": "Stryker",
+      "entity_type": "public company",
+      "ticker": "SYK",
+      "cik": "310764",
+      "sic": "3841",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "health"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0238",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "VEST",
+          "entity": "Stryker"
+        },
+        {
+          "signal_id": "SIG_0239",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "VEST",
+          "entity": "Stryker"
+        }
+      ]
+    },
+    {
+      "node_id": "VIA",
+      "brain_region": "Vagal Immune Axis",
+      "system": "autonomic",
+      "mapped_entity": "electroCore",
+      "entity_type": "public company",
+      "ticker": "ECOR",
+      "cik": "1578602",
+      "sic": "3841",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "medicine"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0240",
+          "fred_series": "CPIMEDSL",
+          "source": "FRED",
+          "node_id": "VIA",
+          "entity": "electroCore"
+        },
+        {
+          "signal_id": "SIG_0241",
+          "fred_series": "CES6562000001",
+          "source": "FRED",
+          "node_id": "VIA",
+          "entity": "electroCore"
+        }
+      ]
+    },
+    {
+      "node_id": "vlPFC",
+      "brain_region": "vlPFC",
+      "system": "executive",
+      "mapped_entity": "MarketAxess",
+      "entity_type": "public company",
+      "ticker": "MKTX",
+      "cik": "1289419",
+      "sic": "6211",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "finance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0242",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "vlPFC",
+          "entity": "MarketAxess"
+        },
+        {
+          "signal_id": "SIG_0243",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "vlPFC",
+          "entity": "MarketAxess"
+        }
+      ]
+    },
+    {
+      "node_id": "vmPFC",
+      "brain_region": "vmPFC",
+      "system": "limbic",
+      "mapped_entity": "Marsh McLennan",
+      "entity_type": "public company",
+      "ticker": "MMC",
+      "cik": "62996",
+      "sic": "6411",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "finance",
+        "governance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0244",
+          "fred_series": "BAMLH0A0HYM2",
+          "source": "FRED",
+          "node_id": "vmPFC",
+          "entity": "Marsh McLennan"
+        },
+        {
+          "signal_id": "SIG_0245",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "vmPFC",
+          "entity": "Marsh McLennan"
+        },
+        {
+          "signal_id": "SIG_0246",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "vmPFC",
+          "entity": "Marsh McLennan"
+        }
+      ]
+    },
+    {
+      "node_id": "VP",
+      "brain_region": "Ventral Pallidum",
+      "system": "basal",
+      "mapped_entity": "Procter & Gamble",
+      "entity_type": "public company",
+      "ticker": "PG",
+      "cik": "80424",
+      "sic": "2840",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "economy",
+        "culture"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0247",
+          "fred_series": "RSAFS",
+          "source": "FRED",
+          "node_id": "VP",
+          "entity": "Procter & Gamble"
+        },
+        {
+          "signal_id": "SIG_0248",
+          "fred_series": "CPIUFDSL",
+          "source": "FRED",
+          "node_id": "VP",
+          "entity": "Procter & Gamble"
+        }
+      ]
+    },
+    {
+      "node_id": "VTA",
+      "brain_region": "VTA",
+      "system": "reward",
+      "mapped_entity": "KKR",
+      "entity_type": "public company",
+      "ticker": "KKR",
+      "cik": "1404912",
+      "sic": "6726",
+      "confidence": "high",
+      "connectome_match": true,
+      "domains": [
+        "finance"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0249",
+          "fred_series": "FEDFUNDS",
+          "source": "FRED",
+          "node_id": "VTA",
+          "entity": "KKR"
+        },
+        {
+          "signal_id": "SIG_0250",
+          "fred_series": "DGS10",
+          "source": "FRED",
+          "node_id": "VTA",
+          "entity": "KKR"
+        }
+      ]
+    },
+    {
+      "node_id": "VV",
+      "brain_region": "Ventral Vagal",
+      "system": "autonomic",
+      "mapped_entity": "NICE Systems",
+      "entity_type": "public company",
+      "ticker": "NICE",
+      "cik": "1489393",
+      "sic": "7372",
+      "confidence": "medium",
+      "connectome_match": true,
+      "domains": [
+        "communication"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0251",
+          "fred_series": "IPUHN517110U100000000",
+          "source": "FRED",
+          "node_id": "VV",
+          "entity": "NICE Systems"
+        },
+        {
+          "signal_id": "SIG_0252",
+          "fred_series": "WPU36",
+          "source": "FRED",
+          "node_id": "VV",
+          "entity": "NICE Systems"
+        }
+      ]
+    },
+    {
+      "node_id": "WERN",
+      "brain_region": "Wernicke",
+      "system": "language",
+      "mapped_entity": "Alphabet/Google",
+      "entity_type": "public company",
+      "ticker": "GOOGL",
+      "cik": "1652044",
+      "sic": "7372",
+      "confidence": "very high",
+      "connectome_match": true,
+      "domains": [
+        "technology",
+        "communication"
+      ],
+      "signals": [
+        {
+          "signal_id": "SIG_0253",
+          "fred_series": "IPG3344S",
+          "source": "FRED",
+          "node_id": "WERN",
+          "entity": "Alphabet/Google"
+        },
+        {
+          "signal_id": "SIG_0254",
+          "fred_series": "CES7071300001",
+          "source": "FRED",
+          "node_id": "WERN",
+          "entity": "Alphabet/Google"
+        }
+      ]
+    }
+  ]
+}

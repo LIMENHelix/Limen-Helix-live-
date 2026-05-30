@@ -1,0 +1,383 @@
+{
+  "domainId": "metabolic_dopaminergic",
+  "title": "Dopaminergic Metabolic Signaling",
+  "parentPortal": "metabolic_portal.html",
+  "parentLabel": "Metabolic & Endocrine",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Dopaminergic Metabolic Signaling Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Dopaminergic Metabolic Signaling indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "metabolic_dopaminergic_action_portal.html"
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Dopaminergic Metabolic Signaling Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Dopaminergic Metabolic Signaling activities and deliverables",
+      "group": "operations",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Dopaminergic Metabolic Signaling Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "metabolic_dopaminergic_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Dopaminergic Metabolic Signaling Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Dopaminergic Metabolic Signaling, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "metabolic_dopaminergic_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Dopaminergic Metabolic Signaling Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Dopaminergic Metabolic Signaling practices and compliance obligations",
+      "group": "governance",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "metabolic_dopaminergic_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Dopaminergic Metabolic Signaling Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Dopaminergic Metabolic Signaling methods and capabilities",
+      "group": "innovation",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "metabolic_dopaminergic_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Dopaminergic Metabolic Signaling Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Dopaminergic Metabolic Signaling stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "metabolic_dopaminergic_signal_portal.html"
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Dopaminergic Metabolic Signaling Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Dopaminergic Metabolic Signaling operations and interfaces",
+      "group": "systems",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "metabolic_dopaminergic_state_portal.html"
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Dopaminergic Metabolic Signaling Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Dopaminergic Metabolic Signaling outputs and resource utilization",
+      "group": "operations",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Dopaminergic Metabolic Signaling Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "M1",
+      "target": "S1",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "S1",
+      "target": "dlPFC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "HIPP",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "dACC",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "THAL",
+      "target": "OFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "OFC",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "CBLM",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "M1",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "HIPP",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "METABOLIC_DOPAMINERGIC_SYSTEM_FAILURE",
+      "label": "Dopaminergic Metabolic Signaling System Failure",
+      "summary": "Critical breakdown in Dopaminergic Metabolic Signaling systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Dopaminergic Metabolic Signaling Assessment & Diagnostics capacity falling below operational thresholds, reducing Dopaminergic Metabolic Signaling output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "Dopaminergic Metabolic Signaling Core Operations systems underperforming, creating gaps in Dopaminergic Metabolic Signaling coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Dopaminergic Metabolic Signaling Infrastructure & Capacity behavior deviating from established norms, complicating Dopaminergic Metabolic Signaling management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper-active",
+          "detail": "Dopaminergic Metabolic Signaling Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Dopaminergic Metabolic Signaling",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Dopaminergic Metabolic Signaling Performance & Optimization function reduced, compromising Dopaminergic Metabolic Signaling system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "METABOLIC_DOPAMINERGIC_CAPACITY_CRISIS",
+      "label": "Dopaminergic Metabolic Signaling Capacity Crisis",
+      "summary": "Demand exceeding available Dopaminergic Metabolic Signaling capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "S1",
+          "dir": "Hyper-active",
+          "detail": "Dopaminergic Metabolic Signaling Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Dopaminergic Metabolic Signaling",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Dopaminergic Metabolic Signaling Infrastructure & Capacity systems underperforming, creating gaps in Dopaminergic Metabolic Signaling coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Dopaminergic Metabolic Signaling Standards & Governance behavior deviating from established norms, complicating Dopaminergic Metabolic Signaling management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Dopaminergic Metabolic Signaling Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Dopaminergic Metabolic Signaling",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Dopaminergic Metabolic Signaling Performance & Optimization operating outside normal parameters, introducing uncertainty into Dopaminergic Metabolic Signaling outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "METABOLIC_DOPAMINERGIC_GOVERNANCE_GAP",
+      "label": "Dopaminergic Metabolic Signaling Governance Gap",
+      "summary": "Oversight or regulatory failure in Dopaminergic Metabolic Signaling creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Dopaminergic Metabolic Signaling Standards & Governance capacity falling below operational thresholds, reducing Dopaminergic Metabolic Signaling output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Dopaminergic Metabolic Signaling Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Dopaminergic Metabolic Signaling",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Dopaminergic Metabolic Signaling Research & Development activity spiking beyond design limits, creating instability across Dopaminergic Metabolic Signaling operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Dopaminergic Metabolic Signaling Risk & Resilience patterns disrupted, necessitating adaptive responses within Dopaminergic Metabolic Signaling frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo-active",
+          "detail": "Dopaminergic Metabolic Signaling Coordination & Integration function reduced, compromising Dopaminergic Metabolic Signaling system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

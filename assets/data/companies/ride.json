@@ -1,0 +1,961 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "ride",
+  "slug": "ride",
+  "name": "NU RIDE INC.",
+  "ticker": "RIDE",
+  "cik": "0001759546",
+  "sic": "3711",
+  "industry": "Motor Vehicles & Passenger Car Bodies",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "INGESTION_SUSPECT",
+  "fredSeries": [
+    "TOTALSA",
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "RIDE"
+  ],
+  "commodityExposure": [
+    "steel",
+    "aluminum",
+    "lithium",
+    "cobalt",
+    "nickel",
+    "copper",
+    "rare-earth-elements"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?cik=0001759546",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "INGESTION_SUSPECT",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": true,
+    "distressBand": "red",
+    "dominantPhase": "p6",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Pre-revenue EV manufacturer with unproven production capability",
+    "Significant cash burn rate and capital intensity of EV platform development",
+    "Execution risk on Endurance truck launch timeline and market adoption",
+    "Supply chain concentration risk in battery and critical mineral sourcing",
+    "Competitive pressure from established OEMs and well-capitalized EV startups"
+  ],
+  "opportunitySignals": [
+    "Commercial EV truck market expansion driven by fleet electrification mandates",
+    "Potential strategic partnerships or acquisition interest from larger automotive groups",
+    "Government incentives for domestic EV manufacturing and battery production",
+    "First-mover advantage in purpose-built electric commercial vehicle segment"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "NU Ride is a pre-revenue electric vehicle manufacturer focused on the commercial truck segment, specifically the Endurance all-electric pickup truck platform. The company operates at the intersection of automotive manufacturing, battery technology, and commercial fleet electrification, positioning itself as a disruptor in the heavy-duty EV market where legacy OEMs have limited offerings. Its supply chain spans battery cell procurement, powertrain integration, and vehicle assembly, with critical dependencies on lithium-ion cell suppliers and semiconductor availability.",
+  "portalRelevance": "NU Ride represents a high-risk, high-impact entrant in the automotive supply chain whose success or failure will signal market viability of independent EV startups in commercial vehicle segments. As a pre-revenue manufacturer with significant capital requirements, the company's trajectory directly influences supplier valuations, battery-technology investment theses, and OEM competitive positioning. Its financial health and production milestones are material signals for the broader EV supply-chain ecosystem and investor appetite for capital-intensive manufacturing ventures.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "INGESTION_SUSPECT"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly production ramp metrics and Endurance truck build-rate disclosures via 8-K filings",
+        "Quarterly cash burn rate and capital raise announcements (equity, debt, strategic investment)",
+        "Supply chain disruption notices and battery cell procurement contract amendments",
+        "Competitive vehicle launch timelines and pricing announcements from legacy OEMs and rival EV startups"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification (p6 stable but pre-revenue) based on production readiness and capital adequacy",
+        "Cash runway estimation from quarterly burn rate and available liquidity",
+        "Supply chain maturity assessment: battery sourcing, powertrain integration, manufacturing readiness",
+        "Market demand validation through pre-orders, fleet customer commitments, and reservation pipeline"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match against Fisker, Lordstown Motors, and other pre-revenue EV startup failure modes (capital exhaustion, production delays, demand shortfalls)",
+        "Execution risk assessment on Endurance platform: design maturity, supply-chain readiness, manufacturing ramp capability",
+        "Competitive positioning analysis vs. Ford F-150 Lightning, Chevrolet Silverado EV, and Rivian R1T in commercial truck segment",
+        "Capital structure stress-test: runway to profitability, dilution trajectory, refinancing risk"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Monitor SEC disclosure compliance and 8-K filing timeliness for material events (production delays, capital raises, executive changes)",
+        "Track NHTSA safety certification and EPA emissions compliance for Endurance platform",
+        "Assess exposure to IRA (Inflation Reduction Act) battery-content and domestic-assembly requirements for EV tax credits",
+        "Monitor antitrust and trade policy impacts on battery supply chains and critical mineral sourcing"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Establish short-bias or hedged position given pre-revenue status and execution risk; monitor for capital raise dilution events",
+        "Track supplier credit exposure: battery cell suppliers, semiconductor vendors, contract manufacturers",
+        "Monitor fleet customer commitments and pre-order pipeline as leading indicators of demand validation",
+        "Assess strategic acquisition or partnership scenarios (legacy OEM integration, battery supplier consolidation)"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings calls and 10-Q filings: cash burn rate, production milestones, customer pipeline updates",
+        "Stock price reaction to production announcements, capital raise news, and competitive vehicle launches",
+        "Supply chain event tracking: battery cell contract announcements, manufacturing facility updates, supplier partnerships",
+        "Competitive intelligence: rival EV startup funding, legacy OEM EV truck launch timelines, fleet electrification adoption rates"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate cash runway model based on actual quarterly burn rate and capital raise outcomes",
+        "Update production-ramp probability distribution as manufacturing facility comes online and initial vehicles ship",
+        "Adjust competitive positioning thesis based on legacy OEM EV truck pricing, features, and availability",
+        "Reassess battery supply-chain risk model as cell supplier contracts are announced and secured"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "LG Energy Solution Ltd.",
+        "ticker": "051910.KS",
+        "cik": null,
+        "slug": "lg_energy_solution",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Battery Cell Supply",
+        "relationshipNote": "LG Energy Solution is a primary battery cell supplier for NU Ride's Endurance platform. The company supplies cylindrical and pouch-format lithium-ion cells critical to the truck's 200+ kWh battery pack. Supply agreements and pricing terms are. LG's production capacity constraints and competing EV OEM demand create supply-chain risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SK Innovation Co., Ltd.",
+        "ticker": "096770.KS",
+        "cik": null,
+        "slug": "sk_innovation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Battery Cell Supply",
+        "relationshipNote": "SK Innovation supplies battery cells and battery management systems for EV platforms. NU Ride has evaluated SK as a secondary or alternative battery supplier to diversify sourcing risk.. SK's U.S. manufacturing expansion (Georgia facility) aligns with domestic-content requirements for EV tax credits.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Linamar Corporation",
+        "ticker": "LNR",
+        "cik": "0001039911",
+        "slug": "linamar",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Powertrain & Drivetrain Components",
+        "relationshipNote": "Linamar is a tier-1 automotive supplier providing powertrain components and e-axle systems for EV platforms. NU Ride sources electric motor integration and drivetrain assembly from Linamar or similar suppliers.. Linamar's EV powertrain portfolio expansion supports NU Ride's production ramp.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bosch Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "bosch_group",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Electronics & Control Systems",
+        "relationshipNote": "Bosch supplies battery management systems, power electronics, and vehicle control modules for EV platforms. NU Ride integrates Bosch components for thermal management, high-voltage distribution, and onboard charging systems. Bosch's automotive electronics expertise is critical to Endurance platform reliability and safety certification.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Magna International Inc.",
+        "ticker": "MGA",
+        "cik": "0000912057",
+        "slug": "magna_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Contract Manufacturing & Assembly",
+        "relationshipNote": "Magna International is a leading contract manufacturer and tier-1 supplier providing vehicle assembly, body engineering, and manufacturing services. NU Ride has explored manufacturing partnerships with Magna for Endurance truck assembly.. Magna's Ohio and Michigan facilities align with NU Ride's domestic production strategy.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "Novelis Inc.",
+        "ticker": "NOVL",
+        "cik": "0001579365",
+        "slug": "novelis",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Aluminum & Lightweight Materials",
+        "relationshipNote": "Novelis supplies rolled aluminum products for vehicle body and structural components. EV manufacturers prioritize aluminum to reduce vehicle weight and improve range. NU Ride's Endurance truck uses aluminum body panels and frame components sourced from Novelis or similar suppliers. Aluminum pricing volatility impacts vehicle cost structure.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lear Corporation",
+        "ticker": "LEA",
+        "cik": "0001065696",
+        "slug": "lear_corporation",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Interior Systems & Electrical Architecture",
+        "relationshipNote": "Lear supplies seating systems, electrical distribution, and interior components for automotive platforms. NU Ride integrates Lear components for cabin electronics, wiring harnesses, and infotainment integration.. Lear's EV-focused product portfolio supports Endurance platform customization.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Aptiv PLC",
+        "ticker": "APTV",
+        "cik": "0001616707",
+        "slug": "aptiv",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Autonomous Driving & Electrical Architecture",
+        "relationshipNote": "Aptiv supplies electrical architecture, autonomous driving platforms, and vehicle connectivity solutions. NU Ride may integrate Aptiv's electrical distribution and autonomous-ready systems for future Endurance variants.. Aptiv's EV electrical expertise is critical for high-voltage system integration.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Lithium & Battery Materials",
+        "relationshipNote": "Albemarle is a leading lithium producer supplying lithium carbonate and lithium hydroxide for battery cell manufacturing. NU Ride's battery supply chain depends on Albemarle's lithium production. Lithium price volatility (2022–2024 spike to $80K/ton, 2024 decline to $15K/ton) directly impacts battery cell costs and vehicle profitability..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Glencore PLC",
+        "ticker": "GLEN",
+        "cik": null,
+        "slug": "glencore",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Cobalt & Nickel Supply",
+        "relationshipNote": "Glencore is a major producer of cobalt and nickel, critical materials for lithium-ion battery cathodes. NU Ride's battery supply chain is exposed to Glencore's production and pricing. Cobalt supply concentration in the Democratic Republic of Congo creates geopolitical risk..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Fleet Logistics & Vehicle Distribution",
+        "relationshipNote": "J.B. Hunt is a major transportation and logistics provider that may serve as a fleet customer and logistics partner for NU Ride's Endurance truck distribution. J.B. Hunt's fleet electrification initiatives align with NU Ride's commercial EV positioning.. J.B. Hunt's scale (20,000+ trucks) represents significant demand validation opportunity.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Last-Mile & Fleet Operations",
+        "relationshipNote": "XPO Logistics operates a large commercial fleet and is a potential customer for NU Ride's Endurance truck. XPO's sustainability commitments and fleet electrification roadmap create demand for purpose-built EV trucks.. XPO's 19,000+ vehicle fleet represents a material customer opportunity.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Schneider National, Inc.",
+        "ticker": "SNDR",
+        "cik": "0000091618",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Commercial Fleet Operations",
+        "relationshipNote": "Schneider National operates one of North America's largest commercial fleets and is a strategic customer prospect for NU Ride's Endurance truck. Schneider's 2030 sustainability targets include fleet electrification.. Schneider's 10,000+ truck fleet represents significant revenue potential.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000091618",
+        "slug": "saia",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Regional Fleet Operations",
+        "relationshipNote": "Saia operates a regional LTL (less-than-truckload) fleet and is a potential customer for NU Ride's Endurance truck in regional delivery operations. Saia's fleet modernization initiatives create demand for EV trucks..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Amazon.com, Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Fleet Customer & Revenue Driver",
+        "relationshipNote": "Amazon has committed to 100,000 electric delivery vehicles by 2030 via Rivian partnership and is evaluating alternative EV truck suppliers. NU Ride's Endurance truck is positioned for Amazon's last-mile delivery fleet.. Amazon's Climate Pledge and fleet electrification roadmap represent a material customer opportunity for NU Ride.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "United Parcel Service, Inc.",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "slug": "ups",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Fleet Customer & Revenue Opportunity",
+        "relationshipNote": "UPS operates a 125,000+ vehicle fleet and has committed to 50% emissions reduction by 2035. UPS is evaluating EV truck suppliers including NU Ride for package delivery operations.. UPS's scale and sustainability commitments create significant revenue potential for NU Ride.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "FedEx Corporation",
+        "ticker": "FDX",
+        "cik": "0000028414",
+        "slug": "fedex",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Fleet Customer & Revenue Opportunity",
+        "relationshipNote": "FedEx operates a 650,000+ vehicle fleet and has committed to carbon-neutral operations by 2040. FedEx is evaluating EV truck suppliers for ground delivery operations.. FedEx's fleet size and sustainability targets represent a material customer opportunity.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Rivian Automotive, Inc.",
+        "ticker": "RIVN",
+        "cik": "0001874506",
+        "slug": "rivian",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct EV Truck Competitor",
+        "relationshipNote": "Rivian is a direct competitor in the electric truck market with the R1T (consumer) and Amazon partnership for delivery vehicles. Rivian has raised $10B+ in capital and achieved production milestones ahead of NU Ride. Rivian's R1T pricing ($70K+) and Amazon exclusivity create competitive pressure on NU Ride's Endurance positioning. Rivian's 2024 production ramp and profitability path are key competitive benchmarks.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ford Motor Company",
+        "ticker": "F",
+        "cik": "0000037996",
+        "slug": "ford",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Legacy OEM EV Truck Competitor",
+        "relationshipNote": "Ford's F-150 Lightning (launched 2022) is the market-leading electric pickup truck with 200,000+ pre-orders and $55K+ pricing. Ford's manufacturing scale, dealer network, and brand equity create significant competitive advantage over NU Ride. Ford's 2024 production ramp and pricing strategy directly impact NU Ride's market positioning and customer acquisition.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "General Motors Company",
+        "ticker": "GM",
+        "cik": "0001467858",
+        "slug": "general_motors",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Legacy OEM EV Truck Competitor",
+        "relationshipNote": "General Motors' Chevrolet Silverado EV (launching 2024–2025) and GMC Sierra EV target the commercial and consumer truck segments. GM's $35B EV investment and manufacturing scale create significant competitive pressure on NU Ride. GM's pricing ($39K+ for Silverado EV) and availability undercut NU Ride's positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lordstown Motors Corp.",
+        "ticker": null,
+        "cik": "0001759546",
+        "slug": "lordstown_motors",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Bankrupt EV Truck Competitor",
+        "relationshipNote": "Lordstown Motors filed for bankruptcy in 2023 after failing to achieve production milestones and secure customer commitments for its Endurance truck. Lordstown's collapse is a cautionary tale for pre-revenue EV startups and signals market skepticism of independent EV truck manufacturers. NU Ride's Endurance platform shares similar positioning and faces comparable execution risks.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Workhorse Group Inc.",
+        "ticker": "WKHS",
+        "cik": "0001534527",
+        "slug": "workhorse_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "EV Truck Startup Competitor",
+        "relationshipNote": "Workhorse Group manufactures the W-15 electric pickup truck and C-Series electric delivery vehicles. Workhorse has faced production delays and capital constraints, limiting market penetration. Workhorse's struggles highlight the capital intensity and execution challenges of independent EV truck manufacturers, creating both competitive and cautionary signals for NU Ride.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Tesla, Inc.",
+        "ticker": "TSLA",
+        "cik": "0001318605",
+        "slug": "tesla",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "EV Market Leader & Potential Truck Competitor",
+        "relationshipNote": "Tesla's Cybertruck (launched 2023) targets the premium electric truck segment with $60K+ pricing and advanced autonomous features. Tesla's manufacturing scale, brand loyalty, and technology leadership create existential competitive risk for NU Ride. Tesla's 2024 Cybertruck production ramp and pricing strategy will shape the broader EV truck market.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Disclosure & Compliance Oversight",
+        "relationshipNote": "The SEC oversees NU Ride's public company disclosures, 10-Q and 10-K filings, and 8-K event reporting. NU Ride's pre-revenue status and capital burn rate require heightened disclosure scrutiny. SEC enforcement actions against EV startups (e.g., Nikola fraud case 2020) create regulatory risk for NU Ride's executive team and board.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "National Highway Traffic Safety Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "nhtsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Vehicle Safety & Certification",
+        "relationshipNote": "NHTSA oversees vehicle safety standards, crash testing, and regulatory compliance for the Endurance truck. NU Ride must achieve NHTSA certification before production and sales. Safety recalls or certification delays would materially impact production timeline and customer confidence.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "The EPA oversees vehicle emissions standards and EV battery recycling regulations. NU Ride's Endurance truck must comply with EPA emissions standards and battery labeling requirements. EPA regulations on battery sourcing and recycling (e.g., critical mineral content) impact supply-chain costs.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Consumer Protection & Antitrust",
+        "relationshipNote": "The FTC oversees consumer protection claims and advertising practices. NU Ride's marketing claims regarding Endurance truck range, performance, and delivery timelines are subject to FTC scrutiny. FTC enforcement actions against EV startups (e.g., Nikola settlement 2022) create regulatory risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "doe",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "EV Incentives & Manufacturing Support",
+        "relationshipNote": "The DOE administers EV tax credits (Inflation Reduction Act) and manufacturing grants. NU Ride is eligible for IRA battery-content and domestic-assembly tax credits if it meets sourcing requirements. DOE manufacturing grants could support Endurance production facility development..",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial Audit & Risk Assessment",
+        "relationshipNote": ". NU Ride's pre-revenue status and capital burn rate require rigorous audit oversight. Auditor concerns regarding going-concern assumptions or internal controls would be material red flags for investors.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Foxconn Technology Group",
+        "ticker": "2317.TW",
+        "cik": null,
+        "slug": "foxconn",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Investor & Manufacturing Partner",
+        "relationshipNote": "Foxconn invested $230M in NU Ride in 2021 and became a strategic manufacturing partner. Foxconn's investment provided capital and manufacturing expertise for Endurance platform development.. Foxconn's involvement signals manufacturing credibility but also creates execution dependency.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Cumulus Venture Partners",
+        "ticker": null,
+        "cik": null,
+        "slug": "cumulus_venture",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Venture Capital Investor",
+        "relationshipNote": "Cumulus Venture Partners is an early-stage investor in NU Ride providing growth capital.. Cumulus's venture capital expertise supports NU Ride's capital strategy and investor relations.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "Hanwha Q CELLS",
+        "ticker": "006360.KS",
+        "cik": null,
+        "slug": "hanwha_q_cells",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Investor & Technology Partner",
+        "relationshipNote": "Hanwha Q CELLS (Hanwha SolarOne subsidiary) invested in NU Ride and provides battery technology expertise.. Hanwha's involvement provides access to battery supply chains and manufacturing capabilities.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "Equity Commonwealth",
+        "ticker": "EQC",
+        "cik": "0001393805",
+        "slug": "equity_commonwealth",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Real Estate & Facility Financing",
+        "relationshipNote": "Equity Commonwealth provided real estate financing for NU Ride's manufacturing facility in Lordstown, Ohio.. The Lordstown facility is critical to Endurance production ramp.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Electric Vehicle Sales Growth Index",
+        "slug": "ev_sales_growth",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Market Demand Signal",
+        "relationshipNote": "U.S. EV sales grew 50% YoY in 2023 and are projected to reach 20% of new vehicle sales by 2030. Commercial EV truck sales are growing faster than consumer EV sales, creating tailwind for NU Ride's Endurance platform..",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Commercial Fleet Electrification Adoption Rate",
+        "slug": "fleet_electrification_rate",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Customer Demand",
+        "relationshipNote": "Commercial fleet operators are accelerating electrification due to fuel-cost savings, sustainability mandates, and government incentives. Fleet electrification adoption is estimated at 5–10% of new vehicle purchases in 2024, with growth to 30%+ by 2030. NU Ride's Endurance truck is positioned to capture this growing demand.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "supplyChain",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.191Z",
+      "overrideCount": 11
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "LG Energy Solution Ltd.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "SK Innovation Co., Ltd.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Novelis Inc.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Albemarle Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Glencore PLC",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Linamar Corporation",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Lear Corporation",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Bosch Group",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Aptiv PLC",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Magna International Inc.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "J.B. Hunt Transport Services, Inc.",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "XPO Logistics, Inc.",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Schneider National, Inc.",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Saia Inc.",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Amazon.com, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "United Parcel Service, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "FedEx Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Electric Vehicle Sales Growth Index",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Rivian Automotive, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Ford Motor Company",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "General Motors Company",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Lordstown Motors Corp.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Workhorse Group Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Tesla, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Energy",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "National Highway Traffic Safety Administration",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Environmental Protection Agency",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "Foxconn Technology Group",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Cumulus Venture Partners",
+            "type": "investor",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Hanwha Q CELLS",
+            "type": "investor",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Equity Commonwealth",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Commercial Fleet Electrification Adoption Rate",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,511 @@
+{
+  "domainId": "legal_legal",
+  "title": "Legal Risk Detection",
+  "parentPortal": "legal_portal.html",
+  "parentLabel": "Legal Systems",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Legal Risk Detection Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Legal Risk Detection indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core legal risk detection operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Stores and retrieves legal risk detection knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.72
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Risk Detection Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Risk Detection Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "legal_legal_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Legal Risk Detection Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Legal Risk Detection activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core legal risk detection operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves legal risk detection knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.66
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Risk Detection Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Risk Detection Core Operations"
+        }
+      ],
+      "childPortal": "legal_legal_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Legal Risk Detection Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Legal Risk Detection, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Allocates and regulates legal risk detection resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core legal risk detection operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.66
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Risk Detection Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Risk Detection Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "legal_legal_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Legal Risk Detection Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Legal Risk Detection practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Detects and monitors legal risk detection signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Detects and monitors legal risk detection signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Risk Detection Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Risk Detection Standards & Governance"
+        }
+      ],
+      "childPortal": "legal_legal_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Legal Risk Detection Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Legal Risk Detection methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Stores and retrieves legal risk detection knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core legal risk detection operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Risk Detection Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Risk Detection Research & Development"
+        }
+      ],
+      "childPortal": "legal_legal_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Legal Risk Detection Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Legal Risk Detection stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves legal risk detection knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors legal risk detection signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.69
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Risk Detection Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Risk Detection Risk & Resilience"
+        }
+      ],
+      "childPortal": "legal_legal_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Legal Risk Detection Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Legal Risk Detection operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Stores and retrieves legal risk detection knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves legal risk detection knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.77
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Risk Detection Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Risk Detection Coordination & Integration"
+        }
+      ],
+      "childPortal": "legal_legal_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Legal Risk Detection Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Legal Risk Detection outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Routes and distributes legal risk detection resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Routes and distributes legal risk detection resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Risk Detection Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Risk Detection Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "vmPFC",
+      "target": "VTA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "NAcc",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "AI",
+      "target": "BLA",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "BLA",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "STRI",
+      "target": "PAG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PAG",
+      "target": "NTS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "NTS",
+      "target": "vmPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "AI",
+      "target": "PAG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "LEGAL_LEGAL_SYSTEM_FAILURE",
+      "label": "Legal Risk Detection System Failure",
+      "summary": "Critical breakdown in Legal Risk Detection systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Legal Risk Detection Assessment & Diagnostics capacity falling below operational thresholds, reducing Legal Risk Detection output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-active",
+          "detail": "Legal Risk Detection Core Operations systems underperforming, creating gaps in Legal Risk Detection coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered",
+          "detail": "Legal Risk Detection Infrastructure & Capacity behavior deviating from established norms, complicating Legal Risk Detection management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hyper-active",
+          "detail": "Legal Risk Detection Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Legal Risk Detection",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Hypo-active",
+          "detail": "Legal Risk Detection Performance & Optimization function reduced, compromising Legal Risk Detection system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_LEGAL_CAPACITY_CRISIS",
+      "label": "Legal Risk Detection Capacity Crisis",
+      "summary": "Demand exceeding available Legal Risk Detection capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper-active",
+          "detail": "Legal Risk Detection Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Legal Risk Detection",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Legal Risk Detection Infrastructure & Capacity systems underperforming, creating gaps in Legal Risk Detection coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered",
+          "detail": "Legal Risk Detection Standards & Governance behavior deviating from established norms, complicating Legal Risk Detection management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-active",
+          "detail": "Legal Risk Detection Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Legal Risk Detection",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Altered",
+          "detail": "Legal Risk Detection Performance & Optimization operating outside normal parameters, introducing uncertainty into Legal Risk Detection outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_LEGAL_GOVERNANCE_GAP",
+      "label": "Legal Risk Detection Governance Gap",
+      "summary": "Oversight or regulatory failure in Legal Risk Detection creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hypo-active",
+          "detail": "Legal Risk Detection Standards & Governance capacity falling below operational thresholds, reducing Legal Risk Detection output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Altered",
+          "detail": "Legal Risk Detection Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Legal Risk Detection",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Legal Risk Detection Research & Development activity spiking beyond design limits, creating instability across Legal Risk Detection operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Legal Risk Detection Risk & Resilience patterns disrupted, necessitating adaptive responses within Legal Risk Detection frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hypo-active",
+          "detail": "Legal Risk Detection Coordination & Integration function reduced, compromising Legal Risk Detection system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

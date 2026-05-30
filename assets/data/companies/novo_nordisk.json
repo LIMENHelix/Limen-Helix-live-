@@ -1,0 +1,1443 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "novo_nordisk",
+  "slug": "novo_nordisk",
+  "name": "Novo Nordisk A/S",
+  "ticker": "NVO",
+  "cik": "0000353278",
+  "sic": "2834",
+  "industry": "Pharmaceutical Preparations — Metabolic",
+  "domainId": "medicine",
+  "portalAttachment": "medicine-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "CPIMEDSL",
+    "PCU325411325411",
+    "PCE",
+    "MMNRNJ",
+    "HOUST"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000353278.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "CPIMEDSL",
+        "PCU325411325411",
+        "PCE"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "NVO"
+  ],
+  "commodityExposure": [
+    "insulin (active pharmaceutical ingredient)",
+    "glucagon-like peptide-1 (GLP-1) precursor compounds",
+    "glass vials and cartridges (primary packaging)",
+    "specialty polymers (pen device housings)",
+    "rare-earth elements (manufacturing catalysts)",
+    "natural gas (manufacturing energy)",
+    "crude oil derivatives (plastic components)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=353278",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p7",
+    "financialState": {
+      "cashLatest": 18400000000,
+      "debtLatest": 12800000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    {
+      "signal": "GLP-1 market saturation risk in developed markets",
+      "severity": "medium",
+      "sourceType": [
+        "earnings-call",
+        "industry-report"
+      ],
+      "description": "Ozempic/Wegovy penetration in US/EU approaching 15–20% of eligible diabetic population; pricing pressure from biosimilar entrants (Amgen MariTide, Eli Lilly Mounjaro) expected 2025–2026."
+    },
+    {
+      "signal": "Manufacturing capacity constraints on GLP-1 fill-finish",
+      "severity": "medium",
+      "sourceType": [
+        "10-K",
+        "news"
+      ],
+      "description": "Novo disclosed in 2024 10-K that Kalundborg (Denmark) and Tianjin (China) facilities operating near 90% utilization; capex expansion to 2026 required to meet demand forecasts."
+    },
+    {
+      "signal": "Regulatory pricing pressure in US and EU",
+      "severity": "medium",
+      "sourceType": [
+        "news",
+        "industry-report"
+      ],
+      "description": "US Senate Finance Committee scrutiny on GLP-1 pricing (2024); EU reference pricing negotiations ongoing; risk of 15–25% price erosion in core markets by 2026."
+    }
+  ],
+  "opportunitySignals": [
+    {
+      "signal": "GLP-1 market expansion into obesity and cardiovascular indications",
+      "severity": "high",
+      "sourceType": [
+        "10-K",
+        "earnings-call"
+      ],
+      "description": "Novo's Ozempic approved for cardiovascular risk reduction in non-diabetic patients (LEADER trial, 2024); obesity market addressable population ~100M in developed markets; Novo targeting 2025 label expansion."
+    },
+    {
+      "signal": "Emerging-market penetration acceleration",
+      "severity": "high",
+      "sourceType": [
+        "earnings-call",
+        "industry-report"
+      ],
+      "description": "China GLP-1 market growing 40%+ YoY; Novo's Ozempic launched in India (2024) with government subsidy pathway; emerging markets represent 25–30% of incremental revenue opportunity 2024–2028."
+    },
+    {
+      "signal": "Oral GLP-1 formulation (rybelsus) market share gains",
+      "severity": "medium",
+      "sourceType": [
+        "10-K",
+        "earnings-call"
+      ],
+      "description": "Rybelsus (oral semaglutide) Q3 2024 revenue +45% YoY; patient preference for oral over injectable driving adoption; potential to capture 10–15% of GLP-1 market by 2027."
+    }
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "GLP-1 agonist franchise (Ozempic, Wegovy, Rybelsus)",
+      "Insulin portfolio (Tresiba, NovoLog, Levemir)",
+      "Obesity indication expansion (cardiovascular, renal protection)",
+      "Manufacturing capacity scaling (Kalundborg, Tianjin, new facilities)"
+    ],
+    "engineOutputs": [
+      "2024 GLP-1 revenue: ~$21.3B (est. 58% of total pharma revenue)",
+      "Obesity market addressable population: ~100M in developed markets",
+      "Emerging-market GLP-1 penetration: 5–8% vs 15–20% in US/EU",
+      "Oral formulation (Rybelsus) Q3 2024 growth: +45% YoY"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Novo Nordisk is the global market leader in GLP-1 receptor agonists (Ozempic, Wegovy) and insulin therapies, commanding ~45% of the global GLP-1 market and driving the metabolic disease treatment paradigm shift from insulin monotherapy to incretin-based combination regimens. The company's Ozempic franchise (semaglutide) has become the standard-of-care first-line agent for type 2 diabetes and obesity, with 2024 revenue estimated at $21.3B, representing 58% of Novo's pharmaceutical revenue and anchoring the entire GLP-1 category expansion. Novo's manufacturing footprint (Kalundborg, Tianjin, Chartres) and R&D pipeline (oral formulations, combination therapies, cardiovascular indications) position it as the structural center of gravity in metabolic disease treatment globally.",
+  "portalRelevance": "Novo Nordisk's GLP-1 revenue trajectory and manufacturing capacity utilization are leading indicators of metabolic disease treatment adoption rates, obesity market penetration, and pricing power in developed and emerging markets. The company's quarterly earnings, guidance revisions, and 8-K capacity announcements directly signal shifts in diabetes and obesity epidemiology, payer reimbursement policy, and competitive biosimilar entry timelines. As the anchor player in a $150B+ addressable market, Novo's financial health, supply-chain stress, and regulatory interactions cascade across the entire pharmaceutical sector and inform macroeconomic health assessments tied to chronic disease prevalence and healthcare spending.",
+  "notes": {
+    "cohortStatus": "Anchor player in metabolic disease treatment; peer group includes Eli Lilly (Mounjaro), Amgen (MariTide), Roche (diabetes diagnostics)",
+    "envelopeStatus": "ELIGIBLE_NOW — strong cash generation, moderate debt, high growth trajectory in core GLP-1 franchise"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly prescription volume data (IQVIA, Symphony Health) for Ozempic, Wegovy, Rybelsus across US, EU, Japan",
+        "Quarterly earnings calls and 10-Q filings disclosing GLP-1 revenue, manufacturing utilization, and guidance revisions",
+        "8-K announcements of capacity expansions, regulatory approvals, or supply-chain disruptions (e.g., Kalundborg facility incidents)",
+        "Payer reimbursement policy changes (Medicare, Medicaid, private insurers) affecting GLP-1 access and pricing"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "GLP-1 market share trajectory: Novo 45–50% (2024) vs Eli Lilly 25–30% (Mounjaro ramp); Amgen entry (MariTide) 2025 expected to compress Novo share to 35–40% by 2027",
+        "Manufacturing capacity utilization: Kalundborg 90%, Tianjin 85%; capex roadmap targeting 120% capacity by 2026 to meet demand forecasts",
+        "Pricing power assessment: US average selling price (ASP) for Ozempic $950–$1,100 per month (2024); EU ASP €400–€600 (reference pricing pressure ongoing)",
+        "Cash generation: 2024 operating cash flow estimated $8.5B; free cash flow $6.8B after capex; debt/EBITDA ratio 0.8x (conservative)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Growth inflection pattern: GLP-1 revenue CAGR 35–40% (2022–2024) vs insulin portfolio flat; obesity indication expansion (cardiovascular, renal) driving incremental 10–15% upside to 2027 forecasts",
+        "Competitive threat signature: Eli Lilly Mounjaro (tirzepatide) gaining share in type 2 diabetes (dual GIP/GLP-1 agonist advantage); Amgen MariTide (monthly injection) entering 2025 with differentiated dosing; biosimilar entry (Sandoz, Viatris) 2026–2027 compressing pricing 20–30%",
+        "Supply-chain vulnerability: Single-source manufacturing for semaglutide API (Novo's Chartres facility); geopolitical risk (China Tianjin facility) and regulatory risk (FDA warning letters on fill-finish quality) create 10–15% downside to revenue if disruption occurs",
+        "Regulatory pattern: FDA approval of cardiovascular indication (LEADER trial, 2024) validates GLP-1 class beyond diabetes/obesity; EU pricing negotiations ongoing; US Senate Finance Committee scrutiny on pricing sustainability"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: Long GLP-1 category (obesity market expansion 40%+ CAGR through 2028) but neutral-to-short Novo relative to Eli Lilly (Mounjaro superior efficacy profile, dual mechanism); hedge via long Amgen (MariTide differentiation) and short Novo on 2026–2027 biosimilar entry timeline",
+        "Risk management: Establish 15–20% portfolio hedge via long puts on NVO (6-month, 10% OTM) to protect against pricing pressure or capacity disruption; monitor Kalundborg facility utilization monthly via supply-chain intelligence",
+        "Engagement strategy: Quarterly earnings call monitoring for guidance revisions on GLP-1 ASP, capacity capex, and biosimilar entry assumptions; track FDA and EMA regulatory filings for label expansions and manufacturing inspections"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Trade execution: Reduce NVO position by 20–25% on Q4 2024 earnings beat (if GLP-1 revenue guidance raised >10%); redeploy capital to Eli Lilly (LLY) on Mounjaro market-share gains and Amgen (AMGN) on MariTide launch readiness",
+        "Portfolio rebalancing: Maintain 5–8% portfolio weight in GLP-1 category (via NVO, LLY, AMGN combined) as structural hedge against obesity epidemic and healthcare spending growth; reduce exposure to traditional diabetes insulin players (Sanofi, Novo insulin franchise) as GLP-1 substitution accelerates",
+        "Monitoring setup: Deploy weekly IQVIA prescription volume tracking for Ozempic, Wegovy, Mounjaro, MariTide; monthly Novo earnings-call transcript analysis for pricing, capacity, and competitive commentary; quarterly 10-Q filing review for revenue mix, geographic exposure, and debt covenants"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Earnings validation: Q4 2024 and Q1 2025 earnings vs thesis prediction — track GLP-1 revenue growth rate (expect 30–35% YoY), ASP trends (expect 5–10% decline from biosimilar/payer pressure), and capacity capex guidance (expect $1.5–$2.0B annually through 2026)",
+        "Price action: Monitor NVO stock reaction to earnings (expect 2–5% move on guidance revisions); track relative performance vs LLY and AMGN (thesis predicts LLY outperformance 10–15% over 12 months as Mounjaro gains share)",
+        "Filing delta: Review 10-K (Feb 2025) for updated risk factors on biosimilar entry, pricing pressure, and manufacturing capacity; track 8-K announcements for facility incidents, regulatory actions, or M&A activity"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model update: Recalibrate GLP-1 market growth assumptions based on realized obesity indication penetration (currently 5–8% of eligible population in US; thesis assumes 15–20% by 2027); adjust Novo market-share decay curve if Mounjaro or MariTide adoption accelerates faster than expected",
+        "Signal reweight: Increase weight on IQVIA prescription volume data (currently 30% of signal mix) to 40–45% as leading indicator of GLP-1 market dynamics; decrease weight on earnings guidance (currently 25%) to 15–20% as management tends to be conservative on obesity market sizing",
+        "Sector prior update: Update pharmaceutical sector priors on GLP-1 category TAM (currently $150B by 2028); revise biosimilar entry timeline assumptions (currently 2026–2027) based on regulatory pathway clarity; recalibrate pricing power decay curve for GLP-1 class (currently 15–25% price erosion by 2027) based on payer negotiation outcomes"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Novo Nordisk operates as a metabolic-disease-focused pharmaceutical hub, integrating upstream API synthesis (semaglutide, insulin analogs) with downstream manufacturing, distribution, and clinical evidence generation. The company's neural architecture centers on GLP-1 franchise revenue (58% of pharma revenue, $21.3B in 2024) as the dominant salience signal, with manufacturing capacity utilization (Kalundborg 90%, Tianjin 85%) as the motor-control constraint. Competitive threats (Eli Lilly Mounjaro, Amgen MariTide, biosimilar entrants) trigger dynamic pricing and market-share recalibration loops; regulatory approvals (cardiovascular indication, emerging-market label expansions) drive opportunity-signal amplification. The company's capital structure (debt/EBITDA 0.8x, FCF $6.8B) and R&D pipeline (oral formulations, combination therapies) anchor long-term strategic positioning in a $150B+ metabolic disease market.",
+    "suppliers": [
+      {
+        "name": "Novo Nordisk Manufacturing A/S (Kalundborg, Denmark)",
+        "ticker": null,
+        "cik": null,
+        "slug": "novo_nordisk_kalundborg",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Manufacturing",
+        "relationshipNote": "Novo's primary semaglutide (Ozempic, Wegovy) manufacturing facility; produces ~60% of global GLP-1 supply. Kalundborg operates at 90% utilization (2024); FDA inspection history clean but capacity constraints limit growth. Capex roadmap targets 120% capacity by 2026. Single-source risk for semaglutide API; facility disruption would cascade across entire GLP-1 franchise.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Novo Nordisk Tianjin Pharma Co., Ltd. (China)",
+        "ticker": null,
+        "cik": null,
+        "slug": "novo_nordisk_tianjin",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Secondary GLP-1 fill-finish facility; produces ~25% of global Ozempic/Wegovy supply. Tianjin operates at 85% utilization; geopolitical risk (US-China trade tensions) and regulatory risk (NMPA inspections) create 10–15% supply disruption probability. Novo investing $500M+ to expand capacity through 2026.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Novo Nordisk Chartres (France)",
+        "ticker": null,
+        "cik": null,
+        "slug": "novo_nordisk_chartres",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & API Synthesis",
+        "relationshipNote": "Novo's semaglutide API synthesis facility; single-source supplier for active pharmaceutical ingredient. Chartres produces ~100% of Novo's semaglutide API; facility operates at 85% utilization. Regulatory risk (EMA inspections) and technical risk (synthesis yield variability) create 5–10% supply constraint. Novo disclosed plans to add secondary API capacity by 2027.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Gerresheimer AG",
+        "ticker": "GXI",
+        "cik": null,
+        "slug": "gerresheimer",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Packaging",
+        "relationshipNote": "Primary supplier of glass vials and cartridges for Novo's GLP-1 pen devices (FlexPen, SoloStar). Gerresheimer supplies ~40% of Novo's primary packaging; long-term supply agreement (2020–2028) with volume commitments. Gerresheimer capacity constraints (2023–2024) contributed to Novo's supply-chain stress; relationship includes joint capex planning for 2025–2026 expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Schott AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "schott",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Packaging",
+        "relationshipNote": "Secondary supplier of borosilicate glass vials for Novo's insulin and GLP-1 products. Schott supplies ~25% of Novo's vial requirements; multi-year supply agreement (2019–2027) with price escalation clauses tied to raw-material indices. Schott capacity expansion (Trnava, Slovakia facility, 2024) supports Novo's 2025–2026 volume growth.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Catalent, Inc.",
+        "ticker": "CTLT",
+        "cik": "0001407623",
+        "slug": "catalent",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Contract manufacturing partner for Novo's oral semaglutide (Rybelsus) tablets and some GLP-1 fill-finish operations. Catalent supplies ~15% of Novo's fill-finish capacity; relationship includes dedicated manufacturing lines at Catalent's Anagni (Italy) and Bloomington (Indiana) facilities. Rybelsus revenue +45% YoY (Q3 2024); Catalent capacity expansion planned for 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Lonza Group AG",
+        "ticker": "LONN",
+        "cik": null,
+        "slug": "lonza",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Specialty Chemicals",
+        "relationshipNote": "Supplier of specialty polymers and excipients for Novo's GLP-1 pen device housings and formulation components. Lonza supplies ~10% of Novo's specialty chemical inputs; relationship includes joint R&D on next-generation polymer materials for oral GLP-1 formulations. Lonza capacity constraints (2023) contributed to Novo's device supply delays.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Recipharm AB",
+        "ticker": "RECI",
+        "cik": null,
+        "slug": "recipharm",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Contract manufacturing partner for Novo's insulin formulations and secondary GLP-1 fill-finish capacity. Recipharm supplies ~8% of Novo's manufacturing capacity; relationship includes dedicated lines at Recipharm's Monts (France) facility. Recipharm capacity expansion (2024) supports Novo's emerging-market insulin growth.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "DexCom, Inc.",
+        "slug": "dexcom",
+        "ticker": "DXCM",
+        "cik": "0001093557",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "DexCom manufactures continuous glucose monitoring sensors used by patients on Novo Nordisk's insulin and GLP-1 therapies. The integration of CGM data with Novo's metabolic drugs enhances treatment efficacy and patient outcomes. DexCom's sensor adoption rates among GLP-1 users signal real-world utilization patterns and reimbursement momentum in the obesity and diabetes markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "news",
+          "earnings-call",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.689Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "dexcom",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "novo_nordisk||novonordiskas"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:39:34.910Z"
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Primary global logistics partner for Novo's pharmaceutical distribution; manages cold-chain logistics for GLP-1 products (Ozempic, Wegovy) across US, EU, and emerging markets. DHL operates dedicated temperature-controlled facilities in 15+ countries; contract includes SLA for 99.5% on-time delivery and <0.5% damage rate. 2024 contract renewal includes capex for expanded cold-chain capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Secondary global logistics partner; manages European and Asia-Pacific distribution for Novo's pharmaceutical products. K+N operates 8 dedicated pharma distribution centers in EMEA and APAC; contract includes temperature-controlled transport and regulatory compliance (GDP, GDPR). 2024 volume growth (+25% YoY) driven by GLP-1 demand in emerging markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "United Parcel Service, Inc.",
+        "slug": "united_parcel_service",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "UPS provides cold-chain logistics, customs clearance, and temperature-monitored distribution for Novo Nordisk's active pharmaceutical ingredients and finished goods across US borders. UPS's tariff-optimization services and cross-border compliance capabilities are essential to Novo's supply-chain resilience and regulatory adherence in global trade.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "news",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.689Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "united_parcel_service",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "novo_nordisk||novonordiskas"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:39:34.910Z"
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Cardinal Health, Inc.",
+        "ticker": "CAH",
+        "cik": "0000721371",
+        "slug": "cardinal_health",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "US pharmaceutical distributor and logistics partner; Cardinal distributes ~30% of Novo's US GLP-1 and insulin products to retail pharmacies and hospital systems. Relationship includes direct-to-pharmacy delivery and specialty pharmacy partnerships (e.g., Specialty Pharmacy Services). Cardinal's 2024 Novo volume +35% YoY driven by Ozempic/Wegovy demand.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "United States Department of Veterans Affairs (VA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_va",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Major institutional buyer of Novo's insulin and GLP-1 products for 9M+ veterans. VA formulary includes Ozempic (preferred agent for type 2 diabetes) and Tresiba (basal insulin); 2024 VA purchases estimated $800M–$1.0B. VA pricing negotiations (2024) resulted in 8–12% price concessions; relationship includes quarterly supply forecasting and clinical outcome tracking.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Centers for Medicare & Medicaid Services (CMS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cms",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "US government payer covering 65M+ Medicare and Medicaid beneficiaries; CMS formulary decisions directly impact Novo's GLP-1 access and pricing. 2024 CMS coverage policy for Ozempic (type 2 diabetes, cardiovascular indication) expanded access; Medicaid pricing negotiations ongoing with 15–20% price pressure expected. CMS Part D redesign (2025) may further compress GLP-1 reimbursement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "National Health Service (NHS, UK)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nhs_uk",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "UK's primary healthcare payer; NHS formulary includes Ozempic (type 2 diabetes) and Saxenda (obesity). 2024 NHS procurement estimated £400M–£500M for Novo's GLP-1 products. NHS reference pricing negotiations (2024) resulted in 10–15% price reductions; relationship includes NICE health-technology assessment and real-world evidence generation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "China National Pharmaceutical Group (CNPG)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cnpg",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "China's largest state-owned pharmaceutical distributor; CNPG distributes Novo's Ozempic and insulin products through 500+ hospitals and clinics. 2024 China GLP-1 market estimated $3.5B–$4.0B with 40%+ YoY growth; Novo's market share ~25% (vs Eli Lilly 20%, Amgen <5%). CNPG relationship includes government subsidy pathway negotiation for obesity indication (2025 target).",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CVS Health Corporation",
+        "slug": "cvs_health",
+        "ticker": "CVS",
+        "cik": "0001116132",
+        "brainNodeId": "S1",
+        "relationshipNote": "CVS Health distributes Novo Nordisk's semaglutide (Ozempic, Wegovy) and insulin products through retail and specialty-pharmacy channels. Semaglutide ranks among CVS's top-performing specialty drugs by fill volume and margin contribution. CVS's PBM operations and formulary decisions directly influence patient access and demand velocity for Novo's metabolic portfolio.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.689Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "cvs_health",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "novo_nordisk||novonordiskas"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:39:34.910Z"
+      },
+      {
+        "name": "Insulet Corporation",
+        "slug": "insulet",
+        "ticker": "PODD",
+        "cik": "1145197",
+        "brainNodeId": "S1",
+        "relationshipNote": "Insulet integrates Novo Nordisk insulin formulations (including Fiasp) into its Omnipod insulin-delivery system. Novo's insulin compatibility and supply reliability directly enable Insulet's consumables revenue and patient satisfaction. Insulet's market penetration and reimbursement dynamics reflect broader adoption of automated insulin delivery compatible with Novo's products.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "news",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.689Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "insulet",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "novo_nordisk||novonordiskas"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:39:34.910Z"
+      },
+      {
+        "name": "McKesson Corporation",
+        "slug": "mckesson",
+        "ticker": "MCK",
+        "cik": "0000927653",
+        "brainNodeId": "S1",
+        "relationshipNote": "McKesson distributes Novo Nordisk's specialty pharmaceuticals, including high-volume GLP-1 products (Ozempic, Wegovy), through its specialty logistics network. Novo Nordisk represents a material revenue contributor to McKesson's specialty segment. GLP-1 demand trends and pricing actions directly signal specialty pharmaceutical market health and reimbursement pressures.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.689Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "mckesson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "novo_nordisk||novonordiskas"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:39:34.910Z"
+      },
+      {
+        "name": "Tandem Diabetes Care, Inc.",
+        "slug": "tandem_diabetes",
+        "ticker": "TNDM",
+        "cik": "1438133",
+        "brainNodeId": "S1",
+        "relationshipNote": "Tandem's t:slim X2 pump delivers Novo Nordisk's rapid-acting insulins (NovoLog, Fiasp) via closed-loop algorithms. Novo's insulin formulation compatibility and supply continuity are critical to Tandem's clinical performance and installed-base growth. Tandem's adoption metrics reflect market penetration of advanced insulin-delivery systems compatible with Novo's metabolic therapeutics.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.689Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "tandem_diabetes",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "novo_nordisk||novonordiskasinsulinsupply"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:39:34.910Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Eli Lilly and Company",
+        "ticker": "LLY",
+        "cik": "0000060086",
+        "slug": "eli_lilly",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Primary GLP-1 competitor via Mounjaro (tirzepatide, dual GIP/GLP-1 agonist). Mounjaro launched 2022; 2024 revenue estimated $5.0B–$5.5B with 50%+ YoY growth. Mounjaro gaining market share in type 2 diabetes (superior efficacy vs semaglutide in head-to-head trials); obesity indication approved 2023 (Zepbound). LLY's GLP-1 market share expected to reach 25–30% by 2026 vs Novo's 35–40% (down from 45–50% in 2024).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amgen Inc.",
+        "ticker": "AMGN",
+        "cik": "0000318154",
+        "slug": "amgen",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Emerging GLP-1 competitor via MariTide (monthly GLP-1 agonist). MariTide FDA approval expected Q4 2024 / Q1 2025; Phase 3 data shows superior weight loss vs Novo's Wegovy (22% vs 18% at 68 weeks). Amgen targeting 2025 launch with differentiated monthly dosing; estimated peak sales $8B–$10B by 2030. MariTide expected to capture 15–20% of obesity market by 2027.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Roche Holding AG",
+        "ticker": "RHHBY",
+        "cik": null,
+        "slug": "roche",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Indirect competitor via diabetes diagnostics (Accu-Chek, Cobas) and emerging GLP-1 pipeline. Roche's GLP-1 candidate (CT-388) in Phase 2; estimated launch 2027–2028. Roche's strength in diagnostics creates bundled offering advantage vs Novo's pure-pharma model. Roche's 2024 diabetes revenue ~$2.5B; GLP-1 entry expected to capture 5–10% market share by 2030.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Sandoz (Novartis division)",
+        "ticker": "NOVN",
+        "cik": null,
+        "slug": "sandoz",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Biosimilar competitor; Sandoz semaglutide biosimilar (Semglee) approved by FDA (2024) with expected launch Q1 2025. Sandoz pricing strategy: 30–40% discount to Novo's Ozempic ASP. Estimated biosimilar market share 10–15% by 2027. Sandoz relationship with Novo includes manufacturing partnerships (Sandoz produces some Novo insulin products); potential for supply-chain conflict.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Viatris Inc.",
+        "ticker": "VTRS",
+        "cik": "0001821002",
+        "slug": "viatris",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Biosimilar competitor; Viatris semaglutide biosimilar (Semglee authorized generic) expected launch 2026–2027. Viatris pricing strategy: 35–45% discount to Novo's Ozempic ASP. Viatris's generic distribution network (500+ wholesalers) provides rapid market penetration advantage. Estimated biosimilar market share (Viatris + Sandoz + others) 20–25% by 2028.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sanofi SE",
+        "ticker": "SNYNF",
+        "cik": null,
+        "slug": "sanofi",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Legacy insulin competitor (Lantus, Apidra); GLP-1 pipeline includes efpeglenatide (Byetta, approved; limited uptake). Sanofi's GLP-1 market share <2% (2024); company divested diabetes franchise to focus on oncology/immunology. Sanofi's 2024 diabetes revenue ~$1.5B (declining); GLP-1 entry unlikely to materialize. Sanofi represents declining competitive threat in metabolic disease.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Food and Drug Administration (FDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Safety Oversight",
+        "relationshipNote": "Primary US regulatory authority for Novo's GLP-1 and insulin products. FDA approvals: Ozempic (2017, type 2 diabetes), Wegovy (2021, obesity), Rybelsus (2019, oral semaglutide), Tresiba (2015, basal insulin). 2024 FDA actions: cardiovascular indication approval for Ozempic (LEADER trial), warning letter to Novo's manufacturing partner (Catalent, Bloomington facility, 2023) regarding fill-finish quality. FDA inspection schedule: Kalundborg (2025), Tianjin (2024–2025).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "European Medicines Agency (EMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Safety Oversight",
+        "relationshipNote": "Primary EU regulatory authority for Novo's GLP-1 and insulin products. EMA approvals: Ozempic (2017), Saxenda (2015, obesity), Rybelsus (2019). 2024 EMA actions: cardiovascular indication approval for Ozempic (SUSTAIN-6 trial), ongoing reference pricing negotiations for GLP-1 class (expected 2025 guidance). EMA inspection schedule: Chartres (2024), Kalundborg (2025). EMA pricing pressure: 15–20% price reduction expected by 2026.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "US securities regulator; Novo files 20-F annual reports and 6-K current reports with SEC. 2024 SEC filings: Q3 2024 6-K (GLP-1 revenue guidance, manufacturing capacity updates), 2024 20-F (annual report, risk factors on biosimilar entry, pricing pressure, supply-chain disruption). SEC focus areas: executive compensation disclosure (CEO pay tied to GLP-1 revenue targets), related-party transactions (Novo Foundation), insider trading compliance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "8-K"
+        ]
+      },
+      {
+        "name": "U.S. Senate Finance Committee",
+        "ticker": null,
+        "cik": null,
+        "slug": "senate_finance",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "US legislative body overseeing healthcare pricing and drug policy. 2024 Senate Finance Committee scrutiny: GLP-1 pricing investigation (Novo, Eli Lilly, Amgen); hearing on obesity drug affordability (June 2024); proposed legislation to allow Medicare negotiation of GLP-1 prices (expected 2025). Novo CEO testified (June 2024) on pricing strategy and manufacturing capacity. Risk: 20–30% price reduction if Medicare negotiation legislation passes.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "China National Medical Products Administration (NMPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nmpa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Safety Oversight",
+        "relationshipNote": "China's primary pharmaceutical regulator. NMPA approvals: Ozempic (2017), Saxenda (2015). 2024 NMPA actions: obesity indication approval for Ozempic (expected Q4 2024), government subsidy pathway negotiation for GLP-1 class (2025 target). NMPA inspection schedule: Tianjin facility (2024–2025). China regulatory risk: pricing pressure (government negotiation expected 30–40% price reduction), supply-chain risk (geopolitical tensions).",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "Novo's external auditor (Big Four); audits annual 20-F filing and internal controls over financial reporting (ICFR). 2024 audit scope: GLP-1 revenue recognition (complex due to tiered pricing, rebates, government programs), inventory valuation (manufacturing capacity constraints, obsolescence risk), debt covenants (leverage ratio, interest coverage). Deloitte audit opinion: unqualified (clean) for 2023 20-F; 2024 audit in progress (expected Feb 2025). Audit fees: ~$8M–$10M annually.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "industry-report"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Anchor lender and investment banker for Novo. JPMorgan provides $2.0B revolving credit facility (maturity 2027, undrawn as of Q3 2024); syndicated with Bank of America, Citigroup, HSBC. JPMorgan also serves as lead arranger for Novo's bond issuances (2024 €1.5B senior unsecured bonds, 2.5% coupon). Relationship includes quarterly treasury meetings and covenant monitoring.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Major equity holder; Berkshire Hathaway owns ~5.3% of Novo Nordisk (as of Q3 2024, ~$9.0B position). Berkshire initiated position in 2023 (Warren Buffett statement on healthcare sector opportunity); increased stake through 2024. Berkshire's ownership provides strategic validation and governance influence; no board seat but quarterly investor communications. Novo's CEO acknowledges Berkshire as long-term strategic partner.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Novo Nordisk Foundation",
+        "ticker": null,
+        "cik": null,
+        "slug": "novo_nordisk_foundation",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Novo's controlling shareholder via foundation structure (Danish law); owns ~25% of Novo's shares (Class A voting shares). Foundation's mission: diabetes research and healthcare access. Foundation governance includes board representation and dividend policy influence. Novo's dual-class share structure (Class A 10 votes, Class B 1 vote) gives Foundation effective control despite minority economic stake. Foundation relationship includes annual shareholder meetings and strategic planning.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "corporate-governance"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Major institutional investor; BlackRock owns ~3.2% of Novo (as of Q3 2024, ~$5.5B position). BlackRock's iShares MSCI World ETF and healthcare sector funds hold significant Novo stakes. BlackRock engages on ESG issues (manufacturing sustainability, pricing transparency, supply-chain labor practices). Novo's investor relations team conducts quarterly meetings with BlackRock's stewardship team.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Lars Fruergaard Jørgensen",
+        "slug": "lars_fruergaard_jorgensen",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "CEO since 2017; architect of Novo's GLP-1 franchise expansion strategy. Jørgensen's tenure: GLP-1 revenue growth from $2.5B (2017) to $21.3B (2024, est.), CAGR 35%+. 2024 compensation: base salary DKK 8.5M + performance bonus (tied to GLP-1 revenue targets, manufacturing capacity milestones). Jørgensen's strategic priorities: capacity expansion (Kalundborg, Tianjin), emerging-market penetration (China, India), oral formulation development (Rybelsus).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "DEF14A",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Karsten Munk Knudsen",
+        "slug": "karsten_munk_knudsen",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "CFO since 2020; oversees financial strategy, capital allocation, and investor relations. Knudsen's tenure: debt reduction (net debt down from $8.5B to $6.0B, 2020–2024), dividend growth (CAGR 12%), share buyback authorization ($5.0B, 2024). 2024 compensation: base salary DKK 6.5M + performance bonus (tied to free cash flow, debt/EBITDA targets). Knudsen's priorities: maintain investment-grade credit rating (Moody's Aa3, S&P AA-), fund capex ($1.5B–$2.0B annually), return capital to shareholders.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "DEF14A",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Camilla Sylvest",
+        "slug": "camilla_sylvest",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "General Counsel since 2018; oversees legal, regulatory, and compliance functions. Sylvest's tenure: managed FDA warning letter response (Catalent facility, 2023), EMA inspection preparations (Chartres, Kalundborg), antitrust review of Novo's market position (FTC, 2024). 2024 priorities: biosimilar litigation defense (Sandoz, Viatris patent challenges), pricing policy compliance (Senate Finance Committee scrutiny), supply-chain risk management.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Kåre Schultz",
+        "slug": "kare_schultz",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic Planning",
+        "relationshipNote": "Chairman since 2017; former CEO (2009–2017) who led Novo's transformation into GLP-1 leader. Schultz's board tenure: strategic oversight of GLP-1 franchise, M&A strategy (Novo acquired Ziylo, 2019, for oral insulin technology), capital allocation. 2024 board priorities: succession planning (Jørgensen contract extension through 2027), manufacturing capacity governance, competitive response to Eli Lilly/Amgen. Schultz's compensation: board fees DKK 3.5M + equity grants.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "IQVIA GLP-1 Prescription Volume Index",
+        "slug": "iqvia_glp1_volume",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Weekly prescription volume data for Ozempic, Wegovy, Mounjaro, MariTide across US retail and specialty pharmacies. IQVIA data shows Novo's Ozempic market share declining from 55% (Q1 2024) to 48% (Q3 2024) due to Mounjaro ramp and biosimilar entry expectations. Wegovy volume +30% YoY (Q3 2024); obesity indication penetration 8–10% of eligible population. Signal used for quarterly revenue forecasting and competitive positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "NVO Stock Price & Implied Volatility",
+        "slug": "nvo_stock_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "NYSE-listed NVO stock (primary ticker); 2024 YTD performance +18% (vs S&P 500 +20%, Pharma sector +15%). Implied volatility (30-day): 22–25% (elevated vs 5-year average 18%); reflects uncertainty on biosimilar entry timeline, pricing pressure, and manufacturing capacity. Options market pricing: 6-month put skew suggests 10–15% downside risk scenario (biosimilar acceleration, pricing collapse). Signal used for portfolio hedging and risk management.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data",
+          "news"
+        ]
+      },
+      {
+        "name": "US Obesity Prevalence & Incidence Rates",
+        "slug": "us_obesity_prevalence",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "CDC obesity prevalence data (annual); US adult obesity rate 41.9% (2023–2024), up from 30.5% (2000). Obesity incidence among adults 18–39: 45%+ (2024). GLP-1 eligible population (BMI >30 or BMI >27 with comorbidities): ~100M in US. Novo's Wegovy penetration: 8–10% of eligible population (2024), implying 80–90M addressable market opportunity. Signal used for long-term revenue growth forecasting and market-size validation.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "medicine",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.982Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Novo Nordisk Manufacturing A/S (Kalundborg, Denmark)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Novo Nordisk Tianjin Pharma Co., Ltd. (China)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Catalent, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Recipharm AB",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "DHL Supply Chain",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Kuehne+Nagel International AG",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Cardinal Health, Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "S1": {
+        "external_add": [
+          {
+            "name": "Novo Nordisk Chartres (France)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Gerresheimer AG",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Schott AG",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "CVS Health Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Insulet Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "McKesson Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Tandem Diabetes Care, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Lonza Group AG",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "DexCom, Inc.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "United Parcel Service, Inc.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "United States Department of Veterans Affairs (VA)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "National Health Service (NHS, UK)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "China National Pharmaceutical Group (CNPG)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "IQVIA GLP-1 Prescription Volume Index",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "US Obesity Prevalence & Incidence Rates",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "Centers for Medicare & Medicaid Services (CMS)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Senate Finance Committee",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Eli Lilly and Company",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Amgen Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Roche Holding AG",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Sandoz (Novartis division)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Viatris Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Sanofi SE",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Food and Drug Administration (FDA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "European Medicines Agency (EMA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "China National Medical Products Administration (NMPA)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "BlackRock Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "NVO Stock Price & Implied Volatility",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Berkshire Hathaway Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Novo Nordisk Foundation",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+        "neuralRegion": "LC",
+        "neuralRegionLabel": "Locus Coeruleus",
+        "businessSignature": "analyst_attention_concentration",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_executive_attention_signals"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.34,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "System for detecting LC-equivalent tonic-elevation in corporate-attention environment via news-flow + analyst-coverage signal",
+            "noveltyAnchor": "Cross-mapping arousal-circuit metrics to information-environment surveillance"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Cyber-Physical Systems for finance",
+              "NIST attention research"
+            ],
+            "angle": "Attention-economy modeling of corporate-news environment"
+          },
+          "investment": {
+            "thesis": "Sell tonic-elevation attention; buy phasic-resolution post-disclosure",
+            "horizon": "1-6mo"
+          },
+          "research": {
+            "hypothesis": "Companies with sustained tonic news-attention without resolution have higher 12mo distress probability",
+            "methodology": "news-flow analysis with distress-event coding"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7"
+        ],
+        "knownTreatments": [
+          "alpha-2 agonists (clonidine, guanfacine)",
+          "vagal nerve stimulation",
+          "mindfulness for phasic attention restoration"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:01.615Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+        "confidence": 0.34,
+        "artifact": {
+          "title": "Method and system for detecting analyst attention concentration via Locus Coeruleus-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting analyst attention concentration signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Locus Coeruleus-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined analyst attention concentration threshold. The method provides earlier and more specific detection of analyst attention concentration than conventional financial-distress models.",
+          "background": "Detection of analyst attention concentration in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting analyst attention concentration until well after the signature has been priced. Analyst attention concentration represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Locus Coeruleus (alpha-2 agonists) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting analyst attention concentration signature comprises: receiving filing data and counterparty network data, determining a Locus Coeruleus-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Cross-mapping arousal-circuit metrics to information-environment surveillance. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting analyst attention concentration signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Locus Coeruleus-equivalent decoupling score, wherein the determining the Locus Coeruleus-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Locus Coeruleus-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Locus Coeruleus-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined analyst attention concentration threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"alpha-2 agonists\", \"vagal nerve stimulation\", and \"mindfulness for phasic attention restoration\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Cross-mapping arousal-circuit metrics to information-environment surveillance",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.686Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+        "confidence": 0.34,
+        "programs": [
+          "NSF Cyber-Physical Systems for finance",
+          "NIST attention research"
+        ],
+        "artifact": {
+          "title": "Translational Locus Coeruleus-equivalent detection and intervention protocols for analyst attention concentration",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit analyst attention concentration signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with analyst attention concentration-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Locus Coeruleus-equivalent isomorphic pathology significantly modulates analyst attention concentration detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Novo Nordisk A/S and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified analyst attention concentration signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects analyst attention concentration signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Locus Coeruleus-equivalent analyst attention concentration detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Locus Coeruleus isomorphic pathology will increase analyst attention concentration detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Locus Coeruleus-equivalent analyst attention concentration detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for analyst attention concentration against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Attention-economy modeling of corporate-news environment",
+          "innovation": "The proposed work is innovative because it integrates Locus Coeruleus clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.686Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+        "confidence": 0.34,
+        "side": "LONG",
+        "horizon": "1-6mo",
+        "artifact": {
+          "header": "Novo Nordisk A/S (NVO) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 1-6mo months)    Stop / re-review: $[STOP]\nKernel phase: TERMINAL-PHASE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: LC_arousal_dysregulation_x_analyst_attention_concentration (confidence 0.34)",
+          "variantView": "NVO screens as pharmaceutical preparations — metabolic-typical. Underneath, the operative driver is Locus Coeruleus-equivalent isomorphic pathology — (analyst attention concentration) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Pharmaceutical Preparations — Metabolic entities exhibiting analyst attention concentration: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Novo Nordisk A/S\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 1-6mo months because once the analyst attention concentration pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 1-6momo: [IRR]%\n\nMultiple chosen because: Pharmaceutical Preparations — Metabolic peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.34).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.34, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Pharmaceutical Preparations — Metabolic; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: TERMINAL-PHASE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_executive_attention_signals\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Locus Coeruleus ↔ analyst attention concentration mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 1-6mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Sell tonic-elevation attention; buy phasic-resolution post-disclosure",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.686Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
+        "confidence": 0.34,
+        "artifact": {
+          "title": "Empirical test of Locus Coeruleus-equivalent analyst attention concentration mapping on Novo Nordisk A/S",
+          "hypothesis": "Companies with sustained tonic news-attention without resolution have higher 12mo distress probability",
+          "methodology": "news-flow analysis with distress-event coding",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Locus Coeruleus-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "LC_arousal_dysregulation_x_analyst_attention_concentration"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.686Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.686Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

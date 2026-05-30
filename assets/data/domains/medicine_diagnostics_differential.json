@@ -1,0 +1,2378 @@
+{
+  "domainId": "medicine_diagnostics_differential",
+  "title": "Differential Diagnosis",
+  "parentPortal": "medicine_diagnostics_portal.html",
+  "parentLabel": "Diagnostics & Imaging",
+  "phase": "P8",
+  "activations": [
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Differential Diagnosis Assessment & Diagnostics",
+      "domainDescription": "Systematic management of differential diagnosis assessment & diagnostics across all differential diagnosis functions and operations",
+      "group": "analysis",
+      "phase": "P8",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Integrate Differential Diagnosis Assessment & Diagnostics Scalability Framework",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Integrate a population health management strategy for differential diagnosis assessment & diagnostics using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "UNMONITORED_DIFFERENTIAL_DIAGNOSIS_ASSESSM -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for differential diagnosis assessment & diagnostics using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Differential Diagnosis Assessment & Diagnostics Compliance Monitoring System",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Conduct an evidence-based practice training for differential diagnosis assessment & diagnostics teaching critical appraisal, GRADE methodology, and clinical guideline application.",
+          "cite": "Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81; Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226",
+          "target": "UNDERPERFORMING_DIFFERENTIAL_DIAGNOSIS_ASSESSM -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            },
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for differential diagnosis assessment & diagnostics using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Differential Diagnosis Assessment & Diagnostics Standard Operating Procedures",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Design an infection prevention bundle for differential diagnosis assessment & diagnostics deploying CDC NHSN surveillance with evidence-based prevention practices per SHEA guidelines.",
+          "cite": "Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press; AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ",
+          "target": "REACTIVE_DIFFERENTIAL_DIAGNOSIS_ASSESSM -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for differential diagnosis assessment & diagnostics against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Differential Diagnosis Assessment & Diagnostics Scalability Framework",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Deploy a health equity program for differential diagnosis assessment & diagnostics addressing disparities using CMS equity framework with disaggregated outcomes data.",
+          "cite": "Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969; Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851",
+          "target": "FRAGMENTED_DIFFERENTIAL_DIAGNOSIS_ASSESSM -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            },
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for differential diagnosis assessment & diagnostics using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Differential Diagnosis Assessment & Diagnostics Compliance Monitoring System",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Operationalize an EHR optimization for differential diagnosis assessment & diagnostics advancing HIMSS EMRAM maturity with clinical decision support and order set standardization.",
+          "cite": "SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED; ONC (2023). Health IT Certification Program. Office of the National Coordinator",
+          "target": "SILOED_DIFFERENTIAL_DIAGNOSIS_ASSESSM -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for differential diagnosis assessment & diagnostics using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Differential Diagnosis Assessment & Diagnostics Standard Operating Procedures",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Calibrate a population health management strategy for differential diagnosis assessment & diagnostics using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "OUTDATED_DIFFERENTIAL_DIAGNOSIS_ASSESSM -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for differential diagnosis assessment & diagnostics using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_diagnostics_differential_ai_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Addiction Medicine — Action Coordination — Tertiary",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Serotonergic Mood Regulation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Serotonergic Tone"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Serotonergic Metabolic Modulation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Raphe Nuclei"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Serotonin System Development"
+        },
+        {
+          "domain": "population",
+          "role": "Aging Population"
+        },
+        {
+          "domain": "provider",
+          "role": "System Morale / Well-Being"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Serotonergic Reset Center"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMN",
+      "state": "active",
+      "domainLabel": "Differential Diagnosis Core Operations",
+      "domainDescription": "Systematic management of differential diagnosis core operations across all differential diagnosis functions and operations",
+      "group": "operations",
+      "phase": "P8",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Implement Differential Diagnosis Core Operations Governance Structure",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Implement an evidence-based clinical pathway for differential diagnosis core operations integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "OUTDATED_DIFFERENTIAL_DIAGNOSIS_CORE_OP -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for differential diagnosis core operations using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Differential Diagnosis Core Operations Assessment Protocol",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Institutionalize a patient safety coaching initiative for differential diagnosis core operations using TeamSTEPPS communication tools and crew resource management principles.",
+          "cite": "Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181; Gawande, A. (2009). The Checklist Manifesto. Henry Holt",
+          "target": "INEFFICIENT_DIFFERENTIAL_DIAGNOSIS_CORE_OP -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            },
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EBP competency for differential diagnosis core operations using Fresno test or Berlin questionnaire",
+            "Design training in literature search, critical appraisal, and evidence synthesis",
+            "Deliver journal club facilitation training with structured appraisal tools",
+            "Implement bedside teaching of evidence application and GRADE interpretation",
+            "Measure EBP knowledge, attitudes, and clinical practice change outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical decision support utilization using CDS analytics dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical decision support utilization measured monthly. Target: 70% alert acknowledgment rate. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ CDS Five Rights benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical decision support utilization trending toward 85% acknowledgment. Escalate if <50% acknowledgment floor. ANNUAL REVIEW: Comprehensive audit using AHRQ CDS framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Differential Diagnosis Core Operations Diagnostic Dashboard",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Configure a perioperative care optimization for differential diagnosis core operations implementing Enhanced Recovery After Surgery (ERAS) protocols with standardized pathways.",
+          "cite": "Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust; JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International",
+          "target": "INCONSISTENT_DIFFERENTIAL_DIAGNOSIS_CORE_OP -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess surgical care for differential diagnosis core operations using ACS NSQIP outcomes data",
+            "Design ERAS protocol with evidence-based pre-, intra-, and post-operative elements",
+            "Implement standardized surgical safety checklist per WHO Safe Surgery framework",
+            "Deploy real-time surgical site surveillance with NHSN reporting",
+            "Measure ERAS compliance, LOS reduction, and complication rate improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — medication error rate using medication event reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — medication error rate measured monthly. Target: 50% reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against ISMP safety benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — medication error rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISMP Guidelines. Report to Pharmacy Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Differential Diagnosis Core Operations Governance Structure",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Strengthen a patient engagement initiative for differential diagnosis core operations implementing shared decision-making using Ottawa Decision Support Framework tools.",
+          "cite": "Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139; Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383",
+          "target": "UNMONITORED_DIFFERENTIAL_DIAGNOSIS_CORE_OP -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            },
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate HRO readiness for differential diagnosis core operations using Weick and Sutcliffe HRO assessment",
+            "Design high-reliability program with preoccupation with failure and deference to expertise",
+            "Implement safety behaviors: stop-the-line, cross-checking, and three-way communication",
+            "Deploy real-time safety dashboards with tiered daily management huddles",
+            "Measure safety event rates, near-miss reporting, and HRO culture maturity"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — health equity metric using CMS health disparity measures. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — health equity metric measured quarterly. Target: disparity gap <10% across groups. PHASE 3 (Months 4-6): Midpoint review — compare against CMS equity targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — health equity metric trending toward gap <5%. Escalate if <gap <20% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS Framework for Health Equity. Report to Health Equity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Differential Diagnosis Core Operations Assessment Protocol",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Monitor a telehealth program for differential diagnosis core operations implementing ATA practice guidelines with remote monitoring and virtual care pathways.",
+          "cite": "HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7; HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics",
+          "target": "UNDERPERFORMING_DIFFERENTIAL_DIAGNOSIS_CORE_OP -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess cybersecurity for differential diagnosis core operations using NIST CSF and HIPAA Security Rule gaps",
+            "Design defense-in-depth with network segmentation, encryption, and access controls",
+            "Implement SIEM, endpoint protection, and medical device security program",
+            "Conduct tabletop exercises and penetration testing with incident response drills",
+            "Achieve HHS 405(d) HICP alignment with annual risk assessment and attestation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity healthcare maturity using NIST CSF + HIPAA assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity healthcare maturity measured quarterly. Target: NIST tier 3 with HIPAA compliance. PHASE 3 (Months 4-6): Midpoint review — compare against HHS 405(d) HICP benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity healthcare maturity trending toward tier 4. Escalate if <tier 2 with HIPAA floor. ANNUAL REVIEW: Comprehensive audit using HHS 405(d) HICP framework. Report to CISO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Differential Diagnosis Core Operations Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Build an evidence-based clinical pathway for differential diagnosis core operations integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027; Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759",
+          "target": "REACTIVE_DIFFERENTIAL_DIAGNOSIS_CORE_OP -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            },
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for differential diagnosis core operations using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_diagnostics_differential_algorithms_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "General Anesthesia — State Assessment",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 1,
+      "linkedCompanies": [],
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Somatic Awareness Network"
+        },
+        {
+          "domain": "education",
+          "role": "Workforce Dev"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "captioning styling — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power — Diagnostic Analysis"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Core Operations"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Recycling Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "GBA",
+      "state": "active",
+      "domainLabel": "Differential Diagnosis Infrastructure & Capacity",
+      "domainDescription": "Systematic management of differential diagnosis infrastructure & capacity across all differential diagnosis functions and operations",
+      "group": "systems",
+      "phase": "P8",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Configure Differential Diagnosis Infrastructure & Capacity Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Configure a value-based care transformation for differential diagnosis infrastructure & capacity implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "UNDERPERFORMING_DIFFERENTIAL_DIAGNOSIS_INFRAST -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for differential diagnosis infrastructure & capacity using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Differential Diagnosis Infrastructure & Capacity Sustainability Audit",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Strengthen a clinical mentorship program for differential diagnosis infrastructure & capacity pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "ACGME (2022). Common Program Requirements. Accreditation Council for GME; Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge",
+          "target": "REACTIVE_DIFFERENTIAL_DIAGNOSIS_INFRAST -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess clinical skill gaps for differential diagnosis infrastructure & capacity using ACGME milestone assessment",
+            "Design simulation curriculum with case scenarios mapped to competency domains",
+            "Deliver high-fidelity simulation sessions with structured debriefing per PEARLS framework",
+            "Assess performance using validated checklists and global rating scales",
+            "Track longitudinal competency progression and remediation needs"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical competency assessment score using OSCE and simulation performance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical competency assessment score measured quarterly. Target: 90% trainees meet competency. PHASE 3 (Months 4-6): Midpoint review — compare against ACGME milestone benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical competency assessment score trending toward 95% meeting milestones. Escalate if <80% meeting floor. ANNUAL REVIEW: Comprehensive audit using ACGME milestone framework. Report to Graduate Medical Education Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Differential Diagnosis Infrastructure & Capacity Innovation Pipeline",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Monitor a JCI-accredited quality infrastructure for differential diagnosis infrastructure & capacity implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "WHO (2020). World Health Statistics. WHO; CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid",
+          "target": "FRAGMENTED_DIFFERENTIAL_DIAGNOSIS_INFRAST -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess accreditation readiness for differential diagnosis infrastructure & capacity against JCI International Patient Safety Goals",
+            "Conduct gap analysis across JCI standards with department-level findings",
+            "Design remediation plans with responsible parties, timelines, and evidence requirements",
+            "Implement improvements with mock survey, tracer methodology, and staff preparation",
+            "Achieve JCI accreditation and establish continuous compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — bed occupancy optimization using hospital bed management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — bed occupancy optimization measured daily. Target: occupancy 80-85%. PHASE 3 (Months 4-6): Midpoint review — compare against NHS bed management targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — bed occupancy optimization trending toward optimal range maintained. Escalate if <below 90% ceiling. ANNUAL REVIEW: Comprehensive audit using NHS bed management framework. Report to COO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Differential Diagnosis Infrastructure & Capacity Feedback Loop Design",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build a clinician well-being program for differential diagnosis infrastructure & capacity addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768; Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115",
+          "target": "SILOED_DIFFERENTIAL_DIAGNOSIS_INFRAST -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            },
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            }
+          ],
+          "steps": [
+            "Assess safety culture for differential diagnosis infrastructure & capacity using AHRQ SOPS culture survey",
+            "Design just culture policy with algorithm for human error, at-risk, and reckless behavior",
+            "Implement voluntary event reporting system with feedback and learning loops",
+            "Conduct patient safety leadership WalkRounds with executive team",
+            "Track culture survey trends, reporting rates, and serious safety event reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient experience scores (HCAHPS) using CMS HCAHPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient experience scores (HCAHPS) measured monthly. Target: top-quartile nationally. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Compare benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient experience scores (HCAHPS) trending toward top-decile. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using CMS HCAHPS framework. Report to Patient Experience Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Differential Diagnosis Infrastructure & Capacity Sustainability Audit",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Optimize a healthcare cybersecurity program for differential diagnosis infrastructure & capacity implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO; DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA",
+          "target": "OUTDATED_DIFFERENTIAL_DIAGNOSIS_INFRAST -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EHR maturity for differential diagnosis infrastructure & capacity using HIMSS EMRAM stage evaluation",
+            "Design optimization plan targeting CDS, documentation, and workflow efficiency",
+            "Implement clinical decision support rules aligned with evidence-based guidelines",
+            "Deploy physician informatics champions for adoption and continuous improvement",
+            "Measure EMRAM stage advancement, CDS effectiveness, and clinician satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — EHR adoption maturity using HIMSS EMRAM score. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — EHR adoption maturity measured biannually. Target: EMRAM Stage 6. PHASE 3 (Months 4-6): Midpoint review — compare against HIMSS EMRAM Stage 7 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — EHR adoption maturity trending toward Stage 7. Escalate if <Stage 5 floor. ANNUAL REVIEW: Comprehensive audit using HIMSS EMRAM framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Differential Diagnosis Infrastructure & Capacity Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Launch a value-based care transformation for differential diagnosis infrastructure & capacity implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "INEFFICIENT_DIFFERENTIAL_DIAGNOSIS_INFRAST -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for differential diagnosis infrastructure & capacity using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_diagnostics_differential_bayesian_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Neuraxial Block Infrastructure & Capacity",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Gut-Brain Inflammation Axis"
+        },
+        {
+          "domain": "environment",
+          "role": "Soil Ecosystems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Gut-Brain Metabolic Axis"
+        },
+        {
+          "domain": "communication",
+          "role": "Screen Reader Compatibility Human Capital & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Aircraft Maintenance Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Infrastructure & Capacity"
+        },
+        {
+          "domain": "education",
+          "role": "Test Preparation Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OLF",
+      "state": "active",
+      "domainLabel": "Differential Diagnosis Risk & Resilience",
+      "domainDescription": "Systematic management of differential diagnosis risk & resilience across all differential diagnosis functions and operations",
+      "group": "governance",
+      "phase": "P8",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Conduct Differential Diagnosis Risk & Resilience Early Warning System",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Conduct an evidence-based clinical pathway for differential diagnosis risk & resilience integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "REACTIVE_DIFFERENTIAL_DIAGNOSIS_RISK___ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for differential diagnosis risk & resilience using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Differential Diagnosis Risk & Resilience Operational Readiness Check",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Design a patient safety coaching initiative for differential diagnosis risk & resilience using TeamSTEPPS communication tools and crew resource management principles.",
+          "cite": "Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81; Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226",
+          "target": "FRAGMENTED_DIFFERENTIAL_DIAGNOSIS_RISK___ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            },
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            }
+          ],
+          "steps": [
+            "Assess clinical skill gaps for differential diagnosis risk & resilience using ACGME milestone assessment",
+            "Design simulation curriculum with case scenarios mapped to competency domains",
+            "Deliver high-fidelity simulation sessions with structured debriefing per PEARLS framework",
+            "Assess performance using validated checklists and global rating scales",
+            "Track longitudinal competency progression and remediation needs"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical competency assessment score using OSCE and simulation performance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical competency assessment score measured quarterly. Target: 90% trainees meet competency. PHASE 3 (Months 4-6): Midpoint review — compare against ACGME milestone benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical competency assessment score trending toward 95% meeting milestones. Escalate if <80% meeting floor. ANNUAL REVIEW: Comprehensive audit using ACGME milestone framework. Report to Graduate Medical Education Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Differential Diagnosis Risk & Resilience Capacity Building Initiative",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Deploy a perioperative care optimization for differential diagnosis risk & resilience implementing Enhanced Recovery After Surgery (ERAS) protocols with standardized pathways.",
+          "cite": "Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press; AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ",
+          "target": "SILOED_DIFFERENTIAL_DIAGNOSIS_RISK___ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess accreditation readiness for differential diagnosis risk & resilience against JCI International Patient Safety Goals",
+            "Conduct gap analysis across JCI standards with department-level findings",
+            "Design remediation plans with responsible parties, timelines, and evidence requirements",
+            "Implement improvements with mock survey, tracer methodology, and staff preparation",
+            "Achieve JCI accreditation and establish continuous compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — bed occupancy optimization using hospital bed management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — bed occupancy optimization measured daily. Target: occupancy 80-85%. PHASE 3 (Months 4-6): Midpoint review — compare against NHS bed management targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — bed occupancy optimization trending toward optimal range maintained. Escalate if <below 90% ceiling. ANNUAL REVIEW: Comprehensive audit using NHS bed management framework. Report to COO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Differential Diagnosis Risk & Resilience Early Warning System",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Operationalize a patient engagement initiative for differential diagnosis risk & resilience implementing shared decision-making using Ottawa Decision Support Framework tools.",
+          "cite": "Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969; Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851",
+          "target": "OUTDATED_DIFFERENTIAL_DIAGNOSIS_RISK___ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            },
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            }
+          ],
+          "steps": [
+            "Assess safety culture for differential diagnosis risk & resilience using AHRQ SOPS culture survey",
+            "Design just culture policy with algorithm for human error, at-risk, and reckless behavior",
+            "Implement voluntary event reporting system with feedback and learning loops",
+            "Conduct patient safety leadership WalkRounds with executive team",
+            "Track culture survey trends, reporting rates, and serious safety event reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient experience scores (HCAHPS) using CMS HCAHPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient experience scores (HCAHPS) measured monthly. Target: top-quartile nationally. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Compare benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient experience scores (HCAHPS) trending toward top-decile. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using CMS HCAHPS framework. Report to Patient Experience Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Differential Diagnosis Risk & Resilience Operational Readiness Check",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Calibrate a telehealth program for differential diagnosis risk & resilience implementing ATA practice guidelines with remote monitoring and virtual care pathways.",
+          "cite": "SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED; ONC (2023). Health IT Certification Program. Office of the National Coordinator",
+          "target": "INEFFICIENT_DIFFERENTIAL_DIAGNOSIS_RISK___ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EHR maturity for differential diagnosis risk & resilience using HIMSS EMRAM stage evaluation",
+            "Design optimization plan targeting CDS, documentation, and workflow efficiency",
+            "Implement clinical decision support rules aligned with evidence-based guidelines",
+            "Deploy physician informatics champions for adoption and continuous improvement",
+            "Measure EMRAM stage advancement, CDS effectiveness, and clinician satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — EHR adoption maturity using HIMSS EMRAM score. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — EHR adoption maturity measured biannually. Target: EMRAM Stage 6. PHASE 3 (Months 4-6): Midpoint review — compare against HIMSS EMRAM Stage 7 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — EHR adoption maturity trending toward Stage 7. Escalate if <Stage 5 floor. ANNUAL REVIEW: Comprehensive audit using HIMSS EMRAM framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Differential Diagnosis Risk & Resilience Capacity Building Initiative",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Streamline an evidence-based clinical pathway for differential diagnosis risk & resilience integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "INCONSISTENT_DIFFERENTIAL_DIAGNOSIS_RISK___ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for differential diagnosis risk & resilience using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_diagnostics_differential_clinical_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "monitoring standard — Signal Acquisition",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Screen Reader Compatibility Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Aircraft Maintenance Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "econ agribiz — Signal Acquisition"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — Diagnostic Analysis"
+        },
+        {
+          "domain": "energy",
+          "role": "Solid-State Batteries Assessment & Diagnostics"
+        },
+        {
+          "domain": "environment",
+          "role": "Air Quality Standards Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Differential Diagnosis Policy & Governance",
+      "domainDescription": "Systematic management of differential diagnosis policy & governance across all differential diagnosis functions and operations",
+      "group": "innovation",
+      "phase": "P8",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Assess Differential Diagnosis Policy & Governance Capability Maturity Model",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Assess a clinical quality improvement program for differential diagnosis policy & governance applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "INEFFICIENT_DIFFERENTIAL_DIAGNOSIS_POLICY_ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Identify improvement target for differential diagnosis policy & governance using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Differential Diagnosis Policy & Governance Quality Assurance Program",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Create a simulation-based clinical training for differential diagnosis policy & governance using high-fidelity mannequins and standardized patients per SSH accreditation.",
+          "cite": "Gawande, A. (2009). The Checklist Manifesto. Henry Holt; Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181",
+          "target": "INCONSISTENT_DIFFERENTIAL_DIAGNOSIS_POLICY_ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish mentoring matches for differential diagnosis policy & governance based on career goals and clinical interests",
+            "Train mentors in effective mentoring practices and IDP development",
+            "Implement structured mentoring agreements with quarterly goal review",
+            "Deploy mentoring circles for peer support and knowledge sharing",
+            "Evaluate mentorship outcomes through mentee career progression and satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interprofessional education participation using IPE program tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interprofessional education participation measured biannually. Target: 80% clinical staff participated. PHASE 3 (Months 4-6): Midpoint review — compare against IPEC competency framework. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interprofessional education participation trending toward 95% participated. Escalate if <60% participated floor. ANNUAL REVIEW: Comprehensive audit using IPEC Core Competencies. Report to IPE Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Differential Diagnosis Policy & Governance Integration Architecture",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Evaluate a laboratory modernization for differential diagnosis policy & governance implementing CAP accreditation standards with LIS integration and point-of-care testing.",
+          "cite": "JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International; Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust",
+          "target": "UNMONITORED_DIFFERENTIAL_DIAGNOSIS_POLICY_ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate medication use for differential diagnosis policy & governance using ISMP Medication Safety Self Assessment",
+            "Design closed-loop medication management with CPOE, pharmacy verification, and BCMA",
+            "Implement smart pump drug libraries with dose limits and alerts",
+            "Deploy automated dispensing with par optimization and diversion detection",
+            "Track medication error rates, near-misses, and ADR reporting against ISMP benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — laboratory turnaround time using LIS analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — laboratory turnaround time measured daily. Target: stat TAT <60 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against CAP benchmarking standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — laboratory turnaround time trending toward <45 minutes. Escalate if <<90 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CAP accreditation standards. Report to Laboratory Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Differential Diagnosis Policy & Governance Capability Maturity Model",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Integrate a safety culture transformation for differential diagnosis policy & governance using AHRQ SOPS assessment with high-reliability organization principles.",
+          "cite": "Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383; Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139",
+          "target": "UNDERPERFORMING_DIFFERENTIAL_DIAGNOSIS_POLICY_ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            },
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            }
+          ],
+          "steps": [
+            "Assess health equity for differential diagnosis policy & governance using CMS stratified quality measures",
+            "Design intervention targeting identified disparities with community partnerships",
+            "Implement language access, cultural competency training, and health literacy tools",
+            "Deploy CHW programs in underserved communities with social determinant screening",
+            "Measure disparity reduction across clinical outcomes and access metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — shared decision-making rate using OPTION-12 observation tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — shared decision-making rate measured quarterly. Target: 70% encounters with SDM. PHASE 3 (Months 4-6): Midpoint review — compare against Dartmouth SDM benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — shared decision-making rate trending toward 85% encounters. Escalate if <50% encounters floor. ANNUAL REVIEW: Comprehensive audit using Ottawa Decision Support Framework. Report to Patient-Centered Care Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Differential Diagnosis Policy & Governance Quality Assurance Program",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Conduct a healthcare interoperability platform for differential diagnosis policy & governance implementing HL7 FHIR R4 APIs per ONC TEFCA requirements.",
+          "cite": "HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics; HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7",
+          "target": "REACTIVE_DIFFERENTIAL_DIAGNOSIS_POLICY_ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate telehealth for differential diagnosis policy & governance using ATA practice guideline criteria",
+            "Design virtual care pathways for appropriate conditions with safety protocols",
+            "Implement telehealth platform with EHR integration and patient scheduling",
+            "Train clinicians in virtual examination techniques and remote monitoring",
+            "Measure telehealth utilization, outcomes equivalence, and patient satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — telehealth utilization using telehealth platform analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — telehealth utilization measured monthly. Target: 25% visits via telehealth. PHASE 3 (Months 4-6): Midpoint review — compare against ATA practice guidelines targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — telehealth utilization trending toward 35% telehealth. Escalate if <15% telehealth floor. ANNUAL REVIEW: Comprehensive audit using ATA Telehealth Framework. Report to Telehealth Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Differential Diagnosis Policy & Governance Integration Architecture",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Design a clinical quality improvement program for differential diagnosis policy & governance applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "FRAGMENTED_DIFFERENTIAL_DIAGNOSIS_POLICY_ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for differential diagnosis policy & governance using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Psychiatry",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 1,
+      "linkedCompanies": [],
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        },
+        {
+          "domain": "religion",
+          "role": "Theological Doctrine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PI",
+      "state": "active",
+      "domainLabel": "Differential Diagnosis Technology & Innovation",
+      "domainDescription": "Systematic management of differential diagnosis technology & innovation across all differential diagnosis functions and operations",
+      "group": "development",
+      "phase": "P8",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Establish Differential Diagnosis Technology & Innovation Resilience Assessment",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish a population health management strategy for differential diagnosis technology & innovation using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "FRAGMENTED_DIFFERENTIAL_DIAGNOSIS_TECHNOL -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for differential diagnosis technology & innovation using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Differential Diagnosis Technology & Innovation Risk Mitigation Strategy",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Implement an evidence-based practice training for differential diagnosis technology & innovation teaching critical appraisal, GRADE methodology, and clinical guideline application.",
+          "cite": "ACGME (2022). Common Program Requirements. Accreditation Council for GME; Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge",
+          "target": "SILOED_DIFFERENTIAL_DIAGNOSIS_TECHNOL -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess clinical skill gaps for differential diagnosis technology & innovation using ACGME milestone assessment",
+            "Design simulation curriculum with case scenarios mapped to competency domains",
+            "Deliver high-fidelity simulation sessions with structured debriefing per PEARLS framework",
+            "Assess performance using validated checklists and global rating scales",
+            "Track longitudinal competency progression and remediation needs"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical competency assessment score using OSCE and simulation performance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical competency assessment score measured quarterly. Target: 90% trainees meet competency. PHASE 3 (Months 4-6): Midpoint review — compare against ACGME milestone benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical competency assessment score trending toward 95% meeting milestones. Escalate if <80% meeting floor. ANNUAL REVIEW: Comprehensive audit using ACGME milestone framework. Report to Graduate Medical Education Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Differential Diagnosis Technology & Innovation Process Improvement Initiative",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Institutionalize an infection prevention bundle for differential diagnosis technology & innovation deploying CDC NHSN surveillance with evidence-based prevention practices per SHEA guidelines.",
+          "cite": "WHO (2020). World Health Statistics. WHO; CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid",
+          "target": "OUTDATED_DIFFERENTIAL_DIAGNOSIS_TECHNOL -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess accreditation readiness for differential diagnosis technology & innovation against JCI International Patient Safety Goals",
+            "Conduct gap analysis across JCI standards with department-level findings",
+            "Design remediation plans with responsible parties, timelines, and evidence requirements",
+            "Implement improvements with mock survey, tracer methodology, and staff preparation",
+            "Achieve JCI accreditation and establish continuous compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — bed occupancy optimization using hospital bed management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — bed occupancy optimization measured daily. Target: occupancy 80-85%. PHASE 3 (Months 4-6): Midpoint review — compare against NHS bed management targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — bed occupancy optimization trending toward optimal range maintained. Escalate if <below 90% ceiling. ANNUAL REVIEW: Comprehensive audit using NHS bed management framework. Report to COO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Differential Diagnosis Technology & Innovation Resilience Assessment",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Configure a health equity program for differential diagnosis technology & innovation addressing disparities using CMS equity framework with disaggregated outcomes data.",
+          "cite": "Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768; Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115",
+          "target": "INEFFICIENT_DIFFERENTIAL_DIAGNOSIS_TECHNOL -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            },
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            }
+          ],
+          "steps": [
+            "Assess safety culture for differential diagnosis technology & innovation using AHRQ SOPS culture survey",
+            "Design just culture policy with algorithm for human error, at-risk, and reckless behavior",
+            "Implement voluntary event reporting system with feedback and learning loops",
+            "Conduct patient safety leadership WalkRounds with executive team",
+            "Track culture survey trends, reporting rates, and serious safety event reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient experience scores (HCAHPS) using CMS HCAHPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient experience scores (HCAHPS) measured monthly. Target: top-quartile nationally. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Compare benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient experience scores (HCAHPS) trending toward top-decile. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using CMS HCAHPS framework. Report to Patient Experience Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Differential Diagnosis Technology & Innovation Risk Mitigation Strategy",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Strengthen an EHR optimization for differential diagnosis technology & innovation advancing HIMSS EMRAM maturity with clinical decision support and order set standardization.",
+          "cite": "WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO; DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA",
+          "target": "INCONSISTENT_DIFFERENTIAL_DIAGNOSIS_TECHNOL -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EHR maturity for differential diagnosis technology & innovation using HIMSS EMRAM stage evaluation",
+            "Design optimization plan targeting CDS, documentation, and workflow efficiency",
+            "Implement clinical decision support rules aligned with evidence-based guidelines",
+            "Deploy physician informatics champions for adoption and continuous improvement",
+            "Measure EMRAM stage advancement, CDS effectiveness, and clinician satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — EHR adoption maturity using HIMSS EMRAM score. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — EHR adoption maturity measured biannually. Target: EMRAM Stage 6. PHASE 3 (Months 4-6): Midpoint review — compare against HIMSS EMRAM Stage 7 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — EHR adoption maturity trending toward Stage 7. Escalate if <Stage 5 floor. ANNUAL REVIEW: Comprehensive audit using HIMSS EMRAM framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Differential Diagnosis Technology & Innovation Process Improvement Initiative",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Monitor a population health management strategy for differential diagnosis technology & innovation using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "UNMONITORED_DIFFERENTIAL_DIAGNOSIS_TECHNOL -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for differential diagnosis technology & innovation using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Standard Monitors Core Operations",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 1,
+      "linkedCompanies": [],
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Technology & Innovation"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Subsidy Reform"
+        },
+        {
+          "domain": "education",
+          "role": "Portfolio Review Assessment & Diagnostics"
+        },
+        {
+          "domain": "energy",
+          "role": "EV Batteries Assessment & Diagnostics"
+        },
+        {
+          "domain": "environment",
+          "role": "Indoor Air Quality Infrastructure & Capacity"
+        },
+        {
+          "domain": "finance",
+          "role": "Accounting Policy & Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VV",
+      "state": "active",
+      "domainLabel": "Differential Diagnosis Human Capital & Development",
+      "domainDescription": "Systematic management of differential diagnosis human capital & development across all differential diagnosis functions and operations",
+      "group": "quality",
+      "phase": "P8",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Conduct Differential Diagnosis Human Capital & Development Operational Readiness Check",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Conduct an evidence-based clinical pathway for differential diagnosis human capital & development integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027; Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759",
+          "target": "REACTIVE_DIFFERENTIAL_DIAGNOSIS_HUMAN_C -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            },
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for differential diagnosis human capital & development using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Differential Diagnosis Human Capital & Development Capacity Building Initiative",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Design a patient safety coaching initiative for differential diagnosis human capital & development using TeamSTEPPS communication tools and crew resource management principles.",
+          "cite": "Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge; ACGME (2022). Common Program Requirements. Accreditation Council for GME",
+          "target": "FRAGMENTED_DIFFERENTIAL_DIAGNOSIS_HUMAN_C -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EBP competency for differential diagnosis human capital & development using Fresno test or Berlin questionnaire",
+            "Design training in literature search, critical appraisal, and evidence synthesis",
+            "Deliver journal club facilitation training with structured appraisal tools",
+            "Implement bedside teaching of evidence application and GRADE interpretation",
+            "Measure EBP knowledge, attitudes, and clinical practice change outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical decision support utilization using CDS analytics dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical decision support utilization measured monthly. Target: 70% alert acknowledgment rate. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ CDS Five Rights benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical decision support utilization trending toward 85% acknowledgment. Escalate if <50% acknowledgment floor. ANNUAL REVIEW: Comprehensive audit using AHRQ CDS framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Differential Diagnosis Human Capital & Development Early Warning System",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Deploy a perioperative care optimization for differential diagnosis human capital & development implementing Enhanced Recovery After Surgery (ERAS) protocols with standardized pathways.",
+          "cite": "CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid; WHO (2020). World Health Statistics. WHO",
+          "target": "SILOED_DIFFERENTIAL_DIAGNOSIS_HUMAN_C -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess surgical care for differential diagnosis human capital & development using ACS NSQIP outcomes data",
+            "Design ERAS protocol with evidence-based pre-, intra-, and post-operative elements",
+            "Implement standardized surgical safety checklist per WHO Safe Surgery framework",
+            "Deploy real-time surgical site surveillance with NHSN reporting",
+            "Measure ERAS compliance, LOS reduction, and complication rate improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — medication error rate using medication event reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — medication error rate measured monthly. Target: 50% reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against ISMP safety benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — medication error rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISMP Guidelines. Report to Pharmacy Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Differential Diagnosis Human Capital & Development Operational Readiness Check",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Operationalize a patient engagement initiative for differential diagnosis human capital & development implementing shared decision-making using Ottawa Decision Support Framework tools.",
+          "cite": "Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115; Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768",
+          "target": "OUTDATED_DIFFERENTIAL_DIAGNOSIS_HUMAN_C -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            },
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            }
+          ],
+          "steps": [
+            "Evaluate HRO readiness for differential diagnosis human capital & development using Weick and Sutcliffe HRO assessment",
+            "Design high-reliability program with preoccupation with failure and deference to expertise",
+            "Implement safety behaviors: stop-the-line, cross-checking, and three-way communication",
+            "Deploy real-time safety dashboards with tiered daily management huddles",
+            "Measure safety event rates, near-miss reporting, and HRO culture maturity"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — health equity metric using CMS health disparity measures. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — health equity metric measured quarterly. Target: disparity gap <10% across groups. PHASE 3 (Months 4-6): Midpoint review — compare against CMS equity targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — health equity metric trending toward gap <5%. Escalate if <gap <20% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS Framework for Health Equity. Report to Health Equity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Differential Diagnosis Human Capital & Development Capacity Building Initiative",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Calibrate a telehealth program for differential diagnosis human capital & development implementing ATA practice guidelines with remote monitoring and virtual care pathways.",
+          "cite": "DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA; WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO",
+          "target": "INEFFICIENT_DIFFERENTIAL_DIAGNOSIS_HUMAN_C -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess cybersecurity for differential diagnosis human capital & development using NIST CSF and HIPAA Security Rule gaps",
+            "Design defense-in-depth with network segmentation, encryption, and access controls",
+            "Implement SIEM, endpoint protection, and medical device security program",
+            "Conduct tabletop exercises and penetration testing with incident response drills",
+            "Achieve HHS 405(d) HICP alignment with annual risk assessment and attestation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity healthcare maturity using NIST CSF + HIPAA assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity healthcare maturity measured quarterly. Target: NIST tier 3 with HIPAA compliance. PHASE 3 (Months 4-6): Midpoint review — compare against HHS 405(d) HICP benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity healthcare maturity trending toward tier 4. Escalate if <tier 2 with HIPAA floor. ANNUAL REVIEW: Comprehensive audit using HHS 405(d) HICP framework. Report to CISO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Differential Diagnosis Human Capital & Development Early Warning System",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Streamline an evidence-based clinical pathway for differential diagnosis human capital & development integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71; WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO",
+          "target": "INCONSISTENT_DIFFERENTIAL_DIAGNOSIS_HUMAN_C -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            },
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for differential diagnosis human capital & development using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Maintenance Agents",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Vagal Tone / Parasympathetic"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Vagal Metabolic Afferents"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Ventral Vagal Restoration"
+        },
+        {
+          "domain": "religion",
+          "role": "Relmedia"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Ecological Design — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CAUD",
+      "state": "active",
+      "domainLabel": "Differential Diagnosis Quality & Performance",
+      "domainDescription": "Systematic management of differential diagnosis quality & performance across all differential diagnosis functions and operations",
+      "group": "performance",
+      "phase": "P8",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Optimize Differential Diagnosis Quality & Performance Accountability Mechanism",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Optimize a clinical quality improvement program for differential diagnosis quality & performance applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "OUTDATED_DIFFERENTIAL_DIAGNOSIS_QUALITY -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for differential diagnosis quality & performance using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Differential Diagnosis Quality & Performance Resource Optimization Model",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Launch a simulation-based clinical training for differential diagnosis quality & performance using high-fidelity mannequins and standardized patients per SSH accreditation.",
+          "cite": "ACGME (2022). Common Program Requirements. Accreditation Council for GME; Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge",
+          "target": "INEFFICIENT_DIFFERENTIAL_DIAGNOSIS_QUALITY -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for differential diagnosis quality & performance using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Differential Diagnosis Quality & Performance Data-Driven Decision Framework",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Develop a laboratory modernization for differential diagnosis quality & performance implementing CAP accreditation standards with LIS integration and point-of-care testing.",
+          "cite": "WHO (2020). World Health Statistics. WHO; CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid",
+          "target": "INCONSISTENT_DIFFERENTIAL_DIAGNOSIS_QUALITY -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for differential diagnosis quality & performance against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Differential Diagnosis Quality & Performance Accountability Mechanism",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Establish a safety culture transformation for differential diagnosis quality & performance using AHRQ SOPS assessment with high-reliability organization principles.",
+          "cite": "Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768; Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115",
+          "target": "UNMONITORED_DIFFERENTIAL_DIAGNOSIS_QUALITY -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            },
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for differential diagnosis quality & performance using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Differential Diagnosis Quality & Performance Resource Optimization Model",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Implement a healthcare interoperability platform for differential diagnosis quality & performance implementing HL7 FHIR R4 APIs per ONC TEFCA requirements.",
+          "cite": "WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO; DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA",
+          "target": "UNDERPERFORMING_DIFFERENTIAL_DIAGNOSIS_QUALITY -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for differential diagnosis quality & performance using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Differential Diagnosis Quality & Performance Data-Driven Decision Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Institutionalize a clinical quality improvement program for differential diagnosis quality & performance applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "REACTIVE_DIFFERENTIAL_DIAGNOSIS_QUALITY -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for differential diagnosis quality & performance using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a diagnostic accuracy and laboratory medicine specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "airway difficult — Signal Acquisition",
+      "brainNodeLabelCanonical": "Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Hydrogen"
+        },
+        {
+          "domain": "governance",
+          "role": "Civil Service"
+        },
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — Feedback & Validation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "RAPHE",
+      "target": "SMN",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "SMN",
+      "target": "GBA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "GBA",
+      "target": "OLF",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "OLF",
+      "target": "DMN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "DMN",
+      "target": "PI",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "PI",
+      "target": "VV",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "VV",
+      "target": "CAUD",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "RAPHE",
+      "target": "CAUD",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "GBA",
+      "target": "RAPHE",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "MEDICINE_DIAGNOSTICS_DIFFERENTIAL_SYSTEM_FAILURE",
+      "label": "Medicine Diagnostics Differential System Failure",
+      "summary": "Critical breakdown in Medicine Diagnostics Differential systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hyper-active",
+          "detail": "Differential Diagnosis Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Hypo-active",
+          "detail": "Differential Diagnosis Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GBA",
+          "dir": "Altered",
+          "detail": "Differential Diagnosis Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OLF",
+          "dir": "Hyper-active",
+          "detail": "Differential Diagnosis Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hypo-active",
+          "detail": "Differential Diagnosis Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MEDICINE_DIAGNOSTICS_DIFFERENTIAL_CAPACITY_OVERLOAD",
+      "label": "Medicine Diagnostics Differential Capacity Overload",
+      "summary": "Demand exceeding available Medicine Diagnostics Differential capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hyper-active",
+          "detail": "Differential Diagnosis Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Hyper-active",
+          "detail": "Differential Diagnosis Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GBA",
+          "dir": "Hyper-active",
+          "detail": "Differential Diagnosis Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OLF",
+          "dir": "Hyper-active",
+          "detail": "Differential Diagnosis Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MEDICINE_DIAGNOSTICS_DIFFERENTIAL_QUALITY_DEGRADATION",
+      "label": "Medicine Diagnostics Differential Quality Degradation",
+      "summary": "Progressive decline in Medicine Diagnostics Differential quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hypo-active",
+          "detail": "Differential Diagnosis Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Altered",
+          "detail": "Differential Diagnosis Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GBA",
+          "dir": "Hyper-active",
+          "detail": "Differential Diagnosis Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OLF",
+          "dir": "Hypo-active",
+          "detail": "Differential Diagnosis Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:33.452Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

@@ -1,0 +1,1251 @@
+{
+  "domainId": "provider",
+  "title": "Provider Network",
+  "parentPortal": "clinical.html",
+  "parentLabel": "Clinical",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Clinical Decision-Making",
+      "domainDescription": "Executive clinical reasoning and treatment planning",
+      "domainFunction": "Synthesizes patient data, evidence, and clinical judgment into diagnostic and treatment decisions",
+      "whyThisNode": "dlPFC is the executive planner — clinical decision-making requires the same working memory, planning, and judgment functions",
+      "group": "clinical_delivery",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "DIAGNOSTIC_ERROR",
+        "TREATMENT_RESISTANCE",
+        "PROVIDER_BURNOUT"
+      ],
+      "treatments": [
+        {
+          "label": "Structured diagnostic checklist",
+          "type": "STRUCTURAL",
+          "description": "Implement standardized differential diagnosis checklists to reduce cognitive bias and oversight errors",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Clinical decision audit",
+          "type": "DIAGNOSTIC",
+          "description": "Retrospective case review of diagnostic accuracy and treatment outcome correlation across provider caseload",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Therapeutic Alliance",
+      "domainDescription": "Emotional attunement and rapport with patients",
+      "domainFunction": "Builds and maintains the therapeutic relationship that predicts treatment outcomes across all modalities",
+      "whyThisNode": "vmPFC mediates emotional valuation and social bonding — the neural substrate of the empathic connection that defines therapeutic alliance",
+      "group": "clinical_delivery",
+      "phase": "P6",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "PROVIDER_BURNOUT",
+        "COMMUNICATION_BREAKDOWN"
+      ],
+      "treatments": [
+        {
+          "label": "Alliance repair protocol",
+          "type": "IMMEDIATE",
+          "description": "Structured rupture-repair interventions when therapeutic relationship strain is detected via outcome measures",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Patient satisfaction tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Session-by-session outcome rating scale (ORS) and session rating scale (SRS) to monitor alliance quality",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Clinical Intuition / Pattern Recognition",
+      "domainDescription": "Rapid clinical pattern detection and gut-level diagnostic sensing",
+      "domainFunction": "Detects subtle patient presentation patterns that trigger diagnostic hypotheses before conscious analysis completes",
+      "whyThisNode": "Anterior insula drives interoceptive awareness and gut-feeling — experienced clinicians use somatic markers for rapid pattern recognition",
+      "group": "diagnostic",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "DIAGNOSTIC_ERROR",
+        "CRISIS_OVERFLOW"
+      ],
+      "treatments": [
+        {
+          "label": "Clinical supervision for pattern calibration",
+          "type": "STRUCTURAL",
+          "description": "Regular peer supervision focused on reviewing intuitive diagnostic hunches against outcome data",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Diagnostic accuracy tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Track initial diagnostic impressions against final diagnoses to calibrate clinical intuition over time",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Error Monitoring / Quality Control",
+      "domainDescription": "Detection of clinical errors, near-misses, and deviations from standard of care",
+      "domainFunction": "Monitors for discrepancies between intended and actual clinical performance, flagging errors before harm occurs",
+      "whyThisNode": "dACC is the brain's error detector — quality control in provider systems requires the same conflict monitoring function",
+      "group": "diagnostic",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "DIAGNOSTIC_ERROR",
+        "CARE_FRAGMENTATION"
+      ],
+      "treatments": [
+        {
+          "label": "Near-miss reporting system",
+          "type": "STRUCTURAL",
+          "description": "Implement no-blame near-miss reporting to capture errors before they reach patients",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Morbidity and mortality review",
+          "type": "DIAGNOSTIC",
+          "description": "Regular case conferences reviewing adverse outcomes and diagnostic errors for system-level learning",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "Empathic Capacity",
+      "domainDescription": "Provider emotional resonance with patient suffering",
+      "domainFunction": "Enables the provider to feel and understand patient distress without being overwhelmed by it",
+      "whyThisNode": "Empathy network activation is the neural basis of compassionate care — and its chronic activation drives burnout",
+      "group": "clinical_delivery",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "PROVIDER_BURNOUT",
+        "COMMUNICATION_BREAKDOWN"
+      ],
+      "treatments": [
+        {
+          "label": "Compassion fatigue prevention program",
+          "type": "STRUCTURAL",
+          "description": "Structured self-care, peer support, and caseload management to sustain empathic capacity",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Burnout screening (MBI)",
+          "type": "DIAGNOSTIC",
+          "description": "Quarterly Maslach Burnout Inventory screening for emotional exhaustion, depersonalization, and reduced accomplishment",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Clinical Knowledge Base",
+      "domainDescription": "Stored medical knowledge, case histories, and evidence base",
+      "domainFunction": "Encodes and retrieves the clinical knowledge, training, and case experience that informs diagnostic reasoning",
+      "whyThisNode": "Hippocampus is the memory system — clinical expertise depends on vast stored pattern libraries of cases and evidence",
+      "group": "diagnostic",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "DIAGNOSTIC_ERROR",
+        "TREATMENT_RESISTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Continuing education protocol",
+          "type": "STRUCTURAL",
+          "description": "Structured CME/CEU program targeting identified knowledge gaps in diagnostic accuracy",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Knowledge currency audit",
+          "type": "DIAGNOSTIC",
+          "description": "Assess provider familiarity with current evidence-based guidelines versus outdated practices",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Information Routing / Intake Triage",
+      "domainDescription": "Routing patient information to appropriate clinical resources",
+      "domainFunction": "Triages incoming clinical information and routes it to the appropriate specialist, team, or level of care",
+      "whyThisNode": "Thalamus is the brain's relay center — intake triage performs the same routing function for clinical information flow",
+      "group": "administrative",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "CARE_FRAGMENTATION",
+        "CRISIS_OVERFLOW"
+      ],
+      "treatments": [
+        {
+          "label": "Triage protocol standardization",
+          "type": "STRUCTURAL",
+          "description": "Implement validated triage tools (PHQ-9, Columbia Protocol) at intake to standardize routing decisions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Routing accuracy review",
+          "type": "DIAGNOSTIC",
+          "description": "Track percentage of patients routed to correct level of care at first contact versus requiring re-routing",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Clinical Communication",
+      "domainDescription": "Provider verbal communication, documentation, and reporting",
+      "domainFunction": "Generates clinical notes, treatment plans, referral letters, and verbal communication with patients and colleagues",
+      "whyThisNode": "Broca's area drives speech production — clinical communication is the output channel for all provider intelligence",
+      "group": "coordination",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "COMMUNICATION_BREAKDOWN",
+        "CARE_FRAGMENTATION"
+      ],
+      "treatments": [
+        {
+          "label": "Standardized handoff protocol (SBAR)",
+          "type": "STRUCTURAL",
+          "description": "Implement Situation-Background-Assessment-Recommendation format for all clinical handoffs",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Communication failure audit",
+          "type": "DIAGNOSTIC",
+          "description": "Review adverse events for communication root causes — missed handoffs, unclear documentation, lost referrals",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Clinical Comprehension",
+      "domainDescription": "Understanding patient narratives, research, and clinical data",
+      "domainFunction": "Processes and comprehends incoming clinical language — patient history, lab results, research literature",
+      "whyThisNode": "Wernicke's area drives language comprehension — understanding patient stories and clinical data is the input channel",
+      "group": "diagnostic",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "DIAGNOSTIC_ERROR",
+        "COMMUNICATION_BREAKDOWN"
+      ],
+      "treatments": [
+        {
+          "label": "Active listening training",
+          "type": "STRUCTURAL",
+          "description": "Motivational interviewing and reflective listening training to improve patient narrative comprehension",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Clinical literacy assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate provider comfort with current evidence base, statistical literacy, and research interpretation",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vlPFC",
+      "state": "active",
+      "domainLabel": "Regulatory Compliance",
+      "domainDescription": "Adherence to clinical standards, ethics, and legal requirements",
+      "domainFunction": "Inhibits clinical shortcuts and enforces adherence to standard of care, ethics codes, and regulatory requirements",
+      "whyThisNode": "vlPFC is the brain's inhibitory control center — compliance requires suppressing expedient shortcuts in favor of proper procedure",
+      "group": "administrative",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CARE_FRAGMENTATION",
+        "DIAGNOSTIC_ERROR"
+      ],
+      "treatments": [
+        {
+          "label": "Compliance training refresh",
+          "type": "STRUCTURAL",
+          "description": "Annual mandatory training on HIPAA, informed consent, duty to warn, and scope of practice boundaries",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Compliance audit",
+          "type": "DIAGNOSTIC",
+          "description": "Chart review for documentation completeness, consent forms, and adherence to clinical protocols",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OXY",
+      "state": "active",
+      "domainLabel": "Team Cohesion / Culture",
+      "domainDescription": "Interpersonal bonding and trust within clinical teams",
+      "domainFunction": "Builds the trust, psychological safety, and cohesion that enable effective multidisciplinary clinical teamwork",
+      "whyThisNode": "Oxytocin drives social bonding and trust — clinical team function depends on the same bonding neurobiology",
+      "group": "coordination",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "PROVIDER_BURNOUT",
+        "CARE_FRAGMENTATION"
+      ],
+      "treatments": [
+        {
+          "label": "Team-based care implementation",
+          "type": "STRUCTURAL",
+          "description": "Structured interdisciplinary team meetings, shared case conceptualization, and collaborative treatment planning",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Team climate survey",
+          "type": "DIAGNOSTIC",
+          "description": "Anonymous team psychological safety survey to identify trust deficits and interpersonal friction points",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Provider Stress Response",
+      "domainDescription": "Chronic stress activation in provider systems",
+      "domainFunction": "Tracks and responds to systemic stress — caseload pressure, administrative burden, and vicarious trauma",
+      "whyThisNode": "HPA axis is the stress response system — provider burnout is a chronic HPA activation syndrome driven by unrelenting clinical demand",
+      "group": "crisis_response",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "PROVIDER_BURNOUT",
+        "CRISIS_OVERFLOW"
+      ],
+      "treatments": [
+        {
+          "label": "Caseload management protocol",
+          "type": "STRUCTURAL",
+          "description": "Set evidence-based caseload caps with acuity weighting — high-acuity cases count as 1.5-2x standard",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Provider stress biomarker tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Track sick days, turnover intention, and self-reported stress to detect system-level burnout before crisis",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Risk Assessment",
+      "domainDescription": "Clinical risk evaluation and threat detection",
+      "domainFunction": "Evaluates patient risk — suicidality, violence, deterioration — and triggers appropriate crisis protocols",
+      "whyThisNode": "Amygdala drives threat detection — clinical risk assessment is the provider analog of rapid threat evaluation",
+      "group": "crisis_response",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "CRISIS_OVERFLOW",
+        "DIAGNOSTIC_ERROR"
+      ],
+      "treatments": [
+        {
+          "label": "Standardized risk assessment protocol",
+          "type": "STRUCTURAL",
+          "description": "Implement Columbia Suicide Severity Rating Scale and violence risk instruments at every intake and crisis contact",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Risk assessment calibration",
+          "type": "DIAGNOSTIC",
+          "description": "Review outcomes of risk assessments to calibrate provider sensitivity and specificity for true positives",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Crisis Response Protocol",
+      "domainDescription": "Automatic crisis intervention activation",
+      "domainFunction": "Triggers immediate crisis response protocols — safety planning, hospitalization, emergency contacts — when risk thresholds are exceeded",
+      "whyThisNode": "Central amygdala triggers automatic defensive responses — crisis protocols activate automatically when clinical risk is detected",
+      "group": "crisis_response",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CRISIS_OVERFLOW"
+      ],
+      "treatments": [
+        {
+          "label": "Crisis protocol drill schedule",
+          "type": "STRUCTURAL",
+          "description": "Quarterly crisis response drills including active suicidality, medical emergency, and violence threat scenarios",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Crisis response time audit",
+          "type": "DIAGNOSTIC",
+          "description": "Track time from crisis detection to intervention initiation across all crisis events",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Clinical Leadership / Coordination",
+      "domainDescription": "Executive oversight and coordination of multidisciplinary care",
+      "domainFunction": "Coordinates treatment across providers, specialties, and levels of care — the executive function of the clinical system",
+      "whyThisNode": "Frontoparietal network coordinates complex executive function — clinical coordination requires the same multi-component orchestration",
+      "group": "coordination",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "CARE_FRAGMENTATION",
+        "TREATMENT_RESISTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Care coordination protocol",
+          "type": "STRUCTURAL",
+          "description": "Designated care coordinator role with shared treatment plan across all providers on each case",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Fragmentation index tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Measure number of providers per patient, handoff failures, and contradictory treatment plans",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Clinical Training / Education",
+      "domainDescription": "Ongoing professional development and evidence integration",
+      "domainFunction": "Processes new clinical evidence, integrates training, and updates provider competency through language-based learning",
+      "whyThisNode": "Language network underpins all clinical learning — reading research, attending lectures, and processing new evidence-based guidelines",
+      "group": "education",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "DIAGNOSTIC_ERROR",
+        "TREATMENT_RESISTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Evidence-based practice training",
+          "type": "STRUCTURAL",
+          "description": "Monthly journal club and case conference focused on integrating current research into clinical practice",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Practice pattern analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Compare individual provider treatment patterns against evidence-based guidelines to identify drift",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Patient Perspective-Taking",
+      "domainDescription": "Understanding patient subjective experience and worldview",
+      "domainFunction": "Enables provider to take the patient's perspective — understanding their lived experience, values, and treatment preferences",
+      "whyThisNode": "TPJ mediates theory of mind and perspective-taking — the neural basis of understanding another person's subjective reality",
+      "group": "clinical_delivery",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "COMMUNICATION_BREAKDOWN",
+        "TREATMENT_RESISTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Cultural competency training",
+          "type": "STRUCTURAL",
+          "description": "Ongoing training in cultural humility, health literacy accommodation, and shared decision-making",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Patient experience survey",
+          "type": "DIAGNOSTIC",
+          "description": "Systematic patient feedback on feeling heard, understood, and respected by their provider",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "System Morale / Well-Being",
+      "domainDescription": "Baseline emotional tone and morale of the provider system",
+      "domainFunction": "Maintains the serotonergic tone of the clinical system — the baseline mood, satisfaction, and sense of purpose",
+      "whyThisNode": "Raphe serotonin sets baseline mood — organizational morale is the system-level analog of serotonergic tone",
+      "group": "education",
+      "phase": "P6",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "PROVIDER_BURNOUT"
+      ],
+      "treatments": [
+        {
+          "label": "Meaning and purpose cultivation",
+          "type": "STRUCTURAL",
+          "description": "Regular reconnection with clinical mission through patient outcome stories and impact recognition",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Organizational climate survey",
+          "type": "DIAGNOSTIC",
+          "description": "Annual provider satisfaction and engagement survey tracking morale, autonomy, and purpose over time",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Clinical Workflow / Routines",
+      "domainDescription": "Standard operating procedures and clinical routines",
+      "domainFunction": "Executes the habitual clinical workflows — intake procedures, session structure, documentation routines — that keep the system running",
+      "whyThisNode": "Striatum drives habit and routine — clinical workflows are the procedural habits that enable consistent care delivery",
+      "group": "administrative",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "CARE_FRAGMENTATION",
+        "PROVIDER_BURNOUT"
+      ],
+      "treatments": [
+        {
+          "label": "Workflow optimization review",
+          "type": "STRUCTURAL",
+          "description": "Map clinical workflows end-to-end and eliminate unnecessary administrative burden that drives burnout",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Administrative burden measurement",
+          "type": "DIAGNOSTIC",
+          "description": "Track provider time allocation — direct clinical versus documentation versus administrative tasks",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Continuity of Care Network",
+      "domainDescription": "Maintaining consistent care across time and transitions",
+      "domainFunction": "Ensures patient care continuity across provider changes, level-of-care transitions, and treatment phases",
+      "whyThisNode": "Cingulo-opercular network maintains sustained task sets — continuity of care requires the same persistent monitoring across time",
+      "group": "coordination",
+      "phase": "P6",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "CARE_FRAGMENTATION",
+        "TREATMENT_RESISTANCE"
+      ],
+      "treatments": [
+        {
+          "label": "Warm handoff protocol",
+          "type": "STRUCTURAL",
+          "description": "Three-way session with outgoing provider, incoming provider, and patient for every care transition",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Continuity gap analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Track patients lost to follow-up, missed transitions, and care gaps across the provider network",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "dlPFC",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Clinical reasoning guides therapeutic alliance approach"
+    },
+    {
+      "from": "dlPFC",
+      "to": "HIPP",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Decision-making draws on clinical knowledge base"
+    },
+    {
+      "from": "AI",
+      "to": "dlPFC",
+      "type": "fast",
+      "weight": 0.9,
+      "label": "Clinical intuition triggers diagnostic reasoning"
+    },
+    {
+      "from": "AI",
+      "to": "BLA",
+      "type": "fast",
+      "weight": 0.85,
+      "label": "Pattern recognition feeds risk assessment"
+    },
+    {
+      "from": "dACC",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Error detection recruits clinical decision review"
+    },
+    {
+      "from": "dACC",
+      "to": "vlPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Quality control enforces regulatory compliance"
+    },
+    {
+      "from": "vmPFC",
+      "to": "EMP",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Therapeutic alliance sustains empathic capacity"
+    },
+    {
+      "from": "EMP",
+      "to": "HPA",
+      "type": "modul",
+      "weight": 0.75,
+      "label": "Chronic empathic engagement drives stress response"
+    },
+    {
+      "from": "THAL",
+      "to": "dlPFC",
+      "type": "fast",
+      "weight": 0.8,
+      "label": "Triage routing feeds clinical decision-making"
+    },
+    {
+      "from": "THAL",
+      "to": "BLA",
+      "type": "fast",
+      "weight": 0.75,
+      "label": "Intake information feeds risk assessment"
+    },
+    {
+      "from": "BLA",
+      "to": "CeA",
+      "type": "fast",
+      "weight": 0.9,
+      "label": "Risk detection triggers crisis protocols"
+    },
+    {
+      "from": "CeA",
+      "to": "FPN",
+      "type": "fast",
+      "weight": 0.85,
+      "label": "Crisis activation mobilizes clinical coordination"
+    },
+    {
+      "from": "FPN",
+      "to": "BROCA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Care coordination drives communication output"
+    },
+    {
+      "from": "WERN",
+      "to": "HIPP",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Clinical comprehension feeds knowledge base"
+    },
+    {
+      "from": "WERN",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.75,
+      "label": "Patient narrative comprehension informs clinical intuition"
+    },
+    {
+      "from": "OXY",
+      "to": "vmPFC",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Team cohesion supports therapeutic alliance quality"
+    },
+    {
+      "from": "HPA",
+      "to": "EMP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Chronic stress erodes empathic capacity"
+    },
+    {
+      "from": "HPA",
+      "to": "dlPFC",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Provider stress degrades clinical decision quality"
+    },
+    {
+      "from": "RAPHE",
+      "to": "HPA",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "System morale buffers against stress activation"
+    },
+    {
+      "from": "STRI",
+      "to": "THAL",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Clinical routines structure information routing"
+    },
+    {
+      "from": "CON",
+      "to": "FPN",
+      "type": "excit",
+      "weight": 0.75,
+      "label": "Continuity monitoring feeds care coordination"
+    },
+    {
+      "from": "TPJ",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Patient perspective-taking strengthens alliance"
+    },
+    {
+      "from": "BROCA",
+      "to": "WERN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Clinical communication supports comprehension feedback loop"
+    },
+    {
+      "from": "mPFC",
+      "to": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "[mPFC] → Risk Assessment (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "mPFC",
+      "to": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "[mPFC] → Crisis Response Protocol (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "mPFC",
+      "to": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "top-down HPA inhibition",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Therapeutic Alliance → Risk Assessment (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Therapeutic Alliance → Crisis Response Protocol (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Therapeutic Alliance → [PAG] (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "dlPFC",
+      "to": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Clinical Decision-Making → Error Monitoring / Quality Control (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "rACC",
+      "to": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "[rACC] → Risk Assessment (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "dACC",
+      "to": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Error Monitoring / Quality Control → Risk Assessment (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Information Routing / Intake Triage → [V1] (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Information Routing / Intake Triage → [A1] (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Information Routing / Intake Triage → [S1] (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LGN",
+      "to": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "visual thalamic relay",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "MGN",
+      "to": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "auditory thalamic relay",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NTS",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[NTS] → Clinical Intuition / Pattern Recognition (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "AI",
+      "to": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Clinical Intuition / Pattern Recognition → Error Monitoring / Quality Control (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "PI",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[PI] → Clinical Intuition / Pattern Recognition (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "BLA",
+      "to": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Risk Assessment → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "PVN",
+      "to": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "HPA cascade descending",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "HPA",
+      "to": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Provider Stress Response → Clinical Knowledge Base (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "HIPP",
+      "to": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Clinical Knowledge Base → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "VTA",
+      "to": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "dopamine → reward valuation",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NAcc",
+      "to": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "reward → hedonic output",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NAcc",
+      "to": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "reward → value coding",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "OFC",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "[OFC] → Therapeutic Alliance (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "SMA",
+      "to": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "planned movement → execution",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "STRI",
+      "to": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Clinical Workflow / Routines → [GP] (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "GP",
+      "to": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "[GP] → Information Routing / Intake Triage (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "CBLM",
+      "to": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[CBLM] → Information Routing / Intake Triage (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "FEF",
+      "to": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "top-down attention → visual",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "FPN",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Clinical Leadership / Coordination → Clinical Decision-Making (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LC",
+      "to": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "[LC] → Risk Assessment (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LC",
+      "to": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "sympathetic → HPA crosstalk",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "PROVIDER_BURNOUT",
+      "label": "Provider Burnout / Compassion Fatigue",
+      "summary": "Chronic depletion of provider emotional resources leading to depersonalization, cynicism, and reduced clinical effectiveness",
+      "circuits": [
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper-activated",
+          "detail": "Provider stress response system chronically elevated — caseload exceeds sustainable capacity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Depleted",
+          "detail": "Empathic capacity exhausted — provider emotionally numb to patient suffering, going through motions",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-engaged",
+          "detail": "Therapeutic alliance quality degraded — provider unable to form genuine emotional connection with patients",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Impaired",
+          "detail": "Clinical decision-making quality declining — cognitive fatigue reduces diagnostic accuracy",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Depleted",
+          "detail": "System morale collapsed — pervasive cynicism, loss of professional meaning and purpose",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Hypo-bonded",
+          "detail": "Team cohesion eroded — interpersonal trust and collaboration replaced by isolation and self-protection",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "DIAGNOSTIC_ERROR",
+      "label": "Diagnostic Error / Missed Diagnosis",
+      "summary": "Failure to correctly identify patient conditions due to cognitive bias, knowledge gaps, or system failures",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Biased",
+          "detail": "Clinical reasoning compromised by anchoring bias, premature closure, or availability heuristic",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Miscalibrated",
+          "detail": "Clinical intuition generating false pattern matches — high confidence in incorrect diagnostic impressions",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Outdated",
+          "detail": "Clinical knowledge base not updated — provider relying on obsolete diagnostic criteria or treatment evidence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-vigilant",
+          "detail": "Error monitoring suppressed by time pressure — quality control shortcuts under high-volume demands",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Impaired",
+          "detail": "Patient narrative incompletely processed — key diagnostic clues in history missed or dismissed",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CARE_FRAGMENTATION",
+      "label": "Care Fragmentation",
+      "summary": "Patient care split across disconnected providers with poor coordination, conflicting plans, and lost transitions",
+      "circuits": [
+        {
+          "nodeId": "FPN",
+          "dir": "Disconnected",
+          "detail": "Clinical coordination absent — multiple providers operating independently without shared treatment plan",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Broken",
+          "detail": "Continuity of care disrupted at every transition — patients falling through gaps between providers",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Misrouted",
+          "detail": "Information routing failures — referrals lost, reports unsent, critical data not reaching treating providers",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Fragmented",
+          "detail": "Clinical communication siloed — providers documenting in separate systems without cross-access",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Inconsistent",
+          "detail": "Clinical workflows lack standardization across providers — different protocols create contradictory care",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Bypassed",
+          "detail": "Compliance standards not enforced across network — each provider operating by their own rules",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CRISIS_OVERFLOW",
+      "label": "Crisis System Overflow",
+      "summary": "Volume of acute clinical crises exceeds system capacity, leading to delayed response and patient harm",
+      "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Overwhelmed",
+          "detail": "Crisis protocols saturated — too many simultaneous emergencies for standard response capacity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-activated",
+          "detail": "Risk assessment generating constant high-priority alerts — everything flagged as critical, nothing triaged effectively",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Bottlenecked",
+          "detail": "Intake triage backed up — patients waiting hours or days for crisis-level assessment",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Maximal",
+          "detail": "Provider stress at maximum — crisis team burning out from sustained emergency-level operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Overloaded",
+          "detail": "Clinical coordination overwhelmed — unable to track all active crisis cases simultaneously",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "TREATMENT_RESISTANCE",
+      "label": "Treatment Resistance",
+      "summary": "Standard interventions failing to produce expected outcomes despite appropriate diagnosis and protocol adherence",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Stalled",
+          "detail": "Clinical decision-making exhausted conventional options — standard algorithms completed without improvement",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Insufficient",
+          "detail": "Knowledge base lacks alternatives — provider uncertain what to try next beyond standard-of-care options",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Under-coordinated",
+          "detail": "Treatment plan not adequately integrated across specialties — individual providers optimizing in isolation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Misaligned",
+          "detail": "Patient perspective not adequately incorporated — treatment imposed rather than collaboratively designed",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Disrupted",
+          "detail": "Treatment continuity broken — gains from one provider undermined by gaps or contradictions from another",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "COMMUNICATION_BREAKDOWN",
+      "label": "Clinical Communication Breakdown",
+      "summary": "Failures in provider-patient or provider-provider communication leading to errors, mistrust, and poor outcomes",
+      "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Degraded",
+          "detail": "Clinical output garbled — documentation incomplete, verbal handoffs missing critical information",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Impaired",
+          "detail": "Comprehension failures — patient concerns misunderstood, clinical data misinterpreted between providers",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Disconnected",
+          "detail": "Therapeutic alliance ruptured — patient feels unheard, misunderstood, or dismissed by provider",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Diminished",
+          "detail": "Empathic attunement lost — provider communicating technical information without emotional resonance",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Inactive",
+          "detail": "Perspective-taking absent — provider failing to adapt communication to patient health literacy and culture",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

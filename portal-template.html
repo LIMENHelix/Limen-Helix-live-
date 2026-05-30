@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; PORTAL</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:wght@300;400;600&display=swap');
+
+:root {
+  --bg: #0c0d10;
+  --panel: #131519;
+  --border: rgba(201,169,78,0.12);
+  --accent-r: 201; --accent-g: 169; --accent-b: 78;
+  --accent: rgb(var(--accent-r),var(--accent-g),var(--accent-b));
+  --accent-dim: rgba(var(--accent-r),var(--accent-g),var(--accent-b),0.55);
+  --accent-ghost: rgba(var(--accent-r),var(--accent-g),var(--accent-b),0.08);
+  --gold: #C9A94E;
+  --gold-dim: rgba(201,169,78,0.55);
+  --gold-ghost: rgba(201,169,78,0.08);
+  --text: #dad5c8;
+  --text-dim: rgba(220,215,200,0.82);
+  --text-ghost: rgba(200,195,184,0.4);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { background:var(--bg); color:var(--text); font-family:'IBM Plex Mono',monospace; height:100%; overflow:hidden; }
+
+.app {
+  display:grid;
+  grid-template-columns:280px 1fr 320px;
+  grid-template-rows:48px 28px 1fr 32px;
+  height:100vh; gap:0;
+}
+
+/* === TOPBAR === */
+.topbar { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:1px solid var(--border); background:var(--panel); }
+.topbar-left { display:flex; align-items:center; gap:16px; }
+.topbar-brand { font-size:0.65rem; letter-spacing:4px; color:var(--gold-dim); text-transform:uppercase; }
+.topbar-brand a { color:inherit; text-decoration:none; }
+.topbar-brand a:hover { color:var(--gold); }
+.topbar-sep { color:var(--gold-ghost); }
+.topbar-title { font-size:0.6rem; letter-spacing:3px; color:var(--accent); text-transform:uppercase; }
+.topbar-subtitle { font-size:0.45rem; letter-spacing:2px; color:var(--accent-dim); text-transform:uppercase; margin-left:10px; }
+.topbar-right { font-size:0.4rem; letter-spacing:1.5px; color:var(--text-ghost); text-transform:uppercase; }
+
+/* === PORTAL NAV === */
+.portal-nav{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:0;padding:0 20px;background:rgba(0,0,0,0.4);border-bottom:1px solid var(--border);font-size:0.45rem;letter-spacing:3px;text-transform:uppercase;font-family:'SF Mono',monospace;height:28px;overflow-x:auto}
+.portal-nav a{color:rgba(201,169,78,0.25);text-decoration:none;padding:0 10px;transition:color .2s;white-space:nowrap}
+.portal-nav a:hover{color:rgba(201,169,78,0.6)}
+.portal-nav a.pn-current{color:var(--accent)}
+.portal-nav .pn-sep{color:rgba(201,169,78,0.1);font-size:0.5rem}
+
+/* === LEFT SIDEBAR === */
+.left-panel { background:var(--panel); border-right:1px solid var(--border); overflow-y:auto; padding:0; display:flex; flex-direction:column; }
+.left-panel::-webkit-scrollbar { width:3px; }
+.left-panel::-webkit-scrollbar-thumb { background:var(--accent-ghost); }
+
+.sidebar-header {
+  padding:12px 14px 8px; font-size:0.4rem; letter-spacing:3px; text-transform:uppercase;
+  color:var(--accent-dim); border-bottom:1px solid var(--border); position:sticky; top:0;
+  background:var(--panel); z-index:2;
+}
+.sidebar-list { flex:1; overflow-y:auto; padding:4px 0; }
+
+.sidebar-item {
+  display:block; width:100%; text-align:left; background:none; border:none; border-left:2px solid transparent;
+  color:var(--text-ghost); font-family:'IBM Plex Mono',monospace; font-size:0.6rem; letter-spacing:1px;
+  padding:8px 14px 8px 12px; cursor:pointer; transition:all 0.2s;
+}
+.sidebar-item:hover { color:var(--text-dim); background:rgba(var(--accent-r),var(--accent-g),var(--accent-b),0.04); border-left-color:rgba(var(--accent-r),var(--accent-g),var(--accent-b),0.3); }
+.sidebar-item.active { color:var(--accent); background:rgba(var(--accent-r),var(--accent-g),var(--accent-b),0.08); border-left-color:var(--accent); }
+.sidebar-item .item-sub { font-size:0.38rem; color:var(--text-ghost); display:block; margin-top:2px; letter-spacing:0.5px; }
+.sidebar-item .item-badge { display:inline-block; font-size:0.32rem; padding:1px 5px; margin-left:6px; border:1px solid rgba(var(--accent-r),var(--accent-g),var(--accent-b),0.2); color:var(--accent-dim); letter-spacing:1px; vertical-align:middle; }
+
+/* L2 sub-items (indented) */
+.sidebar-item.l2 { padding-left:24px; font-size:0.55rem; border-left-width:1px; }
+.sidebar-item.l2::before { content:'\25e6'; margin-right:6px; color:rgba(var(--accent-r),var(--accent-g),var(--accent-b),0.25); font-size:0.5rem; }
+
+/* === CENTER CANVAS === */
+.center-view { position:relative; background:var(--bg); overflow:hidden; }
+.center-view canvas { width:100%; height:100%; display:block; }
+
+.canvas-overlay {
+  position:absolute; top:12px; left:16px; z-index:10; pointer-events:none;
+}
+.overlay-title {
+  font-family:'Crimson Pro',serif; font-size:1.3rem; font-weight:300; color:var(--accent);
+  letter-spacing:1px; margin-bottom:2px; transition:all 0.4s;
+}
+.overlay-sub {
+  font-size:0.45rem; color:var(--accent-dim); letter-spacing:2px; text-transform:uppercase;
+}
+.canvas-legend {
+  position:absolute; bottom:12px; left:16px; display:flex; gap:14px; z-index:10; pointer-events:none;
+}
+.legend-item { display:flex; align-items:center; gap:4px; font-size:0.42rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-ghost); }
+.legend-dot { width:6px; height:6px; border-radius:50%; }
+
+/* Node detail tooltip */
+.node-tooltip {
+  position:absolute; z-index:20; background:rgba(0,0,0,0.92); border:1px solid var(--border);
+  padding:10px 14px; max-width:280px; font-size:0.6rem; color:var(--text-dim); line-height:1.6;
+  pointer-events:none; display:none; transition:opacity 0.2s;
+}
+.node-tooltip .tt-name { font-size:0.7rem; color:var(--accent); letter-spacing:1px; margin-bottom:4px; }
+.node-tooltip .tt-phase { font-size:0.4rem; color:var(--accent-dim); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
+
+/* === RIGHT PANEL === */
+.right-panel { background:var(--panel); border-left:1px solid var(--border); overflow-y:auto; padding:0; display:flex; flex-direction:column; }
+.right-panel::-webkit-scrollbar { width:3px; }
+.right-panel::-webkit-scrollbar-thumb { background:var(--accent-ghost); }
+
+.right-header {
+  font-size:0.42rem; letter-spacing:3px; text-transform:uppercase; color:var(--accent-dim);
+  padding:12px 14px 8px; background:rgba(0,0,0,0.3); border-bottom:1px solid var(--border);
+  position:sticky; top:0; z-index:5;
+}
+
+.cross-section { padding:10px 14px; border-bottom:1px solid rgba(var(--accent-r),var(--accent-g),var(--accent-b),0.06); }
+.cross-label { font-size:0.38rem; letter-spacing:2px; text-transform:uppercase; color:var(--accent-dim); margin-bottom:6px; }
+.cross-item { font-size:0.55rem; color:var(--text-ghost); padding:3px 0; line-height:1.5; }
+.cross-item a { color:var(--text-ghost); text-decoration:none; transition:color 0.2s; }
+.cross-item a:hover { color:var(--accent); }
+.cross-icon { color:rgba(var(--accent-r),var(--accent-g),var(--accent-b),0.3); margin-right:4px; }
+
+.phase-detail { padding:10px 14px; }
+.phase-detail-title { font-size:0.42rem; letter-spacing:2px; text-transform:uppercase; color:var(--accent-dim); margin-bottom:6px; }
+.phase-detail-text { font-family:'Crimson Pro',serif; font-size:0.85rem; color:var(--text-dim); line-height:1.7; }
+
+.empty-state { padding:20px 14px; font-size:0.55rem; color:var(--text-ghost); font-style:italic; line-height:1.7; }
+
+/* === STATUS BAR === */
+.statusbar {
+  grid-column:1/-1; display:flex; align-items:center; justify-content:space-between;
+  padding:0 20px; background:rgba(0,0,0,0.5); border-top:1px solid var(--border);
+  font-size:0.38rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-ghost);
+}
+
+/* === RESPONSIVE === */
+@media(max-width:1024px){
+  .app { grid-template-columns:220px 1fr 260px; }
+}
+@media(max-width:768px){
+  .app { grid-template-columns:1fr; grid-template-rows:48px 28px auto 1fr auto 32px; }
+  .left-panel { max-height:200px; border-right:none; border-bottom:1px solid var(--border); }
+  .right-panel { max-height:240px; border-left:none; border-top:1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<!-- CODE GATE 1572 -->
+<script>
+if(sessionStorage.getItem('limen_access')!=='granted'){window.location.replace('/?return='+encodeURIComponent('/'+'portal-template.html'+location.search));}
+</script>
+
+<div class="app">
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+
+  <!-- LEFT SIDEBAR -->
+  <div class="left-panel" id="leftPanel">
+    <div class="sidebar-header" id="sidebarHeader">LOADING...</div>
+    <div class="sidebar-list" id="sidebarList"></div>
+  </div>
+
+  <!-- CENTER CANVAS -->
+  <div class="center-view" id="centerView">
+    <canvas id="c"></canvas>
+    <div class="canvas-overlay">
+      <div class="overlay-title" id="overlayTitle">Select a Category</div>
+      <div class="overlay-sub" id="overlaySub">UNIVERSAL PORTAL TEMPLATE</div>
+    </div>
+    <div class="canvas-legend" id="canvasLegend">
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(201,169,78,0.6)"></div>PHASE NODE</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(201,169,78,0.3)"></div>SUB-NODE</div>
+    </div>
+    <div class="node-tooltip" id="nodeTooltip">
+      <div class="tt-name" id="ttName"></div>
+      <div class="tt-phase" id="ttPhase"></div>
+      <div id="ttDesc"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel" id="rightPanel">
+    <div class="right-header" id="rightHeader">CROSS-SUBSTRATE CONNECTIONS</div>
+    <div id="rightContent">
+      <div class="empty-state">Select a category and phase node to view cross-substrate clinical and provider connections.</div>
+    </div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="statusbar">
+    <span id="statusLeft">LIMEN HELIX &middot; PORTAL TEMPLATE</span>
+    <span id="statusRight">SUBSTRATE: -- &middot; CATEGORY: -- &middot; PHASE: --</span>
+  </div>
+</div>
+
+<script src="biosensorEngine.js"></script>
+<script>
+// ===================================================
+// LIMEN HELIX — UNIVERSAL PORTAL TEMPLATE
+// Reads: ?substrate=legal&category=family-law&phase=P3
+// Loads: portal-data/{substrate}.json
+// ===================================================
+
+// === URL PARAMS ===
+var PARAMS=(function(){
+  var p={};
+  var s=window.location.search.substring(1).split('&');
+  for(var i=0;i<s.length;i++){var kv=s[i].split('=');if(kv[0])p[decodeURIComponent(kv[0])]=decodeURIComponent(kv[1]||'');}
+  return p;
+})();
+
+var substrateName=PARAMS.substrate||'legal';
+var categorySlug=PARAMS.category||null;
+var phaseParam=PARAMS.phase?PARAMS.phase.toUpperCase():null;
+
+// === STATE ===
+var DATA=null;
+var currentCategory=null;
+var currentNode=null;
+var activePhase=null;
+
+var canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+var W,H,CX,CY,DPR=Math.min(window.devicePixelRatio||1,1.5);
+var t=0,hoveredPhase=-1,selectedPhase=-1;
+var phaseNodes=[],phaseEdges=[],l2Nodes=[];
+
+// === PHASE SYSTEM ===
+var PHASE_KEYS=['P0','P1','P2','P3','P4','P5','P6','P7','P8','P9','P10'];
+var PHASE_COLORS=[
+  [106,170,106],[170,106,74],[74,138,170],[232,84,84],[106,154,106],
+  [122,138,106],[74,143,212],[212,168,74],[138,122,170],[232,84,84],[74,170,106]
+];
+
+// === LOAD DATA ===
+function loadSubstrate(name){
+  var url='portal-data/'+name+'.json';
+  fetch(url).then(function(r){
+    if(!r.ok)throw new Error('Failed to load '+url);
+    return r.json();
+  }).then(function(data){
+    DATA=data;
+    applySubstrateTheme(data);
+    buildSidebar(data);
+    updateTitle(data);
+    // Auto-select from URL params
+    if(categorySlug){
+      var cat=findCategoryBySlug(categorySlug);
+      if(cat)selectCategory(cat.id);
+    }
+    if(phaseParam){
+      var idx=PHASE_KEYS.indexOf(phaseParam);
+      if(idx>=0)selectPhaseByKey(phaseParam);
+    }
+  }).catch(function(err){
+    document.getElementById('sidebarHeader').textContent='ERROR';
+    document.getElementById('sidebarList').innerHTML='<div style="padding:14px;font-size:0.55rem;color:rgba(232,84,84,0.7)">'+err.message+'<br><br>Expected: portal-data/'+name+'.json</div>';
+  });
+}
+
+function findCategoryBySlug(slug){
+  if(!DATA)return null;
+  for(var i=0;i<DATA.categories.length;i++){
+    if(DATA.categories[i].slug===slug||DATA.categories[i].id===slug)return DATA.categories[i];
+  }
+  return null;
+}
+
+function findCategoryById(id){
+  if(!DATA)return null;
+  for(var i=0;i<DATA.categories.length;i++){
+    if(DATA.categories[i].id===id)return DATA.categories[i];
+  }
+  return null;
+}
+
+// === THEME ===
+function applySubstrateTheme(data){
+  if(!data.color)return;
+  var r=data.color.r,g=data.color.g,b=data.color.b;
+  var root=document.documentElement.style;
+  root.setProperty('--accent-r',r);
+  root.setProperty('--accent-g',g);
+  root.setProperty('--accent-b',b);
+  root.setProperty('--accent','rgb('+r+','+g+','+b+')');
+  root.setProperty('--accent-dim','rgba('+r+','+g+','+b+',0.55)');
+  root.setProperty('--accent-ghost','rgba('+r+','+g+','+b+',0.08)');
+  root.setProperty('--border','rgba('+r+','+g+','+b+',0.15)');
+  // Update legend dots
+  var dots=document.querySelectorAll('.legend-dot');
+  if(dots[0])dots[0].style.background='rgba('+r+','+g+','+b+',0.6)';
+  if(dots[1])dots[1].style.background='rgba('+r+','+g+','+b+',0.3)';
+}
+
+function updateTitle(data){
+  document.title='LIMEN HELIX \u00b7 '+data.name+' PORTAL';
+  document.getElementById('topTitle').textContent=data.name+' PORTAL';
+  document.getElementById('topRight').textContent=data.description||'';
+  document.getElementById('statusLeft').textContent='LIMEN HELIX \u00b7 '+data.name;
+  // Highlight current in portal nav
+  var navLinks=document.querySelectorAll('.portal-nav a');
+  for(var i=0;i<navLinks.length;i++){
+    if(data.portal_url&&navLinks[i].getAttribute('href')===data.portal_url){
+      navLinks[i].classList.add('pn-current');
+    }
+  }
+}
+
+// === SIDEBAR ===
+function buildSidebar(data){
+  document.getElementById('sidebarHeader').textContent=data.name+' \u00b7 CATEGORIES';
+  var html='';
+  for(var i=0;i<data.categories.length;i++){
+    var cat=data.categories[i];
+    var nodeCount=cat.nodes?cat.nodes.length:0;
+    var badge=nodeCount>0?'<span class="item-badge">'+nodeCount+' nodes</span>':'';
+    html+='<button class="sidebar-item" data-id="'+cat.id+'" onclick="selectCategory(\''+cat.id+'\')">'+cat.name+badge+'<span class="item-sub">'+truncate(cat.description,60)+'</span></button>';
+    // L2 nodes
+    if(cat.nodes&&cat.nodes.length>0){
+      for(var j=0;j<cat.nodes.length;j++){
+        var nd=cat.nodes[j];
+        html+='<button class="sidebar-item l2" data-id="'+nd.id+'" data-parent="'+cat.id+'" onclick="selectNode(\''+cat.id+'\',\''+nd.id+'\')">'+nd.name+'</button>';
+      }
+    }
+  }
+  document.getElementById('sidebarList').innerHTML=html;
+}
+
+function truncate(s,n){return s.length>n?s.substring(0,n-2)+'..':s;}
+
+// === CATEGORY SELECTION ===
+function selectCategory(catId){
+  var cat=findCategoryById(catId);
+  if(!cat)return;
+  currentCategory=cat;
+  currentNode=null;
+  // Update sidebar highlights
+  var items=document.querySelectorAll('.sidebar-item');
+  for(var i=0;i<items.length;i++){
+    items[i].classList.remove('active');
+    if(items[i].getAttribute('data-id')===catId&&!items[i].classList.contains('l2'))items[i].classList.add('active');
+  }
+  // Update overlay
+  document.getElementById('overlayTitle').textContent=cat.name;
+  document.getElementById('overlaySub').textContent=cat.name.toUpperCase()+' \u00b7 P0\u2013P10 PHASE MAP';
+  document.getElementById('topSubtitle').textContent='\u203a '+cat.name;
+  // Rebuild phase graph
+  buildPhaseGraph();
+  // Update URL without reload
+  updateURL();
+  updateStatus();
+  // If phase was selected, refresh cross panel
+  if(activePhase)updateRightPanel();
+}
+
+function selectNode(catId,nodeId){
+  var cat=findCategoryById(catId);
+  if(!cat)return;
+  currentCategory=cat;
+  currentNode=null;
+  if(cat.nodes){
+    for(var i=0;i<cat.nodes.length;i++){
+      if(cat.nodes[i].id===nodeId){currentNode=cat.nodes[i];break;}
+    }
+  }
+  // Update sidebar highlights
+  var items=document.querySelectorAll('.sidebar-item');
+  for(var i=0;i<items.length;i++){
+    items[i].classList.remove('active');
+    if(items[i].getAttribute('data-id')===nodeId)items[i].classList.add('active');
+  }
+  // Update overlay
+  var title=currentNode?currentNode.name:cat.name;
+  document.getElementById('overlayTitle').textContent=title;
+  document.getElementById('overlaySub').textContent=cat.name.toUpperCase()+' \u00b7 '+title.toUpperCase();
+  document.getElementById('topSubtitle').textContent='\u203a '+cat.name+' \u203a '+title;
+  buildPhaseGraph();
+  updateURL();
+  updateStatus();
+  if(activePhase)updateRightPanel();
+}
+
+// === URL UPDATE ===
+function updateURL(){
+  var slug=currentCategory?currentCategory.slug:null;
+  var p=activePhase||null;
+  var parts=['substrate='+encodeURIComponent(substrateName)];
+  if(slug)parts.push('category='+encodeURIComponent(slug));
+  if(p)parts.push('phase='+encodeURIComponent(p));
+  var newURL=window.location.pathname+'?'+parts.join('&');
+  history.replaceState(null,'',newURL);
+}
+
+// === PHASE GRAPH ===
+function buildPhaseGraph(){
+  phaseNodes=[];phaseEdges=[];l2Nodes=[];
+  var source=currentNode||currentCategory;
+  var pm=source?source.phase_mapping:null;
+  var count=PHASE_KEYS.length;
+  var hubR=Math.min(W,H)*0.3;
+
+  for(var i=0;i<count;i++){
+    var angle=(Math.PI*2/count)*i - Math.PI/2;
+    var x=CX+Math.cos(angle)*hubR;
+    var y=CY+Math.sin(angle)*hubR;
+    var key=PHASE_KEYS[i];
+    var name=pm?pm[key]||key:key;
+    phaseNodes.push({x:x,y:y,r:18,key:key,label:key,name:name,
+      color:PHASE_COLORS[i],pulse:Math.random()*Math.PI*2,selected:false});
+  }
+  // Sequential edges
+  for(var i=0;i<count;i++){
+    phaseEdges.push({a:i,b:(i+1)%count});
+  }
+  // L2 nodes as satellites when viewing a category (not a specific node)
+  if(currentCategory&&!currentNode&&currentCategory.nodes&&currentCategory.nodes.length>0){
+    var nodes=currentCategory.nodes;
+    var l2R=Math.min(W,H)*0.12;
+    // Place L2 nodes in a ring inside the phase ring
+    for(var i=0;i<nodes.length;i++){
+      var angle=(Math.PI*2/nodes.length)*i - Math.PI/2;
+      var x=CX+Math.cos(angle)*l2R;
+      var y=CY+Math.sin(angle)*l2R;
+      l2Nodes.push({x:x,y:y,r:10,id:nodes[i].id,name:nodes[i].name,
+        color:DATA?[DATA.color.r,DATA.color.g,DATA.color.b]:[201,169,78]});
+    }
+  }
+}
+
+// === CANVAS ===
+function resize(){
+  var rect=canvas.parentElement.getBoundingClientRect();
+  W=rect.width;H=rect.height;
+  canvas.width=W*DPR;canvas.height=H*DPR;
+  canvas.style.width=W+'px';canvas.style.height=H+'px';
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  CX=W/2;CY=H/2;
+  buildPhaseGraph();
+}
+
+function draw(){
+  t+=0.016;
+  ctx.clearRect(0,0,W,H);
+  var ar=DATA?DATA.color.r:201,ag=DATA?DATA.color.g:169,ab=DATA?DATA.color.b:78;
+
+  // Grid
+  ctx.strokeStyle='rgba('+ar+','+ag+','+ab+',0.025)';
+  ctx.lineWidth=0.5;
+  for(var gx=0;gx<W;gx+=40){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}
+  for(var gy=0;gy<H;gy+=40){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+
+  // Center hub
+  ctx.beginPath();ctx.arc(CX,CY,5,0,Math.PI*2);
+  ctx.fillStyle='rgba('+ar+','+ag+','+ab+','+(0.25+Math.sin(t*2)*0.08)+')';
+  ctx.fill();
+
+  // Phase edges
+  for(var i=0;i<phaseEdges.length;i++){
+    var e=phaseEdges[i],a=phaseNodes[e.a],b=phaseNodes[e.b];
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+    ctx.strokeStyle='rgba('+ar+','+ag+','+ab+',0.1)';ctx.lineWidth=1;ctx.stroke();
+  }
+  // Hub spokes
+  for(var i=0;i<phaseNodes.length;i++){
+    ctx.beginPath();ctx.moveTo(CX,CY);ctx.lineTo(phaseNodes[i].x,phaseNodes[i].y);
+    ctx.strokeStyle='rgba('+ar+','+ag+','+ab+',0.04)';ctx.lineWidth=0.5;ctx.stroke();
+  }
+
+  // L2 nodes
+  for(var i=0;i<l2Nodes.length;i++){
+    var ln=l2Nodes[i];
+    // Connection to center
+    ctx.beginPath();ctx.moveTo(CX,CY);ctx.lineTo(ln.x,ln.y);
+    ctx.strokeStyle='rgba('+ln.color.join(',')+',0.08)';ctx.lineWidth=0.5;ctx.stroke();
+    // Node
+    ctx.beginPath();ctx.arc(ln.x,ln.y,ln.r,0,Math.PI*2);
+    ctx.fillStyle='rgba('+ln.color.join(',')+',0.15)';ctx.fill();
+    ctx.strokeStyle='rgba('+ln.color.join(',')+',0.3)';ctx.lineWidth=0.5;ctx.stroke();
+    // Label
+    ctx.font='7px IBM Plex Mono, monospace';
+    ctx.fillStyle='rgba('+ln.color.join(',')+',0.5)';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    var parts=ln.name.split(' ');
+    if(parts.length<=2){
+      ctx.fillText(ln.name,ln.x,ln.y);
+    } else {
+      ctx.fillText(parts.slice(0,Math.ceil(parts.length/2)).join(' '),ln.x,ln.y-4);
+      ctx.fillText(parts.slice(Math.ceil(parts.length/2)).join(' '),ln.x,ln.y+5);
+    }
+  }
+
+  // Phase nodes
+  for(var i=0;i<phaseNodes.length;i++){
+    var pn=phaseNodes[i];
+    var isH=hoveredPhase===i;
+    var isS=pn.selected;
+    var isA=activePhase===pn.key;
+
+    if(isS||isA){
+      ctx.beginPath();ctx.arc(pn.x,pn.y,pn.r+8,0,Math.PI*2);
+      ctx.fillStyle='rgba('+ar+','+ag+','+ab+',0.06)';ctx.fill();
+      ctx.strokeStyle='rgba('+ar+','+ag+','+ab+',0.35)';ctx.lineWidth=1;ctx.stroke();
+    }
+
+    ctx.beginPath();ctx.arc(pn.x,pn.y,pn.r,0,Math.PI*2);
+    var alpha=isH?0.55:isS||isA?0.45:0.2;
+    ctx.fillStyle='rgba('+pn.color.join(',')+','+alpha+')';ctx.fill();
+    ctx.strokeStyle='rgba('+pn.color.join(',')+','+(alpha+0.2)+')';
+    ctx.lineWidth=isH||isS?2:1;ctx.stroke();
+
+    ctx.font='bold 10px IBM Plex Mono, monospace';
+    ctx.fillStyle='rgba(255,255,255,'+(isH||isS||isA?0.9:0.55)+')';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(pn.label,pn.x,pn.y-3);
+
+    ctx.font='7px IBM Plex Mono, monospace';
+    ctx.fillStyle='rgba(255,255,255,'+(isH||isS||isA?0.55:0.25)+')';
+    var nm=pn.name.length>18?pn.name.substring(0,17)+'..':pn.name;
+    ctx.fillText(nm,pn.x,pn.y+9);
+  }
+
+  requestAnimationFrame(draw);
+}
+
+// === INTERACTION ===
+function getMousePos(e){
+  var rect=canvas.getBoundingClientRect();
+  return{x:e.clientX-rect.left,y:e.clientY-rect.top};
+}
+
+canvas.addEventListener('mousemove',function(e){
+  var pos=getMousePos(e);
+  hoveredPhase=-1;
+  var tt=document.getElementById('nodeTooltip');
+
+  // Check phase nodes
+  for(var i=0;i<phaseNodes.length;i++){
+    var pn=phaseNodes[i];
+    var dx=pos.x-pn.x,dy=pos.y-pn.y;
+    if(Math.sqrt(dx*dx+dy*dy)<pn.r+4){
+      hoveredPhase=i;
+      // Show tooltip
+      document.getElementById('ttName').textContent=pn.key+' \u00b7 '+pn.name;
+      var source=currentNode||currentCategory;
+      document.getElementById('ttPhase').textContent=source?source.name:'';
+      document.getElementById('ttDesc').textContent='Click to view cross-substrate connections';
+      tt.style.display='block';
+      tt.style.left=Math.min(pos.x+14,W-290)+'px';
+      tt.style.top=Math.min(pos.y+14,H-80)+'px';
+      break;
+    }
+  }
+  if(hoveredPhase<0)tt.style.display='none';
+
+  // Check L2 nodes
+  for(var i=0;i<l2Nodes.length;i++){
+    var ln=l2Nodes[i];
+    var dx=pos.x-ln.x,dy=pos.y-ln.y;
+    if(Math.sqrt(dx*dx+dy*dy)<ln.r+4){
+      hoveredPhase=-2; // special flag
+      document.getElementById('ttName').textContent=ln.name;
+      document.getElementById('ttPhase').textContent='LEVEL 2 NODE';
+      document.getElementById('ttDesc').textContent='Click to zoom into this node';
+      tt.style.display='block';
+      tt.style.left=Math.min(pos.x+14,W-290)+'px';
+      tt.style.top=Math.min(pos.y+14,H-80)+'px';
+      break;
+    }
+  }
+
+  canvas.style.cursor=(hoveredPhase!==-1||hoveredPhase===-2)?'pointer':'default';
+});
+
+canvas.addEventListener('click',function(e){
+  var pos=getMousePos(e);
+
+  // Phase nodes
+  for(var i=0;i<phaseNodes.length;i++){
+    var pn=phaseNodes[i];
+    var dx=pos.x-pn.x,dy=pos.y-pn.y;
+    if(Math.sqrt(dx*dx+dy*dy)<pn.r+4){
+      selectPhaseByIndex(i);
+      return;
+    }
+  }
+  // L2 nodes
+  for(var i=0;i<l2Nodes.length;i++){
+    var ln=l2Nodes[i];
+    var dx=pos.x-ln.x,dy=pos.y-ln.y;
+    if(Math.sqrt(dx*dx+dy*dy)<ln.r+4){
+      if(currentCategory)selectNode(currentCategory.id,ln.id);
+      return;
+    }
+  }
+});
+
+function selectPhaseByIndex(idx){
+  for(var i=0;i<phaseNodes.length;i++)phaseNodes[i].selected=false;
+  phaseNodes[idx].selected=true;
+  selectedPhase=idx;
+  activePhase=phaseNodes[idx].key;
+  updateRightPanel();
+  updateURL();
+  updateStatus();
+}
+
+function selectPhaseByKey(key){
+  var idx=PHASE_KEYS.indexOf(key);
+  if(idx>=0)selectPhaseByIndex(idx);
+}
+
+// === RIGHT PANEL (CROSS-SUBSTRATE) ===
+function updateRightPanel(){
+  var source=currentNode||currentCategory;
+  if(!source||!activePhase){
+    document.getElementById('rightContent').innerHTML='<div class="empty-state">Select a category and phase to view connections.</div>';
+    return;
+  }
+
+  var html='';
+
+  // Phase detail
+  var pm=source.phase_mapping;
+  if(pm&&pm[activePhase]){
+    html+='<div class="phase-detail"><div class="phase-detail-title">'+activePhase+' \u00b7 PHASE DETAIL</div>';
+    html+='<div class="phase-detail-text">'+pm[activePhase]+'</div></div>';
+  }
+
+  // Clinical connections
+  var clin=source.clinical_connections;
+  if(clin&&clin[activePhase]&&clin[activePhase].length>0){
+    html+='<div class="cross-section"><div class="cross-label">CLINICAL CONNECTIONS</div>';
+    for(var i=0;i<clin[activePhase].length;i++){
+      html+='<div class="cross-item"><span class="cross-icon">\u25e6</span><a href="clinical.html">'+clin[activePhase][i]+'</a></div>';
+    }
+    html+='</div>';
+  }
+
+  // Provider connections
+  var prov=source.provider_connections;
+  if(prov&&prov[activePhase]&&prov[activePhase].length>0){
+    html+='<div class="cross-section"><div class="cross-label">PROVIDER CONNECTIONS</div>';
+    for(var i=0;i<prov[activePhase].length;i++){
+      html+='<div class="cross-item"><span class="cross-icon">\u25e6</span><a href="provider-portal.html">'+prov[activePhase][i]+'</a></div>';
+    }
+    html+='</div>';
+  }
+
+  // Node description
+  if(currentNode&&currentNode.description){
+    html+='<div class="cross-section"><div class="cross-label">NODE DESCRIPTION</div>';
+    html+='<div class="cross-item" style="font-family:Crimson Pro,serif;font-size:0.75rem;line-height:1.7;color:var(--text-dim)">'+currentNode.description+'</div></div>';
+  }
+
+  if(!html)html='<div class="empty-state">No cross-substrate data for '+activePhase+' in this context.</div>';
+
+  document.getElementById('rightContent').innerHTML=html;
+}
+
+function updateStatus(){
+  var cat=currentCategory?currentCategory.name:'--';
+  var node=currentNode?(' \u203a '+currentNode.name):'';
+  var phase=activePhase||'--';
+  document.getElementById('statusRight').textContent='SUBSTRATE: '+substrateName.toUpperCase()+' \u00b7 CATEGORY: '+cat+node+' \u00b7 PHASE: '+phase;
+}
+
+// === INIT ===
+window.addEventListener('resize',resize);
+resize();
+draw();
+loadSubstrate(substrateName);
+</script>
+</body>
+</html>

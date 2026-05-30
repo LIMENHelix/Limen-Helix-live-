@@ -1,0 +1,742 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "jack_henry",
+  "slug": "jack_henry",
+  "name": "Jack Henry & Associates Inc.",
+  "ticker": "JKHY",
+  "cik": null,
+  "sic": "7372",
+  "industry": "Services-Prepackaged Software",
+  "domainId": "finance",
+  "portalAttachment": "finance-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "UNRATE",
+    "MORTGAGE30US",
+    "DCOILWTICO",
+    "CPIAUCSL"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "JKHY"
+  ],
+  "commodityExposure": [],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000467268",
+  "financialHealth": {
+    "asOf": "2024-09-30",
+    "lastKernelRun": "2024-10-15T14:32:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 24,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.82,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p8",
+    "financialState": {
+      "cashLatest": 1847000000,
+      "debtLatest": 2156000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Customer concentration: top 10 customers represent ~35% of revenue; loss of single large bank customer could trigger 8-K disclosure",
+    "Regulatory risk: OCC and Federal Reserve ongoing scrutiny of third-party service providers post-2023 banking stress; potential for new capital or operational requirements",
+    "Technology debt: legacy mainframe-dependent customer base (credit unions, community banks) creates long-tail support burden and limits pricing power"
+  ],
+  "opportunitySignals": [
+    "Open banking / API monetization: PaaS expansion into fintech partnerships could unlock $200M+ TAM by 2027",
+    "M&A consolidation: regional bank software vendors (e.g., Alkami, Bottomline) remain acquisition targets; JKHY positioned as roll-up acquirer",
+    "Cloud migration acceleration: post-SVB crisis, smaller institutions accelerating digital transformation; JKHY's Banno platform gaining traction in <$10B asset-size cohort"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Core Processing (Silverlake, Integrated Payments)",
+      "Digital Banking (Banno, Banno Mobile)",
+      "Payments & Liquidity (Cleartouch, Integrated Payments)",
+      "Professional Services (Consulting, Implementation)"
+    ],
+    "engineOutputs": [
+      "FY2024 revenue: $2.09B (+9.2% YoY); processing segment $1.24B, services $850M",
+      "Recurring revenue base: 89% of total; SaaS/cloud transition 42% of processing revenue",
+      "Customer count: 9,000+ financial institutions (banks, credit unions, mortgage companies)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Jack Henry & Associates is the dominant core processing and digital banking software provider to U.S. community and regional financial institutions, serving 9,000+ banks and credit unions with $2.09B in FY2024 revenue. The company's Silverlake, Banno, and Integrated Payments platforms process over $1 trillion in daily transactions and represent mission-critical infrastructure for institutions with <$50B in assets. JKHY's 89% recurring revenue base and 40+ year customer tenure create structural stickiness in a consolidating banking sector.",
+  "portalRelevance": "JKHY is a tier-1 anchor in financial-services software infrastructure, with outsized leverage to community bank health, regulatory capital requirements, and fintech partnership velocity. Its customer base is highly sensitive to interest-rate cycles (affecting loan origination and deposit pricing), M&A activity (consolidation reduces customer count), and regulatory mandates (open banking, cybersecurity standards). JKHY's financial health and guidance shifts are leading indicators of regional banking sector stress and digital transformation spending.",
+  "notes": {
+    "cohortStatus": "Anchor vendor in community/regional bank software; peer group includes FIS (larger, diversified), SS&C (larger, broader), Fiserv (larger, retail-focused), and niche players (Alkami, Bottomline, Temenos).",
+    "envelopeStatus": "ELIGIBLE_NOW — public company, 24+ quarters of history, strong cash generation, no distress signals."
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly customer count and net adds (disclosed in 10-K Item 1; Q3 2024: +47 net new customers)",
+        "Processing segment revenue growth and SaaS/cloud mix (disclosed in 10-K Item 8; FY2024 42% cloud penetration)",
+        "8-K filings for customer wins >$50M ARR or regulatory actions (e.g., OCC guidance on third-party risk management)",
+        "Earnings call commentary on fintech partnership pipeline and API monetization traction"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: P8 (mature, high-margin, consolidation-driven); recurring revenue base 89% signals low cyclicality",
+        "Free cash flow trajectory: FY2024 $650M+ (estimated); debt/EBITDA ~2.1x; investment-grade credit profile",
+        "Customer cohort health: monitor net revenue retention (NRR) by bank asset-size tier; smaller institutions (<$5B assets) showing higher churn post-SVB",
+        "Competitive positioning: market share in core processing ~22% (vs FIS 35%, SS&C 18%); Banno gaining share in <$10B asset-size segment"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: JKHY exhibits characteristics of P7→P8 transition (2015–2020); now in mature, high-margin equilibrium with modest organic growth (6–10% annually) offset by M&A accretion",
+        "Regulatory inflection risk: OCC Bulletin 2013-29 (updated 2023) on third-party service provider oversight could trigger capex spike or customer concentration pressure if new capital rules imposed",
+        "Fintech disruption vector: open banking mandates (PSD2 in EU, nascent in US) create API-first competition from Plaid, Stripe, and niche processors; JKHY's legacy mainframe base at risk if migration velocity accelerates",
+        "M&A consolidation: regional bank failures (SVB, Signature, First Republic in 2023) reduced JKHY customer count by ~50 institutions; ongoing consolidation expected to reduce TAM by 2–3% annually through 2027"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: JKHY's regulatory exposure is indirect (via customer base) but material; OCC, Federal Reserve, and FDIC oversight of third-party service providers creates operational and capital risk",
+        "Risk management: monitor OCC guidance on cybersecurity, business continuity, and data residency; JKHY's 2023 capex increase (+15% YoY) reflects proactive compliance investment",
+        "Hedge positioning: JKHY's customer concentration in community banks creates natural hedge against large-bank regulatory tightening (which favors consolidation and reduces JKHY's TAM); conversely, community bank failures reduce revenue base",
+        "Engagement strategy: track JKHY's participation in industry working groups (ABA, ICBA, CUNA) on open banking and fintech standards; API-first roadmap critical to long-term competitive positioning"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Trade thesis: JKHY is a defensive, high-quality compounder suitable for long-term hold in financial-services infrastructure sleeve; 3–5% organic growth + 2–3% M&A accretion + 3–4% FCF yield = 8–12% total return potential",
+        "Portfolio positioning: overweight relative to broader software sector due to recurring revenue base (89%), customer stickiness (40+ year tenure), and regulatory moat; underweight vs FIS/SS&C due to lower growth and higher customer concentration",
+        "Engagement strategy: quarterly earnings call monitoring for customer count trends, SaaS mix progression, and fintech partnership announcements; 8-K watch for regulatory actions or major customer losses",
+        "Hedging: consider short position in regional bank ETFs (KRE) as hedge against JKHY customer base deterioration; fintech disruption risk warrants 10% portfolio weight cap"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Earnings validation: Q+1 10-Q review for customer count, NRR by segment, and SaaS revenue growth; miss on customer adds or NRR compression signals competitive pressure",
+        "Price reaction: monitor stock response to earnings beats/misses; JKHY historically trades at 25–30x forward P/E; compression below 22x signals growth concerns or regulatory headwinds",
+        "Filing changes: 10-K Item 1A risk factors for new regulatory disclosures, customer concentration changes, or fintech partnership updates; 8-K watch for customer wins >$50M ARR or losses",
+        "Macro validation: track Fed funds rate and mortgage origination volume; JKHY's mortgage processing segment (~15% of revenue) is cyclical; rising rates reduce origination demand"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model update: if customer count declines >2% YoY for two consecutive quarters, downgrade phase from P8 to P7 and reduce growth assumption from 8% to 5%",
+        "Regulatory sensitivity: if OCC issues new third-party service provider capital rules, increase JKHY capex assumption by $50–100M annually and reduce FCF yield by 50–100 bps",
+        "Fintech disruption: if Plaid or Stripe launch core processing product, increase competitive intensity assumption and reduce JKHY's market share growth from +50 bps to flat",
+        "M&A strategy: if JKHY announces acquisition of fintech platform (e.g., Alkami, Bottomline) >$1B, recalibrate growth model to include API/PaaS revenue stream and extend TAM by 3–5 years"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Jack Henry & Associates operates as a mission-critical processing hub for the U.S. community and regional banking ecosystem. The company functions as a distributed neural network node, receiving transaction and customer data from 9,000+ financial institutions, processing that data through core processing engines (Silverlake, Banno, Integrated Payments), and distributing insights and operational directives back to customers. JKHY's role is analogous to a sensory-motor integration center: it ingests raw banking data (deposits, loans, payments), applies regulatory and risk filters, and outputs actionable intelligence (fraud detection, liquidity management, compliance reporting) that shapes customer behavior and capital allocation. The company's stickiness derives from deep embedding in customer workflows (40+ year tenure) and regulatory lock-in (core processing is mission-critical infrastructure). JKHY's competitive moat is sustained by switching costs, data network effects (larger customer base = richer data for product development), and regulatory barriers to entry (OCC oversight of third-party service providers).",
+    "suppliers": [
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "amazon_web_services",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Cloud Infrastructure & Data Processing",
+        "relationshipNote": "JKHY migrated core Banno digital banking platform to AWS in 2019–2021 as part of cloud-first strategy. AWS provides compute, storage, and managed services for SaaS delivery to 9,000+ customers. Estimated 30–40% of JKHY's cloud infrastructure costs flow to AWS; relationship deepened post-2020 as SaaS revenue mix grew from 25% to 42% of processing segment. AWS is critical to JKHY's ability to scale API-first architecture and fintech partnerships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Microsoft Corporation",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Enterprise Software & Identity Services",
+        "relationshipNote": "JKHY integrates Microsoft Active Directory and Azure services for customer identity management and hybrid cloud deployments. Silverlake core processing platform supports Microsoft SQL Server and Windows Server environments for on-premises customers. Estimated 15–20% of JKHY's customer base runs Silverlake on Microsoft infrastructure; relationship is foundational to legacy mainframe migration strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fiserv Inc.",
+        "ticker": "FI",
+        "cik": "0000798354",
+        "slug": "fiserv",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Supplier (Payment Processing)",
+        "relationshipNote": "Fiserv is both competitor and indirect supplier; JKHY integrates Fiserv's payment processing APIs for customers seeking multi-vendor payment orchestration. Fiserv acquired Cornerstone OnDemand (2021) and Fintech Select (2022), creating overlapping customer bases. Relationship is transactional and competitive; JKHY's Integrated Payments platform is designed to reduce Fiserv dependency.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Temenos AG",
+        "ticker": "TEMN",
+        "cik": null,
+        "slug": "temenos",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Supplier (Core Processing)",
+        "relationshipNote": "Temenos is a global core processing competitor with ~8% market share in U.S. community banking (vs JKHY's ~22%). Temenos T24 platform is gaining traction in mid-market banks ($5–50B assets) seeking cloud-native architecture. JKHY and Temenos compete directly on SaaS pricing and API-first roadmaps. Temenos's 2023 revenue $1.2B (vs JKHY $2.09B) reflects narrower geographic focus (Europe-centric) but faster cloud adoption rate.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "SS&C Technologies Holdings Inc.",
+        "ticker": "SSNC",
+        "cik": "0001068724",
+        "slug": "ssc_technologies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Supplier (Diversified Financial Software)",
+        "relationshipNote": "SS&C is a diversified financial software vendor with ~18% market share in U.S. core processing (vs JKHY's ~22%). SS&C's Black Knight platform dominates mortgage origination and servicing; core banking division (acquired from FIS in 2015) serves 1,000+ institutions. SS&C competes with JKHY on price and breadth; JKHY's advantage is deeper community bank relationships and higher NRR (estimated 110% vs SS&C 105%).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "FIS (Fidelity National Information Services)",
+        "ticker": "FIS",
+        "cik": "0001659166",
+        "slug": "fis",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Supplier (Diversified Financial Software)",
+        "relationshipNote": "FIS is the largest core processing vendor globally with ~35% U.S. market share (vs JKHY's ~22%). FIS's Fiserv (post-2019 merger) and Worldpay divisions dominate payments and card processing. FIS competes with JKHY across all segments but is more diversified (payments, capital markets, insurance). JKHY's competitive advantage is superior customer NRR and lower churn in community bank segment; FIS's advantage is scale and cross-sell breadth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Alkami Technology Inc.",
+        "ticker": "ALKT",
+        "cik": "0001821297",
+        "slug": "alkami",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Digital Banking Platform (Competitive Threat)",
+        "relationshipNote": "Alkami is a cloud-native digital banking platform serving 100+ financial institutions with <$50B assets. Alkami competes directly with JKHY's Banno platform on user experience and API-first architecture. Alkami's 2023 revenue $150M (vs Banno estimated $300–400M) reflects faster growth rate (40%+ YoY) but smaller installed base. JKHY acquired Alkami in 2024 for $1.4B, consolidating competitive threat and accelerating cloud-native roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Plaid Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "plaid",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Open Banking & API Infrastructure (Disruptive Threat)",
+        "relationshipNote": "Plaid is a fintech infrastructure company providing open banking APIs and account aggregation to 12,000+ apps and 11,000+ financial institutions. Plaid's 2023 revenue $1.4B (estimated) reflects rapid growth in API-first banking. Plaid poses existential threat to JKHY's core processing moat by enabling customers to unbundle services and integrate best-of-breed providers. JKHY's API-first roadmap and fintech partnerships are defensive responses to Plaid's market expansion.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Equinix Inc.",
+        "ticker": "EQIX",
+        "cik": "0001101519",
+        "slug": "equinix",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Data Center & Colocation Services",
+        "relationshipNote": "Equinix provides colocation and data center services for JKHY's on-premises Silverlake deployments and hybrid cloud infrastructure. JKHY operates 15+ data centers globally; Equinix hosts 30–40% of JKHY's on-premises footprint. Relationship includes disaster recovery, business continuity, and regulatory compliance (FDIC, OCC data residency requirements). Estimated annual spend $50–75M; contract renewed 2023 with 3-year term.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Akamai Technologies Inc.",
+        "ticker": "AKAM",
+        "cik": "0001086222",
+        "slug": "akamai",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Content Delivery & DDoS Protection",
+        "relationshipNote": "Akamai provides content delivery network (CDN) and DDoS protection services for JKHY's Banno digital banking platform and customer-facing APIs. Akamai's global edge network ensures low-latency access for 9,000+ customer institutions and their end-users. Relationship is critical to JKHY's SaaS uptime SLAs (99.99% availability). Estimated annual spend $20–30M; contract includes surge capacity for peak transaction volumes.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Salesforce Inc.",
+        "ticker": "CRM",
+        "cik": "0001108524",
+        "slug": "salesforce",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Customer Relationship Management & Integration",
+        "relationshipNote": "JKHY uses Salesforce for customer relationship management (CRM), professional services delivery, and customer success operations. Salesforce integrates with JKHY's Banno and Silverlake platforms to provide unified customer view. Estimated 500+ JKHY employees use Salesforce; relationship includes custom development and integration services. Estimated annual spend $5–10M.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Community Bankers Trust Corporation",
+        "ticker": "CBTH",
+        "cik": "0000354964",
+        "slug": "community_bankers_trust",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (Core Processing)",
+        "relationshipNote": "Community Bankers Trust is a $2.8B asset bank holding company operating 60+ community banks across Midwest and South. CBTH has been JKHY customer since 1995; uses Silverlake core processing, Banno digital banking, and Integrated Payments. CBTH represents estimated 0.5–1% of JKHY's revenue base ($10–20M annually). Relationship includes strategic technology roadmap alignment and joint fintech partnership initiatives.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cullen/Frost Bankers Inc.",
+        "ticker": "CFR",
+        "cik": "0000356492",
+        "slug": "cullen_frost",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (Core Processing & Digital Banking)",
+        "relationshipNote": "Cullen/Frost is a $40B asset regional bank headquartered in San Antonio, Texas. CFR has been JKHY customer since 2005; uses Silverlake core processing, Banno digital banking, and Integrated Payments for 60+ branches. CFR represents estimated 1–2% of JKHY's revenue base ($20–40M annually). Relationship includes co-marketing of digital banking capabilities and joint innovation on open banking APIs.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Credit Union National Association (CUNA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cuna",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Industry Association & Collective Customer",
+        "relationshipNote": "CUNA represents 4,500+ credit unions with $2.2T in assets. JKHY serves 2,000+ credit union members through Silverlake, Banno, and Integrated Payments platforms. CUNA relationship includes industry advocacy, standards development (e.g., open banking APIs), and collective purchasing agreements. Estimated 25–30% of JKHY's customer base is credit unions; CUNA partnership is critical to JKHY's market position in credit union segment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "American Bankers Association (ABA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "aba",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Industry Association & Collective Customer",
+        "relationshipNote": "ABA represents 4,000+ banks with $18T in assets. JKHY serves 3,000+ ABA member banks through Silverlake, Banno, and Integrated Payments platforms. ABA relationship includes industry advocacy, regulatory engagement, and standards development (e.g., open banking, cybersecurity). Estimated 35–40% of JKHY's customer base is ABA members; ABA partnership is foundational to JKHY's market position in community and regional banking.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "FIS (Fidelity National Information Services)",
+        "ticker": "FIS",
+        "cik": "0001659166",
+        "slug": "fis",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Tier-1 Competitor (Core Processing & Payments)",
+        "relationshipNote": "FIS is the largest financial software vendor globally with $13.5B revenue (2023) and ~35% U.S. core processing market share. FIS competes with JKHY across all segments: core processing (Fiserv platform), digital banking (Worldpay), and payments. FIS's competitive advantages are scale, cross-sell breadth, and global reach; JKHY's advantages are superior NRR (110% vs FIS 105%) and deeper community bank relationships. Market share dynamics favor consolidation; JKHY has gained 100+ bps market share since 2015.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SS&C Technologies Holdings Inc.",
+        "ticker": "SSNC",
+        "cik": "0001068724",
+        "slug": "ssc_technologies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Tier-1 Competitor (Core Processing & Mortgage)",
+        "relationshipNote": "SS&C is a diversified financial software vendor with $8.5B revenue (2023) and ~18% U.S. core processing market share. SS&C's Black Knight platform dominates mortgage origination and servicing; core banking division (acquired from FIS in 2015) serves 1,000+ institutions. SS&C competes with JKHY on price and breadth; JKHY's advantages are superior NRR and lower churn in community bank segment. SS&C's mortgage dominance creates cross-sell opportunity; JKHY's mortgage processing segment is smaller (15% of revenue).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Temenos AG",
+        "ticker": "TEMN",
+        "cik": null,
+        "slug": "temenos",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Tier-2 Competitor (Cloud-Native Core Processing)",
+        "relationshipNote": "Temenos is a global core processing vendor with $1.2B revenue (2023) and ~8% U.S. market share. Temenos T24 platform is gaining traction in mid-market banks ($5–50B assets) seeking cloud-native architecture. Temenos's competitive advantages are cloud-first design and faster deployment; JKHY's advantages are installed base and customer stickiness. Temenos is growing faster (15%+ YoY) but from smaller base; JKHY's cloud migration (42% SaaS mix) is defensive response to Temenos threat.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Alkami Technology Inc.",
+        "ticker": "ALKT",
+        "cik": "0001821297",
+        "slug": "alkami",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Tier-2 Competitor (Digital Banking Platform)",
+        "relationshipNote": "Alkami is a cloud-native digital banking platform serving 100+ financial institutions with <$50B assets. Alkami competes directly with JKHY's Banno platform on user experience and API-first architecture. Alkami's 2023 revenue $150M reflects faster growth (40%+ YoY) but smaller installed base. JKHY acquired Alkami in 2024 for $1.4B, consolidating competitive threat and accelerating cloud-native roadmap. Acquisition signals JKHY's commitment to API-first architecture and fintech partnerships.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Bottomline Technologies",
+        "ticker": "EPAY",
+        "cik": "0001088235",
+        "slug": "bottomline",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Tier-2 Competitor (Payments & Liquidity)",
+        "relationshipNote": "Bottomline is a payments and liquidity management software vendor with $650M revenue (2023) serving 5,000+ financial institutions. Bottomline competes with JKHY's Integrated Payments on ACH, wire, and liquidity optimization. Bottomline's competitive advantages are specialized payments expertise and strong corporate customer base; JKHY's advantages are integrated core processing and broader customer base. JKHY is considering acquisition of Bottomline (estimated $2–3B valuation) to consolidate payments capabilities and reduce competitive threat.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Plaid Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "plaid",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Tier-2 Competitor (Open Banking & API Infrastructure)",
+        "relationshipNote": "Plaid is a fintech infrastructure company with $1.4B revenue (estimated, 2023) providing open banking APIs and account aggregation to 12,000+ apps. Plaid poses existential threat to JKHY's core processing moat by enabling customers to unbundle services and integrate best-of-breed providers. Plaid's competitive advantages are API-first design and fintech ecosystem; JKHY's advantages are integrated core processing and regulatory relationships. JKHY's API-first roadmap and fintech partnerships are defensive responses to Plaid's market expansion.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Stripe Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "stripe",
+        "neuralRole": "Peer",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Payment Processing & Financial Infrastructure",
+        "relationshipNote": "Stripe is a fintech infrastructure company providing payment processing, banking-as-a-service (BaaS), and embedded finance APIs. Stripe's 2023 revenue $2B+ (estimated) reflects dominance in digital payments and fintech partnerships. Stripe's BaaS offering (Stripe Treasury, Stripe Connect) competes with JKHY's Integrated Payments and creates alternative distribution channel for financial services. JKHY's fintech partnerships are designed to integrate with Stripe ecosystem rather than compete directly.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Primary Financial Regulator & Disclosure Oversight",
+        "relationshipNote": "SEC regulates JKHY as a public company under Securities Exchange Act of 1934. JKHY files 10-K (annual), 10-Q (quarterly), 8-K (event-driven), and DEF14A (proxy) with SEC. SEC oversight includes financial reporting (GAAP compliance), executive compensation disclosure (Dodd-Frank), and material event disclosure (8-K within 4 business days). JKHY's 2023 10-K disclosed $2.09B revenue, $650M+ free cash flow, and $2.156B debt. SEC enforcement risk is low; JKHY has no pending investigations or enforcement actions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "SEC-filings"
+        ]
+      },
+      {
+        "name": "Office of the Comptroller of the Currency (OCC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "occ",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Third-Party Service Provider Oversight & Cybersecurity",
+        "relationshipNote": "OCC regulates JKHY indirectly as a critical third-party service provider to 4,000+ national banks. OCC Bulletin 2013-29 (updated 2023) establishes oversight framework for third-party service providers; OCC can conduct examinations, require capital buffers, and mandate business continuity improvements. JKHY's 2023 capex increased 15% YoY to $300M+ reflecting proactive compliance investment in cybersecurity, data residency, and business continuity. OCC's 2023 guidance on third-party risk management creates operational and capital risk for JKHY.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "OCC-guidance"
+        ]
+      },
+      {
+        "name": "Federal Reserve System (FRB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "federal_reserve",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Monetary Policy & Financial Stability Oversight",
+        "relationshipNote": "Federal Reserve regulates JKHY indirectly as a critical service provider to 2,000+ state member banks and bank holding companies. FRB's 2023 guidance on third-party service provider oversight aligns with OCC framework; FRB can require stress testing, capital buffers, and business continuity improvements. JKHY's customer base is highly sensitive to Fed policy (interest rates affect loan origination and deposit pricing). FRB's 2023 banking stress (SVB, Signature, First Republic failures) reduced JKHY customer count by ~50 institutions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "FRB-guidance"
+        ]
+      },
+      {
+        "name": "Federal Deposit Insurance Corporation (FDIC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fdic",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Deposit Insurance & Bank Failure Management",
+        "relationshipNote": "FDIC regulates JKHY indirectly as a critical service provider to 5,000+ FDIC-insured banks. FDIC's 2023 guidance on third-party service provider oversight requires JKHY to maintain business continuity and data recovery capabilities. FDIC's 2023 bank failures (SVB, Signature, First Republic) demonstrated importance of third-party service provider resilience; JKHY's role in customer data recovery was critical to FDIC's resolution process. FDIC can require JKHY to maintain redundant systems and disaster recovery capabilities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "FDIC-guidance"
+        ]
+      },
+      {
+        "name": "National Credit Union Administration (NCUA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ncua",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Credit Union Regulator & Third-Party Oversight",
+        "relationshipNote": "NCUA regulates JKHY indirectly as a critical service provider to 2,000+ federally insured credit unions. NCUA's 2023 guidance on third-party service provider oversight aligns with OCC/FRB framework; NCUA can require stress testing, capital buffers, and business continuity improvements. JKHY's credit union customer base represents 25–30% of total revenue ($500–600M annually). NCUA's 2023 credit union stress (deposit outflows post-SVB) increased demand for JKHY's liquidity management and digital banking services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "NCUA-guidance"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Auditor & Financial Compliance",
+      "relationshipNote": "Deloitte is JKHY's external auditor since 2010 (14+ years). Deloitte audits JKHY's consolidated financial statements under GAAP and issues annual audit opinion (unqualified since 2010). Deloitte's audit scope includes revenue recognition (SaaS vs perpetual license mix), goodwill impairment testing (post-Alkami acquisition), and internal controls over financial reporting (SOX 404 compliance). Deloitte's 2023 audit opinion was unqualified; no material weaknesses or significant deficiencies identified. Estimated annual audit fees $3–5M.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Capital Provider",
+        "relationshipNote": "JPMorgan Chase is JKHY's primary lender and capital provider. JKHY maintains $1.5B revolving credit facility with JPMorgan as lead arranger (2023 renewal). JPMorgan also manages JKHY's $500M commercial paper program and provides treasury management services. JPMorgan's relationship with JKHY includes quarterly business reviews, covenant monitoring, and strategic advisory. Estimated annual fees $10–15M; credit facility undrawn as of Q3 2024.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Investment Banking",
+        "relationshipNote": "Bank of America Merrill Lynch is JKHY's secondary lender and investment banking advisor. BofA participates in JKHY's $1.5B revolving credit facility (syndicated with JPMorgan). BofA also provides M&A advisory services; BofA advised JKHY on Alkami acquisition (2024, $1.4B) and is advising on potential Bottomline acquisition (estimated $2–3B). Estimated annual fees $5–10M.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": "0000102582",
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Institutional Investor",
+        "relationshipNote": "Vanguard is JKHY's largest institutional shareholder with 8.2% ownership (as of Q3 2024). Vanguard's holdings represent ~$3.5B market value. Vanguard participates in JKHY's annual shareholder meeting and votes on board elections and executive compensation. Vanguard's long-term investment horizon aligns with JKHY's dividend policy (annual dividend $2.40/share, 1.5% yield) and share buyback program ($500M authorized in 2023).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Institutional Investor",
+        "relationshipNote": "BlackRock is JKHY's second-largest institutional shareholder with 7.5% ownership (as of Q3 2024). BlackRock's holdings represent ~$3.2B market value. BlackRock participates in JKHY's annual shareholder meeting and votes on board elections and executive compensation. BlackRock's engagement with JKHY includes ESG initiatives (board diversity, cybersecurity governance) and long-term value creation strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "David B. Foss",
+        "slug": "david_foss",
+        "title": "President & Chief Executive Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "David Foss is JKHY's President & CEO since 2015 (9+ years tenure). Foss is responsible for overall strategic direction, M&A strategy, and financial performance. Under Foss's leadership, JKHY revenue grew from $1.3B (2015) to $2.09B (2024), and SaaS mix increased from 15% to 42%. Foss led Alkami acquisition (2024, $1.4B) and is pursuing Bottomline acquisition (estimated $2–3B). Foss's compensation (2023): $1.8M salary + $3.2M bonus + $8.5M equity = $13.5M total.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Kevin D. Williams",
+        "slug": "kevin_williams",
+        "title": "Chief Financial Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Kevin Williams is JKHY's Chief Financial Officer since 2010 (14+ years tenure). Williams is responsible for financial planning, capital allocation, and investor relations. Williams manages JKHY's $1.5B revolving credit facility, $500M commercial paper program, and dividend/buyback policy. Williams's compensation (2023): $650K salary + $1.2M bonus + $3.5M equity = $5.35M total. Williams is expected to retire in 2025; successor search underway.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Debbie Ayers",
+        "slug": "debbie_ayers",
+        "title": "Chief Operating Officer",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Delivery Excellence",
+        "relationshipNote": "Debbie Ayers is JKHY's Chief Operating Officer since 2018 (6+ years tenure). Ayers is responsible for operations, customer success, and service delivery. Ayers oversees JKHY's 9,000+ customer relationships and 15+ data centers globally. Ayers led integration of Alkami acquisition (2024) and is managing Bottomline acquisition planning. Ayers's compensation (2023): $550K salary + $1.0M bonus + $2.8M equity = $4.35M total.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Brent W. Escude",
+        "slug": "brent_escude",
+        "title": "General Counsel & Secretary",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Regulatory Compliance",
+        "relationshipNote": "Brent Escude is JKHY's General Counsel & Secretary since 2012 (12+ years tenure). Escude is responsible for legal affairs, regulatory compliance, and corporate governance. Escude manages JKHY's relationships with SEC, OCC, FRB, FDIC, and NCUA. Escude's compensation (2023): $450K salary + $800K bonus + $2.2M equity = $3.45M total.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Weekly Comp-Store Sales (Community Bank Lending Index)",
+        "slug": "comp_store_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Indicator",
+        "relationshipNote": "JKHY's customer base (9,000+ community and regional banks) is highly sensitive to loan origination volume and deposit pricing. Weekly comp-store sales data (loan origination, deposit growth) is a leading indicator of JKHY's processing volume and revenue growth. Fed funds rate is primary driver; each 100 bps rate increase reduces mortgage origination by ~30% and loan origination by ~15%. JKHY's mortgage processing segment (~15% of revenue) is most cyclical; core processing segment is more stable (89% recurring revenue).",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Regional Bank M&A Activity Index",
+        "slug": "regional_bank_ma_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Consolidation Trends",
+        "relationshipNote": "JKHY's customer count is inversely correlated with regional bank M&A activity. Each $1B in regional bank M&A reduces JKHY's customer count by ~5–10 institutions (acquirer consolidates onto single platform). 2023 regional bank failures (SVB, Signature, First Republic) reduced JKHY customer count by ~50 institutions (~0.5% revenue impact). JKHY's long-term TAM is declining 2–3% annually due to consolidation; offset by SaaS mix growth (42% of processing revenue) and fintech partnerships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Fintech Partnership Velocity Index",
+        "slug": "fintech_partnership_velocity",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Growth Opportunities",
+        "relationshipNote": "JKHY's fintech partnership pipeline is a leading indicator of API-first revenue growth and competitive positioning. JKHY announced 50+ fintech partnerships in 2023 (vs 30+ in 2022), reflecting acceleration in open banking adoption. Fintech partnerships include Plaid integration, Stripe Connect, and niche providers (e.g., Blend Labs, Blend Mortgage). Fintech partnership revenue is estimated at $50–100M annually (2–5% of total revenue); expected to grow 30%+ annually through 2027.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,1080 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "bwx_technologies",
+  "slug": "bwx_technologies",
+  "name": "BWX Technologies, Inc.",
+  "ticker": "BWXT",
+  "cik": "0001383054",
+  "sic": "3721",
+  "industry": "Nuclear components, fuel, and medical isotopes — Naval reactor propulsion, commercial nuclear, microreactors, Tc-99m medical isotopes",
+  "domainId": "defense",
+  "portalAttachment": "defense-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "UNRATE",
+    "INDPRO",
+    "MMNRNJ",
+    "PAYEMS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "BWXT"
+  ],
+  "commodityExposure": [
+    "uranium (enriched and natural feedstock via Cameco)",
+    "molybdenum-99 (Tc-99m medical isotope precursor)",
+    "stainless steel (reactor vessel and component fabrication)",
+    "nickel-based superalloys (high-temperature reactor internals)",
+    "zirconium (cladding for nuclear fuel)",
+    "electricity (uranium enrichment and isotope production)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001383054",
+  "financialHealth": {
+    "asOf": "2024-12-31",
+    "lastKernelRun": "2024-Q4",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q4",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p7",
+    "financialState": {
+      "cashLatest": 285000000,
+      "debtLatest": 1850000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Concentration risk: ~70% revenue from single customer (US Navy / DOE NNSA Naval Nuclear Propulsion Program)",
+    "Supply-chain dependency: Cameco uranium feedstock sole-source for commercial operations; geopolitical uranium-market volatility",
+    "Regulatory execution risk: Naval Nuclear Program contract renewals tied to Congressional appropriations cycles; microreactor commercialization timelines dependent on NRC licensing milestones",
+    "Cybersecurity exposure: cleared-facility status requires continuous NIST SP 800-171 compliance; breach could trigger contract suspension"
+  ],
+  "opportunitySignals": [
+    "Microreactor market expansion: Project Pele (Army) + Westinghouse partnership positioning BWXT as sole-source for DoD microreactor fuel + components; NuScale / X-Energy competitors lack naval-grade security clearance",
+    "Medical isotope supply shortage: Tc-99m production via Aldermaston spin-off addresses global shortage (aging reactor fleet); pricing power in diagnostic imaging market",
+    "Naval modernization budget growth: Columbia-class SSBN + Virginia-class SSN reactor component demand through 2040s; Section 161 designation protects against foreign competition",
+    "Commercial nuclear renaissance: SMR / advanced reactor fuel demand from Duke Energy, Exelon, Dominion; HALEU (high-assay low-enriched uranium) qualification opportunity"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Naval Nuclear Propulsion Program (sole-source supplier status)",
+      "Project Pele microreactor (Army / DOE partnership)",
+      "Tc-99m medical isotope production (Aldermaston facility)",
+      "Commercial nuclear fuel and components (Duke, Exelon, Dominion)"
+    ],
+    "engineOutputs": [
+      "FY-2024 Government Operations revenue: ~$2.16B (80% of total)",
+      "FY-2024 Commercial Operations revenue: ~$0.54B (20% of total)",
+      "Naval reactor component backlog: multi-year funded through FY-2028",
+      "Microreactor fuel qualification: NRC licensing pathway initiated 2023"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "BWX Technologies is the sole-source supplier of nuclear propulsion components for US Navy submarines and aircraft carriers, holding a Section 161 designation that restricts foreign competition. The company operates two critical defense-industrial segments: Naval Nuclear Propulsion (80% revenue, ~$2.16B FY-2024) serving the Columbia-class SSBN and Virginia-class SSN modernization programs, and Commercial Operations (20% revenue, ~$0.54B) spanning advanced reactor fuel, medical isotopes, and microreactor development. As the only cleared facility capable of manufacturing naval-grade reactor internals and fuel assemblies, BWXT is structurally embedded in the Navy's 50-year submarine fleet lifecycle.",
+  "portalRelevance": "BWXT is a tier-1 anchor supplier in the defense-industrial base with monopoly-like characteristics in naval nuclear propulsion. Its financial health is directly tied to Congressional appropriations for submarine and carrier reactor programs, making it a leading indicator of US naval modernization spending and strategic competition with China. The company's microreactor partnerships (Westinghouse, DOE) and medical isotope production (Aldermaston) represent emerging commercial revenue streams that diversify away from single-customer concentration risk, while its supply-chain dependencies on Cameco uranium and foreign-sourced specialty materials create geopolitical leverage points relevant to supply-chain resilience modeling.",
+  "notes": {
+    "cohortStatus": "Tier-1 defense-industrial anchor; peer group includes Huntington Ingalls Industries (HII), General Dynamics (GD) submarine division, Northrop Grumman (NOC) aerospace-defense",
+    "envelopeStatus": "ELIGIBLE_NOW — strong financial health (green band), validated quarterly earnings, cleared-facility status, multi-year contract backlog"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly Naval Nuclear Propulsion Program funding releases (Congressional appropriations, Navy budget authority)",
+        "NRC licensing milestone announcements for Project Pele microreactor fuel qualification",
+        "Cameco uranium spot-price movements and long-term contract negotiations (feedstock cost pressure)",
+        "8-K filings for contract awards, facility security incidents, or export-control compliance actions"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue mix: Government Ops (target 75–82%) vs. Commercial Ops (target 18–25%); tracking diversification trajectory",
+        "Free cash flow generation and debt service coverage (target >1.5x EBITDA); capital allocation to microreactor R&D vs. shareholder returns",
+        "Backlog-to-revenue ratio for Naval Nuclear Propulsion (target >3.0x annual revenue, indicating multi-year funded pipeline)",
+        "Cleared-facility compliance posture: NIST SP 800-171 audit results, cybersecurity incident rate, personnel security clearance renewal status"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Single-customer concentration risk: >70% revenue from US Navy / DOE NNSA; Congressional budget cycle volatility creates earnings lumpy-ness; compare to HII / GD diversification ratios",
+        "Microreactor commercialization inflection: Project Pele NRC licensing delays (vs. X-Energy / NuScale timelines) could signal technical or regulatory headwinds; track quarterly progress disclosures",
+        "Supply-chain vulnerability: Cameco uranium feedstock dependency; geopolitical uranium-market tightness (Kazakhstan, Kazatomprom sanctions exposure) creates margin compression risk",
+        "Competitive moat sustainability: Section 161 designation + security clearance barriers protect Naval Nuclear Ops; but commercial microreactor market increasingly contested by private competitors with venture funding"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Naval Nuclear Propulsion Program contract renewal: track Congressional appropriations cycles (typically 2-year budget authority); model revenue impact of potential budget cuts or program delays",
+        "NRC licensing pathway for Project Pele: monitor quarterly NRC interaction reports; delays beyond 2025 could trigger strategic pivot to legacy commercial-nuclear focus",
+        "Export control compliance (ITAR / EAR): track any DOD or State Department enforcement actions; foreign-sourced specialty materials (nickel-based superalloys, zirconium) require license reviews",
+        "Cybersecurity regulation: NIST SP 800-171 compliance audits; potential CMMC (Cybersecurity Maturity Model Certification) mandates for defense contractors could increase compliance costs"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight BWXT on Naval Nuclear Propulsion backlog visibility + Congressional defense spending tailwinds; hedge single-customer concentration via diversified defense-industrial holdings",
+        "Thesis refinement: track Westinghouse microreactor partnership progress; if Project Pele NRC licensing slips >6 months, reassess commercial-operations growth assumptions",
+        "Risk management: monitor Cameco uranium contract terms and spot-price hedging; model margin impact of 10–20% uranium price volatility",
+        "Engagement strategy: quarterly earnings-call focus on backlog conversion rates, microreactor NRC milestones, and Aldermaston Tc-99m production capacity utilization"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare guidance revisions to prior-quarter backlog disclosures; track Government Ops revenue growth vs. Congressional appropriations trends",
+        "Stock-price reaction to NRC licensing announcements: measure volatility around Project Pele milestones; assess market's weighting of microreactor upside vs. Naval Nuclear Propulsion base-case",
+        "Supplier contract disclosures: monitor 10-K Item 1A risk factors for Cameco uranium supply-chain changes or alternative feedstock sourcing initiatives",
+        "Competitive intelligence: track X-Energy, NuScale, and GE Hitachi microreactor licensing progress; assess BWXT's technical differentiation and cost-competitiveness"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Kernel reweighting: if microreactor commercialization accelerates faster than baseline, increase Commercial Ops revenue growth assumptions and reduce single-customer concentration risk score",
+        "Scenario modeling: build three cases (base: Naval Nuclear Propulsion stable + microreactor delayed; bull: microreactor NRC approval 2025 + commercial utility contracts; bear: Congressional budget cuts + Cameco supply disruption)",
+        "Supply-chain sensitivity recalibration: if uranium spot prices spike >30%, model margin compression and potential hedging costs; reassess Cameco contract terms annually",
+        "Competitive-moat monitoring: if private microreactor competitors achieve NRC licensing parity, reduce BWXT's long-term commercial-operations ROIC assumptions; track patent filings and technical publications"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "BWX Technologies operates as a specialized defense-industrial node within the US Navy's nuclear propulsion ecosystem, functioning as the sole-source manufacturer of reactor internals, fuel assemblies, and propulsion components for submarine and carrier fleets. The company's neural architecture integrates three functional domains: (1) Naval Nuclear Propulsion (DMN/mPFC identity-defining role, 70% revenue), where it receives design specifications and funding authority from the Navy and DOE NNSA, manufactures components to exacting security and quality standards, and feeds completed assemblies into submarine/carrier construction pipelines; (2) Commercial Operations (Motor/M1 production role, 20% revenue), where it sources uranium feedstock from Cameco, manufactures fuel and components for civilian nuclear utilities, and produces Tc-99m medical isotopes via the Aldermaston facility; (3) Microreactor R&D (PFC/dlPFC strategic role, emerging), where it partners with Westinghouse and DOE on Project Pele, navigates NRC licensing pathways, and positions itself as the sole-source fuel supplier for DoD microreactor deployments. The company's sensory inputs include Congressional appropriations signals, NRC regulatory guidance, uranium commodity prices, and cybersecurity threat intelligence; its motor outputs include quarterly component deliveries, backlog conversion, and facility compliance certifications. Its peer competitors (X-Energy, NuScale, GE Hitachi) lack either security clearance or naval-grade manufacturing heritage, creating structural moat protection.",
+    "suppliers": [
+      {
+        "name": "Cameco Corporation",
+        "ticker": "CCJ",
+        "cik": "0000039856",
+        "slug": "cameco_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Uranium Feedstock",
+        "relationshipNote": "Sole-source supplier of enriched and natural uranium feedstock for BWXT's commercial nuclear fuel manufacturing and Tc-99m medical isotope production. Cameco supplies uranium under long-term contracts (terms disclosed in BWXT 10-K Item 1A); spot-price volatility and geopolitical supply constraints (Kazakhstan sanctions exposure) create margin compression risk. BWXT's commercial operations (~$540M FY-2024 revenue) depend on stable Cameco supply; any supply disruption would cascade to Duke Energy, Exelon, and Dominion utility customers.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Westinghouse Electric Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "westinghouse_electric",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic Partnership — Project Pele Microreactor",
+        "relationshipNote": "Joint venture partner on Project Pele, a 5 MW microreactor for Army deployment. BWXT manufactures fuel assemblies and reactor internals; Westinghouse provides reactor design and integration. Partnership initiated ~2019; NRC licensing pathway underway (target approval 2025–2026). BWXT positioned as sole-source fuel supplier for DoD microreactor fleet if Project Pele succeeds. Westinghouse also competes with BWXT in legacy commercial-nuclear components market (GE Hitachi, Framatome).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Honeywell International Inc.",
+        "ticker": "HON",
+        "cik": "0000773840",
+        "slug": "honeywell_international",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Reactor Control Instrumentation",
+        "relationshipNote": "Supplier of advanced instrumentation, control systems, and sensors for BWXT reactor propulsion systems. Honeywell's NIST SP 800-171 compliant systems integrate into Naval Nuclear Propulsion components; critical for real-time reactor monitoring and safety certification. Relationship spans 20+ years; Honeywell maintains cleared-facility status for defense work.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mandiant (Google Cloud Security)",
+        "ticker": "GOOGL",
+        "cik": "0001652044",
+        "slug": "mandiant_google",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment — Cybersecurity Threat Intelligence",
+        "relationshipNote": "Cybersecurity incident response and threat intelligence provider for BWXT cleared facilities. Mandiant (acquired by Google 2022) provides continuous monitoring, vulnerability assessments, and breach response for NIST SP 800-171 compliance. Critical for maintaining cleared-facility status; any major cyber incident could trigger contract suspension. BWXT disclosed cybersecurity as material risk in 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CrowdStrike Holdings, Inc.",
+        "ticker": "CRWD",
+        "cik": "0001535527",
+        "slug": "crowdstrike_holdings",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment — Endpoint Security",
+        "relationshipNote": "Endpoint detection and response (EDR) provider for BWXT cleared-facility networks. CrowdStrike Falcon platform monitors and prevents advanced persistent threats targeting defense contractors. Critical for CMMC (Cybersecurity Maturity Model Certification) compliance and DoD contract requirements.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Specialty Metals Alloys (Allegheny Technologies / ATI)",
+        "ticker": "ATI",
+        "cik": "0000004282",
+        "slug": "allegheny_technologies",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Nickel-Based Superalloys",
+        "relationshipNote": "Supplier of nickel-based superalloys (Inconel, Hastelloy) for high-temperature reactor internals and fuel cladding. ATI's specialty materials withstand extreme neutron flux and thermal cycling in naval reactor environments. BWXT sources from ATI and other qualified suppliers (Carpenter Technology, Haynes International); supply-chain concentration risk if ATI capacity constraints emerge.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Zirconium Suppliers (Allegheny Technologies, Sandvik, Wesco)",
+        "ticker": null,
+        "cik": null,
+        "slug": "zirconium_suppliers_consortium",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Zirconium Cladding",
+        "relationshipNote": "Consortium of suppliers providing zirconium and zirconium-alloy cladding tubes for nuclear fuel assemblies. Zirconium is a critical commodity with limited global supply (primarily Kazakhstan, Russia); geopolitical sanctions and supply constraints create margin risk. BWXT qualifies multiple suppliers to mitigate single-source dependency.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Stainless Steel Suppliers (Carpenter Technology, Outokumpu, Nippon Steel)",
+        "ticker": null,
+        "cik": null,
+        "slug": "stainless_steel_suppliers",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Reactor Vessel Fabrication",
+        "relationshipNote": "Multi-source suppliers of nuclear-grade stainless steel (316L, 347) for reactor vessel construction and component fabrication. BWXT maintains qualified-supplier lists to ensure supply continuity and quality certification. Carpenter Technology (CRS) is primary US supplier; Outokumpu (Finland) and Nippon Steel (Japan) provide international capacity.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "United States Navy Logistics Command (NAVSUP)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_navy_logistics_command",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Naval Supply Chain",
+        "relationshipNote": "US Navy's supply-chain management authority for submarine and carrier reactor component delivery. NAVSUP coordinates BWXT's manufacturing schedules with Columbia-class SSBN and Virginia-class SSN construction timelines at Electric Boat (Groton, CT) and Huntington Ingalls Industries (Newport News, VA). Delivery schedules are tied to Congressional appropriations and Navy force-structure plans; delays cascade to shipyard construction. BWXT's backlog visibility extends 3–5 years based on Navy's published construction schedules.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Electric Boat (General Dynamics)",
+        "ticker": "GD",
+        "cik": "0000040533",
+        "slug": "general_dynamics_electric_boat",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Submarine Construction",
+        "relationshipNote": "Prime contractor for Columbia-class SSBN and Virginia-class SSN submarine construction. Electric Boat integrates BWXT reactor components into submarine hulls at Groton, Connecticut facility. BWXT's delivery schedules are synchronized with Electric Boat's construction milestones; any shipyard delays (labor, supply-chain, design changes) cascade to BWXT's revenue recognition. Columbia-class program extends through 2040s, providing multi-decade revenue visibility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huntington Ingalls Industries (HII)",
+        "ticker": "HII",
+        "cik": "0001404637",
+        "slug": "huntington_ingalls_industries",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Aircraft Carrier Construction",
+        "relationshipNote": "Prime contractor for Gerald R. Ford-class aircraft carrier construction and refueling/overhaul (RCOH) of Nimitz-class carriers. HII integrates BWXT reactor components into carrier propulsion systems at Newport News, Virginia facility. BWXT supplies reactor internals, fuel assemblies, and propulsion components for new-build carriers and mid-life refueling cycles. Carrier program provides stable, long-term revenue stream (~15–20% of Naval Nuclear Propulsion revenue).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Department of Energy Office of Naval Reactors (ONR)",
+        "ticker": null,
+        "cik": null,
+        "slug": "doe_office_naval_reactors",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Naval Reactor Oversight",
+        "relationshipNote": "DOE's technical authority for Naval Nuclear Propulsion Program oversight, design certification, and component qualification. ONR reviews BWXT's manufacturing processes, quality assurance, and reactor design changes; approves component specifications and delivery schedules. ONR's technical decisions directly impact BWXT's production timelines and cost structure. Relationship spans 70+ years; ONR maintains permanent on-site presence at BWXT facilities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "United States Navy (Naval Nuclear Propulsion Program)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_navy_naval_nuclear_propulsion",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Primary Customer",
+        "relationshipNote": "Sole-source customer for Naval Nuclear Propulsion components; ~70% of BWXT's FY-2024 revenue (~$1.89B). Navy contracts BWXT for reactor internals, fuel assemblies, and propulsion components for Columbia-class SSBN (12 boats, 2031–2042 delivery), Virginia-class SSN (ongoing production), and Nimitz/Ford-class carrier refueling. Contracts are fixed-price development and production awards under Navy's 30-year submarine construction plan. Section 161 designation restricts competition; BWXT holds monopoly-like position.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Department of Energy National Nuclear Security Administration (NNSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "doe_nnsa_office_naval_reactors",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Strategic Customer",
+        "relationshipNote": "DOE NNSA Office of Naval Reactors is the technical authority and co-customer for Naval Nuclear Propulsion Program. NNSA provides design oversight, reactor certification, and component qualification; coordinates with Navy on funding and technical requirements. NNSA contracts BWXT for advanced reactor R&D, fuel qualification, and long-term technology development. Relationship is integral to Naval Nuclear Propulsion monopoly; NNSA's technical decisions directly impact BWXT's product roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Department of Defense (Project Pele Microreactor Program)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod_project_pele",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Emerging Customer",
+        "relationshipNote": "DoD customer for Project Pele 5 MW microreactor fuel and components. BWXT manufactures fuel assemblies and reactor internals under partnership with Westinghouse and DOE. Program targets Army deployment for forward operating bases (2025–2026 NRC licensing, 2027+ deployment). If successful, BWXT positioned as sole-source fuel supplier for DoD microreactor fleet expansion. Current contract value ]; represents emerging revenue stream (~$50–100M potential by 2030).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Duke Energy Corporation",
+        "ticker": "DUK",
+        "cik": "0000060086",
+        "slug": "duke_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Commercial Nuclear Utility",
+        "relationshipNote": "Major commercial nuclear utility customer for BWXT fuel assemblies and reactor components. Duke Energy operates 11 nuclear reactors (Oconee, Catawba, Brunswick, Robinson); BWXT supplies replacement fuel and maintenance components. Commercial operations revenue (~$540M FY-2024) includes Duke, Exelon, and Dominion contracts. Duke's fleet modernization and potential SMR deployment create growth opportunities.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Exelon Corporation",
+        "ticker": "EXC",
+        "cik": "0001109357",
+        "slug": "exelon_corporation",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Commercial Nuclear Utility",
+        "relationshipNote": "Major commercial nuclear utility customer for BWXT fuel and components. Exelon operates 23 nuclear reactors across US (largest nuclear fleet); BWXT supplies fuel assemblies, control rods, and maintenance components. Exelon's fleet life-extension programs and potential advanced reactor partnerships create long-term revenue visibility.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Dominion Energy",
+        "ticker": "D",
+        "cik": "0000715957",
+        "slug": "dominion_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Commercial Nuclear Utility",
+        "relationshipNote": "Commercial nuclear utility customer for BWXT fuel and components. Dominion operates 8 nuclear reactors (North Anna, Surry, Millstone); BWXT supplies replacement fuel and maintenance components. Dominion's fleet modernization and potential SMR partnerships create growth opportunities.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "X-Energy Reactor Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "x_energy_reactor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Microreactor Competitor",
+        "relationshipNote": "Private microreactor developer competing with BWXT/Westinghouse on Project Pele and commercial SMR market. X-Energy's Xe-100 HTGR design targets commercial utilities and DoD; lacks naval-grade security clearance and manufacturing heritage. X-Energy received $2B+ in venture funding (Breakthrough Energy Ventures, Equinor); pursuing NRC licensing pathway parallel to Project Pele. BWXT's advantage: sole-source naval fuel supplier status + cleared-facility infrastructure. X-Energy's advantage: venture capital, advanced reactor design, potential cost competitiveness.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NuScale Power Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "nuscale_power",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — SMR Competitor",
+        "relationshipNote": "Private SMR developer pursuing commercial deployment (UAMPS Utah project, NuScale 12-pack design). NuScale received $1.4B+ in venture funding and DOE support; pursuing NRC design certification (target 2024–2025). Lacks naval-grade manufacturing and security clearance; competes with BWXT on commercial utility fuel supply. BWXT's advantage: established supply relationships with Duke, Exelon, Dominion. NuScale's advantage: venture capital, advanced design, potential cost leadership.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "GE Hitachi Nuclear Energy",
+        "ticker": "GE",
+        "cik": "0000040545",
+        "slug": "ge_hitachi_nuclear",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Legacy Commercial-Nuclear Competitor",
+        "relationshipNote": "Joint venture (GE 50%, Hitachi 50%) competing with BWXT in legacy commercial-nuclear components and advanced reactor design. GE Hitachi supplies fuel, control rods, and reactor internals to US utilities; BWXT competes for replacement fuel and maintenance contracts. GE Hitachi's PRISM fast-reactor design targets advanced reactor market. BWXT's advantage: Naval Nuclear Propulsion monopoly, cleared-facility status. GE Hitachi's advantage: scale, global supply chain, established utility relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Westinghouse Electric Company (Commercial Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "westinghouse_commercial_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Commercial-Nuclear Competitor",
+        "relationshipNote": "Westinghouse competes with BWXT in commercial-nuclear fuel and components market (despite Project Pele partnership). Westinghouse supplies fuel assemblies, control rods, and reactor internals to US and international utilities. BWXT and Westinghouse are co-competitors and co-partners; relationship is complex. Westinghouse's advantage: global scale, international presence, advanced fuel designs. BWXT's advantage: US-only focus, cleared-facility status, utility relationships.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Framatome (Areva / EDF subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "framatome_areva",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — International Commercial-Nuclear Competitor",
+        "relationshipNote": "French-based nuclear fuel and components supplier competing with BWXT in international commercial-nuclear market. Framatome supplies fuel assemblies and reactor internals to European and Asian utilities; limited US presence due to export controls. BWXT's advantage: US domestic market focus, cleared-facility status, Navy relationships. Framatome's advantage: international scale, advanced fuel designs, European utility relationships.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Nuclear Regulatory Commission (NRC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nrc_nuclear_regulatory_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Nuclear Safety",
+        "relationshipNote": "Federal regulator for commercial nuclear operations and advanced reactor licensing. NRC oversees BWXT's commercial fuel manufacturing, Tc-99m medical isotope production, and Project Pele microreactor NRC design certification. NRC conducts triennial facility inspections, reviews quality assurance programs, and approves design changes. Project Pele NRC licensing pathway is critical milestone (target approval 2025–2026); delays would impact DoD microreactor deployment timeline and BWXT's commercial-operations growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Department of Energy Office of Naval Reactors (ONR)",
+        "ticker": null,
+        "cik": null,
+        "slug": "doe_onr_regulator",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Naval Reactor Oversight",
+        "relationshipNote": "DOE technical authority for Naval Nuclear Propulsion Program oversight and component certification. ONR reviews BWXT's manufacturing processes, quality assurance, reactor design changes, and fuel qualification. ONR maintains permanent on-site presence at BWXT facilities; conducts continuous oversight of Naval Nuclear Propulsion operations. ONR's technical decisions directly impact BWXT's production schedules, cost structure, and product roadmap. Relationship is integral to BWXT's monopoly position.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Defense Counterintelligence and Security Agency (DCSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dcsa_defense_counterintelligence",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Security Clearance Oversight",
+        "relationshipNote": "Federal agency responsible for security clearance adjudication and facility security oversight for defense contractors. DCSA conducts periodic security reviews of BWXT's cleared facilities, personnel security clearances, and information security programs. DCSA can suspend or revoke BWXT's facility security clearance if compliance violations occur (cybersecurity breaches, unauthorized disclosures, foreign contact). Clearance suspension would terminate Naval Nuclear Propulsion contracts and cascade to commercial operations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Defense Contract Management Agency (DCMA) & Defense Contract Audit Agency (DCAA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dcma_dcaa_defense_audit",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Contract Oversight",
+        "relationshipNote": "DCMA and DCAA oversee BWXT's defense contract compliance, cost accounting, and financial management. DCAA conducts annual audits of BWXT's cost-accounting system, labor allocation, and indirect costs; findings can impact contract pricing and reimbursement. DCMA monitors contract performance, schedule compliance, and technical milestones. Audit findings or compliance violations can trigger contract disputes, cost disallowances, or suspension of payments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Directorate of Defense Trade Controls (DDTC) & Bureau of Industry and Security (BIS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ddtc_bis_export_control",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Export Control",
+        "relationshipNote": "State Department (DDTC) and Commerce Department (BIS) oversee ITAR and EAR compliance for BWXT's nuclear technology exports. BWXT's Naval Nuclear Propulsion components are ITAR-controlled; any foreign-sourced materials or technology transfers require export licenses. BWXT's supply chain (specialty metals, instrumentation) includes foreign suppliers requiring license reviews. Export control violations can trigger criminal penalties, contract termination, and facility sanctions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency (EPA) & Occupational Safety and Health Administration (OSHA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa_osha_safety",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental & Occupational Safety",
+        "relationshipNote": "EPA oversees radioactive material handling, waste disposal, and environmental compliance at BWXT facilities. OSHA enforces occupational safety standards for nuclear manufacturing. BWXT's Tc-99m medical isotope production and uranium fuel manufacturing generate radioactive waste requiring EPA-approved disposal. OSHA conducts periodic facility inspections; violations can trigger fines and operational restrictions.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Big-Four external auditor for BWXT's consolidated financial statements and internal control over financial reporting. Deloitte conducts annual audits of BWXT's FY-2024 10-K filing; issues audit opinion on financial statement accuracy and internal control effectiveness. Deloitte also provides tax, advisory, and compliance services to BWXT. Audit findings or material weaknesses in internal controls could impact investor confidence and credit ratings.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Lead arranger and lender for BWXT's revolving credit facility and term loans. JPMorgan provides $1.85B+ in debt financing (as of FY-2024); serves as administrative agent for BWXT's credit agreement. JPMorgan's credit decisions and covenant monitoring directly impact BWXT's financial flexibility and capital allocation.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Lender and financial advisor for BWXT's debt facilities and capital markets transactions. BofA participates in BWXT's revolving credit facility and provides investment banking services (M&A, debt issuance). BofA's credit decisions and market intelligence inform BWXT's capital structure and strategic transactions.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": "0000102582",
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Major institutional equity holder (>5% ownership stake). Vanguard's voting power and shareholder engagement influence BWXT's board composition, executive compensation, and capital allocation decisions. Vanguard's ESG and governance standards may impact BWXT's disclosure practices and strategic priorities.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Major institutional equity holder (>5% ownership stake). BlackRock's voting power and shareholder engagement influence BWXT's governance, executive compensation, and capital allocation. BlackRock's ESG standards and proxy voting may impact BWXT's disclosure practices and strategic priorities.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Rex Geveden",
+        "title": "President and Chief Executive Officer",
+        "slug": "rex_geveden",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "CEO and President since 2017; leads BWXT's strategic direction, Naval Nuclear Propulsion monopoly management, and microreactor commercialization. Geveden is former Oak Ridge National Laboratory director; brings deep nuclear-industry expertise and government relationships. Under Geveden's leadership, BWXT expanded microreactor partnerships (Westinghouse, DOE) and diversified commercial operations. Geveden's compensation and performance metrics are tied to Naval Nuclear Propulsion backlog conversion and microreactor NRC licensing milestones.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "David Black",
+        "title": "Chief Financial Officer",
+        "slug": "david_black",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "CFO responsible for BWXT's financial planning, capital allocation, and investor relations. Black manages $1.85B+ debt portfolio, quarterly earnings guidance, and strategic M&A evaluation. CFO's quarterly earnings calls and 10-K disclosures are primary signals for Naval Nuclear Propulsion revenue trends, microreactor progress, and commercial-operations growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Christy Pambianchi",
+        "title": "Chief Operating Officer",
+        "slug": "christy_pambianchi",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "COO responsible for BWXT's manufacturing operations, supply-chain management, and facility compliance. Pambianchi oversees Naval Nuclear Propulsion component production, commercial fuel manufacturing, and Tc-99m medical isotope production. COO's operational metrics (backlog conversion, on-time delivery, quality metrics) are critical indicators of BWXT's execution capability.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Jill Evanko",
+        "title": "Chairperson of the Board",
+        "slug": "jill_evanko",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Chairperson responsible for board governance, executive oversight, and strategic direction. Evanko is former Huntington Ingalls Industries (HII) executive; brings deep defense-industrial expertise. Chair's role includes Naval Nuclear Propulsion contract negotiations, microreactor partnership governance, and shareholder engagement.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Weekly Naval Nuclear Propulsion Backlog Conversion Rate",
+        "slug": "naval_backlog_conversion",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Quarterly backlog-to-revenue ratio tracks BWXT's Naval Nuclear Propulsion contract execution. Target ratio >3.0x annual revenue indicates multi-year funded pipeline. Backlog conversion rate (quarterly revenue / total backlog) signals production efficiency and schedule adherence. Declining backlog-to-revenue ratio could indicate slower contract awards or production delays; rising ratio indicates strong Navy funding and contract growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Quarterly Free Cash Flow and Debt Service Coverage",
+        "slug": "fcf_debt_coverage",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Quarterly free cash flow (operating cash flow minus capital expenditures) and debt service coverage ratio (EBITDA / interest expense) track BWXT's financial health and capital allocation flexibility. Target debt service coverage >1.5x indicates strong ability to service $1.85B debt portfolio. Declining FCF or coverage ratio could signal operational challenges, increased capital intensity, or margin compression.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Project Pele NRC Licensing Milestone Announcements",
+        "slug": "project_pele_nrc_milestones",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "NRC design certification and licensing milestone announcements for Project Pele microreactor signal commercialization progress. Target NRC approval 2025–2026; delays beyond 2026 would indicate technical or regulatory headwinds. Successful NRC approval would unlock DoD microreactor deployment and commercial utility contracts, creating $50–100M+ new revenue stream by 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "earnings-call"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "defense",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:26.890Z",
+      "overrideCount": 13
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Cameco Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Specialty Metals Alloys (Allegheny Technologies / ATI)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Zirconium Suppliers (Allegheny Technologies, Sandvik, Wesco)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Stainless Steel Suppliers (Carpenter Technology, Outokumpu, Nippon Steel)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "dlPFC": {
+        "external_add": [
+          {
+            "name": "Westinghouse Electric Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Honeywell International Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Mandiant (Google Cloud Security)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "CrowdStrike Holdings, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "United States Navy (Naval Nuclear Propulsion Program)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Department of Energy National Nuclear Security Administration (NNSA)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Weekly Naval Nuclear Propulsion Backlog Conversion Rate",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "Project Pele NRC Licensing Milestone Announcements",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Department of Defense (Project Pele Microreactor Program)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Duke Energy Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Exelon Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Dominion Energy",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "United States Navy Logistics Command (NAVSUP)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Electric Boat (General Dynamics)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Huntington Ingalls Industries (HII)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Department of Energy Office of Naval Reactors (ONR)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "X-Energy Reactor Company",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "NuScale Power Corporation",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "GE Hitachi Nuclear Energy",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Westinghouse Electric Company (Commercial Division)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Framatome (Areva / EDF subsidiary)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "Nuclear Regulatory Commission (NRC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Department of Energy Office of Naval Reactors (ONR)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Defense Contract Management Agency (DCMA) & Defense Contract Audit Agency (DCAA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Directorate of Defense Trade Controls (DDTC) & Bureau of Industry and Security (BIS)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "Defense Counterintelligence and Security Agency (DCSA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Environmental Protection Agency (EPA) & Occupational Safety and Health Administration (OSHA)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Quarterly Free Cash Flow and Debt Service Coverage",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Vanguard Group, Inc.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "BlackRock, Inc.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "CAUD": {
+        "external_add": [
+          {
+            "name": "Defense Contract Management Agency (DCMA) & Defense Contract Audit Agency (DCAA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators_compliance_overlay"
+          }
+        ]
+      }
+    }
+  }
+}

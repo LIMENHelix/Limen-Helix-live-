@@ -1,0 +1,910 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "bridgestone_americas",
+  "slug": "bridgestone_americas",
+  "name": "Bridgestone Americas, Inc.",
+  "ticker": null,
+  "cik": null,
+  "sic": "3011",
+  "industry": "Tire and Inner Tube Manufacturing",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "TOTALSA",
+    "MMNRNJ",
+    "INDPRO",
+    "UMCSENT",
+    "HOUST",
+    "VIXCLS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "natural rubber",
+    "synthetic rubber",
+    "crude oil",
+    "steel",
+    "carbon black",
+    "sulfur"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Commodity-price volatility in natural rubber and crude oil inputs",
+    "Cyclical exposure to automotive OEM production and replacement-tire demand",
+    "Private subsidiary status limits public financial transparency and equity-market pricing signals"
+  ],
+  "opportunitySignals": [
+    "EV adoption driving demand for low-rolling-resistance and high-performance tire segments",
+    "Aftermarket tire replacement cycle resilience during economic downturns",
+    "Sustainability-focused tire recycling and circular-economy positioning"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Bridgestone Americas is the largest tire manufacturer in North America by volume and revenue, supplying original-equipment tires to all major automotive OEMs (Ford, GM, Stellantis, Tesla, Toyota) and commanding approximately 30% of the U.S. replacement-tire market through its Bridgestone, Firestone, and Fuzion brands. The company operates 11 manufacturing plants across the U.S. and Mexico, making it a critical node in automotive supply chains and a bellwether for both OEM production cycles and consumer vehicle replacement demand.",
+  "portalRelevance": "Bridgestone Americas is a tier-1 anchor supplier to the automotive sector and a leading indicator of vehicle-production health, tire-demand elasticity, and commodity-input cost pressures. As a private subsidiary of Japan's Bridgestone Corporation (TSE: 5108), it lacks direct equity-market signals but its operational metrics—capacity utilization, OEM order books, and replacement-tire sell-through—are material to automotive-supply-chain forecasting and commodity-hedging strategies.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "OEM production schedules and order-book depth from Ford, GM, Stellantis, Toyota quarterly filings",
+        "Replacement-tire sell-through via Tire Industry Association (TIA) monthly data and dealer inventory reports",
+        "Commodity-input prices (natural rubber, crude oil, steel) via CME and ICE futures; carbon-black and sulfur spot pricing",
+        "Bridgestone parent (TSE: 5108) quarterly earnings and guidance for Americas segment revenue and margin"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Capacity utilization rate across 11 North American plants; idle-capacity risk during OEM production downturns",
+        "OEM tire-attachment rates (units per vehicle) and mix shift toward higher-margin performance/EV tires",
+        "Replacement-tire demand elasticity relative to vehicle miles traveled (VMT) and used-vehicle inventory levels",
+        "Input-cost pass-through lag: quarterly margin compression/expansion relative to commodity-price moves 1–2 quarters prior"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: OEM production guidance cuts → 60–90 day lag to Bridgestone capacity underutilization and fixed-cost absorption risk",
+        "Replacement-tire demand inflection: used-vehicle prices decline → VMT recovery → aftermarket demand surge (countercyclical to OEM)",
+        "Commodity-cost shock signature: crude oil +$20/bbl → 4–6 week lag to synthetic-rubber cost spike → margin compression if pricing power insufficient",
+        "EV-mix acceleration: Tesla, Ford F-150 Lightning ramp → demand for low-rolling-resistance tires; Bridgestone's EV-tire portfolio penetration vs. Goodyear, Michelin"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Tire-labeling and fuel-efficiency standards (NHTSA TREAD Act, EU 1222/2009) drive R&D spend and product-mix constraints",
+        "Environmental regulations on tire-waste recycling and microplastic emissions; Bridgestone's circular-economy commitments vs. regulatory timelines",
+        "Tariff exposure: Mexico-sourced tires subject to U.S. tariff policy; USMCA rules-of-origin compliance for cross-border supply",
+        "Labor-cost inflation and union negotiations at U.S. plants; 2023 UAW contract settlements as wage-floor precedent"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Commodity-hedging strategy: natural-rubber and crude-oil futures positions to lock input costs; quarterly rebalancing tied to OEM order visibility",
+        "Capacity-management playbook: temporary plant shutdowns or shift reductions during OEM production cuts; rehiring lag during recovery",
+        "Pricing-power levers: OEM contract renegotiations (annual, tied to commodity indices); replacement-tire price increases during demand strength",
+        "Portfolio optimization: accelerate EV-tire SKU ramp; divest or consolidate lower-margin commodity-tire capacity; geographic footprint rationalization"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Monthly TIA tire-shipment data and dealer inventory turns; weekly OEM production schedules vs. Bridgestone capacity utilization",
+        "Quarterly Bridgestone parent earnings: Americas segment revenue, operating margin, and guidance revisions",
+        "Commodity-price tracking: CME natural-rubber, crude-oil, and steel futures; spot carbon-black and sulfur pricing",
+        "Competitive benchmarking: Goodyear (GT) and Cooper Tire (CTB) quarterly results, margin trends, and EV-tire market-share gains"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate OEM-production elasticity: if EV ramp accelerates faster than historical ICE replacement cycles, shorten lead-lag assumptions",
+        "Update replacement-tire demand model: incorporate used-vehicle price index and VMT data; adjust for post-pandemic normalization in miles driven",
+        "Commodity-hedging sensitivity: if crude-oil volatility increases, tighten hedge ratios and shorten duration to capture margin-protection value",
+        "Competitive-positioning reassessment: track Bridgestone's EV-tire market share vs. Michelin and Goodyear; adjust supply-chain risk if Bridgestone loses OEM attachments"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SA",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Crude Oil",
+        "relationshipNote": "Primary crude-oil supplier for synthetic-rubber and carbon-black feedstock. Bridgestone's synthetic-rubber production depends on crude-derived naphtha; Saudi Aramco's pricing and supply reliability directly impact Bridgestone's input costs. Spot and contract purchases; pricing typically indexed to Brent crude with 30–60 day lag. Represents approximately 15–20% of Bridgestone Americas' total input-cost base.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Goodyear Tire & Rubber Company",
+        "ticker": "GT",
+        "cik": "0000354950",
+        "slug": "goodyear",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Benchmarking — Tire Manufacturing",
+        "relationshipNote": "Second-largest U.S. tire manufacturer with ~18% market share. Goodyear's 2023 restructuring (plant closures, workforce reductions) and margin recovery trajectory provide real-time competitive intelligence. GT's quarterly earnings and guidance shifts signal sector-wide demand and pricing-power trends. Bridgestone monitors GT's OEM contract wins and EV-tire adoption rates closely.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Cooper Tire & Rubber Company",
+        "ticker": "CTB",
+        "cik": "0000021050",
+        "slug": "cooper_tire",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Benchmarking — Value-Tier Tires",
+        "relationshipNote": "Smaller competitor focused on value and mid-tier replacement tires. CTB's 2021 acquisition by Apollo Tyres (India) shifted competitive dynamics; Apollo's cost structure and emerging-market scale create pricing pressure on Bridgestone's lower-margin SKUs. CTB's quarterly results and capacity utilization inform Bridgestone's commodity-tire portfolio strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Cabot Corporation",
+        "ticker": "CBT",
+        "cik": "0000012996",
+        "slug": "cabot_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Carbon Black",
+        "relationshipNote": "Leading global carbon-black supplier; Bridgestone Americas sources carbon black for tire compounds from Cabot and competitors (Orion, Birla). Carbon black represents ~8–12% of tire manufacturing cost. Cabot's pricing power and supply reliability directly impact Bridgestone's gross margins. Long-term supply agreements with quarterly price adjustments tied to crude-oil indices.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Orion Engineered Carbons",
+        "ticker": "OECG",
+        "cik": "0001634789",
+        "slug": "orion_engineered_carbons",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Carbon Black",
+        "relationshipNote": "Second-tier carbon-black supplier competing with Cabot for Bridgestone's feedstock contracts. OECG's 2023–2024 capacity expansions and pricing strategies influence Bridgestone's supplier-diversification decisions. Bridgestone maintains dual-source relationships to mitigate supply-chain risk; OECG's cost competitiveness vs. Cabot shapes annual contract negotiations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Trinseo PLC",
+        "ticker": "TSE",
+        "cik": "0001474778",
+        "slug": "trinseo",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Synthetic Rubber",
+        "relationshipNote": "Major synthetic-rubber (SBR, BR) supplier to Bridgestone Americas. Trinseo's 2023 capacity rationalization and cost-reduction initiatives directly impact Bridgestone's input-cost structure. Bridgestone sources synthetic rubber from Trinseo, Lanxess, and Kumho; Trinseo's quarterly pricing and supply reliability are critical to tire-compound formulation and margin management.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lanxess AG",
+        "ticker": "LNXS.DE",
+        "cik": null,
+        "slug": "lanxess",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Synthetic Rubber & Specialty Chemicals",
+        "relationshipNote": "European synthetic-rubber and specialty-chemical supplier; Bridgestone Americas sources SBR and butyl rubber from Lanxess for tire-compound formulations. Lanxess's 2023 restructuring and cost-reduction programs influence global synthetic-rubber pricing. Long-term supply agreements with quarterly price adjustments; represents ~10–15% of Bridgestone's synthetic-rubber sourcing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ArcelorMittal",
+        "ticker": "MT",
+        "cik": "0001398831",
+        "slug": "arcelormittal",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Steel Wire & Bead Wire",
+        "relationshipNote": "Primary supplier of steel wire and bead wire for tire reinforcement. ArcelorMittal's pricing power and supply reliability directly impact Bridgestone's cost structure; steel represents ~5–8% of tire manufacturing cost. 2023–2024 steel-price volatility and ArcelorMittal's capacity utilization influence Bridgestone's quarterly margin guidance and input-cost hedging strategies.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Logistics",
+        "relationshipNote": "Major logistics and freight partner for Bridgestone Americas' tire distribution to OEM plants and distribution centers. J.B. Hunt operates dedicated lanes for Bridgestone shipments; contract includes volume commitments and fuel-surcharge adjustments. Represents ~15–20% of Bridgestone's outbound logistics spend. Capacity constraints and driver shortages directly impact Bridgestone's delivery reliability to OEMs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Logistics",
+        "relationshipNote": "Secondary logistics partner providing LTL and dedicated-fleet services for Bridgestone tire distribution. XPO's 2023 restructuring and cost-reduction initiatives influence Bridgestone's freight-cost negotiations. Dual-sourcing with J.B. Hunt provides supply-chain redundancy; XPO's capacity and pricing flexibility are critical during demand spikes or logistics disruptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "General Motors Company",
+        "ticker": "GM",
+        "cik": "0001467858",
+        "slug": "general_motors",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — OEM Anchor Customer",
+        "relationshipNote": "Bridgestone supplies original-equipment tires to GM's North American vehicle production (Chevrolet, GMC, Cadillac, Buick). GM represents approximately 20–25% of Bridgestone Americas' OEM tire revenue. 2023–2024 EV ramp (Ultium platform, Bolt, Lyriq) drives demand for low-rolling-resistance tires; Bridgestone's EV-tire attachment rates on GM vehicles are critical to margin trajectory. Annual contract negotiations tied to commodity indices.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ford Motor Company",
+        "ticker": "F",
+        "cik": "0000037996",
+        "slug": "ford",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — OEM Anchor Customer",
+        "relationshipNote": "Bridgestone supplies OEM tires to Ford's North American production (F-150, Mustang, Explorer, F-150 Lightning EV). Ford represents approximately 18–22% of Bridgestone Americas' OEM revenue. F-150 Lightning ramp and Mustang Mach-E production growth drive EV-tire demand; Bridgestone's pricing and delivery reliability are critical to Ford's production schedules. Quarterly order forecasts and annual contract resets.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Stellantis N.V.",
+        "ticker": "STLA",
+        "cik": "0001899243",
+        "slug": "stellantis",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — OEM Anchor Customer",
+        "relationshipNote": "Bridgestone supplies OEM tires to Stellantis North American plants (Jeep, Ram, Dodge, Chrysler, Fiat). Stellantis represents approximately 15–18% of Bridgestone Americas' OEM revenue. 2023–2024 production cuts and restructuring reduce near-term OEM demand; Jeep Wrangler 4xe and Ram 1500 Revolution EV ramp create EV-tire opportunities. Contract negotiations include volume commitments and commodity-index escalators.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Toyota Motor Corporation",
+        "ticker": "7203.T",
+        "cik": null,
+        "slug": "toyota",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — OEM Anchor Customer",
+        "relationshipNote": "Bridgestone supplies OEM tires to Toyota's North American production (Camry, Corolla, RAV4, Highlander, Tundra). Toyota represents approximately 12–15% of Bridgestone Americas' OEM revenue. Toyota's hybrid and EV expansion (bZ4X, RAV4 Prime) drives demand for fuel-efficient tire compounds. Bridgestone's long-term partnership with Toyota includes joint R&D on EV-tire performance and sustainability initiatives.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tesla, Inc.",
+        "ticker": "TSLA",
+        "cik": "0001318605",
+        "slug": "tesla",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — OEM Growth Customer",
+        "relationshipNote": "Bridgestone supplies OEM tires to Tesla's Fremont and Austin Gigafactories (Model 3, Model Y, Cybertruck). Tesla represents approximately 5–8% of Bridgestone Americas' OEM revenue but is fastest-growing segment. Tesla's aggressive EV-tire specifications (low rolling resistance, high performance) drive Bridgestone's EV-tire R&D roadmap. 2023–2024 Tesla production ramp and Cybertruck scaling increase Bridgestone's capacity utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Bridgestone Corporation",
+        "ticker": "5108.T",
+        "cik": null,
+        "slug": "bridgestone_corporation",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Parent Company",
+        "relationshipNote": "Bridgestone Americas is a wholly-owned subsidiary of Bridgestone Corporation (TSE: 5108), Japan's largest tire manufacturer. Parent company provides capital, strategic direction, and global supply-chain coordination. Bridgestone Americas' financial performance is consolidated into parent's quarterly earnings; parent's dividend policy and capital-allocation decisions directly impact subsidiary's investment capacity. 2023 parent guidance targets 10% operating-margin improvement by 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Firestone Complete Auto Care",
+        "ticker": null,
+        "cik": null,
+        "slug": "firestone_complete_auto_care",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Retail Distribution",
+        "relationshipNote": "Bridgestone-owned retail tire-and-service chain with ~2,000 locations across North America. Firestone is primary distribution channel for Bridgestone and Firestone-brand replacement tires; represents approximately 25–30% of Bridgestone Americas' replacement-tire revenue. Firestone's same-store sales and customer-traffic trends are leading indicators of replacement-tire demand elasticity. 2023–2024 store-productivity improvements and digital-sales expansion drive margin recovery.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tire Rack",
+        "ticker": null,
+        "cik": null,
+        "slug": "tire_rack",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — E-Commerce Distribution",
+        "relationshipNote": "Leading online tire retailer; Bridgestone supplies Bridgestone, Firestone, and Fuzion tires to Tire Rack's e-commerce platform. Tire Rack represents approximately 8–12% of Bridgestone Americas' replacement-tire revenue and is fastest-growing channel. Tire Rack's online sales data and customer reviews provide real-time demand signals and competitive-pricing intelligence. 2023–2024 e-commerce growth accelerates Bridgestone's digital-distribution strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Costco Wholesale Corporation",
+        "ticker": "COST",
+        "cik": "0000909832",
+        "slug": "costco",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Retail Distribution",
+        "relationshipNote": "Major wholesale retailer selling Bridgestone and Firestone tires through ~600 Costco locations in North America. Costco represents approximately 5–8% of Bridgestone Americas' replacement-tire volume. Costco's tire-sales trends and inventory turns are leading indicators of consumer demand and price sensitivity. Bridgestone's pricing power at Costco is limited by Costco's membership-value positioning; margin pressure from Costco's volume leverage.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Retail Distribution",
+        "relationshipNote": "Major mass-market retailer selling Bridgestone and Firestone tires through ~4,700 Walmart stores and Sam's Club locations in North America. Walmart represents approximately 10–15% of Bridgestone Americas' replacement-tire revenue. Walmart's tire-sales velocity and promotional calendars drive Bridgestone's quarterly demand forecasts. Bridgestone's pricing power at Walmart is constrained by Walmart's everyday-low-price positioning; margin compression risk during promotional periods.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Federal regulator overseeing public-company disclosures and capital-market integrity. Bridgestone Americas is private subsidiary; parent Bridgestone Corporation (TSE: 5108) files with SEC as foreign private issuer (20-F). SEC's regulatory actions on tire safety, labeling, and disclosure standards indirectly impact Bridgestone's compliance obligations and product-liability exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "National Highway Traffic Safety Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "nhtsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Safety & Compliance",
+        "relationshipNote": "U.S. Department of Transportation agency regulating tire safety, labeling (TREAD Act), and fuel-efficiency standards. NHTSA's tire-recall authority and safety investigations directly impact Bridgestone's product-liability exposure and manufacturing compliance costs. 2023–2024 NHTSA focus on EV-tire performance and thermal-management standards influences Bridgestone's R&D roadmap and testing protocols.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental Compliance",
+        "relationshipNote": "Federal regulator overseeing tire-waste management, microplastic emissions, and manufacturing-facility environmental compliance. EPA's 2023–2024 focus on tire-derived fuel (TDF) regulations and microplastic pollution from tire wear impacts Bridgestone's sustainability strategy and manufacturing-process investments. Bridgestone's tire-recycling initiatives and circular-economy commitments are aligned with EPA's environmental-protection goals.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. International Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "usitc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic — Tariffs & Trade",
+        "relationshipNote": "Federal agency regulating tariffs, trade remedies, and import duties. Bridgestone Americas' Mexico-sourced tire production is subject to USMCA rules-of-origin compliance and U.S. tariff policy. 2023–2024 tariff uncertainty on imported tires and raw materials (rubber, steel) impacts Bridgestone's cost structure and pricing strategy. ITC's antidumping investigations on imported tires influence competitive dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Labor",
+        "ticker": null,
+        "cik": null,
+        "slug": "dol",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Labor",
+        "relationshipNote": "Federal regulator overseeing labor standards, workplace safety, and union relations. Bridgestone Americas operates unionized plants (UAW, USW); 2023 UAW contract settlements set wage-floor precedent for Bridgestone's labor-cost negotiations. DOL's OSHA inspections and workplace-safety standards influence Bridgestone's manufacturing-cost structure and capital-investment priorities.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "Deloitte LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "Big-Four auditor providing financial and operational audit services to Bridgestone Americas and parent Bridgestone Corporation. Deloitte's audit opinions and internal-control assessments inform parent company's financial reporting and risk-management disclosures. Deloitte's advisory services support Bridgestone's EV-tire R&D, supply-chain optimization, and sustainability-reporting initiatives.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Primary banking and credit-facility provider to Bridgestone Americas. JPMorgan manages Bridgestone's revolving credit facility, working-capital financing, and commodity-hedging services. 2023–2024 credit-facility terms and interest-rate adjustments reflect Bridgestone's leverage ratios and operational performance. JPMorgan's market intelligence on automotive-sector trends informs Bridgestone's strategic planning.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Secondary banking partner providing credit facilities, cash-management services, and trade financing to Bridgestone Americas. BofA's commodity-hedging desk supports Bridgestone's natural-rubber and crude-oil futures positions. 2023–2024 credit-facility terms reflect Bridgestone's leverage and operational metrics. BofA's automotive-sector research informs Bridgestone's competitive-positioning analysis.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bridgestone Corporation Board of Directors",
+        "ticker": null,
+        "cik": null,
+        "slug": "bridgestone_board",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership — Governance",
+        "relationshipNote": ". Bridgestone Corporation's board oversees Americas subsidiary strategy, capital allocation, and executive compensation. Board's 2023–2024 focus on EV-tire R&D, margin-improvement targets, and sustainability commitments shapes Bridgestone Americas' operational priorities. Board's risk-management oversight includes commodity-hedging strategy and supply-chain resilience.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tire Industry Association",
+        "ticker": null,
+        "cik": null,
+        "slug": "tire_industry_association",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Market Intelligence",
+        "relationshipNote": "Trade association providing monthly tire-shipment data, dealer-inventory reports, and industry-trend analysis. TIA's monthly U.S. tire-shipment index is a leading indicator of replacement-tire demand and OEM production cycles. Bridgestone uses TIA data to benchmark market-share trends vs. Goodyear, Michelin, and Cooper. TIA's quarterly reports inform Bridgestone's demand-forecasting and capacity-planning models.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "S&P Global Platts",
+        "ticker": "SPGI",
+        "cik": "0001891437",
+        "slug": "sp_global_platts",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — Commodity Pricing",
+        "relationshipNote": "Leading commodity-pricing and market-intelligence provider. S&P Global Platts publishes daily natural-rubber, crude-oil, and carbon-black spot prices that Bridgestone uses for commodity-hedging decisions and input-cost forecasting. Platts' monthly energy and chemicals reports inform Bridgestone's quarterly margin guidance and pricing-power assessments. Bridgestone subscribes to Platts' real-time pricing feeds for operational hedging.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Logistics",
+        "relationshipNote": "Major logistics and freight partner for Bridgestone Americas' tire distribution to OEM plants and distribution centers. J.B. Hunt operates dedicated lanes for Bridgestone shipments; contract includes volume commitments and fuel-surcharge adjustments. Represents ~15–20% of Bridgestone's outbound logistics spend. Capacity constraints and driver shortages directly impact Bridgestone's delivery reliability to OEMs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Logistics",
+        "relationshipNote": "Secondary logistics partner providing LTL and dedicated-fleet services for Bridgestone tire distribution. XPO's 2023 restructuring and cost-reduction initiatives influence Bridgestone's freight-cost negotiations. Dual-sourcing with J.B. Hunt provides supply-chain redundancy; XPO's capacity and pricing flexibility are critical during demand spikes or logistics disruptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schneider National, Inc.",
+        "ticker": "SNDR",
+        "cik": "0000091440",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Logistics",
+        "relationshipNote": "Third-party logistics provider offering dedicated and intermodal services for Bridgestone tire distribution. Schneider National's 2023–2024 capacity expansion and technology investments (autonomous vehicles, route optimization) support Bridgestone's supply-chain efficiency goals. Represents approximately 5–10% of Bridgestone's outbound logistics spend; contract includes performance-based pricing and sustainability metrics.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Universal Truckload Services",
+        "ticker": null,
+        "cik": null,
+        "slug": "universal_truckload_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Logistics",
+        "relationshipNote": "Regional LTL and dedicated-fleet provider supporting Bridgestone's tire distribution to regional distribution centers and retail partners. Universal Truckload's regional footprint and flexible capacity provide supply-chain redundancy during peak demand periods. Represents approximately 3–5% of Bridgestone's logistics spend; contract includes seasonal capacity adjustments and fuel-surcharge provisions.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [],
+    "competitors": [
+      {
+        "name": "Michelin & Cie",
+        "ticker": "ML.PA",
+        "cik": null,
+        "slug": "michelin",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Direct competitor in OEM and replacement-tire markets. Michelin holds ~20% U.S. tire market share vs. Bridgestone's ~30%. Competes aggressively on EV-tire technology and premium positioning. 2023–2024 capacity rationalization in North America signals margin pressure across sector; Michelin's pricing moves and product-mix shifts inform Bridgestone's strategic responses.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Goodyear Tire & Rubber Company",
+        "ticker": "GT",
+        "cik": "0000354950",
+        "slug": "goodyear",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Second-largest U.S. tire manufacturer with ~18% market share. Goodyear's 2023 restructuring (plant closures, workforce reductions) and margin recovery trajectory provide real-time competitive intelligence. GT's quarterly earnings and guidance shifts signal sector-wide demand and pricing-power trends. Bridgestone monitors GT's OEM contract wins and EV-tire adoption rates closely.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Cooper Tire & Rubber Company",
+        "ticker": "CTB",
+        "cik": "0000021050",
+        "slug": "cooper_tire",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Smaller competitor focused on value and mid-tier replacement tires. CTB's 2021 acquisition by Apollo Tyres (India) shifted competitive dynamics; Apollo's cost structure and emerging-market scale create pricing pressure on Bridgestone's lower-margin SKUs. CTB's quarterly results and capacity utilization inform Bridgestone's commodity-tire portfolio strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Continental AG",
+        "ticker": "CON.DE",
+        "cik": null,
+        "slug": "continental",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "German tire and automotive-supplier conglomerate with ~8–10% U.S. tire market share. Continental competes in OEM and premium replacement-tire segments; strong EV-tire technology positioning. Continental's 2023–2024 restructuring and cost-reduction initiatives signal competitive pressure on Bridgestone's premium-tire margins. Continental's autonomous-vehicle and sensor-integration strategies represent adjacent-category competitive threat.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Pirelli & C. S.p.A.",
+        "ticker": "PIRG.MI",
+        "cik": null,
+        "slug": "pirelli",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Italian premium-tire manufacturer with ~5–7% U.S. market share, focused on high-performance and luxury segments. Pirelli's 2023–2024 EV-tire R&D and premium-positioning strategy compete directly with Bridgestone's Turanza and Potenza lines. Pirelli's Chinese ownership (ChemChina) and emerging-market cost advantages create pricing pressure on Bridgestone's premium-tire margins.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Federal regulator overseeing public-company disclosures and capital-market integrity. Bridgestone Americas is private subsidiary; parent Bridgestone Corporation (TSE: 5108) files with SEC as foreign private issuer (20-F). SEC's regulatory actions on tire safety, labeling, and disclosure standards indirectly impact Bridgestone's compliance obligations and product-liability exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "National Highway Traffic Safety Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "nhtsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Safety & Compliance",
+        "relationshipNote": "U.S. Department of Transportation agency regulating tire safety, labeling (TREAD Act), and fuel-efficiency standards. NHTSA's tire-recall authority and safety investigations directly impact Bridgestone's product-liability exposure and manufacturing compliance costs. 2023–2024 NHTSA focus on EV-tire performance and thermal-management standards influences Bridgestone's R&D roadmap and testing protocols.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental Compliance",
+        "relationshipNote": "Federal regulator overseeing tire-waste management, microplastic emissions, and manufacturing-facility environmental compliance. EPA's 2023–2024 focus on tire-derived fuel (TDF) regulations and microplastic pollution from tire wear impacts Bridgestone's sustainability strategy and manufacturing-process investments. Bridgestone's tire-recycling initiatives and circular-economy commitments are aligned with EPA's environmental-protection goals.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. International Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "usitc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic — Tariffs & Trade",
+        "relationshipNote": "Federal agency regulating tariffs, trade remedies, and import duties. Bridgestone Americas' Mexico-sourced tire production is subject to USMCA rules-of-origin compliance and U.S. tariff policy. 2023–2024 tariff uncertainty on imported tires and raw materials (rubber, steel) impacts Bridgestone's cost structure and pricing strategy. ITC's antidumping investigations on imported tires influence competitive dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Labor",
+        "ticker": null,
+        "cik": null,
+        "slug": "dol",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Labor",
+        "relationshipNote": "Federal regulator overseeing labor standards, workplace safety, and union relations. Bridgestone Americas operates unionized plants (UAW, USW); 2023 UAW contract settlements set wage-floor precedent for Bridgestone's labor-cost negotiations. DOL's OSHA inspections and workplace-safety standards influence Bridgestone's manufacturing-cost structure and capital-investment priorities.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "Big-Four auditor providing financial and operational audit services to Bridgestone Americas and parent Bridgestone Corporation. Deloitte's audit opinions and internal-control assessments inform parent company's financial reporting and risk-management disclosures. Deloitte's advisory services support Bridgestone's EV-tire R&D, supply-chain optimization, and sustainability-reporting initiatives.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Primary banking and credit-facility provider to Bridgestone Americas. JPMorgan manages Bridgestone's revolving credit facility, working-capital financing, and commodity-hedging services. 2023–2024 credit-facility terms and interest-rate adjustments reflect Bridgestone's leverage ratios and operational performance. JPMorgan's market intelligence on automotive-sector trends informs Bridgestone's strategic planning.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Secondary banking partner providing credit facilities, cash-management services, and trade financing to Bridgestone Americas. BofA's commodity-hedging desk supports Bridgestone's natural-rubber and crude-oil futures positions. 2023–2024 credit-facility terms reflect Bridgestone's leverage and operational metrics. BofA's automotive-sector research informs Bridgestone's competitive-positioning analysis.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bridgestone Corporation",
+        "ticker": "5108.T",
+        "cik": null,
+        "slug": "bridgestone_corporation",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Parent Company / Capital Provider",
+        "relationshipNote": "Bridgestone Americas is a wholly-owned subsidiary of Bridgestone Corporation (TSE: 5108), Japan's largest tire manufacturer. Parent company provides capital, strategic direction, and global supply-chain coordination. Bridgestone Americas' financial performance is consolidated into parent's quarterly earnings; parent's dividend policy and capital-allocation decisions directly impact subsidiary's investment capacity. 2023 parent guidance targets 10% operating-margin improvement by 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Tire Industry Association Monthly Shipment Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "tia_monthly_shipment_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Market Intelligence",
+        "relationshipNote": "TIA publishes monthly U.S. tire-shipment data (OEM and replacement segments) that serves as a leading indicator of Bridgestone's demand trajectory. Monthly shipment index tracks unit volumes and year-over-year growth rates; Bridgestone's market-share trends are inferred from TIA data and company guidance. TIA's quarterly reports provide competitive benchmarking vs. Goodyear, Michelin, and Cooper.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Automotive OEM Production Schedules",
+        "ticker": null,
+        "cik": null,
+        "slug": "oem_production_schedules",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — Production Demand",
+        "relationshipNote": "Ford (F), GM (GM), Stellantis (STLA), and Toyota (7203.T) quarterly earnings and guidance provide forward-looking OEM production schedules and tire-demand forecasts. OEM production cuts or ramps directly impact Bridgestone's quarterly revenue and capacity utilization. Bridgestone's OEM revenue represents ~40–45% of total revenue; OEM guidance shifts are material to Bridgestone's earnings forecasts.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      }
+    ]
+  }
+}

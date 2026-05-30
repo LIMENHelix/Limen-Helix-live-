@@ -1,0 +1,2787 @@
+{
+  "domainId": "p2_agri_fertilizer",
+  "title": "Fertilizers & Nutrients",
+  "parentPortal": "p2_agri_portal.html",
+  "parentLabel": "Agriculture",
+  "phase": "P1",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Nitrogen",
+      "domainDescription": "Anhydrous ammonia, urea, and UAN solutions for primary crop nutrition",
+      "group": "macronutrients",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_fertilizer_nitrogen_portal.html",
+      "treatments": [
+        {
+          "label": "4R Nitrogen Rate Optimization",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Implement the 4R framework (Right source, Right rate, Right time, Right place) to calibrate nitrogen rates to crop-specific yield goals using university-validated response curves. Maximum Return to Nitrogen (MRTN) calculators replace flat-rate prescriptions with economic-optimum rates that reduce surplus nitrogen available for runoff and volatilization.",
+          "cite": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C. (2006). Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn. Iowa State University Extension PM 2015, 1-28; Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A. (2005). Field-scale variability in optimal nitrogen fertilizer rate for corn. Agronomy Journal, 97(2), 452-461. doi:10.2134/agronj2005.0452",
+          "target": "NUTRIENT_RUNOFF -> Excess N application -> Rate calibration -> Reduced surplus",
+          "citation": [
+            {
+              "author": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C.",
+              "year": 2006,
+              "title": "Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn",
+              "journal": "Iowa State University Extension PM 2015",
+              "volume": null,
+              "pages": "1-28",
+              "doi": null
+            },
+            {
+              "author": "Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A.",
+              "year": 2005,
+              "title": "Field-scale variability in optimal nitrogen fertilizer rate for corn",
+              "journal": "Agronomy Journal",
+              "volume": "97(2)",
+              "pages": "452-461",
+              "doi": "10.2134/agronj2005.0452"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or agronomist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Enhanced Efficiency Fertilizer Selection",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Deploy nitrification inhibitors (e.g., nitrapyrin, DCD) and controlled-release coatings on urea and UAN to slow nitrogen transformation and synchronize availability with crop uptake windows. This reduces both leaching losses and acidification pressure from rapid nitrification of ammonium-N sources.",
+          "cite": "Kirwan, B.E. (2009). The incidence of U.S. agricultural subsidies on farmland rental rates. Journal of Political Economy, 117(1), 138-164. doi:10.1086/598688; Tsoodle, L.J., Golden, B.B. & Featherstone, A.M. (2006). Factors influencing Kansas agricultural farm land values. Land Economics, 82(1), 124-139. doi:10.3368/le.82.1.124",
+          "target": "SOIL_ACIDIFICATION -> Rapid nitrification -> Inhibitor slows conversion -> Reduced H+ generation",
+          "citation": [
+            {
+              "author": "Kirwan, B.E.",
+              "year": 2009,
+              "title": "The incidence of U.S. agricultural subsidies on farmland rental rates",
+              "journal": "Journal of Political Economy",
+              "volume": "117(1)",
+              "pages": "138-164",
+              "doi": "10.1086/598688"
+            },
+            {
+              "author": "Tsoodle, L.J., Golden, B.B. & Featherstone, A.M.",
+              "year": 2006,
+              "title": "Factors influencing Kansas agricultural farm land values",
+              "journal": "Land Economics",
+              "volume": "82(1)",
+              "pages": "124-139",
+              "doi": "10.3368/le.82.1.124"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or agronomist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Split Application Nitrogen Budgeting",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Divide the total nitrogen budget into a pre-plant starter (30-40%) and one or two in-season side-dress applications timed to V6-V8 corn or Feekes 5-6 wheat, matching nitrogen supply to the exponential uptake curve. Split applications reduce the nitrogen exposure window before crop demand peaks, cutting runoff and leaching risk by 20-40%.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "NUTRIENT_RUNOFF -> Early-season N surplus -> Split timing -> Crop-synchronized uptake",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or agronomist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Nitrogen Source and Acidification Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train agronomists and growers to quantify the acidifying potential of different nitrogen sources using pounds of calcium carbonate equivalent (CCE) required to neutralize each ton applied. Anhydrous ammonia requires approximately 148 lb CCE per 100 lb N, while calcium ammonium nitrate requires only 36 lb. This coaching enables informed source selection on fields with declining pH and integrates lime budgeting into the nitrogen program.",
+          "cite": "[CITATION NEEDED: Train agronomists and growers to quantify the acidifying potential of different nitrogen sources usi]",
+          "target": "SOIL_ACIDIFICATION -> NH4+ source selection -> Grower education -> Proactive lime budgeting",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Train agronomists and growers to quantify the acidifying potential of different nitrogen sources usi]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a domain specialist for root cause analysis and intervention redesign for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Organic-Synthetic Nitrogen Blending Workshop",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Facilitate practitioner workshops on calculating plant-available nitrogen credits from manure and compost (using book values for mineralization rate by source and application method), then bridging the deficit with synthetic nitrogen. Prevents the dual failure of over-applying organic sources for nitrogen while under-crediting their contribution, which drives both phosphorus buildup and unnecessary synthetic cost.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "ORGANIC_NUTRIENT_IMBALANCE -> Manure N credit error -> Accurate mineralization training -> Balanced supplementation",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to an organic certification agent or organic systems specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Lime-Nitrogen Coordination Protocol",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Establish a formal operational protocol requiring that lime application records, soil pH maps, and nitrogen source selection are reviewed together annually before fertilizer orders are placed. This structural linkage ensures that fields receiving high rates of ammonium-based nitrogen are scheduled for maintenance liming before pH drops below the 6.0 threshold where aluminum toxicity and nutrient lockout begin.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "SOIL_ACIDIFICATION -> Uncoordinated N and lime programs -> Integrated review -> pH maintenance",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Micronutrient Interaction Awareness Standard",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Embed into the agronomic advising culture a mandatory check for micronutrient dilution risk whenever nitrogen rates exceed 180 lb/acre on corn. High nitrogen drives rapid biomass accumulation that dilutes tissue zinc, manganese, and boron concentrations below sufficiency, masking deficiency as a yield plateau rather than a visible symptom. Normalizing this check prevents the hidden-hunger trap in high-yield systems.",
+          "cite": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C. (2006). Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn. Iowa State University Extension PM 2015, 1-28; Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A. (2005). Field-scale variability in optimal nitrogen fertilizer rate for corn. Agronomy Journal, 97(2), 452-461. doi:10.2134/agronj2005.0452",
+          "target": "MICRONUTRIENT_DEFICIENCY -> High N dilution effect -> Routine tissue-check norm -> Early deficiency detection",
+          "citation": [
+            {
+              "author": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C.",
+              "year": 2006,
+              "title": "Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn",
+              "journal": "Iowa State University Extension PM 2015",
+              "volume": null,
+              "pages": "1-28",
+              "doi": null
+            },
+            {
+              "author": "Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A.",
+              "year": 2005,
+              "title": "Field-scale variability in optimal nitrogen fertilizer rate for corn",
+              "journal": "Agronomy Journal",
+              "volume": "97(2)",
+              "pages": "452-461",
+              "doi": "10.2134/agronj2005.0452"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a domain specialist for root cause analysis and intervention redesign for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Presidedress Soil Nitrate Test (PSNT) Kit",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy the PSNT (0-12 inch soil sampling at V4-V6 corn) to measure residual soil nitrate before side-dress application. Fields testing above 25 ppm NO3-N can reduce or eliminate the side-dress pass, saving input cost during price spikes and preventing surplus nitrogen that would otherwise be lost to leaching. The PSNT is the most field-validated in-season nitrogen diagnostic available.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "FERTILIZER_PRICE_SHOCK -> Unknown residual N -> PSNT measurement -> Rate reduction on sufficient fields",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Tractors",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Phosphorus",
+      "domainDescription": "MAP, DAP, and superphosphate for root development and energy transfer",
+      "group": "macronutrients",
+      "phase": "P1",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_fertilizer_phosphorus_portal.html",
+      "treatments": [
+        {
+          "label": "Phosphorus Index-Based Rate Limiting",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Apply the USDA Phosphorus Index (PI) to each field, integrating soil test P, erosion potential, distance to waterways, and application method to generate a site-specific risk score. Fields scoring High or Very High are restricted to crop-removal-only P rates or placed on P drawdown, preventing further accumulation while protecting downstream water quality.",
+          "cite": "Lowenberg-DeBoer, J. & Erickson, B. (2019). Setting the record straight on precision agriculture adoption. Agronomy Journal, 111(4), 1552-1569. doi:10.2134/agronj2018.12.0779; Bongiovanni, R. & Lowenberg-DeBoer, J. (2004). Precision agriculture and sustainability. Precision Agriculture, 5(4), 359-387. doi:10.1023/B:PRAG.0000040806.39604.aa",
+          "target": "NUTRIENT_RUNOFF -> P accumulation in surface soil -> PI risk scoring -> Rate restriction on high-risk fields",
+          "citation": [
+            {
+              "author": "Lowenberg-DeBoer, J. & Erickson, B.",
+              "year": 2019,
+              "title": "Setting the record straight on precision agriculture adoption",
+              "journal": "Agronomy Journal",
+              "volume": "111(4)",
+              "pages": "1552-1569",
+              "doi": "10.2134/agronj2018.12.0779"
+            },
+            {
+              "author": "Bongiovanni, R. & Lowenberg-DeBoer, J.",
+              "year": 2004,
+              "title": "Precision agriculture and sustainability",
+              "journal": "Precision Agriculture",
+              "volume": "5(4)",
+              "pages": "359-387",
+              "doi": "10.1023/B:PRAG.0000040806.39604.aa"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Phosphorus Drawdown Scheduling",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "For fields with soil test P above the environmental threshold (typically >50 ppm Bray P1), implement a multi-year drawdown plan that withholds all phosphorus application until levels return to the agronomic optimum range (15-30 ppm). Annual soil testing confirms drawdown trajectory and triggers phosphorus reintroduction only when levels reach the maintenance band.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "ORGANIC_NUTRIENT_IMBALANCE -> Chronic P buildup from manure -> Zero-P years -> Return to agronomic optimum",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Manure-P Credit Calculation Training",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train operators to calculate total P2O5 supplied per ton of manure using lab analysis (not book values), then subtract this from the crop P recommendation before ordering any synthetic phosphorus. Most liquid dairy manure supplies 15-25 lb P2O5 per 1000 gallons; failing to credit this creates the surplus that drives P accumulation and eventual runoff risk.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "ORGANIC_NUTRIENT_IMBALANCE -> Uncredited manure P -> Lab-based crediting -> Eliminated synthetic P overlap",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified crop adviser (CCA) or agronomist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Phosphorus Placement Compliance Audit",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Create a structural audit requiring that all broadcast phosphorus applications are incorporated within 24 hours on fields with slopes >3% or within 300 feet of waterways. Subsurface banding (2x2 starter or deep-band) is mandated on high-PI fields. This structural control reduces dissolved reactive phosphorus in runoff by 40-60% compared to surface broadcast without incorporation.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "NUTRIENT_RUNOFF -> Surface-broadcast P on sloped fields -> Incorporation/banding mandate -> Reduced dissolved P in runoff",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥40-60% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Phosphorus Stewardship Scorecard",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Institute a farm-level Phosphorus Stewardship Scorecard that tracks soil test P trends, application rates relative to removal, and PI scores across all fields annually. Results are reviewed in annual planning meetings, creating visibility and peer accountability for P management decisions. Operations trending upward on soil P are flagged for corrective action before regulatory thresholds are breached.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "NUTRIENT_RUNOFF -> Untracked P accumulation -> Visible scorecard norm -> Proactive drawdown decisions",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified crop adviser (CCA) or soil scientist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Mehlich-3 Phosphorus Extraction Kit",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Standardize on Mehlich-3 extraction for all soil phosphorus testing, ensuring comparability across years and labs. Paired with the NAPT lab accreditation check, this tool provides the analytical foundation for accurate PI scoring, drawdown tracking, and manure-credit verification that the strategy and structural treatments depend on.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "FERTILIZER_PRICE_SHOCK -> Uncertain soil P status -> Accurate Mehlich-3 testing -> Confidence to skip P on sufficient fields",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Seasonal Patterns",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Labor Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Mining and Extraction"
+        },
+        {
+          "domain": "environment",
+          "role": "Geological Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Raw Materials"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Somatosensory Cortex"
+        },
+        {
+          "domain": "technology",
+          "role": "IoT & Sensors"
+        },
+        {
+          "domain": "trade",
+          "role": "Last-Mile Delivery"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator — Signal Detection & Input — Secondary Node"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Potassium",
+      "domainDescription": "Potash and muriate of potash for water regulation and disease resistance",
+      "group": "macronutrients",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_fertilizer_potassium_portal.html",
+      "treatments": [
+        {
+          "label": "Build-Maintain-Draw Potassium Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Classify each field into Build (soil test K below critical level), Maintain (at optimum), or Draw (above optimum) categories, applying potassium only where the soil test warrants it. During price spikes, Draw fields receive zero K and Maintain fields shift to crop-removal-only rates, freeing budget for Build fields where yield response is greatest. This triages potassium investment for maximum economic return.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "FERTILIZER_PRICE_SHOCK -> Uniform K rates across all fields -> Soil-test triage -> Budget concentrated on responsive fields",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Potassium Price-Trigger Decision Matrix",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Establish pre-defined price thresholds (e.g., KCl > $600/ton) that trigger automatic shifts in potassium strategy: at moderate price levels, shift to crop-removal-only; at extreme levels, suspend application on Maintain and Draw fields entirely. Pre-agreed triggers remove emotional decision-making during volatile markets and ensure K is deployed only where the yield penalty for omission exceeds the cost.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "FERTILIZER_PRICE_SHOCK -> Reactive purchasing decisions -> Pre-set price triggers -> Rational allocation under stress",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or agronomist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Potassium Deficiency Scouting Calibration",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train scouts and growers to identify early-season potassium deficiency symptoms (marginal leaf scorch starting on lower leaves in corn, interveinal chlorosis in soybeans) and distinguish these from drought stress or herbicide injury. Accurate in-field diagnosis enables rescue applications before yield loss becomes irreversible, particularly important in years when pre-plant K was reduced due to cost.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "FERTILIZER_PRICE_SHOCK -> Reduced K rates -> Scouting catch of deficiency -> Timely rescue application",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Apply treatment at labeled rates and timing; record product, rate, weather conditions, and growth stage at application",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a domain specialist for root cause analysis and intervention redesign for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Potassium Supply Chain Diversification Policy",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Establish procurement policies requiring multiple potash sourcing relationships (domestic and international) and forward-contracting 40-60% of annual K needs by Q3 of the prior year. Structural diversification reduces exposure to single-supplier disruptions (e.g., Belarus/Russia trade sanctions) and locks in partial cost certainty for budgeting.",
+          "cite": "[CITATION NEEDED: Establish procurement policies requiring multiple potash sourcing relationships (domestic and intern]",
+          "target": "FERTILIZER_PRICE_SHOCK -> Supply concentration risk -> Diversified sourcing -> Price volatility damping",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Establish procurement policies requiring multiple potash sourcing relationships (domestic and intern]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a domain specialist for root cause analysis and intervention redesign for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Potassium Efficiency Mindset Adoption",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Shift organizational culture from 'insurance application' (applying K on every field regardless of soil test) to 'precision sufficiency' where skipping K on high-testing fields is viewed as smart management rather than neglect. This cultural reframe is reinforced through annual soil-test review sessions where Draw-field savings are quantified and celebrated, reducing the psychological barrier to reducing inputs.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "FERTILIZER_PRICE_SHOCK -> Insurance-rate culture -> Efficiency mindset -> Reduced unnecessary application",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Execute financial action: submit applications, secure approvals, document terms and compliance requirements",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified crop adviser (CCA) or soil scientist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Leaf Tissue K Analysis Protocol",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Implement ear-leaf tissue sampling at VT-R1 in corn (or trifoliate at R2 in soybeans) with potassium sufficiency ranges benchmarked against university standards (corn ear-leaf K sufficiency >1.7%). Tissue testing confirms whether reduced soil-applied K is actually limiting plant uptake, providing a safety net that supports aggressive soil-test-based rate reductions during price spikes.",
+          "cite": "Shields, D.A. (2015). Federal Crop Insurance: Background. Congressional Research Service R40532, 1-28; Babcock, B.A. (2015). Using cumulative prospect theory to explain anomalous crop insurance coverage choice. American Journal of Agricultural Economics, 97(5), 1371-1384. doi:10.1093/ajae/aav032",
+          "target": "FERTILIZER_PRICE_SHOCK -> Uncertainty about reduced K impact -> Tissue verification -> Confidence in rate decisions",
+          "citation": [
+            {
+              "author": "Shields, D.A.",
+              "year": 2015,
+              "title": "Federal Crop Insurance: Background",
+              "journal": "Congressional Research Service R40532",
+              "volume": null,
+              "pages": "1-28",
+              "doi": null
+            },
+            {
+              "author": "Babcock, B.A.",
+              "year": 2015,
+              "title": "Using cumulative prospect theory to explain anomalous crop insurance coverage choice",
+              "journal": "American Journal of Agricultural Economics",
+              "volume": "97(5)",
+              "pages": "1371-1384",
+              "doi": "10.1093/ajae/aav032"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Soil Management",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Hydroelectric Power"
+        },
+        {
+          "domain": "environment",
+          "role": "Ocean Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Maritime and Ports"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Brainstem Metabolic Integration"
+        },
+        {
+          "domain": "science",
+          "role": "Earth Sciences"
+        },
+        {
+          "domain": "trade",
+          "role": "Container Shipping"
+        },
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Micronutrients",
+      "domainDescription": "Zinc, manganese, boron, and iron for metabolic enzyme function",
+      "group": "micronutrients",
+      "phase": "P2",
+      "weight": 0.7,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_fertilizer_micronutrients_portal.html",
+      "treatments": [
+        {
+          "label": "pH-Responsive Micronutrient Prescriptions",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Link micronutrient application prescriptions directly to soil pH data: zinc and manganese availability drops sharply above pH 7.2, while molybdenum deficiency appears below pH 5.5. This strategy uses pH as the primary trigger for prophylactic micronutrient application rather than waiting for visible deficiency symptoms, which typically indicate 15-25% yield loss has already occurred.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "SOIL_ACIDIFICATION -> pH-altered availability -> pH-keyed prescriptions -> Preemptive correction",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Micronutrient Sufficiency Range Calibration",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Adopt state-specific DTPA-extractable sufficiency ranges for zinc (>0.8 ppm), manganese (>1.0 ppm), and boron (>0.5 ppm hot water extractable) as application triggers rather than relying solely on visual scouting. Fields testing below these thresholds receive targeted amendments regardless of macronutrient status, breaking the hidden-hunger cycle in high-yield systems.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "MICRONUTRIENT_DEFICIENCY -> Undetected sub-clinical depletion -> Soil-test-triggered application -> Sufficiency restored",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Micronutrient-pH Interaction Training",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Educate practitioners on the pH-solubility curves for each micronutrient: iron and manganese availability increases 100-fold per unit pH decrease below 6.0 (risking toxicity in acid soils), while zinc availability halves per unit increase above 7.0. This coaching prevents the common error of treating micronutrient deficiency with foliar application when the root cause is pH-driven lockout requiring lime or sulfur amendment.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "SOIL_ACIDIFICATION -> pH-micronutrient misdiagnosis -> Interaction training -> Correct root-cause treatment",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified crop adviser (CCA) or soil scientist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Micronutrient Testing Standard Operating Procedure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Mandate that all soil test submissions include the micronutrient panel (Zn, Mn, Fe, Cu, B) in addition to standard macronutrient analysis. Embed this requirement into lab order templates and agronomist workflows so that micronutrient data is collected by default, not by exception. This structural change eliminates the diagnostic blind spot that allows hidden hunger to persist undetected across crop cycles.",
+          "cite": "[CITATION NEEDED: Mandate that all soil test submissions include the micronutrient panel (Zn, Mn, Fe, Cu, B) in additi]",
+          "target": "MICRONUTRIENT_DEFICIENCY -> Panels excluded from routine testing -> Mandated inclusion -> Deficiencies caught early",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Mandate that all soil test submissions include the micronutrient panel (Zn, Mn, Fe, Cu, B) in additi]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Micronutrient Awareness in High-Yield Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Establish a cultural norm that pursuing 250+ bu/acre corn or 70+ bu/acre soybean yields without micronutrient monitoring is considered incomplete agronomy. Integrate micronutrient reviews into every annual crop plan discussion, making it as routine as nitrogen and phosphorus planning. This cultural shift reframes micronutrients from 'optional add-ons' to 'yield-ceiling determinants' in intensive systems.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "MICRONUTRIENT_DEFICIENCY -> Micro's treated as optional -> Integrated planning norm -> Yield ceilings addressed",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified crop adviser (CCA) or agronomist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "DTPA Extraction and ICP-OES Analysis",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Specify DTPA (diethylenetriaminepentaacetic acid) extraction followed by ICP-OES (inductively coupled plasma optical emission spectrometry) as the standard micronutrient soil test method. DTPA extraction correlates well with plant-available micronutrient pools across a wide pH range (5.0-8.5), providing the reliable analytical foundation that pH-responsive prescriptions and sufficiency-range strategies depend on.",
+          "cite": "[CITATION NEEDED: Specify DTPA (diethylenetriaminepentaacetic acid) extraction followed by ICP-OES (inductively couple]",
+          "target": "SOIL_ACIDIFICATION -> Unreliable micronutrient assessment -> Validated DTPA method -> Accurate pH-adjusted recommendations",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Specify DTPA (diethylenetriaminepentaacetic acid) extraction followed by ICP-OES (inductively couple]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Premium Markets",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Organic Fertilizers",
+      "domainDescription": "Manure, compost, and bio-based nutrient sources for soil enrichment",
+      "group": "organic",
+      "phase": "P2",
+      "weight": 0.7,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_fertilizer_organicfert_portal.html",
+      "treatments": [
+        {
+          "label": "Phosphorus-Based Manure Application Rate",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Switch from nitrogen-based to phosphorus-based manure application rates on fields where soil test P exceeds the environmental threshold. At nitrogen-based rates, a field receiving 6,000 gal/acre of liquid dairy manure gets roughly 90 lb P2O5 against a 40 lb crop removal, building a 50 lb/acre annual surplus. Phosphorus-based rates eliminate this accumulation by capping application at crop P removal.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "ORGANIC_NUTRIENT_IMBALANCE -> N-based manure rates overshoot P -> P-based rate cap -> P accumulation halted",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Compost-Synthetic Blending Strategy",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Design blended fertilizer programs where compost supplies the base phosphorus and potassium budget plus slow-release organic nitrogen, and synthetic nitrogen fills the remaining crop demand. This maximizes the soil-building benefits of compost while preventing the nitrogen shortfall that occurs when organic-only programs cannot supply peak-demand nitrogen quickly enough for high-yield crop systems.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "ORGANIC_NUTRIENT_IMBALANCE -> Organic N timing mismatch -> Synthetic N bridge -> Demand met without P overshoot",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Manure Nutrient Variability Coaching",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Train applicators to understand that manure nutrient content varies 30-50% between loads depending on species, diet, storage method, and agitation. Each storage structure or windrow requires independent lab analysis before application rate calculation. Coaching eliminates the reliance on book values that systematically over- or under-credits nutrients, causing both environmental risk and crop deficiency.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "ORGANIC_NUTRIENT_IMBALANCE -> Book-value estimation error -> Per-load lab analysis coaching -> Accurate field-level rates",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified crop adviser (CCA) or agronomist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Manure Storage Capacity and Timing Infrastructure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Invest in manure storage capacity sufficient to hold 9-12 months of production, enabling application timing to be driven by crop agronomic windows rather than storage overflow emergencies. Inadequate storage forces fall or winter application when soils are frozen or saturated, maximizing runoff risk and nutrient loss. Structural storage capacity is the prerequisite for all timing-based strategies.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "FERTILIZER_PRICE_SHOCK -> Forced off-season application -> Adequate storage -> Agronomic-window application",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Organic Nutrient Balance Review Norm",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Establish an organizational norm requiring annual whole-farm nutrient balance calculations (total N, P, K imported in manure and fertilizer vs. total exported in crop and animal products). Operations where P imports exceed exports by more than 20% are flagged for corrective planning. This balance-sheet culture replaces field-by-field thinking with a systems perspective that catches accumulation trends early.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "ORGANIC_NUTRIENT_IMBALANCE -> Field-level focus misses farm-wide surplus -> Whole-farm balance norm -> Systemic imbalance detected",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified crop adviser (CCA) or agronomist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Manure Analysis Quick-Test Kit",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Deploy on-farm hydrometer (for total solids) and Quantofix N-Volumeter (for ammoniacal nitrogen) quick-test kits to estimate manure nutrient content within hours rather than waiting 7-10 days for lab results. Quick tests calibrated against lab standards provide application-day rate adjustments that reduce the nutrient crediting error from 30-50% (book values) to 10-15% (quick test calibrated).",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "ORGANIC_NUTRIENT_IMBALANCE -> Lab turnaround too slow for rate adjustment -> On-farm quick test -> Same-day calibrated rates",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a domain specialist for root cause analysis and intervention redesign for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Food Processing",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Application Timing",
+      "domainDescription": "Split application scheduling aligned with crop growth stage demands",
+      "group": "management",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_fertilizer_apptiming_portal.html",
+      "treatments": [
+        {
+          "label": "Growth-Stage-Indexed Application Windows",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Define specific crop growth stage windows for each nutrient application pass: starter at planting (V0), side-dress nitrogen at V6-V8, foliar micronutrients at VT-R1, and post-harvest lime. Calendar-date scheduling is replaced with GDD (growing degree day) and growth-stage triggers that account for seasonal variability. This synchronizes nutrient supply with the crop's actual physiological demand curve.",
+          "cite": "Kader, A.A. (2002). Postharvest Technology of Horticultural Crops, 3rd Edition. University of California ANR Publication 3311, 1-535; Yahia, E.M. (2011). Modified and controlled atmospheres for the storage, transportation, and packaging of horticultural commodities. CRC Press, 1-589",
+          "target": "NUTRIENT_RUNOFF -> Calendar-based timing misses demand -> GDD-indexed windows -> Supply matches uptake",
+          "citation": [
+            {
+              "author": "Kader, A.A.",
+              "year": 2002,
+              "title": "Postharvest Technology of Horticultural Crops, 3rd Edition",
+              "journal": "University of California ANR Publication 3311",
+              "volume": null,
+              "pages": "1-535",
+              "doi": null
+            },
+            {
+              "author": "Yahia, E.M.",
+              "year": 2011,
+              "title": "Modified and controlled atmospheres for the storage, transportation, and packaging of horticultural commodities",
+              "journal": "CRC Press",
+              "volume": null,
+              "pages": "1-589",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or agronomist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Manure Application Exclusion Periods",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish mandatory exclusion periods prohibiting manure application on frozen, snow-covered, or saturated soils and within 48 hours of a >0.5 inch rainfall forecast. These timing guardrails prevent the highest-risk application scenarios where 60-80% of applied nutrients can be lost in a single runoff event, regardless of rate accuracy.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "NUTRIENT_RUNOFF -> Application on frozen/saturated soil -> Exclusion-period enforcement -> Eliminated high-loss events",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Split-Application Economics Training",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Coach operators on the economic case for split nitrogen application: the added application pass costs $8-12/acre but reduces nitrogen loss by 20-40%, equivalent to $15-30/acre in recovered nitrogen value at current prices. This training converts the perceived cost barrier of an extra trip into a documented return-on-investment, overcoming the cultural preference for single pre-plant application.",
+          "cite": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C. (2006). Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn. Iowa State University Extension PM 2015, 1-28; Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A. (2005). Field-scale variability in optimal nitrogen fertilizer rate for corn. Agronomy Journal, 97(2), 452-461. doi:10.2134/agronj2005.0452",
+          "target": "NUTRIENT_RUNOFF -> Single pre-plant application preference -> ROI coaching -> Adoption of split timing",
+          "citation": [
+            {
+              "author": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C.",
+              "year": 2006,
+              "title": "Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn",
+              "journal": "Iowa State University Extension PM 2015",
+              "volume": null,
+              "pages": "1-28",
+              "doi": null
+            },
+            {
+              "author": "Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A.",
+              "year": 2005,
+              "title": "Field-scale variability in optimal nitrogen fertilizer rate for corn",
+              "journal": "Agronomy Journal",
+              "volume": "97(2)",
+              "pages": "452-461",
+              "doi": "10.2134/agronj2005.0452"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a domain specialist for root cause analysis and intervention redesign for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Lime-Fertilizer Sequencing Protocol",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Formalize a sequencing rule requiring lime application at least 3-6 months before phosphorus fertilizer on acid soils. Lime needs time to react and raise pH before P is applied; applying both simultaneously wastes phosphorus to aluminum and iron fixation at low pH. This structural protocol coordinates two independent supply chains (lime and fertilizer) into a single agronomic timeline.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "SOIL_ACIDIFICATION -> Uncoordinated lime and fertilizer timing -> Sequencing rule -> pH corrected before P applied",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Weather-Responsive Application Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Build an operational culture where delaying application by 48-72 hours due to weather forecast is seen as professional discipline, not lost productivity. Reinforce through post-season reviews showing fields where timing discipline saved nutrients (and money) versus fields where pressure to 'get it done' resulted in runoff events. Normalize the 72-hour weather check as a standard pre-application step.",
+          "cite": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D. (2011). Climate impacts on agriculture: Implications for crop production. Agronomy Journal, 103(2), 351-370. doi:10.2134/agronj2010.0303; Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C. (2012). Climate Change and Agriculture in the United States: Effects and Adaptation. USDA Technical Bulletin 1935, 1-186",
+          "target": "ORGANIC_NUTRIENT_IMBALANCE -> Pressure to apply regardless of weather -> Discipline norm -> Reduced weather-driven losses",
+          "citation": [
+            {
+              "author": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D.",
+              "year": 2011,
+              "title": "Climate impacts on agriculture: Implications for crop production",
+              "journal": "Agronomy Journal",
+              "volume": "103(2)",
+              "pages": "351-370",
+              "doi": "10.2134/agronj2010.0303"
+            },
+            {
+              "author": "Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C.",
+              "year": 2012,
+              "title": "Climate Change and Agriculture in the United States: Effects and Adaptation",
+              "journal": "USDA Technical Bulletin 1935",
+              "volume": null,
+              "pages": "1-186",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a domain specialist for root cause analysis and intervention redesign for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "GDD Tracking and Crop Stage Monitoring App",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy a GDD accumulation tracker (e.g., Climate FieldView, DTN, or state extension GDD tools) linked to local weather stations that alerts agronomists when target growth stages are approaching across all managed fields. Automated alerts replace the manual field-scouting burden for timing decisions, ensuring side-dress and foliar windows are not missed during the compressed mid-season period.",
+          "cite": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D. (2011). Climate impacts on agriculture: Implications for crop production. Agronomy Journal, 103(2), 351-370. doi:10.2134/agronj2010.0303; Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C. (2012). Climate Change and Agriculture in the United States: Effects and Adaptation. USDA Technical Bulletin 1935, 1-186",
+          "target": "NUTRIENT_RUNOFF -> Missed optimal application windows -> Automated GDD alerts -> Timely in-season applications",
+          "citation": [
+            {
+              "author": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D.",
+              "year": 2011,
+              "title": "Climate impacts on agriculture: Implications for crop production",
+              "journal": "Agronomy Journal",
+              "volume": "103(2)",
+              "pages": "351-370",
+              "doi": "10.2134/agronj2010.0303"
+            },
+            {
+              "author": "Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C.",
+              "year": 2012,
+              "title": "Climate Change and Agriculture in the United States: Effects and Adaptation",
+              "journal": "USDA Technical Bulletin 1935",
+              "volume": null,
+              "pages": "1-186",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a climatologist or agricultural meteorologist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Calibration",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Soil Testing",
+      "domainDescription": "Pre-plant and in-season soil sampling for nutrient level assessment",
+      "group": "analysis",
+      "phase": "P1",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_fertilizer_soiltesting_portal.html",
+      "treatments": [
+        {
+          "label": "Annual Grid Sampling at 2.5-Acre Density",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Shift from composite whole-field sampling to systematic 2.5-acre grid sampling on a 1-2 year rotation, capturing within-field nutrient variability that composite sampling averages away. Grid data feeds variable-rate prescriptions and detects pH decline zones, runoff-risk P hotspots, and micronutrient depletion areas 2-3 years before they cause yield loss or environmental violations.",
+          "cite": "Lowenberg-DeBoer, J. & Erickson, B. (2019). Setting the record straight on precision agriculture adoption. Agronomy Journal, 111(4), 1552-1569. doi:10.2134/agronj2018.12.0779; Bongiovanni, R. & Lowenberg-DeBoer, J. (2004). Precision agriculture and sustainability. Precision Agriculture, 5(4), 359-387. doi:10.1023/B:PRAG.0000040806.39604.aa",
+          "target": "NUTRIENT_RUNOFF -> Composite sampling misses variability -> Grid resolution -> Hotspot detection and targeted response",
+          "citation": [
+            {
+              "author": "Lowenberg-DeBoer, J. & Erickson, B.",
+              "year": 2019,
+              "title": "Setting the record straight on precision agriculture adoption",
+              "journal": "Agronomy Journal",
+              "volume": "111(4)",
+              "pages": "1552-1569",
+              "doi": "10.2134/agronj2018.12.0779"
+            },
+            {
+              "author": "Bongiovanni, R. & Lowenberg-DeBoer, J.",
+              "year": 2004,
+              "title": "Precision agriculture and sustainability",
+              "journal": "Precision Agriculture",
+              "volume": "5(4)",
+              "pages": "359-387",
+              "doi": "10.1023/B:PRAG.0000040806.39604.aa"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Design multi-season rotation schedule with specific timing windows, input rates, and sequencing constraints",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a domain specialist for root cause analysis and intervention redesign for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Paired pH and Buffer pH Monitoring",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Require that every soil test include both water pH and buffer pH (SMP or Sikora) to quantify not only current pH but lime requirement. Tracking water pH alone misses the buffering capacity dimension: two fields at pH 5.8 may need vastly different lime rates depending on clay content and organic matter. Buffer pH enables precise lime prescriptions that prevent both under-liming (continued acidification) and over-liming (micronutrient lockout).",
+          "cite": "[CITATION NEEDED: Require that every soil test include both water pH and buffer pH (SMP or Sikora) to quantify not onl]",
+          "target": "SOIL_ACIDIFICATION -> pH decline unquantified -> Buffer pH testing -> Precise lime rate correction",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Require that every soil test include both water pH and buffer pH (SMP or Sikora) to quantify not onl]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Soil Test Interpretation for Crop Advisors",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Deliver structured training on interpreting soil test reports: converting ppm to lb/acre, matching extraction methods to university recommendation databases (Bray P1 vs. Olsen P vs. Mehlich-3), and understanding confidence intervals around reported values. Misinterpretation of extraction method compatibility is the most common source of fertilizer recommendation error, causing systematic over- or under-application.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "MICRONUTRIENT_DEFICIENCY -> Extraction method mismatch -> Interpretation training -> Accurate rate derivation",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified crop adviser (CCA) or soil scientist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Mandatory Biennial Soil Test Policy",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Implement a structural policy requiring soil testing of every managed field at least every two years, with results on file before fertilizer orders are approved. No fertilizer purchase order proceeds without a current soil test attached. This structural gate prevents the common failure mode where fields go 4-6 years between tests, during which pH can drop a full unit and P can build to environmental-risk levels undetected.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "SOIL_ACIDIFICATION -> Infrequent testing misses pH decline -> Biennial mandate -> Timely detection and correction",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Data-Driven Decision Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Cultivate an organizational expectation that no fertilizer rate discussion occurs without current soil test data visible on the table. Reframe soil testing from an optional expense to a non-negotiable cost of doing business, equivalent to crop insurance or seed treatment. This cultural shift is reinforced by tracking the percentage of acres with current soil tests as a key performance indicator reviewed quarterly.",
+          "cite": "Shields, D.A. (2015). Federal Crop Insurance: Background. Congressional Research Service R40532, 1-28; Babcock, B.A. (2015). Using cumulative prospect theory to explain anomalous crop insurance coverage choice. American Journal of Agricultural Economics, 97(5), 1371-1384. doi:10.1093/ajae/aav032",
+          "target": "NUTRIENT_RUNOFF -> Rate decisions without soil data -> Data-first culture -> Evidence-based application rates",
+          "citation": [
+            {
+              "author": "Shields, D.A.",
+              "year": 2015,
+              "title": "Federal Crop Insurance: Background",
+              "journal": "Congressional Research Service R40532",
+              "volume": null,
+              "pages": "1-28",
+              "doi": null
+            },
+            {
+              "author": "Babcock, B.A.",
+              "year": 2015,
+              "title": "Using cumulative prospect theory to explain anomalous crop insurance coverage choice",
+              "journal": "American Journal of Agricultural Economics",
+              "volume": "97(5)",
+              "pages": "1371-1384",
+              "doi": "10.1093/ajae/aav032"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30 and 90 days; target ≥80% of staff following new protocol by day 90. Track the number of decisions documented with supporting data per month; target ≥3 data-backed decisions per decision-maker per month. Reassess culture adherence quarterly through anonymous team survey scoring 1-5 on practice commitment.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified crop adviser (CCA) or soil scientist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Georeferenced Soil Sampling with RTK-GPS",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Equip sampling crews with RTK-GPS units (sub-inch accuracy) to record exact sample locations, enabling return to the same points across years for true temporal trend analysis. Without georeferencing, year-to-year variability in sample location introduces noise that masks real nutrient trends and pH changes, undermining the diagnostic value of the entire testing program.",
+          "cite": "Stombaugh, T. (2018). Satellite-based positioning systems for precision agriculture. in Precision Agriculture Basics, ASA/CSSA/SSSA, 25-36. doi:10.2134/precisionagbasics.2016.0075; Bergtold, J.S., Raper, R.L. & Schwab, E.B. (2009). The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering. Applied Engineering in Agriculture, 25(2), 133-143. doi:10.13031/2013.26323",
+          "target": "MICRONUTRIENT_DEFICIENCY -> Inconsistent sample locations -> Georeferenced return points -> Reliable multi-year trend detection",
+          "citation": [
+            {
+              "author": "Stombaugh, T.",
+              "year": 2018,
+              "title": "Satellite-based positioning systems for precision agriculture",
+              "journal": "in Precision Agriculture Basics, ASA/CSSA/SSSA",
+              "volume": null,
+              "pages": "25-36",
+              "doi": "10.2134/precisionagbasics.2016.0075"
+            },
+            {
+              "author": "Bergtold, J.S., Raper, R.L. & Schwab, E.B.",
+              "year": 2009,
+              "title": "The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering",
+              "journal": "Applied Engineering in Agriculture",
+              "volume": "25(2)",
+              "pages": "133-143",
+              "doi": "10.13031/2013.26323"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a domain specialist for root cause analysis and intervention redesign for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Inventory Management",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Variable Rate Application",
+      "domainDescription": "GPS-guided zone-based fertilizer application for optimized placement",
+      "group": "technology",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_fertilizer_vra_portal.html",
+      "treatments": [
+        {
+          "label": "Multi-Layer VRA Prescription Building",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Build variable-rate prescriptions by integrating grid soil test data, yield maps (3+ year average), EC survey zones, and satellite NDVI imagery into a unified spatial model. Single-data-source prescriptions (e.g., soil test alone) miss 30-40% of within-field variability. Multi-layer integration identifies both nutrient-supply and yield-demand gradients, producing prescriptions that match application to true site-specific need.",
+          "cite": "Lowenberg-DeBoer, J. & Erickson, B. (2019). Setting the record straight on precision agriculture adoption. Agronomy Journal, 111(4), 1552-1569. doi:10.2134/agronj2018.12.0779; Bongiovanni, R. & Lowenberg-DeBoer, J. (2004). Precision agriculture and sustainability. Precision Agriculture, 5(4), 359-387. doi:10.1023/B:PRAG.0000040806.39604.aa",
+          "target": "NUTRIENT_RUNOFF -> Uniform-rate over-application on low-demand zones -> Multi-layer VRA -> Rate matched to zone potential",
+          "citation": [
+            {
+              "author": "Lowenberg-DeBoer, J. & Erickson, B.",
+              "year": 2019,
+              "title": "Setting the record straight on precision agriculture adoption",
+              "journal": "Agronomy Journal",
+              "volume": "111(4)",
+              "pages": "1552-1569",
+              "doi": "10.2134/agronj2018.12.0779"
+            },
+            {
+              "author": "Bongiovanni, R. & Lowenberg-DeBoer, J.",
+              "year": 2004,
+              "title": "Precision agriculture and sustainability",
+              "journal": "Precision Agriculture",
+              "volume": "5(4)",
+              "pages": "359-387",
+              "doi": "10.1023/B:PRAG.0000040806.39604.aa"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Delineate management zones using spatial data; assign zone-specific prescriptions with rate tables",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Micronutrient VRA Zone Calibration",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Extend variable-rate technology beyond macronutrients to include micronutrient prescriptions (zinc, manganese, boron) using DTPA soil test data spatially interpolated across management zones. High-pH zones within a field receive prophylactic zinc; low-pH zones receive reduced manganese to avoid toxicity. This prevents both deficiency and toxicity within the same field that uniform micronutrient rates cannot address.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "MICRONUTRIENT_DEFICIENCY -> Uniform micro rates miss spatial variability -> Zone-specific micro VRA -> Deficiency and toxicity both addressed",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Delineate management zones using spatial data; assign zone-specific prescriptions with rate tables",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "VRA Equipment Calibration and Validation Training",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train applicators on VRA equipment calibration: verifying spinner-disc spread patterns at multiple rates, confirming GPS offset corrections, and running catch-pan tests to validate that commanded rates match actual delivery within +/-5%. Uncalibrated VRA systems can deliver 15-30% rate errors that negate the precision advantage, turning a technology investment into an expensive way to misapply fertilizer.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "NUTRIENT_RUNOFF -> VRA rate delivery errors -> Calibration training -> Commanded rates match actual delivery",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified equipment technician or dealer service manager for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Prescription Review and Approval Workflow",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Establish a formal prescription review step where a certified crop adviser (CCA) verifies every VRA prescription against current soil test data, crop plan, and nutrient management plan before it is loaded to the applicator controller. This structural checkpoint catches data errors (wrong field boundary, outdated soil test, unit conversion mistakes) that would otherwise propagate through the entire application without detection.",
+          "cite": "Bruulsema, T., Lemunyon, J. & Herz, B. (2009). 4R nutrient stewardship: A global framework for sustainable fertilizer management. in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16, 1-10; Roberts, T.L. (2008). Improving nutrient use efficiency. Turkish Journal of Agriculture and Forestry, 32(3), 177-182",
+          "target": "NUTRIENT_RUNOFF -> Unchecked prescription errors -> CCA review gate -> Data-quality assurance",
+          "citation": [
+            {
+              "author": "Bruulsema, T., Lemunyon, J. & Herz, B.",
+              "year": 2009,
+              "title": "4R nutrient stewardship: A global framework for sustainable fertilizer management",
+              "journal": "in Plant Nutrition for Food Security, FAO Fertilizer and Plant Nutrition Bulletin 16",
+              "volume": null,
+              "pages": "1-10",
+              "doi": null
+            },
+            {
+              "author": "Roberts, T.L.",
+              "year": 2008,
+              "title": "Improving nutrient use efficiency",
+              "journal": "Turkish Journal of Agriculture and Forestry",
+              "volume": "32(3)",
+              "pages": "177-182",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Continuous Improvement Through As-Applied Mapping",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Normalize the practice of collecting as-applied maps from every VRA pass and comparing them to the original prescription to identify systematic delivery biases (e.g., consistently under-applying on headlands, over-applying at field transitions). Annual review of prescription-vs-applied variance creates an organizational feedback loop that continuously improves VRA accuracy and builds trust in the technology.",
+          "cite": "[CITATION NEEDED: Normalize the practice of collecting as-applied maps from every VRA pass and comparing them to the o]",
+          "target": "NUTRIENT_RUNOFF -> No feedback on VRA accuracy -> As-applied review norm -> Year-over-year precision gains",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Normalize the practice of collecting as-applied maps from every VRA pass and comparing them to the o]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to an agricultural appraiser or farm management specialist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "ISO 11783 (ISOBUS) Compatible Controller",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Specify ISOBUS-compatible rate controllers and spreaders/sprayers that accept prescription files in standard Shapefile or ISO-XML format from any agronomic software platform. ISOBUS compatibility eliminates vendor lock-in, ensures interoperability between prescription software and field equipment, and supports real-time as-applied data logging required for the prescription-vs-applied feedback loop.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "MICRONUTRIENT_DEFICIENCY -> Proprietary format barriers to micro VRA -> Open-standard controllers -> Full nutrient VRA capability",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified equipment technician or dealer service manager for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Rate Controllers",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HAB",
+      "state": "active",
+      "domainLabel": "Fertilizers & Nutrients — Action Coordination",
+      "domainDescription": "Fertilizers & Nutrients — Action Coordination within Fertilizers & Nutrients",
+      "group": "macronutrients",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_fertilizer_ri_action_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Fertilizers & Nutrients — Action Coordination",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Anti-Reward Aversion Signal"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Anti-Reward Silencing Target"
+        },
+        {
+          "domain": "communication",
+          "role": "Plain Language — Regulation Strategy"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Hospitality Design — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "Fighter Training Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Restructuring Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Scenario Planning Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Fertilizers & Nutrients — Adaptation & Learning",
+      "domainDescription": "Fertilizers & Nutrients — Adaptation & Learning within Fertilizers & Nutrients",
+      "group": "macronutrients",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_fertilizer_ri_adapt_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Irrigation Management",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Fertilizers & Nutrients — Diagnostic Analysis",
+      "domainDescription": "Fertilizers & Nutrients — Diagnostic Analysis within Fertilizers & Nutrients",
+      "group": "macronutrients",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_fertilizer_ri_diagnosis_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Fertilizers & Nutrients — Diagnostic Analysis",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Addictive Identity Narrative"
+        },
+        {
+          "domain": "business",
+          "role": "Brand & Identity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration"
+        },
+        {
+          "domain": "legal",
+          "role": "Constitutional Identity / Rule of Law"
+        },
+        {
+          "domain": "medicine",
+          "role": "Primary Care"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Cognition & Self-Reference"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Self-Referential Processing Hub"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Diagnostic Analysis"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Fertilizers & Nutrients — Feedback & Validation",
+      "domainDescription": "Fertilizers & Nutrients — Feedback & Validation within Fertilizers & Nutrients",
+      "group": "macronutrients",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_fertilizer_ri_feedback_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Fertilizers & Nutrients — Feedback & Validation",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "environment",
+          "role": "Soilenv"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "industry",
+          "role": "Safety Systems"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Emergency Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Law Enforcement Response"
+        },
+        {
+          "domain": "medicine",
+          "role": "Emergency Medicine"
+        },
+        {
+          "domain": "population",
+          "role": "Refugee Populations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ENDO",
+      "state": "active",
+      "domainLabel": "Fertilizers & Nutrients — Regulation Strategy",
+      "domainDescription": "Fertilizers & Nutrients — Regulation Strategy within Fertilizers & Nutrients",
+      "group": "macronutrients",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_fertilizer_ri_regulate_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Fertilizers & Nutrients — Regulation Strategy",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "psychedelic",
+          "role": "Endocannabinoid Modulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Finance — Implementation & Strategy"
+        },
+        {
+          "domain": "education",
+          "role": "entrance prep — Signal Acquisition"
+        },
+        {
+          "domain": "energy",
+          "role": "Utility Storage Assessment & Diagnostics"
+        },
+        {
+          "domain": "environment",
+          "role": "Emission Standards Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SNS",
+      "state": "active",
+      "domainLabel": "Fertilizers & Nutrients — Signal Detection",
+      "domainDescription": "Fertilizers & Nutrients — Signal Detection within Fertilizers & Nutrients",
+      "group": "macronutrients",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_fertilizer_ri_signal_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Fertilizers & Nutrients — Signal Detection",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Energy Econ"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Sympathetic Metabolic Activation"
+        },
+        {
+          "domain": "religion",
+          "role": "Religionlaw"
+        },
+        {
+          "domain": "communication",
+          "role": "Baseline Calibration Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "commercial office — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift Assessment & Diagnostics"
+        },
+        {
+          "domain": "education",
+          "role": "Trend Analysis Infrastructure & Capacity"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Policy & Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VEST",
+      "state": "active",
+      "domainLabel": "Fertilizers & Nutrients — State Assessment",
+      "domainDescription": "Fertilizers & Nutrients — State Assessment within Fertilizers & Nutrients",
+      "group": "macronutrients",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_fertilizer_ri_state_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Fertilizers & Nutrients — State Assessment",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "population",
+          "role": "Migration Patterns"
+        },
+        {
+          "domain": "religion",
+          "role": "Pilgrimage"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Translation Services Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Performance & Optimization"
+        },
+        {
+          "domain": "culture",
+          "role": "Mixed-Use Policy & Governance"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Quality & Performance"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Risk & Resilience"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "dlPFC",
+      "target": "M1",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "dlPFC",
+      "target": "S1",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "NTS",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "M1",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "dACC",
+      "target": "NAcc",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "STRI",
+      "target": "M1",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "STRI",
+      "target": "S1",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "AI",
+      "target": "M1",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "M1",
+      "target": "NAcc",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "NUTRIENT_RUNOFF",
+      "label": "Nutrient Runoff",
+      "summary": "Excess nitrogen and phosphorus leaving agricultural fields through surface runoff and tile drainage causing downstream water quality impairment",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hyper-active",
+          "detail": "Nitrogen application rates exceeding crop uptake capacity with surplus entering waterways",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hyper-active",
+          "detail": "Phosphorus accumulation in surface soils from years of over-application mobilizing in runoff events",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Application timing misaligned with crop demand, applying nutrients when uptake potential is minimal",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Soil testing frequency insufficient to track nutrient levels and adjust rates appropriately",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-active",
+          "detail": "Variable rate technology not calibrated to field-level nutrient variability",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FERTILIZER_PRICE_SHOCK",
+      "label": "Fertilizer Price Shock",
+      "summary": "Global fertilizer price spike from natural gas costs, trade disruption, or supply concentration making optimal application uneconomic",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Nitrogen application reduced below agronomic optimum due to urea and anhydrous ammonia price doubling",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "Phosphorus rates cut as DAP and MAP prices exceed crop revenue value of response",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Hypo-active",
+          "detail": "Potash application skipped entirely as potassium prices become prohibitive for low-testing fields",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-active",
+          "detail": "Organic fertilizer demand surging as farmers seek alternatives, driving manure hauling distances up",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SOIL_ACIDIFICATION",
+      "label": "Soil Acidification",
+      "summary": "Chronic nitrogen fertilizer use driving soil pH below optimal range, reducing nutrient availability and crop productivity",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hyper-active",
+          "detail": "Ammonium-based nitrogen sources generating hydrogen ions that steadily reduce soil pH",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Micronutrient availability altered as low pH increases aluminum and manganese toxicity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Soil testing intervals too long to detect pH decline before yield impact becomes significant",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Altered",
+          "detail": "Lime application timing and rates not coordinated with fertilizer program creating pH oscillation",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MICRONUTRIENT_DEFICIENCY",
+      "label": "Micronutrient Deficiency",
+      "summary": "Hidden hunger in high-yield crop systems where macronutrient sufficiency masks critical trace element depletion",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Zinc, boron, and sulfur levels depleted by sustained high-yield removal without replacement",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Standard soil tests not including micronutrient panels, leaving deficiencies undiagnosed",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "High nitrogen rates driving rapid growth that dilutes micronutrient concentration in plant tissue",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-active",
+          "detail": "Variable rate systems not calibrated for micronutrient spatial variability across fields",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ORGANIC_NUTRIENT_IMBALANCE",
+      "label": "Organic Nutrient Imbalance",
+      "summary": "Manure and compost application building excess phosphorus while supplying insufficient nitrogen for crop demand",
+      "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-active",
+          "detail": "Organic fertilizer applied at nitrogen rate causing phosphorus accumulation far above crop removal",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hyper-active",
+          "detail": "Soil phosphorus levels reaching environmental risk thresholds from chronic manure application",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Organic nitrogen mineralization timing mismatched with peak crop uptake window",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Altered",
+          "detail": "Application scheduling constrained by manure storage capacity and weather windows rather than crop need",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:16.481Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

@@ -1,0 +1,960 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "msci",
+  "slug": "msci",
+  "name": "MSCI Inc.",
+  "ticker": "MSCI",
+  "cik": "1408198",
+  "sic": "7389",
+  "industry": "Index / Analytics",
+  "domainId": "law",
+  "portalAttachment": "law-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "BAMLH0A0HYM2",
+    "FEDFUNDS",
+    "DGS10",
+    "DGS2",
+    "NFCI",
+    "VIXCLS",
+    "DCOILWTICO"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001408198.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "BAMLH0A0HYM2",
+        "FEDFUNDS",
+        "DGS10",
+        "DGS2",
+        "NFCI",
+        "VIXCLS",
+        "DCOILWTICO"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "MSCI"
+  ],
+  "commodityExposure": [
+    "energy",
+    "metals",
+    "agriculture"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1408198",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "MSCI operates as the primary institutional infrastructure for ESG ratings, climate-risk analytics, and index governance across global capital markets. Its ratings and index decisions directly influence trillions in asset allocation and regulatory compliance, making it a critical node in the policy-risk transmission mechanism. Regulatory actions targeting ESG disclosure standards, climate taxonomy harmonization, and index methodology transparency flow through MSCI's product suite and directly impact corporate compliance costs and investor behavior.",
+  "portalRelevance": "MSCI is a Tier-1 anchor in the law domain because its ESG ratings, climate-risk assessments, and index inclusion decisions function as de facto regulatory signals that shape corporate governance, disclosure obligations, and capital-allocation rules. Changes in MSCI methodology, index reconstitution, or ESG rating downgrades trigger material market repricing and regulatory scrutiny. For a financial-intelligence model, MSCI's product releases and methodology changes are leading indicators of policy-risk inflection points and institutional capital reallocation.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly ESG rating changes and index reconstitution announcements (MSCI ACWI, MSCI USA, MSCI Emerging Markets)",
+        "Climate-risk methodology updates and carbon-intensity restatements affecting trillions in AUM",
+        "Regulatory filings (10-K Item 1A risk factors on ESG litigation, index methodology challenges, data-provider concentration)",
+        "Earnings call guidance on subscription revenue growth, index licensing expansion, and regulatory headwinds"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Revenue composition by segment: Index & Analytics (largest), ESG & Climate, Real Assets, All Other Services",
+        "Subscription-revenue stickiness and customer concentration (top 10 customers as % of revenue disclosed in 10-K)",
+        "Debt trajectory and refinancing risk tied to acquisition debt from Barra, RiskMetrics, Burgiss integrations",
+        "Regulatory pressure intensity: SEC scrutiny on ESG rating conflicts of interest, EU taxonomy compliance, index-methodology transparency"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: High-margin subscription business with regulatory tail risk (ESG litigation, index-methodology challenges, data-provider concentration)",
+        "Growth inflection: Accelerating climate-analytics adoption vs. regulatory headwinds on ESG rating credibility and index-methodology transparency",
+        "Sector contagion: Regulatory action on ESG disclosure standards (SEC climate rule, EU taxonomy) directly impacts MSCI's addressable market and pricing power",
+        "Competitive threat: Bloomberg, Refinitiv, S&P Global expanding ESG/climate analytics; index-methodology transparency pressure eroding MSCI's pricing moat"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: Long-term structural growth in ESG/climate analytics offset by near-term regulatory uncertainty on ESG rating credibility and index-methodology transparency",
+        "Risk hedge: Monitor SEC climate-disclosure rule implementation timeline; track EU taxonomy adoption and index-methodology transparency mandates",
+        "Engagement strategy: Track MSCI's response to regulatory scrutiny on ESG rating conflicts of interest and index-methodology transparency; monitor customer concentration risk",
+        "Pricing-power assessment: ESG/climate analytics command premium pricing but face regulatory pressure on methodology transparency and rating credibility"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Trade execution: Long MSCI on structural ESG/climate-analytics growth; hedge regulatory tail risk via short positions in ESG-dependent equities or long volatility",
+        "Portfolio rebalancing: Overweight MSCI if regulatory clarity improves on ESG disclosure standards; underweight if index-methodology transparency mandates erode pricing power",
+        "Monitoring setup: Track quarterly subscription-revenue growth, customer concentration, and regulatory filing changes; monitor competitor product launches in ESG/climate analytics",
+        "Engagement: Monitor MSCI's board and management response to ESG rating litigation and index-methodology transparency demands"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Earnings validation: Q+1 subscription-revenue growth vs. guidance; customer concentration trends; ESG/climate-analytics adoption rates",
+        "Price action: MSCI stock reaction to regulatory announcements (SEC climate rule, EU taxonomy updates, index-methodology transparency mandates)",
+        "Filing delta: Changes in 10-K risk-factor disclosure on ESG litigation, regulatory pressure, customer concentration, competitive threats",
+        "Thesis validation: Track MSCI's ability to maintain pricing power and subscription-revenue growth amid regulatory headwinds and competitive pressure"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model update: Recalibrate ESG/climate-analytics growth assumptions based on regulatory clarity and customer adoption trends",
+        "Signal reweight: Adjust weight on regulatory-filing changes and competitor product launches based on predictive accuracy for MSCI stock price",
+        "Sector prior update: Update law-domain priors on ESG/climate-analytics market growth and regulatory risk based on MSCI earnings and filing changes",
+        "Competitive-threat recalibration: Monitor Bloomberg, Refinitiv, S&P Global ESG/climate-analytics product launches and pricing; adjust MSCI competitive-moat assessment"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "MSCI functions as a critical institutional decision-support node in global capital markets, operating as the primary infrastructure for ESG ratings, climate-risk analytics, and index governance. Its products and methodologies directly influence trillions in asset allocation, corporate governance decisions, and regulatory compliance. MSCI's network spans institutional asset managers (buy-side), investment banks (sell-side), corporations (disclosure targets), regulators (policy-makers), and data providers (inputs), making it a hub for policy-risk signal transmission and capital-allocation rule-setting.",
+    "suppliers": [
+      {
+        "name": "Bloomberg L.P.",
+        "ticker": null,
+        "cik": null,
+        "slug": "bloomberg_lp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Market Data",
+        "relationshipNote": "Bloomberg supplies real-time market data, corporate-disclosure feeds, and news streams that MSCI integrates into ESG ratings, climate-risk models, and index-construction algorithms. MSCI's ESG ratings depend on Bloomberg's corporate-disclosure aggregation and news-sentiment analysis. Competitive tension exists as Bloomberg expands its own ESG/climate-analytics offerings, creating potential data-supply friction.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Refinitiv (LSEG subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "refinitiv_lseg",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Market Data",
+        "relationshipNote": "Refinitiv provides financial-data feeds, corporate-action data, and ESG-disclosure aggregation that MSCI uses for index construction and ESG ratings. LSEG's ownership of Refinitiv creates strategic alignment but also competitive overlap as Refinitiv develops its own ESG/climate-analytics products. Data-supply continuity and pricing are material to MSCI's cost structure.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "S&P Global Market Intelligence",
+        "ticker": "SPGI",
+        "cik": "1326801",
+        "slug": "sp_global_market_intelligence",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Market Data",
+        "relationshipNote": "S&P Global supplies corporate-disclosure data, credit-rating information, and ESG-disclosure feeds that MSCI integrates into its analytics. S&P Global is also a direct competitor in ESG/climate-analytics products, creating data-supply and competitive tension. MSCI's reliance on S&P Global data while competing in ESG/climate analytics creates strategic vulnerability.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "FactSet Research Systems",
+        "ticker": "FDS",
+        "cik": "1126328",
+        "slug": "factset_research_systems",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Market Data",
+        "relationshipNote": "FactSet supplies alternative data, corporate-disclosure feeds, and ESG-disclosure aggregation that MSCI uses for index construction and ESG ratings. FactSet's alternative-data capabilities (satellite imagery, web-scraping, supply-chain data) are increasingly material to climate-risk and ESG-analytics accuracy. Competitive overlap exists in ESG/climate-analytics product development.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ISS (Institutional Shareholder Services)",
+        "ticker": null,
+        "cik": null,
+        "slug": "iss_corporate_governance",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Governance Data",
+        "relationshipNote": "ISS supplies corporate-governance data, proxy-voting recommendations, and ESG-disclosure analysis that MSCI integrates into governance-risk ratings and index construction. ISS is owned by Vestar Capital Partners (private equity). MSCI and ISS compete in governance-risk analytics and ESG-disclosure assessment. Data-supply continuity is material to MSCI's governance-risk product suite.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Carbon Trust",
+        "ticker": null,
+        "cik": null,
+        "slug": "carbon_trust",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Climate Data",
+        "relationshipNote": "Carbon Trust provides climate-science expertise, carbon-accounting methodologies, and emissions-data validation that MSCI uses for climate-risk ratings and carbon-intensity calculations. MSCI's climate-risk product suite depends on Carbon Trust's scientific credibility and emissions-accounting standards. Regulatory changes to carbon-accounting standards (Scope 3 emissions, carbon-removal credits) directly impact MSCI's climate-risk methodology.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": "AMZN",
+        "cik": "1018724",
+        "slug": "amazon_web_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "AWS provides cloud infrastructure, data-storage, and computational capacity for MSCI's analytics platforms, ESG-rating systems, and index-construction algorithms. MSCI's migration to cloud-based infrastructure reduces on-premises capex but increases vendor lock-in risk. AWS pricing and service-level agreements are material to MSCI's operating-margin trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Microsoft Azure",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft_azure",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Azure provides cloud infrastructure and AI/ML capabilities that MSCI uses for ESG-rating automation, climate-risk modeling, and index-construction optimization. MSCI's AI/ML product development depends on Azure's machine-learning services and computational capacity. Multi-cloud strategy reduces vendor lock-in but increases operational complexity.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Equinix",
+        "ticker": "EQIX",
+        "cik": "1101239",
+        "slug": "equinix",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Equinix provides data-center colocation and network connectivity for MSCI's trading-infrastructure, real-time data-distribution, and index-calculation systems. Low-latency connectivity is critical for MSCI's index-calculation and real-time ESG-rating distribution. Equinix's global data-center footprint supports MSCI's multi-region deployment strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "1364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "BlackRock is MSCI's largest institutional customer, licensing MSCI indices for ETFs and active-management strategies. BlackRock's iShares ETF platform uses MSCI indices extensively (MSCI ACWI, MSCI USA, MSCI Emerging Markets). BlackRock also licenses MSCI ESG ratings and climate-risk analytics for portfolio construction and stewardship. Customer concentration risk: BlackRock represents disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vanguard Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Vanguard licenses MSCI indices for ETFs and index-tracking funds. Vanguard's index-fund platform uses MSCI indices for equity-market exposure. Vanguard also licenses MSCI ESG ratings and climate-risk analytics for sustainable-investing products. Vanguard's index-licensing revenue is material to MSCI's subscription-revenue base. Customer concentration risk: Vanguard represents disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "State Street Global Advisors (SSGA)",
+        "ticker": "STT",
+        "cik": "0000092230",
+        "slug": "state_street_global_advisors",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "SSGA licenses MSCI indices for ETFs and index-tracking strategies. SSGA's SPDR ETF platform uses MSCI indices extensively. SSGA also licenses MSCI ESG ratings and climate-risk analytics for sustainable-investing products. SSGA's index-licensing revenue is material to MSCI's subscription-revenue base. Customer concentration risk: SSGA represents disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group",
+        "ticker": "GS",
+        "cik": "0000886982",
+        "slug": "goldman_sachs_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Goldman Sachs licenses MSCI indices for structured products, derivatives, and index-tracking strategies. Goldman Sachs also uses MSCI ESG ratings and climate-risk analytics for investment-banking and asset-management advisory. Goldman Sachs' index-licensing and analytics revenue is material to MSCI's subscription-revenue base. Sell-side customer concentration risk: disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Moody's Corporation",
+        "slug": "moodys",
+        "ticker": "MCO",
+        "cik": "1059556",
+        "brainNodeId": "THAL",
+        "relationshipNote": "Moody's utilizes MSCI's ESG ratings, climate-risk assessments, and equity indices as inputs to its credit and surveillance methodologies. As a consumer of MSCI's index reconstitution signals and ESG analytical frameworks, Moody's incorporates these market-shaping metrics into its own rating processes and analytics platforms, creating operational interdependence in financial-risk evaluation workflows.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.680Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "moodys",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "msci|0001411910|msciinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:33:37.097Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "S&P Global Inc.",
+        "ticker": "SPGI",
+        "cik": "1326801",
+        "slug": "sp_global",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "S&P Global is MSCI's largest direct competitor in ESG ratings, climate-risk analytics, and index products. S&P Global's Platts energy-price indices, S&P Dow Jones Indices, and S&P Global Ratings ESG division compete across MSCI's entire product portfolio. S&P Global's scale (larger revenue base, diversified business model) and regulatory relationships (credit-rating agency status) create competitive advantages. Index-methodology transparency mandates benefit S&P Global's regulatory relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Refinitiv (LSEG subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "refinitiv_lseg",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Refinitiv competes with MSCI in ESG ratings, climate-risk analytics, and data-analytics products. LSEG's ownership of Refinitiv, FTSE Russell, and Borsa Italiana creates a scaled competitor with diversified revenue streams. Refinitiv's ESG-disclosure aggregation and climate-risk models compete directly with MSCI's products. LSEG's regulatory relationships and data-provider status create competitive advantages in index-methodology transparency.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bloomberg L.P.",
+        "ticker": null,
+        "cik": null,
+        "slug": "bloomberg_lp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Bloomberg competes with MSCI in ESG ratings, climate-risk analytics, and index-analytics products. Bloomberg's terminal-based ESG/climate-risk tools and Bloomberg Intelligence research compete with MSCI's standalone products. Bloomberg's data-aggregation capabilities and terminal-user base create competitive advantages in ESG-disclosure analysis. Bloomberg's private ownership limits regulatory scrutiny compared to MSCI's public-company status.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Morningstar Inc.",
+        "ticker": "MORN",
+        "cik": "1141391",
+        "slug": "morningstar",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Morningstar competes with MSCI in ESG ratings and climate-risk analytics through its Sustainalytics subsidiary (acquired 2020). Sustainalytics' ESG-rating methodology and climate-risk models compete directly with MSCI's products. Morningstar's fund-rating and investment-research platform creates distribution advantages for Sustainalytics ESG/climate-risk products. Morningstar's retail-investor focus complements Sustainalytics' institutional focus.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "FTSE Russell (LSEG subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftse_russell_lseg",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "FTSE Russell competes with MSCI in index construction, ESG indices, and climate-risk indices. FTSE Russell's FTSE4Good ESG index and climate-risk indices compete directly with MSCI's ESG and climate-risk index offerings. LSEG's ownership of FTSE Russell creates scale and regulatory relationships that compete with MSCI. Index-methodology transparency mandates create competitive pressure on both MSCI and FTSE Russell.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sustainalytics (Morningstar subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sustainalytics_morningstar",
+        "neuralRole": "Peer",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Market Data",
+        "relationshipNote": "Sustainalytics is a direct competitor in ESG ratings and climate-risk analytics. Morningstar's acquisition of Sustainalytics (2020) created a scaled competitor to MSCI's ESG/climate-analytics business. MSCI and Sustainalytics compete for institutional asset-manager subscriptions and index-licensing deals. Sustainalytics' ESG-rating methodology and climate-risk models are material competitive benchmarks.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC regulates MSCI as a public company and index provider. SEC's climate-disclosure rule (proposed 2023, final 2024) directly impacts MSCI's ESG-rating methodology and climate-risk analytics. SEC's scrutiny of ESG-rating conflicts of interest and index-methodology transparency creates regulatory headwinds. SEC's enforcement actions on ESG-rating credibility and index-methodology disclosure are material to MSCI's regulatory risk profile.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "European Securities and Markets Authority (ESMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "esma",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "ESMA regulates MSCI's index and analytics products in the EU. ESMA's index-methodology transparency mandates (Index Regulation, 2016) require MSCI to disclose index-construction methodologies and governance. ESMA's scrutiny of ESG-rating conflicts of interest and climate-risk analytics accuracy creates regulatory headwinds. ESMA's enforcement actions on index-methodology transparency are material to MSCI's EU revenue and regulatory risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Financial Conduct Authority (FCA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fca",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "FCA regulates MSCI's index and analytics products in the UK. FCA's index-methodology transparency mandates and ESG-rating credibility scrutiny create regulatory headwinds. FCA's enforcement actions on index-methodology disclosure and ESG-rating conflicts of interest are material to MSCI's UK revenue and regulatory risk. Post-Brexit regulatory divergence between FCA and ESMA creates compliance complexity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "FTC scrutinizes MSCI's ESG-rating practices for potential greenwashing and deceptive marketing. FTC's enforcement actions on ESG-rating credibility and climate-risk analytics accuracy create regulatory headwinds. FTC's scrutiny of MSCI's index-methodology transparency and ESG-rating conflicts of interest are material to MSCI's regulatory risk profile. FTC's enforcement priorities on ESG-rating credibility are increasing.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Commission (Directorate-General for Financial Stability, Financial Services and Capital Markets Union)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dg_fisma",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "EC's Sustainable Finance Taxonomy and ESG-disclosure directives (CSRD, CSDDD) directly impact MSCI's ESG-rating methodology and climate-risk analytics. EC's scrutiny of ESG-rating conflicts of interest and climate-risk analytics accuracy creates regulatory headwinds. EC's enforcement actions on ESG-rating credibility and index-methodology transparency are material to MSCI's EU revenue and regulatory risk. EC's regulatory priorities on ESG-disclosure standardization are increasing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche_llp",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte is MSCI's external auditor and provides audit, tax, and advisory services. Deloitte's audit of MSCI's financial statements and internal controls is material to MSCI's regulatory compliance and investor confidence. Deloitte's audit of MSCI's ESG-rating methodology and climate-risk analytics accuracy is increasingly important as regulatory scrutiny increases. Deloitte's audit opinions on MSCI's index-methodology governance and ESG-rating conflicts of interest are material to MSCI's regulatory risk profile.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.A",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Berkshire Hathaway is a significant shareholder in MSCI (disclosed in 10-K Item 5). Berkshire's investment in MSCI reflects confidence in MSCI's business model and growth trajectory. Berkshire's long-term investment horizon and governance involvement provide stability to MSCI's capital structure. Berkshire's shareholding is material to MSCI's investor base and governance dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan Chase is a major lender to MSCI and provides credit facilities for working capital and acquisitions. JPMorgan's credit-rating and lending relationships are material to MSCI's capital structure and refinancing risk. JPMorgan's investment-banking relationships with MSCI (M&A advisory, debt issuance) create strategic alignment. JPMorgan's credit-facility terms and pricing are material to MSCI's operating-margin trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America is a major lender to MSCI and provides credit facilities for working capital and acquisitions. BofA's credit-rating and lending relationships are material to MSCI's capital structure and refinancing risk. BofA's investment-banking relationships with MSCI (M&A advisory, debt issuance) create strategic alignment. BofA's credit-facility terms and pricing are material to MSCI's operating-margin trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Vanguard Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Vanguard is a significant shareholder in MSCI (disclosed in 10-K Item 5). Vanguard's investment in MSCI reflects confidence in MSCI's business model and growth trajectory. Vanguard's long-term investment horizon and governance involvement provide stability to MSCI's capital structure. Vanguard's shareholding is material to MSCI's investor base and governance dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Henry Fernandez",
+        "title": "Chief Executive Officer & Chairman",
+        "slug": "henry_fernandez",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Fernandez is MSCI's founder and long-time CEO/Chairman. Fernandez's vision for MSCI's ESG/climate-analytics expansion and index-business growth has driven MSCI's strategic direction. Fernandez's regulatory relationships and industry influence are material to MSCI's competitive positioning. Fernandez's compensation and equity ownership are disclosed in DEF14A and create alignment with shareholder interests.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Erick Hachenburg",
+        "title": "Chief Financial Officer",
+        "slug": "erick_hachenburg",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Hachenburg is MSCI's CFO and is responsible for financial planning, capital allocation, and investor relations. Hachenburg's financial guidance and earnings management are material to MSCI's stock price and investor confidence. Hachenburg's compensation and equity ownership are disclosed in DEF14A. Hachenburg's tenure and financial-management track record are material to MSCI's financial-health assessment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Baer Pettit",
+        "title": "President & Chief Operating Officer",
+        "slug": "baer_pettit",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Pettit is MSCI's COO and is responsible for operations, product development, and customer success. Pettit's operational execution and product-development strategy are material to MSCI's revenue growth and customer retention. Pettit's compensation and equity ownership are disclosed in DEF14A. Pettit's tenure and operational-management track record are material to MSCI's operational-health assessment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "MSCI Index Reconstitution Announcements",
+        "slug": "msci_index_reconstitution",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "MSCI's quarterly index-reconstitution announcements (MSCI ACWI, MSCI USA, MSCI Emerging Markets) trigger significant market repricing and capital flows. Index-reconstitution announcements are leading indicators of MSCI's index-licensing revenue and customer engagement. MSCI's index-reconstitution timing and methodology changes are material to institutional asset-manager portfolio rebalancing and trading volumes.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ESG Rating Changes and Downgrades",
+        "slug": "esg_rating_changes",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "MSCI's ESG-rating changes and downgrades trigger material market repricing and capital flows. ESG-rating downgrades are leading indicators of regulatory scrutiny and corporate governance concerns. MSCI's ESG-rating methodology changes and transparency improvements are material to institutional asset-manager ESG-investing strategies and regulatory compliance. ESG-rating litigation and regulatory challenges are material to MSCI's regulatory risk profile.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "law",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.938Z",
+      "overrideCount": 10
+    },
+    "overrides": {
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Bloomberg L.P.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Refinitiv (LSEG subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "S&P Global Market Intelligence",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "FactSet Research Systems",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Sustainalytics (Morningstar subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "ISS (Institutional Shareholder Services)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Carbon Trust",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "FTSE Russell (LSEG subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Moody's Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "BlackRock Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Vanguard Group",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "State Street Global Advisors (SSGA)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "MSCI Index Reconstitution Announcements",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Goldman Sachs Group",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Amazon Web Services (AWS)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Microsoft Azure",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Equinix",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "S&P Global Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Refinitiv (LSEG subsidiary)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Bloomberg L.P.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Morningstar Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "FTSE Russell (LSEG subsidiary)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "European Securities and Markets Authority (ESMA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Financial Conduct Authority (FCA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission (FTC)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "European Commission (Directorate-General for Financial Stability, Financial Services and Capital Markets Union)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Berkshire Hathaway Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Vanguard Group",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "ESG Rating Changes and Downgrades",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

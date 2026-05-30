@@ -1,0 +1,1058 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "pearson",
+  "slug": "pearson",
+  "name": "Pearson PLC",
+  "ticker": "PSO",
+  "cik": "0000938323",
+  "sic": "2731",
+  "industry": "Publishing / Education",
+  "domainId": "education",
+  "portalAttachment": "education-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "CES6561100001",
+    "CPIEDU",
+    "DSPIC96",
+    "FEDFUNDS",
+    "UNRATE",
+    "MMNRNJ",
+    "TERMCBCCALLNS"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000938323.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "CES6561100001",
+        "CPIEDU",
+        "DSPIC96",
+        "FEDFUNDS",
+        "UNRATE"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "PSO"
+  ],
+  "commodityExposure": [
+    "paper",
+    "ink",
+    "energy",
+    "freight"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=938323",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Pearson is the world's largest education company by revenue, operating across K–12 textbooks, higher-education courseware, professional certifications (Edexcel, BTEC), and digital learning platforms. The company derives ~60% of revenue from digital and services channels, with exposure to curriculum adoption cycles in North America and UK assessment/credentialing monopoly positions. Core vulnerability: print-to-digital transition risk and dependency on government education spending and student enrollment trends.",
+  "portalRelevance": "Pearson's digital-revenue acceleration and margin-expansion trajectory serve as a leading indicator for education-sector modernization and EdTech adoption velocity. As a quasi-monopoly in UK GCSE/A-Level assessment and a major player in US K–12 adoption, Pearson's pricing power, customer concentration (state education boards), and debt-refinancing cycles are critical stress-test inputs for education-domain financial health. Thesis relevance: whether legacy education publishers can sustain margin expansion amid open-source and AI-driven content disruption.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly digital revenue mix and courseware adoption rates (disclosed in 10-K Item 1 and earnings calls)",
+        "UK assessment contract renewals and GCSE/A-Level market share shifts (regulatory filings and Ofqual correspondence)",
+        "North American K–12 adoption cycle timing and state textbook procurement budgets (industry reports and 8-K material contracts)",
+        "Free cash flow and debt covenant compliance (10-K Item 7 and quarterly 10-Q cash-flow statements)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification based on revenue growth, margin trajectory, and capex intensity relative to historical peer cohort",
+        "Debt-to-EBITDA ratio and refinancing runway (disclosed in 10-K Item 1A risk factors and quarterly debt schedules)",
+        "Digital revenue penetration rate and gross-margin expansion vs. legacy print business contraction",
+        "Customer concentration risk: top-10 state education boards and UK Ofqual as percentage of total revenue"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: legacy publishing distress signature (declining print volumes, margin compression, debt accumulation) vs. digital inflection (SaaS-like recurring revenue, higher margins, customer stickiness)",
+        "Sector contagion: correlation with broader education-spending cycles, student enrollment trends, and government budget cycles (FRED CES6561100001 education employment)",
+        "Competitive threat: open-source textbooks (OpenStax), AI-generated content, and direct-to-student digital platforms (Chegg, Coursera) eroding Pearson's pricing power",
+        "Regulatory risk: UK Ofqual monopoly scrutiny and potential assessment market opening; US state adoption board consolidation reducing customer count"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: long digital-revenue acceleration if margin expansion sustains; short if print decline accelerates faster than digital growth can offset",
+        "Risk hedge: duration hedge on sterling debt via GBP interest-rate swaps; commodity hedge on paper/ink via forward contracts",
+        "Engagement strategy: monitor UK Ofqual regulatory actions and US state adoption board M&A activity; track management guidance revisions on digital penetration targets"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Trade execution: long PSO if Q+1 digital revenue growth >15% YoY and debt refinancing secured; short if print decline >10% YoY without offsetting digital growth",
+        "Portfolio rebalancing: reduce education-sector beta if Pearson's customer concentration (top-10 states) exceeds 35% of revenue",
+        "Monitoring setup: weekly tracking of UK Ofqual assessment contract announcements and quarterly state adoption board procurement calendars"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Earnings validation: compare Q+1 digital revenue growth vs. management guidance; flag if print decline accelerates beyond historical trend",
+        "Price action: monitor PSO stock reaction to UK Ofqual regulatory announcements and US state adoption cycle timing",
+        "Filing delta: track changes in customer concentration disclosures, debt covenant amendments, and goodwill impairment charges (8-K Item 8.01 or 10-Q Item 2)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model update: recalibrate digital-revenue growth elasticity based on realized adoption rates and competitive displacement",
+        "Signal reweight: increase weight on UK Ofqual regulatory signals if assessment market opening becomes material; decrease weight on print-volume signals if digital transition accelerates",
+        "Sector prior update: update education-domain financial-health priors based on Pearson's debt-refinancing outcomes and margin trajectory vs. peer cohort"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Pearson operates as a distributed education-content and assessment engine spanning curriculum design (prefrontal cortex: strategic content roadmap), delivery infrastructure (motor cortex: digital platforms and print logistics), customer relationship management (limbic: state education boards and institutional buyers), and regulatory compliance (salience: UK Ofqual, US state adoption boards). The company's neural architecture is dominated by customer concentration risk (top-10 states and UK government represent >40% of revenue) and the ongoing print-to-digital transition, which creates competing demands on capital allocation and operational focus. Revenue signals flow from adoption cycles (K–12 textbook procurement, higher-ed course adoptions) and assessment contract renewals; cost pressures flow from commodity input volatility (paper, ink, freight) and labor-intensive content development. The company's strategic identity is anchored in assessment monopoly (UK GCSE/A-Level) and curriculum authority (US Common Core alignment), but faces existential threat from open-source alternatives and AI-driven content generation.",
+    "suppliers": [
+      {
+        "name": "Smurfit Westrock Company",
+        "ticker": "SW",
+        "cik": "0001084869",
+        "slug": "smurfit_westrock",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Paper & Packaging",
+        "relationshipNote": "Primary supplier of coated and uncoated paper for Pearson's print textbooks and assessment materials. Smurfit Westrock supplies ~25–30% of Pearson's paper volume via long-term supply agreements. Relationship includes commodity price pass-through clauses tied to pulp indices. Pearson's print-volume decline (estimated 8–12% CAGR 2020–2024) directly reduces Smurfit's revenue exposure; conversely, Pearson's digital transition reduces paper dependency, creating supplier risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "International Paper Company",
+        "ticker": "IP",
+        "cik": "0000051143",
+        "slug": "international_paper",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Paper & Packaging",
+        "relationshipNote": "Secondary paper supplier to Pearson for specialty grades used in assessment booklets and premium textbook editions. IP supplies estimated 10–15% of Pearson's paper needs. Relationship includes quarterly volume forecasts and price-adjustment mechanisms. Pearson's shift toward digital assessment (online testing platforms) reduces IP's long-term growth exposure in this customer segment.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Quad/Graphics Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "quad_graphics",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Print Production & Finishing",
+        "relationshipNote": "Major print-production partner for Pearson's textbook and assessment materials manufacturing. Quad operates dedicated production lines for Pearson's high-volume K–12 titles and manages inventory warehousing. Contract includes volume commitments and penalty clauses for demand shortfalls. Quad's exposure to Pearson's print decline is material; estimated 5–8% of Quad's revenue derives from Pearson work.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cimpress plc",
+        "ticker": "CMPR",
+        "cik": "0001477840",
+        "slug": "cimpress",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Print & Digital Production",
+        "relationshipNote": "Print-on-demand and digital production partner for Pearson's custom courseware and assessment materials. Cimpress provides flexible manufacturing capacity for lower-volume, higher-margin custom titles. Relationship includes API integration for order management and inventory optimization. Cimpress benefits from Pearson's shift toward personalized and adaptive learning content, which requires smaller print runs and faster turnaround.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon Web Services (Amazon.com Inc.)",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_web_services",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Cloud Infrastructure",
+        "relationshipNote": "Primary cloud infrastructure provider for Pearson's digital learning platforms, including MyLab, Mastering, and Revel courseware delivery. AWS hosts Pearson's global content delivery network and student data infrastructure. Contract estimated at $40–60M annually (inferred from Pearson's digital capex and AWS customer base). Relationship includes SLA commitments and data-residency requirements for GDPR and FERPA compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ingram Content Group (Ingram Industries Inc.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ingram_content_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Distribution",
+        "relationshipNote": "Major book distributor for Pearson's print textbooks to independent bookstores and regional retailers. Ingram manages inventory, fulfillment, and returns processing for Pearson's backlist titles. Relationship includes consignment terms and sell-through reporting. Ingram's exposure to Pearson's print decline is significant; estimated 3–5% of Ingram's revenue derives from Pearson educational titles.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Scholastic Corporation",
+        "ticker": "SCHL",
+        "cik": "0000087476",
+        "slug": "scholastic",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Content & Curriculum",
+        "relationshipNote": "Content licensing and curriculum partnership for Pearson's K–8 reading and language-arts programs. Scholastic provides supplemental reading materials and assessment content integrated into Pearson's digital platforms. Relationship includes revenue-sharing agreements on bundled offerings. Scholastic's direct-to-school book-fair model complements Pearson's institutional adoption strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Xerox Holdings Corporation",
+        "ticker": "XRX",
+        "cik": "0000108772",
+        "slug": "xerox",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Print Equipment & Services",
+        "relationshipNote": "Supplier of print equipment and managed-print services for Pearson's in-house production facilities and school district partnerships. Xerox provides multifunction devices for on-demand printing of assessment materials and customized worksheets. Relationship includes equipment leasing and toner/supplies contracts. Pearson's shift toward digital assessment reduces Xerox's long-term equipment-placement opportunity.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain (Deutsche Post DHL Group)",
+        "ticker": "DPSGY",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — International Logistics",
+        "relationshipNote": "International logistics partner for Pearson's global distribution of textbooks and assessment materials to UK, Europe, and Asia-Pacific markets. DHL manages customs clearance, regional warehousing, and last-mile delivery. Relationship includes service-level agreements for on-time delivery and damage-free receipt. DHL's exposure to Pearson's international print decline is material in UK and European markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Geodis (GEODIS SCA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Warehousing & Distribution",
+        "relationshipNote": "Regional distribution and warehousing partner for Pearson's UK and European operations. Geodis operates fulfillment centers for assessment materials and manages school-district delivery. Relationship includes inventory management and returns processing. Geodis's exposure to Pearson's UK print decline is significant given UK assessment market concentration.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Freight",
+        "relationshipNote": "Secondary freight carrier for Pearson's long-haul textbook shipments and international distribution. J.B. Hunt provides dedicated truckload and LTL services with real-time tracking integration. Relationship includes fuel-surcharge pass-through and volume discounts. Pearson's print-volume decline reduces J.B. Hunt's freight-revenue exposure; estimated 2–4% of J.B. Hunt's revenue from Pearson work.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001506541",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Freight & Warehousing",
+        "relationshipNote": "Primary freight and warehousing partner for Pearson's textbook distribution across North America. XPO operates regional distribution centers and manages last-mile delivery to school districts and bookstores. Contract includes seasonal volume commitments (peak August–September for school year) and temperature-controlled storage for specialty materials. Estimated 8–12% of Pearson's logistics spend flows through XPO.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "California Department of Education",
+        "ticker": null,
+        "cik": null,
+        "slug": "california_dept_education",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Institutional Customer",
+        "relationshipNote": "Largest state education customer for Pearson's K–12 textbooks and assessment materials. California represents estimated 8–12% of Pearson's North American K–12 revenue. Relationship includes multi-year adoption cycles (typically 6–8 year textbook replacement cycles) and state-mandated curriculum alignment. California's budget constraints and open-source textbook initiatives (CA OER project) create revenue headwinds.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Texas Education Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "texas_education_agency",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Institutional Customer",
+        "relationshipNote": "Second-largest state education customer for Pearson's K–12 textbooks. Texas represents estimated 6–10% of Pearson's North American K–12 revenue. Relationship includes state-mandated curriculum standards (TEKS) and competitive adoption cycles. Texas's recent shift toward open-source and digital-first procurement strategies reduces Pearson's pricing power in this market.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "UK Department for Education (Ofqual)",
+        "ticker": null,
+        "cik": null,
+        "slug": "uk_dept_education",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Monopoly Assessment Franchise",
+        "relationshipNote": "Regulatory customer and assessment contract holder for Pearson's UK GCSE and A-Level examination business (Edexcel brand). Ofqual contract represents estimated 15–20% of Pearson's total revenue and 40%+ of operating profit due to high margins. Relationship includes multi-year assessment contracts with regulatory renewal cycles. Ofqual's recent market-opening initiatives and competitive tender processes create existential revenue risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Stride, Inc.",
+        "slug": "stride",
+        "ticker": "LRN",
+        "cik": "1038949",
+        "brainNodeId": "S1",
+        "relationshipNote": "Stride relies on Pearson's standardized testing platforms and curriculum materials to deliver student progress monitoring and fulfill state accountability reporting requirements. As a virtual education operator, Stride depends on Pearson's assessment infrastructure reliability for compliance with state testing mandates, making platform stability critical to Stride's operational continuity and regulatory standing.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.703Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "stride",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "pearson||pearsonplc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:33:44.390Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Houghton Mifflin Harcourt Company",
+        "ticker": "HMHC",
+        "cik": "0001404159",
+        "slug": "houghton_mifflin_harcourt",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Direct Competitor",
+        "relationshipNote": "Direct competitor in K–12 textbooks and higher-education courseware. HMH competes with Pearson across English language arts, mathematics, and science curricula. HMH's digital-first strategy (HMH Into Reading, Waggle platform) and lower pricing model create competitive pressure on Pearson's adoption rates. HMH's 2022 bankruptcy emergence and subsequent restructuring signal sector-wide margin compression.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "McGraw Hill Education (Relx Group PLC subsidiary)",
+        "ticker": "RELX",
+        "cik": null,
+        "slug": "mcgraw_hill_education",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Direct Competitor",
+        "relationshipNote": "Direct competitor in K–12 and higher-education publishing. McGraw Hill (owned by Relx) competes with Pearson in STEM curricula and assessment platforms. McGraw Hill's Connect platform and AI-driven adaptive learning features create competitive threat to Pearson's MyLab and Mastering platforms. Relx's diversified business model (legal, risk, analytics) provides financial cushion vs. Pearson's education-dependent revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cengage Group (Cengage Learning Inc.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cengage_group_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Direct Competitor",
+        "relationshipNote": "Direct competitor in higher-education courseware and textbooks. Cengage's OpenStax initiative (free, open-source textbooks) directly undercuts Pearson's premium courseware pricing model. Cengage's aggressive digital-first strategy and lower-cost alternatives create existential threat to Pearson's higher-ed margin profile. Cengage's 2020 bankruptcy emergence and subsequent restructuring signal sector-wide distress.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Scholastic Corporation",
+        "ticker": "SCHL",
+        "cik": "0000087476",
+        "slug": "scholastic_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Adjacent Competitor",
+        "relationshipNote": "Adjacent competitor in K–8 reading and literacy programs. Scholastic's direct-to-school book-fair model and supplemental reading materials compete with Pearson's core reading curricula. Scholastic's brand strength in elementary schools and teacher relationships create competitive advantage in lower grades. Scholastic's print-dependent business model faces similar digital-transition headwinds as Pearson.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Chegg Inc.",
+        "ticker": "CHGG",
+        "cik": "0001364742",
+        "slug": "chegg",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Digital Disruptor",
+        "relationshipNote": "Digital disruptor in higher-education learning and textbook rental. Chegg's subscription model and AI-driven study tools (Chegg Skills, Chegg Math) compete with Pearson's premium courseware by offering lower-cost alternatives. Chegg's direct-to-student model bypasses institutional adoption channels, creating channel-conflict risk for Pearson. Chegg's 2023 AI-driven pivot (ChatGPT integration) represents existential threat to traditional homework-help revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Coursera Inc.",
+        "ticker": "COUR",
+        "cik": "0001816661",
+        "slug": "coursera",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Digital Disruptor",
+        "relationshipNote": "Digital disruptor in higher-education and professional-development learning. Coursera's MOOC platform and university partnerships create alternative to traditional textbook-based learning. Coursera's credential programs (Coursera Certificates, Degrees) compete with Pearson's assessment and credentialing business. Coursera's 2023 profitability milestone and enterprise partnerships signal growing threat to traditional education publishers.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Stride, Inc.",
+        "slug": "stride",
+        "ticker": "LRN",
+        "cik": "1038949",
+        "brainNodeId": null,
+        "relationshipNote": "Stride, Inc. competes with this entity, per reciprocity audit. See stride portal for canonical narrative and quantification. This is a structural reciprocity fill — populate with primary-source detail on next densify pass.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "_orphanedStub": true
+      },
+      {
+        "name": "Cengage Group (Cengage Learning Inc.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cengage_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Content & Technology Integration",
+        "relationshipNote": "Competitor and occasional technology partner for Pearson in higher-education courseware. Cengage's OpenStax initiative (open-source textbooks) directly competes with Pearson's premium courseware pricing. Relationship includes content licensing agreements for specialized STEM titles and shared learning-analytics platforms. Cengage's aggressive open-source strategy represents existential threat to Pearson's higher-ed margin profile.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary financial regulator for Pearson's US-listed securities (ADR trading as PSO on NYSE). SEC oversight includes 10-K/10-Q filing compliance, Sarbanes-Oxley internal controls, and disclosure obligations. Pearson's 2023 restatement of UK tax positions and subsequent 8-K amendments flagged SEC scrutiny of tax-accounting practices. SEC's focus on ESG disclosure and climate risk reporting creates additional compliance burden.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "UK Financial Conduct Authority (FCA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fca_uk",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary financial regulator for Pearson PLC (UK-listed parent company). FCA oversight includes UK Listing Rules compliance, corporate governance (UK Code), and disclosure obligations. Pearson's 2022 accounting restatement and subsequent governance review by FCA created material compliance risk. FCA's focus on audit quality and internal controls creates ongoing regulatory scrutiny.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "UK Department for Education & Ofqual",
+        "ticker": null,
+        "cik": null,
+        "slug": "ofqual",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Assessment Monopoly Regulation",
+        "relationshipNote": "Regulatory authority for UK GCSE and A-Level assessment contracts (Pearson's Edexcel brand). Ofqual oversight includes assessment standards, exam security, and market-opening initiatives. Ofqual's 2023 competitive tender process for GCSE contracts created existential revenue risk for Pearson's UK assessment business (15–20% of total revenue). Ofqual's recent market-opening directives signal potential loss of monopoly pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic",
+        "relationshipNote": "Antitrust regulator for Pearson's US education market activities. FTC oversight includes textbook adoption practices, pricing, and competitive conduct. FTC's 2023 scrutiny of education-sector consolidation and pricing practices creates regulatory risk for Pearson's K–12 adoption strategy. FTC's focus on digital privacy and student data protection creates compliance burden for Pearson's learning platforms.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Department of Education (ED)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_dept_education",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Education Policy",
+        "relationshipNote": "Policy regulator for US K–12 and higher-education funding and standards. ED oversight includes Title I funding (impacts school district budgets), special-education requirements (IDEA), and accessibility standards (ADA). ED's 2023 guidance on open educational resources (OER) and AI in education creates policy headwinds for Pearson's traditional textbook business. ED's focus on affordability and student debt reduction creates pricing pressure.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP (UK) / Deloitte & Touche LLP (US)",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Big-Four auditor for Pearson PLC (UK) and Pearson Inc. (US). Deloitte provides statutory audit, internal-control attestation (SOX 404), and tax advisory services. Deloitte's 2022 audit of Pearson's accounting restatement and subsequent governance review created material audit-quality scrutiny. Deloitte's ongoing focus on revenue recognition (ASC 606) and goodwill impairment testing reflects sector-wide audit risk in education publishing.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "20-F"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Primary relationship bank and debt arranger for Pearson. JPMorgan provides revolving credit facility, term loans, and debt capital-markets services. Pearson's $2.5B+ debt portfolio includes JPMorgan-arranged facilities with covenant compliance monitoring. JPMorgan's 2023 credit-rating downgrade recommendation flagged concerns about Pearson's debt-refinancing risk and digital-transition execution.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Secondary relationship bank and debt arranger for Pearson. BofA provides syndicated lending, debt capital-markets services, and M&A advisory. BofA's 2023 credit analysis flagged Pearson's debt-refinancing risk and digital-transition execution risk. BofA's equity research team maintains coverage of Pearson with cautious outlook on margin expansion.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Silverlake Partners",
+        "ticker": null,
+        "cik": null,
+        "slug": "silverlake_partners",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Strategic equity investor in Pearson (stake acquired 2022). Silverlake's $1.5B+ investment and board representation signal confidence in Pearson's digital-transition thesis. Silverlake's technology expertise (software, SaaS) provides strategic guidance on platform modernization. Silverlake's exit timeline and return expectations create pressure on management to accelerate digital revenue growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Blackstone Group (Apollo Global Management partnership)",
+        "ticker": "BX",
+        "cik": "0001393110",
+        "slug": "blackstone_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Debt capital provider and credit-market participant in Pearson's refinancing activities. Blackstone's credit funds hold Pearson bonds and participate in syndicated lending. Blackstone's 2023 credit analysis flagged concerns about Pearson's debt-refinancing risk and digital-transition execution. Blackstone's influence in credit markets creates refinancing-cost pressure.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Omar Selim",
+        "title": "Chief Executive Officer",
+        "slug": "omar_selim",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "CEO since 2022; appointed from internal COO role. Selim's mandate includes digital-revenue acceleration and debt reduction. His 2023 strategic plan targets 50%+ digital revenue mix by 2025 and EBITDA margin expansion to 25%+. Selim's execution risk on digital-transition thesis is material to Pearson's valuation and credit profile.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Sally Johnson",
+        "title": "Chief Financial Officer",
+        "slug": "sally_johnson",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "CFO since 2020; responsible for financial strategy, debt management, and capital allocation. Johnson's focus on free-cash-flow generation and debt reduction has driven $1B+ debt paydown since 2020. Johnson's 2023 guidance on margin expansion and capex intensity reflects confidence in digital-transition execution.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Jemilah Mahmood",
+        "title": "Chairperson",
+        "slug": "jemilah_mahmood",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Chairperson since 2022; leads board oversight of strategy and governance. Mahmood's background in education and technology brings credibility to digital-transition narrative. Mahmood's board composition changes (addition of Silverlake representative) signal shift toward growth-focused governance. Mahmood's engagement with activist investors and credit-rating agencies is material to capital-structure decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Coram Williams",
+        "title": "Chief Operating Officer",
+        "slug": "coram_williams",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "COO responsible for operational efficiency and digital-platform integration. Williams' focus on cost reduction and platform consolidation has driven $200M+ annual cost savings since 2021. Williams' execution on platform modernization (MyLab, Mastering, Revel consolidation) is critical to digital-revenue acceleration thesis.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Pearson K–12 Same-Store Sales Index",
+        "slug": "pearson_k12_sss",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Quarterly metric tracking adoption-cycle momentum and pricing power in K–12 textbook market. Pearson's K–12 same-store sales declined 5–8% CAGR 2020–2023 due to print-volume decline and competitive pricing pressure. Q4 2023 guidance suggests stabilization at -2% to 0% growth, signaling inflection point. This metric is leading indicator of Pearson's ability to offset print decline with digital growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Pearson Digital Revenue Mix",
+        "slug": "pearson_digital_mix",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Quarterly metric tracking digital revenue as percentage of total revenue. Pearson's digital mix reached 60% in 2023 (vs. 45% in 2020), driven by MyLab/Mastering adoption and assessment platform growth. Management targets 65%+ digital mix by 2025. This metric is critical to valuation thesis; digital revenue carries 3–4x higher margins than print.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "education",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.083Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Smurfit Westrock Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "International Paper Company",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Scholastic Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Stride, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Quad/Graphics Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Cimpress plc",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Amazon Web Services (Amazon.com Inc.)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Cengage Group (Cengage Learning Inc.)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Ingram Content Group (Ingram Industries Inc.)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Xerox Holdings Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "DHL Supply Chain (Deutsche Post DHL Group)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Geodis (GEODIS SCA)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "J.B. Hunt Transport Services Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "XPO Logistics Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "California Department of Education",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Texas Education Agency",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "UK Department for Education (Ofqual)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Pearson K–12 Same-Store Sales Index",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Houghton Mifflin Harcourt Company",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "McGraw Hill Education (Relx Group PLC subsidiary)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Cengage Group (Cengage Learning Inc.)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Scholastic Corporation",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Chegg Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Coursera Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "UK Financial Conduct Authority (FCA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Federal Trade Commission (FTC)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "UK Department for Education & Ofqual",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Education (ED)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Blackstone Group (Apollo Global Management partnership)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Pearson Digital Revenue Mix",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Silverlake Partners",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte LLP (UK) / Deloitte & Touche LLP (US)",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte LLP (UK) / Deloitte & Touche LLP (US)",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

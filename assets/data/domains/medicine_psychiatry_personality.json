@@ -1,0 +1,2066 @@
+{
+  "domainId": "medicine_psychiatry_personality",
+  "title": "Personality Disorders",
+  "parentPortal": "medicine_psychiatry_portal.html",
+  "parentLabel": "Psychiatry",
+  "phase": "P8",
+  "activations": [
+    {
+      "brainNodeId": "VEST",
+      "state": "active",
+      "domainLabel": "Personality Disorders Assessment & Diagnostics",
+      "domainDescription": "Systematic management of personality disorders assessment & diagnostics across all personality disorders functions and operations",
+      "group": "analysis",
+      "phase": "P8",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Design Personality Disorders Assessment & Diagnostics Quality Assurance Program",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Design a clinical quality improvement program for personality disorders assessment & diagnostics applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "SILOED_PERSONALITY_DISORDERS_ASSESSME -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for personality disorders assessment & diagnostics using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Personality Disorders Assessment & Diagnostics Integration Architecture",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Deploy a simulation-based clinical training for personality disorders assessment & diagnostics using high-fidelity mannequins and standardized patients per SSH accreditation.",
+          "cite": "Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81; Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226",
+          "target": "OUTDATED_PERSONALITY_DISORDERS_ASSESSME -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            },
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for personality disorders assessment & diagnostics using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Personality Disorders Assessment & Diagnostics Capability Maturity Model",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Operationalize a laboratory modernization for personality disorders assessment & diagnostics implementing CAP accreditation standards with LIS integration and point-of-care testing.",
+          "cite": "Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press; AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ",
+          "target": "INEFFICIENT_PERSONALITY_DISORDERS_ASSESSME -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for personality disorders assessment & diagnostics against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Personality Disorders Assessment & Diagnostics Quality Assurance Program",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Calibrate a safety culture transformation for personality disorders assessment & diagnostics using AHRQ SOPS assessment with high-reliability organization principles.",
+          "cite": "Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969; Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851",
+          "target": "INCONSISTENT_PERSONALITY_DISORDERS_ASSESSME -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            },
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for personality disorders assessment & diagnostics using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Personality Disorders Assessment & Diagnostics Integration Architecture",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Streamline a healthcare interoperability platform for personality disorders assessment & diagnostics implementing HL7 FHIR R4 APIs per ONC TEFCA requirements.",
+          "cite": "SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED; ONC (2023). Health IT Certification Program. Office of the National Coordinator",
+          "target": "UNMONITORED_PERSONALITY_DISORDERS_ASSESSME -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for personality disorders assessment & diagnostics using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Personality Disorders Assessment & Diagnostics Capability Maturity Model",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Assess a clinical quality improvement program for personality disorders assessment & diagnostics applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "UNDERPERFORMING_PERSONALITY_DISORDERS_ASSESSME -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for personality disorders assessment & diagnostics using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_psychiatry_personality_antisocial_portal.html"
+    },
+    {
+      "brainNodeId": "ARC",
+      "state": "active",
+      "domainLabel": "Personality Disorders Core Operations",
+      "domainDescription": "Systematic management of personality disorders core operations across all personality disorders functions and operations",
+      "group": "operations",
+      "phase": "P8",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Personality Disorders Core Operations Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a value-based care transformation for personality disorders core operations implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71; WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO",
+          "target": "FRAGMENTED_PERSONALITY_DISORDERS_CORE_OPE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            },
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for personality disorders core operations using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Personality Disorders Core Operations Feedback Loop Design",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop a clinical mentorship program for personality disorders core operations pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226; Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81",
+          "target": "SILOED_PERSONALITY_DISORDERS_CORE_OPE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            },
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EBP competency for personality disorders core operations using Fresno test or Berlin questionnaire",
+            "Design training in literature search, critical appraisal, and evidence synthesis",
+            "Deliver journal club facilitation training with structured appraisal tools",
+            "Implement bedside teaching of evidence application and GRADE interpretation",
+            "Measure EBP knowledge, attitudes, and clinical practice change outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical decision support utilization using CDS analytics dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical decision support utilization measured monthly. Target: 70% alert acknowledgment rate. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ CDS Five Rights benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical decision support utilization trending toward 85% acknowledgment. Escalate if <50% acknowledgment floor. ANNUAL REVIEW: Comprehensive audit using AHRQ CDS framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Personality Disorders Core Operations Sustainability Audit",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a JCI-accredited quality infrastructure for personality disorders core operations implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ; Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press",
+          "target": "OUTDATED_PERSONALITY_DISORDERS_CORE_OPE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess surgical care for personality disorders core operations using ACS NSQIP outcomes data",
+            "Design ERAS protocol with evidence-based pre-, intra-, and post-operative elements",
+            "Implement standardized surgical safety checklist per WHO Safe Surgery framework",
+            "Deploy real-time surgical site surveillance with NHSN reporting",
+            "Measure ERAS compliance, LOS reduction, and complication rate improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — medication error rate using medication event reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — medication error rate measured monthly. Target: 50% reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against ISMP safety benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — medication error rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISMP Guidelines. Report to Pharmacy Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Personality Disorders Core Operations Innovation Pipeline",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement a clinician well-being program for personality disorders core operations addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851; Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969",
+          "target": "INEFFICIENT_PERSONALITY_DISORDERS_CORE_OPE -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            },
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            }
+          ],
+          "steps": [
+            "Evaluate HRO readiness for personality disorders core operations using Weick and Sutcliffe HRO assessment",
+            "Design high-reliability program with preoccupation with failure and deference to expertise",
+            "Implement safety behaviors: stop-the-line, cross-checking, and three-way communication",
+            "Deploy real-time safety dashboards with tiered daily management huddles",
+            "Measure safety event rates, near-miss reporting, and HRO culture maturity"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — health equity metric using CMS health disparity measures. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — health equity metric measured quarterly. Target: disparity gap <10% across groups. PHASE 3 (Months 4-6): Midpoint review — compare against CMS equity targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — health equity metric trending toward gap <5%. Escalate if <gap <20% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS Framework for Health Equity. Report to Health Equity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Personality Disorders Core Operations Feedback Loop Design",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a healthcare cybersecurity program for personality disorders core operations implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "ONC (2023). Health IT Certification Program. Office of the National Coordinator; SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED",
+          "target": "INCONSISTENT_PERSONALITY_DISORDERS_CORE_OPE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess cybersecurity for personality disorders core operations using NIST CSF and HIPAA Security Rule gaps",
+            "Design defense-in-depth with network segmentation, encryption, and access controls",
+            "Implement SIEM, endpoint protection, and medical device security program",
+            "Conduct tabletop exercises and penetration testing with incident response drills",
+            "Achieve HHS 405(d) HICP alignment with annual risk assessment and attestation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity healthcare maturity using NIST CSF + HIPAA assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity healthcare maturity measured quarterly. Target: NIST tier 3 with HIPAA compliance. PHASE 3 (Months 4-6): Midpoint review — compare against HHS 405(d) HICP benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity healthcare maturity trending toward tier 4. Escalate if <tier 2 with HIPAA floor. ANNUAL REVIEW: Comprehensive audit using HHS 405(d) HICP framework. Report to CISO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Personality Disorders Core Operations Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a value-based care transformation for personality disorders core operations implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "UNMONITORED_PERSONALITY_DISORDERS_CORE_OPE -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for personality disorders core operations using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_psychiatry_personality_avoidant_portal.html"
+    },
+    {
+      "brainNodeId": "RSC",
+      "state": "active",
+      "domainLabel": "Personality Disorders Infrastructure & Capacity",
+      "domainDescription": "Systematic management of personality disorders infrastructure & capacity across all personality disorders functions and operations",
+      "group": "systems",
+      "phase": "P8",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Personality Disorders Infrastructure & Capacity Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a value-based care transformation for personality disorders infrastructure & capacity implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "INCONSISTENT_PERSONALITY_DISORDERS_INFRASTR -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Assess value delivery for personality disorders infrastructure & capacity using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Personality Disorders Infrastructure & Capacity Sustainability Audit",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop a clinical mentorship program for personality disorders infrastructure & capacity pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "ACGME (2022). Common Program Requirements. Accreditation Council for GME; Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge",
+          "target": "UNMONITORED_PERSONALITY_DISORDERS_INFRASTR -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map educational objectives for personality disorders infrastructure & capacity to ACGME competencies and EPAs",
+            "Design competency-based curriculum with workplace-based assessments",
+            "Implement portfolio-based evaluation with entrustment decisions",
+            "Conduct competency committee reviews with aggregated assessment data",
+            "Graduate learners based on demonstrated competency achievement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — CME completion rate using CME tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — CME completion rate measured annually. Target: 100% physicians current. PHASE 3 (Months 4-6): Midpoint review — compare against ACCME accreditation requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — CME completion rate trending toward 100% with specialty credits. Escalate if <95% minimum. ANNUAL REVIEW: Comprehensive audit using ACCME framework. Report to CME Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Personality Disorders Infrastructure & Capacity Innovation Pipeline",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a JCI-accredited quality infrastructure for personality disorders infrastructure & capacity implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "WHO (2020). World Health Statistics. WHO; CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid",
+          "target": "UNDERPERFORMING_PERSONALITY_DISORDERS_INFRASTR -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit HAI rates for personality disorders infrastructure & capacity using CDC NHSN standardized infection ratios",
+            "Design prevention bundles per SHEA/IDSA practice recommendations",
+            "Implement bundles with education, audit, and feedback for hand hygiene and line care",
+            "Deploy electronic surveillance for real-time HAI detection and reporting",
+            "Measure SIR reduction and sustain with ongoing bundle compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — surgical site infection rate using NHSN surgical surveillance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — surgical site infection rate measured monthly. Target: SSI below national benchmark. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN procedure-specific SIR. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — surgical site infection rate trending toward SIR below 0.7. Escalate if <SIR below 1.0 ceiling. ANNUAL REVIEW: Comprehensive audit using CDC SSI prevention bundle. Report to Surgical Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Personality Disorders Infrastructure & Capacity Feedback Loop Design",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement a clinician well-being program for personality disorders infrastructure & capacity addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768; Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115",
+          "target": "REACTIVE_PERSONALITY_DISORDERS_INFRASTR -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            },
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            }
+          ],
+          "steps": [
+            "Evaluate patient engagement for personality disorders infrastructure & capacity using patient activation measure (PAM)",
+            "Design shared decision-making program with condition-specific decision aids",
+            "Train clinicians in motivational interviewing and SDM techniques",
+            "Implement patient portals with care plan access and messaging capabilities",
+            "Measure PAM scores, SDM utilization, and patient experience improvements"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture score using AHRQ SOPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture score measured annually. Target: 75% positive safety culture. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ SOPS national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture score trending toward 85% positive. Escalate if <65% positive floor. ANNUAL REVIEW: Comprehensive audit using AHRQ SOPS framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Personality Disorders Infrastructure & Capacity Sustainability Audit",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a healthcare cybersecurity program for personality disorders infrastructure & capacity implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO; DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA",
+          "target": "FRAGMENTED_PERSONALITY_DISORDERS_INFRASTR -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate interoperability for personality disorders infrastructure & capacity against ONC TEFCA requirements",
+            "Design FHIR R4 API implementation with patient access and provider exchange",
+            "Implement health information exchange connections with ADT and clinical summary sharing",
+            "Deploy patient data matching and identity management solution",
+            "Measure data exchange volume, query response times, and care gap closure rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interoperability score using ONC Interoperability Standards. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interoperability score measured quarterly. Target: FHIR R4 API live. PHASE 3 (Months 4-6): Midpoint review — compare against ONC TEFCA framework requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interoperability score trending toward TEFCA participation. Escalate if <FHIR read-only minimum. ANNUAL REVIEW: Comprehensive audit using ONC TEFCA framework. Report to CIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Personality Disorders Infrastructure & Capacity Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a value-based care transformation for personality disorders infrastructure & capacity implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "SILOED_PERSONALITY_DISORDERS_INFRASTR -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Assess value delivery for personality disorders infrastructure & capacity using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_psychiatry_personality_borderline_portal.html"
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Personality Disorders Risk & Resilience",
+      "domainDescription": "Systematic management of personality disorders risk & resilience across all personality disorders functions and operations",
+      "group": "governance",
+      "phase": "P8",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Design Personality Disorders Risk & Resilience Capability Maturity Model",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Design a clinical quality improvement program for personality disorders risk & resilience applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "SILOED_PERSONALITY_DISORDERS_RISK___R -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Stratify population risk for personality disorders risk & resilience using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Personality Disorders Risk & Resilience Quality Assurance Program",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Deploy a simulation-based clinical training for personality disorders risk & resilience using high-fidelity mannequins and standardized patients per SSH accreditation.",
+          "cite": "Gawande, A. (2009). The Checklist Manifesto. Henry Holt; Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181",
+          "target": "OUTDATED_PERSONALITY_DISORDERS_RISK___R -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for personality disorders risk & resilience using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Personality Disorders Risk & Resilience Integration Architecture",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Operationalize a laboratory modernization for personality disorders risk & resilience implementing CAP accreditation standards with LIS integration and point-of-care testing.",
+          "cite": "JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International; Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust",
+          "target": "INEFFICIENT_PERSONALITY_DISORDERS_RISK___R -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for personality disorders risk & resilience against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Personality Disorders Risk & Resilience Capability Maturity Model",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Calibrate a safety culture transformation for personality disorders risk & resilience using AHRQ SOPS assessment with high-reliability organization principles.",
+          "cite": "Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383; Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139",
+          "target": "INCONSISTENT_PERSONALITY_DISORDERS_RISK___R -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            },
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for personality disorders risk & resilience using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Personality Disorders Risk & Resilience Quality Assurance Program",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Streamline a healthcare interoperability platform for personality disorders risk & resilience implementing HL7 FHIR R4 APIs per ONC TEFCA requirements.",
+          "cite": "HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics; HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7",
+          "target": "UNMONITORED_PERSONALITY_DISORDERS_RISK___R -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for personality disorders risk & resilience using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Personality Disorders Risk & Resilience Integration Architecture",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Assess a clinical quality improvement program for personality disorders risk & resilience applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "UNDERPERFORMING_PERSONALITY_DISORDERS_RISK___R -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for personality disorders risk & resilience using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_psychiatry_personality_narcissistic_portal.html"
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Personality Disorders Policy & Governance",
+      "domainDescription": "Systematic management of personality disorders policy & governance across all personality disorders functions and operations",
+      "group": "innovation",
+      "phase": "P8",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Deploy Personality Disorders Policy & Governance Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Deploy a value-based care transformation for personality disorders policy & governance implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027; Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759",
+          "target": "INEFFICIENT_PERSONALITY_DISORDERS_POLICY__ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            },
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for personality disorders policy & governance using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Personality Disorders Policy & Governance Benchmarking Framework",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Operationalize a clinical mentorship program for personality disorders policy & governance pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge; ACGME (2022). Common Program Requirements. Accreditation Council for GME",
+          "target": "INCONSISTENT_PERSONALITY_DISORDERS_POLICY__ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for personality disorders policy & governance using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Personality Disorders Policy & Governance Impact Evaluation",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Calibrate a JCI-accredited quality infrastructure for personality disorders policy & governance implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid; WHO (2020). World Health Statistics. WHO",
+          "target": "UNMONITORED_PERSONALITY_DISORDERS_POLICY__ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for personality disorders policy & governance against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Personality Disorders Policy & Governance Performance Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Streamline a clinician well-being program for personality disorders policy & governance addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115; Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768",
+          "target": "UNDERPERFORMING_PERSONALITY_DISORDERS_POLICY__ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            },
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for personality disorders policy & governance using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Personality Disorders Policy & Governance Benchmarking Framework",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Assess a healthcare cybersecurity program for personality disorders policy & governance implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA; WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO",
+          "target": "REACTIVE_PERSONALITY_DISORDERS_POLICY__ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for personality disorders policy & governance using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Personality Disorders Policy & Governance Impact Evaluation",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Create a value-based care transformation for personality disorders policy & governance implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71; WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO",
+          "target": "FRAGMENTED_PERSONALITY_DISORDERS_POLICY__ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            },
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Stratify population risk for personality disorders policy & governance using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Personality Disorders Technology & Innovation",
+      "domainDescription": "Systematic management of personality disorders technology & innovation across all personality disorders functions and operations",
+      "group": "development",
+      "phase": "P8",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Configure Personality Disorders Technology & Innovation Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Configure a value-based care transformation for personality disorders technology & innovation implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "UNDERPERFORMING_PERSONALITY_DISORDERS_TECHNOLO -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Assess value delivery for personality disorders technology & innovation using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Personality Disorders Technology & Innovation Sustainability Audit",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Strengthen a clinical mentorship program for personality disorders technology & innovation pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "ACGME (2022). Common Program Requirements. Accreditation Council for GME; Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge",
+          "target": "REACTIVE_PERSONALITY_DISORDERS_TECHNOLO -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map educational objectives for personality disorders technology & innovation to ACGME competencies and EPAs",
+            "Design competency-based curriculum with workplace-based assessments",
+            "Implement portfolio-based evaluation with entrustment decisions",
+            "Conduct competency committee reviews with aggregated assessment data",
+            "Graduate learners based on demonstrated competency achievement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — CME completion rate using CME tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — CME completion rate measured annually. Target: 100% physicians current. PHASE 3 (Months 4-6): Midpoint review — compare against ACCME accreditation requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — CME completion rate trending toward 100% with specialty credits. Escalate if <95% minimum. ANNUAL REVIEW: Comprehensive audit using ACCME framework. Report to CME Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Personality Disorders Technology & Innovation Innovation Pipeline",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Monitor a JCI-accredited quality infrastructure for personality disorders technology & innovation implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "WHO (2020). World Health Statistics. WHO; CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid",
+          "target": "FRAGMENTED_PERSONALITY_DISORDERS_TECHNOLO -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit HAI rates for personality disorders technology & innovation using CDC NHSN standardized infection ratios",
+            "Design prevention bundles per SHEA/IDSA practice recommendations",
+            "Implement bundles with education, audit, and feedback for hand hygiene and line care",
+            "Deploy electronic surveillance for real-time HAI detection and reporting",
+            "Measure SIR reduction and sustain with ongoing bundle compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — surgical site infection rate using NHSN surgical surveillance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — surgical site infection rate measured monthly. Target: SSI below national benchmark. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN procedure-specific SIR. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — surgical site infection rate trending toward SIR below 0.7. Escalate if <SIR below 1.0 ceiling. ANNUAL REVIEW: Comprehensive audit using CDC SSI prevention bundle. Report to Surgical Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Personality Disorders Technology & Innovation Feedback Loop Design",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build a clinician well-being program for personality disorders technology & innovation addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768; Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115",
+          "target": "SILOED_PERSONALITY_DISORDERS_TECHNOLO -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            },
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            }
+          ],
+          "steps": [
+            "Evaluate patient engagement for personality disorders technology & innovation using patient activation measure (PAM)",
+            "Design shared decision-making program with condition-specific decision aids",
+            "Train clinicians in motivational interviewing and SDM techniques",
+            "Implement patient portals with care plan access and messaging capabilities",
+            "Measure PAM scores, SDM utilization, and patient experience improvements"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture score using AHRQ SOPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture score measured annually. Target: 75% positive safety culture. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ SOPS national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture score trending toward 85% positive. Escalate if <65% positive floor. ANNUAL REVIEW: Comprehensive audit using AHRQ SOPS framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Personality Disorders Technology & Innovation Sustainability Audit",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Optimize a healthcare cybersecurity program for personality disorders technology & innovation implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO; DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA",
+          "target": "OUTDATED_PERSONALITY_DISORDERS_TECHNOLO -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate interoperability for personality disorders technology & innovation against ONC TEFCA requirements",
+            "Design FHIR R4 API implementation with patient access and provider exchange",
+            "Implement health information exchange connections with ADT and clinical summary sharing",
+            "Deploy patient data matching and identity management solution",
+            "Measure data exchange volume, query response times, and care gap closure rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interoperability score using ONC Interoperability Standards. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interoperability score measured quarterly. Target: FHIR R4 API live. PHASE 3 (Months 4-6): Midpoint review — compare against ONC TEFCA framework requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interoperability score trending toward TEFCA participation. Escalate if <FHIR read-only minimum. ANNUAL REVIEW: Comprehensive audit using ONC TEFCA framework. Report to CIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Personality Disorders Technology & Innovation Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Launch a value-based care transformation for personality disorders technology & innovation implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "INEFFICIENT_PERSONALITY_DISORDERS_TECHNOLO -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Assess value delivery for personality disorders technology & innovation using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "V1",
+      "state": "active",
+      "domainLabel": "Personality Disorders Human Capital & Development",
+      "domainDescription": "Systematic management of personality disorders human capital & development across all personality disorders functions and operations",
+      "group": "quality",
+      "phase": "P8",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Calibrate Personality Disorders Human Capital & Development Standard Operating Procedures",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Calibrate a population health management strategy for personality disorders human capital & development using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "REACTIVE_PERSONALITY_DISORDERS_HUMAN_CA -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess value delivery for personality disorders human capital & development using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Personality Disorders Human Capital & Development Scalability Framework",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Streamline an evidence-based practice training for personality disorders human capital & development teaching critical appraisal, GRADE methodology, and clinical guideline application.",
+          "cite": "Gawande, A. (2009). The Checklist Manifesto. Henry Holt; Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181",
+          "target": "FRAGMENTED_PERSONALITY_DISORDERS_HUMAN_CA -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map educational objectives for personality disorders human capital & development to ACGME competencies and EPAs",
+            "Design competency-based curriculum with workplace-based assessments",
+            "Implement portfolio-based evaluation with entrustment decisions",
+            "Conduct competency committee reviews with aggregated assessment data",
+            "Graduate learners based on demonstrated competency achievement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — CME completion rate using CME tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — CME completion rate measured annually. Target: 100% physicians current. PHASE 3 (Months 4-6): Midpoint review — compare against ACCME accreditation requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — CME completion rate trending toward 100% with specialty credits. Escalate if <95% minimum. ANNUAL REVIEW: Comprehensive audit using ACCME framework. Report to CME Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Personality Disorders Human Capital & Development Compliance Monitoring System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Assess an infection prevention bundle for personality disorders human capital & development deploying CDC NHSN surveillance with evidence-based prevention practices per SHEA guidelines.",
+          "cite": "JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International; Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust",
+          "target": "SILOED_PERSONALITY_DISORDERS_HUMAN_CA -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit HAI rates for personality disorders human capital & development using CDC NHSN standardized infection ratios",
+            "Design prevention bundles per SHEA/IDSA practice recommendations",
+            "Implement bundles with education, audit, and feedback for hand hygiene and line care",
+            "Deploy electronic surveillance for real-time HAI detection and reporting",
+            "Measure SIR reduction and sustain with ongoing bundle compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — surgical site infection rate using NHSN surgical surveillance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — surgical site infection rate measured monthly. Target: SSI below national benchmark. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN procedure-specific SIR. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — surgical site infection rate trending toward SIR below 0.7. Escalate if <SIR below 1.0 ceiling. ANNUAL REVIEW: Comprehensive audit using CDC SSI prevention bundle. Report to Surgical Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Personality Disorders Human Capital & Development Standard Operating Procedures",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Create a health equity program for personality disorders human capital & development addressing disparities using CMS equity framework with disaggregated outcomes data.",
+          "cite": "Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383; Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139",
+          "target": "OUTDATED_PERSONALITY_DISORDERS_HUMAN_CA -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            },
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            }
+          ],
+          "steps": [
+            "Evaluate patient engagement for personality disorders human capital & development using patient activation measure (PAM)",
+            "Design shared decision-making program with condition-specific decision aids",
+            "Train clinicians in motivational interviewing and SDM techniques",
+            "Implement patient portals with care plan access and messaging capabilities",
+            "Measure PAM scores, SDM utilization, and patient experience improvements"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture score using AHRQ SOPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture score measured annually. Target: 75% positive safety culture. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ SOPS national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture score trending toward 85% positive. Escalate if <65% positive floor. ANNUAL REVIEW: Comprehensive audit using AHRQ SOPS framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Personality Disorders Human Capital & Development Scalability Framework",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Evaluate an EHR optimization for personality disorders human capital & development advancing HIMSS EMRAM maturity with clinical decision support and order set standardization.",
+          "cite": "HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics; HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7",
+          "target": "INEFFICIENT_PERSONALITY_DISORDERS_HUMAN_CA -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate interoperability for personality disorders human capital & development against ONC TEFCA requirements",
+            "Design FHIR R4 API implementation with patient access and provider exchange",
+            "Implement health information exchange connections with ADT and clinical summary sharing",
+            "Deploy patient data matching and identity management solution",
+            "Measure data exchange volume, query response times, and care gap closure rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interoperability score using ONC Interoperability Standards. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interoperability score measured quarterly. Target: FHIR R4 API live. PHASE 3 (Months 4-6): Midpoint review — compare against ONC TEFCA framework requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interoperability score trending toward TEFCA participation. Escalate if <FHIR read-only minimum. ANNUAL REVIEW: Comprehensive audit using ONC TEFCA framework. Report to CIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Personality Disorders Human Capital & Development Compliance Monitoring System",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Integrate a population health management strategy for personality disorders human capital & development using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "INCONSISTENT_PERSONALITY_DISORDERS_HUMAN_CA -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Assess value delivery for personality disorders human capital & development using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SEPT",
+      "state": "active",
+      "domainLabel": "Personality Disorders Quality & Performance",
+      "domainDescription": "Systematic management of personality disorders quality & performance across all personality disorders functions and operations",
+      "group": "performance",
+      "phase": "P8",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Personality Disorders Quality & Performance Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a value-based care transformation for personality disorders quality & performance implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "FRAGMENTED_PERSONALITY_DISORDERS_QUALITY_ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for personality disorders quality & performance using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Personality Disorders Quality & Performance Innovation Pipeline",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop a clinical mentorship program for personality disorders quality & performance pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181; Gawande, A. (2009). The Checklist Manifesto. Henry Holt",
+          "target": "SILOED_PERSONALITY_DISORDERS_QUALITY_ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            },
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for personality disorders quality & performance using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Personality Disorders Quality & Performance Feedback Loop Design",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a JCI-accredited quality infrastructure for personality disorders quality & performance implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust; JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International",
+          "target": "OUTDATED_PERSONALITY_DISORDERS_QUALITY_ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for personality disorders quality & performance against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Personality Disorders Quality & Performance Sustainability Audit",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement a clinician well-being program for personality disorders quality & performance addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139; Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383",
+          "target": "INEFFICIENT_PERSONALITY_DISORDERS_QUALITY_ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            },
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for personality disorders quality & performance using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Personality Disorders Quality & Performance Innovation Pipeline",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a healthcare cybersecurity program for personality disorders quality & performance implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7; HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics",
+          "target": "INCONSISTENT_PERSONALITY_DISORDERS_QUALITY_ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for personality disorders quality & performance using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Personality Disorders Quality & Performance Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a value-based care transformation for personality disorders quality & performance implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027; Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759",
+          "target": "UNMONITORED_PERSONALITY_DISORDERS_QUALITY_ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            },
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for personality disorders quality & performance using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "VEST",
+      "target": "ARC",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "ARC",
+      "target": "RSC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "RSC",
+      "target": "BLA",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "BLA",
+      "target": "HPA",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "HPA",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "V1",
+      "target": "SEPT",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "VEST",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "RSC",
+      "target": "VEST",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "MEDICINE_PSYCHIATRY_PERSONALITY_SYSTEM_FAILURE",
+      "label": "Medicine Psychiatry Personality System Failure",
+      "summary": "Critical breakdown in Medicine Psychiatry Personality systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "VEST",
+          "dir": "Hyper-active",
+          "detail": "Personality Disorders Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Hypo-active",
+          "detail": "Personality Disorders Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RSC",
+          "dir": "Altered",
+          "detail": "Personality Disorders Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Personality Disorders Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hypo-active",
+          "detail": "Personality Disorders Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MEDICINE_PSYCHIATRY_PERSONALITY_CAPACITY_OVERLOAD",
+      "label": "Medicine Psychiatry Personality Capacity Overload",
+      "summary": "Demand exceeding available Medicine Psychiatry Personality capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "VEST",
+          "dir": "Hyper-active",
+          "detail": "Personality Disorders Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Hyper-active",
+          "detail": "Personality Disorders Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RSC",
+          "dir": "Hyper-active",
+          "detail": "Personality Disorders Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Personality Disorders Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MEDICINE_PSYCHIATRY_PERSONALITY_QUALITY_DEGRADATION",
+      "label": "Medicine Psychiatry Personality Quality Degradation",
+      "summary": "Progressive decline in Medicine Psychiatry Personality quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "VEST",
+          "dir": "Hypo-active",
+          "detail": "Personality Disorders Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Altered",
+          "detail": "Personality Disorders Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RSC",
+          "dir": "Hyper-active",
+          "detail": "Personality Disorders Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hypo-active",
+          "detail": "Personality Disorders Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

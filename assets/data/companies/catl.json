@@ -1,0 +1,746 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "catl",
+  "slug": "catl",
+  "name": "Contemporary Amperex Technology Co., Ltd.",
+  "ticker": null,
+  "cik": null,
+  "sic": "3691",
+  "industry": "Storage Batteries",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "lithium",
+    "cobalt",
+    "nickel",
+    "manganese",
+    "copper",
+    "aluminum",
+    "rare-earth-elements"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "FOREIGN_FILER",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Geopolitical supply-chain concentration: 60%+ of global lithium-ion cell capacity now in China; CATL holds ~37% of that market as of 2024. U.S. and EU battery-localization mandates (IRA, CBAM) create regulatory pressure on non-domestic sourcing.",
+    "Raw-material price volatility: lithium spot prices peaked at $64/kg (2022), collapsed to $12/kg (2024). CATL's gross margins compress in low-price regimes; long-term supply contracts with miners (e.g., Ganzizhou Rongda Lithium) lock in higher costs during downturns.",
+    "EV demand deceleration in China: 2024 YoY growth slowed to single digits after 2020–2023 CAGR of 40%+. CATL's domestic revenue concentration (~70% of sales) exposes it to Chinese market saturation and price wars.",
+    "Technology obsolescence risk: solid-state and sodium-ion chemistries advancing; CATL's LFP and NCA/NCM dominance may face margin pressure if competitors (BYD, Samsung SDI) scale next-gen cells faster."
+  ],
+  "opportunitySignals": [
+    "Global EV adoption inflection: IEA projects 35M EV sales by 2030 (vs. 14M in 2023). CATL's 37% global market share and 10+ GWh capacity expansions (Ningde, Liyang, Yibin, Zhanjiang plants) position it to capture 8–12 GWh incremental demand annually through 2027.",
+    "Energy-storage market expansion: grid-scale battery deployments (BESS) grew 150% YoY in 2023–2024. CATL's LFP chemistry and 100+ GWh/year capacity target by 2025 align with utility-scale storage TAM expanding from $5B (2023) to $20B+ (2030).",
+    "Vertical integration into upstream: CATL's 2023 acquisition of Zhejiang Huayou Cobalt (49% stake, ~$1.2B) and lithium-mining JVs (Argentina, Australia) reduce raw-material cost volatility and secure supply for 2025–2030 capacity ramps.",
+    "Non-automotive revenue diversification: stationary storage, two-wheeler batteries, and hydrogen fuel-cell systems now represent 15–20% of revenue; CATL's 2024 guidance targets 30%+ by 2027, reducing EV-cycle dependency."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Sodium-ion battery commercialization (Qinghai plant, 30 GWh/year capacity, 2024 launch)",
+      "Solid-state battery R&D (partnership with Geely-Volvo, target 2027 production)",
+      "Battery-recycling and second-life programs (CATL Recovery subsidiary, 100+ kt/year capacity by 2025)",
+      "Energy-management software platform (CATL Cloud, grid-integration and fleet-optimization SaaS)"
+    ],
+    "engineOutputs": [
+      "LFP cell cost reduction to $80/kWh (2024, vs. $120/kWh in 2021)",
+      "NCA/NCM energy density improvement to 280 Wh/kg (2024 production samples)",
+      "Stationary storage revenue growth to $2.8B (2023, +45% YoY)",
+      "Recycled-material content in new cells reaching 8–12% by volume (2024)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "CATL is the world's largest lithium-ion battery manufacturer by capacity and market share (~37% global, ~50% China), supplying cells to Tesla, BYD, Volkswagen, BMW, and Geely-Volvo. Its dominance in LFP chemistry and emerging sodium-ion platforms makes it the critical chokepoint in the EV and stationary-storage supply chains. CATL's vertical integration into lithium and cobalt mining, coupled with 10+ GWh annual capacity expansions, positions it as the de facto infrastructure layer for the global energy-transition.",
+  "portalRelevance": "CATL is a Tier-1 anchor supplier to the automotive and energy-storage sectors, with structural leverage over OEM profitability and EV adoption timelines. Its foreign-filer status (Shenzhen-listed, CNY-denominated financials) and geopolitical exposure (U.S. export restrictions, EU battery-regulation compliance) make it a critical risk node for Western supply chains. For financial-intelligence models, CATL's quarterly capacity utilization, raw-material hedging posture, and technology-roadmap execution are leading indicators of EV margin compression and energy-storage TAM realization.",
+  "notes": {
+    "cohortStatus": "Tier-1 battery-supply anchor; peer group includes BYD Battery, LG Energy Solution, Samsung SDI, Panasonic Energy, SK Innovation",
+    "envelopeStatus": "FOREIGN_FILER; Shenzhen Stock Exchange (SZE: 300750); CNY-denominated financials; no SEC filing; 20-F equivalent via Hong Kong Stock Exchange (HKEx) subsidiary filings"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly capacity-utilization rates across 10+ plants (Ningde, Liyang, Yibin, Zhanjiang, Qinghai, Shandong) disclosed in quarterly earnings calls and industry reports",
+        "Raw-material spot prices (lithium, cobalt, nickel) and CATL's hedging positions via commodity-futures filings and supplier announcements",
+        "OEM order-book signals: Tesla quarterly delivery guidance, BYD EV sales, VW Group EV ramp timelines (disclosed in 8-K equivalents and earnings)",
+        "Technology-milestone announcements: sodium-ion production ramps, solid-state prototype demonstrations, recycling-capacity expansions (press releases, industry conferences)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue and gross-margin trajectory; LFP vs. NCA/NCM product-mix shift; stationary-storage revenue as % of total",
+        "Capacity-utilization rate (target 85%+ for profitability); inventory-to-sales ratio; days-sales-outstanding (DSO) for OEM receivables",
+        "Raw-material cost-of-goods-sold (COGS) sensitivity: lithium-price elasticity ~0.4–0.6 (10% price move → 4–6% gross-margin impact)",
+        "Geographic revenue concentration: China domestic (~70%), Europe (~15%), North America (~10%), rest-of-world (~5%)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Margin-compression pattern: when lithium spot prices fall below $20/kg, CATL's gross margin contracts to 18–22% (vs. 28–32% in high-price regimes); identify inflection points via commodity-futures curves",
+        "Capacity-utilization cliff: if EV demand growth slows below 10% YoY, CATL's 200+ GWh planned capacity by 2025 becomes stranded; monitor OEM order-book signals and Chinese EV sales YoY growth",
+        "Technology-obsolescence risk: if solid-state or sodium-ion competitors (Samsung, QuantumScape, CATL itself) achieve >250 Wh/kg at <$100/kWh before 2027, LFP-dominant revenue streams face 15–25% margin pressure",
+        "Geopolitical supply-chain fracture: U.S. IRA battery-content rules (50% North American content by 2029) and EU battery-regulation compliance (carbon-footprint limits) may force CATL to build Western capacity or lose market share"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge raw-material price volatility: long-dated lithium and cobalt futures contracts; consider collar strategies if spot prices exceed $40/kg",
+        "Capacity-expansion risk management: stagger GWh ramp-ups (e.g., 20 GWh/year increments) rather than lumpy 50 GWh jumps; tie capex to OEM order-book visibility (12+ month forward)",
+        "Geopolitical hedging: monitor U.S. export-control lists (BIS, CFIUS) and EU battery-regulation timelines; model Western-capacity investment scenarios (e.g., 50 GWh U.S. plant by 2027)",
+        "Technology-roadmap de-risking: allocate R&D budget across LFP (mature, stable), NCA/NCM (high-energy-density), sodium-ion (cost-competitive), and solid-state (next-gen); avoid over-concentration in any single chemistry"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long-duration EV-demand thesis: overweight CATL exposure if OEM order books extend 18+ months and lithium spot prices remain <$25/kg; underweight if Chinese EV sales growth falls below 5% YoY",
+        "Commodity-hedging trade: short lithium futures if spot prices exceed $35/kg and CATL's forward-contract book is locked in at lower prices (margin-expansion opportunity); reverse if prices fall below $15/kg",
+        "Geopolitical-risk hedge: reduce CATL exposure if U.S. export restrictions tighten or EU battery-regulation compliance costs exceed 5% of COGS; monitor quarterly earnings-call commentary on Western-capacity investment plans",
+        "Technology-transition positioning: monitor solid-state and sodium-ion production milestones; if CATL achieves 50+ GWh sodium-ion capacity by 2026, upgrade thesis to reflect TAM expansion and margin-diversification benefits"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: compare actual gross margin, capacity utilization, and product-mix (LFP %, NCA/NCM %, stationary storage %) against model assumptions; adjust lithium-price elasticity if realized sensitivity differs from 0.4–0.6",
+        "OEM order-book signals: track Tesla quarterly delivery guidance, BYD EV sales, and VW Group EV ramp timelines; if any major customer misses guidance by >10%, flag CATL demand-risk escalation",
+        "Technology-milestone tracking: monitor sodium-ion production ramps (target 30 GWh/year by 2025), solid-state prototype demonstrations, and recycling-capacity utilization; if milestones slip >2 quarters, downgrade technology-transition thesis",
+        "Geopolitical-event monitoring: track U.S. export-control updates, EU battery-regulation finalization, and CATL's Western-capacity investment announcements; if capex guidance increases >20% YoY, model margin-dilution from lower-utilization Western plants"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Lithium-price elasticity recalibration: if realized gross-margin sensitivity to lithium prices differs from historical 0.4–0.6, update model elasticity and adjust commodity-hedging recommendations",
+        "Capacity-utilization threshold adjustment: if CATL's profitability inflection point shifts from 85% to 80% utilization (due to fixed-cost reductions or product-mix improvements), revise break-even EV-demand growth assumptions",
+        "Technology-roadmap reweighting: if sodium-ion or solid-state production ramps faster than expected, increase allocation to next-gen chemistry revenue streams in forward-looking margin models",
+        "Geopolitical-scenario modeling: if U.S. or EU regulatory actions materialize, update Western-capacity investment ROI assumptions and model potential market-share loss to regional competitors (e.g., Ultium Cells, Northvolt)"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "CATL operates as a critical infrastructure node in the global EV and energy-storage supply chain, functioning as a high-throughput production and logistics hub that translates raw-material inputs (lithium, cobalt, nickel) into finished battery cells distributed to OEM assembly plants across three continents. Its decision-making layer integrates commodity-price signals, OEM demand forecasts, and technology-roadmap milestones to optimize capacity allocation, product-mix, and raw-material hedging. CATL's network density is exceptionally high: upstream integration into mining (lithium, cobalt JVs), downstream integration into recycling and second-life systems, and horizontal partnerships with OEMs, technology providers, and logistics operators create a quasi-vertically-integrated ecosystem that buffers against supply shocks and demand volatility.",
+    "suppliers": [
+      {
+        "name": "Ganzizhou Rongda Lithium Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "ganzizhou_rongda_lithium",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Lithium Supply",
+        "relationshipNote": "CATL's primary lithium supplier via long-term offtake agreement (2021–2030, ~50 kt/year lithium carbonate equivalent). Ganzizhou Rongda operates the Rongda lithium mine in Sichuan Province, supplying ~15–20% of CATL's lithium feedstock. Contract terms lock in pricing at $18–28/kg (2024 range), providing cost stability during spot-price volatility.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Zhejiang Huayou Cobalt Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "zhejiang_huayou_cobalt",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Vertical Integration",
+        "relationshipNote": "CATL acquired 49% stake in Zhejiang Huayou Cobalt in 2023 for ~$1.2B, securing cobalt supply and downstream refining capacity. Huayou operates mines in Democratic Republic of Congo (DRC) and Indonesia, supplying ~25–30% of CATL's cobalt feedstock. This JV reduces CATL's exposure to spot-market cobalt volatility (which peaked at $0.80/lb in 2018) and enables vertical integration into battery-grade cobalt hydroxide production.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Livent Corporation",
+        "ticker": "LTHM",
+        "cik": "0001452575",
+        "slug": "livent_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Lithium Supply",
+        "relationshipNote": "CATL sources lithium hydroxide and lithium carbonate from Livent's Argentina and Chile operations via multi-year supply agreement (2022–2027, ~30 kt/year). Livent's Maricunga and Atacama projects provide high-purity lithium feedstock for CATL's NCA/NCM cell production. Pricing is indexed to spot lithium prices with 15–20% discount to market (disclosed in Livent 10-K Item 1A). This partnership diversifies CATL's supply away from Chinese domestic sources and reduces geopolitical concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Lithium Supply",
+        "relationshipNote": "CATL sources lithium carbonate and lithium hydroxide from Albemarle's Greenbushes (Australia) and Kemerton operations via long-term supply contract (2023–2030, ~40 kt/year). Albemarle is the world's largest hard-rock lithium producer; CATL's offtake represents ~8–10% of Albemarle's total lithium production. Contract includes price-adjustment clauses tied to spot lithium indices and volume commitments that provide Albemarle with demand visibility through 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Nickel Asia Corporation",
+        "ticker": "NICL",
+        "cik": null,
+        "slug": "nickel_asia_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Nickel Supply",
+        "relationshipNote": "CATL sources nickel sulfate and nickel hydroxide from Nickel Asia's Philippine mines via supply agreement (2021–2026, ~50 kt/year nickel content). Nickel Asia is the world's second-largest nickel producer; CATL's offtake represents ~12–15% of Nickel Asia's total production. This partnership secures nickel feedstock for CATL's NCA/NCM high-energy-density cells, which command 25–30% price premiums over LFP chemistry.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Glencore plc",
+        "ticker": "GLEN",
+        "cik": null,
+        "slug": "glencore_plc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Cobalt & Copper Supply",
+        "relationshipNote": "CATL sources cobalt hydroxide and copper cathode from Glencore's DRC and Zambia operations via commodity-trading agreements (2022–2027, ~35 kt/year cobalt, ~50 kt/year copper). Glencore is the world's largest cobalt producer; CATL's offtake represents ~5–7% of Glencore's total cobalt production. Pricing is indexed to London Metal Exchange (LME) spot prices with 10–15% discount for volume commitment. This partnership provides CATL with supply-chain transparency and ESG compliance assurance (Glencore publishes annual conflict-minerals reports).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Umicore N.V.",
+        "ticker": "UMI",
+        "cik": null,
+        "slug": "umicore_nv",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Battery-Material Recycling",
+        "relationshipNote": "CATL partners with Umicore on battery-recycling and cathode-material recovery via joint venture (2023–2033, target 100 kt/year recycled material by 2030). Umicore operates recycling plants in Belgium, Germany, and China; CATL supplies end-of-life battery packs from its stationary-storage and EV-fleet programs. Recycled cathode material (nickel, cobalt, lithium) reduces CATL's raw-material COGS by 15–20% and supports EU battery-regulation compliance (minimum 12% recycled content by 2030).",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Wacker Chemie AG",
+        "ticker": "WCH",
+        "cik": null,
+        "slug": "wacker_chemie_ag",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Electrolyte & Separator Supply",
+        "relationshipNote": "CATL sources lithium hexafluorophosphate (LiPF6) electrolyte salt and separator membranes from Wacker Chemie's German and Chinese plants via supply agreement (2021–2026, ~15 kt/year electrolyte). Wacker is a leading supplier of battery-grade electrolyte materials; CATL's offtake represents ~10–12% of Wacker's total electrolyte production. Electrolyte cost represents ~8–10% of CATL's cell COGS; this partnership ensures supply continuity and quality consistency for high-energy-density NCA/NCM cells.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Asahi Kasei Corporation",
+        "ticker": "3407",
+        "cik": null,
+        "slug": "asahi_kasei_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Separator Supply",
+        "relationshipNote": "CATL sources microporous polyethylene and polypropylene separator membranes from Asahi Kasei's Japanese and Chinese plants via long-term supply contract (2020–2027, ~20 million m²/year). Asahi Kasei is the world's largest battery-separator manufacturer; CATL's offtake represents ~8–10% of Asahi Kasei's total separator production. Separator cost represents ~5–7% of CATL's cell COGS; this partnership ensures supply of high-performance separators for LFP and NCA/NCM chemistries.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "China State Shipping Company (COSCO)",
+        "ticker": "1919",
+        "cik": null,
+        "slug": "cosco_shipping",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Ocean Freight",
+        "relationshipNote": "COSCO operates container and breakbulk services for CATL's battery-cell exports to Europe, North America, and Southeast Asia via long-term logistics agreement (2021–2026, ~500 kt/year containerized cargo). COSCO's Shanghai and Ningbo terminals provide direct port access from CATL's Ningde and Liyang plants. Shipping cost represents ~3–5% of CATL's delivered-cell cost; this partnership ensures reliable ocean-freight capacity during peak EV-demand seasons (Q3–Q4).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": "DPSGY",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Last-Mile Distribution",
+        "relationshipNote": "DHL operates last-mile distribution and warehousing for CATL's battery cells to OEM assembly plants in Europe and North America via global logistics agreement (2022–2027, ~200 kt/year). DHL maintains regional distribution centers in Rotterdam, Los Angeles, and Mexico City; CATL's cells are stored and cross-docked at these hubs for just-in-time delivery to Tesla Fremont, VW Zwickau, and BMW Munich plants. This partnership reduces CATL's inventory-carrying costs and improves OEM supply-chain responsiveness.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Multimodal Freight",
+        "relationshipNote": "Kuehne+Nagel provides multimodal freight services (ocean, air, rail) for CATL's battery-cell shipments to Asia-Pacific and European OEM plants via supply-chain agreement (2023–2028, ~150 kt/year). K+N operates dedicated battery-cell handling facilities in Shanghai, Singapore, and Hamburg; CATL's shipments benefit from specialized temperature and humidity control (±2°C, ±5% RH) required for lithium-ion cell stability. This partnership enables CATL to serve time-sensitive OEM orders and reduce in-transit damage rates to <0.5%.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China Railway Express (CRE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_railway_express",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Rail Freight",
+        "relationshipNote": "CRE operates dedicated rail services for CATL's battery-cell shipments to European OEM plants via Belt-and-Road rail corridors (2021–2026, ~100 kt/year). CRE's Ningde-to-Hamburg rail service (15–18 days transit) provides cost-competitive alternative to ocean freight (30–35 days) for time-sensitive orders. Rail freight cost represents ~2–3% of CATL's delivered-cell cost; this partnership reduces CATL's logistics-cost exposure to ocean-freight rate volatility.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Tesla, Inc.",
+        "ticker": "TSLA",
+        "cik": "0001318605",
+        "slug": "tesla_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor OEM Customer",
+        "relationshipNote": "Tesla is CATL's largest customer, accounting for ~18–22% of CATL's total revenue (2023: ~$8B of $35B total). CATL supplies LFP cells for Tesla Model 3/Y Standard Range variants (Shanghai Gigafactory) and NCA/NCM cells for Long Range/Performance variants. Multi-year supply agreement (2020–2025, ~150 GWh/year) includes price-adjustment clauses tied to raw-material indices. Tesla's 2024 guidance of 1.8M EV deliveries implies ~35–40 GWh battery demand; CATL's allocation represents ~40–45% of Tesla's total cell sourcing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "BYD Company Limited",
+        "ticker": "1211",
+        "cik": null,
+        "slug": "byd_company_limited",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Integrated OEM-Supplier Competitor",
+        "relationshipNote": "BYD is both a competitor and customer of CATL. BYD manufactures its own battery cells (BYD Battery subsidiary, ~60 GWh/year capacity) but sources supplemental LFP and NCA/NCM cells from CATL via supply agreement (2022–2026, ~30 GWh/year). BYD's 2024 EV sales guidance of 1.6M units implies ~40–45 GWh battery demand; CATL's allocation represents ~25–30% of BYD's total cell sourcing. This relationship reflects BYD's strategy to maintain supply-chain flexibility and reduce single-supplier concentration risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Volkswagen Group",
+        "ticker": "VOW3",
+        "cik": null,
+        "slug": "volkswagen_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor OEM Customer",
+        "relationshipNote": "Volkswagen Group (VW, Audi, Porsche, Skoda) is CATL's second-largest customer, accounting for ~12–15% of CATL's total revenue (2023: ~$4.2B). CATL supplies LFP and NCA/NCM cells for VW ID.4, ID.5, Audi Q4 e-tron, and Porsche Taycan models across European and Chinese plants. Multi-year supply agreement (2021–2027, ~120 GWh/year) includes technology-sharing provisions for next-gen solid-state cells. VW's 2024 EV sales guidance of 1.2M units implies ~50–55 GWh battery demand; CATL's allocation represents ~35–40% of VW Group's total cell sourcing.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BMW Group",
+        "ticker": "BMW",
+        "cik": null,
+        "slug": "bmw_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Premium OEM Customer",
+        "relationshipNote": "BMW Group (BMW, Mini, Rolls-Royce) sources NCA/NCM cells from CATL for i3, i4, iX, and i7 models via supply agreement (2022–2028, ~60 GWh/year). CATL's allocation represents ~8–10% of CATL's total revenue (2023: ~$2.8B). BMW's 2024 EV sales guidance of 1.5M units implies ~45–50 GWh battery demand; CATL's allocation represents ~30–35% of BMW Group's total cell sourcing. This partnership emphasizes high-energy-density NCA/NCM chemistry and premium-grade quality standards (defect rate <50 ppm).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "BYD Battery Co., Ltd.",
+        "ticker": "1211",
+        "cik": null,
+        "slug": "byd_battery",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Integrated OEM-Supplier Competitor",
+        "relationshipNote": "BYD Battery is CATL's primary domestic competitor, with ~60 GWh/year capacity (2024) and ~18–20% global market share. BYD's vertical integration into EV manufacturing (BYD Auto) provides captive demand for ~40 GWh/year; supplemental sales to external OEMs (Tesla, Daimler, Toyota) represent ~20 GWh/year. BYD's LFP-dominant product mix (70% of capacity) and lower cost structure ($75/kWh vs. CATL's $80/kWh) create pricing pressure in commodity-cell segments. BYD's 2024 capacity-expansion plan targets 100+ GWh by 2025, directly competing with CATL's 200+ GWh target.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "LG Energy Solution Ltd.",
+        "ticker": "373220",
+        "cik": null,
+        "slug": "lg_energy_solution",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Global Competitor",
+        "relationshipNote": "LG Energy Solution is CATL's primary global competitor, with ~40 GWh/year capacity (2024) and ~12–14% global market share. LG's NCA/NCM-dominant product mix (80% of capacity) and premium positioning serve Tesla, GM, Hyundai, and Volkswagen. LG's 2024 capacity-expansion plan targets 60+ GWh by 2026; however, profitability challenges (negative EBITDA in 2023) and technology-transition delays (solid-state production pushed to 2028) create competitive vulnerability. CATL's cost advantage (~$5–10/kWh lower COGS) and faster technology roadmap (sodium-ion production 2024, solid-state 2027) position CATL to gain market share.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Samsung SDI Co., Ltd.",
+        "ticker": "006400",
+        "cik": null,
+        "slug": "samsung_sdi",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Technology-Focused Competitor",
+        "relationshipNote": "Samsung SDI is CATL's technology-focused competitor, with ~30 GWh/year capacity (2024) and ~9–10% global market share. Samsung's NCA/NCM-dominant product mix and premium positioning serve BMW, Audi, and Daimler. Samsung's 2024 capacity-expansion plan targets 40+ GWh by 2026; however, geographic concentration in South Korea and Hungary creates supply-chain vulnerability. Samsung's solid-state battery R&D (target 2027 production) and high-energy-density NCA/NCM (290 Wh/kg) represent technology threats to CATL's product roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Panasonic Energy Co., Ltd.",
+        "ticker": "6752",
+        "cik": null,
+        "slug": "panasonic_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Legacy Competitor",
+        "relationshipNote": "Panasonic Energy is CATL's legacy competitor, with ~35 GWh/year capacity (2024) and ~10–11% global market share. Panasonic's cylindrical-cell focus (21700, 4680 formats) and Tesla partnership (Gigafactory Nevada supply) create differentiation vs. CATL's pouch-cell dominance. Panasonic's 2024 capacity-expansion plan targets 50+ GWh by 2027; however, technology transition to 4680 cells (lower energy density than NCA/NCM pouch) and geographic concentration in Japan create competitive vulnerability. CATL's cost advantage and faster capacity ramp position CATL to gain market share in EV and stationary-storage segments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "SK Innovation Co., Ltd.",
+        "ticker": "096770",
+        "cik": null,
+        "slug": "sk_innovation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Emerging Competitor",
+        "relationshipNote": "SK Innovation is CATL's emerging competitor, with ~25 GWh/year capacity (2024) and ~7–8% global market share. SK's NCA/NCM-dominant product mix serves Hyundai, Kia, and Ford. SK's 2024 capacity-expansion plan targets 40+ GWh by 2026; however, profitability challenges (negative EBITDA in 2023) and technology-transition delays (solid-state production pushed to 2028) create competitive vulnerability. CATL's cost advantage and faster technology roadmap position CATL to gain market share in premium-segment EV cells.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "China Securities Regulatory Commission (CSRC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "csrc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "CSRC regulates CATL's Shenzhen Stock Exchange (SZE: 300750) listing and enforces Chinese securities law (Securities Law of the People's Republic of China, 2020 revision). CATL's quarterly earnings disclosures, material-event filings (8-K equivalents), and annual reports are subject to CSRC review. CSRC has authority over CATL's dividend policy, related-party transactions, and executive compensation disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (Bureau of Industry and Security)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_bis",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic",
+        "relationshipNote": "BIS regulates CATL's export of battery cells and materials to U.S. customers under Export Administration Regulations (EAR). CATL's sales to Tesla, Ford, and other U.S. OEMs require BIS export licenses (EAR Part 730–774). BIS has placed CATL on the Entity List (2020) due to military-end-use concerns, restricting certain advanced-technology exports. CATL's 2024 U.S. revenue (~$1.5B, 4–5% of total) is constrained by BIS restrictions; potential expansion of Entity List restrictions could reduce U.S. revenue by 50–75%.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental Compliance",
+        "relationshipNote": "EPA regulates CATL's U.S. battery-manufacturing operations under Clean Air Act (CAA), Clean Water Act (CWA), and Resource Conservation and Recovery Act (RCRA). CATL's planned U.S. manufacturing plants (e.g., Ningde-USA facility in North Carolina, target 2025 startup) require EPA air and water permits. Battery-manufacturing emissions (volatile organic compounds, particulate matter) and wastewater discharge (lithium, cobalt, nickel) are subject to EPA limits.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "European Union Battery Regulation (EUBR)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_battery_regulation",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "EU Battery Regulation (2023/1542) mandates minimum recycled-content requirements (12% cobalt, 4% lithium, 4% nickel by 2030) and carbon-footprint limits (61.5 kg CO2-eq/kWh by 2027) for battery cells sold in EU. CATL's European sales (~$5.2B, 15% of total) are subject to EUBR compliance. CATL's recycling partnerships (Umicore JV) and low-carbon manufacturing (renewable-energy sourcing) position CATL to meet 2027 carbon limits; however, recycled-content requirements may increase COGS by 3–5% by 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC has indirect regulatory authority over CATL via U.S. OEM customers (Tesla, Ford, GM) that disclose CATL as a material supplier in their 10-K filings. SEC's 2023 climate-disclosure rules (Regulation S-K Item 1500) require U.S. OEMs to disclose supply-chain climate risks, including battery-cell supplier emissions. CATL's carbon-footprint disclosures and ESG reporting are scrutinized by SEC-regulated investors.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu Limited (Deloitte China)",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_china",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte China is CATL's external auditor for consolidated financial statements and internal-control assessments. Deloitte audits CATL's CNY-denominated financial statements under Chinese Accounting Standards (CAS) and International Financial Reporting Standards (IFRS) for Hong Kong Stock Exchange (HKEx) subsidiary filings. Deloitte's audit scope includes CATL's revenue recognition (OEM customer contracts), inventory valuation (raw-material and finished-goods reserves), and goodwill impairment testing (Zhejiang Huayou Cobalt acquisition).",
+      "confidence": "medium",
+      "sourceType": [
+        "inferred",
+        "industry-report"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "China Development Bank (CDB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_development_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "CDB is CATL's primary lender, providing long-term project financing for capacity-expansion capex (Ningde, Liyang, Yibin, Zhanjiang, Qinghai plants). CDB's 2021–2024 loan portfolio to CATL totals ~$8–10B (estimated), supporting ~100 GWh capacity additions. CDB's lending terms include 5–10 year maturities, fixed rates of 3.5–4.5%, and covenants tied to debt-to-EBITDA ratios (<2.5x). CDB's strategic interest in EV supply-chain development aligns with Chinese government industrial policy; CDB's continued support is critical to CATL's capacity-expansion plans.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Industrial and Commercial Bank of China (ICBC)",
+        "ticker": "1398",
+        "cik": null,
+        "slug": "icbc",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "ICBC is CATL's secondary lender, providing working-capital facilities and trade-finance services. ICBC's 2021–2024 credit facilities to CATL total ~$3–5B (estimated), supporting inventory financing and OEM receivables management. ICBC's lending terms include 1–3 year maturities, floating rates tied to LPR (Loan Prime Rate), and collateral requirements (inventory, receivables). ICBC's relationship with CATL reflects CATL's status as a systemically important Chinese industrial enterprise.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ningde City Government (Fujian Province)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ningde_city_government",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Ningde City Government is CATL's largest shareholder (via Ningde State-Owned Assets Supervision and Administration Commission), holding ~30–35% of CATL's equity. Ningde government provides strategic support for CATL's capacity-expansion projects, including land-use rights, tax incentives, and workforce development. CATL's headquarters and flagship Ningde plant (120 GWh capacity) are located in Ningde; the city government's continued support is critical to CATL's long-term strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Temasek Holdings (Singapore)",
+        "ticker": null,
+        "cik": null,
+        "slug": "temasek_holdings",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Temasek Holdings is a strategic investor in CATL, holding ~5–7% of CATL's equity (2023 estimated). Temasek's investment (2018–2023, ~$1.5–2B cumulative) reflects confidence in CATL's long-term growth and technology roadmap. Temasek's board representation and strategic guidance support CATL's international expansion and ESG initiatives. Temasek's continued support signals confidence in CATL's competitive position and reduces geopolitical concentration risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Zeng Yuqun (Robin Zeng)",
+        "ticker": null,
+        "cik": null,
+        "slug": "zeng_yuqun",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Zeng Yuqun is CATL's founder and chairman (since 2011). Zeng holds ~8–10% of CATL's equity and serves as chief technology officer (CTO) overseeing battery-chemistry R&D and product-roadmap strategy. Zeng's background in electrochemistry (PhD from Dalian University of Technology) and prior experience at Amperex Technology (acquired by Valence Technology, 2005) inform CATL's technology-first culture. Zeng's 2024 public statements emphasize sodium-ion commercialization and solid-state battery development as strategic priorities.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Li Ping",
+        "ticker": null,
+        "cik": null,
+        "slug": "li_ping",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Li Ping is CATL's chief financial officer (CFO) since 2020. Li oversees financial planning, capital allocation, and investor relations. Li's background in finance and prior experience at Ningde government (finance bureau) inform CATL's financial-management practices and government-relations strategy. Li's 2024 earnings-call commentary emphasizes gross-margin expansion (target 30%+ by 2025) and capital-efficiency improvements (capex-to-revenue ratio <15%).",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huang Shilin",
+        "ticker": null,
+        "cik": null,
+        "slug": "huang_shilin",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Huang Shilin is CATL's chief operating officer (COO) since 2022. Huang oversees manufacturing operations, supply-chain management, and capacity-expansion execution. Huang's background in operations and prior experience at Ningde plant (plant manager) inform CATL's manufacturing-excellence culture and capacity-ramp execution. Huang's 2024 operational targets include 200+ GWh capacity by 2025 and <0.5% defect rates across all plants.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Global EV Sales Growth Rate (YoY %)",
+        "ticker": null,
+        "cik": null,
+        "slug": "global_ev_sales_growth",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Global EV sales growth rate is a leading indicator of CATL's demand trajectory and capacity-utilization rates. IEA data shows global EV sales grew 35% YoY in 2023 (14M units) and 25% YoY in 2024 (18M units, estimated). CATL's revenue growth is highly correlated with global EV sales growth (R² ~0.85); a slowdown to <10% YoY growth would signal demand weakness and margin compression. Monitor monthly EV sales data from IEA, Bloomberg NEF, and regional automotive associations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Lithium Spot Price (USD/kg)",
+        "ticker": null,
+        "cik": null,
+        "slug": "lithium_spot_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Lithium spot price is a critical input to CATL's gross-margin modeling. Lithium prices peaked at $64/kg (2022), collapsed to $12/kg (2024), and currently trade at ~$18–22/kg (2024 Q4). CATL's gross margin is highly sensitive to lithium prices (elasticity ~0.4–0.6); a 10% price move translates to 4–6% margin impact. Monitor lithium spot prices via Bloomberg, Fastmarkets, and Argus Media; track CATL's hedging positions via quarterly earnings disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Battery-Cell Spot Prices (USD/kWh)",
+        "ticker": null,
+        "cik": null,
+        "slug": "battery_cell_spot_prices",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Battery-cell spot prices reflect competitive dynamics and supply-demand balance in the global battery market. LFP cell prices have declined from $120/kWh (2021) to $80/kWh (2024); NCA/NCM cell prices have declined from $140/kWh (2021) to $110/kWh (2024). CATL's average selling price (ASP) is correlated with spot prices (lag ~1–2 quarters); declining spot prices signal margin compression. Monitor battery-cell spot prices via Bloomberg, Fastmarkets, and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

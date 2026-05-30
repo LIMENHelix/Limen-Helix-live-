@@ -1,0 +1,2253 @@
+{
+  "domainId": "culture",
+  "title": "Culture",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P9",
+  "activations": [
+    {
+      "brainNodeId": "V1",
+      "state": "active",
+      "domainLabel": "Visual Arts",
+      "domainDescription": "Painting, sculpture, printmaking, and installation art that encode human experience into visual form",
+      "domainFunction": "Processes and generates primary visual representations, transforming perception into externalized aesthetic expression",
+      "whyThisNode": "Primary visual cortex is the foundation of all visual processing â€” visual arts are civilization's primary mechanism for encoding experience into visual form",
+      "group": "arts",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Arts funding collapse",
+        "Censorship of visual expression"
+      ],
+      "treatments": [
+        {
+          "label": "Public Arts Funding",
+          "type": "STRUCTURAL",
+          "description": "Sustained governmental and institutional investment in visual arts creation, exhibition, and education",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Artist Residency Networks",
+          "type": "DIAGNOSTIC",
+          "description": "International exchange programs fostering cross-cultural artistic development and creative innovation",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "culture_visual_portal.html",
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Christie's International",
+          "ticker_or_id": "CHRISTIES",
+          "functional_reason": "Detects and monitors visual arts signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Spotify Technology",
+          "ticker_or_id": "SPOT",
+          "functional_reason": "Detects and monitors visual arts signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Sotheby's",
+          "ticker_or_id": "SOTHEBYS",
+          "functional_reason": "Detects and monitors visual arts signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Visual Arts",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Diagnostics & Imaging"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Visual Cortex"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Visual Cortex Activation"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Photography & Visual Media"
+        },
+        {
+          "domain": "defense",
+          "role": "Equipment Maintenance Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Value Chains"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Equity Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "A1",
+      "state": "active",
+      "domainLabel": "Music",
+      "domainDescription": "Composition, performance, and recording of organized sound for artistic, ceremonial, and communal expression",
+      "domainFunction": "Processes temporal auditory patterns, extracting emotional and structural meaning from organized sound sequences",
+      "whyThisNode": "Primary auditory cortex processes sound patterns â€” music is civilization's organized auditory expression, encoding emotion and meaning in temporal sound structures",
+      "group": "performance",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound"
+      ],
+      "treatments": [
+        {
+          "label": "Traditional Music Archives",
+          "type": "STRUCTURAL",
+          "description": "Systematic recording and preservation of endangered musical traditions and indigenous sonic heritage",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Music Education Access",
+          "type": "DIAGNOSTIC",
+          "description": "Universal access to instrument training and music theory across socioeconomic boundaries",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "culture_music_portal.html",
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Sotheby's",
+          "ticker_or_id": "SOTHEBYS",
+          "functional_reason": "Detects and monitors music signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Christie's International",
+          "ticker_or_id": "CHRISTIES",
+          "functional_reason": "Detects and monitors music signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Spotify Technology",
+          "ticker_or_id": "SPOT",
+          "functional_reason": "Detects and monitors music signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Music",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "religion",
+          "role": "Sacred Music"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Broadcasting"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Planning Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Trade Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — Regulation Strategy"
+        },
+        {
+          "domain": "energy",
+          "role": "Electrolyte Systems Quality & Performance"
+        },
+        {
+          "domain": "environment",
+          "role": "Air Quality Modeling Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Literature",
+      "domainDescription": "Written works of fiction, poetry, essay, and narrative that preserve and transmit the human condition across generations",
+      "domainFunction": "Comprehends and generates complex semantic-narrative structures, encoding meaning into durable linguistic form",
+      "whyThisNode": "Wernicke's area processes language comprehension â€” literature is civilization's deep comprehension engine, encoding complex human meaning into lasting written form",
+      "group": "literature",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Literacy decline",
+        "Literary censorship"
+      ],
+      "treatments": [
+        {
+          "label": "Universal Literacy Programs",
+          "type": "STRUCTURAL",
+          "description": "National and international initiatives ensuring all populations achieve functional and critical literacy",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Translation and Distribution Grants",
+          "type": "DIAGNOSTIC",
+          "description": "Funding for translating and distributing literature from underrepresented languages and cultures",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "culture_literature_portal.html",
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Endeavor Group",
+          "ticker_or_id": "EDR",
+          "functional_reason": "Executes core literature operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "Roblox",
+          "ticker_or_id": "RBLX",
+          "functional_reason": "Models and simulates literature scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Warner Bros. Discovery",
+          "ticker_or_id": "WBD",
+          "functional_reason": "Models and simulates literature scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.67
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Literature",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Literacy"
+        },
+        {
+          "domain": "industry",
+          "role": "Defense Ind"
+        },
+        {
+          "domain": "legal",
+          "role": "Statutory Interpretation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Wernicke's Area"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Comprehension"
+        },
+        {
+          "domain": "religion",
+          "role": "Scripture & Canon"
+        },
+        {
+          "domain": "science",
+          "role": "Computer Science"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradezone"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Theater & Performance",
+      "domainDescription": "Live dramatic arts including stage theater, opera, ritual performance, and spoken word that embody narrative through physical presence",
+      "domainFunction": "Plans and sequences complex motor-expressive programs, translating internal narrative into coordinated physical performance",
+      "whyThisNode": "Supplementary motor area plans complex movement sequences â€” theater is civilization's planned enactment system, sequencing narrative into embodied physical performance",
+      "group": "performance",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "treatments": [
+        {
+          "label": "Venue Preservation Programs",
+          "type": "STRUCTURAL",
+          "description": "Protection and renovation of theaters, concert halls, and performance spaces as cultural infrastructure",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Community Theater Grants",
+          "type": "DIAGNOSTIC",
+          "description": "Grassroots funding enabling local performance traditions and amateur theatrical participation",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "culture_theater_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Live Nation Entertainment",
+          "ticker_or_id": "LYV",
+          "functional_reason": "Executes core theater & performance operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Electronic Arts",
+          "ticker_or_id": "EA",
+          "functional_reason": "Executes core theater & performance operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Endeavor Group",
+          "ticker_or_id": "EDR",
+          "functional_reason": "Executes core theater & performance operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Theater & Performance",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Teacher Training"
+        },
+        {
+          "domain": "governance",
+          "role": "Military Command"
+        },
+        {
+          "domain": "industry",
+          "role": "Heavy Equipment"
+        },
+        {
+          "domain": "neurology",
+          "role": "Supplementary Motor Area"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Process Improvement"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Coordination & Integration"
+        },
+        {
+          "domain": "defense",
+          "role": "Recruitment & Training"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Museums",
+      "domainDescription": "Institutions preserving, curating, and displaying artifacts, artworks, and specimens for public education and cultural memory",
+      "domainFunction": "Retrieves and integrates episodic-spatial memories, enabling reflective self-awareness through curated historical representation",
+      "whyThisNode": "Precuneus supports episodic memory retrieval and self-reflection â€” museums are civilization's reflective memory, curating the past for present understanding",
+      "group": "heritage",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Collection deaccession under pressure",
+        "Repatriation conflicts"
+      ],
+      "treatments": [
+        {
+          "label": "Digital Collection Access",
+          "type": "STRUCTURAL",
+          "description": "Open online repositories making museum collections accessible globally regardless of physical proximity",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Ethical Repatriation Frameworks",
+          "type": "DIAGNOSTIC",
+          "description": "International protocols for returning cultural artifacts to communities of origin with transparency and respect",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "culture_museums_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Smithsonian Institution",
+          "ticker_or_id": "SMITHSONIAN",
+          "functional_reason": "Models and simulates museums scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Walt Disney Company",
+          "ticker_or_id": "DIS",
+          "functional_reason": "Models and simulates museums scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Roblox",
+          "ticker_or_id": "RBLX",
+          "functional_reason": "Models and simulates museums scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.86
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Museums",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Spatial Self-Awareness"
+        },
+        {
+          "domain": "education",
+          "role": "Library Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Sustainability"
+        },
+        {
+          "domain": "medicine",
+          "role": "Addiction Medicine"
+        },
+        {
+          "domain": "religion",
+          "role": "Prophecy & Revelation"
+        },
+        {
+          "domain": "science",
+          "role": "Theoretical Physics"
+        },
+        {
+          "domain": "technology",
+          "role": "Quantum Computing"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Architecture",
+      "domainDescription": "Design and construction of buildings and spaces that shape human habitation, ritual, and civic life",
+      "domainFunction": "Processes spatial relationships and structural layout, computing how forms organize and interact within three-dimensional space",
+      "whyThisNode": "Intraparietal sulcus processes spatial reasoning and numerical magnitude â€” architecture is civilization's spatial computation, designing how structures organize human space",
+      "group": "arts",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Heritage building demolition",
+        "Homogenization of built environment"
+      ],
+      "treatments": [
+        {
+          "label": "Heritage Architecture Protection",
+          "type": "STRUCTURAL",
+          "description": "Legal frameworks preventing demolition of culturally significant buildings and enforcing adaptive reuse",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Vernacular Design Revival",
+          "type": "DIAGNOSTIC",
+          "description": "Programs supporting locally rooted architectural traditions over globalized generic construction",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "culture_architecture_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Live Nation Entertainment",
+          "ticker_or_id": "LYV",
+          "functional_reason": "Executes core architecture operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Sony Group",
+          "ticker_or_id": "SONY",
+          "functional_reason": "Executes core architecture operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Endeavor Group",
+          "ticker_or_id": "EDR",
+          "functional_reason": "Executes core architecture operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Architecture",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "STEM Education"
+        },
+        {
+          "domain": "religion",
+          "role": "Sacred Architecture"
+        },
+        {
+          "domain": "science",
+          "role": "Mathematics"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Human Capital & Development"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Farm Productivity Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Philosophy",
+      "domainDescription": "Systematic inquiry into existence, knowledge, ethics, mind, and meaning that forms the reflective core of cultural thought",
+      "domainFunction": "Generates self-referential, internally-directed thought â€” rumination, meaning-making, and existential reflection in the absence of external task demands",
+      "whyThisNode": "Default mode network activates during introspection and self-referential thought â€” philosophy is civilization's introspective engine, questioning existence and meaning",
+      "group": "philosophy",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Anti-intellectualism",
+        "Loss of humanities funding"
+      ],
+      "treatments": [
+        {
+          "label": "Philosophy in Public Life",
+          "type": "STRUCTURAL",
+          "description": "Integration of philosophical reasoning into civic education, policy deliberation, and public discourse",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Ethics Curriculum Standards",
+          "type": "DIAGNOSTIC",
+          "description": "Mandatory ethical reasoning education from primary school through professional training",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "culture_philosophy_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Smithsonian Institution",
+          "ticker_or_id": "SMITHSONIAN",
+          "functional_reason": "Models and simulates philosophy scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Sony Group",
+          "ticker_or_id": "SONY",
+          "functional_reason": "Models and simulates philosophy scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Electronic Arts",
+          "ticker_or_id": "EA",
+          "functional_reason": "Models and simulates philosophy scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Philosophy",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STS",
+      "state": "active",
+      "domainLabel": "Film & Cinema",
+      "domainDescription": "Motion picture art combining visual storytelling, sound design, and narrative structure into immersive cultural experiences",
+      "domainFunction": "Integrates multimodal sensory streams into coherent narrative sequences, processing dynamic social and aesthetic information",
+      "whyThisNode": "Superior temporal sulcus integrates audiovisual information and social perception â€” cinema combines sight, sound, and social narrative into unified cultural experience",
+      "group": "arts",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Cultural homogenization in film",
+        "Independent cinema collapse"
+      ],
+      "treatments": [
+        {
+          "label": "National Film Funds",
+          "type": "STRUCTURAL",
+          "description": "Government-backed investment in domestic film industries preserving cultural voice and artistic diversity",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Film Festival Networks",
+          "type": "DIAGNOSTIC",
+          "description": "International screening circuits giving visibility to culturally diverse and artistically innovative cinema",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "culture_film_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Spotify Technology",
+          "ticker_or_id": "SPOT",
+          "functional_reason": "Detects and monitors film & cinema signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Christie's International",
+          "ticker_or_id": "CHRISTIES",
+          "functional_reason": "Detects and monitors film & cinema signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Sotheby's",
+          "ticker_or_id": "SOTHEBYS",
+          "functional_reason": "Detects and monitors film & cinema signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Film & Cinema",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "pediatric",
+          "role": "Social Perception & Biological Motion"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Film & Video"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Baseline Calibration Operations"
+        },
+        {
+          "domain": "education",
+          "role": "GRE Testing — State Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Quality & Performance"
+        },
+        {
+          "domain": "environment",
+          "role": "Stratospheric Ozone Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Dance",
+      "domainDescription": "Rhythmic bodily movement traditions from ballet to folk dance that express cultural identity through embodied kinetic art",
+      "domainFunction": "Coordinates precise timing, balance, and motor sequencing, enabling fluid kinetic expression through practiced physical routines",
+      "whyThisNode": "Cerebellum fine-tunes motor coordination and timing â€” dance is civilization's most refined kinetic expression, demanding precise bodily coordination and rhythmic timing",
+      "group": "performance",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Traditional dance form extinction",
+        "Dance education defunding"
+      ],
+      "treatments": [
+        {
+          "label": "Intangible Heritage Registration",
+          "type": "STRUCTURAL",
+          "description": "UNESCO-level recognition and documentation of endangered dance traditions as cultural patrimony",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cross-Cultural Dance Exchange",
+          "type": "DIAGNOSTIC",
+          "description": "International programs connecting practitioners of traditional dance forms for mutual preservation and renewal",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Christie's International",
+          "ticker_or_id": "CHRISTIES",
+          "functional_reason": "Evaluates and arbitrates dance decisions, weighing competing options and setting value-based priorities",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "Smithsonian Institution",
+          "ticker_or_id": "SMITHSONIAN",
+          "functional_reason": "Stores and retrieves dance knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "Sotheby's",
+          "ticker_or_id": "SOTHEBYS",
+          "functional_reason": "Evaluates and arbitrates dance decisions, weighing competing options and setting value-based priorities",
+          "binding_strength": 0.73
+        }
+      ],
+      "childPortal": "culture_dance_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Dance",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Folklore & Oral Tradition",
+      "domainDescription": "Myths, legends, proverbs, and oral histories transmitted across generations as the living memory of cultures",
+      "domainFunction": "Encodes and consolidates episodic memories into long-term narrative storage, forming the foundation of cultural continuity",
+      "whyThisNode": "Hippocampus is essential for memory encoding and consolidation â€” folklore is civilization's living memory system, encoding cultural knowledge in narrative form across generations",
+      "group": "heritage",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption"
+      ],
+      "treatments": [
+        {
+          "label": "Oral History Recording Programs",
+          "type": "STRUCTURAL",
+          "description": "Systematic audio-visual documentation of elder knowledge holders and storytelling traditions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Intergenerational Storytelling Initiatives",
+          "type": "DIAGNOSTIC",
+          "description": "Community programs connecting youth with tradition bearers to maintain living oral transmission chains",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Sony Group",
+          "ticker_or_id": "SONY",
+          "functional_reason": "Executes core folklore & oral tradition operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Endeavor Group",
+          "ticker_or_id": "EDR",
+          "functional_reason": "Executes core folklore & oral tradition operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "Roblox",
+          "ticker_or_id": "RBLX",
+          "functional_reason": "Models and simulates folklore & oral tradition scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.73
+        }
+      ],
+      "childPortal": "culture_crafts_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Folklore & Oral Tradition",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "Fashion & Design",
+      "domainDescription": "Clothing, textile, industrial, and graphic design that shape aesthetic identity and material culture",
+      "domainFunction": "Recognizes and categorizes complex visual patterns, processing form, texture, and identity-signaling features",
+      "whyThisNode": "Fusiform gyrus specializes in fine-grained visual recognition including faces and objects â€” fashion/design is civilization's identity-pattern system, signaling group belonging through visual form",
+      "group": "arts",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Fast fashion environmental damage",
+        "Cultural appropriation in design"
+      ],
+      "treatments": [
+        {
+          "label": "Sustainable Fashion Standards",
+          "type": "STRUCTURAL",
+          "description": "Industry-wide regulations reducing textile waste, chemical pollution, and exploitative labor in fashion supply chains",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cultural Attribution Protocols",
+          "type": "DIAGNOSTIC",
+          "description": "Guidelines ensuring designers credit and compensate cultural sources when drawing on traditional motifs and techniques",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Christie's International",
+          "ticker_or_id": "CHRISTIES",
+          "functional_reason": "Detects and monitors fashion & design signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Spotify Technology",
+          "ticker_or_id": "SPOT",
+          "functional_reason": "Detects and monitors fashion & design signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Sotheby's",
+          "ticker_or_id": "SOTHEBYS",
+          "functional_reason": "Detects and monitors fashion & design signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "culture_criticism_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Fashion & Design",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Arts Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Succession"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Design"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pathology"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Face Processing & Visual Recognition"
+        },
+        {
+          "domain": "technology",
+          "role": "User Interface Design"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Speechlang"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Gastronomy",
+      "domainDescription": "Culinary arts, food culture, and the social rituals of eating that bind communities through shared sensory experience",
+      "domainFunction": "Processes interoceptive and gustatory signals, integrating bodily sensation with emotional and social meaning",
+      "whyThisNode": "Anterior insula processes taste, interoception, and embodied awareness â€” gastronomy is civilization's taste-body integration, connecting food to social and emotional meaning",
+      "group": "social",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Traditional cuisine loss",
+        "Food culture industrialization"
+      ],
+      "treatments": [
+        {
+          "label": "Culinary Heritage Designations",
+          "type": "STRUCTURAL",
+          "description": "Protected status for traditional food preparation methods, ingredients, and regional culinary practices",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Farm-to-Table Cultural Programs",
+          "type": "DIAGNOSTIC",
+          "description": "Community initiatives reconnecting food production with cultural identity and local ecological knowledge",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Sotheby's",
+          "ticker_or_id": "SOTHEBYS",
+          "functional_reason": "Detects and monitors gastronomy signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Christie's International",
+          "ticker_or_id": "CHRISTIES",
+          "functional_reason": "Detects and monitors gastronomy signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Spotify Technology",
+          "ticker_or_id": "SPOT",
+          "functional_reason": "Detects and monitors gastronomy signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        }
+      ],
+      "childPortal": "culture_culinary_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Gastronomy",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Sports & Athletics",
+      "domainDescription": "Competitive and recreational physical activities that channel collective energy into structured kinetic achievement and ritual",
+      "domainFunction": "Executes voluntary motor commands, translating intention into powerful, precise physical action",
+      "whyThisNode": "Primary motor cortex drives voluntary movement execution â€” sports are civilization's primary motor output, channeling collective physical energy into structured competitive action",
+      "group": "social",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Doping and corruption scandals",
+        "Sports access inequality"
+      ],
+      "treatments": [
+        {
+          "label": "Anti-Corruption Governance",
+          "type": "STRUCTURAL",
+          "description": "Independent oversight bodies ensuring transparency and fairness in sporting organizations and competitions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Grassroots Athletics Programs",
+          "type": "DIAGNOSTIC",
+          "description": "Community-level sports infrastructure enabling participation regardless of socioeconomic status",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Live Nation Entertainment",
+          "ticker_or_id": "LYV",
+          "functional_reason": "Executes core sports & athletics operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Electronic Arts",
+          "ticker_or_id": "EA",
+          "functional_reason": "Executes core sports & athletics operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Endeavor Group",
+          "ticker_or_id": "EDR",
+          "functional_reason": "Executes core sports & athletics operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "culture_cultpolicy_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Sports & Athletics",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RSC",
+      "state": "active",
+      "domainLabel": "Heritage Preservation",
+      "domainDescription": "Conservation of historical sites, monuments, cultural landscapes, and tangible patrimony for future generations",
+      "domainFunction": "Translates between egocentric and allocentric spatial frames, anchoring present identity to enduring spatial-historical landmarks",
+      "whyThisNode": "Retrosplenial cortex supports spatial memory and scene-context associations â€” heritage preservation anchors collective identity to enduring physical places and landmarks",
+      "group": "heritage",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition"
+      ],
+      "treatments": [
+        {
+          "label": "World Heritage Site Protections",
+          "type": "STRUCTURAL",
+          "description": "International legal and financial mechanisms safeguarding sites of outstanding universal cultural value",
+          "evidence": "Strong"
+        },
+        {
+          "label": "3D Digital Heritage Scanning",
+          "type": "DIAGNOSTIC",
+          "description": "High-resolution digital preservation creating permanent virtual records of at-risk cultural sites",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Sony Group",
+          "ticker_or_id": "SONY",
+          "functional_reason": "Models and simulates heritage preservation scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Walt Disney Company",
+          "ticker_or_id": "DIS",
+          "functional_reason": "Models and simulates heritage preservation scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Smithsonian Institution",
+          "ticker_or_id": "SMITHSONIAN",
+          "functional_reason": "Models and simulates heritage preservation scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.87
+        }
+      ],
+      "childPortal": "culture_fashion_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Heritage Preservation",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "population",
+          "role": "Rural Decline"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Assessment & Diagnostics"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Standards & Governance"
+        },
+        {
+          "domain": "defense",
+          "role": "Space"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Technology & Innovation"
+        },
+        {
+          "domain": "education",
+          "role": "Competitive Admissions Core Operations"
+        },
+        {
+          "domain": "energy",
+          "role": "Collection Systems Technology & Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Social Identity",
+      "domainDescription": "Collective self-concept, group belonging, national identity, and the cultural narratives that define who we are",
+      "domainFunction": "Generates self-referential evaluation and social cognition, constructing the narrative of who we are in relation to others",
+      "whyThisNode": "Medial PFC supports self-referential processing and social evaluation â€” social identity is civilization's self-concept, defining collective belonging and group narrative",
+      "group": "social",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Identity polarization",
+        "Cultural alienation"
+      ],
+      "treatments": [
+        {
+          "label": "Multicultural Dialogue Forums",
+          "type": "STRUCTURAL",
+          "description": "Institutional spaces enabling constructive cross-cultural exchange and shared identity formation",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Civic Identity Education",
+          "type": "DIAGNOSTIC",
+          "description": "Educational programs fostering inclusive civic identity that bridges ethnic, religious, and cultural boundaries",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Sony Group",
+          "ticker_or_id": "SONY",
+          "functional_reason": "Models and simulates social identity scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Walt Disney Company",
+          "ticker_or_id": "DIS",
+          "functional_reason": "Models and simulates social identity scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Smithsonian Institution",
+          "ticker_or_id": "SMITHSONIAN",
+          "functional_reason": "Models and simulates social identity scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.94
+        }
+      ],
+      "childPortal": "culture_festivals_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Social Identity",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Addictive Identity Narrative"
+        },
+        {
+          "domain": "business",
+          "role": "Brand & Identity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration"
+        },
+        {
+          "domain": "legal",
+          "role": "Constitutional Identity / Rule of Law"
+        },
+        {
+          "domain": "medicine",
+          "role": "Primary Care"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Cognition & Self-Reference"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Self-Referential Processing Hub"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Diagnostic Analysis"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Creative Innovation",
+      "domainDescription": "The generative impulse driving novel artistic expression, cultural experimentation, and boundary-pushing creative work",
+      "domainFunction": "Releases dopaminergic signals marking novelty and motivating exploratory behavior toward new creative possibilities",
+      "whyThisNode": "Ventral tegmental area fires for novelty and reward prediction â€” creative innovation is civilization's novelty-seeking drive, motivated by the dopaminergic thrill of the new",
+      "group": "arts",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Risk-averse cultural funding",
+        "Commodification of creativity"
+      ],
+      "treatments": [
+        {
+          "label": "Experimental Arts Incubators",
+          "type": "STRUCTURAL",
+          "description": "Protected funding streams for high-risk, boundary-pushing creative projects without commercial pressure",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Creative Commons Expansion",
+          "type": "DIAGNOSTIC",
+          "description": "Broadened open licensing frameworks enabling remix culture and collaborative creative building",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Warner Bros. Discovery",
+          "ticker_or_id": "WBD",
+          "functional_reason": "Amplifies and scales creative innovation capacity, driving growth and expanding reach of creative innovation operations",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Spotify Technology",
+          "ticker_or_id": "SPOT",
+          "functional_reason": "Amplifies and scales creative innovation capacity, driving growth and expanding reach of creative innovation operations",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Live Nation Entertainment",
+          "ticker_or_id": "LYV",
+          "functional_reason": "Amplifies and scales creative innovation capacity, driving growth and expanding reach of creative innovation operations",
+          "binding_strength": 0.87
+        }
+      ],
+      "childPortal": "culture_gaming_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Creative Innovation",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus"
+        },
+        {
+          "domain": "business",
+          "role": "Innovation Engine"
+        },
+        {
+          "domain": "economy",
+          "role": "Entrepreneurship"
+        },
+        {
+          "domain": "energy",
+          "role": "Solar and Wind"
+        },
+        {
+          "domain": "environment",
+          "role": "Renewable Resources"
+        },
+        {
+          "domain": "medicine",
+          "role": "Men's Health Optimization"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Dopaminergic Metabolic Signaling"
+        },
+        {
+          "domain": "population",
+          "role": "Youth Demographics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "MAMM",
+      "state": "active",
+      "domainLabel": "Heritage",
+      "domainDescription": "Heritage systems within Culture",
+      "group": "arts",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "culture_heritage_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Heritage",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Translation Services Risk & Resilience"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Standards & Governance"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Human Capital & Development"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Infrastructure & Capacity"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Monitoring & Evaluation"
+        },
+        {
+          "domain": "energy",
+          "role": "Collection Systems Infrastructure & Capacity"
+        },
+        {
+          "domain": "environment",
+          "role": "Exposure Modeling Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CLAUST",
+      "state": "active",
+      "domainLabel": "Cultural Econ",
+      "domainDescription": "Cultural Econ systems within Culture",
+      "group": "arts",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "culture_cultural_econ_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Cultural Econ",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "psychedelic",
+          "role": "Consciousness Integration Hub"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Research & Development"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Protocol Development Systems"
+        },
+        {
+          "domain": "education",
+          "role": "Demographic Analysis Quality & Performance"
+        },
+        {
+          "domain": "energy",
+          "role": "Frequency Regulation Core Operations"
+        },
+        {
+          "domain": "environment",
+          "role": "Emission Standards Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Digital Cult",
+      "domainDescription": "Digital Cult systems within Culture",
+      "group": "arts",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "culture_digital_cult_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Digital Cult",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Neuroplastic Recovery Factor"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Neuroplasticity Signaling"
+        },
+        {
+          "domain": "medicine",
+          "role": "Rehabilitation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Neurotrophic Metabolic Protection"
+        },
+        {
+          "domain": "neurology",
+          "role": "Brain-Derived Neurotrophic Factor"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Neuroplasticity Window"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Feedback & Validation — Primary"
+        },
+        {
+          "domain": "defense",
+          "role": "Bomber Aircraft Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ACC",
+      "state": "active",
+      "domainLabel": "Education Cult",
+      "domainDescription": "Education Cult systems within Culture",
+      "group": "arts",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "culture_education_cult_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Education Cult",
+      "brainNodeLabelCanonical": "Culture",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Cultural Adaptation — Optimization & Innovation"
+        },
+        {
+          "domain": "defense",
+          "role": "airmaint field — Signal Acquisition"
+        },
+        {
+          "domain": "economy",
+          "role": "equity ipo — Signal Acquisition"
+        },
+        {
+          "domain": "education",
+          "role": "Yield Management"
+        },
+        {
+          "domain": "energy",
+          "role": "processing diag — Root Cause Analysis"
+        },
+        {
+          "domain": "environment",
+          "role": "aqstandard revision — Signal Acquisition"
+        },
+        {
+          "domain": "finance",
+          "role": "TIPS — Assessment & Monitoring — Risk Profiling"
+        },
+        {
+          "domain": "governance",
+          "role": "Ownership Compliance — State Assessment"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "CULTURAL_ERASURE",
+      "label": "Cultural Erasure",
+      "summary": "Systematic destruction or suppression of a people's cultural practices, language, and identity through colonization, assimilation policies, or globalization pressures",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Oral traditions and cultural memory encoding disrupted, severing intergenerational knowledge transfer",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Collective self-concept destabilized as indigenous identity narratives are suppressed or replaced",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RSC",
+          "dir": "Hypo-active",
+          "detail": "Heritage landmarks destroyed or neglected, dissolving spatial anchors of cultural continuity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo-active",
+          "detail": "Literary traditions in minority languages decline as dominant languages absorb publishing infrastructure",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "HERITAGE_DESTRUCTION",
+      "label": "Heritage Destruction",
+      "summary": "Physical destruction of cultural sites, monuments, and artifacts through conflict, neglect, natural disaster, or deliberate iconoclasm",
+      "circuits": [
+        {
+          "nodeId": "RSC",
+          "dir": "Hypo-active",
+          "detail": "Spatial-historical landmarks obliterated, severing connection between present identity and physical place",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hypo-active",
+          "detail": "Museum collections destroyed or looted, erasing curated episodic cultural memory",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Hypo-active",
+          "detail": "Architectural heritage demolished, losing irreplaceable spatial-cultural computation of past societies",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Loss of physical sites disrupts the context cues needed for cultural memory consolidation",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "CENSORSHIP",
+      "label": "Censorship",
+      "summary": "Suppression of artistic and intellectual expression by state, religious, or corporate authorities, restricting the cultural freedom essential to identity",
+      "circuits": [
+        {
+          "nodeId": "V1",
+          "dir": "Hypo-active",
+          "detail": "Visual arts restricted, limiting the primary channel of aesthetic cultural expression",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo-active",
+          "detail": "Literary works banned or restricted, suppressing narrative and intellectual freedom",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hypo-active",
+          "detail": "Philosophical inquiry chilled as self-referential and critical thought becomes dangerous",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-active",
+          "detail": "Creative innovation suppressed as novelty-seeking meets punishment rather than reward",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "IDENTITY_CRISIS",
+      "label": "Identity Crisis",
+      "summary": "Collective loss of cultural coherence through rapid globalization, migration displacement, or intergenerational value rupture, producing anomie and social fragmentation",
+      "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Collective self-concept fragmented as competing identity narratives create incoherence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-active",
+          "detail": "Excessive self-referential rumination as societies struggle to define meaning and purpose",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered",
+          "detail": "Interoceptive cultural signals â€” food, ritual, embodied practice â€” lose coherence under rapid change",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Altered",
+          "detail": "Identity-signaling through fashion and design becomes confused as cultural codes fragment",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "CREATIVE_STAGNATION",
+      "label": "Creative Stagnation",
+      "summary": "Decline of artistic originality and cultural vitality through commercialization, risk aversion, and algorithmic content optimization that rewards sameness over innovation",
+      "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-active",
+          "detail": "Novelty-seeking drive suppressed as commercial pressure punishes creative risk-taking",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STS",
+          "dir": "Altered",
+          "detail": "Film and narrative content homogenized by algorithmic optimization for mass engagement",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "A1",
+          "dir": "Altered",
+          "detail": "Musical production converges on formulaic patterns optimized for streaming metrics",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo-active",
+          "detail": "Performance arts atrophy as funding shifts to commercially predictable entertainment formats",
+          "evidence": "Strong"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "V1",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "IPS",
+      "target": "STS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "STS",
+      "target": "FG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FG",
+      "target": "VTA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "A1",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "SMA",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "HIPP",
+      "target": "RSC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "AI",
+      "target": "M1",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "mPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "V1",
+      "target": "A1",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "A1",
+      "target": "WERN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "WERN",
+      "target": "PRECUNEUS",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "DMN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "DMN",
+      "target": "AI",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "AI",
+      "target": "V1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "VTA",
+      "target": "WERN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CBLM",
+      "target": "PRECUNEUS",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "WERN",
+      "target": "DMN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "RSC",
+      "target": "AI",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "DMN",
+      "target": "V1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "A1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "V1",
+      "target": "VTA",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "STS",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "SMA",
+      "target": "WERN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "WERN",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "HIPP",
+      "target": "DMN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "DMN",
+      "target": "M1",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Social Identity → Mixed-Use Quality & Performance (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Social Identity → Multi-Family Quality & Performance (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Social Identity → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Hospitality Design Human Capital & Development → Mixed-Use Quality & Performance (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Hospitality Design Human Capital & Development → Multi-Family Quality & Performance (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Hospitality Design Human Capital & Development → Landscape Architecture Assessment & Diagnostics (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Urban Landscape Risk & Resilience → Landscape Architecture Quality & Performance (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Urban Landscape Risk & Resilience → Folklore & Oral Tradition (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Acoustic Design Infrastructure & Capacity → Mixed-Use Quality & Performance (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Landscape Architecture Quality & Performance → Mixed-Use Quality & Performance (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Architecture — Adaptation & Learning → Visual Arts (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Architecture — Adaptation & Learning → Music (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Architecture — Adaptation & Learning → Hospitality Design Core Operations (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Landscape Architecture Infrastructure & Capacity → Visual Arts (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "landscape urban — Signal Acquisition → Music (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Urban Landscape Policy & Governance → Gastronomy (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Gastronomy → Landscape Architecture Quality & Performance (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Historic Preservation Technology & Innovation → Gastronomy (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Mixed-Use Quality & Performance → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Spatial Planning — State Assessment (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Affordable Housing Policy & Governance → Folklore & Oral Tradition (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Folklore & Oral Tradition → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Creative Innovation → Retail Design — State Assessment (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Retail Design — State Assessment → Commercial Architecture Assessment & Diagnostics (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Retail Design — State Assessment → Multi-Family Human Capital & Development (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Multi-Family Human Capital & Development → Hospitality Design Human Capital & Development (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Theater & Performance → Sports & Athletics (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Educational Buildings Core Operations → Spatial Planning Assessment & Diagnostics (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Spatial Planning Assessment & Diagnostics → Architecture — Adaptation & Learning (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Dance → Architecture — Adaptation & Learning (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Master Planning Core Operations → Visual Arts (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Hospitality Design Policy & Governance → Urban Landscape Risk & Resilience (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Park Design Assessment & Diagnostics → Mixed-Use Quality & Performance (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Park Design Assessment & Diagnostics → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.665Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

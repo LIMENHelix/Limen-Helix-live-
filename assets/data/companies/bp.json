@@ -1,0 +1,775 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "bp",
+  "slug": "bp",
+  "name": "BP plc",
+  "ticker": "BP",
+  "cik": null,
+  "sic": "1311",
+  "industry": "Crude Petroleum and Natural Gas Extraction",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "GASDESW",
+    "MMNRNJ",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "BP"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "liquefied natural gas (LNG)",
+    "refined products (gasoline, diesel)",
+    "biofuels"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?slug=bp",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Energy transition risk: accelerating shift to renewables and electrification reduces long-term hydrocarbon demand",
+    "Geopolitical exposure: operations in Russia (Sakhalin-1 JV) face sanctions and divestment pressure post-2022 invasion",
+    "Commodity price volatility: earnings highly sensitive to crude oil and natural gas price swings",
+    "Regulatory carbon pricing: EU ETS and emerging carbon border adjustment mechanisms compress refining margins"
+  ],
+  "opportunitySignals": [
+    "LNG growth: global LNG demand expansion, particularly in Asia-Pacific, supports higher utilization and pricing",
+    "Renewable energy pivot: BP's stated net-zero 2050 target and $1B+ annual renewable investment creates new revenue streams",
+    "Downstream integration: refining and retail networks provide margin stability during commodity downturns",
+    "Hydrogen and biofuels: emerging low-carbon fuel markets align with energy transition thesis"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "BP is a supermajor integrated oil and gas company with operations spanning upstream exploration and production, midstream transportation and storage, downstream refining and retail, and emerging low-carbon energy businesses. The company operates in over 70 countries with significant exposure to crude oil, natural gas, and LNG markets, making it a bellwether for global energy demand, commodity pricing, and the energy transition. BP's strategic pivot toward renewables and net-zero 2050 targets reflects structural shifts in energy markets and regulatory frameworks.",
+  "portalRelevance": "BP is a tier-1 anchor entity in the energy domain and a critical input to global supply chains, financial markets, and macroeconomic forecasting. Its earnings, cash flow, and capital allocation decisions directly influence oil and gas prices, energy security, and investor risk appetite for fossil fuels. BP's transition strategy and execution against renewable targets serve as a leading indicator for supermajor energy company viability in a decarbonizing economy.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly upstream production volumes (barrels of oil equivalent per day) and realized commodity prices",
+        "Refining utilization rates and downstream margin spreads (Brent-WTI, crude-to-product cracks)",
+        "LNG export volumes and spot/contract pricing from major projects (Shah Deniz, Sakhalin-2, Egypt LNG)",
+        "8-K filings on major asset acquisitions, divestitures, or regulatory actions (e.g., Russia sanctions compliance)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Free cash flow trajectory and capital expenditure allocation between hydrocarbons and renewables",
+        "Reserve replacement ratio and proved reserves depletion rate relative to production",
+        "Debt-to-EBITDA leverage and credit rating trajectory amid energy transition uncertainty",
+        "Renewable energy capacity installed and pipeline (MW) vs. net-zero 2050 pathway milestones"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Commodity cycle phase: identify if crude oil and gas prices are in early, mid, or late cycle based on OPEC+ production decisions and demand signals",
+        "Transition execution risk: assess whether renewable capex and divestiture pace align with stated net-zero targets or signal strategic hesitation",
+        "Geopolitical tail risk: monitor Russia exposure (Sakhalin-1 JV, TNK-BP legacy) and Middle East supply disruption scenarios",
+        "Refining margin compression: detect structural vs. cyclical margin erosion in downstream segment"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "EU ETS carbon price hedging and CBAM (Carbon Border Adjustment Mechanism) exposure quantification",
+        "UK windfall tax and equivalent levies on upstream profits; model cash flow impact",
+        "Sanctions compliance and asset impairment triggers tied to Russia, Iran, or other embargoed jurisdictions",
+        "Renewable energy subsidy and grid interconnection risk in key markets (UK, US, Australia)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long crude oil and natural gas futures if commodity cycle early-stage signals emerge; hedge with renewable energy equity exposure",
+        "Monitor dividend sustainability: if free cash flow deteriorates, model dividend cut scenarios and equity price reaction",
+        "Track asset sale announcements (non-core oil/gas properties) as proxy for capital redeployment toward renewables",
+        "Engage with investor relations on net-zero capex allocation and reserve replacement strategy"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings: validate production guidance, realized prices, and refining margins vs. consensus",
+        "Annual 20-F filing: assess reserve replacement, capex split, and progress on renewable energy targets",
+        "Credit rating actions: monitor S&P, Moody's, Fitch for downgrades tied to energy transition or commodity downturn",
+        "Share price and dividend yield: track relative performance vs. energy sector ETFs and supermajor peers"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate commodity price elasticity of earnings if structural demand shifts accelerate",
+        "Update renewable energy capex trajectory assumptions based on actual project execution and cost inflation",
+        "Adjust geopolitical risk premium if Russia sanctions escalate or resolve",
+        "Refine refining margin model if downstream consolidation or capacity retirements alter competitive dynamics"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "BP operates as a distributed energy conglomerate with upstream exploration and production as its sensory input layer (detecting commodity availability and price signals), midstream transportation and storage as its motor output (delivering energy to markets), downstream refining and retail as its revenue-generating interface with end-customers, and an emerging renewable energy division as its strategic adaptation layer. The company's decision-making integrates commodity price signals, regulatory constraints (carbon pricing, sanctions), capital allocation discipline, and energy transition imperatives. Its functional network spans geopolitical risk (Russia, Middle East), commodity markets (crude, gas, LNG), financial markets (debt, equity, derivatives), and regulatory bodies (EU, UK, US) that collectively shape its strategic options and financial performance.",
+    "suppliers": [
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SA",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Saudi Aramco is BP's primary supermajor peer and OPEC+ production leader. BP monitors Aramco's capital allocation, dividend policy, and energy transition strategy as competitive benchmarks. Aramco's 2023 capex of ~$50B and focus on crude production expansion contrast with BP's renewable pivot, creating divergent strategic paths. Both compete for LNG market share and downstream retail presence globally.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "TotalEnergies SE",
+        "ticker": "TTEF",
+        "cik": null,
+        "slug": "totalenergies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "TotalEnergies is a French supermajor with significant LNG exposure (Mozambique, Qatar) and renewable energy ambitions. Total's 2023 capex of ~$17B emphasizes low-cost production and energy transition; the company targets 100 GW renewable capacity by 2030. BP and Total compete in LNG markets and downstream retail (Total has ~16,000 service stations globally). Total's stronger European regulatory alignment and renewable focus create differentiated positioning vs. BP's hydrocarbon-heavy portfolio.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000093410",
+        "slug": "chevron",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Chevron is a major integrated oil and gas company with ~$180B market cap and significant Permian, Kazakhstan, and Southeast Asia operations. Chevron's 2023 capex of ~$15B focuses on conventional oil and gas; the company has been slower than BP to commit to renewable energy. Chevron's 2024 acquisition of Hess ($53B) for Guyana assets signals confidence in conventional production growth, contrasting with BP's energy transition emphasis. Both compete for downstream market share in the US and Asia.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": null,
+        "slug": "equinor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Equinor is a Norwegian supermajor with ~$80B market cap and strong North Sea, Guyana, and renewable energy presence. Equinor's 2023 capex of ~$12B emphasizes low-cost North Sea production and offshore wind development (Dogger Bank, Empire Wind). BP and Equinor compete in North Sea oil/gas and offshore wind markets. Equinor's state ownership (67% by Norwegian government) and sovereign wealth fund backing provide capital stability that BP lacks, enabling aggressive renewable investment.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "ConocoPhillips",
+        "ticker": "COP",
+        "cik": "00001163165",
+        "slug": "conocophillips",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "ConocoPhillips is a pure-play upstream company with ~$140B market cap and major operations in Alaska (North Slope), Lower 48, and Southeast Asia. COP's 2023 capex of ~$8B focuses on conventional oil and gas; the company has minimal renewable energy exposure. BP and COP compete for upstream acreage and production growth; COP's Alaska focus and lower cost structure create competitive advantage in commodity downturns. COP's dividend yield (~3.5%) and buyback program ($5B annually) mirror BP's capital return strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Eni SpA",
+        "ticker": "ENI.MI",
+        "cik": null,
+        "slug": "eni",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Eni is an Italian supermajor with ~$60B market cap and significant Africa, Mediterranean, and renewable energy operations. Eni's 2023 capex of ~$10B emphasizes low-cost African production and renewable energy (Plenitude brand). BP and Eni compete in Africa (Angola, Nigeria, Egypt) and Mediterranean gas markets. Eni's Italian state ownership (30%) and focus on energy security for Europe create regulatory alignment with EU climate targets, positioning it favorably vs. BP's more global exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Gazprom PJSC",
+        "ticker": null,
+        "cik": null,
+        "slug": "gazprom",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Gazprom is Russia's state-controlled natural gas monopoly and a major LNG competitor. BP's Sakhalin-1 JV (12.5% stake) and TNK-BP legacy exposure created direct competition with Gazprom in Russian gas markets. Post-2022 Ukraine invasion, BP divested Sakhalin-1 stake and exited Russia, eliminating direct competition but ceding market share to Gazprom. Gazprom's LNG export restrictions due to sanctions create supply tightness that benefits BP's LNG projects (Shah Deniz, Egypt LNG).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "8-K"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk Line A/S",
+        "ticker": "MAERSK.CO",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Maersk is the world's largest container shipping line and a critical logistics partner for BP's refined products and chemical exports. Maersk operates ~700 vessels and carries ~20% of global container traffic. BP uses Maersk for containerized product shipments from refineries to global markets; Maersk's 2023 revenue of ~$60B reflects exposure to energy product demand. Maersk's decarbonization initiatives (methanol-fueled vessels) align with BP's sustainability goals.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Frontline Ltd.",
+        "ticker": "FRO",
+        "cik": "0001411458",
+        "slug": "frontline",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Frontline is the world's largest independent crude oil tanker owner with ~70 VLCCs and ~40 Suezmaxes. BP relies on Frontline and similar tanker operators to transport crude oil from production sites to refineries globally. Frontline's 2023 revenue of ~$2.5B reflects strong crude tanker rates driven by longer shipping routes post-Suez Canal disruptions. BP's crude exports from North Sea, Angola, and Azerbaijan depend on reliable tanker capacity; Frontline's fleet utilization directly impacts BP's logistics costs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Cheniere Energy Inc.",
+        "ticker": "LNG",
+        "cik": "0001396914",
+        "slug": "cheniere_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Cheniere operates the largest US LNG export facility (Sabine Pass, 45 MTPA capacity) and competes with BP's Shah Deniz and other LNG projects for global market share. Cheniere's 2023 revenue of ~$16B reflects strong LNG spot prices and long-term contract volumes. BP monitors Cheniere's capacity utilization and pricing as a benchmark for its own LNG projects. Cheniere's expansion to 50+ MTPA capacity creates competitive pressure on BP's LNG margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kinder Morgan Inc.",
+        "ticker": "KMI",
+        "cik": "0001506104",
+        "slug": "kinder_morgan",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Kinder Morgan is North America's largest midstream infrastructure operator with ~$22B market cap and 84,000 miles of pipelines. BP uses KMI pipelines to transport crude oil and refined products across the US; KMI's 2023 revenue of ~$20B reflects stable midstream cash flows. BP's Permian and Gulf Coast operations depend on KMI's pipeline capacity; KMI's tariff increases directly impact BP's downstream logistics costs. KMI's dividend yield (~6%) attracts BP's institutional investor base.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": null,
+        "slug": "equinor",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Equinor operates the Troll and Statfjord platforms in the North Sea, which connect to shared pipeline infrastructure with BP's North Sea operations. BP and Equinor jointly operate the Valhall field and share transportation capacity on the Forties Pipeline System. Equinor's 2023 North Sea production of ~1.7 Mbbl/d competes with BP's ~400 kbbl/d North Sea output for pipeline capacity and export routes. Shared infrastructure creates operational interdependence and cost-sharing arrangements.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": "0001096037",
+        "slug": "valero_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Downstream)",
+        "relationshipNote": "Valero is the world's largest independent refiner with ~3.3 Mbbl/d capacity across 15 refineries. Valero purchases crude oil from BP and other suppliers; BP's crude sales to Valero represent a significant revenue stream. Valero's 2023 revenue of ~$160B reflects strong refining margins and product demand. BP's crude pricing and supply reliability directly impact Valero's refining economics; long-term supply agreements lock in volumes and pricing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Phillips 66",
+        "ticker": "PSX",
+        "cik": "0001534701",
+        "slug": "phillips_66",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Downstream)",
+        "relationshipNote": "Phillips 66 is a major US refiner and midstream operator with ~2.1 Mbbl/d refining capacity. Phillips 66 purchases crude oil from BP and other suppliers for its refineries; BP's crude sales to PSX represent a key customer relationship. PSX's 2023 revenue of ~$160B reflects integrated refining and midstream operations. BP's crude supply agreements with PSX include volume commitments and pricing mechanisms tied to Brent crude benchmarks.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China National Petroleum Corporation (CNPC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cnpc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Downstream)",
+        "relationshipNote": "CNPC is China's state-owned oil and gas giant and a major buyer of BP's crude oil and LNG. CNPC operates ~9 Mbbl/d refining capacity and is the world's largest refiner. BP's crude exports to China represent ~15-20% of BP's total crude sales; CNPC's purchasing power directly influences BP's pricing and sales volumes. BP's Shah Deniz LNG supplies CNPC under long-term contracts; CNPC's demand growth drives BP's LNG expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Indian Oil Corporation Limited (IOC)",
+        "ticker": "IOCL.BO",
+        "cik": null,
+        "slug": "ioc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Downstream)",
+        "relationshipNote": "IOC is India's largest refiner with ~1.4 Mbbl/d capacity and a major buyer of BP's crude oil. IOC's 2023 crude purchases from BP and other suppliers reflect India's growing energy demand. BP's crude sales to IOC are priced on Brent benchmarks; IOC's refining margins and product demand directly impact BP's crude pricing power. BP's Shah Deniz LNG supplies IOC under long-term contracts; India's LNG demand growth supports BP's LNG expansion.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "NextEra Energy Inc.",
+        "ticker": "NEE",
+        "cik": "0000753308",
+        "slug": "nextera_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Energy Transition Competitor",
+        "relationshipNote": "NextEra Energy is the world's largest renewable energy company with ~$200B market cap and 60+ GW renewable capacity. NextEra competes with BP's renewable energy division (BP Renewables) for wind and solar project development and investment. NextEra's 2023 capex of ~$17B focuses on renewable energy and grid modernization; BP's renewable capex of ~$1B annually lags NextEra's scale. NextEra's higher valuation multiple reflects investor preference for pure-play renewable exposure vs. BP's integrated hydrocarbon-renewable model.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Brookfield Renewable Partners L.P.",
+        "ticker": "BEP",
+        "cik": "0001564590",
+        "slug": "brookfield_renewable",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Energy Transition Competitor",
+        "relationshipNote": "Brookfield Renewable is a major global renewable energy operator with ~$70B market cap and 200+ GW renewable capacity under management. Brookfield competes with BP Renewables for wind, solar, and hydro project development and acquisition. Brookfield's 2023 capex of ~$8B emphasizes renewable energy growth; Brookfield's pure-play renewable focus and lower cost of capital (via Brookfield parent) create competitive advantage vs. BP's integrated model. Brookfield's higher dividend yield (~4%) attracts yield-focused investors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ørsted A/S",
+        "ticker": "ORSTED.CO",
+        "cik": null,
+        "slug": "orsted",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Energy Transition Competitor",
+        "relationshipNote": "Ørsted is a Danish renewable energy company with ~$50B market cap and 13+ GW offshore wind capacity. Ørsted competes with BP Renewables for offshore wind projects in Europe and North America. Ørsted's 2023 capex of ~$4B focuses on offshore wind; Ørsted's specialized offshore wind expertise and European regulatory relationships create competitive advantage vs. BP's broader renewable portfolio. Ørsted's 2024 strategic shift away from hydrogen and biofuels signals focus on core offshore wind business.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Linde plc",
+        "ticker": "LIN",
+        "cik": "0001402057",
+        "slug": "linde",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Hydrogen & Industrial Gas Competitor",
+        "relationshipNote": "Linde is a global industrial gas and engineering company with ~$200B market cap and significant hydrogen production capacity. Linde competes with BP's hydrogen division (BP Hydrogen) for hydrogen production, storage, and distribution projects. Linde's 2023 capex of ~$4B emphasizes hydrogen and carbon capture; Linde's established hydrogen infrastructure and customer relationships create competitive advantage vs. BP's emerging hydrogen business. Both target industrial decarbonization and hydrogen fuel cell markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Plug Power Inc.",
+        "ticker": "PLUG",
+        "cik": "0001393808",
+        "slug": "plug_power",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Hydrogen Fuel Cell Competitor",
+        "relationshipNote": "Plug Power is a hydrogen fuel cell company with ~$5B market cap and focus on hydrogen production and fuel cell systems. Plug Power competes with BP's hydrogen division for hydrogen supply contracts and fuel cell technology development. Plug Power's 2023 capex of ~$500M emphasizes hydrogen production capacity expansion; Plug Power's specialized fuel cell expertise creates competitive advantage in niche markets. Both target industrial and transportation hydrogen demand.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Shell plc",
+        "ticker": "SHEL",
+        "cik": null,
+        "slug": "shell",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "Shell is BP's closest supermajor competitor in integrated upstream, downstream, and LNG operations. Shell's 2023 net income of ~$40B and aggressive share buyback program ($8B annually) contrast with BP's dividend-focused capital return. Both operate major refining networks in Europe and Asia; Shell's Prelude FLNG and BP's Shah Deniz compete in global LNG markets. Shell's 2024 strategic shift away from net-zero targets signals divergence in energy transition positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      },
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Competitive Benchmark",
+        "relationshipNote": "ExxonMobil is the largest supermajor by market cap (~$450B) and competes with BP across upstream, downstream, and chemical segments. XOM's 2023 capex of ~$24B focuses on Guyana production ramp-up and Permian expansion, while BP emphasizes LNG and renewable energy. ExxonMobil's Guyana projects (Liza, Payara) represent the industry's highest-margin new production, creating competitive pressure on BP's project returns. Both face EU ETS and carbon pricing exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The SEC regulates BP's US-listed securities and requires annual 20-F filings (as a foreign private issuer). BP's 2023 20-F disclosed $55B revenue and $27B net income; the SEC monitors BP's financial reporting, internal controls, and disclosure of material risks (energy transition, geopolitical, commodity price volatility). SEC enforcement actions on BP include the 2015 Deepwater Horizon settlement ($18.7B) and ongoing climate disclosure scrutiny. BP's climate risk disclosures face SEC staff comment letters on Scope 3 emissions and net-zero target credibility.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Financial Conduct Authority (FCA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fca",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The FCA is the UK financial regulator and oversees BP's London Stock Exchange listing (primary listing). BP's 2023 annual report and accounts filed with FCA disclosed £55B revenue; FCA monitors BP's financial reporting, market conduct, and disclosure of material risks. FCA's 2023 climate-related disclosure rules require BP to disclose TCFD-aligned climate risk assessments. FCA enforcement actions on BP include historical market abuse investigations; ongoing FCA scrutiny focuses on BP's net-zero credibility and climate risk quantification.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Environmental Compliance",
+        "relationshipNote": "The EPA regulates BP's US refining operations, crude oil transportation, and greenhouse gas emissions under the Clean Air Act and Clean Water Act. BP's US refineries (Carson, Whiting, Toledo, Cherry Point) face EPA air quality permits and wastewater discharge limits. EPA's 2023 Inflation Reduction Act creates tax credits for BP's renewable energy and carbon capture projects; BP's renewable capex benefits from $369B in IRA funding. EPA enforcement actions on BP include the 2015 Deepwater Horizon settlement and ongoing air quality violations at US refineries.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "European Commission (EC) — Directorate-General for Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_energy",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic Regulation",
+        "relationshipNote": "The EC regulates BP's European operations under the EU Emissions Trading System (ETS), Renewable Energy Directive, and Energy Efficiency Directive. BP's European refining and power generation operations face EU ETS carbon allowance costs; 2023 ETS prices of €80-90/tonne impose ~€500M+ annual compliance costs on BP. EC's 2023 Carbon Border Adjustment Mechanism (CBAM) creates tariffs on BP's refined product exports to non-EU countries. EC enforcement actions on BP include antitrust investigations on fuel pricing and ongoing scrutiny of BP's net-zero claims.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "UK Office for Gas and Electricity Markets (Ofgem)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ofgem",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Ofgem regulates BP's UK energy retail operations and gas distribution networks. BP's UK retail business (BP Energy) serves ~1M household customers; Ofgem sets price caps and consumer protection standards. Ofgem's 2023 price cap of ~£1,700/year for typical household reflects energy cost volatility; BP's retail margins compressed due to price cap constraints. Ofgem enforcement actions on BP include consumer complaint investigations and ongoing scrutiny of BP's renewable energy transition commitments.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Department of State — Office of Foreign Assets Control (OFAC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ofac",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Geopolitical Risk",
+        "relationshipNote": "OFAC enforces US sanctions on Iran, Russia, and other embargoed jurisdictions. BP's 2022 exit from Russia (Sakhalin-1 JV divestiture, TNK-BP legacy wind-down) was driven by OFAC sanctions compliance post-Ukraine invasion. BP's historical Iran operations (2011 exit) and ongoing sanctions compliance monitoring create operational and reputational risk. OFAC enforcement actions on BP include historical penalties for sanctions violations; ongoing OFAC scrutiny focuses on BP's supply chain compliance and third-party sanctions screening.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "PricewaterhouseCoopers LLP (PwC)",
+      "ticker": null,
+      "cik": null,
+      "slug": "pwc",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "PwC is BP's external auditor and provides audit, tax, and advisory services. PwC audited BP's 2023 consolidated financial statements (£55B revenue, £27B net income) and issued an unqualified audit opinion. PwC's audit scope includes BP's internal controls over financial reporting, commodity price hedging, reserve estimation, and climate risk disclosures. PwC's audit fees for BP are ~£15-20M annually; PwC also provides tax advisory on BP's global tax structure and transfer pricing. PwC's audit committee interactions focus on going-concern assessments and energy transition financial impacts.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "annual-report"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "BlackRock is the world's largest asset manager with ~$10T AUM and holds ~3-4% of BP's equity (largest institutional shareholder). BlackRock's 2023 engagement with BP focused on climate risk disclosure, net-zero target credibility, and board diversity. BlackRock's Climate Action 100+ initiative targets BP for energy transition accountability; BlackRock voted against BP's 2023 remuneration report due to climate concerns. BlackRock's voting power and engagement influence BP's capital allocation and governance decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": "0001564590",
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Vanguard is the world's second-largest asset manager with ~$8T AUM and holds ~2-3% of BP's equity (second-largest institutional shareholder). Vanguard's 2023 engagement with BP focused on climate risk management and energy transition strategy. Vanguard's stewardship team voted on BP's 2023 shareholder proposals on climate targets and board accountability. Vanguard's voting power and engagement influence BP's capital allocation and governance decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "JPMorgan Chase is BP's primary investment bank and lender, providing M&A advisory, debt underwriting, and credit facilities. JPMorgan's 2023 debt underwriting for BP included a €2B bond issuance and refinancing of maturing debt. JPMorgan's credit facility to BP provides ~$5B liquidity backstop; JPMorgan's lending covenants monitor BP's leverage ratios and cash flow metrics. JPMorgan's equity research team covers BP with a neutral rating; JPMorgan's investment banking fees from BP are ~$50-100M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Bank of America is a major lender and investment bank for BP, providing debt underwriting, credit facilities, and advisory services. BofA's 2023 debt underwriting for BP included participation in bond issuances and syndicated credit facilities. BofA's credit facility to BP provides ~$3B liquidity; BofA's lending covenants monitor BP's leverage and cash flow metrics. BofA's equity research team covers BP with a neutral rating; BofA's investment banking fees from BP are ~$30-50M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Murray Auchincloss",
+        "title": "Chief Executive Officer",
+        "slug": "murray_auchincloss",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Murray Auchincloss became BP CEO in February 2023, replacing Bernard Looney. Auchincloss previously served as BP CFO (2020-2023) and brings financial discipline and capital allocation expertise. Auchincloss's 2023 strategy emphasized shareholder returns (£8B buyback), cost discipline, and selective renewable energy investment. Auchincloss's compensation package includes base salary of ~£1.5M and performance-linked bonus; his strategic direction signals a more measured energy transition pace vs. predecessor Looney's aggressive net-zero positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Kate Thomson",
+        "title": "Chief Financial Officer",
+        "slug": "kate_thomson",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Kate Thomson became BP CFO in September 2023, replacing Murray Auchincloss. Thomson previously served as CFO of Glencore and brings commodity trading and financial risk management expertise. Thomson's 2023 priorities include capital allocation discipline, debt reduction, and cash flow optimization. Thomson's compensation package includes base salary of ~£1.2M and performance-linked bonus; her financial management focus supports BP's shareholder return commitments and balance sheet strength.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Helge Lund",
+        "title": "Chairman",
+        "slug": "helge_lund",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Helge Lund became BP Chairman in January 2023, replacing Adam Crozier. Lund previously served as CEO of Equinor (2011-2018) and brings deep energy sector expertise and European regulatory relationships. Lund's 2023 board leadership focused on CEO succession (Looney to Auchincloss), energy transition strategy, and stakeholder engagement. Lund's compensation includes board fees of ~£500K annually; his governance role shapes BP's strategic direction and board-level oversight of energy transition execution.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Giulia Chierchia",
+        "title": "General Counsel",
+        "slug": "giulia_chierchia",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Giulia Chierchia serves as BP General Counsel and Chief Compliance Officer, overseeing legal, compliance, and regulatory affairs. Chierchia's 2023 priorities include sanctions compliance (Russia exit), climate risk litigation defense, and regulatory engagement (SEC, FCA, EPA). Chierchia's compensation includes base salary of ~£800K and performance-linked bonus; her legal leadership manages BP's exposure to climate litigation, shareholder activism, and regulatory enforcement.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Brent Crude Oil Spot Price",
+        "slug": "brent_crude_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Brent crude oil is the global benchmark for crude pricing and directly determines BP's upstream revenue. Brent prices averaged ~$85/bbl in 2023 (vs. $100/bbl in 2022), reflecting demand softness and OPEC+ production management. BP's upstream earnings are highly sensitive to Brent price swings; a $10/bbl change impacts BP's annual net income by ~$2-3B. BP hedges Brent price exposure through commodity derivatives; Brent price forecasts drive BP's capital expenditure and dividend sustainability assessments.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data",
+          "news"
+        ]
+      },
+      {
+        "name": "Henry Hub Natural Gas Spot Price",
+        "slug": "henry_hub_gas_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Henry Hub natural gas is the US benchmark for natural gas pricing and influences BP's LNG export economics. Henry Hub prices averaged ~$2.75/MMBtu in 2023 (vs. $6.50/MMBtu in 2022), reflecting supply abundance and demand softness. BP's LNG projects (Shah Deniz, Egypt LNG) are priced on Henry Hub or Brent-linked formulas; lower Henry Hub prices compress BP's LNG margins. BP's natural gas production and LNG export volumes are sensitive to Henry Hub price signals; BP hedges gas price exposure through commodity derivatives.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data",
+          "news"
+        ]
+      },
+      {
+        "name": "BP Share Price (LSE: BP.)",
+        "slug": "bp_share_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "BP's share price reflects investor sentiment on energy transition, commodity prices, and capital allocation. BP's 2023 share price averaged ~£4.50 (vs. £3.50 in 2022), driven by strong upstream earnings and shareholder return commitments. BP's dividend yield of ~5% attracts yield-focused investors; BP's share buyback program (£8B annually) supports share price. BP's share price volatility (beta ~1.2) reflects energy sector cyclicality and energy transition uncertainty.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data",
+          "news"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,645 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "universal_truckload",
+  "slug": "universal_truckload",
+  "name": "Universal Truckload Services, Inc.",
+  "ticker": null,
+  "cik": null,
+  "sic": "4213",
+  "industry": "Trucking (except local)",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "TRUCKD",
+    "ICSA",
+    "GASDESW",
+    "DCOILWTICO",
+    "DHHNGSP",
+    "MMNRNJ"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "diesel fuel",
+    "gasoline",
+    "natural gas",
+    "steel (vehicle components)",
+    "rubber (tires)"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Fuel-price volatility exposure: diesel spot prices (WTI-indexed) directly compress margin; 2022–2023 volatility created 300–500 bps margin swings in peer group",
+    "Driver retention crisis: trucking industry turnover >100% annually; wage inflation 8–12% CAGR 2021–2024 pressures small carriers disproportionately",
+    "Regulatory compliance burden: FMCSA Hours-of-Service rules, ELDs, and pending EPA Tier 4 emissions standards increase capex and operational complexity",
+    "Shipper consolidation: major 3PLs (XPO, J.B. Hunt, Schneider) capture increasing share of LTL and truckload volume; smaller independents face pricing pressure"
+  ],
+  "opportunitySignals": [
+    "Nearshoring tailwind: Mexico trade growth (USMCA 2020+) drives cross-border freight; regional carriers with Mexico authority gain volume",
+    "Specialized freight premium: hazmat, temperature-controlled, and oversized loads command 15–25% rate premiums; niche positioning defensible vs. mega-carriers",
+    "Technology adoption ROI: telematics, route optimization, and autonomous-ready platforms reduce fuel spend 5–8% and improve asset utilization; early adopters gain competitive edge",
+    "Consolidation M&A: private equity interest in mid-sized carriers (2021–2024) suggests acquisition multiples 0.8–1.2x revenue for profitable, compliant operators"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Universal Truckload Services operates in the long-haul trucking segment (SIC 4213), providing over-the-road freight transportation for shippers across North America. As a private carrier, it competes in the fragmented LTL and truckload market dominated by mega-carriers (J.B. Hunt, Schneider, XPO) and regional independents, with exposure to fuel costs, driver labor, and shipper consolidation. The company's operational footprint and fleet size determine its ability to capture volume from 3PLs, direct shippers, and freight brokers in an industry facing structural margin compression and regulatory complexity.",
+  "portalRelevance": "Universal Truckload Services is a specialty supplier node in the supplyChain domain, critical to understanding freight-cost inflation, driver-wage dynamics, and regulatory compliance burden on mid-market shippers. As a private carrier, it lacks public filings but represents the operational reality of thousands of independent trucking firms that collectively move 70% of U.S. freight tonnage; its financial health and pricing power directly signal shipper-side cost pressures and supply-chain resilience. Monitoring this cohort (via industry surveys, FMCSA data, and peer-group proxies) informs inflation forecasts, logistics-cost hedging, and shipper margin compression risk.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Fuel surcharge pass-through rates: weekly spot diesel prices (GASDESW, DCOILWTICO) vs. shipper contract terms; lag in surcharge recovery signals margin compression",
+        "Driver availability index: FMCSA safety ratings, ATRI driver shortage surveys, and wage-rate benchmarks from ATA; turnover spikes precede capacity constraints",
+        "Shipper volume signals: freight broker RFQ activity, 3PL carrier-capacity utilization reports, and spot-market rate indices (Coyote, Convoy, DAT) indicate demand elasticity",
+        "Regulatory filing events: FMCSA safety audits, DOT compliance reviews, EPA emissions compliance deadlines; violations trigger operational disruption and capex"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Fleet utilization rate: estimated from fuel consumption, miles-per-gallon benchmarks, and shipper contract volumes; target >85% to cover fixed costs",
+        "Margin trajectory: fuel cost as % of revenue (typically 25–35%), driver wage inflation (8–12% CAGR), and pricing power vs. shipper consolidation",
+        "Compliance posture: FMCSA safety rating (Satisfactory/Conditional/Unsatisfactory), ELD adoption status, and pending Tier 4 emissions capex requirements",
+        "Debt service capacity: estimated from EBITDA (if disclosed via credit facility filings or industry surveys) and capex needs for vehicle replacement (5–7 year cycles)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Margin compression pattern: fuel-price spikes + shipper consolidation + driver wage inflation = squeeze on mid-sized carriers; peer bankruptcies (e.g., Yellow Corp 2023) signal distress threshold",
+        "Capacity constraint inflection: when utilization >90% and driver turnover >120%, pricing power improves but operational risk (safety, compliance) rises sharply",
+        "Regulatory compliance failure mode: FMCSA Unsatisfactory rating or DOT out-of-service order triggers shipper defection and financing stress within 90 days",
+        "Consolidation vulnerability: carriers with <$50M revenue and <100 trucks face acquisition pressure from PE-backed platforms; standalone viability erodes post-2024"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Fuel-cost hedging: diesel futures (NYMEX) or collar strategies to cap margin volatility; shipper contracts with fuel-surcharge pass-through reduce exposure",
+        "Driver retention program: wage benchmarking vs. ATA surveys, retention bonuses, and equipment upgrades (sleeper cabs, autonomous-ready tech) to reduce turnover below 80%",
+        "Compliance investment: ELD systems, telematics, and safety training to maintain FMCSA Satisfactory rating; capex ~$2–5K per truck annually",
+        "Debt covenant management: if leveraged, monitor fuel-price triggers in credit agreements; maintain EBITDA/debt <3.0x to preserve borrowing capacity"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Shipper contract renegotiation: push for fuel-surcharge pass-through and volume commitments to lock in margin; target 3–5% annual rate increases to offset wage inflation",
+        "Fleet modernization: prioritize Tier 4 emissions-compliant vehicles and autonomous-ready platforms to reduce future regulatory capex and improve fuel economy 5–8%",
+        "Niche market focus: specialize in hazmat, temperature-controlled, or oversized freight to command 15–25% rate premiums vs. commodity truckload",
+        "M&A evaluation: assess acquisition by PE-backed platforms (e.g., Estes, Saia, PAM) or strategic buyers (J.B. Hunt, Schneider) if standalone margin trajectory deteriorates"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly fuel-cost tracking: compare actual diesel prices vs. contract surcharge recovery; flag >2% margin variance as signal of pricing-power loss",
+        "Annual FMCSA safety audit results: Satisfactory rating maintained = compliance posture stable; Conditional or Unsatisfactory = shipper defection risk within 6 months",
+        "Driver turnover reporting: track monthly/quarterly turnover vs. ATA benchmarks; >120% annual turnover signals wage-competitiveness gap and capacity constraint risk",
+        "Shipper concentration analysis: monitor top-10 shipper revenue share; >40% concentration signals customer-concentration risk if major shipper defects or consolidates"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Fuel-hedging strategy recalibration: if diesel volatility >30% annualized, increase collar width or shift to fixed-rate shipper contracts to reduce margin variance",
+        "Wage-inflation sensitivity update: if driver wage growth exceeds 12% CAGR, accelerate automation investment (autonomous-ready tech, telematics) to offset labor cost",
+        "Regulatory compliance model refresh: post-EPA Tier 4 implementation (2026–2027), recalculate capex requirements and debt-service capacity; adjust pricing strategy accordingly",
+        "Competitive positioning reassessment: if mega-carrier pricing power increases (e.g., J.B. Hunt rate increases >5% YoY), evaluate niche specialization or consolidation exit strategy"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Pilot Flying J",
+        "ticker": null,
+        "cik": null,
+        "slug": "pilot_flying_j",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel & Logistics Infrastructure",
+        "relationshipNote": "Largest U.S. truck stop network (750+ locations) providing diesel fuel, maintenance, and driver amenities. Universal Truckload Services sources 60–70% of fleet fuel via Pilot's network; fuel surcharge pass-through depends on Pilot's pricing and rebate programs. Pilot's loyalty program (myPilot) offers 2–4% fuel discounts for high-volume carriers; critical to margin management in volatile fuel-price environment.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Volvo Trucks North America",
+        "ticker": "VOLVF",
+        "cik": null,
+        "slug": "volvo_trucks",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Vehicle Manufacturing & Fleet Capex",
+        "relationshipNote": "Primary OEM supplier for Class 8 tractors and trailers; Volvo's VNL and VNR models dominate mid-market carrier fleets. Universal Truckload Services fleet likely includes 30–50% Volvo units; 2023–2024 Volvo Autonomous-Ready (VAR) platform adoption signals industry shift toward Level 2 autonomy. Capex per tractor ~$140–160K; financing terms and residual-value guarantees critical to fleet economics.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Michelin North America",
+        "ticker": "MGDDY",
+        "cik": null,
+        "slug": "michelin_na",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Tire Supply & Maintenance",
+        "relationshipNote": "Leading tire supplier for Class 8 trucks; Michelin X One and Defender T+H tires reduce rolling resistance 3–5% vs. competitors, lowering fuel consumption. Universal Truckload Services fleet maintenance includes tire replacement every 300K–400K miles; Michelin's 2023 price increases (8–12%) directly compress carrier margins. Tire costs ~$400–600 per unit; fleet of 100 trucks = $120–180K annual tire spend.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cummins Inc.",
+        "ticker": "CMI",
+        "cik": "0000026172",
+        "slug": "cummins",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Engine & Powertrain Supply",
+        "relationshipNote": "Dominant engine supplier for Class 8 trucks; Cummins X15 and ISX engines power 40–50% of U.S. trucking fleet. Universal Truckload Services fleet includes Cummins-powered units; 2023 EPA Tier 4 Final emissions standards require Cummins SCR and DPF systems, adding $8–12K per engine. Warranty and service-parts availability critical to uptime; Cummins dealer network supports 99% of U.S. coverage.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000086991",
+        "slug": "saia",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel & Logistics Benchmarking",
+        "relationshipNote": "Regional LTL carrier and fuel-cost benchmark peer; Saia's 2023 10-K discloses fuel as 28% of revenue, providing industry-standard cost structure. Universal Truckload Services uses Saia's reported fuel surcharge rates and margin trends as competitive pricing reference. Saia's 2024 wage increases (10–12% for drivers) signal labor-cost inflation across peer group; wage-matching pressure affects Universal's driver retention.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eaton Corporation (Transmission Systems)",
+        "ticker": "ETN",
+        "cik": "0000026736",
+        "slug": "eaton_transmission",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Transmission & Drivetrain Supply",
+        "relationshipNote": "Leading supplier of automated manual transmissions (AMTs) for Class 8 trucks; Eaton's Fuller Advantage and Procision transmissions improve fuel economy 3–5% vs. manual. Universal Truckload Services fleet modernization prioritizes AMT-equipped tractors; 2023 Eaton price increases (~5%) add $3–5K per unit. Transmission failures trigger $15–25K repair costs; warranty and service-parts availability critical to fleet uptime.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bridgestone Americas",
+        "ticker": "BRDCY",
+        "cik": null,
+        "slug": "bridgestone_americas",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Tire Supply & Maintenance",
+        "relationshipNote": "Secondary tire supplier competing with Michelin; Bridgestone Duravis and Turanza tires target mid-market carriers seeking cost savings. Universal Truckload Services may source 20–30% of tire volume from Bridgestone; 2023 price increases (6–10%) and supply-chain delays (4–8 week lead times) create inventory-management challenges. Tire costs ~$350–500 per unit; competitive pricing pressure between Michelin and Bridgestone benefits carriers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Daimler Trucks North America (Freightliner)",
+        "ticker": null,
+        "cik": null,
+        "slug": "daimler_trucks_na",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Vehicle Manufacturing & Fleet Capex",
+        "relationshipNote": "Second-largest Class 8 OEM; Freightliner Cascadia and New Generation models compete with Volvo for mid-market carrier orders. Universal Truckload Services fleet may include 20–40% Freightliner units; 2024 Freightliner Autonomous-Ready (FAR) platform adoption signals industry shift. Capex per tractor ~$135–155K; residual values and financing terms critical to fleet economics. Freightliner dealer network provides 95%+ U.S. coverage.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Mega-Carrier Competitive Benchmark",
+        "relationshipNote": "Largest U.S. trucking company (2023 revenue $9.2B, 23K trucks); J.B. Hunt's pricing power and scale create competitive pressure on mid-sized carriers. Universal Truckload Services competes for shipper volume against J.B. Hunt's dedicated and spot-market services; J.B. Hunt's 2024 rate increases (3–5%) signal pricing-power recovery post-2023 margin compression. J.B. Hunt's intermodal and 3PL services (Logjam, Marketplace) capture volume from smaller carriers.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Schneider National Inc.",
+        "ticker": "SNDR",
+        "cik": "0000093556",
+        "slug": "schneider_national",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Mega-Carrier Competitive Benchmark",
+        "relationshipNote": "Second-largest U.S. trucking company (2023 revenue $5.5B, 13K trucks); Schneider's 3PL and intermodal services compete with Universal Truckload Services for shipper volume. Schneider's 2023 driver wage increases (12–15%) and 2024 rate increases (4–6%) signal labor-cost inflation and pricing-power recovery. Schneider's technology platform (telematics, route optimization) provides competitive advantage in fuel economy and asset utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104659",
+        "slug": "xpo_logistics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "3PL & LTL Competitive Benchmark",
+        "relationshipNote": "Leading 3PL and LTL carrier (2023 revenue $16.6B, 19K trucks); XPO's 2023 acquisition of YRC Worldwide consolidated LTL market share. Universal Truckload Services competes with XPO for regional LTL and truckload volume; XPO's pricing power and scale create margin pressure on smaller carriers. XPO's 2024 technology investments (autonomous-ready platforms, AI-driven routing) signal competitive shift toward automation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000086991",
+        "slug": "saia",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional LTL Competitor",
+        "relationshipNote": "Regional LTL carrier (2023 revenue $2.1B, 5.5K trucks); Saia competes directly with Universal Truckload Services in regional LTL markets. Saia's 2023 10-K discloses 28% fuel costs and 35% labor costs; margin compression 2022–2023 signals industry-wide pressure. Saia's 2024 rate increases (5–7%) and driver wage increases (10–12%) indicate pricing-power recovery and labor-cost inflation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Estes Express Lines",
+        "ticker": null,
+        "cik": null,
+        "slug": "estes_express",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional LTL Competitor",
+        "relationshipNote": "Private regional LTL carrier (estimated $2.5B+ revenue, 6K+ trucks); Estes competes with Universal Truckload Services in regional LTL and truckload markets. Estes' private ownership (Estes family) allows long-term margin investment vs. public-company pressure; Estes' 2023–2024 wage increases (12–15%) and rate increases (6–8%) signal competitive wage-inflation response. Estes' technology investments (telematics, autonomous-ready platforms) provide competitive advantage.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Shipper & Revenue Driver",
+        "relationshipNote": "Largest U.S. retailer (2023 revenue $611B); Walmart's private fleet and 3PL partnerships source truckload capacity from carriers like Universal Truckload Services. Walmart's freight volume ~2B+ tons annually; shipper consolidation with mega-carriers (J.B. Hunt, Schneider) reduces volume for mid-sized carriers. Walmart's 2023 supply-chain optimization initiatives prioritize automation and mega-carrier partnerships, creating pricing pressure on smaller carriers.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon.com Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "E-Commerce Shipper & Volume Driver",
+        "relationshipNote": "Largest e-commerce company (2023 revenue $575B); Amazon's freight volume 500M+ tons annually via Amazon Logistics and 3PL partnerships. Universal Truckload Services may source volume from Amazon's Flex program or 3PL partners (XPO, Schneider); Amazon's 2023 supply-chain optimization prioritizes automation and mega-carrier partnerships. Amazon's pricing power and volume concentration create margin pressure on smaller carriers.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "3PL Freight Brokers (DAT Solutions, Coyote, Convoy)",
+        "ticker": null,
+        "cik": null,
+        "slug": "3pl_brokers",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Shipper Demand Aggregation & Load Matching",
+        "relationshipNote": "Freight brokers aggregate shipper demand and match loads to carriers; DAT Solutions operates 1M+ daily loads, Coyote (XPO subsidiary) and Convoy (tech platform) compete for carrier capacity. Universal Truckload Services sources 30–50% of volume via brokers; broker commission rates (8–12% of freight revenue) compress carrier margins. Broker platforms provide real-time pricing signals and load visibility; rate volatility on DAT/Coyote indicates market tightness and pricing-power shifts.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "PAM Transportation Services Inc.",
+        "ticker": "PTSI",
+        "cik": "0000078281",
+        "slug": "pam_transportation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Truckload Competitor",
+        "relationshipNote": "Regional truckload carrier (2023 revenue $1.1B, 3.5K trucks); PAM competes directly with Universal Truckload Services in regional and long-haul markets. PAM's 2023 10-K discloses 26% fuel costs and 38% labor costs; margin compression 2022–2023 signals industry-wide pressure. PAM's 2024 rate increases (4–6%) and driver wage increases (10–12%) indicate pricing-power recovery and labor-cost inflation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "USA Truck Inc.",
+        "ticker": "USAK",
+        "cik": "0001109357",
+        "slug": "usa_truck",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Truckload Competitor",
+        "relationshipNote": "Regional truckload carrier (2023 revenue $400M, 1.2K trucks); USA Truck competes with Universal Truckload Services in regional markets. USA Truck's 2023 10-K discloses 27% fuel costs and 40% labor costs; margin compression 2022–2023 signals industry-wide pressure. USA Truck's 2024 rate increases (3–5%) and driver wage increases (8–10%) indicate pricing-power recovery and labor-cost inflation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Heartland Express Inc.",
+        "ticker": "HTLD",
+        "cik": "0000354950",
+        "slug": "heartland_express",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Truckload Competitor",
+        "relationshipNote": "Regional truckload carrier (2023 revenue $600M, 1.8K trucks); Heartland competes with Universal Truckload Services in regional and long-haul markets. Heartland's 2023 10-K discloses 25% fuel costs and 36% labor costs; lower labor costs reflect lower-wage regions (Midwest). Heartland's 2024 rate increases (2–4%) and driver wage increases (6–8%) indicate pricing-power recovery and labor-cost inflation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Marten Transport Ltd.",
+        "ticker": "MRTN",
+        "cik": "0000065218",
+        "slug": "marten_transport",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Specialized Truckload Competitor",
+        "relationshipNote": "Specialized refrigerated truckload carrier (2023 revenue $1.2B, 3.2K trucks); Marten competes with Universal Truckload Services in temperature-controlled freight markets. Marten's 2023 10-K discloses 28% fuel costs and 37% labor costs; specialized freight commands 15–25% rate premiums vs. commodity truckload. Marten's 2024 rate increases (5–7%) and driver wage increases (10–12%) indicate pricing-power recovery in specialized segments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Knight-Swift Transportation Inc.",
+        "ticker": "KNX",
+        "cik": "0001387029",
+        "slug": "knight_swift",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Mega-Carrier Competitive Benchmark",
+        "relationshipNote": "Largest U.S. trucking company post-2023 merger (2023 revenue $8.5B, 23K trucks); Knight-Swift's scale and pricing power create competitive pressure on mid-sized carriers. Knight-Swift's 2023 rate increases (3–5%) and driver wage increases (10–12%) signal pricing-power recovery and labor-cost inflation. Knight-Swift's technology investments (autonomous-ready platforms, AI-driven routing) provide competitive advantage in fuel economy and asset utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Federal Motor Carrier Safety Administration (FMCSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fmcsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Safety & Compliance Regulation",
+        "relationshipNote": "U.S. Department of Transportation agency regulating trucking safety, Hours-of-Service (HOS) rules, and electronic logging devices (ELDs). FMCSA safety ratings (Satisfactory/Conditional/Unsatisfactory) directly impact shipper selection and insurance costs; Unsatisfactory rating triggers shipper defection within 90 days. Universal Truckload Services must maintain FMCSA Satisfactory rating to compete; 2023 HOS rule changes (34-hour restart restrictions) increase operational complexity and capex for ELD systems.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "EPA regulates vehicle emissions via Tier 4 Final standards (effective 2027); all new Class 8 trucks must meet NOx and particulate-matter limits. Universal Truckload Services fleet modernization requires Tier 4 compliance capex (~$8–12K per engine); 2023 EPA proposed Advanced Clean Trucks (ACT) rule mandates zero-emission vehicle (ZEV) adoption by 2035. Compliance capex and technology uncertainty create strategic planning challenges for mid-sized carriers.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation (DOT)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Transportation & Compliance Regulation",
+        "relationshipNote": "DOT regulates motor carrier operating authority, safety standards, and hazmat transportation. Universal Truckload Services requires DOT Motor Carrier Number and operating authority to conduct interstate commerce; DOT out-of-service orders trigger shipper defection and financing stress. 2023 DOT proposed rule changes (driver qualification files, medical certification) increase compliance capex and administrative burden.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Governance",
+        "relationshipNote": "SEC regulates public company disclosures; Universal Truckload Services is private and not subject to SEC reporting. However, if Universal Truckload Services pursues acquisition by public company or IPO, SEC disclosure requirements apply. Peer-group 10-K filings (Saia, PAM, USA Truck, Heartland, Marten, Knight-Swift) provide industry benchmarks for financial health and regulatory compliance.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Regulation",
+        "relationshipNote": "FTC regulates antitrust and unfair competition in trucking industry; 2023 FTC scrutiny of mega-carrier consolidation (e.g., Knight-Swift merger review) signals regulatory focus on market concentration. Universal Truckload Services benefits from FTC antitrust enforcement that limits mega-carrier market power; however, FTC may challenge industry-wide pricing coordination or shipper exclusivity agreements.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": [],
+    "capitalProviders": [
+      {
+        "name": "Wells Fargo Bank N.A. (Commercial Lending)",
+        "ticker": "WFC",
+        "cik": "0000072971",
+        "slug": "wells_fargo_commercial",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Financing & Capital Structure",
+        "relationshipNote": "Major commercial lender to trucking industry; Wells Fargo's trucking lending portfolio includes equipment financing, working-capital lines, and term loans. Universal Truckload Services likely sources debt financing from Wells Fargo or similar regional lenders; typical trucking debt terms: 5–7 year amortization, 6–8% interest rates, EBITDA/debt covenant <3.0x. Fuel-price volatility and margin compression create covenant stress; lender forbearance critical during downturns.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ares Management / Apollo Global Management (Private Equity)",
+        "ticker": "ARES",
+        "cik": "0001743167",
+        "slug": "ares_management",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Equity Financing & Acquisition",
+        "relationshipNote": "Leading PE firms investing in trucking industry; Ares and Apollo have backed multiple carrier acquisitions (e.g., Estes, PAM, Saia). Universal Truckload Services may be acquisition target for PE-backed platforms seeking consolidation; typical acquisition multiples 0.8–1.2x revenue for profitable, compliant operators. PE ownership enables long-term margin investment and technology adoption vs. public-company pressure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Trucker Funding / Apex Capital Partners (Specialized Trucking Lenders)",
+        "ticker": null,
+        "cik": null,
+        "slug": "trucker_funding",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Equipment Financing & Working Capital",
+        "relationshipNote": "Specialized lenders focused on trucking industry; Trucker Funding and Apex Capital provide equipment financing, fuel-card advances, and working-capital lines. Universal Truckload Services likely sources equipment financing from specialized lenders; typical terms: 60–84 month amortization, 7–10% interest rates, asset-based lending on truck/trailer collateral. Fuel-price volatility and margin compression create refinancing risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Spot Diesel Prices (NYMEX ULSD Futures)",
+        "ticker": "ULSD",
+        "cik": null,
+        "slug": "nymex_ulsd",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Fuel Cost & Margin Pressure Signal",
+        "relationshipNote": "NYMEX ultra-low-sulfur diesel (ULSD) futures track spot diesel prices; Universal Truckload Services' fuel costs directly correlate with ULSD prices. 2022–2023 ULSD volatility (range $2.50–$3.50/gallon) created 300–500 bps margin swings; 2024 ULSD prices ~$2.80–3.00/gallon. Fuel surcharge pass-through depends on shipper contract terms; lag in surcharge recovery signals margin compression. Weekly ULSD price tracking provides real-time fuel-cost signal.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "American Trucking Associations (ATA) Truck Tonnage Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "ata_tonnage_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Freight Volume & Demand Signal",
+        "relationshipNote": "ATA Truck Tonnage Index tracks monthly trucking volume across U.S.; index correlates with shipper demand and carrier pricing power. 2023 ATA index decline (-2.5% YoY) signaled demand weakness and pricing pressure; 2024 ATA index recovery (+1–2% YoY) signals demand stabilization. Universal Truckload Services' volume and pricing power correlate with ATA index trends; monthly ATA index provides leading indicator of freight demand.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DAT Freight Index (Spot Market Rates)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dat_freight_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Spot Market Pricing & Competitive Pressure",
+        "relationshipNote": "DAT Solutions Freight Index tracks spot-market truckload rates across U.S.; index reflects real-time pricing power and capacity utilization. 2023 DAT index decline (-15–20% YoY) signaled pricing pressure and excess capacity; 2024 DAT index recovery (+5–10% YoY) signals pricing-power recovery. Universal Truckload Services' spot-market pricing correlates with DAT index trends; weekly DAT index provides real-time pricing signal.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

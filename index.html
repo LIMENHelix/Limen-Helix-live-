@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>LIMEN HELIX — In Progress</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#000;font-family:Georgia,serif;color:rgba(220,215,200,0.92);overflow:hidden}
+  body{display:flex;align-items:center;justify-content:center;padding:24px;position:relative}
+
+  /* Subtle background atmosphere matching the rest of the site */
+  body::before{
+    content:'';position:fixed;inset:0;
+    background:radial-gradient(ellipse at 50% 35%,rgba(201,169,78,0.06) 0%,transparent 55%),
+               radial-gradient(ellipse at 50% 100%,rgba(168,148,204,0.04) 0%,transparent 50%);
+    pointer-events:none;z-index:0;
+  }
+
+  main{position:relative;z-index:1;text-align:center;max-width:680px;width:100%}
+
+  .brand{
+    font-size:0.7rem;letter-spacing:9px;color:rgba(201,169,78,0.55);
+    text-transform:uppercase;font-weight:400;margin-bottom:48px;
+    cursor:default;user-select:none;
+  }
+
+  .note{
+    font-size:2.4rem;letter-spacing:1.5px;line-height:1.35;
+    color:rgba(220,215,200,0.95);font-weight:300;margin-bottom:42px;
+  }
+  .note .emph{color:rgba(201,169,78,0.85);font-style:italic}
+
+  .divider{
+    width:60px;height:1px;background:rgba(201,169,78,0.3);
+    margin:0 auto 38px auto;
+  }
+
+  .status{
+    font-size:0.72rem;letter-spacing:4px;color:rgba(201,169,78,0.55);
+    text-transform:uppercase;font-weight:500;
+    display:inline-flex;align-items:center;gap:10px;
+    padding:8px 16px;border:1px solid rgba(201,169,78,0.25);
+  }
+  .status .dot{
+    width:8px;height:8px;border-radius:50%;background:rgba(201,169,78,0.85);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:0.35;box-shadow:0 0 0 0 rgba(201,169,78,0.4)}
+    50%{opacity:1;box-shadow:0 0 14px 2px rgba(201,169,78,0.45)}
+  }
+
+  footer{
+    position:fixed;bottom:24px;left:0;right:0;text-align:center;
+    font-size:0.5rem;letter-spacing:3px;color:rgba(200,195,184,0.25);
+    text-transform:uppercase;
+  }
+
+  /* Admin login — hidden by default. Revealed via #admin URL hash,
+     Ctrl+Shift+A keypress, or triple-click on the LIMEN HELIX brand. */
+  .admin-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.92);
+    display:none;align-items:center;justify-content:center;
+    z-index:10;padding:24px;
+  }
+  .admin-overlay.show{display:flex}
+
+  .admin-card{
+    background:#0a0a0a;border:1px solid rgba(201,169,78,0.35);
+    padding:36px 32px 28px;max-width:380px;width:100%;
+    text-align:center;position:relative;
+  }
+  .admin-card .label{
+    font-size:0.65rem;letter-spacing:6px;color:rgba(201,169,78,0.65);
+    text-transform:uppercase;margin-bottom:24px;
+  }
+  .admin-card input[type=password]{
+    width:100%;background:transparent;border:none;
+    border-bottom:1px solid rgba(201,169,78,0.35);
+    color:rgba(220,215,200,0.95);font-family:Georgia,serif;
+    font-size:1rem;padding:10px 4px;letter-spacing:2px;
+    text-align:center;outline:none;
+  }
+  .admin-card input[type=password]:focus{
+    border-bottom-color:rgba(201,169,78,0.8);
+  }
+  .admin-card button{
+    margin-top:22px;background:transparent;
+    border:1px solid rgba(201,169,78,0.45);
+    color:rgba(201,169,78,0.85);font-family:Georgia,serif;
+    font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;
+    padding:10px 24px;cursor:pointer;transition:all .2s;
+  }
+  .admin-card button:hover{
+    background:rgba(201,169,78,0.08);color:rgba(220,200,140,0.95);
+  }
+  .admin-card .close{
+    position:absolute;top:8px;right:12px;
+    background:none;border:none;color:rgba(200,195,184,0.4);
+    font-size:1.2rem;cursor:pointer;padding:4px 8px;
+  }
+  .admin-card .close:hover{color:rgba(220,215,200,0.8)}
+  .admin-error{
+    margin-top:14px;min-height:14px;
+    font-size:0.65rem;letter-spacing:2px;color:rgba(220,120,100,0.85);
+    text-transform:uppercase;
+  }
+  .admin-hint{
+    margin-top:18px;font-size:0.55rem;letter-spacing:2px;
+    color:rgba(200,195,184,0.35);text-transform:uppercase;
+  }
+
+  @media (max-width: 540px){
+    .note{font-size:1.6rem}
+    .brand{letter-spacing:6px;margin-bottom:32px}
+  }
+</style>
+</head>
+<body>
+  <main>
+    <div class="brand" id="brand">LIMEN HELIX</div>
+    <div class="note">
+      Site under <span class="emph">reconstruction</span>.
+    </div>
+    <div class="divider"></div>
+    <div class="status">
+      <span class="dot"></span>
+      <span>In progress</span>
+    </div>
+  </main>
+  <footer>LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC</footer>
+
+  <!-- Admin login overlay — discreet entry to bypass reconstruction wall.
+       Reveal via: #admin URL hash, Ctrl+Shift+A, or 3× click on brand. -->
+  <div class="admin-overlay" id="admin-overlay" role="dialog" aria-modal="true" aria-labelledby="admin-label">
+    <div class="admin-card">
+      <button class="close" id="admin-close" aria-label="Close">×</button>
+      <div class="label" id="admin-label">Admin Access</div>
+      <form id="admin-form" autocomplete="off">
+        <input
+          type="password"
+          id="admin-pw"
+          name="admin-pw"
+          placeholder="code"
+          inputmode="numeric"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Admin code"
+        />
+        <div class="admin-error" id="admin-error" role="alert" aria-live="polite"></div>
+        <button type="submit">Enter</button>
+      </form>
+      <div class="admin-hint">Ctrl + Shift + A · #admin</div>
+    </div>
+  </div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ────────────────────────────────────────────────────────────────────
+  // Admin access code. Client-side check only; matches the existing
+  // sessionStorage gate (see assets/js/auth-gate.js). Not real security;
+  // just access friction against random visitors hitting protected pages
+  // while reconstruction is in progress. Rotate as needed.
+  // ────────────────────────────────────────────────────────────────────
+  var ADMIN_PASSPHRASE = '209913';
+
+  var AUTH_KEY   = 'limen_access';
+  var AUTH_VALUE = 'granted';
+  var DEFAULT_LANDING = '/civilization.html';
+
+  var overlay  = document.getElementById('admin-overlay');
+  var form     = document.getElementById('admin-form');
+  var pwInput  = document.getElementById('admin-pw');
+  var errorBox = document.getElementById('admin-error');
+  var closeBtn = document.getElementById('admin-close');
+  var brand    = document.getElementById('brand');
+
+  function show() {
+    overlay.classList.add('show');
+    setTimeout(function () { pwInput.focus(); }, 50);
+  }
+  function hide() {
+    overlay.classList.remove('show');
+    errorBox.textContent = '';
+    pwInput.value = '';
+    if (location.hash === '#admin') {
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+  }
+
+  function getReturnParam() {
+    try {
+      var params = new URLSearchParams(location.search);
+      var ret = params.get('return');
+      if (ret && ret.charAt(0) === '/' && ret.indexOf('//') === -1) return ret;
+    } catch (e) { /* fall through */ }
+    return null;
+  }
+
+  function grantAndRedirect() {
+    try { sessionStorage.setItem(AUTH_KEY, AUTH_VALUE); } catch (e) { /* no-op */ }
+    var target = getReturnParam() || DEFAULT_LANDING;
+    window.location.replace(target);
+  }
+
+  // Reveal triggers
+  function checkHash() {
+    if (location.hash === '#admin') show();
+  }
+  checkHash();
+  window.addEventListener('hashchange', checkHash);
+
+  document.addEventListener('keydown', function (e) {
+    // Ctrl+Shift+A (or Cmd+Shift+A on macOS)
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+      e.preventDefault();
+      show();
+    }
+    // Escape closes overlay
+    if (e.key === 'Escape' && overlay.classList.contains('show')) {
+      hide();
+    }
+  });
+
+  // Triple-click on the LIMEN HELIX brand reveals the form
+  var brandClicks = 0;
+  var brandTimer  = null;
+  brand.addEventListener('click', function () {
+    brandClicks++;
+    clearTimeout(brandTimer);
+    if (brandClicks >= 3) {
+      brandClicks = 0;
+      show();
+    } else {
+      brandTimer = setTimeout(function () { brandClicks = 0; }, 600);
+    }
+  });
+
+  // Form submit
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var entered = (pwInput.value || '').trim();
+    if (!entered) {
+      errorBox.textContent = 'Enter code';
+      return;
+    }
+    if (entered === ADMIN_PASSPHRASE) {
+      errorBox.textContent = '';
+      grantAndRedirect();
+    } else {
+      errorBox.textContent = 'Incorrect';
+      pwInput.value = '';
+      pwInput.focus();
+    }
+  });
+
+  closeBtn.addEventListener('click', hide);
+  overlay.addEventListener('click', function (e) {
+    // Click outside the card closes the overlay
+    if (e.target === overlay) hide();
+  });
+
+  // If session is already granted and ?return= is set, auto-redirect.
+  // This makes a refresh-after-login bounce straight to the intended page.
+  try {
+    if (sessionStorage.getItem(AUTH_KEY) === AUTH_VALUE) {
+      var ret = getReturnParam();
+      if (ret) window.location.replace(ret);
+    }
+  } catch (e) { /* no-op */ }
+})();
+</script>
+</body>
+</html>

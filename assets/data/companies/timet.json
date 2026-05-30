@@ -1,0 +1,701 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "timet",
+  "slug": "timet",
+  "name": "Titanium Metals Corporation",
+  "ticker": null,
+  "cik": null,
+  "sic": "3339",
+  "industry": "Rolling, Drawing, and Extruding of Nonferrous Metals, except Copper and Aluminum",
+  "domainId": "defense",
+  "portalAttachment": "defense-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "MMNRNJ",
+    "IPMANSW",
+    "INDPRO",
+    "UNRATE"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "titanium sponge",
+    "titanium scrap",
+    "energy (electricity, natural gas)",
+    "argon gas",
+    "aluminum",
+    "vanadium"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Huntsman parent company exposure to cyclical aerospace demand; titanium represents ~8–12% of Huntsman's specialty-products revenue",
+    "Single-source dependency on Huntsman for capital allocation and strategic direction post-2005 acquisition",
+    "Geopolitical supply-chain risk: Russian titanium sponge historically 15–20% of global supply; U.S. tariffs and sanctions post-2022 Ukraine invasion constrain feedstock sourcing",
+    "Long-cycle defense procurement: F-35 and Boeing 787 production rates directly drive 40–50% of TIMET's revenue; any OEM production halt cascades immediately"
+  ],
+  "opportunitySignals": [
+    "U.S. Defense Production Act Title III funding for domestic titanium capacity expansion; TIMET positioned as sole large-scale U.S. producer",
+    "Next-generation military platforms (NGAD, RQ-180, hypersonic vehicles) require advanced titanium alloys; TIMET's metallurgical IP and FAA/NADCAP certifications create moat",
+    "Commercial aerospace recovery post-COVID: Boeing 737 MAX and 787 production ramp-up drives 2024–2026 demand surge; TIMET capacity utilization trending 75–85%",
+    "Additive manufacturing (3D titanium printing) emerging as adjacency; TIMET powder production capability aligns with GE Additive, Arcam, and Stratasys partnerships"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "TIMET is the sole large-scale integrated titanium producer in the United States, supplying critical aerospace and defense platforms including the F-35 Joint Strike Fighter, Boeing 787 Dreamliner, and military jet-engine programs. The company operates under strict ITAR and NADCAP certification regimes, making it a single-source or sole-source supplier for U.S. Department of Defense and prime contractors. Titanium represents 8–12% of Huntsman Corporation's specialty-products segment revenue and is essential to next-generation hypersonic and stealth vehicle development.",
+  "portalRelevance": "TIMET functions as a critical infrastructure node in the U.S. defense-industrial base, with direct dependencies on DoD procurement cycles, OEM production rates, and geopolitical supply-chain resilience. As a private subsidiary of Huntsman, TIMET lacks public equity markets but is subject to indirect capital constraints and strategic direction from its parent. Its role as sole domestic producer of aerospace-grade titanium makes it a strategic asset in national-security planning and a bellwether for defense-sector health and industrial capacity.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "F-35 production rate announcements via Lockheed Martin quarterly earnings and DoD budget justification documents",
+        "Boeing 787 delivery schedules and production-rate guidance from quarterly earnings calls and SEC filings (Boeing 10-K Item 1A supply-chain risk disclosures)",
+        "Huntsman quarterly earnings call commentary on titanium segment margins, capacity utilization, and feedstock cost inflation",
+        "ITAR/NADCAP audit results and facility certifications published by Defense Counterintelligence and Security Agency (DCSA)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly capacity utilization rate (target 80–90% for optimal margin; below 70% signals demand weakness)",
+        "Titanium sponge feedstock cost index (Russian import restrictions post-2022 drive 15–25% price volatility)",
+        "Huntsman parent-company leverage ratio and free-cash-flow trajectory; TIMET capex allocation as % of parent FCF",
+        "Order backlog duration (typical 6–12 months for aerospace-grade ingot; extension signals demand surge)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Demand cliff risk: F-35 production rate cuts (e.g., 2023 Lot 17 reduction) cascade to TIMET within 2–3 quarters; Boeing 787 MAX grounding events (2019–2020) reduced TIMET revenue 18–22%",
+        "Feedstock supply shock: Russian sponge embargo (2022) forced TIMET to source from Kazakhstan and Ukraine; cost premium 12–18% vs. pre-2022 baseline",
+        "Capacity constraint: TIMET's Henderson, Nevada and Morgantown, West Virginia plants operate near nameplate capacity; expansion capex requires Huntsman board approval and 18–24 month lead time",
+        "Margin compression: titanium alloy pricing power limited by OEM long-term contracts (3–5 year fixed-price agreements); feedstock inflation not fully passed through"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Defense Production Act Title III funding: TIMET eligible for capacity-expansion grants; monitor DoD budget authority and Congressional appropriations (FY2024–2026 defense bills)",
+        "ITAR compliance: all titanium products for defense export require State Department license; facility audits by DCSA occur biennially",
+        "Environmental: Nevada and West Virginia operations subject to EPA Clean Air Act (titanium melting furnaces) and Clean Water Act (cooling-water discharge); state-level permits require 2–3 year renewal cycles",
+        "Tariff exposure: Section 232 steel tariffs (25%) do not directly apply to titanium, but aluminum and vanadium alloy components subject to tariff risk; monitor USTR exclusion petitions"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Huntsman board-level strategic review: evaluate TIMET spin-off vs. continued integration; assess DPA Title III funding application and capex roadmap",
+        "Supply-chain diversification: negotiate long-term sponge contracts with Kazakhstani producers (Ulba Metallurgical Plant) to reduce Russian dependency; target 40% non-Russian feedstock by 2026",
+        "Capacity expansion: if DoD demand signals support, pursue $200–300M capex for additional melting/forging capacity; timeline 2025–2028",
+        "Pricing strategy: renegotiate OEM contracts to include titanium-sponge cost escalation clauses; target 60–70% pass-through of feedstock inflation"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly: Huntsman earnings call commentary on titanium segment revenue, EBITDA margin, and capacity utilization vs. prior-year and guidance",
+        "Semi-annual: F-35 production rate updates from Lockheed Martin and DoD budget justification documents; Boeing 787 delivery rate from quarterly earnings",
+        "Annual: TIMET facility audit results (NADCAP, ITAR compliance) published by DCSA; Huntsman 10-K Item 1A risk-factor updates on supply-chain and geopolitical exposure",
+        "Event-driven: 8-K filings by Huntsman for material contract wins, facility incidents, or strategic announcements affecting TIMET"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Feedstock-cost elasticity: recalibrate margin model if Russian sponge embargo persists beyond 2025; adjust long-term pricing assumptions for 10–15% structural cost increase",
+        "Demand-cycle sensitivity: if F-35 production rate cuts exceed 15% YoY, lower capacity-utilization baseline and extend payback period for capex projects",
+        "Geopolitical risk weighting: increase scenario-analysis weight for Ukraine supply disruption and China rare-earth export restrictions affecting titanium alloy composition",
+        "Huntsman parent-company integration: if parent divests TIMET or spins it off, reassess capital structure, cost of capital, and strategic autonomy; monitor for private-equity acquisition interest"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Ulba Metallurgical Plant (JSC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ulba_metallurgical",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Titanium Sponge",
+        "relationshipNote": "Ulba (Kazakhstan) is TIMET's primary non-Russian titanium sponge supplier post-2022 Ukraine invasion. Supplies ~30–40% of TIMET's feedstock; contract terms. Ulba capacity ~50,000 metric tons/year; TIMET consumes ~20,000 metric tons annually. Geopolitical risk: Kazakhstan-China-Russia trilateral relations affect supply stability. Sourcing shift from Russia (pre-2022: 40–50% of TIMET feedstock) to Kazakhstan reflects U.S. sanctions compliance and supply-chain resilience strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "VSMPO-AVISMA Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "vsmpo_avisma",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Titanium Sponge (Legacy)",
+        "relationshipNote": "VSMPO-AVISMA (Russia) historically supplied 40–50% of TIMET's titanium sponge feedstock until 2022 Ukraine invasion and subsequent U.S. sanctions. Largest global sponge producer (~100,000 metric tons/year capacity). TIMET relationship severed post-February 2022; residual inventory liquidated by Q3 2022. Represents critical geopolitical supply-chain inflection point. Resumption unlikely absent major U.S.-Russia diplomatic shift or sanctions relief.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation (Parent Company)",
+        "ticker": "HUN",
+        "cik": "0000500104",
+        "slug": "huntsman_corp",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Corporate Governance",
+        "relationshipNote": "Huntsman acquired TIMET in 2005 for ~$2.6B; TIMET operates as wholly-owned subsidiary within Huntsman's Specialty Products segment. Titanium revenue represents 8–12% of Huntsman's specialty-products segment (~$2.0–2.5B annually). Huntsman provides capital allocation, strategic direction, and financial reporting consolidation. Parent-company leverage and FCF constraints directly limit TIMET capex; 2023 Huntsman debt-to-EBITDA ~2.8x constrains expansion funding. TIMET's EBITDA margin typically 18–25% (specialty-products average 20–22%).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Allegheny Technologies Incorporated (ATI)",
+        "ticker": "ATI",
+        "cik": "0000004282",
+        "slug": "allegheny_tech",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Specialty Metals Competitor",
+        "relationshipNote": "ATI is TIMET's primary domestic competitor in aerospace-grade titanium and specialty alloys. ATI operates Specialty Materials segment (titanium, nickel, cobalt alloys); 2023 revenue ~$1.8B, with titanium representing ~25–30% of segment revenue. ATI supplies Boeing, Lockheed Martin, GE Aviation, and Pratt & Whitney. Key competitive delta: ATI has public equity markets and greater capital access; TIMET constrained by Huntsman parent leverage. Both companies compete for F-35 and 787 supply contracts; market share split roughly 50–50 between TIMET and ATI for U.S. aerospace-grade ingot.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Arcam AB (GE Additive subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "arcam_ge_additive",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Additive Manufacturing Technology",
+        "relationshipNote": "GE Additive (parent: General Electric) acquired Arcam in 2016 for ~$1.0B. Arcam specializes in electron-beam melting (EBM) for titanium powder production and 3D printing. TIMET exploring partnerships with GE Additive for titanium powder feedstock for additive manufacturing;. Represents emerging adjacency: TIMET's ingot production can be converted to powder for aerospace 3D-printing applications. GE Aviation is anchor customer for both TIMET ingots and GE Additive powder.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tronox Holdings plc",
+        "ticker": "TROX",
+        "cik": "0001697963",
+        "slug": "tronox_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Titanium Feedstock (Pigment Grade)",
+        "relationshipNote": "Tronox is global leader in titanium dioxide (TiO2) pigment production; operates chloride-process plants that produce titanium tetrachloride (TiCl4), a precursor to titanium sponge. Tronox supplies specialty-grade TiCl4 to sponge producers (Ulba, VSMPO-AVISMA). TIMET indirectly dependent on Tronox's TiCl4 supply stability. Tronox 2023 revenue ~$3.8B; titanium segment ~60% of revenue. Geopolitical risk: Tronox operates mines in South Africa, Australia, and Mozambique; supply chain vulnerable to African political instability.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Linde plc (Industrial Gases)",
+        "ticker": "LIN",
+        "cik": "0001402057",
+        "slug": "linde_plc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Argon Gas & Welding Supplies",
+        "relationshipNote": "Linde supplies argon gas and welding consumables to TIMET's vacuum-arc remelting (VAR) furnaces at Henderson, Nevada and Morgantown, West Virginia plants. Argon is critical for VAR process; Linde supplies ~. Linde 2023 revenue ~$31.9B; industrial-gases segment ~45% of revenue. TIMET's argon consumption ~500–800 metric tons/year (estimated). Linde price increases (2022–2023: ~8–12% annually) directly impact TIMET cost structure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Air Liquide SA",
+        "ticker": "AI",
+        "cik": null,
+        "slug": "air_liquide",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Industrial Gases (Secondary Supplier)",
+        "relationshipNote": "Air Liquide is secondary supplier of argon and specialty gases to TIMET; competes with Linde for industrial-gas supply contracts. Air Liquide 2023 revenue ~€29.9B; industrial-gases segment ~60% of revenue. TIMET likely maintains dual-source strategy for argon to mitigate supply risk.. Pricing power limited by commodity-gas market competition; both suppliers pass through energy-cost inflation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Trucking & Logistics",
+        "relationshipNote": "J.B. Hunt provides trucking and logistics services for TIMET ingot distribution from Henderson and Morgantown plants to OEM customers (Lockheed Martin, Boeing, GE Aviation). TIMET ingots are heavy (500–5,000 lbs per ingot) and require specialized flatbed and refrigerated transport for temperature control. J.B. Hunt 2023 revenue ~$9.2B; intermodal and dedicated-contract services represent ~40% of revenue.. TIMET likely represents <1% of J.B. Hunt revenue but critical for aerospace-grade compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schneider National Inc.",
+        "ticker": "SNDR",
+        "cik": "0000087686",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Intermodal & Logistics",
+        "relationshipNote": "Schneider National provides intermodal and dedicated-contract logistics for TIMET ingot distribution. Schneider 2023 revenue ~$6.1B; intermodal segment ~35% of revenue. TIMET ingots require temperature-controlled and secure transport (ITAR compliance); Schneider's aerospace-certified logistics division handles specialized handling.. Dual-source logistics strategy with J.B. Hunt mitigates carrier concentration risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Specialized Freight",
+        "relationshipNote": "XPO Logistics provides specialized freight and heavy-haul services for TIMET ingot distribution, particularly for oversized/overweight shipments to OEM facilities. XPO 2023 revenue ~$16.3B; specialized-transportation segment ~25% of revenue. TIMET ingots (up to 5,000 lbs) require specialized equipment and routing; XPO's aerospace-certified division handles ITAR-compliant transport.. XPO represents tertiary logistics partner for peak-demand periods.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Lockheed Martin Corporation",
+        "ticker": "LMT",
+        "cik": "0000060086",
+        "slug": "lockheed_martin",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Defense Customer",
+        "relationshipNote": "Lockheed Martin is TIMET's largest customer via F-35 Joint Strike Fighter program. F-35 airframe requires ~1,200 lbs of titanium per aircraft (fuselage, wings, landing gear). Lockheed Martin produces ~150–180 F-35s annually (2023–2024); TIMET supplies ingots for ~40–50% of U.S. production (remainder sourced from ATI and international suppliers). Estimated TIMET revenue from F-35: $180–220M annually (2023–2024). Lockheed Martin 2023 revenue ~$66.0B; F-35 program represents ~15–18% of revenue. Long-term contract:. F-35 production rate cuts directly cascade to TIMET within 2–3 quarters.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "The Boeing Company",
+        "ticker": "BA",
+        "cik": "0000012927",
+        "slug": "boeing",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Commercial Customer",
+        "relationshipNote": "Boeing is TIMET's second-largest customer via 787 Dreamliner program. 787 airframe requires ~5,000–6,000 lbs of titanium per aircraft (fuselage, wings, engines). Boeing delivered ~380 787s in 2023; TIMET supplies ingots for ~35–45% of U.S. production. Estimated TIMET revenue from 787: $150–200M annually (2023–2024). Boeing 2023 revenue ~$86.0B; 787 program represents ~8–10% of revenue. 787 production rate guidance: 10/month (2024), 12/month (2025). Long-term contract:. Boeing 737 MAX and 777X programs represent secondary revenue streams (~$30–50M annually combined).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "General Electric Company (GE Aviation)",
+        "ticker": "GE",
+        "cik": "0000040545",
+        "slug": "general_electric",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Engine & Propulsion Customer",
+        "relationshipNote": "GE Aviation is TIMET's third-largest customer via military and commercial jet-engine programs. GE9, GE90, LEAP engines require titanium compressor blades, casings, and fasteners. TIMET supplies ingots for engine-component forging to GE Aviation suppliers (e.g., Precision Castparts, Howmet Aerospace). Estimated TIMET revenue from GE Aviation: $80–120M annually (2023–2024). GE 2023 revenue ~$136.5B; GE Aviation segment ~$26.0B (~19% of total). F-35 engine (F135, Pratt & Whitney) also drives secondary demand. Long-term contracts:. GE Aviation production rates tied to commercial-aviation recovery and military-engine procurement cycles.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Pratt & Whitney (RTX subsidiary)",
+        "ticker": "RTX",
+        "cik": "0001318605",
+        "slug": "pratt_whitney",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Engine Supplier",
+        "relationshipNote": "Pratt & Whitney (RTX subsidiary) supplies F135 engines for F-35 fighter jets and commercial engines (GTF, PW1000G family). TIMET supplies titanium ingots for engine-component forging via Pratt & Whitney's supply chain. Estimated TIMET revenue from Pratt & Whitney: $40–70M annually (2023–2024). RTX 2023 revenue ~$86.0B; Pratt & Whitney segment ~$22.0B (~26% of total). F135 production rate tied to F-35 procurement; GTF production rate tied to Airbus A320neo and Boeing 737 MAX deliveries. Long-term contracts:. Pratt & Whitney supply-chain disruptions (e.g., 2023 GTF inspection issues) can cascade to TIMET demand.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Allegheny Technologies Incorporated (ATI)",
+        "ticker": "ATI",
+        "cik": "0000004282",
+        "slug": "allegheny_tech",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Specialty Metals Competitor",
+        "relationshipNote": "ATI is TIMET's primary domestic competitor in aerospace-grade titanium ingot production. ATI Specialty Materials segment (2023 revenue ~$1.8B) includes titanium, nickel, and cobalt alloys; titanium represents ~25–30% of segment revenue (~$450–540M). ATI supplies Lockheed Martin, Boeing, GE Aviation, and Pratt & Whitney. Market share split: TIMET ~50%, ATI ~50% for U.S. aerospace-grade ingot (estimated). ATI has public equity markets and greater capital access; 2023 debt-to-EBITDA ~1.8x vs. Huntsman ~2.8x. Competitive advantage: ATI's diversified alloy portfolio (nickel, cobalt) vs. TIMET's titanium focus. ATI capex 2023–2024: ~$150–200M annually for capacity expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Carpenter Technology Corporation",
+        "ticker": "CRS",
+        "cik": "0000021037",
+        "slug": "carpenter_tech",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Specialty Alloys Competitor",
+        "relationshipNote": "Carpenter Technology is secondary competitor in specialty alloys and titanium products. Carpenter 2023 revenue ~$2.6B; specialty-alloys segment includes titanium, stainless steel, and cobalt alloys. Carpenter's titanium revenue ~$200–300M annually (estimated). Carpenter competes for aerospace and defense contracts but has smaller titanium ingot capacity than TIMET or ATI. Carpenter's strength: specialty-alloy composition and powder metallurgy; weakness: limited large-ingot capacity. Carpenter capex 2023–2024: ~$100–150M annually. Carpenter's recent acquisition of Firth Rixson (2020, ~$1.1B) expanded aerospace-component capabilities but not raw-ingot production.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Howmet Aerospace Inc.",
+        "ticker": "HWM",
+        "cik": "0001731163",
+        "slug": "howmet_aerospace",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Aerospace Components Competitor",
+        "relationshipNote": "Howmet Aerospace (formerly Alcoa Corporation aerospace division, spun off 2020) is downstream competitor in titanium-component manufacturing. Howmet 2023 revenue ~$6.3B; engineered-products segment includes titanium castings, forgings, and fasteners. Howmet competes with TIMET indirectly: Howmet purchases TIMET ingots and converts them to finished components for OEMs. Howmet also produces some ingots in-house via acquisition of Precision Castparts (2016, ~$17.1B). Competitive dynamic: TIMET supplies raw ingots; Howmet adds value through forging/casting. Howmet capex 2023–2024: ~$200–250M annually for capacity expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Precision Castparts Corp. (Berkshire Hathaway subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "precision_castparts",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Aerospace Components & Ingot Producer",
+        "relationshipNote": "Precision Castparts (acquired by Berkshire Hathaway in 2016 for ~$37.2B) is major competitor in titanium ingot and aerospace-component production. PCC operates titanium ingot facilities and supplies Lockheed Martin, Boeing, GE Aviation, and Pratt & Whitney. PCC's titanium ingot capacity ~. PCC competes directly with TIMET for F-35 and 787 supply contracts. Competitive advantage: PCC's vertical integration (ingot + components) and Berkshire's capital access. Competitive disadvantage: PCC's acquisition integration challenges (2016–2024) and higher cost structure. PCC represents ~.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "VSMPO-AVISMA Corporation (Russian competitor)",
+        "ticker": null,
+        "cik": null,
+        "slug": "vsmpo_avisma_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — International Competitor (Sanctioned)",
+        "relationshipNote": "VSMPO-AVISMA (Russia) is world's largest titanium ingot producer (~100,000 metric tons/year capacity). Pre-2022, VSMPO supplied ~15–20% of global aerospace-grade titanium ingots; supplied Boeing, Airbus, and other international OEMs. Post-2022 Ukraine invasion and U.S. sanctions, VSMPO is effectively blocked from U.S. market. VSMPO's loss creates supply-gap opportunity for TIMET and ATI to capture market share from international competitors. VSMPO's capacity now redirected to Russian military and Chinese customers. Geopolitical risk: if sanctions lifted, VSMPO could re-enter U.S. market and compress TIMET/ATI margins.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC regulates Huntsman Corporation (TIMET's parent) via 10-K annual filings and 8-K event disclosures. TIMET's financial performance consolidated into Huntsman's specialty-products segment. SEC Form 10-K Item 1A risk factors include supply-chain, geopolitical, and customer-concentration risks. Huntsman's 2023 10-K discloses TIMET's exposure to F-35 and 787 production rates and Russian titanium sponge sanctions. SEC Form 8-K filings required for material events (e.g., facility incidents, major contract wins/losses). Huntsman's latest 10-K (filed Feb 2024) covers FY2023; next 10-K due Feb 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "U.S. Department of Defense (DoD)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic Procurement",
+        "relationshipNote": "DoD is TIMET's ultimate customer via F-35 program (Lockheed Martin prime contractor). DoD sets F-35 production rates, procurement schedules, and performance requirements. TIMET subject to DoD supply-chain audits and security clearances. DoD budget authority for F-35 program: FY2024 ~$10.6B (procurement + RDT&E); FY2025 request ~$10.8B. F-35 production rate guidance: 150–180 aircraft/year (2023–2025). DoD Defense Production Act Title III funding available for TIMET capacity expansion;. DoD procurement cycles: 5–10 year contracts with annual options.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Defense Counterintelligence and Security Agency (DCSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dcsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — ITAR & Security Compliance",
+        "relationshipNote": "DCSA oversees ITAR (International Traffic in Arms Regulations) compliance and facility security clearances for TIMET. TIMET's Henderson, Nevada and Morgantown, West Virginia plants are ITAR-registered facilities; all titanium products for defense export require State Department license. DCSA conducts biennial security audits and facility inspections. TIMET must maintain facility security clearance (FSC) and facility security officer (FSO) to handle classified defense information. ITAR violations carry criminal penalties (up to $1M fines, 20-year imprisonment). TIMET's ITAR compliance record:. DCSA also oversees NADCAP (National Aerospace and Defense Contractors Accreditation Program) certifications for TIMET's melting and forging processes.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental Compliance",
+        "relationshipNote": "EPA regulates TIMET's Henderson, Nevada and Morgantown, West Virginia plants under Clean Air Act (titanium melting furnaces emit particulates and volatile organic compounds) and Clean Water Act (cooling-water discharge). TIMET holds EPA air permits (Title V operating permits) and water discharge permits (NPDES). Nevada Division of Environmental Protection and West Virginia Department of Environmental Protection oversee state-level compliance. TIMET's melting furnaces subject to EPA New Source Performance Standards (NSPS) for metal processing. Permit renewal cycles: 5 years (air), 5 years (water). TIMET's environmental compliance record:. Energy costs (electricity for melting furnaces) represent ~15–20% of TIMET's production cost; EPA carbon-pricing or energy-efficiency regulations could impact margins.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (Bureau of Industry and Security)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_commerce",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic Trade Control",
+        "relationshipNote": "BIS (Commerce Department) administers Export Administration Regulations (EAR) and enforces sanctions on titanium exports to Russia, China, and other restricted countries. TIMET's titanium ingots are controlled items (EAR Category 1C111); export licenses required for most destinations outside NATO allies. BIS also administers Defense Production Act (DPA) Title III funding for capacity expansion. TIMET eligible for DPA Title III grants if deemed critical to national defense. BIS maintains Entity List and Denied Parties List; TIMET must screen suppliers and customers against these lists. Sanctions compliance: post-2022 Ukraine invasion, BIS expanded restrictions on Russian titanium sponge imports; TIMET must source from approved suppliers (Kazakhstan, Ukraine, U.S.). BIS enforcement: civil penalties up to $300K per violation; criminal penalties up to $1M and 20-year imprisonment.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "Deloitte & Touche LLP is external auditor for Huntsman Corporation (TIMET's parent). Deloitte audits Huntsman's consolidated financial statements and internal controls over financial reporting (SOX 404 compliance). TIMET's financial performance consolidated into Huntsman's specialty-products segment; Deloitte's audit scope includes TIMET's revenue recognition, inventory valuation, and asset impairment testing. Deloitte's audit opinion on Huntsman's 2023 10-K: unqualified (clean opinion). Deloitte also provides tax and advisory services to Huntsman. Audit fees:. Deloitte's audit procedures include testing of TIMET's customer contracts, supplier agreements, and ITAR compliance documentation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Huntsman Corporation (Parent Company / Equity Holder)",
+        "ticker": "HUN",
+        "cik": "0000500104",
+        "slug": "huntsman_corp_equity",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Capital Allocation",
+        "relationshipNote": "Huntsman Corporation owns 100% of TIMET (acquired 2005 for ~$2.6B). Huntsman provides equity capital and strategic direction for TIMET. Huntsman's capital allocation to TIMET constrained by parent-company leverage (2023 debt-to-EBITDA ~2.8x) and dividend commitments. TIMET capex 2023: ~$80–100M (estimated); capex as % of Huntsman FCF ~8–12%. Huntsman's board approves TIMET strategic initiatives (capacity expansion, M&A, divestitures). Huntsman's leverage limits TIMET's ability to fund major capex projects (e.g., $200–300M capacity expansion) without external financing or asset sales. Huntsman's dividend policy (2023 dividend ~$1.2B) constrains FCF available for TIMET reinvestment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "Bank of America (Lender / Credit Facility Provider)",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America is lead arranger and lender for Huntsman's revolving credit facility and term loans. Huntsman's credit facility: $2.5B revolving credit (maturity 2027);. BofA also provides trade financing and supply-chain financing for TIMET's working capital. TIMET's inventory and receivables (~$300–400M estimated) financed via Huntsman's credit facility. BofA's lending terms include financial covenants (debt-to-EBITDA, interest coverage) that constrain Huntsman's (and indirectly TIMET's) financial flexibility. BofA's credit rating on Huntsman:. BofA also provides M&A advisory services to Huntsman for potential TIMET spin-off or divestiture.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co. (Lender / Credit Facility Provider)",
+        "ticker": "JPM",
+        "cik": "0000047111",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan Chase is co-arranger and lender for Huntsman's credit facilities. JPM provides term loans, revolving credit, and trade financing for Huntsman/TIMET. JPM's lending exposure to Huntsman:. JPM also provides investment-banking services (M&A, capital markets) to Huntsman. JPM's credit rating on Huntsman:. JPM's lending terms include financial covenants similar to BofA. JPM also provides commodity-hedging services for TIMET's titanium sponge and energy-cost exposure.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huntsman Shareholders (Public Equity Holders)",
+        "ticker": "HUN",
+        "cik": "0000500104",
+        "slug": "huntsman_shareholders",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Governance & Capital",
+        "relationshipNote": "Huntsman's public shareholders (via HUN equity) are indirect equity holders in TIMET. Huntsman's market cap (2024): ~$9.0–10.0B. Top institutional shareholders: Vanguard (~8%), BlackRock (~7%), State Street (~4%). Huntsman's dividend yield (2023): ~2.5%; dividend per share ~$1.20. Shareholders' expectations for Huntsman's EBITDA growth and FCF generation constrain TIMET's capex and strategic flexibility. Huntsman's stock price performance (2023: +15%) reflects investor sentiment on specialty-chemicals and titanium-market outlook. Shareholder activism:. Huntsman's investor-relations disclosures on TIMET: limited (consolidated into specialty-products segment).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Peter Huntsman",
+        "title": "President and Chief Executive Officer (Huntsman Corporation)",
+        "slug": "peter_huntsman",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Peter Huntsman is CEO of Huntsman Corporation (TIMET's parent). Appointed CEO in 2017; previously served as President of Huntsman's Polyurethanes division. Peter Huntsman holds ~ of Huntsman shares via family trust. As CEO, Peter Huntsman sets strategic direction for TIMET, including capacity expansion, M&A, and divestiture decisions. Peter Huntsman's compensation (2023):. Peter Huntsman's strategic focus: specialty-chemicals growth, margin expansion, and capital discipline. TIMET's strategic role under Peter Huntsman: core asset in defense-industrial base; potential spin-off candidate if strategic review undertaken.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Robert Huntsman",
+        "title": "Executive Chairman (Huntsman Corporation)",
+        "slug": "robert_huntsman",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Robert Huntsman is Executive Chairman of Huntsman Corporation and founder's son. Robert Huntsman holds ~ of Huntsman shares via family trust. Robert Huntsman provides strategic oversight and governance for Huntsman's major business units, including TIMET. Robert Huntsman's compensation (2023):. Robert Huntsman's influence on TIMET: governance-level strategic decisions (spin-off, M&A, capex approval). Robert Huntsman's background: chemical engineering; long tenure at Huntsman (since 1980s). Huntsman family's long-term ownership and control of Huntsman Corporation (via voting trust) ensures continuity of TIMET's strategic direction.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Kimo Espinosa",
+        "title": "Chief Financial Officer (Huntsman Corporation)",
+        "slug": "kimo_espinosa",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Kimo Espinosa is CFO of Huntsman Corporation (TIMET's parent). Appointed CFO in 2020; previously served as VP of Finance at Huntsman. Kimo Espinosa oversees Huntsman's financial planning, capital allocation, and investor relations. Kimo Espinosa's role in TIMET: financial oversight of specialty-products segment (which includes TIMET). Kimo Espinosa's compensation (2023):. Kimo Espinosa's financial priorities: EBITDA growth, FCF generation, and leverage reduction. TIMET's financial performance (revenue, EBITDA, capex) consolidated into Huntsman's specialty-products segment financial reporting.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "F-35 Production Rate Index",
+        "slug": "f35_production_rate",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "F-35 production rate is leading indicator of TIMET's demand and revenue. Lockheed Martin produces ~150–180 F-35s annually (2023–2024); TIMET supplies ingots for ~40–50% of U.S. production. F-35 production rate guidance: 150/year (2023), 160/year (2024), 180/year (2025). Each F-35 requires ~1,200 lbs of titanium. TIMET revenue from F-35: ~$180–220M annually (2023–2024). F-35 production rate cuts (e.g., 2023 Lot 17 reduction to 156 aircraft) cascade to TIMET within 2–3 quarters. Lockheed Martin quarterly earnings calls disclose F-35 production rates and backlog. DoD budget authority for F-35: FY2024 ~$10.6B, FY2025 ~$10.8B. Monitor: Lockheed Martin 10-K Item 1A risk factors, quarterly earnings calls, DoD budget justification documents.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Boeing 787 Delivery Rate Index",
+        "slug": "boeing_787_delivery_rate",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Boeing 787 delivery rate is second-largest demand driver for TIMET. Boeing delivered ~380 787s in 2023; TIMET supplies ingots for ~35–45% of U.S. production. 787 production rate guidance: 10/month (2024), 12/month (2025). Each 787 requires ~5,000–6,000 lbs of titanium. TIMET revenue from 787: ~$150–200M annually (2023–2024). 787 production rate cuts (e.g., 2019–2020 MAX grounding reduced TIMET revenue 18–22%) cascade to TIMET within 2–3 quarters. Boeing quarterly earnings calls disclose 787 delivery rates and backlog. Monitor: Boeing 10-K Item 1A risk factors, quarterly earnings calls, 787 production-rate guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Titanium Sponge Price Index",
+        "slug": "titanium_sponge_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Titanium sponge price is key input cost for TIMET. Pre-2022 baseline: ~$8–10/lb; post-2022 Ukraine invasion and Russian sanctions: ~$12–15/lb (25–50% premium). Sponge price volatility driven by: (1) Russian supply disruption, (2) Kazakhstan production capacity, (3) global aerospace demand, (4) energy costs. TIMET's feedstock cost represents ~40–50% of production cost. Sponge price pass-through to OEM contracts: ~60–70% (long-term contracts limit full pass-through). Monitor: Ulba Metallurgical Plant pricing, Kazakhstan export data, industry-report commodity indices (e.g., Platts, CRU). Sponge price escalation directly impacts TIMET's EBITDA margin; 10% sponge price increase reduces TIMET EBITDA margin by ~2–3 percentage points (if 70% pass-through).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

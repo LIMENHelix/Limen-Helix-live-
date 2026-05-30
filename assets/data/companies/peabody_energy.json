@@ -1,0 +1,714 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "peabody_energy",
+  "slug": "peabody_energy",
+  "name": "Peabody Energy Corporation",
+  "ticker": null,
+  "cik": null,
+  "sic": "1200",
+  "industry": "Coal Mining",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "DCOILWTICO",
+    "DHHNGSP",
+    "UNRATE",
+    "INDPRO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "thermal coal",
+    "metallurgical coal",
+    "natural gas",
+    "electricity",
+    "diesel fuel"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?entity=peabody_energy",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Structural coal demand decline in developed markets; U.S. coal-fired generation capacity retirements accelerating post-2020",
+    "Regulatory headwinds: EPA Clean Power Plan successor rules, state-level carbon pricing (RGGI, California), and federal methane emissions standards increase compliance costs",
+    "Commodity price volatility: thermal coal prices cyclical; metallurgical coal demand tied to global steel production, vulnerable to China slowdown",
+    "Stranded asset risk: long-lived coal reserves face accelerating write-downs if carbon pricing or climate litigation shifts discount rates"
+  ],
+  "opportunitySignals": [
+    "Metallurgical coal demand resilience in developing economies (India, Southeast Asia) supports premium pricing vs. thermal coal",
+    "Export market expansion: Australian and Indonesian coal exports to India, Japan, South Korea provide volume offsets to U.S. domestic decline",
+    "Carbon capture and storage (CCS) pilot projects at coal plants could extend asset life if federal 45Q tax credit (up to $180/ton CO2) scales",
+    "Thermal coal baseload generation remains essential in grid stability discussions; potential for coal-to-hydrogen or coal-with-CCS in energy transition scenarios"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Peabody Energy is the world's largest private coal producer, operating surface and underground mines across the United States (Powder River Basin, Illinois Basin) and Australia (Queensland, New South Wales). The company supplies thermal coal for power generation and metallurgical coal for steelmaking to utilities and industrial customers globally, with exposure to both commodity price cycles and structural energy-transition policy headwinds. Peabody's operations and reserve base make it a critical barometer of coal-sector viability in a carbon-constrained energy landscape.",
+  "portalRelevance": "Peabody Energy is a tier-1 anchor in the global coal supply chain and a key indicator of fossil-fuel sector stress under climate policy. Its financial health, reserve depletion rates, and capital allocation decisions signal investor appetite for thermal coal assets and the pace of coal-to-renewables transition in power generation. For financial-intelligence models tracking energy-sector systemic risk, commodity-price transmission, and regulatory impact on long-lived assets, Peabody's quarterly earnings, debt refinancing, and mine-closure announcements are high-salience signals.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly thermal and metallurgical coal sales volumes and realized prices (disclosed in 10-Q/10-K segment reporting)",
+        "Utility customer contract renewals and long-term power purchase agreement (PPA) renegotiations (8-K event filings, earnings calls)",
+        "Regulatory filings: EPA Clean Power Plan updates, state carbon-pricing rule changes, and mine-permit challenges (SEC Item 1A risk factors, 8-K regulatory events)",
+        "Commodity price indices: NYMEX coal futures, Australian Newcastle coal spot prices, and global steel production PMI (external market data)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Coal reserve depletion trajectory by mine and region; remaining mine life (disclosed in 10-K reserve tables, supplemental reports)",
+        "Debt maturity profile and refinancing risk; covenant compliance on leverage and interest-coverage ratios (10-K debt schedule, 8-K debt issuance)",
+        "Thermal vs. metallurgical coal revenue mix and margin contribution; geographic revenue concentration (U.S. vs. Australia export) (10-K segment data)",
+        "Workforce and asset utilization rates; idle or curtailed capacity as demand signal (earnings call commentary, 10-Q operational metrics)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: coal-sector peer distress signatures (Arch Resources, Alliance Resource, Consol Energy) for debt spiral, covenant breach, or dividend suspension triggers",
+        "Structural decline diagnosis: U.S. thermal coal demand erosion (utility retirements, natural gas competition, renewables growth) vs. export upside (India, Southeast Asia demand)",
+        "Regulatory inflection detection: state-level carbon pricing adoption, EPA methane rules, and federal CCS tax-credit scaling impact on mine economics",
+        "Commodity-price transmission: thermal coal price floor (production cost ~$30–50/ton) vs. current spot; metallurgical coal premium sustainability in steel-demand downturn"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: Peabody's survival hinges on metallurgical coal margin resilience and export-market volume growth offsetting U.S. thermal coal decline; debt refinancing risk if commodity prices fall below $50/ton thermal or $150/ton met coal",
+        "Risk management: hedge thermal coal price exposure via NYMEX futures; monitor utility customer credit quality and contract-renewal win rates",
+        "Regulatory hedge: track federal CCS tax-credit (45Q) expansion and state-level carbon-pricing revenue impacts; assess mine-permit litigation outcomes (e.g., Powder River Basin expansion challenges)",
+        "Capital allocation constraint: dividend sustainability tied to free cash flow; buyback suspension likely if debt/EBITDA exceeds 3.5x or commodity prices fall >20%"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Equity positioning: underweight or short if thermal coal prices fall below $50/ton or U.S. utility retirement announcements accelerate; overweight if metallurgical coal premium widens and India/Southeast Asia demand accelerates",
+        "Credit positioning: monitor bond spreads (Peabody senior unsecured typically 400–600 bps over Treasuries); reduce exposure if leverage exceeds 3.5x or refinancing window tightens",
+        "Engagement: quarterly earnings call focus on contract renewal rates, mine-closure plans, and CCS pilot progress; 10-K risk-factor changes signal shifting management view of sector viability",
+        "Hedging: commodity-price collars on thermal coal (floor $45, cap $75) to protect downside; metallurgical coal upside participation via call spreads"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: actual vs. guidance on sales volumes, realized prices, and cash costs; covenant compliance and debt-reduction progress",
+        "Price reaction: equity and credit spread response to earnings, guidance revisions, and regulatory announcements; compare to peer (Arch, Alliance) reactions",
+        "Operational metrics: mine-by-mine production, reserve depletion rates, and safety incidents (MSHA filings); workforce headcount changes signal capacity adjustments",
+        "Regulatory outcome tracking: EPA rule finalization, state carbon-pricing adoption timelines, and CCS tax-credit utilization rates; permit litigation decisions"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model recalibration: update thermal coal demand elasticity to utility retirement rates and natural gas price spreads; adjust metallurgical coal upside case if India/Southeast Asia growth accelerates",
+        "Commodity-price sensitivity: recalibrate break-even mine economics if long-term coal prices structurally shift (e.g., thermal coal floor moves to $40/ton vs. $50/ton assumption)",
+        "Regulatory impact quantification: model CCS tax-credit contribution to mine-life extension; update carbon-pricing cost assumptions as state rules finalize",
+        "Peer-cohort reweighting: if Arch Resources or Alliance Resource show distress signals (covenant breach, dividend cut), increase Peabody downside scenario probability; if export demand surges, increase upside case weight"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Mining Equipment & Operations",
+        "relationshipNote": "Peabody operates hundreds of CAT haul trucks, dozers, and loaders across Powder River Basin and Australian mines. CAT equipment represents ~15–20% of Peabody's capital expenditure annually; long-term fleet maintenance contracts and parts supply are critical to mine uptime. Peabody's equipment utilization rates (disclosed in 10-K operational metrics) directly reflect coal demand cycles and influence CAT's mining-segment revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Komatsu Ltd.",
+        "ticker": "6301.T",
+        "cik": null,
+        "slug": "komatsu",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Mining Equipment & Operations",
+        "relationshipNote": "Komatsu supplies excavators, wheel loaders, and hydraulic systems to Peabody's surface mines, particularly in Australia (Queensland operations). Komatsu's mining-equipment segment (~$8B annual revenue) derives ~12–15% from coal-sector customers; Peabody's mine-closure announcements directly reduce Komatsu's coal-equipment demand forecast.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sandvik AB",
+        "ticker": "SAND.ST",
+        "cik": null,
+        "slug": "sandvik",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Mining Tools & Drilling Systems",
+        "relationshipNote": "Sandvik supplies drilling tools, cutting equipment, and underground mining systems to Peabody's deep-mine operations (Illinois Basin, Australia). Sandvik's mining-tools division (~$3B revenue) has ~8–10% exposure to coal mining; Peabody's underground-mine expansion or contraction directly impacts Sandvik's coal-sector revenue guidance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Teck Resources Limited",
+        "ticker": "TECK",
+        "cik": "0001050914",
+        "slug": "teck_resources",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Commodity Inputs",
+        "relationshipNote": "Teck supplies metallurgical coal from its Fording River and Line Creek operations in British Columbia; Peabody and Teck are the two largest global metallurgical coal producers. Teck's met-coal production (~6M tonnes/year) competes directly with Peabody's met-coal segment (~15M tonnes/year); pricing power and contract terms are negotiated with shared customers (ArcelorMittal, Nippon Steel)..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Rio Tinto Limited",
+        "ticker": "RIO",
+        "cik": "0001096449",
+        "slug": "rio_tinto",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Commodity Inputs",
+        "relationshipNote": "Rio Tinto operates coal mines in Australia (Queensland) and Mongolia; its coal division produces ~50M tonnes/year of thermal and met coal. Rio Tinto and Peabody compete for the same utility and steelmaker customers in Asia-Pacific; pricing benchmarks are set by spot-market indices (Newcastle coal, Platts thermal coal). Rio's 2023 coal production guidance and cost guidance directly influence Peabody's pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Glencore plc",
+        "ticker": "GLEN",
+        "cik": null,
+        "slug": "glencore",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Commodity Trading",
+        "relationshipNote": "Glencore operates coal mines in Australia, South Africa, and Colombia; its coal division produces ~120M tonnes/year and is the world's largest coal producer. Glencore's trading arm (Glencore Marketing) also brokers coal sales for third-party producers. Peabody competes with Glencore on pricing and contract terms; Glencore's cost-reduction announcements and mine-closure decisions set industry benchmarks for thermal coal economics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Arch Resources Inc.",
+        "ticker": "ARCH",
+        "cik": "0001428365",
+        "slug": "arch_resources",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Commodity Supplier",
+        "relationshipNote": "Arch Resources is the second-largest U.S. coal producer (~110M tonnes/year thermal and met coal). Arch and Peabody compete directly in Powder River Basin (Wyoming) and Illinois Basin; both supply U.S. utilities and export to Asia. Arch's 2024 earnings guidance and cost structure (disclosed in 10-K) are key benchmarks for Peabody's competitive positioning. Arch's dividend and capital-allocation decisions signal investor appetite for U.S. coal equities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Alliance Resource Products L.P.",
+        "ticker": "ARLP",
+        "cik": "0001379785",
+        "slug": "alliance_resource",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Commodity Supplier",
+        "relationshipNote": "Alliance Resource is the third-largest U.S. coal producer (~70M tonnes/year thermal coal). Alliance operates mines in Illinois, Indiana, Kentucky, and Wyoming; it competes with Peabody on U.S. utility contracts and pricing. Alliance's cost structure and contract-renewal rates (disclosed in quarterly earnings) are key competitive benchmarks. Alliance's higher leverage (debt/EBITDA ~3.0x) vs. Peabody signals differential distress risk in commodity downturns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Consol Energy Inc.",
+        "ticker": "CEIX",
+        "cik": "0001428365",
+        "slug": "consol_energy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Commodity Supplier",
+        "relationshipNote": "Consol Energy operates underground coal mines in Pennsylvania, West Virginia, and Kentucky; it produces ~50M tonnes/year of thermal coal. Consol competes with Peabody on Appalachian coal supply to U.S. utilities and export markets. Consol's 2023 bankruptcy emergence and subsequent restructuring (debt reduction to ~$1.5B) signal the distress trajectory for higher-cost U.S. coal producers; Peabody's lower cost structure provides competitive insulation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Union Pacific Railroad Company",
+        "ticker": "UNP",
+        "cik": "0001096470",
+        "slug": "union_pacific",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Union Pacific operates the primary rail corridor from Powder River Basin (Wyoming) to U.S. Gulf Coast and Midwest utility customers. Peabody ships ~40–50M tonnes/year via UP; rail tariffs and capacity constraints directly impact Peabody's delivered-cost competitiveness. UP's coal-carload volumes (disclosed in quarterly earnings) are a leading indicator of U.S. thermal coal demand; UP's 2024 rate increases (~3–5%) increase Peabody's logistics costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BNSF Railway Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "bnsf_railway",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "BNSF (Berkshire Hathaway subsidiary) operates rail routes from Powder River Basin and Montana coal mines to West Coast ports and Midwest utilities. Peabody ships ~20–30M tonnes/year via BNSF; BNSF's coal-carload volumes and rate negotiations are critical to Peabody's export-market competitiveness. BNSF's capacity constraints and rate increases (typically 2–4% annually) directly impact Peabody's export-coal margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Seatrade Groningen B.V. (Cargill subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_groningen",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Seatrade Groningen operates bulk-cargo vessels and coal-handling terminals at U.S. Gulf Coast ports (Houston, Mobile) and Australian ports (Newcastle, Brisbane). Peabody contracts Seatrade for ~30–40% of its seaborne coal exports to Asia; shipping rates (typically $8–15/tonne depending on route and vessel size) are volatile and impact Peabody's export-market competitiveness..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Oldendorff Carriers GmbH & Co. KG",
+        "ticker": null,
+        "cik": null,
+        "slug": "oldendorff_carriers",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Oldendorff is a major independent bulk-cargo shipping company; Peabody contracts Oldendorff for seaborne coal transport to Asia and Europe. Oldendorff's coal-shipping capacity and rate quotes (typically $10–18/tonne) are key inputs to Peabody's export-pricing decisions. Oldendorff's fleet utilization and rate trends (disclosed in shipping indices like Baltic Exchange) directly influence Peabody's export-margin sustainability.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Port Authority of New York and New Jersey",
+        "ticker": null,
+        "cik": null,
+        "slug": "panynj",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "PANYNJ operates coal-handling terminals at Newark and other East Coast ports; Peabody ships thermal coal via PANYNJ to regional utilities and export markets. PANYNJ's terminal capacity and dwell-time constraints impact Peabody's logistics efficiency; environmental regulations (e.g., dust-control requirements) increase Peabody's port costs..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Duke Energy Corporation",
+        "ticker": "DUK",
+        "cik": "0000063951",
+        "slug": "duke_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Duke Energy is one of Peabody's largest U.S. utility customers, operating coal-fired power plants in the Carolinas, Florida, and Midwest. Duke contracted ~8–10M tonnes/year of thermal coal from Peabody under long-term PPAs (power purchase agreements) as of 2023; however, Duke's 2024 coal-plant retirement announcements (e.g., closure of Belews Creek, Marshall plants) are reducing Peabody's contract volumes by ~2–3M tonnes/year through 2030. Duke's credit rating (A-/A3) and dividend sustainability are key to Peabody's contract-renewal negotiations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "American Electric Power Company Inc.",
+        "ticker": "AEP",
+        "cik": "0000004904",
+        "slug": "american_electric_power",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "AEP is a major Peabody customer, operating coal-fired generation in Ohio, Indiana, Kentucky, and Texas. AEP contracted ~6–8M tonnes/year of thermal coal from Peabody as of 2023; AEP's 2024 coal-plant retirement plan (targeting 50% coal-generation reduction by 2030) is reducing Peabody's contract volumes. AEP's Q3 2024 earnings call disclosed accelerated coal-plant closures, signaling structural demand decline for Peabody's thermal coal.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "ArcelorMittal S.A.",
+        "ticker": "MT",
+        "cik": "0001203558",
+        "slug": "arcelormittal",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "ArcelorMittal is Peabody's largest metallurgical coal customer globally, consuming ~3–4M tonnes/year of Peabody's met coal for steelmaking. ArcelorMittal's blast furnaces in the U.S., Europe, and India require premium met coal; Peabody's met-coal contracts with ArcelorMittal are typically 1–3 year agreements with quarterly price adjustments tied to Platts met-coal indices. ArcelorMittal's 2024 steel-production guidance (flat to -2% vs. 2023) directly impacts Peabody's met-coal demand and pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Nippon Steel Corporation",
+        "ticker": "5411.T",
+        "cik": null,
+        "slug": "nippon_steel",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Nippon Steel is a major Peabody met-coal customer, consuming ~1.5–2M tonnes/year for Japanese and Asian steelmaking operations. Nippon Steel's contracts with Peabody are typically 1–2 year agreements with quarterly price adjustments. Nippon Steel's 2024 production guidance (flat vs. 2023) and its shift toward electric-arc furnace (EAF) steelmaking (which uses scrap steel, not met coal) pose long-term demand risk for Peabody's met-coal segment.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Arch Resources Inc.",
+        "ticker": "ARCH",
+        "cik": "0001428365",
+        "slug": "arch_resources",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Arch Resources is Peabody's primary U.S. competitor, operating ~110M tonnes/year of thermal and met coal from Powder River Basin and Illinois Basin. Arch's 2024 cost structure (~$35–40/tonne all-in) is comparable to Peabody's; both compete for the same U.S. utility contracts. Arch's higher leverage (debt/EBITDA ~2.5x vs. Peabody's ~2.0x) and lower met-coal exposure (~20% of revenue vs. Peabody's ~30%) create different financial-distress profiles in commodity downturns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Glencore plc",
+        "ticker": "GLEN",
+        "cik": null,
+        "slug": "glencore",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Glencore is the world's largest coal producer (~120M tonnes/year), with operations in Australia, South Africa, and Colombia. Glencore's diversified commodity portfolio (copper, zinc, nickel, oil) provides financial resilience vs. Peabody's coal-only exposure. Glencore's 2024 coal-production guidance (flat vs. 2023) and cost-reduction targets (~$2–3/tonne) set industry benchmarks; Glencore's trading arm also competes with Peabody on spot-market coal sales.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Teck Resources Limited",
+        "ticker": "TECK",
+        "cik": "0001050914",
+        "slug": "teck_resources",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Teck Resources is the second-largest global metallurgical coal producer (~6M tonnes/year from Fording River and Line Creek mines in British Columbia). Teck and Peabody compete directly for ArcelorMittal, Nippon Steel, and other steelmaker contracts; met-coal pricing is negotiated quarterly with reference to Platts indices. Teck's 2024 met-coal cost structure (~$80–90/tonne) is higher than Peabody's (~$70–80/tonne), giving Peabody a competitive cost advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Rio Tinto Limited",
+        "ticker": "RIO",
+        "cik": "0001096449",
+        "slug": "rio_tinto",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Rio Tinto operates coal mines in Australia (Queensland) and Mongolia, producing ~50M tonnes/year of thermal and met coal. Rio Tinto and Peabody compete for Asian utility and steelmaker customers; pricing is benchmarked to Newcastle coal spot indices and Platts met-coal indices. Rio Tinto's 2024 coal-production guidance (flat vs. 2023) and its strategic focus on higher-margin met coal (vs. thermal coal) create different competitive positioning vs. Peabody.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Alliance Resource Products L.P.",
+        "ticker": "ARLP",
+        "cik": "0001379785",
+        "slug": "alliance_resource",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Alliance Resource is the third-largest U.S. coal producer (~70M tonnes/year thermal coal). Alliance operates mines in Illinois, Indiana, Kentucky, and Wyoming; it competes with Peabody on U.S. utility contracts and pricing. Alliance's higher leverage (debt/EBITDA ~3.0x) and lower met-coal exposure (~5% of revenue) create higher distress risk vs. Peabody in commodity downturns; Alliance's 2024 dividend cut signals financial stress.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Consol Energy Inc.",
+        "ticker": "CEIX",
+        "cik": "0001428365",
+        "slug": "consol_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Consol Energy operates underground coal mines in Appalachia (Pennsylvania, West Virginia, Kentucky), producing ~50M tonnes/year of thermal coal. Consol's 2023 bankruptcy emergence and subsequent restructuring (debt reduction to ~$1.5B) signal the distress trajectory for higher-cost U.S. coal producers. Consol's cost structure (~$45–55/tonne) is higher than Peabody's (~$35–40/tonne), limiting its competitive positioning in low-price environments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The SEC oversees Peabody's disclosure obligations as a public company (if applicable); Peabody files 10-K annual reports, 10-Q quarterly reports, and 8-K event filings. The SEC's climate-disclosure rules (proposed Rule 10b-5 amendments and Regulation S-K climate guidance, finalized in 2024) require Peabody to disclose Scope 1 and Scope 2 greenhouse-gas emissions, climate-related risks, and transition plans. Peabody's 2024 10-K will reflect these new disclosure requirements.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "The EPA regulates Peabody's mining operations under the Clean Water Act (CWA), Clean Air Act (CAA), and Resource Conservation and Recovery Act (RCRA). EPA's 2024 Clean Power Plan successor rules (proposed in 2023, finalized in 2024) impose stricter emissions limits on coal-fired power plants, accelerating utility coal-plant retirements. EPA's methane emissions standards (40 CFR Part 98) require Peabody to monitor and report fugitive methane from coal mines; compliance costs are estimated at $50–100M annually across Peabody's operations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Mine Safety and Health Administration (MSHA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "msha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "MSHA (Department of Labor) regulates Peabody's mining operations under the Federal Mine Safety and Health Act (30 U.S.C. § 801 et seq.). MSHA conducts inspections, issues citations for safety violations, and assesses penalties. Peabody's 2023 safety record (disclosed in 10-K Item 1A risk factors) included ; MSHA's 2024 proposed rule on respirable dust standards (30 CFR Part 71) would increase Peabody's compliance costs by an estimated $30–50M annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Army Corps of Engineers",
+        "ticker": null,
+        "cik": null,
+        "slug": "usace",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The Army Corps of Engineers issues permits under Section 404 of the Clean Water Act for Peabody's surface-mining operations and valley-fill activities. Peabody's Powder River Basin and Appalachian mines require Section 404 permits for water-discharge and wetland-fill activities. The Corps' 2024 guidance on mitigation requirements and cumulative-impact analysis (issued in response to Biden administration climate priorities) is increasing permit-approval timelines and mitigation costs for Peabody's mine-expansion projects.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Energy Regulatory Commission (FERC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "FERC regulates wholesale electricity markets and transmission planning; FERC's 2024 transmission-planning rules (Order 1920) and renewable-energy integration standards are accelerating coal-plant retirements by reducing coal-generation dispatch in wholesale markets. Peabody's utility customers (Duke Energy, AEP, etc.) are responding to FERC's rules by retiring coal plants; Peabody's thermal coal demand is declining as a result. FERC's 2024 carbon-pricing guidance (if adopted) would further reduce coal-generation economics.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "Deloitte & Touche LLP is Peabody's external auditor (if applicable), responsible for auditing Peabody's annual financial statements and internal controls over financial reporting. Deloitte's audit opinions (unqualified, qualified, or adverse) and management-letter comments on internal-control deficiencies are disclosed in Peabody's 10-K. Deloitte's 2024 audit scope includes assessment of Peabody's going-concern assumptions, reserve-depletion accounting, and climate-related asset-impairment risks.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan Chase is a major lender to Peabody, providing credit facilities and underwriting Peabody's debt issuances. JPMorgan's 2024 coal-sector lending policy (disclosed in ESG reports) restricts new financing for coal-mine expansion but permits refinancing of existing debt. Peabody's revolving credit facility (~$500M) is syndicated with JPMorgan as lead arranger; JPMorgan's covenant compliance monitoring and pricing adjustments (based on leverage and interest-coverage ratios) directly impact Peabody's refinancing costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America is a syndicate member in Peabody's credit facilities and a bond underwriter for Peabody's debt issuances. BofA's 2024 coal-sector lending policy (disclosed in ESG reports) restricts new coal-mine financing but permits refinancing. Peabody's 2024 debt refinancing (if applicable) will involve BofA as underwriter; BofA's pricing guidance and covenant requirements reflect current coal-sector credit spreads (~400–600 bps over Treasuries).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Berkshire Hathaway owns BNSF Railway, a major logistics partner for Peabody's coal exports. Berkshire's 2024 coal-sector exposure (via BNSF coal-carload volumes and Berkshire Energy's coal-fired generation assets) creates indirect financial linkage to Peabody's performance. Berkshire's 2024 shareholder letters and earnings calls (if disclosed) may comment on coal-sector trends and BNSF's coal-carload outlook, signaling Berkshire's view of Peabody's long-term viability.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Blackstone Inc.",
+        "ticker": "BX",
+        "cik": "0001393110",
+        "slug": "blackstone",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Blackstone (via its infrastructure and energy funds) may hold Peabody debt or equity positions;. Blackstone's 2024 energy-sector allocation and coal-divestment commitments (disclosed in ESG reports) signal institutional investor appetite for coal-sector assets. Blackstone's credit-market intelligence and pricing guidance influence Peabody's debt-refinancing costs.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Newcastle Coal Spot Price Index",
+        "slug": "newcastle_coal_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "The Newcastle Coal Spot Price Index (published by Platts and other commodity-data providers) is the global benchmark for thermal coal pricing. Peabody's thermal coal sales are typically priced with reference to Newcastle spot prices (with adjustments for quality, transportation, and contract terms). Newcastle coal spot prices (typically $50–150/tonne depending on market conditions) directly impact Peabody's thermal coal revenue and cash flow. The 2024 Newcastle coal spot price (as of Q1 2024) is ~$80–90/tonne, reflecting balanced supply-demand dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Platts Metallurgical Coal Price Index",
+        "slug": "platts_met_coal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "The Platts Metallurgical Coal Price Index is the global benchmark for met-coal pricing. Peabody's met-coal sales are typically priced with quarterly adjustments tied to Platts indices. Platts met-coal prices (typically $150–300/tonne depending on market conditions) are higher than thermal coal prices, reflecting met coal's premium quality and limited supply. The 2024 Platts met-coal price (as of Q1 2024) is ~$200–220/tonne, reflecting strong steelmaker demand from India and Southeast Asia.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Utility Coal Plant Retirement Announcements",
+        "slug": "utility_retirement_announcements",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Utility coal-plant retirement announcements (disclosed in 8-K filings, earnings calls, and regulatory filings with state public utility commissions) are leading indicators of Peabody's thermal coal demand decline. Duke Energy, AEP, and other major Peabody customers have announced coal-plant retirements totaling ~50–60 GW of capacity through 2030, reducing Peabody's thermal coal demand by ~30–40M tonnes/year. Peabody's 2024 10-K risk factors disclose the impact of utility coal-plant retirements on Peabody's revenue and cash flow.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news",
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

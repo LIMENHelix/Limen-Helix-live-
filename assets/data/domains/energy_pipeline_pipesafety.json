@@ -1,0 +1,2066 @@
+{
+  "domainId": "energy_pipeline_pipesafety",
+  "title": "Pipeline Safety",
+  "parentPortal": "energy_pipeline_portal.html",
+  "parentLabel": "Pipeline Networks",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "ENS",
+      "state": "active",
+      "domainLabel": "Pipeline Safety Assessment & Diagnostics",
+      "domainDescription": "Systematic management of pipeline safety assessment & diagnostics across all pipeline safety functions and operations",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Build Pipeline Safety Assessment & Diagnostics Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Build an integrated resource plan for pipeline safety assessment & diagnostics using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "EIA (2023). Annual Energy Outlook. US Energy Information Administration; Smil, V. (2017). Energy and Civilization: A History. MIT Press",
+          "target": "INCONSISTENT_PIPELINE_SAFETY_ASSESSMENT___D -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for pipeline safety assessment & diagnostics using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Pipeline Safety Assessment & Diagnostics Governance Structure",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Optimize an energy auditor qualification program for pipeline safety assessment & diagnostics following BPI Building Analyst and RESNET HERS rater pathways.",
+          "cite": "DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy; Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013",
+          "target": "UNMONITORED_PIPELINE_SAFETY_ASSESSMENT___D -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            }
+          ],
+          "steps": [
+            "Assess operator qualifications for pipeline safety assessment & diagnostics against NERC certification requirements",
+            "Design training curriculum covering reliability standards, emergency operations, and restoration",
+            "Deliver simulator-based training with NERC contingency scenarios and real-time drills",
+            "Administer NERC certification exams and continuing education requirements",
+            "Track operator performance metrics and certification maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — utility workforce certification rate using training management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — utility workforce certification rate measured quarterly. Target: 80% technicians certified. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA and NFPA 70E standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — utility workforce certification rate trending toward 95% certified. Escalate if <65% certified. ANNUAL REVIEW: Comprehensive audit using NFPA 70E safety training. Report to Chief Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Pipeline Safety Assessment & Diagnostics Assessment Protocol",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Launch a power plant efficiency optimization for pipeline safety assessment & diagnostics using ASME PTC performance testing with heat rate improvement measures.",
+          "cite": "IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC; Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press",
+          "target": "UNDERPERFORMING_PIPELINE_SAFETY_ASSESSMENT___D -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess transmission needs for pipeline safety assessment & diagnostics using NERC TPL planning standards",
+            "Conduct multi-value project analysis per FERC Order 1000 methodology",
+            "Design transmission projects with NEPA environmental review and permitting",
+            "Construct facilities with NESC clearance standards and commissioning testing",
+            "Energize with protection coordination verification and NERC FAC compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — transmission capacity utilization using EMS and congestion tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — transmission capacity utilization measured monthly. Target: congestion cost reduction 20%. PHASE 3 (Months 4-6): Midpoint review — compare against FERC transmission planning targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — transmission capacity utilization trending toward 30% cost reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using FERC Order 1000 framework. Report to Transmission Planning Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Pipeline Safety Assessment & Diagnostics Diagnostic Dashboard",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Develop a community energy development initiative for pipeline safety assessment & diagnostics enabling cooperative ownership models per EU Clean Energy Package.",
+          "cite": "Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002; Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106",
+          "target": "REACTIVE_PIPELINE_SAFETY_ASSESSMENT___D -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            },
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            }
+          ],
+          "steps": [
+            "Survey energy burden for pipeline safety assessment & diagnostics using DOE LEAD Tool and census tract data",
+            "Design low-income energy assistance with weatherization and bill assistance",
+            "Implement programs through utility partnerships and community organizations",
+            "Deploy targeted outreach with multilingual materials and enrollment assistance",
+            "Evaluate burden reduction using pre-post billing analysis and participant surveys"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy poverty rate using household energy burden survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy poverty rate measured annually. Target: energy burden <6% for low-income. PHASE 3 (Months 4-6): Midpoint review — compare against LIHEAP eligibility thresholds. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy poverty rate trending toward burden <4%. Escalate if <burden <10% ceiling. ANNUAL REVIEW: Comprehensive audit using DOE LEAD Tool framework. Report to Energy Equity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Pipeline Safety Assessment & Diagnostics Governance Structure",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Establish an energy storage optimization tool for pipeline safety assessment & diagnostics using Sandia StorageVET methodology for value stacking analysis.",
+          "cite": "PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab; Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia",
+          "target": "FRAGMENTED_PIPELINE_SAFETY_ASSESSMENT___D -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid modelling needs for pipeline safety assessment & diagnostics using NERC MOD-032 requirements",
+            "Configure PSSE/PowerWorld with validated system model and contingency cases",
+            "Implement production cost modelling with PLEXOS for resource planning",
+            "Deploy real-time and planning model coordination with state estimator",
+            "Validate model accuracy through post-event analysis and benchmarking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — SCADA system cybersecurity score using NERC CIP compliance tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — SCADA system cybersecurity score measured quarterly. Target: full NERC CIP compliance. PHASE 3 (Months 4-6): Midpoint review — compare against NERC CIP v7 standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — SCADA system cybersecurity score trending toward zero high-risk findings. Escalate if <<3 medium findings. ANNUAL REVIEW: Comprehensive audit using NERC CIP standards. Report to Cybersecurity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Pipeline Safety Assessment & Diagnostics Assessment Protocol",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement an integrated resource plan for pipeline safety assessment & diagnostics using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard; IEA (2023). World Energy Outlook. IEA Publications",
+          "target": "SILOED_PIPELINE_SAFETY_ASSESSMENT___D -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for pipeline safety assessment & diagnostics using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_pipeline_pipesafety_detection_portal.html"
+    },
+    {
+      "brainNodeId": "rACC",
+      "state": "active",
+      "domainLabel": "Pipeline Safety Core Operations",
+      "domainDescription": "Systematic management of pipeline safety core operations across all pipeline safety functions and operations",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Deploy Pipeline Safety Core Operations Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Deploy a grid decarbonization roadmap for pipeline safety core operations following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "INEFFICIENT_PIPELINE_SAFETY_CORE_OPERATION -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for pipeline safety core operations using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Pipeline Safety Core Operations Benchmarking Framework",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Operationalize a certified energy manager program for pipeline safety core operations per AEE CEM body of knowledge with industrial efficiency focus.",
+          "cite": "Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013; DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy",
+          "target": "INCONSISTENT_PIPELINE_SAFETY_CORE_OPERATION -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            },
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for pipeline safety core operations against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Pipeline Safety Core Operations Impact Evaluation",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Calibrate a transmission expansion program for pipeline safety core operations following FERC Order 1000 planning with multi-value project assessment.",
+          "cite": "Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press; IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC",
+          "target": "UNMONITORED_PIPELINE_SAFETY_CORE_OPERATION -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for pipeline safety core operations using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Pipeline Safety Core Operations Performance Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Streamline an energy efficiency behavior change program for pipeline safety core operations applying Dietz behavioral wedge methodology with smart meter feedback.",
+          "cite": "Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106; Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002",
+          "target": "UNDERPERFORMING_PIPELINE_SAFETY_CORE_OPERATION -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            },
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for pipeline safety core operations using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Pipeline Safety Core Operations Benchmarking Framework",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Assess a renewable resource assessment platform for pipeline safety core operations integrating NREL SAM with GIS-based siting and interconnection analysis.",
+          "cite": "Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia; PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab",
+          "target": "REACTIVE_PIPELINE_SAFETY_CORE_OPERATION -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for pipeline safety core operations against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Pipeline Safety Core Operations Impact Evaluation",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Create a grid decarbonization roadmap for pipeline safety core operations following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "FRAGMENTED_PIPELINE_SAFETY_CORE_OPERATION -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for pipeline safety core operations using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_pipeline_pipesafety_prevention_portal.html"
+    },
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Pipeline Safety Infrastructure & Capacity",
+      "domainDescription": "Systematic management of pipeline safety infrastructure & capacity across all pipeline safety functions and operations",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Evaluate Pipeline Safety Infrastructure & Capacity Continuous Improvement Cycle",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Evaluate a hydrogen economy strategy for pipeline safety infrastructure & capacity applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "REACTIVE_PIPELINE_SAFETY_INFRASTRUCTURE -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for pipeline safety infrastructure & capacity using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Pipeline Safety Infrastructure & Capacity Adaptive Management System",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Integrate a renewable energy installer training for pipeline safety infrastructure & capacity using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013; DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy",
+          "target": "FRAGMENTED_PIPELINE_SAFETY_INFRASTRUCTURE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            },
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess operator qualifications for pipeline safety infrastructure & capacity against NERC certification requirements",
+            "Design training curriculum covering reliability standards, emergency operations, and restoration",
+            "Deliver simulator-based training with NERC contingency scenarios and real-time drills",
+            "Administer NERC certification exams and continuing education requirements",
+            "Track operator performance metrics and certification maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — utility workforce certification rate using training management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — utility workforce certification rate measured quarterly. Target: 80% technicians certified. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA and NFPA 70E standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — utility workforce certification rate trending toward 95% certified. Escalate if <65% certified. ANNUAL REVIEW: Comprehensive audit using NFPA 70E safety training. Report to Chief Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Conduct Pipeline Safety Infrastructure & Capacity Knowledge Transfer Program",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Conduct a pipeline integrity management system for pipeline safety infrastructure & capacity per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press; IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC",
+          "target": "SILOED_PIPELINE_SAFETY_INFRASTRUCTURE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess transmission needs for pipeline safety infrastructure & capacity using NERC TPL planning standards",
+            "Conduct multi-value project analysis per FERC Order 1000 methodology",
+            "Design transmission projects with NEPA environmental review and permitting",
+            "Construct facilities with NESC clearance standards and commissioning testing",
+            "Energize with protection coordination verification and NERC FAC compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — transmission capacity utilization using EMS and congestion tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — transmission capacity utilization measured monthly. Target: congestion cost reduction 20%. PHASE 3 (Months 4-6): Midpoint review — compare against FERC transmission planning targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — transmission capacity utilization trending toward 30% cost reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using FERC Order 1000 framework. Report to Transmission Planning Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Design Pipeline Safety Infrastructure & Capacity Continuous Improvement Cycle",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Design an energy justice program for pipeline safety infrastructure & capacity using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106; Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002",
+          "target": "OUTDATED_PIPELINE_SAFETY_INFRASTRUCTURE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            },
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            }
+          ],
+          "steps": [
+            "Survey energy burden for pipeline safety infrastructure & capacity using DOE LEAD Tool and census tract data",
+            "Design low-income energy assistance with weatherization and bill assistance",
+            "Implement programs through utility partnerships and community organizations",
+            "Deploy targeted outreach with multilingual materials and enrollment assistance",
+            "Evaluate burden reduction using pre-post billing analysis and participant surveys"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy poverty rate using household energy burden survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy poverty rate measured annually. Target: energy burden <6% for low-income. PHASE 3 (Months 4-6): Midpoint review — compare against LIHEAP eligibility thresholds. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy poverty rate trending toward burden <4%. Escalate if <burden <10% ceiling. ANNUAL REVIEW: Comprehensive audit using DOE LEAD Tool framework. Report to Energy Equity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Deploy Pipeline Safety Infrastructure & Capacity Adaptive Management System",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Deploy a smart grid analytics platform for pipeline safety infrastructure & capacity integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia; PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab",
+          "target": "INEFFICIENT_PIPELINE_SAFETY_INFRASTRUCTURE -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid modelling needs for pipeline safety infrastructure & capacity using NERC MOD-032 requirements",
+            "Configure PSSE/PowerWorld with validated system model and contingency cases",
+            "Implement production cost modelling with PLEXOS for resource planning",
+            "Deploy real-time and planning model coordination with state estimator",
+            "Validate model accuracy through post-event analysis and benchmarking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — SCADA system cybersecurity score using NERC CIP compliance tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — SCADA system cybersecurity score measured quarterly. Target: full NERC CIP compliance. PHASE 3 (Months 4-6): Midpoint review — compare against NERC CIP v7 standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — SCADA system cybersecurity score trending toward zero high-risk findings. Escalate if <<3 medium findings. ANNUAL REVIEW: Comprehensive audit using NERC CIP standards. Report to Cybersecurity Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Pipeline Safety Infrastructure & Capacity Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Operationalize a hydrogen economy strategy for pipeline safety infrastructure & capacity applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "INCONSISTENT_PIPELINE_SAFETY_INFRASTRUCTURE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct resource adequacy assessment for pipeline safety infrastructure & capacity using NERC probabilistic methods",
+            "Model generation expansion scenarios with PLEXOS/AURORA optimization",
+            "Design integrated resource plan with reliability, cost, and emissions constraints",
+            "Implement procurement program with competitive solicitation per state PUC rules",
+            "Monitor capacity additions and retirements against IRP milestones"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable energy share of generation using grid dispatch and metering data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable energy share of generation measured monthly. Target: 30% RE penetration. PHASE 3 (Months 4-6): Midpoint review — compare against IRENA RE targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable energy share of generation trending toward 50% RE share. Escalate if <20% RE floor. ANNUAL REVIEW: Comprehensive audit using IEA World Energy Outlook framework. Report to Energy Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_pipeline_pipesafety_regulation_portal.html"
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Pipeline Safety Risk & Resilience",
+      "domainDescription": "Systematic management of pipeline safety risk & resilience across all pipeline safety functions and operations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Pipeline Safety Risk & Resilience Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a grid decarbonization roadmap for pipeline safety risk & resilience following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "FRAGMENTED_PIPELINE_SAFETY_RISK___RESILIE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze DER growth for pipeline safety risk & resilience using IEEE 1547 hosting capacity analysis",
+            "Design interconnection queue reform with technical screens and fast-track provisions",
+            "Implement DERMS platform for visibility, control, and optimization",
+            "Deploy dynamic operating envelopes for voltage and thermal management",
+            "Evaluate DER integration costs and benefits using utility cost-benefit framework"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — carbon intensity of electricity using emissions monitoring system (CEMS). Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — carbon intensity of electricity measured monthly. Target: reduction of 15% in gCO2/kWh. PHASE 3 (Months 4-6): Midpoint review — compare against IEA Net Zero pathway. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — carbon intensity of electricity trending toward 30% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using GHG Protocol Scope 2 framework. Report to Climate and Energy Commissioner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Pipeline Safety Risk & Resilience Innovation Pipeline",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop a certified energy manager program for pipeline safety risk & resilience per AEE CEM body of knowledge with industrial efficiency focus.",
+          "cite": "Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302; NERC (2023). Long-Term Reliability Assessment. NERC",
+          "target": "SILOED_PIPELINE_SAFETY_RISK___RESILIE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            },
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Survey energy management skills for pipeline safety risk & resilience against AEE CEM body of knowledge",
+            "Design CEM preparation program covering energy accounting, economics, and systems",
+            "Deliver training with facility assessments, M&V exercises, and case studies",
+            "Support CEM examination and CMVP certification for verification skills",
+            "Measure energy savings achieved by certified managers in their facilities"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable technology training using NABCEP certification system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable technology training measured quarterly. Target: 60% installers NABCEP certified. PHASE 3 (Months 4-6): Midpoint review — compare against NABCEP industry benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable technology training trending toward 80% certified. Escalate if <40% certified. ANNUAL REVIEW: Comprehensive audit using NABCEP certification standards. Report to RE Training Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Pipeline Safety Risk & Resilience Feedback Loop Design",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a transmission expansion program for pipeline safety risk & resilience following FERC Order 1000 planning with multi-value project assessment.",
+          "cite": "FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC; IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE",
+          "target": "OUTDATED_PIPELINE_SAFETY_RISK___RESILIE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess pipeline integrity for pipeline safety risk & resilience per 49 CFR 192/195 requirements",
+            "Conduct in-line inspection (ILI) and direct assessment (ECDA/ICDA)",
+            "Design repair and replacement program prioritized by risk assessment",
+            "Implement pipeline monitoring with SCADA, leak detection, and cathodic protection",
+            "Report integrity metrics to PHMSA with annual safety performance tracking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — pipeline integrity index using PHMSA inspection data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — pipeline integrity index measured quarterly. Target: zero serious incidents. PHASE 3 (Months 4-6): Midpoint review — compare against PHMSA Pipeline Safety targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — pipeline integrity index trending toward zero incidents with margin. Escalate if <<3 minor incidents. ANNUAL REVIEW: Comprehensive audit using 49 CFR Parts 192/195. Report to Pipeline Safety Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Pipeline Safety Risk & Resilience Sustainability Audit",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement an energy efficiency behavior change program for pipeline safety risk & resilience applying Dietz behavioral wedge methodology with smart meter feedback.",
+          "cite": "Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004; Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044",
+          "target": "INEFFICIENT_PIPELINE_SAFETY_RISK___RESILIE -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            },
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            }
+          ],
+          "steps": [
+            "Conduct social acceptance assessment for pipeline safety risk & resilience using stakeholder mapping",
+            "Design community engagement plan with benefit-sharing and impact mitigation",
+            "Implement iterative consultation with community advisory panels",
+            "Negotiate community benefit agreements with legally binding commitments",
+            "Monitor social license indicators through community survey and complaint tracking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy workforce diversity using EEO workforce data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy workforce diversity measured quarterly. Target: 30% underrepresented groups. PHASE 3 (Months 4-6): Midpoint review — compare against DOE equity initiative targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy workforce diversity trending toward 40% representation. Escalate if <20% minimum. ANNUAL REVIEW: Comprehensive audit using DOE Justice40 framework. Report to Diversity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Pipeline Safety Risk & Resilience Innovation Pipeline",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a renewable resource assessment platform for pipeline safety risk & resilience integrating NREL SAM with GIS-based siting and interconnection analysis.",
+          "cite": "Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003; HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy",
+          "target": "INCONSISTENT_PIPELINE_SAFETY_RISK___RESILIE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            },
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess storage valuation for pipeline safety risk & resilience using Sandia StorageVET methodology",
+            "Model value stacks: arbitrage, capacity, ancillary services, T&D deferral",
+            "Design storage procurement with performance requirements and warranty terms",
+            "Deploy storage with controls integration and market participation",
+            "Track storage utilization, revenue, and degradation against performance targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — DER management platform maturity using DERMS capability assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — DER management platform maturity measured quarterly. Target: DERMS level 3 maturity. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 2030.11 DERMS standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — DER management platform maturity trending toward level 4. Escalate if <level 2 floor. ANNUAL REVIEW: Comprehensive audit using IEEE 2030 framework. Report to DER Integration Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Pipeline Safety Risk & Resilience Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a grid decarbonization roadmap for pipeline safety risk & resilience following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "UNMONITORED_PIPELINE_SAFETY_RISK___RESILIE -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze DER growth for pipeline safety risk & resilience using IEEE 1547 hosting capacity analysis",
+            "Design interconnection queue reform with technical screens and fast-track provisions",
+            "Implement DERMS platform for visibility, control, and optimization",
+            "Deploy dynamic operating envelopes for voltage and thermal management",
+            "Evaluate DER integration costs and benefits using utility cost-benefit framework"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — carbon intensity of electricity using emissions monitoring system (CEMS). Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — carbon intensity of electricity measured monthly. Target: reduction of 15% in gCO2/kWh. PHASE 3 (Months 4-6): Midpoint review — compare against IEA Net Zero pathway. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — carbon intensity of electricity trending toward 30% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using GHG Protocol Scope 2 framework. Report to Climate and Energy Commissioner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_pipeline_pipesafety_response_portal.html"
+    },
+    {
+      "brainNodeId": "DV",
+      "state": "active",
+      "domainLabel": "Pipeline Safety Policy & Governance",
+      "domainDescription": "Systematic management of pipeline safety policy & governance across all pipeline safety functions and operations",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Monitor Pipeline Safety Policy & Governance Risk Mitigation Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Monitor an energy security diversification strategy for pipeline safety policy & governance using IEA energy security indicators and supply chain risk assessment.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "OUTDATED_PIPELINE_SAFETY_POLICY___GOVER -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for pipeline safety policy & governance using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Build Pipeline Safety Policy & Governance Process Improvement Initiative",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Build a power systems protection training for pipeline safety policy & governance covering relay coordination, fault analysis, and NERC PRC compliance.",
+          "cite": "Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302; NERC (2023). Long-Term Reliability Assessment. NERC",
+          "target": "INEFFICIENT_PIPELINE_SAFETY_POLICY___GOVER -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            },
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess protection engineering skills for pipeline safety policy & governance against NERC PRC standards",
+            "Design training in relay coordination, fault analysis, and settings development",
+            "Deliver simulation-based training with ETAP/SKM relay coordination tools",
+            "Conduct competency assessment with practical relay testing and setting exercises",
+            "Track protection system misoperation rates for trained personnel"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy management competency using CEM/CMVP certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy management competency measured biannually. Target: 50 certified energy managers. PHASE 3 (Months 4-6): Midpoint review — compare against AEE certification benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy management competency trending toward 75 managers. Escalate if <30 minimum. ANNUAL REVIEW: Comprehensive audit using AEE certification framework. Report to Energy Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Pipeline Safety Policy & Governance Resilience Assessment",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Optimize a distribution grid modernization for pipeline safety policy & governance deploying AMI, ADMS, and DERMS per IEEE 2030 interoperability standards.",
+          "cite": "FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC; IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE",
+          "target": "INCONSISTENT_PIPELINE_SAFETY_POLICY___GOVER -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate generation fleet for pipeline safety policy & governance using heat rate and availability analysis",
+            "Design efficiency improvements per ASME PTC performance test codes",
+            "Implement combustion tuning, heat recovery, and auxiliary load optimization",
+            "Deploy performance monitoring with real-time analytics and predictive maintenance",
+            "Track capacity factor and heat rate improvements against fleet benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — power plant capacity factor using generation performance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — power plant capacity factor measured monthly. Target: target capacity factor by type. PHASE 3 (Months 4-6): Midpoint review — compare against NREL ATB benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — power plant capacity factor trending toward top-quartile performance. Escalate if <bottom-quartile escalation. ANNUAL REVIEW: Comprehensive audit using NREL ATB framework. Report to Generation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Pipeline Safety Policy & Governance Risk Mitigation Strategy",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Launch a social license engagement process for pipeline safety policy & governance using IAEA stakeholder methodology for energy infrastructure siting.",
+          "cite": "Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004; Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044",
+          "target": "UNMONITORED_PIPELINE_SAFETY_POLICY___GOVER -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            },
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            }
+          ],
+          "steps": [
+            "Assess energy workforce demographics for pipeline safety policy & governance using BLS and utility data",
+            "Design diversity recruitment program with pre-apprenticeship and mentorship",
+            "Partner with HBCUs, tribal colleges, and community organizations",
+            "Implement paid internship and apprenticeship pathways with wraparound support",
+            "Track workforce diversity metrics and retention rates against DOE targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy efficiency behavior adoption using smart meter analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy efficiency behavior adoption measured monthly. Target: 15% voluntary demand reduction. PHASE 3 (Months 4-6): Midpoint review — compare against EPA ENERGY STAR benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy efficiency behavior adoption trending toward 25% reduction. Escalate if <8% reduction floor. ANNUAL REVIEW: Comprehensive audit using EPA ENERGY STAR framework. Report to Demand-Side Management Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Pipeline Safety Policy & Governance Process Improvement Initiative",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Develop a grid simulation platform for pipeline safety policy & governance deploying PSSE/PowerWorld with NERC MOD-032 model validation.",
+          "cite": "Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003; HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy",
+          "target": "UNDERPERFORMING_PIPELINE_SAFETY_POLICY___GOVER -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            },
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate RE siting for pipeline safety policy & governance using NREL SAM and wind/solar resource data",
+            "Design GIS-based siting platform with environmental and grid constraint layers",
+            "Implement interconnection screening with hosting capacity and upgrade cost analysis",
+            "Deploy optimization engine for portfolio siting across resource zones",
+            "Measure development success rates and LCOE outcomes against projections"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy data platform completeness using data quality audit system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy data platform completeness measured monthly. Target: 90% data streams validated. PHASE 3 (Months 4-6): Midpoint review — compare against Green Button standard coverage. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy data platform completeness trending toward 95% validated. Escalate if <80% validated floor. ANNUAL REVIEW: Comprehensive audit using Green Button Connect framework. Report to Data Analytics Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Pipeline Safety Policy & Governance Resilience Assessment",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Establish an energy security diversification strategy for pipeline safety policy & governance using IEA energy security indicators and supply chain risk assessment.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "REACTIVE_PIPELINE_SAFETY_POLICY___GOVER -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for pipeline safety policy & governance using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PUT",
+      "state": "active",
+      "domainLabel": "Pipeline Safety Technology & Innovation",
+      "domainDescription": "Systematic management of pipeline safety technology & innovation across all pipeline safety functions and operations",
+      "group": "development",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Operationalize Pipeline Safety Technology & Innovation Continuous Improvement Cycle",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Operationalize a hydrogen economy strategy for pipeline safety technology & innovation applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "UNMONITORED_PIPELINE_SAFETY_TECHNOLOGY___I -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for pipeline safety technology & innovation using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Pipeline Safety Technology & Innovation Adaptive Management System",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Calibrate a renewable energy installer training for pipeline safety technology & innovation using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013; DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy",
+          "target": "UNDERPERFORMING_PIPELINE_SAFETY_TECHNOLOGY___I -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            },
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess protection engineering skills for pipeline safety technology & innovation against NERC PRC standards",
+            "Design training in relay coordination, fault analysis, and settings development",
+            "Deliver simulation-based training with ETAP/SKM relay coordination tools",
+            "Conduct competency assessment with practical relay testing and setting exercises",
+            "Track protection system misoperation rates for trained personnel"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy management competency using CEM/CMVP certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy management competency measured biannually. Target: 50 certified energy managers. PHASE 3 (Months 4-6): Midpoint review — compare against AEE certification benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy management competency trending toward 75 managers. Escalate if <30 minimum. ANNUAL REVIEW: Comprehensive audit using AEE certification framework. Report to Energy Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Pipeline Safety Technology & Innovation Knowledge Transfer Program",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Streamline a pipeline integrity management system for pipeline safety technology & innovation per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press; IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC",
+          "target": "REACTIVE_PIPELINE_SAFETY_TECHNOLOGY___I -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate generation fleet for pipeline safety technology & innovation using heat rate and availability analysis",
+            "Design efficiency improvements per ASME PTC performance test codes",
+            "Implement combustion tuning, heat recovery, and auxiliary load optimization",
+            "Deploy performance monitoring with real-time analytics and predictive maintenance",
+            "Track capacity factor and heat rate improvements against fleet benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — power plant capacity factor using generation performance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — power plant capacity factor measured monthly. Target: target capacity factor by type. PHASE 3 (Months 4-6): Midpoint review — compare against NREL ATB benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — power plant capacity factor trending toward top-quartile performance. Escalate if <bottom-quartile escalation. ANNUAL REVIEW: Comprehensive audit using NREL ATB framework. Report to Generation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Pipeline Safety Technology & Innovation Continuous Improvement Cycle",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Assess an energy justice program for pipeline safety technology & innovation using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106; Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002",
+          "target": "FRAGMENTED_PIPELINE_SAFETY_TECHNOLOGY___I -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            },
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            }
+          ],
+          "steps": [
+            "Assess energy workforce demographics for pipeline safety technology & innovation using BLS and utility data",
+            "Design diversity recruitment program with pre-apprenticeship and mentorship",
+            "Partner with HBCUs, tribal colleges, and community organizations",
+            "Implement paid internship and apprenticeship pathways with wraparound support",
+            "Track workforce diversity metrics and retention rates against DOE targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy efficiency behavior adoption using smart meter analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy efficiency behavior adoption measured monthly. Target: 15% voluntary demand reduction. PHASE 3 (Months 4-6): Midpoint review — compare against EPA ENERGY STAR benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy efficiency behavior adoption trending toward 25% reduction. Escalate if <8% reduction floor. ANNUAL REVIEW: Comprehensive audit using EPA ENERGY STAR framework. Report to Demand-Side Management Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Pipeline Safety Technology & Innovation Adaptive Management System",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Create a smart grid analytics platform for pipeline safety technology & innovation integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia; PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab",
+          "target": "SILOED_PIPELINE_SAFETY_TECHNOLOGY___I -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate RE siting for pipeline safety technology & innovation using NREL SAM and wind/solar resource data",
+            "Design GIS-based siting platform with environmental and grid constraint layers",
+            "Implement interconnection screening with hosting capacity and upgrade cost analysis",
+            "Deploy optimization engine for portfolio siting across resource zones",
+            "Measure development success rates and LCOE outcomes against projections"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy data platform completeness using data quality audit system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy data platform completeness measured monthly. Target: 90% data streams validated. PHASE 3 (Months 4-6): Midpoint review — compare against Green Button standard coverage. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy data platform completeness trending toward 95% validated. Escalate if <80% validated floor. ANNUAL REVIEW: Comprehensive audit using Green Button Connect framework. Report to Data Analytics Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Pipeline Safety Technology & Innovation Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Evaluate a hydrogen economy strategy for pipeline safety technology & innovation applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "OUTDATED_PIPELINE_SAFETY_TECHNOLOGY___I -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for pipeline safety technology & innovation using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ENDO",
+      "state": "active",
+      "domainLabel": "Pipeline Safety Human Capital & Development",
+      "domainDescription": "Systematic management of pipeline safety human capital & development across all pipeline safety functions and operations",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Optimize Pipeline Safety Human Capital & Development Accountability Mechanism",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Optimize a distributed energy resources integration plan for pipeline safety human capital & development per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "EIA (2023). Annual Energy Outlook. US Energy Information Administration; Smil, V. (2017). Energy and Civilization: A History. MIT Press",
+          "target": "UNDERPERFORMING_PIPELINE_SAFETY_HUMAN_CAPITAL_ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for pipeline safety human capital & development using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Pipeline Safety Human Capital & Development Resource Optimization Model",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Launch a grid operator certification program for pipeline safety human capital & development aligned with NERC System Operator Certification requirements.",
+          "cite": "DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy; Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013",
+          "target": "REACTIVE_PIPELINE_SAFETY_HUMAN_CAPITAL_ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            }
+          ],
+          "steps": [
+            "Assess protection engineering skills for pipeline safety human capital & development against NERC PRC standards",
+            "Design training in relay coordination, fault analysis, and settings development",
+            "Deliver simulation-based training with ETAP/SKM relay coordination tools",
+            "Conduct competency assessment with practical relay testing and setting exercises",
+            "Track protection system misoperation rates for trained personnel"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy management competency using CEM/CMVP certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy management competency measured biannually. Target: 50 certified energy managers. PHASE 3 (Months 4-6): Midpoint review — compare against AEE certification benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy management competency trending toward 75 managers. Escalate if <30 minimum. ANNUAL REVIEW: Comprehensive audit using AEE certification framework. Report to Energy Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Pipeline Safety Human Capital & Development Data-Driven Decision Framework",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Develop a substation upgrade program for pipeline safety human capital & development implementing IEC 61850 communications with digital relay protection schemes.",
+          "cite": "IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC; Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press",
+          "target": "FRAGMENTED_PIPELINE_SAFETY_HUMAN_CAPITAL_ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate generation fleet for pipeline safety human capital & development using heat rate and availability analysis",
+            "Design efficiency improvements per ASME PTC performance test codes",
+            "Implement combustion tuning, heat recovery, and auxiliary load optimization",
+            "Deploy performance monitoring with real-time analytics and predictive maintenance",
+            "Track capacity factor and heat rate improvements against fleet benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — power plant capacity factor using generation performance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — power plant capacity factor measured monthly. Target: target capacity factor by type. PHASE 3 (Months 4-6): Midpoint review — compare against NREL ATB benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — power plant capacity factor trending toward top-quartile performance. Escalate if <bottom-quartile escalation. ANNUAL REVIEW: Comprehensive audit using NREL ATB framework. Report to Generation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Pipeline Safety Human Capital & Development Accountability Mechanism",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Establish an energy workforce equity program for pipeline safety human capital & development with targeted recruitment and pre-apprenticeship per DOE equity initiatives.",
+          "cite": "Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002; Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106",
+          "target": "SILOED_PIPELINE_SAFETY_HUMAN_CAPITAL_ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            },
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            }
+          ],
+          "steps": [
+            "Assess energy workforce demographics for pipeline safety human capital & development using BLS and utility data",
+            "Design diversity recruitment program with pre-apprenticeship and mentorship",
+            "Partner with HBCUs, tribal colleges, and community organizations",
+            "Implement paid internship and apprenticeship pathways with wraparound support",
+            "Track workforce diversity metrics and retention rates against DOE targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy efficiency behavior adoption using smart meter analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy efficiency behavior adoption measured monthly. Target: 15% voluntary demand reduction. PHASE 3 (Months 4-6): Midpoint review — compare against EPA ENERGY STAR benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy efficiency behavior adoption trending toward 25% reduction. Escalate if <8% reduction floor. ANNUAL REVIEW: Comprehensive audit using EPA ENERGY STAR framework. Report to Demand-Side Management Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Pipeline Safety Human Capital & Development Resource Optimization Model",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Implement a SCADA/EMS cybersecurity hardening for pipeline safety human capital & development per NERC CIP standards with intrusion detection and access controls.",
+          "cite": "PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab; Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia",
+          "target": "OUTDATED_PIPELINE_SAFETY_HUMAN_CAPITAL_ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate RE siting for pipeline safety human capital & development using NREL SAM and wind/solar resource data",
+            "Design GIS-based siting platform with environmental and grid constraint layers",
+            "Implement interconnection screening with hosting capacity and upgrade cost analysis",
+            "Deploy optimization engine for portfolio siting across resource zones",
+            "Measure development success rates and LCOE outcomes against projections"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy data platform completeness using data quality audit system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy data platform completeness measured monthly. Target: 90% data streams validated. PHASE 3 (Months 4-6): Midpoint review — compare against Green Button standard coverage. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy data platform completeness trending toward 95% validated. Escalate if <80% validated floor. ANNUAL REVIEW: Comprehensive audit using Green Button Connect framework. Report to Data Analytics Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Pipeline Safety Human Capital & Development Data-Driven Decision Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Institutionalize a distributed energy resources integration plan for pipeline safety human capital & development per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard; IEA (2023). World Energy Outlook. IEA Publications",
+          "target": "INEFFICIENT_PIPELINE_SAFETY_HUMAN_CAPITAL_ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for pipeline safety human capital & development using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Pipeline Safety Quality & Performance",
+      "domainDescription": "Systematic management of pipeline safety quality & performance across all pipeline safety functions and operations",
+      "group": "performance",
+      "phase": "P3",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Assess Pipeline Safety Quality & Performance Integration Architecture",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Assess a distributed energy resources integration plan for pipeline safety quality & performance per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "INEFFICIENT_PIPELINE_SAFETY_QUALITY___PERF -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for pipeline safety quality & performance using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Pipeline Safety Quality & Performance Capability Maturity Model",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Create a grid operator certification program for pipeline safety quality & performance aligned with NERC System Operator Certification requirements.",
+          "cite": "Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013; DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy",
+          "target": "INCONSISTENT_PIPELINE_SAFETY_QUALITY___PERF -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            },
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess protection engineering skills for pipeline safety quality & performance against NERC PRC standards",
+            "Design training in relay coordination, fault analysis, and settings development",
+            "Deliver simulation-based training with ETAP/SKM relay coordination tools",
+            "Conduct competency assessment with practical relay testing and setting exercises",
+            "Track protection system misoperation rates for trained personnel"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy management competency using CEM/CMVP certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy management competency measured biannually. Target: 50 certified energy managers. PHASE 3 (Months 4-6): Midpoint review — compare against AEE certification benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy management competency trending toward 75 managers. Escalate if <30 minimum. ANNUAL REVIEW: Comprehensive audit using AEE certification framework. Report to Energy Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Pipeline Safety Quality & Performance Quality Assurance Program",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Evaluate a substation upgrade program for pipeline safety quality & performance implementing IEC 61850 communications with digital relay protection schemes.",
+          "cite": "Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press; IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC",
+          "target": "UNMONITORED_PIPELINE_SAFETY_QUALITY___PERF -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate generation fleet for pipeline safety quality & performance using heat rate and availability analysis",
+            "Design efficiency improvements per ASME PTC performance test codes",
+            "Implement combustion tuning, heat recovery, and auxiliary load optimization",
+            "Deploy performance monitoring with real-time analytics and predictive maintenance",
+            "Track capacity factor and heat rate improvements against fleet benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — power plant capacity factor using generation performance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — power plant capacity factor measured monthly. Target: target capacity factor by type. PHASE 3 (Months 4-6): Midpoint review — compare against NREL ATB benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — power plant capacity factor trending toward top-quartile performance. Escalate if <bottom-quartile escalation. ANNUAL REVIEW: Comprehensive audit using NREL ATB framework. Report to Generation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Pipeline Safety Quality & Performance Integration Architecture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Integrate an energy workforce equity program for pipeline safety quality & performance with targeted recruitment and pre-apprenticeship per DOE equity initiatives.",
+          "cite": "Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106; Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002",
+          "target": "UNDERPERFORMING_PIPELINE_SAFETY_QUALITY___PERF -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            },
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            }
+          ],
+          "steps": [
+            "Assess energy workforce demographics for pipeline safety quality & performance using BLS and utility data",
+            "Design diversity recruitment program with pre-apprenticeship and mentorship",
+            "Partner with HBCUs, tribal colleges, and community organizations",
+            "Implement paid internship and apprenticeship pathways with wraparound support",
+            "Track workforce diversity metrics and retention rates against DOE targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy efficiency behavior adoption using smart meter analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy efficiency behavior adoption measured monthly. Target: 15% voluntary demand reduction. PHASE 3 (Months 4-6): Midpoint review — compare against EPA ENERGY STAR benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy efficiency behavior adoption trending toward 25% reduction. Escalate if <8% reduction floor. ANNUAL REVIEW: Comprehensive audit using EPA ENERGY STAR framework. Report to Demand-Side Management Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Conduct Pipeline Safety Quality & Performance Capability Maturity Model",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Conduct a SCADA/EMS cybersecurity hardening for pipeline safety quality & performance per NERC CIP standards with intrusion detection and access controls.",
+          "cite": "Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia; PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab",
+          "target": "REACTIVE_PIPELINE_SAFETY_QUALITY___PERF -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate RE siting for pipeline safety quality & performance using NREL SAM and wind/solar resource data",
+            "Design GIS-based siting platform with environmental and grid constraint layers",
+            "Implement interconnection screening with hosting capacity and upgrade cost analysis",
+            "Deploy optimization engine for portfolio siting across resource zones",
+            "Measure development success rates and LCOE outcomes against projections"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy data platform completeness using data quality audit system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy data platform completeness measured monthly. Target: 90% data streams validated. PHASE 3 (Months 4-6): Midpoint review — compare against Green Button standard coverage. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy data platform completeness trending toward 95% validated. Escalate if <80% validated floor. ANNUAL REVIEW: Comprehensive audit using Green Button Connect framework. Report to Data Analytics Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Design Pipeline Safety Quality & Performance Quality Assurance Program",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Design a distributed energy resources integration plan for pipeline safety quality & performance per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "FRAGMENTED_PIPELINE_SAFETY_QUALITY___PERF -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for pipeline safety quality & performance using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a pipeline integrity and safety engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "ENS",
+      "target": "rACC",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "rACC",
+      "target": "mPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "ECN",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "ECN",
+      "target": "DV",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "DV",
+      "target": "PUT",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "PUT",
+      "target": "ENDO",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "ENDO",
+      "target": "WERN",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "ENS",
+      "target": "WERN",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "mPFC",
+      "target": "ENS",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "ENERGY_PIPELINE_PIPESAFETY_SYSTEM_FAILURE",
+      "label": "Energy Pipeline Pipesafety System Failure",
+      "summary": "Critical breakdown in Energy Pipeline Pipesafety systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "ENS",
+          "dir": "Hyper-active",
+          "detail": "Pipeline Safety Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Hypo-active",
+          "detail": "Pipeline Safety Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Pipeline Safety Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Hyper-active",
+          "detail": "Pipeline Safety Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DV",
+          "dir": "Hypo-active",
+          "detail": "Pipeline Safety Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_PIPELINE_PIPESAFETY_CAPACITY_OVERLOAD",
+      "label": "Energy Pipeline Pipesafety Capacity Overload",
+      "summary": "Demand exceeding available Energy Pipeline Pipesafety capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "ENS",
+          "dir": "Hyper-active",
+          "detail": "Pipeline Safety Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Hyper-active",
+          "detail": "Pipeline Safety Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper-active",
+          "detail": "Pipeline Safety Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Hyper-active",
+          "detail": "Pipeline Safety Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_PIPELINE_PIPESAFETY_QUALITY_DEGRADATION",
+      "label": "Energy Pipeline Pipesafety Quality Degradation",
+      "summary": "Progressive decline in Energy Pipeline Pipesafety quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "ENS",
+          "dir": "Hypo-active",
+          "detail": "Pipeline Safety Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Altered",
+          "detail": "Pipeline Safety Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper-active",
+          "detail": "Pipeline Safety Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Hypo-active",
+          "detail": "Pipeline Safety Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

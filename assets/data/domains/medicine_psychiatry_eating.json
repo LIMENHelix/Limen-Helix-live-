@@ -1,0 +1,2066 @@
+{
+  "domainId": "medicine_psychiatry_eating",
+  "title": "Eating Disorders",
+  "parentPortal": "medicine_psychiatry_portal.html",
+  "parentLabel": "Psychiatry",
+  "phase": "P8",
+  "activations": [
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Eating Disorders Assessment & Diagnostics",
+      "domainDescription": "Systematic management of eating disorders assessment & diagnostics across all eating disorders functions and operations",
+      "group": "analysis",
+      "phase": "P8",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Operationalize Eating Disorders Assessment & Diagnostics Adaptive Management System",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Operationalize a healthcare system redesign for eating disorders assessment & diagnostics following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "UNMONITORED_EATING_DISORDERS_ASSESSMENT___ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Stratify population risk for eating disorders assessment & diagnostics using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Eating Disorders Assessment & Diagnostics Knowledge Transfer Program",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Calibrate a competency-based medical education program for eating disorders assessment & diagnostics aligned with ACGME milestones and entrustable professional activities.",
+          "cite": "Gawande, A. (2009). The Checklist Manifesto. Henry Holt; Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181",
+          "target": "UNDERPERFORMING_EATING_DISORDERS_ASSESSMENT___ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for eating disorders assessment & diagnostics using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Eating Disorders Assessment & Diagnostics Continuous Improvement Cycle",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Streamline a pharmacy automation system for eating disorders assessment & diagnostics deploying CPOE, clinical decision support, and automated dispensing per ISMP guidelines.",
+          "cite": "JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International; Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust",
+          "target": "REACTIVE_EATING_DISORDERS_ASSESSMENT___ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for eating disorders assessment & diagnostics against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Eating Disorders Assessment & Diagnostics Adaptive Management System",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Assess a just culture implementation for eating disorders assessment & diagnostics using Reason human error framework with transparent event reporting and learning systems.",
+          "cite": "Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383; Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139",
+          "target": "FRAGMENTED_EATING_DISORDERS_ASSESSMENT___ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            },
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for eating disorders assessment & diagnostics using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Eating Disorders Assessment & Diagnostics Knowledge Transfer Program",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Create a clinical AI governance framework for eating disorders assessment & diagnostics deploying validated algorithms with AMA augmented intelligence policy safeguards.",
+          "cite": "HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics; HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7",
+          "target": "SILOED_EATING_DISORDERS_ASSESSMENT___ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for eating disorders assessment & diagnostics using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Eating Disorders Assessment & Diagnostics Continuous Improvement Cycle",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Evaluate a healthcare system redesign for eating disorders assessment & diagnostics following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "OUTDATED_EATING_DISORDERS_ASSESSMENT___ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for eating disorders assessment & diagnostics using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_psychiatry_eating_anorexia_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Eating Disorders Core Operations",
+      "domainDescription": "Systematic management of eating disorders core operations across all eating disorders functions and operations",
+      "group": "operations",
+      "phase": "P8",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Build Eating Disorders Core Operations Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Build an evidence-based clinical pathway for eating disorders core operations integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "INCONSISTENT_EATING_DISORDERS_CORE_OPERATIO -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for eating disorders core operations using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Eating Disorders Core Operations Governance Structure",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Optimize a patient safety coaching initiative for eating disorders core operations using TeamSTEPPS communication tools and crew resource management principles.",
+          "cite": "ACGME (2022). Common Program Requirements. Accreditation Council for GME; Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge",
+          "target": "UNMONITORED_EATING_DISORDERS_CORE_OPERATIO -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish mentoring matches for eating disorders core operations based on career goals and clinical interests",
+            "Train mentors in effective mentoring practices and IDP development",
+            "Implement structured mentoring agreements with quarterly goal review",
+            "Deploy mentoring circles for peer support and knowledge sharing",
+            "Evaluate mentorship outcomes through mentee career progression and satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interprofessional education participation using IPE program tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interprofessional education participation measured biannually. Target: 80% clinical staff participated. PHASE 3 (Months 4-6): Midpoint review — compare against IPEC competency framework. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interprofessional education participation trending toward 95% participated. Escalate if <60% participated floor. ANNUAL REVIEW: Comprehensive audit using IPEC Core Competencies. Report to IPE Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Eating Disorders Core Operations Assessment Protocol",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Launch a perioperative care optimization for eating disorders core operations implementing Enhanced Recovery After Surgery (ERAS) protocols with standardized pathways.",
+          "cite": "WHO (2020). World Health Statistics. WHO; CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid",
+          "target": "UNDERPERFORMING_EATING_DISORDERS_CORE_OPERATIO -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate medication use for eating disorders core operations using ISMP Medication Safety Self Assessment",
+            "Design closed-loop medication management with CPOE, pharmacy verification, and BCMA",
+            "Implement smart pump drug libraries with dose limits and alerts",
+            "Deploy automated dispensing with par optimization and diversion detection",
+            "Track medication error rates, near-misses, and ADR reporting against ISMP benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — laboratory turnaround time using LIS analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — laboratory turnaround time measured daily. Target: stat TAT <60 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against CAP benchmarking standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — laboratory turnaround time trending toward <45 minutes. Escalate if <<90 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CAP accreditation standards. Report to Laboratory Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Eating Disorders Core Operations Diagnostic Dashboard",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Develop a patient engagement initiative for eating disorders core operations implementing shared decision-making using Ottawa Decision Support Framework tools.",
+          "cite": "Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768; Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115",
+          "target": "REACTIVE_EATING_DISORDERS_CORE_OPERATIO -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            },
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            }
+          ],
+          "steps": [
+            "Assess health equity for eating disorders core operations using CMS stratified quality measures",
+            "Design intervention targeting identified disparities with community partnerships",
+            "Implement language access, cultural competency training, and health literacy tools",
+            "Deploy CHW programs in underserved communities with social determinant screening",
+            "Measure disparity reduction across clinical outcomes and access metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — shared decision-making rate using OPTION-12 observation tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — shared decision-making rate measured quarterly. Target: 70% encounters with SDM. PHASE 3 (Months 4-6): Midpoint review — compare against Dartmouth SDM benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — shared decision-making rate trending toward 85% encounters. Escalate if <50% encounters floor. ANNUAL REVIEW: Comprehensive audit using Ottawa Decision Support Framework. Report to Patient-Centered Care Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Eating Disorders Core Operations Governance Structure",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Establish a telehealth program for eating disorders core operations implementing ATA practice guidelines with remote monitoring and virtual care pathways.",
+          "cite": "WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO; DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA",
+          "target": "FRAGMENTED_EATING_DISORDERS_CORE_OPERATIO -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate telehealth for eating disorders core operations using ATA practice guideline criteria",
+            "Design virtual care pathways for appropriate conditions with safety protocols",
+            "Implement telehealth platform with EHR integration and patient scheduling",
+            "Train clinicians in virtual examination techniques and remote monitoring",
+            "Measure telehealth utilization, outcomes equivalence, and patient satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — telehealth utilization using telehealth platform analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — telehealth utilization measured monthly. Target: 25% visits via telehealth. PHASE 3 (Months 4-6): Midpoint review — compare against ATA practice guidelines targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — telehealth utilization trending toward 35% telehealth. Escalate if <15% telehealth floor. ANNUAL REVIEW: Comprehensive audit using ATA Telehealth Framework. Report to Telehealth Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Eating Disorders Core Operations Assessment Protocol",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement an evidence-based clinical pathway for eating disorders core operations integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "SILOED_EATING_DISORDERS_CORE_OPERATIO -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for eating disorders core operations using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_psychiatry_eating_arfid_portal.html"
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Eating Disorders Infrastructure & Capacity",
+      "domainDescription": "Systematic management of eating disorders infrastructure & capacity across all eating disorders functions and operations",
+      "group": "systems",
+      "phase": "P8",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Build Eating Disorders Infrastructure & Capacity Assessment Protocol",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Build an evidence-based clinical pathway for eating disorders infrastructure & capacity integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71; WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO",
+          "target": "INCONSISTENT_EATING_DISORDERS_INFRASTRUCTUR -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            },
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Identify improvement target for eating disorders infrastructure & capacity using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Eating Disorders Infrastructure & Capacity Diagnostic Dashboard",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Optimize a patient safety coaching initiative for eating disorders infrastructure & capacity using TeamSTEPPS communication tools and crew resource management principles.",
+          "cite": "Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226; Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81",
+          "target": "UNMONITORED_EATING_DISORDERS_INFRASTRUCTUR -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            },
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish mentoring matches for eating disorders infrastructure & capacity based on career goals and clinical interests",
+            "Train mentors in effective mentoring practices and IDP development",
+            "Implement structured mentoring agreements with quarterly goal review",
+            "Deploy mentoring circles for peer support and knowledge sharing",
+            "Evaluate mentorship outcomes through mentee career progression and satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interprofessional education participation using IPE program tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interprofessional education participation measured biannually. Target: 80% clinical staff participated. PHASE 3 (Months 4-6): Midpoint review — compare against IPEC competency framework. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interprofessional education participation trending toward 95% participated. Escalate if <60% participated floor. ANNUAL REVIEW: Comprehensive audit using IPEC Core Competencies. Report to IPE Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Eating Disorders Infrastructure & Capacity Governance Structure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Launch a perioperative care optimization for eating disorders infrastructure & capacity implementing Enhanced Recovery After Surgery (ERAS) protocols with standardized pathways.",
+          "cite": "AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ; Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press",
+          "target": "UNDERPERFORMING_EATING_DISORDERS_INFRASTRUCTUR -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate medication use for eating disorders infrastructure & capacity using ISMP Medication Safety Self Assessment",
+            "Design closed-loop medication management with CPOE, pharmacy verification, and BCMA",
+            "Implement smart pump drug libraries with dose limits and alerts",
+            "Deploy automated dispensing with par optimization and diversion detection",
+            "Track medication error rates, near-misses, and ADR reporting against ISMP benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — laboratory turnaround time using LIS analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — laboratory turnaround time measured daily. Target: stat TAT <60 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against CAP benchmarking standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — laboratory turnaround time trending toward <45 minutes. Escalate if <<90 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CAP accreditation standards. Report to Laboratory Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Eating Disorders Infrastructure & Capacity Assessment Protocol",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Develop a patient engagement initiative for eating disorders infrastructure & capacity implementing shared decision-making using Ottawa Decision Support Framework tools.",
+          "cite": "Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851; Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969",
+          "target": "REACTIVE_EATING_DISORDERS_INFRASTRUCTUR -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            },
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            }
+          ],
+          "steps": [
+            "Assess health equity for eating disorders infrastructure & capacity using CMS stratified quality measures",
+            "Design intervention targeting identified disparities with community partnerships",
+            "Implement language access, cultural competency training, and health literacy tools",
+            "Deploy CHW programs in underserved communities with social determinant screening",
+            "Measure disparity reduction across clinical outcomes and access metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — shared decision-making rate using OPTION-12 observation tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — shared decision-making rate measured quarterly. Target: 70% encounters with SDM. PHASE 3 (Months 4-6): Midpoint review — compare against Dartmouth SDM benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — shared decision-making rate trending toward 85% encounters. Escalate if <50% encounters floor. ANNUAL REVIEW: Comprehensive audit using Ottawa Decision Support Framework. Report to Patient-Centered Care Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Eating Disorders Infrastructure & Capacity Diagnostic Dashboard",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Establish a telehealth program for eating disorders infrastructure & capacity implementing ATA practice guidelines with remote monitoring and virtual care pathways.",
+          "cite": "ONC (2023). Health IT Certification Program. Office of the National Coordinator; SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED",
+          "target": "FRAGMENTED_EATING_DISORDERS_INFRASTRUCTUR -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate telehealth for eating disorders infrastructure & capacity using ATA practice guideline criteria",
+            "Design virtual care pathways for appropriate conditions with safety protocols",
+            "Implement telehealth platform with EHR integration and patient scheduling",
+            "Train clinicians in virtual examination techniques and remote monitoring",
+            "Measure telehealth utilization, outcomes equivalence, and patient satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — telehealth utilization using telehealth platform analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — telehealth utilization measured monthly. Target: 25% visits via telehealth. PHASE 3 (Months 4-6): Midpoint review — compare against ATA practice guidelines targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — telehealth utilization trending toward 35% telehealth. Escalate if <15% telehealth floor. ANNUAL REVIEW: Comprehensive audit using ATA Telehealth Framework. Report to Telehealth Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Eating Disorders Infrastructure & Capacity Governance Structure",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement an evidence-based clinical pathway for eating disorders infrastructure & capacity integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "SILOED_EATING_DISORDERS_INFRASTRUCTUR -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Identify improvement target for eating disorders infrastructure & capacity using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_psychiatry_eating_binge_portal.html"
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Eating Disorders Risk & Resilience",
+      "domainDescription": "Systematic management of eating disorders risk & resilience across all eating disorders functions and operations",
+      "group": "governance",
+      "phase": "P8",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Deploy Eating Disorders Risk & Resilience Benchmarking Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Deploy a value-based care transformation for eating disorders risk & resilience implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "REACTIVE_EATING_DISORDERS_RISK___RESILI -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Stratify population risk for eating disorders risk & resilience using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Eating Disorders Risk & Resilience Impact Evaluation",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Operationalize a clinical mentorship program for eating disorders risk & resilience pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "Gawande, A. (2009). The Checklist Manifesto. Henry Holt; Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181",
+          "target": "FRAGMENTED_EATING_DISORDERS_RISK___RESILI -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for eating disorders risk & resilience using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Eating Disorders Risk & Resilience Performance Framework",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Calibrate a JCI-accredited quality infrastructure for eating disorders risk & resilience implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International; Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust",
+          "target": "SILOED_EATING_DISORDERS_RISK___RESILI -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for eating disorders risk & resilience against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Eating Disorders Risk & Resilience Benchmarking Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Streamline a clinician well-being program for eating disorders risk & resilience addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383; Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139",
+          "target": "OUTDATED_EATING_DISORDERS_RISK___RESILI -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            },
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for eating disorders risk & resilience using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Eating Disorders Risk & Resilience Impact Evaluation",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Assess a healthcare cybersecurity program for eating disorders risk & resilience implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics; HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7",
+          "target": "INEFFICIENT_EATING_DISORDERS_RISK___RESILI -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for eating disorders risk & resilience using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Eating Disorders Risk & Resilience Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Create a value-based care transformation for eating disorders risk & resilience implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "INCONSISTENT_EATING_DISORDERS_RISK___RESILI -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for eating disorders risk & resilience using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_psychiatry_eating_bulimia_portal.html"
+    },
+    {
+      "brainNodeId": "LGN",
+      "state": "active",
+      "domainLabel": "Eating Disorders Policy & Governance",
+      "domainDescription": "Systematic management of eating disorders policy & governance across all eating disorders functions and operations",
+      "group": "innovation",
+      "phase": "P8",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Conduct Eating Disorders Policy & Governance Early Warning System",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Conduct an evidence-based clinical pathway for eating disorders policy & governance integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "REACTIVE_EATING_DISORDERS_POLICY___GOVE -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for eating disorders policy & governance using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Eating Disorders Policy & Governance Operational Readiness Check",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Design a patient safety coaching initiative for eating disorders policy & governance using TeamSTEPPS communication tools and crew resource management principles.",
+          "cite": "Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81; Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226",
+          "target": "FRAGMENTED_EATING_DISORDERS_POLICY___GOVE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            },
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            }
+          ],
+          "steps": [
+            "Establish mentoring matches for eating disorders policy & governance based on career goals and clinical interests",
+            "Train mentors in effective mentoring practices and IDP development",
+            "Implement structured mentoring agreements with quarterly goal review",
+            "Deploy mentoring circles for peer support and knowledge sharing",
+            "Evaluate mentorship outcomes through mentee career progression and satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interprofessional education participation using IPE program tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interprofessional education participation measured biannually. Target: 80% clinical staff participated. PHASE 3 (Months 4-6): Midpoint review — compare against IPEC competency framework. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interprofessional education participation trending toward 95% participated. Escalate if <60% participated floor. ANNUAL REVIEW: Comprehensive audit using IPEC Core Competencies. Report to IPE Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Eating Disorders Policy & Governance Capacity Building Initiative",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Deploy a perioperative care optimization for eating disorders policy & governance implementing Enhanced Recovery After Surgery (ERAS) protocols with standardized pathways.",
+          "cite": "Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press; AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ",
+          "target": "SILOED_EATING_DISORDERS_POLICY___GOVE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate medication use for eating disorders policy & governance using ISMP Medication Safety Self Assessment",
+            "Design closed-loop medication management with CPOE, pharmacy verification, and BCMA",
+            "Implement smart pump drug libraries with dose limits and alerts",
+            "Deploy automated dispensing with par optimization and diversion detection",
+            "Track medication error rates, near-misses, and ADR reporting against ISMP benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — laboratory turnaround time using LIS analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — laboratory turnaround time measured daily. Target: stat TAT <60 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against CAP benchmarking standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — laboratory turnaround time trending toward <45 minutes. Escalate if <<90 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CAP accreditation standards. Report to Laboratory Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Eating Disorders Policy & Governance Early Warning System",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Operationalize a patient engagement initiative for eating disorders policy & governance implementing shared decision-making using Ottawa Decision Support Framework tools.",
+          "cite": "Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969; Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851",
+          "target": "OUTDATED_EATING_DISORDERS_POLICY___GOVE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            },
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            }
+          ],
+          "steps": [
+            "Assess health equity for eating disorders policy & governance using CMS stratified quality measures",
+            "Design intervention targeting identified disparities with community partnerships",
+            "Implement language access, cultural competency training, and health literacy tools",
+            "Deploy CHW programs in underserved communities with social determinant screening",
+            "Measure disparity reduction across clinical outcomes and access metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — shared decision-making rate using OPTION-12 observation tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — shared decision-making rate measured quarterly. Target: 70% encounters with SDM. PHASE 3 (Months 4-6): Midpoint review — compare against Dartmouth SDM benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — shared decision-making rate trending toward 85% encounters. Escalate if <50% encounters floor. ANNUAL REVIEW: Comprehensive audit using Ottawa Decision Support Framework. Report to Patient-Centered Care Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Eating Disorders Policy & Governance Operational Readiness Check",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Calibrate a telehealth program for eating disorders policy & governance implementing ATA practice guidelines with remote monitoring and virtual care pathways.",
+          "cite": "SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED; ONC (2023). Health IT Certification Program. Office of the National Coordinator",
+          "target": "INEFFICIENT_EATING_DISORDERS_POLICY___GOVE -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate telehealth for eating disorders policy & governance using ATA practice guideline criteria",
+            "Design virtual care pathways for appropriate conditions with safety protocols",
+            "Implement telehealth platform with EHR integration and patient scheduling",
+            "Train clinicians in virtual examination techniques and remote monitoring",
+            "Measure telehealth utilization, outcomes equivalence, and patient satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — telehealth utilization using telehealth platform analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — telehealth utilization measured monthly. Target: 25% visits via telehealth. PHASE 3 (Months 4-6): Midpoint review — compare against ATA practice guidelines targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — telehealth utilization trending toward 35% telehealth. Escalate if <15% telehealth floor. ANNUAL REVIEW: Comprehensive audit using ATA Telehealth Framework. Report to Telehealth Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Eating Disorders Policy & Governance Capacity Building Initiative",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Streamline an evidence-based clinical pathway for eating disorders policy & governance integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "INCONSISTENT_EATING_DISORDERS_POLICY___GOVE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for eating disorders policy & governance using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Eating Disorders Technology & Innovation",
+      "domainDescription": "Systematic management of eating disorders technology & innovation across all eating disorders functions and operations",
+      "group": "development",
+      "phase": "P8",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Configure Eating Disorders Technology & Innovation Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Configure a value-based care transformation for eating disorders technology & innovation implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71; WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO",
+          "target": "OUTDATED_EATING_DISORDERS_TECHNOLOGY___ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            },
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Stratify population risk for eating disorders technology & innovation using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Eating Disorders Technology & Innovation Feedback Loop Design",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Strengthen a clinical mentorship program for eating disorders technology & innovation pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226; Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81",
+          "target": "INEFFICIENT_EATING_DISORDERS_TECHNOLOGY___ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            },
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for eating disorders technology & innovation using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Eating Disorders Technology & Innovation Sustainability Audit",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Monitor a JCI-accredited quality infrastructure for eating disorders technology & innovation implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ; Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press",
+          "target": "INCONSISTENT_EATING_DISORDERS_TECHNOLOGY___ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for eating disorders technology & innovation against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Eating Disorders Technology & Innovation Innovation Pipeline",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build a clinician well-being program for eating disorders technology & innovation addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851; Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969",
+          "target": "UNMONITORED_EATING_DISORDERS_TECHNOLOGY___ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            },
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for eating disorders technology & innovation using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Eating Disorders Technology & Innovation Feedback Loop Design",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Optimize a healthcare cybersecurity program for eating disorders technology & innovation implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "ONC (2023). Health IT Certification Program. Office of the National Coordinator; SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED",
+          "target": "UNDERPERFORMING_EATING_DISORDERS_TECHNOLOGY___ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for eating disorders technology & innovation using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Eating Disorders Technology & Innovation Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Launch a value-based care transformation for eating disorders technology & innovation implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "REACTIVE_EATING_DISORDERS_TECHNOLOGY___ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Stratify population risk for eating disorders technology & innovation using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Eating Disorders Human Capital & Development",
+      "domainDescription": "Systematic management of eating disorders human capital & development across all eating disorders functions and operations",
+      "group": "quality",
+      "phase": "P8",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Calibrate Eating Disorders Human Capital & Development Standard Operating Procedures",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Calibrate a population health management strategy for eating disorders human capital & development using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "INEFFICIENT_EATING_DISORDERS_HUMAN_CAPITAL -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Stratify population risk for eating disorders human capital & development using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Eating Disorders Human Capital & Development Scalability Framework",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Streamline an evidence-based practice training for eating disorders human capital & development teaching critical appraisal, GRADE methodology, and clinical guideline application.",
+          "cite": "Gawande, A. (2009). The Checklist Manifesto. Henry Holt; Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181",
+          "target": "INCONSISTENT_EATING_DISORDERS_HUMAN_CAPITAL -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for eating disorders human capital & development using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Eating Disorders Human Capital & Development Compliance Monitoring System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Assess an infection prevention bundle for eating disorders human capital & development deploying CDC NHSN surveillance with evidence-based prevention practices per SHEA guidelines.",
+          "cite": "JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International; Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust",
+          "target": "UNMONITORED_EATING_DISORDERS_HUMAN_CAPITAL -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for eating disorders human capital & development against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Eating Disorders Human Capital & Development Standard Operating Procedures",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Create a health equity program for eating disorders human capital & development addressing disparities using CMS equity framework with disaggregated outcomes data.",
+          "cite": "Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383; Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139",
+          "target": "UNDERPERFORMING_EATING_DISORDERS_HUMAN_CAPITAL -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            },
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for eating disorders human capital & development using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Eating Disorders Human Capital & Development Scalability Framework",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Evaluate an EHR optimization for eating disorders human capital & development advancing HIMSS EMRAM maturity with clinical decision support and order set standardization.",
+          "cite": "HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics; HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7",
+          "target": "REACTIVE_EATING_DISORDERS_HUMAN_CAPITAL -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for eating disorders human capital & development using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Eating Disorders Human Capital & Development Compliance Monitoring System",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Integrate a population health management strategy for eating disorders human capital & development using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "FRAGMENTED_EATING_DISORDERS_HUMAN_CAPITAL -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for eating disorders human capital & development using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PPN",
+      "state": "active",
+      "domainLabel": "Eating Disorders Quality & Performance",
+      "domainDescription": "Systematic management of eating disorders quality & performance across all eating disorders functions and operations",
+      "group": "performance",
+      "phase": "P8",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Institutionalize Eating Disorders Quality & Performance Accountability Mechanism",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Institutionalize a clinical quality improvement program for eating disorders quality & performance applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "FRAGMENTED_EATING_DISORDERS_QUALITY___PER -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for eating disorders quality & performance using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Eating Disorders Quality & Performance Resource Optimization Model",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Configure a simulation-based clinical training for eating disorders quality & performance using high-fidelity mannequins and standardized patients per SSH accreditation.",
+          "cite": "ACGME (2022). Common Program Requirements. Accreditation Council for GME; Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge",
+          "target": "SILOED_EATING_DISORDERS_QUALITY___PER -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish mentoring matches for eating disorders quality & performance based on career goals and clinical interests",
+            "Train mentors in effective mentoring practices and IDP development",
+            "Implement structured mentoring agreements with quarterly goal review",
+            "Deploy mentoring circles for peer support and knowledge sharing",
+            "Evaluate mentorship outcomes through mentee career progression and satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interprofessional education participation using IPE program tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interprofessional education participation measured biannually. Target: 80% clinical staff participated. PHASE 3 (Months 4-6): Midpoint review — compare against IPEC competency framework. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interprofessional education participation trending toward 95% participated. Escalate if <60% participated floor. ANNUAL REVIEW: Comprehensive audit using IPEC Core Competencies. Report to IPE Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Eating Disorders Quality & Performance Data-Driven Decision Framework",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Strengthen a laboratory modernization for eating disorders quality & performance implementing CAP accreditation standards with LIS integration and point-of-care testing.",
+          "cite": "WHO (2020). World Health Statistics. WHO; CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid",
+          "target": "OUTDATED_EATING_DISORDERS_QUALITY___PER -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate medication use for eating disorders quality & performance using ISMP Medication Safety Self Assessment",
+            "Design closed-loop medication management with CPOE, pharmacy verification, and BCMA",
+            "Implement smart pump drug libraries with dose limits and alerts",
+            "Deploy automated dispensing with par optimization and diversion detection",
+            "Track medication error rates, near-misses, and ADR reporting against ISMP benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — laboratory turnaround time using LIS analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — laboratory turnaround time measured daily. Target: stat TAT <60 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against CAP benchmarking standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — laboratory turnaround time trending toward <45 minutes. Escalate if <<90 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CAP accreditation standards. Report to Laboratory Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Eating Disorders Quality & Performance Accountability Mechanism",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Monitor a safety culture transformation for eating disorders quality & performance using AHRQ SOPS assessment with high-reliability organization principles.",
+          "cite": "Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768; Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115",
+          "target": "INEFFICIENT_EATING_DISORDERS_QUALITY___PER -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            },
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            }
+          ],
+          "steps": [
+            "Assess health equity for eating disorders quality & performance using CMS stratified quality measures",
+            "Design intervention targeting identified disparities with community partnerships",
+            "Implement language access, cultural competency training, and health literacy tools",
+            "Deploy CHW programs in underserved communities with social determinant screening",
+            "Measure disparity reduction across clinical outcomes and access metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — shared decision-making rate using OPTION-12 observation tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — shared decision-making rate measured quarterly. Target: 70% encounters with SDM. PHASE 3 (Months 4-6): Midpoint review — compare against Dartmouth SDM benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — shared decision-making rate trending toward 85% encounters. Escalate if <50% encounters floor. ANNUAL REVIEW: Comprehensive audit using Ottawa Decision Support Framework. Report to Patient-Centered Care Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Eating Disorders Quality & Performance Resource Optimization Model",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Build a healthcare interoperability platform for eating disorders quality & performance implementing HL7 FHIR R4 APIs per ONC TEFCA requirements.",
+          "cite": "WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO; DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA",
+          "target": "INCONSISTENT_EATING_DISORDERS_QUALITY___PER -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate telehealth for eating disorders quality & performance using ATA practice guideline criteria",
+            "Design virtual care pathways for appropriate conditions with safety protocols",
+            "Implement telehealth platform with EHR integration and patient scheduling",
+            "Train clinicians in virtual examination techniques and remote monitoring",
+            "Measure telehealth utilization, outcomes equivalence, and patient satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — telehealth utilization using telehealth platform analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — telehealth utilization measured monthly. Target: 25% visits via telehealth. PHASE 3 (Months 4-6): Midpoint review — compare against ATA practice guidelines targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — telehealth utilization trending toward 35% telehealth. Escalate if <15% telehealth floor. ANNUAL REVIEW: Comprehensive audit using ATA Telehealth Framework. Report to Telehealth Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Eating Disorders Quality & Performance Data-Driven Decision Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Optimize a clinical quality improvement program for eating disorders quality & performance applying IHI Model for Improvement with PDSA cycles and statistical process control.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "UNMONITORED_EATING_DISORDERS_QUALITY___PER -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Identify improvement target for eating disorders quality & performance using statistical process control baseline",
+            "Design PDSA intervention cycle with specific change idea and measurement plan",
+            "Execute rapid-cycle testing with weekly data collection and team review",
+            "Spread successful changes with adoption toolkit and implementation support",
+            "Sustain improvements with control charts and standard work documentation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical pathway adherence using order set compliance tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical pathway adherence measured weekly. Target: 85% pathway adherence. PHASE 3 (Months 4-6): Midpoint review — compare against JCI clinical practice guideline targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical pathway adherence trending toward 95% adherence. Escalate if <75% adherence floor. ANNUAL REVIEW: Comprehensive audit using JCI standards framework. Report to Clinical Pathway Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a behavioral health integration director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CON",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "AI",
+      "target": "PAG",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "PAG",
+      "target": "NAcc",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "NAcc",
+      "target": "LGN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "LGN",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "SMA",
+      "target": "BDNF",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "BDNF",
+      "target": "PPN",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "CON",
+      "target": "PPN",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "PAG",
+      "target": "CON",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "MEDICINE_PSYCHIATRY_EATING_SYSTEM_FAILURE",
+      "label": "Medicine Psychiatry Eating System Failure",
+      "summary": "Critical breakdown in Medicine Psychiatry Eating systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hyper-active",
+          "detail": "Eating Disorders Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hypo-active",
+          "detail": "Eating Disorders Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Altered",
+          "detail": "Eating Disorders Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-active",
+          "detail": "Eating Disorders Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LGN",
+          "dir": "Hypo-active",
+          "detail": "Eating Disorders Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MEDICINE_PSYCHIATRY_EATING_CAPACITY_OVERLOAD",
+      "label": "Medicine Psychiatry Eating Capacity Overload",
+      "summary": "Demand exceeding available Medicine Psychiatry Eating capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hyper-active",
+          "detail": "Eating Disorders Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-active",
+          "detail": "Eating Disorders Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-active",
+          "detail": "Eating Disorders Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-active",
+          "detail": "Eating Disorders Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MEDICINE_PSYCHIATRY_EATING_QUALITY_DEGRADATION",
+      "label": "Medicine Psychiatry Eating Quality Degradation",
+      "summary": "Progressive decline in Medicine Psychiatry Eating quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hypo-active",
+          "detail": "Eating Disorders Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered",
+          "detail": "Eating Disorders Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-active",
+          "detail": "Eating Disorders Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Eating Disorders Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

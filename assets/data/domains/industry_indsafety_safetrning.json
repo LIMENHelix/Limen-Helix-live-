@@ -1,0 +1,2066 @@
+{
+  "domainId": "industry_indsafety_safetrning",
+  "title": "Safety Training",
+  "parentPortal": "industry_indsafety_portal.html",
+  "parentLabel": "Indsafety",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Safety Training Assessment & Diagnostics",
+      "domainDescription": "Systematic management of safety training assessment & diagnostics across all safety training functions and operations",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Establish Safety Training Assessment & Diagnostics Risk Mitigation Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish a supply chain resilience strategy for safety training assessment & diagnostics using SCOR model with dual-sourcing, nearshoring, and inventory optimization.",
+          "cite": "Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business; World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF",
+          "target": "INCONSISTENT_SAFETY_TRAINING_ASSESSMENT___D -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for safety training assessment & diagnostics using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Safety Training Assessment & Diagnostics Process Improvement Initiative",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Implement a safety leadership program for safety training assessment & diagnostics training supervisors in behavior-based observation per DuPont STOP methodology.",
+          "cite": "Rother, M. (2009). Toyota Kata. McGraw-Hill; Deming, W.E. (1986). Out of the Crisis. MIT Press",
+          "target": "UNMONITORED_SAFETY_TRAINING_ASSESSMENT___D -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Rother, M.",
+              "year": 2009,
+              "title": "Toyota Kata",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Deming, W.E.",
+              "year": 1986,
+              "title": "Out of the Crisis",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess equipment care capabilities for safety training assessment & diagnostics using TPM maturity audit",
+            "Train operators in autonomous maintenance steps per JIPM methodology",
+            "Implement operator cleaning, inspection, and lubrication routines",
+            "Develop visual standards and one-point lessons for equipment care",
+            "Track equipment breakdowns, minor stops, and autonomous maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety training hours per employee using LMS tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety training hours per employee measured monthly. Target: 40 hours per year. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA VPP benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety training hours per employee trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using OSHA training requirements. Report to EHS Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Safety Training Assessment & Diagnostics Resilience Assessment",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Institutionalize an ISO 45001 occupational safety system for safety training assessment & diagnostics with hazard identification, risk assessment, and hierarchy of controls.",
+          "cite": "NIST (2020). Manufacturing Extension Partnership (MEP) Strategic Plan. NIST; ISO (2015). ISO 14001: Environmental Management Systems. ISO",
+          "target": "UNDERPERFORMING_SAFETY_TRAINING_ASSESSMENT___D -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2020,
+              "title": "Manufacturing Extension Partnership (MEP) Strategic Plan",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 14001: Environmental Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze material flow for safety training assessment & diagnostics using spaghetti diagram and time studies",
+            "Design cellular layout with one-piece flow, standard WIP, and kanban sizing",
+            "Implement physical rearrangement with team involvement and line balancing",
+            "Establish pull system with kanban cards/signals and supermarket replenishment",
+            "Measure flow metrics: lead time, WIP turns, and labor productivity improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — environmental compliance rate using EMS tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — environmental compliance rate measured monthly. Target: 100% permit compliance. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 14001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — environmental compliance rate trending toward zero violations. Escalate if <<3 minor findings. ANNUAL REVIEW: Comprehensive audit using ISO 14001 framework. Report to Environmental Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Safety Training Assessment & Diagnostics Risk Mitigation Strategy",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Configure an innovation culture program for safety training assessment & diagnostics implementing Toyota Creative Suggestion System with rapid prototyping labs.",
+          "cite": "Spear, S. & Bowen, H.K. (1999). Decoding the DNA of the Toyota Production System. Harvard Business Review, 77(5), 96-106; Juran, J.M. (1988). Jurans Quality Control Handbook. McGraw-Hill",
+          "target": "REACTIVE_SAFETY_TRAINING_ASSESSMENT___D -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Spear, S. & Bowen, H.K.",
+              "year": 1999,
+              "title": "Decoding the DNA of the Toyota Production System",
+              "journal": "Harvard Business Review",
+              "volume": "77(5)",
+              "pages": "96-106",
+              "doi": null
+            },
+            {
+              "author": "Juran, J.M.",
+              "year": 1988,
+              "title": "Jurans Quality Control Handbook",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supplier capabilities for safety training assessment & diagnostics using supplier scorecard audit",
+            "Design tiered development program with quality, delivery, and cost coaching",
+            "Deploy resident engineers at critical suppliers for process improvement",
+            "Implement supplier kaizen events with shared savings agreements",
+            "Track supplier PPM, on-time delivery, and total cost of ownership"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — innovation submission rate using idea management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — innovation submission rate measured monthly. Target: 10 ideas per employee/year. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota Creative Suggestion benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — innovation submission rate trending toward 20 ideas. Escalate if <5 ideas minimum. ANNUAL REVIEW: Comprehensive audit using Toyota Suggestion System. Report to Innovation Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Safety Training Assessment & Diagnostics Process Improvement Initiative",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Strengthen a MES/MOM platform for safety training assessment & diagnostics per ISA-95 integration layers connecting ERP, SCADA, and shop floor systems.",
+          "cite": "ISA (2012). ISA-95: Enterprise-Control System Integration. ISA; MESA International (2021). MES/MOM Methodology Guidelines. MESA",
+          "target": "FRAGMENTED_SAFETY_TRAINING_ASSESSMENT___D -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "ISA",
+              "year": 2012,
+              "title": "ISA-95: Enterprise-Control System Integration",
+              "journal": "ISA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MESA International",
+              "year": 2021,
+              "title": "MES/MOM Methodology Guidelines",
+              "journal": "MESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OT cybersecurity for safety training assessment & diagnostics using IEC 62443 risk assessment",
+            "Design zone and conduit model with security levels per asset criticality",
+            "Implement network segmentation, access control, and monitoring",
+            "Deploy intrusion detection and incident response for OT environment",
+            "Conduct annual penetration testing and IEC 62443 compliance audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity OT compliance using IEC 62443 assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity OT compliance measured quarterly. Target: SL-2 across all zones. PHASE 3 (Months 4-6): Midpoint review — compare against IEC 62443 zone/conduit model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity OT compliance trending toward SL-3. Escalate if <SL-1 minimum. ANNUAL REVIEW: Comprehensive audit using IEC 62443 framework. Report to OT Cybersecurity Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Safety Training Assessment & Diagnostics Resilience Assessment",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Monitor a supply chain resilience strategy for safety training assessment & diagnostics using SCOR model with dual-sourcing, nearshoring, and inventory optimization.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "SILOED_SAFETY_TRAINING_ASSESSMENT___D -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for safety training assessment & diagnostics using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_indsafety_safetrning_competency_portal.html"
+    },
+    {
+      "brainNodeId": "MGN",
+      "state": "active",
+      "domainLabel": "Safety Training Core Operations",
+      "domainDescription": "Systematic management of safety training core operations across all safety training functions and operations",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Calibrate Safety Training Core Operations Compliance Monitoring System",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Calibrate a supply chain resilience strategy for safety training core operations using SCOR model with dual-sourcing, nearshoring, and inventory optimization.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "INEFFICIENT_SAFETY_TRAINING_CORE_OPERATION -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze competitive position for safety training core operations using Porter Five Forces and value chain",
+            "Benchmark manufacturing performance against UNIDO CIP Index peers",
+            "Design competitiveness improvement program targeting cost, quality, and flexibility",
+            "Execute initiatives with cross-functional kaizen teams and investment prioritization",
+            "Track competitiveness using unit cost, quality, and delivery performance metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — supply chain lead time using SCM analytics platform. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — supply chain lead time measured weekly. Target: 20% lead time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against SCOR model Level 1 benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — supply chain lead time trending toward 35% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using SCOR framework. Report to Supply Chain Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Safety Training Core Operations Standard Operating Procedures",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Streamline a safety leadership program for safety training core operations training supervisors in behavior-based observation per DuPont STOP methodology.",
+          "cite": "Liker, J.K. (2004). The Toyota Way. McGraw-Hill; Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press",
+          "target": "INCONSISTENT_SAFETY_TRAINING_CORE_OPERATION -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Train coaches in Toyota Kata improvement and coaching patterns",
+            "Pair coaches with learners on specific process improvement challenges",
+            "Practice daily coaching cycles with target condition and current condition",
+            "Develop internal kata coach qualification through observed coaching rounds",
+            "Measure problem-solving skill progression and process improvement outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cross-training index using skills flexibility matrix. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cross-training index measured bimonthly. Target: each operator 3+ stations. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota multi-skill benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cross-training index trending toward 5+ stations. Escalate if <2 stations minimum. ANNUAL REVIEW: Comprehensive audit using TWI Job Rotation. Report to Production Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Safety Training Core Operations Scalability Framework",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Assess an ISO 45001 occupational safety system for safety training core operations with hazard identification, risk assessment, and hierarchy of controls.",
+          "cite": "OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL; ISO (2015). ISO 9001: Quality Management Systems. ISO",
+          "target": "UNMONITORED_SAFETY_TRAINING_CORE_OPERATION -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit maintenance practices for safety training core operations using TPM maturity assessment",
+            "Design PM program with CMMS, scheduled tasks, and spare parts management",
+            "Implement predictive maintenance with vibration, thermal, and oil analysis",
+            "Deploy mobile CMMS for technician work orders and failure data capture",
+            "Track MTBF, MTTR, and PM compliance metrics against TPM targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — warehouse utilization rate using WMS analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — warehouse utilization rate measured monthly. Target: 85% space utilization. PHASE 3 (Months 4-6): Midpoint review — compare against WERC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — warehouse utilization rate trending toward 92% utilization. Escalate if <75% floor. ANNUAL REVIEW: Comprehensive audit using WERC scorecard. Report to Warehouse Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Safety Training Core Operations Compliance Monitoring System",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Create an innovation culture program for safety training core operations implementing Toyota Creative Suggestion System with rapid prototyping labs.",
+          "cite": "Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass; Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press",
+          "target": "UNDERPERFORMING_SAFETY_TRAINING_CORE_OPERATION -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Design innovation program for safety training core operations with suggestion system and prototype lab",
+            "Train employees in creative problem solving and rapid experimentation",
+            "Implement idea evaluation process with cross-functional review panel",
+            "Provide resources for promising ideas: time, budget, and mentorship",
+            "Measure ideas submitted, implemented, and financial impact per year"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 5S audit score using 5S workplace audit tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 5S audit score measured monthly. Target: score 4.0 of 5.0. PHASE 3 (Months 4-6): Midpoint review — compare against Shingo Model benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 5S audit score trending toward 4.5 score. Escalate if <3.5 minimum. ANNUAL REVIEW: Comprehensive audit using Shingo Operational Excellence. Report to Plant Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Safety Training Core Operations Standard Operating Procedures",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Evaluate a MES/MOM platform for safety training core operations per ISA-95 integration layers connecting ERP, SCADA, and shop floor systems.",
+          "cite": "MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect; IEC (2022). IEC 62443: Industrial Cybersecurity. IEC",
+          "target": "REACTIVE_SAFETY_TRAINING_CORE_OPERATION -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Survey equipment connectivity for safety training core operations using data availability assessment",
+            "Design MTConnect/OPC-UA adapter strategy for diverse machine fleet",
+            "Deploy edge gateways with protocol translation and data normalization",
+            "Implement data historian and real-time dashboards for production visibility",
+            "Measure machine utilization accuracy and data-driven decision frequency"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — data connectivity coverage using MTConnect/OPC-UA monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — data connectivity coverage measured monthly. Target: 70% equipment connected. PHASE 3 (Months 4-6): Midpoint review — compare against Industry 4.0 connectivity target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — data connectivity coverage trending toward 90% connected. Escalate if <50% connected floor. ANNUAL REVIEW: Comprehensive audit using MTConnect/OPC-UA standards. Report to Industrial IoT Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Safety Training Core Operations Scalability Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Integrate a supply chain resilience strategy for safety training core operations using SCOR model with dual-sourcing, nearshoring, and inventory optimization.",
+          "cite": "Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press; Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press",
+          "target": "FRAGMENTED_SAFETY_TRAINING_CORE_OPERATION -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze competitive position for safety training core operations using Porter Five Forces and value chain",
+            "Benchmark manufacturing performance against UNIDO CIP Index peers",
+            "Design competitiveness improvement program targeting cost, quality, and flexibility",
+            "Execute initiatives with cross-functional kaizen teams and investment prioritization",
+            "Track competitiveness using unit cost, quality, and delivery performance metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — supply chain lead time using SCM analytics platform. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — supply chain lead time measured weekly. Target: 20% lead time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against SCOR model Level 1 benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — supply chain lead time trending toward 35% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using SCOR framework. Report to Supply Chain Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_indsafety_safetrning_jobspecfic_portal.html"
+    },
+    {
+      "brainNodeId": "CMZ",
+      "state": "active",
+      "domainLabel": "Safety Training Infrastructure & Capacity",
+      "domainDescription": "Systematic management of safety training infrastructure & capacity across all safety training functions and operations",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Create Safety Training Infrastructure & Capacity Impact Evaluation",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Create an Industry 4.0 roadmap for safety training infrastructure & capacity applying RAMI 4.0 reference architecture with digital maturity assessment.",
+          "cite": "Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press; Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press",
+          "target": "UNMONITORED_SAFETY_TRAINING_INFRASTRUCTURE -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze competitive position for safety training infrastructure & capacity using Porter Five Forces and value chain",
+            "Benchmark manufacturing performance against UNIDO CIP Index peers",
+            "Design competitiveness improvement program targeting cost, quality, and flexibility",
+            "Execute initiatives with cross-functional kaizen teams and investment prioritization",
+            "Track competitiveness using unit cost, quality, and delivery performance metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — supply chain lead time using SCM analytics platform. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — supply chain lead time measured weekly. Target: 20% lead time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against SCOR model Level 1 benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — supply chain lead time trending toward 35% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using SCOR framework. Report to Supply Chain Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Safety Training Infrastructure & Capacity Performance Framework",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Evaluate a Toyota Kata coaching program for safety training infrastructure & capacity building scientific thinking through improvement and coaching kata routines.",
+          "cite": "Imai, M. (1986). Kaizen: The Key to Japans Competitive Success. McGraw-Hill; Ohno, T. (1988). Toyota Production System. Productivity Press",
+          "target": "UNDERPERFORMING_SAFETY_TRAINING_INFRASTRUCTURE -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Imai, M.",
+              "year": 1986,
+              "title": "Kaizen: The Key to Japans Competitive Success",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Ohno, T.",
+              "year": 1988,
+              "title": "Toyota Production System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Train coaches in Toyota Kata improvement and coaching patterns",
+            "Pair coaches with learners on specific process improvement challenges",
+            "Practice daily coaching cycles with target condition and current condition",
+            "Develop internal kata coach qualification through observed coaching rounds",
+            "Measure problem-solving skill progression and process improvement outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cross-training index using skills flexibility matrix. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cross-training index measured bimonthly. Target: each operator 3+ stations. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota multi-skill benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cross-training index trending toward 5+ stations. Escalate if <2 stations minimum. ANNUAL REVIEW: Comprehensive audit using TWI Job Rotation. Report to Production Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Safety Training Infrastructure & Capacity Benchmarking Framework",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Integrate an ISO 9001 quality management system for safety training infrastructure & capacity with process approach, risk-based thinking, and internal audit program.",
+          "cite": "ASTM International (2023). Standard Test Methods for Materials and Products. ASTM; ISO (2018). ISO 45001: Occupational Health and Safety. ISO",
+          "target": "REACTIVE_SAFETY_TRAINING_INFRASTRUCTURE -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "ASTM International",
+              "year": 2023,
+              "title": "Standard Test Methods for Materials and Products",
+              "journal": "ASTM",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2018,
+              "title": "ISO 45001: Occupational Health and Safety",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit maintenance practices for safety training infrastructure & capacity using TPM maturity assessment",
+            "Design PM program with CMMS, scheduled tasks, and spare parts management",
+            "Implement predictive maintenance with vibration, thermal, and oil analysis",
+            "Deploy mobile CMMS for technician work orders and failure data capture",
+            "Track MTBF, MTTR, and PM compliance metrics against TPM targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — warehouse utilization rate using WMS analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — warehouse utilization rate measured monthly. Target: 85% space utilization. PHASE 3 (Months 4-6): Midpoint review — compare against WERC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — warehouse utilization rate trending toward 92% utilization. Escalate if <75% floor. ANNUAL REVIEW: Comprehensive audit using WERC scorecard. Report to Warehouse Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Safety Training Infrastructure & Capacity Impact Evaluation",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Conduct a supplier development partnership for safety training infrastructure & capacity extending lean principles and quality systems through tiered supplier coaching.",
+          "cite": "Goldratt, E.M. (1984). The Goal. North River Press; Schein, E.H. (2010). Organizational Culture and Leadership 4e. Jossey-Bass",
+          "target": "FRAGMENTED_SAFETY_TRAINING_INFRASTRUCTURE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Goldratt, E.M.",
+              "year": 1984,
+              "title": "The Goal",
+              "journal": "North River Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Schein, E.H.",
+              "year": 2010,
+              "title": "Organizational Culture and Leadership 4e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Design innovation program for safety training infrastructure & capacity with suggestion system and prototype lab",
+            "Train employees in creative problem solving and rapid experimentation",
+            "Implement idea evaluation process with cross-functional review panel",
+            "Provide resources for promising ideas: time, budget, and mentorship",
+            "Measure ideas submitted, implemented, and financial impact per year"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 5S audit score using 5S workplace audit tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 5S audit score measured monthly. Target: score 4.0 of 5.0. PHASE 3 (Months 4-6): Midpoint review — compare against Shingo Model benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 5S audit score trending toward 4.5 score. Escalate if <3.5 minimum. ANNUAL REVIEW: Comprehensive audit using Shingo Operational Excellence. Report to Plant Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Safety Training Infrastructure & Capacity Performance Framework",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Design a predictive quality analytics system for safety training infrastructure & capacity using ML classification on process parameters to prevent defects.",
+          "cite": "Siemens (2022). Digital Twin and Industry 4.0 Reference Architecture. Siemens AG; OPC Foundation (2022). OPC UA: Unified Architecture for Industrial Interoperability. OPC Foundation",
+          "target": "SILOED_SAFETY_TRAINING_INFRASTRUCTURE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Siemens",
+              "year": 2022,
+              "title": "Digital Twin and Industry 4.0 Reference Architecture",
+              "journal": "Siemens AG",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "OPC Foundation",
+              "year": 2022,
+              "title": "OPC UA: Unified Architecture for Industrial Interoperability",
+              "journal": "OPC Foundation",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Survey equipment connectivity for safety training infrastructure & capacity using data availability assessment",
+            "Design MTConnect/OPC-UA adapter strategy for diverse machine fleet",
+            "Deploy edge gateways with protocol translation and data normalization",
+            "Implement data historian and real-time dashboards for production visibility",
+            "Measure machine utilization accuracy and data-driven decision frequency"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — data connectivity coverage using MTConnect/OPC-UA monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — data connectivity coverage measured monthly. Target: 70% equipment connected. PHASE 3 (Months 4-6): Midpoint review — compare against Industry 4.0 connectivity target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — data connectivity coverage trending toward 90% connected. Escalate if <50% connected floor. ANNUAL REVIEW: Comprehensive audit using MTConnect/OPC-UA standards. Report to Industrial IoT Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Safety Training Infrastructure & Capacity Benchmarking Framework",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Deploy an Industry 4.0 roadmap for safety training infrastructure & capacity applying RAMI 4.0 reference architecture with digital maturity assessment.",
+          "cite": "Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business; World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF",
+          "target": "OUTDATED_SAFETY_TRAINING_INFRASTRUCTURE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze competitive position for safety training infrastructure & capacity using Porter Five Forces and value chain",
+            "Benchmark manufacturing performance against UNIDO CIP Index peers",
+            "Design competitiveness improvement program targeting cost, quality, and flexibility",
+            "Execute initiatives with cross-functional kaizen teams and investment prioritization",
+            "Track competitiveness using unit cost, quality, and delivery performance metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — supply chain lead time using SCM analytics platform. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — supply chain lead time measured weekly. Target: 20% lead time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against SCOR model Level 1 benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — supply chain lead time trending toward 35% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using SCOR framework. Report to Supply Chain Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_indsafety_safetrning_orientatn_portal.html"
+    },
+    {
+      "brainNodeId": "TrkB",
+      "state": "active",
+      "domainLabel": "Safety Training Risk & Resilience",
+      "domainDescription": "Systematic management of safety training risk & resilience across all safety training functions and operations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Build Safety Training Risk & Resilience Governance Structure",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Build a lean transformation strategy for safety training risk & resilience using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business; World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF",
+          "target": "INCONSISTENT_SAFETY_TRAINING_RISK___RESILIE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for safety training risk & resilience using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Safety Training Risk & Resilience Assessment Protocol",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Optimize a TPM autonomous maintenance training for safety training risk & resilience developing operator-level equipment care per JIPM pillar methodology.",
+          "cite": "Rother, M. (2009). Toyota Kata. McGraw-Hill; Deming, W.E. (1986). Out of the Crisis. MIT Press",
+          "target": "UNMONITORED_SAFETY_TRAINING_RISK___RESILIE -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Rother, M.",
+              "year": 2009,
+              "title": "Toyota Kata",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Deming, W.E.",
+              "year": 1986,
+              "title": "Out of the Crisis",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess equipment care capabilities for safety training risk & resilience using TPM maturity audit",
+            "Train operators in autonomous maintenance steps per JIPM methodology",
+            "Implement operator cleaning, inspection, and lubrication routines",
+            "Develop visual standards and one-point lessons for equipment care",
+            "Track equipment breakdowns, minor stops, and autonomous maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety training hours per employee using LMS tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety training hours per employee measured monthly. Target: 40 hours per year. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA VPP benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety training hours per employee trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using OSHA training requirements. Report to EHS Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Safety Training Risk & Resilience Diagnostic Dashboard",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Launch an automated material handling system for safety training risk & resilience deploying AGVs, AS/RS, and conveyor integration per ASME B20.1.",
+          "cite": "NIST (2020). Manufacturing Extension Partnership (MEP) Strategic Plan. NIST; ISO (2015). ISO 14001: Environmental Management Systems. ISO",
+          "target": "UNDERPERFORMING_SAFETY_TRAINING_RISK___RESILIE -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2020,
+              "title": "Manufacturing Extension Partnership (MEP) Strategic Plan",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 14001: Environmental Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze material flow for safety training risk & resilience using spaghetti diagram and time studies",
+            "Design cellular layout with one-piece flow, standard WIP, and kanban sizing",
+            "Implement physical rearrangement with team involvement and line balancing",
+            "Establish pull system with kanban cards/signals and supermarket replenishment",
+            "Measure flow metrics: lead time, WIP turns, and labor productivity improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — environmental compliance rate using EMS tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — environmental compliance rate measured monthly. Target: 100% permit compliance. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 14001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — environmental compliance rate trending toward zero violations. Escalate if <<3 minor findings. ANNUAL REVIEW: Comprehensive audit using ISO 14001 framework. Report to Environmental Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Safety Training Risk & Resilience Governance Structure",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Develop a psychological safety initiative for safety training risk & resilience applying Edmondson model to encourage error reporting and experimentation.",
+          "cite": "Spear, S. & Bowen, H.K. (1999). Decoding the DNA of the Toyota Production System. Harvard Business Review, 77(5), 96-106; Juran, J.M. (1988). Jurans Quality Control Handbook. McGraw-Hill",
+          "target": "REACTIVE_SAFETY_TRAINING_RISK___RESILIE -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Spear, S. & Bowen, H.K.",
+              "year": 1999,
+              "title": "Decoding the DNA of the Toyota Production System",
+              "journal": "Harvard Business Review",
+              "volume": "77(5)",
+              "pages": "96-106",
+              "doi": null
+            },
+            {
+              "author": "Juran, J.M.",
+              "year": 1988,
+              "title": "Jurans Quality Control Handbook",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supplier capabilities for safety training risk & resilience using supplier scorecard audit",
+            "Design tiered development program with quality, delivery, and cost coaching",
+            "Deploy resident engineers at critical suppliers for process improvement",
+            "Implement supplier kaizen events with shared savings agreements",
+            "Track supplier PPM, on-time delivery, and total cost of ownership"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — innovation submission rate using idea management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — innovation submission rate measured monthly. Target: 10 ideas per employee/year. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota Creative Suggestion benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — innovation submission rate trending toward 20 ideas. Escalate if <5 ideas minimum. ANNUAL REVIEW: Comprehensive audit using Toyota Suggestion System. Report to Innovation Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Safety Training Risk & Resilience Assessment Protocol",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Establish a connected equipment platform for safety training risk & resilience deploying MTConnect/OPC-UA for real-time machine data acquisition.",
+          "cite": "ISA (2012). ISA-95: Enterprise-Control System Integration. ISA; MESA International (2021). MES/MOM Methodology Guidelines. MESA",
+          "target": "FRAGMENTED_SAFETY_TRAINING_RISK___RESILIE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "ISA",
+              "year": 2012,
+              "title": "ISA-95: Enterprise-Control System Integration",
+              "journal": "ISA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MESA International",
+              "year": 2021,
+              "title": "MES/MOM Methodology Guidelines",
+              "journal": "MESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OT cybersecurity for safety training risk & resilience using IEC 62443 risk assessment",
+            "Design zone and conduit model with security levels per asset criticality",
+            "Implement network segmentation, access control, and monitoring",
+            "Deploy intrusion detection and incident response for OT environment",
+            "Conduct annual penetration testing and IEC 62443 compliance audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity OT compliance using IEC 62443 assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity OT compliance measured quarterly. Target: SL-2 across all zones. PHASE 3 (Months 4-6): Midpoint review — compare against IEC 62443 zone/conduit model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity OT compliance trending toward SL-3. Escalate if <SL-1 minimum. ANNUAL REVIEW: Comprehensive audit using IEC 62443 framework. Report to OT Cybersecurity Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Safety Training Risk & Resilience Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement a lean transformation strategy for safety training risk & resilience using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "SILOED_SAFETY_TRAINING_RISK___RESILIE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for safety training risk & resilience using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_indsafety_safetrning_refresher_portal.html"
+    },
+    {
+      "brainNodeId": "HAB",
+      "state": "active",
+      "domainLabel": "Safety Training Policy & Governance",
+      "domainDescription": "Systematic management of safety training policy & governance across all safety training functions and operations",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Configure Safety Training Policy & Governance Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Configure an Industry 4.0 roadmap for safety training policy & governance applying RAMI 4.0 reference architecture with digital maturity assessment.",
+          "cite": "UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO; Porter, M.E. (1985). Competitive Advantage. Free Press",
+          "target": "OUTDATED_SAFETY_TRAINING_POLICY___GOVER -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate product development for safety training policy & governance using APQP phase-gate assessment",
+            "Design concurrent engineering process with DFM/DFA and FMEA integration",
+            "Implement PLM system with design review workflows and change management",
+            "Deploy rapid prototyping capabilities with 3D printing and simulation",
+            "Measure NPI cycle time, first-time quality, and engineering change orders"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defect rate (DPMO) using SPC control chart system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defect rate (DPMO) measured daily. Target: <500 DPMO. PHASE 3 (Months 4-6): Midpoint review — compare against Six Sigma 3.4 DPMO target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defect rate (DPMO) trending toward <100 DPMO. Escalate if <<1000 DPMO ceiling. ANNUAL REVIEW: Comprehensive audit using Six Sigma DMAIC. Report to Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Safety Training Policy & Governance Sustainability Audit",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Strengthen a Toyota Kata coaching program for safety training policy & governance building scientific thinking through improvement and coaching kata routines.",
+          "cite": "Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press; Liker, J.K. (2004). The Toyota Way. McGraw-Hill",
+          "target": "INEFFICIENT_SAFETY_TRAINING_POLICY___GOVER -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess safety leadership for safety training policy & governance using behavioral safety observation audit",
+            "Train supervisors in BBS observation techniques and constructive feedback",
+            "Implement structured observation program with weekly safety conversations",
+            "Analyze observation data trends and design targeted interventions",
+            "Measure safety culture maturity using Bradley Curve assessment annually"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — quality circle participation using CI program tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — quality circle participation measured monthly. Target: 60% workforce participation. PHASE 3 (Months 4-6): Midpoint review — compare against JUSE QC Circle benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — quality circle participation trending toward 80% participation. Escalate if <40% minimum. ANNUAL REVIEW: Comprehensive audit using JUSE QC Circle methodology. Report to Quality Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Safety Training Policy & Governance Innovation Pipeline",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Monitor an ISO 9001 quality management system for safety training policy & governance with process approach, risk-based thinking, and internal audit program.",
+          "cite": "ISO (2015). ISO 9001: Quality Management Systems. ISO; OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL",
+          "target": "INCONSISTENT_SAFETY_TRAINING_POLICY___GOVER -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess material handling for safety training policy & governance using throughput and ergonomic analysis",
+            "Design automated system with AGVs, AS/RS, and conveyor per ASME B20.1",
+            "Implement phased automation with integration testing and safety validation",
+            "Deploy WCS coordinating automated equipment with WMS orders",
+            "Measure throughput, labor reduction, and ergonomic injury rate improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — automation deployment index using automation project tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — automation deployment index measured quarterly. Target: 30% process automation. PHASE 3 (Months 4-6): Midpoint review — compare against Industry 4.0 maturity model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — automation deployment index trending toward 50% automation. Escalate if <15% automation floor. ANNUAL REVIEW: Comprehensive audit using RAMI 4.0 framework. Report to Automation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Safety Training Policy & Governance Feedback Loop Design",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build a supplier development partnership for safety training policy & governance extending lean principles and quality systems through tiered supplier coaching.",
+          "cite": "Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press; Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass",
+          "target": "UNMONITORED_SAFETY_TRAINING_POLICY___GOVER -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess workplace organization for safety training policy & governance using 5S audit checklist",
+            "Implement sort, set-in-order, shine phases with team ownership areas",
+            "Establish standardized work with visual controls and shadow boards",
+            "Deploy daily 5S audit with scoring and recognition program",
+            "Track 5S scores, search time reduction, and quality at source improvements"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — supplier partnership index using supplier scorecard system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — supplier partnership index measured quarterly. Target: 80% preferred suppliers A-rated. PHASE 3 (Months 4-6): Midpoint review — compare against IATF 16949 supplier standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — supplier partnership index trending toward 90% A-rated. Escalate if <65% A-rated floor. ANNUAL REVIEW: Comprehensive audit using IATF 16949 framework. Report to Procurement Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Safety Training Policy & Governance Sustainability Audit",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Optimize a predictive quality analytics system for safety training policy & governance using ML classification on process parameters to prevent defects.",
+          "cite": "IEC (2022). IEC 62443: Industrial Cybersecurity. IEC; MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect",
+          "target": "UNDERPERFORMING_SAFETY_TRAINING_POLICY___GOVER -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess quality data for safety training policy & governance using SPC and measurement system analysis",
+            "Design ML pipeline for defect prediction using process and quality features",
+            "Train and validate models using CRISP-DM with cross-validation and A/B testing",
+            "Deploy real-time prediction with operator alerts and automated parameter adjustment",
+            "Track defect escape rate, prediction accuracy, and quality cost reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — predictive quality accuracy using ML model performance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — predictive quality accuracy measured monthly. Target: 80% defect prediction recall. PHASE 3 (Months 4-6): Midpoint review — compare against Industry ML benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — predictive quality accuracy trending toward 90% recall. Escalate if <65% recall floor. ANNUAL REVIEW: Comprehensive audit using CRISP-DM methodology. Report to Data Science Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Safety Training Policy & Governance Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Launch an Industry 4.0 roadmap for safety training policy & governance applying RAMI 4.0 reference architecture with digital maturity assessment.",
+          "cite": "Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press; Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press",
+          "target": "REACTIVE_SAFETY_TRAINING_POLICY___GOVER -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate product development for safety training policy & governance using APQP phase-gate assessment",
+            "Design concurrent engineering process with DFM/DFA and FMEA integration",
+            "Implement PLM system with design review workflows and change management",
+            "Deploy rapid prototyping capabilities with 3D printing and simulation",
+            "Measure NPI cycle time, first-time quality, and engineering change orders"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defect rate (DPMO) using SPC control chart system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defect rate (DPMO) measured daily. Target: <500 DPMO. PHASE 3 (Months 4-6): Midpoint review — compare against Six Sigma 3.4 DPMO target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defect rate (DPMO) trending toward <100 DPMO. Escalate if <<1000 DPMO ceiling. ANNUAL REVIEW: Comprehensive audit using Six Sigma DMAIC. Report to Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NEOCER",
+      "state": "active",
+      "domainLabel": "Safety Training Technology & Innovation",
+      "domainDescription": "Systematic management of safety training technology & innovation across all safety training functions and operations",
+      "group": "development",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Conduct Safety Training Technology & Innovation Operational Readiness Check",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Conduct a lean transformation strategy for safety training technology & innovation using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "REACTIVE_SAFETY_TRAINING_TECHNOLOGY___I -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate product development for safety training technology & innovation using APQP phase-gate assessment",
+            "Design concurrent engineering process with DFM/DFA and FMEA integration",
+            "Implement PLM system with design review workflows and change management",
+            "Deploy rapid prototyping capabilities with 3D printing and simulation",
+            "Measure NPI cycle time, first-time quality, and engineering change orders"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defect rate (DPMO) using SPC control chart system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defect rate (DPMO) measured daily. Target: <500 DPMO. PHASE 3 (Months 4-6): Midpoint review — compare against Six Sigma 3.4 DPMO target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defect rate (DPMO) trending toward <100 DPMO. Escalate if <<1000 DPMO ceiling. ANNUAL REVIEW: Comprehensive audit using Six Sigma DMAIC. Report to Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Safety Training Technology & Innovation Capacity Building Initiative",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Design a TPM autonomous maintenance training for safety training technology & innovation developing operator-level equipment care per JIPM pillar methodology.",
+          "cite": "Liker, J.K. (2004). The Toyota Way. McGraw-Hill; Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press",
+          "target": "FRAGMENTED_SAFETY_TRAINING_TECHNOLOGY___I -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess safety leadership for safety training technology & innovation using behavioral safety observation audit",
+            "Train supervisors in BBS observation techniques and constructive feedback",
+            "Implement structured observation program with weekly safety conversations",
+            "Analyze observation data trends and design targeted interventions",
+            "Measure safety culture maturity using Bradley Curve assessment annually"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — quality circle participation using CI program tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — quality circle participation measured monthly. Target: 60% workforce participation. PHASE 3 (Months 4-6): Midpoint review — compare against JUSE QC Circle benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — quality circle participation trending toward 80% participation. Escalate if <40% minimum. ANNUAL REVIEW: Comprehensive audit using JUSE QC Circle methodology. Report to Quality Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Safety Training Technology & Innovation Early Warning System",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Deploy an automated material handling system for safety training technology & innovation deploying AGVs, AS/RS, and conveyor integration per ASME B20.1.",
+          "cite": "OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL; ISO (2015). ISO 9001: Quality Management Systems. ISO",
+          "target": "SILOED_SAFETY_TRAINING_TECHNOLOGY___I -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess material handling for safety training technology & innovation using throughput and ergonomic analysis",
+            "Design automated system with AGVs, AS/RS, and conveyor per ASME B20.1",
+            "Implement phased automation with integration testing and safety validation",
+            "Deploy WCS coordinating automated equipment with WMS orders",
+            "Measure throughput, labor reduction, and ergonomic injury rate improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — automation deployment index using automation project tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — automation deployment index measured quarterly. Target: 30% process automation. PHASE 3 (Months 4-6): Midpoint review — compare against Industry 4.0 maturity model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — automation deployment index trending toward 50% automation. Escalate if <15% automation floor. ANNUAL REVIEW: Comprehensive audit using RAMI 4.0 framework. Report to Automation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Safety Training Technology & Innovation Operational Readiness Check",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Operationalize a psychological safety initiative for safety training technology & innovation applying Edmondson model to encourage error reporting and experimentation.",
+          "cite": "Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass; Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press",
+          "target": "OUTDATED_SAFETY_TRAINING_TECHNOLOGY___I -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess workplace organization for safety training technology & innovation using 5S audit checklist",
+            "Implement sort, set-in-order, shine phases with team ownership areas",
+            "Establish standardized work with visual controls and shadow boards",
+            "Deploy daily 5S audit with scoring and recognition program",
+            "Track 5S scores, search time reduction, and quality at source improvements"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — supplier partnership index using supplier scorecard system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — supplier partnership index measured quarterly. Target: 80% preferred suppliers A-rated. PHASE 3 (Months 4-6): Midpoint review — compare against IATF 16949 supplier standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — supplier partnership index trending toward 90% A-rated. Escalate if <65% A-rated floor. ANNUAL REVIEW: Comprehensive audit using IATF 16949 framework. Report to Procurement Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Safety Training Technology & Innovation Capacity Building Initiative",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Calibrate a connected equipment platform for safety training technology & innovation deploying MTConnect/OPC-UA for real-time machine data acquisition.",
+          "cite": "MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect; IEC (2022). IEC 62443: Industrial Cybersecurity. IEC",
+          "target": "INEFFICIENT_SAFETY_TRAINING_TECHNOLOGY___I -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess quality data for safety training technology & innovation using SPC and measurement system analysis",
+            "Design ML pipeline for defect prediction using process and quality features",
+            "Train and validate models using CRISP-DM with cross-validation and A/B testing",
+            "Deploy real-time prediction with operator alerts and automated parameter adjustment",
+            "Track defect escape rate, prediction accuracy, and quality cost reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — predictive quality accuracy using ML model performance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — predictive quality accuracy measured monthly. Target: 80% defect prediction recall. PHASE 3 (Months 4-6): Midpoint review — compare against Industry ML benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — predictive quality accuracy trending toward 90% recall. Escalate if <65% recall floor. ANNUAL REVIEW: Comprehensive audit using CRISP-DM methodology. Report to Data Science Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Safety Training Technology & Innovation Early Warning System",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Streamline a lean transformation strategy for safety training technology & innovation using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press; Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press",
+          "target": "INCONSISTENT_SAFETY_TRAINING_TECHNOLOGY___I -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate product development for safety training technology & innovation using APQP phase-gate assessment",
+            "Design concurrent engineering process with DFM/DFA and FMEA integration",
+            "Implement PLM system with design review workflows and change management",
+            "Deploy rapid prototyping capabilities with 3D printing and simulation",
+            "Measure NPI cycle time, first-time quality, and engineering change orders"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defect rate (DPMO) using SPC control chart system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defect rate (DPMO) measured daily. Target: <500 DPMO. PHASE 3 (Months 4-6): Midpoint review — compare against Six Sigma 3.4 DPMO target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defect rate (DPMO) trending toward <100 DPMO. Escalate if <<1000 DPMO ceiling. ANNUAL REVIEW: Comprehensive audit using Six Sigma DMAIC. Report to Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Safety Training Human Capital & Development",
+      "domainDescription": "Systematic management of safety training human capital & development across all safety training functions and operations",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Develop Safety Training Human Capital & Development Strategic Alignment Review",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Develop a product lifecycle optimization for safety training human capital & development using concurrent engineering and APQP phase-gate methodology.",
+          "cite": "Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press; Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press",
+          "target": "UNDERPERFORMING_SAFETY_TRAINING_HUMAN_CAPITAL_ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for safety training human capital & development using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Safety Training Human Capital & Development Stakeholder Engagement Plan",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Establish a Six Sigma Green Belt certification for safety training human capital & development with DMAIC project-based learning on real manufacturing problems.",
+          "cite": "Ohno, T. (1988). Toyota Production System. Productivity Press; Imai, M. (1986). Kaizen: The Key to Japans Competitive Success. McGraw-Hill",
+          "target": "REACTIVE_SAFETY_TRAINING_HUMAN_CAPITAL_ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Ohno, T.",
+              "year": 1988,
+              "title": "Toyota Production System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Imai, M.",
+              "year": 1986,
+              "title": "Kaizen: The Key to Japans Competitive Success",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess equipment care capabilities for safety training human capital & development using TPM maturity audit",
+            "Train operators in autonomous maintenance steps per JIPM methodology",
+            "Implement operator cleaning, inspection, and lubrication routines",
+            "Develop visual standards and one-point lessons for equipment care",
+            "Track equipment breakdowns, minor stops, and autonomous maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety training hours per employee using LMS tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety training hours per employee measured monthly. Target: 40 hours per year. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA VPP benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety training hours per employee trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using OSHA training requirements. Report to EHS Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Safety Training Human Capital & Development Training Curriculum",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Implement a maintenance management system for safety training human capital & development implementing TPM with CMMS, PM scheduling, and spare parts optimization.",
+          "cite": "ISO (2018). ISO 45001: Occupational Health and Safety. ISO; ASTM International (2023). Standard Test Methods for Materials and Products. ASTM",
+          "target": "FRAGMENTED_SAFETY_TRAINING_HUMAN_CAPITAL_ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "ISO",
+              "year": 2018,
+              "title": "ISO 45001: Occupational Health and Safety",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ASTM International",
+              "year": 2023,
+              "title": "Standard Test Methods for Materials and Products",
+              "journal": "ASTM",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze material flow for safety training human capital & development using spaghetti diagram and time studies",
+            "Design cellular layout with one-piece flow, standard WIP, and kanban sizing",
+            "Implement physical rearrangement with team involvement and line balancing",
+            "Establish pull system with kanban cards/signals and supermarket replenishment",
+            "Measure flow metrics: lead time, WIP turns, and labor productivity improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — environmental compliance rate using EMS tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — environmental compliance rate measured monthly. Target: 100% permit compliance. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 14001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — environmental compliance rate trending toward zero violations. Escalate if <<3 minor findings. ANNUAL REVIEW: Comprehensive audit using ISO 14001 framework. Report to Environmental Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Safety Training Human Capital & Development Strategic Alignment Review",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Institutionalize a continuous improvement culture for safety training human capital & development using kaizen events, quality circles, and gemba walks per Shingo Model.",
+          "cite": "Schein, E.H. (2010). Organizational Culture and Leadership 4e. Jossey-Bass; Goldratt, E.M. (1984). The Goal. North River Press",
+          "target": "SILOED_SAFETY_TRAINING_HUMAN_CAPITAL_ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Schein, E.H.",
+              "year": 2010,
+              "title": "Organizational Culture and Leadership 4e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Goldratt, E.M.",
+              "year": 1984,
+              "title": "The Goal",
+              "journal": "North River Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supplier capabilities for safety training human capital & development using supplier scorecard audit",
+            "Design tiered development program with quality, delivery, and cost coaching",
+            "Deploy resident engineers at critical suppliers for process improvement",
+            "Implement supplier kaizen events with shared savings agreements",
+            "Track supplier PPM, on-time delivery, and total cost of ownership"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — innovation submission rate using idea management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — innovation submission rate measured monthly. Target: 10 ideas per employee/year. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota Creative Suggestion benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — innovation submission rate trending toward 20 ideas. Escalate if <5 ideas minimum. ANNUAL REVIEW: Comprehensive audit using Toyota Suggestion System. Report to Innovation Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Safety Training Human Capital & Development Stakeholder Engagement Plan",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Configure an industrial cybersecurity program for safety training human capital & development implementing IEC 62443 zones and conduits with defense-in-depth.",
+          "cite": "OPC Foundation (2022). OPC UA: Unified Architecture for Industrial Interoperability. OPC Foundation; Siemens (2022). Digital Twin and Industry 4.0 Reference Architecture. Siemens AG",
+          "target": "OUTDATED_SAFETY_TRAINING_HUMAN_CAPITAL_ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "OPC Foundation",
+              "year": 2022,
+              "title": "OPC UA: Unified Architecture for Industrial Interoperability",
+              "journal": "OPC Foundation",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Siemens",
+              "year": 2022,
+              "title": "Digital Twin and Industry 4.0 Reference Architecture",
+              "journal": "Siemens AG",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OT cybersecurity for safety training human capital & development using IEC 62443 risk assessment",
+            "Design zone and conduit model with security levels per asset criticality",
+            "Implement network segmentation, access control, and monitoring",
+            "Deploy intrusion detection and incident response for OT environment",
+            "Conduct annual penetration testing and IEC 62443 compliance audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity OT compliance using IEC 62443 assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity OT compliance measured quarterly. Target: SL-2 across all zones. PHASE 3 (Months 4-6): Midpoint review — compare against IEC 62443 zone/conduit model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity OT compliance trending toward SL-3. Escalate if <SL-1 minimum. ANNUAL REVIEW: Comprehensive audit using IEC 62443 framework. Report to OT Cybersecurity Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Safety Training Human Capital & Development Training Curriculum",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Strengthen a product lifecycle optimization for safety training human capital & development using concurrent engineering and APQP phase-gate methodology.",
+          "cite": "World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF; Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business",
+          "target": "INEFFICIENT_SAFETY_TRAINING_HUMAN_CAPITAL_ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for safety training human capital & development using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Safety Training Quality & Performance",
+      "domainDescription": "Systematic management of safety training quality & performance across all safety training functions and operations",
+      "group": "performance",
+      "phase": "P3",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Assess Safety Training Quality & Performance Capability Maturity Model",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Assess a manufacturing competitiveness plan for safety training quality & performance integrating Porter value chain analysis with UNIDO industrial benchmarking.",
+          "cite": "World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF; Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business",
+          "target": "INEFFICIENT_SAFETY_TRAINING_QUALITY___PERF -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze competitive position for safety training quality & performance using Porter Five Forces and value chain",
+            "Benchmark manufacturing performance against UNIDO CIP Index peers",
+            "Design competitiveness improvement program targeting cost, quality, and flexibility",
+            "Execute initiatives with cross-functional kaizen teams and investment prioritization",
+            "Track competitiveness using unit cost, quality, and delivery performance metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — supply chain lead time using SCM analytics platform. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — supply chain lead time measured weekly. Target: 20% lead time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against SCOR model Level 1 benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — supply chain lead time trending toward 35% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using SCOR framework. Report to Supply Chain Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Safety Training Quality & Performance Quality Assurance Program",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Create a TWI Job Instruction program for safety training quality & performance training supervisors in standardized work breakdown and skill transfer.",
+          "cite": "Deming, W.E. (1986). Out of the Crisis. MIT Press; Rother, M. (2009). Toyota Kata. McGraw-Hill",
+          "target": "INCONSISTENT_SAFETY_TRAINING_QUALITY___PERF -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Deming, W.E.",
+              "year": 1986,
+              "title": "Out of the Crisis",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Rother, M.",
+              "year": 2009,
+              "title": "Toyota Kata",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Train coaches in Toyota Kata improvement and coaching patterns",
+            "Pair coaches with learners on specific process improvement challenges",
+            "Practice daily coaching cycles with target condition and current condition",
+            "Develop internal kata coach qualification through observed coaching rounds",
+            "Measure problem-solving skill progression and process improvement outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cross-training index using skills flexibility matrix. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cross-training index measured bimonthly. Target: each operator 3+ stations. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota multi-skill benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cross-training index trending toward 5+ stations. Escalate if <2 stations minimum. ANNUAL REVIEW: Comprehensive audit using TWI Job Rotation. Report to Production Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Safety Training Quality & Performance Integration Architecture",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Evaluate a production line redesign for safety training quality & performance using cellular manufacturing with one-piece flow and pull-system kanban.",
+          "cite": "ISO (2015). ISO 14001: Environmental Management Systems. ISO; NIST (2020). Manufacturing Extension Partnership (MEP) Strategic Plan. NIST",
+          "target": "UNMONITORED_SAFETY_TRAINING_QUALITY___PERF -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 14001: Environmental Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2020,
+              "title": "Manufacturing Extension Partnership (MEP) Strategic Plan",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit maintenance practices for safety training quality & performance using TPM maturity assessment",
+            "Design PM program with CMMS, scheduled tasks, and spare parts management",
+            "Implement predictive maintenance with vibration, thermal, and oil analysis",
+            "Deploy mobile CMMS for technician work orders and failure data capture",
+            "Track MTBF, MTTR, and PM compliance metrics against TPM targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — warehouse utilization rate using WMS analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — warehouse utilization rate measured monthly. Target: 85% space utilization. PHASE 3 (Months 4-6): Midpoint review — compare against WERC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — warehouse utilization rate trending toward 92% utilization. Escalate if <75% floor. ANNUAL REVIEW: Comprehensive audit using WERC scorecard. Report to Warehouse Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Safety Training Quality & Performance Capability Maturity Model",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Integrate a 5S workplace organization for safety training quality & performance establishing visual management, standardized work, and daily audit routines.",
+          "cite": "Juran, J.M. (1988). Jurans Quality Control Handbook. McGraw-Hill; Spear, S. & Bowen, H.K. (1999). Decoding the DNA of the Toyota Production System. Harvard Business Review, 77(5), 96-106",
+          "target": "UNDERPERFORMING_SAFETY_TRAINING_QUALITY___PERF -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Juran, J.M.",
+              "year": 1988,
+              "title": "Jurans Quality Control Handbook",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Spear, S. & Bowen, H.K.",
+              "year": 1999,
+              "title": "Decoding the DNA of the Toyota Production System",
+              "journal": "Harvard Business Review",
+              "volume": "77(5)",
+              "pages": "96-106",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Design innovation program for safety training quality & performance with suggestion system and prototype lab",
+            "Train employees in creative problem solving and rapid experimentation",
+            "Implement idea evaluation process with cross-functional review panel",
+            "Provide resources for promising ideas: time, budget, and mentorship",
+            "Measure ideas submitted, implemented, and financial impact per year"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 5S audit score using 5S workplace audit tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 5S audit score measured monthly. Target: score 4.0 of 5.0. PHASE 3 (Months 4-6): Midpoint review — compare against Shingo Model benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 5S audit score trending toward 4.5 score. Escalate if <3.5 minimum. ANNUAL REVIEW: Comprehensive audit using Shingo Operational Excellence. Report to Plant Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Safety Training Quality & Performance Quality Assurance Program",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Conduct a digital twin simulation for safety training quality & performance using discrete event and physics-based modelling for process optimization.",
+          "cite": "MESA International (2021). MES/MOM Methodology Guidelines. MESA; ISA (2012). ISA-95: Enterprise-Control System Integration. ISA",
+          "target": "REACTIVE_SAFETY_TRAINING_QUALITY___PERF -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "MESA International",
+              "year": 2021,
+              "title": "MES/MOM Methodology Guidelines",
+              "journal": "MESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISA",
+              "year": 2012,
+              "title": "ISA-95: Enterprise-Control System Integration",
+              "journal": "ISA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Survey equipment connectivity for safety training quality & performance using data availability assessment",
+            "Design MTConnect/OPC-UA adapter strategy for diverse machine fleet",
+            "Deploy edge gateways with protocol translation and data normalization",
+            "Implement data historian and real-time dashboards for production visibility",
+            "Measure machine utilization accuracy and data-driven decision frequency"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — data connectivity coverage using MTConnect/OPC-UA monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — data connectivity coverage measured monthly. Target: 70% equipment connected. PHASE 3 (Months 4-6): Midpoint review — compare against Industry 4.0 connectivity target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — data connectivity coverage trending toward 90% connected. Escalate if <50% connected floor. ANNUAL REVIEW: Comprehensive audit using MTConnect/OPC-UA standards. Report to Industrial IoT Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Safety Training Quality & Performance Integration Architecture",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Design a manufacturing competitiveness plan for safety training quality & performance integrating Porter value chain analysis with UNIDO industrial benchmarking.",
+          "cite": "UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO; Porter, M.E. (1985). Competitive Advantage. Free Press",
+          "target": "FRAGMENTED_SAFETY_TRAINING_QUALITY___PERF -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze competitive position for safety training quality & performance using Porter Five Forces and value chain",
+            "Benchmark manufacturing performance against UNIDO CIP Index peers",
+            "Design competitiveness improvement program targeting cost, quality, and flexibility",
+            "Execute initiatives with cross-functional kaizen teams and investment prioritization",
+            "Track competitiveness using unit cost, quality, and delivery performance metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — supply chain lead time using SCM analytics platform. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — supply chain lead time measured weekly. Target: 20% lead time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against SCOR model Level 1 benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — supply chain lead time trending toward 35% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using SCOR framework. Report to Supply Chain Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a occupational safety systems specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "VTA",
+      "target": "MGN",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "MGN",
+      "target": "CMZ",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CMZ",
+      "target": "TrkB",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "TrkB",
+      "target": "HAB",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "HAB",
+      "target": "NEOCER",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "NEOCER",
+      "target": "TPJ",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "TPJ",
+      "target": "HIPP",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "VTA",
+      "target": "HIPP",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CMZ",
+      "target": "VTA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "INDUSTRY_INDSAFETY_SAFETRNING_SYSTEM_FAILURE",
+      "label": "Industry Indsafety Safetrning System Failure",
+      "summary": "Critical breakdown in Industry Indsafety Safetrning systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper-active",
+          "detail": "Safety Training Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MGN",
+          "dir": "Hypo-active",
+          "detail": "Safety Training Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CMZ",
+          "dir": "Altered",
+          "detail": "Safety Training Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TrkB",
+          "dir": "Hyper-active",
+          "detail": "Safety Training Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HAB",
+          "dir": "Hypo-active",
+          "detail": "Safety Training Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "INDUSTRY_INDSAFETY_SAFETRNING_CAPACITY_OVERLOAD",
+      "label": "Industry Indsafety Safetrning Capacity Overload",
+      "summary": "Demand exceeding available Industry Indsafety Safetrning capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper-active",
+          "detail": "Safety Training Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MGN",
+          "dir": "Hyper-active",
+          "detail": "Safety Training Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CMZ",
+          "dir": "Hyper-active",
+          "detail": "Safety Training Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TrkB",
+          "dir": "Hyper-active",
+          "detail": "Safety Training Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "INDUSTRY_INDSAFETY_SAFETRNING_QUALITY_DEGRADATION",
+      "label": "Industry Indsafety Safetrning Quality Degradation",
+      "summary": "Progressive decline in Industry Indsafety Safetrning quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-active",
+          "detail": "Safety Training Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "MGN",
+          "dir": "Altered",
+          "detail": "Safety Training Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CMZ",
+          "dir": "Hyper-active",
+          "detail": "Safety Training Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TrkB",
+          "dir": "Hypo-active",
+          "detail": "Safety Training Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

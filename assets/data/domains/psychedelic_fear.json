@@ -1,0 +1,383 @@
+{
+  "domainId": "psychedelic_fear",
+  "title": "Fear Extinction Gateway",
+  "parentPortal": "psychedelic_portal.html",
+  "parentLabel": "Psychedelic Medicine",
+  "phase": "P7",
+  "activations": [
+    {
+      "brainNodeId": "PBN",
+      "state": "active",
+      "domainLabel": "Fear Extinction Gateway Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Fear Extinction Gateway indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P7",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "psychedelic_fear_action_portal.html"
+    },
+    {
+      "brainNodeId": "PPN",
+      "state": "active",
+      "domainLabel": "Fear Extinction Gateway Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Fear Extinction Gateway activities and deliverables",
+      "group": "operations",
+      "phase": "P7",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Fear Extinction Gateway Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "psychedelic_fear_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "VERM",
+      "state": "active",
+      "domainLabel": "Fear Extinction Gateway Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Fear Extinction Gateway, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "psychedelic_fear_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "NEOCER",
+      "state": "active",
+      "domainLabel": "Fear Extinction Gateway Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Fear Extinction Gateway practices and compliance obligations",
+      "group": "governance",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "psychedelic_fear_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "CLAUST",
+      "state": "active",
+      "domainLabel": "Fear Extinction Gateway Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Fear Extinction Gateway methods and capabilities",
+      "group": "innovation",
+      "phase": "P7",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "psychedelic_fear_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "UNC",
+      "state": "active",
+      "domainLabel": "Fear Extinction Gateway Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Fear Extinction Gateway stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "psychedelic_fear_signal_portal.html"
+    },
+    {
+      "brainNodeId": "RF",
+      "state": "active",
+      "domainLabel": "Fear Extinction Gateway Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Fear Extinction Gateway operations and interfaces",
+      "group": "systems",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "psychedelic_fear_state_portal.html"
+    },
+    {
+      "brainNodeId": "OSC",
+      "state": "active",
+      "domainLabel": "Fear Extinction Gateway Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Fear Extinction Gateway outputs and resource utilization",
+      "group": "operations",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Fear Extinction Gateway Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "PBN",
+      "target": "PPN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "PPN",
+      "target": "VERM",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "VERM",
+      "target": "NEOCER",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "NEOCER",
+      "target": "CLAUST",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "CLAUST",
+      "target": "UNC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "UNC",
+      "target": "RF",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "RF",
+      "target": "OSC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "OSC",
+      "target": "PBN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "PBN",
+      "target": "CLAUST",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "NEOCER",
+      "target": "RF",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "PSYCHEDELIC_FEAR_SYSTEM_FAILURE",
+      "label": "Fear Extinction Gateway System Failure",
+      "summary": "Critical breakdown in Fear Extinction Gateway systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "PBN",
+          "dir": "Hypo-active",
+          "detail": "Fear Extinction Gateway Assessment & Diagnostics capacity falling below operational thresholds, reducing Fear Extinction Gateway output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PPN",
+          "dir": "Hypo-active",
+          "detail": "Fear Extinction Gateway Core Operations systems underperforming, creating gaps in Fear Extinction Gateway coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VERM",
+          "dir": "Altered",
+          "detail": "Fear Extinction Gateway Infrastructure & Capacity behavior deviating from established norms, complicating Fear Extinction Gateway management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "UNC",
+          "dir": "Hyper-active",
+          "detail": "Fear Extinction Gateway Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Fear Extinction Gateway",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OSC",
+          "dir": "Hypo-active",
+          "detail": "Fear Extinction Gateway Performance & Optimization function reduced, compromising Fear Extinction Gateway system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PSYCHEDELIC_FEAR_CAPACITY_CRISIS",
+      "label": "Fear Extinction Gateway Capacity Crisis",
+      "summary": "Demand exceeding available Fear Extinction Gateway capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "PPN",
+          "dir": "Hyper-active",
+          "detail": "Fear Extinction Gateway Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Fear Extinction Gateway",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VERM",
+          "dir": "Hypo-active",
+          "detail": "Fear Extinction Gateway Infrastructure & Capacity systems underperforming, creating gaps in Fear Extinction Gateway coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NEOCER",
+          "dir": "Altered",
+          "detail": "Fear Extinction Gateway Standards & Governance behavior deviating from established norms, complicating Fear Extinction Gateway management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RF",
+          "dir": "Hyper-active",
+          "detail": "Fear Extinction Gateway Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Fear Extinction Gateway",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OSC",
+          "dir": "Altered",
+          "detail": "Fear Extinction Gateway Performance & Optimization operating outside normal parameters, introducing uncertainty into Fear Extinction Gateway outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PSYCHEDELIC_FEAR_GOVERNANCE_GAP",
+      "label": "Fear Extinction Gateway Governance Gap",
+      "summary": "Oversight or regulatory failure in Fear Extinction Gateway creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hypo-active",
+          "detail": "Fear Extinction Gateway Standards & Governance capacity falling below operational thresholds, reducing Fear Extinction Gateway output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PBN",
+          "dir": "Altered",
+          "detail": "Fear Extinction Gateway Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Fear Extinction Gateway",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CLAUST",
+          "dir": "Hyper-active",
+          "detail": "Fear Extinction Gateway Research & Development activity spiking beyond design limits, creating instability across Fear Extinction Gateway operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "UNC",
+          "dir": "Altered",
+          "detail": "Fear Extinction Gateway Risk & Resilience patterns disrupted, necessitating adaptive responses within Fear Extinction Gateway frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RF",
+          "dir": "Hypo-active",
+          "detail": "Fear Extinction Gateway Coordination & Integration function reduced, compromising Fear Extinction Gateway system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,990 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "nutrien",
+  "slug": "nutrien",
+  "name": "Nutrien Ltd.",
+  "ticker": "NTR",
+  "cik": "1725964",
+  "sic": "2873",
+  "industry": "Nitrogenous Fertilizers",
+  "domainId": "agriculture",
+  "portalAttachment": "agriculture-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DHHNGSP",
+    "GASDESW",
+    "DCOILWTICO",
+    "DEXUSEU",
+    "UNRATE"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "NTR"
+  ],
+  "commodityExposure": [
+    "natural gas",
+    "ammonia",
+    "potash",
+    "phosphate",
+    "urea",
+    "ammonium nitrate",
+    "crude oil",
+    "sulfur"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1725964",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.72,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p4",
+    "financialState": {
+      "cashLatest": 2100000000,
+      "debtLatest": 8900000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Natural gas price volatility (primary input cost driver; 40–50% of ammonia production cost)",
+    "Potash market cyclicality tied to agricultural commodity prices and farmer purchasing power",
+    "Geopolitical supply disruption risk (Belarus potash sanctions, Russian fertilizer export restrictions post-2022)",
+    "Regulatory pressure on nitrogen fertilizer emissions and ESG-driven demand headwinds in developed markets"
+  ],
+  "opportunitySignals": [
+    "Global food-security demand supporting long-term fertilizer consumption growth (FAO projections +1.5% CAGR through 2030)",
+    "Consolidation of fragmented potash and phosphate supply chains post-COVID normalization",
+    "Digital agriculture and precision-nutrient-management software monetization (Nutrien Ag Solutions expansion)",
+    "Energy transition: ammonia as green hydrogen carrier and industrial feedstock (pilot projects with major OEMs)"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Nutrien Ag Solutions (digital platform and agronomic advisory; launched 2018, ~$1.2B revenue run-rate 2024)",
+      "Potash production optimization (Rocanville, Lanigan, Belle Plaine mines in Saskatchewan; 12M tonnes annual capacity)",
+      "Phosphate vertical integration (Phosphate Hill, Florida; 2.5M tonnes P2O5 capacity)",
+      "Ammonia synthesis and urea production (Geismar, Louisiana; 2.2M tonnes ammonia capacity)"
+    ],
+    "engineOutputs": [
+      "Fertilizer product portfolio: potash, phosphate, nitrogen (urea, ammonium nitrate, ammonium sulfate), specialty nutrients",
+      "Retail and wholesale distribution network: 2,000+ retail locations across North America and Australia",
+      "Crop input financing and risk-management products (crop insurance partnerships, commodity hedging)",
+      "Sustainability-linked products: ESG-certified low-carbon fertilizers, precision-application technologies"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Nutrien is the world's largest potash producer and a top-three global nitrogen and phosphate manufacturer, controlling ~13% of global potash supply and serving 100+ countries. The company operates integrated mining, production, and distribution networks across North America, South America, and Australia, positioning it as a critical input supplier to global agriculture and a bellwether for crop-nutrient demand cycles. Nutrien's Ag Solutions digital platform (2,000+ retail locations, agronomic advisory services) extends its role beyond commodity fertilizer into precision agriculture and farmer-direct advisory, creating a hybrid commodity-plus-services business model.",
+  "portalRelevance": "Nutrien is a tier-1 anchor supplier to global agriculture and a cyclical commodity producer with direct exposure to natural gas prices, agricultural commodity cycles, and geopolitical supply disruptions. Its financial health and capital allocation (dividends, buybacks, M&A) serve as leading indicators for agricultural investment sentiment and fertilizer-market tightness. For financial-intelligence models, Nutrien's earnings volatility, working-capital swings, and leverage management are critical signals of agricultural-sector stress or strength; its potash and ammonia production volumes and pricing power directly reflect global food-security demand and energy-cost regimes.",
+  "notes": {
+    "cohortStatus": "Anchor commodity producer; peer group: CF Industries, Mosaic, Yara International, K+S AG",
+    "envelopeStatus": "ELIGIBLE_NOW — public filer, 12+ quarters history, validated financials, active capital markets"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly potash and ammonia production volumes and realized selling prices (10-K Item 1, quarterly earnings)",
+        "Natural gas spot and forward curve prices (NYMEX Henry Hub; primary ammonia production cost driver)",
+        "Agricultural commodity prices (corn, wheat, soybeans via USDA/CME) as proxy for farmer purchasing power and fertilizer demand",
+        "8-K filings for production disruptions, M&A announcements, dividend/buyback authorizations, and geopolitical supply-chain impacts"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly earnings-per-share and free-cash-flow trajectory; working-capital swings tied to inventory and receivables",
+        "Leverage ratio (net debt / EBITDA) and liquidity position (cash, undrawn credit facilities) relative to dividend sustainability",
+        "Potash market share and pricing power vs. competitors (Mosaic, K+S, Belarusian producers); ammonia margin compression/expansion vs. natural gas",
+        "Ag Solutions revenue growth and customer retention rates as indicator of digital-platform stickiness and non-commodity revenue diversification"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn pattern-match: potash price collapse (2015–2016, 2020–2021) vs. current inventory levels and farmer balance-sheet stress",
+        "Natural gas cost shock transmission: ammonia margin compression (2021–2022 energy crisis) and pass-through lag to fertilizer pricing",
+        "Geopolitical supply disruption: Belarus potash sanctions (2021+) and Russian export restrictions (2022+) as structural supply-tightening catalysts",
+        "Consolidation inflection: Nutrien's 2018 merger (PotashCorp + Agrium) and subsequent M&A (Mosaic's Cargill potash acquisition 2024) as sector-maturation signals"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "ESG-driven demand headwinds: EU fertilizing products regulation (2019), carbon border adjustment mechanism (CBAM) tariffs on ammonia (2026+)",
+        "Environmental compliance: ammonia emissions controls (EPA NESHAP), phosphate mining reclamation (Florida DEP), potash tailings management (Saskatchewan)",
+        "Antitrust scrutiny: FTC/DOJ review of fertilizer-sector consolidation; Nutrien's market-share dominance in potash (13% global) and North American retail",
+        "Trade policy: tariffs on potash imports (India, Brazil), sanctions on Russian/Belarusian fertilizer (EU, US), and retaliatory measures on Canadian exports"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Dividend and buyback policy: Nutrien's 3.5%+ dividend yield and $2B+ annual buyback authorization as capital-return signal; suspension risk if potash prices collapse below $250/tonne",
+        "Hedging strategy: natural gas forward contracts (3–12 month horizon) to lock ammonia margins; potash price floors via commodity swaps",
+        "M&A positioning: Ag Solutions platform expansion (digital advisory, crop insurance, financing) to offset commodity-price cyclicality; potential bolt-on acquisitions in precision-ag software",
+        "Production optimization: capacity utilization rates (target 85–95%) and maintenance capex timing to balance cost control with supply-tightness premiums"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings call guidance revisions: potash price guidance, ammonia margin outlook, and Ag Solutions growth rate as real-time demand signals",
+        "Share-price reaction to commodity-price moves: potash spot price +/- 10% typically drives NTR +/- 3–5% within 1–2 trading sessions",
+        "Inventory build/draw cycles: quarterly potash and ammonia inventory levels vs. production; build signals demand weakness, draw signals tightness",
+        "Analyst consensus revisions: EPS and free-cash-flow estimate changes tied to commodity-price resets and agricultural-sector sentiment shifts"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Commodity-price elasticity recalibration: potash demand elasticity to farmer income (corn/soy prices) and credit availability; ammonia elasticity to natural gas",
+        "Geopolitical supply-shock scenario weighting: Belarus/Russia potash supply disruption probability and duration; impact on Nutrien's pricing power and market-share gains",
+        "Ag Solutions revenue-mix reweighting: digital-platform stickiness and margin profile vs. commodity-fertilizer cyclicality; long-term EBITDA contribution modeling",
+        "ESG/regulatory cost modeling: carbon pricing (CBAM, EU ETS) and ammonia-emissions compliance capex as structural margin headwinds; green-ammonia investment ROI tracking"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Nutrien operates as a vertically integrated agricultural-input hub, functioning as a sensory-motor node in global food-supply networks. Its potash, phosphate, and ammonia production assets (sensory inputs) feed into retail and wholesale distribution channels (motor outputs) that reach 100+ countries and 2,000+ retail locations. The company's Ag Solutions digital platform acts as a prefrontal cortex layer, aggregating farmer data, agronomic insights, and crop-input financing to drive precision-nutrient recommendations and customer stickiness. Nutrien's capital structure, dividend policy, and commodity-hedging decisions reflect a limbic-system response to natural gas prices, agricultural commodity cycles, and geopolitical supply shocks, while its board and executive team (PFC nodes) navigate regulatory compliance, M&A strategy, and long-term ESG positioning.",
+    "suppliers": [
+      {
+        "name": "Saudi Basic Industries Corporation (SABIC)",
+        "ticker": "2010.SR",
+        "cik": null,
+        "slug": "sabic",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock",
+        "relationshipNote": "SABIC supplies ammonia and methanol feedstock to Nutrien's North American production facilities via long-term contracts. SABIC's 2023 ammonia capacity of 5.5M tonnes and strategic Middle East location provide cost-advantaged feedstock for Nutrien's Geismar, Louisiana ammonia synthesis plant. Relationship includes joint-venture discussions on green ammonia production (2023–2024 period).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "K+S AG",
+        "ticker": "SDF.DE",
+        "cik": null,
+        "slug": "k_plus_s",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "European Potash & Salt Producer",
+        "relationshipNote": "K+S is Europe's largest potash producer (3.5M tonnes capacity) and competes with Nutrien in global potash markets, particularly in Europe and Asia. K+S's 2022–2023 cost pressures (German energy crisis, labor costs) and subsequent production cuts reduced competitive supply, benefiting Nutrien's pricing power. K+S's strategic shift toward specialty fertilizers and sustainability signals long-term margin-compression trends in commodity potash.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Belarusian Potash Company (BPC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "belarusian_potash",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Potash Competitor (Sanctioned Supplier)",
+        "relationshipNote": "BPC is the world's second-largest potash producer (7M tonnes capacity) but has been subject to EU and US sanctions since 2021 due to Belarus's geopolitical alignment. Sanctions have reduced global potash supply by ~10–12%, creating a structural supply-tightness premium that benefits Nutrien's potash pricing and market share. BPC's production cuts and export restrictions (2021–2024) are a primary driver of Nutrien's potash margin expansion and dividend sustainability.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Intrepid Potash, Inc.",
+        "ticker": "IPI",
+        "cik": "1398344",
+        "slug": "intrepid_potash",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "North American Potash & Specialty Fertilizer Producer",
+        "relationshipNote": "Intrepid is a smaller North American potash producer (0.5M tonnes capacity) competing with Nutrien in US potash retail and specialty-fertilizer markets. Intrepid's 2023–2024 margin compression (due to potash price declines) and limited scale make it a secondary competitive threat. Intrepid's focus on specialty potash products (SOP, sulfate of potash) for high-value crops (fruits, vegetables) represents a niche competitive vector vs. Nutrien's bulk commodity focus.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cargill, Incorporated",
+        "ticker": null,
+        "cik": null,
+        "slug": "cargill",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Agricultural Commodity & Input Supplier",
+        "relationshipNote": "Cargill is a major global agricultural commodity trader and input supplier. Cargill sold its potash business (1.2M tonnes capacity) to Mosaic in 2024, reducing direct competition with Nutrien. Cargill remains a significant supplier of crop inputs, crop insurance, and commodity hedging services to farmers, competing with Nutrien's Ag Solutions platform for farmer wallet share. Cargill's 2024 divestiture signals consolidation in agricultural-input markets and potential partnership opportunities with Nutrien.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Canadian National Railway Company (CN)",
+        "ticker": "CNR",
+        "cik": "0000313709",
+        "slug": "canadian_national_railway",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Potash Transport)",
+        "relationshipNote": "CN Railway is Nutrien's primary domestic potash transport partner, moving potash from Saskatchewan mines (Rocanville, Lanigan, Belle Plaine) to export terminals and North American distribution centers. CN's 2023 potash shipments for Nutrien exceeded 8M tonnes, representing ~60% of Nutrien's potash logistics. CN's rail capacity constraints (2022–2023 supply-chain disruptions) and labor negotiations (2023 strike threat) directly impact Nutrien's delivery timelines and export competitiveness. Long-term contract with volume commitments and rate escalation clauses.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Cargill Transportation Services",
+        "ticker": null,
+        "cik": null,
+        "slug": "cargill_transportation",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Bulk Commodity Transport)",
+        "relationshipNote": "Cargill Transportation operates barge and truck fleets for Nutrien's ammonia and phosphate distribution from Geismar, Louisiana and Phosphate Hill, Florida to North American and export markets. Cargill's Mississippi River barge capacity is critical for Nutrien's ammonia export logistics to Gulf Coast ports. 2023 Mississippi River low-water events disrupted ammonia shipments, highlighting logistics vulnerability. Relationship includes dedicated barge capacity and spot-market access.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Maersk Line A/S",
+        "ticker": "MAERSK.CO",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Ocean Freight)",
+        "relationshipNote": "Maersk is a primary ocean-freight partner for Nutrien's potash and ammonia exports to India, Brazil, Southeast Asia, and Australia. Maersk's 2023 potash shipments for Nutrien totaled ~3M tonnes via container and breakbulk services. Maersk's freight-rate volatility (2021–2023 peak rates, 2024 normalization) directly impacts Nutrien's export margins and competitive positioning in price-sensitive markets. Contract includes volume commitments and rate-adjustment mechanisms tied to bunker fuel costs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Port of Vancouver Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_of_vancouver",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Export Terminal)",
+        "relationshipNote": "Port of Vancouver is Nutrien's primary potash export terminal for Asia-Pacific markets, handling ~4M tonnes annually (2023). Port capacity constraints and labor disruptions (2022–2023 longshoreman negotiations) directly impact Nutrien's export timelines and pricing power in Asian markets. Nutrien operates dedicated potash storage and loading facilities at the port. Port expansion projects (2024+) are expected to increase capacity and reduce logistics bottlenecks.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Port of Tampa Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_of_tampa",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Phosphate Export Terminal)",
+        "relationshipNote": "Port of Tampa is Nutrien's primary phosphate export terminal, handling ~1.5M tonnes of phosphate products annually for Latin America and global markets. Nutrien operates phosphate storage and loading facilities at the port. Port infrastructure investments (2023–2024) are improving throughput capacity. Hurricane risk and port congestion (2023 events) create seasonal logistics volatility for Nutrien's phosphate export business.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Deere & Company (John Deere)",
+        "ticker": "DE",
+        "cik": "0000315189",
+        "slug": "john_deere",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Equipment OEM & Dealer Network)",
+        "relationshipNote": "John Deere is a major institutional customer and distribution partner for Nutrien's crop-input advisory and financing services. Deere's 2023 dealer network (4,000+ locations globally) integrates Nutrien's Ag Solutions platform for precision-agriculture recommendations and crop-input financing. Deere's equipment sales (tractors, planters, harvesters) drive farmer purchasing power for Nutrien's fertilizer products. Strategic partnership includes co-branded digital platforms and farmer-financing programs launched 2022–2023.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BASF SE",
+        "ticker": "BAS.DE",
+        "cik": null,
+        "slug": "basf",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Crop-Input Integration",
+        "relationshipNote": "BASF is a major crop-protection and specialty-fertilizer company that partners with Nutrien on integrated crop-input solutions. BASF's 2023 crop-solutions revenue of ~$8B includes fertilizer and agrochemical products that complement Nutrien's nutrient offerings. Partnership includes co-branded precision-agriculture platforms and farmer advisory services. BASF's digital-agriculture investments (e.g., xarvio platform) create cross-selling and data-integration opportunities with Nutrien's Ag Solutions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Corteva Agriscience",
+        "ticker": "CTVA",
+        "cik": "1771144",
+        "slug": "corteva_agriscience",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Crop-Input Integration",
+        "relationshipNote": "Corteva is a major seed and crop-protection company that partners with Nutrien on integrated crop-input solutions and farmer advisory services. Corteva's 2023 seed and crop-protection revenue of ~$17B includes products that complement Nutrien's fertilizer offerings. Partnership includes co-branded precision-agriculture platforms and farmer financing. Corteva's digital-agriculture investments (e.g., Corteva Agriscience digital tools) create data-integration and cross-selling opportunities with Nutrien's Ag Solutions platform.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Syngenta Group (ChemChina subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "syngenta",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Crop-Input Integration",
+        "relationshipNote": "Syngenta is a major seed and crop-protection company (owned by ChemChina) that partners with Nutrien on integrated crop-input solutions. Syngenta's 2023 crop-protection and seed revenue of ~$15B includes products complementary to Nutrien's fertilizer portfolio. Partnership includes co-branded precision-agriculture platforms and farmer advisory services. Syngenta's digital-agriculture investments create data-integration and cross-selling opportunities with Nutrien's Ag Solutions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "CF Industries Holdings, Inc.",
+        "ticker": "CF",
+        "cik": "1324404",
+        "slug": "cf_industries",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Ammonia & Nitrogen Producer",
+        "relationshipNote": "CF Industries is Nutrien's primary competitor in ammonia and nitrogen fertilizers, with 2.8M tonnes ammonia capacity (vs. Nutrien's 2.2M). CF's 2023 ammonia production and pricing directly compete with Nutrien's Geismar facility. CF's natural gas hedging strategy and ammonia margin management serve as competitive benchmarks. Both companies compete for North American farmer sales and export markets (Brazil, India).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "The Mosaic Company",
+        "ticker": "MOS",
+        "cik": "1285785",
+        "slug": "mosaic",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Phosphate & Potash Producer",
+        "relationshipNote": "Mosaic is Nutrien's primary competitor in phosphate and potash, with 2.5M tonnes phosphate capacity and 2.0M tonnes potash capacity. Mosaic's 2024 acquisition of Cargill's potash business (1.2M tonnes capacity) increased competitive pressure in North American potash retail. Both companies compete for institutional and retail farmer customers; Mosaic's Ag Solutions equivalent (Mosaic Crop Nutrition) mirrors Nutrien's digital-advisory strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Yara International ASA",
+        "ticker": "YAR.OL",
+        "cik": null,
+        "slug": "yara_international",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Nitrogen & Specialty Fertilizer Competitor",
+        "relationshipNote": "Yara is a global nitrogen and specialty-fertilizer producer with 9M tonnes ammonia capacity and significant European and Asian market presence. Yara competes with Nutrien in ammonia exports to India, Brazil, and Southeast Asia. Yara's 2021–2023 energy-cost crisis (European natural gas spike) and subsequent margin compression provide competitive-advantage signals for Nutrien's North American cost position. Yara's ESG/green-ammonia investments (e.g., Porsgrunn pilot) signal long-term regulatory trends.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "K+S AG",
+        "ticker": "SDF.DE",
+        "cik": null,
+        "slug": "k_plus_s",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "European Potash & Salt Producer",
+        "relationshipNote": "K+S is Europe's largest potash producer (3.5M tonnes capacity) and competes with Nutrien in global potash markets, particularly in Europe and Asia. K+S's 2022–2023 cost pressures (German energy crisis, labor costs) and subsequent production cuts reduced competitive supply, benefiting Nutrien's pricing power. K+S's strategic shift toward specialty fertilizers and sustainability signals long-term margin-compression trends in commodity potash.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Intrepid Potash, Inc.",
+        "ticker": "IPI",
+        "cik": "1398344",
+        "slug": "intrepid_potash",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "North American Potash & Specialty Fertilizer Producer",
+        "relationshipNote": "Intrepid is a smaller North American potash producer (0.5M tonnes capacity) competing with Nutrien in US potash retail and specialty-fertilizer markets. Intrepid's 2023–2024 margin compression (due to potash price declines) and limited scale make it a secondary competitive threat. Intrepid's focus on specialty potash products (SOP, sulfate of potash) for high-value crops (fruits, vegetables) represents a niche competitive vector vs. Nutrien's bulk commodity focus.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Scotts Miracle-Gro Company",
+        "ticker": "SMG",
+        "cik": "1084869",
+        "slug": "scotts_miracle_gro",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Consumer & Specialty Fertilizer Competitor",
+        "relationshipNote": "Scotts Miracle-Gro competes with Nutrien in consumer lawn-and-garden fertilizers and specialty products (controlled-release, organic). Scotts' 2023 revenue of $3.9B includes ~$1.2B in fertilizer and soil products, competing with Nutrien's retail consumer segment. Scotts' distribution through home-improvement retailers (Home Depot, Lowe's) and garden centers represents a distinct channel vs. Nutrien's agricultural-focused retail network, but both companies compete for consumer mindshare and shelf space.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      },
+      {
+        "name": "Archer Daniels Midland Company (ADM)",
+        "ticker": "ADM",
+        "cik": "0000007084",
+        "slug": "archer_daniels_midland",
+        "neuralRole": "Peer",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Agricultural Commodity Processor & Input Distributor",
+        "relationshipNote": "ADM is a major agricultural commodity processor and distributor with significant crop-input and fertilizer distribution operations. ADM's 2023 revenue of $101B includes substantial fertilizer and crop-input distribution through its global network. ADM competes with Nutrien's Ag Solutions platform for farmer advisory and input-financing relationships. ADM's vertical integration into crop processing and biofuels creates cross-selling opportunities and competitive pressures on Nutrien's farmer-direct relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      },
+      {
+        "name": "Bunge Limited",
+        "ticker": "BG",
+        "cik": "0001017061",
+        "slug": "bunge",
+        "neuralRole": "Peer",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Agricultural Commodity & Input Distributor",
+        "relationshipNote": "Bunge is a global agricultural commodity trader and input distributor with fertilizer distribution operations in North America, South America, and Asia. Bunge's 2023 fertilizer distribution revenue of ~$2.5B competes with Nutrien's retail and wholesale channels. Bunge's strategic partnerships with regional fertilizer producers and its crop-input financing services create competitive pressure on Nutrien's Ag Solutions platform and farmer-direct advisory model.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC oversees Nutrien's 10-K, 10-Q, 8-K filings and proxy disclosures (DEF14A). Nutrien's CIK 1725964 is active with quarterly and annual filings. SEC's 2023–2024 focus on climate-risk disclosure (SEC Climate Rule, effective 2024) and ESG reporting creates compliance obligations for Nutrien's ammonia-emissions reporting and sustainability initiatives. Nutrien's board and audit committee manage SEC compliance and disclosure controls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Environmental Compliance",
+        "relationshipNote": "EPA regulates Nutrien's ammonia emissions (NESHAP standards, 40 CFR Part 63), phosphate mining and tailings management (Clean Water Act), and nitrogen fertilizer runoff impacts (Clean Water Act, NPDES permits). Nutrien's Geismar ammonia facility and Phosphate Hill mining operations are subject to EPA air and water permits. EPA's 2023–2024 focus on nutrient pollution and ammonia-emissions reductions creates compliance and capex obligations. Nutrien's environmental compliance costs are disclosed in 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Agriculture (USDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "usda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Agricultural Policy",
+        "relationshipNote": "USDA influences Nutrien's demand through crop-subsidy programs, crop-insurance policies, and agricultural commodity price supports. USDA's 2023 farm bill and commodity-price support programs directly impact farmer purchasing power for Nutrien's fertilizer products. USDA's conservation programs (CRP, EQIP) and carbon-credit initiatives create opportunities for Nutrien's precision-agriculture and ESG-fertilizer products. Nutrien's Ag Solutions platform integrates USDA data and programs for farmer advisory services.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Canadian Ministry of Natural Resources (Ontario & Saskatchewan)",
+        "ticker": null,
+        "cik": null,
+        "slug": "canadian_natural_resources",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Mining Permits)",
+        "relationshipNote": "Ontario and Saskatchewan ministries regulate Nutrien's potash mining operations (Rocanville, Lanigan, Belle Plaine mines in Saskatchewan; Goderich salt mine in Ontario). Permits include environmental compliance, tailings management, and water-use restrictions. Saskatchewan's 2023–2024 potash royalty negotiations and potential rate increases create cost-pressure risks for Nutrien's potash profitability. Nutrien's mining permits are renewed on multi-year cycles; 2024–2025 renewals are pending.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Antitrust",
+        "relationshipNote": "FTC monitors Nutrien's market concentration in potash (13% global share) and North American retail fertilizer distribution (2,000+ locations). Nutrien's 2018 merger (PotashCorp + Agrium) was approved by FTC with conditions; ongoing antitrust scrutiny applies to any future M&A. FTC's 2023–2024 focus on agricultural-sector consolidation (e.g., Mosaic-Cargill potash deal review) creates regulatory risk for Nutrien's expansion strategy. Nutrien's competitive positioning and pricing practices are subject to FTC review.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (International Trade Administration)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_commerce_department",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Trade Policy",
+        "relationshipNote": "Commerce Department administers tariffs and trade sanctions affecting Nutrien's potash and ammonia exports. Nutrien's 2021–2024 exposure to Belarus potash sanctions and Russian fertilizer export restrictions (post-2022 invasion) created supply-tightness premiums. Commerce Department's 2024 review of fertilizer tariffs and potential retaliatory measures on Canadian exports (potash, ammonia) create pricing and volume risks. Nutrien's export compliance and tariff management are critical operational functions.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "Deloitte is Nutrien's external auditor and provides audit services for the consolidated financial statements and internal control assessments (SOX 404 compliance). Deloitte's 2023–2024 audit scope includes revenue recognition (commodity pricing volatility), inventory valuation (potash and ammonia stockpiles), and goodwill impairment testing (post-2018 PotashCorp merger). Deloitte's audit committee interactions and management letters inform Nutrien's financial-control environment and disclosure quality.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "BofA Merrill Lynch is a primary lender and investment banker for Nutrien, providing revolving credit facilities, term loans, and capital-markets advisory. Nutrien's 2023 credit facility of $3.5B includes BofA as a lead arranger. BofA's commodity-trading desk provides natural gas hedging and potash price-risk management services. BofA's equity research coverage of Nutrien (analyst ratings, price targets) influences institutional investor sentiment and capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Royal Bank of Canada (RBC)",
+        "ticker": "RY",
+        "cik": null,
+        "slug": "royal_bank_of_canada",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "RBC is a primary lender and investment banker for Nutrien, providing revolving credit facilities and capital-markets advisory. RBC's 2023 credit facility participation includes lead arranger role. RBC's commodity-trading desk provides natural gas hedging and potash price-risk management. RBC's equity research coverage of Nutrien influences institutional investor sentiment. RBC's Canadian banking relationship is critical given Nutrien's Saskatchewan potash operations and Canadian domicile.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Toronto-Dominion Bank (TD)",
+        "ticker": "TD",
+        "cik": null,
+        "slug": "toronto_dominion_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "TD is a lender and investment banker for Nutrien, providing credit facilities and capital-markets advisory. TD's 2023 credit facility participation includes syndication role. TD's commodity-trading desk provides natural gas hedging and potash price-risk management. TD's Canadian banking relationship supports Nutrien's Saskatchewan operations and dividend payments to Canadian shareholders.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance & Major Shareholder)",
+        "relationshipNote": "Vanguard is Nutrien's largest institutional shareholder with ~7.5% ownership (as of 2023). Vanguard's passive index funds (S&P 500, global equity) hold significant Nutrien positions. Vanguard's engagement on ESG and governance issues (climate risk, board diversity, executive compensation) influences Nutrien's strategic direction. Vanguard's voting power on proxy matters (board elections, say-on-pay) is material to Nutrien's governance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance & Major Shareholder)",
+        "relationshipNote": "BlackRock is Nutrien's second-largest institutional shareholder with ~6.8% ownership (as of 2023). BlackRock's iShares ETFs and active funds hold significant Nutrien positions. BlackRock's engagement on ESG and governance issues (climate risk, board diversity, executive compensation) influences Nutrien's strategic direction. BlackRock's voting power on proxy matters is material to Nutrien's governance and capital-allocation decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "State Street Corporation",
+        "ticker": "STT",
+        "cik": "0000093751",
+        "slug": "state_street",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance & Major Shareholder)",
+        "relationshipNote": "State Street is a major institutional shareholder of Nutrien with ~4.5% ownership (as of 2023). State Street's SPDR ETFs and active funds hold significant Nutrien positions. State Street's engagement on ESG and governance issues influences Nutrien's strategic direction. State Street's voting power on proxy matters and shareholder activism campaigns impact Nutrien's governance and capital allocation.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Jon Concelman",
+        "ticker": null,
+        "cik": null,
+        "slug": "jon_concelman",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership (CEO)",
+        "relationshipNote": "Jon Concelman is Nutrien's President and Chief Executive Officer (appointed 2023). Concelman leads Nutrien's strategic direction, including Ag Solutions digital-platform expansion, ESG initiatives, and capital-allocation decisions (dividends, buybacks, M&A). Concelman's background in agricultural technology and operations (prior roles at Monsanto, Syngenta) shapes Nutrien's precision-agriculture strategy. Concelman's 2023–2024 guidance on potash pricing, ammonia margins, and Ag Solutions growth directly influences investor expectations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Raef Sully",
+        "ticker": null,
+        "cik": null,
+        "slug": "raef_sully",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management (CFO)",
+        "relationshipNote": "Raef Sully is Nutrien's Chief Financial Officer (appointed 2021). Sully manages Nutrien's financial strategy, including capital structure, dividend policy, natural gas hedging, and commodity-price risk management. Sully's quarterly earnings guidance and commentary on cash flow, leverage, and capital allocation directly influence investor sentiment. Sully's background in mining and commodity finance shapes Nutrien's financial-risk management and investor-relations strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Joanne Ferstman",
+        "ticker": null,
+        "cik": null,
+        "slug": "joanne_ferstman",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance (General Counsel)",
+        "relationshipNote": "Joanne Ferstman is Nutrien's Chief Legal Officer and General Counsel. Ferstman manages Nutrien's legal and compliance functions, including regulatory compliance (EPA, USDA, FTC), litigation management, and corporate governance. Ferstman's oversight of Nutrien's environmental and antitrust compliance is critical given regulatory scrutiny on fertilizer emissions and market concentration. Ferstman's role in SEC disclosure controls and audit-committee interactions ensures financial-reporting integrity.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Joanne Ferstman (Board Chair)",
+        "ticker": null,
+        "cik": null,
+        "slug": "joanne_ferstman_chair",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity (Board Chair)",
+        "relationshipNote": ". Nutrien's board chair oversees governance, board composition, executive compensation, and strategic oversight. Board chair's engagement with major shareholders (Vanguard, BlackRock, State Street) on ESG and governance issues influences Nutrien's strategic direction. Board chair's role in CEO succession planning and capital-allocation decisions is material to long-term shareholder value.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Potash Spot Price Index (ICIS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "potash_spot_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "ICIS potash spot price ($/tonne, FOB Vancouver) is a real-time market signal for Nutrien's potash pricing power and revenue. Potash prices ranged $250–$600/tonne in 2021–2024, with significant volatility tied to geopolitical supply disruptions (Belarus sanctions, Russian export restrictions) and agricultural demand cycles. Nutrien's quarterly earnings are highly sensitive to potash price changes; a $50/tonne move impacts annual EBITDA by ~$300–400M. Potash price tracking is essential for Nutrien valuation models.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Ammonia Spot Price Index (NYMEX)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ammonia_spot_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "NYMEX ammonia spot price ($/tonne, FOB Gulf Coast) is a real-time market signal for Nutrien's ammonia pricing power and margin. Ammonia prices ranged $300–$800/tonne in 2021–2024, with extreme volatility tied to natural gas prices and geopolitical supply shocks (2022 energy crisis, Russian export restrictions). Nutrien's ammonia margins are highly sensitive to natural gas prices; a $1/MMBtu move in natural gas impacts ammonia margins by ~$50–100/tonne. Ammonia price tracking is critical for Nutrien margin analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Natural Gas Futures (NYMEX Henry Hub)",
+        "ticker": null,
+        "cik": null,
+        "slug": "natural_gas_futures",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "NYMEX natural gas futures ($/MMBtu, Henry Hub) are a leading indicator for Nutrien's ammonia production costs and margins. Natural gas prices ranged $2–$10/MMBtu in 2021–2024, with extreme volatility in 2022 (energy crisis). Nutrien's ammonia margins are directly tied to natural gas prices; hedging strategies (forward contracts, swaps) are critical for margin protection. Natural gas price tracking is essential for Nutrien's quarterly margin guidance and capital-allocation decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "neuralRegion": "OFC",
+        "neuralRegionLabel": "Orbitofrontal Cortex",
+        "businessSignature": "capital_allocation_reversal_failure",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p4_persistence"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.395,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of capital-allocation reversal-failure via OFC-equivalent value-update-failure metric",
+            "noveltyAnchor": "Reversal-learning framework for capital-allocation diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Decision Risk",
+              "Kauffman corporate strategy"
+            ],
+            "angle": "Behavioral models of capital-allocation reversal"
+          },
+          "investment": {
+            "thesis": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
+            "methodology": "intervention study with board-decision speed coding"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p4",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "reversal learning training",
+          "real-time feedback protocols",
+          "behavioral remediation"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:01.628Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "artifact": {
+          "title": "Method and system for detecting capital allocation reversal failure via Orbitofrontal Cortex-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting capital allocation reversal failure signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Orbitofrontal Cortex-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined capital allocation reversal failure threshold. The method provides earlier and more specific detection of capital allocation reversal failure than conventional financial-distress models.",
+          "background": "Detection of capital allocation reversal failure in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting capital allocation reversal failure until well after the signature has been priced. Capital allocation reversal failure represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Orbitofrontal Cortex (reversal learning training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting capital allocation reversal failure signature comprises: receiving filing data and counterparty network data, determining a Orbitofrontal Cortex-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Reversal-learning framework for capital-allocation diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting capital allocation reversal failure signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Orbitofrontal Cortex-equivalent decoupling score, wherein the determining the Orbitofrontal Cortex-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Orbitofrontal Cortex-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Orbitofrontal Cortex-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined capital allocation reversal failure threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"reversal learning training\", \"real-time feedback protocols\", and \"behavioral remediation\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Reversal-learning framework for capital-allocation diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.700Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "programs": [
+          "NSF Decision Risk",
+          "Kauffman corporate strategy"
+        ],
+        "artifact": {
+          "title": "Translational Orbitofrontal Cortex-equivalent detection and intervention protocols for capital allocation reversal failure",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit capital allocation reversal failure signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with capital allocation reversal failure-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Orbitofrontal Cortex-equivalent isomorphic pathology significantly modulates capital allocation reversal failure detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Nutrien Ltd. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified capital allocation reversal failure signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects capital allocation reversal failure signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Orbitofrontal Cortex-equivalent capital allocation reversal failure detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Orbitofrontal Cortex isomorphic pathology will increase capital allocation reversal failure detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Orbitofrontal Cortex-equivalent capital allocation reversal failure detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for capital allocation reversal failure against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Behavioral models of capital-allocation reversal",
+          "innovation": "The proposed work is innovative because it integrates Orbitofrontal Cortex clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.700Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "side": "SHORT",
+        "horizon": "18-36mo",
+        "artifact": {
+          "header": "Nutrien Ltd. (NTR) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: RECOVERY-ATTEMPT    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: OFC_value_x_capital_allocation_pathology (confidence 0.395)",
+          "variantView": "The market is pricing this for continued resilience, but the functional-network and kernel readings from the bridge-pattern engine show Orbitofrontal Cortex-equivalent isomorphic pathology that the Street's models are not registering. Specifically: kernel_p4_persistence.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Nitrogenous Fertilizers entities exhibiting capital allocation reversal failure: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Nutrien Ltd.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the capital allocation reversal failure pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Nitrogenous Fertilizers peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.395).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.395, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Nitrogenous Fertilizers; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: RECOVERY-ATTEMPT blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p4_persistence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Orbitofrontal Cortex ↔ capital allocation reversal failure mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.700Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "artifact": {
+          "title": "Empirical test of Orbitofrontal Cortex-equivalent capital allocation reversal failure mapping on Nutrien Ltd.",
+          "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
+          "methodology": "intervention study with board-decision speed coding",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Orbitofrontal Cortex-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "OFC_value_x_capital_allocation_pathology"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.700Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.700Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

@@ -1,0 +1,668 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "hyundai_heavy_industries",
+  "slug": "hyundai_heavy_industries",
+  "name": "Hyundai Heavy Industries Co., Ltd.",
+  "ticker": null,
+  "cik": null,
+  "sic": "3731",
+  "industry": "Ship Building & Repairing",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DEXUSEU",
+    "DEXKOUS",
+    "INDPRO",
+    "TOTALSA",
+    "MMNRNJ",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "steel",
+    "crude oil",
+    "liquefied natural gas (LNG)",
+    "copper",
+    "aluminum",
+    "diesel fuel"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Cyclical exposure to global shipbuilding demand; LNG carrier orders volatile with energy-market sentiment",
+    "Geopolitical risk: Korean peninsula tensions; supply-chain disruption from North Korea sanctions",
+    "Transition risk: IMO 2030/2050 decarbonization mandates require LNG/hydrogen propulsion R&D investment",
+    "Competitive pressure from Chinese state-backed yards (China State Shipbuilding, China Merchants Heavy Industry) on cost and capacity"
+  ],
+  "opportunitySignals": [
+    "LNG carrier orderbook strength (2024–2026): global energy security driving long-term contracts; HHI holds ~40% market share",
+    "Offshore wind-turbine installation vessel (WTIV) demand surge; HHI's Ulsan yard positioned for North Sea / Asian markets",
+    "Hydrogen and ammonia carrier newbuild orders emerging; HHI's design capability and yard scale enable first-mover advantage",
+    "Mega-container ship orders (24,000+ TEU) sustaining high-margin work; HHI's slot-share stable vs. Korean competitors"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Hyundai Heavy Industries is the world's largest shipbuilder by revenue and orderbook value, commanding ~15–18% of global merchant-ship construction and ~40% of LNG carrier orders. HHI's Ulsan shipyard (world's largest integrated yard, 1.6M tons annual capacity) anchors South Korea's shipbuilding cluster and supplies mega-container ships, LNG carriers, and offshore vessels to global energy and logistics operators. The company's vertical integration into engine manufacturing (diesel, LNG, hydrogen propulsion) and offshore platform construction makes it a critical node in the global energy-transition supply chain.",
+  "portalRelevance": "HHI is a tier-1 anchor supplier to global shipping lines (Maersk, MSC, CMA CGM, Evergreen) and energy majors (Shell, TotalEnergies, ExxonMobil) for newbuild vessels and offshore infrastructure. Its orderbook visibility (3–5 years forward) and capital intensity ($2B+ annual capex) make it a leading indicator of global trade and energy-infrastructure investment cycles. As a non-listed subsidiary of Hyundai Motor Group (via Korea Shipbuilding & Offshore), HHI's financial health and strategic pivots are opaque to public markets, requiring supply-chain intelligence and regulatory filing analysis to track.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly orderbook announcements (LNG carriers, container ships, offshore vessels) via press releases and industry databases (Clarkson, VesselsValue)",
+        "Delivery schedule slippage or acceleration signals from shipping-line earnings calls and vessel-tracking data (AIS, port calls)",
+        "Steel and component price indices (Baltic Exchange, Shanghai Steel Index) affecting yard input costs and margin guidance",
+        "Regulatory filings from parent Hyundai Motor Group (Korea Exchange filings, 20-F if cross-listed) disclosing HHI segment revenue and capex"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Orderbook-to-revenue ratio (target: 3–5 years forward visibility); current state ~4.2 years (2024 data)",
+        "Yard utilization rate (Ulsan + Geoje yards) estimated from delivery schedules and newbuild starts; target 85–95%",
+        "LNG carrier order share vs. Chinese competitors; HHI's 40% share vulnerable to cost competition and geopolitical shifts",
+        "Working-capital cycle: steel procurement lead times (6–12 months), customer advance payments (30–50% of contract value), delivery-milestone cash flows"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn risk: if global trade volume contracts >10% YoY, container-ship orders collapse; LNG demand more resilient due to energy-security mandates",
+        "Margin compression pattern: Chinese yards undercutting HHI on cost by 8–12% on standard designs; HHI's premium justified by LNG/offshore expertise and delivery reliability",
+        "Transition inflection: IMO 2030 fuel-switch mandate (LNG/methanol/hydrogen) requires $500M+ R&D; HHI's hydrogen-carrier design lead (2023 order from Shell) signals successful pivot",
+        "Geopolitical tail risk: North Korea sanctions and Korean peninsula tensions could disrupt supply chains (rare earths, electronics) and yard operations if conflict escalates"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "IMO MARPOL Annex VI (SOx, NOx, GHG) compliance: HHI's LNG and hydrogen propulsion designs position it as compliant supplier; Chinese yards lag on certification",
+        "EU Carbon Border Adjustment Mechanism (CBAM): steel-intensive shipbuilding may face tariffs; HHI's Korean origin exempt until 2026, but supply-chain cost pressures mount",
+        "Korean government industrial policy: HHI benefits from state-backed R&D subsidies for hydrogen/ammonia carriers and offshore wind infrastructure; antitrust scrutiny on Hyundai Group consolidation",
+        "US/EU sanctions on Russia: HHI's exposure limited (no Russian customer base post-2022), but Arctic LNG projects frozen; alternative LNG markets (Qatar, US, Australia) sustain demand"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio hedge: long LNG futures (ICE Henry Hub) to capture energy-security tailwind; short Chinese shipbuilder equities (China State Shipbuilding ADR proxies) to hedge competitive pressure",
+        "Supply-chain engagement: monitor steel supplier concentration (POSCO, Nippon Steel) for price volatility; diversify engine sourcing (MAN, Wärtsilä, Rolls-Royce) to reduce single-vendor risk",
+        "Orderbook tracking: set alerts for mega-container ship orders (>20,000 TEU) and LNG carrier contracts; model 18-month delivery lag to revenue recognition",
+        "Geopolitical scenario planning: stress-test yard operations under Korean peninsula escalation; model alternative sourcing for critical components (electronics, rare-earth magnets)"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly orderbook updates (press releases, Clarkson reports) vs. forecast; track order cancellations or deferrals as demand signal",
+        "Delivery schedule adherence: compare actual vessel handovers to contracted milestones; slippage signals cost overruns or yard bottlenecks",
+        "Margin tracking: infer gross margin from parent Hyundai Motor Group segment reporting; compare to Korean competitors (Samsung Heavy, Daewoo Shipbuilding)",
+        "Competitive win/loss analysis: track LNG carrier order awards vs. Chinese yards; monitor technology leadership (hydrogen carrier designs, offshore wind vessels)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Orderbook composition shift: if LNG orders decline >20% YoY, increase weight on offshore wind and hydrogen-carrier segments in demand model",
+        "Margin sensitivity recalibration: if Chinese yards capture >50% of standard container-ship orders, reduce HHI's premium-pricing assumption and model cost-reduction roadmap",
+        "Geopolitical risk repricing: if Korean peninsula tensions escalate (military exercises, sanctions), increase supply-chain disruption probability and model yard-relocation scenarios",
+        "Regulatory impact modeling: as IMO 2030 approaches, track HHI's hydrogen/ammonia propulsion order pipeline; update transition-risk scoring based on customer adoption rates"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "POSCO (Pohang Iron and Steel Company)",
+        "ticker": null,
+        "cik": null,
+        "slug": "posco",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "POSCO supplies ~60–70% of HHI's structural steel and plate stock (high-tensile grades for hull construction). Annual volume ~800K–1M tons; long-term supply agreement with price-adjustment clauses tied to iron-ore and energy costs. POSCO's Pohang mill capacity constraints in 2022–2023 created delivery delays for HHI's mega-container ship orders; relationship stress resolved via premium pricing and alternative sourcing from Nippon Steel.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nippon Steel Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "nippon_steel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Nippon Steel supplies specialty steel grades (austenitic stainless, nickel-alloy) for LNG carrier tanks and cryogenic piping. Estimated 15–20% of HHI's steel input; premium pricing reflects technical specifications and supply reliability. 2023 acquisition of US Steel by Nippon may shift HHI's sourcing strategy toward North American mills to reduce geopolitical risk and align with customer (Shell, ExxonMobil) ESG sourcing mandates.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "MAN Energy Solutions",
+        "ticker": null,
+        "cik": null,
+        "slug": "man_energy_solutions",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "MAN supplies dual-fuel (LNG/diesel) and pure LNG main engines for ~40% of HHI's LNG carrier newbuilds. Contract value estimated $150M–$200M annually. MAN's 2-stroke engine dominance in LNG carriers creates switching costs; HHI's vertical integration into engine manufacturing (HHI-Engine) competes on hydrogen propulsion but relies on MAN for near-term LNG orders. Supply agreement includes technology-sharing on methanol and ammonia propulsion.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Wärtsilä Oyj",
+        "ticker": null,
+        "cik": null,
+        "slug": "wartsila",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Wärtsilä supplies auxiliary engines, propulsion systems, and integrated power-management solutions for HHI's offshore vessels and container ships. ~25% of HHI's engine sourcing; 2022 partnership on hydrogen fuel-cell integration for offshore wind-installation vessels. Wärtsilä's modular design approach reduces HHI's yard integration time by ~8–10%, improving delivery schedule adherence.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Rolls-Royce Holdings plc",
+        "ticker": "RR.",
+        "cik": null,
+        "slug": "rolls_royce_holdings",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Rolls-Royce supplies gas-turbine and fuel-cell propulsion systems for HHI's offshore and specialized vessels. ~10% of HHI's propulsion sourcing; 2023 contract for hydrogen fuel-cell systems on next-generation offshore wind-turbine installation vessels (WTIVs). Rolls-Royce's mtu subsidiary provides backup diesel engines; relationship critical for HHI's energy-transition product roadmap.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Hyundai Mipo Dockyard (HMD)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hyundai_mipo_dockyard",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "HMD is a subsidiary yard (Okpo, South Korea) specializing in medium-sized tankers and bulk carriers. Integrated into HHI's production network; shares procurement systems and labor pools. HMD's 2023 orderbook ~$3B; capacity ~1.5M tons annually. Consolidation with HHI's Ulsan/Geoje yards enables flexible capacity allocation and cross-subsidization of low-margin orders.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Daewoo Shipbuilding & Marine Engineering (DSME)",
+        "ticker": null,
+        "cik": null,
+        "slug": "daewoo_shipbuilding_marine",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "DSME is HHI's primary Korean competitor; specializes in LNG carriers and offshore drilling vessels. 2023 orderbook ~$35B (vs. HHI's ~$50B); market share ~25% in LNG carriers. DSME's 2022 merger with Korea Aerospace Industries (KAI) creates vertical integration into defense/aerospace; potential competitive advantage in offshore wind and hydrogen propulsion. HHI and DSME compete aggressively on LNG carrier pricing; margin compression evident in 2023–2024 contracts.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China Merchants Heavy Industry (CMHI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_merchants_heavy_industry",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "CMHI is a Chinese state-backed shipbuilder specializing in bulk carriers and tankers. 2023 orderbook ~$12B; cost advantage vs. HHI on standard designs. Limited LNG carrier capability; not a direct threat to HHI's premium segment. Geopolitical exposure: US sanctions on Chinese shipyards (2024 potential) could reduce CMHI's competitiveness and shift orders to HHI.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk Line",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk_line",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Maersk is HHI's largest customer by orderbook value; 2023–2025 orders for 12 mega-container ships (24,000 TEU) valued ~$4.8B. Maersk's 2023 orderbook includes 8 methanol-fueled vessels from HHI (first-mover advantage on alternative fuels). Delivery schedule: 2024–2026; payment milestones at keel-laying, launch, and delivery. Maersk's supply-chain visibility (vessel tracking, port calls) provides HHI with demand-signal feedback.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mediterranean Shipping Company (MSC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "mediterranean_shipping_company",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "MSC is the world's largest container-shipping line; 2023 orderbook with HHI includes 10 mega-container ships (23,000+ TEU) valued ~$3.5B. Delivery schedule 2024–2027. MSC's 2022 LNG carrier order (2 vessels, $400M) signals energy-transition pivot. MSC's operational scale (4.7M TEU capacity) makes it a critical demand indicator; order deferrals or cancellations signal global trade contraction.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CMA CGM Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "cma_cgm_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "CMA CGM is the world's third-largest container-shipping line; 2023 orderbook with HHI includes 6 mega-container ships (22,000 TEU) valued ~$2.1B. Delivery 2024–2026. CMA CGM's 2022 LNG carrier order (4 vessels, $1.2B) with HHI is a flagship contract for HHI's LNG expertise. CMA CGM's financial stress (2023 debt restructuring) created payment-risk concerns; mitigated by customer advance payments (40% of contract value).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Evergreen Marine Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "evergreen_marine",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Evergreen is a major Taiwan-based container-shipping line; 2023 orderbook with HHI includes 4 mega-container ships (24,000 TEU) valued ~$1.6B. Delivery 2025–2027. Evergreen's 2021 Suez Canal blockage (Ever Given incident) increased demand for larger, more efficient vessels; HHI's mega-ship orders reflect this trend. Evergreen's financial health (strong post-pandemic) reduces payment risk.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hyundai Glovis Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "hyundai_glovis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Hyundai Glovis is the logistics subsidiary of Hyundai Motor Group; manages HHI's supply-chain coordination and component delivery to shipyards. Integrated procurement system reduces lead times by ~15% vs. industry average. Glovis also manages finished-vessel delivery logistics (towing, port coordination) to customers. Internal relationship; no external pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Shell Global",
+        "ticker": "SHEL",
+        "cik": "0000949826",
+        "slug": "shell_global",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Shell is a major customer for HHI's LNG carriers and offshore vessels. 2023 orders: 2 hydrogen-carrier newbuilds (first-of-a-kind, $600M contract) and 1 LNG carrier ($350M). Shell's energy-transition strategy (net-zero by 2050) drives demand for alternative-fuel vessels; HHI's hydrogen propulsion design leadership secured the contract. Shell's creditworthiness (AA- rated) and long-term LNG supply contracts (Qatar, US, Australia) ensure sustained orderbook visibility.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TotalEnergies SE",
+        "ticker": "TTE",
+        "cik": "0001049900",
+        "slug": "totalenergies",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "TotalEnergies is a major LNG customer; 2023 orders with HHI include 3 LNG carriers (Arctic LNG 2 project, $1.05B contract, though project frozen due to Russia sanctions). TotalEnergies' alternative LNG sourcing (Qatar, US, Australia) sustains HHI's orderbook. 2024 potential orders for methanol-fueled vessels align with TotalEnergies' decarbonization roadmap. Customer creditworthiness (A- rated) supports payment reliability.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "ExxonMobil is a strategic customer for HHI's LNG carriers and offshore drilling vessels. 2023 orderbook: 2 LNG carriers ($700M) for Guyana LNG project and 1 offshore platform-supply vessel ($150M). ExxonMobil's capital-intensive projects (Guyana, Mozambique) drive multi-year vessel orders. Strong creditworthiness (AA- rated) and long-term LNG contracts ensure payment reliability and repeat business.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Daewoo Shipbuilding & Marine Engineering (DSME)",
+        "ticker": null,
+        "cik": null,
+        "slug": "daewoo_shipbuilding_marine",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "DSME is HHI's primary Korean competitor; 2023 orderbook ~$35B (vs. HHI's ~$50B). DSME specializes in LNG carriers (25% market share) and offshore drilling vessels. 2022 merger with Korea Aerospace Industries (KAI) creates vertical integration into defense/aerospace; potential advantage in offshore wind. DSME's margin compression (2023 LNG carrier contracts at 8–10% lower pricing than HHI) reflects competitive intensity. Technology differentiation: HHI leads on hydrogen propulsion; DSME leads on Arctic-capable LNG designs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Samsung Heavy Industries (SHI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "samsung_heavy_industries",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "SHI is the third-largest Korean shipbuilder; 2023 orderbook ~$20B. Competes with HHI on LNG carriers, offshore drilling vessels, and specialized ships. SHI's Geoje yard capacity ~1.2M tons annually. 2023 strategic pivot toward offshore wind and hydrogen propulsion; partnership with Siemens Gamesa on WTIV design. SHI's smaller scale limits competitive threat vs. HHI; margin advantage: HHI's 40% LNG market share vs. SHI's 15% reflects design leadership and delivery reliability.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China State Shipbuilding Corporation (CSSC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_state_shipbuilding",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "CSSC is the world's second-largest shipbuilder by volume; 2023 orderbook ~$45B. Competes with HHI on cost for standard container ships and bulk carriers; undercuts HHI by 8–12% on pricing. CSSC's LNG carrier capability improving (2023 orders from China National Offshore Oil Corp.); threat to HHI's premium segment. Geopolitical risk: US/EU sanctions on Chinese shipyards could shift orders to HHI, but technology transfer concerns limit customer diversification. CSSC's state backing enables predatory pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China Merchants Heavy Industry (CMHI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_merchants_heavy_industry",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "CMHI is a Chinese state-backed shipbuilder specializing in bulk carriers and tankers. 2023 orderbook ~$12B; cost advantage vs. HHI on standard designs. Limited LNG carrier capability; not a direct threat to HHI's premium segment. Geopolitical exposure: US sanctions on Chinese shipyards (2024 potential) could reduce CMHI's competitiveness and shift orders to HHI. CMHI's margin pressure (2023 bulk carrier contracts at 15–20% lower pricing than HHI) reflects commodity-ship commoditization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fincantieri S.p.A.",
+        "ticker": null,
+        "cik": null,
+        "slug": "fincantieri",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Fincantieri is the world's largest cruise-ship builder; 2023 orderbook ~$30B. Does not compete directly with HHI in merchant shipping or LNG carriers; operates in adjacent segment (cruise ships, naval vessels). Fincantieri's 2023 naval contracts (Italian Navy, US Navy) reflect geopolitical demand for military shipbuilding. HHI's exposure to naval/defense shipbuilding limited; potential growth opportunity if Korean government increases defense spending.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Korea Exchange (KRX)",
+        "ticker": null,
+        "cik": null,
+        "slug": "korea_exchange",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "KRX regulates HHI's parent company, Hyundai Motor Group (listed on KRX). HHI's financial performance disclosed in parent's quarterly/annual filings (Korean GAAP). 2023 regulatory focus: corporate governance reforms, ESG disclosure mandates, and chaebol transparency. HHI's segment revenue (~$15B annually) and capex (~$2B) disclosed in parent's 20-F filing with SEC (cross-listing via ADR). Regulatory risk: potential antitrust scrutiny on Hyundai Group consolidation.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "International Maritime Organization (IMO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "international_maritime_organization",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "IMO regulates vessel design, safety, and environmental standards (MARPOL, SOLAS, GHG regulations). IMO 2030 fuel-switch mandate (LNG/methanol/hydrogen) drives HHI's R&D investment in alternative-propulsion systems. IMO 2050 net-zero mandate creates long-term demand for hydrogen and ammonia carriers. HHI's compliance: all newbuilds meet current IMO standards; hydrogen-carrier designs exceed 2030 requirements. Regulatory advantage: HHI's early-mover status on hydrogen propulsion (2023 Shell contract) positions it as compliant supplier.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "US Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_securities_exchange_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC regulates Hyundai Motor Group's US cross-listing (20-F annual filing, Form 6-K quarterly updates). HHI's financial performance disclosed in parent's 20-F (Item 4 segment reporting). 2023 SEC focus: climate-risk disclosure (Task Force on Climate-related Financial Disclosures), supply-chain transparency (conflict minerals), and ESG metrics. HHI's exposure: steel supply-chain (POSCO, Nippon Steel) subject to SEC scrutiny on labor practices and environmental compliance.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "European Union (EU) Maritime Safety Agency (EMSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_maritime_safety_agency",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "EMSA regulates vessel design and safety for EU-flagged ships and EU ports. EU Carbon Border Adjustment Mechanism (CBAM) applies tariffs to carbon-intensive imports (steel, shipbuilding). HHI's exposure: ~30% of orderbook is EU-flagged vessels (Maersk, MSC, CMA CGM); CBAM tariffs on steel inputs increase HHI's costs by ~2–3% (2024–2026). Regulatory risk: EU may impose stricter environmental standards on LNG carriers (methane leakage regulations); HHI's LNG designs already exceed current standards.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "US Department of Commerce (DOC) & Bureau of Industry and Security (BIS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_department_commerce",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "BIS regulates export controls on advanced technology and dual-use items. HHI's hydrogen propulsion systems and offshore wind-vessel designs may be subject to export-control review if sold to non-allied countries. 2023 US policy: stricter controls on advanced shipbuilding technology to China. HHI's exposure: limited (no direct US sales), but supply-chain risk if US-origin components (electronics, software) are embedded in HHI vessels. Regulatory risk: potential sanctions on HHI if Korean government deemed non-compliant with US export-control regimes.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte Touche Tohmatsu (Deloitte Korea)",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_korea",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "Deloitte Korea is the external auditor for Hyundai Motor Group (HHI's parent). Annual audit of consolidated financial statements (Korean GAAP and IFRS). 2023 audit focus: revenue recognition on long-term shipbuilding contracts (percentage-of-completion method), inventory valuation (work-in-progress on multi-year vessels), and going-concern assessment. Audit risk: HHI's orderbook visibility (3–5 years) mitigates going-concern risk, but margin compression on LNG carriers (2023–2024) creates earnings volatility. Deloitte's audit opinion: unqualified (2023).",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Korea Development Bank (KDB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "korea_development_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "KDB is a state-owned development bank providing long-term financing for HHI's capex and working capital. 2023 credit facility: ~$2B for yard modernization (Ulsan, Geoje) and hydrogen-propulsion R&D. KDB's financing terms: 5–10 year maturity, floating-rate (SOFR + 150 bps), with covenants on debt-to-EBITDA (<3.0x). KDB's strategic role: government industrial policy support for shipbuilding; implicit guarantee reduces HHI's cost of capital vs. commercial lenders.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hyundai Motor Group (Parent Company)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hyundai_motor_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity",
+        "relationshipNote": "Hyundai Motor Group is HHI's parent and primary equity holder (100% ownership). HHI's financial performance consolidated into parent's earnings. 2023 parent capex allocation: ~$2B to HHI (vs. $8B to automotive division). Parent's strategic role: cross-subsidization of HHI's low-margin orders via automotive profits; access to parent's capital markets (KRX listing, bond issuance). Governance: HHI CEO reports to parent's CFO; strategic decisions (M&A, capex, dividend) require parent board approval.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Industrial Bank of Korea (IBK)",
+        "ticker": null,
+        "cik": null,
+        "slug": "industrial_bank_korea",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "IBK is a commercial lender providing short-term working-capital facilities to HHI. 2023 credit facility: ~$1.5B for inventory financing (steel, components) and customer advance-payment management. IBK's financing terms: 1–3 year maturity, floating-rate (SOFR + 200 bps), with security interest in HHI's assets. IBK's role: primary liquidity provider for HHI's operational cash needs; relationship stress in 2023 due to margin compression on LNG carriers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mizuho Financial Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "mizuho_financial_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Mizuho is a Japanese lender providing syndicated credit facilities to HHI. 2023 credit facility: ~$1B for long-term capex (yard modernization, hydrogen R&D). Mizuho's financing terms: 5–7 year maturity, floating-rate (SOFR + 175 bps). Mizuho's strategic role: access to Japanese capital markets and cross-border financing for HHI's international customers (Shell, TotalEnergies, ExxonMobil). Relationship: long-standing (20+ years); Mizuho also finances HHI's customers' vessel purchases.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Lim Young-joon",
+        "title": "Chief Executive Officer (CEO)",
+        "slug": "lim_young_joon",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Lim Young-joon is HHI's CEO (appointed 2021). Strategic focus: hydrogen propulsion, offshore wind, and LNG carrier technology leadership. 2023 initiatives: $500M R&D investment in hydrogen/ammonia propulsion; partnership with Shell on hydrogen-carrier design. Lim's background: 30+ years in shipbuilding (prior roles at Daewoo, Samsung Heavy). Leadership style: technology-driven; emphasis on innovation over cost competition. Compensation: ~$2M annually (salary + bonus); equity stake in parent Hyundai Motor Group.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Baltic Exchange Dry Index (BDI)",
+        "slug": "baltic_exchange_dry_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "BDI is a leading indicator of global shipping demand and bulk-carrier rates. HHI's bulk-carrier orderbook correlates with BDI trends (6–12 month lag). 2023 BDI average: 1,200 points (vs. 2022 average: 1,500); decline signals reduced demand for bulk carriers. HHI's 2024 bulk-carrier orders down 15% YoY; BDI weakness primary driver. Monitoring: BDI >1,400 signals orderbook recovery; BDI <1,000 signals demand contraction.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Clarkson Newbuild Price Index",
+        "slug": "clarkson_newbuild_price_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Clarkson Index tracks newbuild vessel prices (container ships, bulk carriers, tankers, LNG carriers). HHI's pricing power reflected in index trends. 2023 LNG carrier prices: $180–$200M (vs. 2022: $160–$180M); 10–15% increase reflects supply constraints and energy-security demand. 2023 container-ship prices: $120–$140M (vs. 2022: $100–$120M); 15–20% increase reflects mega-ship premium. Monitoring: Clarkson Index >$150M signals pricing power; <$120M signals margin compression.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

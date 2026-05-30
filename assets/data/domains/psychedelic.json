@@ -1,0 +1,2327 @@
+{
+  "domainId": "psychedelic",
+  "title": "Psychedelic Medicine",
+  "parentPortal": "clinical.html",
+  "parentLabel": "Clinical",
+  "phase": "P7",
+  "activations": [
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Default Mode Network Dissolution",
+      "domainDescription": "Central hub of ego-construct and self-referential processing disrupted by classic psychedelics",
+      "domainFunction": "Generates narrative self-identity and ruminative loops; psychedelic-induced dissolution enables cognitive flexibility and identity reset",
+      "whyThisNode": "DMN hyperconnectivity is the primary target of classic psychedelics — 5-HT2A agonism acutely desynchronizes DMN, breaking rigid self-referential patterns",
+      "group": "default_mode",
+      "phase": "P7",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "END_OF_LIFE_DISTRESS",
+        "PTSD_PSYCHEDELIC",
+        "ALCOHOL_USE_DISORDER"
+      ],
+      "treatments": [
+        {
+          "label": "Psilocybin high-dose session (25mg)",
+          "type": "PHARMACOLOGICAL",
+          "description": "Single high-dose psilocybin with therapeutic support produces acute DMN dissolution and lasting increases in between-network integration",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Ayahuasca ceremony (single session)",
+          "type": "PHARMACOLOGICAL",
+          "description": "MAO-I plus DMT combination produces prolonged DMN disruption (4-6 hours) with significant antidepressant effect in RCTs",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "psychedelic_default_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Default Mode Network Dissolution",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "religion",
+          "role": "Theological Doctrine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Self-Referential Processing Hub",
+      "domainDescription": "Medial prefrontal cortex driving ruminative self-focus and emotional valuation",
+      "domainFunction": "Encodes self-referential thought and emotional regulation; psychedelics suppress mPFC-PCC coupling to break ruminative cycles",
+      "whyThisNode": "mPFC is a core DMN hub where ruminative hyperconnectivity is most resistant to conventional pharmacology — psilocybin acutely suppresses mPFC activity",
+      "group": "default_mode",
+      "phase": "P7",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "PTSD_PSYCHEDELIC",
+        "END_OF_LIFE_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "Psychedelic-assisted psychotherapy (PAP)",
+          "type": "THERAPEUTIC",
+          "description": "Structured preparation-session-integration model allows dissolution of defensive mPFC patterns and post-session narrative identity reconstruction",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Internal Family Systems (IFS) with psychedelic",
+          "type": "THERAPEUTIC",
+          "description": "Parts work during expanded state enables access to exiled material with reduced mPFC protector resistance",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "psychedelic_selfreferential_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Self-Referential Processing Hub",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Addictive Identity Narrative"
+        },
+        {
+          "domain": "business",
+          "role": "Brand & Identity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration"
+        },
+        {
+          "domain": "legal",
+          "role": "Constitutional Identity / Rule of Law"
+        },
+        {
+          "domain": "medicine",
+          "role": "Primary Care"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Cognition & Self-Reference"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Diagnostic Analysis"
+        },
+        {
+          "domain": "culture",
+          "role": "Social Identity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PCC",
+      "state": "active",
+      "domainLabel": "Autobiographical Memory Loop",
+      "domainDescription": "Posterior cingulate cortex maintaining narrative identity and self-reflection",
+      "domainFunction": "Sustains autobiographical memory retrieval and internal narrative; psychedelic disruption of PCC-mPFC coupling enables perspective shift",
+      "whyThisNode": "PCC is locked to mPFC in depression — DMN dissolution via psychedelics specifically breaks this coupling, enabling new self-narratives",
+      "group": "default_mode",
+      "phase": "P7",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "END_OF_LIFE_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "5-MeO-DMT (single dose)",
+          "type": "PHARMACOLOGICAL",
+          "description": "Potent 5-HT2A/1A agonist producing rapid ego dissolution (15-45 min) with strong PCC desynchronization",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "ACT integration framework",
+          "type": "THERAPEUTIC",
+          "description": "Post-session defusion from PCC-mediated DMN narratives, acceptance of insights, and values-directed action",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "psychedelic_autobio_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Autobiographical Memory Loop",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness"
+        },
+        {
+          "domain": "medicine",
+          "role": "Telehealth"
+        },
+        {
+          "domain": "religion",
+          "role": "Meditation & Contemplation"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Core Operations"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Technology & Innovation"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Policy & Governance"
+        },
+        {
+          "domain": "economy",
+          "role": "Protocol Development Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Serotonergic Reset Center",
+      "domainDescription": "Raphe nuclei as the primary serotonin production site and 5-HT2A receptor system origin",
+      "domainFunction": "Produces serotonin for mood regulation, sleep-wake cycling, and pain modulation; classic psychedelics act primarily through 5-HT2A receptor agonism originating from raphe projections",
+      "whyThisNode": "The raphe-5-HT2A system is the primary pharmacological target for psilocybin, LSD, DMT, and ayahuasca — serotonergic reset is the core mechanism",
+      "group": "serotonergic",
+      "phase": "P7",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "CLUSTER_HEADACHE",
+        "OCD_PSYCHEDELIC"
+      ],
+      "treatments": [
+        {
+          "label": "Psilocybin (5-HT2A agonism protocol)",
+          "type": "PHARMACOLOGICAL",
+          "description": "5-HT2A agonism at raphe projection terminals produces downstream cortical effects including DMN dissolution and enhanced neuroplasticity",
+          "evidence": "Strong"
+        },
+        {
+          "label": "LSD microdosing (10-20 microg, 2x/week)",
+          "type": "PHARMACOLOGICAL",
+          "description": "Sub-perceptual 5-HT2A stimulation for proposed neuroplastic priming without acute psychedelic effects",
+          "evidence": "Emerging"
+        }
+      ],
+      "childPortal": "psychedelic_serotonin_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Serotonergic Reset Center",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Serotonergic Mood Regulation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Serotonergic Tone"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Serotonergic Metabolic Modulation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Raphe Nuclei"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Serotonin System Development"
+        },
+        {
+          "domain": "population",
+          "role": "Aging Population"
+        },
+        {
+          "domain": "provider",
+          "role": "System Morale / Well-Being"
+        },
+        {
+          "domain": "religion",
+          "role": "Mystical Experience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Fear Extinction Gateway",
+      "domainDescription": "Basolateral amygdala as the threat evaluation center modulated by psychedelic and empathogenic agents",
+      "domainFunction": "Evaluates threat and encodes fear memory; MDMA reduces BLA reactivity while enhancing therapeutic alliance, enabling trauma processing",
+      "whyThisNode": "BLA hyperreactivity drives PTSD and anxiety — MDMA-assisted therapy shows 67% remission by reducing amygdala fear responses during trauma reprocessing",
+      "group": "limbic_emotional",
+      "phase": "P7",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "PTSD_PSYCHEDELIC",
+        "SOCIAL_ANXIETY_AUTISM",
+        "END_OF_LIFE_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "MDMA-assisted therapy",
+          "type": "PHARMACOLOGICAL",
+          "description": "Empathogen increases oxytocin and serotonin, producing fear extinction with reduced amygdala reactivity and enhanced therapeutic alliance",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Somatic Experiencing (post-session)",
+          "type": "THERAPEUTIC",
+          "description": "Body-based trauma processing complements psychedelic trauma release by discharging held survival energy from amygdala circuits",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "psychedelic_fear_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Fear Extinction Gateway",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver"
+        },
+        {
+          "domain": "business",
+          "role": "Risk Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Markets"
+        },
+        {
+          "domain": "environment",
+          "role": "Wildlife Management"
+        },
+        {
+          "domain": "legal",
+          "role": "Criminal Threat Assessment"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Metabolic Anxiety and Threat"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Threat Detection & Emotional Reactivity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Extinction and Safety Signaling",
+      "domainDescription": "Ventromedial prefrontal cortex mediating fear extinction, emotional regulation, and safety signaling",
+      "domainFunction": "Inhibits amygdala fear response and encodes safety; psychedelic-enhanced vmPFC function restores extinction capacity in PTSD and anxiety",
+      "whyThisNode": "vmPFC-BLA inhibitory pathway is critical for fear extinction — MDMA and psilocybin both enhance vmPFC top-down control over threat circuits",
+      "group": "limbic_emotional",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "PTSD_PSYCHEDELIC",
+        "SOCIAL_ANXIETY_AUTISM",
+        "END_OF_LIFE_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "MDMA-enhanced extinction training",
+          "type": "PHARMACOLOGICAL",
+          "description": "MDMA restores vmPFC inhibitory control over amygdala, enabling fear extinction during trauma narrative exposure",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Compassion-focused integration",
+          "type": "THERAPEUTIC",
+          "description": "Post-session work reinforcing vmPFC safety signaling through self-compassion and relational repair",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "psychedelic_extinction_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Extinction and Safety Signaling",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Interoceptive Awareness Center",
+      "domainDescription": "Anterior insula processing interoceptive signals, emotional awareness, and empathy during psychedelic states",
+      "domainFunction": "Monitors internal bodily states and emotional awareness; psychedelics amplify insular processing, producing enhanced interoception and emotional insight",
+      "whyThisNode": "Anterior insula activation during psychedelic experience correlates with emotional breakthrough and mystical experience quality — key salience network hub",
+      "group": "consciousness",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ANOREXIA_PSYCHEDELIC",
+        "PTSD_PSYCHEDELIC",
+        "END_OF_LIFE_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "Music-supported psychedelic session",
+          "type": "SOMATIC",
+          "description": "Curated playlists modulate insular emotional processing, memory access, and mystical experience quality during sessions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Breathwork integration",
+          "type": "SOMATIC",
+          "description": "Controlled breathing activates vagal brake and grounds psychedelic insights into insular-mediated somatic awareness",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "psychedelic_interoception_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Interoceptive Awareness Center",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Memory Reconsolidation Engine",
+      "domainDescription": "Hippocampus mediating memory consolidation, contextual processing, and psychedelic-enhanced neuroplasticity",
+      "domainFunction": "Consolidates episodic memory and encodes context; psychedelics promote hippocampal neuroplasticity and enable traumatic memory reconsolidation",
+      "whyThisNode": "Hippocampal volume loss from chronic stress is reversed by psychedelic-induced BDNF upregulation — memory reconsolidation during sessions enables trauma updating",
+      "group": "limbic_emotional",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "PTSD_PSYCHEDELIC",
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "ALCOHOL_USE_DISORDER"
+      ],
+      "treatments": [
+        {
+          "label": "Psilocybin-enhanced memory reconsolidation",
+          "type": "PHARMACOLOGICAL",
+          "description": "Psychedelic state opens reconsolidation window for traumatic memories, enabling context updating and fear extinction",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Lion's Mane (Hericium erinaceus)",
+          "type": "NUTRITIONAL",
+          "description": "NGF and BDNF upregulation supports hippocampal neuroplasticity in the pre/post psychedelic neurogenesis window",
+          "evidence": "Emerging"
+        }
+      ],
+      "childPortal": "psychedelic_memory_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Memory Reconsolidation Engine",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Reward Circuit Restoration",
+      "domainDescription": "Nucleus accumbens as the reward processing center restored by psychedelic and ketamine interventions",
+      "domainFunction": "Processes reward, motivation, and pleasure; ketamine and psilocybin restore blunted reward signaling in depression and addiction",
+      "whyThisNode": "NAcc hypofunction drives anhedonia in depression and reward dysregulation in addiction — post-psilocybin sessions show increased ventral striatal response",
+      "group": "limbic_emotional",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "ALCOHOL_USE_DISORDER",
+        "ANOREXIA_PSYCHEDELIC"
+      ],
+      "treatments": [
+        {
+          "label": "Ketamine IV (0.5mg/kg)",
+          "type": "PHARMACOLOGICAL",
+          "description": "NMDA antagonism produces rapid glutamate surge and BDNF/synaptogenesis, restoring reward circuit function within hours",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Psilocybin for anhedonia",
+          "type": "PHARMACOLOGICAL",
+          "description": "Post-session reward circuit recalibration shows increased NAcc response to positive stimuli lasting weeks",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Reward Circuit Restoration",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "trade",
+          "role": "Commodity Exchanges"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HAB",
+      "state": "active",
+      "domainLabel": "Anti-Reward Silencing Target",
+      "domainDescription": "Habenula encoding disappointment and aversion, silenced rapidly by ketamine",
+      "domainFunction": "Signals disappointment and inhibits reward/serotonin systems; ketamine silences habenula hyperactivity that drives persistent anhedonia",
+      "whyThisNode": "Habenula hyperactivity encodes the persistent disappointment signal in treatment-resistant depression — ketamine's most rapid mechanism is habenula silencing",
+      "group": "limbic_emotional",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "ALCOHOL_USE_DISORDER"
+      ],
+      "treatments": [
+        {
+          "label": "Ketamine IV targeting habenula",
+          "type": "PHARMACOLOGICAL",
+          "description": "NMDA antagonism at habenula rapidly silences disappointment signaling, producing anti-anhedonic effects within hours",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Esketamine (Spravato) nasal spray",
+          "type": "PHARMACOLOGICAL",
+          "description": "FDA-approved intranasal S-enantiomer with REMS program, targeting habenula and glutamate circuits",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Anti-Reward Silencing Target",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Anti-Reward Aversion Signal"
+        },
+        {
+          "domain": "communication",
+          "role": "Plain Language — Regulation Strategy"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Hospitality Design — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "Fighter Training Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Restructuring Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Scenario Planning Quality & Performance"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Recycling Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Sensory Gating Disruption",
+      "domainDescription": "Thalamic gating disrupted during psychedelic states, producing sensory flooding and consciousness alteration",
+      "domainFunction": "Gates sensory relay to cortex and regulates consciousness; psychedelic thalamic disruption allows unfiltered sensory-emotional processing",
+      "whyThisNode": "Thalamic filter model of psychedelic action — 5-HT2A agonism disrupts cortico-striato-thalamo-cortical loops, enabling novel perceptual and cognitive states",
+      "group": "consciousness",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "OCD_PSYCHEDELIC"
+      ],
+      "treatments": [
+        {
+          "label": "Psilocybin thalamic gating modulation",
+          "type": "PHARMACOLOGICAL",
+          "description": "5-HT2A agonism at thalamic relay nuclei reduces sensory filtering, enabling novel cognitive-perceptual integration",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Floatation REST (pre/post session)",
+          "type": "SOMATIC",
+          "description": "Sensory deprivation reduces thalamic baseline activity, potentiating psychedelic session depth and aiding integration",
+          "evidence": "Emerging"
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Sensory Gating Disruption",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CLAUST",
+      "state": "active",
+      "domainLabel": "Consciousness Integration Hub",
+      "domainDescription": "Claustrum as a potential orchestrator of psychedelic experience with dense 5-HT2A expression",
+      "domainFunction": "Integrates cross-modal information and coordinates consciousness; high 5-HT2A receptor density makes it a key psychedelic target",
+      "whyThisNode": "Claustrum has the highest 5-HT2A receptor density in the brain — proposed as the consciousness conductor whose disruption produces the psychedelic state",
+      "group": "consciousness",
+      "phase": "P7",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "END_OF_LIFE_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "5-MeO-DMT claustrum disruption",
+          "type": "PHARMACOLOGICAL",
+          "description": "Potent 5-HT2A/1A agonism at claustrum produces rapid complete ego dissolution and consciousness reset",
+          "evidence": "Emerging"
+        },
+        {
+          "label": "Holotropic breathwork",
+          "type": "SOMATIC",
+          "description": "Hyperventilation-induced altered state provides non-pharmacological consciousness disruption through claustrum modulation",
+          "evidence": "Emerging"
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Consciousness Integration Hub",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Accesscomm Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Cultural Econ"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Protocol Development Systems"
+        },
+        {
+          "domain": "education",
+          "role": "Demographic Analysis Quality & Performance"
+        },
+        {
+          "domain": "energy",
+          "role": "Frequency Regulation Core Operations"
+        },
+        {
+          "domain": "environment",
+          "role": "Emission Standards Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Neuroplasticity Window",
+      "domainDescription": "BDNF-TrkB signaling cascade upregulated by psychedelics and ketamine to drive structural neuroplasticity",
+      "domainFunction": "Mediates brain-derived neurotrophic factor signaling for synaptic growth and plasticity; psychedelics open a critical neuroplasticity window",
+      "whyThisNode": "Psychedelics and ketamine both rapidly upregulate BDNF — this neuroplastic window (24-72 hours post-session) is when therapeutic integration produces structural brain changes",
+      "group": "plasticity",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "PTSD_PSYCHEDELIC",
+        "ALCOHOL_USE_DISORDER"
+      ],
+      "treatments": [
+        {
+          "label": "Psilocybin-induced BDNF surge",
+          "type": "PHARMACOLOGICAL",
+          "description": "Single psilocybin session rapidly upregulates BDNF, promoting dendritic spine growth and synaptic density increases lasting weeks",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Omega-3 (high EPA) supplementation",
+          "type": "NUTRITIONAL",
+          "description": "Anti-inflammatory and membrane fluidity support during the post-session neuroplastic window",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Neuroplasticity Window",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Neuroplastic Recovery Factor"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Neuroplasticity Signaling"
+        },
+        {
+          "domain": "medicine",
+          "role": "Rehabilitation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Neurotrophic Metabolic Protection"
+        },
+        {
+          "domain": "neurology",
+          "role": "Brain-Derived Neurotrophic Factor"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Feedback & Validation — Primary"
+        },
+        {
+          "domain": "culture",
+          "role": "Digital Cult"
+        },
+        {
+          "domain": "defense",
+          "role": "Bomber Aircraft Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Error Monitoring Override",
+      "domainDescription": "Dorsal anterior cingulate cortex overactive in OCD and depression, modulated by psychedelic experience",
+      "domainFunction": "Monitors errors and cognitive conflict; psychedelic suppression of dACC overactivity reduces pathological error signaling in OCD and ruminative depression",
+      "whyThisNode": "Baseline dACC hyperactivity predicts psilocybin response — patients with the most rigid error monitoring show the greatest clinical benefit from psychedelic disruption",
+      "group": "executive_integration",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "OCD_PSYCHEDELIC",
+        "TREATMENT_RESISTANT_DEPRESSION"
+      ],
+      "treatments": [
+        {
+          "label": "Psilocybin for dACC modulation",
+          "type": "PHARMACOLOGICAL",
+          "description": "5-HT2A agonism reduces dACC error monitoring overactivity; baseline dACC activity predicts treatment response",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Mindfulness-based integration",
+          "type": "THERAPEUTIC",
+          "description": "Post-session practices sustain reduced dACC reactivity by cultivating non-judgmental awareness of cognitive conflict signals",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Error Monitoring Override",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Executive Restoration",
+      "domainDescription": "Dorsolateral prefrontal cortex with hypofunction in depression restored by ketamine glutamate signaling",
+      "domainFunction": "Drives working memory, planning, and cognitive control; ketamine rapidly restores prefrontal glutamate signaling in treatment-resistant depression",
+      "whyThisNode": "dlPFC hypofunction underlies executive deficits in depression — ketamine's rapid glutamate surge restores prefrontal function within hours, unlike weeks-long SSRI onset",
+      "group": "executive_integration",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "ALCOHOL_USE_DISORDER"
+      ],
+      "treatments": [
+        {
+          "label": "Ketamine prefrontal glutamate restoration",
+          "type": "PHARMACOLOGICAL",
+          "description": "NMDA antagonism produces rapid glutamate surge in dlPFC, restoring executive function and top-down regulation within hours",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cognitive integration sessions",
+          "type": "THERAPEUTIC",
+          "description": "Structured post-session cognitive work leverages restored dlPFC function to consolidate new behavioral patterns",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Executive Restoration",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Dopaminergic Drive Restoration",
+      "domainDescription": "Ventral tegmental area dopamine production suppressed in depression and addiction",
+      "domainFunction": "Produces dopamine for reward prediction and motivation signaling; psychedelics modulate VTA output to restore motivational drive",
+      "whyThisNode": "VTA hypofunction drives the anhedonia and amotivation of depression — psychedelic experiences produce lasting recalibration of dopaminergic reward prediction",
+      "group": "limbic_emotional",
+      "phase": "P7",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "ALCOHOL_USE_DISORDER"
+      ],
+      "treatments": [
+        {
+          "label": "Psilocybin reward circuit reset",
+          "type": "PHARMACOLOGICAL",
+          "description": "Post-psilocybin increase in VTA-NAcc dopaminergic signaling restores motivational drive and hedonic capacity",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Behavioral activation integration",
+          "type": "THERAPEUTIC",
+          "description": "Leveraging post-session VTA recalibration with structured reward-based behavioral scheduling",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Dopaminergic Drive Restoration",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus"
+        },
+        {
+          "domain": "business",
+          "role": "Innovation Engine"
+        },
+        {
+          "domain": "economy",
+          "role": "Entrepreneurship"
+        },
+        {
+          "domain": "energy",
+          "role": "Solar and Wind"
+        },
+        {
+          "domain": "environment",
+          "role": "Renewable Resources"
+        },
+        {
+          "domain": "medicine",
+          "role": "Men's Health Optimization"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Dopaminergic Metabolic Signaling"
+        },
+        {
+          "domain": "population",
+          "role": "Youth Demographics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Stress Axis Normalization",
+      "domainDescription": "HPA axis chronically elevated in depression and PTSD, normalized by psychedelic interventions",
+      "domainFunction": "Regulates cortisol stress cascade; ayahuasca and psilocybin demonstrate cortisol normalization in chronically elevated HPA states",
+      "whyThisNode": "Chronic HPA elevation drives allostatic load in PTSD and depression — psychedelic-assisted therapy produces lasting cortisol normalization beyond acute session effects",
+      "group": "autonomic",
+      "phase": "P7",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "PTSD_PSYCHEDELIC",
+        "TREATMENT_RESISTANT_DEPRESSION"
+      ],
+      "treatments": [
+        {
+          "label": "Ayahuasca cortisol normalization",
+          "type": "PHARMACOLOGICAL",
+          "description": "Ayahuasca sessions demonstrate HPA axis normalization with lasting cortisol reduction in chronically elevated states",
+          "evidence": "Emerging"
+        },
+        {
+          "label": "Magnesium (glycinate/threonate)",
+          "type": "NUTRITIONAL",
+          "description": "NMDA modulation and GABAergic support reduces HPA reactivity during integration period",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Stress Axis Normalization",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Stress-Relapse Cascade"
+        },
+        {
+          "domain": "business",
+          "role": "Organizational Stress"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal System Stress / Backlog"
+        },
+        {
+          "domain": "metabolic",
+          "role": "HPA Axis Stress-Metabolism Coupling"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Stress Response System"
+        },
+        {
+          "domain": "provider",
+          "role": "Provider Stress Response"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Infrastructure & Capacity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control — Feedback & Validation — Tertiary Node"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VV",
+      "state": "active",
+      "domainLabel": "Ventral Vagal Restoration",
+      "domainDescription": "Ventral vagal complex mediating social engagement and calm states, enhanced by empathogenic therapy",
+      "domainFunction": "Supports social engagement, calm states, and safe connection; MDMA and psilocybin enhance ventral vagal tone for relational repair",
+      "whyThisNode": "Ventral vagal tone is critical for therapeutic alliance and trauma processing — MDMA specifically enhances vagal-mediated social safety during therapy sessions",
+      "group": "autonomic",
+      "phase": "P7",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "PTSD_PSYCHEDELIC",
+        "SOCIAL_ANXIETY_AUTISM"
+      ],
+      "treatments": [
+        {
+          "label": "MDMA vagal tone enhancement",
+          "type": "PHARMACOLOGICAL",
+          "description": "MDMA increases oxytocin and ventral vagal activation, enabling social engagement and therapeutic trust during trauma processing",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Breathwork vagal activation",
+          "type": "SOMATIC",
+          "description": "Controlled breathing practices activate ventral vagal brake, grounding psychedelic insights into embodied safety",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Ventral Vagal Restoration",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Vagal Tone / Parasympathetic"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Vagal Metabolic Afferents"
+        },
+        {
+          "domain": "religion",
+          "role": "Relmedia"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Ecological Design — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Portfolio Review Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OXY",
+      "state": "active",
+      "domainLabel": "Oxytocin Bonding System",
+      "domainDescription": "Oxytocin system mediating social bonding, trust, and co-regulation enhanced by empathogens",
+      "domainFunction": "Produces oxytocin for social bonding and stress buffering; MDMA massively elevates oxytocin to enable therapeutic trust and relational processing",
+      "whyThisNode": "MDMA produces 3-5x oxytocin elevation — this oxytocin surge is the key mechanism enabling trauma processing through enhanced therapeutic alliance and social safety",
+      "group": "serotonergic",
+      "phase": "P7",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "PTSD_PSYCHEDELIC",
+        "SOCIAL_ANXIETY_AUTISM"
+      ],
+      "treatments": [
+        {
+          "label": "MDMA oxytocin cascade",
+          "type": "PHARMACOLOGICAL",
+          "description": "MDMA-induced 3-5x oxytocin elevation enables fear extinction with maintained social engagement and therapeutic trust",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Co-regulation practices",
+          "type": "THERAPEUTIC",
+          "description": "Therapist-guided relational exercises during integration leverage enhanced oxytocin sensitivity for attachment repair",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Oxytocin Bonding System",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Team Culture"
+        },
+        {
+          "domain": "education",
+          "role": "Early Childhood Education"
+        },
+        {
+          "domain": "medicine",
+          "role": "Nursing Care"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Bonding & Attachment"
+        },
+        {
+          "domain": "population",
+          "role": "Birth Rates"
+        },
+        {
+          "domain": "provider",
+          "role": "Team Cohesion / Culture"
+        },
+        {
+          "domain": "communication",
+          "role": "captioning accuracy — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Lighting Design — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "GABA_GLU",
+      "state": "active",
+      "domainLabel": "Excitation-Inhibition Rebalancing",
+      "domainDescription": "GABA-glutamate balance disrupted in psychedelic states and restored by ketamine mechanisms",
+      "domainFunction": "Maintains cortical excitation-inhibition balance; ketamine's NMDA antagonism produces glutamate surge that rebalances E/I and triggers synaptogenesis",
+      "whyThisNode": "E/I imbalance is central to treatment-resistant depression and OCD — ketamine's glutamate burst mechanism and psychedelic 5-HT2A-mediated glutamate release both restore E/I balance",
+      "group": "serotonergic",
+      "phase": "P7",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "OCD_PSYCHEDELIC"
+      ],
+      "treatments": [
+        {
+          "label": "Ketamine E/I rebalancing",
+          "type": "PHARMACOLOGICAL",
+          "description": "NMDA antagonism triggers compensatory glutamate surge and downstream AMPA activation, rapidly restoring E/I balance",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Magnesium threonate supplementation",
+          "type": "NUTRITIONAL",
+          "description": "Supports GABAergic tone and NMDA modulation during the integration period to maintain restored E/I balance",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Excitation-Inhibition Rebalancing",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Excitatory-Inhibitory Balance"
+        },
+        {
+          "domain": "environment",
+          "role": "Envlaw"
+        },
+        {
+          "domain": "medicine",
+          "role": "Anesthesiology"
+        },
+        {
+          "domain": "neurology",
+          "role": "Excitation-Inhibition Balance"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Excitation-Inhibition Balance"
+        },
+        {
+          "domain": "communication",
+          "role": "Visualcomm"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Superiority Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DISS",
+      "state": "active",
+      "domainLabel": "Ego Dissolution Process",
+      "domainDescription": "Ego dissolution and entropic brain states as the core therapeutic mechanism of psychedelic experience",
+      "domainFunction": "Represents the entropic brain state where network disintegration enables cognitive flexibility; correlated with mystical experience and therapeutic outcome",
+      "whyThisNode": "Ego dissolution intensity directly predicts therapeutic outcome — the entropic brain hypothesis positions this as the primary mechanism through which psychedelics produce lasting change",
+      "group": "consciousness",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "TREATMENT_RESISTANT_DEPRESSION",
+        "END_OF_LIFE_DISTRESS",
+        "ALCOHOL_USE_DISORDER"
+      ],
+      "treatments": [
+        {
+          "label": "High-dose psilocybin mystical experience",
+          "type": "PHARMACOLOGICAL",
+          "description": "Ego dissolution intensity on Mystical Experience Questionnaire predicts 6-month depression remission rates",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Set and setting optimization",
+          "type": "THERAPEUTIC",
+          "description": "Environmental and psychological preparation to facilitate safe ego dissolution and maximize mystical experience quality",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Ego Dissolution Process",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Change Management Innovation"
+        },
+        {
+          "domain": "culture",
+          "role": "Spatial Planning Policy & Governance"
+        },
+        {
+          "domain": "defense",
+          "role": "Aircraft Readiness Human Capital & Development"
+        },
+        {
+          "domain": "economy",
+          "role": "Resource Mobilization Systems"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Equity — Implementation & Strategy"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Core Operations"
+        },
+        {
+          "domain": "environment",
+          "role": "Ventilation Systems — State Assessment"
+        },
+        {
+          "domain": "finance",
+          "role": "Forensic Accounting Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Defense Cascade Modulation",
+      "domainDescription": "Periaqueductal gray mediating defensive behaviors and trauma-related freeze responses",
+      "domainFunction": "Controls freeze-flight-fight defensive cascade and pain modulation; psychedelic therapy enables safe discharge of PAG-held survival energy",
+      "whyThisNode": "PAG activation underlies trauma-related freeze and dissociative responses — psychedelic-assisted somatic processing enables completion of truncated defensive responses",
+      "group": "limbic_emotional",
+      "phase": "P7",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "PTSD_PSYCHEDELIC"
+      ],
+      "treatments": [
+        {
+          "label": "MDMA-assisted trauma processing",
+          "type": "PHARMACOLOGICAL",
+          "description": "MDMA reduces PAG defensive activation enough to allow trauma narrative processing without dissociative freeze response",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Somatic Experiencing integration",
+          "type": "SOMATIC",
+          "description": "Post-session body-based processing completes truncated PAG defensive responses and discharges held survival energy",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Defense Cascade Modulation",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Pain-Defense Gate"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Endogenous Analgesic System"
+        },
+        {
+          "domain": "energy",
+          "role": "Nuclear Power"
+        },
+        {
+          "domain": "neurology",
+          "role": "Periaqueductal Gray"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Quality & Performance"
+        },
+        {
+          "domain": "culture",
+          "role": "Landscape Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Nuclear Deterrence"
+        },
+        {
+          "domain": "economy",
+          "role": "Rural Development Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "V1",
+      "state": "active",
+      "domainLabel": "Visual Cortex Activation",
+      "domainDescription": "Primary visual cortex producing psychedelic visual phenomena through thalamic gating disruption",
+      "domainFunction": "Processes visual information; thalamic gating disruption during psychedelic states produces characteristic visual phenomena that may index depth of network reorganization",
+      "whyThisNode": "Visual phenomena are the most recognizable psychedelic effect — V1 activation from disrupted thalamic filtering correlates with broader network reorganization depth",
+      "group": "sensory_perceptual",
+      "phase": "P7",
+      "weight": 0.6,
+      "diagnosticTriggers": [
+        "CLUSTER_HEADACHE"
+      ],
+      "treatments": [
+        {
+          "label": "Controlled visual environment",
+          "type": "SOMATIC",
+          "description": "Eyeshades and curated visual environments during sessions manage V1 activation and support inward-directed experience",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Art-based integration",
+          "type": "THERAPEUTIC",
+          "description": "Post-session visual art creation processes V1-mediated psychedelic imagery into conscious symbolic understanding",
+          "evidence": "Emerging"
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Visual Cortex Activation",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Diagnostics & Imaging"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Visual Cortex"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Photography & Visual Media"
+        },
+        {
+          "domain": "culture",
+          "role": "Visual Arts"
+        },
+        {
+          "domain": "defense",
+          "role": "Equipment Maintenance Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Value Chains"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Equity Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ENDO",
+      "state": "active",
+      "domainLabel": "Endocannabinoid Modulation",
+      "domainDescription": "Endocannabinoid system contributing to stress buffering and fear extinction in psychedelic contexts",
+      "domainFunction": "Buffers stress response and modulates fear extinction; endocannabinoid signaling interacts with psychedelic mechanisms to support anxiety reduction",
+      "whyThisNode": "Endocannabinoid system participates in fear extinction and stress buffering — anandamide elevation during psychedelic sessions may contribute to anxiolytic effects",
+      "group": "serotonergic",
+      "phase": "P7",
+      "weight": 0.6,
+      "diagnosticTriggers": [
+        "END_OF_LIFE_DISTRESS",
+        "PTSD_PSYCHEDELIC"
+      ],
+      "treatments": [
+        {
+          "label": "Endocannabinoid-psychedelic interaction awareness",
+          "type": "PHARMACOLOGICAL",
+          "description": "Cannabis use history affects psychedelic response through cross-tolerance and endocannabinoid tone — clinical screening required",
+          "evidence": "Emerging"
+        },
+        {
+          "label": "Exercise-based integration",
+          "type": "SOMATIC",
+          "description": "Moderate exercise during integration period elevates endocannabinoid tone to support anxiolysis and neuroplasticity",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Endocannabinoid Modulation",
+      "brainNodeLabelCanonical": "Psychedelic Medicine",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Accesscomm Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Finance — Implementation & Strategy"
+        },
+        {
+          "domain": "education",
+          "role": "entrance prep — Signal Acquisition"
+        },
+        {
+          "domain": "energy",
+          "role": "Utility Storage Assessment & Diagnostics"
+        },
+        {
+          "domain": "environment",
+          "role": "Emission Standards Assessment & Diagnostics"
+        },
+        {
+          "domain": "finance",
+          "role": "Cost Accounting Core Operations"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "DMN",
+      "target": "mPFC",
+      "type": "INTEGRATES",
+      "weight": 0.95
+    },
+    {
+      "source": "DMN",
+      "target": "PCC",
+      "type": "INTEGRATES",
+      "weight": 0.95
+    },
+    {
+      "source": "mPFC",
+      "target": "PCC",
+      "type": "INTEGRATES",
+      "weight": 0.9
+    },
+    {
+      "source": "RAPHE",
+      "target": "mPFC",
+      "type": "MODULATES",
+      "weight": 0.9
+    },
+    {
+      "source": "RAPHE",
+      "target": "BLA",
+      "type": "MODULATES",
+      "weight": 0.85
+    },
+    {
+      "source": "BLA",
+      "target": "vmPFC",
+      "type": "INHIBITS",
+      "weight": 0.85
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "INHIBITS",
+      "weight": 0.9
+    },
+    {
+      "source": "THAL",
+      "target": "DMN",
+      "type": "GATES",
+      "weight": 0.85
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "GATES",
+      "weight": 0.8
+    },
+    {
+      "source": "CLAUST",
+      "target": "DMN",
+      "type": "INTEGRATES",
+      "weight": 0.8
+    },
+    {
+      "source": "BDNF",
+      "target": "HIPP",
+      "type": "PROMOTES",
+      "weight": 0.9
+    },
+    {
+      "source": "BDNF",
+      "target": "dlPFC",
+      "type": "PROMOTES",
+      "weight": 0.85
+    },
+    {
+      "source": "HAB",
+      "target": "VTA",
+      "type": "INHIBITS",
+      "weight": 0.85
+    },
+    {
+      "source": "HAB",
+      "target": "RAPHE",
+      "type": "INHIBITS",
+      "weight": 0.8
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "OXY",
+      "target": "VV",
+      "type": "MODULATES",
+      "weight": 0.8
+    },
+    {
+      "source": "OXY",
+      "target": "BLA",
+      "type": "MODULATES",
+      "weight": 0.8
+    },
+    {
+      "source": "GABA_GLU",
+      "target": "THAL",
+      "type": "MODULATES",
+      "weight": 0.85
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "INHIBITS",
+      "weight": 0.8
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "INTEGRATES",
+      "weight": 0.85
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Self-Referential Processing Hub → Fear Extinction Gateway (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Self-Referential Processing Hub → Autobiographical Memory Loop Assessment & Diagnostics (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Self-Referential Processing Hub → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Extinction and Safety Signaling → Autobiographical Memory Loop Assessment & Diagnostics (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Extinction and Safety Signaling → Defense Cascade Modulation (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Executive Restoration → Error Monitoring Override (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Executive Restoration → Memory Reconsolidation Engine (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Self-Referential Processing Hub Research & Development → Fear Extinction Gateway (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Error Monitoring Override → Fear Extinction Gateway (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Sensory Gating Disruption → [A1] (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Sensory Gating Disruption → Autobiographical Memory Loop — Signal Detection & Input — Secondary Node (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Serotonergic Reset Center Assessment & Diagnostics → Visual Cortex Activation (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Serotonergic Reset Center Core Operations → [A1] (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Interoceptive Awareness Center Performance & Optimization → Interoceptive Awareness Center (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[PI] → Interoceptive Awareness Center (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Fear Extinction Gateway → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "HPA cascade descending",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Memory Reconsolidation Engine → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Reward Circuit Restoration → Serotonergic Reset Center Infrastructure & Capacity (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Reward Circuit Restoration → Autobiographical Memory Loop — Diagnostic Pattern Recognition — Primary Node (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Autobiographical Memory Loop — Diagnostic Pattern Recognition — Primary Node → Extinction and Safety Signaling (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Memory Reconsolidation Engine Coordination & Integration → Autobiographical Memory Loop — Adaptation & Self-Healing — Tertiary Node (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Interoceptive Awareness Center Risk & Resilience → [GP] (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "[GP] → Sensory Gating Disruption (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Autobiographical Memory Loop — Diagnostic Pattern Recognition — Secondary Node → Sensory Gating Disruption (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Memory Reconsolidation Engine Research & Development → Visual Cortex Activation (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[FPN] → Executive Restoration (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Autobiographical Memory Loop — Feedback & Validation — Secondary Node → Fear Extinction Gateway (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Autobiographical Memory Loop — Feedback & Validation — Secondary Node → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "TREATMENT_RESISTANT_DEPRESSION",
+      "label": "Treatment-Resistant Depression",
+      "summary": "Major depression failing 2+ adequate antidepressant trials, with DMN hyperconnectivity resistant to conventional pharmacology",
+      "circuits": [
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-connected",
+          "detail": "Global DMN hyperconnectivity locked in ruminative self-referential loops resistant to SSRI modulation; psilocybin produces acute DMN dissolution and lasting between-network integration",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper-ruminative",
+          "detail": "Ruminative hyperconnectivity to PCC resistant to conventional pharmacology; psilocybin acutely suppresses mPFC-PCC coupling",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PCC",
+          "dir": "Hyper-connected",
+          "detail": "Posterior cingulate locked to mPFC in depressive loop; DMN dissolution breaks this coupling enabling new self-narratives",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HAB",
+          "dir": "Hyper-active",
+          "detail": "Habenula encoding persistent disappointment signal; ketamine silences habenula rapidly producing anti-anhedonic effect within hours",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-responsive",
+          "detail": "Reward circuit blunted with anhedonia; post-psilocybin sessions show increased ventral striatal response to positive stimuli",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Altered serotonergic",
+          "detail": "5-HT2A receptor system as primary target for classic psychedelics; serotonergic reset via psilocybin and ayahuasca",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-functional",
+          "detail": "Executive hypofunction with impaired cognitive control; ketamine rapidly restores prefrontal glutamate signaling",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BDNF",
+          "dir": "Hypo-expressed",
+          "detail": "Neurotrophic deficit from chronic stress; psilocybin and ketamine both rapidly upregulate BDNF for structural neuroplasticity",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "PTSD_PSYCHEDELIC",
+      "label": "PTSD (Psychedelic-Assisted)",
+      "summary": "Post-traumatic stress disorder with treatment-resistant fear circuits responsive to MDMA-assisted therapy",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-reactive",
+          "detail": "Amygdala threat evaluation overactive with traumatic fear conditioning; MDMA reduces BLA reactivity enabling trauma reprocessing with 67% CAPS-5 remission",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-regulatory",
+          "detail": "Impaired fear extinction from vmPFC-BLA disconnection; MDMA restores vmPFC top-down inhibitory control over amygdala",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-contextual",
+          "detail": "Fragmented traumatic memory encoding with impaired context; psychedelic state opens reconsolidation window for memory updating",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-defensive",
+          "detail": "Periaqueductal gray locked in freeze-flight defensive cascade; MDMA enables safe processing without dissociative shutdown",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper-activated",
+          "detail": "Chronic HPA axis elevation with elevated cortisol; psychedelic-assisted therapy produces lasting cortisol normalization",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VV",
+          "dir": "Hypo-engaged",
+          "detail": "Ventral vagal social engagement system suppressed; MDMA restores vagal tone enabling therapeutic trust and co-regulation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Hypo-active",
+          "detail": "Oxytocin system suppressed impeding therapeutic alliance; MDMA produces 3-5x oxytocin elevation enabling relational trauma processing",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "END_OF_LIFE_DISTRESS",
+      "label": "End-of-Life Existential Distress",
+      "summary": "Existential anxiety and depression in terminal illness responsive to psilocybin-induced mystical experience",
+      "circuits": [
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-existential",
+          "detail": "DMN locked in death-anxiety rumination and existential dread; psilocybin-induced ego dissolution produces lasting reduction in death anxiety",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DISS",
+          "dir": "Altered dissolution",
+          "detail": "Ego dissolution during psilocybin session correlates with sustained reduction in existential distress at 6-month follow-up",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper-ruminative",
+          "detail": "Self-referential existential rumination; psilocybin suppresses mPFC enabling transcendent perspective shift",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-distressed",
+          "detail": "Interoceptive awareness of bodily decline amplified; psilocybin modulates insular processing of body-related existential fear",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-anxious",
+          "detail": "Death anxiety driven by amygdala threat processing; mystical experience produces lasting anxiolytic effect",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PCC",
+          "dir": "Hyper-self-focused",
+          "detail": "Autobiographical narrative locked on mortality; ego dissolution breaks PCC self-narrative enabling acceptance",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ALCOHOL_USE_DISORDER",
+      "label": "Alcohol Use Disorder",
+      "summary": "Alcohol dependence with dysregulated reward circuits responsive to psilocybin-assisted therapy",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-sensitized",
+          "detail": "Reward circuit hijacked by alcohol cue-reactivity; psilocybin resets NAcc reward processing and reduces craving",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-controlled",
+          "detail": "Impaired executive inhibition over drinking behavior; psychedelic experience restores prefrontal top-down control",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Altered self-narrative",
+          "detail": "Identity fused with drinking behavior; ego dissolution enables identity reorganization beyond alcoholic self-concept",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered contextual",
+          "detail": "Alcohol-associated contextual memories driving relapse; psilocybin-enhanced reconsolidation updates cue-memory associations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HAB",
+          "dir": "Hyper-aversive",
+          "detail": "Habenula disappointment signaling driving negative reinforcement drinking; ketamine silences aversive drive",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper-sensitized",
+          "detail": "Dopaminergic reward prediction errors driving compulsive seeking; psilocybin recalibrates VTA-NAcc reward signaling",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "OCD_PSYCHEDELIC",
+      "label": "Treatment-Resistant OCD",
+      "summary": "Obsessive-compulsive disorder with cortico-striato-thalamic loop rigidity responsive to psilocybin disruption",
+      "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-monitoring",
+          "detail": "Error detection signal locked in obsessive loop; psilocybin reduces dACC hyperactivity and rigid error monitoring",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper-gating",
+          "detail": "Thalamic relay locked in cortico-striato-thalamic compulsive loop; psychedelic disruption breaks circuit rigidity",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GABA_GLU",
+          "dir": "Altered balance",
+          "detail": "E/I imbalance in orbitofrontal-striatal circuit driving compulsive behavior; psilocybin glutamate release rebalances E/I",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Altered serotonergic",
+          "detail": "Serotonergic dysfunction in OCD circuits; 5-HT2A agonism via psilocybin provides rapid OCD symptom reduction lasting weeks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-rigid",
+          "detail": "DMN rigidity maintaining obsessive self-referential thought patterns; dissolution enables cognitive flexibility",
+          "evidence": "Emerging"
+        }
+      ]
+    },
+    {
+      "id": "CLUSTER_HEADACHE",
+      "label": "Cluster Headache",
+      "summary": "Severe episodic cluster headache responsive to sub-hallucinogenic psilocybin and LSD for cycle termination",
+      "circuits": [
+        {
+          "nodeId": "RAPHE",
+          "dir": "Altered serotonergic",
+          "detail": "Serotonergic pathway dysfunction in cluster pathophysiology; sub-hallucinogenic psilocybin and LSD abort cluster cycles",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper-activated",
+          "detail": "Thalamic pain relay amplified during cluster attacks; psychedelic thalamic modulation reduces attack frequency",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "V1",
+          "dir": "Altered processing",
+          "detail": "Visual aura and photophobia during cluster attacks; serotonergic modulation of visual processing pathways",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Altered circadian",
+          "detail": "Hypothalamic-pituitary circadian rhythm disruption driving cluster periodicity; psilocybin may reset circadian HPA cycling",
+          "evidence": "Emerging"
+        }
+      ]
+    },
+    {
+      "id": "SOCIAL_ANXIETY_AUTISM",
+      "label": "Social Anxiety in Autism",
+      "summary": "Social anxiety co-occurring with autism spectrum, responsive to MDMA-enhanced social learning",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-reactive",
+          "detail": "Amygdala hyperreactivity to social stimuli driving social avoidance; MDMA reduces social threat processing",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Hypo-active",
+          "detail": "Oxytocin system underactive reducing social motivation; MDMA produces oxytocin surge enabling social learning in safe context",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-social",
+          "detail": "Social safety signaling impaired; MDMA-enhanced vmPFC activation supports social approach behavior",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "VV",
+          "dir": "Hypo-engaged",
+          "detail": "Ventral vagal social engagement system underactive; MDMA restores vagal tone for social co-regulation capacity",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered interoceptive",
+          "detail": "Atypical interoceptive processing of social-emotional signals; MDMA normalizes insular social-emotional integration",
+          "evidence": "Emerging"
+        }
+      ]
+    },
+    {
+      "id": "ANOREXIA_PSYCHEDELIC",
+      "label": "Anorexia Nervosa",
+      "summary": "Restrictive anorexia nervosa with rigid body-image distortion responsive to psilocybin-assisted body reprocessing",
+      "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Altered interoceptive",
+          "detail": "Distorted interoceptive body signals driving restriction; psilocybin enhances insular body awareness and reconnects with hunger signals",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-rigid",
+          "detail": "Rigid self-concept fused with anorexic identity; ego dissolution enables identity reorganization beyond restrictive self-definition",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered reward",
+          "detail": "Reward from restriction and control rather than nourishment; psilocybin resets reward valuation toward life-sustaining behaviors",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-controlling",
+          "detail": "Excessive cognitive control and perfectionism driving restriction; psychedelic disruption of dACC rigidity enables flexible eating behavior",
+          "evidence": "Emerging"
+        },
+        {
+          "nodeId": "BDNF",
+          "dir": "Hypo-expressed",
+          "detail": "Malnutrition-driven neurotrophic deficit; psilocybin BDNF upregulation supports cognitive flexibility for recovery",
+          "evidence": "Emerging"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:37.793Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

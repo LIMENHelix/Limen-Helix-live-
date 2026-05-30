@@ -1,0 +1,171 @@
+{
+  "_generated": "Test #5 - KM censor-aware gamma re-estimation",
+  "_method": "geometric-hazard MLE with right-censoring",
+  "_fixture_dir": "diagnostic/artifacts",
+  "_n_fixtures": 32,
+  "_n_spells": 1204,
+  "kernel_version_target": "v4.0.2-python",
+  "dynamical_class_map": {
+    "p7a": "ATTRACTOR",
+    "p4": "ATTRACTOR",
+    "p10": "ATTRACTOR",
+    "p8": "RECOVERY",
+    "p6": "RECOVERY",
+    "p5": "RECOVERY",
+    "p3": "RECOVERY",
+    "p1": "RECOVERY",
+    "p0": "RECOVERY",
+    "p7b": "TRANSIENT",
+    "p7": "TRANSIENT",
+    "p2": "TRANSIENT",
+    "p9": "TRANSIENT"
+  },
+  "class_gamma": {
+    "ATTRACTOR": {
+      "gamma": 0.5096262740656852,
+      "gamma_source": "empirical",
+      "n_spells": 453,
+      "n_complete": 433,
+      "at_risk_quarters": 883,
+      "phases": [
+        "p10",
+        "p4",
+        "p7a"
+      ]
+    },
+    "RECOVERY": {
+      "gamma": 0.26583710407239824,
+      "gamma_source": "empirical",
+      "n_spells": 660,
+      "n_complete": 649,
+      "at_risk_quarters": 884,
+      "phases": [
+        "p0",
+        "p1",
+        "p3",
+        "p5",
+        "p6",
+        "p8"
+      ]
+    },
+    "TRANSIENT": {
+      "gamma": 0.04255319148936165,
+      "gamma_source": "empirical",
+      "n_spells": 91,
+      "n_complete": 90,
+      "at_risk_quarters": 94,
+      "phases": [
+        "p2",
+        "p7",
+        "p7b",
+        "p9"
+      ]
+    }
+  },
+  "per_phase_gamma": {
+    "p0": {
+      "class": "RECOVERY",
+      "n_spells": 54,
+      "n_complete": 54,
+      "at_risk_quarters": 59,
+      "gamma_mle": 0.0847457627118644,
+      "gamma_km": 0.13608276348795434
+    },
+    "p1": {
+      "class": "RECOVERY",
+      "n_spells": 73,
+      "n_complete": 73,
+      "at_risk_quarters": 80,
+      "gamma_mle": 0.08750000000000002,
+      "gamma_km": null
+    },
+    "p2": {
+      "class": "TRANSIENT",
+      "n_spells": 24,
+      "n_complete": 24,
+      "at_risk_quarters": 24,
+      "gamma_mle": 0.0,
+      "gamma_km": null
+    },
+    "p3": {
+      "class": "RECOVERY",
+      "n_spells": 83,
+      "n_complete": 83,
+      "at_risk_quarters": 97,
+      "gamma_mle": 0.14432989690721654,
+      "gamma_km": null
+    },
+    "p4": {
+      "class": "ATTRACTOR",
+      "n_spells": 306,
+      "n_complete": 293,
+      "at_risk_quarters": 628,
+      "gamma_mle": 0.5334394904458599,
+      "gamma_km": 0.6109787512388757
+    },
+    "p5": {
+      "class": "RECOVERY",
+      "n_spells": 45,
+      "n_complete": 44,
+      "at_risk_quarters": 56,
+      "gamma_mle": 0.2142857142857143,
+      "gamma_km": 0.2924017738212866
+    },
+    "p6": {
+      "class": "RECOVERY",
+      "n_spells": 249,
+      "n_complete": 242,
+      "at_risk_quarters": 350,
+      "gamma_mle": 0.3085714285714286,
+      "gamma_km": 0.28790056059442876
+    },
+    "p7": {
+      "class": "TRANSIENT",
+      "n_spells": 21,
+      "n_complete": 21,
+      "at_risk_quarters": 21,
+      "gamma_mle": 0.0,
+      "gamma_km": null
+    },
+    "p7a": {
+      "class": "ATTRACTOR",
+      "n_spells": 28,
+      "n_complete": 21,
+      "at_risk_quarters": 78,
+      "gamma_mle": 0.7307692307692308,
+      "gamma_km": 0.7071067811865476
+    },
+    "p7b": {
+      "class": "TRANSIENT",
+      "n_spells": 40,
+      "n_complete": 39,
+      "at_risk_quarters": 43,
+      "gamma_mle": 0.09302325581395354,
+      "gamma_km": null
+    },
+    "p8": {
+      "class": "RECOVERY",
+      "n_spells": 156,
+      "n_complete": 153,
+      "at_risk_quarters": 242,
+      "gamma_mle": 0.3677685950413223,
+      "gamma_km": 0.30177437275691416
+    },
+    "p9": {
+      "class": "TRANSIENT",
+      "n_spells": 6,
+      "n_complete": 6,
+      "at_risk_quarters": 6,
+      "gamma_mle": 0.0,
+      "gamma_km": null
+    },
+    "p10": {
+      "class": "ATTRACTOR",
+      "n_spells": 119,
+      "n_complete": 119,
+      "at_risk_quarters": 177,
+      "gamma_mle": 0.327683615819209,
+      "gamma_km": 0.302770291975321
+    }
+  }
+}

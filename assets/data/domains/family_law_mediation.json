@@ -1,0 +1,383 @@
+{
+  "domainId": "family_law_mediation",
+  "title": "Mediation / Settlement Valuation",
+  "parentPortal": "family_law_portal.html",
+  "parentLabel": "Family Law",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Mediation / Settlement Valuation Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Mediation / Settlement Valuation indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Mediation / Settlement Valuation Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Mediation / Settlement Valuation Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "family_law_mediation_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "PIT",
+      "state": "active",
+      "domainLabel": "Mediation / Settlement Valuation Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Mediation / Settlement Valuation activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Mediation / Settlement Valuation Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Mediation / Settlement Valuation Core Operations"
+        }
+      ],
+      "childPortal": "family_law_mediation_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Mediation / Settlement Valuation Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Mediation / Settlement Valuation, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Mediation / Settlement Valuation Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Mediation / Settlement Valuation Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "family_law_mediation_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Mediation / Settlement Valuation Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Mediation / Settlement Valuation practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Mediation / Settlement Valuation Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Mediation / Settlement Valuation Standards & Governance"
+        }
+      ],
+      "childPortal": "family_law_mediation_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "CAUD",
+      "state": "active",
+      "domainLabel": "Mediation / Settlement Valuation Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Mediation / Settlement Valuation methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Mediation / Settlement Valuation Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Mediation / Settlement Valuation Research & Development"
+        }
+      ],
+      "childPortal": "family_law_mediation_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "PUT",
+      "state": "active",
+      "domainLabel": "Mediation / Settlement Valuation Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Mediation / Settlement Valuation stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Mediation / Settlement Valuation Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Mediation / Settlement Valuation Risk & Resilience"
+        }
+      ],
+      "childPortal": "family_law_mediation_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "GP",
+      "state": "active",
+      "domainLabel": "Mediation / Settlement Valuation Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Mediation / Settlement Valuation operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Mediation / Settlement Valuation Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Mediation / Settlement Valuation Coordination & Integration"
+        }
+      ],
+      "childPortal": "family_law_mediation_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "STN",
+      "state": "active",
+      "domainLabel": "Mediation / Settlement Valuation Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Mediation / Settlement Valuation outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Mediation / Settlement Valuation Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Mediation / Settlement Valuation Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "HYPO",
+      "target": "PIT",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "PIT",
+      "target": "RAPHE",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "RAPHE",
+      "target": "LC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "LC",
+      "target": "CAUD",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "CAUD",
+      "target": "PUT",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "PUT",
+      "target": "GP",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "GP",
+      "target": "STN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "STN",
+      "target": "HYPO",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "HYPO",
+      "target": "CAUD",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "LC",
+      "target": "GP",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "FAMILY_LAW_MEDIATION_SYSTEM_FAILURE",
+      "label": "Mediation / Settlement Valuation System Failure",
+      "summary": "Critical breakdown in Mediation / Settlement Valuation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo-active",
+          "detail": "Mediation / Settlement Valuation Assessment & Diagnostics capacity falling below operational thresholds, reducing Mediation / Settlement Valuation output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PIT",
+          "dir": "Hypo-active",
+          "detail": "Mediation / Settlement Valuation Core Operations systems underperforming, creating gaps in Mediation / Settlement Valuation coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Altered",
+          "detail": "Mediation / Settlement Valuation Infrastructure & Capacity behavior deviating from established norms, complicating Mediation / Settlement Valuation management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PUT",
+          "dir": "Hyper-active",
+          "detail": "Mediation / Settlement Valuation Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Mediation / Settlement Valuation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STN",
+          "dir": "Hypo-active",
+          "detail": "Mediation / Settlement Valuation Performance & Optimization function reduced, compromising Mediation / Settlement Valuation system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_MEDIATION_CAPACITY_CRISIS",
+      "label": "Mediation / Settlement Valuation Capacity Crisis",
+      "summary": "Demand exceeding available Mediation / Settlement Valuation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hyper-active",
+          "detail": "Mediation / Settlement Valuation Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Mediation / Settlement Valuation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hypo-active",
+          "detail": "Mediation / Settlement Valuation Infrastructure & Capacity systems underperforming, creating gaps in Mediation / Settlement Valuation coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Altered",
+          "detail": "Mediation / Settlement Valuation Standards & Governance behavior deviating from established norms, complicating Mediation / Settlement Valuation management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GP",
+          "dir": "Hyper-active",
+          "detail": "Mediation / Settlement Valuation Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Mediation / Settlement Valuation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STN",
+          "dir": "Altered",
+          "detail": "Mediation / Settlement Valuation Performance & Optimization operating outside normal parameters, introducing uncertainty into Mediation / Settlement Valuation outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_MEDIATION_GOVERNANCE_GAP",
+      "label": "Mediation / Settlement Valuation Governance Gap",
+      "summary": "Oversight or regulatory failure in Mediation / Settlement Valuation creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hypo-active",
+          "detail": "Mediation / Settlement Valuation Standards & Governance capacity falling below operational thresholds, reducing Mediation / Settlement Valuation output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered",
+          "detail": "Mediation / Settlement Valuation Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Mediation / Settlement Valuation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CAUD",
+          "dir": "Hyper-active",
+          "detail": "Mediation / Settlement Valuation Research & Development activity spiking beyond design limits, creating instability across Mediation / Settlement Valuation operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PUT",
+          "dir": "Altered",
+          "detail": "Mediation / Settlement Valuation Risk & Resilience patterns disrupted, necessitating adaptive responses within Mediation / Settlement Valuation frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GP",
+          "dir": "Hypo-active",
+          "detail": "Mediation / Settlement Valuation Coordination & Integration function reduced, compromising Mediation / Settlement Valuation system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

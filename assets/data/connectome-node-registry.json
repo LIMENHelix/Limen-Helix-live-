@@ -1,0 +1,256 @@
+{
+  "_schema": "connectome-node-registry-v1",
+  "_purpose": "Canonical runtime Connectome node namespace + alias reconciliation. This file makes node identity truth explicit and machine-readable. It anchors on the 123-node RUNS namespace defined by brain-connectome.json and declares (1) accepted aliases, (2) hierarchy collapses, (3) distinct-pair warnings, (4) atlas-only extras that must not be treated as new canonical nodes, and (5) items deferred for manual adjudication.",
+  "_generated": "2026-04-22",
+  "_last_verified": "2026-05-24",
+  "_scope_note": "First Connectome patch. Declares identity only. Does not repair node-domain coverage, graph topology, or downstream consumers. Those are later, separately-scoped patches.",
+
+  "_freeze": {
+    "status": "FROZEN",
+    "frozen_at": "2026-05-24",
+    "unfreeze_not_before": "2026-12-01",
+    "authority": "operator_chris",
+    "rationale": "Brain node taxonomy has been iterated to 123 canonical IDs (up from 111 baseline). Further revision is now perfectionism, not signal. Receptor surface (brain-node-domains.json: 123 nodes × 20+ domains each) is the binding target for incoming feeds. Locking that surface for 6 months lets downstream work (schema for brainNodeMapping, classifier, domain templates, propagator upgrade) build on stable ground. Audits during the freeze period may DOCUMENT findings but MUST NOT change the canonical node set, the alias table, or the hierarchy collapses. Findings get queued for the v2 review at unfreeze date.",
+    "what_is_frozen": [
+      "canonical_runtime_count (123)",
+      "canonical_ids (the 123 string IDs)",
+      "aliases (the alias→canonical mapping)",
+      "hierarchy_collapses (the subfield→aggregate mapping)",
+      "distinct_pairs (SN ≠ SNIG enforcement)"
+    ],
+    "what_is_not_frozen": [
+      "brain-node-domains.json per-cell labels and roles (receptor specializations may be refined per domain without changing the receptor's identity)",
+      "brain-connectome.json edges (graph topology may be extended without changing the node set)",
+      "downstream consumer behavior (propagator, classifier, schema for brainNodeMapping all remain in scope for development)"
+    ]
+  },
+
+  "rejected_additions": {
+    "_note": "Items proposed during scoping audits and explicitly REJECTED from inclusion in the 123-node canonical set. Documented so future audits do not re-propose them without seeing the prior decision. These are not gaps — they are deliberate scope boundaries.",
+    "ARCFAS_arcuate_fasciculus": {
+      "proposal": "Add ARCFAS as a distinct node for the arcuate fasciculus (Broca-Wernicke white matter tract).",
+      "decision": "REJECTED for 123-node freeze.",
+      "rationale": "ARC in this registry refers to the arcuate nucleus of the hypothalamus (POMC/AgRP appetite regulation). The arcuate fasciculus is a real anatomical structure but its functional contribution in the LIMEN business→neural mapping is already implicit in the LANG composite (Broca + Wernicke + arcuate + AG). Adding ARCFAS as a separate node would create an unbound receptor in 20+ domains with no clear business-side mapping target. Revisit at 2026-12-01 review if downstream language-circuit work requires explicit tract representation."
+    },
+    "mTOR_pathway": {
+      "proposal": "Add mTOR as a node alongside BDNF + TrkB to represent the protein-synthesis branch of rapid antidepressant action.",
+      "decision": "REJECTED for 123-node freeze.",
+      "rationale": "Folded conceptually into BDNF/TrkB for this revision. mTOR is a molecular pathway, not a brain region. Adding it would mix scale categories (region-level nodes vs. signaling-cascade nodes). If ketamine-pathway differentiation becomes business-side load-bearing, address by adding a pathway tag on BDNF/TrkB rather than a new node."
+    },
+    "SPINOTHAL_spinothalamic_tract": {
+      "proposal": "Add SPINOTHAL as a distinct node for the ascending pain/temperature pathway.",
+      "decision": "REJECTED for 123-node freeze.",
+      "rationale": "Pain pathway is already represented by SDH (entry point) + PAG (modulation) + S1 + AI (cortical representation). The tract itself is a connection, not a node. Adding it would create an unbound receptor. Revisit if pain-cascade modeling becomes a primary business application."
+    },
+    "ARC_redefined_as_fasciculus": {
+      "proposal": "Reinterpret ARC to mean the arcuate fasciculus (white matter tract) instead of the arcuate nucleus.",
+      "decision": "REJECTED for 123-node freeze.",
+      "rationale": "ARC in current canonical set is the hypothalamic arcuate nucleus, consistent with the hypothalamic context of HYPO + ARC + PVN entries. Renaming would break every existing domain binding and downstream reference. The fasciculus remains implicit in LANG composite."
+    }
+  },
+
+  "canonical_source": {
+    "file": "assets/data/brain-connectome.json",
+    "path": ".nodes[].id",
+    "runtime_tier": "RUNS",
+    "loaders_verified_at_generation_time": [
+      "assets/js/portal-ui.js",
+      "assets/js/node-translation.js",
+      "assets/js/connectome-core.js"
+    ]
+  },
+
+  "canonical_runtime_count": 123,
+
+  "agreeing_runtime_sources": [
+    {
+      "file": "assets/data/node-entity-mapping.json",
+      "field": "_total_nodes",
+      "value": 123,
+      "tier": "RUNS",
+      "loader": "assets/js/research-observatory.js"
+    },
+    {
+      "file": "assets/data/node-signal-registry.json",
+      "field": "distinct .signals[].node_id",
+      "value": 123,
+      "tier": "SCAFFOLD",
+      "loader": null
+    },
+    {
+      "file": "connectome-weights.json",
+      "field": "meta.nodes",
+      "value": 123,
+      "tier": "RUNS",
+      "loaders_verified_at_generation_time": [
+        "assets/js/connectome-core.js",
+        "assets/js/curiosity-engine.js",
+        "assets/js/executive/limen-simulation-engine.js",
+        "assets/js/hebbian-learning.js",
+        "assets/js/propagation-engine.js",
+        "assets/js/signal-router.js"
+      ]
+    }
+  ],
+
+  "canonical_ids": [
+    "A1", "ACC", "ADR", "AG", "AI", "ANT", "ARC", "ASTRO", "BBB", "BDNF",
+    "BLA", "BNST", "BROCA", "CARD", "CAUD", "CBLM", "CC", "CING", "CLAUST", "CMZ",
+    "CON", "CeA", "DAN", "DISS", "DMN", "DMNMTL", "DV", "EBA", "EC", "ECN",
+    "EI", "EMP", "ENDO", "ENS", "FEF", "FG", "FORN", "FPC", "FPN", "GABA_GLU",
+    "GBA", "GP", "HAB", "HIPP", "HPA", "HYPO", "IC", "IPL", "IPS", "LANG",
+    "LAR", "LC", "LGN", "M1", "MAMM", "MDT", "MFC", "MGN", "MI", "MICRO",
+    "NAcc", "NBM", "NEOCER", "NTS", "OFC", "OLF", "OPIOID", "OSC", "OXY", "PAG",
+    "PBN", "PCC", "PI", "PIN", "PIT", "PMC", "PPA", "PPN", "PRC", "PRECUNEUS",
+    "PULV", "PUT", "RAPHE", "RF", "RSC", "S1", "S2", "SC", "SCN", "SDH",
+    "SEPT", "SMA", "SMN", "SN", "SNIG", "SNS", "SPL", "STN", "STRI", "STS",
+    "THAL", "TPJ", "TPOLE", "TrkB", "UNC", "V1", "V4V5", "VAN", "VERM", "VEST",
+    "VIA", "VP", "VTA", "VV", "WERN", "dACC", "dlPFC", "mPFC", "rACC", "rPFC",
+    "sgACC", "vlPFC", "vmPFC"
+  ],
+
+  "aliases": {
+    "_note": "Each key is a non-canonical spelling observed in one or more source files. Each value is the canonical runtime ID it must resolve to. These are pure alias (spelling / case / synonym) pairs, not hierarchy collapses.",
+    "DLPFC": "dlPFC",
+    "Precuneus": "PRECUNEUS",
+    "NAc": "NAcc",
+    "CCorp": "CC",
+    "FRONTO": "FPN",
+    "GUT": "GBA",
+    "FPCN": "FPN",
+    "IFG": "BROCA"
+  },
+
+  "hierarchy_collapses": {
+    "_note": "Subfield or subnucleus labels that the runtime canonical treats as members of an aggregate node. These are NOT pure aliases — they encode a many-to-one aggregation decision. Consumers that need subfield granularity must make an explicit design choice; the current runtime surface uses the aggregate.",
+    "CA1": "HIPP",
+    "CA3": "HIPP",
+    "DG":  "HIPP",
+    "DRN": "RAPHE",
+    "PVN": "HYPO",
+    "Paraventricular Nucleus": "HYPO",
+    "posterior STG": "WERN"
+  },
+
+  "distinct_pairs": [
+    {
+      "a": "SN",
+      "b": "SNIG",
+      "note": "SN = Salience Network (functional network node). SNIG = Substantia Nigra (midbrain nucleus). Both are canonical runtime nodes. Do not collapse. Do not alias.",
+      "enforcement": "Both IDs appear in canonical_ids above. Any consumer that sees one must never auto-rewrite it to the other."
+    }
+  ],
+
+  "atlas_only_extras": {
+    "_note": "IDs that appear ONLY in assets/data/brain-atlas-coordinates.json (SCAFFOLD) and are atlas-file-local alias spellings of canonical runtime IDs. They must not be treated as additional canonical nodes. The atlas 126-count is 123 canonical + these 3 extras.",
+    "CCorp": "CC",
+    "FRONTO": "FPN",
+    "GUT": "GBA"
+  },
+
+  "scaffold_sources_documented": [
+    {
+      "file": "assets/data/brain-atlas-coordinates.json",
+      "tier": "SCAFFOLD",
+      "node_count": 126,
+      "note": "3 entries above canonical are alias-only extras; see atlas_only_extras."
+    },
+    {
+      "file": "assets/data/brain-node-map.json",
+      "tier": "SCAFFOLD",
+      "node_count": 103,
+      "note": "Strict subset of canonical_ids. 20 canonical IDs absent."
+    },
+    {
+      "file": "assets/data/brain-nodes-111.json",
+      "tier": "SCAFFOLD",
+      "node_count": 129,
+      "abbreviation_count_unique": 128,
+      "note": "Filename implies 111 but file contains 129 rows (128 unique abbreviations; one abbreviation 'Lateral' is duplicated across rows). Uses integer IDs 1..129. IDs 124-129 (FORN, GBA, RF, VEST, IC, DISS) map to canonical aggregates but are outside the numeric edge-space of connectome-weights.json (which uses 1..123). Many nodes-111 abbreviations are long-form regional names or subfield labels, not canonical runtime IDs; see aliases, hierarchy_collapses, and deferred_manual_adjudication."
+    },
+    {
+      "file": "docs/111_node_directory.md",
+      "tier": "DOCUMENTATION",
+      "parseable_abbreviation_count": 98,
+      "note": "Markdown directory. Not runtime-loaded. Superseded by this registry for node-identity questions."
+    }
+  ],
+
+  "coverage_gaps_documented_not_fixed": {
+    "_note": "These are real gaps surfaced by the reconciliation audit but deliberately NOT addressed in this first patch. Recording them here prevents the gaps from being forgotten. Each has its own later patch.",
+
+    "missing_from_brain_node_domains": {
+      "file": "assets/data/brain-node-domains.json",
+      "file_tier": "RUNS",
+      "canonical_ids_missing_binding": [],
+      "count": 0,
+      "status": "RESOLVED",
+      "resolved_at": "2026-05-24",
+      "resolution_note": "Verified 2026-05-24: all 123 canonical IDs are bound in brain-node-domains.json with minimum 20 domain bindings each (max 30, p50 26). The 29-node gap recorded at 2026-04-22 generation time was filled in subsequent patches. Per-node binding depth audit: bottom 10 = ECN/rPFC/sgACC/DV/S2/CARD/MI/PRC/VIA/MFC (each at the floor of 20 domains, matching the canonical 20-domain set); top 5 = vmPFC/HIPP/vlPFC/EMP/THAL (30 domains, including sub-domain projections). No truly absent nodes remain.",
+      "historical_impact": "When this gap existed, connectome-resolver.js downstream lookups would return empty for the listed IDs. That failure mode no longer applies."
+    },
+
+    "missing_from_weights_graph": {
+      "file": "connectome-weights.json",
+      "file_tier": "RUNS",
+      "count": 65,
+      "cause": "Weights edges use integer node IDs 1..123. The string->integer bridge is only defined in the SCAFFOLD file brain-nodes-111.json. 59 canonical string IDs have no abbreviation match in nodes-111; 6 more map to nodes-111 integer IDs 124-129 which are outside the edge-space.",
+      "impact": "Propagation/weighted-graph traversal cannot reach these 65 canonical nodes.",
+      "blocker_severity": "blocking for graph-topology-bound logic",
+      "deferred_to": "later Connectome patch (graph bridge + topology repair)"
+    }
+  },
+
+  "deferred_manual_adjudication": [
+    {
+      "family": "MD / MDT",
+      "spellings_observed": ["MD", "MDT"],
+      "sources": ["brain-nodes-111.json (MD)", "brain-connectome.json + RUNS (MDT)"],
+      "note": "Likely alias (Mediodorsal Thalamus) but not auto-applied pending semantic confirmation against domain usage."
+    },
+    {
+      "family": "PHC / PRC",
+      "spellings_observed": ["PHC", "PRC"],
+      "sources": ["brain-nodes-111.json (PHC)", "brain-connectome.json + RUNS (PRC)"],
+      "note": "PHC (Parahippocampal Cortex) and PRC (Perirhinal Cortex) are adjacent but anatomically distinct. Do NOT auto-alias. Decide whether PHC should become its own canonical node or be bound to PRC or PPA."
+    },
+    {
+      "family": "FFA / FG",
+      "spellings_observed": ["FFA", "FG"],
+      "sources": ["brain-nodes-111.json (FFA)", "brain-connectome.json + RUNS (FG)"],
+      "note": "FFA (Fusiform Face Area) is a subregion of FG (Fusiform Gyrus). Not a pure alias; hierarchy relationship. Decide aggregate vs subregion granularity."
+    },
+    {
+      "family": "brain-nodes-111.json duplicate abbreviation",
+      "spellings_observed": ["Lateral"],
+      "sources": ["brain-nodes-111.json (two rows share abbreviation 'Lateral')"],
+      "note": "A duplicate row exists in the SCAFFOLD file. Needs manual identification of which canonical node each row intends. Does not affect runtime today because nodes-111.json is not RUNS."
+    },
+    {
+      "family": "brain-nodes-111.json parser artifacts",
+      "spellings_observed": [
+        "40Hz", "4-8Hz", "8-12Hz",
+        "eCB", "endogenous", "NMDA/AMPA", "inhibitory", "neurotrophic", "neural",
+        "MTL", "MNS", "AT", "IT", "NA", "DMV", "Dentate",
+        "Anterior Pituitary", "Adrenal Medulla", "Adrenal Cortex",
+        "Intralaminar Thalamic Nuclei", "Pulvinar Thalamus",
+        "Reward Prediction Error System", "Spinothalamic Tract",
+        "Default Mode Subsystem — Midline Core",
+        "Insular-Cingulate Network", "Insular-Amygdala-PFC Triangle",
+        "Cerebellar Cortex — Vermis"
+      ],
+      "note": "These tokens appear when parsing nodes-111.json or the 111_node_directory.md as node IDs but are frequency bands, receptor classes, sub-anatomy, or composite labels. None are canonical runtime IDs. Documented here to prevent future parsers from inflating node counts."
+    }
+  ],
+
+  "enforcement_guidance": {
+    "for_future_consumers": [
+      "1. canonical_runtime_count is 123. Any code that renders, counts, or claims a Connectome node tally must use this number unless explicitly scoped to a single scaffold source.",
+      "2. Before comparing a node ID across files, check .aliases and .hierarchy_collapses for a translation rule. A missing translation is not an invitation to double-count; it is either a deferred_manual_adjudication item or a real bug that should be surfaced.",
+      "3. Never alias SN and SNIG. They are listed in distinct_pairs.",
+      "4. atlas_only_extras (CCorp, FRONTO, GUT) must not be counted as new canonical nodes.",
+      "5. When brain-nodes-111.json is consulted, remember its 129-row count is SCAFFOLD and its integer IDs 124-129 are not reachable from connectome-weights.json."
+    ],
+    "this_file_is_not_a_shim": "This registry is a data contract, not a runtime normalizer. No existing runtime code currently performs cross-source string-ID lookups, so no helper module is shipped with this first patch. When a runtime consumer needs alias normalization, that consumer should load this file and perform the lookup explicitly."
+  }
+}

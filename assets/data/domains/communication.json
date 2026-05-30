@@ -1,0 +1,2253 @@
+{
+  "domainId": "communication",
+  "title": "Communication",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Journalism",
+      "domainDescription": "Investigative reporting, news gathering, editorial processes, and press freedom that form the primary voice of public discourse",
+      "domainFunction": "Generates structured informational output through organized language production, translating raw events into coherent public narratives",
+      "whyThisNode": "Broca's area drives speech production and language formulation â€” journalism is civilization's speech center, converting observations into articulate public expression",
+      "group": "media",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Press freedom erosion",
+        "Journalist safety threats"
+      ],
+      "treatments": [
+        {
+          "label": "Press Freedom Protections",
+          "type": "STRUCTURAL",
+          "description": "Constitutional and legal frameworks guaranteeing independent journalism and source protection",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Media Literacy Programs",
+          "type": "DIAGNOSTIC",
+          "description": "Public education initiatives that build critical consumption of news and information",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "communication_journalism_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Comcast",
+          "ticker_or_id": "CMCSA",
+          "functional_reason": "Executes core journalism operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Netflix",
+          "ticker_or_id": "NFLX",
+          "functional_reason": "Executes core journalism operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "T-Mobile US",
+          "ticker_or_id": "TMUS",
+          "functional_reason": "Executes core journalism operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Journalism",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Corporate Communications"
+        },
+        {
+          "domain": "education",
+          "role": "K-12 Teaching"
+        },
+        {
+          "domain": "governance",
+          "role": "Legislative Process"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Smartcity"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Advocacy / Argumentation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Broca's Area"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Speech Production & Phonological Proc..."
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Communication"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "A1",
+      "state": "active",
+      "domainLabel": "Broadcasting",
+      "domainDescription": "Radio and television transmission systems that deliver audio-visual content to mass audiences simultaneously",
+      "domainFunction": "Receives and processes mass auditory-visual signals, distributing information across wide population areas in real time",
+      "whyThisNode": "Primary auditory cortex processes incoming sound â€” broadcasting is civilization's auditory receiver, taking in and distributing signals across the population",
+      "group": "broadcast",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Broadcast spectrum saturation",
+        "Signal interference"
+      ],
+      "treatments": [
+        {
+          "label": "Spectrum Allocation Reform",
+          "type": "STRUCTURAL",
+          "description": "Optimized frequency band management to prevent congestion and ensure equitable broadcast access",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Emergency Broadcast Modernization",
+          "type": "DIAGNOSTIC",
+          "description": "Upgraded alert systems integrating digital and legacy broadcast channels for crisis communication",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "communication_broadcasting_portal.html",
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "T-Mobile US",
+          "ticker_or_id": "TMUS",
+          "functional_reason": "Detects and monitors broadcasting signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Ericsson",
+          "ticker_or_id": "ERIC",
+          "functional_reason": "Detects and monitors broadcasting signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors broadcasting signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Broadcasting",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "religion",
+          "role": "Sacred Music"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Music"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Planning Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Trade Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — Regulation Strategy"
+        },
+        {
+          "domain": "energy",
+          "role": "Electrolyte Systems Quality & Performance"
+        },
+        {
+          "domain": "environment",
+          "role": "Air Quality Modeling Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Social Media",
+      "domainDescription": "Digital platforms enabling user-generated content, social networking, and viral information sharing",
+      "domainFunction": "Drives engagement through reward-feedback loops, amplifying content based on social reinforcement signals",
+      "whyThisNode": "Nucleus accumbens mediates reward and motivation â€” social media operates through dopaminergic engagement loops of likes, shares, and viral reinforcement",
+      "group": "social",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Algorithmic radicalization",
+        "Addiction-pattern engagement"
+      ],
+      "treatments": [
+        {
+          "label": "Algorithmic Transparency Mandates",
+          "type": "STRUCTURAL",
+          "description": "Regulatory requirements for platforms to disclose recommendation algorithms and their behavioral effects",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Digital Wellbeing Standards",
+          "type": "DIAGNOSTIC",
+          "description": "Platform design guidelines that reduce compulsive usage patterns and protect user mental health",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "communication_social_portal.html",
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Netflix",
+          "ticker_or_id": "NFLX",
+          "functional_reason": "Amplifies and scales social media capacity, driving growth and expanding reach of social media operations",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Meta Platforms",
+          "ticker_or_id": "META",
+          "functional_reason": "Amplifies and scales social media capacity, driving growth and expanding reach of social media operations",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Comcast",
+          "ticker_or_id": "CMCSA",
+          "functional_reason": "Amplifies and scales social media capacity, driving growth and expanding reach of social media operations",
+          "binding_strength": 0.92
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Social Media",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Telecommunications",
+      "domainDescription": "Wired and wireless networks enabling point-to-point voice, data, and multimedia transmission across distances",
+      "domainFunction": "Provides the primary interhemispheric fiber tract connecting distant communication nodes into a unified information system",
+      "whyThisNode": "Corpus callosum is the brain's main commissural tract linking hemispheres â€” telecommunications is civilization's fiber backbone connecting distant regions",
+      "group": "telecom",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Network outages",
+        "Infrastructure degradation"
+      ],
+      "treatments": [
+        {
+          "label": "Redundant Network Architecture",
+          "type": "STRUCTURAL",
+          "description": "Multi-path routing and backup systems ensuring continuity during infrastructure failures",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Universal Access Initiatives",
+          "type": "DIAGNOSTIC",
+          "description": "Programs extending telecommunications coverage to underserved and rural populations",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "communication_telecom_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Cisco Systems",
+          "ticker_or_id": "CSCO",
+          "functional_reason": "Routes and distributes telecommunications resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Crown Castle",
+          "ticker_or_id": "CCI",
+          "functional_reason": "Routes and distributes telecommunications resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Routes and distributes telecommunications resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Telecommunications",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Transmission Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Road Networks"
+        },
+        {
+          "domain": "neurology",
+          "role": "Corpus Callosum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interhemispheric Connectivity"
+        },
+        {
+          "domain": "technology",
+          "role": "Networking & Internet"
+        },
+        {
+          "domain": "trade",
+          "role": "Freight Forwarding"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Assessment & Diagnostics"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FEF",
+      "state": "active",
+      "domainLabel": "Satellite Systems",
+      "domainDescription": "Orbital communication platforms providing global coverage for data relay, GPS, and remote sensing",
+      "domainFunction": "Directs attentional scanning across the broadest spatial field, providing top-down oversight and global positional awareness",
+      "whyThisNode": "Frontal eye fields control voluntary saccades and spatial attention â€” satellite systems are civilization's scanning eyes, directing focus across the global field",
+      "group": "telecom",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Orbital debris accumulation",
+        "Satellite system vulnerabilities"
+      ],
+      "treatments": [
+        {
+          "label": "Space Debris Mitigation Protocols",
+          "type": "STRUCTURAL",
+          "description": "International frameworks for orbital cleanup and responsible satellite decommissioning",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Constellation Resilience Planning",
+          "type": "DIAGNOSTIC",
+          "description": "Distributed satellite architectures resistant to single-point failures and anti-satellite threats",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "communication_satellite_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Comcast",
+          "ticker_or_id": "CMCSA",
+          "functional_reason": "Executes core satellite systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Netflix",
+          "ticker_or_id": "NFLX",
+          "functional_reason": "Executes core satellite systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "AT&T",
+          "ticker_or_id": "T",
+          "functional_reason": "Executes core satellite systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Satellite Systems",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Offgrid"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Air Transport"
+        },
+        {
+          "domain": "trade",
+          "role": "Air Freight"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Research & Development"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Master Planning Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Internet Infrastructure",
+      "domainDescription": "Global packet-switched network of routers, servers, data centers, and undersea cables forming the digital backbone",
+      "domainFunction": "Coordinates flexible, goal-directed information routing across distributed processing nodes with adaptive bandwidth allocation",
+      "whyThisNode": "Frontoparietal network enables flexible cognitive control and task switching â€” the internet is civilization's adaptive control network routing information on demand",
+      "group": "digital",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Backbone cable severance",
+        "DNS infrastructure attacks"
+      ],
+      "treatments": [
+        {
+          "label": "Decentralized Architecture Standards",
+          "type": "STRUCTURAL",
+          "description": "Protocols ensuring no single point of failure in global internet routing and DNS resolution",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Submarine Cable Protection Treaties",
+          "type": "DIAGNOSTIC",
+          "description": "International agreements safeguarding undersea cable infrastructure from sabotage and natural damage",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "communication_internet_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Qualcomm",
+          "ticker_or_id": "QCOM",
+          "functional_reason": "Executes core internet infrastructure operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Ericsson",
+          "ticker_or_id": "ERIC",
+          "functional_reason": "Executes core internet infrastructure operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Nokia",
+          "ticker_or_id": "NOK",
+          "functional_reason": "Executes core internet infrastructure operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Internet Infrastructure",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Publishing",
+      "domainDescription": "Print and digital publishing of books, journals, and periodicals that preserve and distribute structured knowledge",
+      "domainFunction": "Comprehends and encodes complex semantic content into durable, distributable formats for long-term knowledge storage",
+      "whyThisNode": "Wernicke's area processes language comprehension â€” publishing is civilization's comprehension center, encoding meaning into permanent distributable form",
+      "group": "publishing",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Knowledge access inequality",
+        "Academic publishing gatekeeping"
+      ],
+      "treatments": [
+        {
+          "label": "Open Access Mandates",
+          "type": "STRUCTURAL",
+          "description": "Policies requiring publicly funded research to be freely available, reducing knowledge gatekeeping",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Digital Preservation Archives",
+          "type": "DIAGNOSTIC",
+          "description": "Long-term digital storage systems ensuring published knowledge survives format obsolescence",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "communication_publishing_portal.html",
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Comcast",
+          "ticker_or_id": "CMCSA",
+          "functional_reason": "Executes core publishing operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "Nokia",
+          "ticker_or_id": "NOK",
+          "functional_reason": "Executes core publishing operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors publishing signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.65
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Risk Mitigation",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Literacy"
+        },
+        {
+          "domain": "industry",
+          "role": "Defense Ind"
+        },
+        {
+          "domain": "legal",
+          "role": "Statutory Interpretation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Wernicke's Area"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Comprehension"
+        },
+        {
+          "domain": "religion",
+          "role": "Scripture & Canon"
+        },
+        {
+          "domain": "science",
+          "role": "Computer Science"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradezone"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Advertising",
+      "domainDescription": "Commercial messaging systems that shape consumer behavior through persuasive communication and brand positioning",
+      "domainFunction": "Assigns value and reward expectation to stimuli, driving approach behavior through anticipated outcomes",
+      "whyThisNode": "Orbitofrontal cortex encodes expected value and reward prediction â€” advertising assigns perceived value to products, shaping approach behavior through anticipated reward",
+      "group": "media",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Manipulative targeting of minors",
+        "Deceptive advertising practices"
+      ],
+      "treatments": [
+        {
+          "label": "Advertising Standards Enforcement",
+          "type": "STRUCTURAL",
+          "description": "Regulatory bodies ensuring truthfulness in advertising claims and ethical targeting practices",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Targeted Advertising Oversight",
+          "type": "DIAGNOSTIC",
+          "description": "Privacy-preserving limits on behavioral data collection and micro-targeted persuasion techniques",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "communication_advertising_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Verizon Communications",
+          "ticker_or_id": "VZ",
+          "functional_reason": "Executes core advertising operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Qualcomm",
+          "ticker_or_id": "QCOM",
+          "functional_reason": "Detects and monitors advertising signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "Ericsson",
+          "ticker_or_id": "ERIC",
+          "functional_reason": "Executes core advertising operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Advertising",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vlPFC",
+      "state": "active",
+      "domainLabel": "Public Relations",
+      "domainDescription": "Strategic communication managing organizational reputation, crisis messaging, and stakeholder relationships",
+      "domainFunction": "Inhibits impulsive output and selects contextually appropriate responses, managing the public face of organizational communication",
+      "whyThisNode": "Ventrolateral PFC supports response inhibition and selection â€” PR manages what information is released and how, selecting appropriate messaging for context",
+      "group": "media",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Crisis communication failure",
+        "Institutional trust erosion"
+      ],
+      "treatments": [
+        {
+          "label": "Crisis Communication Frameworks",
+          "type": "STRUCTURAL",
+          "description": "Pre-established protocols for transparent, rapid organizational communication during emergencies",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Stakeholder Trust Audits",
+          "type": "DIAGNOSTIC",
+          "description": "Regular assessment of public trust levels and identification of communication gaps with key audiences",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Netflix",
+          "ticker_or_id": "NFLX",
+          "functional_reason": "Executes core public relations operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Verizon Communications",
+          "ticker_or_id": "VZ",
+          "functional_reason": "Executes core public relations operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Comcast",
+          "ticker_or_id": "CMCSA",
+          "functional_reason": "Executes core public relations operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        }
+      ],
+      "childPortal": "communication_public_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Public Relations",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Impulse Brake System"
+        },
+        {
+          "domain": "business",
+          "role": "Legal & Governance"
+        },
+        {
+          "domain": "legal",
+          "role": "Defense Advocacy"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Response Inhibition & Emotion Regulation"
+        },
+        {
+          "domain": "provider",
+          "role": "Regulatory Compliance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Assessment & Diagnostics"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture — Signal Detection"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Censorship & Regulation",
+      "domainDescription": "Governmental and institutional control of information flow through content restriction, classification, and regulatory oversight",
+      "domainFunction": "Monitors for conflict between competing information streams and enforces regulatory boundaries on communication output",
+      "whyThisNode": "Dorsal ACC detects conflict and errors, flagging content for review â€” censorship and regulation monitor information flow for boundary violations",
+      "group": "social",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Overreach suppressing legitimate speech",
+        "Insufficient harmful content moderation"
+      ],
+      "treatments": [
+        {
+          "label": "Proportionality Review Boards",
+          "type": "STRUCTURAL",
+          "description": "Independent oversight ensuring content regulation is proportionate and does not suppress legitimate expression",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Content Moderation Transparency",
+          "type": "DIAGNOSTIC",
+          "description": "Public reporting on moderation decisions, appeal outcomes, and enforcement patterns",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors censorship & regulation signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Ericsson",
+          "ticker_or_id": "ERIC",
+          "functional_reason": "Detects and monitors censorship & regulation signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "T-Mobile US",
+          "ticker_or_id": "TMUS",
+          "functional_reason": "Detects and monitors censorship & regulation signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.9
+        }
+      ],
+      "childPortal": "communication_accesscomm_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Censorship & Regulation",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Language Translation",
+      "domainDescription": "Human and machine translation services bridging linguistic barriers across cultures and commerce",
+      "domainFunction": "Converts semantic content between encoding systems, enabling cross-community comprehension and exchange",
+      "whyThisNode": "Language network processes cross-linguistic mapping and semantic transfer â€” translation is civilization's interlingual bridge enabling global comprehension",
+      "group": "digital",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Machine translation bias",
+        "Minor language extinction"
+      ],
+      "treatments": [
+        {
+          "label": "Multilingual AI Development",
+          "type": "STRUCTURAL",
+          "description": "Inclusive language model training that covers low-resource languages and preserves linguistic diversity",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Language Preservation Initiatives",
+          "type": "DIAGNOSTIC",
+          "description": "Documentation and digital tools supporting endangered languages and their speaker communities",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Verizon Communications",
+          "ticker_or_id": "VZ",
+          "functional_reason": "Executes core language translation operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Nokia",
+          "ticker_or_id": "NOK",
+          "functional_reason": "Executes core language translation operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Crown Castle",
+          "ticker_or_id": "CCI",
+          "functional_reason": "Routes and distributes language translation resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.74
+        }
+      ],
+      "childPortal": "communication_analytics_portal.html",
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Language Translation",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Propaganda and Media"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Language Network Development"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Training / Education"
+        },
+        {
+          "domain": "trade",
+          "role": "Wto"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Coordination & Integration"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture — Action Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Postal Systems",
+      "domainDescription": "Physical mail and parcel delivery networks providing universal, reliable document and goods distribution",
+      "domainFunction": "Coordinates precise sequential delivery operations through learned procedural routines and error-corrected timing",
+      "whyThisNode": "Cerebellum coordinates precise motor sequences and timing â€” postal systems execute precisely timed, sequenced delivery operations across vast networks",
+      "group": "telecom",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Delivery network disruption",
+        "Last-mile access failure"
+      ],
+      "treatments": [
+        {
+          "label": "Universal Service Obligation",
+          "type": "STRUCTURAL",
+          "description": "Legal mandates ensuring postal delivery reaches all addresses regardless of profitability",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Logistics Automation Integration",
+          "type": "DIAGNOSTIC",
+          "description": "Modernization of sorting, routing, and delivery through robotics and AI-driven optimization",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Nokia",
+          "ticker_or_id": "NOK",
+          "functional_reason": "Stabilizes postal systems oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Lumen Technologies",
+          "ticker_or_id": "LUMN",
+          "functional_reason": "Stabilizes postal systems oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Cisco Systems",
+          "ticker_or_id": "CSCO",
+          "functional_reason": "Stabilizes postal systems oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "communication_archives_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Postal Systems",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "MGN",
+      "state": "active",
+      "domainLabel": "Radio Spectrum",
+      "domainDescription": "Electromagnetic frequency management for wireless communication, radar, and signal transmission",
+      "domainFunction": "Routes and relays auditory-frequency signals through thalamic gating, managing channel allocation and signal fidelity",
+      "whyThisNode": "Medial geniculate nucleus relays auditory signals to cortex â€” radio spectrum management relays electromagnetic signals through carefully gated frequency channels",
+      "group": "broadcast",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Spectrum scarcity",
+        "Interference from unlicensed transmitters"
+      ],
+      "treatments": [
+        {
+          "label": "Dynamic Spectrum Access",
+          "type": "STRUCTURAL",
+          "description": "Cognitive radio technologies enabling real-time frequency sharing and adaptive channel allocation",
+          "evidence": "Strong"
+        },
+        {
+          "label": "International Frequency Coordination",
+          "type": "DIAGNOSTIC",
+          "description": "ITU-governed frameworks preventing cross-border interference and ensuring equitable spectrum distribution",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Crown Castle",
+          "ticker_or_id": "CCI",
+          "functional_reason": "Routes and distributes radio spectrum resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Routes and distributes radio spectrum resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Lumen Technologies",
+          "ticker_or_id": "LUMN",
+          "functional_reason": "Routes and distributes radio spectrum resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.93
+        }
+      ],
+      "childPortal": "communication_corporate_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Radio Spectrum",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "science",
+          "role": "Workforce"
+        },
+        {
+          "domain": "technology",
+          "role": "Techtalent"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "landscape urban — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Fighter Training Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Restructuring Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Enrollment Forecasting Technology & Innovation"
+        },
+        {
+          "domain": "energy",
+          "role": "Material Recovery Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "V1",
+      "state": "active",
+      "domainLabel": "Photography & Visual Media",
+      "domainDescription": "Still image capture, processing, and distribution for journalism, art, documentation, and commercial use",
+      "domainFunction": "Captures and processes primary visual information, encoding raw visual reality into distributable image formats",
+      "whyThisNode": "Primary visual cortex is the first stage of visual processing â€” photography is civilization's primary visual capture, recording raw images for distribution",
+      "group": "media",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Deepfake proliferation",
+        "Visual misinformation"
+      ],
+      "treatments": [
+        {
+          "label": "Digital Provenance Standards",
+          "type": "STRUCTURAL",
+          "description": "Cryptographic image authentication systems verifying origin and edit history of visual media",
+          "evidence": "Strong"
+        },
+        {
+          "label": "AI-Generated Content Labeling",
+          "type": "DIAGNOSTIC",
+          "description": "Mandatory disclosure requirements for synthetic and AI-manipulated visual content",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Ericsson",
+          "ticker_or_id": "ERIC",
+          "functional_reason": "Detects and monitors photography & visual media signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors photography & visual media signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "T-Mobile US",
+          "ticker_or_id": "TMUS",
+          "functional_reason": "Detects and monitors photography & visual media signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.86
+        }
+      ],
+      "childPortal": "communication_datacomm_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Photography & Visual Media",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Diagnostics & Imaging"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Visual Cortex"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Visual Cortex Activation"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Visual Arts"
+        },
+        {
+          "domain": "defense",
+          "role": "Equipment Maintenance Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Value Chains"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Equity Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STS",
+      "state": "active",
+      "domainLabel": "Film & Video",
+      "domainDescription": "Motion picture production, streaming platforms, and video content creation for entertainment and education",
+      "domainFunction": "Integrates multimodal audiovisual streams into coherent temporal narratives, processing dynamic social and environmental information",
+      "whyThisNode": "Superior temporal sulcus integrates audiovisual signals and processes biological motion â€” film/video combines sound, image, and motion into coherent narrative streams",
+      "group": "broadcast",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Content homogenization",
+        "Platform monopolization"
+      ],
+      "treatments": [
+        {
+          "label": "Content Diversity Incentives",
+          "type": "STRUCTURAL",
+          "description": "Funding and distribution support for independent, culturally diverse, and underrepresented filmmakers",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Platform Interoperability Standards",
+          "type": "DIAGNOSTIC",
+          "description": "Open protocols preventing content lock-in and enabling cross-platform portability for creators",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "T-Mobile US",
+          "ticker_or_id": "TMUS",
+          "functional_reason": "Detects and monitors film & video signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Qualcomm",
+          "ticker_or_id": "QCOM",
+          "functional_reason": "Detects and monitors film & video signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors film & video signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        }
+      ],
+      "childPortal": "communication_disinfo_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Film & Video",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "pediatric",
+          "role": "Social Perception & Biological Motion"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Performance & Optimization"
+        },
+        {
+          "domain": "culture",
+          "role": "Film & Cinema"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Baseline Calibration Operations"
+        },
+        {
+          "domain": "education",
+          "role": "GRE Testing — State Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Quality & Performance"
+        },
+        {
+          "domain": "environment",
+          "role": "Stratospheric Ozone Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Propaganda Analysis",
+      "domainDescription": "Critical assessment of persuasive messaging, influence operations, and information warfare tactics",
+      "domainFunction": "Evaluates the mental states and intentions behind communications, distinguishing genuine information from strategic manipulation",
+      "whyThisNode": "Temporoparietal junction enables theory of mind and perspective-taking â€” propaganda analysis requires understanding the hidden intentions behind persuasive messaging",
+      "group": "social",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "State-sponsored influence operations",
+        "Weaponized narrative campaigns"
+      ],
+      "treatments": [
+        {
+          "label": "Counter-Disinformation Units",
+          "type": "STRUCTURAL",
+          "description": "Dedicated analytical teams identifying, attributing, and countering coordinated influence operations",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Inoculation-Based Media Education",
+          "type": "DIAGNOSTIC",
+          "description": "Pre-emptive exposure to propaganda techniques building population-level resistance to manipulation",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Qualcomm",
+          "ticker_or_id": "QCOM",
+          "functional_reason": "Detects and monitors propaganda analysis signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Ericsson",
+          "ticker_or_id": "ERIC",
+          "functional_reason": "Detects and monitors propaganda analysis signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors propaganda analysis signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        }
+      ],
+      "childPortal": "communication_events_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Propaganda Analysis",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Medialaw",
+      "domainDescription": "Medialaw systems within Communication",
+      "group": "media",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "communication_medialaw_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Medialaw",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Pr",
+      "domainDescription": "Pr systems within Communication",
+      "group": "media",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "communication_pr_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Pr",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Serotonergic Mood Regulation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Serotonergic Tone"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Serotonergic Metabolic Modulation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Raphe Nuclei"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Serotonin System Development"
+        },
+        {
+          "domain": "population",
+          "role": "Aging Population"
+        },
+        {
+          "domain": "provider",
+          "role": "System Morale / Well-Being"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Serotonergic Reset Center"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "Speechlang",
+      "domainDescription": "Speechlang systems within Communication",
+      "group": "media",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "communication_speechlang_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Speechlang",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Arts Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Succession"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Design"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pathology"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Face Processing & Visual Recognition"
+        },
+        {
+          "domain": "technology",
+          "role": "User Interface Design"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Fashion & Design"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "GABA_GLU",
+      "state": "active",
+      "domainLabel": "Visualcomm",
+      "domainDescription": "Visualcomm systems within Communication",
+      "group": "media",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "communication_visualcomm_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Visualcomm",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Excitatory-Inhibitory Balance"
+        },
+        {
+          "domain": "environment",
+          "role": "Envlaw"
+        },
+        {
+          "domain": "medicine",
+          "role": "Anesthesiology"
+        },
+        {
+          "domain": "neurology",
+          "role": "Excitation-Inhibition Balance"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Excitation-Inhibition Balance"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Excitation-Inhibition Rebalancing"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Superiority Infrastructure & Capacity"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "DISINFORMATION_CRISIS",
+      "label": "Disinformation Crisis",
+      "summary": "Systematic spread of false or misleading information through media channels, social platforms, and state actors, undermining public trust and informed decision-making",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-active",
+          "detail": "Social media reward loops amplify sensational falsehoods faster than corrections can propagate",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Reduced critical perspective-taking allows propaganda to bypass rational evaluation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Conflict monitoring fails to flag contradictions between claims and evidence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered",
+          "detail": "Journalistic output quality degrades under speed pressure and resource scarcity",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "TELECOM_FAILURE",
+      "label": "Telecommunications Failure",
+      "summary": "Collapse or severe degradation of telecommunications infrastructure through natural disaster, cyberattack, or systemic neglect, severing critical connections",
+      "circuits": [
+        {
+          "nodeId": "CC",
+          "dir": "Hypo-active",
+          "detail": "Primary communication backbone severed, isolating communities from information exchange",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Hypo-active",
+          "detail": "Internet routing fails as backbone infrastructure loses coherence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FEF",
+          "dir": "Hypo-active",
+          "detail": "Satellite relay systems overwhelmed or damaged, losing global coverage",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Physical delivery networks disrupted as coordination systems go offline",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "CENSORSHIP_OVERREACH",
+      "label": "Censorship Overreach",
+      "summary": "Excessive governmental or institutional suppression of legitimate speech, press freedom, and information access, stifling democratic discourse",
+      "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Regulatory conflict detection overfires, flagging legitimate expression as violations",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo-active",
+          "detail": "Journalistic speech production suppressed through legal threats and intimidation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo-active",
+          "detail": "Publishing channels constricted, reducing the range of accessible knowledge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper-active",
+          "detail": "Excessive message filtering prevents authentic organizational communication",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "MEDIA_MONOPOLY",
+      "label": "Media Monopoly",
+      "summary": "Concentration of media ownership in few hands, reducing diversity of voices, editorial independence, and public accountability in information systems",
+      "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered",
+          "detail": "Journalistic voice homogenized under consolidated ownership directives",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STS",
+          "dir": "Hypo-active",
+          "detail": "Film and video content narrowed to commercially safe formulas under monopoly pressure",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Advertising revenue dominates editorial decisions, distorting information value",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "A1",
+          "dir": "Altered",
+          "detail": "Broadcasting channels deliver uniform messaging, reducing signal diversity",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "CYBER_PROPAGANDA",
+      "label": "Cyber Propaganda",
+      "summary": "Coordinated online influence campaigns using bots, deepfakes, and algorithmic manipulation to shape public opinion and destabilize societies",
+      "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Population unable to distinguish authentic human communication from bot-generated content",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "V1",
+          "dir": "Altered",
+          "detail": "Deepfake visual media undermines trust in photographic evidence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-active",
+          "detail": "Engagement algorithms weaponized to maximize outrage and polarization",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Altered",
+          "detail": "Internet infrastructure exploited as delivery mechanism for coordinated inauthentic behavior",
+          "evidence": "Strong"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "BROCA",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "OFC",
+      "target": "vlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "vlPFC",
+      "target": "V1",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "A1",
+      "target": "MGN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "MGN",
+      "target": "STS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NAcc",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CC",
+      "target": "FEF",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FEF",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FPN",
+      "target": "LANG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "BROCA",
+      "target": "A1",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "A1",
+      "target": "NAcc",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "NAcc",
+      "target": "CC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "CC",
+      "target": "FPN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "FPN",
+      "target": "WERN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "WERN",
+      "target": "BROCA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "V1",
+      "target": "NAcc",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "STS",
+      "target": "CC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "TPJ",
+      "target": "FPN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CBLM",
+      "target": "WERN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "LANG",
+      "target": "BROCA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "WERN",
+      "target": "A1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "BROCA",
+      "target": "TPJ",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "vlPFC",
+      "target": "MGN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "MGN",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "dACC",
+      "target": "FEF",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FEF",
+      "target": "LANG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "LANG",
+      "target": "WERN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Accesscomm — Diagnostic Analysis → Caption Styling Core Operations (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Accesscomm — Diagnostic Analysis → Cultural Adaptation Quality & Performance (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Accesscomm — Diagnostic Analysis → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Accesscomm — Regulation Strategy — Tertiary → Caption Styling Core Operations (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Accesscomm — Regulation Strategy — Tertiary → Cultural Adaptation Quality & Performance (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Accesscomm — Regulation Strategy — Tertiary → Specialized Translation Quality & Performance (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Medialaw → Censorship & Regulation (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Medialaw → Accesscomm — Regulation Strategy (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Caption Accuracy Quality & Performance → Caption Styling Core Operations (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Censorship & Regulation → Caption Styling Core Operations (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Caption Styling Risk & Resilience → Photography & Visual Media (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Caption Styling Risk & Resilience → Broadcasting (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Caption Styling Risk & Resilience → Accesscomm — Signal Detection — Secondary (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Metric Design Governance → Photography & Visual Media (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Radio Spectrum → Broadcasting (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Accesscomm Quality & Performance → Accesscomm — Diagnostic Analysis — Tertiary (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Accesscomm — Diagnostic Analysis — Tertiary → Censorship & Regulation (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Caption Accuracy Core Operations → Accesscomm — Diagnostic Analysis — Tertiary (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Caption Styling Core Operations → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Language Resources Quality & Performance (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Caption Styling Infrastructure & Capacity → Accesscomm — Regulation Strategy (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Accesscomm — Regulation Strategy → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Accesscomm — Action Coordination — Secondary → Social Media (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Social Media → Symbol Supported (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Social Media → Advertising (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Advertising → Accesscomm — Regulation Strategy — Tertiary (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Process Improvement → Voice Control (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Screen Reader Compatibility Risk & Resilience → Accesscomm Strategic Planning & Alignment (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Accesscomm Strategic Planning & Alignment → Caption Styling Risk & Resilience (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Postal Systems → Caption Styling Risk & Resilience (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Satellite Systems → Photography & Visual Media (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Internet Infrastructure → Medialaw (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Caption Accuracy Policy & Governance → Caption Styling Core Operations (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Caption Accuracy Policy & Governance → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.681Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

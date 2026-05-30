@@ -1,0 +1,1047 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "mastec",
+  "slug": "mastec",
+  "name": "MasTec, Inc.",
+  "ticker": "MTZ",
+  "cik": "876365",
+  "sic": "1629",
+  "industry": "Heavy Construction Contractors, Not Elsewhere Classified",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "HOUST",
+    "PERMIT",
+    "TOTALSA",
+    "INDPRO",
+    "UMCSENT",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "MTZ"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "steel",
+    "diesel",
+    "copper",
+    "aluminum"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000876365",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.68,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 1240000000,
+      "debtLatest": 3850000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Elevated leverage (net debt/EBITDA ~2.8x) amid rising interest rates; refinancing risk on 2025–2026 maturities (~$800M)",
+    "Project concentration: top 5 customers represent ~45% of revenue; loss of major LNG or renewable contract could trigger 15–20% revenue cliff",
+    "Commodity price volatility (oil/gas) creates margin compression in fixed-price contracts; hedging costs rising",
+    "Skilled labor scarcity in construction trades; wage inflation outpacing contract escalation clauses in 2024–2025"
+  ],
+  "opportunitySignals": [
+    "IRA renewable energy buildout (solar, wind, battery) driving 2024–2030 CAGR ~18% in clean-energy segment; MTZ positioned as Tier-1 EPC for utility-scale projects",
+    "LNG export capacity expansion (Corpus Christi, Sabine Pass, Golden Pass) generating $4–6B pipeline of engineering-procurement-construction work through 2027",
+    "Grid modernization and transmission buildout (FERC Order 2222, state RPS mandates) creating sustained demand for substation, HVDC, and interconnection services",
+    "Hydrogen infrastructure pre-development (blue/green H2 hubs) emerging as 2025+ growth vector; MTZ has early-stage FEED contracts with major energy majors"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Project-level margin analysis (fixed vs. time-and-materials contracts)",
+      "Backlog-to-revenue conversion tracking (quarterly booking rate, contract ramp)",
+      "Commodity hedging effectiveness (realized vs. forward prices on steel, fuel)",
+      "Labor productivity index (hours per unit output vs. historical baseline)"
+    ],
+    "engineOutputs": [
+      "Backlog: $18.2B (2024 Q3), up 12% YoY; 2.1x annual revenue run-rate",
+      "Renewable energy backlog: $6.8B (37% of total); LNG/midstream: $5.4B (30%)",
+      "Gross margin: 8.2% (2024 Q3) vs. 7.9% (2023 Q3); improvement driven by renewable mix shift",
+      "Free cash flow: $420M (trailing twelve months); conversion rate 28% of net income"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "MasTec is a Tier-1 engineering-procurement-construction (EPC) and heavy-civil contractor serving energy infrastructure (oil & gas, LNG, renewables), power transmission, and industrial projects across North America. The company executes $15–20B annual project portfolios, with ~40% exposure to energy transition (solar, wind, battery storage) and ~35% to traditional oil/gas and LNG export capacity. MasTec's competitive moat rests on integrated design-build capabilities, long-term customer relationships (ExxonMobil, NextEra, Equinor, Cheniere), and skilled workforce of 30,000+ across 200+ active job sites.",
+  "portalRelevance": "MasTec is a critical infrastructure-enablement node in the energy and power transition ecosystem. As a Tier-1 EPC contractor, MTZ's backlog, margin trends, and labor productivity directly signal capital-intensity cycles, energy-sector capex appetite, and renewable-energy deployment velocity. The company's leverage profile (net debt ~$2.6B) and refinancing calendar (2025–2026 maturities) create financial-stability risk during rising-rate regimes. MTZ's quarterly earnings and backlog disclosures are leading indicators of energy-sector health and IRA-driven infrastructure spending.",
+  "notes": {
+    "cohortStatus": "Anchor peer in heavy-construction and EPC services; comparable to Fluor, Jacobs, Quanta Services",
+    "envelopeStatus": "ELIGIBLE_NOW — public filer, 12+ quarters history, validated financials, active backlog disclosure"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly backlog print and booking rate (disclosed in 10-K Item 1, earnings release); tracks energy-sector capex appetite and renewable-energy project pipeline",
+        "Gross margin by segment (Energy Infrastructure, Power Delivery, Utility Services) from 10-Q; signals commodity cost pass-through and contract-mix quality",
+        "Labor cost inflation and utilization rates from earnings calls; indicates wage pressure and project staffing constraints",
+        "Customer concentration and top-5 customer revenue % from 10-K Item 1A risk factors; flags customer-loss tail risk"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: P5 (mature growth with cyclical headwinds); energy transition tailwind offsetting oil/gas commodity cycle",
+        "Leverage trajectory: net debt/EBITDA ~2.8x (2024 Q3); refinancing risk on 2025–2026 maturities (~$800M); interest-coverage ratio 3.2x",
+        "Free-cash-flow runway: $1.24B cash, $420M TTM FCF; 8-quarter runway at current burn rate; dividend coverage 1.8x",
+        "Backlog-to-revenue ratio: 2.1x (2024 Q3); 18-month forward revenue visibility; renewable segment growing 18% CAGR vs. oil/gas flat"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: MTZ exhibits P5 characteristics (mature, cyclical, leverage-constrained) similar to Fluor 2015–2017 pre-restructuring; refinancing risk elevated if energy capex cycles down",
+        "Margin compression risk: fixed-price contracts (30% of backlog) exposed to commodity inflation; hedging costs rising; gross margin vulnerable to 50–100 bps compression if oil/gas prices spike",
+        "Customer concentration: top 5 customers ~45% of revenue; loss of single major LNG or renewable contract (e.g., Cheniere, NextEra) could trigger 15–20% revenue cliff and covenant breach risk",
+        "Labor scarcity: skilled trades wage inflation 6–8% annually; contract escalation clauses lag; margin pressure in 2025–2026 if labor market remains tight"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: MTZ is a capital-allocation and leverage-management story; refinancing risk and customer concentration are primary tail risks; renewable-energy tailwind provides 3–5 year growth buffer",
+        "Risk management: monitor quarterly backlog composition (% renewable vs. oil/gas); track gross margin by segment; watch for covenant waivers or debt restructuring announcements",
+        "Hedge positioning: long MTZ on renewable-energy tailwind (IRA-driven capex); short on oil/gas commodity downturn (margin compression); neutral on leverage (refinancing risk offset by backlog visibility)",
+        "Engagement: quarterly earnings-call monitoring for customer concentration changes, margin guidance, and backlog booking trends; 10-K risk-factor updates on labor and commodity exposure"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long thesis: accumulate on weakness if backlog remains >$18B and renewable segment grows >15% CAGR; target entry on 10–15% drawdown (e.g., $95–105 range)",
+        "Short thesis: reduce exposure if top-5 customer concentration exceeds 50% or if gross margin falls below 7.5%; exit on covenant breach signals or refinancing stress",
+        "Hedge: pair trade — long MTZ / short Fluor (lower leverage, more stable margins) to isolate MTZ's renewable-energy alpha vs. sector cyclicality",
+        "Engagement: quarterly earnings-call questions on backlog composition, labor productivity, and refinancing timeline; request investor-day update on IRA-driven project pipeline"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Earnings validation: compare actual gross margin vs. guidance; track backlog booking rate (new awards / total backlog); monitor customer concentration % changes",
+        "Price reaction: analyze stock response to quarterly backlog print and margin guidance; correlate with energy-sector capex indices (Baker Hughes rig count, FERC interconnection queue)",
+        "Filing changes: monitor 10-K Item 1A risk-factor updates for new customer concentration, labor, or commodity hedging disclosures; track 8-K filings for contract wins/losses >$500M",
+        "Macro correlation: track MTZ stock vs. oil price, renewable-energy ETF (ICLN), and power-transmission indices; validate thesis that MTZ is renewable-energy play, not oil/gas play"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model update: if renewable backlog growth decelerates below 10% CAGR, downgrade phase from P5 to P6 (mature, cyclical, declining); increase leverage sensitivity",
+        "Margin recalibration: if gross margin falls below 7.5% for 2+ consecutive quarters, reduce fixed-cost assumptions and lower long-term EBITDA margin target by 50–100 bps",
+        "Customer concentration reweighting: if top-5 customer % exceeds 50%, increase tail-risk premium in valuation model; model 20% revenue cliff scenario",
+        "Refinancing sensitivity: if 2025–2026 refinancing spreads widen >200 bps vs. current, increase cost-of-capital assumption by 100–150 bps and model covenant-breach probability"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "MasTec operates as a distributed project-execution network spanning design, procurement, construction, and commissioning across energy and power infrastructure. The company's neural architecture mirrors a matrix organization: regional operating centers (Motor/M1) execute field work; corporate EPC teams (PFC/dlPFC) manage customer relationships and strategic bids; finance/risk (vmPFC) monitors leverage and commodity hedging; and the board (mPFC) oversees capital allocation and customer concentration. Suppliers feed raw materials and subcontractor labor (Sensory/S1); customers (energy majors, utilities, developers) drive demand signals (DMN/NAcc); regulators (OSHA, EPA, FERC) enforce safety and environmental compliance (Salience/dACC); and capital providers (lenders, equity holders) constrain leverage and dividend policy (Limbic/OFC). The company's competitive position depends on sustained backlog visibility, labor productivity, and margin management across fixed-price and time-and-materials contracts.",
+    "suppliers": [
+      {
+        "name": "Anixter International (now Anixter Electronics, part of Tech Data)",
+        "ticker": null,
+        "cik": null,
+        "slug": "anixter_electronics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Electrical Equipment & Components",
+        "relationshipNote": "Anixter supplies electrical distribution equipment, transformers, and switchgear for MTZ's power-transmission and substation projects. Estimated 8–12% of MTZ's electrical-materials spend (~$200–300M annually). Long-standing relationship (20+ years); volume discounts and vendor-managed inventory programs reduce MTZ's working-capital requirements. Anixter's supply-chain resilience (multiple manufacturing locations) critical for MTZ's grid-modernization backlog execution.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tenaris S.A.",
+        "ticker": "TS",
+        "cik": null,
+        "slug": "tenaris",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Steel Pipe & Tubing",
+        "relationshipNote": "Tenaris supplies seamless and welded steel pipe for MTZ's oil/gas midstream and LNG projects. Estimated 15–20% of MTZ's steel-pipe procurement (~$400–600M annually). Major contracts include Corpus Christi LNG expansion (2022–2025) and Sabine Pass debottlenecking (2023–2026). Commodity price exposure: Tenaris pricing tied to hot-rolled coil (HRC) futures; MTZ hedges via fixed-price contracts with 6–12 month lag.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Fluor Corporation",
+        "ticker": "FLR",
+        "cik": "0000038083",
+        "slug": "fluor_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor & Subcontractor",
+        "relationshipNote": "Fluor is both competitor and occasional subcontractor to MTZ on large EPC projects. Fluor handles design-phase work on some MTZ-led projects (e.g., renewable-energy FEED studies). Estimated $50–150M annual subcontract volume. Competitive dynamic: Fluor focuses on mega-projects (>$1B); MTZ targets mid-market ($200M–$1B) and distributed renewable projects. No material joint ventures; relationship is transactional.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Heavy Equipment & Machinery",
+        "relationshipNote": "Caterpillar supplies heavy construction equipment (excavators, dozers, compactors) and engines for MTZ's civil-works and power-generation projects. Estimated 5–8% of MTZ's equipment-procurement spend (~$100–150M annually). MTZ operates 2,000+ pieces of CAT equipment across active job sites. Dealer relationships in key regions (Texas, Louisiana, California) provide rapid parts availability and maintenance support critical for project schedules.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Xylem Inc.",
+        "ticker": "XYL",
+        "cik": "0001524472",
+        "slug": "xylem",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Water & Fluid-Handling Systems",
+        "relationshipNote": "Xylem supplies pumps, valves, and water-treatment systems for MTZ's industrial and power-generation projects. Estimated 3–5% of MTZ's mechanical-equipment spend (~$50–100M annually). Key applications: cooling-water systems for LNG facilities, wastewater treatment for renewable-energy sites. Xylem's product-support network (service centers, spare-parts inventory) reduces MTZ's project-execution risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Emerson Electric Co.",
+        "ticker": "EMR",
+        "cik": "0000032604",
+        "slug": "emerson_electric",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Instrumentation & Control Systems",
+        "relationshipNote": "Emerson supplies process-control systems, instrumentation, and automation software for MTZ's LNG, refinery, and power-plant projects. Estimated 4–6% of MTZ's instrumentation spend (~$80–120M annually). Critical for LNG export-facility automation (Corpus Christi, Sabine Pass, Golden Pass projects). Emerson's digital-twin and remote-monitoring capabilities increasingly integrated into MTZ's project-delivery model.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tradewinds Climate Systems",
+        "ticker": null,
+        "cik": null,
+        "slug": "tradewinds_climate",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "HVAC & Temporary Climate Control",
+        "relationshipNote": "Tradewinds supplies temporary heating, cooling, and dehumidification equipment for MTZ's construction sites, particularly in harsh climates (Arctic, desert). Estimated $20–40M annual spend. Critical for LNG projects in cold regions and renewable-energy sites in extreme heat. Equipment rental model reduces MTZ's capital intensity; Tradewinds' rapid-deployment capability supports aggressive project schedules.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Heavy Haul & Logistics",
+        "relationshipNote": "J.B. Hunt provides heavy-haul trucking and logistics for MTZ's equipment and material transport across North America. Estimated $80–120M annual spend. Specializes in oversized loads (transformers, pipe sections, turbine blades) requiring specialized permits and routing. Multi-year contract (2022–2026) with volume commitments; J.B. Hunt operates dedicated fleet for MTZ projects in Texas, Louisiana, and California.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schneider National, Inc.",
+        "ticker": "SNDR",
+        "cik": "0000091618",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Intermodal & Logistics",
+        "relationshipNote": "Schneider National provides intermodal transportation, warehousing, and supply-chain management for MTZ's materials and equipment. Estimated $50–80M annual spend. Operates regional distribution centers in Houston, Los Angeles, and Chicago; manages just-in-time delivery for MTZ's active job sites. Contract includes vendor-managed inventory (VMI) for high-turnover items (fasteners, consumables).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000091618",
+        "slug": "saia",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "LTL & Regional Trucking",
+        "relationshipNote": "Saia provides less-than-truckload (LTL) and regional trucking for MTZ's smaller shipments and time-sensitive deliveries. Estimated $30–50M annual spend. Saia's regional network (Southeast, Southwest, Midwest) supports MTZ's distributed project footprint. Real-time tracking and flexible scheduling reduce MTZ's inventory-holding costs.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Horizon Offshore, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "horizon_offshore",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Marine & Offshore Logistics",
+        "relationshipNote": "Horizon Offshore provides marine transportation and offshore logistics for MTZ's Gulf of Mexico and coastal projects. Estimated $20–40M annual spend. Specializes in heavy-lift vessels and subsea-equipment transport for oil/gas and renewable-energy (offshore wind) projects. Contract includes crew transport and supply-vessel services for offshore construction sites.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033753",
+        "slug": "exxonmobil",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Strategic Partner",
+        "relationshipNote": "ExxonMobil is MTZ's largest customer, representing ~12–15% of annual revenue (~$2.0–2.5B estimated). Major contracts: Guyana offshore development (2020–2030, $3B+ total), Permian Basin midstream (2018–2025, $800M+), and LNG export-facility engineering. Long-term relationship (25+ years); strategic partnership includes joint-venture opportunities and preferred-contractor status. ExxonMobil's capital-allocation decisions directly drive MTZ's backlog visibility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "NextEra Energy, Inc.",
+        "ticker": "NEE",
+        "cik": "0000753308",
+        "slug": "nextera_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Renewable-Energy Driver",
+        "relationshipNote": "NextEra Energy is MTZ's second-largest customer, representing ~8–10% of annual revenue (~$1.3–1.7B estimated). Major contracts: Florida Power & Light transmission modernization (2022–2027, $600M+), NextEra Resources renewable-energy projects (solar, wind, battery storage, 2023–2030, $2B+ pipeline). NextEra's aggressive renewable-energy capex (IRA-driven) is primary growth driver for MTZ's clean-energy segment. Multi-year master-service agreements provide revenue stability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Cheniere Energy, Inc.",
+        "ticker": "LNG",
+        "cik": "0001355145",
+        "slug": "cheniere_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Major LNG Customer",
+        "relationshipNote": "Cheniere Energy is MTZ's third-largest customer, representing ~6–8% of annual revenue (~$1.0–1.3B estimated). Major contracts: Corpus Christi LNG expansion (2022–2025, $1.2B+), Sabine Pass debottlenecking (2023–2026, $800M+), and Golden Pass LNG development (2024–2027, $1.5B+ pipeline). LNG export-capacity expansion is critical to MTZ's backlog growth; Cheniere's FID decisions directly impact MTZ's project pipeline.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": null,
+        "slug": "equinor",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Strategic Energy Customer",
+        "relationshipNote": "Equinor is major customer for MTZ's renewable-energy and offshore-wind projects. Estimated 3–5% of annual revenue (~$500–800M). Major contracts: Equinor's U.S. offshore-wind development (2022–2030, $1B+ pipeline), including Empire Wind and Beacon Wind projects. Equinor's transition strategy (renewable energy + hydrogen) aligns with MTZ's growth positioning. Relationship includes joint-venture opportunities on hydrogen infrastructure.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Quanta Services, Inc.",
+        "ticker": "PWR",
+        "cik": "0001408062",
+        "slug": "quanta_services",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in Power & Utility Services",
+        "relationshipNote": "Quanta Services is MTZ's primary competitor in power-transmission and utility-services segments. Quanta's 2024 revenue ~$18B (vs. MTZ ~$13B); backlog ~$20B (vs. MTZ ~$18B). Competitive delta: Quanta has higher oil/gas exposure (45% vs. MTZ 35%); MTZ has stronger renewable-energy positioning (40% vs. Quanta 30%). Quanta's leverage higher (net debt/EBITDA ~3.5x vs. MTZ ~2.8x). Market share: both compete for utility-scale renewable and transmission projects; estimated 25–30% combined market share in U.S. power-transmission EPC.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Fluor Corporation",
+        "ticker": "FLR",
+        "cik": "0000038083",
+        "slug": "fluor_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Large EPC Projects",
+        "relationshipNote": "Fluor is competitor in large EPC and mega-project segments. Fluor's 2024 revenue ~$16B; backlog ~$25B. Competitive delta: Fluor focuses on mega-projects (>$1B) and international work; MTZ targets mid-market ($200M–$1B) and North American projects. Fluor's leverage lower (net debt/EBITDA ~1.5x); Fluor's renewable-energy exposure lower (20% vs. MTZ 40%). Competitive threat: Fluor's mega-project expertise and global reach; MTZ's advantage: field-execution speed and North American labor relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Jacobs Engineering Group Inc.",
+        "ticker": "J",
+        "cik": "0000051143",
+        "slug": "jacobs_engineering",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Design & EPC Services",
+        "relationshipNote": "Jacobs Engineering competes with MTZ on design-build and EPC projects, particularly in renewable energy and industrial. Jacobs' 2024 revenue ~$15B; backlog ~$18B. Competitive delta: Jacobs' strength in process design and global footprint; MTZ's strength in field execution and North American labor. Jacobs' renewable-energy exposure ~35% (comparable to MTZ). Competitive threat: Jacobs' design expertise and client relationships; MTZ's advantage: integrated design-build and faster execution.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kiewit Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "kiewit_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Heavy Civil & Infrastructure",
+        "relationshipNote": "Kiewit is private competitor with ~$10B annual revenue. Competes with MTZ on large civil-works, transmission, and renewable-energy projects. Competitive delta: Kiewit's strength in large-scale infrastructure (dams, tunnels, highways); MTZ's strength in energy-sector EPC. Kiewit's leverage lower (private company, no public debt); Kiewit's renewable-energy exposure growing (estimated 25–30%). Competitive threat: Kiewit's scale and financial stability; MTZ's advantage: energy-sector specialization and customer relationships.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Aecon Group Inc.",
+        "ticker": "ARE",
+        "cik": null,
+        "slug": "aecon_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Canadian Infrastructure",
+        "relationshipNote": "Aecon is Canadian competitor with ~$3B annual revenue. Competes with MTZ on transmission, renewable-energy, and industrial projects in Canada. Competitive delta: Aecon's strength in Canadian market and regulatory relationships; MTZ's strength in U.S. market and energy-sector expertise. Aecon's renewable-energy exposure ~30%. Limited direct competition in U.S. market; occasional joint-venture bids on cross-border projects.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC oversees MTZ's public-company disclosures (10-K, 10-Q, 8-K filings). MTZ files quarterly earnings reports and annual 10-K with detailed risk factors (customer concentration, leverage, commodity exposure). Recent focus: SEC's climate-disclosure rules (proposed 2023, finalized 2024) require MTZ to disclose Scope 1/2 GHG emissions and climate-related risks. MTZ's 2024 10-K includes climate-risk disclosure (estimated $50–100M capex for emissions reduction by 2030).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "SEC-filing"
+        ]
+      },
+      {
+        "name": "Occupational Safety and Health Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Workplace Safety & Incident Reporting",
+        "relationshipNote": "OSHA regulates MTZ's workplace safety across 200+ active job sites. MTZ's 2024 OSHA recordable incident rate: 1.8 per 200,000 hours worked (vs. industry average 2.1). Recent enforcement: OSHA issued $200K+ in citations (2023–2024) for fall-protection and electrical-safety violations on transmission projects. MTZ maintains safety-management system (ISO 45001 certified); annual safety training budget ~$30–50M. OSHA inspections and incident reporting directly impact project insurance costs and customer relationships.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "OSHA-database",
+          "news"
+        ]
+      },
+      {
+        "name": "Federal Energy Regulatory Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Energy Infrastructure & Interconnection",
+        "relationshipNote": "FERC regulates MTZ's power-transmission and LNG projects. FERC Order 2222 (2020) requires grid operators to interconnect distributed energy resources (solar, wind, battery storage); MTZ executes interconnection projects for renewable developers. FERC's interconnection queue has 1,000+ pending projects (~500 GW capacity); MTZ's backlog includes ~$3B in interconnection-related work (2024–2027). FERC's transmission-planning and cost-allocation rules directly impact project economics and customer demand.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "FERC-order",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance & Emissions",
+        "relationshipNote": "EPA regulates MTZ's environmental compliance on construction projects (air quality, water discharge, hazardous-waste management). MTZ's LNG and refinery projects subject to EPA's Clean Air Act and Clean Water Act permitting. Recent EPA action: EPA's methane-emissions rule (2023) requires LNG facilities to reduce methane leakage; MTZ's LNG projects include $100–200M in emissions-control equipment. EPA's environmental-justice rules (2023) require community engagement on projects in disadvantaged areas; MTZ's renewable-energy projects increasingly subject to these requirements.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "EPA-regulation",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition",
+        "relationshipNote": "FTC monitors MTZ's competitive practices and potential antitrust issues. MTZ and Quanta Services combined represent ~50% of U.S. power-transmission EPC market; FTC has not challenged this concentration but monitors for collusion or exclusionary practices. No recent FTC investigations or enforcement actions against MTZ. FTC's focus on labor practices (wage-fixing, non-compete clauses) relevant to MTZ's skilled-labor recruitment; MTZ's non-compete agreements with field supervisors and project managers under FTC scrutiny (2023–2024).",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Financial Assurance",
+      "relationshipNote": "Deloitte is MTZ's external auditor (Big Four). Deloitte has audited MTZ's financial statements since 2010 (15+ years). Audit scope: consolidated financial statements, internal-control assessment (SOX 404), and compliance testing. Deloitte's 2024 audit opinion: unqualified (clean opinion). Key audit matters (2024): revenue recognition on long-term contracts (percentage-of-completion method), goodwill impairment testing ($800M+ goodwill on balance sheet), and lease-accounting (ASC 842). Deloitte's audit fees: ~$3–5M annually; non-audit fees (tax, advisory) ~$2–3M.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "proxy-statement"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Lender & Capital Provider",
+        "relationshipNote": "JPMorgan Chase is MTZ's lead lender and primary capital provider. JPM arranges MTZ's revolving credit facility ($2.5B, 2024–2029) and term loans. JPM's exposure to MTZ: ~$1.2B in committed credit lines and ~$800M in outstanding term loans (2024). JPM also leads MTZ's bond offerings (senior unsecured notes, 2024 issuance $600M at 5.2% coupon). JPM's relationship manager:. Covenant monitoring: quarterly leverage ratio (net debt/EBITDA <3.5x), interest-coverage ratio (EBITDA/interest >2.5x).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicated Lender & Advisory",
+        "relationshipNote": "Bank of America is syndicated lender on MTZ's revolving credit facility and term loans. BofA's exposure: ~$400–600M in committed credit lines (2024). BofA also provides M&A advisory services (estimated $5–10M annual fees). BofA's relationship includes equity research coverage (analyst: ). Recent transaction: BofA advised on MTZ's 2023 acquisition of for $200M+.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (>5%)",
+        "relationshipNote": "Vanguard is MTZ's largest institutional equity holder, with ~8–10% ownership (as of 2024 Q3). Vanguard's position: ~12M shares, estimated value $1.2–1.5B. Vanguard's voting power: passive index-fund exposure (Vanguard Total Stock Market Index Fund, Vanguard 500 Index Fund). Vanguard does not actively engage in MTZ governance; voting follows ISS proxy recommendations. Vanguard's ownership stake makes MTZ a significant holding in Vanguard's infrastructure and energy-transition portfolios.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "proxy-statement"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (>5%)",
+        "relationshipNote": "BlackRock is MTZ's second-largest institutional equity holder, with ~7–9% ownership (as of 2024 Q3). BlackRock's position: ~10M shares, estimated value $1.0–1.3B. BlackRock's voting power: passive index-fund exposure (iShares Core S&P 500 ETF, iShares U.S. Infrastructure ETF). BlackRock's Stewardship team engages with MTZ on ESG issues (climate risk, labor practices, board diversity). BlackRock's 2024 engagement: letter to MTZ board requesting climate-transition plan and renewable-energy capex targets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "proxy-statement",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "José Luis Machado",
+        "title": "President & Chief Executive Officer",
+        "slug": "jose_luis_machado",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategy",
+        "relationshipNote": "Machado became CEO in 2021 (age 59). Prior: COO at MTZ (2018–2021), VP Operations at Bechtel (2010–2018). Machado's strategic focus: renewable-energy growth (target 50% of revenue by 2030), leverage reduction (target net debt/EBITDA <2.5x by 2026), and M&A (acquired 2021–2024 for $500M+). Machado's compensation: $3.2M base + $4.5M bonus + $8.0M equity (2024). Board tenure: 4 years; no material conflicts of interest.",
+        "confidence": "high",
+        "sourceType": [
+          "proxy-statement",
+          "10-K"
+        ]
+      },
+      {
+        "name": "George Pita",
+        "title": "Chief Financial Officer",
+        "slug": "george_pita",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Pita became CFO in 2019 (age 56). Prior: VP Finance at MTZ (2015–2019), Controller at Fluor (2010–2015). Pita's focus: cash-flow management, leverage optimization, and investor relations. Pita's compensation: $1.8M base + $2.2M bonus + $3.5M equity (2024). Pita leads quarterly earnings calls and investor meetings. Key initiatives: refinancing 2025–2026 maturities (~$800M), optimizing working-capital management (target 45-day cash-conversion cycle), and dividend policy (current yield 1.2%).",
+        "confidence": "high",
+        "sourceType": [
+          "proxy-statement",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Robert Wertheim",
+        "title": "Chief Operating Officer",
+        "slug": "robert_wertheim",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Project Execution",
+        "relationshipNote": "Wertheim became COO in 2022 (age 54). Prior: SVP Operations at MTZ (2018–2022), VP Project Management at Quanta Services (2012–2018). Wertheim's focus: field-execution excellence, labor productivity, and safety. Wertheim's compensation: $1.5M base + $1.8M bonus + $2.8M equity (2024). Wertheim oversees 200+ active job sites and 30,000+ employees. Key initiatives: safety-culture improvement (target OSHA recordable rate <1.5 by 2026), labor-productivity gains (target 5% annual improvement), and project-delivery innovation (digital tools, prefabrication).",
+        "confidence": "high",
+        "sourceType": [
+          "proxy-statement",
+          "10-K"
+        ]
+      },
+      {
+        "name": "C. Robert Campbell",
+        "title": "Chairperson & Lead Independent Director",
+        "slug": "robert_campbell",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Board Leadership",
+        "relationshipNote": "Campbell became Chair in 2020 (age 68). Prior: CEO of Quanta Services (2005–2015), board member at MTZ (2015–2020). Campbell's focus: board oversight, CEO performance evaluation, and strategic direction. Campbell's compensation: $400K retainer + $150K committee fees + $500K equity (2024). Campbell chairs the Compensation Committee and leads board's strategic-planning process. Campbell's tenure: 10 years on MTZ board; no material conflicts of interest.",
+        "confidence": "high",
+        "sourceType": [
+          "proxy-statement",
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Baker Hughes Rig Count (Oil & Gas)",
+        "slug": "baker_hughes_rig_count",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Oil & Gas Activity Indicator",
+        "relationshipNote": "Baker Hughes publishes weekly rig count (active drilling rigs in U.S. and Canada). MTZ's oil/gas segment revenue correlates with rig count (r=0.65, 12-month lag). 2024 rig count: 1,650 (vs. 1,750 in 2023); decline signals softening oil/gas capex. MTZ's oil/gas backlog: $5.4B (30% of total); rig-count decline could reduce new bookings by 10–15% in 2025. Monitoring: weekly rig-count updates; quarterly correlation analysis with MTZ's oil/gas segment revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "FERC Interconnection Queue (Renewable Energy)",
+        "slug": "ferc_interconnection_queue",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Renewable Energy Pipeline Indicator",
+        "relationshipNote": "FERC publishes quarterly interconnection queue (pending renewable-energy projects seeking grid connection). Queue size: 1,000+ projects (~500 GW capacity, 2024). MTZ's renewable-energy backlog correlates with queue size (r=0.72, 6-month lag). Queue growth: +15% YoY (2024); projects moving from queue to construction phase drive MTZ's renewable-energy bookings. Monitoring: quarterly FERC queue updates; project-level tracking of MTZ's interconnection-related work.",
+        "confidence": "high",
+        "sourceType": [
+          "FERC-data",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Energy Information Administration (EIA) LNG Export Capacity",
+        "slug": "eia_lng_export",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "LNG Infrastructure Demand Signal",
+        "relationshipNote": "EIA publishes monthly LNG export data and capacity forecasts. U.S. LNG export capacity: 12.5 GW (2024); projected growth to 15+ GW by 2027 (Corpus Christi, Sabine Pass, Golden Pass expansions). MTZ's LNG backlog: $5.4B (30% of total); LNG capacity expansion drives 20–30% of MTZ's new bookings. Monitoring: quarterly EIA capacity forecasts; project-level tracking of MTZ's LNG engineering and construction work.",
+        "confidence": "high",
+        "sourceType": [
+          "EIA-data",
+          "industry-report"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+        "neuralRegion": "vmPFC",
+        "neuralRegionLabel": "ventromedial Prefrontal Cortex",
+        "businessSignature": "executive_comp_misalignment",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_executive_changes"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.375,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "System for detecting executive-compensation misalignment via vmPFC-equivalent value-decoupling metric",
+            "noveltyAnchor": "Maps clinical value-computation distortion to compensation-pattern signal"
+          },
+          "grant": {
+            "programMatch": [
+              "NIH NIA aging-and-decision",
+              "SSRC Corporate Governance"
+            ],
+            "angle": "Behavioral economics of compensation-pathology detection"
+          },
+          "investment": {
+            "thesis": "Activist-investor catalysts post-say-on-pay failure",
+            "horizon": "6-18mo"
+          },
+          "research": {
+            "hypothesis": "Companies adopting clinical value-elicitation protocols at comp committee show reduced pay-performance gap",
+            "methodology": "intervention study with controlled trial across mid-cap companies"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "value-based decision training",
+          "behavioral activation",
+          "explicit value-elicitation protocols"
+        ]
+      },
+      {
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "neuralRegion": "HAB",
+        "neuralRegionLabel": "Habenula",
+        "businessSignature": "contrarian_board_lock",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p5_stuck"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.325,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern",
+            "noveltyAnchor": "Anti-reward framework for board-decision diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research"
+            ],
+            "angle": "Anti-reward decision dynamics in board composition"
+          },
+          "investment": {
+            "thesis": "Activist-investor catalysts during contrarian-board lock",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+            "methodology": "event-study of board refresh and subsequent capital-action"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p5",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "ketamine (habenula modulation)",
+          "DBS to habenula in treatment-resistant depression",
+          "lateralized reward training"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:01.450Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+        "confidence": 0.375,
+        "artifact": {
+          "title": "Method and system for detecting executive comp misalignment via ventromedial Prefrontal Cortex-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting executive comp misalignment signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a ventromedial Prefrontal Cortex-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined executive comp misalignment threshold. The method provides earlier and more specific detection of executive comp misalignment than conventional financial-distress models.",
+          "background": "Detection of executive comp misalignment in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting executive comp misalignment until well after the signature has been priced. Executive comp misalignment represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to ventromedial Prefrontal Cortex (value-based decision training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting executive comp misalignment signature comprises: receiving filing data and counterparty network data, determining a ventromedial Prefrontal Cortex-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Maps clinical value-computation distortion to compensation-pattern signal. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting executive comp misalignment signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a ventromedial Prefrontal Cortex-equivalent decoupling score, wherein the determining the ventromedial Prefrontal Cortex-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the ventromedial Prefrontal Cortex-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the ventromedial Prefrontal Cortex-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined executive comp misalignment threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"value-based decision training\", \"behavioral activation\", and \"explicit value-elicitation protocols\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Maps clinical value-computation distortion to compensation-pattern signal",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.571Z"
+        }
+      },
+      {
+        "lane": "patent",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Method and system for detecting contrarian board lock via Habenula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting contrarian board lock signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Habenula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold. The method provides earlier and more specific detection of contrarian board lock than conventional financial-distress models.",
+          "background": "Detection of contrarian board lock in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting contrarian board lock until well after the signature has been priced. Contrarian board lock represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Habenula (ketamine) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting contrarian board lock signature comprises: receiving filing data and counterparty network data, determining a Habenula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Anti-reward framework for board-decision diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting contrarian board lock signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Habenula-equivalent decoupling score, wherein the determining the Habenula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Habenula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Habenula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"ketamine\", \"DBS to habenula in treatment-resistant depression\", and \"lateralized reward training\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Anti-reward framework for board-decision diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.571Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+        "confidence": 0.375,
+        "programs": [
+          "NIH NIA aging-and-decision",
+          "SSRC Corporate Governance"
+        ],
+        "artifact": {
+          "title": "Translational ventromedial Prefrontal Cortex-equivalent detection and intervention protocols for executive comp misalignment",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit executive comp misalignment signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with executive comp misalignment-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that ventromedial Prefrontal Cortex-equivalent isomorphic pathology significantly modulates executive comp misalignment detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to MasTec, Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified executive comp misalignment signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects executive comp misalignment signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a ventromedial Prefrontal Cortex-equivalent executive comp misalignment detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from ventromedial Prefrontal Cortex isomorphic pathology will increase executive comp misalignment detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a ventromedial Prefrontal Cortex-equivalent executive comp misalignment detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for executive comp misalignment against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Behavioral economics of compensation-pathology detection",
+          "innovation": "The proposed work is innovative because it integrates ventromedial Prefrontal Cortex clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.571Z"
+        }
+      },
+      {
+        "lane": "grant",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "programs": [
+          "NACD research"
+        ],
+        "artifact": {
+          "title": "Translational Habenula-equivalent detection and intervention protocols for contrarian board lock",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit contrarian board lock signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with contrarian board lock-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Habenula-equivalent isomorphic pathology significantly modulates contrarian board lock detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to MasTec, Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified contrarian board lock signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects contrarian board lock signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Habenula-equivalent contrarian board lock detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Habenula isomorphic pathology will increase contrarian board lock detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Habenula-equivalent contrarian board lock detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for contrarian board lock against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Anti-reward decision dynamics in board composition",
+          "innovation": "The proposed work is innovative because it integrates Habenula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.571Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+        "confidence": 0.375,
+        "side": "LONG",
+        "horizon": "6-18mo",
+        "artifact": {
+          "header": "MasTec, Inc. (MTZ) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 6-18mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: VMPFC_value_misalignment_x_executive_comp_pathology (confidence 0.375)",
+          "variantView": "MTZ screens as heavy construction contractors, not elsewhere classified-typical. Underneath, the operative driver is ventromedial Prefrontal Cortex-equivalent isomorphic pathology — (executive comp misalignment) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Heavy Construction Contractors, Not Elsewhere Classified entities exhibiting executive comp misalignment: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on MasTec, Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 6-18mo months because once the executive comp misalignment pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 6-18momo: [IRR]%\n\nMultiple chosen because: Heavy Construction Contractors, Not Elsewhere Classified peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.375).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.375, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Heavy Construction Contractors, Not Elsewhere Classified; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_executive_changes\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying ventromedial Prefrontal Cortex ↔ executive comp misalignment mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 6-18mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts post-say-on-pay failure",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.571Z"
+        }
+      },
+      {
+        "lane": "investment",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "side": "LONG",
+        "horizon": "12-24mo",
+        "artifact": {
+          "header": "MasTec, Inc. (MTZ) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
+          "variantView": "MTZ screens as heavy construction contractors, not elsewhere classified-typical. Underneath, the operative driver is Habenula-equivalent isomorphic pathology — (contrarian board lock) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Heavy Construction Contractors, Not Elsewhere Classified entities exhibiting contrarian board lock: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on MasTec, Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the contrarian board lock pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Heavy Construction Contractors, Not Elsewhere Classified peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.325).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Heavy Construction Contractors, Not Elsewhere Classified; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.571Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+        "confidence": 0.375,
+        "artifact": {
+          "title": "Empirical test of ventromedial Prefrontal Cortex-equivalent executive comp misalignment mapping on MasTec, Inc.",
+          "hypothesis": "Companies adopting clinical value-elicitation protocols at comp committee show reduced pay-performance gap",
+          "methodology": "intervention study with controlled trial across mid-cap companies",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for ventromedial Prefrontal Cortex-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "VMPFC_value_misalignment_x_executive_comp_pathology"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.571Z"
+        }
+      },
+      {
+        "lane": "research",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Empirical test of Habenula-equivalent contrarian board lock mapping on MasTec, Inc.",
+          "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+          "methodology": "event-study of board refresh and subsequent capital-action",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.571Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.571Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 2,
+    "artifactsByLane": {
+      "patent": 2,
+      "grant": 2,
+      "sba": 0,
+      "investment": 2,
+      "research": 2,
+      "franchise": 0
+    },
+    "totalArtifacts": 8
+  }
+}

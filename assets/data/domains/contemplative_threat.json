@@ -1,0 +1,383 @@
+{
+  "domainId": "contemplative_threat",
+  "title": "Threat / Fear Processing",
+  "parentPortal": "contemplative_portal.html",
+  "parentLabel": "Contemplative Practice",
+  "phase": "P4",
+  "activations": [
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Threat / Fear Processing indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P4",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "contemplative_threat_action_portal.html"
+    },
+    {
+      "brainNodeId": "PCC",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Threat / Fear Processing activities and deliverables",
+      "group": "operations",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Threat / Fear Processing Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "contemplative_threat_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Threat / Fear Processing, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "contemplative_threat_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "EC",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Threat / Fear Processing practices and compliance obligations",
+      "group": "governance",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "contemplative_threat_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "FEF",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Threat / Fear Processing methods and capabilities",
+      "group": "innovation",
+      "phase": "P4",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "contemplative_threat_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Threat / Fear Processing stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "contemplative_threat_signal_portal.html"
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Threat / Fear Processing operations and interfaces",
+      "group": "systems",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "contemplative_threat_state_portal.html"
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Threat / Fear Processing outputs and resource utilization",
+      "group": "operations",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Threat / Fear Processing Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "mPFC",
+      "target": "PCC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "PCC",
+      "target": "AG",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "AG",
+      "target": "EC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "EC",
+      "target": "FEF",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "FEF",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "IPS",
+      "target": "SMA",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "SMA",
+      "target": "BROCA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "BROCA",
+      "target": "mPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "FEF",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "EC",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "CONTEMPLATIVE_THREAT_SYSTEM_FAILURE",
+      "label": "Threat / Fear Processing System Failure",
+      "summary": "Critical breakdown in Threat / Fear Processing systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo-active",
+          "detail": "Threat / Fear Processing Assessment & Diagnostics capacity falling below operational thresholds, reducing Threat / Fear Processing output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PCC",
+          "dir": "Hypo-active",
+          "detail": "Threat / Fear Processing Core Operations systems underperforming, creating gaps in Threat / Fear Processing coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Altered",
+          "detail": "Threat / Fear Processing Infrastructure & Capacity behavior deviating from established norms, complicating Threat / Fear Processing management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Hyper-active",
+          "detail": "Threat / Fear Processing Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Threat / Fear Processing",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo-active",
+          "detail": "Threat / Fear Processing Performance & Optimization function reduced, compromising Threat / Fear Processing system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CONTEMPLATIVE_THREAT_CAPACITY_CRISIS",
+      "label": "Threat / Fear Processing Capacity Crisis",
+      "summary": "Demand exceeding available Threat / Fear Processing capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "PCC",
+          "dir": "Hyper-active",
+          "detail": "Threat / Fear Processing Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Threat / Fear Processing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-active",
+          "detail": "Threat / Fear Processing Infrastructure & Capacity systems underperforming, creating gaps in Threat / Fear Processing coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EC",
+          "dir": "Altered",
+          "detail": "Threat / Fear Processing Standards & Governance behavior deviating from established norms, complicating Threat / Fear Processing management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hyper-active",
+          "detail": "Threat / Fear Processing Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Threat / Fear Processing",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered",
+          "detail": "Threat / Fear Processing Performance & Optimization operating outside normal parameters, introducing uncertainty into Threat / Fear Processing outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CONTEMPLATIVE_THREAT_GOVERNANCE_GAP",
+      "label": "Threat / Fear Processing Governance Gap",
+      "summary": "Oversight or regulatory failure in Threat / Fear Processing creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hypo-active",
+          "detail": "Threat / Fear Processing Standards & Governance capacity falling below operational thresholds, reducing Threat / Fear Processing output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Threat / Fear Processing Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Threat / Fear Processing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FEF",
+          "dir": "Hyper-active",
+          "detail": "Threat / Fear Processing Research & Development activity spiking beyond design limits, creating instability across Threat / Fear Processing operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Altered",
+          "detail": "Threat / Fear Processing Risk & Resilience patterns disrupted, necessitating adaptive responses within Threat / Fear Processing frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo-active",
+          "detail": "Threat / Fear Processing Coordination & Integration function reduced, compromising Threat / Fear Processing system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

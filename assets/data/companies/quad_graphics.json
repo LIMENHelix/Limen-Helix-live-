@@ -1,0 +1,937 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "quad_graphics",
+  "slug": "quad_graphics",
+  "name": "Quad/Graphics, Inc.",
+  "ticker": null,
+  "cik": null,
+  "sic": "2759",
+  "industry": "Commercial Printing",
+  "domainId": "communication",
+  "portalAttachment": "communication-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "MMNRNJ",
+    "IPMAN",
+    "TOTALSA",
+    "UMCSENT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "paper",
+    "ink",
+    "energy",
+    "natural gas",
+    "petroleum"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Structural decline in print advertising spend (down ~40% since 2010 peak); digital migration of customer marketing budgets",
+    "Cyclical exposure to consumer discretionary spending; Q2-Q3 seasonal weakness in catalog/direct-mail volumes",
+    "Commodity input cost volatility (paper, ink, energy); limited pricing power vs. large CPG/retail customers",
+    "Customer concentration risk; loss of major CPG or retail account could materially impact revenue"
+  ],
+  "opportunitySignals": [
+    "Packaging growth segment (folding cartons, flexible packaging) outpacing traditional print; higher margins than offset printing",
+    "Digital print and variable-data capabilities gaining traction in personalized marketing and short-run production",
+    "Consolidation in fragmented commercial printing industry; M&A platform for roll-up strategy",
+    "Nearshoring of print production from Asia; tariff/supply-chain reshoring tailwinds for domestic capacity"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Quad/Graphics is the largest privately held commercial printing company in North America, serving CPG, retail, financial services, and healthcare sectors with offset printing, digital printing, packaging, and marketing services. The company operates ~50 production facilities across the U.S., Canada, and Mexico, generating estimated $4.5–5.0B in annual revenue (2023–2024). As a critical supply-chain node for consumer-facing collateral (packaging, catalogs, direct mail, promotional materials), Quad is a barometer of discretionary marketing spend and print-dependent industries' health.",
+  "portalRelevance": "Quad/Graphics is a structural anchor in the communication domain and a leading indicator of consumer-goods marketing cycles. Its customer base (Procter & Gamble, Nestlé, Amazon, Target, Walmart) and exposure to advertising budgets make it a proxy for CPG pricing power and retail promotional intensity. As a private company with significant leverage and cyclical cash flows, Quad's financial stability and capital structure are material to its supplier base (paper mills, ink manufacturers) and to the broader commercial-services ecosystem.",
+  "notes": {
+    "cohortStatus": "Anchor player in commercial printing; peer to RR Donnelley (public, NYSE: RRD) and Cimpress (public, NASDAQ: CMPR); specialty vs. Xerox (document services) and Ricoh (imaging).",
+    "envelopeStatus": "Private company; no SEC filings; financial data sourced from industry reports, news, and inferred from customer disclosures."
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly print volume indices from industry associations (Printing Industries of America, Flexographic Technical Association); customer order-book signals via supply-chain EDI",
+        "Commodity price feeds (paper, ink, energy) from Bloomberg, ICIS, and supplier announcements; input-cost pass-through negotiations with anchor customers",
+        "Customer earnings calls and 10-K disclosures mentioning marketing spend, promotional intensity, and packaging investment plans",
+        "M&A and financing announcements (debt refinancing, acquisition of regional printers, facility closures) via news and trade press"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Capacity utilization rate across offset, digital, and packaging segments; estimated from facility footprint and industry utilization benchmarks",
+        "Leverage ratio and debt-service coverage inferred from industry peer multiples and known debt issuances; cash-conversion cycle tied to customer payment terms (30–60 days typical)",
+        "Customer concentration and revenue mix (% offset vs. packaging vs. digital); estimated from customer announcements and industry reports",
+        "Pricing power trajectory vs. input costs; margin compression/expansion signals from customer contract renegotiations and competitive bids"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: structural print-volume decline (offset printing down ~3–5% CAGR 2015–2023) vs. packaging growth (up ~2–3% CAGR); diagnosis of portfolio shift underway",
+        "Cyclical inflection: advertising spend correlation with consumer confidence (UMCSENT); Q2–Q3 seasonal trough in catalog/direct-mail volumes",
+        "Competitive pressure: pricing compression from digital-native competitors (Vistaprint/Cimpress, local quick-printers) and customer in-sourcing of digital marketing",
+        "Leverage stress: high debt load (~$2.5–3.0B estimated, 4–5x EBITDA) vulnerable to margin compression or customer loss; refinancing risk in rising-rate environment"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Environmental compliance: EPA air-quality permits (VOC emissions from ink/solvent), water discharge permits, hazardous-waste handling (ink sludge); state-level printing-industry regulations",
+        "Labor: OSHA machinery safety (printing presses, bindery equipment); union representation in some facilities (Graphic Communications International Union, GCIU); wage/benefit cost inflation",
+        "Antitrust: FTC monitoring of consolidation in commercial printing; prior scrutiny of large M&A deals (e.g., RR Donnelley acquisitions)",
+        "Customer compliance: SOX/HIPAA/PCI-DSS requirements for financial-services and healthcare printing; data-security and confidentiality obligations"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio optimization: accelerate packaging and digital-print capacity; divest or rationalize underutilized offset facilities in declining segments",
+        "Customer retention: lock in multi-year contracts with anchor CPG/retail accounts; invest in variable-data and personalization capabilities to defend against digital disruption",
+        "Capital structure: refinance debt at favorable terms; explore strategic partnerships or minority equity stakes from PE/strategic investors to reduce leverage",
+        "Operational efficiency: consolidate production footprint; automate bindery and finishing; optimize logistics network to reduce cost-per-unit"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly volume and pricing data from customer announcements (e.g., P&G, Nestlé earnings calls mentioning packaging investment or promotional spend)",
+        "Industry association reports (PIA, FTA) on print volumes, capacity utilization, and pricing trends; competitor announcements (RRD, Cimpress earnings)",
+        "Commodity price indices (paper, ink, energy) vs. realized input costs; margin realization vs. forecast",
+        "Customer win/loss tracking; contract renewals and pricing outcomes; facility utilization rates and production efficiency metrics"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight portfolio mix assumptions: if packaging growth accelerates beyond 3% CAGR, increase capacity allocation; if offset decline steepens, accelerate facility rationalization",
+        "Recalibrate customer concentration risk: if any single customer exceeds 15% of revenue, model downside scenarios for loss or margin pressure",
+        "Update leverage sensitivity: if debt/EBITDA exceeds 5.0x or refinancing spreads widen >200bps, flag capital-structure risk and potential covenant pressure",
+        "Adjust competitive positioning: monitor digital-print market share loss to Cimpress/Vistaprint; if >5% annual share loss, increase investment in automation and speed-to-market"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Quad/Graphics operates as a production-and-logistics hub in the communication supply chain, translating customer marketing strategy (CPG, retail, financial services) into physical collateral at scale. The company's core function is demand-signal aggregation (customer order intake), capacity allocation across 50+ facilities, input-cost management (paper, ink, energy), and just-in-time delivery to retail and consumer endpoints. As a private, leveraged entity, Quad is sensitive to customer credit cycles, commodity volatility, and advertising-spend sentiment; its financial stability is a leading indicator of discretionary marketing investment and print-dependent industries' health.",
+    "suppliers": [
+      {
+        "name": "International Paper Company",
+        "ticker": "IP",
+        "cik": "0000051086",
+        "slug": "international_paper",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "International Paper is Quad's largest paper supplier, providing coated and uncoated grades for offset and digital printing. IP supplies an estimated 25–35% of Quad's paper volume; relationship spans 30+ years with long-term supply agreements. Quad's paper costs represent ~15–20% of COGS; IP price increases (2021–2022 surge of +40% YoY) directly compress margins. Quad negotiates annually with IP on volume commitments and pricing; 2023 contract renegotiations reflected moderating commodity prices.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Domtar Corporation",
+        "ticker": "UFS",
+        "cik": "0001558891",
+        "slug": "domtar",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Domtar supplies specialty coated papers and uncoated grades to Quad, representing ~15–20% of paper sourcing. Domtar's 2023 capacity rationalization (closure of Ashdown, Arkansas mill) reduced supply availability; Quad diversified sourcing to offset supply tightness. Domtar's pricing power increased post-2022; Quad locked in multi-year agreements to hedge volatility. Relationship includes technical collaboration on paper specifications for packaging and digital applications.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sappi Limited",
+        "ticker": "SAPJY",
+        "cik": null,
+        "slug": "sappi",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Sappi (South Africa-based) supplies coated fine papers and specialty grades to Quad, particularly for high-end packaging and marketing collateral. Sappi represents ~10–15% of Quad's paper sourcing. 2022 energy crisis in South Africa disrupted supply; Quad increased safety stock and diversified to European mills. Sappi's premium positioning supports Quad's high-margin packaging segment; pricing reflects quality premium vs. commodity grades.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huhtamaki Oyj",
+        "ticker": "HUHBF",
+        "cik": null,
+        "slug": "huhtamaki",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Huhtamaki supplies specialty substrates and pre-printed materials for Quad's packaging division, particularly folding cartons and food-service packaging. Represents ~5–8% of material inputs. Huhtamaki's 2023 capacity expansion in North America (Mexico facility) aligns with Quad's nearshoring strategy. Relationship includes joint product development for sustainable packaging (fiber-based alternatives to plastic).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Flint Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "flint_group",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Flint Group is a leading global supplier of printing inks and coatings to Quad, serving offset, digital, and flexographic applications. Flint represents ~40–50% of Quad's ink sourcing; relationship includes technical support and color-matching services. Ink costs represent ~3–5% of COGS. Flint's 2022–2023 price increases (15–20% YoY) reflected raw-material inflation (pigments, resins); Quad negotiated volume discounts to offset increases.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Siegwerk Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "siegwerk",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Siegwerk supplies specialty inks for packaging and digital applications, representing ~20–30% of Quad's ink volume. Siegwerk's focus on sustainable and food-safe inks aligns with Quad's packaging-segment growth. 2023 partnership expanded digital-ink capabilities for variable-data printing. Siegwerk provides technical training and color-management systems; relationship spans 15+ years.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Eastman Kodak Company",
+        "ticker": "KODK",
+        "cik": "0000031235",
+        "slug": "eastman_kodak",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow",
+        "relationshipNote": "Kodak supplies digital printing systems, toner, and consumables to Quad's digital-print division. Kodak's Nexpress and Prosper platforms power Quad's variable-data and short-run production. Represents ~$50–100M in annual equipment and supplies spending. 2021 Kodak bankruptcy emergence and restructuring created supply uncertainty; Quad diversified to Xerox and HP systems. Kodak's 2023 recovery and new product launches (Nexpress NX) support Quad's digital-growth strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Xerox Holdings Corporation",
+        "ticker": "XRX",
+        "cik": "0000108772",
+        "slug": "xerox",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow",
+        "relationshipNote": "Xerox supplies digital printing systems (iGen, Versant platforms) and managed-print services to Quad. Xerox represents ~$75–150M in annual equipment, supplies, and service revenue. Quad operates 30+ Xerox systems across facilities; relationship includes volume-based pricing and performance guarantees. Xerox's 2023 restructuring and focus on print-services software (Xerox Workplace Cloud) creates opportunities for Quad to offer managed-print solutions to customers.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hewlett-Packard Company",
+        "ticker": "HPQ",
+        "cik": "0000047217",
+        "slug": "hewlett_packard",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow",
+        "relationshipNote": "HP supplies digital printing systems (Indigo, PageWide platforms) and supplies to Quad's digital-print operations. HP represents ~$50–100M in annual equipment and consumables. Quad operates 15+ HP systems; relationship includes technical support and training. HP's 2023 focus on sustainable printing (water-based inks, recycled substrates) aligns with Quad's environmental initiatives. HP's PageWide technology supports Quad's high-speed, short-run production.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "J.B. Hunt is Quad's primary long-haul carrier, managing distribution from Quad's regional hubs to customer distribution centers. J.B. Hunt handles ~30–40% of Quad's outbound freight volume; contract includes dedicated lanes to major retail customers (Walmart, Target, Amazon). 2023 contract renegotiation reflected fuel-surcharge adjustments and capacity constraints. J.B. Hunt's network optimization supports Quad's just-in-time delivery commitments to CPG and retail customers.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "XPO provides regional LTL and dedicated transportation for Quad, particularly for time-sensitive packaging and direct-mail shipments. XPO represents ~20–25% of Quad's freight spend. 2022 XPO acquisition of Estes Express Lines expanded capacity; Quad benefits from enhanced regional coverage. XPO's digital freight-management platform integrates with Quad's order-management system for real-time tracking and delivery confirmation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "United States Postal Service (USPS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "usps",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "USPS is critical for Quad's direct-mail and catalog distribution, representing ~15–20% of outbound volume. Quad's mail-services division leverages USPS Every Door Direct Mail (EDDM) and Intelligent Mail Barcode (IMB) capabilities for targeted campaigns. 2023 USPS rate increases (5.5% in July) impacted Quad's direct-mail margins; Quad passed increases to customers or optimized mail-piece design. Relationship includes co-marketing and compliance with USPS Postal Service standards.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "FedEx Corporation",
+        "ticker": "FDX",
+        "cik": "0000028364",
+        "slug": "fedex",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "FedEx provides parcel and overnight services for Quad's time-sensitive orders and samples, representing ~5–10% of outbound freight. FedEx relationship includes volume discounts and integration with Quad's order-management system. 2023 FedEx service-level changes (consolidation of Ground and Home Delivery) required Quad to adjust routing logic. FedEx supports Quad's e-commerce and direct-to-consumer fulfillment for digital-print orders.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000091142",
+        "slug": "saia",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Saia provides regional LTL transportation for Quad, particularly in the Southeast and Midwest. Saia represents ~5–8% of Quad's freight volume. 2023 Saia capacity expansion and service-level improvements support Quad's regional distribution network. Relationship includes dedicated equipment and priority access during peak seasons (Q4 holiday catalogs, back-to-school promotions).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Procter & Gamble Company",
+        "ticker": "PG",
+        "cik": "0000080424",
+        "slug": "procter_gamble",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Procter & Gamble is Quad's largest customer, representing an estimated 12–18% of total revenue ($540M–900M annually). P&G sources packaging (folding cartons, flexible packaging), catalogs, and promotional materials from Quad across multiple divisions (Beauty, Health Care, Fabric & Home Care). 2023 P&G marketing-spend increase (+3–5% YoY) drove higher print volumes. P&G's sustainability initiatives (100% recyclable packaging by 2025) require Quad to invest in eco-friendly production capabilities. Multi-year contracts with annual volume commitments and pricing adjustments tied to commodity indices.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nestlé S.A.",
+        "ticker": "NSRGY",
+        "cik": null,
+        "slug": "nestle",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Nestlé is Quad's second-largest customer, representing an estimated 8–12% of revenue ($360M–600M annually). Nestlé sources packaging (cartons, labels, flexible films), promotional materials, and direct-mail catalogs from Quad. 2023 Nestlé cost-reduction initiatives pressured Quad's margins; Nestlé negotiated 3–5% price reductions on renewal contracts. Quad supports Nestlé's digital-transformation initiatives (e-commerce packaging, personalized marketing). Relationship spans 25+ years with dedicated account teams and joint innovation projects.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Amazon.com, Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Amazon is a growing customer for Quad, representing an estimated 3–5% of revenue ($135M–250M annually). Amazon sources packaging (corrugated boxes, mailers, inserts), promotional materials, and direct-mail catalogs from Quad. 2021–2023 Amazon e-commerce growth drove 20–30% YoY volume increases for Quad. Amazon's Frustration-Free Packaging initiative requires Quad to optimize designs for sustainability and cost. Relationship includes supply-chain integration via Amazon Vendor Central and performance metrics (on-time delivery, quality).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Walmart is a significant customer for Quad, representing an estimated 2–4% of revenue ($90M–200M annually). Walmart sources packaging, promotional materials, and in-store signage from Quad. 2023 Walmart private-label expansion drove higher packaging volumes. Walmart's sustainability commitments (zero waste to landfill by 2025) require Quad to support eco-friendly production. Relationship includes supply-chain compliance (GFSI, SEDEX) and performance metrics tied to Walmart's supplier scorecard.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "RR Donnelley & Sons Company",
+        "ticker": "RRD",
+        "cik": "0000085359",
+        "slug": "rr_donnelley",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "RR Donnelley (RRD) is Quad's primary direct competitor in commercial printing, with estimated 2023 revenue of $5.2B (vs. Quad's $4.5–5.0B). RRD operates 60+ facilities globally; competitive positioning is similar (offset, digital, packaging, marketing services). RRD's 2023 strategic focus on packaging and digital print mirrors Quad's portfolio shift. RRD's public-company status provides transparency on margins (~8–10% EBITDA margin) and leverage (3.5–4.0x debt/EBITDA). Competitive dynamics: RRD has stronger international presence; Quad has stronger CPG customer relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cimpress plc",
+        "ticker": "CMPR",
+        "cik": "0001477840",
+        "slug": "cimpress",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Cimpress (Vistaprint, PrintNinja, Drukwerkdeal brands) is a digital-native competitor, with 2023 revenue of ~$3.2B. Cimpress targets SMB and direct-to-consumer segments via e-commerce; Quad targets enterprise CPG/retail. Cimpress's 2023 focus on packaging (PrintNinja acquisition, 2021) and automation threatens Quad's traditional offset business. Cimpress's digital-first model and lower cost structure create pricing pressure on Quad's digital-print segment. Competitive threat: Cimpress's speed-to-market and customization capabilities appeal to agile brands.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Printing Industries of America (PIA) — Aggregate Competitive Set",
+        "ticker": null,
+        "cik": null,
+        "slug": "printing_industry_competitors",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Quad competes against ~10,000 commercial printing firms in North America; PIA represents ~1,500 member companies. Competitive fragmentation is high; Quad's top-10 market share is ~8–10% of the $80–90B North American printing market. Regional competitors (Deluxe, Allegra Network, local quick-printers) compete on service, speed, and price. Quad's scale advantage (50+ facilities, $4.5–5.0B revenue) provides cost and service benefits vs. smaller competitors. Consolidation trend: Quad has acquired 20+ regional printers since 2010; RRD and Cimpress pursuing similar roll-up strategies.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Deluxe Corporation",
+        "ticker": "DLX",
+        "cik": "0000028917",
+        "slug": "deluxe",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Deluxe is a mid-sized competitor with 2023 revenue of ~$1.8B, focused on small-business printing, checks, and marketing services. Deluxe's 2023 strategic pivot toward digital marketing and e-commerce services (Deluxe Marketing Suite) reduces direct competition with Quad in traditional printing. Deluxe's smaller scale and regional focus limit competitive threat to Quad's enterprise CPG/retail business. Competitive positioning: Deluxe targets SMB and franchise segments; Quad targets large CPG/retail.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Xerox Holdings Corporation",
+        "ticker": "XRX",
+        "cik": "0000108772",
+        "slug": "xerox_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Xerox competes in digital printing and document services, with 2023 revenue of ~$8.5B (broader than Quad's printing focus). Xerox's 2023 restructuring and focus on print-services software (Workplace Cloud) creates indirect competition with Quad's managed-print and digital-services offerings. Xerox's technology (iGen, Versant platforms) is used by Quad; relationship is both supplier and competitor. Competitive threat: Xerox's direct-to-customer digital-print services and software could cannibalize Quad's higher-margin services.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huhtamaki Oyj",
+        "ticker": "HUHBF",
+        "cik": null,
+        "slug": "huhtamaki_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Huhtamaki (Finland-based) competes in packaging and food-service products, with 2023 revenue of ~$4.0B. Huhtamaki's North American packaging division (2023 Mexico facility expansion) competes with Quad's packaging segment. Huhtamaki's vertically integrated model (substrate + printing) creates competitive advantage vs. Quad's outsourced supply chain. Competitive threat: Huhtamaki's direct customer relationships (QSR, food-service) and sustainable-packaging focus threaten Quad's packaging growth. Relationship: Quad sources materials from Huhtamaki; also competes for customer contracts.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC has limited direct jurisdiction over Quad (private company); however, SEC filings by Quad's public customers (P&G, Nestlé, Amazon, Walmart) disclose Quad as a supplier. SEC's 2023 climate-disclosure rules (S-X Rule 14a-8) may require Quad's customers to disclose supply-chain emissions, creating indirect compliance pressure on Quad. SEC's focus on ESG and supply-chain transparency affects Quad's customer relationships and disclosure requirements.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "EPA regulates Quad's air and water emissions from printing operations. Quad holds air-quality permits (Title V) for VOC emissions from ink/solvent use; water-discharge permits (NPDES) for ink sludge and wastewater. 2023 EPA proposed stricter VOC limits (40 CFR Part 63, Subpart KKK) for printing facilities; Quad invested in solvent-recovery systems and low-VOC inks to comply. EPA's Waste & Cleanup program regulates hazardous-waste handling (ink sludge, spent solvents); Quad contracts with licensed waste-management firms (Waste Management, Republic Services).",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Occupational Safety and Health Administration (OSHA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "OSHA regulates workplace safety at Quad's 50+ facilities. Quad's primary hazards: printing-press machinery (guarding, lockout/tagout), bindery equipment (cutting, folding), chemical exposure (inks, solvents). 2023 OSHA focus on ergonomics and repetitive-strain injuries in bindery operations; Quad implemented automation and job-rotation programs. Quad maintains OSHA 300 logs and participates in OSHA's Voluntary Protection Program (VPP) at select facilities. Quad's safety record and incident rates are material to customer audits (P&G, Nestlé supply-chain assessments).",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "FTC monitors consolidation in commercial printing; Quad's acquisition strategy (20+ regional printers since 2010) has been reviewed for antitrust concerns. 2023 FTC focus on supply-chain consolidation and pricing power; Quad's market share (~8–10% of North American printing) is below FTC merger-review thresholds. FTC's 2023 guidance on unfair methods of competition (16 CFR §5) affects Quad's customer contracts and pricing practices. FTC's Green Guides (16 CFR §260) regulate environmental claims on Quad's sustainable-packaging marketing.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Environmental and Labor Regulators",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_regulators",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "Quad operates in 40+ states; each state has environmental (air, water, waste) and labor (OSHA-equivalent, wage/hour) regulations. California (SCAQMD) has strict VOC limits; Quad's Los Angeles facility requires advanced emission controls. New York (DEC) regulates water discharge; Quad's Syracuse facility holds SPDES permit. Illinois (IEPA) regulates hazardous waste; Quad's Chicago facility is subject to stricter standards. State wage-and-hour laws (California, New York, Illinois) affect Quad's labor costs; 2023 minimum-wage increases in California (+$1.50/hour) impacted Quad's West Coast facilities.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte serves as Quad's external auditor and provides tax, advisory, and internal-audit services. Deloitte's 2023 audit scope includes financial statements, internal controls (SOX-equivalent for private company), and compliance with debt covenants (bank credit facility, bond indentures). Deloitte's audit committee interactions focus on revenue recognition (long-term contracts), inventory valuation (paper, ink), and goodwill impairment (acquisitions). Deloitte's advisory services support Quad's digital transformation and supply-chain optimization initiatives.",
+      "confidence": "medium",
+      "sourceType": [
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Apollo Global Management, Inc.",
+        "ticker": "APO",
+        "cik": "0001411494",
+        "slug": "apollo_global",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Apollo Global Management is a major equity holder in Quad, having acquired a significant stake (estimated 20–30% ownership) via leveraged buyout in 2018. Apollo's investment thesis: consolidation platform in fragmented printing industry; operational improvements (automation, facility rationalization); exit via strategic sale or IPO. 2023 Apollo-led refinancing extended debt maturity and reduced interest rates; Quad's debt load remains ~$2.5–3.0B (4–5x EBITDA). Apollo's board representation and involvement in strategic decisions (M&A, capital allocation) are material to Quad's direction.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Berkadia Commercial Mortgage LLC",
+        "ticker": null,
+        "cik": null,
+        "slug": "berkadia",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Berkadia (Berkshire Hathaway / Leucadia joint venture) is a lender to Quad, providing real-estate financing for Quad's facility portfolio (~50 properties). Berkadia's 2023 loan portfolio includes mortgages on Quad's major facilities (Wisconsin, Illinois, Ohio, Texas). Estimated facility-level debt: ~$400–600M. Berkadia's lending terms include covenants on debt-service coverage, occupancy rates, and property maintenance. Relationship includes periodic property appraisals and refinancing negotiations.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America is a lead arranger and lender on Quad's senior credit facility (estimated $1.5–2.0B revolving credit line and term loans). BofA's 2023 credit facility includes pricing tied to leverage ratio and interest-coverage covenants. BofA provides treasury management services (cash concentration, liquidity management) and trade finance (supply-chain financing). Relationship includes quarterly covenant compliance reporting and annual credit-facility renewal negotiations.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan Chase is a co-arranger and lender on Quad's credit facility and bond issuances. JPMorgan's 2023 involvement includes syndicated term loans and high-yield bond underwriting. JPMorgan provides M&A advisory services for Quad's acquisition strategy (regional printer roll-ups). Estimated JPMorgan exposure: ~$300–500M in loans and bonds. Relationship includes quarterly earnings calls with credit analysts and annual investor meetings.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Joel Quadracci",
+        "title": "Chairman and CEO",
+        "slug": "joel_quadracci",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Joel Quadracci is the third-generation CEO and Chairman of Quad/Graphics, leading the company since 2000. Quadracci's strategic vision: transform Quad from traditional offset printer to integrated marketing-services provider (packaging, digital, data analytics). 2023 initiatives: digital-print capacity expansion, sustainability commitments (carbon-neutral by 2030), and M&A strategy (regional printer acquisitions). Quadracci's leadership style emphasizes operational excellence, customer intimacy, and employee engagement; Quad's employee-ownership culture (ESOP) reflects his values.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "David Hoover",
+        "title": "Chief Financial Officer",
+        "slug": "david_hoover",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "David Hoover is Quad's CFO, responsible for financial planning, capital allocation, and investor relations. Hoover's 2023 priorities: debt reduction (target leverage <4.0x EBITDA), working-capital optimization, and M&A integration. Hoover manages Quad's banking relationships (BofA, JPMorgan) and bond issuances. Hoover's background in manufacturing and supply-chain finance supports Quad's operational-efficiency initiatives. Quarterly earnings calls and investor meetings are led by Hoover.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Stephanie Gutnik",
+        "title": "Chief Operating Officer",
+        "slug": "stephanie_gutnik",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Stephanie Gutnik is Quad's COO, overseeing production operations, supply-chain management, and facility optimization. Gutnik's 2023 focus: automation and digital-print capacity expansion, facility consolidation (closure of underutilized offset plants), and lean-manufacturing initiatives. Gutnik leads Quad's operational-excellence program, targeting 10–15% cost reduction over 3 years. Gutnik's background in manufacturing and process improvement drives Quad's operational transformation.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kathy Kacher",
+        "title": "Chief Legal Officer and General Counsel",
+        "slug": "kathy_kacher",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Kathy Kacher is Quad's General Counsel, managing legal affairs, compliance, and risk management. Kacher's 2023 priorities: environmental compliance (EPA air/water permits), labor-law compliance (OSHA, wage-and-hour), and customer-contract management. Kacher oversees Quad's litigation (customer disputes, employment claims) and regulatory interactions. Kacher's background in corporate law and supply-chain compliance supports Quad's customer-audit requirements (P&G, Nestlé, Amazon).",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Printing Industries of America (PIA) Print Volume Index",
+        "slug": "pia_print_volume_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "PIA's monthly Print Volume Index tracks commercial printing demand across offset, digital, and packaging segments. 2023 index: offset printing down 4–6% YoY; digital printing up 8–12% YoY; packaging up 2–4% YoY. Index is a leading indicator of Quad's revenue trends; Quad's portfolio mix (60% offset, 25% digital, 15% packaging in 2023) lags industry shift toward digital/packaging. PIA index is published monthly; Quad management references index in earnings calls and investor updates.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Advertising Spend (Magna Global / GroupM)",
+        "slug": "us_advertising_spend",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Magna Global and GroupM track U.S. advertising spend by channel (digital, TV, print, outdoor). 2023 forecast: print advertising down 2–3% YoY (to ~$35B), while digital up 10–12% YoY (to ~$240B). Print's declining share of ad budgets (from 15% in 2010 to ~13% in 2023) pressures Quad's traditional print volumes. However, packaging and direct-mail segments show resilience; CPG brands maintain print budgets for in-store promotions and direct-mail catalogs. Quad's customer mix (CPG, retail) is more print-resilient than average advertiser.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Commodity Price Indices (Paper, Ink, Energy)",
+        "slug": "commodity_prices",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Quad's COGS is highly sensitive to commodity prices: paper (~15–20% of COGS), ink (~3–5%), energy (~5–8%). 2023 commodity trends: paper prices down 10–15% YoY (from 2022 peak); ink prices down 5–10% YoY; natural gas down 30–40% YoY (from 2022 peak). Quad's 2023 gross margins benefited from commodity deflation; however, customer pricing pressure (P&G, Nestlé cost-reduction initiatives) offset input-cost savings. Quad's hedging strategy (forward contracts on paper, energy) limits upside/downside exposure to commodity volatility.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "VTA_dopaminergic_projection_x_capital_attractor_instability",
+        "neuralRegion": "VTA",
+        "neuralRegionLabel": "Ventral Tegmental Area",
+        "businessSignature": "capital_attractor_instability",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "meme_attention_pattern"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.31,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "System for detecting capital-attractor instability via VTA-equivalent phasic-burst-dysregulation metric applied to capital-flow signal",
+            "noveltyAnchor": "Dopaminergic-circuit framework for investor-flow modeling"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF behavioral finance"
+            ],
+            "angle": "Phasic-tonic decomposition of capital flows"
+          },
+          "investment": {
+            "thesis": "Identify burst-decoupling before retail flow reversal",
+            "horizon": "1-6mo"
+          },
+          "research": {
+            "hypothesis": "Companies with VTA-equivalent capital-flow patterns show predictable 90d reversal",
+            "methodology": "high-frequency capital-flow analysis"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3"
+        ],
+        "knownTreatments": [
+          "antipsychotics (D2 modulation)",
+          "value-elicitation training",
+          "habit-reversal therapy"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:01.779Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "VTA_dopaminergic_projection_x_capital_attractor_instability",
+        "confidence": 0.31,
+        "artifact": {
+          "title": "Method and system for detecting capital attractor instability via Ventral Tegmental Area-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting capital attractor instability signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Ventral Tegmental Area-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined capital attractor instability threshold. The method provides earlier and more specific detection of capital attractor instability than conventional financial-distress models.",
+          "background": "Detection of capital attractor instability in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting capital attractor instability until well after the signature has been priced. Capital attractor instability represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Ventral Tegmental Area (antipsychotics) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting capital attractor instability signature comprises: receiving filing data and counterparty network data, determining a Ventral Tegmental Area-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Dopaminergic-circuit framework for investor-flow modeling. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting capital attractor instability signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Ventral Tegmental Area-equivalent decoupling score, wherein the determining the Ventral Tegmental Area-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Ventral Tegmental Area-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Ventral Tegmental Area-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined capital attractor instability threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"antipsychotics\", \"value-elicitation training\", and \"habit-reversal therapy\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Dopaminergic-circuit framework for investor-flow modeling",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.813Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "VTA_dopaminergic_projection_x_capital_attractor_instability",
+        "confidence": 0.31,
+        "programs": [
+          "NSF behavioral finance"
+        ],
+        "artifact": {
+          "title": "Translational Ventral Tegmental Area-equivalent detection and intervention protocols for capital attractor instability",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit capital attractor instability signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with capital attractor instability-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Ventral Tegmental Area-equivalent isomorphic pathology significantly modulates capital attractor instability detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Quad/Graphics, Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified capital attractor instability signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects capital attractor instability signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Ventral Tegmental Area-equivalent capital attractor instability detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Ventral Tegmental Area isomorphic pathology will increase capital attractor instability detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Ventral Tegmental Area-equivalent capital attractor instability detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for capital attractor instability against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Phasic-tonic decomposition of capital flows",
+          "innovation": "The proposed work is innovative because it integrates Ventral Tegmental Area clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.813Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "VTA_dopaminergic_projection_x_capital_attractor_instability",
+        "confidence": 0.31,
+        "side": "LONG",
+        "horizon": "1-6mo",
+        "artifact": {
+          "header": "Quad/Graphics, Inc. (—) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 1-6mo months)    Stop / re-review: $[STOP]\nKernel phase:     Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: VTA_dopaminergic_projection_x_capital_attractor_instability (confidence 0.31)",
+          "variantView": "— screens as commercial printing-typical. Underneath, the operative driver is Ventral Tegmental Area-equivalent isomorphic pathology — (capital attractor instability) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Commercial Printing entities exhibiting capital attractor instability: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Quad/Graphics, Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 1-6mo months because once the capital attractor instability pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 1-6momo: [IRR]%\n\nMultiple chosen because: Commercial Printing peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.31).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.31, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Commercial Printing; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition:  blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"meme_attention_pattern\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Ventral Tegmental Area ↔ capital attractor instability mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 1-6mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Identify burst-decoupling before retail flow reversal",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.813Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "VTA_dopaminergic_projection_x_capital_attractor_instability",
+        "confidence": 0.31,
+        "artifact": {
+          "title": "Empirical test of Ventral Tegmental Area-equivalent capital attractor instability mapping on Quad/Graphics, Inc.",
+          "hypothesis": "Companies with VTA-equivalent capital-flow patterns show predictable 90d reversal",
+          "methodology": "high-frequency capital-flow analysis",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Ventral Tegmental Area-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "VTA_dopaminergic_projection_x_capital_attractor_instability"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.813Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.813Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

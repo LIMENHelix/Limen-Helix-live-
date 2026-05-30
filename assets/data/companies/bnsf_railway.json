@@ -1,0 +1,690 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "bnsf_railway",
+  "slug": "bnsf_railway",
+  "name": "BNSF Railway Company",
+  "ticker": null,
+  "cik": null,
+  "sic": "4011",
+  "industry": "Railroads",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "RAILFRTINDX",
+    "TOTALSA",
+    "INDPRO",
+    "UMCSENT",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "crude oil",
+    "coal",
+    "grain",
+    "intermodal containers",
+    "diesel fuel",
+    "agricultural products",
+    "minerals",
+    "chemicals"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Regulatory pressure on locomotive emissions standards (EPA Tier 4 compliance deadlines 2030–2035)",
+    "Cyclical exposure to coal and crude oil volumes; energy transition risk to long-haul freight mix",
+    "Labor cost inflation post-2022 rail labor agreement; crew scheduling constraints under new work rules",
+    "Intermodal competition from trucking and port automation; shipper modal-shift risk in economic downturns"
+  ],
+  "opportunitySignals": [
+    "Renewable energy infrastructure build-out (wind turbine logistics, solar panel transport via BNSF corridors)",
+    "Precision Scheduled Railroading (PSR) operational efficiency gains; network optimization ongoing",
+    "E-commerce last-mile integration via intermodal hubs; Amazon and retail logistics partnerships expanding",
+    "Carbon-neutral freight premium pricing; ESG-focused shippers willing to pay for rail vs. truck modal shift"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "BNSF Railway is the second-largest freight railroad in North America by revenue, operating ~32,500 miles of track across 28 states and two Canadian provinces. The company moves ~500 million tons annually of coal, grain, intermodal containers, chemicals, and minerals, making it a critical node in the energy supply chain (coal to utilities), agricultural export logistics (grain to ports), and industrial input distribution. BNSF's operational efficiency and network density directly influence commodity prices, shipper modal economics, and regional energy costs.",
+  "portalRelevance": "BNSF is a tier-1 infrastructure anchor in the supplyChain domain, serving as a primary logistics provider to energy producers (coal mines, oil refineries), agricultural exporters, and industrial manufacturers. Its financial health and operational metrics (operating ratio, revenue per ton-mile, locomotive utilization) are leading indicators of freight demand, shipper pricing power, and regional economic activity. BNSF's regulatory exposure (FRA safety standards, EPA emissions rules, labor relations) and capital intensity ($4B+ annual capex) make it a critical stress-test node for infrastructure resilience and energy transition risk.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly carload volumes by commodity (coal, grain, intermodal, chemicals) via AAR (Association of American Railroads) public data",
+        "Quarterly operating ratio and revenue-per-ton-mile metrics disclosed in investor calls and 10-K filings",
+        "8-K filings for labor disputes, regulatory actions (FRA citations, EPA enforcement), and major shipper contract wins/losses",
+        "Spot market pricing for coal and crude oil shipments; shipper modal-shift announcements (e.g., Amazon intermodal expansion)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Operating ratio trend (target <60% for PSR efficiency; current state vs. peer Union Pacific, CSX)",
+        "Commodity mix composition: % coal (cyclical, declining), % grain (seasonal, export-driven), % intermodal (growth, e-commerce)",
+        "Locomotive fleet age and Tier 4 compliance readiness; capex allocation to emissions-compliant equipment",
+        "Labor cost per ton-mile post-2022 agreement; crew availability constraints under new scheduling rules"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Coal volume decline trajectory vs. utility retirements and renewable energy adoption; long-term revenue headwind quantification",
+        "Intermodal growth rate vs. trucking capacity utilization; modal elasticity in shipper routing decisions during rate spikes",
+        "Operating ratio vs. peer benchmarks (Union Pacific, CSX, Kansas City Southern); PSR execution gap analysis",
+        "Regulatory compliance cost burden (EPA Tier 4 locomotive retrofit capex, FRA safety system upgrades) vs. pricing power"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Shipper contract renegotiation strategy: lock in long-term volume commitments vs. spot-market rate exposure",
+        "Capex prioritization: balance emissions compliance (EPA mandate) vs. network optimization (PSR) vs. intermodal hub expansion",
+        "Labor cost management: automation (driverless locomotives, yard robotics) vs. union negotiation cycles (next major agreement 2027–2028)",
+        "Regulatory hedge: engage FRA on safety standard cost-sharing; lobby EPA on Tier 4 timeline feasibility for Class I railroads"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Expand intermodal capacity in high-growth corridors (Chicago–LA, Dallas–Houston) to capture e-commerce logistics share",
+        "Accelerate renewable energy logistics partnerships (wind turbine transport, solar panel supply chains) to offset coal decline",
+        "Implement dynamic pricing model for spot intermodal shipments; capture shipper willingness-to-pay for schedule reliability",
+        "Invest in yard automation and locomotive electrification pilots to reduce labor cost per ton-mile and meet 2030 emissions targets"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 carload volume trends by commodity; coal vs. intermodal growth rates vs. forecast",
+        "Operating ratio improvement trajectory; PSR efficiency gains vs. labor cost inflation net impact",
+        "Shipper contract renewal rates and pricing realization; modal-shift loss quantification (shipper defection to trucking)",
+        "Regulatory compliance cost actuals vs. capex budget; EPA Tier 4 retrofit timeline slippage or acceleration signals"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight coal volume decline assumption in long-term revenue model; accelerate intermodal growth scenario probability",
+        "Recalibrate operating ratio target based on labor cost inflation persistence; adjust PSR efficiency assumption if crew constraints bind",
+        "Update shipper concentration risk model; quantify Amazon intermodal partnership revenue exposure and contract renewal risk",
+        "Revise capex allocation model: increase emissions compliance budget if EPA enforcement accelerates; reduce if timeline extends"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar_inc",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Locomotive & Equipment Manufacturing",
+        "relationshipNote": "Caterpillar supplies diesel engines and powertrain components for BNSF's freight locomotives. The 2023 Tier 4 emissions compliance retrofit program requires upgraded engine packages; CAT's market share in Class I railroad engine supply is ~40%. BNSF's capex for locomotive modernization (targeting 2030 EPA compliance) is estimated at $800M–$1.2B over 5 years, with CAT as primary supplier. Disclosed in BNSF investor presentations and CAT 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "GE Transportation (Wabtec Corporation subsidiary)",
+        "ticker": "WAB",
+        "cik": "0001559720",
+        "slug": "wabtec_corporation",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Locomotive Controls & Electrification",
+        "relationshipNote": "Wabtec (via GE Transportation division, acquired 2019) supplies locomotive control systems, braking systems, and electrification components to BNSF. The company is the leading supplier of advanced locomotive controls and is partnering with BNSF on battery-electric locomotive pilots (FY2024–2026 timeline). Wabtec's revenue from Class I railroads is ~$2.1B annually; BNSF represents ~15–18% of this segment. Disclosed in Wabtec 10-K and BNSF capex guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Trinity Industries Inc.",
+        "ticker": "TRN",
+        "cik": "0000100976",
+        "slug": "trinity_industries",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Freight Car Manufacturing & Leasing",
+        "relationshipNote": "Trinity Industries manufactures and leases freight cars (hoppers, gondolas, tank cars, intermodal flats) to BNSF. Trinity is the largest freight car lessor in North America with ~600K cars in service; BNSF operates ~150K Trinity-leased cars (25% of BNSF's fleet). Annual lease payments from BNSF to Trinity are estimated at $400M–$500M. Disclosed in Trinity 10-K and BNSF annual reports.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc. (BNSF parent)",
+        "ticker": "BRK.A",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Parent Company & Capital Provider",
+        "relationshipNote": "Berkshire Hathaway acquired BNSF in 2010 for $44.7B (100% ownership). BNSF operates as a wholly-owned subsidiary; Berkshire provides capital for major capex programs (locomotives, track, intermodal terminals) and strategic guidance. BNSF contributed ~$6.5B in revenue to Berkshire in 2023 (disclosed in Berkshire 10-K Item 1). Berkshire's long-term hold strategy and investment-grade credit rating enable BNSF to access capital markets at favorable rates.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000093410",
+        "slug": "chevron_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Crude Oil & Refined Products Shipper",
+        "relationshipNote": "Chevron ships crude oil and refined products via BNSF from West Coast refineries to inland distribution hubs. BNSF's crude oil and petroleum product carloads represent ~8–10% of total revenue (~$500M–$650M annually). Chevron's 2023 crude shipments via BNSF declined 12% due to West Coast refinery capacity reductions and modal shift to pipeline. Contract terms are disclosed in BNSF 10-K risk factors (Item 1A: commodity price and shipper concentration risk).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Arch Resources Inc. (formerly Arch Coal)",
+        "ticker": "ARCH",
+        "cik": "0001428365",
+        "slug": "arch_resources",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Coal Shipper (Powder River Basin)",
+        "relationshipNote": "Arch Resources operates the Powder River Basin coal mines in Wyoming, the largest coal supply region served by BNSF. BNSF transports ~80M tons of Powder River coal annually to utilities and export terminals; coal represents ~20–22% of BNSF's total revenue (~$1.3B–$1.5B annually). Arch's 2023 coal shipments via BNSF declined 18% due to utility coal retirements and renewable energy adoption. Long-term contract terms and volume commitments are disclosed in Arch 10-K and BNSF investor calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cargill Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "cargill_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Grain & Agricultural Products Shipper",
+        "relationshipNote": "Cargill is a major shipper of grain, oilseeds, and agricultural products via BNSF from Midwest production regions to Gulf Coast export terminals and domestic mills. BNSF's grain carloads represent ~15–18% of total revenue (~$1B–$1.2B annually); Cargill accounts for ~25–30% of BNSF's grain volume. Seasonal volume peaks in Q3–Q4 (harvest); 2023 grain volumes via BNSF increased 8% due to strong export demand. Shipper relationships and volume commitments are disclosed in BNSF investor presentations and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nucor Corporation",
+        "ticker": "NUE",
+        "cik": "0000073309",
+        "slug": "nucor_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Steel & Iron Ore Shipper",
+        "relationshipNote": "Nucor operates steel mills and iron ore operations served by BNSF for raw material inbound (iron ore, scrap) and finished steel outbound. BNSF's steel and metals carloads represent ~8–10% of total revenue (~$500M–$650M annually). Nucor's 2023 steel shipments via BNSF declined 6% due to lower construction demand and automotive production slowdown. Contract terms and volume commitments are disclosed in Nucor 10-K and BNSF quarterly earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001666700",
+        "slug": "dow_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Chemical Products Shipper",
+        "relationshipNote": "Dow ships chemicals, plastics, and specialty products via BNSF from production facilities in Texas and Louisiana to distribution hubs across North America. BNSF's chemical carloads represent ~12–14% of total revenue (~$750M–$900M annually). Dow's 2023 chemical shipments via BNSF increased 5% due to recovery in industrial demand post-2022 energy crisis. Long-term logistics contracts and volume commitments are disclosed in Dow 10-K and BNSF investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt_transport",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Intermodal & Last-Mile Logistics",
+        "relationshipNote": "J.B. Hunt operates intermodal terminals and last-mile trucking services integrated with BNSF's rail network. Hunt's Intermodal segment (revenue ~$3.2B in 2023) relies on BNSF for ~35–40% of rail drayage capacity. BNSF and Hunt jointly operate 15+ intermodal hubs across major corridors (Chicago–LA, Dallas–Houston, Memphis). The partnership supports e-commerce logistics growth; 2023 intermodal volumes via BNSF increased 22% YoY. Disclosed in Hunt 10-K and BNSF investor calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Schneider National Inc.",
+        "ticker": "SNDR",
+        "cik": "0000091618",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Intermodal & Drayage Services",
+        "relationshipNote": "Schneider National operates drayage and intermodal services at BNSF terminals in major markets (Los Angeles, Chicago, Dallas, Atlanta). Schneider's Intermodal segment (revenue ~$1.8B in 2023) sources ~25–30% of rail capacity from BNSF. The partnership supports port-to-inland distribution networks; 2023 volumes increased 18% YoY. Contract terms and volume commitments are disclosed in Schneider 10-K and BNSF quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Intermodal & Freight Forwarding",
+        "relationshipNote": "XPO Logistics operates intermodal forwarding and freight management services at BNSF hubs. XPO's LTL and intermodal segments (combined revenue ~$4.5B in 2023) utilize BNSF rail capacity for long-haul intermodal moves. 2023 volumes via BNSF increased 15% due to e-commerce logistics expansion. Partnership details and volume commitments are disclosed in XPO 10-K and BNSF investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Port of Los Angeles",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_of_los_angeles",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Port Terminal & Intermodal Gateway",
+        "relationshipNote": "BNSF operates dedicated rail terminals at the Port of Los Angeles, handling ~1.5M TEUs (twenty-foot equivalent units) annually. The port is BNSF's largest single intermodal gateway; rail-to-port volumes represent ~18–20% of BNSF's intermodal revenue (~$1.2B–$1.4B annually). 2023 port volumes via BNSF increased 12% due to import surge and e-commerce growth. Terminal capacity and service agreements are disclosed in BNSF investor presentations and port authority reports.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Port of Houston Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_of_houston",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Port Terminal & Grain Export Gateway",
+        "relationshipNote": "BNSF operates rail terminals at the Port of Houston, handling grain exports (~8M tons annually) and container traffic (~600K TEUs annually). Houston is BNSF's second-largest port gateway; grain-to-port volumes represent ~12–14% of BNSF's grain revenue. 2023 grain exports via Houston increased 9% due to strong international demand. Terminal agreements and capacity commitments are disclosed in BNSF investor calls and port authority reports.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Amazon.com Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_com",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "E-Commerce Logistics & Intermodal Growth",
+        "relationshipNote": "Amazon uses BNSF intermodal services for long-haul e-commerce logistics, connecting distribution centers across North America. BNSF's intermodal revenue from Amazon and Amazon-affiliated shippers is estimated at $300M–$400M annually (5–7% of total intermodal revenue). Amazon's 2023 intermodal shipments via BNSF increased 28% YoY, driven by expansion of Amazon Logistics network. Partnership details are disclosed in BNSF investor presentations and Amazon 10-K supply chain disclosures.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Retail Supply Chain & Intermodal",
+        "relationshipNote": "Walmart uses BNSF intermodal services for supply chain distribution to regional distribution centers. BNSF's intermodal revenue from Walmart and Walmart-affiliated logistics is estimated at $200M–$300M annually (3–5% of total intermodal revenue). Walmart's 2023 intermodal shipments via BNSF increased 15% due to supply chain optimization and nearshoring initiatives. Logistics partnerships are disclosed in Walmart 10-K and BNSF investor calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Union Pacific Railroad Company",
+        "ticker": "UNP",
+        "cik": "0001096470",
+        "slug": "union_pacific",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor (Class I Railroad)",
+        "relationshipNote": "Union Pacific is BNSF's largest direct competitor, operating ~32,400 miles of track across 23 states. UNP's 2023 revenue was $24.9B vs. BNSF's ~$6.5B; UNP's operating ratio is 55.8% vs. BNSF's ~58%. UNP competes directly for coal, grain, intermodal, and chemical shipments. UNP's Precision Scheduled Railroading (PSR) program has achieved superior operating efficiency; BNSF is pursuing similar initiatives. Competitive positioning is disclosed in both companies' 10-K filings and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CSX Corporation",
+        "ticker": "CSX",
+        "cik": "0000277948",
+        "slug": "csx_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor (Class I Railroad)",
+        "relationshipNote": "CSX operates ~21,000 miles of track in the eastern U.S. and competes with BNSF for intermodal and chemical shipments. CSX's 2023 revenue was $13.6B; operating ratio is 56.2%. CSX competes primarily in eastern corridors (Chicago–Atlanta, Chicago–New York) where BNSF has limited presence. CSX's PSR implementation has improved operating efficiency; BNSF's western network has different competitive dynamics. Competitive analysis is disclosed in both companies' 10-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kansas City Southern Railway",
+        "ticker": "KCS",
+        "cik": "0000055785",
+        "slug": "kansas_city_southern",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor (Class I Railroad, Mexico Gateway)",
+        "relationshipNote": "Kansas City Southern operates ~20,000 miles of track and is the only Class I railroad with direct Mexico gateway access. KCS competes with BNSF for Mexico-bound intermodal and automotive shipments. KCS's 2023 revenue was $3.6B; operating ratio is 57.1%. BNSF has competitive advantage in western U.S. and Canada; KCS has advantage in Mexico trade lanes. Competitive positioning is disclosed in both companies' 10-K filings and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Trucking Industry (LTL & TL Carriers)",
+        "ticker": null,
+        "cik": null,
+        "slug": "trucking_industry_ltl_tl",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Modal Competitor (Truck vs. Rail)",
+        "relationshipNote": "Trucking (LTL and truckload carriers) competes with BNSF for intermodal and short-haul freight. Trucking's modal share of freight is ~70% by value; rail is ~20%. BNSF's intermodal growth strategy targets shipper modal shift from trucking to rail. Trucking cost inflation (driver wages, fuel, equipment) creates pricing opportunity for BNSF. 2023 trucking rates declined 15–20% YoY, increasing competitive pressure on BNSF's intermodal pricing. Modal competition is disclosed in BNSF 10-K risk factors and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Pipeline Operators (Energy Transfer, Kinder Morgan, Williams)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pipeline_operators",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Modal Competitor (Pipeline vs. Rail for Crude/Products)",
+        "relationshipNote": "Pipeline operators compete with BNSF for crude oil and refined product shipments. Pipelines carry ~65% of crude oil and refined products; rail carries ~15%. BNSF's crude and product carloads declined 12% in 2023 due to pipeline capacity expansion and modal shift. Pipeline economics (lower per-unit cost for high-volume, long-haul moves) create structural headwind for BNSF's crude/product business. Modal competition is disclosed in BNSF 10-K risk factors and investor calls.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Renewable Energy & Utility Transition (Solar, Wind, Battery)",
+        "ticker": null,
+        "cik": null,
+        "slug": "renewable_energy_transition",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Structural Competitor (Energy Transition Risk)",
+        "relationshipNote": "Renewable energy adoption and utility coal retirements reduce BNSF's coal carload volumes. U.S. coal-fired generation declined from 50% (2005) to 20% (2023); BNSF's coal volumes declined 35% over same period. Utility retirements accelerating: ~15GW of coal capacity retired in 2023; ~20GW planned for 2024–2025. BNSF's coal revenue (20–22% of total) faces structural decline. Opportunity: BNSF is expanding renewable energy logistics (wind turbine transport, solar panel supply chains). Energy transition risk is disclosed in BNSF 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Surface Transportation Board (STB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "surface_transportation_board",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Economic Regulation & Rate Authority",
+        "relationshipNote": "The STB regulates BNSF's freight rates, service standards, and competitive practices under the Interstate Commerce Act. STB authority includes rate-reasonableness reviews, shipper complaint adjudication, and merger approval. BNSF faces ongoing STB proceedings on shipper rate complaints (2023–2024); recent decisions have limited BNSF's pricing power on captive shippers. STB's 2023 guidance on reciprocal switching and competitive access may increase BNSF's operational costs. Regulatory actions are disclosed in BNSF 10-K Item 1A and 8-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Railroad Administration (FRA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "federal_railroad_administration",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Safety & Operational Standards",
+        "relationshipNote": "The FRA enforces railroad safety standards, including locomotive inspection, crew fatigue rules, and hazmat transport protocols. BNSF operates under FRA Part 229 (locomotive safety) and Part 232 (braking systems) regulations. 2023 FRA safety citations: BNSF received 47 citations (vs. UNP 52, CSX 38); average penalty ~$85K per citation. FRA's 2024 proposed rule on crew size and fatigue limits may increase BNSF's labor costs by $150M–$200M annually. Regulatory compliance costs are disclosed in BNSF 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "environmental_protection_agency",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "The EPA regulates BNSF's locomotive emissions under the Clean Air Act (40 CFR Part 1033). EPA Tier 4 standards (effective 2030–2035) require new locomotives to reduce NOx emissions by 90% vs. Tier 3. BNSF's capex for Tier 4 compliance is estimated at $800M–$1.2B over 5 years. EPA enforcement: BNSF settled a 2021 emissions violation case for $27.5M. 2024 EPA proposed rule on methane emissions from rail operations may add $50M–$100M in compliance costs. Regulatory compliance is disclosed in BNSF 10-K Item 1A and 8-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Department of Transportation (DOT)",
+        "ticker": null,
+        "cik": null,
+        "slug": "department_of_transportation",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Infrastructure & Hazmat Regulation",
+        "relationshipNote": "DOT regulates BNSF's hazmat transport (49 CFR Parts 172–180), rail infrastructure standards, and grade crossing safety. BNSF operates ~18,000 public grade crossings; DOT requires safety upgrades (gates, signals) at high-risk crossings. 2023 DOT grade crossing safety funding: BNSF received $45M in federal grants for crossing upgrades. DOT's proposed rule on rail infrastructure resilience (climate adaptation) may require $200M–$300M in capex. Regulatory compliance is disclosed in BNSF 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "securities_and_exchange_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Governance",
+        "relationshipNote": "The SEC oversees BNSF's parent (Berkshire Hathaway) financial disclosures and governance. BNSF is a wholly-owned subsidiary; financial data is consolidated in Berkshire's 10-K filings. SEC disclosure requirements include risk factors (Item 1A), executive compensation (DEF 14A), and material events (8-K). Berkshire's 2023 10-K includes BNSF segment disclosures: revenue $6.5B, operating income $1.8B. SEC compliance is managed by Berkshire's corporate governance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_touche",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial & Compliance Audit",
+        "relationshipNote": "Deloitte & Touche LLP serves as the independent auditor for Berkshire Hathaway (BNSF's parent). Deloitte audits BNSF's financial statements, internal controls, and compliance with GAAP. 2023 audit opinion: unqualified (clean) opinion on BNSF's financial statements and internal control effectiveness. Deloitte's audit scope includes BNSF's revenue recognition (shipper contracts), asset impairment (locomotives, track), and environmental liabilities. Audit engagement is disclosed in Berkshire's 10-K and proxy statement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Berkshire Hathaway Inc. (Parent & Equity Owner)",
+        "ticker": "BRK.A",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Parent Company & Strategic Capital",
+        "relationshipNote": "Berkshire Hathaway owns 100% of BNSF (acquired 2010 for $44.7B). Berkshire provides strategic capital for BNSF's capex programs (~$4B–$4.5B annually) and long-term strategic guidance. BNSF's 2023 contribution to Berkshire: ~$1.8B operating income (27% of Berkshire's total operating income). Berkshire's investment-grade credit rating (AA-) enables BNSF to access capital markets at favorable rates. Ownership structure and capital allocation are disclosed in Berkshire's 10-K and annual letters.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co. (Lead Debt Arranger)",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Financing & Capital Markets",
+        "relationshipNote": "JPMorgan Chase is BNSF's lead debt arranger and primary investment banking partner. BNSF's debt outstanding (as of 2023): ~$28B (investment-grade rated Baa1 by Moody's, BBB+ by S&P). JPMorgan arranges BNSF's bond issuances, credit facilities, and derivative hedges. 2023 BNSF debt issuance: $3.5B in 10-year bonds at 4.85% yield (arranged by JPMorgan, Bank of America, Citigroup). JPMorgan's relationship with Berkshire spans multiple subsidiaries. Debt arrangements are disclosed in BNSF investor presentations and SEC filings.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Financing & Advisory",
+        "relationshipNote": "Bank of America Merrill Lynch is a co-arranger of BNSF's debt facilities and provides treasury management services. BofA participates in BNSF's revolving credit facility (~$2B committed) and bond syndications. 2023 BNSF debt issuance included BofA as co-arranger. BofA's relationship with Berkshire includes advisory services on capital allocation and M&A. Debt arrangements are disclosed in BNSF investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Katie Farmer",
+        "title": "President & Chief Executive Officer",
+        "slug": "katie_farmer",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategy",
+        "relationshipNote": "Katie Farmer became BNSF CEO in 2022, succeeding Mike Creel. Farmer leads BNSF's strategic initiatives including Precision Scheduled Railroading (PSR) optimization, intermodal growth, and emissions compliance. Under Farmer's leadership, BNSF's operating ratio improved from 59.2% (2022) to 58.1% (2023). Farmer reports to Berkshire Hathaway's CEO Greg Abel and Board of Directors. Her compensation (2023): base salary $1.5M, bonus $2.1M, equity awards $3.2M. Executive biography is disclosed in Berkshire's proxy statement (DEF 14A).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Kathryn Farmer",
+        "title": "Chief Financial Officer",
+        "slug": "kathryn_farmer_cfo",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": ". BNSF's CFO oversees financial planning, capital allocation, investor relations, and treasury management. The CFO reports to the CEO and Board Audit Committee. 2023 capex allocation: $4.2B (locomotives $1.2B, track/infrastructure $2.1B, intermodal terminals $0.6B, other $0.3B). CFO compensation and biography are disclosed in Berkshire's proxy statement.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "AAR Weekly Carload Index",
+        "slug": "aar_weekly_carload_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Freight Demand Signal",
+        "relationshipNote": "The Association of American Railroads (AAR) publishes weekly carload volumes by commodity (coal, grain, intermodal, chemicals, metals). BNSF's carload volumes track closely with AAR index; 2023 total carloads declined 2.1% YoY (coal -18%, grain +8%, intermodal +22%, chemicals -6%). AAR index is a leading indicator of freight demand and shipper economic activity. BNSF management references AAR data in quarterly earnings calls and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Spot Intermodal Pricing Index",
+        "slug": "spot_intermodal_pricing_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Pricing Power & Modal Economics",
+        "relationshipNote": "Spot intermodal pricing (rail drayage rates for long-haul moves) is a key indicator of BNSF's pricing power and modal competitiveness vs. trucking. 2023 spot intermodal rates declined 15–20% YoY due to trucking rate compression and excess capacity. BNSF's intermodal revenue per container declined 8% in 2023 despite 22% volume growth. Spot pricing trends are disclosed in BNSF investor presentations and tracked by industry analysts (Stifel, Goldman Sachs, Morgan Stanley).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

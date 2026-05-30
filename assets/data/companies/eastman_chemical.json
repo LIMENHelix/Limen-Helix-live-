@@ -1,0 +1,1191 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "eastman_chemical",
+  "slug": "eastman_chemical",
+  "name": "Eastman Chemical Company",
+  "ticker": "EMN",
+  "cik": "0000277801",
+  "sic": "2865",
+  "industry": "Industrial Organic Chemicals + Specialty Materials + Coatings",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "EMN"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "ethylene",
+    "propylene",
+    "benzene",
+    "wood pulp",
+    "titanium dioxide"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000277801",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Eastman Chemical is a diversified specialty-chemical manufacturer serving automotive, building & construction, consumer durables, and packaging end-markets through four operating segments: Advanced Materials (cellulose esters, specialty plastics), Additives & Functional Products (performance additives for coatings, adhesives, elastomers), Chemical Intermediates (acetyl and olefin derivatives), and Fibers (acetate fiber for cigarette filters and textiles). The company's integrated production footprint and proprietary acetyl chemistry platform create structural advantages in high-margin specialty segments while exposing it to commodity-price volatility and cyclical demand from automotive and construction.",
+  "portalRelevance": "Eastman Chemical is a peer-tier industrial specialty-chemical company whose financial health and capital allocation directly signal sector health in advanced materials, coatings, and performance additives. Its exposure to automotive OEM supply chains, construction-cycle demand, and crude-oil feedstock costs makes it a leading indicator for industrial-production momentum and chemical-sector margin compression. Earnings volatility, working-capital swings, and M&A activity (e.g., Solvay specialty-polymers acquisition) are material to understanding specialty-chemical sector valuation and cyclical inflection points.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly earnings EBITDA by segment (Advanced Materials, Additives, Chemical Intermediates, Fibers) — margin compression signals feedstock-cost pass-through failure",
+        "8-K filings for M&A, capacity expansions, or major customer wins (automotive OEM platform awards)",
+        "Crude-oil and ethylene futures correlation to gross-margin guidance revisions",
+        "Working-capital swings (inventory build/liquidation) signaling demand-cycle inflection"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Segment EBITDA margin trajectory vs. prior 8-quarter baseline — identifies pricing power erosion or cost-absorption capacity",
+        "Free-cash-flow generation and debt-service coverage ratio — stress-test against 10% feedstock-price shock",
+        "Automotive-exposure weighting (% revenue from OEM supply) vs. light-vehicle production indices (SAAR, IHS)",
+        "Acetyl-chemistry utilization rate and specialty-polymer capacity utilization — leading indicator of pricing discipline"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: margin compression + rising inventory + flat/declining guidance = demand-cycle top or feedstock-cost pass-through failure (P5/P6 signature)",
+        "Competitive delta: Eastman's integrated acetyl platform vs. Celanese (EMN's closest peer in acetyl) — track relative margin resilience and customer-concentration risk",
+        "Regulatory stress: EPA TSCA compliance costs for specialty polymers; OSHA process-safety incidents at major production sites (Kingsport, TN)",
+        "M&A integration risk: Solvay specialty-polymers acquisition (2023) — track synergy realization and working-capital normalization"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Feedstock-cost hedge via crude-oil and ethylene futures; target 60–70% of forward 12-month exposure",
+        "Pricing-power buffer: model scenario where automotive OEM demand drops 15% SAAR — assess margin floor and covenant headroom",
+        "Regulatory compliance: EPA Tier 2 air-quality standards at Kingsport; TSCA registration costs for new specialty-polymer launches",
+        "Capital allocation: dividend sustainability if EBITDA margin compresses 200 bps; trigger for buyback pause or debt reduction"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Initiate long crude-oil futures position if EMN guidance implies margin compression and feedstock pass-through risk; hedge ratio 60%",
+        "Monitor Q+1 automotive OEM order-book signals (via supplier surveys, 8-K customer wins) — early warning for demand inflection",
+        "Establish covenant-headroom monitoring: track net-debt-to-EBITDA vs. 3.5x threshold; flag if approaching 3.2x",
+        "Engage IR on Solvay integration timeline and synergy realization; request segment-level ROIC bridge in next earnings call"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings: validate margin-compression thesis via segment EBITDA and guidance revision; compare to Celanese and LYB peer results",
+        "Monthly crude-oil and ethylene spot prices vs. EMN guidance — assess pass-through lag and pricing-power deterioration",
+        "10-K Item 1A risk-factor updates: new regulatory, customer-concentration, or feedstock-volatility disclosures",
+        "Share-price reaction to earnings and guidance; compare to chemical-sector ETF (XLI, IYM) and peer-relative performance"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate automotive-exposure weighting if OEM supply-chain consolidation accelerates (e.g., tier-1 supplier bankruptcies)",
+        "Update feedstock-cost sensitivity model if crude-oil volatility regime shifts (e.g., geopolitical shock, OPEC+ production cuts)",
+        "Adjust Solvay integration timeline assumptions if synergy realization lags or working-capital normalization extends beyond guidance",
+        "Reweight specialty-polymer margin assumptions if competitive intensity increases (e.g., new entrants, price wars in coatings additives)"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Eastman Chemical operates as a distributed decision-making system across four semi-autonomous business segments (Advanced Materials, Additives & Functional Products, Chemical Intermediates, Fibers), each with distinct customer bases, feedstock dependencies, and margin profiles. The company's core neural function is feedstock-cost arbitrage and specialty-chemistry innovation: it ingests crude oil and natural gas (sensory input), converts them into high-margin acetyl derivatives and performance additives (motor output), and distributes them to automotive OEMs, coatings manufacturers, and consumer-durables brands (salience/reward). Regulatory compliance (EPA, OSHA, TSCA) and capital-market signaling (debt covenants, dividend policy) form the governance layer. Competitive pressure from Celanese, Huntsman, and Albemarle, combined with cyclical automotive demand and feedstock-price volatility, creates a high-sensitivity system prone to margin compression and working-capital stress during downturns.",
+    "suppliers": [
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SA",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Crude Oil & Feedstock Supply",
+        "relationshipNote": "Primary crude-oil supplier to Eastman's integrated refining and chemical operations. Aramco's pricing and production decisions directly impact Eastman's feedstock costs and gross-margin volatility. Eastman's Kingsport, TN facility processes ~100,000 bbl/day equivalent; crude-oil exposure represents 30–40% of COGS. Supply disruptions or OPEC+ production cuts trigger immediate margin compression and working-capital swings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Crude Oil & Ethylene Feedstock",
+        "relationshipNote": "Major crude-oil and ethylene supplier; Eastman sources ethylene (key intermediate for acetyl derivatives) via long-term contracts with ExxonMobil's Gulf Coast crackers. Ethylene pricing is indexed to crude oil with 4–6 week lag. Eastman's Advanced Materials and Chemical Intermediates segments depend on ethylene availability; supply disruptions (e.g., Hurricane Ida 2021) forced production curtailments and margin compression.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Celanese Corporation",
+        "ticker": "CE",
+        "cik": "0001084869",
+        "slug": "celanese",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Acetyl Intermediate Supply & Competitive Benchmark",
+        "relationshipNote": "Celanese is Eastman's closest peer in acetyl chemistry and a partial supplier of acetic acid and acetyl derivatives via spot-market and contract arrangements. Celanese's capacity utilization and pricing discipline directly signal Eastman's competitive positioning and margin sustainability. Both companies compete for automotive OEM and coatings-additive customers; Celanese's margin performance is a leading indicator of Eastman's pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001666700",
+        "slug": "dow",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Polyol & Specialty-Polymer Feedstock",
+        "relationshipNote": "Dow supplies polyols and specialty polymers used in Eastman's Advanced Materials and Fibers segments. Dow's capacity utilization and pricing in polyurethane and polyester markets directly impact Eastman's input costs. Dow's Q2 2023 earnings miss on polyurethane demand weakness preceded Eastman's automotive-exposure downgrade.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty-Additive & Catalyst Supply",
+        "relationshipNote": "Albemarle supplies specialty catalysts and additives used in Eastman's Chemical Intermediates and Additives segments. Albemarle's lithium and specialty-chemical pricing impacts Eastman's formulation costs. Albemarle's 2023 capacity expansions in specialty additives signal competitive intensity in Eastman's high-margin segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Weyerhaeuser Company",
+        "ticker": "WY",
+        "cik": "0000105570",
+        "slug": "weyerhaeuser",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Wood Pulp & Cellulose Feedstock",
+        "relationshipNote": "Weyerhaeuser supplies wood pulp and cellulose used in Eastman's Fibers segment (acetate fiber for cigarette filters and textiles). Weyerhaeuser's pulp pricing and capacity directly impact Eastman's Fibers EBITDA margins. Cigarette-filter demand (driven by global tobacco consumption) is declining 2–3% annually, pressuring Fibers segment utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "LyondellBasell Industries N.V.",
+        "ticker": "LYB",
+        "cik": "0001453952",
+        "slug": "lyondellbasell",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Olefin & Polyolefin Feedstock",
+        "relationshipNote": "LyondellBasell supplies propylene and polyolefin intermediates used in Eastman's Advanced Materials and Additives segments. LYB's Gulf Coast cracker utilization and propylene pricing are leading indicators of Eastman's feedstock-cost inflation. LYB's Q4 2022 guidance miss on polyolefin demand preceded Eastman's 2023 margin-compression cycle.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Chemical Logistics & Distribution",
+        "relationshipNote": "J.B. Hunt is a primary logistics partner for Eastman's chemical distribution from Kingsport, TN and other production sites to customer facilities. Hunt manages hazmat trucking and intermodal transport for specialty chemicals and polymers. Eastman's logistics costs are ~8–10% of COGS; Hunt's capacity utilization and fuel surcharges directly impact Eastman's working-capital efficiency.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schneider National, Inc.",
+        "ticker": "SNDR",
+        "cik": "0000087686",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Intermodal & Bulk-Chemical Transport",
+        "relationshipNote": "Schneider National provides intermodal and bulk-chemical transportation for Eastman's domestic and cross-border shipments. Schneider's capacity and pricing in hazmat logistics directly impact Eastman's supply-chain cost structure. Schneider's Q3 2023 pricing pressure on chemical shippers signaled tightening logistics margins.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0001037857",
+        "slug": "huntsman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Titanium Dioxide & Specialty-Chemical Feedstock",
+        "relationshipNote": "Huntsman supplies titanium dioxide (TiO2) and specialty pigments used in Eastman's coatings and advanced-materials formulations. Huntsman's TiO2 pricing and capacity utilization impact Eastman's Additives & Functional Products segment margins. Huntsman's Q3 2023 capacity curtailments signaled demand weakness in coatings, triggering Eastman's guidance reduction.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk Line A/S",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International Chemical Shipping",
+        "relationshipNote": "Maersk is a primary ocean-freight partner for Eastman's international specialty-chemical exports (Advanced Materials, Additives to Europe, Asia-Pacific). Maersk's container-rate volatility and capacity directly impact Eastman's export margins and working-capital timing. Maersk's 2023 rate declines benefited Eastman's international-segment profitability.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Univar Solutions Inc.",
+        "ticker": "UNVR",
+        "cik": "0001616707",
+        "slug": "univar_solutions",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Chemical Distribution & Last-Mile",
+        "relationshipNote": "Univar Solutions is a major distributor of Eastman's specialty chemicals and additives to regional coatings, adhesives, and elastomer manufacturers. Univar manages last-mile delivery and technical support for Eastman's Additives & Functional Products segment. Univar's inventory levels and order patterns are leading indicators of end-customer demand.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "General Motors Company",
+        "ticker": "GM",
+        "cik": "0001467858",
+        "slug": "general_motors",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Automotive OEM Platform Customer",
+        "relationshipNote": "General Motors is a major customer for Eastman's Advanced Materials (specialty plastics for interior trim, lighting) and Additives (performance additives for coatings and adhesives). GM represents. GM's light-vehicle production (SAAR) is a leading indicator of Eastman's automotive-segment demand. GM's EV transition is reducing demand for traditional acetate-based materials; Eastman is developing EV-compatible specialty polymers.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ford Motor Company",
+        "ticker": "F",
+        "cik": "0000037996",
+        "slug": "ford",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Automotive OEM Platform Customer",
+        "relationshipNote": "Ford is a major customer for Eastman's Advanced Materials and Additives segments, particularly for interior-trim plastics and coating additives. Ford's light-vehicle production and EV ramp-up directly impact Eastman's automotive-segment revenue and margin. Ford's 2023 EV production guidance increase signals demand shift toward EV-compatible specialty polymers.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sherwin-Williams Company",
+        "ticker": "SHW",
+        "cik": "0000089996",
+        "slug": "sherwin_williams",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Coatings & Adhesive Customer",
+        "relationshipNote": "Sherwin-Williams is a major customer for Eastman's Additives & Functional Products segment, sourcing performance additives for architectural and industrial coatings. Sherwin-Williams' paint sales and margin trends directly signal Eastman's coatings-additive demand. SHW's Q3 2023 guidance miss on residential paint demand preceded Eastman's Additives-segment margin compression.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Clean Harbors, Inc.",
+        "slug": "clean_harbors",
+        "ticker": "CLH",
+        "cik": "0000822818",
+        "brainNodeId": "S1",
+        "relationshipNote": "Eastman supplies hazardous waste streams from its manufacturing operations to Clean Harbors for treatment and environmental remediation. CLH's waste volumes and pricing directly track Eastman's production capacity, capex cycles, and facility utilization. CLH margin trends and regulatory cost pass-through signal environmental-compliance expense cycles material to Eastman's operating margins.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.541Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "clean_harbors",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "eastman_chemical|0000278869|eastmanchemicalcompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:58.783Z"
+      },
+      {
+        "name": "Colgate-Palmolive Company",
+        "slug": "colgate_palmolive",
+        "ticker": "CL",
+        "cik": "0000021665",
+        "brainNodeId": "S1",
+        "relationshipNote": "Eastman supplies polyethylene terephthalate (PET) resin and polyethylene for Colgate-Palmolive's bottle and flexible-packaging needs. PET pricing tracks crude-oil feedstock costs, creating direct COGS sensitivity for CL's packaging structure. Crude volatility drives packaging inflation cycles that test CL's pricing power in retail channels.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.541Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "colgate_palmolive",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "eastman_chemical|0000277801|eastmanchemicalcompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:58.783Z"
+      },
+      {
+        "name": "Kimberly-Clark Corporation",
+        "slug": "kimberly_clark",
+        "ticker": "KMB",
+        "cik": "0000055785",
+        "brainNodeId": "S1",
+        "relationshipNote": "Eastman provides specialty polymers, adhesives, and chemical additives for KMB tissue softening, diaper elasticity, and feminine-care product formulations. KMB has limited supplier alternatives with high switching costs, giving Eastman moderate pricing power. Input-cost pass-through dynamics shape KMB's consumer-staples margin compression cycles.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.541Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "kimberly_clark",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "eastman_chemical|0000277044|eastmanchemicalcompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:58.783Z"
+      },
+      {
+        "name": "NIKE, Inc.",
+        "slug": "nike",
+        "ticker": "NKE",
+        "cik": "0000320187",
+        "brainNodeId": "S1",
+        "relationshipNote": "Eastman supplies specialty polymers and acetate fibers for Nike apparel and footwear components. Eastman's capacity utilization and resin pricing directly impact Nike's material-cost inflation and gross-margin trajectory. Nike's wholesale-channel health and inventory cycles create demand signals for Eastman's specialty-polymer capacity and pricing leverage.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.541Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "nike",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "eastman_chemical|0000277043|eastmanchemicalcompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:58.783Z"
+      },
+      {
+        "name": "The Procter & Gamble Company",
+        "slug": "procter_gamble",
+        "ticker": "PG",
+        "cik": "0000080424",
+        "brainNodeId": "S1",
+        "relationshipNote": "Eastman supplies acetate fibers for Charmin tissue softness and specialty polymers for Olay skincare formulations. Eastman functions as a secondary supplier to PG's broader chemical-input ecosystem. PG's quarterly earnings, inventory management, and pricing actions propagate cost-inflation signals through upstream specialty-chemical suppliers including Eastman.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.541Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "procter_gamble",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "eastman_chemical|0000277043|eastmanchemicalcompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:58.783Z"
+      },
+      {
+        "name": "Thermo Fisher Scientific Inc.",
+        "slug": "thermo_fisher_scientific",
+        "ticker": "TMO",
+        "cik": "0000097745",
+        "brainNodeId": "S1",
+        "relationshipNote": "Eastman supplies polystyrene, polypropylene, and specialty polymers for Thermo Fisher's pipette tips, microplate wells, and consumable packaging, representing approximately 6–8% of consumables cost of goods sold. Multi-year supply agreements with volume commitments tie pricing to crude-oil and natural-gas indices, creating margin-cycle visibility into life-sciences research spending.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.541Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "thermo_fisher_scientific",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "eastman_chemical|0000313808|eastmanchemicalcompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:58.783Z"
+      },
+      {
+        "name": "Unilever PLC",
+        "slug": "unilever",
+        "ticker": "UL",
+        "cik": "0000217076",
+        "brainNodeId": "S1",
+        "relationshipNote": "Eastman supplies specialty polyesters and polyols for Unilever's Beauty division formulations and Home Care surfactants. Unilever's circular-economy initiatives leverage Eastman's advanced-recycling technology for plastic-to-plastic circular polymers. This strategic partnership ties Eastman's innovation roadmap to Unilever's sustainability positioning and margin trajectory.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.541Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "unilever",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "eastman_chemical|0000277043|eastmanchemicalcompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:58.783Z"
+      },
+      {
+        "name": "3M Company",
+        "slug": "3m",
+        "ticker": "MMM",
+        "cik": "0000066740",
+        "brainNodeId": "S1",
+        "relationshipNote": "Eastman supplies specialty plastics (Tritan, Tenite) and adhesive modifiers for 3M's consumer and industrial adhesive products, including Post-it and Scotch tape formulations. Eastman's polymer performance and sustainability attributes support 3M's product differentiation. Supply-chain dependencies in adhesive modifiers create pricing-power dynamics tied to Eastman's specialty-materials cycles.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.541Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "3m",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "eastman_chemical|0000313807|eastmanchemicalcompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:58.783Z"
+      },
+      {
+        "name": "PepsiCo, Inc.",
+        "slug": "pepsico",
+        "ticker": "PEP",
+        "cik": "0000077476",
+        "brainNodeId": "S1",
+        "relationshipNote": "Eastman supplies PET resin for PepsiCo's plastic bottle manufacturing across beverage portfolios. Crude-oil volatility directly drives PET resin-cost inflation, creating material COGS sensitivity for PEP's bottle-production economics. Long-term fixed-price contracts with PepsiCo anchor demand visibility and pricing stability for Eastman's PET capacity planning.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.541Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "pepsico",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "eastman_chemical|0000313808|eastmanchemicalcompany"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:42:58.783Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Celanese Corporation",
+        "ticker": "CE",
+        "cik": "0001084869",
+        "slug": "celanese",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in Acetyl Chemistry & Specialty Polymers",
+        "relationshipNote": "Celanese is Eastman's closest peer in acetyl chemistry, acetic acid, and specialty polymers. Both compete for automotive OEM and coatings-additive customers. Celanese's integrated acetyl platform and lower cost structure (via Nouryon partnership) create competitive pressure on Eastman's margins. Celanese's Q3 2023 EBITDA margin (28%) exceeded Eastman's (22%), signaling Celanese's superior pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0001037857",
+        "slug": "huntsman",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Additives & Specialty Chemicals",
+        "relationshipNote": "Huntsman competes with Eastman in specialty additives, pigments, and polyurethane intermediates. Huntsman's Advanced Materials and Performance Products segments overlap with Eastman's Additives & Functional Products. Huntsman's 2023 capacity curtailments and margin compression signal sector-wide demand weakness; Huntsman's pricing actions are bellwethers for Eastman's competitive environment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Specialty Additives & Catalysts",
+        "relationshipNote": "Albemarle competes with Eastman in specialty additives, catalysts, and performance chemicals for coatings and elastomers. Albemarle's Fine Chemicals and Catalysts segments target similar end-markets as Eastman's Additives & Functional Products. Albemarle's 2023 capacity expansions in specialty additives signal competitive intensity; Albemarle's pricing discipline is a competitive threat.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "LyondellBasell Industries N.V.",
+        "ticker": "LYB",
+        "cik": "0001453952",
+        "slug": "lyondellbasell",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Advanced Materials & Polymers",
+        "relationshipNote": "LyondellBasell competes with Eastman in specialty polymers, polyolefins, and advanced materials for automotive and consumer-durables applications. LYB's Advanced Polymers segment targets similar OEM customers as Eastman's Advanced Materials. LYB's integrated refining and chemical operations provide cost advantages; LYB's Q4 2022 margin compression preceded Eastman's 2023 cycle.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance & Emissions Regulation",
+        "relationshipNote": "EPA regulates Eastman's air and water emissions from Kingsport, TN and other production sites under Clean Air Act (CAA) and Clean Water Act (CWA). Eastman's Kingsport facility is a major point source; EPA Tier 2 air-quality standards and NPDES water-discharge permits directly impact capital expenditures and operating costs. EPA's 2023 PFOA/PFAS regulations may impact Eastman's specialty-polymer formulations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Occupational Safety and Health Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Process Safety & Worker Protection",
+        "relationshipNote": "OSHA regulates Eastman's process-safety management (PSM) and hazard communication under 29 CFR 1910.119. Eastman's Kingsport facility (major acetyl production) is subject to RMP (Risk Management Plan) requirements. OSHA citations and process-safety incidents directly impact insurance costs and operational risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Governance",
+        "relationshipNote": "SEC regulates Eastman's 10-K, 10-Q, 8-K filings and proxy disclosures (DEF14A). SEC's 2023 climate-disclosure rules may require Eastman to disclose Scope 1/2 GHG emissions and climate-risk impacts on operations. SEC's enforcement actions on chemical-company disclosure (e.g., environmental liabilities) create compliance risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency — Toxic Substances Control Act (TSCA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa_tsca",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Chemical Substance Registration & Risk Assessment",
+        "relationshipNote": "EPA TSCA regulates Eastman's new specialty-polymer and additive launches via pre-manufacture notification (PMN) and risk-assessment requirements. TSCA compliance costs and approval timelines directly impact Eastman's product-development cycle. EPA's 2023 TSCA risk evaluations on acetyl derivatives may restrict Eastman's Chemical Intermediates segment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Risk Assessment",
+      "relationshipNote": "Deloitte is Eastman's external auditor (Big Four). Deloitte's audit opinions on financial statements and internal controls are material to investor confidence. Deloitte's audit-committee interactions on revenue recognition (long-term contracts with OEMs), inventory valuation (feedstock-price volatility), and environmental liabilities (Kingsport site remediation) are key risk-assessment touchpoints.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Credit Facility Provider",
+        "relationshipNote": "JPMorgan Chase is a lead arranger and lender on Eastman's revolving credit facility (RCF) and term loans. JPMorgan's credit decisions and covenant monitoring directly impact Eastman's financial flexibility. Eastman's net-debt-to-EBITDA covenant (target 3.5x) is monitored by JPMorgan; covenant breaches would trigger acceleration and refinancing risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lender & Credit Facility Participant",
+        "relationshipNote": "Bank of America is a participant lender on Eastman's RCF and term-loan syndicate. BofA's credit decisions and covenant monitoring are material to Eastman's refinancing risk. BofA's 2023 credit-quality downgrades on chemical companies signal tightening lending standards.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "Vanguard is a major institutional shareholder of Eastman (>5% ownership). Vanguard's voting on board elections and executive compensation directly impacts Eastman's governance. Vanguard's ESG engagement on environmental liabilities and climate risk is material to Eastman's capital-allocation strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "13F"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "BlackRock is a major institutional shareholder of Eastman (>5% ownership). BlackRock's voting on board elections and executive compensation directly impacts Eastman's governance. BlackRock's climate-risk engagement and ESG voting are material to Eastman's sustainability strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "13F"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Mark J. Costa",
+        "title": "President & Chief Executive Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Costa is Eastman's CEO (since 2014) and leads strategic initiatives including the Solvay specialty-polymers acquisition (2023), margin-improvement programs, and EV-transition strategy. Costa's earnings-call guidance and capital-allocation decisions directly signal Eastman's financial trajectory. Costa's 2023 commentary on feedstock-cost pass-through and automotive demand is material to margin-compression thesis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Curt Espeland",
+        "title": "Chief Financial Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Espeland is Eastman's CFO and oversees financial planning, capital allocation, and investor relations. Espeland's quarterly earnings guidance, working-capital commentary, and debt-management decisions directly impact Eastman's financial health. Espeland's 2023 guidance revisions on margin compression and covenant headroom are key risk signals.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Brad Lich",
+        "title": "Chief Operating Officer",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Production Management",
+        "relationshipNote": "Lich is Eastman's COO and oversees manufacturing operations, supply-chain management, and operational efficiency. Lich's commentary on Kingsport facility utilization, feedstock-cost pass-through, and production curtailments is material to operational-risk assessment. Lich's 2023 cost-reduction initiatives signal margin-compression response.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Lucian Boldea",
+        "title": "General Counsel",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Boldea is Eastman's General Counsel and oversees legal compliance, regulatory affairs, and litigation risk. Boldea's management of EPA environmental liabilities, OSHA process-safety incidents, and TSCA compliance is material to operational risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Automotive Light-Vehicle Production (SAAR)",
+        "ticker": null,
+        "cik": null,
+        "slug": "auto_saar",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Demand Signal for Automotive OEM Segment",
+        "relationshipNote": "U.S. light-vehicle production (SAAR) is a leading indicator of Eastman's Advanced Materials and Additives demand from automotive OEMs. SAAR declines of 10%+ signal demand compression in Eastman's automotive-segment revenue. 2023 SAAR of ~13.5M units (vs. 2022 baseline of 13.2M) suggests stable automotive demand; however, EV transition is reducing demand for traditional acetate-based materials.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Crude Oil Spot Price (WTI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "crude_oil_wti",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Feedstock Cost Signal",
+        "relationshipNote": "WTI crude-oil spot price is a leading indicator of Eastman's feedstock costs and gross-margin volatility. Crude-oil price increases of 20%+ trigger margin compression unless Eastman can pass through costs to customers. 2023 crude-oil volatility (range $65–$95/bbl) created margin uncertainty; Eastman's feedstock-cost pass-through lag is 4–6 weeks.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "industry",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.209Z",
+      "overrideCount": 10
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Saudi Aramco",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "ExxonMobil Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Celanese Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Dow Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Albemarle Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Weyerhaeuser Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "LyondellBasell Industries N.V.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Huntsman Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Clean Harbors, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Colgate-Palmolive Company",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Kimberly-Clark Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "NIKE, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "The Procter & Gamble Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Thermo Fisher Scientific Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Unilever PLC",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "3M Company",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "PepsiCo, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "J.B. Hunt Transport Services, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Schneider National, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Maersk Line A/S",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Univar Solutions Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "General Motors Company",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Ford Motor Company",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Sherwin-Williams Company",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Automotive Light-Vehicle Production (SAAR)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Celanese Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Huntsman Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Albemarle Corporation",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "LyondellBasell Industries N.V.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Environmental Protection Agency",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Occupational Safety and Health Administration",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Environmental Protection Agency — Toxic Substances Control Act (TSCA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Corporation",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Crude Oil Spot Price (WTI)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Vanguard Group, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "BlackRock, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

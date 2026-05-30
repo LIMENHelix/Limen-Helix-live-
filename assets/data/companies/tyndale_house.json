@@ -1,0 +1,153 @@
+{
+  "type": "companyPortal",
+  "companyId": "tyndale_house",
+  "name": "Tyndale House",
+  "ticker": "PRIVATE",
+  "cik": "0",
+  "sic": "2731",
+  "industry": "Religious Publishing",
+  "domainId": "religion",
+  "portalAttachment": "religion_publishing",
+  "fredSeries": [
+    "CPIRECSL",
+    "CES7071100001",
+    "RSXFS",
+    "FEDFUNDS",
+    "DSPIC96"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000000000.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "CPIRECSL",
+        "CES7071100001",
+        "RSXFS",
+        "FEDFUNDS",
+        "DSPIC96"
+      ]
+    }
+  ],
+  "helixReportMode": "linked",
+  "helixReportUrl": "helix-report.html?cik=0&company=tyndale_house",
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "financialHealth": {},
+  "domainRelevance": "Leading Christian book publisher",
+  "portalRelevance": "Religious book sales as faith-engagement signal",
+  "notes": null,
+  "intelligenceCycle": [
+    {
+      "layerId": "signal",
+      "title": "Tyndale House — Signal Detection",
+      "description": "Market signals, SEC filings, earnings, news, supply chain alerts.",
+      "status": "active",
+      "signals": [
+        {
+          "source": "sec_edgar",
+          "description": "SEC quarterly filings"
+        },
+        {
+          "source": "fred",
+          "description": "FRED series",
+          "seriesIds": [
+            "CPIRECSL",
+            "CES7071100001",
+            "RSXFS",
+            "FEDFUNDS",
+            "DSPIC96"
+          ]
+        }
+      ],
+      "diagnostics": [],
+      "actions": []
+    },
+    {
+      "layerId": "state",
+      "title": "Tyndale House — State Assessment",
+      "description": "HELIX phase interpretation and cross-domain stress position.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [],
+      "actions": []
+    },
+    {
+      "layerId": "diagnosis",
+      "title": "Tyndale House — Diagnostic Analysis",
+      "description": "Pattern matching against distress signatures and growth inflections.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [
+        {
+          "type": "distress_pattern",
+          "description": "Revenue decline + cash burn"
+        },
+        {
+          "type": "growth_inflection",
+          "description": "Revenue acceleration + margin expansion"
+        }
+      ],
+      "actions": []
+    },
+    {
+      "layerId": "regulate",
+      "title": "Tyndale House — Regulation Strategy",
+      "description": "Investment thesis, risk management, or intervention strategy.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [],
+      "actions": [
+        {
+          "type": "investment_thesis",
+          "description": "Positioning based on HELIX phase"
+        },
+        {
+          "type": "risk_hedge",
+          "description": "Hedging for identified risks"
+        }
+      ]
+    },
+    {
+      "layerId": "action",
+      "title": "Tyndale House — Action Coordination",
+      "description": "Execution, rebalancing, or operational response.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [],
+      "actions": []
+    },
+    {
+      "layerId": "feedback",
+      "title": "Tyndale House — Feedback & Validation",
+      "description": "Post-action monitoring and thesis validation.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [],
+      "actions": []
+    },
+    {
+      "layerId": "adapt",
+      "title": "Tyndale House — Adaptation & Learning",
+      "description": "Model recalibration from realized outcomes.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [],
+      "actions": []
+    }
+  ],
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "religion",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.495Z",
+      "overrideCount": 0
+    },
+    "overrides": {}
+  }
+}

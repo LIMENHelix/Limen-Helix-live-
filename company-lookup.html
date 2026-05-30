@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; COMPANY LOOKUP</title>
+<link rel="stylesheet" href="assets/css/portal.css">
+<style>
+.lookup-container { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 100%; padding: 60px 40px 40px; overflow-y: auto; }
+.lookup-title { font-size: 0.55rem; letter-spacing: 6px; text-transform: uppercase; color: rgba(201,169,78,0.4); margin-bottom: 8px; }
+.lookup-subtitle { font-size: 0.42rem; letter-spacing: 2px; color: rgba(200,195,184,0.3); margin-bottom: 32px; text-transform: uppercase; }
+.lookup-input-wrap { position: relative; width: 100%; max-width: 500px; margin-bottom: 16px; }
+.lookup-input { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(201,169,78,0.15); color: #dad5c8; font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; padding: 14px 18px; outline: none; transition: border-color 0.3s; letter-spacing: 1px; }
+.lookup-input:focus { border-color: rgba(201,169,78,0.5); }
+.lookup-input::placeholder { color: rgba(200,195,184,0.25); font-size: 0.7rem; letter-spacing: 2px; }
+.lookup-hint { font-size: 0.38rem; color: rgba(200,195,184,0.25); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+.suggestions { width: 100%; max-width: 500px; }
+.suggestion { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid rgba(201,169,78,0.06); border-bottom: none; background: rgba(19,21,25,0.8); cursor: pointer; transition: all 0.15s; }
+.suggestion:last-child { border-bottom: 1px solid rgba(201,169,78,0.06); }
+.suggestion:hover { background: rgba(201,169,78,0.06); border-color: rgba(201,169,78,0.15); }
+.sug-left { display: flex; flex-direction: column; gap: 3px; }
+.sug-name { font-size: 0.6rem; color: #dad5c8; letter-spacing: 1px; }
+.sug-industry { font-size: 0.4rem; color: rgba(200,195,184,0.35); letter-spacing: 1.5px; text-transform: uppercase; }
+.sug-right { display: flex; align-items: center; gap: 12px; }
+.sug-ticker { font-size: 0.65rem; color: #C9A94E; letter-spacing: 2px; font-weight: 500; }
+.sug-domain { font-size: 0.38rem; color: rgba(201,169,78,0.35); letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border: 1px solid rgba(201,169,78,0.1); }
+.sug-match { font-size: 0.32rem; color: rgba(200,195,184,0.2); letter-spacing: 1px; text-transform: uppercase; }
+.domain-grid { width: 100%; max-width: 700px; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-top: 24px; }
+.domain-card { padding: 10px 12px; border: 1px solid rgba(201,169,78,0.06); background: rgba(19,21,25,0.5); cursor: pointer; transition: all 0.2s; text-align: center; }
+.domain-card:hover { border-color: rgba(201,169,78,0.2); background: rgba(201,169,78,0.04); }
+.domain-card-label { font-size: 0.4rem; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(201,169,78,0.45); }
+.domain-card-count { font-size: 0.65rem; color: rgba(200,195,184,0.5); margin-top: 4px; }
+.no-results { font-size: 0.5rem; color: rgba(200,195,184,0.3); letter-spacing: 2px; text-transform: uppercase; padding: 20px; text-align: center; }
+.lookup-status { font-size: 0.42rem; color: rgba(200,195,184,0.3); letter-spacing: 1.5px; text-align: center; margin-bottom: 16px; min-height: 1rem; }
+</style>
+</head>
+<body>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<script>/* access gate removed — company lookup is public */</script>
+<div class="app">
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+
+  <div style="grid-column: 1 / -1; grid-row: 3; overflow-y: auto; background: #0c0d10;">
+    <div class="lookup-container">
+      <div class="lookup-title">Company Lookup</div>
+      <div class="lookup-subtitle">Enter company name, ticker symbol, or SEC CIK number</div>
+
+      <div class="lookup-input-wrap">
+        <input type="text" class="lookup-input" id="lookupInput" placeholder="e.g. Boeing, BA, or 12927" autofocus>
+      </div>
+      <div class="lookup-hint">Resolves automatically &middot; 70 reviewed companies across 14 domains</div>
+      <div class="lookup-status" id="lookupStatus"></div>
+
+      <div class="suggestions" id="suggestions"></div>
+
+      <div class="domain-grid" id="domainGrid"></div>
+    </div>
+  </div>
+
+  <div class="bottombar" style="grid-column: 1 / -1;">
+    <div>LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC &middot; COMPANY LOOKUP</div>
+    <div>70 COMPANIES &middot; 14 DOMAINS</div>
+  </div>
+
+</div>
+<script src="assets/js/company-resolver.js"></script>
+<script>
+(function() {
+  var input = document.getElementById('lookupInput');
+  var sugBox = document.getElementById('suggestions');
+  var statusEl = document.getElementById('lookupStatus');
+  var domainGrid = document.getElementById('domainGrid');
+  var debounceTimer = null;
+
+  var DOMAIN_LABELS = {
+    energy: 'Energy', finance: 'Finance', technology: 'Technology',
+    infrastructure: 'Infrastructure', industry: 'Industry', p2_agri: 'Agriculture',
+    health: 'Health', communication: 'Communication', defense: 'Defense',
+    science: 'Research', education: 'Education', population: 'Population',
+    law: 'Law', economy: 'Economy'
+  };
+
+  // Show domain cards on load
+  LIMENCompanyResolver.loadIndex(function(err, idx) {
+    if (err || !idx) return;
+
+    // Count companies per domain
+    var domainCounts = {};
+    var slugs = Object.keys(idx.companies);
+    for (var i = 0; i < slugs.length; i++) {
+      var d = idx.companies[slugs[i]].domainId;
+      domainCounts[d] = (domainCounts[d] || 0) + 1;
+    }
+
+    var html = '';
+    var domains = Object.keys(domainCounts).sort();
+    for (var j = 0; j < domains.length; j++) {
+      var d = domains[j];
+      html += '<div class="domain-card" onclick="filterDomain(\'' + d + '\')">';
+      html += '<div class="domain-card-label">' + (DOMAIN_LABELS[d] || d) + '</div>';
+      html += '<div class="domain-card-count">' + domainCounts[d] + '</div>';
+      html += '</div>';
+    }
+    domainGrid.innerHTML = html;
+  });
+
+  window.filterDomain = function(domainId) {
+    input.value = '';
+    LIMENCompanyResolver.loadIndex(function(err, idx) {
+      if (err || !idx) return;
+      var results = [];
+      var slugs = Object.keys(idx.companies);
+      for (var i = 0; i < slugs.length; i++) {
+        var co = idx.companies[slugs[i]];
+        if (co.domainId === domainId) {
+          results.push({ slug: slugs[i], name: co.name, ticker: co.ticker, cik: co.cik, industry: co.industry, domainId: co.domainId, matchType: 'domain' });
+        }
+      }
+      renderSuggestions(results);
+      statusEl.textContent = (DOMAIN_LABELS[domainId] || domainId).toUpperCase() + ' — ' + results.length + ' COMPANIES';
+      domainGrid.style.display = 'none';
+    });
+  };
+
+  function renderSuggestions(results) {
+    if (results.length === 0) {
+      sugBox.innerHTML = '<div class="no-results">No companies found</div>';
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < results.length; i++) {
+      var r = results[i];
+      html += '<div class="suggestion" onclick="goCompany(\'' + r.slug + '\')">';
+      html += '<div class="sug-left"><div class="sug-name">' + esc(r.name) + '</div>';
+      html += '<div class="sug-industry">' + esc(r.industry) + '</div></div>';
+      html += '<div class="sug-right">';
+      html += '<div class="sug-domain">' + esc(DOMAIN_LABELS[r.domainId] || r.domainId) + '</div>';
+      html += '<div class="sug-ticker">' + esc(r.ticker) + '</div>';
+      html += '</div></div>';
+    }
+    sugBox.innerHTML = html;
+  }
+
+  function esc(s) {
+    var d = document.createElement('div');
+    d.textContent = s || '';
+    return d.innerHTML;
+  }
+
+  window.goCompany = function(slug) {
+    window.location.href = 'company-portal.html?company=' + encodeURIComponent(slug);
+  };
+
+  input.addEventListener('input', function() {
+    clearTimeout(debounceTimer);
+    var val = input.value.trim();
+    if (!val) {
+      sugBox.innerHTML = '';
+      statusEl.textContent = '';
+      domainGrid.style.display = '';
+      return;
+    }
+    domainGrid.style.display = 'none';
+    debounceTimer = setTimeout(function() {
+      LIMENCompanyResolver.getSuggestions(val, function(results) {
+        renderSuggestions(results);
+        statusEl.textContent = results.length + ' MATCH' + (results.length !== 1 ? 'ES' : '');
+      });
+    }, 150);
+  });
+
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      var val = input.value.trim();
+      if (!val) return;
+      LIMENCompanyResolver.resolve(val, function(result) {
+        if (result) {
+          window.location.href = 'company-portal.html?company=' + encodeURIComponent(result.slug);
+        } else {
+          statusEl.textContent = 'NO MATCH — TRY A DIFFERENT NAME, TICKER, OR CIK';
+        }
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2800 @@
+{
+  "domainId": "p2_agri_precisionag",
+  "title": "Precision Agriculture",
+  "parentPortal": "p2_agri_portal.html",
+  "parentLabel": "Agriculture",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "GPS Guidance",
+      "domainDescription": "Satellite-based navigation for straight-line field passes and overlap reduction",
+      "group": "navigation",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_precisionag_gpsguidance_portal.html",
+      "treatments": [
+        {
+          "label": "Multi-Constellation GNSS Receiver Adoption",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Deploy receivers that track GPS, GLONASS, Galileo, and BeiDou constellations simultaneously. Multi-constellation capability increases visible satellites from 8-12 to 20-30, reducing position dilution of precision and maintaining sub-inch accuracy even in tree-lined or rolling terrain where single-constellation coverage drops out.",
+          "cite": "[CITATION NEEDED: Deploy receivers that track GPS, GLONASS, Galileo, and BeiDou constellations simultaneously. Multi-c]",
+          "target": "CONNECTIVITY_GAP -> SIGNAL_REDUNDANCY -> CONTINUOUS_GUIDANCE_AVAILABILITY",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Deploy receivers that track GPS, GLONASS, Galileo, and BeiDou constellations simultaneously. Multi-c]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Open-Format Data Export Policy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Require GPS guidance system vendors to provide all field boundary, AB-line, and pass-tracking data in ISO 11783 (ISOBUS) or ESRI Shapefile format at no additional cost. Contractual open-export clauses prevent proprietary lock-in and enable multi-platform data use across the operation.",
+          "cite": "Stombaugh, T. (2018). Satellite-based positioning systems for precision agriculture. in Precision Agriculture Basics, ASA/CSSA/SSSA, 25-36. doi:10.2134/precisionagbasics.2016.0075; Bergtold, J.S., Raper, R.L. & Schwab, E.B. (2009). The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering. Applied Engineering in Agriculture, 25(2), 133-143. doi:10.13031/2013.26323",
+          "target": "DATA_OWNERSHIP_DISPUTE -> FORMAT_PORTABILITY -> FARMER_DATA_SOVEREIGNTY",
+          "citation": [
+            {
+              "author": "Stombaugh, T.",
+              "year": 2018,
+              "title": "Satellite-based positioning systems for precision agriculture",
+              "journal": "in Precision Agriculture Basics, ASA/CSSA/SSSA",
+              "volume": null,
+              "pages": "25-36",
+              "doi": "10.2134/precisionagbasics.2016.0075"
+            },
+            {
+              "author": "Bergtold, J.S., Raper, R.L. & Schwab, E.B.",
+              "year": 2009,
+              "title": "The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering",
+              "journal": "Applied Engineering in Agriculture",
+              "volume": "25(2)",
+              "pages": "133-143",
+              "doi": "10.13031/2013.26323"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to a precision agriculture specialist or certified crop adviser (CCA) for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        },
+        {
+          "label": "Operator GPS Proficiency Training Program",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Deliver structured training covering GPS correction levels (WAAS, RTK, PPP), datum configuration, coordinate system selection, and AB-line management. Operators who understand signal hierarchy can troubleshoot field accuracy issues independently and avoid costly overlap or skip during critical planting windows.",
+          "cite": "Stombaugh, T. (2018). Satellite-based positioning systems for precision agriculture. in Precision Agriculture Basics, ASA/CSSA/SSSA, 25-36. doi:10.2134/precisionagbasics.2016.0075; Bergtold, J.S., Raper, R.L. & Schwab, E.B. (2009). The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering. Applied Engineering in Agriculture, 25(2), 133-143. doi:10.13031/2013.26323",
+          "target": "SYSTEM_INTEGRATION_FAILURE -> OPERATOR_COMPETENCE -> REDUCED_OVERLAP_WASTE",
+          "citation": [
+            {
+              "author": "Stombaugh, T.",
+              "year": 2018,
+              "title": "Satellite-based positioning systems for precision agriculture",
+              "journal": "in Precision Agriculture Basics, ASA/CSSA/SSSA",
+              "volume": null,
+              "pages": "25-36",
+              "doi": "10.2134/precisionagbasics.2016.0075"
+            },
+            {
+              "author": "Bergtold, J.S., Raper, R.L. & Schwab, E.B.",
+              "year": 2009,
+              "title": "The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering",
+              "journal": "Applied Engineering in Agriculture",
+              "volume": "25(2)",
+              "pages": "133-143",
+              "doi": "10.13031/2013.26323"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Local RTK Base Station Network Build-Out",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Install farm-owned or cooperative-shared RTK base stations to deliver centimeter-level correction signals via UHF radio broadcast, eliminating dependency on cellular NTRIP networks. Radio-delivered RTK provides reliable correction in connectivity deserts where cellular infrastructure is absent or intermittent.",
+          "cite": "[CITATION NEEDED: Install farm-owned or cooperative-shared RTK base stations to deliver centimeter-level correction si]",
+          "target": "CONNECTIVITY_GAP -> LOCAL_CORRECTION_INFRASTRUCTURE -> CELL_INDEPENDENT_ACCURACY",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Install farm-owned or cooperative-shared RTK base stations to deliver centimeter-level correction si]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Cybersecurity Hardening for GNSS Receivers",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Implement GPS anti-spoofing firmware updates, enable receiver authentication protocols, and deploy signal anomaly detection algorithms that flag sudden position jumps inconsistent with vehicle dynamics. Hardened receivers reject counterfeit satellite signals that could redirect field operations into unsafe or off-target areas.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "CYBERSECURITY_RISK -> SIGNAL_AUTHENTICATION -> SPOOFING_PREVENTION",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Cross-Farm GPS Data Sharing Cooperative",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Establish a grower cooperative that pools anonymized GPS coverage and field boundary data to collectively negotiate with guidance system vendors. Shared data leverage shifts the ownership conversation from individual farmer versus manufacturer to organized bloc bargaining for transparent terms.",
+          "cite": "Stombaugh, T. (2018). Satellite-based positioning systems for precision agriculture. in Precision Agriculture Basics, ASA/CSSA/SSSA, 25-36. doi:10.2134/precisionagbasics.2016.0075; Bergtold, J.S., Raper, R.L. & Schwab, E.B. (2009). The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering. Applied Engineering in Agriculture, 25(2), 133-143. doi:10.13031/2013.26323",
+          "target": "DATA_OWNERSHIP_DISPUTE -> COLLECTIVE_NEGOTIATION -> TRANSPARENT_DATA_TERMS",
+          "citation": [
+            {
+              "author": "Stombaugh, T.",
+              "year": 2018,
+              "title": "Satellite-based positioning systems for precision agriculture",
+              "journal": "in Precision Agriculture Basics, ASA/CSSA/SSSA",
+              "volume": null,
+              "pages": "25-36",
+              "doi": "10.2134/precisionagbasics.2016.0075"
+            },
+            {
+              "author": "Bergtold, J.S., Raper, R.L. & Schwab, E.B.",
+              "year": 2009,
+              "title": "The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering",
+              "journal": "Applied Engineering in Agriculture",
+              "volume": "25(2)",
+              "pages": "133-143",
+              "doi": "10.13031/2013.26323"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30 and 90 days; target ≥80% of staff following new protocol by day 90. Track the number of decisions documented with supporting data per month; target ≥3 data-backed decisions per decision-maker per month. Reassess culture adherence quarterly through anonymous team survey scoring 1-5 on practice commitment.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a precision agriculture specialist or certified crop adviser (CCA) for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "ISOBUS Compatibility Verification Tool",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Use the AgGateway ISOBUS Compliance Database and AEF-certified equipment lists to verify that GPS guidance terminals, implements, and controllers conform to ISO 11783 communication standards before purchase. Pre-purchase compatibility verification eliminates integration failures between mixed-brand equipment fleets.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "SYSTEM_INTEGRATION_FAILURE -> STANDARDS_COMPLIANCE_CHECK -> INTEROPERABLE_FLEET",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified equipment technician or dealer service manager for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Inventory Management",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "RTK Systems",
+      "domainDescription": "Real-time kinematic correction for sub-inch positioning accuracy",
+      "group": "navigation",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_precisionag_rtk_portal.html",
+      "treatments": [
+        {
+          "label": "UHF Radio RTK Broadcast as Primary Correction",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure RTK base stations to transmit RTCM 3.x corrections over UHF radio (450-470 MHz) as the primary link, with cellular NTRIP as fallback only. Radio broadcast provides 10-15 mile correction range independent of cellular infrastructure, ensuring sub-inch accuracy persists through connectivity dead zones.",
+          "cite": "[CITATION NEEDED: Configure RTK base stations to transmit RTCM 3.x corrections over UHF radio (450-470 MHz) as the pri]",
+          "target": "CONNECTIVITY_GAP -> RADIO_CORRECTION_DELIVERY -> CELL_FREE_ACCURACY",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Configure RTK base stations to transmit RTCM 3.x corrections over UHF radio (450-470 MHz) as the pri]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Delineate management zones using spatial data; assign zone-specific prescriptions with rate tables",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Correction Signal Failover Architecture",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement automatic correction source switching that cascades from RTK to PPP to SBAS when signal quality degrades. Multi-tier failover prevents abrupt accuracy collapse during base station outages and maintains operationally acceptable accuracy until full RTK correction resumes.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "CONNECTIVITY_GAP -> CASCADING_FAILOVER -> GRACEFUL_ACCURACY_DEGRADATION",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "RTK Initialization and Signal Quality Monitoring Training",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train operators to interpret RTK fix status indicators (float versus fixed), HDOP values, and correction age so they recognize when sub-inch accuracy is actually achieved versus when the system has silently degraded. Informed operators avoid planting or spraying with false confidence in degraded signal conditions.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "CONNECTIVITY_GAP -> OPERATOR_SIGNAL_LITERACY -> INFORMED_ACCURACY_DECISIONS",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Cooperative RTK Base Station Infrastructure",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Fund multi-farm RTK base station installations through cooperative agreements, sharing capital costs and maintenance responsibilities across 5-10 operations within the broadcast radius. Cooperative ownership reduces per-farm RTK infrastructure cost by 70-80% while guaranteeing local correction availability.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "CONNECTIVITY_GAP -> SHARED_INFRASTRUCTURE_INVESTMENT -> AFFORDABLE_LOCAL_RTK",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to a precision agriculture specialist or certified crop adviser (CCA) for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        },
+        {
+          "label": "Community-Maintained Correction Network Culture",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build a regional norm where farmers collaboratively maintain RTK base station uptime, report outages, and share troubleshooting knowledge through local precision ag user groups. Community stewardship of correction infrastructure creates accountability and rapid response to signal interruptions that would otherwise leave individual farmers stranded.",
+          "cite": "[CITATION NEEDED: Build a regional norm where farmers collaboratively maintain RTK base station uptime, report outages]",
+          "target": "CONNECTIVITY_GAP -> COMMUNITY_STEWARDSHIP -> RELIABLE_CORRECTION_UPTIME",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Build a regional norm where farmers collaboratively maintain RTK base station uptime, report outages]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a precision agriculture specialist or certified crop adviser (CCA) for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "NTRIP Caster Monitoring Dashboard",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Deploy web-based NTRIP caster monitoring that tracks correction stream latency, mount point availability, and data throughput in real time. Dashboard alerts notify operators before correction age exceeds the threshold where RTK fix degrades to float, enabling proactive source switching.",
+          "cite": "[CITATION NEEDED: Deploy web-based NTRIP caster monitoring that tracks correction stream latency, mount point availabi]",
+          "target": "CONNECTIVITY_GAP -> REAL_TIME_MONITORING -> PROACTIVE_SIGNAL_MANAGEMENT",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Deploy web-based NTRIP caster monitoring that tracks correction stream latency, mount point availabi]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Post-Harvest Handling",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Variable Rate Technology",
+      "domainDescription": "Zone-based input application using prescription maps and controllers",
+      "group": "control",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_precisionag_vrt_portal.html",
+      "treatments": [
+        {
+          "label": "Multi-Year Yield-Based Management Zone Delineation",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Create management zones from 3-5 years of cleaned yield monitor data layered with soil EC mapping and topographic indices, using cluster analysis to identify stable productivity zones. Multi-year zone delineation separates persistent spatial variability from transient weather noise, producing prescriptions that reliably improve input efficiency.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "ROI_UNCERTAINTY -> DATA_DRIVEN_ZONING -> CONSISTENT_VRT_RESPONSE",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Delineate management zones using spatial data; assign zone-specific prescriptions with rate tables",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        },
+        {
+          "label": "ISOBUS-Native Prescription Format Standardization",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Standardize all VRT prescriptions in ISO-XML task file format per ISO 11783-10, ensuring any ISOBUS-compliant controller can read and execute prescriptions without proprietary conversion. Format standardization eliminates the most common integration failure where brand-A maps cannot load on brand-B controllers.",
+          "cite": "[CITATION NEEDED: Standardize all VRT prescriptions in ISO-XML task file format per ISO 11783-10, ensuring any ISOBUS-]",
+          "target": "SYSTEM_INTEGRATION_FAILURE -> UNIVERSAL_PRESCRIPTION_FORMAT -> CROSS_BRAND_EXECUTION",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Standardize all VRT prescriptions in ISO-XML task file format per ISO 11783-10, ensuring any ISOBUS-]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Delineate management zones using spatial data; assign zone-specific prescriptions with rate tables",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "VRT Calibration and Application Verification Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Coach applicators to perform pan calibration tests at multiple rate steps, verifying that commanded rates match actual delivered rates within 5% across the full prescription range. Field verification catches controller nonlinearities and worn metering components that silently undermine VRT prescription accuracy.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "ROI_UNCERTAINTY -> APPLICATION_ACCURACY_VERIFICATION -> RELIABLE_RATE_DELIVERY",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Retrofit Section and Rate Controllers for Legacy Equipment",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Install aftermarket ISO 11783-compatible rate controllers and section control modules on existing sprayers and spreaders, extending VRT capability to the current equipment fleet without requiring full machine replacement. Retrofit reduces capital barrier to VRT adoption by 60-75% compared to new equipment purchase.",
+          "cite": "Luck, J.D., Pitla, S.K., Zandonadi, R.S., Sama, M.P. & Shearer, S.A. (2010). Estimating off-rate pesticide application errors resulting from agricultural sprayer turning movements. Precision Agriculture, 11(5), 534-545. doi:10.1007/s11119-010-9167-z; Sharda, A., Fulton, J.P., McDonald, T.P. & Brodbeck, C.J. (2011). Real-time nozzle flow uniformity when using automatic section control on agricultural sprayers. Computers and Electronics in Agriculture, 79(2), 169-179. doi:10.1016/j.compag.2011.09.006",
+          "target": "SYSTEM_INTEGRATION_FAILURE -> AFFORDABLE_RETROFIT -> FLEET_WIDE_VRT_CAPABILITY",
+          "citation": [
+            {
+              "author": "Luck, J.D., Pitla, S.K., Zandonadi, R.S., Sama, M.P. & Shearer, S.A.",
+              "year": 2010,
+              "title": "Estimating off-rate pesticide application errors resulting from agricultural sprayer turning movements",
+              "journal": "Precision Agriculture",
+              "volume": "11(5)",
+              "pages": "534-545",
+              "doi": "10.1007/s11119-010-9167-z"
+            },
+            {
+              "author": "Sharda, A., Fulton, J.P., McDonald, T.P. & Brodbeck, C.J.",
+              "year": 2011,
+              "title": "Real-time nozzle flow uniformity when using automatic section control on agricultural sprayers",
+              "journal": "Computers and Electronics in Agriculture",
+              "volume": "79(2)",
+              "pages": "169-179",
+              "doi": "10.1016/j.compag.2011.09.006"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized price per unit versus local market benchmark weekly; target ≥5% premium capture within the first marketing year. Monitor basis levels relative to 3-year average; document timing of sales decisions versus seasonal price patterns. Assess marketing plan performance at mid-season and year-end; target total revenue within ≥95% of pre-season projection.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified equipment technician or dealer service manager for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "On-Farm VRT Strip Trial Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Embed a culture of annual on-farm VRT validation by running randomized strip trials that compare variable-rate prescriptions against flat-rate check strips within the same field. Systematic within-field trials build operation-specific evidence for VRT ROI, replacing manufacturer claims with locally verified economics.",
+          "cite": "Lowenberg-DeBoer, J. & Erickson, B. (2019). Setting the record straight on precision agriculture adoption. Agronomy Journal, 111(4), 1552-1569. doi:10.2134/agronj2018.12.0779; Bongiovanni, R. & Lowenberg-DeBoer, J. (2004). Precision agriculture and sustainability. Precision Agriculture, 5(4), 359-387. doi:10.1023/B:PRAG.0000040806.39604.aa",
+          "target": "ROI_UNCERTAINTY -> LOCAL_VALIDATION -> EVIDENCE_BASED_ADOPTION",
+          "citation": [
+            {
+              "author": "Lowenberg-DeBoer, J. & Erickson, B.",
+              "year": 2019,
+              "title": "Setting the record straight on precision agriculture adoption",
+              "journal": "Agronomy Journal",
+              "volume": "111(4)",
+              "pages": "1552-1569",
+              "doi": "10.2134/agronj2018.12.0779"
+            },
+            {
+              "author": "Bongiovanni, R. & Lowenberg-DeBoer, J.",
+              "year": 2004,
+              "title": "Precision agriculture and sustainability",
+              "journal": "Precision Agriculture",
+              "volume": "5(4)",
+              "pages": "359-387",
+              "doi": "10.1023/B:PRAG.0000040806.39604.aa"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a precision agriculture specialist or certified crop adviser (CCA) for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Open-Source Prescription Generation Software",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Deploy open-source VRT prescription tools such as QGIS with the NDVI Zonal Statistics plugin to generate management zones and prescriptions from farmer-owned data without cloud dependency. Open-source tools eliminate subscription costs and retain all intermediate data on-farm, addressing both ROI and data ownership concerns simultaneously.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "DATA_OWNERSHIP_DISPUTE -> OPEN_SOURCE_PRESCRIPTION -> FARMER_CONTROLLED_VRT",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to a precision agriculture specialist or certified crop adviser (CCA) for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Rate Controllers",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "Drone Mapping",
+      "domainDescription": "Aerial imaging with multispectral and NDVI sensors for crop assessment",
+      "group": "remote_sensing",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_precisionag_drones_portal.html",
+      "treatments": [
+        {
+          "label": "On-Farm Image Processing to Retain Data Ownership",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Process drone imagery on-farm using local computing resources (edge processing) rather than uploading to third-party cloud platforms. On-farm processing keeps all raw and derived imagery under farmer control, eliminating ambiguous cloud retention policies and preventing unauthorized secondary use of field-level data.",
+          "cite": "Tsouros, D.C., Bibi, S. & Sarigiannidis, P.G. (2019). A review on UAV-based applications for precision agriculture. Information, 10(11), 349. doi:10.3390/info10110349; Radoglou-Grammatikis, P., Sarigiannidis, P., Lagkas, T. & Moscholios, I. (2020). A compilation of UAV applications for precision agriculture. Computer Networks, 172, 107148. doi:10.1016/j.comnet.2020.107148",
+          "target": "DATA_OWNERSHIP_DISPUTE -> LOCAL_PROCESSING -> FARMER_DATA_RETENTION",
+          "citation": [
+            {
+              "author": "Tsouros, D.C., Bibi, S. & Sarigiannidis, P.G.",
+              "year": 2019,
+              "title": "A review on UAV-based applications for precision agriculture",
+              "journal": "Information",
+              "volume": "10(11)",
+              "pages": "349",
+              "doi": "10.3390/info10110349"
+            },
+            {
+              "author": "Radoglou-Grammatikis, P., Sarigiannidis, P., Lagkas, T. & Moscholios, I.",
+              "year": 2020,
+              "title": "A compilation of UAV applications for precision agriculture",
+              "journal": "Computer Networks",
+              "volume": "172",
+              "pages": "107148",
+              "doi": "10.1016/j.comnet.2020.107148"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Encrypted Communication Protocol for Drone Operations",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Configure drone ground control stations to use AES-256 encrypted telemetry links and WPA3-secured image download channels. Encrypted communication prevents interception of flight paths, imagery, and GPS coordinates that could reveal proprietary field management or crop condition information to competitors.",
+          "cite": "Tsouros, D.C., Bibi, S. & Sarigiannidis, P.G. (2019). A review on UAV-based applications for precision agriculture. Information, 10(11), 349. doi:10.3390/info10110349; Radoglou-Grammatikis, P., Sarigiannidis, P., Lagkas, T. & Moscholios, I. (2020). A compilation of UAV applications for precision agriculture. Computer Networks, 172, 107148. doi:10.1016/j.comnet.2020.107148",
+          "target": "CYBERSECURITY_RISK -> ENCRYPTED_TELEMETRY -> SECURE_FLIGHT_OPERATIONS",
+          "citation": [
+            {
+              "author": "Tsouros, D.C., Bibi, S. & Sarigiannidis, P.G.",
+              "year": 2019,
+              "title": "A review on UAV-based applications for precision agriculture",
+              "journal": "Information",
+              "volume": "10(11)",
+              "pages": "349",
+              "doi": "10.3390/info10110349"
+            },
+            {
+              "author": "Radoglou-Grammatikis, P., Sarigiannidis, P., Lagkas, T. & Moscholios, I.",
+              "year": 2020,
+              "title": "A compilation of UAV applications for precision agriculture",
+              "journal": "Computer Networks",
+              "volume": "172",
+              "pages": "107148",
+              "doi": "10.1016/j.comnet.2020.107148"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified crop adviser (CCA) or agronomist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "FAA Part 107 Compliance and Airspace Awareness Training",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Certify all drone operators under FAA Part 107 and train them on LAANC airspace authorization, temporary flight restriction awareness, and operational risk assessment. Compliant operations prevent regulatory enforcement actions and establish professional credibility that supports the broader precision agriculture adoption case.",
+          "cite": "Tsouros, D.C., Bibi, S. & Sarigiannidis, P.G. (2019). A review on UAV-based applications for precision agriculture. Information, 10(11), 349. doi:10.3390/info10110349; Radoglou-Grammatikis, P., Sarigiannidis, P., Lagkas, T. & Moscholios, I. (2020). A compilation of UAV applications for precision agriculture. Computer Networks, 172, 107148. doi:10.1016/j.comnet.2020.107148",
+          "target": "DATA_OWNERSHIP_DISPUTE -> PROFESSIONAL_COMPLIANCE -> CREDIBLE_OPERATIONS",
+          "citation": [
+            {
+              "author": "Tsouros, D.C., Bibi, S. & Sarigiannidis, P.G.",
+              "year": 2019,
+              "title": "A review on UAV-based applications for precision agriculture",
+              "journal": "Information",
+              "volume": "10(11)",
+              "pages": "349",
+              "doi": "10.3390/info10110349"
+            },
+            {
+              "author": "Radoglou-Grammatikis, P., Sarigiannidis, P., Lagkas, T. & Moscholios, I.",
+              "year": 2020,
+              "title": "A compilation of UAV applications for precision agriculture",
+              "journal": "Computer Networks",
+              "volume": "172",
+              "pages": "107148",
+              "doi": "10.1016/j.comnet.2020.107148"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Secure Flight Data Storage Infrastructure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Deploy encrypted NAS (Network Attached Storage) on-farm with automated backup and access logging for all drone imagery, flight logs, and derived NDVI products. Physically secured local storage with audit trails establishes clear chain of custody for imagery data and provides legal defensibility in ownership disputes.",
+          "cite": "Tsouros, D.C., Bibi, S. & Sarigiannidis, P.G. (2019). A review on UAV-based applications for precision agriculture. Information, 10(11), 349. doi:10.3390/info10110349; Radoglou-Grammatikis, P., Sarigiannidis, P., Lagkas, T. & Moscholios, I. (2020). A compilation of UAV applications for precision agriculture. Computer Networks, 172, 107148. doi:10.1016/j.comnet.2020.107148",
+          "target": "DATA_OWNERSHIP_DISPUTE -> SECURE_LOCAL_STORAGE -> DEFENSIBLE_DATA_CUSTODY",
+          "citation": [
+            {
+              "author": "Tsouros, D.C., Bibi, S. & Sarigiannidis, P.G.",
+              "year": 2019,
+              "title": "A review on UAV-based applications for precision agriculture",
+              "journal": "Information",
+              "volume": "10(11)",
+              "pages": "349",
+              "doi": "10.3390/info10110349"
+            },
+            {
+              "author": "Radoglou-Grammatikis, P., Sarigiannidis, P., Lagkas, T. & Moscholios, I.",
+              "year": 2020,
+              "title": "A compilation of UAV applications for precision agriculture",
+              "journal": "Computer Networks",
+              "volume": "172",
+              "pages": "107148",
+              "doi": "10.1016/j.comnet.2020.107148"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Check grain temperature with probe thermometer at 3 bin locations weekly; target ≤5°F rise from baseline per 30-day period. Monitor grain moisture content biweekly; maintain within ±0.5% of target storage moisture. Inspect for insect activity with probe traps at bin surface and core monthly; target zero live insects per trap. Assess bin condition (condensation, crust formation, odor) at every aeration fan cycle.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Transparent Data Use Policy for Drone Service Providers",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Establish industry norms where contract drone service providers sign explicit data use agreements specifying that all imagery, derivatives, and metadata remain farmer property, with no secondary use, aggregation, or resale rights. Cultural expectation of transparent terms shifts the default from vendor-favorable ambiguity to farmer-protective clarity.",
+          "cite": "Tsouros, D.C., Bibi, S. & Sarigiannidis, P.G. (2019). A review on UAV-based applications for precision agriculture. Information, 10(11), 349. doi:10.3390/info10110349; Radoglou-Grammatikis, P., Sarigiannidis, P., Lagkas, T. & Moscholios, I. (2020). A compilation of UAV applications for precision agriculture. Computer Networks, 172, 107148. doi:10.1016/j.comnet.2020.107148",
+          "target": "DATA_OWNERSHIP_DISPUTE -> CONTRACTUAL_TRANSPARENCY -> INDUSTRY_NORM_SHIFT",
+          "citation": [
+            {
+              "author": "Tsouros, D.C., Bibi, S. & Sarigiannidis, P.G.",
+              "year": 2019,
+              "title": "A review on UAV-based applications for precision agriculture",
+              "journal": "Information",
+              "volume": "10(11)",
+              "pages": "349",
+              "doi": "10.3390/info10110349"
+            },
+            {
+              "author": "Radoglou-Grammatikis, P., Sarigiannidis, P., Lagkas, T. & Moscholios, I.",
+              "year": 2020,
+              "title": "A compilation of UAV applications for precision agriculture",
+              "journal": "Computer Networks",
+              "volume": "172",
+              "pages": "107148",
+              "doi": "10.1016/j.comnet.2020.107148"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30 and 90 days; target ≥80% of staff following new protocol by day 90. Track the number of decisions documented with supporting data per month; target ≥3 data-backed decisions per decision-maker per month. Reassess culture adherence quarterly through anonymous team survey scoring 1-5 on practice commitment.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a precision agriculture specialist or certified crop adviser (CCA) for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Open-Source Photogrammetry and NDVI Processing Suite",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Use open-source photogrammetry tools such as OpenDroneMap for orthomosaic generation and QGIS for NDVI calculation, eliminating dependency on proprietary cloud processing platforms. Open-source processing ensures all intermediate raster data, calibration parameters, and derived indices remain on farmer-controlled hardware.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "CYBERSECURITY_RISK -> OPEN_SOURCE_PROCESSING -> REDUCED_CLOUD_EXPOSURE",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Horticulture & Specialty Crops",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Arts Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Succession"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Design"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pathology"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Face Processing & Visual Recognition"
+        },
+        {
+          "domain": "technology",
+          "role": "User Interface Design"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Speechlang"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Soil Sensors",
+      "domainDescription": "In-field probes measuring moisture, conductivity, and nutrient levels",
+      "group": "sensing",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_precisionag_soilsensors_portal.html",
+      "treatments": [
+        {
+          "label": "Grid Sampling Density Optimization by Field Variability",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Match soil sampling grid density to measured within-field variability using semivariogram analysis, increasing density in high-variability zones and reducing it in uniform areas. Optimized sampling allocates analytical costs where they generate the most decision value, improving the ROI of sensor-driven management zones.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "ROI_UNCERTAINTY -> OPTIMIZED_SAMPLING_INVESTMENT -> TARGETED_DATA_QUALITY",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Delineate management zones using spatial data; assign zone-specific prescriptions with rate tables",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect soil samples at 0-6-inch and 6-12-inch depths before implementation and annually thereafter; target measurable improvement in the primary metric (organic matter, aggregate stability, or nutrient level) within 3 years. Measure infiltration rate with a double-ring infiltrometer or timed ponding test at 3 representative points per field; target ≥15% improvement within 2 years. Document soil condition observations (compaction, earthworm counts, residue decomposition) at spring and fall tillage windows.",
+          "escalation": "If the target soil health metric (organic matter, aggregate stability, or infiltration rate) shows no measurable improvement after 3 annual sampling cycles, escalate to a certified crop adviser (CCA) or soil scientist for comprehensive soil health diagnostic including biological assay, compaction profiling, and drainage assessment. If infiltration rate declines by >20% from baseline at any measurement point, investigate compaction or structural damage before the next field operation."
+        },
+        {
+          "label": "Sensor-Lab Correlation Calibration Protocol",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish local calibration curves by co-locating in-situ sensor readings with certified laboratory analyses at 15-20 points per field, then apply regression correction to all sensor data. Calibrated sensor data produces management zone boundaries that correlate with actual nutrient availability, directly addressing the data quality root of ROI uncertainty.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "ROI_UNCERTAINTY -> CALIBRATED_SENSOR_ACCURACY -> RELIABLE_ZONE_BOUNDARIES",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Delineate management zones using spatial data; assign zone-specific prescriptions with rate tables",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a precision agriculture specialist or certified crop adviser (CCA) for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "Sensor Data Interpretation and Zone Management Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train agronomists and growers to interpret electrical conductivity maps, moisture probe time series, and pH surface models in the context of landscape position and soil taxonomy. Practitioners who understand what sensor outputs mean agronomically can translate raw data into profitable management zone prescriptions rather than treating sensor investment as a sunk cost.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "ROI_UNCERTAINTY -> PRACTITIONER_DATA_LITERACY -> ACTIONABLE_ZONE_DECISIONS",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified crop adviser (CCA) or soil scientist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "In-Field Sensor Network with Local Data Logging",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Deploy LoRaWAN-connected soil sensor networks with edge gateway data loggers that store all readings locally before optional cloud sync. Local-first architecture ensures continuous data collection regardless of internet connectivity and maintains farmer ownership of the raw sensor data stream.",
+          "cite": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D. (2011). Climate impacts on agriculture: Implications for crop production. Agronomy Journal, 103(2), 351-370. doi:10.2134/agronj2010.0303; Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C. (2012). Climate Change and Agriculture in the United States: Effects and Adaptation. USDA Technical Bulletin 1935, 1-186",
+          "target": "ROI_UNCERTAINTY -> CONTINUOUS_DATA_CAPTURE -> COMPLETE_FIELD_CHARACTERIZATION",
+          "citation": [
+            {
+              "author": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D.",
+              "year": 2011,
+              "title": "Climate impacts on agriculture: Implications for crop production",
+              "journal": "Agronomy Journal",
+              "volume": "103(2)",
+              "pages": "351-370",
+              "doi": "10.2134/agronj2010.0303"
+            },
+            {
+              "author": "Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C.",
+              "year": 2012,
+              "title": "Climate Change and Agriculture in the United States: Effects and Adaptation",
+              "journal": "USDA Technical Bulletin 1935",
+              "volume": null,
+              "pages": "1-186",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect soil samples at 0-6-inch and 6-12-inch depths before implementation and annually thereafter; target measurable improvement in the primary metric (organic matter, aggregate stability, or nutrient level) within 3 years. Measure infiltration rate with a double-ring infiltrometer or timed ponding test at 3 representative points per field; target ≥15% improvement within 2 years. Document soil condition observations (compaction, earthworm counts, residue decomposition) at spring and fall tillage windows.",
+          "escalation": "If the target soil health metric (organic matter, aggregate stability, or infiltration rate) shows no measurable improvement after 3 annual sampling cycles, escalate to a certified crop adviser (CCA) or soil scientist for comprehensive soil health diagnostic including biological assay, compaction profiling, and drainage assessment. If infiltration rate declines by >20% from baseline at any measurement point, investigate compaction or structural damage before the next field operation."
+        },
+        {
+          "label": "Multi-Season Sensor ROI Benchmarking Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Establish a practice norm of tracking sensor-informed management zone economics over 3-5 seasons before judging ROI, using paired comparison strips of sensor-prescribed versus uniform rates within the same field. Multi-season benchmarking separates sensor technology value from single-year weather noise that obscures true input savings.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "ROI_UNCERTAINTY -> LONGITUDINAL_EVALUATION -> EVIDENCE_BASED_ROI_ASSESSMENT",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a precision agriculture specialist or certified crop adviser (CCA) for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Soil Sensor Data Visualization and Export Platform",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Deploy sensor data platforms that export raw and interpolated data in standard geospatial formats (GeoTIFF, Shapefile) compatible with any farm management information system. Interoperable export ensures sensor investment value is not trapped in a single vendor platform and can feed into farmer-chosen analytics tools.",
+          "cite": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D. (2011). Climate impacts on agriculture: Implications for crop production. Agronomy Journal, 103(2), 351-370. doi:10.2134/agronj2010.0303; Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C. (2012). Climate Change and Agriculture in the United States: Effects and Adaptation. USDA Technical Bulletin 1935, 1-186",
+          "target": "ROI_UNCERTAINTY -> INTEROPERABLE_DATA_EXPORT -> VENDOR_INDEPENDENT_VALUE",
+          "citation": [
+            {
+              "author": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D.",
+              "year": 2011,
+              "title": "Climate impacts on agriculture: Implications for crop production",
+              "journal": "Agronomy Journal",
+              "volume": "103(2)",
+              "pages": "351-370",
+              "doi": "10.2134/agronj2010.0303"
+            },
+            {
+              "author": "Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C.",
+              "year": 2012,
+              "title": "Climate Change and Agriculture in the United States: Effects and Adaptation",
+              "journal": "USDA Technical Bulletin 1935",
+              "volume": null,
+              "pages": "1-186",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Soil Management",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Hydroelectric Power"
+        },
+        {
+          "domain": "environment",
+          "role": "Ocean Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Maritime and Ports"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Brainstem Metabolic Integration"
+        },
+        {
+          "domain": "science",
+          "role": "Earth Sciences"
+        },
+        {
+          "domain": "trade",
+          "role": "Container Shipping"
+        },
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Yield Monitoring",
+      "domainDescription": "Combine-mounted sensors recording real-time harvest volume and moisture",
+      "group": "sensing",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_precisionag_yieldmon_portal.html",
+      "treatments": [
+        {
+          "label": "Universal Yield Data Export via ISO 11783 Task Files",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure all combine yield monitors to export harvest data in ISO 11783-10 task file format, enabling aggregation of yield data from mixed-brand combine fleets into a single analysis platform. Universal export format eliminates the most common integration failure where brand-specific yield files cannot be merged for whole-farm performance analysis.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "SYSTEM_INTEGRATION_FAILURE -> UNIVERSAL_DATA_FORMAT -> MERGED_FLEET_YIELD_DATA",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a precision agriculture specialist or certified crop adviser (CCA) for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        },
+        {
+          "label": "Store-and-Forward Data Architecture for Low-Connectivity Harvest",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement store-and-forward data logging that records all yield data to local storage with automatic batch upload when connectivity resumes. Store-and-forward prevents data loss during harvest operations in connectivity-limited fields and eliminates the false choice between real-time upload and complete data capture.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "CONNECTIVITY_GAP -> LOCAL_BUFFERED_STORAGE -> ZERO_DATA_LOSS_HARVEST",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a precision agriculture specialist or certified crop adviser (CCA) for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        },
+        {
+          "label": "Yield Monitor Calibration and Data Cleaning Training",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Train combine operators on load cell calibration procedures, moisture sensor verification against known samples, and header height delay correction. Additionally coach data analysts on cleaning protocols that remove start-pass transients, end-row artifacts, and narrow-strip errors to produce accurate yield maps suitable for prescription generation.",
+          "cite": "Hanna, H.M., Kohl, K.D. & Haden, D.A. (2012). Machine losses from conventional versus narrow row corn harvest. Applied Engineering in Agriculture, 28(3), 313-316. doi:10.13031/2013.42064; Paulsen, M.R., de Assis de Carvalho Pinto, F., de Sena, D.G., Zandonadi, R.S., Ruffato, S., Gomide Costa, A., Ragagnin, V.A. & Danao, M.G.C. (2014). Measurement of combine losses for corn and soybeans in Brazil. Applied Engineering in Agriculture, 30(6), 841-855. doi:10.13031/aea.30.10360",
+          "target": "SYSTEM_INTEGRATION_FAILURE -> CALIBRATED_DATA_QUALITY -> RELIABLE_YIELD_MAPS",
+          "citation": [
+            {
+              "author": "Hanna, H.M., Kohl, K.D. & Haden, D.A.",
+              "year": 2012,
+              "title": "Machine losses from conventional versus narrow row corn harvest",
+              "journal": "Applied Engineering in Agriculture",
+              "volume": "28(3)",
+              "pages": "313-316",
+              "doi": "10.13031/2013.42064"
+            },
+            {
+              "author": "Paulsen, M.R., de Assis de Carvalho Pinto, F., de Sena, D.G., Zandonadi, R.S., Ruffato, S., Gomide Costa, A., Ragagnin, V.A. & Danao, M.G.C.",
+              "year": 2014,
+              "title": "Measurement of combine losses for corn and soybeans in Brazil",
+              "journal": "Applied Engineering in Agriculture",
+              "volume": "30(6)",
+              "pages": "841-855",
+              "doi": "10.13031/aea.30.10360"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "USB Data Transfer Bridge for Non-Connected Combines",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Equip older combines lacking cellular modems with ruggedized USB data loggers that operators physically transfer to the farm office for upload. USB bridge maintains complete yield data capture from connectivity-limited equipment and provides a low-cost pathway to include legacy combines in whole-farm data aggregation.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "CONNECTIVITY_GAP -> PHYSICAL_DATA_BRIDGE -> LEGACY_EQUIPMENT_INCLUSION",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a certified equipment technician or dealer service manager for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        },
+        {
+          "label": "Post-Harvest Data Review and Sharing Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Establish a post-harvest routine where the farm team reviews cleaned yield maps together, comparing zone performance against input prescriptions and identifying areas for next-season improvement. Collaborative data review builds a culture where yield data drives continuous improvement rather than sitting unexamined on a display card.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "SYSTEM_INTEGRATION_FAILURE -> COLLABORATIVE_DATA_REVIEW -> CONTINUOUS_IMPROVEMENT_CYCLE",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30 and 90 days; target ≥80% of staff following new protocol by day 90. Track the number of decisions documented with supporting data per month; target ≥3 data-backed decisions per decision-maker per month. Reassess culture adherence quarterly through anonymous team survey scoring 1-5 on practice commitment.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a precision agriculture specialist or certified crop adviser (CCA) for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Multi-Brand Yield Data Aggregation Software",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Deploy yield data aggregation software (such as SMS Advanced or open-source Yield Editor) that ingests proprietary formats from John Deere, Case IH, AGCO, and Trimble, normalizes to a common schema, and performs automated cleaning. Aggregation tools convert the multi-brand integration problem into a software task rather than a hardware constraint.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "SYSTEM_INTEGRATION_FAILURE -> MULTI_FORMAT_INGESTION -> UNIFIED_YIELD_ANALYSIS",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a precision agriculture specialist or certified crop adviser (CCA) for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Seasonal Patterns",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Labor Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Mining and Extraction"
+        },
+        {
+          "domain": "environment",
+          "role": "Geological Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Raw Materials"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Somatosensory Cortex"
+        },
+        {
+          "domain": "technology",
+          "role": "IoT & Sensors"
+        },
+        {
+          "domain": "trade",
+          "role": "Last-Mile Delivery"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator — Signal Detection & Input — Secondary Node"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Data Analytics",
+      "domainDescription": "Farm data aggregation, analysis platforms, and decision support tools",
+      "group": "software",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_precisionag_analytics_portal.html",
+      "treatments": [
+        {
+          "label": "Farmer-First Data Licensing Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Adopt data use agreements aligned with the American Farm Bureau Federation privacy principles that establish the farmer as data owner, require opt-in consent for any aggregation or sharing, and guarantee data deletion upon contract termination. Explicit licensing frameworks convert ambiguous data ownership into contractually enforceable farmer rights.",
+          "cite": "[CITATION NEEDED: Adopt data use agreements aligned with the American Farm Bureau Federation privacy principles that e]",
+          "target": "DATA_OWNERSHIP_DISPUTE -> CONTRACTUAL_OWNERSHIP -> ENFORCEABLE_FARMER_RIGHTS",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Adopt data use agreements aligned with the American Farm Bureau Federation privacy principles that e]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Hybrid Cloud-Edge Analytics Architecture",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Deploy analytics platforms that perform core decision-support computations on local edge hardware with selective cloud sync for heavy processing tasks. Hybrid architecture maintains analytics functionality during connectivity outages and keeps sensitive raw data on-farm while leveraging cloud compute only for anonymized aggregate models.",
+          "cite": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C. (2014). Breeding drought-tolerant maize hybrids for the US corn-belt. Quantitative Genetics, Genomics and Plant Breeding, 17-34. doi:10.1079/9780851996011.0017; Hicks, D.R. (2004). Corn Hybrid Selection. University of Minnesota Extension WW-06073",
+          "target": "CONNECTIVITY_GAP -> EDGE_COMPUTE_RESILIENCE -> OFFLINE_CAPABLE_ANALYTICS",
+          "citation": [
+            {
+              "author": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C.",
+              "year": 2014,
+              "title": "Breeding drought-tolerant maize hybrids for the US corn-belt",
+              "journal": "Quantitative Genetics, Genomics and Plant Breeding",
+              "volume": null,
+              "pages": "17-34",
+              "doi": "10.1079/9780851996011.0017"
+            },
+            {
+              "author": "Hicks, D.R.",
+              "year": 2004,
+              "title": "Corn Hybrid Selection",
+              "journal": "University of Minnesota Extension WW-06073",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Data-Driven ROI Attribution Methodology",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Implement controlled comparison analytics that isolate precision technology contribution by analyzing paired treated/untreated zones within fields across multiple seasons, controlling for weather and soil type covariates. Rigorous attribution methodology replaces anecdotal ROI claims with statistically defensible investment justification.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "ROI_UNCERTAINTY -> CONTROLLED_ATTRIBUTION -> STATISTICAL_ROI_EVIDENCE",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Delineate management zones using spatial data; assign zone-specific prescriptions with rate tables",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect soil samples at 0-6-inch and 6-12-inch depths before implementation and annually thereafter; target measurable improvement in the primary metric (organic matter, aggregate stability, or nutrient level) within 3 years. Measure infiltration rate with a double-ring infiltrometer or timed ponding test at 3 representative points per field; target ≥15% improvement within 2 years. Document soil condition observations (compaction, earthworm counts, residue decomposition) at spring and fall tillage windows.",
+          "escalation": "If the target soil health metric (organic matter, aggregate stability, or infiltration rate) shows no measurable improvement after 3 annual sampling cycles, escalate to a certified crop adviser (CCA) or soil scientist for comprehensive soil health diagnostic including biological assay, compaction profiling, and drainage assessment. If infiltration rate declines by >20% from baseline at any measurement point, investigate compaction or structural damage before the next field operation."
+        },
+        {
+          "label": "Farm Data Literacy and Platform Evaluation Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Coach farmers to evaluate analytics platform data policies by reading terms of service for data ownership clauses, secondary use rights, aggregation practices, and deletion guarantees. Data-literate farmers can distinguish platforms that respect ownership from those that monetize farmer data, making informed adoption decisions rather than discovering unfavorable terms after commitment.",
+          "cite": "[CITATION NEEDED: Coach farmers to evaluate analytics platform data policies by reading terms of service for data owne]",
+          "target": "DATA_OWNERSHIP_DISPUTE -> FARMER_DATA_LITERACY -> INFORMED_PLATFORM_SELECTION",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Coach farmers to evaluate analytics platform data policies by reading terms of service for data owne]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "AgGateway ADAPT Data Standard Integration",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Require analytics platforms to support AgGateway ADAPT (Agricultural Data Application Programming Toolkit) for multi-source data ingestion, converting proprietary equipment formats into a normalized data model. ADAPT integration eliminates manual format conversion and enables analytics platforms to ingest data from any ISOBUS-compliant source without vendor-specific plugins.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "SYSTEM_INTEGRATION_FAILURE -> STANDARDIZED_INGESTION -> AUTOMATED_MULTI_SOURCE_ANALYTICS",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified equipment technician or dealer service manager for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Cybersecurity Incident Response Plan for Farm Data Platforms",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Develop and test a cybersecurity incident response plan covering data breach notification, ransomware recovery from offline backups, and platform access credential rotation procedures. Prepared incident response reduces breach impact duration from weeks to hours and demonstrates due diligence for crop insurance and lending partners who increasingly require cybersecurity posture documentation.",
+          "cite": "Shields, D.A. (2015). Federal Crop Insurance: Background. Congressional Research Service R40532, 1-28; Babcock, B.A. (2015). Using cumulative prospect theory to explain anomalous crop insurance coverage choice. American Journal of Agricultural Economics, 97(5), 1371-1384. doi:10.1093/ajae/aav032",
+          "target": "CYBERSECURITY_RISK -> INCIDENT_PREPAREDNESS -> RAPID_BREACH_RECOVERY",
+          "citation": [
+            {
+              "author": "Shields, D.A.",
+              "year": 2015,
+              "title": "Federal Crop Insurance: Background",
+              "journal": "Congressional Research Service R40532",
+              "volume": null,
+              "pages": "1-28",
+              "doi": null
+            },
+            {
+              "author": "Babcock, B.A.",
+              "year": 2015,
+              "title": "Using cumulative prospect theory to explain anomalous crop insurance coverage choice",
+              "journal": "American Journal of Agricultural Economics",
+              "volume": "97(5)",
+              "pages": "1371-1384",
+              "doi": "10.1093/ajae/aav032"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Execute financial action: submit applications, secure approvals, document terms and compliance requirements",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified crop adviser (CCA) or agronomist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Data Transparency and Collective Governance Norms",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Build grower organization norms that publicly rate analytics platform data practices, share due diligence findings, and collectively demand transparent data governance from vendors. Collective governance creates market pressure that rewards platforms with farmer-protective policies and penalizes those with opaque data monetization practices.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "DATA_OWNERSHIP_DISPUTE -> COLLECTIVE_GOVERNANCE -> MARKET_DRIVEN_TRANSPARENCY",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30 and 90 days; target ≥80% of staff following new protocol by day 90. Track the number of decisions documented with supporting data per month; target ≥3 data-backed decisions per decision-maker per month. Reassess culture adherence quarterly through anonymous team survey scoring 1-5 on practice commitment.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a precision agriculture specialist or certified crop adviser (CCA) for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Encrypted Data Pipeline and Access Control Tools",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy end-to-end encryption for farm data in transit (TLS 1.3) and at rest (AES-256), combined with role-based access controls that restrict data visibility to authorized users with logged access audit trails. Encrypted pipelines with access controls directly address the cybersecurity risk of sensitive yield and financial data exposure on analytics platforms.",
+          "cite": "Barry, P.J. & Ellinger, P.N. (2012). Financial Management in Agriculture, 7th Edition. Pearson, 1-576; Langemeier, M.R. (2018). Measuring Farm Profitability. Purdue University Center for Commercial Agriculture",
+          "target": "CYBERSECURITY_RISK -> ENCRYPTION_AND_ACCESS_CONTROL -> PROTECTED_DATA_PIPELINE",
+          "citation": [
+            {
+              "author": "Barry, P.J. & Ellinger, P.N.",
+              "year": 2012,
+              "title": "Financial Management in Agriculture, 7th Edition",
+              "journal": "Pearson",
+              "volume": null,
+              "pages": "1-576",
+              "doi": null
+            },
+            {
+              "author": "Langemeier, M.R.",
+              "year": 2018,
+              "title": "Measuring Farm Profitability",
+              "journal": "Purdue University Center for Commercial Agriculture",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Execute financial action: submit applications, secure approvals, document terms and compliance requirements",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a precision agriculture specialist or certified crop adviser (CCA) for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Climate Adaptation",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Autosteer",
+      "domainDescription": "Automated steering systems for hands-free straight and contour driving",
+      "group": "automation",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_precisionag_autosteer_portal.html",
+      "treatments": [
+        {
+          "label": "Autosteer ROI Analysis by Operation Size and Field Shape",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Calculate autosteer payback period using field-specific overlap savings (typically 3-8% input reduction), operator fatigue reduction quantified by extended daily operating hours, and skip/overlap elimination on point rows and headlands. Size-stratified ROI analysis identifies the breakeven acreage threshold for each operation and prioritizes autosteer deployment on fields with the highest overlap-reduction potential.",
+          "cite": "Stombaugh, T. (2018). Satellite-based positioning systems for precision agriculture. in Precision Agriculture Basics, ASA/CSSA/SSSA, 25-36. doi:10.2134/precisionagbasics.2016.0075; Bergtold, J.S., Raper, R.L. & Schwab, E.B. (2009). The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering. Applied Engineering in Agriculture, 25(2), 133-143. doi:10.13031/2013.26323",
+          "target": "ROI_UNCERTAINTY -> FIELD_SPECIFIC_PAYBACK_ANALYSIS -> TARGETED_DEPLOYMENT_DECISION",
+          "citation": [
+            {
+              "author": "Stombaugh, T.",
+              "year": 2018,
+              "title": "Satellite-based positioning systems for precision agriculture",
+              "journal": "in Precision Agriculture Basics, ASA/CSSA/SSSA",
+              "volume": null,
+              "pages": "25-36",
+              "doi": "10.2134/precisionagbasics.2016.0075"
+            },
+            {
+              "author": "Bergtold, J.S., Raper, R.L. & Schwab, E.B.",
+              "year": 2009,
+              "title": "The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering",
+              "journal": "Applied Engineering in Agriculture",
+              "volume": "25(2)",
+              "pages": "133-143",
+              "doi": "10.13031/2013.26323"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Shared Autosteer Equipment Through Custom Hiring Arrangements",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Enable small operations to access autosteer benefits through custom hire arrangements or equipment-sharing cooperatives that spread the investment across sufficient acreage to achieve payback within 2-3 seasons. Shared access converts unaffordable per-farm capital into affordable per-acre service costs.",
+          "cite": "Stombaugh, T. (2018). Satellite-based positioning systems for precision agriculture. in Precision Agriculture Basics, ASA/CSSA/SSSA, 25-36. doi:10.2134/precisionagbasics.2016.0075; Bergtold, J.S., Raper, R.L. & Schwab, E.B. (2009). The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering. Applied Engineering in Agriculture, 25(2), 133-143. doi:10.13031/2013.26323",
+          "target": "ROI_UNCERTAINTY -> SHARED_ACCESS_MODEL -> AFFORDABLE_PER_ACRE_COST",
+          "citation": [
+            {
+              "author": "Stombaugh, T.",
+              "year": 2018,
+              "title": "Satellite-based positioning systems for precision agriculture",
+              "journal": "in Precision Agriculture Basics, ASA/CSSA/SSSA",
+              "volume": null,
+              "pages": "25-36",
+              "doi": "10.2134/precisionagbasics.2016.0075"
+            },
+            {
+              "author": "Bergtold, J.S., Raper, R.L. & Schwab, E.B.",
+              "year": 2009,
+              "title": "The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering",
+              "journal": "Applied Engineering in Agriculture",
+              "volume": "25(2)",
+              "pages": "133-143",
+              "doi": "10.13031/2013.26323"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to a certified equipment technician or dealer service manager for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        },
+        {
+          "label": "Telematics Security and Remote Access Protection Training",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train equipment managers on tractor telematics security including strong password policies, two-factor authentication for remote access portals, and recognition of social engineering attempts targeting equipment dealer credentials. Security-aware operators prevent the most common attack vector for unauthorized remote equipment access: compromised login credentials.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "CYBERSECURITY_RISK -> CREDENTIAL_SECURITY_AWARENESS -> PREVENTED_UNAUTHORIZED_ACCESS",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified equipment technician or dealer service manager for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Telematics Network Segmentation and Firewall Installation",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Segment tractor telematics communication on a dedicated network VLAN with firewall rules that restrict inbound connections to manufacturer-authenticated update servers only. Network segmentation prevents lateral movement from compromised farm office networks to equipment telematics systems, isolating autosteer control surfaces from general internet exposure.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "CYBERSECURITY_RISK -> NETWORK_ISOLATION -> PROTECTED_CONTROL_SURFACES",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified equipment technician or dealer service manager for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Equipment Security Awareness and Reporting Culture",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build farm team awareness that connected equipment is a cybersecurity surface by establishing norms for reporting unusual equipment behavior, unauthorized telematics portal access, and suspicious dealer communications. Security-aware culture ensures that anomalous equipment behavior triggers investigation rather than being dismissed as a glitch, enabling early detection of compromise attempts.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "CYBERSECURITY_RISK -> BEHAVIORAL_ANOMALY_REPORTING -> EARLY_COMPROMISE_DETECTION",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified equipment technician or dealer service manager for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Autosteer Overlap and Savings Calculator Tool",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Deploy overlap analysis tools that compare as-applied maps from autosteer operations against pre-autosteer manual driving records to quantify actual input savings per field per season. Documented savings over multiple seasons convert ROI uncertainty into evidence-based investment justification for continued or expanded autosteer deployment.",
+          "cite": "Stombaugh, T. (2018). Satellite-based positioning systems for precision agriculture. in Precision Agriculture Basics, ASA/CSSA/SSSA, 25-36. doi:10.2134/precisionagbasics.2016.0075; Bergtold, J.S., Raper, R.L. & Schwab, E.B. (2009). The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering. Applied Engineering in Agriculture, 25(2), 133-143. doi:10.13031/2013.26323",
+          "target": "ROI_UNCERTAINTY -> DOCUMENTED_SAVINGS_TRACKING -> EVIDENCE_BASED_REINVESTMENT",
+          "citation": [
+            {
+              "author": "Stombaugh, T.",
+              "year": 2018,
+              "title": "Satellite-based positioning systems for precision agriculture",
+              "journal": "in Precision Agriculture Basics, ASA/CSSA/SSSA",
+              "volume": null,
+              "pages": "25-36",
+              "doi": "10.2134/precisionagbasics.2016.0075"
+            },
+            {
+              "author": "Bergtold, J.S., Raper, R.L. & Schwab, E.B.",
+              "year": 2009,
+              "title": "The economic benefit of improving the proximity of tillage and planting operations in cotton production with automatic steering",
+              "journal": "Applied Engineering in Agriculture",
+              "volume": "25(2)",
+              "pages": "133-143",
+              "doi": "10.13031/2013.26323"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a precision agriculture specialist or certified crop adviser (CCA) for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Tractors",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "GABA_GLU",
+      "state": "active",
+      "domainLabel": "Precision Agriculture — Action Coordination",
+      "domainDescription": "Precision Agriculture — Action Coordination within Precision Agriculture",
+      "group": "navigation",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_precisionag_ri_action_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Precision Agriculture — Action Coordination",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Excitatory-Inhibitory Balance"
+        },
+        {
+          "domain": "environment",
+          "role": "Envlaw"
+        },
+        {
+          "domain": "medicine",
+          "role": "Anesthesiology"
+        },
+        {
+          "domain": "neurology",
+          "role": "Excitation-Inhibition Balance"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Excitation-Inhibition Balance"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Excitation-Inhibition Rebalancing"
+        },
+        {
+          "domain": "communication",
+          "role": "Visualcomm"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CMZ",
+      "state": "active",
+      "domainLabel": "Precision Agriculture — Adaptation & Learning",
+      "domainDescription": "Precision Agriculture — Adaptation & Learning within Precision Agriculture",
+      "group": "navigation",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_precisionag_ri_adapt_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Precision Agriculture — Adaptation & Learning",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Audio Description — Regulation Strategy"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "interior spatial — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Fighter Training Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Restructuring Policy & Governance"
+        },
+        {
+          "domain": "education",
+          "role": "Enrollment Forecasting Human Capital & Development"
+        },
+        {
+          "domain": "energy",
+          "role": "Safety Testing Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EBA",
+      "state": "active",
+      "domainLabel": "Precision Agriculture — Diagnostic Analysis",
+      "domainDescription": "Precision Agriculture — Diagnostic Analysis within Precision Agriculture",
+      "group": "navigation",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_precisionag_ri_diagnosis_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Precision Agriculture — Diagnostic Analysis",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "styling diag — Intervention Planning"
+        },
+        {
+          "domain": "culture",
+          "role": "commercial retail — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "fighters airsuperiority — Signal Acquisition"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness — Implementation & Strategy"
+        },
+        {
+          "domain": "education",
+          "role": "Undergraduate Admissions"
+        },
+        {
+          "domain": "energy",
+          "role": "battrecycling recovery — Signal Acquisition"
+        },
+        {
+          "domain": "environment",
+          "role": "Nitrogen Oxides — State Assessment"
+        },
+        {
+          "domain": "finance",
+          "role": "Control Remediation — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PIT",
+      "state": "active",
+      "domainLabel": "Precision Agriculture — Feedback & Validation",
+      "domainDescription": "Precision Agriculture — Feedback & Validation within Precision Agriculture",
+      "group": "navigation",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_precisionag_ri_feedback_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Precision Agriculture — Feedback & Validation",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "metabolic",
+          "role": "Pituitary Hormone Coordination"
+        },
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway Core Operations"
+        },
+        {
+          "domain": "communication",
+          "role": "Adaptive Iteration Systems"
+        },
+        {
+          "domain": "culture",
+          "role": "Interior Architecture Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Depot Maintenance Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Resource Mobilization Analysis"
+        },
+        {
+          "domain": "education",
+          "role": "College Admissions Human Capital & Development"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Economics Technology & Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S2",
+      "state": "active",
+      "domainLabel": "Precision Agriculture — Regulation Strategy",
+      "domainDescription": "Precision Agriculture — Regulation Strategy within Precision Agriculture",
+      "group": "navigation",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_precisionag_ri_regulate_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Horticulture & Specialty Crops — Signal Detection",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Urban Env"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Waste Infra"
+        },
+        {
+          "domain": "communication",
+          "role": "admeasure reach — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "residential affordable — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "refueling boom — Signal Acquisition"
+        },
+        {
+          "domain": "economy",
+          "role": "mergers diag — Intervention Planning"
+        },
+        {
+          "domain": "education",
+          "role": "Assistive Technology — State Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "evbattery bms — Signal Acquisition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMN",
+      "state": "active",
+      "domainLabel": "Precision Agriculture — Signal Detection",
+      "domainDescription": "Precision Agriculture — Signal Detection within Precision Agriculture",
+      "group": "navigation",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_precisionag_ri_signal_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Sheep & Goats",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Somatic Awareness Network"
+        },
+        {
+          "domain": "education",
+          "role": "Workforce Dev"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "captioning styling — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power — Diagnostic Analysis"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Core Operations"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Recycling Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PI",
+      "state": "active",
+      "domainLabel": "Precision Agriculture — State Assessment",
+      "domainDescription": "Precision Agriculture — State Assessment within Precision Agriculture",
+      "group": "navigation",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_precisionag_ri_state_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Precision Agriculture — State Assessment",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Technology & Innovation"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Subsidy Reform"
+        },
+        {
+          "domain": "education",
+          "role": "Portfolio Review Assessment & Diagnostics"
+        },
+        {
+          "domain": "energy",
+          "role": "EV Batteries Assessment & Diagnostics"
+        },
+        {
+          "domain": "environment",
+          "role": "Indoor Air Quality Infrastructure & Capacity"
+        },
+        {
+          "domain": "finance",
+          "role": "Accounting Policy & Governance"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "dlPFC",
+      "target": "M1",
+      "type": "CONTROLS",
+      "weight": 0.9
+    },
+    {
+      "source": "dlPFC",
+      "target": "STRI",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "THAL",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "THAL",
+      "target": "M1",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FG",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NTS",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "S1",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "vmPFC",
+      "target": "STRI",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "vmPFC",
+      "target": "dlPFC",
+      "type": "CONTROLS",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "DATA_OWNERSHIP_DISPUTE",
+      "label": "Data Ownership Dispute",
+      "summary": "Farm data collected by precision equipment flowing to manufacturer cloud platforms without farmer control over access or monetization",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Data analytics platforms retaining farm-level data with unclear ownership and third-party sharing terms",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "GPS guidance and yield data locked in proprietary formats preventing farmer portability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Variable rate prescriptions requiring data submission to generate, creating vendor dependency",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Altered",
+          "detail": "Drone imagery processed through cloud services with ambiguous data retention policies",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CONNECTIVITY_GAP",
+      "label": "Connectivity Gap",
+      "summary": "Inadequate rural broadband and cellular coverage preventing real-time data transfer critical to precision agriculture systems",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-active",
+          "detail": "RTK correction signals unavailable in areas lacking cellular infrastructure for NTRIP delivery",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "GPS guidance correction accuracy degraded from sub-inch to foot-level without real-time base station link",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Cloud-based analytics inaccessible during field operations when connectivity is needed most",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Altered",
+          "detail": "Yield monitor data stored locally and lost when equipment changes hands between seasons",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SYSTEM_INTEGRATION_FAILURE",
+      "label": "System Integration Failure",
+      "summary": "Incompatible data formats and communication protocols between equipment brands preventing unified precision management",
+      "circuits": [
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-active",
+          "detail": "Variable rate controllers from different manufacturers unable to read common prescription formats",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "GPS guidance systems using proprietary coordinate reference creating field boundary misalignment",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "Yield data from different combine brands not mergeable into single field performance layer",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Analytics platforms unable to ingest multi-source data without manual format conversion",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ROI_UNCERTAINTY",
+      "label": "ROI Uncertainty",
+      "summary": "Precision agriculture technology adoption costs exceeding demonstrable yield or input savings on many field types",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Data analytics unable to isolate precision technology contribution from weather and management noise",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Variable rate application producing inconsistent results on fields with limited spatial variability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Hypo-active",
+          "detail": "Soil sensor data quality insufficient to generate reliable management zone boundaries",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Autosteer investment payback period exceeding equipment trade cycle on small operations",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CYBERSECURITY_RISK",
+      "label": "Cybersecurity Risk",
+      "summary": "Connected farm equipment and cloud platforms vulnerable to ransomware and data breach disrupting operations",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "GPS guidance and autosteer systems vulnerable to spoofing attacks redirecting field operations",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper-active",
+          "detail": "Cloud analytics platforms collecting sensitive yield and financial data without adequate encryption",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Tractor telematics accessible remotely with potential for unauthorized equipment control",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Altered",
+          "detail": "Drone flight control systems using unencrypted communication channels vulnerable to interception",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:16.470Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

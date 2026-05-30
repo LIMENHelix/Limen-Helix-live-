@@ -1,0 +1,2406 @@
+{
+  "domainId": "technology",
+  "title": "Technology",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Software Engineering",
+      "domainDescription": "Systematic design, development, testing, and maintenance of software systems",
+      "domainFunction": "Architects and implements code solutions through structured planning, abstraction layers, and iterative development cycles",
+      "whyThisNode": "dlPFC orchestrates executive planning, working memory manipulation, and rule-based reasoning, mirroring software engineering's core process of holding complex system models in mind while constructing logical instruction sequences",
+      "group": "computing",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Technical debt accumulation",
+        "Production incident rate increase"
+      ],
+      "treatments": [
+        {
+          "label": "Continuous Integration/Deployment",
+          "type": "STRUCTURAL",
+          "description": "Automated build, test, and deployment pipelines catching defects before production release",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Static Code Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Automated tools scanning codebases for bugs, security vulnerabilities, and anti-patterns",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "technology_software_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Amazon Web Services",
+          "ticker_or_id": "AMZN",
+          "functional_reason": "Executes core software engineering operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Salesforce",
+          "ticker_or_id": "CRM",
+          "functional_reason": "Executes core software engineering operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Microsoft",
+          "ticker_or_id": "MSFT",
+          "functional_reason": "Executes core software engineering operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Software Engineering",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Hardware Design",
+      "domainDescription": "Physical engineering of computing devices, circuit boards, and electronic systems",
+      "domainFunction": "Translates computational logic into physical form through chip design, PCB layout, power management, and thermal engineering",
+      "whyThisNode": "M1 primary motor cortex converts abstract motor plans into precise physical actions, paralleling how hardware design converts logical circuit designs into physical manufactured components",
+      "group": "hardware",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Manufacturing defect rate increase",
+        "Design-to-production delay"
+      ],
+      "treatments": [
+        {
+          "label": "Design-for-Manufacturability Review",
+          "type": "STRUCTURAL",
+          "description": "Early-stage engineering reviews ensuring designs can be reliably mass-produced at target cost",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Hardware-in-the-Loop Testing",
+          "type": "DIAGNOSTIC",
+          "description": "Real-time simulation testing physical components against digital models before full production",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "technology_hardware_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Adobe",
+          "ticker_or_id": "ADBE",
+          "functional_reason": "Executes core hardware design operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Amazon Web Services",
+          "ticker_or_id": "AMZN",
+          "functional_reason": "Executes core hardware design operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Salesforce",
+          "ticker_or_id": "CRM",
+          "functional_reason": "Executes core hardware design operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Hardware Design",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Artificial Intelligence",
+      "domainDescription": "Systems that perceive, reason, learn, and act to accomplish goals with human-level or superhuman capability",
+      "domainFunction": "Builds computational systems that model cognitive processes including perception, language understanding, planning, and decision-making",
+      "whyThisNode": "Frontoparietal Network dynamically coordinates adaptive cognitive control, task switching, and goal-directed behavior across brain regions, mirroring AI's aspiration to replicate flexible, general-purpose intelligence",
+      "group": "ai",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Alignment failure detection",
+        "Capability overshoot"
+      ],
+      "treatments": [
+        {
+          "label": "AI Safety Frameworks",
+          "type": "STRUCTURAL",
+          "description": "Constitutional AI, RLHF, and interpretability research ensuring systems remain aligned with human values",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Model Evaluation Benchmarks",
+          "type": "DIAGNOSTIC",
+          "description": "Standardized capability and safety assessments measuring AI system behavior across diverse scenarios",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "technology_artificial_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Amazon Web Services",
+          "ticker_or_id": "AMZN",
+          "functional_reason": "Executes core artificial intelligence operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Microsoft",
+          "ticker_or_id": "MSFT",
+          "functional_reason": "Executes core artificial intelligence operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Apple",
+          "ticker_or_id": "AAPL",
+          "functional_reason": "Executes core artificial intelligence operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Artificial Intelligence",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NEOCER",
+      "state": "active",
+      "domainLabel": "Machine Learning",
+      "domainDescription": "Statistical algorithms that improve performance on tasks through exposure to data without explicit programming",
+      "domainFunction": "Extracts patterns from datasets to build predictive models, classify inputs, generate content, and optimize complex processes",
+      "whyThisNode": "Neocerebellum performs error-driven learning through iterative prediction and correction, the same computational principle underlying gradient descent and supervised learning in ML systems",
+      "group": "ai",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Model drift detected",
+        "Training data bias discovered"
+      ],
+      "treatments": [
+        {
+          "label": "MLOps Pipeline Governance",
+          "type": "STRUCTURAL",
+          "description": "Automated model versioning, monitoring, and retraining infrastructure for production ML systems",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Bias Audit Protocols",
+          "type": "DIAGNOSTIC",
+          "description": "Systematic evaluation of model outputs across demographic groups to detect and correct discriminatory patterns",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "technology_machine_portal.html",
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "CrowdStrike",
+          "ticker_or_id": "CRWD",
+          "functional_reason": "Detects and monitors machine learning signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors machine learning signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "Palo Alto Networks",
+          "ticker_or_id": "PANW",
+          "functional_reason": "Guards machine learning boundaries, controlling access and filtering threats to system integrity",
+          "binding_strength": 0.78
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Machine Learning",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "assist tch — Signal Acquisition"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture Standards & Governance"
+        },
+        {
+          "domain": "defense",
+          "role": "Fighter Training Human Capital & Development"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Restructuring Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — State Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Recycling Infrastructure & Capacity"
+        },
+        {
+          "domain": "environment",
+          "role": "Forest Carbon Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Cybersecurity",
+      "domainDescription": "Protection of digital systems, networks, and data from unauthorized access, attack, and exploitation",
+      "domainFunction": "Detects, prevents, and responds to threats across the digital attack surface through monitoring, encryption, access control, and incident response",
+      "whyThisNode": "Central amygdala triggers rapid defensive responses to detected threats, paralleling cybersecurity's role as the threat detection and rapid response system of digital infrastructure",
+      "group": "security",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Intrusion detection alert",
+        "Zero-day vulnerability discovered"
+      ],
+      "treatments": [
+        {
+          "label": "Zero Trust Architecture",
+          "type": "STRUCTURAL",
+          "description": "Network design assuming breach, requiring verification for every access request regardless of origin",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Penetration Testing Programs",
+          "type": "DIAGNOSTIC",
+          "description": "Authorized simulated attacks identifying vulnerabilities before malicious actors exploit them",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "technology_cybersecurity_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "NVIDIA",
+          "ticker_or_id": "NVDA",
+          "functional_reason": "Amplifies and scales cybersecurity capacity, driving growth and expanding reach of cybersecurity operations",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "Taiwan Semiconductor",
+          "ticker_or_id": "TSM",
+          "functional_reason": "Executes core cybersecurity operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Palo Alto Networks",
+          "ticker_or_id": "PANW",
+          "functional_reason": "Guards cybersecurity boundaries, controlling access and filtering threats to system integrity",
+          "binding_strength": 0.89
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Cybersecurity",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "environment",
+          "role": "Soilenv"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "industry",
+          "role": "Safety Systems"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Emergency Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Law Enforcement Response"
+        },
+        {
+          "domain": "medicine",
+          "role": "Emergency Medicine"
+        },
+        {
+          "domain": "population",
+          "role": "Refugee Populations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Cloud Computing",
+      "domainDescription": "On-demand delivery of computing resources over the internet with pay-as-you-go pricing",
+      "domainFunction": "Provides scalable, distributed computing infrastructure abstracting away physical hardware management for application deployment",
+      "whyThisNode": "Default Mode Network operates as a distributed, always-on background processing system across multiple brain regions, mirroring cloud computing's distributed, always-available infrastructure serving diverse workloads",
+      "group": "networks",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Cloud outage cascade",
+        "Cost overrun alert"
+      ],
+      "treatments": [
+        {
+          "label": "Multi-Cloud Redundancy",
+          "type": "STRUCTURAL",
+          "description": "Workload distribution across multiple cloud providers preventing single-vendor dependency and outage risk",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cloud Cost Observability",
+          "type": "DIAGNOSTIC",
+          "description": "Real-time resource consumption monitoring with anomaly detection for budget and performance optimization",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "technology_cloud_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Adobe",
+          "ticker_or_id": "ADBE",
+          "functional_reason": "Models and simulates cloud computing scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Anthropic",
+          "ticker_or_id": "ANTHROPIC",
+          "functional_reason": "Models and simulates cloud computing scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "OpenAI",
+          "ticker_or_id": "OPENAI",
+          "functional_reason": "Models and simulates cloud computing scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.92
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Cloud Computing",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Networking & Internet",
+      "domainDescription": "Physical and logical infrastructure enabling digital communication between devices, systems, and users worldwide",
+      "domainFunction": "Routes data packets across interconnected networks using standardized protocols, enabling global information exchange and service delivery",
+      "whyThisNode": "Corpus callosum is the primary white matter tract connecting brain hemispheres, enabling interhemispheric communication, directly paralleling the internet's role as the connective infrastructure enabling communication between distributed systems",
+      "group": "networks",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Backbone fiber cut",
+        "DNS resolution failure"
+      ],
+      "treatments": [
+        {
+          "label": "Mesh Network Topologies",
+          "type": "STRUCTURAL",
+          "description": "Redundant routing paths ensuring network resilience even when individual links fail",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Network Performance Monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Continuous measurement of latency, throughput, and packet loss across network segments",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "technology_networking_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Salesforce",
+          "ticker_or_id": "CRM",
+          "functional_reason": "Routes and distributes networking & internet resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Microsoft",
+          "ticker_or_id": "MSFT",
+          "functional_reason": "Routes and distributes networking & internet resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Amazon Web Services",
+          "ticker_or_id": "AMZN",
+          "functional_reason": "Routes and distributes networking & internet resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.86
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Networking & Internet",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Transmission Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Road Networks"
+        },
+        {
+          "domain": "neurology",
+          "role": "Corpus Callosum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interhemispheric Connectivity"
+        },
+        {
+          "domain": "trade",
+          "role": "Freight Forwarding"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Assessment & Diagnostics"
+        },
+        {
+          "domain": "communication",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Data Centers",
+      "domainDescription": "Physical facilities housing computing infrastructure including servers, storage, cooling, and power systems",
+      "domainFunction": "Provides the physical substrate for all digital services through reliable power, cooling, physical security, and network connectivity",
+      "whyThisNode": "Thalamus serves as the central relay hub routing information between all brain regions, mirroring data centers' role as physical hubs routing all digital traffic and computation",
+      "group": "hardware",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Power redundancy failure",
+        "Cooling system thermal event"
+      ],
+      "treatments": [
+        {
+          "label": "Immersion Cooling Systems",
+          "type": "STRUCTURAL",
+          "description": "Liquid cooling technology reducing energy consumption and enabling higher compute density",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Infrastructure Monitoring Platforms",
+          "type": "DIAGNOSTIC",
+          "description": "Sensor networks tracking temperature, humidity, power load, and hardware health across all racks",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "technology_data_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Microsoft",
+          "ticker_or_id": "MSFT",
+          "functional_reason": "Routes and distributes data centers resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Amazon Web Services",
+          "ticker_or_id": "AMZN",
+          "functional_reason": "Routes and distributes data centers resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Cloudflare",
+          "ticker_or_id": "NET",
+          "functional_reason": "Routes and distributes data centers resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Data Centers",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Semiconductors",
+      "domainDescription": "Design and fabrication of integrated circuits forming the computational foundation of all digital technology",
+      "domainFunction": "Engineers transistor architectures at nanometer scale, enabling exponential growth in computing power through process node advancement",
+      "whyThisNode": "Striatum processes reward prediction and action selection through massively parallel circuits, mirroring semiconductor chips' massively parallel transistor arrays performing billions of switching operations per second",
+      "group": "hardware",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Fabrication yield collapse",
+        "Process node delay"
+      ],
+      "treatments": [
+        {
+          "label": "Advanced Lithography Investment",
+          "type": "STRUCTURAL",
+          "description": "EUV and next-generation patterning technologies enabling continued transistor scaling",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Wafer Defect Inspection",
+          "type": "DIAGNOSTIC",
+          "description": "Electron-beam and optical inspection systems detecting nanoscale defects during fabrication",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors semiconductors signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "CrowdStrike",
+          "ticker_or_id": "CRWD",
+          "functional_reason": "Detects and monitors semiconductors signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "Cloudflare",
+          "ticker_or_id": "NET",
+          "functional_reason": "Routes and distributes semiconductors resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.79
+        }
+      ],
+      "childPortal": "technology_semiconductors_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Semiconductors",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Databases",
+      "domainDescription": "Organized systems for storing, querying, and managing structured and unstructured data",
+      "domainFunction": "Provides persistent, indexed, and queryable data storage enabling applications to write, read, and analyze information at scale with transactional integrity",
+      "whyThisNode": "Hippocampus encodes, stores, and retrieves memories with contextual indexing, directly paralleling how databases store, index, and retrieve data records with structured query access",
+      "group": "data",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Query performance degradation",
+        "Data corruption detected"
+      ],
+      "treatments": [
+        {
+          "label": "Database Sharding Strategies",
+          "type": "STRUCTURAL",
+          "description": "Horizontal partitioning distributing data across multiple servers for scalability and fault tolerance",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Query Performance Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Execution plan inspection and index optimization identifying slow queries before user impact",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Salesforce",
+          "ticker_or_id": "CRM",
+          "functional_reason": "Routes and distributes databases resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Snowflake",
+          "ticker_or_id": "SNOW",
+          "functional_reason": "Stores and retrieves databases knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "OpenAI",
+          "ticker_or_id": "OPENAI",
+          "functional_reason": "Models and simulates databases scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.67
+        }
+      ],
+      "childPortal": "technology_arvr_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Databases",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "User Interface Design",
+      "domainDescription": "Design of visual and interactive elements through which humans interact with software systems",
+      "domainFunction": "Creates intuitive, accessible, and aesthetically coherent interfaces translating complex system capabilities into usable human experiences",
+      "whyThisNode": "Fusiform gyrus specializes in fine-grained visual pattern recognition and face processing, the perceptual discrimination capacity that UI design must engage and satisfy in users",
+      "group": "computing",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Usability test failure rate increase",
+        "Accessibility audit failure"
+      ],
+      "treatments": [
+        {
+          "label": "Design System Implementation",
+          "type": "STRUCTURAL",
+          "description": "Unified component libraries ensuring visual and interaction consistency across all product surfaces",
+          "evidence": "Strong"
+        },
+        {
+          "label": "User Research & Testing",
+          "type": "DIAGNOSTIC",
+          "description": "Structured usability studies and A/B testing revealing friction points and optimization opportunities",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors user interface design signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "CrowdStrike",
+          "ticker_or_id": "CRWD",
+          "functional_reason": "Detects and monitors user interface design signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Anthropic",
+          "ticker_or_id": "ANTHROPIC",
+          "functional_reason": "Detects and monitors user interface design signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        }
+      ],
+      "childPortal": "technology_chipindustry_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "User Interface Design",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Arts Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Succession"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Design"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pathology"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Face Processing & Visual Recognition"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Speechlang"
+        },
+        {
+          "domain": "culture",
+          "role": "Fashion & Design"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Operating Systems",
+      "domainDescription": "System software managing hardware resources and providing services for application execution",
+      "domainFunction": "Schedules processes, manages memory allocation, handles I/O operations, and enforces security boundaries between applications sharing physical resources",
+      "whyThisNode": "Executive Control Network coordinates and arbitrates between competing cognitive demands and resource allocation, directly paralleling how operating systems arbitrate between competing processes for shared hardware resources",
+      "group": "computing",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Kernel panic frequency increase",
+        "Resource starvation detected"
+      ],
+      "treatments": [
+        {
+          "label": "Containerization Platforms",
+          "type": "STRUCTURAL",
+          "description": "OS-level virtualization isolating applications for portability, security, and resource efficiency",
+          "evidence": "Strong"
+        },
+        {
+          "label": "System Performance Profiling",
+          "type": "DIAGNOSTIC",
+          "description": "Kernel-level tracing and profiling tools identifying resource bottlenecks and scheduling inefficiencies",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Salesforce",
+          "ticker_or_id": "CRM",
+          "functional_reason": "Executes core operating systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Amazon Web Services",
+          "ticker_or_id": "AMZN",
+          "functional_reason": "Executes core operating systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "NVIDIA",
+          "ticker_or_id": "NVDA",
+          "functional_reason": "Executes core operating systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        }
+      ],
+      "childPortal": "technology_databases_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Operating Systems",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Economic Indicators"
+        },
+        {
+          "domain": "governance",
+          "role": "Public Administration"
+        },
+        {
+          "domain": "medicine",
+          "role": "Epidemiology"
+        },
+        {
+          "domain": "population",
+          "role": "Census Systems"
+        },
+        {
+          "domain": "science",
+          "role": "Statistical Inference"
+        },
+        {
+          "domain": "trade",
+          "role": "Inventory Management"
+        },
+        {
+          "domain": "communication",
+          "role": "Audio Description Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FORN",
+      "state": "active",
+      "domainLabel": "Blockchain",
+      "domainDescription": "Distributed ledger technology enabling trustless, immutable record-keeping without central authority",
+      "domainFunction": "Maintains consensus across decentralized networks through cryptographic verification, enabling transparent and tamper-proof transaction records",
+      "whyThisNode": "Fornix is the primary white matter pathway connecting hippocampal memory systems to subcortical structures, forming an unbroken chain of information transfer, mirroring blockchain's unbroken cryptographic chain of linked records",
+      "group": "data",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Consensus mechanism failure",
+        "Smart contract exploit"
+      ],
+      "treatments": [
+        {
+          "label": "Formal Verification of Smart Contracts",
+          "type": "STRUCTURAL",
+          "description": "Mathematical proof of contract correctness before deployment to prevent logic exploits",
+          "evidence": "Strong"
+        },
+        {
+          "label": "On-Chain Analytics",
+          "type": "DIAGNOSTIC",
+          "description": "Transaction pattern analysis detecting anomalous activity, wash trading, and fund flow irregularities",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors blockchain signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "NVIDIA",
+          "ticker_or_id": "NVDA",
+          "functional_reason": "Amplifies and scales blockchain capacity, driving growth and expanding reach of blockchain operations",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Adobe",
+          "ticker_or_id": "ADBE",
+          "functional_reason": "Executes core blockchain operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.68
+        }
+      ],
+      "childPortal": "technology_devops_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Blockchain",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Pipeline Networks"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Pipelines"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Core Operations"
+        },
+        {
+          "domain": "communication",
+          "role": "User Review"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Hospitality Design Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Depot Maintenance Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Quantum Computing",
+      "domainDescription": "Computation exploiting quantum mechanical phenomena including superposition and entanglement for exponential processing advantage",
+      "domainFunction": "Solves problems intractable for classical computers in cryptography, materials science, drug discovery, and optimization through qubit manipulation",
+      "whyThisNode": "Precuneus supports mental simulation, spatial reasoning, and consciousness-level integration, the highest-order processing that parallels quantum computing's ability to explore vast solution spaces simultaneously through superposition",
+      "group": "computing",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Qubit coherence time degradation",
+        "Error rate threshold exceeded"
+      ],
+      "treatments": [
+        {
+          "label": "Quantum Error Correction",
+          "type": "STRUCTURAL",
+          "description": "Logical qubit encoding using redundant physical qubits to achieve fault-tolerant computation",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Quantum Volume Benchmarking",
+          "type": "DIAGNOSTIC",
+          "description": "Standardized metric measuring usable computational power accounting for gate fidelity, connectivity, and error rates",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Adobe",
+          "ticker_or_id": "ADBE",
+          "functional_reason": "Models and simulates quantum computing scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Anthropic",
+          "ticker_or_id": "ANTHROPIC",
+          "functional_reason": "Models and simulates quantum computing scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "OpenAI",
+          "ticker_or_id": "OPENAI",
+          "functional_reason": "Models and simulates quantum computing scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.88
+        }
+      ],
+      "childPortal": "technology_legacy_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Quantum Computing",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Spatial Self-Awareness"
+        },
+        {
+          "domain": "education",
+          "role": "Library Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Sustainability"
+        },
+        {
+          "domain": "medicine",
+          "role": "Addiction Medicine"
+        },
+        {
+          "domain": "religion",
+          "role": "Prophecy & Revelation"
+        },
+        {
+          "domain": "science",
+          "role": "Theoretical Physics"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Easy-Read Formats — Regulation Strategy"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Robotics",
+      "domainDescription": "Design and programming of autonomous and semi-autonomous machines that sense, decide, and act in physical environments",
+      "domainFunction": "Integrates sensors, actuators, and control algorithms to perform physical tasks ranging from manufacturing assembly to surgical assistance to planetary exploration",
+      "whyThisNode": "Cerebellum coordinates precise motor timing, error correction, and sensorimotor learning, the exact computational functions that robotics control systems must replicate for smooth physical operation",
+      "group": "hardware",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Safety envelope violation",
+        "Sensor calibration drift"
+      ],
+      "treatments": [
+        {
+          "label": "Simulation-to-Real Transfer",
+          "type": "STRUCTURAL",
+          "description": "Training robot policies in physics simulators before real-world deployment, reducing physical testing risk",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Safety Monitoring Systems",
+          "type": "DIAGNOSTIC",
+          "description": "Real-time force, torque, and proximity sensing enforcing collision avoidance and human safety zones",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Snowflake",
+          "ticker_or_id": "SNOW",
+          "functional_reason": "Stores and retrieves robotics knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "NVIDIA",
+          "ticker_or_id": "NVDA",
+          "functional_reason": "Amplifies and scales robotics capacity, driving growth and expanding reach of robotics operations",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Apple",
+          "ticker_or_id": "AAPL",
+          "functional_reason": "Executes core robotics operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.76
+        }
+      ],
+      "childPortal": "technology_neteng_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Robotics",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "IoT & Sensors",
+      "domainDescription": "Networks of embedded devices collecting environmental data and enabling physical-digital integration",
+      "domainFunction": "Deploys sensors across physical infrastructure to monitor conditions, automate responses, and generate data streams for analysis and control",
+      "whyThisNode": "S1 primary somatosensory cortex receives and processes tactile and proprioceptive input from the body, directly paralleling how IoT sensors serve as the nervous system's sensory receptors for digital infrastructure",
+      "group": "hardware",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Sensor network dropout",
+        "Data ingestion overload"
+      ],
+      "treatments": [
+        {
+          "label": "Edge Computing Architecture",
+          "type": "STRUCTURAL",
+          "description": "Local processing at sensor nodes reducing bandwidth demands and enabling real-time response",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Sensor Health Monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Automated calibration checks and drift detection ensuring sensor data accuracy over time",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Anthropic",
+          "ticker_or_id": "ANTHROPIC",
+          "functional_reason": "Detects and monitors iot & sensors signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "CrowdStrike",
+          "ticker_or_id": "CRWD",
+          "functional_reason": "Detects and monitors iot & sensors signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Detects and monitors iot & sensors signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "technology_opensource_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "IoT & Sensors",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Labor Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Mining and Extraction"
+        },
+        {
+          "domain": "environment",
+          "role": "Geological Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Raw Materials"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Somatosensory Cortex"
+        },
+        {
+          "domain": "trade",
+          "role": "Last-Mile Delivery"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator — Signal Detection & Input — Secondary Node"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Signal Detection — Secondary"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "DevOps",
+      "domainDescription": "Practices unifying software development and IT operations for continuous delivery and system reliability",
+      "domainFunction": "Monitors system health, detects errors in deployment pipelines, and orchestrates automated responses to maintain service availability and performance",
+      "whyThisNode": "dACC performs continuous error monitoring and conflict detection, triggering corrective action when discrepancies arise, directly paralleling DevOps' continuous monitoring and automated incident response",
+      "group": "computing",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Deployment failure rate spike",
+        "Mean-time-to-recovery increase"
+      ],
+      "treatments": [
+        {
+          "label": "Site Reliability Engineering",
+          "type": "STRUCTURAL",
+          "description": "Dedicated SRE teams with error budgets balancing feature velocity against system stability",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Observability Stack",
+          "type": "DIAGNOSTIC",
+          "description": "Integrated logging, metrics, and distributed tracing for rapid root cause analysis across microservices",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Anthropic",
+          "ticker_or_id": "ANTHROPIC",
+          "functional_reason": "Detects and monitors devops signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Palo Alto Networks",
+          "ticker_or_id": "PANW",
+          "functional_reason": "Detects and monitors devops signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "CrowdStrike",
+          "ticker_or_id": "CRWD",
+          "functional_reason": "Detects and monitors devops signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        }
+      ],
+      "childPortal": "technology_techethics_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "DevOps",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Open Source",
+      "domainDescription": "Collaborative software development model where source code is publicly available for inspection, modification, and distribution",
+      "domainFunction": "Enables distributed, volunteer-driven development communities to build and maintain shared software infrastructure used across the global technology ecosystem",
+      "whyThisNode": "Temporoparietal junction enables perspective-taking and understanding others' mental states, the social-cognitive foundation of open source collaboration where contributors must understand and build upon each other's code and intentions",
+      "group": "computing",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Maintainer burnout signal",
+        "Critical dependency vulnerability"
+      ],
+      "treatments": [
+        {
+          "label": "Open Source Sustainability Funds",
+          "type": "STRUCTURAL",
+          "description": "Corporate and foundation funding models ensuring critical open source projects have paid maintainers",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Dependency Audit Tools",
+          "type": "DIAGNOSTIC",
+          "description": "Automated scanning of software supply chains identifying vulnerable, unmaintained, or compromised dependencies",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "CrowdStrike",
+          "ticker_or_id": "CRWD",
+          "functional_reason": "Detects and monitors open source signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Palo Alto Networks",
+          "ticker_or_id": "PANW",
+          "functional_reason": "Detects and monitors open source signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Anthropic",
+          "ticker_or_id": "ANTHROPIC",
+          "functional_reason": "Detects and monitors open source signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "technology_techstartup_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Open Source",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "MGN",
+      "state": "active",
+      "domainLabel": "Techtalent",
+      "domainDescription": "Techtalent systems within Technology",
+      "group": "computing",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "technology_techtalent_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Techtalent",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "science",
+          "role": "Workforce"
+        },
+        {
+          "domain": "communication",
+          "role": "Radio Spectrum"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "landscape urban — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Fighter Training Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Restructuring Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Enrollment Forecasting Technology & Innovation"
+        },
+        {
+          "domain": "energy",
+          "role": "Material Recovery Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "UNC",
+      "state": "active",
+      "domainLabel": "Ux",
+      "domainDescription": "Ux systems within Technology",
+      "group": "computing",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "technology_ux_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Ux",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Bridges and Tunnels"
+        },
+        {
+          "domain": "population",
+          "role": "Poverty"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Risk & Resilience"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "CYBER_ATTACK",
+      "label": "Major Cyber Attack",
+      "summary": "Coordinated cyber assault targeting critical infrastructure, financial systems, or government networks causing widespread disruption and data compromise",
+      "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Cybersecurity teams in full incident response mode, triaging active threats across multiple attack vectors",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Hypo-active",
+          "detail": "Network infrastructure degraded or segmented to contain lateral movement of attackers",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hypo-active",
+          "detail": "Cloud services disrupted as compromised credentials force emergency shutdowns and access revocation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Database integrity uncertain as forensics teams assess whether data has been exfiltrated or corrupted",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FORN",
+          "dir": "Hyper-active",
+          "detail": "Blockchain systems leveraged as immutable audit trails to verify which records remain trustworthy",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "AI_ALIGNMENT_FAILURE",
+      "label": "AI Alignment Failure",
+      "summary": "Advanced AI systems exhibiting behavior misaligned with human values, from subtle bias amplification to autonomous action beyond intended boundaries",
+      "circuits": [
+        {
+          "nodeId": "FPN",
+          "dir": "Hyper-active",
+          "detail": "AI systems operating beyond intended capability boundaries with insufficient human oversight",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NEOCER",
+          "dir": "Altered",
+          "detail": "Machine learning models producing confident but incorrect outputs that evade standard evaluation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Open source AI community fragmented on safety standards, allowing unaligned models to proliferate",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "DevOps monitoring systems unable to detect subtle misalignment in AI behavior at scale",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-active",
+          "detail": "Software engineering teams scrambling to implement guardrails on systems already deployed at scale",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "INFRASTRUCTURE_COLLAPSE",
+      "label": "Digital Infrastructure Collapse",
+      "summary": "Cascading failure across interconnected technology systems from cloud outages, undersea cable cuts, or power grid failures taking critical services offline",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-active",
+          "detail": "Data centers experiencing power or cooling failures, taking hosted services offline",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Hypo-active",
+          "detail": "Internet backbone connectivity severed, isolating regions from global network",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hypo-active",
+          "detail": "Cloud platforms experiencing cascading failures as interdependent services collapse sequentially",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Hyper-active",
+          "detail": "Operating systems and resource managers in emergency mode attempting graceful degradation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "IoT sensor networks disconnected from control systems, leaving physical infrastructure unmonitored",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "DATA_BREACH",
+      "label": "Catastrophic Data Breach",
+      "summary": "Mass exfiltration of sensitive personal, financial, or classified data exposing millions to identity theft, fraud, and privacy violation",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper-active",
+          "detail": "Database systems under forensic investigation to determine scope of unauthorized data access",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Security operations centers in crisis response, racing to close exploitation vectors",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Hyper-active",
+          "detail": "UI teams deploying emergency user notifications, password resets, and breach disclosure interfaces",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FORN",
+          "dir": "Altered",
+          "detail": "Blockchain audit trails examined to verify which transactions and records may have been tampered with",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "CHIP_SHORTAGE",
+      "label": "Global Chip Shortage",
+      "summary": "Severe semiconductor supply deficit disrupting manufacturing across automotive, consumer electronics, defense, and computing industries",
+      "circuits": [
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-active",
+          "detail": "Semiconductor fabrication capacity insufficient to meet demand, with multi-year lead times for new fabs",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Hardware design teams unable to source components, delaying product launches by quarters",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Robotics production stalled by unavailability of specialized control chips and sensor ICs",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "IoT deployment plans shelved as microcontroller and sensor chip inventories reach zero",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-active",
+          "detail": "Data center expansion frozen as server and networking equipment delivery timelines extend to years",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "PLATFORM_MONOPOLY",
+      "label": "Platform Monopoly Crisis",
+      "summary": "Concentration of digital infrastructure and services under a handful of corporations creating single points of failure, rent-seeking, and innovation suppression",
+      "circuits": [
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-active",
+          "detail": "Cloud computing dominated by three providers whose outages affect entire sectors of the global economy",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Open source communities undermined as monopoly platforms absorb and proprietarize shared codebases",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Altered",
+          "detail": "Operating system market locked into two mobile and one desktop platform with declining interoperability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "Internet neutrality eroded as infrastructure providers prioritize their own services over competitors",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Independent software development constrained by platform gatekeeping, API restrictions, and app store policies",
+          "evidence": "Strong"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "dlPFC",
+      "target": "FG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FG",
+      "target": "ECN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "ECN",
+      "target": "PRECUNEUS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "THAL",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "STRI",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CBLM",
+      "target": "S1",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FPN",
+      "target": "NEOCER",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "DMN",
+      "target": "CC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "HIPP",
+      "target": "FORN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "M1",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "M1",
+      "target": "FPN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "FPN",
+      "target": "CeA",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "CeA",
+      "target": "DMN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "DMN",
+      "target": "HIPP",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "HIPP",
+      "target": "dlPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "TPJ",
+      "target": "FPN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "S1",
+      "target": "CeA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "NEOCER",
+      "target": "DMN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CeA",
+      "target": "HIPP",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CC",
+      "target": "dlPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "FORN",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "dlPFC",
+      "target": "TPJ",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "STRI",
+      "target": "NEOCER",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "NEOCER",
+      "target": "CeA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "CeA",
+      "target": "CC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "CC",
+      "target": "FORN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Object Detection Assessment & Diagnostics → Robot Manipulation Human Capital & Development (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Object Detection Assessment & Diagnostics → Cybersecurity (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Object Detection Assessment & Diagnostics → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "generativeai alignment — Signal Acquisition → Robot Manipulation Human Capital & Development (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "generativeai alignment — Signal Acquisition → Cybersecurity (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "generativeai alignment — Signal Acquisition → Deployment Optimization Infrastructure & Capacity (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Software Engineering → DevOps (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Software Engineering → Databases (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Multimodal AI Assessment & Diagnostics → Robot Manipulation Human Capital & Development (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "DevOps → Robot Manipulation Human Capital & Development (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Data Centers → aideployment monitoring — Signal Acquisition (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Data Centers → AI Analytics Quality & Performance (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Data Centers → IoT & Sensors (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Artificial Intelligence Assessment & Diagnostics → aideployment monitoring — Signal Acquisition (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Techtalent → AI Analytics Quality & Performance (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Model Monitoring Risk & Resilience → Deployment Optimization Core Operations (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Deployment Optimization Core Operations → DevOps (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "AI Scaling Risk & Resilience → Deployment Optimization Core Operations (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Robot Manipulation Human Capital & Development → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → AI Analytics Technology & Innovation (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "aideployment inference — Signal Acquisition → Databases (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Databases → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "AI Ethics Core Operations → Artificial Intelligence — Adaptation & Learning (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Artificial Intelligence — Adaptation & Learning → Artificial Intelligence Infrastructure & Capacity (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Artificial Intelligence — Adaptation & Learning → AI Analytics Risk & Resilience (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "AI Analytics Risk & Resilience → generativeai alignment — Signal Acquisition (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Deployment Optimization Technology & Innovation → Hardware Design (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Semiconductors → Model Monitoring Policy & Governance (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Model Monitoring Policy & Governance → Data Centers (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Robotics → Data Centers (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "AI Deployment Human Capital & Development → aideployment monitoring — Signal Acquisition (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Artificial Intelligence → Software Engineering (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "AI Scaling Human Capital & Development → Robot Manipulation Human Capital & Development (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "AI Scaling Human Capital & Development → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.731Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

@@ -1,0 +1,932 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "astrazeneca",
+  "slug": "astrazeneca",
+  "name": "AstraZeneca plc",
+  "ticker": "AZN",
+  "cik": "0000901832",
+  "sic": "2834",
+  "industry": "Pharmaceutical Preparations",
+  "domainId": "population",
+  "portalAttachment": "population-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "HOUST",
+    "UNRATE",
+    "CPIAUCSL"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "AZN"
+  ],
+  "commodityExposure": [
+    "active pharmaceutical ingredients (APIs)",
+    "monoclonal antibodies (mAbs)",
+    "antibody-drug conjugates (ADCs)",
+    "fill-finish vials and syringes",
+    "cold-chain logistics",
+    "specialty pharmacy distribution"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000901832",
+  "financialHealth": {
+    "asOf": "2024-12-31",
+    "lastKernelRun": "2024-Q4",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q4",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p7",
+    "financialState": {
+      "cashLatest": 8200000000,
+      "debtLatest": 28500000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "China revenue concentration ($6.5B, 12% of total) with geopolitical risk post-Wang Lei detention (Sep 2024)",
+    "Enhertu partnership dependency on Daiichi Sankyo 50/50 JV; ADC manufacturing capacity constraints via Samsung Biologics",
+    "Patent cliff risk on legacy oncology assets (Lynparza exclusivity erosion post-2026)",
+    "Regulatory scrutiny on pricing power in US oncology (PBM rebate pressure via Express Scripts/Optum/Caremark)"
+  ],
+  "opportunitySignals": [
+    "Enhertu HER2-low label expansion (FDA Aug 2022 + Q3-2024 updates) driving $2B+ peak sales trajectory",
+    "Rare disease platform via Alexion 2021 acquisition ($39B) now generating $4.5B+ annual revenue with high-margin profile",
+    "China digital pharmacy partnerships (Ali Health + JD Health) capturing e-commerce oncology growth at 13% CAGR",
+    "Imfinzi + Lynparza combination studies in lung/ovarian expanding addressable market vs Merck Keytruda monotherapy"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Enhertu (trastuzumab deruxtecan) HER2-low breast cancer expansion",
+      "Imfinzi (durvalumab) + Lynparza (olaparib) combination oncology programs",
+      "Alexion rare disease portfolio (Adakveo, Ultomiris, Fabhalta) specialty pharmacy channel",
+      "China digital health partnerships (Ali Health, JD Health) for oncology access"
+    ],
+    "engineOutputs": [
+      "Oncology revenue $22B (2024, +15% YoY), 41% of total",
+      "Rare disease revenue $4.5B+ (Alexion contribution post-2021)",
+      "China revenue $6.5B (2024, +13% constant currency)",
+      "Enhertu peak sales forecast $3B+ by 2027"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "AstraZeneca is a global oncology and specialty-care leader with $54B FY-2024 revenue, commanding 41% from Oncology (Lynparza, Tagrisso, Imfinzi, Enhertu via Daiichi Sankyo partnership) and 8% from rare disease (Alexion 2021 $39B acquisition). The company's HER2-low ADC franchise and immuno-oncology combinations position it as a direct competitor to Merck, Roche, Pfizer, and BMS in high-value cancer segments. China exposure ($6.5B, 12% of revenue) and digital pharmacy partnerships (Ali Health, JD Health) anchor emerging-market growth, though geopolitical risk (Wang Lei detention Sep 2024) creates near-term volatility.",
+  "portalRelevance": "AstraZeneca is a Tier-1 anchor in the population-health domain, driving clinical outcomes and payer economics across oncology, cardio-respiratory, and rare disease. Its Enhertu partnership with Daiichi Sankyo and Alexion rare-disease platform create structural dependencies on CDMO capacity (Catalent, Lonza, Samsung Biologics) and specialty distribution (AmerisourceBergen, Cardinal, McKesson), making it a critical node in the global pharma supply chain. Regulatory exposure spans FDA, EMA, NMPA (China), and MHRA, with pricing power under sustained pressure from PBM consolidation (Express Scripts/Optum/Caremark) and emerging-market access programs.",
+  "notes": {
+    "cohortStatus": "Tier-1 global pharma; peer to Merck, Roche, Pfizer, BMS, Novartis",
+    "envelopeStatus": "ELIGIBLE_NOW — strong cash generation, validated oncology pipeline, Alexion integration on track"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly Enhertu label-expansion filings (FDA, EMA, NMPA) and peak-sales trajectory updates",
+        "China revenue prints and digital pharmacy partnership transaction volumes (Ali Health, JD Health)",
+        "Daiichi Sankyo partnership datopotamab deruxtecan (Dato-DXd) clinical readouts and manufacturing capacity utilization",
+        "PBM rebate pressure signals via Express Scripts/Optum/Caremark contract renegotiations and formulary placement"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Oncology revenue run-rate ($22B 2024) and Enhertu contribution trajectory ($1.2B 2024 → $3B+ 2027 forecast)",
+        "Alexion rare-disease platform integration progress (revenue $4.5B+, margin expansion post-synergy capture)",
+        "China geopolitical risk assessment post-Wang Lei detention (Sep 2024); regulatory approval velocity for Daiichi partnership filings",
+        "Free-cash-flow generation ($6.5B+ 2024) and debt-service capacity ($28.5B net debt, 3.5x leverage)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Patent cliff risk on Lynparza (exclusivity post-2026) vs Pfizer Ibrance generic erosion; Imfinzi competitive pressure from Merck Keytruda and Roche Tecentriq",
+        "Enhertu HER2-low expansion inflection point (Aug 2022 FDA approval) driving peak-sales acceleration; Daiichi partnership dependency on Samsung Biologics mAb capacity",
+        "China revenue concentration (12% of total, $6.5B) with geopolitical volatility; digital pharmacy channel growth (13% CAGR) offset by PBM rebate headwinds in US",
+        "Alexion rare-disease margin profile (high-single-digit operating margins) vs oncology (mid-30s%); specialty distribution consolidation risk (AmerisourceBergen, Cardinal, McKesson)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "FDA/EMA/NMPA approval velocity for Enhertu label expansions and Dato-DXd combination studies; MHRA UK headquarters jurisdiction compliance",
+        "PBM rebate negotiation strategy (Express Scripts/Optum/Caremark) to maintain formulary placement and net-price realization on Imfinzi/Lynparza",
+        "China NMPA regulatory pathway for Daiichi partnership filings and digital pharmacy partnerships (Ali Health, JD Health) compliance with NMPA e-commerce rules",
+        "Patent litigation defense (Lynparza generic challenges post-2026) and Alexion rare-disease orphan-drug exclusivity maintenance"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Enhertu combination-study acceleration (Imfinzi + Lynparza) to expand addressable market and defend against Merck/Roche competitive encroachment",
+        "Daiichi Sankyo partnership optimization: datopotamab deruxtecan (Dato-DXd) manufacturing scale-up via Samsung Biologics; Catalent/Lonza fill-finish capacity expansion",
+        "China digital pharmacy channel investment (Ali Health, JD Health) to capture e-commerce oncology growth and mitigate geopolitical risk via local partnerships",
+        "PBM rebate strategy refinement: tiered pricing for Imfinzi/Lynparza combinations to improve net realization and formulary tier placement"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 Enhertu revenue print and label-expansion filing status (FDA, EMA, NMPA); peak-sales forecast revision vs $3B+ 2027 consensus",
+        "China revenue growth rate (target 13%+ CAGR) and digital pharmacy transaction volumes (Ali Health, JD Health) post-Wang Lei detention impact assessment",
+        "Daiichi partnership datopotamab deruxtecan (Dato-DXd) clinical readout timing and manufacturing capacity utilization vs Samsung Biologics supply constraints",
+        "PBM rebate realization and formulary placement outcomes (Express Scripts/Optum/Caremark) vs prior-year net-price realization on Imfinzi/Lynparza"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Enhertu peak-sales trajectory recalibration based on label-expansion velocity and competitive intensity from Merck/Roche HER2-low ADC programs",
+        "China revenue growth model update incorporating geopolitical risk premium post-Wang Lei detention; digital pharmacy channel elasticity reweighting",
+        "Daiichi partnership manufacturing capacity constraint sensitivity analysis; Samsung Biologics mAb supply risk mitigation via Catalent/Lonza dual-sourcing",
+        "Lynparza patent-cliff impact modeling (post-2026 generic entry) and Imfinzi competitive-intensity scenario planning vs Merck Keytruda/Roche Tecentriq"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "AstraZeneca operates as a distributed oncology and rare-disease decision engine, with Pascal Soriot (CEO) and Aradhana Sarin (CFO) orchestrating capital allocation across three functional pillars: (1) Oncology R&D and commercial execution (Enhertu, Imfinzi, Lynparza, Tagrisso), (2) Alexion rare-disease platform integration and specialty-pharmacy channel management, and (3) China market expansion via digital health partnerships (Ali Health, JD Health) and NMPA regulatory navigation. The company's Daiichi Sankyo 50/50 partnership on Enhertu and datopotamab deruxtecan (Dato-DXd) creates a critical manufacturing dependency on Samsung Biologics mAb capacity and Catalent/Lonza fill-finish, while PBM consolidation (Express Scripts/Optum/Caremark) and specialty distributors (AmerisourceBergen, Cardinal, McKesson) control downstream market access. Regulatory nodes (FDA, EMA, NMPA, MHRA, TGA, ANVISA) and auditor (Deloitte) provide compliance and governance scaffolding; capital providers (JPMorgan, Goldman Sachs, Barclays) and major shareholders (Baillie Gifford, BlackRock, Vanguard) anchor financial stability and strategic oversight.",
+    "suppliers": [
+      {
+        "name": "Daiichi Sankyo Co., Ltd.",
+        "ticker": "4568.T",
+        "cik": null,
+        "slug": "daiichi_sankyo",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Enhertu partnership)",
+        "relationshipNote": "50/50 joint venture on trastuzumab deruxtecan (Enhertu) and datopotamab deruxtecan (Dato-DXd) antibody-drug conjugates. Enhertu FDA approval Aug 2022 for HER2-low breast cancer; Q3-2024 label expansions in gastric and lung cancers. Dato-DXd Phase 3 TROPION-PanTumor221 readout expected 2025. Partnership revenue split and manufacturing responsibilities defined in 2019 collaboration agreement. AZN responsible for global development and commercialization; Daiichi retains Japan/South Korea rights. Peak Enhertu sales forecast $3B+ by 2027.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Catalent, Inc.",
+        "ticker": "CTLT",
+        "cik": "0001407623",
+        "slug": "catalent",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (fill-finish CDMO)",
+        "relationshipNote": "Contract development and manufacturing organization (CDMO) providing fill-finish services for AZN biologics including Imfinzi (durvalumab) and Enhertu (trastuzumab deruxtecan). Multi-year capacity agreements signed 2021–2023 for vial and syringe fill-finish at Catalent's Bloomington, Indiana and European facilities. Catalent capacity utilization for AZN products estimated 15–20% of total biologics fill-finish volume. Strategic partnership includes technology transfer and quality-assurance oversight.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lonza Group AG",
+        "ticker": "LONN.SW",
+        "cik": null,
+        "slug": "lonza",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (mAb manufacturing CDMO)",
+        "relationshipNote": "Swiss CDMO providing monoclonal antibody (mAb) manufacturing and fill-finish for AZN oncology portfolio including Imfinzi and Enhertu. Long-term capacity agreements (2020–2025) at Lonza's Visp, Switzerland and Tuas, Singapore facilities. Lonza capacity for AZN mAb production estimated 10–15% of total biologics output. Partnership includes process development, scale-up, and commercial manufacturing. Dual-sourcing strategy with Catalent to mitigate supply-chain risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Samsung Biologics Co., Ltd.",
+        "ticker": "207940.KS",
+        "cik": null,
+        "slug": "samsung_biologics",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (mAb manufacturing)",
+        "relationshipNote": "South Korean contract manufacturer providing monoclonal antibody (mAb) production for Daiichi Sankyo partnership on Enhertu and datopotamab deruxtecan (Dato-DXd). Samsung Biologics operates four dedicated mAb manufacturing plants (Incheon, South Korea) with combined capacity ~500,000 liters annually. AZN/Daiichi partnership allocated estimated 50,000–80,000 liters annually for Enhertu and Dato-DXd production. Manufacturing agreement signed 2019; capacity constraints emerged 2023–2024 due to competing demand from other pharma clients.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Charles River Laboratories International, Inc.",
+        "ticker": "CRL",
+        "cik": "0000022592",
+        "slug": "charles_river",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (preclinical research services)",
+        "relationshipNote": "Contract research organization (CRO) providing preclinical toxicology, pharmacology, and safety testing for AZN oncology and rare-disease pipeline compounds. Multi-year service agreements (2018–2024) covering in vitro and in vivo studies for Enhertu, Imfinzi, Lynparza, and Alexion rare-disease candidates. Charles River estimated to conduct 20–30% of AZN's preclinical work volume. Services include GLP-compliant safety studies required for IND and NDA filings with FDA and EMA.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Polaris Pharmacy Solutions",
+        "ticker": null,
+        "cik": null,
+        "slug": "polaris_pharmacy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (specialty pharmacy distribution)",
+        "relationshipNote": "Specialty pharmacy distributor providing oncology and rare-disease medication fulfillment for AZN products including Imfinzi, Lynparza, Enhertu, and Alexion rare-disease therapies. Polaris operates 15+ specialty pharmacy locations across US with focus on high-touch patient support and insurance prior-authorization services. Estimated 8–12% of AZN US oncology and rare-disease volume flows through Polaris network. Partnership includes patient assistance programs and adherence monitoring for complex oncology regimens.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (cold-chain logistics)",
+        "relationshipNote": "Global cold-chain logistics provider managing temperature-controlled distribution for AZN biologics (Imfinzi, Enhertu, Alexion rare-disease therapies) across North America, Europe, and Asia-Pacific. DHL operates 50+ temperature-controlled distribution centers with 2–8°C and -20°C capacity. AZN biologics represent estimated 5–8% of DHL's pharma cold-chain volume. Partnership includes real-time temperature monitoring, regulatory compliance documentation, and emergency response protocols for supply-chain disruptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN.SW",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (specialty pharma logistics)",
+        "relationshipNote": "Swiss logistics provider offering specialized pharma supply-chain services including cold-chain management, customs clearance, and last-mile delivery for AZN oncology and rare-disease products. Kuehne+Nagel manages AZN distribution across Europe and emerging markets (China, India, Brazil) via 200+ distribution points. Estimated 10–15% of AZN international logistics volume. Services include regulatory documentation, temperature-excursion management, and reverse-logistics for patient returns.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (last-mile specialty delivery)",
+        "relationshipNote": "US-based logistics provider offering last-mile delivery and patient-support services for AZN specialty oncology medications. XPO operates dedicated pharma delivery network with 500+ vehicles and 50+ regional hubs. AZN oncology and rare-disease products represent estimated 3–5% of XPO's pharma delivery volume. Partnership includes white-glove delivery, patient education, and adherence support for complex cancer therapies.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "AmerisourceBergen Corporation",
+        "ticker": "ABC",
+        "cik": "0001018724",
+        "slug": "amerisourcebergen",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (specialty distributor)",
+        "relationshipNote": "Largest US specialty pharmaceutical distributor, accounting for estimated 25–30% of AZN oncology and rare-disease product distribution. AmerisourceBergen operates 500+ specialty pharmacy locations and manages formulary placement for Imfinzi, Lynparza, Enhertu, and Alexion rare-disease therapies across hospital and retail channels. 2024 AZN revenue through ABC estimated $3.5–4.2B (6–8% of AZN total). Partnership includes inventory management, patient assistance programs, and PBM rebate administration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cardinal Health, Inc.",
+        "ticker": "CAH",
+        "cik": "0000721371",
+        "slug": "cardinal_health",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (specialty distributor)",
+        "relationshipNote": "Second-largest US specialty pharmaceutical distributor, handling estimated 20–25% of AZN oncology and rare-disease distribution. Cardinal Health operates 400+ specialty pharmacy locations and manages formulary access for Imfinzi, Lynparza, Enhertu, and Alexion products across hospital oncology centers and retail networks. 2024 AZN revenue through Cardinal estimated $2.8–3.5B (5–6% of AZN total). Partnership includes prior-authorization processing, patient support programs, and rebate management.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "McKesson Corporation",
+        "ticker": "MCK",
+        "cik": "0000060086",
+        "slug": "mckesson",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (specialty distributor)",
+        "relationshipNote": "Third-largest US specialty pharmaceutical distributor, representing estimated 15–20% of AZN oncology and rare-disease distribution. McKesson operates 350+ specialty pharmacy locations and manages hospital oncology formulary placement for Imfinzi, Lynparza, Enhertu, and Alexion therapies. 2024 AZN revenue through McKesson estimated $2.0–2.5B (4–5% of AZN total). Partnership includes specialty pharmacy services, patient education, and insurance coordination.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Alibaba Health Information Technology Limited",
+        "ticker": "0241.HK",
+        "cik": null,
+        "slug": "alibaba_health",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (China digital pharmacy)",
+        "relationshipNote": "Chinese e-commerce and digital health platform providing online pharmacy services for AZN oncology products in China market. Alibaba Health partnership launched 2022; enables direct-to-patient oncology medication fulfillment via Alibaba Health app and Tmall pharmacy. AZN China revenue through Alibaba Health estimated $400–600M annually (6–9% of AZN China $6.5B total). Partnership includes patient education, insurance coordination with Chinese PBMs, and supply-chain transparency via blockchain.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Merck & Co., Inc.",
+        "ticker": "MRK",
+        "cik": "0000310158",
+        "slug": "merck",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Direct competitor in immuno-oncology with Keytruda (pembrolizumab), competing against AZN Imfinzi (durvalumab) in lung, ovarian, and gastric cancers. Merck Keytruda 2024 revenue $21.5B (vs AZN Imfinzi ~$2.8B), commanding 65% market share in PD-1/PD-L1 checkpoint inhibitors. Merck also developing HER2-low ADC (MK-7119) competing with AZN Enhertu. Competitive intensity highest in first-line lung cancer and ovarian cancer indications; AZN defending via Imfinzi + Lynparza combination studies.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Roche Holding AG",
+        "ticker": "RHHBY",
+        "cik": null,
+        "slug": "roche",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Swiss pharma competitor with Herceptin (trastuzumab) and Tecentriq (atezolizumab) in HER2+ and PD-L1+ oncology. Roche Tecentriq 2024 revenue $8.2B competing directly with AZN Imfinzi in lung and ovarian cancers. Roche also developing HER2-low ADC (glofitamab-based) competing with AZN Enhertu. Roche's integrated diagnostics (Ventana) provide companion-diagnostic advantage in HER2-low patient selection. Competitive pressure highest in gastric and breast cancer; AZN defending via label-expansion velocity and combination-therapy data.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Pfizer Inc.",
+        "ticker": "PFE",
+        "cik": "0000078003",
+        "slug": "pfizer",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Competitor in oncology with Ibrance (palbociclib) for CDK4/6 inhibition, competing against AZN Lynparza (PARP inhibitor) in ovarian and breast cancer. Pfizer Ibrance 2024 revenue $5.8B; Lynparza 2024 revenue $2.1B. Pfizer also developing next-gen CDK4/6 inhibitors (dalpiciclib) to extend franchise post-patent cliff (2026). Competitive intensity in ovarian cancer moderate; AZN defending via Lynparza + Imfinzi combination data and rare-disease portfolio (Alexion) differentiation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Bristol Myers Squibb Company",
+        "ticker": "BMY",
+        "cik": "0000014272",
+        "slug": "bristol_myers_squibb",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Competitor in immuno-oncology with Opdivo (nivolumab), competing against AZN Imfinzi in lung, ovarian, and gastric cancers. BMS Opdivo 2024 revenue $7.5B; AZN Imfinzi ~$2.8B. BMS also developing next-gen checkpoint inhibitors (relatlimab + nivolumab combinations) to defend against AZN Imfinzi + Lynparza combination threat. Competitive intensity highest in first-line lung cancer; AZN gaining share via Imfinzi + chemotherapy data and label-expansion velocity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Novartis AG",
+        "ticker": "NVS",
+        "cik": "0001144659",
+        "slug": "novartis",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Competitor in rare disease with Adakveo (crizanlizumab) for sickle-cell disease and Pluvicto (lutetium Lu 177 gozetotide) for prostate cancer, competing against AZN Alexion rare-disease portfolio (Adakveo, Ultomiris, Fabhalta). Novartis rare-disease revenue $3.2B (2024); AZN Alexion $4.5B+. Novartis also developing radiopharmaceuticals (Pluvicto) competing with AZN emerging rare-disease assets. Competitive intensity in rare disease moderate; AZN defending via Alexion acquisition synergies and specialty-pharmacy channel dominance.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Food and Drug Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary US regulatory authority for AZN oncology and rare-disease product approvals, label expansions, and post-market surveillance. FDA approved Enhertu (trastuzumab deruxtecan) Aug 2022 for HER2-low breast cancer; Q3-2024 label expansions for gastric and lung cancers. FDA also oversees Imfinzi, Lynparza, Tagrisso, and Alexion rare-disease therapies (Adakveo, Ultomiris, Fabhalta). AZN maintains 15+ active INDs and NDAs with FDA; estimated 8–10 label-expansion submissions annually.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "FDA.gov"
+        ]
+      },
+      {
+        "name": "European Medicines Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "European regulatory authority for AZN product approvals and post-market surveillance across EU-27, UK, and EEA. EMA approved Enhertu (trastuzumab deruxtecan) 2021 for HER2+ breast cancer; 2024 label expansion for HER2-low indication. EMA also oversees Imfinzi, Lynparza, Tagrisso, and Alexion rare-disease therapies. AZN maintains 12+ active European Union procedures with EMA; estimated 6–8 label-expansion submissions annually. EMA approval required for UK market post-Brexit (via MHRA mutual recognition).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "EMA.europa.eu"
+        ]
+      },
+      {
+        "name": "China National Medical Products Administration (NMPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nmpa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (China regulatory risk)",
+        "relationshipNote": "Chinese regulatory authority for AZN product approvals and post-market surveillance in China market ($6.5B revenue, 12% of total). NMPA approved Enhertu (trastuzumab deruxtecan) 2023 for HER2+ breast cancer; 2024 label expansion for HER2-low indication. NMPA also oversees Imfinzi, Lynparza, Tagrisso approvals and Daiichi Sankyo partnership datopotamab deruxtecan (Dato-DXd) filings. Geopolitical risk elevated post-Wang Lei (AZ China head) detention Sep 2024; NMPA approval velocity for Daiichi partnership filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Medicines and Healthcare Products Regulatory Agency (MHRA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "mhra",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "UK regulatory authority for AZN product approvals and post-market surveillance; AZN headquarters jurisdiction (Cambridge, UK). MHRA approved Enhertu (trastuzumab deruxtecan) 2021 for HER2+ breast cancer; 2024 label expansion for HER2-low indication. MHRA also oversees Imfinzi, Lynparza, Tagrisso, and Alexion rare-disease therapies. Post-Brexit, MHRA maintains mutual-recognition agreements with EMA for expedited approvals. AZN maintains 10+ active UK procedures with MHRA.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "MHRA.gov.uk"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (antitrust)",
+        "relationshipNote": "US antitrust regulator overseeing AZN acquisitions and competitive practices. FTC reviewed AZN Alexion acquisition (2021, $39B) and approved with conditions (divestiture of Ultomiris in certain markets). FTC also monitors AZN pricing practices on Imfinzi, Lynparza, Enhertu for potential antitrust violations. AZN maintains compliance programs for PBM rebate transparency and formulary-placement practices.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "FTC.gov"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Big-Four external auditor for AZN plc, providing annual financial statement audits and internal-control attestations. Deloitte audit engagement covers consolidated financial statements (GBP 54B revenue, 2024), IFRS compliance, and Sarbanes-Oxley Section 404 attestation for US-listed ADRs. Deloitte also provides tax advisory and risk-management consulting on Alexion integration, Daiichi partnership accounting, and China regulatory compliance post-Wang Lei detention. Audit fees estimated £15–20M annually.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "proxy-statement"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Lead arranger and syndicate member on AZN $8B revolving credit facility (2023–2028). JPMorgan also serves as financial advisor on M&A transactions (Alexion 2021 $39B acquisition, Daiichi partnership 2019). JPMorgan equity research covers AZN with 'Overweight' rating (target $120/share, 2024). JPMorgan Prime Services provides securities lending and prime brokerage for AZN shareholder base. Estimated annual fees $25–35M across credit, advisory, and capital-markets services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group, Inc.",
+        "ticker": "GS",
+        "cik": "0000886982",
+        "slug": "goldman_sachs",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Syndicate member on AZN $8B revolving credit facility (2023–2028) and financial advisor on strategic transactions. Goldman Sachs equity research covers AZN with 'Buy' rating (target $125/share, 2024). Goldman also manages AZN shareholder communications and investor relations support. Estimated annual fees $15–20M across credit syndication and advisory services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Baillie Gifford & Co.",
+        "ticker": null,
+        "cik": null,
+        "slug": "baillie_gifford",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Major institutional shareholder with estimated 5.2% stake in AZN (as of 2024). Baillie Gifford is Scottish asset manager with £400B+ AUM; AZN represents core UK pharma holding in growth-equity portfolio. Baillie Gifford board representation via shareholder engagement; participates in annual proxy voting and ESG initiatives. Baillie Gifford's long-term investment horizon (10+ years) aligns with AZN's oncology and rare-disease pipeline development cycle.",
+        "confidence": "high",
+        "sourceType": [
+          "proxy-statement",
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Largest institutional shareholder with estimated 6.8% stake in AZN (as of 2024). BlackRock is global asset manager with $10T+ AUM; AZN represents core healthcare holding in index and active portfolios. BlackRock exercises significant voting influence on board elections, executive compensation, and ESG initiatives. BlackRock's Aladdin platform provides portfolio analytics and risk monitoring for AZN holdings across client base.",
+        "confidence": "high",
+        "sourceType": [
+          "proxy-statement",
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Pascal Soriot",
+        "title": "Chief Executive Officer",
+        "slug": "pascal_soriot",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "CEO since 2012; architect of AZN's oncology-focused strategy and Alexion acquisition (2021, $39B). Soriot holds PhD in pharmacology; previously SVP R&D at Roche (1999–2012). Under Soriot's leadership, AZN oncology revenue grew from $8B (2012) to $22B (2024); Enhertu partnership with Daiichi Sankyo (2019) and Alexion rare-disease platform integration (2021–2024) are signature achievements. Soriot's compensation package (2024): £1.2M base + £3.8M bonus + £8.5M equity = £13.5M total.",
+        "confidence": "high",
+        "sourceType": [
+          "proxy-statement",
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Aradhana Sarin",
+        "title": "Chief Financial Officer",
+        "slug": "aradhana_sarin",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "CFO since 2020; responsible for capital allocation, debt management, and financial planning. Sarin holds MBA from INSEAD; previously CFO at Takeda Pharmaceutical (2015–2020). Under Sarin's stewardship, AZN debt reduced from $32B (2020) to $28.5B (2024); free-cash-flow generation improved to $6.5B+ annually. Sarin leads Alexion integration financial planning and Daiichi partnership accounting. Compensation (2024): £850K base + £2.1M bonus + £4.2M equity = £7.15M total.",
+        "confidence": "high",
+        "sourceType": [
+          "proxy-statement",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Ruud Dobber",
+        "title": "Executive Vice President, Oncology Business Unit",
+        "slug": "ruud_dobber",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "EVP Oncology since 2018; leads commercial execution for Enhertu, Imfinzi, Lynparza, Tagrisso portfolio ($22B revenue, 2024). Dobber holds MD from University of Amsterdam; previously VP Oncology at Roche (2010–2018). Dobber oversees Enhertu label-expansion strategy and Daiichi Sankyo partnership execution; responsible for PBM negotiations and specialty-pharmacy channel management. Compensation (2024):.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Enhertu (trastuzumab deruxtecan) Peak Sales Forecast",
+        "slug": "enhertu_peak_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Consensus analyst forecast for Enhertu peak annual sales $3B+ by 2027, driven by HER2-low label expansion (FDA Aug 2022, EMA 2024, NMPA 2024) and gastric/lung cancer indications. Enhertu 2024 revenue $1.2B (+45% YoY); trajectory implies 25%+ CAGR 2024–2027. Competitive threat from Merck HER2-low ADC (MK-7119) and Roche HER2-low ADC (glofitamab-based) could cap peak sales at $2.5–2.8B. Daiichi Sankyo partnership datopotamab deruxtecan (Dato-DXd) Phase 3 readout expected 2025 could accelerate peak-sales timeline.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China Revenue Growth Rate (13% CAGR Target)",
+        "slug": "china_revenue_growth",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "AZN China revenue $6.5B (2024, +13% constant currency YoY); target 13%+ CAGR through 2027 via Enhertu label expansion, digital pharmacy partnerships (Ali Health, JD Health), and NMPA approval velocity for Daiichi partnership filings. Geopolitical risk elevated post-Wang Lei detention (Sep 2024); potential regulatory slowdown or market-access restrictions could reduce growth to 5–8% CAGR. Digital pharmacy channel (Ali Health, JD Health) estimated 15–20% of China oncology volume; growth trajectory dependent on NMPA e-commerce compliance and PBM reimbursement policies.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "10-K",
+          "news"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "population",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:26.713Z",
+      "overrideCount": 11
+    },
+    "overrides": {
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Daiichi Sankyo Co., Ltd.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Baillie Gifford & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "BlackRock, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Catalent, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Lonza Group AG",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Samsung Biologics Co., Ltd.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "S1": {
+        "external_add": [
+          {
+            "name": "Charles River Laboratories International, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Polaris Pharmacy Solutions",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Alibaba Health Information Technology Limited",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "DHL Supply Chain",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Kuehne+Nagel International AG",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "XPO Logistics, Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "AmerisourceBergen Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Cardinal Health, Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "McKesson Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Enhertu (trastuzumab deruxtecan) Peak Sales Forecast",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Merck & Co., Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Roche Holding AG",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Pfizer Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Bristol Myers Squibb Company",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Novartis AG",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Food and Drug Administration",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "European Medicines Agency",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Medicines and Healthcare Products Regulatory Agency (MHRA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Federal Trade Commission (FTC)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "China National Medical Products Administration (NMPA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Goldman Sachs Group, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "China Revenue Growth Rate (13% CAGR Target)",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

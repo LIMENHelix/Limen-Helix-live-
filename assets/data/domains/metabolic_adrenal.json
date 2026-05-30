@@ -1,0 +1,383 @@
+{
+  "domainId": "metabolic_adrenal",
+  "title": "Adrenal Steroidogenesis",
+  "parentPortal": "metabolic_portal.html",
+  "parentLabel": "Metabolic & Endocrine",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "vlPFC",
+      "state": "active",
+      "domainLabel": "Adrenal Steroidogenesis Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Adrenal Steroidogenesis indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "metabolic_adrenal_action_portal.html"
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Adrenal Steroidogenesis Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Adrenal Steroidogenesis activities and deliverables",
+      "group": "operations",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Adrenal Steroidogenesis Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "metabolic_adrenal_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Adrenal Steroidogenesis Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Adrenal Steroidogenesis, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "metabolic_adrenal_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "RSC",
+      "state": "active",
+      "domainLabel": "Adrenal Steroidogenesis Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Adrenal Steroidogenesis practices and compliance obligations",
+      "group": "governance",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "metabolic_adrenal_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "rACC",
+      "state": "active",
+      "domainLabel": "Adrenal Steroidogenesis Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Adrenal Steroidogenesis methods and capabilities",
+      "group": "innovation",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "metabolic_adrenal_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "TPOLE",
+      "state": "active",
+      "domainLabel": "Adrenal Steroidogenesis Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Adrenal Steroidogenesis stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "metabolic_adrenal_signal_portal.html"
+    },
+    {
+      "brainNodeId": "DAN",
+      "state": "active",
+      "domainLabel": "Adrenal Steroidogenesis Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Adrenal Steroidogenesis operations and interfaces",
+      "group": "systems",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "metabolic_adrenal_state_portal.html"
+    },
+    {
+      "brainNodeId": "VAN",
+      "state": "active",
+      "domainLabel": "Adrenal Steroidogenesis Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Adrenal Steroidogenesis outputs and resource utilization",
+      "group": "operations",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Adrenal Steroidogenesis Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "vlPFC",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "TPJ",
+      "target": "PRECUNEUS",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "RSC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "RSC",
+      "target": "rACC",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "rACC",
+      "target": "TPOLE",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "TPOLE",
+      "target": "DAN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "DAN",
+      "target": "VAN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VAN",
+      "target": "vlPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "vlPFC",
+      "target": "rACC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "RSC",
+      "target": "DAN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "METABOLIC_ADRENAL_SYSTEM_FAILURE",
+      "label": "Adrenal Steroidogenesis System Failure",
+      "summary": "Critical breakdown in Adrenal Steroidogenesis systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo-active",
+          "detail": "Adrenal Steroidogenesis Assessment & Diagnostics capacity falling below operational thresholds, reducing Adrenal Steroidogenesis output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Adrenal Steroidogenesis Core Operations systems underperforming, creating gaps in Adrenal Steroidogenesis coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Altered",
+          "detail": "Adrenal Steroidogenesis Infrastructure & Capacity behavior deviating from established norms, complicating Adrenal Steroidogenesis management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPOLE",
+          "dir": "Hyper-active",
+          "detail": "Adrenal Steroidogenesis Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Adrenal Steroidogenesis",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VAN",
+          "dir": "Hypo-active",
+          "detail": "Adrenal Steroidogenesis Performance & Optimization function reduced, compromising Adrenal Steroidogenesis system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "METABOLIC_ADRENAL_CAPACITY_CRISIS",
+      "label": "Adrenal Steroidogenesis Capacity Crisis",
+      "summary": "Demand exceeding available Adrenal Steroidogenesis capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hyper-active",
+          "detail": "Adrenal Steroidogenesis Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Adrenal Steroidogenesis",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hypo-active",
+          "detail": "Adrenal Steroidogenesis Infrastructure & Capacity systems underperforming, creating gaps in Adrenal Steroidogenesis coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RSC",
+          "dir": "Altered",
+          "detail": "Adrenal Steroidogenesis Standards & Governance behavior deviating from established norms, complicating Adrenal Steroidogenesis management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DAN",
+          "dir": "Hyper-active",
+          "detail": "Adrenal Steroidogenesis Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Adrenal Steroidogenesis",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VAN",
+          "dir": "Altered",
+          "detail": "Adrenal Steroidogenesis Performance & Optimization operating outside normal parameters, introducing uncertainty into Adrenal Steroidogenesis outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "METABOLIC_ADRENAL_GOVERNANCE_GAP",
+      "label": "Adrenal Steroidogenesis Governance Gap",
+      "summary": "Oversight or regulatory failure in Adrenal Steroidogenesis creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "RSC",
+          "dir": "Hypo-active",
+          "detail": "Adrenal Steroidogenesis Standards & Governance capacity falling below operational thresholds, reducing Adrenal Steroidogenesis output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Altered",
+          "detail": "Adrenal Steroidogenesis Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Adrenal Steroidogenesis",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Hyper-active",
+          "detail": "Adrenal Steroidogenesis Research & Development activity spiking beyond design limits, creating instability across Adrenal Steroidogenesis operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPOLE",
+          "dir": "Altered",
+          "detail": "Adrenal Steroidogenesis Risk & Resilience patterns disrupted, necessitating adaptive responses within Adrenal Steroidogenesis frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DAN",
+          "dir": "Hypo-active",
+          "detail": "Adrenal Steroidogenesis Coordination & Integration function reduced, compromising Adrenal Steroidogenesis system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

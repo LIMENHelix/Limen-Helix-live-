@@ -1,0 +1,383 @@
+{
+  "domainId": "pediatric_error",
+  "title": "Error Monitoring & Conflict Detection",
+  "parentPortal": "pediatric_portal.html",
+  "parentLabel": "Pediatric Neurodevelopment",
+  "phase": "P0",
+  "activations": [
+    {
+      "brainNodeId": "LGN",
+      "state": "active",
+      "domainLabel": "Error Monitoring & Conflict Detection Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Error Monitoring & Conflict Detection indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P0",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "pediatric_error_action_portal.html"
+    },
+    {
+      "brainNodeId": "MGN",
+      "state": "active",
+      "domainLabel": "Error Monitoring & Conflict Detection Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Error Monitoring & Conflict Detection activities and deliverables",
+      "group": "operations",
+      "phase": "P0",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Error Monitoring & Conflict Detection Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "pediatric_error_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "VP",
+      "state": "active",
+      "domainLabel": "Error Monitoring & Conflict Detection Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Error Monitoring & Conflict Detection, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "pediatric_error_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "SNIG",
+      "state": "active",
+      "domainLabel": "Error Monitoring & Conflict Detection Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Error Monitoring & Conflict Detection practices and compliance obligations",
+      "group": "governance",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "pediatric_error_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "HAB",
+      "state": "active",
+      "domainLabel": "Error Monitoring & Conflict Detection Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Error Monitoring & Conflict Detection methods and capabilities",
+      "group": "innovation",
+      "phase": "P0",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "pediatric_error_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "OLF",
+      "state": "active",
+      "domainLabel": "Error Monitoring & Conflict Detection Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Error Monitoring & Conflict Detection stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "pediatric_error_signal_portal.html"
+    },
+    {
+      "brainNodeId": "SC",
+      "state": "active",
+      "domainLabel": "Error Monitoring & Conflict Detection Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Error Monitoring & Conflict Detection operations and interfaces",
+      "group": "systems",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "pediatric_error_state_portal.html"
+    },
+    {
+      "brainNodeId": "IC",
+      "state": "active",
+      "domainLabel": "Error Monitoring & Conflict Detection Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Error Monitoring & Conflict Detection outputs and resource utilization",
+      "group": "operations",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Error Monitoring & Conflict Detection Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "LGN",
+      "target": "MGN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "MGN",
+      "target": "VP",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "VP",
+      "target": "SNIG",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "SNIG",
+      "target": "HAB",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "HAB",
+      "target": "OLF",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "OLF",
+      "target": "SC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "SC",
+      "target": "IC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "IC",
+      "target": "LGN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "LGN",
+      "target": "HAB",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "SNIG",
+      "target": "SC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "PEDIATRIC_ERROR_SYSTEM_FAILURE",
+      "label": "Error Monitoring & Conflict Detection System Failure",
+      "summary": "Critical breakdown in Error Monitoring & Conflict Detection systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "LGN",
+          "dir": "Hypo-active",
+          "detail": "Error Monitoring & Conflict Detection Assessment & Diagnostics capacity falling below operational thresholds, reducing Error Monitoring & Conflict Detection output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MGN",
+          "dir": "Hypo-active",
+          "detail": "Error Monitoring & Conflict Detection Core Operations systems underperforming, creating gaps in Error Monitoring & Conflict Detection coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VP",
+          "dir": "Altered",
+          "detail": "Error Monitoring & Conflict Detection Infrastructure & Capacity behavior deviating from established norms, complicating Error Monitoring & Conflict Detection management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OLF",
+          "dir": "Hyper-active",
+          "detail": "Error Monitoring & Conflict Detection Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Error Monitoring & Conflict Detection",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IC",
+          "dir": "Hypo-active",
+          "detail": "Error Monitoring & Conflict Detection Performance & Optimization function reduced, compromising Error Monitoring & Conflict Detection system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PEDIATRIC_ERROR_CAPACITY_CRISIS",
+      "label": "Error Monitoring & Conflict Detection Capacity Crisis",
+      "summary": "Demand exceeding available Error Monitoring & Conflict Detection capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "MGN",
+          "dir": "Hyper-active",
+          "detail": "Error Monitoring & Conflict Detection Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Error Monitoring & Conflict Detection",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VP",
+          "dir": "Hypo-active",
+          "detail": "Error Monitoring & Conflict Detection Infrastructure & Capacity systems underperforming, creating gaps in Error Monitoring & Conflict Detection coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SNIG",
+          "dir": "Altered",
+          "detail": "Error Monitoring & Conflict Detection Standards & Governance behavior deviating from established norms, complicating Error Monitoring & Conflict Detection management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SC",
+          "dir": "Hyper-active",
+          "detail": "Error Monitoring & Conflict Detection Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Error Monitoring & Conflict Detection",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IC",
+          "dir": "Altered",
+          "detail": "Error Monitoring & Conflict Detection Performance & Optimization operating outside normal parameters, introducing uncertainty into Error Monitoring & Conflict Detection outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PEDIATRIC_ERROR_GOVERNANCE_GAP",
+      "label": "Error Monitoring & Conflict Detection Governance Gap",
+      "summary": "Oversight or regulatory failure in Error Monitoring & Conflict Detection creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "SNIG",
+          "dir": "Hypo-active",
+          "detail": "Error Monitoring & Conflict Detection Standards & Governance capacity falling below operational thresholds, reducing Error Monitoring & Conflict Detection output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LGN",
+          "dir": "Altered",
+          "detail": "Error Monitoring & Conflict Detection Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Error Monitoring & Conflict Detection",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HAB",
+          "dir": "Hyper-active",
+          "detail": "Error Monitoring & Conflict Detection Research & Development activity spiking beyond design limits, creating instability across Error Monitoring & Conflict Detection operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OLF",
+          "dir": "Altered",
+          "detail": "Error Monitoring & Conflict Detection Risk & Resilience patterns disrupted, necessitating adaptive responses within Error Monitoring & Conflict Detection frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SC",
+          "dir": "Hypo-active",
+          "detail": "Error Monitoring & Conflict Detection Coordination & Integration function reduced, compromising Error Monitoring & Conflict Detection system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

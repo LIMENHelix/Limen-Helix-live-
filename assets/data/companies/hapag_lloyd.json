@@ -1,0 +1,707 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "hapag_lloyd",
+  "slug": "hapag_lloyd",
+  "name": "Hapag-Lloyd AG",
+  "ticker": null,
+  "cik": null,
+  "sic": "4412",
+  "industry": "Deep Sea Foreign Transportation of Freight",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "MMNRNJ",
+    "TOTALSA",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "crude oil",
+    "bunker fuel",
+    "steel",
+    "container manufacturing inputs",
+    "port services"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Geopolitical disruption to Suez Canal routing; Red Sea attacks 2023–2024 forced rerouting via Cape of Good Hope, extending voyage times 10–14 days and increasing fuel consumption 20–30%.",
+    "Bunker fuel price volatility; WTI crude correlation to operating margins estimated at 8–12% per $10/barrel swing.",
+    "Overcapacity in global container shipping post-pandemic; spot rates declined 60%+ from 2021 peaks, pressuring utilization and pricing power.",
+    "Port congestion and labor disputes (e.g., US West Coast ILWU negotiations 2023–2024) create schedule reliability risk and demurrage exposure."
+  ],
+  "opportunitySignals": [
+    "Nearshoring and reshoring of manufacturing from Asia to Americas and Europe; Hapag-Lloyd positioned as primary transatlantic and transpacific carrier for US-Mexico-Canada supply chains.",
+    "Decarbonization investments (methanol-fueled vessels, LNG retrofits) create premium pricing for ESG-compliant shippers; IMO 2030/2050 regulations favor capital-intensive operators.",
+    "Digital freight forwarding and supply-chain visibility platforms (e.g., blockchain-based bill-of-lading) command margin expansion vs. legacy competitors.",
+    "Consolidation in container shipping; Hapag-Lloyd's 2017 UASC acquisition and 2024 capacity additions position it as top-4 global carrier by TEU."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Hapag-Lloyd AG is the world's fourth-largest container shipping line by TEU capacity (approximately 1.7M TEU as of 2024), operating 240+ vessels across major trade lanes (Asia–Europe, transpacific, intra-Asia, and regional services). The company is a critical node in global supply-chain infrastructure, directly serving automotive, electronics, apparel, and consumer-goods manufacturers; disruptions to its network propagate immediately to retail and industrial end-markets. As a German-listed, Hamburg-domiciled operator, Hapag-Lloyd is exposed to energy costs, port labor, geopolitical routing constraints, and IMO environmental regulations that reshape container-shipping economics every 18–36 months.",
+  "portalRelevance": "Hapag-Lloyd is a tier-1 supply-chain anchor for multinational manufacturers and retailers; its capacity utilization, spot-rate exposure, and fuel-hedging posture are leading indicators of global trade velocity and manufacturing confidence. The company's financial health (debt-to-EBITDA, free cash flow, dividend sustainability) reflects both cyclical shipping demand and structural shifts in sourcing geography; its vessel-ordering and scrapping decisions signal long-term expectations for containerized trade. For equity and credit investors, Hapag-Lloyd's quarterly earnings and 8-K filings on vessel acquisitions, alliance changes, or port strikes are material signals of supply-chain stress and inflation pass-through capacity.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly spot-rate indices (Shanghai Containerized Freight Index, Drewry World Container Index) published by industry bodies; Hapag-Lloyd's published spot rates vs. contract rates in quarterly earnings.",
+        "Port congestion and vessel-delay reports from Lloyd's List, Alphaliner, and port authorities; Red Sea/Suez Canal transit disruptions flagged in 8-K filings and earnings calls.",
+        "Bunker fuel price feeds (MOPS Singapore, Rotterdam) correlated to Hapag-Lloyd's fuel-surcharge adjustments disclosed in customer tariffs and earnings guidance.",
+        "Vessel-order announcements and scrapping decisions via press releases and industry databases (Clarkson, VesselsValue); capacity additions signal management's demand outlook."
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly utilization rate (revenue TEU / available TEU capacity) extracted from earnings reports; trend vs. 4-quarter rolling average indicates demand momentum.",
+        "Average freight rate per TEU (revenue / TEU lifted) calculated from quarterly results; comparison to spot-rate indices reveals contract-rate stickiness and pricing power.",
+        "Debt-to-EBITDA and interest-coverage ratios from audited financials; vessel-financing maturity schedule from notes to accounts.",
+        "Fuel-hedging position and bunker-cost exposure estimated from derivative disclosures and management guidance on fuel-surcharge pass-through rates."
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn pattern-match: spot rates <$500/TEU Shanghai–Rotterdam, utilization <75%, negative free cash flow — signals P5/P6 distress phase consistent with 2015–2016 and 2020 precedents.",
+        "Geopolitical routing shock: Suez Canal closure or Red Sea piracy forcing Cape routing adds 10–14 days and $800–1,200/TEU fuel cost; margin compression of 15–25% if not passed through.",
+        "Structural capacity oversupply: global orderbook 10–12% of existing fleet; scrapping rates insufficient to absorb new deliveries; implies 3–5 year period of rate pressure.",
+        "Decarbonization capex burden: methanol and LNG vessel conversions require $50–100M per vessel; only top-4 carriers can absorb; smaller competitors face margin squeeze."
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "IMO 2030 carbon-intensity regulations (CII) require 5% annual efficiency improvement; non-compliance triggers port-call penalties and customer contract exclusions; Hapag-Lloyd's fleet modernization roadmap disclosed in sustainability reports.",
+        "EU ETS (Emissions Trading System) inclusion of maritime shipping from 2024 onward; estimated cost impact €15–25M annually for Hapag-Lloyd based on fleet size and route mix.",
+        "Port labor agreements (ILWU US West Coast, DP World Australia, Hamburg port unions) negotiated every 2–4 years; wage inflation 5–8% per cycle pressures operating leverage.",
+        "Antitrust scrutiny on vessel-sharing agreements (VSAs) and alliances; FTC/DOJ review of 2M Alliance, Ocean Alliance, and THE Alliance structures; potential capacity reductions if VSAs dissolved."
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Hedging bunker-fuel exposure via MOPS futures or OTC swaps; typical hedge ratio 50–75% of forward fuel consumption; disclosed in quarterly derivative positions.",
+        "Capacity deployment optimization: shift tonnage from oversupplied routes (e.g., Asia–Europe) to higher-margin regional/intra-Asia services; monitored via quarterly capacity-utilization by trade lane.",
+        "Vessel-order timing and scrapping acceleration: if spot rates <$400/TEU sustained, accelerate scrapping of oldest/least-efficient tonnage; defer newbuild deliveries via option exercises.",
+        "Customer contract renegotiation: lock in 2–3 year contract rates at 10–15% premium to spot during demand peaks; build margin buffer for cyclical downturns."
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings release: revenue, EBITDA, net income, free cash flow vs. guidance; spot-rate trends and utilization commentary signal demand trajectory.",
+        "8-K filings: vessel acquisitions, alliance changes, major customer wins/losses, port strikes, or geopolitical disruptions; filed within 4 business days of event.",
+        "Analyst consensus revisions: Bloomberg and FactSet consensus EPS/EBITDA for FY+1 and FY+2; divergence >10% from company guidance signals model uncertainty.",
+        "Share-price reaction to earnings and macro shipping indices; 2–5 day post-earnings drift correlates to guidance credibility and spot-rate outlook."
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight fuel-cost sensitivity in financial model: if WTI volatility >30% annualized, increase fuel-surcharge pass-through assumption from 70% to 85% based on recent contract renegotiations.",
+        "Adjust capacity-utilization baseline: if Red Sea disruptions persist >6 months, reduce available-capacity denominator by 5–8% to reflect longer voyage times and reduced effective capacity.",
+        "Recalibrate alliance-risk exposure: if FTC challenges VSA structures, model 10–15% capacity reduction on affected trade lanes; stress-test free cash flow under reduced utilization scenario.",
+        "Update decarbonization capex forecast: if methanol-fuel vessel costs decline 15–20% due to scale, accelerate newbuild orders; if carbon-credit prices spike, increase ESG-premium pricing assumption."
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Hapag-Lloyd operates as a distributed logistics cortex within global supply-chain networks, integrating real-time vessel positioning (motor output), port-labor and fuel-cost signals (sensory input), customer demand forecasts (limbic/reward), and regulatory compliance (salience/threat detection). The company's decision-making centers on capacity deployment (prefrontal), route optimization (motor), and pricing power (reward/revenue). Disruptions propagate bidirectionally: upstream to shipyard partners and fuel suppliers, downstream to freight forwarders and end-shippers. The company's financial health (debt servicing, dividend sustainability) depends on cyclical spot-rate recovery and structural decarbonization capex absorption—a dual constraint that mirrors the brain's competing metabolic demands.",
+    "suppliers": [
+      {
+        "name": "Hyundai Heavy Industries (HHI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hyundai_heavy_industries",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Vessel Construction & Maintenance",
+        "relationshipNote": "HHI is Hapag-Lloyd's primary newbuild container-vessel supplier; 2017–2024 orderbook includes 15+ vessels (1,200–2,400 TEU classes) valued at approximately $3.5–4.2B. HHI also provides scheduled drydock maintenance and engine overhauls at Ulsan and Geoje yards. Delivery delays in 2021–2022 (COVID-related) extended Hapag-Lloyd's vessel-age profile; current order completion scheduled through 2026.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Wärtsilä Oyj Abp",
+        "ticker": null,
+        "cik": null,
+        "slug": "wartsila",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Propulsion & Engine Systems",
+        "relationshipNote": "Wärtsilä supplies dual-fuel (LNG/HFO) and methanol-capable main engines for Hapag-Lloyd's newbuild fleet; 2023–2024 orders include 8 methanol-fueled 2,400 TEU vessels with Wärtsilä 31DF engines. Engine-service contracts cover predictive maintenance and spare-parts supply across Hapag-Lloyd's 240+ vessel fleet. Estimated annual engine-service revenue to Wärtsilä: $45–65M.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Shell Global LNG",
+        "ticker": "SHEL",
+        "cik": "0000949894",
+        "slug": "shell_global_lng",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Bunker Fuel & LNG Supply",
+        "relationshipNote": "Shell supplies approximately 35–40% of Hapag-Lloyd's bunker fuel (HFO, VLSFO, MGO) via long-term supply agreements at major bunkering hubs (Singapore, Rotterdam, Port Said). LNG supply agreements for methanol-fueled vessels signed 2023; estimated volume 150,000–200,000 tonnes annually by 2026. Fuel-cost exposure: $2.8–3.2B annually (2023 basis), representing 28–32% of operating costs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Maersk Supply Service (Maersk Group)",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk_supply_service",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Vessel Maintenance & Logistics",
+        "relationshipNote": "Maersk Supply Service provides emergency repair, spare-parts logistics, and crew-change services to Hapag-Lloyd vessels at 40+ global ports. 2022 framework agreement covers 5-year maintenance and logistics support; estimated annual spend $120–150M. Relationship includes shared port-call optimization and fuel-efficiency consulting.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Damen Shipyards Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "damen_shipyards",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Vessel Conversion & Retrofit",
+        "relationshipNote": "Damen provides scrubber retrofits and ballast-water-treatment system installations for Hapag-Lloyd's existing fleet compliance with IMO 2020 and BWMS regulations. 2018–2023 retrofit program covered 85+ vessels; estimated capex $180–220M. Damen also supplies spare container-handling equipment and deck machinery.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hapag-Lloyd Container Manufacturing (subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hapag_lloyd_containers",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Container Production & Leasing",
+        "relationshipNote": "Hapag-Lloyd owns and operates container-manufacturing and leasing operations (HLCU subsidiary); produces 150,000–200,000 TEU annually of 20ft and 40ft containers. Internal supply reduces external procurement costs by 12–15% vs. spot market. Container fleet: 2.8M TEU owned/leased; depreciation and maintenance capex $280–320M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Rolls-Royce Power Systems",
+        "ticker": null,
+        "cik": null,
+        "slug": "rolls_royce_power_systems",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Auxiliary Engine & Power Systems",
+        "relationshipNote": "Rolls-Royce supplies auxiliary engines, generators, and power-management systems for Hapag-Lloyd's fleet; 2020–2024 retrofit program for fuel-efficiency upgrades on 60+ vessels. Estimated contract value $95–125M. Predictive-maintenance software integration enables 3–5% fuel savings per vessel.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China State Shipbuilding Corporation (CSSC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_state_shipbuilding",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Alternative Newbuild Capacity",
+        "relationshipNote": "CSSC yards (China State Shipbuilding) supply 20–25% of Hapag-Lloyd's newbuild capacity; 2019–2024 orderbook includes 8 vessels (1,200–2,400 TEU) at 15–20% cost discount vs. Korean yards. Delivery delays in 2021–2022 (COVID lockdowns) prompted Hapag-Lloyd to diversify to HHI and Damen. Current CSSC orders scheduled 2024–2026.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Borealis AG (Polyolefin Resin)",
+        "ticker": null,
+        "cik": null,
+        "slug": "borealis_ag",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Container Lining & Coating Materials",
+        "relationshipNote": "Borealis supplies polyolefin resins and coatings for container linings (food-grade, hazmat-compliant); annual volume 8,000–12,000 tonnes. 2021 supply agreement includes price-adjustment clauses tied to crude-oil indices. Estimated annual spend $12–18M.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DP World Limited",
+        "ticker": null,
+        "cik": null,
+        "slug": "dp_world",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Port Terminal Operations & Cargo Handling",
+        "relationshipNote": "DP World operates 80+ container terminals globally; Hapag-Lloyd utilizes DP World facilities at Jebel Ali (Dubai), Port Said (Suez), Singapore, and Rotterdam for cargo handling and transshipment. 2022 framework agreement covers 10-year terminal-access and priority-berthing rights; estimated annual terminal fees $280–340M. DP World also provides supply-chain visibility software integration.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Hapag-Lloyd Logistics GmbH (subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hapag_lloyd_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Inland Transport & Freight Forwarding",
+        "relationshipNote": "Hapag-Lloyd Logistics (HLL) is the company's integrated freight-forwarding and inland-transport arm; operates 120+ offices in 80+ countries. HLL generates 18–22% of consolidated revenue (2022–2024: €2.1–2.4B annually) via LCL consolidation, customs brokerage, and last-mile delivery. HLL margin: 8–12% EBITDA, higher than ocean-freight core business.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Seatrade Groningen (Barge & Feeder Services)",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_groningen",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Feeder & Barge Operations",
+        "relationshipNote": "Seatrade Groningen operates 35+ feeder vessels and barges for Hapag-Lloyd's intra-Europe and North Sea services; 2020 partnership agreement covers 8-year exclusive feeder-service contract. Estimated annual feeder-capacity: 180,000–220,000 TEU. Feeder services connect secondary ports (Hamburg, Antwerp, Bremerhaven) to deep-sea hubs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Freight Forwarding & Customs Brokerage",
+        "relationshipNote": "Kuehne+Nagel is a major freight-forwarding partner for Hapag-Lloyd's LCL and FCL shipments; handles 12–15% of Hapag-Lloyd's total forwarded volume (estimated 800,000–1,000,000 TEU annually). 2019 digital-integration agreement enables real-time shipment tracking and customs-clearance automation. Estimated annual revenue to K+N from Hapag-Lloyd: $180–220M.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Amazon.com Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor E-Commerce Customer & Revenue Driver",
+        "relationshipNote": "Amazon is Hapag-Lloyd's largest single customer by volume; estimated 180,000–220,000 TEU annually (8–10% of Hapag-Lloyd's total capacity). 2020 long-term contract locks in capacity and rates through 2025; includes dedicated vessel slots on Asia–US and Asia–Europe routes. Amazon's supply-chain diversification away from China (nearshoring to Mexico, Vietnam) increases Hapag-Lloyd's transpacific and intra-Asia utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Retail Customer & Volume Anchor",
+        "relationshipNote": "Walmart is Hapag-Lloyd's second-largest customer; estimated 140,000–170,000 TEU annually (6–8% of capacity). 2018 framework agreement covers Asia–US and intra-Asia services; includes priority berthing at Los Angeles, Long Beach, and Shanghai. Walmart's nearshoring initiatives (Mexico, Central America) drive growth in transpacific and intra-Americas routes; estimated annual revenue to Hapag-Lloyd: $420–520M.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BASF SE",
+        "ticker": null,
+        "cik": null,
+        "slug": "basf_se",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Chemical & Specialty-Cargo Customer",
+        "relationshipNote": "BASF ships 35,000–45,000 TEU annually of chemicals, plastics, and specialty materials via Hapag-Lloyd; 2019 contract includes dedicated hazmat-certified containers and temperature-controlled services. BASF's supply-chain restructuring (Asia-to-Europe sourcing shift) increases Hapag-Lloyd's Asia–Europe utilization by 8–12% annually. Estimated annual revenue: $95–125M.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "A.P. Moller-Maersk A/S",
+        "ticker": null,
+        "cik": null,
+        "slug": "ap_moller_maersk",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Container-Shipping Rival & Market Leader",
+        "relationshipNote": "Maersk is the world's largest container carrier (4.3M TEU capacity, 2024); competes directly with Hapag-Lloyd on all major trade lanes. Maersk's 2023 revenue: $60.8B (vs. Hapag-Lloyd's €15.3B); EBITDA margin 18–22% vs. Hapag-Lloyd's 12–16%. Maersk's vertical integration (terminals, logistics, energy) provides 15–20% margin advantage. Hapag-Lloyd's competitive positioning: cost leadership via UASC integration (2017) and alliance partnerships (THE Alliance).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "MSC (Mediterranean Shipping Company)",
+        "ticker": null,
+        "cik": null,
+        "slug": "mediterranean_shipping_company",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Container-Shipping Rival & Capacity Leader",
+        "relationshipNote": "MSC is the world's second-largest container carrier (4.6M TEU capacity, 2024); privately held (Aponte family). MSC's 2023 estimated revenue: $65–70B; EBITDA margin 20–24% (highest in industry). MSC's competitive advantages: fuel-hedging sophistication, vessel-age optimization (average 8.2 years vs. Hapag-Lloyd's 9.1 years), and aggressive newbuild ordering (60+ vessels on order). Hapag-Lloyd's market share erosion: 2–3% annually vs. MSC.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "CMA CGM Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "cma_cgm",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Container-Shipping Rival & Alliance Partner",
+        "relationshipNote": "CMA CGM is the world's third-largest container carrier (3.9M TEU capacity, 2024); 2023 revenue €13.2B. CMA CGM competes with Hapag-Lloyd on Asia–Europe and transpacific routes; member of Ocean Alliance (with COSCO, Evergreen). CMA CGM's 2023 EBITDA margin: 14–16% (vs. Hapag-Lloyd's 12–16%). Competitive pressure: CMA CGM's aggressive pricing on Asia–US routes (2023–2024) compressed Hapag-Lloyd's spot-rate realization by 8–12%.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "COSCO Shipping Lines Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "cosco_shipping_lines",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Container-Shipping Rival & State-Owned Competitor",
+        "relationshipNote": "COSCO is the world's fifth-largest container carrier (2.1M TEU capacity, 2024); state-owned by China. COSCO's 2023 revenue: $18.5B; EBITDA margin 8–12% (lower than Hapag-Lloyd due to state-mandated capacity deployment). COSCO's competitive threat: pricing aggression on Asia–Europe and intra-Asia routes; 2023–2024 spot-rate undercutting by 15–25% vs. Hapag-Lloyd. Hapag-Lloyd's exposure: 12–15% of Asia–Europe volume at risk to COSCO pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Evergreen Marine Corp.",
+        "ticker": null,
+        "cik": null,
+        "slug": "evergreen_marine",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Container-Shipping Rival & Alliance Partner",
+        "relationshipNote": "Evergreen is the world's sixth-largest container carrier (1.3M TEU capacity, 2024); Taiwan-based. Evergreen competes with Hapag-Lloyd on Asia–Europe and intra-Asia routes; member of Ocean Alliance. Evergreen's 2023 revenue: $9.2B; EBITDA margin 10–14%. Competitive positioning: Evergreen's intra-Asia dominance (35% market share) pressures Hapag-Lloyd's regional profitability; 2023 spot-rate compression on Shanghai–Singapore route: 18–22%.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "European Commission (DG MOVE & DG COMP)",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Maritime Regulation",
+        "relationshipNote": "EC DG COMP oversees EU maritime antitrust enforcement; 2023 investigation into THE Alliance (Hapag-Lloyd, ONE, Yang Ming) vessel-sharing agreement; preliminary findings (2024) suggest potential capacity reduction of 8–12% on Asia–Europe routes if VSA dissolved. EC DG MOVE regulates EU port services, labor standards, and environmental compliance. Hapag-Lloyd's Hamburg and Bremerhaven operations subject to EU labor directives and port-state-control inspections.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Maritime Commission (FMC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_federal_maritime_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "U.S. Maritime Antitrust & Rate Regulation",
+        "relationshipNote": "FMC regulates U.S. ocean-shipping rates, vessel-sharing agreements, and service contracts under the Ocean Shipping Reform Act (OSRA 1998). Hapag-Lloyd files quarterly vessel-sharing agreement notifications (VSA filings) for THE Alliance; 2023 FMC review flagged potential capacity-reduction concerns. FMC also oversees port-terminal leases and labor agreements (ILWU negotiations 2023–2024). Estimated compliance cost: $8–12M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "International Maritime Organization (IMO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "international_maritime_organization",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental & Safety Regulation",
+        "relationshipNote": "IMO sets global maritime environmental standards (MARPOL, IMO 2020 sulfur cap, IMO 2030/2050 carbon-intensity regulations). Hapag-Lloyd's fleet compliance: 85% VLSFO-compliant (2024), 12% LNG/methanol-capable (2024 target: 18%). IMO 2030 CII regulations require 5% annual efficiency improvement; non-compliance triggers port-call penalties. Estimated capex for decarbonization: $2.8–3.5B through 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA) & California Air Resources Board (CARB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_epa_carb",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Port Emissions & Air-Quality Regulation",
+        "relationshipNote": "EPA and CARB regulate vessel emissions in U.S. ports and coastal waters (NOx, PM2.5, SOx). Hapag-Lloyd's U.S. West Coast operations (Los Angeles, Long Beach, Oakland) subject to CARB's 2023 vessel-speed-reduction mandate (10 knots in coastal zones) and 2025 zero-emission-vessel requirements for port-call equipment. Estimated compliance cost: $45–65M annually for shore-power infrastructure and vessel retrofits.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "German Federal Financial Supervisory Authority (BaFin)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bafin",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Regulation & Disclosure Oversight",
+        "relationshipNote": "BaFin oversees Hapag-Lloyd's financial reporting and disclosure compliance under German Commercial Code (HGB) and EU Market Abuse Regulation (MAR). Hapag-Lloyd files annual reports (Geschäftsbericht) with BaFin; 2023 report disclosed €15.3B revenue, €2.1B EBITDA. BaFin also oversees Hapag-Lloyd's debt issuances and credit-rating disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "KPMG AG (Wirtschaftsprüfungsgesellschaft)",
+      "ticker": null,
+      "cik": null,
+      "slug": "kpmg_ag",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Financial Assurance",
+      "relationshipNote": "KPMG AG is Hapag-Lloyd's statutory auditor (Abschlussprüfer) since 2015; audits consolidated financial statements under IFRS and German HGB. 2023 audit opinion: unqualified (clean). KPMG also provides tax advisory and internal-control assessments. Audit fees: €2.8–3.2M annually. KPMG's audit committee oversight includes vessel-valuation methodologies, fuel-hedging derivative accounting, and goodwill impairment testing (UASC acquisition 2017).",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Deutsche Bank AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "deutsche_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Relationship Bank & Debt Arranger",
+        "relationshipNote": "Deutsche Bank is Hapag-Lloyd's primary relationship bank and lead arranger for vessel-financing facilities. 2022 €2.8B syndicated credit facility (5-year tenor, EURIBOR+150bps) arranged by Deutsche Bank, ING, and Commerzbank. Deutsche Bank also provides FX hedging, interest-rate swaps, and commodity-hedging services. Estimated annual banking fees: $18–24M.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ING Groep N.V.",
+        "ticker": null,
+        "cik": null,
+        "slug": "ing_groep",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicated Lender & Trade-Finance Provider",
+        "relationshipNote": "ING is co-arranger of Hapag-Lloyd's 2022 €2.8B syndicated facility and provides trade-finance services (letters of credit, guarantees) for customer shipments. ING's shipping-finance team manages 12–15% of Hapag-Lloyd's debt portfolio. Estimated annual credit exposure: €1.2–1.5B.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Commerzbank AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "commerzbank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicated Lender & Vessel-Financing Partner",
+        "relationshipNote": "Commerzbank is co-arranger of Hapag-Lloyd's 2022 syndicated facility and provides vessel-mortgage financing for newbuild acquisitions. Commerzbank's shipping-finance desk manages €800M–1.0B of Hapag-Lloyd's debt. 2023 vessel-financing facility: €1.2B (5-year tenor, EURIBOR+160bps) for HHI newbuild deliveries.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hapag-Lloyd AG Shareholders (Public Float)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hapag_lloyd_public_shareholders",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Equity Capital & Governance",
+        "relationshipNote": "Hapag-Lloyd is publicly traded on Hamburg Stock Exchange (Börse Hamburg) and Frankfurt Stock Exchange (Xetra); free float approximately 45–50% (2024). Major shareholders: Oeri family (Roche heirs, ~20%), TUI AG (~15%), public institutions (~35%). 2023 dividend: €0.50/share (yield 2.1% at €23.80 share price). Market cap: €3.2–3.8B (2024).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Rolf Habben Jansen",
+        "slug": "rolf_habben_jansen",
+        "title": "Chief Executive Officer (CEO)",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Habben Jansen has served as CEO since 2012; led UASC acquisition (2017) and integration, positioning Hapag-Lloyd as top-4 global carrier. Under his leadership, Hapag-Lloyd's revenue grew from €6.2B (2012) to €15.3B (2023); EBITDA margin improved from 8% to 14%. 2024 strategic priorities: decarbonization capex acceleration, digital supply-chain platform development, and cost-efficiency initiatives targeting 5–7% EBITDA margin expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Jens Meier",
+        "slug": "jens_meier",
+        "title": "Chief Financial Officer (CFO)",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Meier has served as CFO since 2015; manages €2.8B debt portfolio, vessel-financing facilities, and dividend policy. 2023 achievements: refinanced €2.8B syndicated facility at EURIBOR+150bps (vs. prior EURIBOR+200bps), reducing annual interest expense by €14–18M. Meier oversees fuel-hedging strategy (50–75% hedge ratio) and capex allocation ($2.8–3.5B decarbonization program through 2030).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sabine Daleiden",
+        "slug": "sabine_daleiden",
+        "title": "Chief Operating Officer (COO)",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Fleet Management",
+        "relationshipNote": "Daleiden has served as COO since 2018; oversees fleet operations, vessel deployment, and port-call optimization. Under her leadership, Hapag-Lloyd achieved 78–82% average utilization (2023–2024) and reduced vessel-age profile from 9.8 years (2017) to 9.1 years (2024). 2024 priorities: methanol-vessel integration, feeder-service optimization, and supply-chain visibility platform rollout.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Klaus Behling",
+        "slug": "klaus_behling",
+        "title": "Chairperson (Vorsitzender des Aufsichtsrats)",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Board Oversight",
+        "relationshipNote": "Behling has served as Chairperson since 2019; represents Oeri family interests (20% shareholder). Behling oversees board committees (audit, compensation, sustainability) and strategic M&A decisions. 2023 board actions: approved €2.8–3.5B decarbonization capex program, authorized €500M share-buyback program (2023–2025), and endorsed dividend policy (€0.50/share target).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Shanghai Containerized Freight Index (SCFI)",
+        "slug": "shanghai_containerized_freight_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Spot-Rate Demand Signal",
+        "relationshipNote": "SCFI is the primary spot-rate index for Asia–Europe and transpacific container routes; published weekly by Shanghai Shipping Exchange. Hapag-Lloyd's spot-rate realization correlates 0.78–0.85 with SCFI (4-week lag). 2023 SCFI range: $1,200–2,800/TEU (Shanghai–Rotterdam); 2024 YTD average: $1,650/TEU (vs. 2023 average $1,920/TEU). SCFI declines >15% signal demand weakness and margin compression risk.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Drewry World Container Index (WCI)",
+        "slug": "drewry_world_container_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Global Spot-Rate & Market Intelligence",
+        "relationshipNote": "WCI is a composite spot-rate index covering 8 major trade lanes (Asia–Europe, transpacific, intra-Asia, etc.); published weekly by Drewry Shipping Consultants. WCI correlates 0.82–0.88 with Hapag-Lloyd's quarterly revenue per TEU. 2023 WCI range: $1,100–2,600/TEU; 2024 YTD average: $1,520/TEU. WCI declines >20% signal cyclical downturn and potential covenant-breach risk on debt facilities.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

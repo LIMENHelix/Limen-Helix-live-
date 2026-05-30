@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; MASTER BRAIN &middot; INBOX</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#050810;color:#e8e3d9;font-family:monospace;min-height:100vh;width:100%;overflow-x:hidden;-webkit-user-select:none;user-select:none}
+body{padding:28px 28px 56px}
+#mbi-frame{max-width:1180px;margin:0 auto}
+#mbi-header{margin-bottom:28px}
+.mbi-breadcrumb{font-size:.46rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:18px}
+.mbi-breadcrumb a{color:rgba(201,169,78,0.4);text-decoration:none;transition:color .3s}
+.mbi-breadcrumb a:hover{color:rgba(201,169,78,0.8)}
+.mbi-sep{color:rgba(201,169,78,0.22);margin:0 6px}
+.mbi-current{color:rgba(201,169,78,0.75)}
+.mbi-title-block{margin-bottom:22px}
+.mbi-eyebrow{font-size:.46rem;letter-spacing:6px;color:rgba(201,169,78,0.45);text-transform:uppercase;margin-bottom:8px}
+.mbi-title{font-family:Georgia,serif;font-weight:300;font-size:clamp(1.3rem,3.5vw,1.9rem);letter-spacing:5px;color:rgba(234,216,166,0.92);margin-bottom:6px}
+.mbi-sub{font-size:.5rem;letter-spacing:2.5px;color:rgba(200,195,184,0.5);text-transform:uppercase}
+.mbi-filters{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 0;border-top:1px solid rgba(201,169,78,0.08);border-bottom:1px solid rgba(201,169,78,0.08)}
+.mbi-filter-group{display:flex;gap:4px}
+.mbi-filter-group button{background:none;border:1px solid rgba(201,169,78,0.12);color:rgba(200,195,184,0.4);font-family:monospace;font-size:.42rem;letter-spacing:2.5px;padding:6px 11px;cursor:pointer;text-transform:uppercase;transition:color .2s,border-color .2s,background .2s}
+.mbi-filter-group button:hover{color:rgba(201,169,78,0.8);border-color:rgba(201,169,78,0.35)}
+.mbi-filter-group button.mbi-active{color:rgba(234,216,166,0.9);border-color:rgba(201,169,78,0.5);background:rgba(201,169,78,0.06)}
+#mbi-stats{margin-left:auto;font-size:.42rem;letter-spacing:2px;color:rgba(200,195,184,0.4);text-transform:uppercase}
+#mbi-stats .mbi-stat-sep{color:rgba(201,169,78,0.2);margin:0 6px}
+#mbi-stats .mbi-stat-ready{color:rgba(160,210,160,0.7)}
+#mbi-stats .mbi-stat-near{color:rgba(220,190,120,0.7)}
+#mbi-stats .mbi-stat-blocked{color:rgba(220,130,130,0.6)}
+#mbi-list{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.mbi-empty{padding:48px 12px;text-align:center;font-size:.5rem;letter-spacing:3px;color:rgba(200,195,184,0.35);text-transform:uppercase;border:1px dashed rgba(201,169,78,0.12);border-radius:2px}
+.mbi-card{padding:14px 18px;border:1px solid rgba(201,169,78,0.12);background:rgba(201,169,78,0.02);border-radius:3px;display:flex;flex-direction:column;gap:10px}
+.mbi-card.tier-READY{border-color:rgba(160,210,160,0.28);background:rgba(160,210,160,0.035)}
+.mbi-card.tier-NEAR_READY{border-color:rgba(220,190,120,0.22)}
+.mbi-card.tier-BLOCKED{border-color:rgba(220,130,130,0.14);opacity:0.92}
+.mbi-card-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.mbi-card-title{flex:1;min-width:0;font-family:Georgia,serif;font-size:.95rem;color:rgba(234,216,166,0.92);letter-spacing:1px;line-height:1.35}
+.mbi-pill{display:inline-block;font-size:.34rem;letter-spacing:2px;padding:3px 8px;border:1px solid rgba(201,169,78,0.18);color:rgba(200,195,184,0.55);text-transform:uppercase;border-radius:2px;white-space:nowrap}
+.mbi-pill.domain{color:rgba(140,170,200,0.7);border-color:rgba(140,170,200,0.22)}
+/* .mbi-pill.engine removed — leaf engine labels now render as flat non-interactive labels via .mbi-leaf-engine (no false affordance). */
+.mbi-tier{font-size:.38rem;letter-spacing:3px;padding:3px 9px;border:1px solid;border-radius:2px;text-transform:uppercase}
+.mbi-tier.READY{color:rgba(160,210,160,0.9);border-color:rgba(160,210,160,0.4);background:rgba(160,210,160,0.08)}
+.mbi-tier.NEAR_READY{color:rgba(220,190,120,0.9);border-color:rgba(220,190,120,0.35)}
+.mbi-tier.BLOCKED{color:rgba(220,130,130,0.85);border-color:rgba(220,130,130,0.3)}
+.mbi-no-coverage{display:inline-block;font-size:.32rem;letter-spacing:2.5px;padding:3px 8px;border:1px solid rgba(220,130,130,0.35);background:rgba(220,130,130,0.07);color:rgba(220,140,140,0.95);border-radius:2px;text-transform:uppercase;white-space:nowrap}
+.mbi-bar-row{display:flex;align-items:center;gap:12px}
+.mbi-bar{flex:1;height:4px;background:rgba(201,169,78,0.06);border-radius:2px;overflow:hidden}
+.mbi-bar-fill{height:100%;background:rgba(234,216,166,0.55);transition:width .4s}
+.mbi-card.tier-READY .mbi-bar-fill{background:rgba(160,210,160,0.7)}
+.mbi-card.tier-NEAR_READY .mbi-bar-fill{background:rgba(220,190,120,0.65)}
+.mbi-card.tier-BLOCKED .mbi-bar-fill{background:rgba(220,130,130,0.55)}
+.mbi-score{font-size:.46rem;letter-spacing:2px;color:rgba(234,216,166,0.7);min-width:58px;text-align:right;font-variant-numeric:tabular-nums}
+.mbi-chips{display:flex;flex-wrap:wrap;gap:4px}
+.mbi-chip{font-size:.34rem;letter-spacing:1.2px;padding:2px 7px;border-radius:2px;text-transform:uppercase}
+.mbi-chip.reason{color:rgba(160,210,160,0.75);border:1px solid rgba(160,210,160,0.18);background:rgba(160,210,160,0.04)}
+.mbi-chip.missing{color:rgba(220,150,130,0.75);border:1px solid rgba(220,150,130,0.2);background:rgba(220,130,130,0.04)}
+.mbi-signals{display:flex;flex-wrap:wrap;gap:12px 18px;font-size:.4rem;letter-spacing:1px;color:rgba(200,195,184,0.42);padding-top:4px;border-top:1px solid rgba(201,169,78,0.06)}
+.mbi-signals span b{color:rgba(234,216,166,0.7);font-weight:normal}
+.mbi-section-label{font-size:.32rem;letter-spacing:3px;color:rgba(201,169,78,0.4);text-transform:uppercase;margin-top:4px;margin-bottom:-2px}
+.mbi-posture{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.38rem;letter-spacing:1px;color:rgba(200,195,184,0.5);text-transform:uppercase;padding:8px 12px;border:1px solid rgba(201,169,78,0.1);background:rgba(0,0,0,0.18);border-radius:2px}
+.mbi-posture span b{color:rgba(234,216,166,0.85);font-weight:normal}
+.mbi-posture .structural b{color:rgba(220,150,130,0.95)}
+.mbi-dx{padding:9px 12px;border:1px solid rgba(140,170,200,0.18);background:rgba(140,170,200,0.03);border-radius:2px}
+.mbi-dx-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.mbi-dx-label{font-family:Georgia,serif;font-size:.72rem;color:rgba(180,210,240,0.9);letter-spacing:.5px;line-height:1.3}
+.mbi-dx-id{font-size:.34rem;letter-spacing:2px;color:rgba(140,170,200,0.5);text-transform:uppercase;font-family:monospace}
+.mbi-dx-meta{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:.38rem;letter-spacing:1px;color:rgba(200,195,184,0.5);text-transform:uppercase}
+.mbi-dx-meta span b{color:rgba(180,210,240,0.85);font-weight:normal}
+.mbi-dx-summary{font-family:Georgia,serif;font-size:.6rem;color:rgba(200,195,184,0.55);line-height:1.55;font-style:italic;margin-top:5px}
+.mbi-nodes{display:flex;flex-direction:column;gap:4px}
+.mbi-node{display:flex;align-items:center;gap:10px;padding:5px 10px;font-size:.44rem;letter-spacing:.5px;color:rgba(220,215,200,0.72);border-left:2px solid rgba(140,170,200,0.22);background:rgba(140,170,200,0.02)}
+.mbi-node.dormant{border-left-color:rgba(200,195,184,0.15);color:rgba(200,195,184,0.45)}
+.mbi-node-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:rgba(200,195,184,0.22);flex-shrink:0}
+.mbi-node.live .mbi-node-dot{background:rgba(160,210,160,0.75)}
+.mbi-node-label{flex:1;min-width:0;font-family:Georgia,serif}
+/* Flat non-interactive metadata label — no real click target exists for circuit membership today. */
+.mbi-node-tag{font-size:.32rem;letter-spacing:2.5px;color:rgba(180,210,240,0.72);text-transform:uppercase;white-space:nowrap;cursor:default}
+.mbi-node-count{font-size:.34rem;letter-spacing:1.5px;color:rgba(200,195,184,0.5);text-transform:uppercase;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mbi-node-group{margin-top:6px}
+.mbi-node-group-head{font-size:.36rem;letter-spacing:2.5px;color:rgba(180,210,240,0.65);text-transform:uppercase;padding:4px 2px;font-family:monospace;margin-bottom:3px}
+.mbi-tx-list{display:flex;flex-direction:column;gap:5px}
+.mbi-tx{display:flex;align-items:center;gap:10px;padding:6px 10px;border-left:2px solid rgba(234,216,166,0.2);background:rgba(234,216,166,0.02);font-size:.46rem;letter-spacing:.5px;color:rgba(220,215,200,0.72);line-height:1.4}
+.mbi-tx.deep{border-left-color:rgba(160,210,160,0.45);background:rgba(160,210,160,0.03)}
+.mbi-tx-label{flex:1;min-width:0;font-family:Georgia,serif}
+.mbi-tx-type{font-size:.32rem;letter-spacing:1.5px;color:rgba(200,195,184,0.4);text-transform:uppercase}
+.mbi-tx-evid{font-size:.32rem;letter-spacing:2px;padding:2px 7px;border:1px solid rgba(201,169,78,0.22);border-radius:2px;color:rgba(234,216,166,0.7);text-transform:uppercase;white-space:nowrap}
+/* Flat non-interactive depth label — no real drill target exists for individual deep treatments today. */
+.mbi-tx-deep{font-size:.32rem;letter-spacing:2.5px;color:rgba(160,210,160,0.92);text-transform:uppercase;white-space:nowrap;cursor:default}
+.mbi-tx-more{font-size:.36rem;letter-spacing:1.5px;color:rgba(200,195,184,0.38);text-transform:uppercase;padding:3px 10px}
+.mbi-cross{display:flex;flex-direction:column;gap:4px;padding:8px 12px;font-size:.4rem;letter-spacing:1px;color:rgba(200,195,184,0.5);border:1px solid rgba(201,169,78,0.08);background:rgba(0,0,0,0.14);border-radius:2px;line-height:1.55}
+.mbi-cross-line{display:block}
+.mbi-cross-line.em{color:rgba(220,190,120,0.78)}
+.mbi-cross-line.ing{color:rgba(180,210,240,0.78)}
+.mbi-cross-line.conv{color:rgba(234,216,166,0.8)}
+.mbi-cross-line b{color:rgba(234,216,166,0.92);font-weight:normal}
+.mbi-leaves{display:flex;flex-direction:column;gap:4px}
+.mbi-leaf{display:flex;align-items:center;gap:10px;padding:5px 10px;font-size:.44rem;letter-spacing:.5px;color:rgba(220,215,200,0.72);border-left:2px solid rgba(234,216,166,0.18);background:rgba(234,216,166,0.015);line-height:1.35}
+.mbi-leaf-title{flex:1;min-width:0;font-family:Georgia,serif}
+.mbi-leaf-urg{font-size:.3rem;letter-spacing:2px;padding:2px 6px;border-radius:2px;color:rgba(220,150,130,0.85);border:1px solid rgba(220,150,130,0.28);text-transform:uppercase;white-space:nowrap}
+.mbi-leaf-rank{font-size:.38rem;color:rgba(234,216,166,0.72);font-variant-numeric:tabular-nums;min-width:36px;text-align:right}
+/* Flat non-interactive engine-type label — no executor workspace exists today for patent/grant/invest. */
+.mbi-leaf-engine{font-size:.36rem;letter-spacing:3px;color:rgba(234,216,166,0.82);text-transform:uppercase;white-space:nowrap;cursor:default;min-width:62px}
+.mbi-ledger{display:flex;flex-direction:column;gap:6px;padding:10px 14px;border:1px solid rgba(201,169,78,0.14);background:rgba(0,0,0,0.20);border-radius:2px}
+.mbi-ledger-row{display:grid;grid-template-columns:170px 1fr;gap:14px;align-items:baseline;font-size:.4rem;letter-spacing:.5px;color:rgba(220,215,200,0.72);line-height:1.5}
+.mbi-ledger-key{font-size:.32rem;letter-spacing:2.5px;color:rgba(201,169,78,0.6);text-transform:uppercase;font-family:monospace;align-self:start;padding-top:2px}
+.mbi-ledger-val{display:flex;flex-wrap:wrap;gap:2px 0;font-family:Georgia,serif;font-size:.55rem;color:rgba(220,215,200,0.8);line-height:1.45}
+.mbi-ledger-item{display:inline}
+.mbi-ledger-item:not(:last-child)::after{content:" \00B7  ";color:rgba(201,169,78,0.32);white-space:pre}
+.mbi-ledger-empty{font-style:italic;color:rgba(200,195,184,0.32);font-family:Georgia,serif;font-size:.5rem}
+@media(max-width:720px){
+  .mbi-ledger-row{grid-template-columns:1fr;gap:2px}
+}
+#mbi-footer{display:flex;justify-content:center;gap:22px;margin-top:38px;padding-top:22px;border-top:1px solid rgba(201,169,78,0.08);font-size:.42rem;letter-spacing:3px;text-transform:uppercase}
+#mbi-footer a{color:rgba(201,169,78,0.4);text-decoration:none;transition:color .3s}
+#mbi-footer a:hover{color:rgba(201,169,78,0.85)}
+@media(max-width:720px){
+  .mbi-card-title{font-size:.82rem}
+  .mbi-signals{gap:8px 12px}
+  .mbi-posture{gap:6px 10px}
+  #mbi-stats{width:100%;margin-left:0;margin-top:6px}
+}
+
+/* ── MB-A Artifact Council Intake card (honest scaffold) ── */
+#mba-intake-card{margin:8px 0 28px;padding:16px 18px;border:1px solid rgba(201,169,78,0.18);background:rgba(201,169,78,0.02);border-radius:3px;display:flex;flex-direction:column;gap:14px}
+#mba-intake-card .mba-eyebrow{font-size:.5rem;letter-spacing:5px;color:rgba(201,169,78,0.6);text-transform:uppercase}
+#mba-intake-card .mba-title{font-family:Georgia,serif;font-weight:300;font-size:1.05rem;letter-spacing:3px;color:rgba(234,216,166,0.92)}
+#mba-intake-card .mba-sub{font-size:.46rem;letter-spacing:2px;color:rgba(200,195,184,0.6);text-transform:uppercase;line-height:1.5}
+#mba-intake-card .mba-disclaimer{font-size:.5rem;letter-spacing:.5px;color:rgba(220,140,140,0.78);font-family:Georgia,serif;line-height:1.6;border-left:2px solid rgba(220,140,140,0.4);padding:6px 12px;background:rgba(220,130,130,0.04)}
+#mba-intake-card .mba-row{display:flex;flex-wrap:wrap;align-items:flex-start;gap:14px}
+#mba-intake-card textarea{flex:1;min-width:280px;min-height:96px;background:rgba(0,0,0,0.3);color:rgba(220,215,200,0.85);border:1px solid rgba(201,169,78,0.18);border-radius:2px;font-family:monospace;font-size:.62rem;letter-spacing:.5px;padding:10px;line-height:1.5;resize:vertical}
+#mba-intake-card textarea:focus{outline:none;border-color:rgba(201,169,78,0.4)}
+#mba-intake-card .mba-controls{display:flex;flex-direction:column;gap:8px;min-width:180px}
+#mba-intake-card button{background:rgba(201,169,78,0.08);border:1px solid rgba(201,169,78,0.28);color:rgba(234,216,166,0.85);font-family:monospace;font-size:.46rem;letter-spacing:3px;padding:8px 12px;cursor:pointer;text-transform:uppercase;border-radius:2px;transition:background .2s,border-color .2s}
+#mba-intake-card button:hover{background:rgba(201,169,78,0.14);border-color:rgba(201,169,78,0.5)}
+#mba-intake-card button:disabled{opacity:.4;cursor:not-allowed}
+#mba-intake-msg{font-size:.5rem;letter-spacing:1.5px;color:rgba(200,195,184,0.6);font-family:monospace;min-height:1em;line-height:1.5;white-space:pre-wrap}
+#mba-intake-msg.err{color:rgba(220,140,140,0.85)}
+#mba-intake-msg.ok{color:rgba(160,210,160,0.85)}
+#mba-intake-stats{font-size:.42rem;letter-spacing:2px;color:rgba(200,195,184,0.5);text-transform:uppercase}
+.mba-tier-legend{display:flex;flex-direction:column;gap:5px;padding:10px 12px;border:1px dashed rgba(201,169,78,0.16);background:rgba(0,0,0,0.18);border-radius:2px}
+.mba-tier-legend .mba-tier-row{display:grid;grid-template-columns:160px 1fr;gap:12px;font-size:.42rem;letter-spacing:.5px;color:rgba(220,215,200,0.7);line-height:1.5;font-family:Georgia,serif}
+.mba-tier-legend .mba-tier-key{font-family:monospace;font-size:.4rem;letter-spacing:2px;color:rgba(201,169,78,0.7);text-transform:uppercase}
+#mba-intake-list{display:flex;flex-direction:column;gap:8px}
+#mba-intake-list .mba-empty{padding:20px 12px;text-align:center;font-size:.46rem;letter-spacing:3px;color:rgba(200,195,184,0.4);text-transform:uppercase;border:1px dashed rgba(201,169,78,0.14);border-radius:2px;line-height:1.6}
+.mba-card{padding:10px 14px;border:1px solid rgba(201,169,78,0.14);background:rgba(0,0,0,0.18);border-radius:2px;display:flex;flex-direction:column;gap:6px}
+.mba-card-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
+.mba-card-title{flex:1;min-width:0;font-family:Georgia,serif;font-size:.7rem;color:rgba(234,216,166,0.88);letter-spacing:.5px}
+.mba-card-meta{display:flex;flex-wrap:wrap;gap:6px}
+.mba-pill{display:inline-block;font-size:.34rem;letter-spacing:2px;padding:2px 7px;border:1px solid rgba(201,169,78,0.18);color:rgba(200,195,184,0.55);text-transform:uppercase;border-radius:2px;white-space:nowrap;font-family:monospace}
+.mba-pill.lane{color:rgba(140,170,200,0.7);border-color:rgba(140,170,200,0.22)}
+.mba-pill.ac{color:rgba(220,190,120,0.85);border-color:rgba(220,190,120,0.3)}
+.mba-pill.hr{color:rgba(180,210,240,0.78);border-color:rgba(180,210,240,0.22)}
+.mba-pill.exec{color:rgba(220,140,140,0.85);border-color:rgba(220,140,140,0.3)}
+.mba-card-notes{font-size:.46rem;letter-spacing:.5px;color:rgba(200,195,184,0.55);font-family:Georgia,serif;line-height:1.5}
+.mba-card-actions{display:flex;gap:8px;flex-wrap:wrap}
+.mba-card-actions button{background:none;border:1px solid rgba(220,140,140,0.22);color:rgba(220,140,140,0.7);font-family:monospace;font-size:.36rem;letter-spacing:2px;padding:4px 8px;cursor:pointer;text-transform:uppercase;border-radius:2px}
+.mba-card-actions button:hover{border-color:rgba(220,140,140,0.45);color:rgba(220,140,140,0.95)}
+.mba-card-actions button.mba-build{border-color:rgba(201,169,78,0.32);color:rgba(234,216,166,0.78)}
+.mba-card-actions button.mba-build:hover{border-color:rgba(201,169,78,0.55);color:rgba(234,216,166,0.95)}
+.mba-card-actions button.mba-finalize{border-color:rgba(160,210,160,0.32);color:rgba(160,210,160,0.85)}
+.mba-card-actions button.mba-finalize:hover{border-color:rgba(160,210,160,0.55);color:rgba(180,230,180,0.95)}
+.mba-card-actions button.mba-expand{border-color:rgba(140,170,200,0.4);color:rgba(180,210,240,0.85)}
+.mba-card-actions button.mba-expand:hover{border-color:rgba(140,170,200,0.65);color:rgba(200,225,250,0.95)}
+.mba-card-actions button.mba-expand:disabled{opacity:.4;cursor:not-allowed}
+.mba-doc{margin-top:8px;padding:14px 16px;border:1px solid rgba(160,210,160,0.22);background:rgba(0,0,0,0.24);border-radius:2px;color:rgba(220,215,200,0.82);line-height:1.55;max-height:640px;overflow:auto}
+.mba-doc h1{font-family:Georgia,serif;font-size:1rem;letter-spacing:2px;color:rgba(234,216,166,0.95);margin:8px 0 10px;font-weight:300}
+.mba-doc h2{font-family:Georgia,serif;font-size:.78rem;letter-spacing:1.5px;color:rgba(220,215,200,0.92);margin:12px 0 6px;font-weight:300;border-bottom:1px solid rgba(201,169,78,0.18);padding-bottom:3px}
+.mba-doc h3{font-family:Georgia,serif;font-size:.66rem;letter-spacing:1px;color:rgba(220,215,200,0.88);margin:10px 0 5px;font-weight:300}
+.mba-doc blockquote{margin:6px 0;padding:6px 10px;border-left:2px solid rgba(220,140,140,0.45);background:rgba(220,130,130,0.04);font-size:.55rem;color:rgba(220,140,140,0.85);font-family:Georgia,serif;line-height:1.6}
+.mba-doc ul{margin:4px 0 8px 18px;padding:0}
+.mba-doc li{font-size:.56rem;letter-spacing:.3px;color:rgba(220,215,200,0.78);font-family:Georgia,serif;line-height:1.55;margin-bottom:2px}
+.mba-doc p{font-size:.58rem;letter-spacing:.3px;color:rgba(220,215,200,0.78);font-family:Georgia,serif;line-height:1.55;margin:5px 0}
+.mba-doc code{font-family:monospace;font-size:.55rem;color:rgba(234,216,166,0.78);background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:2px}
+.mba-doc pre{margin:6px 0;padding:8px 10px;background:rgba(0,0,0,0.36);border:1px solid rgba(201,169,78,0.12);border-radius:2px;overflow-x:auto;font-family:monospace;font-size:.5rem;line-height:1.45;color:rgba(220,215,200,0.65);white-space:pre-wrap;word-break:break-word}
+.mba-doc pre code{background:transparent;padding:0}
+.mba-doc-banner{display:block;margin:0 0 8px;padding:8px 10px;font-family:monospace;font-size:.5rem;letter-spacing:2.5px;color:rgba(160,210,160,0.95);border:1px solid rgba(160,210,160,0.4);background:rgba(160,210,160,0.06);border-radius:2px;text-transform:uppercase}
+.mba-doc-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.mba-doc-actions button{background:rgba(201,169,78,0.06);border:1px solid rgba(201,169,78,0.25);color:rgba(234,216,166,0.78);font-family:monospace;font-size:.4rem;letter-spacing:2px;padding:5px 10px;cursor:pointer;text-transform:uppercase;border-radius:2px}
+.mba-doc-actions button:hover{border-color:rgba(201,169,78,0.5);color:rgba(234,216,166,0.95)}
+.mba-doc-warning{display:block;margin:6px 0;padding:6px 10px;font-size:.5rem;letter-spacing:.5px;color:rgba(220,140,140,0.85);font-family:monospace;border:1px dashed rgba(220,140,140,0.32);border-radius:2px;line-height:1.5;white-space:pre-wrap}
+.mba-package{margin-top:8px;padding:10px 12px;border:1px solid rgba(201,169,78,0.18);background:rgba(0,0,0,0.22);border-radius:2px;font-family:monospace;font-size:.5rem;line-height:1.5;color:rgba(220,215,200,0.78);max-height:520px;overflow:auto;white-space:pre-wrap}
+.mba-package-head{font-family:Georgia,serif;font-size:.7rem;letter-spacing:2px;color:rgba(234,216,166,0.88);margin-bottom:6px;text-transform:uppercase}
+.mba-package-disclaim{display:block;margin:6px 0;padding:6px 10px;font-size:.5rem;letter-spacing:.5px;color:rgba(220,140,140,0.85);font-family:Georgia,serif;border-left:2px solid rgba(220,140,140,0.45);background:rgba(220,130,130,0.04);line-height:1.5;white-space:normal}
+.mba-package-blocked{display:block;margin:6px 0;padding:6px 10px;font-size:.5rem;letter-spacing:.5px;color:rgba(220,140,140,0.85);font-family:monospace;border:1px dashed rgba(220,140,140,0.32);border-radius:2px;line-height:1.5;white-space:normal}
+</style>
+</head>
+<body>
+<script src="assets/js/auth-gate.js"></script>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+<div id="mbi-frame">
+  <div class="mbi-breadcrumb">
+    <a href="/master-brain.html">MASTER BRAIN</a>
+    <span class="mbi-sep">&rsaquo;</span>
+    <span class="mbi-current">INBOX</span>
+  </div>
+  <div id="mbi-header">
+    <div class="mbi-title-block">
+      <div class="mbi-eyebrow">Executive Intake</div>
+      <h1 class="mbi-title">MASTER BRAIN INBOX</h1>
+      <div class="mbi-sub">Qualified domain pathways &middot; ranked by salience</div>
+    </div>
+    <div class="mbi-filters">
+      <div class="mbi-filter-group" id="mbi-tier-filter">
+        <button data-tier="all" class="mbi-active">ALL</button>
+        <button data-tier="READY">READY</button>
+        <button data-tier="NEAR_READY">NEAR READY</button>
+        <button data-tier="BLOCKED">BLOCKED</button>
+      </div>
+      <div class="mbi-filter-group" id="mbi-engine-filter">
+        <button data-engine="all" class="mbi-active">ALL ENGINES</button>
+        <button data-engine="patent">PATENT</button>
+        <button data-engine="grant">GRANT</button>
+        <button data-engine="invest">INVEST</button>
+      </div>
+      <div id="mbi-stats">&nbsp;</div>
+    </div>
+  </div>
+  <!-- MB-A — Artifact Council Intake (honest scaffold) -->
+  <section id="mba-intake-card">
+    <div>
+      <div class="mba-eyebrow">MB-A &middot; Artifact Council Intake</div>
+      <div class="mba-title">REVIEWED ARTIFACT INTAKE</div>
+      <div class="mba-sub">Session-scoped queue &middot; sessionStorage only &middot; no execution authority</div>
+    </div>
+
+    <div class="mba-disclaimer">
+      This is an intake placeholder. Items here are NOT submitted, filed,
+      funded, approved, validated, eligible, traded, or sent to any external
+      system. "Reviewed" only means an operator clicked a button in
+      Civilization &mdash; it is NOT validation, NOT external review, NOT
+      approval. Master Brain executes nothing from this queue.
+    </div>
+
+    <div class="mba-tier-legend" id="mba-tier-legend"><!-- legend rendered by JS --></div>
+
+    <div class="mba-row">
+      <textarea id="mba-intake-input"
+        placeholder='Paste reviewed Artifact Council intake JSON. Required shape:
+{
+  "artifactPacket":         { ... ArtifactPacket from LIMENArtifactPacketBuilder.buildAll() ... },
+  "lane":                   "patents" | "nsf-project-pitch" | ... ,
+  "artifactCouncilStatus":  "draft_only" | "critique_only" | "reviewed_local" | "verifier_pending" | "human_review_required" | "blocked",
+  "humanReviewStatus":      "not_reviewed" | "reviewed_local" | "reviewed_external" | "rejected",
+  "source":                 "ArtifactCouncil",
+  "createdAt":              "ISO timestamp or epoch ms",
+  "notes":                  "optional operator note"
+}'></textarea>
+      <div class="mba-controls">
+        <button id="mba-intake-import" type="button">Import intake JSON</button>
+        <button id="mba-intake-refresh" type="button" title="Re-read sessionStorage to pick up items written by the Civilization → Main Brain bridge in another tab/page.">Refresh from session</button>
+        <button id="mba-intake-clear" type="button">Clear queue (session)</button>
+        <span id="mba-intake-stats">0 items</span>
+      </div>
+    </div>
+    <div id="mba-intake-msg"></div>
+
+    <div id="mba-intake-list">
+      <div class="mba-empty">
+        No reviewed Artifact Council packets available.<br>
+        Artifact Council review / finalizer (D3-H) / verifier (D3-I) not complete.<br>
+        No execution authorized.
+      </div>
+    </div>
+  </section>
+
+  <main id="mbi-list">
+    <div class="mbi-empty">Awaiting first brain cycle &mdash; no qualified domain pathways yet.</div>
+  </main>
+  <footer id="mbi-footer">
+    <a href="/master-brain.html">&larr; Master Brain</a>
+    <span class="mbi-sep">&middot;</span>
+    <a href="/civilization.html">Civilization Console</a>
+  </footer>
+</div>
+
+<!-- Brain bootstrap (mirrors opportunities.html) -->
+<script src="assets/js/domain-identity.js"></script>
+<script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/feed-store.js"></script>
+<script src="assets/js/feed-state.js"></script>
+<script src="assets/js/domain-signal-engine.js"></script>
+<script src="assets/js/cross-domain-detector.js"></script>
+<script src="assets/js/limen-bootstrap.js"></script>
+<script src="assets/js/domain-brains/domain-brain-base.js"></script>
+<script src="assets/js/domain-brains/portal-content-resolver.js"></script>
+<script src="assets/js/domain-brains/inter-brain-bus.js"></script>
+<script src="assets/js/domain-brains/domain-change-log.js"></script>
+<script src="assets/js/domain-brains/energy-brain.js"></script>
+<script src="assets/js/domain-brains/data/finance-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/finance-brain.js"></script>
+<script src="assets/js/domain-brains/data/defense-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/defense-brain.js"></script>
+<script src="assets/js/domain-brains/data/trade-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/trade-brain.js"></script>
+<script src="assets/js/domain-brains/data/medicine-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/medicine-brain.js"></script>
+<script src="assets/js/domain-brains/data/agriculture-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/agriculture-brain.js"></script>
+<script src="assets/js/domain-brains/data/communication-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/communication-brain.js"></script>
+<script src="assets/js/domain-brains/data/culture-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/culture-brain.js"></script>
+<script src="assets/js/domain-brains/data/economy-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/economy-brain.js"></script>
+<script src="assets/js/domain-brains/data/education-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/education-brain.js"></script>
+<script src="assets/js/domain-brains/data/environment-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/environment-brain.js"></script>
+<script src="assets/js/domain-brains/data/governance-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/governance-brain.js"></script>
+<script src="assets/js/domain-brains/data/industry-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/industry-brain.js"></script>
+<script src="assets/js/domain-brains/infrastructure-brain.js"></script>
+<script src="assets/js/domain-brains/data/intelligence-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/intelligence-brain.js"></script>
+<script src="assets/js/domain-brains/data/law-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/law-brain.js"></script>
+<script src="assets/js/domain-brains/data/population-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/population-brain.js"></script>
+<script src="assets/js/domain-brains/data/religion-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/religion-brain.js"></script>
+<script src="assets/js/domain-brains/data/science-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/science-brain.js"></script>
+<script src="assets/js/domain-brains/data/technology-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/technology-brain.js"></script>
+<script src="assets/js/domain-brain-adapter.js"></script>
+
+<!-- Readiness pipeline (pathway-first) -->
+<script src="assets/js/master-brain-readiness.js"></script>
+<script src="assets/js/master-brain/artifact-intake.js"></script>
+<script src="assets/js/master-brain/artifact-factory.js"></script>
+<script src="assets/js/master-brain/artifact-finalizer.js"></script>
+<!-- D3-G.4 — lightweight deep-source enrichment client. Self-contained,
+     no upstream deps. Exposes window.LIMENArtifactSourceIndex which the
+     inbox _doEnrich() can call directly without pulling in the full
+     Civilization ArtifactPacket builder runtime. -->
+<script src="assets/js/civilization/artifact-source-index-client.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  var _state = { tier: 'all', engine: 'all' };
+  var _listEl   = document.getElementById('mbi-list');
+  var _statsEl  = document.getElementById('mbi-stats');
+  var _tierEls  = document.querySelectorAll('#mbi-tier-filter button');
+  var _engEls   = document.querySelectorAll('#mbi-engine-filter button');
+
+  function _esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function _num(n, d) { if (n == null || !isFinite(n)) return d; return n; }
+  function _fmtFresh(sec) { if (sec == null) return '&mdash;'; if (sec < 60) return sec.toFixed(0) + 's'; if (sec < 3600) return (sec/60).toFixed(0) + 'm'; return (sec/3600).toFixed(1) + 'h'; }
+  function _up(s) { return s == null ? '' : String(s).toUpperCase(); }
+
+  // Pathway matches filters if tier matches AND at least one leaf opportunity
+  // (or the pathway itself when no leaves) matches the engine filter.
+  function _matchesPathway(p) {
+    var sal = p.salience || {};
+    if (_state.tier !== 'all' && sal.tier !== _state.tier) return false;
+    if (_state.engine !== 'all') {
+      var opps = p.opportunities || [];
+      if (!opps.length) return false;
+      var hit = false;
+      for (var i = 0; i < opps.length; i++) {
+        if (opps[i].engine === _state.engine) { hit = true; break; }
+      }
+      if (!hit) return false;
+    }
+    return true;
+  }
+
+  function _renderPostureLine(post) {
+    if (!post) return '';
+    var parts = [];
+    parts.push('<span>Phase <b>' + _esc(_up(post.phase) || '&mdash;') + '</b></span>');
+    var stressBit = post.stress != null ? post.stress.toFixed(2) : '&mdash;';
+    if (post.stressTrend) stressBit += ' (' + _esc(post.stressTrend) + ')';
+    parts.push('<span>Stress <b>' + stressBit + '</b></span>');
+    parts.push('<span>Conf <b>' + (post.confidence != null ? post.confidence.toFixed(2) : '&mdash;') + '</b></span>');
+    if (post.trajectory) parts.push('<span>Traj <b>' + _esc(_up(post.trajectory)) + '</b></span>');
+    if (post.maturity) {
+      var cls = post.maturity === 'STRUCTURAL' ? ' class="structural"' : '';
+      parts.push('<span' + cls + '>Maturity <b>' + _esc(_up(post.maturity)) + '</b></span>');
+    }
+    if (post.Ct != null) parts.push('<span>C(t) <b>' + post.Ct.toFixed(2) + '</b></span>');
+    if (post.phaseConfidence != null) parts.push('<span>PhaseConf <b>' + post.phaseConfidence.toFixed(2) + '</b></span>');
+    if (post.hysteresisPenalty != null && post.hysteresisPenalty > 0) parts.push('<span>Hyst <b>' + post.hysteresisPenalty.toFixed(2) + '</b></span>');
+    return '<div class="mbi-posture">' + parts.join('') + '</div>';
+  }
+
+  function _renderDxBlock(dx) {
+    if (!dx) return '';
+    var rel = (typeof dx.relevance === 'number') ? dx.relevance.toFixed(2) : '&mdash;';
+    var matched = (dx.matchedConditions != null && dx.totalTriggers != null)
+                    ? (dx.matchedConditions + '/' + dx.totalTriggers) : '';
+    var meta = '<span>Relevance <b>' + rel + '</b></span>';
+    if (matched) meta += '<span>Triggers <b>' + matched + '</b></span>';
+    if (dx.source) meta += '<span>Source <b>' + _esc(dx.source) + '</b></span>';
+    if (dx.blocked === true) meta += '<span>Blocked <b>' + _esc(dx.blockReason || 'yes') + '</b></span>';
+    return '<div class="mbi-section-label">Diagnosis</div>' +
+           '<div class="mbi-dx">' +
+             '<div class="mbi-dx-head">' +
+               '<div class="mbi-dx-label">' + _esc(dx.label || dx.id) + '</div>' +
+               '<span class="mbi-dx-id">' + _esc(dx.id || '') + '</span>' +
+             '</div>' +
+             '<div class="mbi-dx-meta">' + meta + '</div>' +
+             (dx.summary ? '<div class="mbi-dx-summary">' + _esc(dx.summary) + '</div>' : '') +
+           '</div>';
+  }
+
+  function _renderNodes(nodes) {
+    if (!nodes || !nodes.length) return '';
+    var cap = 6;
+    var rows = nodes.slice(0, cap).map(function (n) {
+      var isLive = n.treatmentCount > 0;
+      var cls = 'mbi-node' + (isLive ? ' live' : ' dormant');
+      var depth = isLive ? ' (' + n.hasDepthCount + ' deep)' : '';
+      var tag = n.inCircuits ? '<span class="mbi-node-tag">circuit</span>' : '';
+      return '<div class="' + cls + '">' +
+               '<span class="mbi-node-dot"></span>' +
+               '<span class="mbi-node-label">' + _esc(n.nodeLabel || n.nodeId) + '</span>' +
+               tag +
+               '<span class="mbi-node-count">' + n.treatmentCount + ' tx' + depth + '</span>' +
+             '</div>';
+    }).join('');
+    var extra = nodes.length - cap;
+    var more = extra > 0 ? '<div class="mbi-tx-more">+ ' + extra + ' more node' + (extra > 1 ? 's' : '') + '</div>' : '';
+    return '<div class="mbi-section-label">Impacted Nodes</div>' +
+           '<div class="mbi-nodes">' + rows + more + '</div>';
+  }
+
+  function _renderDeepByNode(nodes, byNode, hasDeep) {
+    if (!nodes || !nodes.length || !byNode) return '';
+    var topNodes = nodes.filter(function (n) { return n.treatmentCount > 0; }).slice(0, 2);
+    if (!topNodes.length) return '';
+    var groups = topNodes.map(function (n) {
+      var list = byNode[n.nodeId] || [];
+      var tx = list.slice(0, 3).map(function (t) {
+        var isDeep = t.hasDepth === true;
+        var evid = t.evidence ? '<span class="mbi-tx-evid">' + _esc(t.evidence) + '</span>' : '';
+        var typ = t.type ? '<span class="mbi-tx-type">' + _esc(t.type) + '</span>' : '';
+        var deepChip = isDeep ? '<span class="mbi-tx-deep">Deep</span>' : '';
+        return '<div class="mbi-tx' + (isDeep ? ' deep' : '') + '">' +
+                 '<span class="mbi-tx-label">' + _esc(t.label || t.id || '') + '</span>' +
+                 typ + evid + deepChip + '</div>';
+      }).join('');
+      var extra = list.length - 3;
+      var moreTx = extra > 0 ? '<div class="mbi-tx-more">+ ' + extra + ' more in this node</div>' : '';
+      return '<div class="mbi-node-group">' +
+               '<div class="mbi-node-group-head">&rsaquo; ' + _esc(n.nodeLabel || n.nodeId) + '</div>' +
+               '<div class="mbi-tx-list">' + tx + moreTx + '</div>' +
+             '</div>';
+    }).join('');
+    var hdr = 'Deep Treatments by Node' + (hasDeep ? '' : ' &middot; shallow only');
+    return '<div class="mbi-section-label">' + hdr + '</div>' + groups;
+  }
+
+  function _renderCross(emissions, ingest, convergence) {
+    var em = Array.isArray(emissions) ? emissions : [];
+    var ing = Array.isArray(ingest) ? ingest : [];
+    if (!em.length && !ing.length && (!convergence || !convergence.primary_signal)) return '';
+    var lines = [];
+    if (em.length) {
+      var emCap = em.slice(0, 4).map(function (e) {
+        return _esc(e.targetDomain || '?') + ' (' + _esc(e.signalType || '?') + ', ' + _num(e.magnitude, 0).toFixed(2) + ')';
+      }).join(', ');
+      var emExtra = em.length > 4 ? ' (+' + (em.length - 4) + ')' : '';
+      lines.push('<span class="mbi-cross-line em">&uarr; emit: ' + emCap + emExtra + '</span>');
+    }
+    if (ing.length) {
+      var ingCap = ing.slice(0, 4).map(function (i) {
+        return _esc(i.sourceDomain || '?') + ' (' + _esc(i.signalType || '?') + ', ' + _num(i.magnitude, 0).toFixed(2) + ')';
+      }).join(', ');
+      var ingExtra = ing.length > 4 ? ' (+' + (ing.length - 4) + ')' : '';
+      lines.push('<span class="mbi-cross-line ing">&darr; ingest: ' + ingCap + ingExtra + '</span>');
+    }
+    if (convergence && convergence.primary_signal) {
+      lines.push('<span class="mbi-cross-line conv">&odot; convergence: <b>' + _esc(convergence.primary_signal) + '</b></span>');
+    }
+    return '<div class="mbi-section-label">Cross-scale</div><div class="mbi-cross">' + lines.join('') + '</div>';
+  }
+
+  function _renderLedger(ledger) {
+    if (!ledger) return '';
+    var rows = [
+      { key: 'What Changed',                items: ledger.whatChanged,             empty: 'no change since last cycle' },
+      { key: 'What Fired',                  items: ledger.whatFired,               empty: 'no active conditions visible' },
+      { key: 'What Nodes Mattered',         items: ledger.whatNodesMattered,       empty: 'no impacted nodes with treatments yet' },
+      { key: 'What Branches Supported It',  items: ledger.whatBranchesSupportedIt, empty: 'no deep treatments resolved yet' },
+      { key: 'What Evidence Is Missing',    items: ledger.whatEvidenceIsMissing,   empty: 'evidence envelope complete' },
+      { key: 'What Would Falsify',          items: ledger.whatWouldFalsify,        empty: 'no falsification path derivable' }
+    ];
+    var rowHtml = rows.map(function (r) {
+      var val;
+      if (r.items && r.items.length) {
+        val = r.items.map(function (x) { return '<span class="mbi-ledger-item">' + _esc(x) + '</span>'; }).join('');
+      } else {
+        val = '<span class="mbi-ledger-empty">' + _esc(r.empty) + '</span>';
+      }
+      return '<div class="mbi-ledger-row">' +
+               '<span class="mbi-ledger-key">' + _esc(r.key) + '</span>' +
+               '<span class="mbi-ledger-val">' + val + '</span>' +
+             '</div>';
+    }).join('');
+    return '<div class="mbi-section-label">Truth Ledger</div>' +
+           '<div class="mbi-ledger">' + rowHtml + '</div>';
+  }
+
+  function _renderLeaves(opps) {
+    if (!opps || !opps.length) return '<div class="mbi-section-label">Leaf Opportunities</div><div class="mbi-tx-more">none emitted by this pathway</div>';
+    var cap = 6;
+    var rows = opps.slice(0, cap).map(function (op) {
+      var urg = op.urgency ? '<span class="mbi-leaf-urg">' + _esc(op.urgency) + '</span>' : '';
+      var rank = op.rank != null ? '<span class="mbi-leaf-rank">' + op.rank.toFixed(2) + '</span>' : '';
+      return '<div class="mbi-leaf">' +
+               '<span class="mbi-leaf-engine">' + _esc(op.engine || 'other') + '</span>' +
+               '<span class="mbi-leaf-title">' + _esc(op.title) + '</span>' +
+               urg + rank +
+             '</div>';
+    }).join('');
+    var extra = opps.length - cap;
+    var more = extra > 0 ? '<div class="mbi-tx-more">+ ' + extra + ' more leaf' + (extra > 1 ? 's' : '') + '</div>' : '';
+    return '<div class="mbi-section-label">Leaf Opportunities</div>' +
+           '<div class="mbi-leaves">' + rows + more + '</div>';
+  }
+
+  function _renderPathwayCard(p) {
+    var sal = p.salience || { score: 0, tier: 'BLOCKED', reasons: [], missing: [], gates: {} };
+    var pct = Math.max(0, Math.min(1, sal.score || 0)) * 100;
+    var reasons = (sal.reasons || []).map(function (s) { return '<span class="mbi-chip reason">' + _esc(s) + '</span>'; }).join('');
+    var missing = (sal.missing || []).map(function (s) { return '<span class="mbi-chip missing">' + _esc(s) + '</span>'; }).join('');
+    var noCoverage = !!(sal.gates && sal.gates.nodes && sal.gates.nodes.open === false);
+    var noCovBadge = noCoverage ? '<span class="mbi-no-coverage">No Deep Coverage</span>' : '';
+
+    var dx = p.diagnosis || {};
+    var title = dx.label || dx.id || p.domain;
+
+    var audit = p.audit || {};
+    var sigLive = _num(audit.sourcesLive, '?');
+    var sigTot = _num(audit.sourcesTotal, '?');
+    var sigFresh = _fmtFresh(audit.feedFreshnessSec);
+    var sigAudit = audit.auditScore == null ? '&mdash;' : audit.auditScore.toFixed(2);
+    var sigHand = audit.readyForHandoff === true ? '&#x2713;' : audit.readyForHandoff === false ? '&#x2717;' : '&mdash;';
+    var sigProv = (audit.producedBy && audit.validatedAt) ? '&#x2713;' : '&mdash;';
+
+    // Truth ledger — projected over already-emitted state.
+    var ds = (window.LIMENDomains && window.LIMENDomains[p.domain]) || {};
+    var ledger = (window.LIMENMasterBrainReadiness && window.LIMENMasterBrainReadiness.buildLedger)
+                   ? window.LIMENMasterBrainReadiness.buildLedger(p, ds) : null;
+
+    return (
+      '<article class="mbi-card tier-' + sal.tier + '" data-id="' + _esc(p.id) + '">' +
+        '<div class="mbi-card-head">' +
+          '<div class="mbi-card-title">' + _esc(title) + '</div>' +
+          '<span class="mbi-pill domain">' + _esc(p.domain) + '</span>' +
+          '<span class="mbi-tier ' + sal.tier + '">' + sal.tier.replace('_', ' ') + '</span>' +
+          noCovBadge +
+        '</div>' +
+        '<div class="mbi-bar-row">' +
+          '<div class="mbi-bar"><div class="mbi-bar-fill" style="width:' + pct.toFixed(1) + '%"></div></div>' +
+          '<div class="mbi-score">' + (sal.score || 0).toFixed(2) + '</div>' +
+        '</div>' +
+        (reasons ? '<div class="mbi-chips">' + reasons + '</div>' : '') +
+        (missing ? '<div class="mbi-chips">' + missing + '</div>' : '') +
+        _renderPostureLine(p.posture) +
+        _renderDxBlock(dx) +
+        _renderNodes(p.nodes) +
+        _renderDeepByNode(p.nodes, p.deepTreatmentsByNode, noCoverage ? false : true) +
+        _renderCross(p.emissions, p.ingest, p.convergence) +
+        _renderLedger(ledger) +
+        _renderLeaves(p.opportunities) +
+        '<div class="mbi-signals">' +
+          '<span>Sources <b>' + sigLive + '/' + sigTot + '</b></span>' +
+          '<span>Fresh <b>' + sigFresh + '</b></span>' +
+          '<span>Audit <b>' + sigAudit + '</b></span>' +
+          '<span>Handoff <b>' + sigHand + '</b></span>' +
+          '<span>Prov <b>' + sigProv + '</b></span>' +
+        '</div>' +
+      '</article>'
+    );
+  }
+
+  function render() {
+    if (!window.LIMENMasterBrainReadiness || !window.LIMENMasterBrainReadiness.collectPathways) return;
+    var all = window.LIMENMasterBrainReadiness.collectPathways();
+    var counts = { total: all.length, READY: 0, NEAR_READY: 0, BLOCKED: 0 };
+    for (var i = 0; i < all.length; i++) {
+      var t = all[i].salience && all[i].salience.tier;
+      if (counts[t] != null) counts[t]++;
+    }
+
+    _statsEl.innerHTML =
+      '<span>' + counts.total + ' pathway' + (counts.total === 1 ? '' : 's') + '</span>' +
+      '<span class="mbi-stat-sep">&middot;</span>' +
+      '<span class="mbi-stat-ready">' + counts.READY + ' ready</span>' +
+      '<span class="mbi-stat-sep">&middot;</span>' +
+      '<span class="mbi-stat-near">' + counts.NEAR_READY + ' near</span>' +
+      '<span class="mbi-stat-sep">&middot;</span>' +
+      '<span class="mbi-stat-blocked">' + counts.BLOCKED + ' blocked</span>';
+
+    var visible = all.filter(_matchesPathway);
+    if (!visible.length) {
+      _listEl.innerHTML = '<div class="mbi-empty">' + (all.length ? 'No pathways match current filters.' : 'Awaiting first brain cycle &mdash; no qualified domain pathways yet.') + '</div>';
+      return;
+    }
+    _listEl.innerHTML = visible.map(_renderPathwayCard).join('');
+  }
+
+  function _bindFilters(nodes, stateKey) {
+    for (var i = 0; i < nodes.length; i++) {
+      (function (btn) {
+        btn.addEventListener('click', function () {
+          var val = btn.getAttribute('data-' + stateKey);
+          _state[stateKey] = val;
+          var group = btn.parentNode.children;
+          for (var j = 0; j < group.length; j++) group[j].classList.remove('mbi-active');
+          btn.classList.add('mbi-active');
+          render();
+        });
+      })(nodes[i]);
+    }
+  }
+  _bindFilters(_tierEls, 'tier');
+  _bindFilters(_engEls, 'engine');
+
+  window.addEventListener('limen:domain-brain-update', render);
+
+  // Initial paint + short follow-up ticks so first live data renders
+  render();
+  setTimeout(render, 1200);
+  setTimeout(render, 3500);
+})();
+</script>
+
+<!-- MB-A intake wiring (read-only render + manual operator import) -->
+<script>
+(function () {
+  'use strict';
+  var api = window.LIMENMasterBrain && window.LIMENMasterBrain.artifactIntake;
+  if (!api) return;
+
+  var legendEl   = document.getElementById('mba-tier-legend');
+  var listEl     = document.getElementById('mba-intake-list');
+  var inputEl    = document.getElementById('mba-intake-input');
+  var importEl   = document.getElementById('mba-intake-import');
+  var refreshEl  = document.getElementById('mba-intake-refresh');
+  var clearEl    = document.getElementById('mba-intake-clear');
+  var msgEl      = document.getElementById('mba-intake-msg');
+  var statsEl    = document.getElementById('mba-intake-stats');
+  // MB-C.1 — soften early bail. The list element is the only HARD
+  // requirement for rendering intake cards (and therefore the Build
+  // Draft Package button). All other controls are optional UI sugar;
+  // their absence should not suppress card rendering.
+  if (!listEl) {
+    try { console.warn('[MB-C.1] inbox wiring: #mba-intake-list missing — cannot render cards'); } catch (_) {}
+    return;
+  }
+
+  function _esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function renderLegend() {
+    if (!legendEl) return;
+    var tiers = api.describeStatusTiers();
+    var keys = Object.keys(tiers);
+    var html = '';
+    for (var i = 0; i < keys.length; i++) {
+      html += '<div class="mba-tier-row">' +
+                '<div class="mba-tier-key">' + _esc(keys[i]) + '</div>' +
+                '<div>' + _esc(tiers[keys[i]]) + '</div>' +
+              '</div>';
+    }
+    legendEl.innerHTML = html;
+  }
+
+  function renderList() {
+    var items = api.list();
+    var s = api.stats();
+    if (statsEl) statsEl.textContent = s.total + ' item' + (s.total === 1 ? '' : 's');
+
+    if (!items.length) {
+      listEl.innerHTML = '<div class="mba-empty">' +
+        'No reviewed Artifact Council packets available.<br>' +
+        'Artifact Council review / finalizer (D3-H) / verifier (D3-I) not complete.<br>' +
+        'No execution authorized.' +
+      '</div>';
+      return;
+    }
+
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      var sum = it.artifactPacketSummary || {};
+      var title = sum.title || sum.identityId || it.id;
+      html += '<div class="mba-card" data-id="' + _esc(it.id) + '">' +
+                '<div class="mba-card-head">' +
+                  '<div class="mba-card-title">' + _esc(title) + '</div>' +
+                  '<div class="mba-card-meta">' +
+                    '<span class="mba-pill lane">' + _esc(it.lane) + '</span>' +
+                    '<span class="mba-pill ac">AC: ' + _esc(it.artifactCouncilStatus) + '</span>' +
+                    '<span class="mba-pill hr">HR: ' + _esc(it.humanReviewStatus) + '</span>' +
+                    '<span class="mba-pill exec">EXEC: false</span>' +
+                  '</div>' +
+                '</div>' +
+                (it.notes ? '<div class="mba-card-notes">' + _esc(it.notes) + '</div>' : '') +
+                '<div class="mba-card-actions">' +
+                  '<button type="button" class="mba-build" data-action="build">Build Draft Package</button>' +
+                  '<button type="button" class="mba-finalize" data-action="finalize">Finalize Draft Document</button>' +
+                  '<button type="button" class="mba-expand" data-action="expand">OpenAI Expand Final Draft</button>' +
+                  '<button type="button" data-action="remove">Remove</button>' +
+                '</div>' +
+                '<div class="mba-package-host" data-id="' + _esc(it.id) + '"></div>' +
+                '<div class="mba-doc-host" data-id="' + _esc(it.id) + '"></div>' +
+                '<div class="mba-expand-host" data-id="' + _esc(it.id) + '"></div>' +
+              '</div>';
+    }
+    listEl.innerHTML = html;
+  }
+
+  function setMsg(text, kind) {
+    if (!msgEl) return;
+    msgEl.textContent = text || '';
+    msgEl.className = kind === 'err' ? 'err' : (kind === 'ok' ? 'ok' : '');
+  }
+
+  if (importEl && inputEl) importEl.addEventListener('click', function () {
+    var raw = (inputEl.value || '').trim();
+    if (!raw) { setMsg('Paste an intake JSON object first.', 'err'); return; }
+    var parsed;
+    try { parsed = JSON.parse(raw); }
+    catch (e) { setMsg('JSON parse failed: ' + (e && e.message ? e.message : 'unknown'), 'err'); return; }
+    var res = api.enqueue(parsed);
+    if (!res.ok) {
+      setMsg('Validation failed:\n  - ' + (res.errors || []).join('\n  - '), 'err');
+      return;
+    }
+    setMsg('Enqueued ' + res.item.id + ' (' + res.item.lane + ', ' + res.item.artifactCouncilStatus + '). No execution authorized.', 'ok');
+    inputEl.value = '';
+    renderList();
+  });
+
+  if (clearEl) clearEl.addEventListener('click', function () {
+    api.clear();
+    setMsg('Queue cleared (session-scoped).', 'ok');
+    renderList();
+  });
+
+  if (refreshEl) refreshEl.addEventListener('click', function () {
+    if (typeof api.refresh !== 'function') {
+      setMsg('Refresh unavailable — intake module too old.', 'err');
+      return;
+    }
+    var n = api.refresh();
+    setMsg('Re-read sessionStorage. ' + n + ' item' + (n === 1 ? '' : 's') +
+           ' present. No execution, no submission, no external action.', 'ok');
+    renderList();
+  });
+
+  function _renderPackageInline(card, id) {
+    var host = card.querySelector('.mba-package-host');
+    if (!host) return;
+    host.innerHTML = '';
+
+    var factory = window.LIMENMasterBrain && window.LIMENMasterBrain.artifactFactory;
+    if (!factory) {
+      // MB-C.1 — surface a richer diagnostic so the operator can tell
+      // whether this is a load-order problem, a cache problem, or an
+      // attach-failure problem.
+      var blocked = document.createElement('div');
+      blocked.className = 'mba-package-blocked';
+      var lmb = window.LIMENMasterBrain;
+      var detail = lmb
+        ? ('LIMENMasterBrain present. Keys: [' + Object.keys(lmb).join(', ') + ']. artifactFactory missing.')
+        : 'window.LIMENMasterBrain missing entirely.';
+      blocked.textContent =
+        'Artifact factory not loaded. Cannot build draft package.\n' +
+        detail + '\n' +
+        'Try a hard reload (Ctrl/Cmd+Shift+R). If the issue persists, ' +
+        'open the browser console — the factory module logs ' +
+        '"[MB-C] artifactFactory attached" on success or ' +
+        '"[MB-C] artifactFactory attach FAILED" with the error.';
+      host.appendChild(blocked);
+      return;
+    }
+
+    var item = api.get(id);
+    if (!item) {
+      var miss = document.createElement('div');
+      miss.className = 'mba-package-blocked';
+      miss.textContent = 'Intake item not found (id: ' + id + ').';
+      host.appendChild(miss);
+      return;
+    }
+
+    var res;
+    try { res = factory.buildDraftPackage(item); }
+    catch (err) {
+      var thrown = document.createElement('div');
+      thrown.className = 'mba-package-blocked';
+      thrown.textContent = 'Factory threw: ' + (err && err.message ? err.message : 'unknown');
+      host.appendChild(thrown);
+      return;
+    }
+
+    if (!res || !res.ok) {
+      var bl = document.createElement('div');
+      bl.className = 'mba-package-blocked';
+      bl.textContent = 'BLOCKED — ' + (res && res.error ? res.error : 'UNKNOWN') +
+                       (res && res.errors ? ': ' + res.errors.join('; ') : '');
+      host.appendChild(bl);
+      return;
+    }
+
+    var pkg = res.package;
+
+    var head = document.createElement('div');
+    head.className = 'mba-package-head';
+    head.textContent = 'Draft package — lane: ' + pkg.lane + ' — schema: ' + pkg.packageSchemaVersion +
+                       ' — status: ' + pkg.status + ' — execution: ' + pkg.executionAllowed;
+    host.appendChild(head);
+
+    if (Array.isArray(pkg.disclaimers)) {
+      for (var d = 0; d < pkg.disclaimers.length; d++) {
+        var dl = document.createElement('div');
+        dl.className = 'mba-package-disclaim';
+        dl.textContent = pkg.disclaimers[d];
+        host.appendChild(dl);
+      }
+    }
+
+    var jsonBlock = document.createElement('div');
+    jsonBlock.className = 'mba-package';
+    try { jsonBlock.textContent = JSON.stringify(pkg, null, 2); }
+    catch (_) { jsonBlock.textContent = '(could not stringify package)'; }
+    host.appendChild(jsonBlock);
+
+    setMsg('Built draft package for ' + id + ' (' + pkg.lane +
+      '). Not submitted. Not executed. Human review required.', 'ok');
+  }
+
+  function _downloadBlob(filename, mime, data) {
+    try {
+      var blob = new Blob([data], { type: mime });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { try { URL.revokeObjectURL(url); } catch (_) {} a.remove(); }, 0);
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function _copyToClipboard(text) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text).then(function () { return true; },
+                                                        function () { return false; });
+      }
+    } catch (_) {}
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (_) {}
+      ta.remove();
+      return Promise.resolve(ok);
+    } catch (_) { return Promise.resolve(false); }
+  }
+
+  function _safeFilename(s, ext) {
+    var base = String(s || 'limen-final-draft').replace(/[^A-Za-z0-9._-]+/g, '-').slice(0, 96);
+    if (!base) base = 'limen-final-draft';
+    return base + '.' + ext;
+  }
+
+  function _renderFinalizedInline(card, id) {
+    var host = card.querySelector('.mba-doc-host');
+    if (!host) return;
+    host.innerHTML = '';
+
+    var factory = window.LIMENMasterBrain && window.LIMENMasterBrain.artifactFactory;
+    var finalizer = window.LIMENMasterBrain && window.LIMENMasterBrain.artifactFinalizer;
+    if (!factory || !finalizer) {
+      var blocked = document.createElement('div');
+      blocked.className = 'mba-doc-warning';
+      var lmb = window.LIMENMasterBrain;
+      var detail = lmb
+        ? ('LIMENMasterBrain present. Keys: [' + Object.keys(lmb).join(', ') + ']. Required: artifactFactory + artifactFinalizer.')
+        : 'window.LIMENMasterBrain missing entirely.';
+      blocked.textContent = 'Finalize unavailable.\n' + detail + '\nTry a hard reload (Ctrl/Cmd+Shift+R).';
+      host.appendChild(blocked);
+      return;
+    }
+
+    var item = api.get(id);
+    if (!item) {
+      var miss = document.createElement('div');
+      miss.className = 'mba-doc-warning';
+      miss.textContent = 'Intake item not found (id: ' + id + ').';
+      host.appendChild(miss);
+      return;
+    }
+
+    var pkgRes;
+    try { pkgRes = factory.buildDraftPackage(item); }
+    catch (err) {
+      var t = document.createElement('div');
+      t.className = 'mba-doc-warning';
+      t.textContent = 'Factory threw: ' + (err && err.message ? err.message : 'unknown');
+      host.appendChild(t);
+      return;
+    }
+    if (!pkgRes || !pkgRes.ok) {
+      var pkgBl = document.createElement('div');
+      pkgBl.className = 'mba-doc-warning';
+      pkgBl.textContent = 'Cannot build package — ' + (pkgRes && pkgRes.error ? pkgRes.error : 'UNKNOWN') +
+                          (pkgRes && pkgRes.errors ? ': ' + pkgRes.errors.join('; ') : '');
+      host.appendChild(pkgBl);
+      return;
+    }
+
+    var finRes;
+    try { finRes = finalizer.finalizePackage(pkgRes.package); }
+    catch (err2) {
+      var t2 = document.createElement('div');
+      t2.className = 'mba-doc-warning';
+      t2.textContent = 'Finalizer threw: ' + (err2 && err2.message ? err2.message : 'unknown');
+      host.appendChild(t2);
+      return;
+    }
+    if (!finRes || !finRes.ok) {
+      var finBl = document.createElement('div');
+      finBl.className = 'mba-doc-warning';
+      finBl.textContent = 'Cannot finalize — ' + (finRes && finRes.error ? finRes.error : 'UNKNOWN') +
+                          (finRes && finRes.errors ? ': ' + finRes.errors.join('; ') : '');
+      host.appendChild(finBl);
+      return;
+    }
+
+    var fin = finRes.finalized;
+    var validation = finalizer.validateFinalized(fin);
+
+    // Banner
+    var banner = document.createElement('div');
+    banner.className = 'mba-doc-banner';
+    banner.textContent = 'FINAL DRAFT ONLY · HUMAN REVIEW REQUIRED · NOT SUBMITTED · executionAllowed=' + fin.executionAllowed;
+    host.appendChild(banner);
+
+    // Validation warnings, if any
+    if (!validation.ok) {
+      var w = document.createElement('div');
+      w.className = 'mba-doc-warning';
+      w.textContent = 'Validation flagged issues (document still rendered for review):\n' +
+                      JSON.stringify(validation.errors, null, 2);
+      host.appendChild(w);
+    }
+
+    // Action row — copy / download
+    var actions = document.createElement('div');
+    actions.className = 'mba-doc-actions';
+
+    var copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.textContent = 'Copy Markdown';
+    copyBtn.addEventListener('click', function () {
+      var p = _copyToClipboard(fin.markdown);
+      Promise.resolve(p).then(function (ok) {
+        setMsg(ok ? 'Markdown copied to clipboard. Not submitted. Not executed.'
+                  : 'Copy failed — fallback to manual select/copy.', ok ? 'ok' : 'err');
+      });
+    });
+    actions.appendChild(copyBtn);
+
+    var dlMd = document.createElement('button');
+    dlMd.type = 'button';
+    dlMd.textContent = 'Download .md';
+    dlMd.addEventListener('click', function () {
+      var ok = _downloadBlob(_safeFilename(fin.title, 'md'), 'text/markdown;charset=utf-8', fin.markdown);
+      setMsg(ok ? 'Markdown download started. Client-side only — no server write.'
+                : 'Download failed.', ok ? 'ok' : 'err');
+    });
+    actions.appendChild(dlMd);
+
+    var dlHtml = document.createElement('button');
+    dlHtml.type = 'button';
+    dlHtml.textContent = 'Download .html';
+    dlHtml.addEventListener('click', function () {
+      var body = finalizer.renderHtml(fin);
+      var doc = '<!doctype html>\n<html><head><meta charset="utf-8">' +
+                '<title>' + _esc(fin.title) + ' — FINAL DRAFT ONLY</title>' +
+                '<style>body{font-family:Georgia,serif;max-width:900px;margin:32px auto;padding:0 20px;line-height:1.55;color:#222}h1,h2,h3{font-weight:300}blockquote{margin:8px 0;padding:8px 14px;border-left:3px solid #c33;background:#fff7f7;color:#a33}code{background:#f3f3f3;padding:1px 5px;border-radius:2px}pre{background:#f6f6f6;padding:10px;overflow-x:auto;font-size:13px}</style>' +
+                '</head><body>' + body + '</body></html>';
+      var ok = _downloadBlob(_safeFilename(fin.title, 'html'), 'text/html;charset=utf-8', doc);
+      setMsg(ok ? 'HTML download started. Client-side only — no server write.'
+                : 'Download failed.', ok ? 'ok' : 'err');
+    });
+    actions.appendChild(dlHtml);
+
+    host.appendChild(actions);
+
+    // Rendered document
+    var doc = document.createElement('div');
+    doc.className = 'mba-doc';
+    try {
+      doc.innerHTML = finalizer.renderHtml(fin);
+    } catch (e) {
+      doc.textContent = '(HTML render failed; markdown still available via Copy/Download)';
+    }
+    host.appendChild(doc);
+
+    setMsg('Finalized ' + id + ' (' + fin.lane + '). FINAL DRAFT ONLY. Not submitted. Not executed.', 'ok');
+  }
+
+  // ── MB-D.1 — OpenAI expanded final draft ─────────────────────────
+  function _renderExpandedInline(card, id, btn) {
+    var host = card.querySelector('.mba-expand-host');
+    if (!host) return;
+    host.innerHTML = '';
+
+    var factory   = window.LIMENMasterBrain && window.LIMENMasterBrain.artifactFactory;
+    var finalizer = window.LIMENMasterBrain && window.LIMENMasterBrain.artifactFinalizer;
+    if (!factory) {
+      var b = document.createElement('div');
+      b.className = 'mba-doc-warning';
+      b.textContent = 'Artifact factory not loaded; cannot build MB-C package for expansion.';
+      host.appendChild(b); return;
+    }
+
+    var item = api.get(id);
+    if (!item) {
+      var miss = document.createElement('div');
+      miss.className = 'mba-doc-warning';
+      miss.textContent = 'Intake item not found (id: ' + id + ').';
+      host.appendChild(miss); return;
+    }
+
+    // Build the MB-C package now (idempotent; required by the endpoint).
+    var pkgRes;
+    try { pkgRes = factory.buildDraftPackage(item); }
+    catch (err) {
+      var t = document.createElement('div');
+      t.className = 'mba-doc-warning';
+      t.textContent = 'Factory threw: ' + (err && err.message ? err.message : 'unknown');
+      host.appendChild(t); return;
+    }
+    if (!pkgRes || !pkgRes.ok) {
+      var pkgBl = document.createElement('div');
+      pkgBl.className = 'mba-doc-warning';
+      pkgBl.textContent = 'Cannot build package — ' + (pkgRes && pkgRes.error ? pkgRes.error : 'UNKNOWN') +
+                          (pkgRes && pkgRes.errors ? ': ' + pkgRes.errors.join('; ') : '');
+      host.appendChild(pkgBl); return;
+    }
+
+    // Optional MB-D deterministic finalized doc — used as scaffold.
+    var detFinalized = null;
+    if (finalizer && typeof finalizer.finalizePackage === 'function') {
+      try { var df = finalizer.finalizePackage(pkgRes.package); if (df && df.ok) detFinalized = df.finalized; } catch (_) {}
+    }
+
+    var pendBanner = document.createElement('div');
+    pendBanner.className = 'mba-doc-banner';
+    pendBanner.textContent = 'CALLING /api/finalize-artifact — please wait. Not submitted. Not executed.';
+    host.appendChild(pendBanner);
+
+    if (btn) btn.disabled = true;
+
+    // D3-G.3 — Enrich the intake artifactPacket with deep-source bundle
+    // detail BEFORE POSTing to /api/finalize-artifact. The enricher
+    // attaches packet.deepSource and merges into packet.raw.handoffPacket
+    // (treatments, mechanism_candidates, embodiments_outline, figure_
+    // placeholders, portalDomain, portalTitle, depth, ancestryPath) so
+    // MB-D.1.3 _buildSourceContext picks up real deep source instead of
+    // surfacing SOURCE_CONTEXT_SHALLOW warnings.
+    //
+    // If the bundle is missing OR the client module isn't loaded, the
+    // enricher returns a structured failure code without throwing. The
+    // packet remains unchanged; the existing finalizer's
+    // SOURCE_CONTEXT_SHALLOW backstop continues to work.
+    //
+    // No auto-call: this only happens because the operator clicked
+    // "OpenAI Expand Final Draft". No fabrication on miss. NO portal
+    // recursion. Only one network call beyond the explicit finalize
+    // POST: a static fetch to /assets/data/artifact-source-index/
+    // by-diagnosis/<id>.json (or 404).
+    var enrichmentInfo = {
+      attempted:    false,
+      ok:           false,
+      code:         null,
+      tried:        [],
+      deepSourceAttached: false,
+      counts:       null,
+      message:      null,
+      via:          null   // D3-G.4: 'LIMENArtifactPacketBuilder' | 'LIMENArtifactSourceIndex' | null
+    };
+
+    function _doEnrich() {
+      // D3-G.4 — prefer the heavy Civilization ArtifactPacket builder
+      // when it's loaded, but fall back to the lightweight
+      // LIMENArtifactSourceIndex client when the inbox didn't pull in
+      // the full builder. The two surfaces produce equivalent results
+      // for this enrichment path: both call the same enrichPacket
+      // logic that fetches /assets/data/artifact-source-index/
+      // by-diagnosis/<id>.json, attaches packet.deepSource, and mirrors
+      // into packet.raw.handoffPacket. The builder wraps that with
+      // helpful diagnostics; the lightweight client is the inner
+      // function the builder delegates to.
+      var ap = item && item.artifactPacket;
+      var enrichFn = null;
+      var enrichVia = null;
+      if (window.LIMENArtifactPacketBuilder &&
+          typeof window.LIMENArtifactPacketBuilder.enrichWithDeepSource === 'function') {
+        enrichFn  = window.LIMENArtifactPacketBuilder.enrichWithDeepSource;
+        enrichVia = 'LIMENArtifactPacketBuilder';
+      } else if (window.LIMENArtifactSourceIndex &&
+                 typeof window.LIMENArtifactSourceIndex.enrichPacket === 'function') {
+        enrichFn  = window.LIMENArtifactSourceIndex.enrichPacket;
+        enrichVia = 'LIMENArtifactSourceIndex';
+      }
+      if (!enrichFn) {
+        enrichmentInfo.code = 'ENRICH_CLIENT_NOT_LOADED';
+        enrichmentInfo.message = 'Neither window.LIMENArtifactPacketBuilder.enrichWithDeepSource nor window.LIMENArtifactSourceIndex.enrichPacket is loaded — finalizer will run with shallow source.';
+        return Promise.resolve();
+      }
+      if (!ap || typeof ap !== 'object') {
+        enrichmentInfo.code = 'NO_ARTIFACT_PACKET';
+        enrichmentInfo.message = 'intake item has no artifactPacket — finalizer will run with whatever the package carries.';
+        return Promise.resolve();
+      }
+      enrichmentInfo.attempted = true;
+      enrichmentInfo.via       = enrichVia;
+      enrichmentInfo.tried = (ap.identity && Array.isArray(ap.identity.diagnoses))
+                              ? ap.identity.diagnoses.slice() : [];
+      return enrichFn(ap).then(function (r) {
+        enrichmentInfo.ok   = !!(r && r.ok);
+        enrichmentInfo.code = (r && (r.code || (r.ok ? 'OK' : 'UNKNOWN'))) || 'UNKNOWN';
+        if (r && r.ok && ap.deepSource) {
+          enrichmentInfo.deepSourceAttached = true;
+          var ds = ap.deepSource;
+          enrichmentInfo.counts = {
+            diagnosisId:              ds.diagnosisId || null,
+            sourceDepthStatus:        ds.sourceDepthStatus || null,
+            treatmentCount:           ds.sourceDepth ? ds.sourceDepth.treatmentCount           : 0,
+            implementationStepCount:  ds.sourceDepth ? ds.sourceDepth.implementationStepCount  : 0,
+            evidenceAnchorCount:      ds.sourceDepth ? ds.sourceDepth.evidenceAnchorCount      : 0,
+            mechanismCandidateCount:  ds.sourceDepth ? ds.sourceDepth.mechanismCandidateCount  : 0,
+            methodCandidateCount:     ds.sourceDepth ? ds.sourceDepth.methodCandidateCount     : 0,
+            embodimentCandidateCount: ds.sourceDepth ? ds.sourceDepth.embodimentCandidateCount : 0,
+            figurePlaceholderCount:   ds.sourceDepth ? ds.sourceDepth.figurePlaceholderCount   : 0
+          };
+        } else {
+          enrichmentInfo.message = 'No bundle matched diagnoses [' + enrichmentInfo.tried.join(', ') +
+            ']. Finalizer will run; SOURCE_CONTEXT_SHALLOW warnings continue to fire if applicable.';
+        }
+      }, function (err) {
+        // Enrichment threw. Do not crash the finalize flow.
+        enrichmentInfo.code = 'ENRICH_THREW';
+        enrichmentInfo.message = (err && err.message) ? String(err.message).slice(0, 200) : 'enrichment threw';
+      });
+    }
+
+    _doEnrich().then(function () {
+      // After enrichment (or skipped enrichment), the request body now
+      // carries the freshly-enriched item.artifactPacket through
+      // intakeItem. The endpoint reads ap.deepSource and the
+      // raw.handoffPacket mirrors via _buildSourceContext.
+      //
+      // MB-D.1.3 — pass the FULL intake item (including artifactPacket,
+      // artifactPacketSummary, councilArtifacts) so the endpoint's
+      // _buildSourceContext can pull deep source detail (implementation
+      // lists, money-chain evidence, feed sources, citation hints,
+      // treatments, council critique summary).
+      var requestBody = {
+        lane:                   item.lane,
+        intakeItem:             item,
+        package:                pkgRes.package,
+        deterministicFinalized: detFinalized,
+        critique:               null,
+        objectionLedger:        (item && item.councilArtifacts && Array.isArray(item.councilArtifacts.objectionLedger))
+                                   ? item.councilArtifacts.objectionLedger : [],
+        options:                { temperature: 0.2 }
+      };
+
+      return fetch('/api/finalize-artifact', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(requestBody)
+      });
+    }).then(function (resp) {
+      return resp.json().then(function (body) { return { status: resp.status, body: body }; },
+                              function ()      { return { status: resp.status, body: null }; });
+    }).then(function (r) {
+      host.innerHTML = '';
+      if (btn) btn.disabled = false;
+
+      if (!r.body || !r.body.ok) {
+        var bl = document.createElement('div');
+        bl.className = 'mba-doc-warning';
+        var code = r.body && r.body.error || ('HTTP ' + r.status);
+        var msg  = r.body && r.body.message || '(no message)';
+        var retryable = r.body && r.body.retryable === true;
+        bl.textContent = 'OpenAI expand failed: ' + code + ' — ' + msg +
+          (retryable ? '\nThis error is retryable. Click "OpenAI Expand Final Draft" again to retry.'
+                     : '\nThis error is not retryable from the same input.');
+        host.appendChild(bl);
+        // D3-G.3 — also surface enrichment status on the failure path
+        // so operators can see whether deep-source enrichment ran
+        // before the POST that failed.
+        try {
+          if (enrichmentInfo.attempted || enrichmentInfo.code) {
+            var enrFail = document.createElement('div');
+            enrFail.className = 'mba-doc-warning';
+            enrFail.textContent = 'Deep-source enrichment status: ' +
+              (enrichmentInfo.attempted ? (enrichmentInfo.deepSourceAttached ? 'ATTACHED' : 'NOT_ATTACHED') : 'SKIPPED') +
+              ' · code=' + (enrichmentInfo.code || '?') +
+              ' · tried=[' + (enrichmentInfo.tried || []).join(', ') + ']';
+            host.appendChild(enrFail);
+          }
+        } catch (_) {}
+        setMsg('Expand failed: ' + code + '. Not submitted. Not executed.', 'err');
+        return;
+      }
+
+      var fin = r.body.expandedFinalDraft;
+      var banner = document.createElement('div');
+      banner.className = 'mba-doc-banner';
+      banner.textContent = 'OPENAI FINAL DRAFT ONLY · HUMAN REVIEW REQUIRED · NOT SUBMITTED · executionAllowed=' + r.body.executionAllowed;
+      host.appendChild(banner);
+
+      // MB-D.1.4 — source-mode label. Distinct from the depth row below;
+      // this surfaces which prompt fork the model ran under so the
+      // operator can spot scaffold_fallback documents at a glance.
+      try {
+        var modeLabel = r.body.diagnostics && r.body.diagnostics.sourceMode;
+        if (modeLabel) {
+          var modeRow = document.createElement('div');
+          if (modeLabel === 'source_grounded') {
+            modeRow.className = 'mba-doc-banner';
+            modeRow.style.color = 'rgba(160,210,160,0.85)';
+            modeRow.style.borderColor = 'rgba(160,210,160,0.32)';
+            modeRow.style.background = 'rgba(160,210,160,0.04)';
+            modeRow.textContent = 'SOURCE GROUNDED — document expanded from real LIMEN source detail. ' +
+              'Anti-overclaim invariants still apply; human review required.';
+          } else if (modeLabel === 'source_partial') {
+            modeRow.className = 'mba-doc-warning';
+            modeRow.textContent = 'SOURCE PARTIAL — deep source covers some sections; sections marked ' +
+              '"DRAFTING SCAFFOLD" are general scaffolding, not source-grounded LIMEN content. ' +
+              'Operator must complete them before review.';
+          } else if (modeLabel === 'scaffold_fallback') {
+            modeRow.className = 'mba-doc-warning';
+            modeRow.textContent = 'GENERAL SCAFFOLD FALLBACK — generated as professional scaffold because ' +
+              'deep source was not available. Not source-complete. Replace placeholders with verified ' +
+              'LIMEN source and human evidence before review. Not filing-ready. Not legal/financial advice.';
+          } else {
+            modeRow.className = 'mba-doc-warning';
+            modeRow.textContent = 'SOURCE MODE: ' + modeLabel + ' (unrecognized — defaulting to caution).';
+          }
+          host.appendChild(modeRow);
+        }
+      } catch (_) {}
+
+      // MB-D.1.1 — depth status row. Shows actual / target words and
+      // depthStatus tier. Below-target / below-minimum tiers render a
+      // visible warning block so the operator can decide whether to
+      // rerun or revise. Sufficient tier renders a quiet info row.
+      try {
+        var diag = r.body.diagnostics || {};
+        if (typeof diag.markdownWords === 'number') {
+          var depthRow = document.createElement('div');
+          var statusTier = diag.depthStatus || 'sufficient';
+          if (statusTier === 'below_minimum' || statusTier === 'below_target') {
+            depthRow.className = 'mba-doc-warning';
+            depthRow.textContent =
+              'Depth warning — document is shorter than target; rerun or revise with additional source detail.\n' +
+              'words=' + diag.markdownWords + ' · target=' + diag.depthTargetWords +
+              ' · minimum=' + diag.depthMinimumWords + ' · status=' + statusTier +
+              ' · sections=' + (diag.generatedSectionCount || 0) + '/' + (diag.requiredSectionCount || 0);
+          } else {
+            depthRow.className = 'mba-doc-banner';
+            depthRow.style.color = 'rgba(160,210,160,0.85)';
+            depthRow.style.borderColor = 'rgba(160,210,160,0.32)';
+            depthRow.style.background = 'rgba(160,210,160,0.04)';
+            depthRow.textContent = 'Depth: ' + diag.markdownWords + ' words · target ' +
+              diag.depthTargetWords + ' · status sufficient · sections ' +
+              (diag.generatedSectionCount || 0) + '/' + (diag.requiredSectionCount || 0);
+          }
+          host.appendChild(depthRow);
+        }
+
+        // MB-D.1.3 — source-depth row. Shows the INPUT side: how much
+        // source detail was passed to OpenAI. When sourceContextShallow
+        // is true, display a clear explanation that depth is limited
+        // because deep portal/treatment detail was not present in the
+        // finalizer input (not because the model misbehaved).
+        if (typeof diag.sourceContextWords === 'number') {
+          var srcRow = document.createElement('div');
+          var srcParts = [
+            'source words=' + diag.sourceContextWords,
+            'treatments=' + (diag.treatmentCount || 0),
+            'implSteps=' + (diag.implementationStepCount || 0),
+            'evidenceAnchors=' + (diag.evidenceAnchorCount || 0),
+            'feeds=' + (diag.sourceFeedCount || 0),
+            'methods=' + (diag.methodCandidateCount || 0),
+            'embodiments=' + (diag.embodimentCandidateCount || 0),
+            'figures=' + (diag.figureCandidateCount || 0),
+            'objections=' + (diag.objectionCount || 0),
+            'deepPortalFields=' + (diag.hasDeepPortalFields ? 'yes' : 'no')
+          ];
+          if (diag.sourceContextShallow) {
+            srcRow.className = 'mba-doc-warning';
+            var miss = Array.isArray(diag.missingDeepSource) ? diag.missingDeepSource : [];
+            srcRow.textContent =
+              'Depth is limited because deep portal/treatment detail was not present in the finalizer input.\n' +
+              srcParts.join(' · ') +
+              (miss.length ? ('\nMissing: ' + miss.join(' · ')) : '');
+          } else {
+            srcRow.className = 'mba-doc-banner';
+            srcRow.style.color = 'rgba(180,210,240,0.85)';
+            srcRow.style.borderColor = 'rgba(140,170,200,0.4)';
+            srcRow.style.background = 'rgba(140,170,200,0.04)';
+            srcRow.textContent = 'Source context: ' + srcParts.join(' · ');
+          }
+          host.appendChild(srcRow);
+        }
+      } catch (_) {}
+
+      // D3-G.3 — enrichment diagnostic strip. Shows the operator
+      // whether deep-source enrichment was attempted, what diagnoses
+      // were tried, and what bundle counts (if any) were attached
+      // before the request. Independent of the server's depth row
+      // above — that one reflects what reached the prompt; this one
+      // reflects what the client did before the POST.
+      try {
+        var enrRow = document.createElement('div');
+        if (enrichmentInfo.attempted && enrichmentInfo.deepSourceAttached) {
+          enrRow.className = 'mba-doc-banner';
+          enrRow.style.color = 'rgba(180,210,240,0.85)';
+          enrRow.style.borderColor = 'rgba(140,170,200,0.4)';
+          enrRow.style.background = 'rgba(140,170,200,0.04)';
+          var c = enrichmentInfo.counts || {};
+          enrRow.textContent = 'Deep-source enrichment: ATTACHED · diagnosisId=' + (c.diagnosisId || '?') +
+            ' · status=' + (c.sourceDepthStatus || '?') +
+            ' · treatments=' + (c.treatmentCount || 0) +
+            ' · methods=' + (c.methodCandidateCount || 0) +
+            ' · embodiments=' + (c.embodimentCandidateCount || 0) +
+            ' · figures=' + (c.figurePlaceholderCount || 0) +
+            ' · tried=[' + (enrichmentInfo.tried || []).join(', ') + ']' +
+            (enrichmentInfo.via ? (' · via=' + enrichmentInfo.via) : '');
+        } else if (enrichmentInfo.attempted) {
+          enrRow.className = 'mba-doc-warning';
+          enrRow.textContent = 'Deep-source enrichment: NOT attached · code=' + (enrichmentInfo.code || '?') +
+            ' · tried=[' + (enrichmentInfo.tried || []).join(', ') + ']' +
+            (enrichmentInfo.message ? ('\n' + enrichmentInfo.message) : '') +
+            '\nFinalizer ran with shallow source. Existing SOURCE_CONTEXT_SHALLOW backstop applies.';
+        } else {
+          enrRow.className = 'mba-doc-warning';
+          enrRow.textContent = 'Deep-source enrichment: SKIPPED · code=' + (enrichmentInfo.code || '?') +
+            (enrichmentInfo.message ? (' · ' + enrichmentInfo.message) : '');
+        }
+        host.appendChild(enrRow);
+      } catch (_) {}
+
+      // Warnings, missing evidence, human review items, unresolved objections
+      function _addList(label, arr, kind) {
+        if (!Array.isArray(arr) || !arr.length) return;
+        var wrap = document.createElement('div');
+        wrap.className = (kind === 'warn') ? 'mba-doc-warning' : 'mba-doc-warning';
+        var head = document.createElement('div');
+        head.style.fontWeight = 'bold';
+        head.style.marginBottom = '4px';
+        head.textContent = label + ' (' + arr.length + ')';
+        wrap.appendChild(head);
+        var ul = document.createElement('ul');
+        ul.style.margin = '4px 0 0 14px';
+        ul.style.padding = '0';
+        for (var i = 0; i < arr.length; i++) {
+          var li = document.createElement('li');
+          var v = arr[i];
+          li.textContent = (typeof v === 'string') ? v : (v && (v.objectionId || v.text || v.reason) ? JSON.stringify(v) : JSON.stringify(v));
+          ul.appendChild(li);
+        }
+        wrap.appendChild(ul);
+        host.appendChild(wrap);
+      }
+      _addList('Warnings',              fin.warnings,             'warn');
+      _addList('Missing evidence',      fin.missingEvidence,      'warn');
+      _addList('Human review items',    fin.humanReviewItems,     'warn');
+      _addList('Objections unresolved', fin.objectionsUnresolved, 'warn');
+
+      // Action row (copy / download)
+      var actions = document.createElement('div');
+      actions.className = 'mba-doc-actions';
+
+      var copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.textContent = 'Copy Markdown';
+      copyBtn.addEventListener('click', function () {
+        var p = _copyToClipboard(fin.markdown);
+        Promise.resolve(p).then(function (ok) {
+          setMsg(ok ? 'Markdown copied to clipboard. Not submitted. Not executed.'
+                    : 'Copy failed — fallback to manual select/copy.', ok ? 'ok' : 'err');
+        });
+      });
+      actions.appendChild(copyBtn);
+
+      var dlMd = document.createElement('button');
+      dlMd.type = 'button';
+      dlMd.textContent = 'Download .md';
+      dlMd.addEventListener('click', function () {
+        var ok = _downloadBlob(_safeFilename(fin.title || ('limen-openai-final-' + item.lane), 'md'),
+                               'text/markdown;charset=utf-8', fin.markdown);
+        setMsg(ok ? 'Markdown download started. Client-side only — no server write.'
+                  : 'Download failed.', ok ? 'ok' : 'err');
+      });
+      actions.appendChild(dlMd);
+
+      var dlHtml = document.createElement('button');
+      dlHtml.type = 'button';
+      dlHtml.textContent = 'Download .html';
+      dlHtml.addEventListener('click', function () {
+        // Reuse MB-D renderHtml if available, otherwise render raw markdown in <pre>.
+        var bodyHtml;
+        if (finalizer && typeof finalizer.renderHtml === 'function') {
+          // Wrap in a synthetic finalized object so renderHtml accepts it.
+          bodyHtml = finalizer.renderHtml({ markdown: fin.markdown });
+        } else {
+          bodyHtml = '<pre>' + String(fin.markdown).replace(/[&<>]/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c];
+          }) + '</pre>';
+        }
+        var doc = '<!doctype html>\n<html><head><meta charset="utf-8">' +
+                  '<title>' + _esc(fin.title || 'OpenAI FINAL DRAFT ONLY') + ' — FINAL DRAFT ONLY</title>' +
+                  '<style>body{font-family:Georgia,serif;max-width:900px;margin:32px auto;padding:0 20px;line-height:1.55;color:#222}h1,h2,h3{font-weight:300}blockquote{margin:8px 0;padding:8px 14px;border-left:3px solid #c33;background:#fff7f7;color:#a33}code{background:#f3f3f3;padding:1px 5px;border-radius:2px}pre{background:#f6f6f6;padding:10px;overflow-x:auto;font-size:13px}</style>' +
+                  '</head><body>' + bodyHtml + '</body></html>';
+        var ok = _downloadBlob(_safeFilename(fin.title || ('limen-openai-final-' + item.lane), 'html'),
+                               'text/html;charset=utf-8', doc);
+        setMsg(ok ? 'HTML download started. Client-side only — no server write.'
+                  : 'Download failed.', ok ? 'ok' : 'err');
+      });
+      actions.appendChild(dlHtml);
+
+      host.appendChild(actions);
+
+      // Render the document
+      var doc = document.createElement('div');
+      doc.className = 'mba-doc';
+      try {
+        if (finalizer && typeof finalizer.renderHtml === 'function') {
+          doc.innerHTML = finalizer.renderHtml({ markdown: fin.markdown });
+        } else {
+          var pre = document.createElement('pre');
+          pre.textContent = fin.markdown;
+          doc.appendChild(pre);
+        }
+      } catch (e) {
+        doc.textContent = '(HTML render failed; markdown still available via Copy/Download)';
+      }
+      host.appendChild(doc);
+
+      var diag2 = r.body.diagnostics || {};
+      var depthMsg = (typeof diag2.markdownWords === 'number')
+        ? (' · ' + diag2.markdownWords + ' words / target ' +
+           (diag2.depthTargetWords || '?') + ' · ' + (diag2.depthStatus || 'unknown'))
+        : '';
+      setMsg('OpenAI expanded ' + id + ' (' + r.body.lane + ') in ' +
+        (diag2.totalElapsedMs || '?') + 'ms' + depthMsg + '. ' +
+        'OPENAI FINAL DRAFT ONLY. Not submitted. Not executed. Not durable yet (MB-E TBD).', 'ok');
+    }, function (err) {
+      host.innerHTML = '';
+      if (btn) btn.disabled = false;
+      var bl = document.createElement('div');
+      bl.className = 'mba-doc-warning';
+      bl.textContent = 'Network error calling /api/finalize-artifact: ' +
+        (err && err.message ? err.message : 'unknown');
+      host.appendChild(bl);
+      // D3-G.3 — surface enrichment status on the network-error path too.
+      try {
+        if (enrichmentInfo.attempted || enrichmentInfo.code) {
+          var enrNet = document.createElement('div');
+          enrNet.className = 'mba-doc-warning';
+          enrNet.textContent = 'Deep-source enrichment status: ' +
+            (enrichmentInfo.attempted ? (enrichmentInfo.deepSourceAttached ? 'ATTACHED' : 'NOT_ATTACHED') : 'SKIPPED') +
+            ' · code=' + (enrichmentInfo.code || '?');
+          host.appendChild(enrNet);
+        }
+      } catch (_) {}
+      setMsg('Expand network error.', 'err');
+    });
+  }
+
+  listEl.addEventListener('click', function (e) {
+    var btn = e.target;
+    if (!btn || btn.tagName !== 'BUTTON') return;
+    var action = btn.getAttribute('data-action');
+    if (action !== 'remove' && action !== 'build' && action !== 'finalize' && action !== 'expand') return;
+    var card = btn.closest && btn.closest('.mba-card');
+    if (!card) return;
+    var id = card.getAttribute('data-id');
+    if (action === 'remove') {
+      if (api.remove(id)) {
+        setMsg('Removed ' + id + '.', 'ok');
+        renderList();
+      }
+      return;
+    }
+    if (action === 'build') {
+      _renderPackageInline(card, id);
+      return;
+    }
+    if (action === 'finalize') {
+      _renderFinalizedInline(card, id);
+      return;
+    }
+    if (action === 'expand') {
+      _renderExpandedInline(card, id, btn);
+      return;
+    }
+  });
+
+  // MB-C.1 / MB-D — listen for late-load ready events on factory and
+  // finalizer so the list can re-render and pick up state if attach
+  // happened after initial paint (defensive; no-op on the normal path).
+  try {
+    if (typeof window.addEventListener === 'function') {
+      window.addEventListener('limen:artifact-factory-ready',  function () { try { renderList(); } catch (_) {} });
+      window.addEventListener('limen:artifact-finalizer-ready', function () { try { renderList(); } catch (_) {} });
+    }
+  } catch (_) {}
+
+  // MB-C.1 / MB-D — observable initial-state log so the operator can
+  // see in DevTools which modules attached cleanly. No DOM side-effect.
+  try {
+    var _f = window.LIMENMasterBrain && window.LIMENMasterBrain.artifactFactory;
+    var _z = window.LIMENMasterBrain && window.LIMENMasterBrain.artifactFinalizer;
+    console.info('[MB-C.1/MB-D] inbox wiring ready. artifactIntake:', !!api,
+      ' artifactFactory:', !!_f,
+      ' artifactFinalizer:', !!_z,
+      ' factoryLanes:', _f ? _f.listSupportedLanes() : null,
+      ' finalizerLanes:', _z ? _z.listSupportedLanes() : null);
+  } catch (_) {}
+
+  // ── MB-D.1 fix — defensive card patcher ───────────────────────────
+  //
+  // Live observation: some operators saw "Build Draft Package" /
+  // "Finalize Draft Document" / "Remove" in the DOM but NOT
+  // "OpenAI Expand Final Draft", even though the deployed HTML
+  // template emits all four buttons inside the same string literal
+  // in renderList(). The most plausible cause is an older parsed
+  // copy of this inline script running in a tab opened before
+  // MB-D.1 deployed, even when the on-disk HTML is fresh.
+  //
+  // This patcher walks each .mba-card present in the intake list,
+  // and if it lacks an .mba-expand button OR .mba-expand-host div,
+  // injects them. The Expand button is wired through the same
+  // existing data-action="expand" path on listEl's click delegation,
+  // so behavior is identical to the renderer-emitted button. The
+  // patcher is also installed as a MutationObserver on the intake
+  // list so any future card addition that lacks the button will be
+  // self-healed. NO network calls. NO API writes. NO new state.
+  //
+  // Required modules: factory + finalizer must exist for the button
+  // to be enabled. If either is missing, the button is rendered as
+  // disabled with a tooltip explaining what's missing.
+  function _patchCard(cardEl) {
+    if (!cardEl || cardEl.nodeType !== 1) return;
+    if (!cardEl.classList || !cardEl.classList.contains('mba-card')) return;
+
+    var actions = cardEl.querySelector('.mba-card-actions');
+    if (!actions) return;
+
+    var existing = actions.querySelector('button.mba-expand[data-action="expand"]');
+    if (!existing) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'mba-expand';
+      btn.setAttribute('data-action', 'expand');
+      btn.textContent = 'OpenAI Expand Final Draft';
+      var fac = window.LIMENMasterBrain && window.LIMENMasterBrain.artifactFactory;
+      var fin = window.LIMENMasterBrain && window.LIMENMasterBrain.artifactFinalizer;
+      if (!fac || !fin) {
+        btn.disabled = true;
+        btn.title = 'Disabled — required modules missing: ' +
+                    (!fac ? 'artifactFactory ' : '') + (!fin ? 'artifactFinalizer ' : '');
+      }
+      // Insert BEFORE the Remove button when present, so the order
+      // matches the renderer template: Build · Finalize · Expand · Remove.
+      var removeBtn = actions.querySelector('button[data-action="remove"]');
+      if (removeBtn && removeBtn.parentNode === actions) {
+        actions.insertBefore(btn, removeBtn);
+      } else {
+        actions.appendChild(btn);
+      }
+    }
+
+    // Ensure the host div exists for inline rendering of the OpenAI
+    // expanded result. Same id-binding semantics as the renderer.
+    var hasHost = cardEl.querySelector('.mba-expand-host');
+    if (!hasHost) {
+      var host = document.createElement('div');
+      host.className = 'mba-expand-host';
+      host.setAttribute('data-id', cardEl.getAttribute('data-id') || '');
+      cardEl.appendChild(host);
+    }
+  }
+
+  function _patchAllCards() {
+    if (!listEl) return;
+    var cards = listEl.querySelectorAll('.mba-card');
+    for (var i = 0; i < cards.length; i++) _patchCard(cards[i]);
+  }
+
+  try {
+    if (typeof MutationObserver === 'function' && listEl) {
+      var _mbObs = new MutationObserver(function (mutations) {
+        for (var m = 0; m < mutations.length; m++) {
+          var added = mutations[m].addedNodes;
+          if (!added) continue;
+          for (var n = 0; n < added.length; n++) {
+            var node = added[n];
+            if (!node || node.nodeType !== 1) continue;
+            if (node.classList && node.classList.contains('mba-card')) {
+              _patchCard(node);
+            } else if (typeof node.querySelectorAll === 'function') {
+              var nested = node.querySelectorAll('.mba-card');
+              for (var k = 0; k < nested.length; k++) _patchCard(nested[k]);
+            }
+          }
+        }
+      });
+      _mbObs.observe(listEl, { childList: true, subtree: false });
+    }
+  } catch (_) {}
+
+  // Expose a manual refresh-cards entry point for DevTools / future
+  // diagnostic use. Operator-callable; no auto-fire.
+  try {
+    window.LIMENMasterBrainInbox = window.LIMENMasterBrainInbox || {};
+    window.LIMENMasterBrainInbox.refreshCards = function () {
+      try { renderList(); } catch (_) {}
+      try { _patchAllCards(); } catch (_) {}
+    };
+  } catch (_) {}
+
+  renderLegend();
+  renderList();
+  // One pass after the initial render to patch any cards rendered by a
+  // potentially-stale renderer copy in this tab. Safe to run twice on
+  // fresh tabs — _patchCard is idempotent (skips when button exists).
+  try { _patchAllCards(); } catch (_) {}
+})();
+</script>
+
+</body>
+</html>

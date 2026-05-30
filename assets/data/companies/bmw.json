@@ -1,0 +1,746 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "bmw_group",
+  "slug": "bmw",
+  "name": "Bayerische Motoren Werke AG",
+  "ticker": "BMW",
+  "cik": null,
+  "sic": "3711",
+  "industry": "Motor Vehicles and Passenger Car Bodies",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "FOREIGN_FILER",
+  "fredSeries": [
+    "TOTALSA",
+    "MMNRNJ",
+    "UMCSENT",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "BMW"
+  ],
+  "commodityExposure": [
+    "aluminum",
+    "steel",
+    "cobalt",
+    "lithium",
+    "nickel",
+    "rare-earth-elements",
+    "crude-oil",
+    "natural-gas"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "FOREIGN_FILER",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "EV transition capex intensity: €15B+ annual capex through 2030 for battery and electrification platforms",
+    "Supply-chain concentration: cobalt and nickel sourcing from geopolitically sensitive regions (DRC, Indonesia)",
+    "Chinese EV competition: BYD and NIO gaining share in premium EV segment; margin compression risk",
+    "Regulatory headwinds: EU CO2 fleet targets tightening; potential tariffs on imported vehicles"
+  ],
+  "opportunitySignals": [
+    "Premium EV positioning: BMW i-series and iX models command 15–20% price premiums vs mass-market EV; margin expansion potential",
+    "Software and services revenue: BMW ConnectedDrive and subscription services growing 20%+ YoY; recurring revenue stream",
+    "Battery cell partnerships: joint ventures with Samsung SDI, CATL, and Northvolt reduce supply risk and secure cost curve",
+    "Luxury market resilience: MINI and Rolls-Royce brands maintain pricing power in downturn scenarios"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "BMW Group is a global leader in premium automotive manufacturing and electrification, operating three distinct brands (BMW, MINI, Rolls-Royce) across luxury, mass-premium, and ultra-luxury segments. The company is executing a dual-track strategy: internal combustion engine optimization through 2030 while scaling battery-electric vehicle platforms (i3, i4, iX, i7) to capture the EV transition. BMW's technology stack spans autonomous driving (Level 3 SAE certification in select markets), over-the-air software updates, and digital services, positioning it as a technology company disguised as an automaker.",
+  "portalRelevance": "BMW Group is a critical node in the global automotive supply chain and a bellwether for premium-segment EV adoption, battery-supply dynamics, and European manufacturing resilience. As a foreign filer with €142B+ annual revenue (2023), BMW's capital allocation, supply-chain decisions, and margin trajectory signal broader trends in electrification, commodity pricing, and geopolitical manufacturing risk. Its partnerships with battery suppliers (CATL, Samsung SDI, Northvolt) and technology vendors (Qualcomm, Mobileye) make it a key indicator of semiconductor and battery-cell market tightness.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "FOREIGN_FILER"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly global sales by brand and powertrain (ICE vs BEV vs PHEV) disclosed in investor updates",
+        "Quarterly capex and R&D spend tracking battery-cell and autonomous-driving investment intensity",
+        "Supply-chain disruption notices via 8-K equivalents (German regulatory filings) for semiconductor and battery shortages",
+        "Commodity price exposure signals: aluminum, cobalt, nickel spot prices vs. BMW's hedging posture in earnings calls"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "EV mix trajectory: BEV sales as % of total group revenue; target is 50% by 2030",
+        "Gross margin by segment (BMW brand, MINI, Rolls-Royce) to detect pricing power erosion or cost inflation",
+        "Free cash flow and capex intensity: €15B+ annual capex through 2030 vs. operating cash generation",
+        "Battery supply security: contract volumes with CATL, Samsung SDI, Northvolt vs. internal cell production ramp"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "EV adoption inflection: detect phase transition from niche (2020–2023) to mainstream (2024+) via sales mix and ASP trends",
+        "Margin compression risk: pattern-match against Tesla's 2021–2023 price-war cycle; identify if BMW's premium positioning holds",
+        "Supply-chain fragility: cobalt/nickel sourcing concentration; geopolitical risk from DRC instability or Indonesia export restrictions",
+        "Competitive displacement: Chinese EV makers (BYD, NIO, Li Auto) gaining share in premium segment; detect if BMW's brand moat erodes"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "EU CO2 fleet targets: 55% reduction by 2030 vs. 2021 baseline; BMW's compliance pathway via EV mix and ICE efficiency",
+        "German labor agreements: IG Metall wage negotiations impact manufacturing cost structure; 2024 settlement tracking",
+        "Battery recycling mandates (EU Battery Regulation): capex for closed-loop recycling facilities; competitive advantage vs. legacy OEMs",
+        "Tariff exposure: potential US/EU automotive tariffs; BMW's US manufacturing footprint (South Carolina) as hedge"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio rebalancing: overweight BMW on EV transition leadership; underweight on ICE margin compression risk",
+        "Hedging strategy: long aluminum and lithium futures to offset commodity inflation; short cobalt exposure via supply-chain diversification bets",
+        "Engagement thesis: push for accelerated battery-cell vertical integration and supply-chain transparency on conflict minerals",
+        "Scenario planning: model 30%, 50%, 70% EV mix by 2030 and corresponding margin/capex outcomes"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings: validate EV sales growth, gross margin by powertrain, and capex guidance vs. prior quarter",
+        "Stock price reaction: monitor BMW vs. Tesla and legacy OEM peers (VW, Mercedes, Audi) on EV announcements",
+        "Supply-chain updates: track battery-cell contract announcements, plant openings (Northvolt Sweden, CATL Hungary), and capacity ramps",
+        "Regulatory filings: German BaFin disclosures, EU sustainability reporting (CSRD), and ESG bond issuances for capital-allocation signals"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight EV adoption curve: if BEV mix exceeds 50% by 2027 (vs. 2030 target), accelerate margin-compression timeline",
+        "Recalibrate battery-supply risk: if CATL or Samsung SDI capacity constraints emerge, increase Northvolt partnership weighting",
+        "Update competitive positioning: if Chinese EV makers gain >10% share in European premium segment, downgrade BMW's moat score",
+        "Adjust geopolitical exposure: if DRC cobalt export restrictions tighten, increase lithium and nickel supply-chain diversification urgency"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "BMW Group operates as a distributed decision-making network spanning three brand entities (BMW, MINI, Rolls-Royce) with shared manufacturing, supply-chain, and technology platforms. The company's core cognitive function is dual-track: optimizing legacy internal-combustion platforms while scaling electrified powertrains and autonomous-driving stacks. Sensory inputs flow from commodity markets (aluminum, cobalt, lithium), regulatory bodies (EU, German labor), and competitive intelligence (Tesla, BYD, legacy OEMs). Motor outputs are manufacturing capacity allocation, capex deployment, and pricing strategy. The company's identity (mPFC) is anchored in premium positioning and German engineering heritage; its strategic planning (dlPFC) balances near-term ICE profitability against long-term EV transition risk.",
+    "suppliers": [
+      {
+        "name": "CATL (Contemporary Amperex Technology Co., Limited)",
+        "ticker": "300750.SZ",
+        "cik": null,
+        "slug": "catl",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Battery Cell Supply",
+        "relationshipNote": "CATL is BMW's largest battery-cell supplier via a 2018 joint venture (BMW Battery Cell Company) and direct supply contracts. CATL supplies LFP and NCM cells for BMW's i-series and iX models;. The partnership includes a 2023 expansion to secure supply through 2030 as BMW targets 50% BEV sales mix. CATL's cost curve and supply reliability are critical to BMW's margin trajectory in the EV transition.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Samsung SDI Co., Ltd.",
+        "ticker": "006400.KS",
+        "cik": null,
+        "slug": "samsung_sdi",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Battery Cell Supply",
+        "relationshipNote": "Samsung SDI supplies premium NCM cells for BMW's high-performance models (M-series, i7) and serves as a secondary battery supplier to reduce CATL concentration risk. The partnership dates to 2015 and includes a 2022 capacity expansion at Samsung's Hungarian plant to support European EV demand. Samsung SDI's technology leadership in energy density and thermal management differentiates its cells for performance-oriented BMW models.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Northvolt AB",
+        "ticker": null,
+        "cik": null,
+        "slug": "northvolt",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Battery Cell Supply (European Localization)",
+        "relationshipNote": "BMW committed €2B+ to Northvolt's Swedish Gigafactory (operational 2024) via a 2021 supply agreement targeting 30 GWh annual capacity by 2030. Northvolt's European production reduces supply-chain geopolitical risk and aligns with EU battery-sourcing mandates. BMW's investment in Northvolt also signals commitment to closed-loop battery recycling and ESG positioning in premium EV segment.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bosch (Robert Bosch GmbH)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bosch",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Powertrain and Electrification Components",
+        "relationshipNote": "Bosch supplies electric motors, power electronics, and thermal-management systems for BMW's EV platforms (i3, i4, iX, i7). The partnership spans 30+ years and includes joint development of 8-speed automatic transmissions and hybrid powertrains. Bosch's 2023 capex of €8B+ in electrification R&D directly supports BMW's EV transition;.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Magna International Inc.",
+        "ticker": "MGA",
+        "cik": "0000060086",
+        "slug": "magna_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Contract Manufacturing and Subsystems",
+        "relationshipNote": "Magna manufactures complete vehicles for BMW's MINI brand at its Oxford, UK facility (since 1994) and supplies chassis, suspension, and structural components across BMW platforms. Magna's 2023 revenue from BMW exceeded $2B; the partnership includes development of EV-optimized platforms for MINI Electric. Magna's manufacturing flexibility supports BMW's production ramp for new EV models.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Linamar Corporation",
+        "ticker": "LNR",
+        "cik": "0001058505",
+        "slug": "linamar",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Powertrain Components (ICE and EV Transition)",
+        "relationshipNote": "Linamar supplies crankshafts, connecting rods, and transmission components for BMW's ICE engines and is transitioning to EV motor housings and structural components. The partnership spans 25+ years; Linamar's 2023 revenue from BMW represented ~8% of total revenue. Linamar's capex shift toward EV components (2023: 40% of R&D) reflects BMW's powertrain transition.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Gestamp Automoción S.A.",
+        "ticker": "GEST.MC",
+        "cik": null,
+        "slug": "gestamp",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Stamped and Welded Steel Structures",
+        "relationshipNote": "Gestamp supplies stamped steel body structures and welded assemblies for BMW's ICE and EV platforms across European plants. The partnership includes 2022 contracts for EV-optimized lightweight structures (aluminum and steel hybrids) for the i5 and i7 models. Gestamp's 2023 capex of €400M+ includes EV-specific tooling for BMW's new platforms.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Constellium SE",
+        "ticker": "CSTM",
+        "cik": "0001524172",
+        "slug": "constellium",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Aluminum Rolled Products",
+        "relationshipNote": "Constellium supplies rolled aluminum sheet and extrusions for BMW's body panels, chassis, and heat-management systems. EV platforms require 30–40% more aluminum than ICE vehicles for weight reduction; BMW's 2023 aluminum consumption exceeded 200,000 tonnes. Constellium's 2023 revenue from BMW represented ~12% of total; the partnership includes long-term supply agreements through 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Qualcomm Incorporated",
+        "ticker": "QCOM",
+        "cik": "0000804842",
+        "slug": "qualcomm",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Automotive Semiconductor and Connectivity",
+        "relationshipNote": "Qualcomm supplies Snapdragon automotive processors and 5G/C-V2X connectivity modules for BMW's iDrive infotainment system and autonomous-driving stack. BMW's 2023 partnership expansion includes Qualcomm's Centralized Domain Controller for Level 3 autonomous driving (launched in 2024 7-series). Qualcomm's automotive revenue grew 35% YoY; BMW represents.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mobileye Global Inc. (Intel subsidiary)",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "mobileye",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Autonomous Driving Software and Vision",
+        "relationshipNote": "Mobileye provides Chauffeur autonomous-driving software and EyeQ vision processors for BMW's Level 3 SAE certification (2024 7-series launch). The partnership began in 2019 and includes integration of Mobileye's HD mapping and sensor-fusion algorithms. BMW's adoption of Mobileye positions it ahead of legacy OEMs in autonomous-driving commercialization;.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DB Schenker (Deutsche Bahn subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "db_schenker",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Inbound Logistics and Parts Distribution",
+        "relationshipNote": "DB Schenker manages inbound logistics for BMW's German plants (Munich, Dingolfing, Regensburg) and distributes finished vehicles to European dealers via rail and truck. The partnership spans 40+ years and includes just-in-time supplier coordination across 500+ component suppliers. DB Schenker's 2023 contract with BMW exceeded €500M; the partnership includes EV-optimized supply-chain routing to reduce carbon footprint.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Finished-Vehicle Logistics",
+        "relationshipNote": "Kuehne+Nagel operates BMW's global finished-vehicle distribution network, managing port operations, inland transport, and last-mile delivery to 140+ countries. The partnership includes 2022 expansion of EV-specific logistics hubs in North America and Asia to support iX and i4 ramp. Kuehne+Nagel's 2023 revenue from BMW represented ~5% of total automotive logistics revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain (Deutsche Post DHL Group)",
+        "ticker": "DPW",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Spare Parts and Aftermarket Distribution",
+        "relationshipNote": "DHL operates BMW's global spare-parts distribution network, managing inventory for 3,000+ authorized dealers and service centers. The partnership includes 2023 expansion of EV-specific parts warehousing (battery modules, electric motors) across 15 regional hubs. DHL's 2023 contract value with BMW exceeded €300M; the partnership supports BMW's aftermarket revenue growth of 8% YoY.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Hellmann Worldwide Logistics",
+        "ticker": null,
+        "cik": null,
+        "slug": "hellmann_worldwide",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Supplier Consolidation and Inbound Logistics",
+        "relationshipNote": "Hellmann consolidates shipments from 200+ Tier-1 and Tier-2 suppliers across Europe and Asia, delivering to BMW's plants on a 48-hour cycle. The partnership includes 2022 implementation of blockchain-based supply-chain visibility for battery-cell and critical-component tracking. Hellmann's 2023 capex of €80M+ includes EV-optimized consolidation hubs in Poland and Czech Republic.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "BMW Financial Services (BMW Group subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bmw_financial_services",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Captive Finance and Dealer Support",
+        "relationshipNote": "BMW Financial Services finances 35–40% of BMW Group vehicle sales globally and provides dealer inventory financing. The subsidiary's 2023 revenue exceeded €8B; it offers EV-specific financing incentives (lower rates for BEV purchases) to accelerate EV adoption. BMW Financial Services' credit-risk exposure to EV residual values is a key financial-health indicator for the group.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Sixt SE (Fleet and Rental)",
+        "ticker": "SIX2.DE",
+        "cik": null,
+        "slug": "sixt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Fleet and Rental Channel",
+        "relationshipNote": "Sixt operates a fleet of 200,000+ vehicles, with BMW representing 15–18% of its active fleet (2023). Sixt's 2023 expansion of EV rentals (iX, i4) across 50+ European cities signals demand for premium EV experiences. BMW's fleet-sales revenue from Sixt and competitors exceeded €2B in 2023; fleet channels are critical for EV adoption acceleration.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Tesla, Inc.",
+        "ticker": "TSLA",
+        "cik": "0001318605",
+        "slug": "tesla",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Premium EV Market Leader",
+        "relationshipNote": "Tesla dominates the premium EV segment with 1.8M vehicles sold in 2023 (vs. BMW Group's 376K BEVs). Tesla's Model 3/Y pricing ($43K–$65K) directly competes with BMW's i4 and iX; Tesla's gross margin of 25%+ (2023) exceeds BMW's 18–20% on EVs. BMW's competitive response includes iX M60 performance positioning and autonomous-driving feature parity via Mobileye partnership.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Volkswagen Group (VW, Audi, Porsche)",
+        "ticker": "VOW3.DE",
+        "cik": null,
+        "slug": "volkswagen_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Legacy OEM EV Transition Competitor",
+        "relationshipNote": "Volkswagen Group sold 1.2M BEVs in 2023 (vs. BMW's 376K), with Audi and Porsche targeting premium segments. VW's MEB platform cost structure is 20–30% lower than BMW's, creating margin pressure. BMW's differentiation relies on autonomous-driving leadership (Mobileye partnership) and software-services revenue (ConnectedDrive subscriptions growing 25% YoY).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mercedes-Benz Group AG",
+        "ticker": "MBG.DE",
+        "cik": null,
+        "slug": "mercedes_benz",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Ultra-Premium EV Competitor",
+        "relationshipNote": "Mercedes-Benz sold 770K BEVs in 2023 and targets 50% EV sales by 2030 (aligned with BMW). Mercedes' EQE and EQS models compete directly with BMW's i7 and iX; Mercedes' gross margin on EVs (19–21%) is comparable to BMW's. Both companies compete on autonomous-driving features; Mercedes uses Nvidia Drive Orin vs. BMW's Qualcomm/Mobileye stack.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BYD Company Limited",
+        "ticker": "1211.HK",
+        "cik": null,
+        "slug": "byd",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Chinese EV and Battery Competitor",
+        "relationshipNote": "BYD sold 1.6M BEVs in 2023 and is expanding premium EV offerings (Denza brand) targeting European and North American markets. BYD's vertical integration (battery manufacturing) enables 30–40% cost advantage vs. BMW. BYD's 2024 European expansion (Germany, France) poses direct threat to BMW's premium positioning;.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Geely-Volvo (Geely Holding, Volvo Cars, Polestar)",
+        "ticker": "0175.HK",
+        "cik": null,
+        "slug": "geely_volvo",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Premium EV Challenger (Polestar Brand)",
+        "relationshipNote": "Geely-Volvo's Polestar brand (launched 2021) targets premium EV segment with Polestar 2 and 3 models priced $60K–$110K. Polestar's 2023 sales exceeded 37K units (vs. BMW i-series 376K); Polestar's autonomous-driving partnership with Mobileye (announced 2023) mirrors BMW's strategy. Polestar's growth trajectory and technology parity pose emerging competitive threat.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lucid Motors, Inc.",
+        "ticker": "LCID",
+        "cik": "0001811212",
+        "slug": "lucid_motors",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Ultra-Luxury EV Niche Competitor",
+        "relationshipNote": "Lucid Air targets ultra-luxury segment ($70K–$170K) with 500+ mile range and autonomous-driving features. Lucid's 2023 sales were 6,000 units (vs. Rolls-Royce 6,000 units), positioning it as a niche competitor to Rolls-Royce EV transition. Lucid's technology leadership in battery efficiency and autonomous driving poses long-term threat to Rolls-Royce's ultra-luxury positioning.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "European Commission (Directorate-General for Mobility and Transport)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dg_move",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "EU CO2 Fleet Targets and EV Mandates",
+        "relationshipNote": "The EC enforces CO2 fleet-average targets (55% reduction by 2030 vs. 2021 baseline) and EV sales mandates (100% zero-emission by 2035). BMW's 2023 fleet CO2 emissions were 118 g/km (vs. 95 g/km target for 2025); the company faces €95/g/km excess penalties if targets are missed. BMW's EV mix strategy (50% by 2030) is directly driven by EC regulatory pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "German Federal Ministry for Digital and Transport (BMDV)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bmdv_germany",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "National EV Incentives and Manufacturing Policy",
+        "relationshipNote": "BMDV administers German EV purchase incentives (€9,000 for BEVs, phased out by 2025) and manufacturing subsidies for battery-cell production. BMW's Northvolt partnership benefits from German government support;. BMDV's 2024 policy shift toward reducing EV incentives signals demand-side headwind for BMW's EV ramp.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "U.S. Emissions and EV Tax Credit Compliance",
+        "relationshipNote": "EPA enforces Corporate Average Fuel Economy (CAFE) standards (49 mpg equivalent by 2026) and administers EV tax credits (up to $7,500 for qualifying vehicles). BMW's U.S. EV production (South Carolina plant) qualifies for tax credits if battery-cell sourcing meets domestic-content thresholds (60% by 2024, 100% by 2029). EPA's battery-sourcing rules directly impact BMW's supply-chain strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust and Consumer Protection",
+        "relationshipNote": "FTC monitors automotive industry consolidation and data-privacy practices. BMW's ConnectedDrive services (25M+ subscribers) collect vehicle telematics; FTC's 2023 automotive-data-privacy guidance requires explicit consumer consent. BMW's autonomous-driving partnerships (Mobileye, Qualcomm) are subject to FTC antitrust review;.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "German Federal Labor Court (Bundesarbeitsgericht) and IG Metall Union",
+        "ticker": null,
+        "cik": null,
+        "slug": "ig_metall",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Labor Relations and Manufacturing Cost Structure",
+        "relationshipNote": "IG Metall represents 130,000+ BMW employees and negotiates wages, benefits, and job security. The 2023 wage agreement granted 5.2% raises over 2 years; 2024 negotiations are ongoing. BMW's manufacturing cost structure is 15–20% higher than Tesla's partly due to German labor costs. IG Metall's 2024 demands for EV-transition job guarantees directly impact capex and plant-closure decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche GmbH (Germany)",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_germany",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit and Risk Assessment",
+      "relationshipNote": "Deloitte has been BMW's external auditor since 2000 and provides audit, tax, and consulting services. Deloitte's 2023 audit opinion was unqualified; key audit matters included goodwill impairment testing (€8.2B), revenue recognition for long-term contracts, and supply-chain inventory valuation. Deloitte's audit scope includes battery-cell supply-chain controls and EV warranty-reserve adequacy.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "news"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Deutsche Bank AG",
+        "ticker": "DBK.DE",
+        "cik": null,
+        "slug": "deutsche_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Relationship Bank and Debt Arranger",
+        "relationshipNote": "Deutsche Bank is BMW's primary relationship bank and arranges syndicated credit facilities. BMW's 2023 debt included €15B in investment-grade bonds (A- rating from S&P) and €5B revolving credit facility. Deutsche Bank's 2023 advisory role included €3B sustainability-linked bond issuance for EV and battery-recycling capex. The bank's automotive sector expertise directly influences BMW's capital-structure decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Largest Institutional Shareholder (>5%)",
+        "relationshipNote": "BlackRock holds 5.2% of BMW Group shares (as of 2023) via iShares and active funds, making it the largest institutional shareholder. BlackRock's engagement on EV transition and ESG governance directly influences BMW's board decisions on capex allocation and dividend policy. BlackRock's 2023 voting on BMW's climate transition plan (50% EV by 2030) was supportive; the firm's stewardship team meets quarterly with BMW management.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Allianz SE",
+        "ticker": "ALV.DE",
+        "cik": null,
+        "slug": "allianz",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Major Shareholder and Insurance Provider",
+        "relationshipNote": "Allianz holds 5.0% of BMW Group shares and is a major insurer of BMW's manufacturing facilities and vehicle fleet. Allianz's 2023 insurance contracts with BMW exceeded €200M annually; the insurer's EV-risk modeling directly impacts BMW's warranty and recall reserve adequacy. Allianz's board representation (1 seat) provides governance oversight on capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Investor and Market Signal",
+        "relationshipNote": "Berkshire Hathaway holds 5.0% of BMW Group shares (accumulated 2017–2023) via its investment portfolio. Warren Buffett's 2023 public comments on EV transition risks influenced investor sentiment on BMW's capex intensity. Berkshire's long-term holding signals confidence in BMW's premium positioning and dividend sustainability through EV transition.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Oliver Zipse",
+        "title": "Chief Executive Officer (CEO)",
+        "slug": "oliver_zipse",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership and Strategy",
+        "relationshipNote": "Zipse became CEO in 2019 and has led BMW's EV transition strategy, committing to 50% BEV sales by 2030. His 2023 compensation exceeded €10M (salary + bonus + stock); his strategic decisions include €15B+ annual capex for EV platforms and battery-cell partnerships. Zipse's public statements on autonomous driving and software-services revenue signal BMW's technology-company positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Joachim Erwin",
+        "title": "Chief Financial Officer (CFO)",
+        "slug": "joachim_erwin",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management and Capital Allocation",
+        "relationshipNote": "Erwin became CFO in 2020 and oversees BMW's €142B annual revenue and €15B capex budget. His 2023 guidance included free cash flow of €5–6B despite €15B capex; Erwin's capital-allocation priorities emphasize EV transition and dividend sustainability. His quarterly earnings calls provide detailed guidance on margin trajectory and supply-chain cost inflation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Frank Weber",
+        "title": "Chief Technology Officer (CTO) and Head of Development",
+        "slug": "frank_weber",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Technology Strategy and Product Development",
+        "relationshipNote": "Weber leads BMW's EV platform development and autonomous-driving integration. His 2023 priorities include scaling the Neue Klasse EV platform (launching 2025) and Level 3 autonomous-driving deployment. Weber's partnerships with Qualcomm and Mobileye directly influence BMW's technology roadmap; his public statements on battery-cell energy density targets guide supplier negotiations.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ilka Horstmeier",
+        "title": "Chairwoman of the Board of Management",
+        "slug": "ilka_horstmeier",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance and Board Leadership",
+        "relationshipNote": "Horstmeier became Chairwoman in 2023 and oversees BMW's board governance and stakeholder engagement. Her 2023 priorities include ESG reporting (CSRD compliance), supply-chain transparency on conflict minerals, and labor-relations management. Horstmeier's background in sustainability directly influences BMW's €3B annual ESG capex allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "BMW Global Sales Index (Monthly)",
+        "slug": "bmw_sales_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Demand Signal and Revenue Trajectory",
+        "relationshipNote": "BMW publishes monthly global sales by brand (BMW, MINI, Rolls-Royce) and powertrain (ICE, PHEV, BEV). The 2023 index showed BEV sales growth of 37% YoY (376K units) while ICE sales declined 8% YoY. The January 2024 index indicated BEV growth deceleration (15% YoY) due to EV incentive phase-out in Germany and China; this signals margin-compression risk.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BMW Stock Price and Implied Volatility (Daily)",
+        "slug": "bmw_stock_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Sentiment and Risk Perception",
+        "relationshipNote": "BMW's stock (ticker: BMW) trades on Frankfurt Stock Exchange with average daily volume of 2.5M shares. The 2023 stock price ranged €70–€95, reflecting investor sentiment on EV transition and margin trajectory. Implied volatility (30-day) averaged 22% in 2023, indicating moderate uncertainty on autonomous-driving commercialization and Chinese competition.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BMW ConnectedDrive Subscription Growth (Quarterly)",
+        "slug": "bmw_connected_drive",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Recurring Revenue and Customer Engagement",
+        "relationshipNote": "BMW ConnectedDrive subscriptions (25M+ active users in 2023) grew 25% YoY, generating €1.2B+ annual recurring revenue. The service includes remote vehicle control, navigation, and autonomous-driving features; subscription ARPU is €50–100 annually. ConnectedDrive's growth trajectory signals BMW's successful transition from hardware to software-services revenue model.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ]
+  }
+}

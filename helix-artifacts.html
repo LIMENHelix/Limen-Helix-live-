@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LIMEN Helix · Artifacts</title>
+<meta name="description" content="Filterable list of all persisted READY-TO-SIGN artifacts across the six engine lanes (patent / grant / sba / franchise / investment / research) with status, CIK, and per-lane counts." />
+<style>html,body{margin:0;padding:0;background:#f6f6f5}</style>
+</head>
+<body>
+<div id="artifacts-root"></div>
+
+<script src="assets/js/limen/artifact-list-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  function boot() {
+    if (!window.LIMENArtifactListUI) {
+      document.getElementById('artifacts-root').innerHTML =
+        '<div style="padding:24px;color:#7a2828">artifact-list-ui.js failed to load</div>';
+      return;
+    }
+    window.LIMENArtifactListUI.mount(document.getElementById('artifacts-root'));
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+</body>
+</html>

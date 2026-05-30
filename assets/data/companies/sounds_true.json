@@ -1,0 +1,186 @@
+{
+  "type": "companyPortal",
+  "companyId": "sounds_true",
+  "name": "Sounds True",
+  "ticker": "ST-PRIV",
+  "cik": "0",
+  "sic": "2741",
+  "industry": "Miscellaneous Publishing \u2014 Spiritual Media",
+  "domainId": "contemplative",
+  "portalAttachment": "contemplative_media",
+  "fredSeries": [
+    "PCE",
+    "RETAILIMSA"
+  ],
+  "feedSources": [
+    {
+      "type": "fred",
+      "seriesIds": [
+        "PCE",
+        "RETAILIMSA"
+      ]
+    }
+  ],
+  "helixReportMode": "linked",
+  "helixReportUrl": "helix-report.html?cik=0&company=sounds_true",
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "financialHealth": {},
+  "domainRelevance": "Leading publisher of contemplative and spiritual practice media; wisdom tradition signal emitter",
+  "portalRelevance": "Publishing catalog and course enrollment track contemplative knowledge transmission at scale",
+  "notes": null,
+  "intelligenceCycle": [
+    {
+      "layerId": "signal",
+      "title": "Sounds True \u2014 Signal Detection",
+      "description": "Market signals, SEC filings, earnings, news, supply chain alerts, and sector-specific indicators.",
+      "status": "active",
+      "signals": [
+        {
+          "source": "sec_edgar",
+          "description": "Private company \u2014 no SEC filings",
+          "url": null
+        },
+        {
+          "source": "fred",
+          "description": "FRED economic series",
+          "seriesIds": [
+            "PCE",
+            "RETAILIMSA"
+          ]
+        },
+        {
+          "source": "news",
+          "description": "GDELT/news sentiment for Sounds True"
+        }
+      ],
+      "diagnostics": [],
+      "actions": []
+    },
+    {
+      "layerId": "state",
+      "title": "Sounds True \u2014 State Assessment",
+      "description": "HELIX phase interpretation \u2014 current financial health, trajectory, and cross-domain stress position.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [
+        {
+          "type": "helix_phase",
+          "description": "HELIX v4.0 Phase Kernel state vector S(t)",
+          "url": "helix-report.html?cik=0&company=sounds_true"
+        },
+        {
+          "type": "sector_stress",
+          "description": "Domain stress from contemplative feed signals"
+        }
+      ],
+      "actions": []
+    },
+    {
+      "layerId": "diagnosis",
+      "title": "Sounds True \u2014 Diagnostic Analysis",
+      "description": "Pattern matching against known distress signatures, growth inflections, and sector failure modes.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [
+        {
+          "type": "distress_pattern",
+          "description": "Revenue decline + cash burn + debt accumulation signature"
+        },
+        {
+          "type": "growth_inflection",
+          "description": "Accelerating revenue + margin expansion + capex increase signature"
+        },
+        {
+          "type": "sector_contagion",
+          "description": "Cross-company and cross-domain stress propagation check"
+        }
+      ],
+      "actions": []
+    },
+    {
+      "layerId": "regulate",
+      "title": "Sounds True \u2014 Regulation Strategy",
+      "description": "Investment thesis, risk management, hedge positioning, or intervention strategy selection.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [],
+      "actions": [
+        {
+          "type": "investment_thesis",
+          "description": "Long/short/neutral positioning based on HELIX phase and trajectory"
+        },
+        {
+          "type": "risk_hedge",
+          "description": "Hedging strategy for identified risk factors"
+        },
+        {
+          "type": "engagement",
+          "description": "Stakeholder engagement or governance intervention strategy"
+        }
+      ]
+    },
+    {
+      "layerId": "action",
+      "title": "Sounds True \u2014 Action Coordination",
+      "description": "Trade execution, portfolio rebalancing, engagement strategy, or operational response coordination.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [],
+      "actions": [
+        {
+          "type": "execution",
+          "description": "Trade or operational action execution with timing and sizing"
+        },
+        {
+          "type": "monitoring_setup",
+          "description": "Post-action monitoring infrastructure deployment"
+        }
+      ]
+    },
+    {
+      "layerId": "feedback",
+      "title": "Sounds True \u2014 Feedback & Validation",
+      "description": "Post-action monitoring \u2014 earnings surprises, price action, filing changes, and thesis validation.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [
+        {
+          "type": "earnings_validation",
+          "description": "Next-quarter earnings vs thesis prediction"
+        },
+        {
+          "type": "price_action",
+          "description": "Market price response vs expected trajectory"
+        },
+        {
+          "type": "filing_delta",
+          "description": "Changes in SEC filing patterns, restatements, or guidance revisions"
+        }
+      ],
+      "actions": []
+    },
+    {
+      "layerId": "adapt",
+      "title": "Sounds True \u2014 Adaptation & Learning",
+      "description": "Model updates from realized outcomes \u2014 refine HELIX calibration, adjust signal weights, update sector priors.",
+      "status": "active",
+      "signals": [],
+      "diagnostics": [],
+      "actions": [
+        {
+          "type": "model_update",
+          "description": "Recalibrate HELIX parameters based on realized outcomes"
+        },
+        {
+          "type": "signal_reweight",
+          "description": "Adjust signal source weights based on predictive accuracy"
+        },
+        {
+          "type": "sector_prior_update",
+          "description": "Update sector-level priors from company-level outcome data"
+        }
+      ]
+    }
+  ]
+}

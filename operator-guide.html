@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · Operator Guide</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050810;color:#e8e3d9;font-family:'IBM Plex Mono',monospace;padding:20px 24px;font-size:12px;max-width:1100px;margin:0 auto}
+h1{font-size:0.7rem;letter-spacing:4px;color:#C9A94E;margin-bottom:6px}
+.sub{font-size:0.36rem;color:rgba(200,195,184,0.4);letter-spacing:1.5px;margin-bottom:24px}
+.nav{display:flex;gap:14px;margin-bottom:18px;font-size:0.32rem;letter-spacing:1.5px;flex-wrap:wrap}
+a{color:rgba(201,169,78,0.6);text-decoration:none}
+a:hover{color:#C9A94E;text-decoration:underline}
+
+.section{margin-bottom:30px;padding:18px 24px;border:1px solid rgba(201,169,78,0.12);background:rgba(0,0,0,0.2);border-radius:3px}
+.sect-num{font-size:0.32rem;color:rgba(201,169,78,0.4);letter-spacing:2px;margin-bottom:4px}
+.sect-title{font-size:0.6rem;letter-spacing:3px;color:#C9A94E;margin-bottom:10px;text-transform:uppercase}
+.sect-sub{font-size:0.38rem;color:rgba(200,195,184,0.55);line-height:1.7;margin-bottom:14px}
+
+.surface{margin-bottom:14px;padding:12px 16px;border-left:2px solid rgba(201,169,78,0.3);background:rgba(0,0,0,0.2)}
+.surface-name{font-size:0.46rem;letter-spacing:2px;color:#e8e3d9;text-transform:uppercase;margin-bottom:3px}
+.surface-name a{color:#5ab5a0;letter-spacing:1px;text-transform:none;font-size:0.34rem;margin-left:10px}
+.surface-what{font-size:0.36rem;color:rgba(200,195,184,0.65);line-height:1.7;margin-bottom:8px}
+.surface-when{font-size:0.32rem;color:rgba(201,169,78,0.6);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;margin-top:8px}
+.surface-detail{font-size:0.34rem;color:rgba(200,195,184,0.5);line-height:1.7}
+.surface-detail b{color:#e8e3d9}
+.surface-detail code{color:rgba(201,169,78,0.7);font-family:inherit;font-size:0.32rem}
+
+.flow{display:grid;grid-template-columns:60px 1fr;gap:14px;margin-bottom:8px;align-items:start;font-size:0.36rem;line-height:1.7}
+.flow-num{font-size:0.5rem;color:#C9A94E;letter-spacing:1px;text-align:center;padding-top:1px}
+.flow-text{color:rgba(220,215,200,0.7)}
+.flow-text b{color:#e8e3d9}
+.flow-text code{color:rgba(201,169,78,0.65);font-family:inherit;font-size:0.32rem}
+
+.button-doc{display:grid;grid-template-columns:90px 1fr;gap:10px;padding:6px 0;font-size:0.34rem;border-bottom:1px solid rgba(255,255,255,0.04)}
+.button-doc:last-child{border-bottom:none}
+.button-doc-name{color:rgba(201,169,78,0.65);letter-spacing:1.5px;text-transform:uppercase}
+.button-doc-name.print{color:#5ab5a0}
+.button-doc-name.refresh{color:#C9A94E}
+.button-doc-name.decline{color:#e85454}
+.button-doc-name.approve{color:#5ab5a0}
+.button-doc-name.reject{color:#e85454}
+.button-doc-text{color:rgba(200,195,184,0.6);line-height:1.7}
+.button-doc-text b{color:#e8e3d9}
+
+.bigbox{padding:16px 20px;border:1px solid rgba(90,181,160,0.25);background:rgba(90,181,160,0.04);border-radius:3px;margin-bottom:16px;font-size:0.38rem;color:rgba(220,215,200,0.75);line-height:1.75}
+.bigbox b{color:#5ab5a0}
+.bigbox code{color:rgba(201,169,78,0.7);font-family:inherit;font-size:0.34rem}
+
+.warning{padding:14px 18px;border:1px solid rgba(232,84,84,0.25);background:rgba(232,84,84,0.04);border-radius:3px;margin-bottom:14px;font-size:0.36rem;color:rgba(232,84,84,0.85);line-height:1.7}
+.warning b{color:#e85454}
+
+.toc{padding:14px 18px;border:1px solid rgba(201,169,78,0.12);background:rgba(0,0,0,0.2);border-radius:3px;margin-bottom:20px}
+.toc-title{font-size:0.32rem;color:rgba(200,195,184,0.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.toc-items{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 24px;font-size:0.36rem}
+.toc-items a{color:rgba(201,169,78,0.65);letter-spacing:0.5px}
+.toc-items a:hover{color:#C9A94E}
+
+.footer{margin-top:30px;padding:16px;font-size:0.32rem;color:rgba(200,195,184,0.35);letter-spacing:1px;text-align:center;line-height:1.7}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="/">← INDEX</a>
+  <a href="/vitals.html">SYSTEM VITALS</a>
+  <a href="/master-inbox.html">MASTER BRAIN INBOX</a>
+  <a href="/pattern-proposals.html">PATTERN PROPOSALS</a>
+  <a href="/kernel-comparison.html">COMMAND BOARD</a>
+</div>
+
+<h1>OPERATOR GUIDE</h1>
+<div class="sub">EVERYTHING LIMEN HELIX DOES · EVERY SURFACE · EVERY BUTTON · WHAT FIRES AUTOMATICALLY</div>
+
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <div class="toc-items">
+    <a href="#big-picture">1 · The big picture</a>
+    <a href="#surfaces">2 · The 9 surfaces</a>
+    <a href="#buttons">3 · Every button explained</a>
+    <a href="#autonomic">4 · What fires without you</a>
+    <a href="#docs">5 · Documents the system can print</a>
+    <a href="#proposals">6 · Bridge pattern proposals</a>
+    <a href="#regen">7 · Autonomous portal regeneration</a>
+    <a href="#budget">8 · AI budget controls</a>
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────────── -->
+<div class="section" id="big-picture">
+  <div class="sect-num">1</div>
+  <div class="sect-title">The big picture</div>
+  <div class="sect-sub">LIMEN Helix is an autonomic body that maps clinical neuroscience pathologies to corporate signatures, mints patent / grant / investment / research artifacts from the mappings, gates them by phase + readiness + salience, surfaces a prioritized inbox for review, and prints filing-ready documents on operator approval. Every 6 hours it senses, bridges, mints, gates, responds to your decisions, identifies what's missing, and heals itself — all without your touch.</div>
+
+  <div class="bigbox">
+    <b>The closed loop</b>:<br>
+    sense → bridge (brain ↔ business) → mint (patent / grant / investment / research) → gate (phase + readiness + salience) → respond (your PRINT/REFRESH/DECLINE) → identify missing → autonomously author new patterns → heal → remember<br><br>
+    Runs every 6h via GitHub Actions (autonomic cron). Operator role: review the inbox, approve/reject Claude-authored pattern proposals, print the documents that matter, refresh the ones that need more depth.
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────────── -->
+<div class="section" id="surfaces">
+  <div class="sect-num">2</div>
+  <div class="sect-title">The 9 surfaces</div>
+  <div class="sect-sub">After audit: no real redundancy. Each surface answers a different question.</div>
+
+  <div class="surface">
+    <div class="surface-name">SYSTEM VITALS <a href="/vitals.html">/vitals.html</a></div>
+    <div class="surface-what">"How is the body doing?" 12-organ interoception. One card per organ (feeds, L1 nodes, domains, portal corpus, dead-link risk, kernel coverage, connectome, civilization, propagator, master brain, pattern bus, bridge layer). Click any organ to drill into its metrics + per-organ attention queue.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">After running anything new, or when something feels off. The "operator attention" queue lists what's broken and how to fix it.</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">MASTER BRAIN INBOX <a href="/master-inbox.html">/master-inbox.html</a></div>
+    <div class="surface-what">"What should I read first?" Phase-gated lane firing queue. Cross-lane top priority + per-lane queues (patent / grant / investment / research). Each row carries PRINT / REFRESH / DECLINE buttons + a link to the source portal. Currently shows 1,861 ready-to-fire artifacts gated from 2,504 candidates.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">Daily. The inbox is the body's recommendation list. Highest fire-score items are what it thinks deserve your attention first.</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">PATTERN PROPOSALS <a href="/pattern-proposals.html">/pattern-proposals.html</a></div>
+    <div class="surface-what">"What new brain ↔ business mappings has Claude proposed?" Every 6h, Claude proposes up to 3 new bridge patterns for portals the existing 15 can't reach (the K3 frontier). You approve (merges into library; instantly available across the corpus) or reject.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">After every 6h cron cycle. Each approval expands what the body can reason about — including cross-domain (environment / population / supply-chain / etc).</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">COMMAND BOARD <a href="/kernel-comparison.html">/kernel-comparison.html</a></div>
+    <div class="surface-what">"What does Kernel 1 think about investable opportunities?" Tabular kernel-1 distress scoring per company. Linear phase, trajectory, composite, domain stress, validation status. Links per row to HELIX REPORT + COMPANY PORTAL.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">When you want the raw kernel-1 view of an entity. Filter by alerts, fragile state, early warning.</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">COMPANY PORTAL <a href="/company-portal.html?company=10x_genomics">company-portal.html?company=&lt;slug&gt;</a></div>
+    <div class="surface-what">"Show me one specific entity." Three-panel layout: left = portal overview + functional-network; center = engine outputs (patent/grant/investment/research tabs); right = signals, financial health, BRIDGE PATTERNS (matched neuro↔business mappings). Each artifact card carries PRINT / REFRESH / DECLINE.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">When you want to drill into one entity end-to-end. The inbox links here.</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">CONSOLE <a href="/domain-console.html">/domain-console.html</a></div>
+    <div class="surface-what">"What's happening in one domain?" Domain-scoped intelligence cockpit: domain-isolated signals, top events, cross-domain risks, recommendations. Different from Master Brain Inbox: this is by DOMAIN, not by lane.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">When you want a domain-wide view (e.g., "what's happening in Energy right now").</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">OPPORTUNITIES <a href="/opportunities.html">/opportunities.html</a></div>
+    <div class="surface-what">"What are ALL the possible opportunities across all domains?" Cross-domain opportunity discovery (unranked superset of what the inbox shows ranked). Includes neurological cross-binding cards (purple styling) — companies co-activated via shared brain nodes.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">When you want to browse — not the inbox's "what should I do RIGHT NOW" view but the wider "what's available."</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">CONNECTOME <a href="/connectome.html">/connectome.html</a></div>
+    <div class="surface-what">"Show me the universe." Interactive canvas network graph of the 20 domains as nodes with pathways as edges. Hover to see domain taglines and entry portal links.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">Navigational. When you want to jump into a domain by clicking it visually.</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">MASTER BRAIN <a href="/master-brain.html">/master-brain.html</a></div>
+    <div class="surface-what">"Executive cockpit." Shows 20-domain posture grid, recent state transitions, hierarchy diagram (Master Brain → Civilization → Domains). Entry points to Inbox + Executor.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">Glance — see body-wide posture in one view. Then jump to Inbox to act.</div>
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────────── -->
+<div class="section" id="buttons">
+  <div class="sect-num">3</div>
+  <div class="sect-title">Every button explained</div>
+
+  <div class="surface-name" style="margin:14px 0 10px;color:#C9A94E">On artifact cards (inbox + portal page)</div>
+  <div class="button-doc"><div class="button-doc-name print">PRINT</div><div class="button-doc-text"><b>Downloads a 20-30 page DOCX</b> to your browser. Calls Claude Sonnet via <code>/api/print-document</code> to expand the seed artifact into a full filing-ready document calibrated for a <b>new business with no investor yet</b> (USPTO Pro Se / Micro Entity for patents, NIH SBIR Phase I for grants, SBA Microloan for loans, OSF preregistration for research). Browser asks where to save — point at your <code>LIMEN Helix Files</code> desktop folder. <b>Takes 30-90 seconds</b> because it's a real long-form Anthropic call.</div></div>
+  <div class="button-doc"><div class="button-doc-name refresh">REFRESH</div><div class="button-doc-text"><b>Regenerate this specific artifact with greater detail.</b> Adds to the action queue; the next 6h cron tick calls Claude with portal context (suppliers, customers, kernel phase) + bridge mechanism to rewrite the seed. After it runs, the inbox/portal-page render the improved version.</div></div>
+  <div class="button-doc"><div class="button-doc-name decline">DECLINE</div><div class="button-doc-text"><b>"Don't surface this again."</b> Marks the action complete with <code>declined: true</code>. Future inbox sorts deprioritize declined items.</div></div>
+
+  <div class="surface-name" style="margin:22px 0 10px;color:#C9A94E">On pattern proposals (Claude-authored new bridges)</div>
+  <div class="button-doc"><div class="button-doc-name approve">APPROVE · MERGE INTO LIBRARY</div><div class="button-doc-text"><b>The proposal pattern becomes part of <code>bridge-patterns.json</code></b>. Next bridge-build pass (every 6h cron) re-matches it against all 767 portals; new artifacts mint anywhere it matches. Once approved, it's permanent unless you manually remove it.</div></div>
+  <div class="button-doc"><div class="button-doc-name reject">REJECT</div><div class="button-doc-text">Marks <code>status: REJECTED</code>. Library untouched. The proposal stays visible in the Recently Rejected section.</div></div>
+  <div class="button-doc"><div class="button-doc-name">↗ SOURCE PORTAL</div><div class="button-doc-text">Open the company portal that triggered the proposal — see why the body wanted a new pattern for this entity.</div></div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────────── -->
+<div class="section" id="autonomic">
+  <div class="sect-num">4</div>
+  <div class="sect-title">What fires without you · every 6 hours via GitHub Actions</div>
+  <div class="sect-sub">The autonomic cron in <code>.github/workflows/immune-system.yml</code> runs the full chain end-to-end. You don't trigger any of this manually — it just runs.</div>
+
+  <div class="flow"><div class="flow-num">1</div><div class="flow-text"><b>SENSE</b> · <code>audit-system-vitals.mjs</code> — 12 organs report their score. Writes <code>_vitals.json</code>.</div></div>
+  <div class="flow"><div class="flow-num">2</div><div class="flow-text"><b>BRIDGE</b> · <code>build-bridge-readings.mjs</code> — re-matches the 15 (or more) patterns across all 767 portals.</div></div>
+  <div class="flow"><div class="flow-num">3</div><div class="flow-text"><b>MINT</b> · <code>build-engine-outputs.mjs</code> — produces patent/grant/investment/research seed artifacts for every matched bridge.</div></div>
+  <div class="flow"><div class="flow-num">4</div><div class="flow-text"><b>GATE</b> · <code>build-master-inbox.mjs</code> — applies per-lane readiness/salience thresholds + phase-inhibit sets. Sorts by fire score. Writes <code>_master-inbox.json</code>.</div></div>
+  <div class="flow"><div class="flow-num">5</div><div class="flow-text"><b>RESPOND</b> · <code>process-operator-actions.mjs</code> — drains the queue of your PRINT / REFRESH / DECLINE clicks since last tick.</div></div>
+  <div class="flow"><div class="flow-num">6</div><div class="flow-text"><b>AUTHOR</b> · <code>author-bridge-patterns.mjs --max=3</code> — Claude Opus proposes up to 3 new patterns for the K3 frontier (portals with kernel signal but no existing pattern match).</div></div>
+  <div class="flow"><div class="flow-num">7</div><div class="flow-text"><b>REGEN QUEUE</b> · <code>autonomous-portal-regen.mjs</code> — finds CB rows pointing at missing portals + portals with kernel signal but thin functional network. Writes regen queue.</div></div>
+  <div class="flow"><div class="flow-num">8</div><div class="flow-text"><b>HEAL</b> · <code>heal-corpus.mjs</code> — applies safe heals (scrub placeholders, wire CB slugs, fix category bleed). Operator-only items stay in attention.</div></div>
+  <div class="flow"><div class="flow-num">9</div><div class="flow-text"><b>REMEMBER</b> · commits all deltas to <code>main</code> branch. Vercel auto-redeploys. Next tick sees the new state.</div></div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────────── -->
+<div class="section" id="docs">
+  <div class="sect-num">5</div>
+  <div class="sect-title">Documents the system can print</div>
+  <div class="sect-sub">Click PRINT on any artifact card. The browser downloads a DOCX you can open in Word — save to your <code>LIMEN Helix Files</code> desktop folder.</div>
+
+  <div class="surface">
+    <div class="surface-name">PATENT · USPTO Pro Se / Micro Entity utility specification</div>
+    <div class="surface-what">18-25 pages. Full sections: cross-reference, field of invention, background, brief summary, brief description of drawings, detailed description (60-70% of total), claims (18-20 of them: independent method claim 1, dependents 2-15, apparatus claim 16, system claim 17, computer-readable-medium claim 18), abstract. <b>Calibrated for independent inventor with no operating revenue — qualifies for USPTO Micro Entity 75% fee reduction (37 CFR 1.29).</b></div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">GRANT · NIH or NSF SBIR Phase I application</div>
+    <div class="surface-what">20-30 pages. Project Summary · Project Narrative · Specific Aims (1 page, canonical opening sentences) · Research Strategy (Significance + Innovation + Approach, the last being 6-8 pages of the document) · Commercialization Plan summary · Bibliography (no fabrication) · Budget Justification · Equipment & Facilities. <b>Phase I is proof-of-feasibility. Maximum $314,363, 6 months. Targets pre-revenue sole-founder reality.</b></div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">LOAN · SBA Microloan or SBA Express application</div>
+    <div class="surface-what">15-25 pages. Executive Summary · Borrower Profile · Use of Proceeds (Sources-and-Uses table that balances) · Sources of Repayment (honest: founder's external income, not non-existent business cash flow) · Business Plan Summary (5-7 pages with conservative bootstrap projections) · Personal Financial Statement template · Credit Not Available Elsewhere narrative (SBA SOP 50 10 8 compliant) · Collateral · Risk Factors + Mitigants · Lender Attachments checklist. <b>Up to $50K Microloan or up to $500K SBA Express. Avoids 7(a) which requires operating history.</b></div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">RESEARCH · OSF / AsPredicted preregistration</div>
+    <div class="surface-what">8-15 pages. Title · Hypotheses (falsifiable, directional) · Rationale · Data Collection · Studies · Analysis Plan (frequentist or Bayesian, decision criteria) · Sample size justification with power analysis · Confounds + mitigation · Exclusions · Open Materials/Data commitment · Timeline. <b>Calibrated for independent researcher without institutional affiliation — uses public data, no IRB if applicable, single-author.</b></div>
+  </div>
+
+  <div class="warning"><b>Cost reality:</b> Each PRINT generates 6,000-10,000 words via Anthropic Sonnet. Typical cost: $0.50-2.00 per document. The first 5-10 are essentially free (existing Anthropic credits). Beyond that, see § 8 on budget controls.</div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────────── -->
+<div class="section" id="proposals">
+  <div class="sect-num">6</div>
+  <div class="sect-title">Bridge pattern proposals · how the library grows</div>
+  <div class="sect-sub">The library starts at 15 patterns. Claude expands it.</div>
+
+  <div class="flow"><div class="flow-num">1</div><div class="flow-text">Every 6h, <code>author-bridge-patterns.mjs --max=3</code> runs. It looks at portals with kernel signal but no existing pattern match (the <b>K3 frontier</b> — currently 306 portals).</div></div>
+  <div class="flow"><div class="flow-num">2</div><div class="flow-text">For up to 3 such portals per tick, it asks Claude Opus to propose a new bridge pattern with the same JSON schema as existing patterns. Strict rules: no fabricated citations, must be distinct from existing patterns, must include testable indicators.</div></div>
+  <div class="flow"><div class="flow-num">3</div><div class="flow-text">Proposals land at <code>/pattern-proposals.html</code> as PENDING_REVIEW. Operator clicks <b>APPROVE</b> to merge into <code>bridge-patterns.json</code> or <b>REJECT</b> to retire.</div></div>
+  <div class="flow"><div class="flow-num">4</div><div class="flow-text">On approve: pattern enters the library. Next bridge-build pass re-matches it across all 767 portals. If it fires, the operator sees new bridges + new artifacts in the inbox at next tick.</div></div>
+
+  <div class="bigbox"><b>Cross-domain:</b> The pattern schema is domain-agnostic. <code>targetDomain</code> can be <code>business</code>, <code>environment</code>, <code>population</code>, <code>supply-chain</code>, <code>life-expectancy</code>, <code>public-health</code>, <code>ecology</code>. Same engine; different target. Adding patterns for environmental indicators or population health metrics is just adding entries — no engine change required.</div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────────── -->
+<div class="section" id="regen">
+  <div class="sect-num">7</div>
+  <div class="sect-title">Autonomous portal regeneration</div>
+  <div class="sect-sub">When the body realizes it needs portals it doesn't have.</div>
+
+  <div class="surface-detail">
+    Every 6h tick, <code>autonomous-portal-regen.mjs</code> finds:
+    <ul style="margin:8px 0 0 24px;line-height:1.8">
+      <li>CB rows pointing at slugs with no portal file (~188 currently)</li>
+      <li>Portals with kernel signal present but no bridge match AND thin functional network (signal exists but the body can't reason about it)</li>
+    </ul>
+    It writes a queue to <code>_autonomous-regen-queue.json</code>. The build-fractal-portals runner can drain that queue when invoked with <code>--queue &lt;path&gt;</code> — but it's NOT auto-invoked because each portal costs Anthropic API. You decide when to spend.
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────────── -->
+<div class="section" id="budget">
+  <div class="sect-num">8</div>
+  <div class="sect-title">AI budget controls</div>
+  <div class="sect-sub">The body uses Anthropic (primary), OpenAI (verification), and Grok (retrieval). Each cron tick has a hard budget.</div>
+
+  <div class="surface-detail">
+    <b>Per-tick limits</b> (1-hour rotating window, configurable via Vercel env vars):
+    <ul style="margin:8px 0 12px 24px;line-height:1.8">
+      <li><code>LIMEN_AI_TOKENS_PER_TICK</code> · default <b>500,000 tokens</b> per hour</li>
+      <li><code>LIMEN_AI_CALLS_PER_TICK</code> · default <b>50 calls</b> per hour</li>
+    </ul>
+    <b>Default spend ceiling</b> at Anthropic Sonnet rates:
+    <ul style="margin:8px 0 12px 24px;line-height:1.8">
+      <li>500K tokens × ($3/M input + $15/M output blended) ≈ <b>$3-7 per cron tick worst case</b></li>
+      <li>4 ticks per day → <b>$12-28 per day worst case</b></li>
+      <li>Real usage is much lower — most ticks use <code>&lt; 50K tokens</code></li>
+    </ul>
+    Tune the env vars in Vercel project settings if needed. When budget hits the cap, the orchestrator refuses further calls until the next hour. The body never bricks itself.
+  </div>
+</div>
+
+<div class="footer">
+  LIMEN Helix · operator guide · maintained alongside the code. Every surface, button, and loop documented here is live. When the body changes, this page changes.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,2066 @@
+{
+  "domainId": "industry_warehousing_picking",
+  "title": "Order Picking",
+  "parentPortal": "industry_warehousing_portal.html",
+  "parentLabel": "Warehousing",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Order Picking Assessment & Diagnostics",
+      "domainDescription": "Systematic management of order picking assessment & diagnostics across all order picking functions and operations",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Build Order Picking Assessment & Diagnostics Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Build a lean transformation strategy for order picking assessment & diagnostics using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO; Porter, M.E. (1985). Competitive Advantage. Free Press",
+          "target": "INCONSISTENT_ORDER_PICKING_ASSESSMENT___DIA -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess Industry 4.0 maturity for order picking assessment & diagnostics using RAMI 4.0 and Acatech framework",
+            "Identify high-value digital use cases: predictive maintenance, quality, scheduling",
+            "Design technology architecture with IT/OT convergence and data platform",
+            "Implement pilot use cases with proof of concept and ROI validation",
+            "Scale successful pilots with change management and workforce upskilling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — manufacturing cost per unit using ERP cost accounting module. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — manufacturing cost per unit measured monthly. Target: 10% cost reduction. PHASE 3 (Months 4-6): Midpoint review — compare against industry quartile benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — manufacturing cost per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using Lean accounting framework. Report to CFO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Order Picking Assessment & Diagnostics Governance Structure",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Optimize a TPM autonomous maintenance training for order picking assessment & diagnostics developing operator-level equipment care per JIPM pillar methodology.",
+          "cite": "Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press; Liker, J.K. (2004). The Toyota Way. McGraw-Hill",
+          "target": "UNMONITORED_ORDER_PICKING_ASSESSMENT___DIA -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Select Green Belt candidates for order picking assessment & diagnostics based on project relevance and aptitude",
+            "Deliver DMAIC methodology training with statistical tools (SPC, DOE, regression)",
+            "Coach project execution with weekly reviews and tollgate presentations",
+            "Certify through project completion with documented financial savings",
+            "Build project pipeline and mentor future candidates through alumni network"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — Lean certification rate using Lean program tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — Lean certification rate measured quarterly. Target: 50% workforce green belt. PHASE 3 (Months 4-6): Midpoint review — compare against AME Lean benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — Lean certification rate trending toward 70% green belt. Escalate if <30% minimum. ANNUAL REVIEW: Comprehensive audit using ASQ Lean certification. Report to Continuous Improvement Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Order Picking Assessment & Diagnostics Assessment Protocol",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Launch an automated material handling system for order picking assessment & diagnostics deploying AGVs, AS/RS, and conveyor integration per ASME B20.1.",
+          "cite": "ISO (2015). ISO 9001: Quality Management Systems. ISO; OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL",
+          "target": "UNDERPERFORMING_ORDER_PICKING_ASSESSMENT___DIA -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OH&S risks for order picking assessment & diagnostics using ISO 45001 hazard identification process",
+            "Design safety management system with risk register and hierarchy of controls",
+            "Implement operational controls, emergency procedures, and PPE programs",
+            "Conduct internal audits, incident investigations, and management reviews",
+            "Achieve ISO 45001 certification with continual improvement program"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy intensity per unit using energy monitoring system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy intensity per unit measured monthly. Target: 10% intensity reduction. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 50001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy intensity per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISO 50001 EnMS framework. Report to Energy Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Order Picking Assessment & Diagnostics Diagnostic Dashboard",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Develop a psychological safety initiative for order picking assessment & diagnostics applying Edmondson model to encourage error reporting and experimentation.",
+          "cite": "Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press; Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass",
+          "target": "REACTIVE_ORDER_PICKING_ASSESSMENT___DIA -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess psychological safety for order picking assessment & diagnostics using Edmondson team survey",
+            "Design intervention program with leader behavior coaching and team norms",
+            "Implement error reporting and near-miss systems without blame",
+            "Conduct team retrospectives with structured reflection protocols",
+            "Measure safety climate, error reporting rates, and team performance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture maturity using safety culture assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture maturity measured biannually. Target: Bradley Curve interdependent. PHASE 3 (Months 4-6): Midpoint review — compare against DuPont Safety Culture model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture maturity trending toward generative culture. Escalate if <dependent minimum. ANNUAL REVIEW: Comprehensive audit using DuPont Bradley Curve. Report to Safety Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Order Picking Assessment & Diagnostics Governance Structure",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Establish a connected equipment platform for order picking assessment & diagnostics deploying MTConnect/OPC-UA for real-time machine data acquisition.",
+          "cite": "IEC (2022). IEC 62443: Industrial Cybersecurity. IEC; MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect",
+          "target": "FRAGMENTED_ORDER_PICKING_ASSESSMENT___DIA -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Define digital twin scope for order picking assessment & diagnostics using process criticality analysis",
+            "Build physics-based model with material flow and equipment dynamics",
+            "Calibrate model using historical production and sensor data",
+            "Deploy for what-if analysis, process optimization, and virtual commissioning",
+            "Validate twin accuracy quarterly and expand to additional processes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — digital twin model accuracy using simulation validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — digital twin model accuracy measured biannually. Target: model within 5% of actual. PHASE 3 (Months 4-6): Midpoint review — compare against Siemens Digital Twin standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — digital twin model accuracy trending toward within 3%. Escalate if <within 10% ceiling. ANNUAL REVIEW: Comprehensive audit using Siemens/RAMI 4.0 framework. Report to Digital Manufacturing Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Order Picking Assessment & Diagnostics Assessment Protocol",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement a lean transformation strategy for order picking assessment & diagnostics using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press; Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press",
+          "target": "SILOED_ORDER_PICKING_ASSESSMENT___DIA -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess Industry 4.0 maturity for order picking assessment & diagnostics using RAMI 4.0 and Acatech framework",
+            "Identify high-value digital use cases: predictive maintenance, quality, scheduling",
+            "Design technology architecture with IT/OT convergence and data platform",
+            "Implement pilot use cases with proof of concept and ROI validation",
+            "Scale successful pilots with change management and workforce upskilling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — manufacturing cost per unit using ERP cost accounting module. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — manufacturing cost per unit measured monthly. Target: 10% cost reduction. PHASE 3 (Months 4-6): Midpoint review — compare against industry quartile benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — manufacturing cost per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using Lean accounting framework. Report to CFO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_warehousing_picking_accuracy_portal.html"
+    },
+    {
+      "brainNodeId": "ENS",
+      "state": "active",
+      "domainLabel": "Order Picking Core Operations",
+      "domainDescription": "Systematic management of order picking core operations across all order picking functions and operations",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Streamline Order Picking Core Operations Capacity Building Initiative",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Streamline a lean transformation strategy for order picking core operations using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF; Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business",
+          "target": "UNMONITORED_ORDER_PICKING_CORE_OPERATIONS -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for order picking core operations using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Order Picking Core Operations Early Warning System",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Assess a TPM autonomous maintenance training for order picking core operations developing operator-level equipment care per JIPM pillar methodology.",
+          "cite": "Deming, W.E. (1986). Out of the Crisis. MIT Press; Rother, M. (2009). Toyota Kata. McGraw-Hill",
+          "target": "UNDERPERFORMING_ORDER_PICKING_CORE_OPERATIONS -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Deming, W.E.",
+              "year": 1986,
+              "title": "Out of the Crisis",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Rother, M.",
+              "year": 2009,
+              "title": "Toyota Kata",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess equipment care capabilities for order picking core operations using TPM maturity audit",
+            "Train operators in autonomous maintenance steps per JIPM methodology",
+            "Implement operator cleaning, inspection, and lubrication routines",
+            "Develop visual standards and one-point lessons for equipment care",
+            "Track equipment breakdowns, minor stops, and autonomous maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety training hours per employee using LMS tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety training hours per employee measured monthly. Target: 40 hours per year. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA VPP benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety training hours per employee trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using OSHA training requirements. Report to EHS Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Order Picking Core Operations Operational Readiness Check",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Create an automated material handling system for order picking core operations deploying AGVs, AS/RS, and conveyor integration per ASME B20.1.",
+          "cite": "ISO (2015). ISO 14001: Environmental Management Systems. ISO; NIST (2020). Manufacturing Extension Partnership (MEP) Strategic Plan. NIST",
+          "target": "REACTIVE_ORDER_PICKING_CORE_OPERATIONS -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 14001: Environmental Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2020,
+              "title": "Manufacturing Extension Partnership (MEP) Strategic Plan",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze material flow for order picking core operations using spaghetti diagram and time studies",
+            "Design cellular layout with one-piece flow, standard WIP, and kanban sizing",
+            "Implement physical rearrangement with team involvement and line balancing",
+            "Establish pull system with kanban cards/signals and supermarket replenishment",
+            "Measure flow metrics: lead time, WIP turns, and labor productivity improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — environmental compliance rate using EMS tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — environmental compliance rate measured monthly. Target: 100% permit compliance. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 14001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — environmental compliance rate trending toward zero violations. Escalate if <<3 minor findings. ANNUAL REVIEW: Comprehensive audit using ISO 14001 framework. Report to Environmental Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Order Picking Core Operations Capacity Building Initiative",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Evaluate a psychological safety initiative for order picking core operations applying Edmondson model to encourage error reporting and experimentation.",
+          "cite": "Juran, J.M. (1988). Jurans Quality Control Handbook. McGraw-Hill; Spear, S. & Bowen, H.K. (1999). Decoding the DNA of the Toyota Production System. Harvard Business Review, 77(5), 96-106",
+          "target": "FRAGMENTED_ORDER_PICKING_CORE_OPERATIONS -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Juran, J.M.",
+              "year": 1988,
+              "title": "Jurans Quality Control Handbook",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Spear, S. & Bowen, H.K.",
+              "year": 1999,
+              "title": "Decoding the DNA of the Toyota Production System",
+              "journal": "Harvard Business Review",
+              "volume": "77(5)",
+              "pages": "96-106",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supplier capabilities for order picking core operations using supplier scorecard audit",
+            "Design tiered development program with quality, delivery, and cost coaching",
+            "Deploy resident engineers at critical suppliers for process improvement",
+            "Implement supplier kaizen events with shared savings agreements",
+            "Track supplier PPM, on-time delivery, and total cost of ownership"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — innovation submission rate using idea management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — innovation submission rate measured monthly. Target: 10 ideas per employee/year. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota Creative Suggestion benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — innovation submission rate trending toward 20 ideas. Escalate if <5 ideas minimum. ANNUAL REVIEW: Comprehensive audit using Toyota Suggestion System. Report to Innovation Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Order Picking Core Operations Early Warning System",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Integrate a connected equipment platform for order picking core operations deploying MTConnect/OPC-UA for real-time machine data acquisition.",
+          "cite": "MESA International (2021). MES/MOM Methodology Guidelines. MESA; ISA (2012). ISA-95: Enterprise-Control System Integration. ISA",
+          "target": "SILOED_ORDER_PICKING_CORE_OPERATIONS -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "MESA International",
+              "year": 2021,
+              "title": "MES/MOM Methodology Guidelines",
+              "journal": "MESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISA",
+              "year": 2012,
+              "title": "ISA-95: Enterprise-Control System Integration",
+              "journal": "ISA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OT cybersecurity for order picking core operations using IEC 62443 risk assessment",
+            "Design zone and conduit model with security levels per asset criticality",
+            "Implement network segmentation, access control, and monitoring",
+            "Deploy intrusion detection and incident response for OT environment",
+            "Conduct annual penetration testing and IEC 62443 compliance audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity OT compliance using IEC 62443 assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity OT compliance measured quarterly. Target: SL-2 across all zones. PHASE 3 (Months 4-6): Midpoint review — compare against IEC 62443 zone/conduit model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity OT compliance trending toward SL-3. Escalate if <SL-1 minimum. ANNUAL REVIEW: Comprehensive audit using IEC 62443 framework. Report to OT Cybersecurity Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Order Picking Core Operations Operational Readiness Check",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Conduct a lean transformation strategy for order picking core operations using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO; Porter, M.E. (1985). Competitive Advantage. Free Press",
+          "target": "OUTDATED_ORDER_PICKING_CORE_OPERATIONS -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for order picking core operations using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_warehousing_picking_productivity_portal.html"
+    },
+    {
+      "brainNodeId": "rACC",
+      "state": "active",
+      "domainLabel": "Order Picking Infrastructure & Capacity",
+      "domainDescription": "Systematic management of order picking infrastructure & capacity across all order picking functions and operations",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Conduct Order Picking Infrastructure & Capacity Operational Readiness Check",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Conduct a lean transformation strategy for order picking infrastructure & capacity using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "INEFFICIENT_ORDER_PICKING_INFRASTRUCTURE__ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess Industry 4.0 maturity for order picking infrastructure & capacity using RAMI 4.0 and Acatech framework",
+            "Identify high-value digital use cases: predictive maintenance, quality, scheduling",
+            "Design technology architecture with IT/OT convergence and data platform",
+            "Implement pilot use cases with proof of concept and ROI validation",
+            "Scale successful pilots with change management and workforce upskilling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — manufacturing cost per unit using ERP cost accounting module. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — manufacturing cost per unit measured monthly. Target: 10% cost reduction. PHASE 3 (Months 4-6): Midpoint review — compare against industry quartile benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — manufacturing cost per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using Lean accounting framework. Report to CFO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Order Picking Infrastructure & Capacity Capacity Building Initiative",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Design a TPM autonomous maintenance training for order picking infrastructure & capacity developing operator-level equipment care per JIPM pillar methodology.",
+          "cite": "Liker, J.K. (2004). The Toyota Way. McGraw-Hill; Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press",
+          "target": "INCONSISTENT_ORDER_PICKING_INFRASTRUCTURE__ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Select Green Belt candidates for order picking infrastructure & capacity based on project relevance and aptitude",
+            "Deliver DMAIC methodology training with statistical tools (SPC, DOE, regression)",
+            "Coach project execution with weekly reviews and tollgate presentations",
+            "Certify through project completion with documented financial savings",
+            "Build project pipeline and mentor future candidates through alumni network"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — Lean certification rate using Lean program tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — Lean certification rate measured quarterly. Target: 50% workforce green belt. PHASE 3 (Months 4-6): Midpoint review — compare against AME Lean benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — Lean certification rate trending toward 70% green belt. Escalate if <30% minimum. ANNUAL REVIEW: Comprehensive audit using ASQ Lean certification. Report to Continuous Improvement Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Order Picking Infrastructure & Capacity Early Warning System",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Deploy an automated material handling system for order picking infrastructure & capacity deploying AGVs, AS/RS, and conveyor integration per ASME B20.1.",
+          "cite": "OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL; ISO (2015). ISO 9001: Quality Management Systems. ISO",
+          "target": "UNMONITORED_ORDER_PICKING_INFRASTRUCTURE__ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OH&S risks for order picking infrastructure & capacity using ISO 45001 hazard identification process",
+            "Design safety management system with risk register and hierarchy of controls",
+            "Implement operational controls, emergency procedures, and PPE programs",
+            "Conduct internal audits, incident investigations, and management reviews",
+            "Achieve ISO 45001 certification with continual improvement program"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy intensity per unit using energy monitoring system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy intensity per unit measured monthly. Target: 10% intensity reduction. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 50001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy intensity per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISO 50001 EnMS framework. Report to Energy Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Order Picking Infrastructure & Capacity Operational Readiness Check",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Operationalize a psychological safety initiative for order picking infrastructure & capacity applying Edmondson model to encourage error reporting and experimentation.",
+          "cite": "Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass; Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press",
+          "target": "UNDERPERFORMING_ORDER_PICKING_INFRASTRUCTURE__ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess psychological safety for order picking infrastructure & capacity using Edmondson team survey",
+            "Design intervention program with leader behavior coaching and team norms",
+            "Implement error reporting and near-miss systems without blame",
+            "Conduct team retrospectives with structured reflection protocols",
+            "Measure safety climate, error reporting rates, and team performance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture maturity using safety culture assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture maturity measured biannually. Target: Bradley Curve interdependent. PHASE 3 (Months 4-6): Midpoint review — compare against DuPont Safety Culture model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture maturity trending toward generative culture. Escalate if <dependent minimum. ANNUAL REVIEW: Comprehensive audit using DuPont Bradley Curve. Report to Safety Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Order Picking Infrastructure & Capacity Capacity Building Initiative",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Calibrate a connected equipment platform for order picking infrastructure & capacity deploying MTConnect/OPC-UA for real-time machine data acquisition.",
+          "cite": "MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect; IEC (2022). IEC 62443: Industrial Cybersecurity. IEC",
+          "target": "REACTIVE_ORDER_PICKING_INFRASTRUCTURE__ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Define digital twin scope for order picking infrastructure & capacity using process criticality analysis",
+            "Build physics-based model with material flow and equipment dynamics",
+            "Calibrate model using historical production and sensor data",
+            "Deploy for what-if analysis, process optimization, and virtual commissioning",
+            "Validate twin accuracy quarterly and expand to additional processes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — digital twin model accuracy using simulation validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — digital twin model accuracy measured biannually. Target: model within 5% of actual. PHASE 3 (Months 4-6): Midpoint review — compare against Siemens Digital Twin standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — digital twin model accuracy trending toward within 3%. Escalate if <within 10% ceiling. ANNUAL REVIEW: Comprehensive audit using Siemens/RAMI 4.0 framework. Report to Digital Manufacturing Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Order Picking Infrastructure & Capacity Early Warning System",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Streamline a lean transformation strategy for order picking infrastructure & capacity using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press; Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press",
+          "target": "FRAGMENTED_ORDER_PICKING_INFRASTRUCTURE__ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess Industry 4.0 maturity for order picking infrastructure & capacity using RAMI 4.0 and Acatech framework",
+            "Identify high-value digital use cases: predictive maintenance, quality, scheduling",
+            "Design technology architecture with IT/OT convergence and data platform",
+            "Implement pilot use cases with proof of concept and ROI validation",
+            "Scale successful pilots with change management and workforce upskilling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — manufacturing cost per unit using ERP cost accounting module. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — manufacturing cost per unit measured monthly. Target: 10% cost reduction. PHASE 3 (Months 4-6): Midpoint review — compare against industry quartile benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — manufacturing cost per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using Lean accounting framework. Report to CFO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_warehousing_picking_strategies_portal.html"
+    },
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Order Picking Risk & Resilience",
+      "domainDescription": "Systematic management of order picking risk & resilience across all order picking functions and operations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Build Order Picking Risk & Resilience Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Build a lean transformation strategy for order picking risk & resilience using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO; Porter, M.E. (1985). Competitive Advantage. Free Press",
+          "target": "INCONSISTENT_ORDER_PICKING_RISK___RESILIENC -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for order picking risk & resilience using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Order Picking Risk & Resilience Governance Structure",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Optimize a TPM autonomous maintenance training for order picking risk & resilience developing operator-level equipment care per JIPM pillar methodology.",
+          "cite": "Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press; Liker, J.K. (2004). The Toyota Way. McGraw-Hill",
+          "target": "UNMONITORED_ORDER_PICKING_RISK___RESILIENC -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess equipment care capabilities for order picking risk & resilience using TPM maturity audit",
+            "Train operators in autonomous maintenance steps per JIPM methodology",
+            "Implement operator cleaning, inspection, and lubrication routines",
+            "Develop visual standards and one-point lessons for equipment care",
+            "Track equipment breakdowns, minor stops, and autonomous maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety training hours per employee using LMS tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety training hours per employee measured monthly. Target: 40 hours per year. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA VPP benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety training hours per employee trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using OSHA training requirements. Report to EHS Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Order Picking Risk & Resilience Assessment Protocol",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Launch an automated material handling system for order picking risk & resilience deploying AGVs, AS/RS, and conveyor integration per ASME B20.1.",
+          "cite": "ISO (2015). ISO 9001: Quality Management Systems. ISO; OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL",
+          "target": "UNDERPERFORMING_ORDER_PICKING_RISK___RESILIENC -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze material flow for order picking risk & resilience using spaghetti diagram and time studies",
+            "Design cellular layout with one-piece flow, standard WIP, and kanban sizing",
+            "Implement physical rearrangement with team involvement and line balancing",
+            "Establish pull system with kanban cards/signals and supermarket replenishment",
+            "Measure flow metrics: lead time, WIP turns, and labor productivity improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — environmental compliance rate using EMS tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — environmental compliance rate measured monthly. Target: 100% permit compliance. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 14001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — environmental compliance rate trending toward zero violations. Escalate if <<3 minor findings. ANNUAL REVIEW: Comprehensive audit using ISO 14001 framework. Report to Environmental Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Order Picking Risk & Resilience Diagnostic Dashboard",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Develop a psychological safety initiative for order picking risk & resilience applying Edmondson model to encourage error reporting and experimentation.",
+          "cite": "Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press; Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass",
+          "target": "REACTIVE_ORDER_PICKING_RISK___RESILIENC -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supplier capabilities for order picking risk & resilience using supplier scorecard audit",
+            "Design tiered development program with quality, delivery, and cost coaching",
+            "Deploy resident engineers at critical suppliers for process improvement",
+            "Implement supplier kaizen events with shared savings agreements",
+            "Track supplier PPM, on-time delivery, and total cost of ownership"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — innovation submission rate using idea management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — innovation submission rate measured monthly. Target: 10 ideas per employee/year. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota Creative Suggestion benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — innovation submission rate trending toward 20 ideas. Escalate if <5 ideas minimum. ANNUAL REVIEW: Comprehensive audit using Toyota Suggestion System. Report to Innovation Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Order Picking Risk & Resilience Governance Structure",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Establish a connected equipment platform for order picking risk & resilience deploying MTConnect/OPC-UA for real-time machine data acquisition.",
+          "cite": "IEC (2022). IEC 62443: Industrial Cybersecurity. IEC; MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect",
+          "target": "FRAGMENTED_ORDER_PICKING_RISK___RESILIENC -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OT cybersecurity for order picking risk & resilience using IEC 62443 risk assessment",
+            "Design zone and conduit model with security levels per asset criticality",
+            "Implement network segmentation, access control, and monitoring",
+            "Deploy intrusion detection and incident response for OT environment",
+            "Conduct annual penetration testing and IEC 62443 compliance audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity OT compliance using IEC 62443 assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity OT compliance measured quarterly. Target: SL-2 across all zones. PHASE 3 (Months 4-6): Midpoint review — compare against IEC 62443 zone/conduit model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity OT compliance trending toward SL-3. Escalate if <SL-1 minimum. ANNUAL REVIEW: Comprehensive audit using IEC 62443 framework. Report to OT Cybersecurity Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Order Picking Risk & Resilience Assessment Protocol",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement a lean transformation strategy for order picking risk & resilience using Toyota Production System principles with value stream mapping and A3 problem solving.",
+          "cite": "Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press; Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press",
+          "target": "SILOED_ORDER_PICKING_RISK___RESILIENC -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for order picking risk & resilience using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "industry_warehousing_picking_technology_portal.html"
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Order Picking Policy & Governance",
+      "domainDescription": "Systematic management of order picking policy & governance across all order picking functions and operations",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Develop Order Picking Policy & Governance Stakeholder Engagement Plan",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Develop a product lifecycle optimization for order picking policy & governance using concurrent engineering and APQP phase-gate methodology.",
+          "cite": "UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO; Porter, M.E. (1985). Competitive Advantage. Free Press",
+          "target": "UNDERPERFORMING_ORDER_PICKING_POLICY___GOVERNA -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess Industry 4.0 maturity for order picking policy & governance using RAMI 4.0 and Acatech framework",
+            "Identify high-value digital use cases: predictive maintenance, quality, scheduling",
+            "Design technology architecture with IT/OT convergence and data platform",
+            "Implement pilot use cases with proof of concept and ROI validation",
+            "Scale successful pilots with change management and workforce upskilling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — manufacturing cost per unit using ERP cost accounting module. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — manufacturing cost per unit measured monthly. Target: 10% cost reduction. PHASE 3 (Months 4-6): Midpoint review — compare against industry quartile benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — manufacturing cost per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using Lean accounting framework. Report to CFO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Order Picking Policy & Governance Training Curriculum",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Establish a Six Sigma Green Belt certification for order picking policy & governance with DMAIC project-based learning on real manufacturing problems.",
+          "cite": "Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press; Liker, J.K. (2004). The Toyota Way. McGraw-Hill",
+          "target": "REACTIVE_ORDER_PICKING_POLICY___GOVERNA -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Select Green Belt candidates for order picking policy & governance based on project relevance and aptitude",
+            "Deliver DMAIC methodology training with statistical tools (SPC, DOE, regression)",
+            "Coach project execution with weekly reviews and tollgate presentations",
+            "Certify through project completion with documented financial savings",
+            "Build project pipeline and mentor future candidates through alumni network"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — Lean certification rate using Lean program tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — Lean certification rate measured quarterly. Target: 50% workforce green belt. PHASE 3 (Months 4-6): Midpoint review — compare against AME Lean benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — Lean certification rate trending toward 70% green belt. Escalate if <30% minimum. ANNUAL REVIEW: Comprehensive audit using ASQ Lean certification. Report to Continuous Improvement Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Order Picking Policy & Governance Strategic Alignment Review",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Implement a maintenance management system for order picking policy & governance implementing TPM with CMMS, PM scheduling, and spare parts optimization.",
+          "cite": "ISO (2015). ISO 9001: Quality Management Systems. ISO; OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL",
+          "target": "FRAGMENTED_ORDER_PICKING_POLICY___GOVERNA -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OH&S risks for order picking policy & governance using ISO 45001 hazard identification process",
+            "Design safety management system with risk register and hierarchy of controls",
+            "Implement operational controls, emergency procedures, and PPE programs",
+            "Conduct internal audits, incident investigations, and management reviews",
+            "Achieve ISO 45001 certification with continual improvement program"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy intensity per unit using energy monitoring system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy intensity per unit measured monthly. Target: 10% intensity reduction. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 50001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy intensity per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISO 50001 EnMS framework. Report to Energy Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Order Picking Policy & Governance Stakeholder Engagement Plan",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Institutionalize a continuous improvement culture for order picking policy & governance using kaizen events, quality circles, and gemba walks per Shingo Model.",
+          "cite": "Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press; Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass",
+          "target": "SILOED_ORDER_PICKING_POLICY___GOVERNA -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess psychological safety for order picking policy & governance using Edmondson team survey",
+            "Design intervention program with leader behavior coaching and team norms",
+            "Implement error reporting and near-miss systems without blame",
+            "Conduct team retrospectives with structured reflection protocols",
+            "Measure safety climate, error reporting rates, and team performance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture maturity using safety culture assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture maturity measured biannually. Target: Bradley Curve interdependent. PHASE 3 (Months 4-6): Midpoint review — compare against DuPont Safety Culture model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture maturity trending toward generative culture. Escalate if <dependent minimum. ANNUAL REVIEW: Comprehensive audit using DuPont Bradley Curve. Report to Safety Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Order Picking Policy & Governance Training Curriculum",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Configure an industrial cybersecurity program for order picking policy & governance implementing IEC 62443 zones and conduits with defense-in-depth.",
+          "cite": "IEC (2022). IEC 62443: Industrial Cybersecurity. IEC; MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect",
+          "target": "OUTDATED_ORDER_PICKING_POLICY___GOVERNA -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Define digital twin scope for order picking policy & governance using process criticality analysis",
+            "Build physics-based model with material flow and equipment dynamics",
+            "Calibrate model using historical production and sensor data",
+            "Deploy for what-if analysis, process optimization, and virtual commissioning",
+            "Validate twin accuracy quarterly and expand to additional processes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — digital twin model accuracy using simulation validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — digital twin model accuracy measured biannually. Target: model within 5% of actual. PHASE 3 (Months 4-6): Midpoint review — compare against Siemens Digital Twin standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — digital twin model accuracy trending toward within 3%. Escalate if <within 10% ceiling. ANNUAL REVIEW: Comprehensive audit using Siemens/RAMI 4.0 framework. Report to Digital Manufacturing Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Order Picking Policy & Governance Strategic Alignment Review",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Strengthen a product lifecycle optimization for order picking policy & governance using concurrent engineering and APQP phase-gate methodology.",
+          "cite": "Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press; Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press",
+          "target": "INEFFICIENT_ORDER_PICKING_POLICY___GOVERNA -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess Industry 4.0 maturity for order picking policy & governance using RAMI 4.0 and Acatech framework",
+            "Identify high-value digital use cases: predictive maintenance, quality, scheduling",
+            "Design technology architecture with IT/OT convergence and data platform",
+            "Implement pilot use cases with proof of concept and ROI validation",
+            "Scale successful pilots with change management and workforce upskilling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — manufacturing cost per unit using ERP cost accounting module. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — manufacturing cost per unit measured monthly. Target: 10% cost reduction. PHASE 3 (Months 4-6): Midpoint review — compare against industry quartile benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — manufacturing cost per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using Lean accounting framework. Report to CFO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DV",
+      "state": "active",
+      "domainLabel": "Order Picking Technology & Innovation",
+      "domainDescription": "Systematic management of order picking technology & innovation across all order picking functions and operations",
+      "group": "development",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Assess Order Picking Technology & Innovation Integration Architecture",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Assess a manufacturing competitiveness plan for order picking technology & innovation integrating Porter value chain analysis with UNIDO industrial benchmarking.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "INEFFICIENT_ORDER_PICKING_TECHNOLOGY___INN -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for order picking technology & innovation using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Order Picking Technology & Innovation Capability Maturity Model",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Create a TWI Job Instruction program for order picking technology & innovation training supervisors in standardized work breakdown and skill transfer.",
+          "cite": "Liker, J.K. (2004). The Toyota Way. McGraw-Hill; Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press",
+          "target": "INCONSISTENT_ORDER_PICKING_TECHNOLOGY___INN -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess equipment care capabilities for order picking technology & innovation using TPM maturity audit",
+            "Train operators in autonomous maintenance steps per JIPM methodology",
+            "Implement operator cleaning, inspection, and lubrication routines",
+            "Develop visual standards and one-point lessons for equipment care",
+            "Track equipment breakdowns, minor stops, and autonomous maintenance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety training hours per employee using LMS tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety training hours per employee measured monthly. Target: 40 hours per year. PHASE 3 (Months 4-6): Midpoint review — compare against OSHA VPP benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety training hours per employee trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using OSHA training requirements. Report to EHS Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Order Picking Technology & Innovation Quality Assurance Program",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Evaluate a production line redesign for order picking technology & innovation using cellular manufacturing with one-piece flow and pull-system kanban.",
+          "cite": "OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL; ISO (2015). ISO 9001: Quality Management Systems. ISO",
+          "target": "UNMONITORED_ORDER_PICKING_TECHNOLOGY___INN -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze material flow for order picking technology & innovation using spaghetti diagram and time studies",
+            "Design cellular layout with one-piece flow, standard WIP, and kanban sizing",
+            "Implement physical rearrangement with team involvement and line balancing",
+            "Establish pull system with kanban cards/signals and supermarket replenishment",
+            "Measure flow metrics: lead time, WIP turns, and labor productivity improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — environmental compliance rate using EMS tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — environmental compliance rate measured monthly. Target: 100% permit compliance. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 14001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — environmental compliance rate trending toward zero violations. Escalate if <<3 minor findings. ANNUAL REVIEW: Comprehensive audit using ISO 14001 framework. Report to Environmental Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Order Picking Technology & Innovation Integration Architecture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Integrate a 5S workplace organization for order picking technology & innovation establishing visual management, standardized work, and daily audit routines.",
+          "cite": "Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass; Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press",
+          "target": "UNDERPERFORMING_ORDER_PICKING_TECHNOLOGY___INN -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess supplier capabilities for order picking technology & innovation using supplier scorecard audit",
+            "Design tiered development program with quality, delivery, and cost coaching",
+            "Deploy resident engineers at critical suppliers for process improvement",
+            "Implement supplier kaizen events with shared savings agreements",
+            "Track supplier PPM, on-time delivery, and total cost of ownership"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — innovation submission rate using idea management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — innovation submission rate measured monthly. Target: 10 ideas per employee/year. PHASE 3 (Months 4-6): Midpoint review — compare against Toyota Creative Suggestion benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — innovation submission rate trending toward 20 ideas. Escalate if <5 ideas minimum. ANNUAL REVIEW: Comprehensive audit using Toyota Suggestion System. Report to Innovation Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Order Picking Technology & Innovation Capability Maturity Model",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Conduct a digital twin simulation for order picking technology & innovation using discrete event and physics-based modelling for process optimization.",
+          "cite": "MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect; IEC (2022). IEC 62443: Industrial Cybersecurity. IEC",
+          "target": "REACTIVE_ORDER_PICKING_TECHNOLOGY___INN -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OT cybersecurity for order picking technology & innovation using IEC 62443 risk assessment",
+            "Design zone and conduit model with security levels per asset criticality",
+            "Implement network segmentation, access control, and monitoring",
+            "Deploy intrusion detection and incident response for OT environment",
+            "Conduct annual penetration testing and IEC 62443 compliance audit"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity OT compliance using IEC 62443 assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity OT compliance measured quarterly. Target: SL-2 across all zones. PHASE 3 (Months 4-6): Midpoint review — compare against IEC 62443 zone/conduit model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity OT compliance trending toward SL-3. Escalate if <SL-1 minimum. ANNUAL REVIEW: Comprehensive audit using IEC 62443 framework. Report to OT Cybersecurity Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Order Picking Technology & Innovation Quality Assurance Program",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Design a manufacturing competitiveness plan for order picking technology & innovation integrating Porter value chain analysis with UNIDO industrial benchmarking.",
+          "cite": "Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press; Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press",
+          "target": "FRAGMENTED_ORDER_PICKING_TECHNOLOGY___INN -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map supply chain risk for order picking technology & innovation using SCOR Level 3 process analysis",
+            "Conduct supplier criticality assessment with Kraljic portfolio matrix",
+            "Design resilience strategy with dual-sourcing, buffer stock, and visibility tools",
+            "Implement supply chain control tower with real-time risk monitoring",
+            "Evaluate resilience through disruption simulation and recovery time analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — new product introduction cycle time using PLM milestone tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — new product introduction cycle time measured quarterly. Target: 30% cycle time reduction. PHASE 3 (Months 4-6): Midpoint review — compare against APQC benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — new product introduction cycle time trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using APQP framework. Report to VP of Engineering.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PUT",
+      "state": "active",
+      "domainLabel": "Order Picking Human Capital & Development",
+      "domainDescription": "Systematic management of order picking human capital & development across all order picking functions and operations",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Configure Order Picking Human Capital & Development Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Configure an Industry 4.0 roadmap for order picking human capital & development applying RAMI 4.0 reference architecture with digital maturity assessment.",
+          "cite": "Schwab, K. (2017). The Fourth Industrial Revolution. Crown Business; World Economic Forum (2020). Shaping the Future of Advanced Manufacturing. WEF",
+          "target": "OUTDATED_ORDER_PICKING_HUMAN_CAPITAL___ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Schwab, K.",
+              "year": 2017,
+              "title": "The Fourth Industrial Revolution",
+              "journal": "Crown Business",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "World Economic Forum",
+              "year": 2020,
+              "title": "Shaping the Future of Advanced Manufacturing",
+              "journal": "WEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate product development for order picking human capital & development using APQP phase-gate assessment",
+            "Design concurrent engineering process with DFM/DFA and FMEA integration",
+            "Implement PLM system with design review workflows and change management",
+            "Deploy rapid prototyping capabilities with 3D printing and simulation",
+            "Measure NPI cycle time, first-time quality, and engineering change orders"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defect rate (DPMO) using SPC control chart system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defect rate (DPMO) measured daily. Target: <500 DPMO. PHASE 3 (Months 4-6): Midpoint review — compare against Six Sigma 3.4 DPMO target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defect rate (DPMO) trending toward <100 DPMO. Escalate if <<1000 DPMO ceiling. ANNUAL REVIEW: Comprehensive audit using Six Sigma DMAIC. Report to Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Order Picking Human Capital & Development Innovation Pipeline",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Strengthen a Toyota Kata coaching program for order picking human capital & development building scientific thinking through improvement and coaching kata routines.",
+          "cite": "Rother, M. (2009). Toyota Kata. McGraw-Hill; Deming, W.E. (1986). Out of the Crisis. MIT Press",
+          "target": "INEFFICIENT_ORDER_PICKING_HUMAN_CAPITAL___ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Rother, M.",
+              "year": 2009,
+              "title": "Toyota Kata",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Deming, W.E.",
+              "year": 1986,
+              "title": "Out of the Crisis",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess safety leadership for order picking human capital & development using behavioral safety observation audit",
+            "Train supervisors in BBS observation techniques and constructive feedback",
+            "Implement structured observation program with weekly safety conversations",
+            "Analyze observation data trends and design targeted interventions",
+            "Measure safety culture maturity using Bradley Curve assessment annually"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — quality circle participation using CI program tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — quality circle participation measured monthly. Target: 60% workforce participation. PHASE 3 (Months 4-6): Midpoint review — compare against JUSE QC Circle benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — quality circle participation trending toward 80% participation. Escalate if <40% minimum. ANNUAL REVIEW: Comprehensive audit using JUSE QC Circle methodology. Report to Quality Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Order Picking Human Capital & Development Feedback Loop Design",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Monitor an ISO 9001 quality management system for order picking human capital & development with process approach, risk-based thinking, and internal audit program.",
+          "cite": "NIST (2020). Manufacturing Extension Partnership (MEP) Strategic Plan. NIST; ISO (2015). ISO 14001: Environmental Management Systems. ISO",
+          "target": "INCONSISTENT_ORDER_PICKING_HUMAN_CAPITAL___ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2020,
+              "title": "Manufacturing Extension Partnership (MEP) Strategic Plan",
+              "journal": "NIST",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 14001: Environmental Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess material handling for order picking human capital & development using throughput and ergonomic analysis",
+            "Design automated system with AGVs, AS/RS, and conveyor per ASME B20.1",
+            "Implement phased automation with integration testing and safety validation",
+            "Deploy WCS coordinating automated equipment with WMS orders",
+            "Measure throughput, labor reduction, and ergonomic injury rate improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — automation deployment index using automation project tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — automation deployment index measured quarterly. Target: 30% process automation. PHASE 3 (Months 4-6): Midpoint review — compare against Industry 4.0 maturity model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — automation deployment index trending toward 50% automation. Escalate if <15% automation floor. ANNUAL REVIEW: Comprehensive audit using RAMI 4.0 framework. Report to Automation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Order Picking Human Capital & Development Sustainability Audit",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build a supplier development partnership for order picking human capital & development extending lean principles and quality systems through tiered supplier coaching.",
+          "cite": "Spear, S. & Bowen, H.K. (1999). Decoding the DNA of the Toyota Production System. Harvard Business Review, 77(5), 96-106; Juran, J.M. (1988). Jurans Quality Control Handbook. McGraw-Hill",
+          "target": "UNMONITORED_ORDER_PICKING_HUMAN_CAPITAL___ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Spear, S. & Bowen, H.K.",
+              "year": 1999,
+              "title": "Decoding the DNA of the Toyota Production System",
+              "journal": "Harvard Business Review",
+              "volume": "77(5)",
+              "pages": "96-106",
+              "doi": null
+            },
+            {
+              "author": "Juran, J.M.",
+              "year": 1988,
+              "title": "Jurans Quality Control Handbook",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess workplace organization for order picking human capital & development using 5S audit checklist",
+            "Implement sort, set-in-order, shine phases with team ownership areas",
+            "Establish standardized work with visual controls and shadow boards",
+            "Deploy daily 5S audit with scoring and recognition program",
+            "Track 5S scores, search time reduction, and quality at source improvements"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — supplier partnership index using supplier scorecard system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — supplier partnership index measured quarterly. Target: 80% preferred suppliers A-rated. PHASE 3 (Months 4-6): Midpoint review — compare against IATF 16949 supplier standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — supplier partnership index trending toward 90% A-rated. Escalate if <65% A-rated floor. ANNUAL REVIEW: Comprehensive audit using IATF 16949 framework. Report to Procurement Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Order Picking Human Capital & Development Innovation Pipeline",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Optimize a predictive quality analytics system for order picking human capital & development using ML classification on process parameters to prevent defects.",
+          "cite": "ISA (2012). ISA-95: Enterprise-Control System Integration. ISA; MESA International (2021). MES/MOM Methodology Guidelines. MESA",
+          "target": "UNDERPERFORMING_ORDER_PICKING_HUMAN_CAPITAL___ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "ISA",
+              "year": 2012,
+              "title": "ISA-95: Enterprise-Control System Integration",
+              "journal": "ISA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "MESA International",
+              "year": 2021,
+              "title": "MES/MOM Methodology Guidelines",
+              "journal": "MESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess quality data for order picking human capital & development using SPC and measurement system analysis",
+            "Design ML pipeline for defect prediction using process and quality features",
+            "Train and validate models using CRISP-DM with cross-validation and A/B testing",
+            "Deploy real-time prediction with operator alerts and automated parameter adjustment",
+            "Track defect escape rate, prediction accuracy, and quality cost reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — predictive quality accuracy using ML model performance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — predictive quality accuracy measured monthly. Target: 80% defect prediction recall. PHASE 3 (Months 4-6): Midpoint review — compare against Industry ML benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — predictive quality accuracy trending toward 90% recall. Escalate if <65% recall floor. ANNUAL REVIEW: Comprehensive audit using CRISP-DM methodology. Report to Data Science Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Order Picking Human Capital & Development Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Launch an Industry 4.0 roadmap for order picking human capital & development applying RAMI 4.0 reference architecture with digital maturity assessment.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "REACTIVE_ORDER_PICKING_HUMAN_CAPITAL___ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate product development for order picking human capital & development using APQP phase-gate assessment",
+            "Design concurrent engineering process with DFM/DFA and FMEA integration",
+            "Implement PLM system with design review workflows and change management",
+            "Deploy rapid prototyping capabilities with 3D printing and simulation",
+            "Measure NPI cycle time, first-time quality, and engineering change orders"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — defect rate (DPMO) using SPC control chart system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — defect rate (DPMO) measured daily. Target: <500 DPMO. PHASE 3 (Months 4-6): Midpoint review — compare against Six Sigma 3.4 DPMO target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — defect rate (DPMO) trending toward <100 DPMO. Escalate if <<1000 DPMO ceiling. ANNUAL REVIEW: Comprehensive audit using Six Sigma DMAIC. Report to Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ENDO",
+      "state": "active",
+      "domainLabel": "Order Picking Quality & Performance",
+      "domainDescription": "Systematic management of order picking quality & performance across all order picking functions and operations",
+      "group": "performance",
+      "phase": "P3",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Deploy Order Picking Quality & Performance Performance Framework",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Deploy an Industry 4.0 roadmap for order picking quality & performance applying RAMI 4.0 reference architecture with digital maturity assessment.",
+          "cite": "Porter, M.E. (1985). Competitive Advantage. Free Press; UNIDO (2021). Industrial Development Report: The Future of Industrialization. UNIDO",
+          "target": "REACTIVE_ORDER_PICKING_QUALITY___PERFOR -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Porter, M.E.",
+              "year": 1985,
+              "title": "Competitive Advantage",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNIDO",
+              "year": 2021,
+              "title": "Industrial Development Report: The Future of Industrialization",
+              "journal": "UNIDO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess Industry 4.0 maturity for order picking quality & performance using RAMI 4.0 and Acatech framework",
+            "Identify high-value digital use cases: predictive maintenance, quality, scheduling",
+            "Design technology architecture with IT/OT convergence and data platform",
+            "Implement pilot use cases with proof of concept and ROI validation",
+            "Scale successful pilots with change management and workforce upskilling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — manufacturing cost per unit using ERP cost accounting module. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — manufacturing cost per unit measured monthly. Target: 10% cost reduction. PHASE 3 (Months 4-6): Midpoint review — compare against industry quartile benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — manufacturing cost per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using Lean accounting framework. Report to CFO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Order Picking Quality & Performance Benchmarking Framework",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Operationalize a Toyota Kata coaching program for order picking quality & performance building scientific thinking through improvement and coaching kata routines.",
+          "cite": "Liker, J.K. (2004). The Toyota Way. McGraw-Hill; Shingo, S. (1985). A Revolution in Manufacturing: The SMED System. Productivity Press",
+          "target": "FRAGMENTED_ORDER_PICKING_QUALITY___PERFOR -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Liker, J.K.",
+              "year": 2004,
+              "title": "The Toyota Way",
+              "journal": "McGraw-Hill",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Shingo, S.",
+              "year": 1985,
+              "title": "A Revolution in Manufacturing: The SMED System",
+              "journal": "Productivity Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Select Green Belt candidates for order picking quality & performance based on project relevance and aptitude",
+            "Deliver DMAIC methodology training with statistical tools (SPC, DOE, regression)",
+            "Coach project execution with weekly reviews and tollgate presentations",
+            "Certify through project completion with documented financial savings",
+            "Build project pipeline and mentor future candidates through alumni network"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — Lean certification rate using Lean program tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — Lean certification rate measured quarterly. Target: 50% workforce green belt. PHASE 3 (Months 4-6): Midpoint review — compare against AME Lean benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — Lean certification rate trending toward 70% green belt. Escalate if <30% minimum. ANNUAL REVIEW: Comprehensive audit using ASQ Lean certification. Report to Continuous Improvement Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Order Picking Quality & Performance Impact Evaluation",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Calibrate an ISO 9001 quality management system for order picking quality & performance with process approach, risk-based thinking, and internal audit program.",
+          "cite": "OSHA (2023). Occupational Safety and Health Standards 29 CFR 1910. US DOL; ISO (2015). ISO 9001: Quality Management Systems. ISO",
+          "target": "SILOED_ORDER_PICKING_QUALITY___PERFOR -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "OSHA",
+              "year": 2023,
+              "title": "Occupational Safety and Health Standards 29 CFR 1910",
+              "journal": "US DOL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ISO",
+              "year": 2015,
+              "title": "ISO 9001: Quality Management Systems",
+              "journal": "ISO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess OH&S risks for order picking quality & performance using ISO 45001 hazard identification process",
+            "Design safety management system with risk register and hierarchy of controls",
+            "Implement operational controls, emergency procedures, and PPE programs",
+            "Conduct internal audits, incident investigations, and management reviews",
+            "Achieve ISO 45001 certification with continual improvement program"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy intensity per unit using energy monitoring system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy intensity per unit measured monthly. Target: 10% intensity reduction. PHASE 3 (Months 4-6): Midpoint review — compare against ISO 50001 targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy intensity per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISO 50001 EnMS framework. Report to Energy Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Order Picking Quality & Performance Performance Framework",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Streamline a supplier development partnership for order picking quality & performance extending lean principles and quality systems through tiered supplier coaching.",
+          "cite": "Cameron, K.S. & Quinn, R.E. (2011). Diagnosing and Changing Organizational Culture 3e. Jossey-Bass; Christensen, C.M. (1997). The Innovators Dilemma. Harvard Business School Press",
+          "target": "OUTDATED_ORDER_PICKING_QUALITY___PERFOR -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Cameron, K.S. & Quinn, R.E.",
+              "year": 2011,
+              "title": "Diagnosing and Changing Organizational Culture 3e",
+              "journal": "Jossey-Bass",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Christensen, C.M.",
+              "year": 1997,
+              "title": "The Innovators Dilemma",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess psychological safety for order picking quality & performance using Edmondson team survey",
+            "Design intervention program with leader behavior coaching and team norms",
+            "Implement error reporting and near-miss systems without blame",
+            "Conduct team retrospectives with structured reflection protocols",
+            "Measure safety climate, error reporting rates, and team performance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture maturity using safety culture assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture maturity measured biannually. Target: Bradley Curve interdependent. PHASE 3 (Months 4-6): Midpoint review — compare against DuPont Safety Culture model. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture maturity trending toward generative culture. Escalate if <dependent minimum. ANNUAL REVIEW: Comprehensive audit using DuPont Bradley Curve. Report to Safety Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Order Picking Quality & Performance Benchmarking Framework",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Assess a predictive quality analytics system for order picking quality & performance using ML classification on process parameters to prevent defects.",
+          "cite": "MTConnect Institute (2023). MTConnect Standard for Manufacturing Equipment Data. MTConnect; IEC (2022). IEC 62443: Industrial Cybersecurity. IEC",
+          "target": "INEFFICIENT_ORDER_PICKING_QUALITY___PERFOR -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "MTConnect Institute",
+              "year": 2023,
+              "title": "MTConnect Standard for Manufacturing Equipment Data",
+              "journal": "MTConnect",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2022,
+              "title": "IEC 62443: Industrial Cybersecurity",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Define digital twin scope for order picking quality & performance using process criticality analysis",
+            "Build physics-based model with material flow and equipment dynamics",
+            "Calibrate model using historical production and sensor data",
+            "Deploy for what-if analysis, process optimization, and virtual commissioning",
+            "Validate twin accuracy quarterly and expand to additional processes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — digital twin model accuracy using simulation validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — digital twin model accuracy measured biannually. Target: model within 5% of actual. PHASE 3 (Months 4-6): Midpoint review — compare against Siemens Digital Twin standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — digital twin model accuracy trending toward within 3%. Escalate if <within 10% ceiling. ANNUAL REVIEW: Comprehensive audit using Siemens/RAMI 4.0 framework. Report to Digital Manufacturing Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Order Picking Quality & Performance Impact Evaluation",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Create an Industry 4.0 roadmap for order picking quality & performance applying RAMI 4.0 reference architecture with digital maturity assessment.",
+          "cite": "Womack, J.P. & Jones, D.T. (2003). Lean Thinking. Free Press; Pisano, G.P. & Shih, W.C. (2012). Producing Prosperity: Why America Needs a Manufacturing Renaissance. Harvard Business Review Press",
+          "target": "INCONSISTENT_ORDER_PICKING_QUALITY___PERFOR -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Womack, J.P. & Jones, D.T.",
+              "year": 2003,
+              "title": "Lean Thinking",
+              "journal": "Free Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pisano, G.P. & Shih, W.C.",
+              "year": 2012,
+              "title": "Producing Prosperity: Why America Needs a Manufacturing Renaissance",
+              "journal": "Harvard Business Review Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess Industry 4.0 maturity for order picking quality & performance using RAMI 4.0 and Acatech framework",
+            "Identify high-value digital use cases: predictive maintenance, quality, scheduling",
+            "Design technology architecture with IT/OT convergence and data platform",
+            "Implement pilot use cases with proof of concept and ROI validation",
+            "Scale successful pilots with change management and workforce upskilling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — manufacturing cost per unit using ERP cost accounting module. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — manufacturing cost per unit measured monthly. Target: 10% cost reduction. PHASE 3 (Months 4-6): Midpoint review — compare against industry quartile benchmarking. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — manufacturing cost per unit trending toward 20% reduction. Escalate if <5% reduction floor. ANNUAL REVIEW: Comprehensive audit using Lean accounting framework. Report to CFO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a logistics and distribution director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "BROCA",
+      "target": "ENS",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "ENS",
+      "target": "rACC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "rACC",
+      "target": "mPFC",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "mPFC",
+      "target": "ECN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "ECN",
+      "target": "DV",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "DV",
+      "target": "PUT",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "PUT",
+      "target": "ENDO",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "BROCA",
+      "target": "ENDO",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "rACC",
+      "target": "BROCA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "INDUSTRY_WAREHOUSING_PICKING_SYSTEM_FAILURE",
+      "label": "Industry Warehousing Picking System Failure",
+      "summary": "Critical breakdown in Industry Warehousing Picking systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper-active",
+          "detail": "Order Picking Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ENS",
+          "dir": "Hypo-active",
+          "detail": "Order Picking Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Altered",
+          "detail": "Order Picking Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper-active",
+          "detail": "Order Picking Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Hypo-active",
+          "detail": "Order Picking Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "INDUSTRY_WAREHOUSING_PICKING_CAPACITY_OVERLOAD",
+      "label": "Industry Warehousing Picking Capacity Overload",
+      "summary": "Demand exceeding available Industry Warehousing Picking capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper-active",
+          "detail": "Order Picking Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ENS",
+          "dir": "Hyper-active",
+          "detail": "Order Picking Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Hyper-active",
+          "detail": "Order Picking Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper-active",
+          "detail": "Order Picking Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "INDUSTRY_WAREHOUSING_PICKING_QUALITY_DEGRADATION",
+      "label": "Industry Warehousing Picking Quality Degradation",
+      "summary": "Progressive decline in Industry Warehousing Picking quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo-active",
+          "detail": "Order Picking Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ENS",
+          "dir": "Altered",
+          "detail": "Order Picking Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Hyper-active",
+          "detail": "Order Picking Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo-active",
+          "detail": "Order Picking Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

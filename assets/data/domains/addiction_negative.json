@@ -1,0 +1,383 @@
+{
+  "domainId": "addiction_negative",
+  "title": "Negative Reinforcement Driver",
+  "parentPortal": "addiction_portal.html",
+  "parentLabel": "Addiction Medicine",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "MDT",
+      "state": "active",
+      "domainLabel": "Negative Reinforcement Driver Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Negative Reinforcement Driver indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "addiction_negative_action_portal.html"
+    },
+    {
+      "brainNodeId": "ANT",
+      "state": "active",
+      "domainLabel": "Negative Reinforcement Driver Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Negative Reinforcement Driver activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Negative Reinforcement Driver Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "addiction_negative_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "PULV",
+      "state": "active",
+      "domainLabel": "Negative Reinforcement Driver Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Negative Reinforcement Driver, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "addiction_negative_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "V1",
+      "state": "active",
+      "domainLabel": "Negative Reinforcement Driver Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Negative Reinforcement Driver practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "addiction_negative_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "A1",
+      "state": "active",
+      "domainLabel": "Negative Reinforcement Driver Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Negative Reinforcement Driver methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "addiction_negative_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "Negative Reinforcement Driver Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Negative Reinforcement Driver stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "addiction_negative_signal_portal.html"
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Negative Reinforcement Driver Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Negative Reinforcement Driver operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "addiction_negative_state_portal.html"
+    },
+    {
+      "brainNodeId": "STS",
+      "state": "active",
+      "domainLabel": "Negative Reinforcement Driver Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Negative Reinforcement Driver outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Negative Reinforcement Driver Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "MDT",
+      "target": "ANT",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ANT",
+      "target": "PULV",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "PULV",
+      "target": "V1",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "V1",
+      "target": "A1",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "A1",
+      "target": "FG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FG",
+      "target": "WERN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "WERN",
+      "target": "STS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "STS",
+      "target": "MDT",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "MDT",
+      "target": "A1",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "V1",
+      "target": "WERN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "ADDICTION_NEGATIVE_SYSTEM_FAILURE",
+      "label": "Negative Reinforcement Driver System Failure",
+      "summary": "Critical breakdown in Negative Reinforcement Driver systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "MDT",
+          "dir": "Hypo-active",
+          "detail": "Negative Reinforcement Driver Assessment & Diagnostics capacity falling below operational thresholds, reducing Negative Reinforcement Driver output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ANT",
+          "dir": "Hypo-active",
+          "detail": "Negative Reinforcement Driver Core Operations systems underperforming, creating gaps in Negative Reinforcement Driver coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PULV",
+          "dir": "Altered",
+          "detail": "Negative Reinforcement Driver Infrastructure & Capacity behavior deviating from established norms, complicating Negative Reinforcement Driver management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Hyper-active",
+          "detail": "Negative Reinforcement Driver Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Negative Reinforcement Driver",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STS",
+          "dir": "Hypo-active",
+          "detail": "Negative Reinforcement Driver Performance & Optimization function reduced, compromising Negative Reinforcement Driver system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ADDICTION_NEGATIVE_CAPACITY_CRISIS",
+      "label": "Negative Reinforcement Driver Capacity Crisis",
+      "summary": "Demand exceeding available Negative Reinforcement Driver capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "ANT",
+          "dir": "Hyper-active",
+          "detail": "Negative Reinforcement Driver Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Negative Reinforcement Driver",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PULV",
+          "dir": "Hypo-active",
+          "detail": "Negative Reinforcement Driver Infrastructure & Capacity systems underperforming, creating gaps in Negative Reinforcement Driver coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "V1",
+          "dir": "Altered",
+          "detail": "Negative Reinforcement Driver Standards & Governance behavior deviating from established norms, complicating Negative Reinforcement Driver management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper-active",
+          "detail": "Negative Reinforcement Driver Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Negative Reinforcement Driver",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STS",
+          "dir": "Altered",
+          "detail": "Negative Reinforcement Driver Performance & Optimization operating outside normal parameters, introducing uncertainty into Negative Reinforcement Driver outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ADDICTION_NEGATIVE_GOVERNANCE_GAP",
+      "label": "Negative Reinforcement Driver Governance Gap",
+      "summary": "Oversight or regulatory failure in Negative Reinforcement Driver creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "V1",
+          "dir": "Hypo-active",
+          "detail": "Negative Reinforcement Driver Standards & Governance capacity falling below operational thresholds, reducing Negative Reinforcement Driver output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MDT",
+          "dir": "Altered",
+          "detail": "Negative Reinforcement Driver Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Negative Reinforcement Driver",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "A1",
+          "dir": "Hyper-active",
+          "detail": "Negative Reinforcement Driver Research & Development activity spiking beyond design limits, creating instability across Negative Reinforcement Driver operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Altered",
+          "detail": "Negative Reinforcement Driver Risk & Resilience patterns disrupted, necessitating adaptive responses within Negative Reinforcement Driver frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo-active",
+          "detail": "Negative Reinforcement Driver Coordination & Integration function reduced, compromising Negative Reinforcement Driver system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

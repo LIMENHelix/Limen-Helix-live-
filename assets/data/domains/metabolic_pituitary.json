@@ -1,0 +1,383 @@
+{
+  "domainId": "metabolic_pituitary",
+  "title": "Pituitary Hormone Coordination",
+  "parentPortal": "metabolic_portal.html",
+  "parentLabel": "Metabolic & Endocrine",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "MDT",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Pituitary Hormone Coordination indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_action_portal.html"
+    },
+    {
+      "brainNodeId": "ANT",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Pituitary Hormone Coordination activities and deliverables",
+      "group": "operations",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Pituitary Hormone Coordination Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "PULV",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Pituitary Hormone Coordination, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "V1",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Pituitary Hormone Coordination practices and compliance obligations",
+      "group": "governance",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "A1",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Pituitary Hormone Coordination methods and capabilities",
+      "group": "innovation",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Pituitary Hormone Coordination stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_signal_portal.html"
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Pituitary Hormone Coordination operations and interfaces",
+      "group": "systems",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_state_portal.html"
+    },
+    {
+      "brainNodeId": "STS",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Pituitary Hormone Coordination outputs and resource utilization",
+      "group": "operations",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Pituitary Hormone Coordination Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "MDT",
+      "target": "ANT",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ANT",
+      "target": "PULV",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "PULV",
+      "target": "V1",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "V1",
+      "target": "A1",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "A1",
+      "target": "FG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FG",
+      "target": "WERN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "WERN",
+      "target": "STS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "STS",
+      "target": "MDT",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "MDT",
+      "target": "A1",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "V1",
+      "target": "WERN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "METABOLIC_PITUITARY_SYSTEM_FAILURE",
+      "label": "Pituitary Hormone Coordination System Failure",
+      "summary": "Critical breakdown in Pituitary Hormone Coordination systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "MDT",
+          "dir": "Hypo-active",
+          "detail": "Pituitary Hormone Coordination Assessment & Diagnostics capacity falling below operational thresholds, reducing Pituitary Hormone Coordination output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ANT",
+          "dir": "Hypo-active",
+          "detail": "Pituitary Hormone Coordination Core Operations systems underperforming, creating gaps in Pituitary Hormone Coordination coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PULV",
+          "dir": "Altered",
+          "detail": "Pituitary Hormone Coordination Infrastructure & Capacity behavior deviating from established norms, complicating Pituitary Hormone Coordination management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Hyper-active",
+          "detail": "Pituitary Hormone Coordination Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Pituitary Hormone Coordination",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STS",
+          "dir": "Hypo-active",
+          "detail": "Pituitary Hormone Coordination Performance & Optimization function reduced, compromising Pituitary Hormone Coordination system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "METABOLIC_PITUITARY_CAPACITY_CRISIS",
+      "label": "Pituitary Hormone Coordination Capacity Crisis",
+      "summary": "Demand exceeding available Pituitary Hormone Coordination capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "ANT",
+          "dir": "Hyper-active",
+          "detail": "Pituitary Hormone Coordination Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Pituitary Hormone Coordination",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PULV",
+          "dir": "Hypo-active",
+          "detail": "Pituitary Hormone Coordination Infrastructure & Capacity systems underperforming, creating gaps in Pituitary Hormone Coordination coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "V1",
+          "dir": "Altered",
+          "detail": "Pituitary Hormone Coordination Standards & Governance behavior deviating from established norms, complicating Pituitary Hormone Coordination management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper-active",
+          "detail": "Pituitary Hormone Coordination Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Pituitary Hormone Coordination",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STS",
+          "dir": "Altered",
+          "detail": "Pituitary Hormone Coordination Performance & Optimization operating outside normal parameters, introducing uncertainty into Pituitary Hormone Coordination outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "METABOLIC_PITUITARY_GOVERNANCE_GAP",
+      "label": "Pituitary Hormone Coordination Governance Gap",
+      "summary": "Oversight or regulatory failure in Pituitary Hormone Coordination creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "V1",
+          "dir": "Hypo-active",
+          "detail": "Pituitary Hormone Coordination Standards & Governance capacity falling below operational thresholds, reducing Pituitary Hormone Coordination output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MDT",
+          "dir": "Altered",
+          "detail": "Pituitary Hormone Coordination Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Pituitary Hormone Coordination",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "A1",
+          "dir": "Hyper-active",
+          "detail": "Pituitary Hormone Coordination Research & Development activity spiking beyond design limits, creating instability across Pituitary Hormone Coordination operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Altered",
+          "detail": "Pituitary Hormone Coordination Risk & Resilience patterns disrupted, necessitating adaptive responses within Pituitary Hormone Coordination frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo-active",
+          "detail": "Pituitary Hormone Coordination Coordination & Integration function reduced, compromising Pituitary Hormone Coordination system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

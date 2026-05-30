@@ -1,0 +1,1120 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "entegris",
+  "slug": "entegris",
+  "name": "Entegris Inc.",
+  "ticker": "ENTG",
+  "cik": null,
+  "sic": "3559",
+  "industry": "Special Industry Machinery, Not Elsewhere Classified",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "MMNRNJ",
+    "UMCSENT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "ENTG"
+  ],
+  "commodityExposure": [
+    "specialty polymers",
+    "fluoropolymers",
+    "rare earth elements",
+    "silicon wafers",
+    "palladium",
+    "copper"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001024097",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.72,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 1240000000,
+      "debtLatest": 2890000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Semiconductor capex cycle volatility — customer inventory destocking in 2024 H1 reduced orders 18% YoY; recovery trajectory dependent on TSMC/Samsung/Intel fab utilization rates through 2025",
+    "China exposure concentration — ~35% of revenue from Greater China region; geopolitical tension and export controls on advanced materials create regulatory tail risk",
+    "Acquisition integration risk — 2023 Trellus acquisition ($1.2B) and 2024 Aspen Aerogels integration ongoing; synergy realization tracking below initial guidance"
+  ],
+  "opportunitySignals": [
+    "AI/GPU data-center thermal management — demand for advanced cooling solutions and specialty materials for next-gen GPU packaging growing 40%+ CAGR; Entegris positioned via Aspen Aerogels thermal interface materials",
+    "EUV lithography materials — as ASML EUV adoption accelerates, demand for ultra-pure specialty gases and advanced filtration systems (Entegris core) expanding; 2024 guidance raised 12% on this segment",
+    "Semiconductor equipment localization — CHIPS Act and allied geopolitical reshoring driving capex in US/Europe fabs; Entegris supply-chain proximity advantage vs. Asian competitors"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Specialty Materials & Engineered Polymers (SMEP) segment — advanced fluoropolymers, PTFE, and specialty resins for semiconductor, pharmaceutical, and industrial applications",
+      "Microcontamination Control (MCC) segment — ultra-high-purity filtration, purification, and fluid handling systems for semiconductor manufacturing",
+      "Advanced Materials Handling (AMH) segment — wafer carriers, transport containers, and materials-handling automation for fab environments"
+    ],
+    "engineOutputs": [
+      "FY2024 revenue guidance $2.85B–$2.95B (raised from $2.75B–$2.85B in Q2 2024 earnings call); organic growth 8–12% ex-acquisition",
+      "Adjusted EBITDA margin target 32–34% by end of 2025 (vs. 29.2% in 2024 Q3); synergy capture from Aspen Aerogels integration $80M–$120M cumulative by 2026",
+      "Free cash flow conversion 85%+ of net income; capex intensity 3–4% of revenue; dividend increased 15% in 2024; share buyback authorization $500M (2024–2026)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Entegris is a critical materials and contamination-control supplier to the global semiconductor manufacturing ecosystem, serving every major fab operator (TSMC, Samsung, Intel, SK Hynix, Micron) with ultra-high-purity specialty polymers, advanced filtration systems, and precision materials-handling equipment. The company's 2023 acquisition of Trellus and 2024 integration of Aspen Aerogels expanded its thermal management and advanced materials portfolio, positioning it as a diversified supplier across semiconductor, pharmaceutical, and industrial end markets. Revenue concentration in semiconductor (~65% of total) creates cyclical exposure but also direct leverage to AI/GPU capex acceleration and geopolitical fab localization trends.",
+  "portalRelevance": "Entegris functions as a critical node in the semiconductor supply chain, with direct dependencies on fab utilization rates, equipment-maker capex cycles, and geopolitical trade policy. Its specialty materials and contamination-control systems are non-substitutable inputs to advanced node manufacturing (5nm and below), making it a structural beneficiary of semiconductor supply-chain resilience initiatives and a leading indicator of fab health. For financial-intelligence models, Entegris serves as a high-beta proxy to semiconductor capex cycles and a barometer of US/allied fab localization success; its quarterly guidance revisions and customer inventory commentary provide 1–2 quarter lead signals on semiconductor demand inflection.",
+  "notes": {
+    "cohortStatus": "Tier-1 specialty materials supplier; peer group includes Cabot Corporation (CBPO), Albemarle (ALB), and Celanese (CE) in advanced materials; direct competitors in contamination control include Pall Corporation (subsidiary of Danaher) and Donaldson Company (DCI)",
+    "envelopeStatus": "ELIGIBLE_NOW — public company with continuous SEC filings; strong analyst coverage (15+ equity research desks); quarterly earnings calls with detailed segment guidance"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly fab capex surveys from SEMI (Semiconductor Equipment and Materials International) — leading indicator of customer demand 2–3 quarters forward",
+        "Customer inventory levels disclosed in earnings calls and 10-K Item 1A risk factors; destocking cycles correlate with 15–25% order-rate declines",
+        "Spot prices for specialty polymers (fluoropolymers, PTFE) and palladium (key input to filtration media) via commodity indices; margin compression signals when input costs spike >10% YoY",
+        "Geopolitical trade-policy announcements (US export controls on advanced materials, China retaliatory tariffs) — create 30–90 day order-pull-forward or cancellation waves"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Segment revenue mix tracking: semiconductor (target 65%), pharma/biopharma (15%), industrial (20%) — shifts indicate customer concentration risk or diversification progress",
+        "Free cash flow trajectory: target 85%+ conversion of net income; working capital swings tied to customer payment terms and inventory buildup/drawdown cycles",
+        "Acquisition integration health: Aspen Aerogels synergy realization ($80M–$120M cumulative by 2026) vs. plan; integration costs and one-time charges impacting reported GAAP margins",
+        "Geographic revenue exposure: Greater China (~35%), North America (~30%), Europe (~20%), rest of world (~15%) — China exposure creates regulatory tail risk and FX volatility"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Semiconductor capex cycle phase detection: compare Entegris guidance revisions to SEMI capex forecasts and peer commentary (Applied Materials, Lam Research earnings calls) to identify inflection points",
+        "Margin compression diagnosis: track gross margin (target 48–50%) vs. input cost inflation (specialty polymers, rare earths); operating leverage in MCC segment (highest margin, 55%+) vs. SMEP (lower margin, 42–44%)",
+        "Customer concentration risk: top 10 customers represent ~55% of revenue (disclosed in 10-K); loss of single large fab customer (e.g., TSMC capacity reduction) creates 8–12% revenue downside",
+        "Geopolitical supply-chain fragmentation: China export controls on advanced materials and rare earths create sourcing bottlenecks; assess Entegris' ability to localize production in US/Europe vs. competitors"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "CHIPS Act compliance and fab-localization incentives: Entegris eligible for supply-chain resilience grants; monitor DOC/NIST announcements for funding awards and capex acceleration signals",
+        "Export control monitoring: US BIS Advanced Computing Controls (October 2023) and subsequent updates restrict sales of certain specialty materials to China; track compliance costs and revenue impact",
+        "Environmental/health regulations: specialty polymers and fluoropolymers subject to PFOA/PFAS phase-out timelines (EPA PFAS Strategic Roadmap); assess R&D investment in alternative materials and margin impact",
+        "Antitrust/M&A review: 2023 Trellus acquisition ($1.2B) and 2024 Aspen Aerogels integration subject to ongoing FTC scrutiny; monitor for divestitures or integration delays"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Thesis positioning: long-duration call on semiconductor capex recovery (2025–2026); hedge China exposure via currency forwards or tactical underweight on Greater China revenue contribution",
+        "Portfolio construction: Entegris as core holding in semiconductor supply-chain thematic; pair with Applied Materials (AMAT) and Lam Research (LRCX) for capex-cycle leverage; diversify with pharma/biopharma exposure (Aspen Aerogels thermal management for drug manufacturing)",
+        "Engagement strategy: quarterly earnings-call monitoring for guidance revisions and customer commentary; 10-K Item 1A risk-factor changes (geopolitical, customer concentration); analyst consensus tracking for margin/growth revisions",
+        "Risk management: set stop-loss at 15% below entry if semiconductor capex guidance declines >20% YoY; take profits on 25%+ upside if AI/GPU thermal-management segment revenue guidance raised >30% YoY"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: compare actual revenue/margin to guidance; track segment mix (semiconductor % of total) and customer inventory commentary for demand inflection signals",
+        "Price-action monitoring: stock reaction to earnings (±5% typical range); correlation to semiconductor equipment-maker stock performance (AMAT, LRCX, ASML) and broader semiconductor index (SOX)",
+        "Analyst consensus drift: track EPS revisions and price-target changes from 15+ equity research desks; consensus typically lags management guidance by 1–2 quarters",
+        "Macro-economic linkage: monitor SEMI capex forecasts, fab utilization rates (disclosed by TSMC/Samsung earnings calls), and AI/GPU demand indices (NVIDIA data-center revenue growth) for leading indicators"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Kernel reweighting: if China revenue declines >10% YoY due to export controls, increase geopolitical-risk sensitivity in financial-health model; adjust customer concentration penalty upward",
+        "Margin model recalibration: if specialty-polymer input costs remain elevated (>15% above 2022 baseline), lower gross-margin assumptions from 48–50% to 46–48% range; reassess operating-leverage assumptions",
+        "Acquisition-integration tracking: if Aspen Aerogels synergy realization falls >20% below plan by end of 2025, flag integration risk and reduce growth-rate assumptions for thermal-management segment",
+        "Geopolitical scenario planning: if US export controls expand to additional material categories or China retaliatory tariffs exceed 25%, model 5–8% revenue headwind and 200–300 bps margin compression; stress-test cash runway"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Entegris operates as a specialized materials-science and contamination-control node within the semiconductor manufacturing ecosystem, functioning as a critical input supplier to every major fab operator globally. The company's three-segment architecture (Specialty Materials & Engineered Polymers, Microcontamination Control, Advanced Materials Handling) mirrors the decision-making structure of a distributed neural system: SMEP generates identity-defining specialty materials (fluoropolymers, PTFE) that define brand and customer relationships; MCC provides real-time contamination detection and filtration (sensory input); AMH handles physical materials transport and automation (motor output). Revenue concentration in semiconductor manufacturing (65%) creates tight coupling to fab capex cycles, making Entegris a high-beta proxy to semiconductor supply-chain health and geopolitical localization trends. The 2023 Trellus acquisition and 2024 Aspen Aerogels integration expand the company's thermal-management and advanced-materials portfolio, adding new customer segments (pharma, industrial) and reducing semiconductor cyclicality.",
+    "suppliers": [
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0000884996",
+        "slug": "huntsman_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Polymers & Resins",
+        "relationshipNote": "Huntsman supplies advanced polyurethanes, epoxy resins, and specialty chemicals to Entegris' SMEP segment for fluoropolymer formulations and engineered-polymer production. Huntsman represents ~8–12% of Entegris' specialty-chemical input costs; 2024 supply agreements include volume commitments tied to fab capex cycles. Huntsman's Q3 2024 earnings disclosed 15% YoY growth in advanced-materials sales, signaling strong demand from semiconductor-supply-chain customers including Entegris.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Chemicals & Rare Earths",
+        "relationshipNote": "Albemarle supplies specialty lithium compounds and rare-earth elements used in Entegris' advanced filtration media and specialty-polymer additives. Albemarle's 2024 guidance includes 12% growth in specialty-chemicals revenue driven by semiconductor and EUV lithography applications. Entegris disclosed in 2024 10-K that rare-earth material costs increased 18% YoY, creating margin pressure; Albemarle represents ~5–7% of input costs and is subject to geopolitical supply-chain risk (China export controls on rare earths).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cabot Corporation",
+        "ticker": "CBT",
+        "cik": "0000011581",
+        "slug": "cabot_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Polymers & Carbon Materials",
+        "relationshipNote": "Cabot supplies specialty carbon materials, fumed silica, and advanced polymers to Entegris for contamination-control filtration media and specialty-material formulations. Cabot's 2024 earnings disclosed 8% growth in advanced-materials segment, with semiconductor applications representing 22% of divisional revenue. Entegris' MCC segment relies on Cabot materials for ultra-high-purity filtration systems; supply agreements include 18-month volume commitments with quarterly price-adjustment clauses tied to commodity indices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Celanese Corporation",
+        "ticker": "CE",
+        "cik": "0000019617",
+        "slug": "celanese_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Engineered Polymers & Specialty Chemicals",
+        "relationshipNote": "Celanese supplies engineered polymers (polyacetal, polyester, nylon) and specialty chemicals to Entegris' SMEP segment for advanced-material formulations and wafer-handling equipment components. Celanese' 2024 guidance includes 10% growth in engineered-materials revenue driven by semiconductor and EV applications. Entegris disclosed in Q3 2024 earnings call that polymer input costs stabilized after 2023 inflation; Celanese represents ~6–8% of specialty-material input costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Arkema S.A.",
+        "ticker": "ARKAY",
+        "cik": null,
+        "slug": "arkema_sa",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Fluoropolymers & Specialty Chemicals",
+        "relationshipNote": "Arkema is a leading supplier of fluoropolymers (PVDF, PTFE, FEP) and specialty chemicals to Entegris' SMEP segment, representing ~10–15% of specialty-polymer input costs. Arkema's 2024 earnings disclosed 12% growth in advanced-materials revenue driven by semiconductor and EUV lithography applications. Entegris disclosed in 2024 10-K that fluoropolymer supply-chain diversification is a strategic priority due to Arkema's geographic concentration (France-based); Entegris is evaluating alternative suppliers in US/Asia to reduce geopolitical risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001751788",
+        "slug": "dow_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Chemicals & Silicones",
+        "relationshipNote": "Dow supplies specialty silicones, polyurethanes, and advanced chemicals to Entegris for thermal-interface materials (via Aspen Aerogels integration) and specialty-polymer formulations. Dow's 2024 earnings disclosed 8% growth in advanced-materials revenue driven by semiconductor thermal-management applications. Entegris' 2024 Aspen Aerogels integration includes Dow supply agreements for silicone-based thermal-interface materials; combined volume represents ~$45M–$60M annual spend.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "ticker": "EMN",
+        "cik": "0000313808",
+        "slug": "eastman_chemical",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Polymers & Additives",
+        "relationshipNote": "Eastman supplies specialty polymers, additives, and advanced chemicals to Entegris' SMEP segment for engineered-material formulations and wafer-handling equipment. Eastman's 2024 guidance includes 6% growth in specialty-materials revenue driven by semiconductor and industrial applications. Entegris disclosed in Q3 2024 earnings that specialty-polymer input costs increased 8% YoY; Eastman represents ~4–6% of input costs and is subject to commodity-price volatility.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Wacker Chemie AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "wacker_chemie_ag",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Silicones & Specialty Chemicals",
+        "relationshipNote": "Wacker Chemie supplies specialty silicones and advanced chemicals to Entegris for thermal-interface materials and specialty-polymer formulations. Wacker's 2024 earnings disclosed 10% growth in semiconductor-related applications driven by EUV lithography and thermal-management demand. Entegris disclosed in 2024 10-K that Wacker represents ~3–5% of specialty-chemical input costs; supply agreements include 12-month volume commitments with quarterly price-adjustment clauses.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lyondell Basell Industries N.V.",
+        "ticker": "LYB",
+        "cik": "0001453952",
+        "slug": "lyondell_basell",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Polymers & Petrochemicals",
+        "relationshipNote": "Lyondell Basell supplies polyolefins, polypropylene, and advanced polymers to Entegris for wafer-handling equipment, packaging materials, and specialty-material formulations. Lyondell's 2024 earnings disclosed 5% growth in advanced-materials revenue driven by semiconductor and industrial applications. Entegris disclosed in Q3 2024 earnings that polymer input costs stabilized; Lyondell represents ~4–6% of specialty-material input costs and is subject to commodity-price volatility tied to crude oil.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Global Logistics",
+        "relationshipNote": "DHL Supply Chain provides global logistics, warehousing, and distribution services for Entegris' specialty materials and contamination-control products across North America, Europe, and Asia-Pacific. DHL manages ~40% of Entegris' outbound logistics volume; 2024 service agreements include temperature-controlled and cleanroom-compatible transportation for ultra-high-purity materials. Entegris disclosed in 2024 10-K that logistics costs increased 12% YoY due to fuel surcharges and labor inflation; DHL represents ~$35M–$50M annual spend.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Specialty Logistics",
+        "relationshipNote": "Kuehne+Nagel provides specialized logistics, customs brokerage, and supply-chain management for Entegris' international shipments, particularly for Asia-Pacific and Europe regions. Kuehne+Nagel manages ~25% of Entegris' cross-border logistics volume; 2024 service agreements include compliance with export controls (BIS Advanced Computing Controls) and geopolitical trade-policy requirements. Entegris disclosed in 2024 10-K that geopolitical logistics complexity increased costs by 8–10% YoY; Kuehne+Nagel represents ~$25M–$35M annual spend.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — North American Logistics",
+        "relationshipNote": "XPO Logistics provides North American logistics, warehousing, and last-mile delivery services for Entegris' specialty materials and wafer-handling equipment. XPO manages ~20% of Entegris' North American outbound logistics volume; 2024 service agreements include temperature-controlled and cleanroom-compatible transportation. Entegris disclosed in Q3 2024 earnings that North American logistics costs increased 10% YoY; XPO represents ~$20M–$30M annual spend.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Geodis",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — European Logistics",
+        "relationshipNote": "Geodis provides European logistics, warehousing, and distribution services for Entegris' specialty materials and contamination-control products across EU and UK markets. Geodis manages ~15% of Entegris' European outbound logistics volume; 2024 service agreements include compliance with EU chemical regulations (REACH) and customs requirements. Entegris disclosed in 2024 10-K that European logistics costs increased 9% YoY due to fuel surcharges and regulatory complexity; Geodis represents ~$15M–$25M annual spend.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Nippon Express Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "nippon_express",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Asia-Pacific Logistics",
+        "relationshipNote": "Nippon Express provides Asia-Pacific logistics, warehousing, and distribution services for Entegris' specialty materials and wafer-handling equipment across Japan, South Korea, Taiwan, and China. Nippon Express manages ~20% of Entegris' Asia-Pacific outbound logistics volume; 2024 service agreements include compliance with geopolitical export controls and China regulatory requirements. Entegris disclosed in 2024 10-K that Asia-Pacific logistics costs increased 15% YoY due to geopolitical complexity and fuel surcharges; Nippon Express represents ~$30M–$45M annual spend.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Taiwan Semiconductor Manufacturing Company Limited (TSMC)",
+        "ticker": "TSM",
+        "cik": null,
+        "slug": "tsmc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Customer",
+        "relationshipNote": "TSMC is Entegris' largest customer, representing ~18–22% of total revenue (~$500M–$650M annually). Entegris supplies ultra-high-purity specialty materials, contamination-control systems, and advanced materials-handling equipment to TSMC's advanced-node fabs (5nm, 3nm, 2nm) across Taiwan and Arizona. TSMC's 2024 capex guidance of $28B–$32B (up from $27B in 2023) directly drives Entegris' semiconductor segment growth; Entegris disclosed in Q3 2024 earnings that TSMC orders increased 22% YoY. Supply agreements include 18-month volume commitments with quarterly price-adjustment clauses tied to fab utilization rates.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Customer",
+        "relationshipNote": "Samsung Electronics is Entegris' second-largest customer, representing ~12–16% of total revenue (~$340M–$470M annually). Entegris supplies specialty materials, contamination-control systems, and materials-handling equipment to Samsung's advanced-node fabs in South Korea and US. Samsung's 2024 capex guidance of $40B–$45B (up from $38B in 2023) drives Entegris' semiconductor segment growth; Entegris disclosed in Q3 2024 earnings that Samsung orders increased 18% YoY. Supply agreements include 18-month volume commitments with quarterly price-adjustment clauses; Samsung represents ~14% of Entegris' Greater China region exposure via indirect sales through regional distributors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel_corporation",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Customer",
+        "relationshipNote": "Intel is Entegris' third-largest customer, representing ~8–12% of total revenue (~$230M–$350M annually). Entegris supplies specialty materials, contamination-control systems, and materials-handling equipment to Intel's advanced-node fabs in Arizona, Ohio, and Germany. Intel's 2024 capex guidance of $25B–$27B (up from $24B in 2023) drives Entegris' semiconductor segment growth; Entegris disclosed in Q3 2024 earnings that Intel orders increased 15% YoY. Supply agreements include 18-month volume commitments; Intel's US fab expansion (CHIPS Act funding) creates long-term growth opportunity for Entegris' North American supply-chain localization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "SK Hynix Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "sk_hynix",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Customer",
+        "relationshipNote": "SK Hynix is a significant Entegris customer, representing ~6–8% of total revenue (~$170M–$235M annually). Entegris supplies specialty materials and contamination-control systems to SK Hynix's advanced-node fabs in South Korea and China. SK Hynix's 2024 capex guidance of $12B–$14B (up from $11B in 2023) drives Entegris' semiconductor segment growth; Entegris disclosed in Q3 2024 earnings that SK Hynix orders increased 12% YoY. Supply agreements include 18-month volume commitments; SK Hynix represents ~8% of Entegris' Greater China region exposure via indirect sales.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Pall Corporation (Danaher subsidiary)",
+        "ticker": "DHR",
+        "cik": "0000313616",
+        "slug": "pall_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Direct Competitor",
+        "relationshipNote": "Pall Corporation (Danaher subsidiary since 2015) is Entegris' primary competitor in contamination-control filtration and purification systems for semiconductor manufacturing. Pall's 2024 revenue from semiconductor filtration estimated at $800M–$1.0B (vs. Entegris MCC segment ~$950M); Pall's gross margin in filtration estimated at 52–54% (vs. Entegris MCC 55%+). Danaher's 2024 earnings disclosed 8% growth in environmental & applied solutions segment (includes Pall); Entegris maintains competitive advantage in ultra-high-purity specialty materials and advanced filtration media. Pall's integration into Danaher's operating system provides scale advantage; Entegris' 2023 Trellus acquisition and 2024 Aspen Aerogels integration are strategic responses to Danaher's scale.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Donaldson Company Inc.",
+        "ticker": "DCI",
+        "cik": "0000029905",
+        "slug": "donaldson_company",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Direct Competitor",
+        "relationshipNote": "Donaldson Company is a significant competitor in contamination-control filtration and purification systems for semiconductor manufacturing. Donaldson's 2024 revenue from semiconductor filtration estimated at $400M–$550M (vs. Entegris MCC segment ~$950M); Donaldson's gross margin in filtration estimated at 48–50% (vs. Entegris MCC 55%+). Donaldson's 2024 earnings disclosed 6% growth in industrial filtration segment driven by semiconductor applications; Donaldson maintains competitive advantage in cost-effective filtration solutions for mid-range applications. Entegris maintains competitive advantage in ultra-high-purity specialty materials and advanced filtration media for advanced-node manufacturing (5nm and below).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Cabot Corporation",
+        "ticker": "CBT",
+        "cik": "0000011581",
+        "slug": "cabot_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Specialty Materials Competitor",
+        "relationshipNote": "Cabot Corporation is a competitor in specialty materials and advanced polymers for semiconductor manufacturing. Cabot's 2024 revenue from advanced-materials segment estimated at $1.2B–$1.4B (vs. Entegris SMEP segment ~$850M); Cabot's gross margin in advanced materials estimated at 44–46% (vs. Entegris SMEP 42–44%). Cabot's 2024 earnings disclosed 8% growth in advanced-materials segment driven by semiconductor applications; Cabot maintains competitive advantage in specialty carbon materials and fumed silica. Entegris maintains competitive advantage in specialty polymers (fluoropolymers, PTFE) and integrated contamination-control systems. Cabot is also a key supplier to Entegris (see suppliers section), creating complex competitive-supplier relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Specialty Chemicals Competitor",
+        "relationshipNote": "Albemarle Corporation is a competitor in specialty chemicals and advanced materials for semiconductor manufacturing. Albemarle's 2024 revenue from specialty-chemicals segment estimated at $2.0B–$2.3B (vs. Entegris total revenue ~$2.85B); Albemarle's gross margin in specialty chemicals estimated at 46–48% (vs. Entegris overall 48–50%). Albemarle's 2024 earnings disclosed 12% growth in specialty-chemicals revenue driven by semiconductor and EUV lithography applications; Albemarle maintains competitive advantage in rare-earth elements and lithium compounds. Entegris maintains competitive advantage in integrated contamination-control systems and specialty polymers. Albemarle is also a key supplier to Entegris (see suppliers section), creating complex competitive-supplier relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Celanese Corporation",
+        "ticker": "CE",
+        "cik": "0000019617",
+        "slug": "celanese_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Engineered Polymers Competitor",
+        "relationshipNote": "Celanese Corporation is a competitor in engineered polymers and specialty materials for semiconductor manufacturing. Celanese's 2024 revenue from engineered-materials segment estimated at $1.8B–$2.1B (vs. Entegris SMEP segment ~$850M); Celanese's gross margin in engineered materials estimated at 44–46% (vs. Entegris SMEP 42–44%). Celanese's 2024 earnings disclosed 10% growth in engineered-materials revenue driven by semiconductor and EV applications; Celanese maintains competitive advantage in polyacetal, polyester, and nylon polymers. Entegris maintains competitive advantage in specialty polymers (fluoropolymers, PTFE) and integrated contamination-control systems. Celanese is also a key supplier to Entegris (see suppliers section), creating complex competitive-supplier relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Arkema S.A.",
+        "ticker": "ARKAY",
+        "cik": null,
+        "slug": "arkema_sa",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Fluoropolymers Competitor",
+        "relationshipNote": "Arkema S.A. is a competitor in fluoropolymers and specialty chemicals for semiconductor manufacturing. Arkema's 2024 revenue from advanced-materials segment estimated at $1.5B–$1.8B (vs. Entegris SMEP segment ~$850M); Arkema's gross margin in advanced materials estimated at 46–48% (vs. Entegris SMEP 42–44%). Arkema's 2024 earnings disclosed 12% growth in advanced-materials revenue driven by semiconductor and EUV lithography applications; Arkema maintains competitive advantage in PVDF, PTFE, and FEP fluoropolymers. Entegris maintains competitive advantage in integrated contamination-control systems and specialty-polymer formulations. Arkema is also a key supplier to Entegris (see suppliers section), creating complex competitive-supplier relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC oversees Entegris' public company disclosures, filings (10-K, 10-Q, 8-K), and corporate governance. Entegris filed 2024 10-K on February 29, 2024 (fiscal year ended December 31, 2023); Q3 2024 10-Q filed on November 7, 2024. SEC Form 8-K filings in 2024 include: Q1 earnings (April 25), Q2 earnings (July 25), Q3 earnings (October 24), and 2023 Trellus acquisition completion (January 2024). Entegris' audit committee oversees SEC compliance; external auditor is PwC (Big Four).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce — Bureau of Industry and Security (BIS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic",
+        "relationshipNote": "BIS administers export controls on advanced materials and semiconductor equipment under the Advanced Computing Controls (October 2023) and subsequent updates. Entegris disclosed in 2024 10-K that BIS export controls restrict sales of certain specialty materials to China; compliance costs increased 5–8% YoY. Entegris maintains export-control compliance program and monitors BIS announcements for regulatory changes. 2024 guidance includes conservative assumptions on China revenue due to geopolitical uncertainty; Entegris disclosed that ~35% of revenue is from Greater China region, creating regulatory tail risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "EPA regulates Entegris' manufacturing operations under Clean Air Act, Clean Water Act, and RCRA (Resource Conservation and Recovery Act). Entegris disclosed in 2024 10-K that EPA PFAS Strategic Roadmap creates regulatory risk for specialty polymers (fluoropolymers, PTFE) containing PFOA/PFAS; phase-out timelines create R&D investment requirements and potential margin pressure. Entegris maintains environmental compliance program and monitors EPA announcements for regulatory changes. 2024 guidance includes conservative assumptions on specialty-polymer margins due to potential PFAS phase-out costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce — National Institute of Standards and Technology (NIST)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nist",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic",
+        "relationshipNote": "NIST administers CHIPS Act funding and supply-chain resilience grants for semiconductor manufacturing. Entegris disclosed in 2024 10-K that it is eligible for CHIPS Act supply-chain resilience grants; company is pursuing funding for US-based manufacturing expansion. NIST announced $50B in CHIPS Act funding in 2024; Entegris' potential grant awards could support capex for US fab localization and supply-chain diversification. 2024 guidance includes upside potential from CHIPS Act funding; Entegris disclosed that US fab localization is a strategic priority.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic",
+        "relationshipNote": "FTC oversees Entegris' 2023 Trellus acquisition ($1.2B) and 2024 Aspen Aerogels integration for antitrust compliance. Entegris disclosed in 2024 10-K that FTC review of Trellus acquisition was completed without material conditions; Aspen Aerogels integration is ongoing. FTC scrutiny of specialty-materials consolidation is increasing; Entegris maintains antitrust compliance program. 2024 guidance assumes successful Aspen Aerogels integration without material divestitures; any FTC-mandated divestitures could impact synergy realization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "PricewaterhouseCoopers LLP (PwC)",
+      "ticker": null,
+      "cik": null,
+      "slug": "pwc",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "PwC is Entegris' external auditor and provides audit, tax, and advisory services. PwC issued unqualified audit opinion on Entegris' 2023 consolidated financial statements (filed February 29, 2024 in 10-K). PwC audit fees for fiscal year 2023 were; audit committee oversees PwC independence and performance. PwC provides tax and advisory services related to CHIPS Act compliance, export-control regulations, and acquisition integration (Trellus, Aspen Aerogels). Audit committee meets quarterly to review financial results, internal controls, and risk management.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan Chase is a primary lender and financial advisor to Entegris. Entegris disclosed in 2024 10-K that JPMorgan Chase is a lead arranger on the company's $1.5B revolving credit facility (maturity 2028); facility carries floating-rate pricing tied to SOFR + 125 bps. JPMorgan Chase also served as financial advisor on 2023 Trellus acquisition ($1.2B) and 2024 Aspen Aerogels integration. Entegris' debt-to-EBITDA ratio is 2.1x as of Q3 2024 (target 1.8–2.0x); JPMorgan Chase provides quarterly covenant monitoring and financial advisory services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America Merrill Lynch is a lender and financial advisor to Entegris. Entegris disclosed in 2024 10-K that Bank of America is a co-arranger on the company's $1.5B revolving credit facility (maturity 2028). Bank of America also served as financial advisor on 2023 Trellus acquisition ($1.2B) and 2024 Aspen Aerogels integration. Bank of America provides equity research coverage of Entegris (analyst ); equity research team provides market intelligence and valuation guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "The Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Vanguard is a major institutional equity holder in Entegris, representing ~8–10% of outstanding shares as of Q3 2024. Vanguard's passive index funds (S&P 500, Russell 1000) hold Entegris shares; Vanguard's active equity funds also hold Entegris as a core semiconductor supply-chain position. Vanguard's voting power on Entegris board matters is significant; Vanguard typically votes in favor of management proposals and ESG-related shareholder resolutions. Entegris disclosed in 2024 DEF14A that Vanguard is a top-5 shareholder; Vanguard's engagement with Entegris management focuses on long-term value creation and ESG governance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "BlackRock is a major institutional equity holder in Entegris, representing ~7–9% of outstanding shares as of Q3 2024. BlackRock's passive index funds (S&P 500, Russell 1000) hold Entegris shares; BlackRock's active equity funds also hold Entegris as a core semiconductor supply-chain position. BlackRock's voting power on Entegris board matters is significant; BlackRock typically votes in favor of management proposals and ESG-related shareholder resolutions. Entegris disclosed in 2024 DEF14A that BlackRock is a top-5 shareholder; BlackRock's engagement with Entegris management focuses on long-term value creation and ESG governance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Bertrand Loy",
+        "ticker": null,
+        "cik": null,
+        "slug": "bertrand_loy",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Bertrand Loy is President and Chief Executive Officer of Entegris (appointed CEO in 2018). Loy joined Entegris in 2016 as Chief Operating Officer; prior experience includes leadership roles at Danaher Corporation (2006–2016) in industrial and environmental segments. Loy's strategic priorities include: (1) semiconductor supply-chain localization (CHIPS Act), (2) acquisition integration (Trellus 2023, Aspen Aerogels 2024), (3) margin expansion (target 32–34% adjusted EBITDA by 2025). Loy's compensation in 2023 was $4.2M (base salary $1.1M, bonus $1.8M, equity $1.3M); 2024 compensation package includes performance-based equity tied to free cash flow and ROIC targets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Gregory B. Graves",
+        "ticker": null,
+        "cik": null,
+        "slug": "gregory_graves",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Gregory B. Graves is Senior Vice President and Chief Financial Officer of Entegris (appointed CFO in 2020). Graves joined Entegris in 2018 as Vice President, Finance; prior experience includes finance leadership roles at Danaher Corporation (2008–2018) and Eaton Corporation (2000–2008). Graves' financial priorities include: (1) debt reduction (target debt-to-EBITDA 1.8–2.0x by end of 2025), (2) free cash flow optimization (target 85%+ conversion of net income), (3) capital allocation (dividend increase 15% in 2024, $500M buyback authorization). Graves' compensation in 2023 was $1.8M (base salary $600K, bonus $700K, equity $500K); 2024 compensation package includes performance-based equity tied to free cash flow and ROIC targets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Kimberly A. Dang",
+        "ticker": null,
+        "cik": null,
+        "slug": "kimberly_dang",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Kimberly A. Dang is Senior Vice President, General Counsel, and Secretary of Entegris (appointed GC in 2021). Dang joined Entegris in 2019 as Vice President, Legal; prior experience includes legal leadership roles at Danaher Corporation (2010–2019) and Eaton Corporation (2005–2010). Dang's legal priorities include: (1) export-control compliance (BIS Advanced Computing Controls), (2) acquisition integration (Trellus, Aspen Aerogels), (3) ESG governance and shareholder engagement. Dang's compensation in 2023 was; 2024 compensation package includes performance-based equity tied to free cash flow and ROIC targets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Debra L. Fiakas",
+        "ticker": null,
+        "cik": null,
+        "slug": "debra_fiakas",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Debra L. Fiakas is Chairperson of the Board of Entegris (appointed Chair in 2019). Fiakas joined Entegris board in 2015; prior experience includes board roles at Danaher Corporation, Eaton Corporation, and other industrial companies. Fiakas' board priorities include: (1) strategic oversight of acquisition integration (Trellus, Aspen Aerogels), (2) ESG governance and shareholder engagement, (3) executive compensation and succession planning. Fiakas' board compensation in 2023 was; Fiakas holds shares of Entegris stock.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "SEMI Semiconductor Equipment Billings Index (SEBI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "semi_sebi",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "SEMI SEBI is a leading indicator of semiconductor equipment capex cycles, published monthly by SEMI (Semiconductor Equipment and Materials International). Entegris' semiconductor segment revenue correlates with SEBI with 1–2 quarter lag; SEBI increased 22% YoY in September 2024, signaling strong fab capex momentum. Entegris disclosed in Q3 2024 earnings that SEBI strength drove 18% YoY order growth in semiconductor segment. SEBI is monitored quarterly by Entegris management and disclosed in earnings calls as a key demand indicator.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "TSMC Quarterly Capex Guidance",
+        "ticker": "TSM",
+        "cik": null,
+        "slug": "tsmc_capex",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "TSMC quarterly capex guidance is a direct leading indicator of Entegris' semiconductor segment revenue (TSMC represents ~18–22% of Entegris total revenue). TSMC's 2024 capex guidance of $28B–$32B (up from $27B in 2023) directly drives Entegris' 2024 guidance raise. Entegris disclosed in Q3 2024 earnings that TSMC capex strength drove 22% YoY order growth. TSMC capex guidance is monitored quarterly by Entegris management and disclosed in earnings calls as a key demand indicator.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Semiconductor Fab Utilization Rates (TSMC, Samsung, Intel)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fab_utilization",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Fab utilization rates at major customers (TSMC, Samsung, Intel) are leading indicators of Entegris' materials and contamination-control demand. TSMC fab utilization increased to 85%+ in Q3 2024 (from 75% in Q2 2024), signaling strong demand for advanced-node manufacturing. Entegris disclosed in Q3 2024 earnings that customer inventory levels normalized and orders accelerated. Fab utilization rates are monitored quarterly by Entegris management and disclosed in earnings calls as a key demand indicator.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "neuralRegion": "AI",
+        "neuralRegionLabel": "Anterior Insula",
+        "businessSignature": "board_self_awareness_deficit",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_auditor_independence"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.405,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of board-interoception deficit via AI-equivalent self-monitoring-failure metric applied to internal-vs-external assessment divergence",
+            "noveltyAnchor": "Interoception framework for corporate governance diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research",
+              "SSRC Corporate Governance"
+            ],
+            "angle": "Quantitative board-interoception assessment tools"
+          },
+          "investment": {
+            "thesis": "Short companies with interoception-deficit signal; long post-board-restoration",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+            "methodology": "longitudinal intervention study"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p1",
+          "p3"
+        ],
+        "knownTreatments": [
+          "interoceptive exposure training",
+          "body-scan meditation",
+          "biofeedback",
+          "vagal nerve stimulation"
+        ]
+      },
+      {
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "neuralRegion": "HAB",
+        "neuralRegionLabel": "Habenula",
+        "businessSignature": "contrarian_board_lock",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p5_stuck"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.325,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern",
+            "noveltyAnchor": "Anti-reward framework for board-decision diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research"
+            ],
+            "angle": "Anti-reward decision dynamics in board composition"
+          },
+          "investment": {
+            "thesis": "Activist-investor catalysts during contrarian-board lock",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+            "methodology": "event-study of board refresh and subsequent capital-action"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p5",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "ketamine (habenula modulation)",
+          "DBS to habenula in treatment-resistant depression",
+          "lateralized reward training"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:00.847Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Method and system for detecting board self awareness deficit via Anterior Insula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting board self awareness deficit signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Anterior Insula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold. The method provides earlier and more specific detection of board self awareness deficit than conventional financial-distress models.",
+          "background": "Detection of board self awareness deficit in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting board self awareness deficit until well after the signature has been priced. Board self awareness deficit represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Anterior Insula (interoceptive exposure training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting board self awareness deficit signature comprises: receiving filing data and counterparty network data, determining a Anterior Insula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Interoception framework for corporate governance diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting board self awareness deficit signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Anterior Insula-equivalent decoupling score, wherein the determining the Anterior Insula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Anterior Insula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Anterior Insula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"interoceptive exposure training\", \"body-scan meditation\", and \"biofeedback\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Interoception framework for corporate governance diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.073Z"
+        }
+      },
+      {
+        "lane": "patent",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Method and system for detecting contrarian board lock via Habenula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting contrarian board lock signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Habenula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold. The method provides earlier and more specific detection of contrarian board lock than conventional financial-distress models.",
+          "background": "Detection of contrarian board lock in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting contrarian board lock until well after the signature has been priced. Contrarian board lock represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Habenula (ketamine) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting contrarian board lock signature comprises: receiving filing data and counterparty network data, determining a Habenula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Anti-reward framework for board-decision diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting contrarian board lock signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Habenula-equivalent decoupling score, wherein the determining the Habenula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Habenula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Habenula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"ketamine\", \"DBS to habenula in treatment-resistant depression\", and \"lateralized reward training\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Anti-reward framework for board-decision diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.073Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "programs": [
+          "NACD research",
+          "SSRC Corporate Governance"
+        ],
+        "artifact": {
+          "title": "Translational Anterior Insula-equivalent detection and intervention protocols for board self awareness deficit",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit board self awareness deficit signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with board self awareness deficit-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Anterior Insula-equivalent isomorphic pathology significantly modulates board self awareness deficit detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Entegris Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified board self awareness deficit signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects board self awareness deficit signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Anterior Insula-equivalent board self awareness deficit detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Anterior Insula isomorphic pathology will increase board self awareness deficit detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Anterior Insula-equivalent board self awareness deficit detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for board self awareness deficit against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Quantitative board-interoception assessment tools",
+          "innovation": "The proposed work is innovative because it integrates Anterior Insula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.073Z"
+        }
+      },
+      {
+        "lane": "grant",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "programs": [
+          "NACD research"
+        ],
+        "artifact": {
+          "title": "Translational Habenula-equivalent detection and intervention protocols for contrarian board lock",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit contrarian board lock signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with contrarian board lock-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Habenula-equivalent isomorphic pathology significantly modulates contrarian board lock detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Entegris Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified contrarian board lock signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects contrarian board lock signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Habenula-equivalent contrarian board lock detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Habenula isomorphic pathology will increase contrarian board lock detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Habenula-equivalent contrarian board lock detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for contrarian board lock against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Anti-reward decision dynamics in board composition",
+          "innovation": "The proposed work is innovative because it integrates Habenula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.073Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "side": "SHORT",
+        "horizon": "18-36mo",
+        "artifact": {
+          "header": "Entegris Inc. (ENTG) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: AI_interoception_x_board_self_awareness_deficit (confidence 0.405)",
+          "variantView": "ENTG screens as special industry machinery, not elsewhere classified-typical. Underneath, the operative driver is Anterior Insula-equivalent isomorphic pathology — (board self awareness deficit) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Special Industry Machinery, Not Elsewhere Classified entities exhibiting board self awareness deficit: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Entegris Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the board self awareness deficit pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Special Industry Machinery, Not Elsewhere Classified peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.405).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.405, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Special Industry Machinery, Not Elsewhere Classified; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_auditor_independence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Anterior Insula ↔ board self awareness deficit mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Short companies with interoception-deficit signal; long post-board-restoration",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.073Z"
+        }
+      },
+      {
+        "lane": "investment",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "side": "LONG",
+        "horizon": "12-24mo",
+        "artifact": {
+          "header": "Entegris Inc. (ENTG) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
+          "variantView": "ENTG screens as special industry machinery, not elsewhere classified-typical. Underneath, the operative driver is Habenula-equivalent isomorphic pathology — (contrarian board lock) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Special Industry Machinery, Not Elsewhere Classified entities exhibiting contrarian board lock: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Entegris Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the contrarian board lock pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Special Industry Machinery, Not Elsewhere Classified peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.325).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Special Industry Machinery, Not Elsewhere Classified; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.073Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Empirical test of Anterior Insula-equivalent board self awareness deficit mapping on Entegris Inc.",
+          "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+          "methodology": "longitudinal intervention study",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Anterior Insula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "AI_interoception_x_board_self_awareness_deficit"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.073Z"
+        }
+      },
+      {
+        "lane": "research",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Empirical test of Habenula-equivalent contrarian board lock mapping on Entegris Inc.",
+          "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+          "methodology": "event-study of board refresh and subsequent capital-action",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.073Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.073Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 2,
+    "artifactsByLane": {
+      "patent": 2,
+      "grant": 2,
+      "sba": 0,
+      "investment": 2,
+      "research": 2,
+      "franchise": 0
+    },
+    "totalArtifacts": 8
+  }
+}

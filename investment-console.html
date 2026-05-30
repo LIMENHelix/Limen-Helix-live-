@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; INVESTMENT CONSOLE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace;height:100%;overflow-x:hidden}
+
+.ic-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;border-bottom:1px solid rgba(201,169,78,0.1);
+  background:rgba(5,8,16,0.95);position:sticky;top:0;z-index:100;
+}
+.ic-title{font-size:0.5rem;letter-spacing:2px;color:rgba(201,169,78,0.5);text-transform:uppercase}
+.ic-title a{color:rgba(201,169,78,0.4);text-decoration:none;transition:color 0.2s}
+.ic-title a:hover{color:rgba(201,169,78,0.9)}
+.ic-title .active{color:#C9A94E}
+.ic-opp-name{font-size:0.65rem;color:#e8e3d9;letter-spacing:1px;margin-left:16px}
+.ic-quality{font-size:0.38rem;letter-spacing:1.5px;padding:2px 8px;border-radius:2px;margin-left:12px}
+.ic-nav a{font-size:0.38rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);text-decoration:none;
+  padding:3px 10px;border:1px solid rgba(201,169,78,0.1);border-radius:2px;transition:all 0.2s}
+.ic-nav a:hover{color:rgba(201,169,78,0.8);border-color:rgba(201,169,78,0.3)}
+
+.ic-grid{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:12px;padding:16px 20px;min-height:calc(100vh - 50px)}
+@media(max-width:900px){.ic-grid{grid-template-columns:1fr;}}
+
+.ic-col{overflow-y:auto;padding-bottom:40px}
+.ic-section{background:#0e1018;border:1px solid rgba(201,169,78,0.08);border-radius:4px;padding:14px 16px;margin-bottom:12px}
+.ic-section-title{font-size:0.45rem;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,169,78,0.4);margin-bottom:8px;
+  padding-bottom:4px;border-bottom:1px solid rgba(201,169,78,0.06)}
+.ic-row{display:flex;justify-content:space-between;align-items:baseline;padding:3px 0;font-size:0.5rem}
+.ic-row-label{color:#888}.ic-row-value{color:#bbb}
+.ic-row-value.high{color:#e85454}.ic-row-value.med{color:#C9A94E}.ic-row-value.low{color:#5ab5a0}
+.ic-text{font-size:0.5rem;color:rgba(200,195,184,0.6);line-height:1.6;margin-bottom:6px}
+.ic-highlight{font-size:0.5rem;color:#5ab5a0;padding:6px 10px;background:rgba(90,181,160,0.06);
+  border-left:2px solid rgba(90,181,160,0.3);border-radius:0 2px 2px 0;margin-bottom:8px}
+
+/* Verdict */
+.ic-verdict{text-align:center;padding:20px;margin-bottom:12px;border-radius:4px}
+.ic-verdict-label{font-size:1rem;letter-spacing:4px;font-weight:bold;margin-bottom:6px}
+.ic-verdict-reason{font-size:0.48rem;color:rgba(200,195,184,0.5);line-height:1.6}
+.verdict-invest-now{background:rgba(90,181,160,0.08);border:1px solid rgba(90,181,160,0.2)}
+.verdict-invest-now .ic-verdict-label{color:#5ab5a0}
+.verdict-build-position{background:rgba(74,143,212,0.08);border:1px solid rgba(74,143,212,0.2)}
+.verdict-build-position .ic-verdict-label{color:#4a8fd4}
+.verdict-watch-closely{background:rgba(201,169,78,0.08);border:1px solid rgba(201,169,78,0.2)}
+.verdict-watch-closely .ic-verdict-label{color:#C9A94E}
+.verdict-stand-by{background:rgba(150,150,150,0.06);border:1px solid rgba(150,150,150,0.15)}
+.verdict-stand-by .ic-verdict-label{color:#999}
+.verdict-pass{background:rgba(232,84,84,0.06);border:1px solid rgba(232,84,84,0.15)}
+.verdict-pass .ic-verdict-label{color:#e85454}
+
+/* Assets */
+.ic-asset{display:flex;justify-content:space-between;align-items:center;padding:6px 0;
+  border-bottom:1px solid rgba(201,169,78,0.04);font-size:0.5rem}
+.ic-asset:last-child{border-bottom:none}
+.ic-asset-name{color:#e8e3d9}.ic-asset-type{color:#888;font-size:0.4rem;letter-spacing:1px}
+.ic-asset-action{font-size:0.4rem;letter-spacing:1px;padding:2px 6px;border-radius:2px;cursor:default}
+.ic-asset-buy{background:rgba(90,181,160,0.1);color:#5ab5a0}
+.ic-asset-watch{background:rgba(201,169,78,0.1);color:#C9A94E}
+.ic-asset-hedge{background:rgba(232,84,84,0.1);color:#e85454}
+
+/* Buttons */
+.ic-btn-row{display:flex;gap:8px;margin-top:12px}
+.ic-btn{flex:1;font-family:inherit;font-size:0.42rem;letter-spacing:1.5px;text-transform:uppercase;
+  padding:8px 12px;border-radius:2px;cursor:pointer;transition:all 0.2s;text-align:center}
+.ic-btn-primary{background:rgba(90,181,160,0.12);border:1px solid rgba(90,181,160,0.3);color:#5ab5a0}
+.ic-btn-primary:hover{background:rgba(90,181,160,0.2)}
+.ic-btn-secondary{background:rgba(201,169,78,0.08);border:1px solid rgba(201,169,78,0.2);color:#C9A94E}
+.ic-btn-secondary:hover{background:rgba(201,169,78,0.15)}
+.ic-btn-muted{background:rgba(150,150,150,0.06);border:1px solid rgba(150,150,150,0.15);color:#888}
+.ic-btn-muted:hover{background:rgba(150,150,150,0.1)}
+
+/* Node cards */
+.ic-node{padding:8px 10px;border-left:2px solid rgba(201,169,78,0.1);margin-bottom:6px;font-size:0.48rem}
+.ic-node-name{color:#C9A94E;margin-bottom:2px}.ic-node-brain{color:#666;font-size:0.4rem}
+.ic-node-desc{color:rgba(200,195,184,0.5);font-size:0.42rem;margin-top:2px}
+.ic-company{display:inline-block;font-size:0.4rem;padding:2px 6px;margin:2px;
+  background:rgba(201,169,78,0.06);border:1px solid rgba(201,169,78,0.08);border-radius:2px;color:#bbb}
+
+/* Disclaimer */
+.ic-disclaimer{text-align:center;padding:12px 20px;font-size:0.36rem;color:rgba(200,195,184,0.2);
+  letter-spacing:1px;border-top:1px solid rgba(201,169,78,0.04)}
+
+/* Paper trade log */
+.ic-log{max-height:200px;overflow-y:auto;font-size:0.42rem;color:#888}
+.ic-log-entry{padding:3px 0;border-bottom:1px solid rgba(201,169,78,0.03)}
+
+/* Exposure badges */
+.ic-exposure{font-size:0.38rem;padding:3px 6px;border-radius:2px;margin-top:2px}
+.ic-exposure-open{background:rgba(201,169,78,0.08);border:1px solid rgba(201,169,78,0.15);color:#C9A94E}
+.ic-exposure-pending{background:rgba(74,143,212,0.08);border:1px solid rgba(74,143,212,0.15);color:#4a8fd4}
+.ic-exposure-traded{background:rgba(150,150,150,0.04);border:1px solid rgba(150,150,150,0.1);color:#888}
+
+@media print{
+  .ic-header,.ic-btn-row,.ic-disclaimer{display:none!important}
+  body{background:#fff;color:#111}
+  .ic-section{border:1px solid #ddd}
+  .ic-section-title{color:#333}
+}
+</style>
+</head>
+<body>
+<script src="assets/js/auth-gate.js"></script>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<div class="ic-header">
+  <div style="display:flex;align-items:center">
+    <div class="ic-title">
+      <a href="/">LIMEN HELIX</a> &middot; <a id="icNavConsole" href="civilization.html">CONSOLE</a> &middot; <a id="icNavOpps" href="opportunities.html">OPPORTUNITIES</a> &middot; <span class="active">INVESTMENT</span>
+    </div>
+    <div class="ic-opp-name" id="icOppName"></div>
+    <div class="ic-quality" id="icQuality"></div>
+  </div>
+  <div class="ic-nav">
+    <a id="icNavBack" href="opportunities.html">&larr; OPPORTUNITIES</a>
+  </div>
+  <script>(function(){var p=new URLSearchParams(window.location.search);var src=p.get('source');var ret=p.get('returnTo');if(ret){document.getElementById('icNavBack').href=ret;document.getElementById('icNavOpps').href=ret;}if(src){document.getElementById('icNavConsole').href='/domain-console?domain='+src;document.getElementById('icNavConsole').textContent=src.toUpperCase()+' CONSOLE';document.getElementById('icNavOpps').textContent=src.toUpperCase()+' OPPORTUNITIES';}})()</script>
+</div>
+
+<div class="ic-grid">
+  <div class="ic-col" id="icLeft"></div>
+  <div class="ic-col" id="icCenter"></div>
+  <div class="ic-col" id="icRight"></div>
+</div>
+
+<div class="ic-disclaimer">
+  PAPER TRADE PREPARATION ONLY &middot; NOT FINANCIAL ADVICE &middot; LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC
+</div>
+
+<script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/feed-store.js"></script>
+<script src="assets/js/feed-state.js"></script>
+<script src="assets/js/domain-signal-engine.js"></script>
+<script src="assets/js/cross-domain-detector.js"></script>
+<script src="assets/js/limen-bootstrap.js"></script>
+<script src="assets/js/portfolio-context.js"></script>
+<script src="assets/js/connectome-resolver.js"></script>
+<script src="assets/js/connectome-kernel-adapter.js"></script>
+<script src="assets/js/kernel-output-interpreter.js"></script>
+<script src="assets/js/node-translation.js"></script>
+
+<script>
+(function(){
+'use strict';
+
+// ═══ ASSET MAPPINGS (first-pass, per opportunity) ═══
+var ASSET_MAP = {
+  infra_demand: [
+    {name:'XLE',type:'ETF',sector:'Energy',action:'buy'},
+    {name:'IYT',type:'ETF',sector:'Transportation',action:'buy'},
+    {name:'NextEra Energy (NEE)',type:'Stock',sector:'Grid',action:'buy'},
+    {name:'Enterprise Products (EPD)',type:'Stock',sector:'Pipeline',action:'watch'},
+    {name:'Fluence Energy (FLNC)',type:'Stock',sector:'Storage',action:'watch'}
+  ],
+  fin_law: [
+    {name:'PANW',type:'Stock',sector:'Cybersecurity/Compliance',action:'buy'},
+    {name:'HACK',type:'ETF',sector:'Cybersecurity',action:'buy'},
+    {name:'Drata',type:'Private',sector:'Compliance SaaS',action:'watch'},
+    {name:'LogicGate',type:'Private',sector:'GRC Platform',action:'watch'}
+  ],
+  health_research: [
+    {name:'XBI',type:'ETF',sector:'Biotech',action:'buy'},
+    {name:'IBB',type:'ETF',sector:'Biotech',action:'buy'},
+    {name:'Veeva Systems (VEEV)',type:'Stock',sector:'Clinical Platform',action:'watch'},
+    {name:'Flatiron Health',type:'Private',sector:'Oncology Data',action:'watch'}
+  ],
+  tech_research: [
+    {name:'ARKK',type:'ETF',sector:'Innovation',action:'buy'},
+    {name:'QTEC',type:'ETF',sector:'Tech',action:'buy'},
+    {name:'NVIDIA (NVDA)',type:'Stock',sector:'AI Infrastructure',action:'buy'},
+    {name:'IonQ (IONQ)',type:'Stock',sector:'Quantum',action:'watch'}
+  ],
+  climate_energy: [
+    {name:'ICLN',type:'ETF',sector:'Clean Energy',action:'buy'},
+    {name:'TAN',type:'ETF',sector:'Solar',action:'buy'},
+    {name:'First Solar (FSLR)',type:'Stock',sector:'Solar',action:'buy'},
+    {name:'Fluence Energy (FLNC)',type:'Stock',sector:'Storage',action:'watch'}
+  ],
+  econ_supply: [
+    {name:'HYG',type:'ETF',sector:'High Yield Bonds',action:'buy'},
+    {name:'JNK',type:'ETF',sector:'Junk Bonds',action:'watch'},
+    {name:'SH',type:'ETF',sector:'Inverse S&P',action:'hedge'},
+    {name:'Flexport',type:'Private',sector:'Freight',action:'watch'}
+  ],
+  gov_econ: [
+    {name:'ITA',type:'ETF',sector:'Defense',action:'watch'},
+    {name:'ICLN',type:'ETF',sector:'Clean Energy',action:'watch'},
+    {name:'PAVE',type:'ETF',sector:'Infrastructure',action:'watch'},
+    {name:'XLF',type:'ETF',sector:'Financial',action:'watch'}
+  ],
+  industry_econ: [
+    {name:'XLI',type:'ETF',sector:'Industrial',action:'watch'},
+    {name:'SH',type:'ETF',sector:'Inverse S&P',action:'hedge'},
+    {name:'Honeywell (HON)',type:'Stock',sector:'Industrial',action:'buy'},
+    {name:'Rockwell (ROK)',type:'Stock',sector:'Automation',action:'watch'}
+  ],
+  defense_intel: [
+    {name:'ITA',type:'ETF',sector:'Defense',action:'buy'},
+    {name:'HACK',type:'ETF',sector:'Cybersecurity',action:'buy'},
+    {name:'Palantir (PLTR)',type:'Stock',sector:'Intelligence',action:'buy'},
+    {name:'CrowdStrike (CRWD)',type:'Stock',sector:'Cybersecurity',action:'watch'}
+  ],
+  agri_pop: [
+    {name:'MOO',type:'ETF',sector:'Agriculture',action:'buy'},
+    {name:'DBA',type:'ETF',sector:'Farm Commodities',action:'buy'},
+    {name:'Deere (DE)',type:'Stock',sector:'AgTech',action:'watch'}
+  ],
+  supply_agri: [
+    {name:'Americold (COLD)',type:'Stock',sector:'Cold Chain',action:'buy'},
+    {name:'MOO',type:'ETF',sector:'Agriculture',action:'watch'}
+  ],
+  intel_gov: [
+    {name:'Palantir (PLTR)',type:'Stock',sector:'Risk Analytics',action:'buy'},
+    {name:'Booz Allen (BAH)',type:'Stock',sector:'Gov IT',action:'buy'},
+    {name:'FiscalNote',type:'Private',sector:'Policy Intel',action:'watch'}
+  ],
+  fin_econ: [
+    {name:'TLT',type:'ETF',sector:'Long Bonds',action:'buy'},
+    {name:'GLD',type:'ETF',sector:'Gold',action:'buy'},
+    {name:'SPY',type:'ETF',sector:'S&P 500',action:'watch'},
+    {name:'SDS',type:'ETF',sector:'2x Inverse S&P',action:'hedge'}
+  ],
+  comm_culture: [
+    {name:'Cloudflare (NET)',type:'Stock',sector:'Digital Infra',action:'watch'},
+    {name:'ActiveFence',type:'Private',sector:'Content Moderation',action:'watch'}
+  ],
+  edu_research: [
+    {name:'Coursera (COUR)',type:'Stock',sector:'EdTech',action:'watch'},
+    {name:'Duolingo (DUOL)',type:'Stock',sector:'AI Tutoring',action:'watch'}
+  ]
+};
+
+// ═══ PLAYBOOK DEFINITIONS (shared with opportunities.html) ═══
+// We read from sessionStorage handoff instead of duplicating
+
+var _oppData = null;
+var _paperLog = [];
+var _marketData = {}; // symbol → { price, change, changePct, trend, momentum, volatility, live }
+var _marketFetched = false;
+var _tradeConfirmPending = null; // pending trade intent for confirmation
+var _paperPositions = {}; // symbol → position object
+var _paperOrders = {};    // symbol → most recent open/filled order
+var _exposureFetched = false;
+var _portfolioAnalysis = null; // result of LIMENPortfolioContext.analyzePortfolio
+var _overlapAnalysis = null;   // result of LIMENPortfolioContext.analyzeOverlap
+var _connectomeAnalysis = null; // result of LIMENPortfolioContext.analyzeConnectomeOverlap
+var _resolverReady = false;
+var _resolvedOppData = null; // connectome-enriched opportunity data
+var _kernelAnnotation = null; // adapter-chain annotation output (DEAD CODE — adapter is disabled; kept for legacy compat; never used for verdicts or trades)
+
+// ═══ MARKET DATA SERVICE ═══
+function fetchMarketData(symbols, callback) {
+  if (!symbols || symbols.length === 0) { callback({}); return; }
+  // Extract clean ticker symbols from asset names
+  var tickers = [];
+  for (var i = 0; i < symbols.length; i++) {
+    var name = symbols[i].name || '';
+    // Extract ticker from "NextEra Energy (NEE)" format
+    var match = name.match(/\(([A-Z]+)\)/);
+    if (match) tickers.push(match[1]);
+    else if (name.length <= 5 && /^[A-Z]+$/.test(name)) tickers.push(name);
+  }
+  if (tickers.length === 0) { callback({}); return; }
+
+  fetch('/api/asset-quote?symbols=' + encodeURIComponent(tickers.join(',')))
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (data && data.quotes) {
+        _marketData = data.quotes;
+        _marketFetched = true;
+      }
+      callback(_marketData);
+    })
+    .catch(function() { callback({}); });
+}
+
+function getMarketAlignmentScore() {
+  if (!_marketFetched || Object.keys(_marketData).length === 0) return { score: 0, label: 'UNAVAILABLE', detail: '' };
+  var upCount = 0, downCount = 0, total = 0;
+  var avgChangePct = 0;
+  for (var sym in _marketData) {
+    var q = _marketData[sym];
+    if (!q.live) continue;
+    total++;
+    avgChangePct += q.changePct || 0;
+    if (q.trend === 'UP') upCount++;
+    else if (q.trend === 'DOWN') downCount++;
+  }
+  if (total === 0) return { score: 0, label: 'NO LIVE DATA', detail: '' };
+  avgChangePct = avgChangePct / total;
+
+  // Weighted score: direction consensus + magnitude
+  var dirScore = 0;
+  if (upCount > downCount && upCount >= total * 0.6) dirScore = 5;
+  else if (downCount > upCount && downCount >= total * 0.6) dirScore = -5;
+
+  // Magnitude: avg % change capped at +/-5 pts
+  var magScore = Math.max(-5, Math.min(5, avgChangePct * 2));
+
+  var finalScore = Math.round(dirScore + magScore);
+  finalScore = Math.max(-10, Math.min(10, finalScore));
+
+  var label;
+  if (finalScore >= 5) label = 'FAVORABLE';
+  else if (finalScore <= -5) label = 'UNFAVORABLE';
+  else label = 'MIXED';
+  label += ' (' + upCount + ' up, ' + downCount + ' down, avg ' + avgChangePct.toFixed(1) + '%)';
+
+  return { score: finalScore, label: label, detail: upCount + '/' + total + ' up, avg ' + avgChangePct.toFixed(2) + '%' };
+}
+
+// ═══ PAPER EXPOSURE SERVICE ═══
+function fetchPaperExposure(callback) {
+  var done = 0;
+  var gotLive = false;
+  function check() {
+    if (++done >= 2) {
+      // Fallback: if both API calls failed/stubbed, reconstruct from local paper log
+      if (!gotLive && _paperLog.length > 0) {
+        for (var i = 0; i < _paperLog.length; i++) {
+          var log = _paperLog[i];
+          if (log.symbol && log.action && log.action.indexOf('PAPER ORDER') !== -1) {
+            if (!_paperOrders[log.symbol]) {
+              _paperOrders[log.symbol] = { symbol: log.symbol, status: 'filled', side: 'buy', filledAt: log.time, filledAvgPrice: '0', filledQty: '1', localOnly: true };
+            }
+          }
+        }
+      }
+      _exposureFetched = true;
+      // Compute portfolio context if utility loaded
+      if (window.LIMENPortfolioContext) {
+        _portfolioAnalysis = window.LIMENPortfolioContext.analyzePortfolio(_paperPositions, _paperOrders);
+        if (_oppData) {
+          var oppDoms = _oppData.pb.domains || [];
+          var oppTickers = (ASSET_MAP[_oppData.pb.id] || []).map(function(a) {
+            return (a.name.match(/\(([A-Z]+)\)/) || [])[1] || (/^[A-Z]{1,5}$/.test(a.name) ? a.name : '');
+          }).filter(function(t) { return t; });
+          _overlapAnalysis = window.LIMENPortfolioContext.analyzeOverlap(_oppData.pb.id, oppDoms, oppTickers, _portfolioAnalysis);
+          _connectomeAnalysis = window.LIMENPortfolioContext.analyzeConnectomeOverlap(oppDoms, _portfolioAnalysis);
+        }
+      }
+      callback();
+    }
+  }
+
+  fetch('/api/paper-positions')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (data && data.positions && !data.stubbed) {
+        gotLive = true;
+        for (var i = 0; i < data.positions.length; i++) {
+          var p = data.positions[i];
+          _paperPositions[p.symbol] = p;
+        }
+      }
+      check();
+    })
+    .catch(function() { check(); });
+
+  fetch('/api/paper-orders?status=all&limit=50')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (data && data.orders && !data.stubbed) {
+        gotLive = true;
+        for (var i = 0; i < data.orders.length; i++) {
+          var o = data.orders[i];
+          if (!_paperOrders[o.symbol]) _paperOrders[o.symbol] = o;
+        }
+      }
+      check();
+    })
+    .catch(function() { check(); });
+}
+
+function getExposureState(ticker) {
+  if (!ticker || !_exposureFetched) return { state: 'UNKNOWN', label: '', color: '#666' };
+  var pos = _paperPositions[ticker];
+  var ord = _paperOrders[ticker];
+
+  if (pos && Number(pos.qty) > 0) {
+    return {
+      state: 'OPEN_POSITION',
+      label: 'OPEN PAPER POSITION: ' + pos.qty + ' shares @ $' + Number(pos.avgEntryPrice).toFixed(2) + ' (P/L: ' + (Number(pos.unrealizedPl) >= 0 ? '+' : '') + Number(pos.unrealizedPl).toFixed(2) + ')',
+      color: '#C9A94E',
+      qty: pos.qty,
+      pl: pos.unrealizedPl
+    };
+  }
+  if (ord && (ord.status === 'new' || ord.status === 'accepted' || ord.status === 'pending_new' || ord.status === 'partially_filled')) {
+    return {
+      state: 'PENDING_ORDER',
+      label: 'PENDING PAPER ORDER: ' + ord.side.toUpperCase() + ' ' + ord.qty + ' shares (' + ord.status + ')',
+      color: '#4a8fd4',
+      orderId: ord.id
+    };
+  }
+  if (ord && ord.status === 'filled') {
+    return {
+      state: 'PREVIOUSLY_TRADED',
+      label: 'PREVIOUSLY TRADED: ' + ord.side.toUpperCase() + ' ' + ord.filledQty + ' @ $' + Number(ord.filledAvgPrice).toFixed(2) + ' (' + new Date(ord.filledAt).toLocaleDateString() + ')',
+      color: '#888'
+    };
+  }
+  return { state: 'NO_EXPOSURE', label: 'NO PAPER EXPOSURE', color: '#555' };
+}
+
+// ═══ KERNEL EXPERIMENT ═══
+function _runKernelExperiment() {
+  if (!_oppData || !_resolverReady || !window.LIMENConnectomeResolver) return;
+  var doms = window.LIMENDomains || {};
+  var feedSnapshot = {};
+  for (var dk in doms) feedSnapshot[dk] = { stress: doms[dk].stress || 0, status: doms[dk].status || 'UNKNOWN' };
+  var lastResolve = window.LIMENConnectomeResolver.getLastResolve();
+  var nodeActivations = lastResolve ? lastResolve.nodeActivations : [];
+  window.LIMENConnectomeResolver.runKernelForOpportunity(
+    feedSnapshot, nodeActivations, _oppData.pb.domains || [],
+    function(annotation) {
+      _kernelAnnotation = annotation;
+      render();
+    }
+  );
+}
+
+// ═══ CONNECTOME GROUNDING RENDERER ═══
+function _renderConnectomeGrounding(opp, doms) {
+  if (!_resolvedOppData || !_resolvedOppData.connectome) return '';
+  var c = _resolvedOppData.connectome;
+  if (c.nodeCount === 0) return '';
+
+  var html = '<div class="ic-section"><div class="ic-section-title">CONNECTOME GROUNDING</div>';
+
+  // Summary line
+  html += '<div style="font-size:0.42rem;margin-bottom:6px">';
+  html += '<span style="color:#C9A94E">' + c.totalActivated + '</span> nodes activated · ';
+  html += '<span style="color:#C9A94E">' + c.crossDomainNodes + '</span> cross-domain';
+  html += '</div>';
+
+  // Activated nodes with roles
+  for (var ni = 0; ni < Math.min(c.nodes.length, 5); ni++) {
+    var n = c.nodes[ni];
+    var nColor = n.crossDomain ? '#C9A94E' : '#999';
+    html += '<div style="padding:3px 0;border-bottom:1px solid rgba(201,169,78,0.04);font-size:0.42rem">';
+    html += '<span style="color:' + nColor + ';font-weight:bold">' + n.id + '</span> ';
+    html += '<span style="color:#888">' + n.roles.slice(0, 2).join(', ') + '</span>';
+    html += '<span style="color:#555;font-size:0.38rem;margin-left:4px">' + Math.round(n.strength * 100) + '%</span>';
+    if (n.crossDomain) html += '<span style="font-size:0.34rem;color:#C9A94E;margin-left:4px">CROSS</span>';
+    html += '</div>';
+  }
+  if (c.nodes.length > 5) {
+    html += '<div style="font-size:0.38rem;color:#555;margin-top:2px">+ ' + (c.nodes.length - 5) + ' more</div>';
+  }
+
+  // Business mappings
+  if (c.businessMappings && c.businessMappings.length > 0) {
+    html += '<div style="margin-top:8px;font-size:0.38rem;color:rgba(201,169,78,0.5);letter-spacing:1px;margin-bottom:3px">BUSINESS MAPPING</div>';
+    for (var bi = 0; bi < Math.min(c.businessMappings.length, 4); bi++) {
+      var bm = c.businessMappings[bi];
+      html += '<div style="font-size:0.42rem;padding:1px 0;color:#bbb">' + bm.nodeId + ' \u2192 ' + bm.role + '</div>';
+    }
+  }
+
+  // Feed context (pass-through from feed, annotation only)
+  if (c.feedContext && Object.keys(c.feedContext).length > 0) {
+    html += '<div style="margin-top:8px;font-size:0.38rem;color:rgba(201,169,78,0.5);letter-spacing:1px;margin-bottom:3px">FEED CONTEXT</div>';
+    for (var fck in c.feedContext) {
+      var fc = c.feedContext[fck];
+      var stColor = fc.stress > 0.65 ? '#e85454' : fc.stress > 0.4 ? '#C9A94E' : '#888';
+      html += '<div class="ic-row"><span class="ic-row-label">' + fck.toUpperCase() + '</span><span class="ic-row-value" style="color:' + stColor + '">' + (fc.stress * 100).toFixed(0) + '% ' + fc.status + '</span></div>';
+    }
+  }
+
+  // Canonical kernel annotation (experimental)
+  if (_kernelAnnotation && _kernelAnnotation.available) {
+    var ka = _kernelAnnotation;
+    var kd = ka.display;
+    html += '<div style="margin-top:8px;border-top:1px solid rgba(201,169,78,0.06);padding-top:6px">';
+    html += '<div style="font-size:0.38rem;color:rgba(201,169,78,0.5);letter-spacing:1px;margin-bottom:3px">KERNEL (EXPERIMENTAL — ANNOTATION ONLY)</div>';
+    html += '<div class="ic-row"><span class="ic-row-label">Trajectory</span><span class="ic-row-value" style="color:' + kd.trajectoryColor + '">' + kd.trajectoryLabel + '</span></div>';
+    html += '<div class="ic-row"><span class="ic-row-label">Phase</span><span class="ic-row-value" style="color:' + kd.phaseColor + '">' + kd.phaseLabel + ' (' + (kd.dominantPhase || '?') + ')</span></div>';
+    html += '<div class="ic-row"><span class="ic-row-label">Alert</span><span class="ic-row-value" style="color:' + kd.alertColor + '">' + kd.alertLabel + '</span></div>';
+    html += '<div class="ic-row"><span class="ic-row-label">Composite</span><span class="ic-row-value">' + ka.composite + ' (' + kd.compositeLabel + ')</span></div>';
+    html += '<div class="ic-row"><span class="ic-row-label">C(t)</span><span class="ic-row-value">' + kd.C_t + '</span></div>';
+    html += '<div class="ic-row"><span class="ic-row-label">Dominant Path</span><span class="ic-row-value">' + kd.dominantPath + ' (A:' + kd.pathA + ' B:' + kd.pathB + ' C:' + kd.pathC + ')</span></div>';
+    if (ka.firstQ) html += '<div class="ic-row"><span class="ic-row-label">First Q</span><span class="ic-row-value">' + ka.firstQ + '</span></div>';
+    html += '<div style="font-size:0.34rem;color:#555;margin-top:4px;font-style:italic">' + ka.disclaimer + '</div>';
+    html += '</div>';
+  } else if (_kernelAnnotation && !_kernelAnnotation.available) {
+    html += '<div style="margin-top:8px;font-size:0.36rem;color:#555">Kernel: ' + (_kernelAnnotation.reason || 'unavailable') + '</div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+// ═══ VERDICT MODEL ═══
+function computeVerdict(opp, doms) {
+  var score = 0;
+  var reasons = [];
+
+  // Confidence (0-40 pts)
+  var confPts = Math.min(opp.confidence * 0.4, 40);
+  score += confPts;
+  if (opp.confidence >= 60) reasons.push('Confidence ' + opp.confidence + '% (strong signal)');
+  else if (opp.confidence >= 30) reasons.push('Confidence ' + opp.confidence + '% (moderate)');
+  else reasons.push('Confidence ' + opp.confidence + '% (weak)');
+
+  // Data quality (0-25 pts)
+  var q = opp.quality || {live:0,total:4};
+  var qRatio = q.total > 0 ? q.live / q.total : 0;
+  var qPts = qRatio * 25;
+  score += qPts;
+  if (qRatio >= 0.75) reasons.push('Data quality: ' + q.live + '/' + q.total + ' sources live');
+  else if (qRatio >= 0.5) reasons.push('Data quality: partial (' + q.live + '/' + q.total + ')');
+  else reasons.push('Data quality: weak (' + q.live + '/' + q.total + ' \u2014 caution)');
+
+  // Domain stress alignment (0-20 pts)
+  var dominated = opp.pb.domains;
+  var avgStress = 0; var stressCount = 0;
+  for (var i = 0; i < dominated.length; i++) {
+    var d = doms[dominated[i]];
+    if (d && d.stress > 0) { avgStress += d.stress; stressCount++; }
+  }
+  if (stressCount > 0) avgStress /= stressCount;
+  var stressPts = Math.min(avgStress * 40, 20);
+  score += stressPts;
+  if (avgStress > 0.5) reasons.push('Domain stress elevated (' + avgStress.toFixed(2) + ')');
+  else if (avgStress > 0.25) reasons.push('Domain stress moderate (' + avgStress.toFixed(2) + ')');
+  else reasons.push('Domain stress low (' + avgStress.toFixed(2) + ')');
+
+  // Market alignment (-10 to +10 pts) — live asset quotes
+  var mktAlign = getMarketAlignmentScore();
+  score += mktAlign.score;
+  reasons.push('Market alignment: ' + mktAlign.label + ' (' + (mktAlign.score >= 0 ? '+' : '') + mktAlign.score + ' pts)');
+
+  // Saturation penalty (0 to -10 pts)
+  if (opp.pb.saturation === 'high') { score -= 10; reasons.push('Market saturation: HIGH (\u221210 pts)'); }
+  else if (opp.pb.saturation === 'medium') { score -= 3; reasons.push('Market saturation: MEDIUM (\u22123 pts)'); }
+  else reasons.push('Market saturation: LOW (no penalty)');
+
+  // Urgency bonus (0-15 pts)
+  if (opp.urgency === 'high') { score += 15; reasons.push('Urgency: HIGH (+15 pts)'); }
+  else if (opp.urgency === 'medium') { score += 8; reasons.push('Urgency: MEDIUM (+8 pts)'); }
+
+  // STALE/FALLBACK penalty
+  for (var j = 0; j < dominated.length; j++) {
+    var dd = doms[dominated[j]];
+    if (dd && (dd.status === 'STALE' || dd.status === 'FALLBACK')) {
+      score -= 5;
+      reasons.push(dominated[j] + ' data is ' + dd.status + ' (\u22125 pts)');
+    }
+  }
+
+  score = Math.max(0, Math.min(100, Math.round(score)));
+
+  var verdict, vClass;
+  if (score >= 75) { verdict = 'INVEST NOW'; vClass = 'verdict-invest-now'; }
+  else if (score >= 55) { verdict = 'BUILD POSITION'; vClass = 'verdict-build-position'; }
+  else if (score >= 40) { verdict = 'WATCH CLOSELY'; vClass = 'verdict-watch-closely'; }
+  else if (score >= 20) { verdict = 'STAND BY'; vClass = 'verdict-stand-by'; }
+  else { verdict = 'PASS'; vClass = 'verdict-pass'; }
+
+  var breakdown = {
+    confidence: Math.round(confPts),
+    dataQuality: Math.round(qPts),
+    stressAlign: Math.round(stressPts),
+    marketAlign: mktAlign.score,
+    urgency: opp.urgency === 'high' ? 15 : opp.urgency === 'medium' ? 8 : 0,
+    saturation: opp.pb.saturation === 'high' ? -10 : opp.pb.saturation === 'medium' ? -3 : 0
+  };
+
+  return { score: score, verdict: verdict, vClass: vClass, reasons: reasons, breakdown: breakdown };
+}
+
+// ═══ RENDER ═══
+function render() {
+  var doms = window.LIMENDomains || {};
+
+  if (!_oppData) {
+    var _retLink = new URLSearchParams(window.location.search).get('returnTo') || 'opportunities.html';
+    document.getElementById('icLeft').innerHTML = '<div class="ic-section"><div class="ic-text">No opportunity selected. Go to <a href="' + _retLink + '" style="color:#C9A94E">Opportunities</a> and click an invest-type card.</div></div>';
+    return;
+  }
+
+  var opp = _oppData;
+  var pb = opp.pb;
+  var assets = ASSET_MAP[pb.id] || [];
+  var v = computeVerdict(opp, doms);
+
+  // Header
+  document.getElementById('icOppName').textContent = pb.title;
+  var qEl = document.getElementById('icQuality');
+  if (opp.quality) {
+    qEl.textContent = opp.quality.label;
+    qEl.style.background = opp.quality.color === '#5ab5a0' ? 'rgba(90,181,160,0.12)' : opp.quality.color === '#C9A94E' ? 'rgba(201,169,78,0.12)' : 'rgba(232,84,84,0.12)';
+    qEl.style.color = opp.quality.color;
+  }
+
+  // ═══ LEFT: LIMEN Thesis ═══
+  var left = '';
+  left += '<div class="ic-section"><div class="ic-section-title">LIMEN THESIS</div>';
+  left += '<div class="ic-row"><span class="ic-row-label">Type</span><span class="ic-row-value">' + pb.type.toUpperCase() + '</span></div>';
+  left += '<div class="ic-row"><span class="ic-row-label">Domains</span><span class="ic-row-value">' + pb.domains.join(' \u00d7 ').toUpperCase() + '</span></div>';
+  left += '<div class="ic-row"><span class="ic-row-label">Confidence</span><span class="ic-row-value">' + opp.confidence + '%</span></div>';
+  left += '<div class="ic-row"><span class="ic-row-label">Saturation</span><span class="ic-row-value ' + (pb.saturation === 'low' ? 'low' : pb.saturation === 'medium' ? 'med' : 'high') + '">' + pb.saturation.toUpperCase() + '</span></div>';
+  left += '<div class="ic-row"><span class="ic-row-label">Window</span><span class="ic-row-value">' + pb.window + '</span></div>';
+  left += '</div>';
+
+  left += '<div class="ic-section"><div class="ic-section-title">WHY NOW</div>';
+  left += '<div class="ic-highlight">' + opp.whyNow + '</div>';
+  left += '<div class="ic-text">' + pb.explain + '</div>';
+  left += '</div>';
+
+  left += '<div class="ic-section"><div class="ic-section-title">FEED GROUNDING</div>';
+  for (var di = 0; di < pb.domains.length; di++) {
+    var dk = pb.domains[di];
+    var dd = doms[dk];
+    if (!dd) continue;
+    left += '<div class="ic-row"><span class="ic-row-label">' + dk.toUpperCase() + '</span><span class="ic-row-value">' + dd.stress.toFixed(2) + ' ' + (dd.status || '?') + '</span></div>';
+    if (dd.sources) {
+      for (var si = 0; si < dd.sources.length; si++) {
+        var s = dd.sources[si];
+        left += '<div style="font-size:0.4rem;color:#666;padding-left:10px">[' + (s.live ? 'LIVE' : 'FAIL') + '] ' + (s.name || '?') + ': ' + ((s.label || '').substring(0, 40)) + '</div>';
+      }
+    }
+  }
+  left += '</div>';
+
+  // Connectome grounding (node-level)
+  left += _renderConnectomeGrounding(opp, doms);
+
+  if (pb.failure) {
+    left += '<div class="ic-section"><div class="ic-section-title">INVALIDATION</div>';
+    left += '<div class="ic-text" style="color:rgba(232,84,84,0.6)">' + pb.failure + '</div>';
+    left += '</div>';
+  }
+
+  // Portfolio context summary
+  if (_portfolioAnalysis && _portfolioAnalysis.totalPositions > 0) {
+    left += '<div class="ic-section"><div class="ic-section-title">PORTFOLIO CONTEXT</div>';
+    left += '<div class="ic-row"><span class="ic-row-label">Paper positions</span><span class="ic-row-value">' + _portfolioAnalysis.totalPositions + '</span></div>';
+    if (_portfolioAnalysis.totalValue > 0) {
+      left += '<div class="ic-row"><span class="ic-row-label">Total value</span><span class="ic-row-value">$' + _portfolioAnalysis.totalValue.toFixed(2) + '</span></div>';
+    }
+    // Domain concentration bars
+    var domKeys = Object.keys(_portfolioAnalysis.domainExposure).sort(function(a,b) {
+      return _portfolioAnalysis.domainExposure[b].pct - _portfolioAnalysis.domainExposure[a].pct;
+    });
+    for (var pdi = 0; pdi < domKeys.length; pdi++) {
+      var pdk = domKeys[pdi];
+      var pde = _portfolioAnalysis.domainExposure[pdk];
+      var barColor = pde.level === 'HIGH' ? 'rgba(232,84,84,0.4)' : pde.level === 'MODERATE' ? 'rgba(201,169,78,0.4)' : 'rgba(90,181,160,0.3)';
+      var barTextColor = pde.level === 'HIGH' ? '#e85454' : pde.level === 'MODERATE' ? '#C9A94E' : '#5ab5a0';
+      left += '<div style="margin:3px 0">';
+      left += '<div style="display:flex;justify-content:space-between;font-size:0.4rem;margin-bottom:1px"><span style="color:#888">' + pdk.toUpperCase() + '</span><span style="color:' + barTextColor + '">' + pde.pct + '% · ' + pde.symbols.join(', ') + '</span></div>';
+      left += '<div style="height:3px;background:rgba(255,255,255,0.03);border-radius:1px"><div style="height:100%;width:' + Math.min(pde.pct, 100) + '%;background:' + barColor + ';border-radius:1px"></div></div>';
+      left += '</div>';
+    }
+    // Theme summary
+    var thKeys = Object.keys(_portfolioAnalysis.themeExposure).sort(function(a,b) {
+      return _portfolioAnalysis.themeExposure[b].count - _portfolioAnalysis.themeExposure[a].count;
+    });
+    if (thKeys.length > 0) {
+      left += '<div style="margin-top:6px;font-size:0.38rem;color:#666">Themes: ' + thKeys.map(function(k) { var te = _portfolioAnalysis.themeExposure[k]; return te.label + ' (' + te.count + ')'; }).join(' · ') + '</div>';
+    }
+    left += '</div>';
+  }
+
+  document.getElementById('icLeft').innerHTML = left;
+
+  // ═══ CENTER: Market Decision ═══
+  var center = '';
+
+  // Verdict
+  center += '<div class="ic-verdict ' + v.vClass + '">';
+  center += '<div class="ic-verdict-label">' + v.verdict + '</div>';
+  center += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:rgba(200,195,184,0.2);margin-bottom:4px">RECURSIVE REGULATION ENGINE &middot; ADVISORY</div>';
+  center += '<div style="font-size:0.6rem;color:rgba(200,195,184,0.3);margin-bottom:8px">Score: ' + v.score + '/100</div>';
+  // Confidence breakdown
+  var bd = v.breakdown;
+  center += '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px;font-size:0.38rem;letter-spacing:1px">';
+  center += '<span style="color:' + (bd.confidence >= 20 ? '#5ab5a0' : '#888') + '">CONF ' + bd.confidence + '</span>';
+  center += '<span style="color:' + (bd.dataQuality >= 15 ? '#5ab5a0' : '#888') + '">DATA ' + bd.dataQuality + '</span>';
+  center += '<span style="color:' + (bd.stressAlign >= 10 ? '#C9A94E' : '#888') + '">STRESS ' + bd.stressAlign + '</span>';
+  center += '<span style="color:' + (bd.marketAlign > 0 ? '#5ab5a0' : bd.marketAlign < 0 ? '#e85454' : '#888') + '">MKT ' + (bd.marketAlign > 0 ? '+' : '') + bd.marketAlign + '</span>';
+  center += '<span style="color:' + (bd.urgency > 0 ? '#C9A94E' : '#888') + '">URG ' + (bd.urgency > 0 ? '+' : '') + bd.urgency + '</span>';
+  center += '<span style="color:' + (bd.saturation < 0 ? '#e85454' : '#5ab5a0') + '">SAT ' + (bd.saturation >= 0 ? '+' : '') + bd.saturation + '</span>';
+  center += '</div>';
+  center += '<div class="ic-verdict-reason">' + v.reasons.join('<br>') + '</div>';
+  center += '</div>';
+
+  // Opportunity overlap warning
+  if (_overlapAnalysis && _overlapAnalysis.warnings.length > 0) {
+    var olVerdict = _overlapAnalysis.verdict;
+    var olBorder = olVerdict === 'FULL_OVERLAP' || olVerdict === 'SIGNIFICANT_OVERLAP' ? 'rgba(232,84,84,0.25)' : _overlapAnalysis.diversifies ? 'rgba(90,181,160,0.25)' : 'rgba(201,169,78,0.25)';
+    var olBg = olVerdict === 'FULL_OVERLAP' || olVerdict === 'SIGNIFICANT_OVERLAP' ? 'rgba(232,84,84,0.04)' : _overlapAnalysis.diversifies ? 'rgba(90,181,160,0.04)' : 'rgba(201,169,78,0.04)';
+    center += '<div style="padding:8px 12px;margin-bottom:12px;border:1px solid ' + olBorder + ';border-radius:3px;background:' + olBg + ';font-size:0.42rem">';
+    for (var wi = 0; wi < _overlapAnalysis.warnings.length; wi++) {
+      var wColor = _overlapAnalysis.diversifies && wi === _overlapAnalysis.warnings.length - 1 ? '#5ab5a0' : olVerdict === 'FULL_OVERLAP' || olVerdict === 'SIGNIFICANT_OVERLAP' ? '#e85454' : '#C9A94E';
+      center += '<div style="color:' + wColor + ';padding:1px 0">' + _overlapAnalysis.warnings[wi] + '</div>';
+    }
+    center += '</div>';
+  }
+
+  // Build set of suggested tickers for cross-reference
+  var _suggestedTickers = {};
+  for (var sti = 0; sti < assets.length; sti++) {
+    var stMatch = (assets[sti].name.match(/\(([A-Z]+)\)/) || [])[1] || (/^[A-Z]{1,5}$/.test(assets[sti].name) ? assets[sti].name : '');
+    if (stMatch) _suggestedTickers[stMatch] = true;
+  }
+
+  // Helper: render a unified asset row with badges and trade controls
+  function renderAssetRow(opts) {
+    // opts: { name, ticker, type, sector, action, isSuggested, isHeld, isPending, thesisMatch }
+    var sym = opts.ticker;
+    var mkt = sym ? _marketData[sym] : null;
+    var expState = (sym && _exposureFetched) ? getExposureState(sym) : { state: 'UNKNOWN' };
+    var hasPosition = expState.state === 'OPEN_POSITION';
+    var hasPending = expState.state === 'PENDING_ORDER';
+    var posQty = hasPosition ? (parseInt(expState.qty) || 0) : 0;
+    var pos = sym ? _paperPositions[sym] : null;
+
+    var row = '<div class="ic-asset">';
+    row += '<div style="flex:1">';
+    row += '<span class="ic-asset-name">' + opts.name + '</span> <span class="ic-asset-type">' + (opts.type || '') + (opts.sector ? ' \u00b7 ' + opts.sector : '') + '</span>';
+
+    // Status badges
+    row += '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:2px">';
+    if (opts.isSuggested && opts.isHeld) {
+      row += '<span style="font-size:0.32rem;padding:1px 4px;background:rgba(90,181,160,0.08);border:1px solid rgba(90,181,160,0.15);border-radius:2px;color:#5ab5a0;letter-spacing:0.5px">BOTH</span>';
+    } else if (opts.isSuggested) {
+      row += '<span style="font-size:0.32rem;padding:1px 4px;background:rgba(90,181,160,0.06);border:1px solid rgba(90,181,160,0.12);border-radius:2px;color:rgba(90,181,160,0.7);letter-spacing:0.5px">SUGGESTED</span>';
+    }
+    if (opts.isHeld && !opts.isSuggested) {
+      row += '<span style="font-size:0.32rem;padding:1px 4px;background:rgba(201,169,78,0.08);border:1px solid rgba(201,169,78,0.15);border-radius:2px;color:#C9A94E;letter-spacing:0.5px">HELD</span>';
+    }
+    if (opts.isHeld && !opts.thesisMatch) {
+      row += '<span style="font-size:0.32rem;padding:1px 4px;background:rgba(150,150,150,0.06);border:1px solid rgba(150,150,150,0.12);border-radius:2px;color:#888;letter-spacing:0.5px">OFF-THESIS</span>';
+    }
+    if (hasPending && !hasPosition) {
+      row += '<span style="font-size:0.32rem;padding:1px 4px;background:rgba(74,143,212,0.08);border:1px solid rgba(74,143,212,0.15);border-radius:2px;color:#4a8fd4;letter-spacing:0.5px">PENDING</span>';
+    }
+    row += '</div>';
+
+    // Market data
+    if (mkt && mkt.live) {
+      var chgColor = mkt.changePct >= 0 ? '#5ab5a0' : '#e85454';
+      row += '<div style="font-size:0.42rem;margin-top:2px">';
+      row += '<span style="color:#bbb">$' + mkt.price + '</span> ';
+      row += '<span style="color:' + chgColor + '">' + (mkt.changePct >= 0 ? '+' : '') + mkt.changePct + '%</span> ';
+      row += '<span style="color:#666">' + mkt.trend + ' \u00b7 ' + mkt.momentum + ' \u00b7 VOL:' + mkt.volatility + '</span>';
+      row += '</div>';
+    } else if (sym && _marketFetched) {
+      row += '<div style="font-size:0.38rem;color:#555;margin-top:2px">MARKET DATA UNAVAILABLE</div>';
+    }
+
+    // Position detail line
+    if (pos && posQty > 0) {
+      var plColor = Number(pos.unrealizedPl) >= 0 ? '#5ab5a0' : '#e85454';
+      row += '<div style="font-size:0.38rem;margin-top:2px;color:#C9A94E">' + posQty + ' sh @ $' + Number(pos.avgEntryPrice).toFixed(2) + ' <span style="color:' + plColor + '">P/L: ' + (Number(pos.unrealizedPl) >= 0 ? '+' : '') + '$' + Number(pos.unrealizedPl).toFixed(2) + '</span></div>';
+    }
+
+    row += '</div>';
+
+    // Action controls
+    row += '<div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">';
+    if (opts.action) {
+      var aClass = opts.action === 'buy' ? 'ic-asset-buy' : opts.action === 'hedge' ? 'ic-asset-hedge' : 'ic-asset-watch';
+      row += '<span class="ic-asset-action ' + aClass + '">' + opts.action.toUpperCase() + '</span>';
+    }
+    if (sym) {
+      // BUY (for buy-action suggested assets, or any held position)
+      if (opts.action === 'buy' || opts.isHeld) {
+        row += '<button data-trade="buy" data-symbol="' + sym + '" data-name="' + opts.name.replace(/"/g,'') + '" style="font-family:inherit;font-size:0.36rem;padding:2px 6px;background:rgba(90,181,160,0.1);border:1px solid rgba(90,181,160,0.2);color:#5ab5a0;border-radius:2px;cursor:pointer">BUY</button>';
+      }
+      // ADD MORE (only if position or pending order exists)
+      if (hasPosition || hasPending) {
+        row += '<button data-trade="addmore" data-symbol="' + sym + '" data-name="' + opts.name.replace(/"/g,'') + '" style="font-family:inherit;font-size:0.36rem;padding:2px 6px;background:rgba(201,169,78,0.1);border:1px solid rgba(201,169,78,0.2);color:#C9A94E;border-radius:2px;cursor:pointer;margin-left:2px">ADD MORE</button>';
+      }
+      // SELL + EXIT (only if position exists)
+      if (hasPosition && posQty > 0) {
+        row += '<button data-trade="sell" data-symbol="' + sym + '" data-name="' + opts.name.replace(/"/g,'') + '" data-qty="' + posQty + '" style="font-family:inherit;font-size:0.36rem;padding:2px 6px;background:rgba(232,84,84,0.1);border:1px solid rgba(232,84,84,0.2);color:#e85454;border-radius:2px;cursor:pointer;margin-left:3px">SELL</button>';
+        row += '<button data-trade="exit" data-symbol="' + sym + '" data-name="' + opts.name.replace(/"/g,'') + '" data-qty="' + posQty + '" style="font-family:inherit;font-size:0.36rem;padding:2px 6px;background:rgba(232,84,84,0.06);border:1px solid rgba(232,84,84,0.12);color:rgba(232,84,84,0.7);border-radius:2px;cursor:pointer;margin-left:2px">EXIT</button>';
+      }
+    }
+    row += '</div>';
+    row += '</div>';
+    return row;
+  }
+
+  // Assets with live market data — SUGGESTED ASSETS
+  if (assets.length > 0) {
+    center += '<div class="ic-section"><div class="ic-section-title">SUGGESTED ASSETS' + (_marketFetched ? ' (LIVE)' : ' (loading...)') + '</div>';
+    for (var ai = 0; ai < assets.length; ai++) {
+      var a = assets[ai];
+      var ticker = (a.name.match(/\(([A-Z]+)\)/) || [])[1] || (/^[A-Z]{1,5}$/.test(a.name) ? a.name : '');
+      var isHeld = ticker && _paperPositions[ticker] && Number(_paperPositions[ticker].qty) > 0;
+      center += renderAssetRow({
+        name: a.name, ticker: ticker, type: a.type, sector: a.sector, action: a.action,
+        isSuggested: true, isHeld: !!isHeld, isPending: false, thesisMatch: true
+      });
+    }
+    center += '</div>';
+  }
+
+  // OPEN POSITIONS not in suggested assets
+  if (_exposureFetched && Object.keys(_paperPositions).length > 0) {
+    var offThesisPositions = [];
+    for (var ppk in _paperPositions) {
+      if (!_suggestedTickers[ppk] && Number(_paperPositions[ppk].qty) > 0) {
+        offThesisPositions.push(_paperPositions[ppk]);
+      }
+    }
+    if (offThesisPositions.length > 0) {
+      center += '<div class="ic-section" style="border-left:2px solid rgba(201,169,78,0.2)"><div class="ic-section-title" style="color:#C9A94E">OPEN POSITIONS <span style="font-size:0.34rem;color:#888;letter-spacing:0.5px">\u2014 not in current thesis</span></div>';
+      for (var opi = 0; opi < offThesisPositions.length; opi++) {
+        var otp = offThesisPositions[opi];
+        center += renderAssetRow({
+          name: otp.symbol, ticker: otp.symbol, type: '', sector: '',
+          action: null, isSuggested: false, isHeld: true, isPending: false, thesisMatch: false
+        });
+      }
+      center += '</div>';
+    }
+  }
+
+  // Node-derived assets (from NTL, if opportunity has connectome nodes)
+  if (_resolvedOppData && _resolvedOppData.connectome && _resolvedOppData.connectome.nodes && _resolvedOppData.connectome.nodes.length > 0 && window.LIMENNodeTranslation) {
+    var ntlNodeIds = _resolvedOppData.connectome.nodes.map(function(n) { return n.id; });
+    var ntlTickers = window.LIMENNodeTranslation.getAssetsForNodes(ntlNodeIds);
+    var ntlBusinesses = window.LIMENNodeTranslation.getBusinessesForNodes(ntlNodeIds);
+    // Only show if there are tickers not already in the playbook's ASSET_MAP
+    var existingTickers = {};
+    for (var eti = 0; eti < assets.length; eti++) {
+      var etMatch = assets[eti].name.match(/\(([A-Z]+)\)/);
+      if (etMatch) existingTickers[etMatch[1]] = true;
+      else if (/^[A-Z]{1,5}$/.test(assets[eti].name)) existingTickers[assets[eti].name] = true;
+    }
+    var newTickers = ntlTickers.filter(function(t) { return !existingTickers[t]; });
+    if (newTickers.length > 0 || ntlBusinesses.length > 0) {
+      center += '<div class="ic-section" style="border-left:2px solid rgba(201,169,78,0.12)"><div class="ic-section-title" style="color:#888">NODE-DERIVED CONTEXT</div>';
+      if (ntlBusinesses.length > 0) {
+        center += '<div style="font-size:0.4rem;color:#888;margin-bottom:4px">Business functions from activated nodes:</div>';
+        center += '<div style="font-size:0.42rem;color:#bbb;margin-bottom:6px">' + ntlBusinesses.slice(0, 6).join(' \u00b7 ') + '</div>';
+      }
+      if (newTickers.length > 0) {
+        center += '<div style="font-size:0.4rem;color:#888;margin-bottom:4px">Additional assets from connectome nodes:</div>';
+        for (var nti = 0; nti < Math.min(newTickers.length, 5); nti++) {
+          var ntTicker = newTickers[nti];
+          // Find which node this ticker came from
+          var ntSource = '';
+          for (var nsi = 0; nsi < ntlNodeIds.length; nsi++) {
+            var ntMap = window.LIMENNodeTranslation.getNodeTranslation(ntlNodeIds[nsi]);
+            if (ntMap && ntMap.tickers && ntMap.tickers.indexOf(ntTicker) !== -1) {
+              ntSource = ntlNodeIds[nsi] + ' (' + ntMap.function.split(',')[0] + ')';
+              break;
+            }
+          }
+          center += '<div class="ic-asset"><div style="flex:1"><span class="ic-asset-name">' + ntTicker + '</span> <span class="ic-asset-type">Node \u00b7 ' + ntSource + '</span></div>';
+          center += '<span class="ic-asset-action ic-asset-watch">WATCH</span></div>';
+        }
+        if (newTickers.length > 5) center += '<div style="font-size:0.38rem;color:#555">+ ' + (newTickers.length - 5) + ' more</div>';
+      }
+      center += '</div>';
+    }
+  }
+
+  // Action from playbook
+  center += '<div class="ic-section"><div class="ic-section-title">WHAT TO DO</div>';
+  center += '<div class="ic-highlight">' + pb.action + '</div>';
+  if (pb.realWorld && pb.realWorld.invest && pb.realWorld.invest !== 'N/A') {
+    center += '<div class="ic-text"><strong style="color:#5ab5a0">INVEST:</strong> ' + pb.realWorld.invest + '</div>';
+  }
+  center += '</div>';
+
+  // Fast path
+  if (pb.fastPath) {
+    center += '<div class="ic-section" style="border-left:3px solid rgba(90,181,160,0.3)"><div class="ic-section-title" style="color:#5ab5a0">FAST PATH</div>';
+    for (var fi = 0; fi < pb.fastPath.length; fi++) {
+      center += '<div class="ic-text">' + pb.fastPath[fi] + '</div>';
+    }
+    center += '</div>';
+  }
+
+  // Buttons
+  center += '<div class="ic-btn-row">';
+  center += '<button class="ic-btn ic-btn-primary" onclick="paperTrade(\'BUY\')">Paper Trade</button>';
+  center += '<button class="ic-btn ic-btn-secondary" onclick="paperTrade(\'WATCH\')">Watch</button>';
+  center += '<button class="ic-btn ic-btn-muted" onclick="paperTrade(\'PASS\')">Pass</button>';
+  center += '</div>';
+
+  // Paper trade log
+  if (_paperLog.length > 0) {
+    center += '<div class="ic-section" style="margin-top:12px"><div class="ic-section-title">PAPER TRADE LOG</div><div class="ic-log">';
+    for (var li = _paperLog.length - 1; li >= 0; li--) {
+      var log = _paperLog[li];
+      center += '<div class="ic-log-entry">' + log.time + ' \u2014 ' + log.action + ' \u2014 ' + log.opp + ' (score: ' + log.score + ')</div>';
+    }
+    center += '</div></div>';
+  }
+
+  var icCenterEl = document.getElementById('icCenter');
+  icCenterEl.innerHTML = center;
+
+  // Bind trade buttons via delegation (replace handler each render to avoid stacking)
+  icCenterEl.onclick = function(e) {
+    var btn = e.target;
+    if (!btn.getAttribute || !btn.getAttribute('data-trade')) {
+      btn = btn.parentElement;
+      if (!btn || !btn.getAttribute || !btn.getAttribute('data-trade')) return;
+    }
+    var action = btn.getAttribute('data-trade');
+    var sym = btn.getAttribute('data-symbol');
+    var name = btn.getAttribute('data-name');
+    var qty = parseInt(btn.getAttribute('data-qty')) || 0;
+    if (action === 'buy' || action === 'addmore') openTradeConfirm(sym, name);
+    else if (action === 'sell') openSellConfirm(sym, name, qty);
+    else if (action === 'exit') openExitConfirm(sym, name, qty);
+  };
+
+  // ═══ RIGHT: Connectome Support ═══
+  var right = '';
+
+  right += '<div class="ic-section"><div class="ic-section-title">SUPPORTING DOMAINS</div>';
+  // Connectome overlap summary
+  if (_connectomeAnalysis) {
+    var covLabel = _connectomeAnalysis.coverage === 'NEW_BRANCH' ? 'OPENS NEW BRANCH' : _connectomeAnalysis.coverage === 'REINFORCES' ? 'REINFORCES EXISTING' : 'MIXED COVERAGE';
+    var covColor = _connectomeAnalysis.coverage === 'NEW_BRANCH' ? '#5ab5a0' : _connectomeAnalysis.coverage === 'REINFORCES' ? '#C9A94E' : '#888';
+    right += '<div style="font-size:0.38rem;color:' + covColor + ';padding:3px 6px;margin-bottom:6px;background:rgba(255,255,255,0.02);border-radius:2px;letter-spacing:1px">' + covLabel;
+    if (_connectomeAnalysis.newBranches.length > 0) right += ' · New: ' + _connectomeAnalysis.newBranches.join(', ').toUpperCase();
+    if (_connectomeAnalysis.reinforced.length > 0) right += ' · Existing: ' + _connectomeAnalysis.reinforced.join(', ').toUpperCase();
+    right += '</div>';
+  }
+  for (var ri = 0; ri < pb.domains.length; ri++) {
+    var rk = pb.domains[ri];
+    var rd = doms[rk];
+    // Connectome node indicator
+    var nodeTag = '';
+    if (_connectomeAnalysis) {
+      if (_connectomeAnalysis.reinforced.indexOf(rk) !== -1) {
+        nodeTag = '<span style="font-size:0.34rem;color:#C9A94E;margin-left:4px">HELD</span>';
+      } else if (_connectomeAnalysis.newBranches.indexOf(rk) !== -1) {
+        nodeTag = '<span style="font-size:0.34rem;color:#5ab5a0;margin-left:4px">NEW</span>';
+      }
+    }
+    if (!rd) { right += '<div class="ic-row"><span class="ic-row-label">' + rk.toUpperCase() + nodeTag + '</span><span class="ic-row-value">no data</span></div>'; continue; }
+    var stColor = rd.stress > 0.65 ? 'high' : rd.stress > 0.4 ? 'med' : 'low';
+    right += '<div class="ic-row"><span class="ic-row-label">' + rk.toUpperCase() + nodeTag + '</span><span class="ic-row-value ' + stColor + '">' + (rd.stress * 100).toFixed(0) + '% ' + (rd.status || '') + '</span></div>';
+    if (rd.signals && rd.signals.length > 0) {
+      right += '<div style="font-size:0.4rem;color:#888;padding-left:10px">\u26A0 ' + (typeof rd.signals[0] === 'string' ? rd.signals[0] : '').substring(0, 50) + '</div>';
+    }
+  }
+  right += '</div>';
+
+  // Companies from examples
+  if (pb.examples && pb.examples.length > 0) {
+    right += '<div class="ic-section"><div class="ic-section-title">ILLUSTRATIVE EXAMPLES</div>';
+    right += '<div style="font-size:0.38rem;color:#666;margin-bottom:6px">Representative company types \u2014 not specific recommendations</div>';
+    for (var ei = 0; ei < pb.examples.length; ei++) {
+      right += '<div class="ic-company">' + pb.examples[ei] + '</div>';
+    }
+    right += '</div>';
+  }
+
+  // Branch logic
+  right += '<div class="ic-section"><div class="ic-section-title">IF STRENGTHENS</div>';
+  right += '<div class="ic-text" style="color:#5ab5a0">' + pb.branch_up + '</div></div>';
+  right += '<div class="ic-section"><div class="ic-section-title">IF WEAKENS</div>';
+  right += '<div class="ic-text" style="color:#e85454">' + pb.branch_down + '</div></div>';
+
+  right += '<div class="ic-section"><div class="ic-section-title">EXPECTED OUTCOME</div>';
+  right += '<div class="ic-text">' + pb.outcome + '</div></div>';
+
+  // Paper exposure summary
+  if (_exposureFetched) {
+    var posCount = 0;
+    for (var pck in _paperPositions) { if (Number(_paperPositions[pck].qty) > 0) posCount++; }
+    var ordCount = Object.keys(_paperOrders).length;
+    right += '<div class="ic-section"><div class="ic-section-title">PAPER ACCOUNT EXPOSURE</div>';
+    if (posCount === 0 && ordCount === 0) {
+      right += '<div class="ic-text" style="color:#555">No paper positions or orders found.</div>';
+    } else {
+      if (posCount > 0) {
+        right += '<div style="font-size:0.42rem;color:#C9A94E;margin-bottom:6px">' + posCount + ' open position' + (posCount > 1 ? 's' : '') + ' — all manageable from command board</div>';
+        for (var pk in _paperPositions) {
+          var pp = _paperPositions[pk];
+          if (Number(pp.qty) <= 0) continue;
+          var plColor = Number(pp.unrealizedPl) >= 0 ? '#5ab5a0' : '#e85454';
+          var inThesis = _suggestedTickers[pp.symbol] ? '<span style="font-size:0.3rem;color:#5ab5a0;margin-left:3px">THESIS</span>' : '<span style="font-size:0.3rem;color:#888;margin-left:3px">OFF-THESIS</span>';
+          right += '<div class="ic-row"><span class="ic-row-label">' + pp.symbol + ' (' + pp.qty + ' sh)' + inThesis + '</span><span class="ic-row-value" style="color:' + plColor + '">' + (Number(pp.unrealizedPl) >= 0 ? '+' : '') + '$' + Number(pp.unrealizedPl).toFixed(2) + '</span></div>';
+        }
+      }
+      if (ordCount > 0) {
+        var openOrds = 0;
+        for (var ok in _paperOrders) {
+          var oo = _paperOrders[ok];
+          if (oo.status === 'new' || oo.status === 'accepted' || oo.status === 'pending_new') openOrds++;
+        }
+        if (openOrds > 0) {
+          right += '<div style="font-size:0.42rem;color:#4a8fd4;margin-top:6px">' + openOrds + ' pending order' + (openOrds > 1 ? 's' : '') + '</div>';
+        }
+      }
+    }
+    right += '</div>';
+  }
+
+  document.getElementById('icRight').innerHTML = right;
+}
+
+// ═══ PAPER TRADE ═══
+
+// Local-only log (Watch/Pass or when Alpaca unavailable)
+function paperTradeLocal(action, symbol) {
+  if (!_oppData) return;
+  var now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+  var v = computeVerdict(_oppData, window.LIMENDomains || {});
+  _paperLog.push({ time: now, action: action, opp: _oppData.pb.title, symbol: symbol || '', score: v.score, paper: true });
+  try { sessionStorage.setItem('limen_paper_log', JSON.stringify(_paperLog)); } catch(e) {}
+  render();
+}
+
+function paperTrade(action) {
+  if (action === 'WATCH' || action === 'PASS') { paperTradeLocal(action); return; }
+  // BUY action — open generic confirmation (no specific symbol)
+  openTradeConfirm('', 'Best available from suggested assets');
+}
+
+// Trade confirmation flow
+function openTradeConfirm(symbol, assetName) {
+  if (!_oppData) return;
+  var v = computeVerdict(_oppData, window.LIMENDomains || {});
+
+  var modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(3,5,10,0.88);display:flex;justify-content:center;align-items:center';
+  modal.id = 'tradeConfirmModal';
+
+  var box = document.createElement('div');
+  box.style.cssText = 'background:#0e1018;border:1px solid rgba(201,169,78,0.2);border-radius:4px;padding:20px;width:min(420px,90vw);font-family:"IBM Plex Mono",monospace';
+
+  var html = '<div style="font-size:0.5rem;letter-spacing:2px;color:#C9A94E;margin-bottom:12px">CONFIRM PAPER TRADE</div>';
+  html += '<div style="font-size:0.45rem;color:rgba(200,195,184,0.5);margin-bottom:12px;padding:8px;background:rgba(232,84,84,0.06);border:1px solid rgba(232,84,84,0.15);border-radius:2px">\u26A0 PAPER TRADING ONLY \u2014 NO REAL MONEY</div>';
+
+  html += '<div style="margin-bottom:8px">';
+  html += '<div class="ic-row"><span class="ic-row-label">Opportunity</span><span class="ic-row-value">' + _oppData.pb.title + '</span></div>';
+  html += '<div class="ic-row"><span class="ic-row-label">Asset</span><span class="ic-row-value">' + (symbol || 'TBD') + ' ' + assetName + '</span></div>';
+  html += '<div class="ic-row"><span class="ic-row-label">Side</span><span class="ic-row-value" style="color:#5ab5a0">BUY</span></div>';
+  html += '<div class="ic-row"><span class="ic-row-label">Verdict</span><span class="ic-row-value">' + v.verdict + ' (' + v.score + ')</span></div>';
+  html += '</div>';
+
+  // Exposure warning
+  if (symbol && _exposureFetched) {
+    var tradeExp = getExposureState(symbol);
+    if (tradeExp.state === 'OPEN_POSITION') {
+      html += '<div style="font-size:0.42rem;color:#C9A94E;padding:6px 8px;margin-bottom:8px;background:rgba(201,169,78,0.06);border:1px solid rgba(201,169,78,0.15);border-radius:2px">\u26A0 EXISTING POSITION: ' + tradeExp.label + ' \u2014 This order will ADD to your position.</div>';
+    } else if (tradeExp.state === 'PENDING_ORDER') {
+      html += '<div style="font-size:0.42rem;color:#4a8fd4;padding:6px 8px;margin-bottom:8px;background:rgba(74,143,212,0.06);border:1px solid rgba(74,143,212,0.15);border-radius:2px">\u26A0 ' + tradeExp.label + ' \u2014 You may be duplicating an order.</div>';
+    } else if (tradeExp.state === 'PREVIOUSLY_TRADED') {
+      html += '<div style="font-size:0.42rem;color:#888;padding:6px 8px;margin-bottom:8px;background:rgba(150,150,150,0.04);border:1px solid rgba(150,150,150,0.1);border-radius:2px">' + tradeExp.label + '</div>';
+    }
+  }
+
+  // Quantity input
+  html += '<div style="margin-bottom:12px">';
+  html += '<label style="font-size:0.42rem;color:#888;display:block;margin-bottom:4px">Quantity (shares)</label>';
+  html += '<input type="number" id="tradeQty" value="1" min="1" max="1000" style="width:100%;padding:6px 10px;background:#0a0c14;border:1px solid rgba(201,169,78,0.2);border-radius:2px;color:#e8e3d9;font-family:inherit;font-size:0.5rem">';
+  html += '</div>';
+
+  // Buttons
+  html += '<div style="display:flex;gap:8px">';
+  if (symbol) {
+    html += '<button id="tradeSubmitBtn" style="flex:1;padding:8px;font-family:inherit;font-size:0.42rem;letter-spacing:1.5px;background:rgba(90,181,160,0.15);border:1px solid rgba(90,181,160,0.3);color:#5ab5a0;border-radius:2px;cursor:pointer">SUBMIT PAPER ORDER</button>';
+  } else {
+    html += '<button disabled style="flex:1;padding:8px;font-family:inherit;font-size:0.42rem;letter-spacing:1.5px;background:rgba(100,100,100,0.08);border:1px solid rgba(100,100,100,0.15);color:#555;border-radius:2px;cursor:not-allowed">SELECT A SPECIFIC ASSET ABOVE</button>';
+  }
+  html += '<button id="tradeCancelBtn" style="padding:8px 16px;font-family:inherit;font-size:0.42rem;letter-spacing:1.5px;background:none;border:1px solid rgba(150,150,150,0.15);color:#888;border-radius:2px;cursor:pointer">CANCEL</button>';
+  html += '</div>';
+
+  // Result area
+  html += '<div id="tradeResult" style="margin-top:8px;font-size:0.42rem"></div>';
+
+  box.innerHTML = html;
+  modal.appendChild(box);
+  document.body.appendChild(modal);
+
+  // Bind events
+  document.getElementById('tradeCancelBtn').addEventListener('click', closeTradeConfirm);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeTradeConfirm(); });
+
+  if (symbol) {
+    document.getElementById('tradeSubmitBtn').addEventListener('click', function() {
+      var qty = parseInt(document.getElementById('tradeQty').value) || 1;
+      submitPaperOrder(symbol, qty, v);
+    });
+  }
+}
+
+function closeTradeConfirm() {
+  var modal = document.getElementById('tradeConfirmModal');
+  if (modal) modal.remove();
+}
+
+function submitPaperOrder(symbol, qty, verdict, side) {
+  side = side || 'buy';
+  var btn = document.getElementById('tradeSubmitBtn');
+  var result = document.getElementById('tradeResult');
+  if (btn) { btn.textContent = 'SUBMITTING...'; btn.disabled = true; }
+
+  var body = {
+    symbol: symbol,
+    side: side,
+    qty: qty,
+    oppId: _oppData ? _oppData.pb.id : '',
+    oppTitle: _oppData ? _oppData.pb.title : '',
+    verdict: verdict ? verdict.verdict : side.toUpperCase(),
+    score: verdict ? verdict.score : 0
+  };
+
+  fetch('/api/paper-trade', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  })
+  .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+  .then(function(res) {
+    if (res.ok && res.data.success) {
+      var actionLabel = side === 'sell' ? 'SOLD' : 'BOUGHT';
+      if (result) {
+        result.innerHTML = '<div style="color:#5ab5a0;padding:6px;background:rgba(90,181,160,0.06);border-radius:2px">\u2713 ' + actionLabel + ' \u2014 ' + res.data.symbol + ' x' + res.data.qty + ' \u2014 ID: ' + (res.data.orderId || '').slice(0,8) + '...</div>';
+      }
+      paperTradeLocal('PAPER ' + side.toUpperCase() + ': ' + symbol + ' x' + qty, symbol);
+      // Refresh positions from API after trade
+      refreshPositionsAfterTrade(function() {
+        setTimeout(closeTradeConfirm, 1500);
+      });
+    } else if (res.data.stubbed) {
+      if (result) {
+        result.innerHTML = '<div style="color:#C9A94E;padding:6px;background:rgba(201,169,78,0.06);border-radius:2px">Alpaca not configured. Logged locally as paper trade.</div>';
+      }
+      paperTradeLocal('LOCAL PAPER ' + side.toUpperCase() + ': ' + symbol + ' x' + qty, symbol);
+      setTimeout(closeTradeConfirm, 2000);
+    } else {
+      if (result) {
+        result.innerHTML = '<div style="color:#e85454;padding:6px;background:rgba(232,84,84,0.06);border-radius:2px">\u2717 ERROR: ' + (res.data.error || res.data.detail || 'Unknown') + '</div>';
+      }
+      if (btn) { btn.textContent = 'RETRY'; btn.disabled = false; }
+    }
+  })
+  .catch(function(e) {
+    if (result) {
+      result.innerHTML = '<div style="color:#e85454;padding:6px;background:rgba(232,84,84,0.06);border-radius:2px">\u2717 NETWORK ERROR: ' + e.message + '</div>';
+    }
+    if (btn) { btn.textContent = 'RETRY'; btn.disabled = false; }
+  });
+}
+
+// Refresh positions and orders from Alpaca after a trade
+function refreshPositionsAfterTrade(callback) {
+  _paperPositions = {};
+  _paperOrders = {};
+  var done = 0;
+  function check() { done++; if (done >= 2) { _exposureFetched = true; if (_oppData && window.LIMENPortfolioContext) { _portfolioAnalysis = window.LIMENPortfolioContext.analyzePortfolio(_paperPositions, _paperOrders); } render(); if (callback) callback(); } }
+  fetch('/api/paper-positions').then(function(r){return r.ok?r.json():null}).then(function(d){if(d&&d.positions){for(var i=0;i<d.positions.length;i++){_paperPositions[d.positions[i].symbol]=d.positions[i]}}check()}).catch(function(){check()});
+  fetch('/api/paper-orders?status=all&limit=50').then(function(r){return r.ok?r.json():null}).then(function(d){if(d&&d.orders){for(var i=0;i<d.orders.length;i++){var o=d.orders[i];if(!_paperOrders[o.symbol])_paperOrders[o.symbol]=o}}check()}).catch(function(){check()});
+}
+
+// Open sell/close confirmation modal
+function openSellConfirm(symbol, assetName, maxQty) {
+  var modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(3,5,10,0.88);display:flex;justify-content:center;align-items:center';
+  modal.id = 'tradeConfirmModal';
+
+  var box = document.createElement('div');
+  box.style.cssText = 'background:#0e1018;border:1px solid rgba(232,84,84,0.2);border-radius:4px;padding:20px;width:min(420px,90vw);font-family:"IBM Plex Mono",monospace';
+
+  var html = '<div style="font-size:0.5rem;letter-spacing:2px;color:#e85454;margin-bottom:12px">SELL / CLOSE POSITION</div>';
+  html += '<div style="font-size:0.45rem;color:rgba(200,195,184,0.5);margin-bottom:12px;padding:8px;background:rgba(232,84,84,0.06);border:1px solid rgba(232,84,84,0.15);border-radius:2px">\u26A0 PAPER TRADING ONLY \u2014 NO REAL MONEY</div>';
+
+  html += '<div style="margin-bottom:8px">';
+  html += '<div class="ic-row"><span class="ic-row-label">Asset</span><span class="ic-row-value">' + symbol + ' ' + assetName + '</span></div>';
+  html += '<div class="ic-row"><span class="ic-row-label">Side</span><span class="ic-row-value" style="color:#e85454">SELL</span></div>';
+  html += '<div class="ic-row"><span class="ic-row-label">Position</span><span class="ic-row-value">' + maxQty + ' shares held</span></div>';
+  html += '</div>';
+
+  html += '<div style="margin-bottom:8px">';
+  html += '<label style="font-size:0.42rem;color:#888;display:block;margin-bottom:4px">Quantity to sell</label>';
+  html += '<input type="number" id="tradeQty" value="1" min="1" max="' + maxQty + '" style="width:100%;padding:6px 10px;background:#0a0c14;border:1px solid rgba(232,84,84,0.2);border-radius:2px;color:#e8e3d9;font-family:inherit;font-size:0.5rem">';
+  html += '<div style="display:flex;gap:6px;margin-top:4px">';
+  html += '<button class="ic-sell-preset" data-pct="25" style="flex:1;padding:3px;font-family:inherit;font-size:0.32rem;background:rgba(232,84,84,0.06);border:1px solid rgba(232,84,84,0.15);color:#e85454;border-radius:2px;cursor:pointer">25%</button>';
+  html += '<button class="ic-sell-preset" data-pct="50" style="flex:1;padding:3px;font-family:inherit;font-size:0.32rem;background:rgba(232,84,84,0.06);border:1px solid rgba(232,84,84,0.15);color:#e85454;border-radius:2px;cursor:pointer">50%</button>';
+  html += '<button class="ic-sell-preset" data-pct="100" style="flex:1;padding:3px;font-family:inherit;font-size:0.32rem;background:rgba(232,84,84,0.06);border:1px solid rgba(232,84,84,0.15);color:#e85454;border-radius:2px;cursor:pointer">EXIT ALL</button>';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div style="display:flex;gap:8px">';
+  html += '<button id="tradeSubmitBtn" style="flex:1;padding:8px;font-family:inherit;font-size:0.42rem;letter-spacing:1.5px;background:rgba(232,84,84,0.15);border:1px solid rgba(232,84,84,0.3);color:#e85454;border-radius:2px;cursor:pointer">SUBMIT SELL ORDER</button>';
+  html += '<button id="tradeCancelBtn" style="padding:8px 16px;font-family:inherit;font-size:0.42rem;letter-spacing:1.5px;background:none;border:1px solid rgba(150,150,150,0.15);color:#888;border-radius:2px;cursor:pointer">CANCEL</button>';
+  html += '</div>';
+  html += '<div id="tradeResult" style="margin-top:8px;font-size:0.42rem"></div>';
+
+  box.innerHTML = html;
+  modal.appendChild(box);
+  document.body.appendChild(modal);
+
+  document.getElementById('tradeCancelBtn').addEventListener('click', closeTradeConfirm);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeTradeConfirm(); });
+
+  // Preset buttons
+  var presets = box.querySelectorAll('.ic-sell-preset');
+  for (var pi = 0; pi < presets.length; pi++) {
+    presets[pi].addEventListener('click', function() {
+      var pct = parseInt(this.getAttribute('data-pct'));
+      var q = Math.max(1, Math.round(maxQty * pct / 100));
+      document.getElementById('tradeQty').value = q;
+    });
+  }
+
+  document.getElementById('tradeSubmitBtn').addEventListener('click', function() {
+    var qty = parseInt(document.getElementById('tradeQty').value) || 1;
+    if (qty > maxQty) qty = maxQty;
+    submitPaperOrder(symbol, qty, null, 'sell');
+  });
+}
+
+// Open full-exit confirmation modal
+function openExitConfirm(symbol, assetName, fullQty) {
+  var modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(3,5,10,0.88);display:flex;justify-content:center;align-items:center';
+  modal.id = 'tradeConfirmModal';
+
+  var box = document.createElement('div');
+  box.style.cssText = 'background:#0e1018;border:1px solid rgba(232,84,84,0.3);border-radius:4px;padding:20px;width:min(420px,90vw);font-family:"IBM Plex Mono",monospace';
+
+  var html = '<div style="font-size:0.5rem;letter-spacing:2px;color:#e85454;margin-bottom:12px">EXIT FULL POSITION</div>';
+  html += '<div style="font-size:0.45rem;color:rgba(200,195,184,0.5);margin-bottom:12px;padding:8px;background:rgba(232,84,84,0.06);border:1px solid rgba(232,84,84,0.15);border-radius:2px">\u26A0 PAPER TRADING ONLY \u2014 NO REAL MONEY</div>';
+
+  html += '<div style="margin-bottom:8px">';
+  html += '<div class="ic-row"><span class="ic-row-label">Asset</span><span class="ic-row-value">' + symbol + ' ' + assetName + '</span></div>';
+  html += '<div class="ic-row"><span class="ic-row-label">Side</span><span class="ic-row-value" style="color:#e85454">SELL (FULL EXIT)</span></div>';
+  html += '<div class="ic-row"><span class="ic-row-label">Quantity</span><span class="ic-row-value">' + fullQty + ' shares (entire position)</span></div>';
+  html += '</div>';
+
+  html += '<div style="font-size:0.42rem;color:#e85454;padding:8px;margin-bottom:12px;background:rgba(232,84,84,0.08);border:1px solid rgba(232,84,84,0.2);border-radius:2px">\u26A0 This will close the full paper position. All ' + fullQty + ' shares will be sold at market price.</div>';
+
+  html += '<div style="display:flex;gap:8px">';
+  html += '<button id="tradeSubmitBtn" style="flex:1;padding:8px;font-family:inherit;font-size:0.42rem;letter-spacing:1.5px;background:rgba(232,84,84,0.2);border:1px solid rgba(232,84,84,0.4);color:#e85454;border-radius:2px;cursor:pointer">CONFIRM EXIT \u2014 SELL ALL ' + fullQty + ' SHARES</button>';
+  html += '<button id="tradeCancelBtn" style="padding:8px 16px;font-family:inherit;font-size:0.42rem;letter-spacing:1.5px;background:none;border:1px solid rgba(150,150,150,0.15);color:#888;border-radius:2px;cursor:pointer">CANCEL</button>';
+  html += '</div>';
+  html += '<div id="tradeResult" style="margin-top:8px;font-size:0.42rem"></div>';
+
+  box.innerHTML = html;
+  modal.appendChild(box);
+  document.body.appendChild(modal);
+
+  document.getElementById('tradeCancelBtn').addEventListener('click', closeTradeConfirm);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeTradeConfirm(); });
+
+  document.getElementById('tradeSubmitBtn').addEventListener('click', function() {
+    submitPaperOrder(symbol, fullQty, null, 'sell');
+  });
+}
+
+// ═══ INIT ═══
+function init() {
+  // Load paper log
+  try { var saved = sessionStorage.getItem('limen_paper_log'); if (saved) _paperLog = JSON.parse(saved); } catch(e) {}
+
+  // Get opportunity from URL param or sessionStorage
+  var params = new URLSearchParams(window.location.search);
+  var oppId = params.get('opp');
+
+  // Try sessionStorage handoff with safety checks
+  try {
+    var handoff = sessionStorage.getItem('limen_invest_opp');
+    if (handoff) {
+      var parsed = JSON.parse(handoff);
+      // Validate required fields exist
+      if (parsed && parsed.pb && parsed.pb.id && parsed.pb.title && parsed.pb.domains) {
+        _oppData = parsed;
+        if (oppId && _oppData.pb.id !== oppId) _oppData = null; // URL mismatch
+      } else {
+        console.warn('[InvestConsole] Stale/malformed handoff data — ignoring');
+        sessionStorage.removeItem('limen_invest_opp');
+      }
+    }
+  } catch(e) {
+    console.warn('[InvestConsole] Failed to parse handoff:', e.message);
+    try { sessionStorage.removeItem('limen_invest_opp'); } catch(ex) {}
+  }
+
+  // Start feed engines
+  if (window.LIMENFeedState && typeof window.LIMENFeedState.start === 'function') window.LIMENFeedState.start();
+  if (window.LIMENDomainEngine && typeof window.LIMENDomainEngine.start === 'function') window.LIMENDomainEngine.start();
+  if (window.LIMENCrossDomainDetector && typeof window.LIMENCrossDomainDetector.start === 'function') window.LIMENCrossDomainDetector.start();
+
+  // Render after data arrives
+  var attempts = 0;
+  function waitAndRender() {
+    attempts++;
+    if ((window.LIMENDomains && Object.keys(window.LIMENDomains).length > 0) || attempts >= 5) {
+      render();
+      window.addEventListener('limen:domain-update', function() {
+        // Re-resolve through connectome on feed update
+        if (_resolverReady && _oppData && window.LIMENConnectomeResolver) {
+          var resolved = window.LIMENConnectomeResolver.resolve([_oppData]);
+          if (resolved && resolved.length > 0) _resolvedOppData = resolved[0];
+        }
+        render();
+      });
+      // Fetch market data, paper exposure, and connectome
+      if (_oppData) {
+        var assets = ASSET_MAP[_oppData.pb.id] || [];
+        fetchMarketData(assets, function() { render(); });
+        fetchPaperExposure(function() {
+          render();
+          // Also fetch market data for held positions not in suggested assets
+          var heldOnlySymbols = [];
+          var suggestedSet = {};
+          for (var _si = 0; _si < assets.length; _si++) {
+            var _sm = (assets[_si].name.match(/\(([A-Z]+)\)/) || [])[1] || (/^[A-Z]{1,5}$/.test(assets[_si].name) ? assets[_si].name : '');
+            if (_sm) suggestedSet[_sm] = true;
+          }
+          for (var _pk in _paperPositions) {
+            if (!suggestedSet[_pk] && Number(_paperPositions[_pk].qty) > 0 && !_marketData[_pk]) {
+              heldOnlySymbols.push({ name: _pk });
+            }
+          }
+          if (heldOnlySymbols.length > 0) {
+            // Fetch additional market data without overwriting existing
+            var addTickers = heldOnlySymbols.map(function(s) { return s.name; });
+            fetch('/api/asset-quote?symbols=' + encodeURIComponent(addTickers.join(',')))
+              .then(function(r) { return r.ok ? r.json() : null; })
+              .then(function(data) {
+                if (data && data.quotes) {
+                  for (var qk in data.quotes) { _marketData[qk] = data.quotes[qk]; }
+                }
+                render();
+              })
+              .catch(function() {});
+          }
+        });
+        // Connectome resolver
+        if (window.LIMENConnectomeResolver) {
+          window.LIMENConnectomeResolver.loadDirectory(function() {
+            _resolverReady = true;
+            var resolved = window.LIMENConnectomeResolver.resolve([_oppData]);
+            if (resolved && resolved.length > 0) _resolvedOppData = resolved[0];
+            render();
+            // Run canonical kernel via adapter chain (experimental)
+            _runKernelExperiment();
+          });
+        }
+      }
+    } else {
+      setTimeout(waitAndRender, 1000);
+    }
+  }
+  waitAndRender();
+}
+
+init();
+
+window.paperTrade = paperTrade;
+window.openTradeConfirm = openTradeConfirm;
+window.openSellConfirm = openSellConfirm;
+window.openExitConfirm = openExitConfirm;
+window.closeTradeConfirm = closeTradeConfirm;
+})();
+</script>
+</body>
+</html>

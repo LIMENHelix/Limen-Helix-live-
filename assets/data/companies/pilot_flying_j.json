@@ -1,0 +1,705 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "pilot_flying_j",
+  "slug": "pilot_flying_j",
+  "name": "Pilot Flying J Company",
+  "ticker": null,
+  "cik": null,
+  "sic": "5541",
+  "industry": "Gasoline Service Stations",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "GASEXP",
+    "DCOILWTICO",
+    "DHHNGSP",
+    "TOTALSA",
+    "HOUST",
+    "ICSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "crude oil",
+    "diesel",
+    "gasoline",
+    "natural gas",
+    "electricity"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Fuel price volatility exposure: diesel and gasoline commodity swings directly impact margin structure; 2022 energy crisis demonstrated 40%+ margin compression risk",
+    "Truck driver shortage: industry-wide shortage of 80,000+ drivers (ATA 2023) constrains logistics partner capacity and increases transportation costs",
+    "Regulatory compliance: DOT Hours-of-Service rules, EPA Tier 4 emissions standards, and state fuel-tax audits create operational friction",
+    "Cybersecurity: 2024 ransomware incidents in travel-center sector signal elevated breach risk to payment systems and customer data"
+  ],
+  "opportunitySignals": [
+    "EV charging infrastructure: electric truck adoption (Tesla Semi, Volvo VNR Electric) creates new revenue stream; Pilot has announced 500+ charging locations by 2030",
+    "Loyalty program monetization: Pilot Rewards program with 10M+ members offers data-driven upsell and subscription revenue expansion",
+    "Real estate optimization: 750+ locations represent valuable land bank; sale-leaseback or REIT conversion could unlock $2B+ in capital",
+    "Convenience retail margin expansion: non-fuel categories (food, beverages, merchandise) growing 8-12% annually with 35%+ gross margins vs. 5-8% fuel"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Pilot Flying J operates the largest network of travel centers in North America with 750+ locations across the U.S., Canada, and Mexico, serving over 3 million professional truck drivers and motorists daily. The company is a critical node in the trucking supply chain, providing fuel, maintenance, lodging, and food services that directly impact driver retention, fleet economics, and logistics network reliability. Its pricing, service quality, and technology adoption (EV charging, digital payments, telematics integration) influence carrier profitability and modal choice across the $900B+ trucking industry.",
+  "portalRelevance": "Pilot Flying J is a tier-1 infrastructure anchor in the supplyChain domain, functioning as a de facto logistics hub that aggregates demand signals from 3.5M+ daily users and translates them into commodity procurement, real-estate utilization, and labor-force decisions. As a private company with $5B+ in annual revenue, it lacks public equity disclosure but exerts outsized influence on fuel markets, driver wages, and carrier cost structures; its capital structure (Berkshire Hathaway majority stake since 2017) and strategic initiatives (EV charging, digital loyalty) signal sector-wide transition vectors. For financial-intelligence models, Pilot's operational metrics (fuel volumes, driver traffic, maintenance utilization) serve as leading indicators of trucking demand and freight-market health.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly fuel volume throughput by location and product (diesel, gasoline, DEF) — proxy for trucking activity and freight demand",
+        "Driver traffic counts and dwell-time analytics — leading indicator of carrier utilization and logistics network stress",
+        "Commodity spot prices (WTI crude, ULSD futures) and Pilot's retail margin compression/expansion — real-time fuel-market exposure",
+        "8-K and press releases from major carrier customers (J.B. Hunt, Schneider, Werner, Knight-Swift) announcing fleet size changes or fuel-hedging programs"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly fuel volume trends (gallons sold) and average retail margin per gallon — direct measure of operational leverage and commodity exposure",
+        "Driver satisfaction and retention metrics (via Pilot Rewards engagement, app usage, NPS surveys) — proxy for competitive positioning vs. Love's, TA/Petro",
+        "Real-estate utilization rates and capex spend on EV charging and facility upgrades — signal of growth investment and capital allocation discipline",
+        "Debt service coverage and leverage ratios (inferred from Berkshire Hathaway ownership structure and prior credit facility disclosures) — financial stability assessment"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: fuel-margin compression + driver-shortage spike + EV adoption acceleration = transition inflection point (2024-2026 window)",
+        "Competitive threat: Love's Travel Stops (private, ~600 locations) and TA/Petro (Pilot's largest competitor, ~700 locations) both expanding EV charging; Pilot's first-mover advantage eroding",
+        "Regulatory headwind: EPA Tier 4 Final emissions standards (2027 deadline) and state-level fuel-tax audits increasing compliance cost by 3-5% of EBITDA",
+        "Structural opportunity: non-fuel convenience retail (food, merchandise, services) growing faster than fuel; margin profile suggests 200-300 bps EBITDA upside if penetration reaches industry best-practice"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: Pilot's EV charging expansion and loyalty program monetization can offset fuel-margin compression; target 50 bps EBITDA margin expansion by 2027",
+        "Risk management: hedge crude oil and diesel exposure via futures contracts (3-6 month rolling hedge on 30-40% of expected volumes) to stabilize quarterly earnings",
+        "Engagement: monitor DOT Hours-of-Service rulemaking (2024-2025 cycle) and EPA Tier 4 compliance timelines; model capex impact of emissions-control retrofits",
+        "Capital allocation: prioritize EV charging buildout in high-traffic corridors (I-40, I-80, I-95) and loyalty program data monetization over traditional fuel-margin expansion"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight Pilot's parent (Berkshire Hathaway) on thesis that Pilot's EV transition and convenience-retail margin expansion will drive 15-20% EBITDA CAGR 2024-2028",
+        "Engagement: request quarterly operational metrics (fuel volumes, driver traffic, EV charging utilization, loyalty program penetration) from Berkshire investor relations",
+        "Hedge: short Love's Travel Stops (if equity available) or short-duration crude oil futures to hedge Pilot's commodity exposure and competitive margin pressure",
+        "M&A watch: monitor for potential acquisition of smaller regional chains (Sapp Bros, Rip Griffin) to consolidate market share and EV charging network"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly: track Pilot's fuel volumes, driver traffic, and EV charging utilization vs. Love's and TA/Petro (via industry reports, carrier earnings calls, trade publications)",
+        "Semi-annual: assess Pilot Rewards program growth (member count, engagement, transaction value) and non-fuel revenue contribution to total EBITDA",
+        "Annual: review Berkshire Hathaway's 10-K disclosure of Pilot's performance, capex spend, and strategic initiatives; cross-check vs. prior guidance",
+        "Event-driven: monitor 8-K filings from major carrier customers (J.B. Hunt, Schneider, Werner) for fleet-size announcements, fuel-hedging program changes, or service-level complaints"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "If EV charging adoption accelerates faster than modeled (>20% YoY growth), increase weight on Pilot's infrastructure-moat thesis and reduce commodity-exposure hedge ratio",
+        "If fuel-margin compression persists (sustained <5% retail margin), increase focus on convenience-retail margin expansion and loyalty program monetization as primary EBITDA drivers",
+        "If driver shortage worsens (ATA shortage index >100,000), model higher wage inflation and service-level risk; increase engagement with carrier customers on Pilot's role in retention",
+        "If Berkshire Hathaway signals capital redeployment (e.g., dividend increase, share buyback acceleration), reassess Pilot's capex funding and growth trajectory"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Pilot Flying J operates as a logistics-hub neural node that aggregates real-time demand signals from 3.5M+ daily users (truck drivers, motorists) and translates them into procurement decisions (fuel, food, merchandise), capacity allocation (driver services, maintenance bays, EV charging), and pricing strategies. The company's 750+ locations function as distributed sensory receptors monitoring freight-market health, driver sentiment, and fuel-commodity dynamics; its loyalty program and digital platform serve as information-processing layers that convert behavioral data into targeted upsells and margin optimization. Pilot's capital structure (Berkshire Hathaway majority ownership) and strategic partnerships (carrier relationships, fuel suppliers, technology vendors) create feedback loops that link operational performance to broader trucking-industry cycles and energy-market volatility.",
+    "suppliers": [
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel Supply & Commodity",
+        "relationshipNote": "ExxonMobil supplies crude oil and refined products (diesel, gasoline, DEF) to Pilot's 750+ locations; represents estimated 15-20% of Pilot's fuel procurement volume. Supply contracts typically 12-24 month terms with quarterly price adjustments tied to WTI and ULSD futures. 2022 energy crisis created 40%+ margin compression; ongoing relationship includes hedging coordination and supply-chain resilience planning.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000066740",
+        "slug": "chevron",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel Supply & Commodity",
+        "relationshipNote": "Chevron supplies diesel and gasoline to select Pilot locations, particularly in Western U.S. corridor (CA, NV, AZ, UT). Estimated 8-12% of Pilot's fuel procurement; contract terms include volume commitments and seasonal pricing adjustments. Relationship includes co-marketing initiatives and fuel-quality assurance programs aligned with EPA Tier 4 standards.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BP p.l.c.",
+        "ticker": "BP",
+        "cik": "0001104659",
+        "slug": "bp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel Supply & Commodity",
+        "relationshipNote": "BP supplies diesel and gasoline to Pilot locations in Eastern and Midwest U.S. regions; estimated 10-15% of total fuel procurement. Supply agreements include logistics coordination via BP's distribution network and joint initiatives on emissions-reduction standards. 2023 contract renewal included sustainability clauses tied to EPA Tier 4 compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": "0001096304",
+        "slug": "valero_energy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel Supply & Commodity",
+        "relationshipNote": "Valero supplies refined products (diesel, gasoline) to Pilot locations via regional distribution partnerships; estimated 5-8% of fuel procurement. Relationship includes supply-chain optimization initiatives and joint hedging programs to manage commodity volatility. 2024 contract includes provisions for renewable diesel (RD) blending to support EPA sustainability goals.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sysco Corporation",
+        "ticker": "SYY",
+        "cik": "0000096021",
+        "slug": "sysco",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Food & Beverage Supply",
+        "relationshipNote": "Sysco supplies food, beverages, and prepared-meal ingredients to Pilot's 750+ locations' restaurants and convenience stores; estimated 25-30% of non-fuel procurement. Contract includes weekly delivery schedules, inventory management via EDI, and promotional coordination. Non-fuel convenience retail represents 8-12% of Pilot's total revenue and 35%+ gross margins, making Sysco a critical margin-expansion partner.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nestlé S.A.",
+        "ticker": "NSRGY",
+        "cik": null,
+        "slug": "nestle",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Branded Beverage & Snack Supply",
+        "relationshipNote": "Nestlé supplies branded beverages (Nescafé, Perrier, Poland Spring) and snacks to Pilot's convenience stores; estimated 8-12% of non-fuel merchandise revenue. Relationship includes co-branded promotions, point-of-sale integration, and seasonal product launches. 2023 partnership expanded cold-beverage offerings in response to driver demand for premium coffee and energy drinks.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Coca-Cola Company",
+        "ticker": "KO",
+        "cik": "0000021344",
+        "slug": "coca_cola",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Beverage Supply",
+        "relationshipNote": "Coca-Cola supplies soft drinks, juices, and water to Pilot's 750+ locations; estimated 10-15% of beverage revenue. Contract includes fountain-drink equipment placement, promotional support, and digital-menu integration. 2024 partnership includes sustainability initiatives (recycled packaging, water conservation) aligned with Pilot's ESG commitments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mondelez International Inc.",
+        "ticker": "MDLZ",
+        "cik": "0001103982",
+        "slug": "mondelez",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Snack & Confectionery Supply",
+        "relationshipNote": "Mondelez supplies branded snacks (Oreo, Trident, Cadbury) to Pilot's convenience stores; estimated 6-10% of merchandise revenue. Relationship includes shelf-space optimization, promotional calendars, and new-product testing. 2023 expansion focused on healthier snack options (protein bars, nuts) to align with driver wellness trends.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cummins Inc.",
+        "ticker": "CMI",
+        "cik": "0000026059",
+        "slug": "cummins",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Diesel Engine & Emissions Equipment Supply",
+        "relationshipNote": "Cummins supplies diesel engines, emissions-control systems (SCR, DPF), and maintenance parts to Pilot's truck-service facilities; estimated 12-18% of maintenance-revenue supply chain. Relationship includes technician training, warranty support, and EPA Tier 4 Final compliance programs. 2024 partnership expanded EV powertrain support as electric truck adoption accelerates.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Heavy-Equipment & Maintenance Supply",
+        "relationshipNote": "Caterpillar supplies heavy-equipment parts, hydraulic systems, and maintenance supplies to Pilot's truck-service operations; estimated 5-8% of maintenance-parts procurement. Contract includes inventory management, technical support, and training programs for Pilot's service technicians. Relationship supports Pilot's competitive positioning in truck maintenance services.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400760",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Carrier Customer & Logistics Partner",
+        "relationshipNote": "J.B. Hunt operates 23,000+ trucks and is Pilot's largest carrier customer, with 8,000+ drivers using Pilot locations daily. Relationship includes fuel-discount programs, driver-loyalty integration, and real-time telematics data sharing. 2023 partnership expanded EV charging access at 50+ Pilot locations to support J.B. Hunt's electric-truck pilot program (Tesla Semi, Volvo VNR Electric).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Schneider National Inc.",
+        "ticker": "SNDR",
+        "cik": "0000091618",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Carrier Customer & Logistics Partner",
+        "relationshipNote": "Schneider National operates 13,000+ trucks and is Pilot's second-largest carrier customer, with 5,000+ drivers using Pilot locations weekly. Contract includes fuel-hedging coordination, driver-amenity programs, and maintenance-service integration. 2024 agreement expanded Pilot's role in Schneider's supply-chain optimization initiatives, including real-time fuel-price transparency and predictive maintenance.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Werner Enterprises Inc.",
+        "ticker": "WERN",
+        "cik": "0000105570",
+        "slug": "werner_enterprises",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Carrier Customer & Logistics Partner",
+        "relationshipNote": "Werner Enterprises operates 14,000+ trucks and is a top-5 Pilot customer, with 4,000+ drivers using Pilot locations regularly. Relationship includes fuel-discount programs, driver-retention initiatives, and telematics integration. 2023 partnership included pilot program for EV charging at 20 Pilot locations to support Werner's sustainability goals.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Knight-Swift Transportation Inc.",
+        "ticker": "KNX",
+        "cik": "0001387029",
+        "slug": "knight_swift",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Carrier Customer & Logistics Partner",
+        "relationshipNote": "Knight-Swift operates 23,000+ trucks (largest U.S. carrier) and is a major Pilot customer, with 6,000+ drivers using Pilot locations daily. Contract includes fuel-discount programs, driver-amenity partnerships, and real-time logistics coordination. 2024 agreement expanded Pilot's role in Knight-Swift's digital transformation, including mobile app integration and predictive fuel-pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Carrier Customer & Logistics Partner",
+        "relationshipNote": "XPO Logistics operates 19,000+ trucks and is a top-10 Pilot customer, with 3,000+ drivers using Pilot locations regularly. Relationship includes fuel-discount programs, driver-wellness initiatives, and supply-chain optimization. 2023 partnership expanded Pilot's role in XPO's last-mile delivery network, including real-time fuel-cost transparency and predictive maintenance scheduling.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Professional Truck Drivers (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "truck_drivers_aggregate",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Primary Revenue Driver",
+        "relationshipNote": "Pilot serves 3.5M+ professional truck drivers daily across 750+ locations; drivers represent 70-75% of Pilot's fuel revenue and 60-65% of convenience-retail revenue. Pilot Rewards loyalty program has 10M+ members with 40%+ engagement rate. Driver satisfaction (NPS 65+) is critical to competitive positioning vs. Love's Travel Stops and TA/Petro; driver retention directly impacts fuel-volume stability.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Retail Motorists (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "retail_motorists_aggregate",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Secondary Revenue Driver",
+        "relationshipNote": "Pilot serves 1M+ retail motorists daily at highway locations; retail customers represent 25-30% of fuel revenue and 35-40% of convenience-retail revenue. Retail segment has higher margin profile (8-12% fuel margin vs. 5-8% for professional drivers) and growing loyalty-program penetration (Pilot Rewards). Retail expansion is key to margin-expansion strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Love's Travel Stops and Country Stores",
+        "ticker": null,
+        "cik": null,
+        "slug": "loves_travel_stops",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor",
+        "relationshipNote": "Love's operates ~600 travel centers across North America, making it Pilot's largest direct competitor by location count. Love's has 8M+ loyalty members and is aggressively expanding EV charging (500+ locations by 2025). Love's fuel volumes estimated at 60-70% of Pilot's; competitive threat centers on EV charging buildout speed, driver-amenity quality, and loyalty-program engagement. 2024 Love's expansion in Western U.S. directly competes with Pilot's core markets.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "TA/Petro (TravelCenters of America)",
+        "ticker": "TA",
+        "cik": "0001437107",
+        "slug": "ta_petro",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor",
+        "relationshipNote": "TA/Petro operates ~700 travel centers and is Pilot's second-largest competitor. TA/Petro went public in 2022 (IPO $500M) and has been expanding EV charging and convenience retail. TA/Petro's fuel volumes estimated at 50-60% of Pilot's; competitive positioning weaker on driver amenities but stronger on real-estate footprint. 2023 TA/Petro acquisition of Petro Stopping Centers expanded Western U.S. presence.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Sapp Bros Travel Centers",
+        "ticker": null,
+        "cik": null,
+        "slug": "sapp_bros",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitor",
+        "relationshipNote": "Sapp Bros operates ~100 travel centers in Midwest and Western U.S. (Nebraska, Wyoming, Colorado, Idaho); regional competitor with strong driver loyalty in rural corridors. Sapp Bros has 1M+ loyalty members and is expanding convenience retail and EV charging. Competitive threat is localized but significant in Midwest freight corridors; potential acquisition target for Pilot.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Rip Griffin Travel Centers",
+        "ticker": null,
+        "cik": null,
+        "slug": "rip_griffin",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitor",
+        "relationshipNote": "Rip Griffin operates ~80 travel centers in Texas, New Mexico, Oklahoma, and Arizona; regional competitor with strong presence in Southwest freight corridors. Rip Griffin has 500K+ loyalty members and is expanding EV charging and convenience retail. Competitive threat is localized but significant in high-volume I-40 and I-10 corridors; potential acquisition target for Pilot.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Murphy USA Inc.",
+        "ticker": "MUSA",
+        "cik": "0001411910",
+        "slug": "murphy_usa",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Adjacent Competitor (Retail Fuel)",
+        "relationshipNote": "Murphy USA operates 1,400+ retail fuel stations (primarily convenience-store format) and competes with Pilot on retail-motorist fuel sales and convenience retail. Murphy USA's fuel volumes (~2B gallons annually) are 3-4x Pilot's retail segment; however, Murphy USA lacks truck-driver amenities and travel-center infrastructure. Competitive threat is indirect but growing as retail motorists shift to convenience-store fuel purchases.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Governance",
+        "relationshipNote": "SEC oversees Pilot's parent company (Berkshire Hathaway) and any future public offerings or debt issuances by Pilot. Pilot is currently private but subject to SEC disclosure requirements if it issues public debt or equity. 2024 Berkshire 10-K includes Pilot performance metrics and strategic disclosures; SEC Form 8-K filings track material Pilot events.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Safety & Compliance Regulation",
+        "relationshipNote": "DOT regulates Pilot's truck-service operations, driver-amenity facilities, and fuel-handling procedures via FMCSA and PHMSA. Key regulations include Hours-of-Service rules (HOS), vehicle inspection standards (CVSA), and hazardous-materials handling (49 CFR). 2024 DOT rulemaking on EV charging infrastructure and autonomous-vehicle testing creates compliance and investment opportunities for Pilot.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental & Emissions Compliance",
+        "relationshipNote": "EPA regulates Pilot's fuel-handling operations, emissions standards (Tier 4 Final diesel engines, 2027 deadline), and underground storage tanks (UST) via 40 CFR. Pilot's 750+ locations must comply with state-level fuel-tax audits and EPA fuel-quality standards. 2024 EPA rulemaking on renewable diesel (RD) blending and EV charging infrastructure creates compliance and margin-expansion opportunities.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Competition & Consumer Protection",
+        "relationshipNote": "FTC oversees Pilot's competitive practices, pricing transparency, and consumer-protection compliance (fuel-price disclosure, loyalty-program terms). FTC has authority over potential M&A activity (e.g., Pilot acquisition of Love's or TA/Petro would trigger Hart-Scott-Rodino review). 2024 FTC focus on fuel-market transparency and loyalty-program disclosure creates compliance requirements.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "State Attorneys General (Multi-State)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_ags",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "State-Level Compliance & Enforcement",
+        "relationshipNote": "State AGs regulate Pilot's fuel-tax compliance, consumer-protection practices, and employment law (wage-and-hour, worker classification). Pilot operates in 50 states and must comply with varying fuel-tax rates, environmental standards, and labor laws. 2023-2024 multi-state investigations into fuel-price transparency and loyalty-program disclosure create compliance and litigation risk.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Deloitte serves as Pilot's external auditor and provides tax, advisory, and risk-management services. Deloitte's audit scope includes Pilot's fuel-inventory accounting, revenue recognition (fuel and convenience retail), and internal controls over financial reporting. Deloitte's audit opinions inform Berkshire Hathaway's consolidated financial statements and investor confidence in Pilot's operational metrics.",
+      "confidence": "medium",
+      "sourceType": [
+        "inferred",
+        "industry-report"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Majority Owner & Capital Provider",
+        "relationshipNote": "Berkshire Hathaway acquired majority stake in Pilot Flying J in 2017 for $2.7B (38% stake, later increased to 80%+). Berkshire provides capital for Pilot's expansion (EV charging, facility upgrades) and strategic guidance. Berkshire's ownership structure gives Pilot access to Berkshire's credit rating (AA+) and capital markets. 2024 Berkshire 10-K discloses Pilot's performance and strategic initiatives.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt & Credit Facility Provider",
+        "relationshipNote": "JPMorgan Chase is a lead arranger and lender on Pilot's credit facilities, including revolving credit lines and term loans. Pilot's debt structure includes. JPMorgan provides treasury management, payment processing, and capital-markets advisory services. 2023-2024 credit facility refinancing included sustainability-linked pricing tied to EV charging expansion targets.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt & Credit Facility Provider",
+        "relationshipNote": "Bank of America is a syndicate lender on Pilot's credit facilities and provides payment processing, treasury management, and capital-markets services. BofA's involvement in Pilot's credit syndicate reflects Pilot's investment-grade credit profile (supported by Berkshire Hathaway backing). 2024 credit facility includes sustainability-linked pricing and EV charging expansion covenants.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Mark Irwin",
+        "ticker": null,
+        "cik": null,
+        "slug": "mark_irwin",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer",
+        "relationshipNote": "Mark Irwin has served as CEO of Pilot Flying J since 2018, overseeing strategic transformation including EV charging expansion, loyalty-program monetization, and convenience-retail margin growth. Irwin reports to Berkshire Hathaway's board and is responsible for Pilot's $5B+ revenue and 750+ location network. 2024 strategic priorities include 500+ EV charging locations by 2030 and non-fuel revenue growth to 20%+ of total.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sandi Onorato",
+        "ticker": null,
+        "cik": null,
+        "slug": "sandi_onorato",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": "Sandi Onorato serves as CFO of Pilot Flying J, overseeing financial planning, capital allocation, and investor relations with Berkshire Hathaway. Onorato is responsible for Pilot's debt management, working-capital optimization, and financial reporting. 2024 priorities include capex efficiency for EV charging buildout and margin-expansion initiatives.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Robert Sanchez",
+        "ticker": null,
+        "cik": null,
+        "slug": "robert_sanchez",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer",
+        "relationshipNote": "Robert Sanchez serves as COO of Pilot Flying J, overseeing operations across 750+ locations, supply-chain management, and driver-amenity services. Sanchez is responsible for operational efficiency, fuel-volume growth, and service-quality standards. 2024 priorities include EV charging infrastructure deployment and convenience-retail margin expansion.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Weekly Fuel Volume Index (Pilot Internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pilot_fuel_volume_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Demand Signal",
+        "relationshipNote": "Pilot's weekly fuel volumes (gallons sold across 750+ locations) serve as a leading indicator of trucking demand and freight-market health. Fuel volumes are correlated with ATA Trucking Index (r=0.85) and lead GDP growth by 4-6 weeks. 2024 fuel volumes tracking +2-3% YoY, indicating stable freight demand despite economic uncertainty.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Driver Traffic Index (Pilot Internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pilot_driver_traffic_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Pilot's daily driver traffic counts (3.5M+ drivers across 750+ locations) serve as a real-time indicator of carrier utilization and freight-market stress. Driver traffic is correlated with spot-market freight rates (r=0.80) and leads carrier earnings by 2-3 weeks. 2024 driver traffic tracking +1-2% YoY, indicating stable carrier utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

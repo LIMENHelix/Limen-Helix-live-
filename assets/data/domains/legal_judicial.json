@@ -1,0 +1,511 @@
+{
+  "domainId": "legal_judicial",
+  "title": "Judicial Reasoning",
+  "parentPortal": "legal_portal.html",
+  "parentLabel": "Legal Systems",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Judicial Reasoning Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Judicial Reasoning indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Routes and distributes judicial reasoning resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Routes and distributes judicial reasoning resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.92
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Reasoning Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Reasoning Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "legal_judicial_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "FORN",
+      "state": "active",
+      "domainLabel": "Judicial Reasoning Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Judicial Reasoning activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Stores and retrieves judicial reasoning knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves judicial reasoning knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Reasoning Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Reasoning Core Operations"
+        }
+      ],
+      "childPortal": "legal_judicial_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "CING",
+      "state": "active",
+      "domainLabel": "Judicial Reasoning Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Judicial Reasoning, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Stores and retrieves judicial reasoning knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Stores and retrieves judicial reasoning knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.89
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Reasoning Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Reasoning Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "legal_judicial_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "MAMM",
+      "state": "active",
+      "domainLabel": "Judicial Reasoning Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Judicial Reasoning practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves judicial reasoning knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Stores and retrieves judicial reasoning knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Reasoning Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Reasoning Standards & Governance"
+        }
+      ],
+      "childPortal": "legal_judicial_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "SEPT",
+      "state": "active",
+      "domainLabel": "Judicial Reasoning Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Judicial Reasoning methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Stores and retrieves judicial reasoning knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Stores and retrieves judicial reasoning knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Reasoning Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Reasoning Research & Development"
+        }
+      ],
+      "childPortal": "legal_judicial_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "NBM",
+      "state": "active",
+      "domainLabel": "Judicial Reasoning Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Judicial Reasoning stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves judicial reasoning knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "U.S. Federal Courts (PACER)",
+          "ticker_or_id": "PACER_GOV",
+          "functional_reason": "Stores and retrieves judicial reasoning knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.85
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Reasoning Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Reasoning Risk & Resilience"
+        }
+      ],
+      "childPortal": "legal_judicial_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "PIN",
+      "state": "active",
+      "domainLabel": "Judicial Reasoning Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Judicial Reasoning operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes judicial reasoning oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes judicial reasoning oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Reasoning Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Reasoning Coordination & Integration"
+        }
+      ],
+      "childPortal": "legal_judicial_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "VEST",
+      "state": "active",
+      "domainLabel": "Judicial Reasoning Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Judicial Reasoning outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes judicial reasoning oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes judicial reasoning oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.94
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Judicial Reasoning Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Judicial Reasoning Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CC",
+      "target": "FORN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FORN",
+      "target": "CING",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CING",
+      "target": "MAMM",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "MAMM",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "SEPT",
+      "target": "NBM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NBM",
+      "target": "PIN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PIN",
+      "target": "VEST",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VEST",
+      "target": "CC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CC",
+      "target": "SEPT",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "MAMM",
+      "target": "PIN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "LEGAL_JUDICIAL_SYSTEM_FAILURE",
+      "label": "Judicial Reasoning System Failure",
+      "summary": "Critical breakdown in Judicial Reasoning systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CC",
+          "dir": "Hypo-active",
+          "detail": "Judicial Reasoning Assessment & Diagnostics capacity falling below operational thresholds, reducing Judicial Reasoning output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FORN",
+          "dir": "Hypo-active",
+          "detail": "Judicial Reasoning Core Operations systems underperforming, creating gaps in Judicial Reasoning coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Altered",
+          "detail": "Judicial Reasoning Infrastructure & Capacity behavior deviating from established norms, complicating Judicial Reasoning management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Hyper-active",
+          "detail": "Judicial Reasoning Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Judicial Reasoning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Hypo-active",
+          "detail": "Judicial Reasoning Performance & Optimization function reduced, compromising Judicial Reasoning system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_JUDICIAL_CAPACITY_CRISIS",
+      "label": "Judicial Reasoning Capacity Crisis",
+      "summary": "Demand exceeding available Judicial Reasoning capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "FORN",
+          "dir": "Hyper-active",
+          "detail": "Judicial Reasoning Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Judicial Reasoning",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Hypo-active",
+          "detail": "Judicial Reasoning Infrastructure & Capacity systems underperforming, creating gaps in Judicial Reasoning coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MAMM",
+          "dir": "Altered",
+          "detail": "Judicial Reasoning Standards & Governance behavior deviating from established norms, complicating Judicial Reasoning management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hyper-active",
+          "detail": "Judicial Reasoning Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Judicial Reasoning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Altered",
+          "detail": "Judicial Reasoning Performance & Optimization operating outside normal parameters, introducing uncertainty into Judicial Reasoning outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_JUDICIAL_GOVERNANCE_GAP",
+      "label": "Judicial Reasoning Governance Gap",
+      "summary": "Oversight or regulatory failure in Judicial Reasoning creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "MAMM",
+          "dir": "Hypo-active",
+          "detail": "Judicial Reasoning Standards & Governance capacity falling below operational thresholds, reducing Judicial Reasoning output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "Judicial Reasoning Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Judicial Reasoning",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SEPT",
+          "dir": "Hyper-active",
+          "detail": "Judicial Reasoning Research & Development activity spiking beyond design limits, creating instability across Judicial Reasoning operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Altered",
+          "detail": "Judicial Reasoning Risk & Resilience patterns disrupted, necessitating adaptive responses within Judicial Reasoning frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hypo-active",
+          "detail": "Judicial Reasoning Coordination & Integration function reduced, compromising Judicial Reasoning system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

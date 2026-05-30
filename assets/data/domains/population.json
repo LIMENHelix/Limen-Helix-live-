@@ -1,0 +1,2253 @@
+{
+  "domainId": "population",
+  "title": "Population & Demographics",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "OXY",
+      "state": "active",
+      "domainLabel": "Birth Rates",
+      "domainDescription": "Fertility trends, natalist policy, reproductive health, and family planning",
+      "domainFunction": "Drives bonding, reproduction, and social trust that sustain population replacement rates",
+      "whyThisNode": "Oxytocin as bonding and birth hormone — OXY drives pair bonding, maternal behavior, and labor contractions, directly paralleling the biological drivers of birth rates",
+      "group": "fertility",
+      "phase": "P0",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "treatments": [
+        {
+          "label": "Fertility trend analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Decompose total fertility rate into age-specific, cohort, and regional components to identify intervention points",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Family support policy package",
+          "type": "STRUCTURAL",
+          "description": "Implement parental leave, childcare subsidies, and housing support aligned with evidence from Nordic models",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "population_birth_portal.html",
+      "phase_archetype": "P9",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Demographic and Health Surveys",
+          "ticker_or_id": "DHS_USAID",
+          "functional_reason": "Stores and retrieves birth rates knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "International Organization for Migration",
+          "ticker_or_id": "IOM",
+          "functional_reason": "Stabilizes birth rates oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Bill & Melinda Gates Foundation",
+          "ticker_or_id": "GATES_FDN",
+          "functional_reason": "Allocates and regulates birth rates resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.68
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Birth Rates",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Team Culture"
+        },
+        {
+          "domain": "education",
+          "role": "Early Childhood Education"
+        },
+        {
+          "domain": "medicine",
+          "role": "Nursing Care"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Bonding & Attachment"
+        },
+        {
+          "domain": "provider",
+          "role": "Team Cohesion / Culture"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Oxytocin Bonding System"
+        },
+        {
+          "domain": "communication",
+          "role": "captioning accuracy — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Lighting Design — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CARD",
+      "state": "active",
+      "domainLabel": "Mortality & Life Expectancy",
+      "domainDescription": "Death rates, cause-of-death patterns, longevity trends, and survival analysis",
+      "domainFunction": "Monitors cardiovascular and systemic health indicators that determine population survival curves",
+      "whyThisNode": "Cardiovascular regulation center — CARD monitors heart rate and blood pressure, the vital signs whose failure marks death, paralleling mortality tracking at population scale",
+      "group": "health",
+      "phase": "P0",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "AGING_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Cause-of-death decomposition",
+          "type": "DIAGNOSTIC",
+          "description": "Analyze mortality data by cause, age, sex, and geography to identify emerging threats and disparities",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Preventive health infrastructure",
+          "type": "STRUCTURAL",
+          "description": "Invest in primary care, vaccination, and chronic disease management to compress morbidity and extend healthy lifespan",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "population_mortality_portal.html",
+      "phase_archetype": "P4",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "UNICEF",
+          "ticker_or_id": "UNICEF",
+          "functional_reason": "Allocates and regulates mortality & life expectancy resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "Esri (ArcGIS)",
+          "ticker_or_id": "ESRI",
+          "functional_reason": "Stores and retrieves mortality & life expectancy knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "Gavi (Vaccine Alliance)",
+          "ticker_or_id": "GAVI",
+          "functional_reason": "Executes core mortality & life expectancy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Mortality & Life Expectancy",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Cardiology"
+        },
+        {
+          "domain": "trade",
+          "role": "Services Trade"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — State Assessment"
+        },
+        {
+          "domain": "culture",
+          "role": "interior lighting — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Superiority Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Infrastructure & Capacity"
+        },
+        {
+          "domain": "education",
+          "role": "Socioeconomic Factors"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VEST",
+      "state": "active",
+      "domainLabel": "Migration Patterns",
+      "domainDescription": "Immigration, emigration, diaspora formation, and population movement dynamics",
+      "domainFunction": "Navigates spatial displacement and maintains orientation during population movement across territories",
+      "whyThisNode": "Vestibular system for spatial navigation and balance — VEST maintains orientation during movement, just as migration management navigates population flows while maintaining social balance",
+      "group": "migration",
+      "phase": "P5",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "treatments": [
+        {
+          "label": "Migration flow modeling",
+          "type": "DIAGNOSTIC",
+          "description": "Agent-based models of push-pull migration dynamics with climate, conflict, and economic forcing variables",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Integration pathway design",
+          "type": "STRUCTURAL",
+          "description": "Evidence-based settlement programs combining language, employment, housing, and social connection support",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "population_migration_portal.html",
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "World Food Programme",
+          "ticker_or_id": "WFP",
+          "functional_reason": "Executes core migration patterns operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "IHS Markit (S&P Global)",
+          "ticker_or_id": "SPGI",
+          "functional_reason": "Detects and monitors migration patterns signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "U.S. Census Bureau",
+          "ticker_or_id": "CENSUS_GOV",
+          "functional_reason": "Stores and retrieves migration patterns knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.77
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Migration Patterns",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "religion",
+          "role": "Pilgrimage"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Translation Services Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Performance & Optimization"
+        },
+        {
+          "domain": "culture",
+          "role": "Mixed-Use Policy & Governance"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Quality & Performance"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Regular Decision Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Urbanization",
+      "domainDescription": "City growth, metropolitan planning, infrastructure scaling, and urban governance",
+      "domainFunction": "Applies executive planning and resource allocation to manage the concentration of populations in urban centers",
+      "whyThisNode": "Executive planning and working memory — dlPFC manages complex multi-step plans, just as urbanization requires executive coordination of infrastructure, zoning, and services for dense populations",
+      "group": "urbanization",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION"
+      ],
+      "treatments": [
+        {
+          "label": "Urban carrying capacity assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Model infrastructure limits for water, transport, housing, and services against projected population growth curves",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Polycentric development strategy",
+          "type": "STRUCTURAL",
+          "description": "Invest in secondary cities and regional hubs to distribute growth pressure away from megacity concentration",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "population_urbanization_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Gavi (Vaccine Alliance)",
+          "ticker_or_id": "GAVI",
+          "functional_reason": "Executes core urbanization operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "World Food Programme",
+          "ticker_or_id": "WFP",
+          "functional_reason": "Executes core urbanization operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Oracle Public Sector",
+          "ticker_or_id": "ORCL",
+          "functional_reason": "Executes core urbanization operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Urbanization",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RSC",
+      "state": "active",
+      "domainLabel": "Rural Decline",
+      "domainDescription": "Depopulation of agricultural regions, rural service collapse, and small-town attrition",
+      "domainFunction": "Maintains contextual memory and spatial orientation for places being forgotten as populations depart",
+      "whyThisNode": "Retrosplenial cortex for spatial context and scene memory — RSC anchors memory to place, just as rural decline represents the loss of place-based identity and contextual knowledge",
+      "group": "urbanization",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "treatments": [
+        {
+          "label": "Rural viability index",
+          "type": "DIAGNOSTIC",
+          "description": "Score rural communities on economic diversity, age structure, service access, and connectivity to identify at-risk areas",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Remote work and digital infrastructure",
+          "type": "STRUCTURAL",
+          "description": "Deploy broadband and co-working infrastructure to enable economic activity independent of urban proximity",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "population_rural_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "United Nations Population Fund",
+          "ticker_or_id": "UNFPA",
+          "functional_reason": "Allocates and regulates rural decline resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Bill & Melinda Gates Foundation",
+          "ticker_or_id": "GATES_FDN",
+          "functional_reason": "Allocates and regulates rural decline resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "Oracle Public Sector",
+          "ticker_or_id": "ORCL",
+          "functional_reason": "Routes and distributes rural decline resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.68
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Rural Decline",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Assessment & Diagnostics"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Heritage Preservation"
+        },
+        {
+          "domain": "defense",
+          "role": "Space"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Technology & Innovation"
+        },
+        {
+          "domain": "education",
+          "role": "Competitive Admissions Core Operations"
+        },
+        {
+          "domain": "energy",
+          "role": "Collection Systems Technology & Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Aging Population",
+      "domainDescription": "Geriatric demographics, dependency ratios, pension systems, and elder care demand",
+      "domainFunction": "Modulates the pace and quality of the aging process through neurochemical systems that shift with age",
+      "whyThisNode": "Serotonergic modulation declines with age — raphe nuclei degenerate in aging brains, directly paralleling the biological reality of population aging and its systemic effects",
+      "group": "aging",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "AGING_CRISIS",
+        "POPULATION_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Dependency ratio projection",
+          "type": "DIAGNOSTIC",
+          "description": "Model worker-to-retiree ratios under multiple fertility, migration, and mortality scenarios to 2060",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Active aging policy framework",
+          "type": "STRUCTURAL",
+          "description": "Implement phased retirement, lifelong learning, and age-friendly infrastructure to extend productive participation",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "population_aging_portal.html",
+      "phase_archetype": "P9",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Gavi (Vaccine Alliance)",
+          "ticker_or_id": "GAVI",
+          "functional_reason": "Executes core aging population operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "International Organization for Migration",
+          "ticker_or_id": "IOM",
+          "functional_reason": "Stabilizes aging population oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "UNICEF",
+          "ticker_or_id": "UNICEF",
+          "functional_reason": "Allocates and regulates aging population resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.69
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Aging Population",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Serotonergic Mood Regulation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Serotonergic Tone"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Serotonergic Metabolic Modulation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Raphe Nuclei"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Serotonin System Development"
+        },
+        {
+          "domain": "provider",
+          "role": "System Morale / Well-Being"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Serotonergic Reset Center"
+        },
+        {
+          "domain": "religion",
+          "role": "Mystical Experience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Youth Demographics",
+      "domainDescription": "Youth bulge/deficit dynamics, generational formation, and young adult transitions",
+      "domainFunction": "Generates motivational drive and reward-seeking behavior characteristic of young populations entering productive life",
+      "whyThisNode": "Dopaminergic motivation and reward — VTA drives novelty-seeking and goal pursuit, mirroring the energy, ambition, and risk-taking that characterize youth demographics",
+      "group": "labor",
+      "phase": "P5",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "MASS_MIGRATION"
+      ],
+      "treatments": [
+        {
+          "label": "Youth opportunity mapping",
+          "type": "DIAGNOSTIC",
+          "description": "Survey employment, education, and social mobility pathways available to 15-30 age cohorts across regions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Youth retention and engagement",
+          "type": "STRUCTURAL",
+          "description": "Create economic incentives, civic participation pathways, and quality-of-life investments targeting young adult retention",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "population_youth_portal.html",
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "UNICEF",
+          "ticker_or_id": "UNICEF",
+          "functional_reason": "Amplifies and scales youth demographics capacity, driving growth and expanding reach of youth demographics operations",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Bill & Melinda Gates Foundation",
+          "ticker_or_id": "GATES_FDN",
+          "functional_reason": "Amplifies and scales youth demographics capacity, driving growth and expanding reach of youth demographics operations",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Gavi (Vaccine Alliance)",
+          "ticker_or_id": "GAVI",
+          "functional_reason": "Amplifies and scales youth demographics capacity, driving growth and expanding reach of youth demographics operations",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Youth Demographics",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus"
+        },
+        {
+          "domain": "business",
+          "role": "Innovation Engine"
+        },
+        {
+          "domain": "economy",
+          "role": "Entrepreneurship"
+        },
+        {
+          "domain": "energy",
+          "role": "Solar and Wind"
+        },
+        {
+          "domain": "environment",
+          "role": "Renewable Resources"
+        },
+        {
+          "domain": "medicine",
+          "role": "Men's Health Optimization"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Dopaminergic Metabolic Signaling"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Dopaminergic Drive Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Labor Force",
+      "domainDescription": "Workforce participation, employment patterns, automation displacement, and human capital",
+      "domainFunction": "Executes the productive output of the population through coordinated economic motor activity",
+      "whyThisNode": "Primary motor cortex — M1 executes voluntary movement and productive action, just as the labor force executes the productive economic output of a population",
+      "group": "labor",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "AGING_CRISIS",
+        "POPULATION_COLLAPSE",
+        "MASS_MIGRATION"
+      ],
+      "treatments": [
+        {
+          "label": "Labor market gap analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Map current and projected skill shortages against demographic trends by sector and region",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Workforce transition program",
+          "type": "STRUCTURAL",
+          "description": "Fund retraining, credential portability, and sector-switching support for workers displaced by automation or demographic shifts",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "population_labor_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "World Food Programme",
+          "ticker_or_id": "WFP",
+          "functional_reason": "Executes core labor force operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Oracle Public Sector",
+          "ticker_or_id": "ORCL",
+          "functional_reason": "Executes core labor force operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Gavi (Vaccine Alliance)",
+          "ticker_or_id": "GAVI",
+          "functional_reason": "Executes core labor force operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Labor Force",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Gender Demographics",
+      "domainDescription": "Sex ratios, gender-specific mortality, reproductive health access, and gendered migration",
+      "domainFunction": "Regulates hormonal and reproductive axes that produce gender-differentiated demographic outcomes",
+      "whyThisNode": "Hypothalamic endocrine regulation — HYPO controls sex hormone release and reproductive cycling, directly governing the biological substrate of gender demographics",
+      "group": "fertility",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "treatments": [
+        {
+          "label": "Sex ratio monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Track sex ratios at birth, by age cohort, and regionally to detect imbalances from selection, conflict, or migration",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Reproductive health access program",
+          "type": "STRUCTURAL",
+          "description": "Ensure universal access to maternal health, contraception, and reproductive services regardless of geography or income",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "World Food Programme",
+          "ticker_or_id": "WFP",
+          "functional_reason": "Allocates and regulates gender demographics resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Bill & Melinda Gates Foundation",
+          "ticker_or_id": "GATES_FDN",
+          "functional_reason": "Allocates and regulates gender demographics resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "UNICEF",
+          "ticker_or_id": "UNICEF",
+          "functional_reason": "Allocates and regulates gender demographics resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.88
+        }
+      ],
+      "childPortal": "population_gender_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Gender Demographics",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Ethnic Diversity",
+      "domainDescription": "Ethnic composition, multiculturalism, minority demographics, and identity politics",
+      "domainFunction": "Models the perspectives and needs of diverse ethnic communities to enable inclusive governance",
+      "whyThisNode": "Theory of mind and social cognition — TPJ models other minds' perspectives, just as managing ethnic diversity requires understanding multiple cultural viewpoints simultaneously",
+      "group": "labor",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "treatments": [
+        {
+          "label": "Diversity and inclusion index",
+          "type": "DIAGNOSTIC",
+          "description": "Measure representation, participation, and outcome equity across ethnic groups in education, employment, and governance",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Intercultural competency program",
+          "type": "STRUCTURAL",
+          "description": "Implement evidence-based cross-cultural training in schools, workplaces, and public institutions",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "IHS Markit (S&P Global)",
+          "ticker_or_id": "SPGI",
+          "functional_reason": "Detects and monitors ethnic diversity signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "World Health Organization",
+          "ticker_or_id": "WHO",
+          "functional_reason": "Detects and monitors ethnic diversity signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Demographic and Health Surveys",
+          "ticker_or_id": "DHS_USAID",
+          "functional_reason": "Detects and monitors ethnic diversity signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        }
+      ],
+      "childPortal": "population_disability_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Ethnic Diversity",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "provider",
+          "role": "Patient Perspective-Taking"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Population Density",
+      "domainDescription": "Spatial concentration, crowding effects, density gradients, and carrying capacity",
+      "domainFunction": "Monitors the internal state of population concentration, detecting when density crosses stress thresholds",
+      "whyThisNode": "Anterior insula as interoceptive awareness — AI senses internal body states and detects when something is wrong, just as population density monitoring detects overcrowding stress",
+      "group": "urbanization",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "URBANIZATION_OVERLOAD",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "treatments": [
+        {
+          "label": "Density stress mapping",
+          "type": "DIAGNOSTIC",
+          "description": "GIS analysis of population density against infrastructure capacity, green space, and service accessibility thresholds",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Mixed-density zoning reform",
+          "type": "STRUCTURAL",
+          "description": "Redesign zoning to allow graduated density with mandated green space, transit access, and service co-location",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Palantir Technologies",
+          "ticker_or_id": "PLTR",
+          "functional_reason": "Detects and monitors population density signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "IHS Markit (S&P Global)",
+          "ticker_or_id": "SPGI",
+          "functional_reason": "Detects and monitors population density signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "U.S. Census Bureau",
+          "ticker_or_id": "CENSUS_GOV",
+          "functional_reason": "Detects and monitors population density signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        }
+      ],
+      "childPortal": "population_ethnicity_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Population Density",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Intuition / Pattern Recognition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Census Systems",
+      "domainDescription": "Population enumeration, demographic data collection, vital statistics, and statistical infrastructure",
+      "domainFunction": "Coordinates systematic data collection and cognitive control over population measurement processes",
+      "whyThisNode": "Executive control network — ECN coordinates goal-directed cognitive operations, just as census systems coordinate the systematic measurement and tracking of population data",
+      "group": "labor",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "treatments": [
+        {
+          "label": "Census coverage evaluation",
+          "type": "DIAGNOSTIC",
+          "description": "Post-enumeration surveys and dual-system estimation to measure undercount by demographic group and geography",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Continuous registration system",
+          "type": "STRUCTURAL",
+          "description": "Transition from decennial census to continuous population register linked to vital statistics and administrative data",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Oracle Public Sector",
+          "ticker_or_id": "ORCL",
+          "functional_reason": "Executes core census systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "World Food Programme",
+          "ticker_or_id": "WFP",
+          "functional_reason": "Executes core census systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Gavi (Vaccine Alliance)",
+          "ticker_or_id": "GAVI",
+          "functional_reason": "Executes core census systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        }
+      ],
+      "childPortal": "population_familystr_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Census Systems",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Economic Indicators"
+        },
+        {
+          "domain": "governance",
+          "role": "Public Administration"
+        },
+        {
+          "domain": "medicine",
+          "role": "Epidemiology"
+        },
+        {
+          "domain": "science",
+          "role": "Statistical Inference"
+        },
+        {
+          "domain": "technology",
+          "role": "Operating Systems"
+        },
+        {
+          "domain": "trade",
+          "role": "Inventory Management"
+        },
+        {
+          "domain": "communication",
+          "role": "Audio Description Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Refugee Populations",
+      "domainDescription": "Forced displacement, asylum systems, refugee camps, and resettlement programs",
+      "domainFunction": "Processes fear and threat signals that drive forced population displacement and the urgent need for safe haven",
+      "whyThisNode": "Central amygdala as fear output — CeA generates the behavioral response to threat, just as refugee populations are the human output of fear, conflict, and existential threat",
+      "group": "migration",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "MASS_MIGRATION",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "treatments": [
+        {
+          "label": "Displacement early warning system",
+          "type": "DIAGNOSTIC",
+          "description": "Monitor conflict indicators, climate events, and governance collapse metrics to predict displacement before it occurs",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Resettlement capacity scaling",
+          "type": "STRUCTURAL",
+          "description": "Pre-position resettlement infrastructure and community sponsor networks for rapid deployment during crises",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "International Organization for Migration",
+          "ticker_or_id": "IOM",
+          "functional_reason": "Routes and distributes refugee populations resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "IHS Markit (S&P Global)",
+          "ticker_or_id": "SPGI",
+          "functional_reason": "Detects and monitors refugee populations signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "World Food Programme",
+          "ticker_or_id": "WFP",
+          "functional_reason": "Executes core refugee populations operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.74
+        }
+      ],
+      "childPortal": "population_lifespan_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Refugee Populations",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "environment",
+          "role": "Soilenv"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "industry",
+          "role": "Safety Systems"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Emergency Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Law Enforcement Response"
+        },
+        {
+          "domain": "medicine",
+          "role": "Emergency Medicine"
+        },
+        {
+          "domain": "provider",
+          "role": "Crisis Response Protocol"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SEPT",
+      "state": "active",
+      "domainLabel": "Family Structure",
+      "domainDescription": "Household composition, marriage patterns, kinship networks, and caregiving arrangements",
+      "domainFunction": "Anchors the social bonding and reward circuitry that forms and sustains family units",
+      "whyThisNode": "Septal nuclei as social reward and bonding center — SEPT mediates attachment, pair bonding, and affiliative behavior, the neural foundation of family formation",
+      "group": "fertility",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "AGING_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Household structure trend analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Track changes in household size, marriage age, single-parent rates, and multigenerational living arrangements",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Family resilience support",
+          "type": "STRUCTURAL",
+          "description": "Invest in marriage and relationship education, community family centers, and kinship network strengthening programs",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Esri (ArcGIS)",
+          "ticker_or_id": "ESRI",
+          "functional_reason": "Stores and retrieves family structure knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Demographic and Health Surveys",
+          "ticker_or_id": "DHS_USAID",
+          "functional_reason": "Stores and retrieves family structure knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "IHS Markit (S&P Global)",
+          "ticker_or_id": "SPGI",
+          "functional_reason": "Stores and retrieves family structure knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.87
+        }
+      ],
+      "childPortal": "population_popdata_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Family Structure",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Wildlife"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Technology & Innovation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Affordable Housing Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Equipment Maintenance Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics — Regulation Strategy"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Equity Policy & Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Education Levels",
+      "domainDescription": "Educational attainment, literacy rates, skill distributions, and human capital formation",
+      "domainFunction": "Integrates knowledge across semantic domains to build the cognitive capital of the population",
+      "whyThisNode": "Angular gyrus as semantic integration — AG connects meaning across modalities, just as education integrates knowledge domains to build human capital",
+      "group": "health",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "AGING_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Educational attainment mapping",
+          "type": "DIAGNOSTIC",
+          "description": "Disaggregate completion rates by gender, ethnicity, geography, and income to identify equity gaps",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Universal foundational literacy",
+          "type": "STRUCTURAL",
+          "description": "Ensure every child achieves functional literacy and numeracy by age 10 through evidence-based early intervention",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Gavi (Vaccine Alliance)",
+          "ticker_or_id": "GAVI",
+          "functional_reason": "Executes core education levels operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "World Health Organization",
+          "ticker_or_id": "WHO",
+          "functional_reason": "Detects and monitors education levels signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Demographic and Health Surveys",
+          "ticker_or_id": "DHS_USAID",
+          "functional_reason": "Stores and retrieves education levels knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.67
+        }
+      ],
+      "childPortal": "population_pophealth_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Education Levels",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Higher Education"
+        },
+        {
+          "domain": "governance",
+          "role": "International Law"
+        },
+        {
+          "domain": "industry",
+          "role": "Research and Development"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Phoneme-Grapheme Mapping"
+        },
+        {
+          "domain": "religion",
+          "role": "Religious Education"
+        },
+        {
+          "domain": "science",
+          "role": "Citation Networks"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Risk Profiling Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Income Distribution",
+      "domainDescription": "Wealth inequality, Gini coefficients, poverty rates, and economic stratification",
+      "domainFunction": "Computes relative value and reward distribution across population segments",
+      "whyThisNode": "Orbitofrontal reward valuation — OFC computes relative value and expected rewards, just as income distribution measures how economic rewards are allocated across the population",
+      "group": "labor",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION"
+      ],
+      "treatments": [
+        {
+          "label": "Inequality decomposition analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Decompose Gini coefficient by income source, region, and demographic group to identify structural drivers",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Progressive redistribution framework",
+          "type": "STRUCTURAL",
+          "description": "Design evidence-based tax-transfer systems that reduce extreme inequality while maintaining economic dynamism",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "World Health Organization",
+          "ticker_or_id": "WHO",
+          "functional_reason": "Detects and monitors income distribution signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "United Nations Population Fund",
+          "ticker_or_id": "UNFPA",
+          "functional_reason": "Allocates and regulates income distribution resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "International Organization for Migration",
+          "ticker_or_id": "IOM",
+          "functional_reason": "Routes and distributes income distribution resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.7
+        }
+      ],
+      "childPortal": "population_poppolicy_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Income Distribution",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "UNC",
+      "state": "active",
+      "domainLabel": "Poverty",
+      "domainDescription": "Poverty systems within Population & Demographics",
+      "group": "fertility",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "population_poverty_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Poverty",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Bridges and Tunnels"
+        },
+        {
+          "domain": "technology",
+          "role": "Ux"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EI",
+      "state": "active",
+      "domainLabel": "Refugees",
+      "domainDescription": "Refugees systems within Population & Demographics",
+      "group": "fertility",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "population_refugees_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Refugees",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Translation Services Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Mixed-Use Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Core Operations"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Strategic Planning & Alignment"
+        },
+        {
+          "domain": "energy",
+          "role": "Collection Systems Core Operations"
+        },
+        {
+          "domain": "environment",
+          "role": "Exposure Modeling Technology & Innovation"
+        },
+        {
+          "domain": "finance",
+          "role": "Accounting Technology Policy & Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PULV",
+      "state": "active",
+      "domainLabel": "Ruralpop",
+      "domainDescription": "Ruralpop systems within Population & Demographics",
+      "group": "fertility",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "population_ruralpop_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Ruralpop",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Document Structure"
+        },
+        {
+          "domain": "culture",
+          "role": "Ecological Design Technology & Innovation"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift — State Assessment"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Transfer Policies Risk & Resilience"
+        },
+        {
+          "domain": "energy",
+          "role": "battrecycling collection — Signal Acquisition"
+        },
+        {
+          "domain": "environment",
+          "role": "Trend Analysis"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STN",
+      "state": "active",
+      "domainLabel": "Youthpop",
+      "domainDescription": "Youthpop systems within Population & Demographics",
+      "group": "fertility",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "population_youthpop_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Youthpop",
+      "brainNodeLabelCanonical": "Population & Demographics",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "neurology",
+          "role": "Subthalamic Nucleus"
+        },
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "univ desgn — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Sustainable Architecture Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Efficiency Modeling Systems"
+        },
+        {
+          "domain": "education",
+          "role": "Trend Analysis Risk & Resilience"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Technology & Innovation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "OXY",
+      "target": "SEPT",
+      "type": "REGULATES",
+      "weight": 0.9
+    },
+    {
+      "source": "OXY",
+      "target": "HYPO",
+      "type": "REGULATES",
+      "weight": 0.85
+    },
+    {
+      "source": "HYPO",
+      "target": "OXY",
+      "type": "SUPPLIES",
+      "weight": 0.85
+    },
+    {
+      "source": "CARD",
+      "target": "RAPHE",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "VEST",
+      "target": "CeA",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "VEST",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.75
+    },
+    {
+      "source": "dlPFC",
+      "target": "AI",
+      "type": "CONTROLS",
+      "weight": 0.85
+    },
+    {
+      "source": "dlPFC",
+      "target": "ECN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "VTA",
+      "target": "M1",
+      "type": "SUPPLIES",
+      "weight": 0.85
+    },
+    {
+      "source": "M1",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "RAPHE",
+      "target": "CARD",
+      "type": "REGULATES",
+      "weight": 0.75
+    },
+    {
+      "source": "TPJ",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CeA",
+      "target": "VEST",
+      "type": "SUPPLIES",
+      "weight": 0.75
+    },
+    {
+      "source": "AG",
+      "target": "M1",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "AG",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "ECN",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "RSC",
+      "target": "VEST",
+      "type": "SUPPLIES",
+      "weight": 0.65
+    },
+    {
+      "source": "SEPT",
+      "target": "OXY",
+      "type": "REGULATES",
+      "weight": 0.8
+    },
+    {
+      "source": "AI",
+      "target": "ECN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Elderly Healthcare Assessment & Diagnostics → Caregiver Support Quality & Performance (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Elderly Healthcare Assessment & Diagnostics → Refugee Populations (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Elderly Healthcare Assessment & Diagnostics → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Family Caregiving Infrastructure & Capacity → Caregiver Support Quality & Performance (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Family Caregiving Infrastructure & Capacity → Refugee Populations (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Family Caregiving Infrastructure & Capacity → Benchmarking (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Urbanization → Palliative Care Human Capital & Development (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Urbanization → Aging Population — Regulation Strategy (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Aging Population Research & Development → Caregiver Support Quality & Performance (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Palliative Care Human Capital & Development → Caregiver Support Quality & Performance (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Chronic Disease Core Operations → Chronic Disease Infrastructure & Capacity (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Chronic Disease Core Operations → Senior Housing Quality & Performance (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Chronic Disease Core Operations → Caregiver Support — State Assessment (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "caregiving family — Signal Acquisition → Chronic Disease Infrastructure & Capacity (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Fiscal Impact Assessment & Diagnostics → Senior Housing Quality & Performance (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "International Aging Policy Technology & Innovation → Population Density (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Population Density → Palliative Care Human Capital & Development (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Innovation Synthesis Evaluation → Population Density (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Caregiver Support Quality & Performance → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Gender Demographics (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Aging Population — Action Coordination → Aging Population — Regulation Strategy (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Aging Population — Regulation Strategy → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Youth Demographics → Palliative Care Assessment & Diagnostics (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Palliative Care Assessment & Diagnostics → Caregiver Burden Risk & Resilience (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Palliative Care Assessment & Diagnostics → Income Distribution (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Income Distribution → Family Caregiving Infrastructure & Capacity (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Palliative Care Infrastructure & Capacity → Labor Force (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Assisted Living Risk & Resilience → Professional Caregiving Assessment & Diagnostics (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Professional Caregiving Assessment & Diagnostics → Chronic Disease Core Operations (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Chronic Disease Policy & Governance → Chronic Disease Core Operations (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Health Workforce Quality & Performance → Chronic Disease Infrastructure & Capacity (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Aging Population — Diagnostic Analysis → Urbanization (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Long-Term Care — State Assessment → Caregiver Support Quality & Performance (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Long-Term Care — State Assessment → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "POPULATION_COLLAPSE",
+      "label": "Population Collapse",
+      "summary": "Fertility rates far below replacement — labor force shrinking, dependency ratios inverting, economic contraction looming",
+      "circuits": [
+        {
+          "nodeId": "OXY",
+          "dir": "Hypo-active",
+          "detail": "Birth rates plummeting below 1.5 TFR — bonding and family formation incentives insufficient against economic headwinds",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SEPT",
+          "dir": "Hypo-active",
+          "detail": "Family structures weakening — marriage rates declining, single-person households becoming dominant form",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-staffed",
+          "detail": "Labor force shrinking — critical sectors unable to fill positions, economic output declining per capita",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hyper-burdened",
+          "detail": "Aging population overwhelming health and pension systems designed for younger demographics",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-active",
+          "detail": "Youth cohort shrinking — innovation, entrepreneurship, and risk-taking capacity declining with demographic aging",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RSC",
+          "dir": "Hypo-populated",
+          "detail": "Rural regions depopulating fastest — entire communities disappearing within a generation",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MASS_MIGRATION",
+      "label": "Mass Migration Crisis",
+      "summary": "Climate displacement, conflict, and economic desperation driving unprecedented population movements across borders",
+      "circuits": [
+        {
+          "nodeId": "VEST",
+          "dir": "Hyper-active",
+          "detail": "Migration flows exceeding institutional processing capacity — millions in transit without legal status",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Refugee populations surging — 100+ million forcibly displaced, resettlement systems overwhelmed",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-stressed",
+          "detail": "Urban planning systems unable to absorb rapid population influx — housing, transit, and services failing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Intercultural empathy collapsing under volume pressure — nativist backlash intensifying",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Altered",
+          "detail": "Income distribution destabilized — wage compression in receiving communities, remittance dependency in sending ones",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "AGING_CRISIS",
+      "label": "Aging Crisis",
+      "summary": "Dependency ratios inverting as populations age — healthcare, pension, and caregiving systems approaching insolvency",
+      "circuits": [
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hyper-burdened",
+          "detail": "Elder population growing faster than caregiving capacity — dementia, chronic disease, and long-term care demand exploding",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CARD",
+          "dir": "Hyper-stressed",
+          "detail": "Cardiovascular and chronic disease burden rising with aging population — healthcare costs spiraling",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-staffed",
+          "detail": "Workforce participation declining as retirement age cohorts grow and fewer young workers replace them",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Altered",
+          "detail": "Educational systems failing to retrain older workers — skill obsolescence compounding demographic pressure",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SEPT",
+          "dir": "Altered",
+          "detail": "Family caregiving burden falling on smaller families — sandwich generation crushed between elder care and child-rearing",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Altered",
+          "detail": "Pension systems underfunded — intergenerational wealth transfer becoming politically contentious",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "URBANIZATION_OVERLOAD",
+      "label": "Urbanization Overload",
+      "summary": "Megacities growing beyond infrastructure capacity — housing crisis, transit collapse, and service gaps accelerating",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-stressed",
+          "detail": "Urban planning overwhelmed — construction, zoning, and service provision unable to keep pace with growth",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-active",
+          "detail": "Population density exceeding livability thresholds — crowding stress, pollution, and noise at crisis levels",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RSC",
+          "dir": "Hypo-populated",
+          "detail": "Rural-to-urban migration hollowing out source communities while overloading destination cities",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Altered",
+          "detail": "Commuting patterns dysfunctional — average transit times exceeding tolerance, productivity lost to transportation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Altered",
+          "detail": "Social cohesion declining in hyperdense environments — anomie, isolation, and intergroup tension rising",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-stratified",
+          "detail": "Housing costs creating extreme inequality — spatial sorting by income concentrating poverty and privilege",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PANDEMIC_DEMOGRAPHIC_SHOCK",
+      "label": "Pandemic Demographic Shock",
+      "summary": "Infectious disease outbreaks causing sudden mortality spikes, fertility disruption, and population displacement",
+      "circuits": [
+        {
+          "nodeId": "CARD",
+          "dir": "Hyper-stressed",
+          "detail": "Excess mortality overwhelming vital statistics — life expectancy dropping for first time in decades",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Hypo-active",
+          "detail": "Birth rates dropping during and after pandemic — conception rates suppressed by economic and psychological shock",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Hyper-active",
+          "detail": "Census and vital registration systems scrambling to measure real-time demographic impact of pandemic",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-active",
+          "detail": "Population density identified as primary transmission risk — crowded housing and transit amplifying spread",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Displaced populations in camps and temporary housing unable to implement public health measures",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered",
+          "detail": "Reproductive health access disrupted — maternal mortality rising as healthcare systems diverted to pandemic response",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.673Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

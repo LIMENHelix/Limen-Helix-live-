@@ -1,0 +1,923 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "svb_financial_group",
+  "slug": "sivb",
+  "name": "SVB Financial Group",
+  "ticker": "SIVB",
+  "cik": "0000719739",
+  "sic": "6022",
+  "industry": "Commercial Banks",
+  "domainId": "finance",
+  "portalAttachment": "finance-portal.html",
+  "kernelStatus": "STALE",
+  "fredSeries": [
+    "MMNRNJ",
+    "WIMFSL",
+    "TERMCBCCALLNS",
+    "MMNRJD",
+    "FEDFUNDS",
+    "DFF",
+    "T10Y2Y"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "SIVB"
+  ],
+  "commodityExposure": [],
+  "helixReportMode": "stub",
+  "helixReportUrl": "helix-report.html?cik=0000719739",
+  "financialHealth": {
+    "asOf": "2023-03-10",
+    "lastKernelRun": "2023-03-10T16:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "STALE",
+    "historyQuarters": 16,
+    "latestQuarter": "2023Q1",
+    "compositeScore": 0.12,
+    "alert": true,
+    "distressBand": "red",
+    "dominantPhase": "p7a",
+    "financialState": {
+      "cashLatest": 3500000000,
+      "debtLatest": 15400000000,
+      "cashRunwayQ": 0
+    }
+  },
+  "warningSignals": [
+    "Uninsured deposit concentration exceeded 50% of total deposits by Q4 2022; regulatory threshold breach imminent.",
+    "Unrealized losses on held-to-maturity securities portfolio exceeded $15B by March 2023; duration risk crystallized.",
+    "Deposit flight accelerated in early March 2023; $42B outflow in single week triggered liquidity crisis.",
+    "Silicon Valley Bank's failure on March 10, 2023 marked largest bank failure since 2008 financial crisis; systemic contagion risk materialized.",
+    "Venture capital funding ecosystem disruption; SVB's collapse severed primary financing channel for early-stage tech companies.",
+    "Regulatory forbearance and emergency liquidity measures (Fed's Bank Term Funding Program) deployed March 12, 2023; systemic risk containment mode.",
+    "Equity holders wiped out; common stock trading at $0.01 by March 13, 2023; total shareholder value destruction ~$16B.",
+    "FDIC receivership initiated March 10, 2023; depositor protection limited to $250K per account; uninsured depositors face recovery uncertainty."
+  ],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "SVB Financial Group operated as the primary commercial bank for the U.S. venture capital and early-stage technology ecosystem, holding ~$91B in assets at peak and serving as the de facto treasury manager for thousands of venture-backed startups and growth-stage companies. The bank's March 2023 failure represented the largest U.S. bank collapse since Washington Mutual (2008) and triggered immediate contagion across the venture capital funding chain, freezing capital deployment and forcing emergency Fed intervention via the Bank Term Funding Program.",
+  "portalRelevance": "SVB's failure is a canonical case study in duration-risk mismanagement, deposit-concentration vulnerability, and regulatory forbearance failure. For financial-intelligence models, SVB exemplifies the phase-transition signature of a systemically important but structurally fragile institution: rapid deposit inflow during low-rate regime (2020–2021), massive duration-locked securities portfolio, sudden rate-shock vulnerability, and terminal liquidity cascade when depositor confidence collapsed. The bank's role as the venture ecosystem's primary liquidity provider makes its failure a leading indicator of broader tech-sector funding stress.",
+  "notes": {
+    "cohortStatus": "FAILED_INSTITUTION",
+    "envelopeStatus": "TERMINAL_DIVERGENCE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly deposit flow data (disclosed in 8-K March 8, 2023: $42B outflow in 7 days)",
+        "Quarterly unrealized loss disclosures on HTM securities portfolio (10-Q Q4 2022: $15.3B unrealized loss)",
+        "Uninsured deposit ratio tracking (disclosed in 10-K 2022: 93% of deposits uninsured, vs. 50% industry average)",
+        "Fed Funds Rate trajectory and duration-risk sensitivity (10-year Treasury yield rose 350bps from 2021 lows to March 2023)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Liquidity coverage ratio deterioration: LCR fell below 100% by early March 2023 (regulatory minimum)",
+        "Net interest margin compression: NIM fell from 2.1% (2021) to 1.8% (Q4 2022) as deposit costs rose and securities yields locked",
+        "Deposit composition shift: venture-backed company deposits (highly rate-sensitive) grew from 35% (2020) to 58% (2022)",
+        "Capital adequacy: Tier-1 ratio remained above 10% but equity cushion eroded by unrealized losses on mark-to-market basis"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Duration-mismatch signature: $91B asset base with 6.5-year weighted-average duration locked in 1.5% yields; 300bps rate shock = $13B+ mark-to-market loss",
+        "Deposit-concentration failure mode: 93% uninsured deposits created binary confidence cliff; single negative catalyst (First Republic Bank stress, Signature Bank failure) triggered cascade",
+        "Venture-ecosystem dependency: 50%+ of deposit base tied to venture-backed companies with zero operating cash flow; funding drought forced mass withdrawals",
+        "Regulatory forbearance lag: Fed's stress-test exemption for regional banks (post-2018 Dodd-Frank rollback) masked duration risk; no early intervention trigger"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Emergency Fed liquidity deployment: Bank Term Funding Program (BTFP) announced March 12, 2023 to prevent systemic contagion",
+        "FDIC receivership: SVB placed into FDIC receivership March 10, 2023; depositor protection limited to $250K per account",
+        "Regulatory review: Senate Banking Committee and House Financial Services Committee initiated investigations into Fed's supervision gaps",
+        "Systemic-risk containment: Fed, Treasury, and FDIC coordinated emergency measures to prevent regional bank run cascade"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Equity holders: common stock delisted March 13, 2023; shareholder value destruction ~$16B (peak market cap $35B in 2021)",
+        "Uninsured depositors: faced recovery uncertainty; FDIC Bridge Bank structure (SVB Santa Clara) created to manage asset liquidation",
+        "Venture capital ecosystem: immediate capital deployment freeze; emergency funding rounds and bridge financing became critical survival tool",
+        "Peer bank positioning: regional banks with high uninsured deposit ratios (First Republic, Signature) faced immediate funding stress and regulatory scrutiny"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Deposit flight contagion: First Republic Bank (FRB) and Signature Bank (SBNY) experienced similar deposit outflows; both failed within 3 weeks",
+        "Credit market repricing: regional bank CDS spreads widened 200–400bps; equity valuations compressed 30–50% across peer group",
+        "Venture funding impact: Q2 2023 venture capital deployment fell 40% YoY; startup failure rate accelerated in Q3 2023",
+        "Fed policy reversal: emergency rate-cut expectations emerged; market repriced terminal Fed Funds rate downward 75–100bps"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Duration-risk monitoring: financial-intelligence models now weight duration mismatch and deposit-concentration metrics as leading indicators for regional bank stress",
+        "Uninsured deposit threshold: 50%+ uninsured deposit ratio now flagged as critical vulnerability; peer banks with >60% uninsured deposits face elevated scrutiny",
+        "Venture-ecosystem dependency: venture-backed deposit concentration now tracked as sector-specific risk factor; funding-cycle correlation with deposit stability",
+        "Regulatory forbearance risk: stress-test exemptions and supervision gaps now incorporated as model inputs; early-warning system for regulatory capture"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "SVB Financial Group operated as a specialized regional bank serving the venture capital and early-stage technology ecosystem. The bank functioned as a liquidity hub and treasury manager for thousands of venture-backed startups, growth-stage companies, and venture capital funds. SVB's business model was structurally dependent on sustained venture capital funding cycles, low interest rates, and high-net-worth depositor confidence. The bank's failure in March 2023 represented a terminal phase transition triggered by duration-risk crystallization, deposit-concentration vulnerability, and regulatory forbearance failure. SVB's collapse severed the primary financing channel for the venture ecosystem and triggered systemic contagion across regional banking sector.",
+    "suppliers": [
+      {
+        "name": "Federal Reserve System",
+        "ticker": null,
+        "cik": null,
+        "slug": "federal_reserve_system",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Monetary Policy & Liquidity Provider",
+        "relationshipNote": "SVB relied on Fed's discount window and open-market operations for liquidity management. Fed's emergency Bank Term Funding Program (BTFP) announced March 12, 2023 attempted to prevent systemic contagion but arrived after SVB's failure. Fed's post-2018 stress-test exemption for regional banks masked duration risk; supervision gap contributed to crisis.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Treasury Department",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_treasury_department",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Fiscal Policy & Systemic Risk Containment",
+        "relationshipNote": "Treasury coordinated with Fed and FDIC on emergency response to SVB failure (March 10–12, 2023). Treasury Secretary Janet Yellen authorized FDIC to guarantee all deposits at SVB Santa Clara Bridge Bank to prevent venture ecosystem collapse. Systemic-risk determination triggered extraordinary depositor protection beyond $250K FDIC limit.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "FDIC (Federal Deposit Insurance Corporation)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fdic",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Deposit Insurance & Bank Resolution",
+        "relationshipNote": "FDIC placed SVB into receivership March 10, 2023 and created SVB Santa Clara Bridge Bank to manage asset liquidation. FDIC's standard $250K depositor protection applied; uninsured depositors (93% of deposit base) faced recovery uncertainty. FDIC's Deposit Insurance Fund faced $16B+ payout exposure; systemic-risk determination authorized extraordinary measures.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "OCC (Office of the Comptroller of the Currency)",
+        "ticker": null,
+        "cik": null,
+        "slug": "occ",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Bank Supervision & Regulatory Oversight",
+        "relationshipNote": "OCC supervised SVB as primary federal regulator for national bank charter. OCC's supervision failed to identify or escalate duration-risk concentration and deposit-concentration vulnerabilities prior to March 2023 failure. Post-failure review revealed supervision gaps; OCC faced Congressional scrutiny for regulatory forbearance.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "SEC (Securities and Exchange Commission)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Securities Disclosure & Market Integrity",
+        "relationshipNote": "SEC enforced SVB's 10-K and 10-Q disclosure obligations. SVB's Q4 2022 10-K disclosed $15.3B unrealized loss on HTM securities and 93% uninsured deposit ratio; disclosures were technically compliant but failed to trigger early-warning mechanisms. SEC's post-failure review examined disclosure adequacy and market-timing issues.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "California Department of Financial Protection and Innovation",
+        "ticker": null,
+        "cik": null,
+        "slug": "ca_dfpi",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "State Banking Supervision",
+        "relationshipNote": "California DFPI supervised SVB as state banking regulator. SVB Santa Clara headquarters located in California; state regulator coordinated with OCC and FDIC on March 2023 receivership. State-level supervision failed to identify or escalate duration and deposit-concentration risks.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Moody's Investors Service",
+        "ticker": "MCO",
+        "cik": "0001059556",
+        "slug": "moodys_investors_service",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Credit Rating & Risk Assessment",
+        "relationshipNote": "Moody's rated SVB senior debt A3 (upper-medium grade) as of Q4 2022. Rating downgrade to Baa1 occurred in early March 2023 after deposit flight became public; downgrade lagged market stress by 48–72 hours. Moody's post-failure review examined rating methodology gaps for duration-risk and deposit-concentration metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "S&P Global Ratings",
+        "ticker": "SPGI",
+        "cik": "0001616707",
+        "slug": "sp_global_ratings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Credit Rating & Risk Assessment",
+        "relationshipNote": "S&P rated SVB senior debt A (upper-medium grade) as of Q4 2022. Rating downgrade to BBB (medium grade) occurred March 9, 2023 after deposit outflow acceleration; downgrade preceded failure by 24 hours. S&P's post-failure analysis identified supervision gaps and duration-risk underestimation.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "FedWire (Federal Reserve Wire Network)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fedwire",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Payment & Settlement Infrastructure",
+        "relationshipNote": "SVB used FedWire for large-value interbank payments and customer fund transfers. During March 2023 deposit flight, FedWire volumes from SVB exceeded normal daily average by 5–10x as depositors executed emergency withdrawals. FedWire's real-time settlement capability enabled rapid deposit outflow; no settlement delay mechanism existed.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "CHIPS (Clearing House Interbank Payments System)",
+        "ticker": null,
+        "cik": null,
+        "slug": "chips",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Payment & Settlement Infrastructure",
+        "relationshipNote": "SVB participated in CHIPS for large-value interbank payments. CHIPS settlement volumes from SVB accelerated during deposit flight; no circuit-breaker or settlement delay mechanism existed to slow outflow velocity. Real-time settlement enabled rapid liquidity drain.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "DTC (Depository Trust Company)",
+        "ticker": "DTCC",
+        "cik": null,
+        "slug": "dtc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Securities Settlement & Custody",
+        "relationshipNote": "DTC held SVB's securities portfolio in custody and managed settlement of securities transactions. During March 2023 crisis, DTC processed emergency securities liquidation and collateral transfers as SVB attempted to raise liquidity. DTC's settlement infrastructure enabled rapid asset liquidation but could not prevent duration-loss crystallization.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Venture Capital Funds (Aggregate Ecosystem)",
+        "ticker": null,
+        "cik": null,
+        "slug": "venture_capital_ecosystem",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Primary Customer Base & Revenue Driver",
+        "relationshipNote": "SVB served as primary treasury manager and liquidity provider for ~3,500 venture capital funds and venture-backed startups. VC deposits represented ~50% of SVB's deposit base by 2022; venture-backed company deposits grew from 35% (2020) to 58% (2022). SVB's failure severed primary financing channel for venture ecosystem; Q2 2023 venture funding fell 40% YoY.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Private Equity Firms (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "private_equity_ecosystem",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Secondary Customer Base",
+        "relationshipNote": "SVB served private equity firms and their portfolio companies with treasury management and lending services. PE deposits represented ~15% of SVB's deposit base; PE firms maintained operating accounts for portfolio company management. SVB's failure disrupted PE portfolio company liquidity;.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Technology Companies (Venture-Backed Startups)",
+        "ticker": null,
+        "cik": null,
+        "slug": "venture_backed_startups",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operating Account Customers",
+        "relationshipNote": "SVB served as primary operating bank for thousands of venture-backed startups across AI, biotech, fintech, and software sectors. Startup deposits represented ~40% of SVB's deposit base; startups maintained payroll, vendor, and operating accounts at SVB. SVB's failure forced immediate account migration; many startups faced 48–72 hour liquidity crisis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "First Republic Bank",
+        "ticker": "FRC",
+        "cik": "0000354488",
+        "slug": "first_republic_bank",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Bank Peer & Contagion Vector",
+        "relationshipNote": "First Republic Bank (FRC) competed with SVB for high-net-worth depositor base and venture ecosystem customers. FRC had similar deposit-concentration vulnerability (88% uninsured deposits) and duration-risk exposure. SVB's March 10 failure triggered immediate deposit flight from FRC; FRC failed March 29, 2023 (19 days later). Contagion cascade demonstrated systemic interconnection.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Signature Bank",
+        "ticker": "SBNY",
+        "cik": "0000759944",
+        "slug": "signature_bank",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Bank Peer & Contagion Vector",
+        "relationshipNote": "Signature Bank (SBNY) competed with SVB for venture ecosystem and cryptocurrency-related deposits. SBNY had 89% uninsured deposit ratio and significant duration-risk exposure. SVB's failure triggered immediate deposit flight from SBNY; SBNY failed March 12, 2023 (2 days after SVB). Contagion cascade demonstrated systemic vulnerability across regional banking sector.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Western Alliance Bancorporation",
+        "ticker": "WAL",
+        "cik": "0001019057",
+        "slug": "western_alliance_bancorporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Bank Peer & Contagion Exposure",
+        "relationshipNote": "Western Alliance Bancorporation (WAL) competed with SVB for venture ecosystem and technology-sector deposits. WAL had 75% uninsured deposit ratio and significant duration-risk exposure. SVB's failure triggered deposit outflow concerns at WAL; WAL's stock fell 60% in March 2023. WAL survived crisis but faced elevated funding costs and regulatory scrutiny.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000019617",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Systemically Important Bank & Competitor",
+        "relationshipNote": "JPMorgan Chase competed with SVB for venture ecosystem and technology-sector deposits at scale. JPM's venture banking division (JPMorgan Ventures) offered competing treasury and lending services. JPM benefited from SVB's failure; venture ecosystem deposits migrated to JPM and other systemically important banks. JPM's market share in venture banking increased 15–20% post-SVB failure.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bank of America",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Systemically Important Bank & Competitor",
+        "relationshipNote": "Bank of America competed with SVB for venture ecosystem and technology-sector deposits. BofA's venture banking services offered alternative to SVB's specialized focus. SVB's failure accelerated deposit migration to BofA; BofA's venture banking revenue increased 10–15% in 2023. BofA's larger balance sheet and diversified deposit base provided competitive advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Silicon Valley Bank (UK) plc",
+        "ticker": null,
+        "cik": null,
+        "slug": "svb_uk",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "International Affiliate & Contagion Vector",
+        "relationshipNote": "SVB UK was SVB Financial Group's UK subsidiary serving European venture ecosystem. SVB UK held £2.3B in deposits and served venture-backed startups across UK and Europe. SVB UK's failure occurred March 17, 2023 (7 days after SVB US failure); UK regulator (PRA) placed SVB UK into administration. Contagion spread across Atlantic; European venture ecosystem disrupted.",
+        "confidence": "high",
+        "sourceType": [
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "SEC (Securities and Exchange Commission)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Securities Disclosure & Market Integrity",
+        "relationshipNote": "SEC enforced SVB's 10-K and 10-Q disclosure obligations. SVB's Q4 2022 10-K disclosed $15.3B unrealized loss on HTM securities and 93% uninsured deposit ratio. SEC's post-failure review examined disclosure adequacy; no enforcement action initiated but disclosure methodology scrutinized. SEC coordinated with Fed and OCC on systemic-risk response.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "OCC (Office of the Comptroller of the Currency)",
+        "ticker": null,
+        "cik": null,
+        "slug": "occ",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Bank Supervision & Regulatory Oversight",
+        "relationshipNote": "OCC supervised SVB as primary federal regulator for national bank charter. OCC's supervision failed to identify or escalate duration-risk concentration and deposit-concentration vulnerabilities. OCC's stress tests (2022) did not flag SVB as systemically vulnerable. Post-failure Congressional review revealed supervision gaps; OCC faced criticism for regulatory forbearance.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Federal Reserve System (Board of Governors)",
+        "ticker": null,
+        "cik": null,
+        "slug": "federal_reserve_board",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Monetary Policy & Systemic Risk Oversight",
+        "relationshipNote": "Federal Reserve supervised SVB as bank holding company regulator. Fed's post-2018 stress-test exemption for regional banks masked duration risk. Fed's monetary policy (near-zero rates 2020–2021) created incentive for duration-locked securities purchases. Fed's March 2023 emergency response (BTFP, discount window) attempted systemic-risk containment but arrived after SVB failure.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "FDIC (Federal Deposit Insurance Corporation)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fdic",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Deposit Insurance & Bank Resolution",
+        "relationshipNote": "FDIC insured SVB deposits up to $250K per account. FDIC placed SVB into receivership March 10, 2023 and created SVB Santa Clara Bridge Bank. FDIC's Deposit Insurance Fund faced $16B+ payout exposure; systemic-risk determination authorized extraordinary depositor protection beyond $250K limit. FDIC's post-failure review examined early-warning mechanisms.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "California Department of Financial Protection and Innovation",
+        "ticker": null,
+        "cik": null,
+        "slug": "ca_dfpi",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "State Banking Supervision",
+        "relationshipNote": "California DFPI supervised SVB as state banking regulator. SVB Santa Clara headquarters located in California; state regulator coordinated with OCC and FDIC on March 2023 receivership. State-level supervision failed to identify or escalate duration and deposit-concentration risks. Post-failure review examined state-level supervision adequacy.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Risk Assessment",
+      "relationshipNote": "Deloitte served as SVB's external auditor and issued unqualified audit opinion on 2022 10-K (filed February 2023). Deloitte's audit failed to identify or flag duration-risk concentration and deposit-concentration vulnerabilities as going-concern risks. Post-failure review examined audit methodology; Deloitte faced litigation from SVB shareholders and depositors alleging audit negligence.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "news"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "SVB Financial Group (Equity Holders)",
+        "ticker": "SIVB",
+        "cik": "0000719739",
+        "slug": "svb_equity_holders",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Equity Capital & Governance",
+        "relationshipNote": "SVB's equity holders (public shareholders) held ~1.2B shares outstanding as of Q4 2022. Equity value peaked at ~$35B in 2021; equity value fell to ~$16B by March 9, 2023. SVB's failure on March 10, 2023 wiped out all equity holders; common stock trading at $0.01 by March 13, 2023. Total shareholder value destruction ~$16B; equity holders received zero recovery.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "SVB Financial Group (Debt Holders)",
+        "ticker": "SIVB",
+        "cik": "0000719739",
+        "slug": "svb_debt_holders",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Capital & Credit Risk",
+        "relationshipNote": "SVB's debt holders held ~$15.4B in senior debt and subordinated debt as of Q4 2022. SVB's senior debt was rated A3/A (upper-medium grade) as of Q4 2022. SVB's failure triggered debt restructuring; senior debt holders faced recovery uncertainty. Debt holders' recovery rate estimated at 40–60% based on asset liquidation proceeds;.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Federal Reserve (Emergency Liquidity Provider)",
+        "ticker": null,
+        "cik": null,
+        "slug": "federal_reserve_emergency",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Emergency Capital & Systemic Risk Containment",
+        "relationshipNote": "Federal Reserve provided emergency liquidity to SVB via discount window and open-market operations during March 2023 crisis. Fed's Bank Term Funding Program (BTFP) announced March 12, 2023 provided emergency funding to regional banks; SVB was ineligible (failed before BTFP deployment). Fed's emergency response focused on preventing contagion to other regional banks rather than SVB rescue.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Greg Becker",
+        "slug": "greg_becker",
+        "title": "President and Chief Executive Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Greg Becker served as SVB's President and CEO from 2011 through March 2023 failure. Becker led SVB's aggressive growth strategy (2020–2021) that accumulated $91B in assets and $15.3B in unrealized losses. Becker's leadership failed to manage duration risk and deposit concentration; Becker resigned March 10, 2023 (failure date). Post-failure litigation alleged Becker's negligence in risk management.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Daniel Beck",
+        "slug": "daniel_beck",
+        "title": "Chief Financial Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Daniel Beck served as SVB's Chief Financial Officer from 2019 through March 2023 failure. Beck oversaw SVB's securities portfolio management and capital allocation strategy. Beck's financial management failed to identify or mitigate duration risk; Beck resigned March 10, 2023 (failure date). Post-failure review examined Beck's role in securities portfolio construction and risk disclosure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Colleen Cochran",
+        "slug": "colleen_cochran",
+        "title": "Chief Risk Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Risk Management & Compliance",
+        "relationshipNote": "Colleen Cochran served as SVB's Chief Risk Officer from 2020 through March 2023 failure. Cochran's risk management function failed to identify or escalate duration-risk concentration and deposit-concentration vulnerabilities. Cochran's risk assessments did not flag SVB as systemically vulnerable; Cochran resigned March 10, 2023 (failure date). Post-failure review examined CRO's role in risk governance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Carl Kawaja",
+        "slug": "carl_kawaja",
+        "title": "Chairman of the Board",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Board Governance & Oversight",
+        "relationshipNote": "Carl Kawaja served as SVB's Chairman of the Board from 2015 through March 2023 failure. Kawaja's board oversight failed to identify or escalate duration risk and deposit concentration as going-concern risks. Kawaja's board approved aggressive growth strategy (2020–2021) that accumulated duration-locked securities; Kawaja resigned March 10, 2023 (failure date). Post-failure litigation alleged board negligence.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "SVB Stock Price (SIVB)",
+        "slug": "sivb_stock_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Market Valuation & Investor Sentiment",
+        "relationshipNote": "SVB's stock price peaked at ~$763 per share in November 2021 (market cap ~$35B). Stock price fell 60% from peak to $315 by March 8, 2023 (one trading day before failure). Stock price fell 99% to $0.01 by March 13, 2023 (three days after failure). Stock price collapse reflected investor recognition of duration risk and deposit-concentration vulnerability.",
+        "confidence": "high",
+        "sourceType": [
+          "news"
+        ]
+      },
+      {
+        "name": "SVB CDS Spread (Credit Default Swap)",
+        "slug": "sivb_cds_spread",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Credit Risk & Market Intelligence",
+        "relationshipNote": "SVB's 5-year CDS spread widened from ~50bps (Q4 2022) to ~200bps by March 8, 2023. CDS spread spiked to ~500bps on March 9, 2023 (one day before failure). CDS spread reflected market's rapid repricing of credit risk; CDS market signaled systemic stress 24–48 hours before failure announcement.",
+        "confidence": "high",
+        "sourceType": [
+          "news"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "finance",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.341Z",
+      "overrideCount": 10
+    },
+    "overrides": {
+      "dACC": {
+        "external_add": [
+          {
+            "name": "Federal Reserve System",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "U.S. Treasury Department",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "OCC (Office of the Comptroller of the Currency)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "SEC (Securities and Exchange Commission)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "California Department of Financial Protection and Innovation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "SEC (Securities and Exchange Commission)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "OCC (Office of the Comptroller of the Currency)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Reserve System (Board of Governors)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "California Department of Financial Protection and Innovation",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "FDIC (Federal Deposit Insurance Corporation)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "FDIC (Federal Deposit Insurance Corporation)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Moody's Investors Service",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "S&P Global Ratings",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Venture Capital Funds (Aggregate Ecosystem)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "SVB Stock Price (SIVB)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Private Equity Firms (Aggregate)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Technology Companies (Venture-Backed Startups)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "FedWire (Federal Reserve Wire Network)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "CHIPS (Clearing House Interbank Payments System)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "DTC (Depository Trust Company)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "First Republic Bank",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Signature Bank",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Western Alliance Bancorporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Bank of America",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Silicon Valley Bank (UK) plc",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "SVB Financial Group (Equity Holders)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "SVB Financial Group (Debt Holders)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Federal Reserve (Emergency Liquidity Provider)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "SVB CDS Spread (Credit Default Swap)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

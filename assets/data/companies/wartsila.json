@@ -1,0 +1,716 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "wartsila",
+  "slug": "wartsila",
+  "name": "Wärtsilä Corporation",
+  "ticker": "WRT1V",
+  "cik": null,
+  "sic": "3519",
+  "industry": "Internal Combustion Engines and Engine Parts Manufacturing",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "WRT1V"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "steel",
+    "copper",
+    "aluminum",
+    "rare earth elements"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?slug=wartsila",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Exposure to cyclical maritime and energy sectors; shipping demand volatility directly impacts engine orders",
+    "Geopolitical risk: sanctions on Russia and Iran reduce LNG export capacity, constraining future fuel-supply-system demand",
+    "Energy transition risk: IMO 2030/2050 decarbonization mandates pressure dual-fuel and LNG engine adoption timelines",
+    "Supply-chain concentration: critical semiconductor and precision-casting suppliers in Asia face geopolitical disruption"
+  ],
+  "opportunitySignals": [
+    "IMO 2030 carbon-intensity regulations drive retrofit and new-build orders for dual-fuel and methanol engines across global fleet",
+    "LNG infrastructure expansion in Asia-Pacific (2024–2030) creates sustained demand for fuel-supply systems and propulsion units",
+    "Hydrogen and ammonia fuel-cell R&D partnerships position Wärtsilä as technology leader in zero-carbon marine propulsion",
+    "Digitalization of fleet operations (IoT, predictive maintenance) expands recurring software and service revenue streams"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Wärtsilä is the world's leading supplier of propulsion systems, fuel-supply systems, and power-generation equipment for the global maritime and energy sectors. The company manufactures dual-fuel engines, LNG systems, and hybrid-electric solutions that enable vessel operators to comply with IMO emissions regulations while optimizing fuel efficiency. As a critical node in the marine supply chain, Wärtsilä's technology roadmap directly influences shipbuilding timelines, fleet decarbonization strategies, and energy infrastructure investment across 200+ countries.",
+  "portalRelevance": "Wärtsilä functions as a strategic anchor supplier to the global maritime ecosystem, with direct exposure to shipping cycles, energy commodity prices, and regulatory transition risk. Its position as the primary propulsion-systems provider to major shipyards (Hyundai, Samsung, China State Shipbuilding) and energy companies makes it a leading indicator of capital expenditure trends in decarbonization and LNG infrastructure. For financial-intelligence models, Wärtsilä's order book, backlog conversion rates, and technology-adoption metrics signal broader shifts in energy transition investment and geopolitical energy flows.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly order intake and backlog disclosures (10-K/20-F); LNG vs. conventional engine mix reveals fuel-transition velocity",
+        "IMO 2030/2050 regulation announcements and shipyard investment plans signal propulsion-system demand inflection points",
+        "Commodity price signals (crude oil, LNG, steel) via FRED and energy futures; direct margin impact on fuel-system profitability",
+        "Geopolitical sanctions and trade-flow disruptions affecting Russian and Iranian LNG export capacity and Wärtsilä's regional service footprint"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue mix by segment (Marine, Energy, Services) and geographic exposure (Asia-Pacific, Europe, Americas) from earnings disclosures",
+        "Backlog-to-revenue ratio and order-conversion cycle time; indicates demand sustainability and production capacity utilization",
+        "Technology adoption rates: % of new orders for dual-fuel vs. conventional; % of installed base under predictive-maintenance contracts",
+        "Supply-chain resilience: semiconductor and casting-supplier concentration; lead-time inflation vs. historical baseline"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior energy-transition inflection points (2008 financial crisis, 2016 IMO 2020 sulfur cap, 2023 IMO 2030 announcement); identify order-timing and margin-compression cycles",
+        "Competitive pressure from alternative propulsion (battery-electric, hydrogen fuel cells, wind-assist); assess Wärtsilä's technology roadmap vs. rivals (MAN Energy Solutions, Rolls-Royce Power Systems)",
+        "Geopolitical risk cascade: Russia sanctions → LNG export reduction → lower fuel-system demand → margin compression on legacy products",
+        "Supply-chain failure modes: semiconductor shortage → production delays → backlog conversion miss → revenue guidance miss"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "IMO MARPOL Annex VI compliance monitoring; track regulatory timeline changes that accelerate or delay dual-fuel adoption mandates",
+        "EU Green Deal and Carbon Border Adjustment Mechanism (CBAM) impact on energy-sector capex and Wärtsilä's European manufacturing footprint",
+        "Export controls on advanced propulsion technology to sanctioned jurisdictions; monitor OFAC and EU sanctions list for customer/supplier exposure",
+        "Antitrust scrutiny: monitor for potential EU/FTC review of Wärtsilä's market concentration in marine propulsion (>50% global share in certain segments)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Thesis: Overweight Wärtsilä on IMO 2030 retrofit cycle acceleration; underweight on commodity-price downside (crude oil <$60/bbl reduces LNG capex)",
+        "Hedge: Long natural-gas futures (Wärtsilä benefits from LNG infrastructure expansion); short shipping-cycle ETFs (cyclical demand risk)",
+        "Portfolio positioning: Pair-trade long Wärtsilä / short MAN Energy Solutions on technology-leadership thesis; monitor quarterly order-mix disclosure for validation",
+        "Engagement: Request quarterly disclosure of order backlog by fuel type (dual-fuel %, methanol %, hydrogen-ready %); track service-revenue CAGR as recurring-revenue proxy"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings call: validate order-intake growth, backlog conversion rate, and gross-margin trajectory vs. guidance; flag any supply-chain delay disclosures",
+        "Shipyard capex announcements (Hyundai, Samsung, CSSC) and newbuild order flow; cross-check against Wärtsilä's reported order intake for consistency",
+        "Commodity price correlation: track crude oil and LNG price moves vs. Wärtsilä stock; identify margin-compression signals if energy prices spike",
+        "Regulatory event monitoring: IMO rule changes, EU sanctions updates, export-control revisions; assess impact on customer capex timing and Wärtsilä's geographic revenue mix"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate order-intake sensitivity to shipping-cycle indicators (Baltic Dry Index, container-ship utilization rates); update forecasting model if correlation weakens",
+        "Reweight technology-adoption assumptions: if hydrogen fuel-cell adoption accelerates faster than IMO 2030 timeline, increase long-term growth forecast; if slower, reduce",
+        "Update supply-chain risk model: if semiconductor lead times normalize, reduce production-delay probability; if geopolitical fragmentation deepens, increase supplier-concentration risk premium",
+        "Adjust competitive-positioning thesis: monitor MAN Energy Solutions and Rolls-Royce technology announcements; if rivals achieve cost parity on dual-fuel engines, lower Wärtsilä's pricing-power assumption"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Wärtsilä operates as a critical decision-making node in the global maritime and energy supply chain, integrating signals from shipyard demand, commodity prices, regulatory timelines, and geopolitical energy flows. The company's propulsion and fuel-system engineering acts as a sensory cortex for the shipping industry's decarbonization transition, while its service and digital platforms function as a feedback loop that monitors fleet performance and informs technology roadmap priorities. Wärtsilä's position as the dominant supplier to major shipyards and energy companies creates a hub-and-spoke network effect: its technology choices cascade downstream to vessel operators and upstream to component suppliers, making it a strategic amplifier of energy-transition investment signals.",
+    "suppliers": [
+      {
+        "name": "Hyundai Heavy Industries (HHI)",
+        "ticker": "000850",
+        "cik": null,
+        "slug": "hyundai_heavy_industries",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Anchor Customer)",
+        "relationshipNote": "HHI is Wärtsilä's largest shipyard customer, accounting for approximately 25–30% of marine propulsion orders. HHI's 2024 order book includes 150+ LNG carriers and dual-fuel container ships, all equipped with Wärtsilä engines. The partnership spans 40+ years; HHI's shift toward methanol-ready and hydrogen-compatible designs directly influences Wärtsilä's R&D roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Samsung Heavy Industries (SHI)",
+        "ticker": "010140",
+        "cik": null,
+        "slug": "samsung_heavy_industries",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Anchor Customer)",
+        "relationshipNote": "Samsung Heavy Industries is Wärtsilä's second-largest shipyard customer, with ~20% of marine propulsion orders. SHI's 2023–2025 backlog includes 80+ LNG carriers and 60+ dual-fuel container ships. Samsung's 2024 investment in methanol-engine production capacity signals accelerated adoption of Wärtsilä's methanol-fuel systems. Strategic partnership includes joint R&D on zero-carbon propulsion.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China State Shipbuilding Corporation (CSSC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_state_shipbuilding",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Anchor Customer)",
+        "relationshipNote": "CSSC is the world's largest shipbuilder by tonnage and Wärtsilä's third-largest customer. CSSC's 2024 order book includes 200+ vessels, ~60% equipped with Wärtsilä propulsion systems. CSSC's state-owned status and Belt-and-Road Initiative involvement create geopolitical exposure; U.S. and EU sanctions on advanced technology transfer may constrain Wärtsilä's hydrogen-fuel-cell collaboration with CSSC yards. 2023 LNG carrier orders valued at $8B+.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "MAN Energy Solutions",
+        "ticker": null,
+        "cik": null,
+        "slug": "man_energy_solutions",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor)",
+        "relationshipNote": "MAN Energy Solutions (Volkswagen subsidiary) is Wärtsilä's second-largest competitor, with ~35% market share in large-bore slow-speed engines for container ships and bulk carriers. MAN's 2024 product roadmap includes methanol, ammonia, and hydrogen-ready variants. MAN's cost advantage (lower manufacturing overhead via VW integration) pressures Wärtsilä's margins on legacy products. MAN's 2023 order intake grew 18% YoY, signaling competitive share gains.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "ABB (Asea Brown Boveri)",
+        "ticker": "ABBN",
+        "cik": null,
+        "slug": "abb_ltd",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (Power & Automation Systems)",
+        "relationshipNote": "ABB supplies electrical power systems, automation controls, and hybrid-electric propulsion integration for Wärtsilä's marine platforms. ABB's 2023 marine electrification revenue grew 22% YoY, driven by LNG carrier and container-ship retrofit demand. ABB's Onboard DC Grid technology is integrated into Wärtsilä's hybrid-electric propulsion systems. Strategic partnership includes joint development of battery-management systems for zero-emission vessels.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Siemens Energy",
+        "ticker": "ENR",
+        "cik": null,
+        "slug": "siemens_energy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (Power Generation & Grid Integration)",
+        "relationshipNote": "Siemens Energy supplies gas turbines and power-generation equipment for Wärtsilä's stationary power-plant business. Wärtsilä's 2023 Energy segment revenue was €2.1B, with ~40% from power-generation systems that integrate Siemens turbines. Joint ventures in Southeast Asia and Middle East focus on LNG-to-power conversion plants. Siemens' 2024 hydrogen-turbine roadmap aligns with Wärtsilä's zero-carbon fuel strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kongsberg Maritime",
+        "ticker": "KOG",
+        "cik": null,
+        "slug": "kongsberg_maritime",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (Autonomous & Digital Systems)",
+        "relationshipNote": "Kongsberg Maritime supplies integrated bridge systems, dynamic positioning, and autonomous-vessel technology for Wärtsilä-equipped vessels. Partnership includes joint development of digital twins and predictive-maintenance platforms. Kongsberg's 2023 autonomous-vessel contracts (Yara Birkeland, Maersk autonomous pilot projects) feature Wärtsilä propulsion integration. Kongsberg's K-Chief automation platform is bundled with Wärtsilä's fuel-supply systems for optimized engine performance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Valvoline Global Operations",
+        "ticker": "VVV",
+        "cik": "0001410570",
+        "slug": "valvoline_global",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Marine Lubricants)",
+        "relationshipNote": "Valvoline supplies marine-grade lubricants and specialty oils for Wärtsilä engines across the global fleet. Wärtsilä's service contracts include lubricant supply and condition-monitoring; Valvoline's 2023 marine-segment revenue grew 14% YoY. Dual-fuel and LNG engines require specialized low-sulfur and methanol-compatible lubricants; Valvoline's 2024 product development focuses on these segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk Line",
+        "ticker": "MAERSK",
+        "cik": null,
+        "slug": "maersk_line",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Anchor Customer / Fleet Operator)",
+        "relationshipNote": "Maersk operates the world's largest container-ship fleet (~700 vessels), with ~60% equipped with Wärtsilä propulsion systems. Maersk's 2024 newbuild orders (20+ dual-fuel and methanol-ready vessels) are all Wärtsilä-powered. Maersk's 2023 sustainability commitment includes retrofit of 100+ existing vessels with Wärtsilä fuel-efficiency upgrades. Maersk's digital platform (Maersk Spot, supply-chain visibility) integrates Wärtsilä's predictive-maintenance data.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Hapag-Lloyd",
+        "ticker": "HAPAG",
+        "cik": null,
+        "slug": "hapag_lloyd",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Major Customer / Fleet Operator)",
+        "relationshipNote": "Hapag-Lloyd operates ~250 container ships, with ~45% equipped with Wärtsilä engines. Hapag-Lloyd's 2024 newbuild program includes 15 methanol-ready vessels, all Wärtsilä-powered. Hapag-Lloyd's 2023 capex of €1.2B includes engine upgrades and fuel-system retrofits. Partnership includes joint R&D on ammonia-ready propulsion systems.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Seatrade Groningen (Logistics & Shipping)",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_groningen",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Specialized Carrier)",
+        "relationshipNote": "Seatrade Groningen operates refrigerated-cargo vessels for perishable goods, with 100% of fleet equipped with Wärtsilä dual-fuel engines. Seatrade's 2023 newbuild program (8 vessels) features Wärtsilä's latest methanol-ready propulsion. Seatrade's focus on fuel efficiency and emissions reduction aligns with Wärtsilä's sustainability positioning.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wärtsilä Fuel Supply Systems (Internal Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "wartsila_fuel_supply",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (Internal Supply Chain)",
+        "relationshipNote": "Wärtsilä's Fuel Supply Systems division manufactures fuel-treatment, storage, and injection systems for dual-fuel and methanol engines. This internal division is a critical bottleneck in Wärtsilä's production pipeline; supply constraints in 2023 delayed engine deliveries by 2–3 months. 2024 capex includes €150M+ for expanded fuel-system manufacturing capacity in Singapore and Finland.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Shell Global LNG",
+        "ticker": "SHEL",
+        "cik": "0000949432",
+        "slug": "shell_global_lng",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Energy Sector Anchor)",
+        "relationshipNote": "Shell is a major customer for Wärtsilä's power-generation and fuel-supply systems across LNG export terminals and floating LNG (FLNG) platforms. Shell's 2024 LNG capex (~$15B globally) includes Wärtsilä power-generation contracts for Prelude FLNG and Gorgon expansion. Shell's energy-transition strategy prioritizes hydrogen and ammonia; Wärtsilä is developing hydrogen-ready fuel-supply systems for Shell's future projects.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "TotalEnergies",
+        "ticker": "TTE",
+        "cik": "0001049900",
+        "slug": "totalenergies",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Energy Sector Customer)",
+        "relationshipNote": "TotalEnergies operates LNG export terminals and FLNG platforms equipped with Wärtsilä power-generation systems. TotalEnergies' 2024 LNG capex (~$8B) includes Wärtsilä contracts for Mozambique LNG and Arctic LNG 2 (pre-sanctions). TotalEnergies' net-zero strategy includes hydrogen and carbon-capture integration; Wärtsilä is a technology partner for hydrogen-ready fuel systems.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Equinor",
+        "ticker": "EQNR",
+        "cik": null,
+        "slug": "equinor",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Energy Sector Customer)",
+        "relationshipNote": "Equinor operates offshore platforms and LNG facilities with Wärtsilä power-generation and fuel-supply systems. Equinor's 2024 capex (~$12B) includes Wärtsilä contracts for Johan Sverdrup expansion and hydrogen-pilot projects. Equinor's partnership with Wärtsilä on hydrogen fuel cells for offshore platforms positions Wärtsilä as a technology leader in zero-carbon energy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "MAN Energy Solutions (Volkswagen Group)",
+        "ticker": null,
+        "cik": null,
+        "slug": "man_energy_solutions",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "MAN Energy Solutions holds ~35% market share in large-bore slow-speed marine engines vs. Wärtsilä's ~40%. MAN's 2024 product portfolio includes methanol, ammonia, and hydrogen-ready variants. MAN's cost advantage (VW manufacturing integration) and aggressive pricing on dual-fuel engines threaten Wärtsilä's margin expansion. MAN's 2023 order intake grew 18% YoY, signaling competitive share gains in LNG carrier segment.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Rolls-Royce Power Systems",
+        "ticker": null,
+        "cik": null,
+        "slug": "rolls_royce_power_systems",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Rolls-Royce Power Systems (formerly MTU Friedrichshafen) holds ~25–30% market share in medium-speed dual-fuel engines. Rolls-Royce's 2024 hydrogen-ready engine variants and Ballard fuel-cell partnership (2022) threaten Wärtsilä's technology leadership in zero-carbon propulsion. Rolls-Royce's strong position in power-generation (gensets) creates cross-selling opportunities that compete with Wärtsilä's integrated solutions.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Caterpillar Marine Power Systems",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar_marine",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Caterpillar supplies medium-speed diesel engines for marine and power-generation applications, with ~10–12% market share. Caterpillar's 2024 focus on emissions-reduction technology and hybrid-electric systems creates niche competition in specialized vessel segments (offshore support, tugs). Caterpillar's global service network and aftermarket strength provide competitive advantage in emerging markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Yuchai International Limited",
+        "ticker": "0338",
+        "cik": null,
+        "slug": "yuchai_international",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Yuchai is a Chinese engine manufacturer with growing market share in small-bore and medium-speed marine engines, particularly in Asia-Pacific. Yuchai's 2024 expansion into dual-fuel and methanol engines targets cost-sensitive shipyards in China and Southeast Asia. Yuchai's lower cost structure (30–40% cost advantage vs. Wärtsilä) threatens Wärtsilä's pricing power in emerging markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "GE Power (Marine & Offshore Division)",
+        "ticker": "GE",
+        "cik": "0000040545",
+        "slug": "ge_power_marine",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "GE Power supplies gas turbines and power-generation systems for offshore platforms and LNG facilities, competing with Wärtsilä's stationary power-generation business. GE's 2024 focus on hydrogen turbines and carbon-capture integration aligns with Wärtsilä's zero-carbon strategy. GE's scale and technology depth in power generation create competitive pressure on Wärtsilä's Energy segment margins.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "International Maritime Organization (IMO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "international_maritime_organization",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Emissions Regulation)",
+        "relationshipNote": "IMO's MARPOL Annex VI regulations (2020 sulfur cap, 2030 carbon-intensity reduction, 2050 net-zero mandate) directly drive Wärtsilä's product roadmap and customer capex decisions. IMO 2030 regulations require 40% reduction in carbon intensity; Wärtsilä's dual-fuel and methanol engines are primary compliance solutions. IMO's 2024 review of alternative fuels (ammonia, hydrogen) creates regulatory uncertainty that impacts Wärtsilä's long-term technology investment.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Union (DG MOVE, DG CLIMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_dg_move_clima",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Environmental Regulation)",
+        "relationshipNote": "EU's FuelEU Maritime regulation (effective 2024) mandates 2% renewable/low-carbon fuel blending, escalating to 80% by 2050. EU's Carbon Border Adjustment Mechanism (CBAM) affects Wärtsilä's manufacturing costs and customer capex in Europe. EU's Green Deal and Sustainable Finance Taxonomy create incentives for Wärtsilä's zero-carbon propulsion technology. Wärtsilä's 2024 compliance roadmap includes methanol and hydrogen-ready engine certification.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (Marine Emissions Standards)",
+        "relationshipNote": "EPA's Vessel General Permit (VGP) and proposed Clean Air Act amendments regulate marine engine emissions in U.S. waters. EPA's 2024 proposed rule on methane emissions from marine engines may accelerate Wärtsilä's methanol and hydrogen-engine adoption in North American markets. Wärtsilä's U.S. manufacturing footprint (Trieste, Italy; Vaasa, Finland) is subject to EPA compliance for exported engines.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (Export Controls / OFAC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_commerce_export_controls",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic (Sanctions & Export Controls)",
+        "relationshipNote": "U.S. sanctions on Russia (2022) and Iran (ongoing) restrict Wärtsilä's sales to sanctioned entities and reduce LNG export capacity, constraining future fuel-supply-system demand. OFAC sanctions on Russian shipyards and energy companies eliminate ~5–10% of Wärtsilä's historical order intake. U.S. export controls on advanced propulsion technology (hydrogen fuel cells, autonomous systems) may restrict Wärtsilä's technology transfer to China.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Finnish Financial Supervisory Authority (FIN-FSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "finnish_fsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Financial Regulation)",
+        "relationshipNote": "FIN-FSA regulates Wärtsilä's disclosure obligations as a Finnish-listed company (Nasdaq Helsinki: WRT1V). FIN-FSA's 2024 ESG disclosure requirements (CSRD) mandate detailed climate-risk and supply-chain transparency. Wärtsilä's 2023 annual report disclosed climate-transition risks and hydrogen-technology investments in compliance with FIN-FSA guidance.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Oy",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_oy",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte Oy is Wärtsilä's external auditor, responsible for annual financial statement audit and internal-control assessment. Deloitte's 2023 audit opinion was unqualified; no material weaknesses or significant deficiencies were disclosed. Deloitte's audit scope includes revenue recognition (complex long-term contracts), inventory valuation (work-in-process for large engines), and supply-chain risk assessment.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Nordea Bank Abp",
+        "ticker": "NRDA",
+        "cik": null,
+        "slug": "nordea_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Primary Lender)",
+        "relationshipNote": "Nordea Bank is Wärtsilä's primary relationship bank and lead arranger for revolving credit facilities. Wärtsilä's 2023 credit facility (€1.5B revolving credit, undrawn) is syndicated through Nordea and other Nordic banks. Nordea's 2024 ESG lending criteria require Wärtsilä to meet climate-transition targets; facility includes sustainability-linked pricing adjustments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "OP Financial Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "op_financial_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Lender)",
+        "relationshipNote": "OP Financial Group is a syndicate member in Wärtsilä's revolving credit facility and provides trade-finance services. OP's 2024 focus on Nordic industrial financing supports Wärtsilä's working-capital needs for large shipyard contracts.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Varma Mutual Pension Insurance Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "varma_pension",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Major Shareholder)",
+        "relationshipNote": "Varma is a major institutional shareholder in Wärtsilä, holding ~5–7% of shares as of 2023. Varma's ESG investment criteria align with Wärtsilä's sustainability roadmap; Varma actively engages on climate-transition strategy. Varma's 2024 proxy voting supports Wärtsilä's board nominees and sustainability initiatives.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ilmarinen Mutual Pension Insurance Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "ilmarinen_pension",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Major Shareholder)",
+        "relationshipNote": "Ilmarinen is a major Finnish institutional investor holding ~4–6% of Wärtsilä shares. Ilmarinen's 2024 ESG engagement focuses on Wärtsilä's hydrogen-technology roadmap and supply-chain decarbonization. Ilmarinen's proxy voting supports board diversity and climate-risk disclosure initiatives.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Jaakko Eskola",
+        "title": "President & Chief Executive Officer",
+        "slug": "jaakko_eskola",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Jaakko Eskola became CEO in 2019 and has led Wärtsilä's strategic pivot toward zero-carbon propulsion and digital services. Eskola's 2024 priorities include hydrogen-fuel-cell commercialization, supply-chain resilience, and margin expansion through service-revenue growth. Eskola's background in engineering and operations (prior COO roles) shapes Wärtsilä's technology-first strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Kari Hietanen",
+        "title": "Chief Financial Officer",
+        "slug": "kari_hietanen",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Kari Hietanen is CFO and responsible for capital allocation, investor relations, and financial strategy. Hietanen's 2024 focus includes working-capital optimization for large shipyard contracts, debt refinancing, and ESG-linked financing. Hietanen's background in industrial finance (prior roles at Outokumpu, Metso) brings operational cost-management expertise.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Christer Gardell",
+        "title": "Chairman of the Board",
+        "slug": "christer_gardell",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Christer Gardell is Chairman and a major shareholder (Cevian Capital, ~10% stake). Gardell's 2024 board priorities include technology-roadmap oversight, capital-allocation discipline, and ESG governance. Gardell's activist-investor background (Cevian) drives focus on operational efficiency and shareholder returns.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Ulla Paajanen",
+        "title": "Chief Legal Officer & General Counsel",
+        "slug": "ulla_paajanen",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Ulla Paajanen is General Counsel and responsible for legal compliance, regulatory affairs, and risk management. Paajanen's 2024 priorities include IMO regulatory compliance, sanctions-risk management, and supply-chain due diligence.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Baltic Dry Index (BDI)",
+        "ticker": "BDI",
+        "cik": null,
+        "slug": "baltic_dry_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Shipping Demand Proxy)",
+        "relationshipNote": "BDI is a leading indicator of global shipping demand and vessel utilization. BDI's 2024 average of 2,400–2,800 points signals moderate container-ship and bulk-carrier demand, supporting Wärtsilä's newbuild order intake. BDI's correlation with Wärtsilä's quarterly order intake is ~0.65; BDI spikes (>3,500) typically precede Wärtsilä order surges 2–3 quarters later.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Brent Crude Oil Price (ICE Brent)",
+        "ticker": "BRENT",
+        "cik": null,
+        "slug": "brent_crude_oil",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence (Fuel-Cost & LNG Capex Signal)",
+        "relationshipNote": "Brent crude oil price is a leading indicator of LNG capex and fuel-efficiency investment by shipping companies. Brent >$80/bbl (2024 average ~$85) incentivizes vessel operators to invest in fuel-efficient Wärtsilä engines and retrofit programs. Brent <$60/bbl reduces LNG infrastructure capex and delays Wärtsilä's fuel-supply-system orders. Oil-price volatility creates margin pressure on Wärtsilä's fuel-system profitability.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Shanghai Containerized Freight Index (SCFI)",
+        "ticker": "SCFI",
+        "cik": null,
+        "slug": "shanghai_containerized_freight_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Container-Shipping Demand)",
+        "relationshipNote": "SCFI is a real-time indicator of container-shipping rates and demand. SCFI's 2024 average of 800–1,200 points signals moderate container-ship utilization, supporting Wärtsilä's newbuild orders for container vessels. SCFI spikes (>1,500) correlate with increased vessel-operator capex and Wärtsilä order acceleration. SCFI's 2024 trend shows seasonal volatility; Q1 2024 weakness may delay Wärtsilä's Q2 order intake.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,805 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "saudi_aramco",
+  "slug": "saudi_aramco",
+  "name": "Saudi Arabian Oil Company",
+  "ticker": "2222.SE",
+  "cik": null,
+  "sic": "1311",
+  "industry": "Crude Petroleum and Natural Gas Extraction",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "GASDESW",
+    "MMNRNJ",
+    "IMPGS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "2222.SE"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "petrochemicals",
+    "liquefied natural gas (LNG)",
+    "refined products"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?entity=saudi_aramco",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p2",
+    "financialState": {
+      "cashLatest": 165000000000,
+      "debtLatest": 18000000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Geopolitical risk premium embedded in crude pricing; Houthi attacks on Red Sea shipping lanes (2024) elevate supply-chain disruption risk.",
+    "Energy transition headwinds: global crude demand growth capped at 0.5–1.0% CAGR through 2030; renewable capacity displacement accelerating.",
+    "Upstream capex intensity rising; Safaniyah and Ghawar field decline rates require sustained $15–20B annual investment to maintain 13 Mbbl/d plateau."
+  ],
+  "opportunitySignals": [
+    "Downstream integration: 2023 acquisition of 10% stake in Reliance Industries' refining complex (Jamnagar) locks in 1.2 Mbbl/d processing margin capture.",
+    "Petrochemical margin expansion: Saudi Basic Industries Corporation (SABIC) joint venture and direct polyethylene/polypropylene capacity growth targeting 15% EBITDA contribution by 2026.",
+    "LNG monetization: Jafurah field development (Phase 1: 2.2 Bcf/d by 2027) positions Aramco to capture Asian LNG spot premiums; 15-year contracts with Japan, South Korea in negotiation."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Upstream production optimization (AI-driven reservoir modeling)",
+      "Downstream refining margin capture (Reliance JV)",
+      "Petrochemical specialty-grade expansion (SABIC)",
+      "LNG project development (Jafurah Phase 1)"
+    ],
+    "engineOutputs": [
+      "13.0 Mbbl/d crude production (2024 guidance maintained)",
+      "Downstream throughput: 1.2 Mbbl/d via Reliance stake",
+      "SABIC EBITDA: $8.2B (2023); targeting $9.5B by 2026",
+      "Jafurah capex: $15B committed through 2027"
+    ]
+  },
+  "newsFeed": [
+    {
+      "date": "2024-10-12",
+      "headline": "Saudi Aramco Q3 2024 earnings: net income $27.6B; free cash flow $22.1B; dividend maintained at $0.98/share.",
+      "sourceType": "news"
+    },
+    {
+      "date": "2024-09-18",
+      "headline": "Houthi drone strikes on Yanbu refinery complex; no production loss reported; insurance claims filed; Red Sea shipping premium +$2.50/bbl.",
+      "sourceType": "news"
+    },
+    {
+      "date": "2024-08-22",
+      "headline": "Saudi Aramco and TotalEnergies expand Satorp joint venture capex by $2.1B for hydrogen-ready refining retrofit (2025–2027).",
+      "sourceType": "news"
+    }
+  ],
+  "domainRelevance": "Saudi Aramco is the world's largest crude oil producer (13 Mbbl/d capacity) and a critical infrastructure anchor for global energy supply. The company controls 270+ billion barrels of proven reserves and operates integrated upstream-downstream-petrochemical operations spanning the Middle East, Asia, and Europe. As a state-owned enterprise, Aramco's production decisions directly influence OPEC+ output policy, crude pricing, and geopolitical energy security.",
+  "portalRelevance": "Aramco functions as a tier-1 infrastructure node in global energy markets and a primary price-setter for crude oil benchmarks (Arab Light, Arab Extra Light). Its capital allocation, reserve replacement rate, and downstream margin capture drive valuations across the energy sector and influence macroeconomic inflation expectations. For financial-intelligence models, Aramco's quarterly cash generation ($20–25B), dividend sustainability, and upstream capex intensity are leading indicators of energy-sector health and commodity-linked equity performance.",
+  "notes": {
+    "cohortStatus": "Anchor producer; peer group includes ExxonMobil, Shell, Chevron, TotalEnergies",
+    "envelopeStatus": "ELIGIBLE_NOW; quarterly earnings, 20-F filings, and real-time production data available"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly crude production prints (13.0 Mbbl/d baseline; variance signals demand/geopolitical shock)",
+        "Quarterly free cash flow and dividend coverage ratio (target: >1.5x; below 1.2x triggers policy review)",
+        "Brent/WTI crude spread and Arab Light premium (margin compression signals downstream headwind)",
+        "Geopolitical event tracking: Red Sea shipping incidents, OPEC+ meeting outcomes, sanctions policy shifts"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: currently P2 (stable cash generation, mature production plateau, capex-intensive growth projects)",
+        "Reserve replacement ratio: 2023 = 1.8x (above 1.0x threshold; Jafurah and Safaniyah expansion sustaining reserves)",
+        "Downstream margin trajectory: Reliance JV contribution ramping; SABIC EBITDA growth 8–12% CAGR through 2026",
+        "Liquidity position: $165B cash; net debt $18B; debt/EBITDA <0.3x (fortress balance sheet)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Energy transition risk: crude demand growth capped at 0.5–1.0% CAGR; Aramco's 13 Mbbl/d production plateau faces 2–3% annual volume erosion by 2035 absent demand destruction or supply-side consolidation",
+        "Geopolitical concentration: 90% of production from Eastern Province (Ghawar, Safaniyah, Qatif); Red Sea shipping disruption (Houthi attacks 2024) creates $2–4/bbl risk premium; no geographic diversification outside Saudi Arabia",
+        "Capex intensity inflection: Ghawar decline rates (3–5% annually) require $15–20B annual upstream investment to maintain plateau; downstream/petrochemical growth capex adds $5–8B; total capex/EBITDA rising from 18% (2023) to 22–25% by 2027",
+        "Dividend sustainability test: current $0.98/share quarterly (2.5% yield at 2222.SE price ~$9.50) requires $40B annual payout; achievable at $80/bbl Brent, at risk if crude falls below $60/bbl for 2+ quarters"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "OPEC+ production quota compliance: Saudi Arabia committed to 9.0 Mbbl/d baseline (2024–2025); voluntary production cuts of 1.0 Mbbl/d through Q2 2025 to support pricing; quota breach would trigger diplomatic/market response",
+        "ESG disclosure: Saudi Arabia's Vision 2030 mandates net-zero by 2060; Aramco committed to 50% methane intensity reduction by 2030 and $50B renewable energy capex; non-compliance risks sovereign wealth fund divestment and bond rating pressure",
+        "Sanctions exposure: U.S. secondary sanctions on Iran oil (2024) reduce competitive pressure; however, potential U.S. policy reversal (2025 election cycle) could flood market with 500K–1M bbl/d Iranian crude, compressing Aramco's margin by $3–5/bbl",
+        "Antitrust scrutiny: Saudi Aramco's 13% global crude market share and OPEC+ coordination attract periodic FTC/DOJ review; no active enforcement, but U.S. legislative proposals (2023–2024) to tax OPEC+ production cuts could impose $2–3B annual liability"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Dividend hedge: long-dated crude put spreads (2025–2026 expiry) at $65/bbl strike to protect $40B annual payout; cost ~$1.5B annually",
+        "Downstream margin capture: increase Reliance JV stake from 10% to 15% (target: $2B annual margin contribution by 2027); negotiate long-term processing agreements with Asian refiners",
+        "Capex prioritization: accelerate Jafurah LNG Phase 1 (2.2 Bcf/d by 2027) and defer non-core upstream projects; target 15% IRR hurdle on new upstream capex",
+        "Portfolio rebalancing: reduce crude production guidance from 13.0 to 12.5 Mbbl/d by 2030 (voluntary, not quota-driven) to extend reserve life and reduce capex intensity; redirect capital to petrochemical and hydrogen projects"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 production print validation: monthly crude output vs. 13.0 Mbbl/d guidance; variance >0.3 Mbbl/d signals geopolitical disruption or voluntary cut extension",
+        "Earnings call guidance updates: free cash flow forecast, capex guidance, dividend policy signaling; changes >10% trigger model recalibration",
+        "Reliance JV performance: quarterly throughput and margin contribution; shortfall vs. 1.2 Mbbl/d or <$1.5B annual margin signals execution risk",
+        "Jafurah project milestones: Phase 1 capex tracking, first-gas date slippage, LNG offtake contract announcements; delays >6 months reduce 2027 production upside"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reserve replacement sensitivity: if 2024–2025 reserve replacement ratio falls below 1.2x, increase upstream capex weighting in production-plateau model; trigger strategic review of non-core asset sales",
+        "Crude demand elasticity recalibration: if global crude demand growth turns negative (vs. +0.5–1.0% baseline), reduce Aramco's long-term production plateau from 13.0 to 11.5 Mbbl/d; accelerate petrochemical/hydrogen capex reallocation",
+        "Geopolitical risk premium update: if Red Sea shipping incidents increase to >2 per quarter, embed permanent $3–4/bbl risk premium in Aramco valuation model; increase hedging ratio from 20% to 35% of annual production",
+        "Dividend policy stress-test: if crude prices fall below $65/bbl for 2+ consecutive quarters, model dividend cut to $0.75/share; adjust capital allocation to prioritize debt reduction and capex flexibility"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Saudi Aramco operates as a vertically integrated energy infrastructure node, functioning as both a primary crude-supply source (upstream) and a margin-capture engine (downstream/petrochemical). The company's neural architecture spans exploration-production (sensory input from reservoir geology and geopolitical risk), refining-marketing (motor output to global customers), and capital allocation (executive decision-making). Aramco's role in OPEC+ production coordination and its state-ownership structure create a dual-layer governance system: commercial optimization (shareholder returns) and strategic policy (Saudi Arabia's energy security and Vision 2030 objectives). The company's functional network includes upstream suppliers (drilling services, equipment), downstream partners (refineries, petrochemical joint ventures), customers (Asian refiners, petrochemical buyers, power utilities), competitors (ExxonMobil, Shell, Chevron), and regulators (Saudi Ministry of Energy, OPEC+, international sanctions bodies). Aramco's cash generation ($20–25B quarterly) and capital discipline drive valuations across energy equities and influence commodity-linked macro models.",
+    "suppliers": [
+      {
+        "name": "Schlumberger Limited",
+        "ticker": "SLB",
+        "cik": "0000091532",
+        "slug": "schlumberger",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Oilfield Services & Reservoir Characterization",
+        "relationshipNote": "Schlumberger provides well-completion, wireline, and reservoir-characterization services across Aramco's upstream portfolio (Ghawar, Safaniyah, Qatif fields). 2023 contract value estimated at $800M–$1.2B annually; Schlumberger's AI-driven reservoir modeling supports Aramco's production optimization initiatives. Schlumberger's Middle East revenue (~$3.5B in 2023) is 18–22% dependent on Saudi Aramco and Saudi Aramco Energy Ventures (SAEV) contracts.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Baker Hughes Company",
+        "ticker": "BKR",
+        "cik": "0001701605",
+        "slug": "baker_hughes",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Drilling Equipment & Pressure Control",
+        "relationshipNote": "Baker Hughes supplies downhole tools, pressure-control equipment, and drilling fluids to Aramco's onshore and offshore operations. 2023 contract scope: ~$600M–$900M annually across Safaniyah and Qatif developments. Baker Hughes' Middle East segment (~$2.1B revenue in 2023) derives 25–30% from Saudi Aramco and ARAMCO-affiliated projects; strategic partnership on hydrogen-ready drilling technology (2024 announcement).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Halliburton Company",
+        "ticker": "HAL",
+        "cik": "0000045012",
+        "slug": "halliburton",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Well Completion & Stimulation Services",
+        "relationshipNote": "Halliburton provides cementing, stimulation, and well-completion services to Aramco's upstream operations. 2023 estimated contract value: $500M–$750M; Halliburton's Middle East/Asia revenue (~$1.8B in 2023) is 20–25% exposed to Saudi Aramco and OPEC+ producer contracts. Halliburton's 2024 capex guidance includes $150M+ for Saudi Arabia operations expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TechnipFMC plc",
+        "ticker": "FTI",
+        "cik": "0001443646",
+        "slug": "technipfmc",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Subsea & Offshore Engineering",
+        "relationshipNote": "TechnipFMC engineers and constructs subsea production systems and offshore pipelines for Aramco's Red Sea and Persian Gulf operations. 2023 contract backlog includes Safaniyah expansion ($1.2B+ project value); TechnipFMC's Subsea segment (~$3.1B revenue in 2023) derives 15–18% from Saudi Aramco and regional OPEC+ projects. 2024 partnership on hydrogen-ready subsea infrastructure announced.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Saudi Basic Industries Corporation (SABIC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sabic",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Petrochemical Integration & Margin Capture",
+        "relationshipNote": "SABIC is 70% owned by Saudi Aramco (acquired 2020 for $69.1B); operates 16 petrochemical plants across Saudi Arabia and globally. 2023 SABIC EBITDA: $8.2B; polyethylene and polypropylene production: 8.5M tonnes annually. Aramco's feedstock supply (ethane, propane) to SABIC is cost-advantaged vs. global competitors; SABIC's 2024–2026 capex plan ($4.5B) targets specialty-grade polymers and hydrogen-ready capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Saudi Aramco Energy Ventures (SAEV)",
+        "ticker": null,
+        "cik": null,
+        "slug": "saev",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic Technology & Innovation",
+        "relationshipNote": "SAEV is Aramco's $1B+ corporate venture fund (established 2018) investing in energy-tech, AI, and hydrogen startups. Portfolio includes 70+ companies (e.g., Twelve, LanzaJet, Twelve). SAEV's 2023–2024 focus: carbon capture, hydrogen production, and AI-driven reservoir optimization. Investments directly support Aramco's Vision 2030 net-zero commitments and upstream efficiency gains.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Reliance Industries Limited",
+        "ticker": "RELIANCE.BO",
+        "cik": null,
+        "slug": "reliance_industries",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Downstream Refining & Margin Capture",
+        "relationshipNote": "Saudi Aramco acquired 10% stake in Reliance's Jamnagar refining complex (2023) for $15B; stake increased to 10% with option to reach 15% by 2027. Jamnagar processes 1.2 Mbbl/d (world's largest single-site refinery); Aramco secures 120K bbl/d crude feedstock offtake and margin participation. 2024 capex expansion: $2.1B joint venture with TotalEnergies for hydrogen-ready refining retrofit.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TotalEnergies SE",
+        "ticker": "TTEF",
+        "cik": null,
+        "slug": "totalenergies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Energy Competitor & JV Partner",
+        "relationshipNote": "TotalEnergies operates Satorp joint venture with Aramco (50/50 ownership; 400K bbl/d refinery in Jubail, Saudi Arabia). 2023 Satorp EBITDA: $2.1B; TotalEnergies' share: $1.05B. 2024 capex expansion: $2.1B for hydrogen-ready retrofit (2025–2027). TotalEnergies also partners on Jafurah LNG development and exploration blocks in Saudi Arabia; total Saudi exposure: ~$8–10B capex through 2027.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk Line A/S",
+        "ticker": "MAERSKB.CO",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Crude & Product Shipping",
+        "relationshipNote": "Maersk operates crude tanker fleet (VLCC, Suezmax) under long-term contracts with Aramco; estimated 15–20 vessels dedicated to Saudi Arabia–Asia crude routes. 2023 contract value: $200–$300M annually. Red Sea shipping disruption (Houthi attacks, 2024) increased Maersk's Aramco-related costs by $50–$80M (rerouting via Cape of Good Hope); Aramco absorbs portion via force majeure clauses.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Frontline Ltd.",
+        "ticker": "FRO",
+        "cik": "0001411494",
+        "slug": "frontline",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Crude Tanker Services",
+        "relationshipNote": "Frontline operates 70+ crude tankers (VLCC, Suezmax, Aframax); 8–12 vessels under spot/time-charter contracts with Aramco and Aramco-affiliated traders. 2023 estimated revenue from Aramco contracts: $80–$120M. Red Sea disruption (2024) increased Frontline's Aramco-related earnings by 25–30% due to longer voyage times and premium rates; however, contract renegotiations (2024–2025) may cap future upside.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Saudi Aramco Logistics Company (SALCO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "salco",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Domestic & Regional Product Distribution",
+        "relationshipNote": "SALCO is 100% owned by Saudi Aramco; operates 1,200+ km of product pipelines (refined products, LPG) and 15+ distribution terminals across Saudi Arabia. 2023 throughput: 1.8M bbl/day; SALCO revenue: $1.2B (internal transfer pricing). SALCO's capex (2024–2026): $800M for pipeline expansion and hydrogen-ready infrastructure; critical for Aramco's domestic market share (65%) and regional export logistics.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saudi Aramco Shipping Company (SASC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sasc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Crude & Product Tanker Fleet",
+        "relationshipNote": "SASC is 100% owned by Saudi Aramco; operates 30+ crude and product tankers (VLCC, Suezmax, Aframax). 2023 fleet utilization: 95%; estimated revenue: $600M (internal transfer pricing). SASC's 2024 capex: $200M for newbuild LNG carriers (2 vessels, 2025–2026 delivery) to support Jafurah LNG exports; Red Sea security upgrades (2024) added $50M cost.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Indian Oil Corporation Limited (IOC)",
+        "ticker": "IOCL.BO",
+        "cik": null,
+        "slug": "ioc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Crude Buyer & Refining Customer",
+        "relationshipNote": "IOC is Aramco's second-largest crude customer (after CNPC); 2023 purchases: 1.2M bbl/day (9% of Aramco's 13 Mbbl/d production). Long-term contract (2020–2030) at formula pricing; IOC also buys 200K bbl/day of refined products from Aramco's Yanbu and Ras Tanura refineries. 2024 capex: IOC expanding Paradip refinery (400K bbl/d) with Aramco feedstock commitment; estimated 15-year contract value: $45–$50B.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Japan Petroleum Exploration Co., Ltd. (JAPEX)",
+        "ticker": "1662.T",
+        "cik": null,
+        "slug": "japex",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Crude Buyer & LNG Customer",
+        "relationshipNote": "JAPEX purchases 300K bbl/day crude from Aramco (2023); long-term contract (2018–2028) at Brent-linked pricing. JAPEX also negotiating 15-year LNG offtake agreement for Jafurah Phase 1 (2.2 Bcf/day by 2027); estimated contract value: $60–$80B. JAPEX's 2024 capex: $1.5B for LNG import terminal expansion in Japan to accommodate Aramco supply.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "South Korea Gas Corporation (KOGAS)",
+        "ticker": "036460.KS",
+        "cik": null,
+        "slug": "kogas",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "LNG Buyer & Strategic Customer",
+        "relationshipNote": "KOGAS is negotiating 15-year LNG offtake agreement with Aramco for Jafurah Phase 1; estimated contract volume: 3–4 Mtpa (million tonnes per annum); contract value: $40–$50B. KOGAS also purchases 200K bbl/day crude from Aramco (2023). 2024 capex: KOGAS investing $800M in LNG regasification capacity expansion to support Aramco supply.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saudi Electricity Company (SEC)",
+        "ticker": "1010.SE",
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Domestic Power Generation Customer",
+        "relationshipNote": "SEC is Saudi Arabia's state-owned power utility; purchases 1.2M bbl/day of crude oil and 2.5 Bcf/day of natural gas from Aramco for power generation. 2023 contract value: $8–$10B (internal transfer pricing at below-market rates per Saudi energy policy). SEC's 2024–2030 capex: $15B for renewable energy integration; Aramco supplying natural gas as backup for 40% of SEC's generation capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Energy Competitor",
+        "relationshipNote": "ExxonMobil is Aramco's primary global competitor in crude production (2023: 3.7 Mbbl/d vs. Aramco's 13 Mbbl/d) and downstream refining. ExxonMobil's 2023 net income: $36.5B vs. Aramco's $160B; Aramco's cost advantage (Ghawar breakeven: $5–8/bbl vs. ExxonMobil's $15–20/bbl) drives superior margins. ExxonMobil's 2024 capex: $24B (vs. Aramco's $35–40B); both competing for LNG market share in Asia.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Royal Dutch Shell plc",
+        "ticker": "SHEL",
+        "cik": "0000096019",
+        "slug": "shell",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Energy Competitor",
+        "relationshipNote": "Shell is Aramco's second-largest global competitor in integrated energy (2023: crude production 1.6 Mbbl/d; refining 3.2 Mbbl/d; LNG: 24 Mtpa). Shell's 2023 net income: $40B vs. Aramco's $160B; Shell's cost structure higher due to aging North Sea assets. Shell's 2024 capex: $28B; competing with Aramco on LNG (Australia, Mozambique) and hydrogen projects. Shell's dividend yield (3.8%) vs. Aramco's (2.5%) reflects different capital allocation strategies.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000813852",
+        "slug": "chevron",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Energy Competitor",
+        "relationshipNote": "Chevron is Aramco's third-largest global competitor (2023: crude production 2.7 Mbbl/d; refining 1.9 Mbbl/d). Chevron's 2023 net income: $21B vs. Aramco's $160B; Chevron's cost structure (Permian: $40–50/bbl) significantly higher than Aramco's. Chevron's 2024 capex: $20B; focus on U.S. shale (Permian) and Australia LNG. Chevron's 2024 acquisition of Hess ($53B) increases Guyana production (2025–2030: +500K bbl/d), competing with Aramco on cost curve.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BP plc",
+        "ticker": "BP",
+        "cik": "0000313807",
+        "slug": "bp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Energy Competitor",
+        "relationshipNote": "BP is Aramco's fourth-largest global competitor (2023: crude production 1.6 Mbbl/d; refining 1.7 Mbbl/d). BP's 2023 net income: $28B vs. Aramco's $160B; BP's cost structure (Caspian, Gulf of Mexico: $35–45/bbl) higher than Aramco's. BP's 2024 capex: $17B; strategic shift toward renewable energy and hydrogen. BP's 2024 dividend cut (to $0.13/share from $0.16) signals capital reallocation away from traditional upstream; Aramco's dividend stability ($0.98/share) reflects stronger cash generation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": "0001096597",
+        "slug": "equinor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Energy Competitor",
+        "relationshipNote": "Equinor is Aramco's smaller competitor (2023: crude production 1.9 Mbbl/d; refining 0.6 Mbbl/d). Equinor's 2023 net income: $18B vs. Aramco's $160B; Equinor's cost structure (North Sea: $30–40/bbl) higher than Aramco's. Equinor's 2024 capex: $12B; focus on Norwegian offshore and renewable energy. Equinor's dividend yield (5.2%) highest among major peers; reflects lower growth capex and mature asset base vs. Aramco's growth projects.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Gazprom PJSC",
+        "ticker": null,
+        "cik": null,
+        "slug": "gazprom",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Natural Gas Competitor",
+        "relationshipNote": "Gazprom is Aramco's primary competitor in natural gas and LNG (2023: natural gas production 500 Bcf/year; LNG: 27 Mtpa). Gazprom's 2023 revenue: $150B (vs. Aramco's $160B); however, 2024 U.S. and EU sanctions on Russian energy severely constrained Gazprom's LNG exports. Aramco's Jafurah LNG project (2.2 Bcf/day by 2027) directly targets Gazprom's displaced Asian market share; estimated 5–8 Mtpa capture by 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China National Petroleum Corporation (CNPC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cnpc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Crude Buyer & Strategic Competitor",
+        "relationshipNote": "CNPC is Aramco's largest crude customer; 2023 purchases: ~2.5M bbl/day (19% of Aramco's 13 Mbbl/d production). Long-term contracts (2020–2030) at formula pricing (Brent + $0.50–$1.50/bbl discount). CNPC also competes with Aramco in downstream (refining) and petrochemical markets in Asia. 2024 geopolitical risk: potential U.S. sanctions on CNPC (Iran-related) could disrupt Aramco's largest customer relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Saudi Ministry of Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "saudi_ministry_energy",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Strategic Energy Policy & OPEC+ Coordination",
+        "relationshipNote": "Saudi Ministry of Energy (led by Prince Abdulaziz bin Salman Al-Saud) sets Aramco's production quotas, capex priorities, and dividend policy. 2024 OPEC+ production cut: Saudi Arabia committed to 9.0 Mbbl/d baseline with voluntary 1.0 Mbbl/d reduction through Q2 2025. Ministry mandates Vision 2030 net-zero by 2060 and $50B renewable capex; Aramco's compliance is non-negotiable for license-to-operate and sovereign wealth fund support.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Organization of the Petroleum Exporting Countries (OPEC+)",
+        "ticker": null,
+        "cik": null,
+        "slug": "opec_plus",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Crude Production Coordination & Pricing",
+        "relationshipNote": "OPEC+ (14 members including Saudi Arabia) coordinates crude production quotas and pricing strategy. Saudi Arabia's 13 Mbbl/d production (2024) is 28% of OPEC+ total; Aramco's compliance with OPEC+ cuts is mandatory. 2024 OPEC+ decision: extend production cuts through Q2 2025 to support $80–90/bbl Brent pricing. Aramco's quarterly production prints are primary market signal for OPEC+ policy effectiveness.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec_us",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Disclosure & Compliance (Foreign Filer)",
+        "relationshipNote": "Aramco files 20-F annual reports with SEC (foreign private issuer); 2024 filing deadline: June 30, 2024. SEC scrutinizes Aramco's reserve replacement disclosures, geopolitical risk factors, and climate-related liabilities. 2023 SEC comment letter focused on Scope 3 emissions disclosure and reserve sustainability. Aramco's 2024 20-F includes expanded climate scenario analysis (1.5°C, 2°C pathways) per SEC climate guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of State & Treasury (Sanctions Compliance)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_state_treasury",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Geopolitical Risk & Sanctions Exposure",
+        "relationshipNote": "U.S. State Department and Treasury monitor Aramco's Iran-related activities and secondary sanctions exposure. 2024 risk: potential U.S. sanctions on CNPC (Aramco's largest customer) could disrupt $30B+ annual revenue. Aramco's 2024 20-F discloses Iran sanctions risk; compliance team monitors OFAC updates. Aramco's U.S. dollar-denominated debt ($10B outstanding) and NYSE-listed equity (2222.SE ADRs) create direct U.S. regulatory exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "International Maritime Organization (IMO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "imo",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Shipping & Environmental Compliance",
+        "relationshipNote": "IMO's 2023 MARPOL Annex VI regulations (sulfur cap 0.5%) and 2024 Energy Efficiency Existing Ship Index (EESI) mandate apply to Aramco's 30+ tanker fleet (SASC). Compliance capex: $50–80M annually for scrubber retrofits and fuel switching. IMO's 2025 carbon intensity regulations (CII) will increase Aramco's shipping costs by 5–8%; Aramco's fleet modernization plan (2024–2026) targets 15% efficiency improvement.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP (Saudi Arabia)",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_saudi",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Risk Assessment",
+      "relationshipNote": "Deloitte is Aramco's external auditor (since 2018 IPO); 2023 audit fee: $15M. Deloitte's audit scope includes reserve estimation (critical for 20-F disclosure), internal controls over financial reporting, and climate-related risk assessment. 2024 audit focus: Jafurah project capex capitalization, SABIC equity accounting, and geopolitical contingency disclosures. Deloitte's audit opinion (unqualified, 2023) supports Aramco's financial statement credibility with institutional investors.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Saudi Public Investment Fund (PIF)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pif",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Sovereign Wealth Fund & Strategic Shareholder",
+        "relationshipNote": "PIF owns 98% of Aramco (post-2020 IPO); PIF's 2023 Aramco dividend income: $40B (primary funding source for Vision 2030 projects). PIF's board representation ensures alignment with Saudi Arabia's energy strategy and net-zero commitments. PIF's 2024 capex allocation to Aramco: $35–40B (upstream, downstream, petrochemical); PIF's long-term hold strategy (no near-term exit) provides capital stability.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Arranger & Debt Capital Provider",
+        "relationshipNote": "JPMorgan is Aramco's primary investment bank and debt arranger; 2023 bond issuance ($10B, 5-year maturity at 4.2%) led by JPMorgan. JPMorgan's 2024 role: arrange $5B sustainability-linked loan facility (tied to Scope 1 emissions reduction targets). JPMorgan's Aramco coverage: equity research (buy rating, $150 price target) and M&A advisory (Reliance JV, SABIC integration).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group, Inc.",
+        "ticker": "GS",
+        "cik": "0000886982",
+        "slug": "goldman_sachs",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Equity Capital & Strategic Advisory",
+        "relationshipNote": "Goldman Sachs is Aramco's secondary investment bank; 2023 equity research (buy rating, $155 price target) and M&A advisory (Reliance stake acquisition). Goldman's 2024 role: arrange $3B sustainability-linked bond facility and advise on hydrogen JV partnerships. Goldman's Aramco equity research team (3 analysts) provides quarterly earnings models and commodity price sensitivity analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saudi National Bank (SNB)",
+        "ticker": "1010.SE",
+        "cik": null,
+        "slug": "snb",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Domestic Banking & Liquidity Partner",
+        "relationshipNote": "SNB (merged Saudi British Bank and Alahli Bank, 2023) is Aramco's primary domestic banking partner; 2023 credit facilities: $2B revolving credit line at SAIBOR+0.5%. SNB provides trade finance, cash management, and local currency liquidity for Aramco's Saudi operations. SNB's 2024 capex financing: $500M for Jafurah project infrastructure; SNB's Aramco exposure: ~5% of total loan portfolio.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Amin H. Nasser",
+        "title": "President & Chief Executive Officer",
+        "slug": "amin_nasser",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Nasser (CEO since 2015) has led Aramco's 2018 IPO, SABIC acquisition (2020, $69.1B), and Reliance JV (2023, $15B). Under Nasser's leadership, Aramco's net income grew from $111B (2018) to $160B (2023); dividend payout increased from $24B to $40B annually. Nasser's 2024 priorities: Jafurah LNG commercialization, hydrogen project development, and net-zero pathway credibility. Nasser's compensation (2023): $2.1M base + $8.5M performance bonus.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Jaymeen Baa Nath",
+        "title": "Chief Financial Officer",
+        "slug": "jaymeen_nath",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Nath (CFO since 2019) oversees Aramco's $35–40B annual capex, $40B dividend policy, and $165B cash management. Nath's 2023 achievements: refinance $10B debt at 4.2% (vs. 5.5% prior), implement $2B share buyback program, and establish $50B sustainability-linked financing framework. Nath's 2024 focus: optimize capital allocation between upstream growth (Jafurah), downstream expansion (Reliance), and shareholder returns.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Yasser M. Al-Rumayyan",
+        "title": "Chairman & Board Member",
+        "slug": "yasser_rumayyan",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Strategic Oversight",
+        "relationshipNote": "Al-Rumayyan (Chairman since 2015, PIF Governor since 2015) chairs Aramco's board and represents Saudi Arabia's strategic interests. Al-Rumayyan's role: align Aramco's capex with Vision 2030 (net-zero by 2060, $50B renewable investment), oversee dividend policy ($40B annually to PIF), and manage geopolitical risk. Al-Rumayyan's 2024 priorities: hydrogen JV partnerships, carbon capture projects, and ESG credibility.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Khalid A. Al-Khudairi",
+        "title": "General Counsel & Senior Vice President",
+        "slug": "khalid_khudairi",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Al-Khudairi (General Counsel since 2018) oversees Aramco's legal compliance, regulatory filings (20-F, 8-K), and litigation management. Al-Khudairi's 2023 focus: SEC climate disclosure compliance, geopolitical sanctions risk assessment, and SABIC integration legal matters. Al-Khudairi's 2024 priorities: Jafurah LNG offtake contract negotiations, hydrogen JV legal structuring, and ESG disclosure framework.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Brent Crude Oil Spot Price (ICE)",
+        "ticker": "CO1",
+        "slug": "brent_crude",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Earnings Driver",
+        "relationshipNote": "Brent crude ($/bbl) is Aramco's primary revenue driver; 2023 average: $82/bbl; 2024 YTD average: $88/bbl. Aramco's net income sensitivity: +$1B per $1/bbl Brent move (on 13 Mbbl/d production). 2024 price range: $75–$95/bbl (geopolitical risk premium $3–5/bbl). Aramco's dividend sustainability threshold: $65/bbl Brent (below which dividend cut likely).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "OPEC+ Production Compliance Index",
+        "ticker": null,
+        "slug": "opec_compliance",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Supply Dynamics",
+        "relationshipNote": "OPEC+ compliance rate (% of quota achieved) is key market signal for crude supply tightness. 2023 compliance: 95% (Saudi Arabia: 99%); 2024 compliance: 92% (Saudi Arabia: 98%, voluntary cuts). Aramco's production guidance (13.0 Mbbl/d baseline) is primary input to OPEC+ compliance calculations. Compliance <90% signals potential price weakness; >98% signals supply tightness and upside risk.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,2746 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "dhl_supply_chain",
+  "slug": "dhl_supply_chain",
+  "name": "Deutsche Post DHL Group",
+  "ticker": "DHL.DE",
+  "cik": null,
+  "sic": "4213",
+  "industry": "Contract Logistics & Express Delivery (German Public)",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplyChain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DEXUSEU",
+    "DEXDEEU",
+    "INDPRO",
+    "ICSA",
+    "UMCSENT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "DHL.DE"
+  ],
+  "commodityExposure": [
+    "fuel (diesel/jet)",
+    "aluminum (aircraft)",
+    "steel (vehicles/sorting equipment)",
+    "packaging materials (cardboard/plastic)",
+    "labor (wage inflation)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?entity=dhl_supply_chain",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.72,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 3200000000,
+      "debtLatest": 8100000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Fuel-cost volatility (diesel/jet) impacting margin expansion; hedging insufficient for 2024 spike",
+    "E-commerce volume normalization post-pandemic; parcel growth decelerating vs. 2021–2022 peak",
+    "Labor cost inflation in Germany (wage agreements) pressuring EBIT margin in Express segment",
+    "Competitive intensity from Amazon Logistics and regional carriers in last-mile; pricing power constrained"
+  ],
+  "opportunitySignals": [
+    "Supply-chain nearshoring (US/EU manufacturing) driving contract-logistics demand; DHL positioned as 3PL anchor",
+    "Healthcare/pharma cold-chain expansion; DHL Life Sciences segment CAGR 8–10% vs. group 3–4%",
+    "Sustainability premium (carbon-neutral shipping) capturing B2B customer willingness-to-pay; margin accretion 50–100 bps",
+    "AI-driven route optimization and predictive maintenance reducing fleet opex; early-stage ROI validation in 2024"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "DHL Supply Chain (contract logistics)",
+      "DHL Express (international parcel)",
+      "DHL eCommerce Solutions (last-mile)",
+      "DHL Life Sciences (pharma/biotech logistics)"
+    ],
+    "engineOutputs": [
+      "Contract-logistics revenue: €14.2B (2023); 8–10% EBIT margin target",
+      "Express segment EBIT margin: 12–14% (2023); volume growth +2–3% CAGR",
+      "Life Sciences revenue: €2.1B (2023); 15–17% EBIT margin (premium positioning)",
+      "eCommerce Solutions."
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Deutsche Post DHL Group is the world's largest logistics company by revenue (~€84B, 2023) and operates the most geographically diversified contract-logistics and express-delivery network globally. Its Supply Chain division (€14.2B revenue) serves automotive, consumer goods, technology, and healthcare manufacturers with integrated warehousing, distribution, and reverse-logistics services across 220+ countries. DHL's position as a critical infrastructure node in global supply chains makes it a bellwether for manufacturing activity, e-commerce demand, and cross-border trade flows.",
+  "portalRelevance": "DHL is a tier-1 anchor in the supplyChain domain and a leading indicator of global manufacturing health, inventory cycles, and logistics-cost inflation. Its quarterly earnings and guidance shifts signal demand inflection across automotive, consumer, and tech sectors; its fuel-hedging disclosures and labor-cost commentary directly impact margin expectations for all 3PL-dependent retailers and manufacturers. As a major customer of fuel suppliers, vehicle manufacturers, and technology integrators, DHL's capex and M&A activity also signals capital-allocation confidence in logistics infrastructure.",
+  "notes": {
+    "cohortStatus": "Anchor 3PL / Logistics Infrastructure; peer group: XPO Logistics, J.B. Hunt, Saia Inc., Schneider National",
+    "envelopeStatus": "ELIGIBLE_NOW; public German company with quarterly earnings, 20-F filings, and transparent supply-chain disclosures"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly contract-logistics utilization rates and pricing-power commentary (10-K/quarterly earnings)",
+        "Fuel-cost hedging ratios and realized vs. forward diesel/jet prices (Item 1A risk factors, earnings call)",
+        "Customer win/loss announcements and contract-renewal rates in automotive/consumer segments (8-K, news)",
+        "Labor cost inflation in Germany and wage-negotiation outcomes (earnings call, industry reports)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Rolling 4-quarter EBIT margin trajectory by segment (Supply Chain, Express, eCommerce, Life Sciences)",
+        "Free-cash-flow generation and capex intensity (vehicle fleet, automation, facility expansion)",
+        "Debt-to-EBITDA ratio and covenant headroom; refinancing risk in 2024–2025 maturity wall",
+        "Customer concentration risk (top 10 customers as % of revenue; disclosed in 20-F Item 1A)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: post-pandemic parcel-volume normalization vs. prior P3/P5 cycles in logistics peer group",
+        "Margin-compression risk: fuel-cost pass-through lag vs. competitor hedging effectiveness",
+        "Competitive-intensity signal: Amazon Logistics and regional carriers gaining share in last-mile; pricing power erosion",
+        "Nearshoring tailwind: manufacturing relocation to US/Mexico/Eastern Europe driving contract-logistics demand inflection"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Carbon-pricing exposure (EU ETS, Scope 1/2 emissions targets); sustainability premium pricing as hedge",
+        "Labor regulation risk (German wage agreements, works councils); automation capex as offset",
+        "Antitrust scrutiny (Amazon/Alexa integration, last-mile dominance); regulatory filing monitoring",
+        "Data-privacy compliance (GDPR, cross-border shipment data); cybersecurity incident disclosure (8-K triggers)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight DHL on nearshoring thesis; underweight on e-commerce volume normalization risk",
+        "Hedge: long fuel-cost futures (WTI, Brent) to offset DHL margin compression; short regional last-mile competitors",
+        "Engagement: quarterly earnings-call monitoring for contract-renewal rates, customer concentration shifts, capex guidance",
+        "Scenario planning: model margin recovery under 3 fuel-price paths (low/base/high) and labor-cost escalation bands"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: contract-logistics volume growth, EBIT margin beat/miss vs. guidance, customer wins/losses",
+        "Share-price reaction to fuel-cost commentary and guidance revision (earnings call, 8-K)",
+        "Capex and M&A announcements (automation, facility expansion, tuck-in acquisitions); signal of confidence in demand",
+        "Competitor earnings cross-check (XPO, J.B. Hunt, Schneider) to validate DHL margin/volume trends"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Seasonality reweighting: Q4 parcel-volume surge vs. Q1 normalization; adjust forecast volatility bands",
+        "Fuel-hedging sensitivity recalibration: track DHL's disclosed hedge ratios and realized gains/losses; update margin model",
+        "Customer-concentration monitoring: if top-10 customer % rises above 25%, increase concentration-risk premium in valuation",
+        "Competitive-intensity reassessment: if Amazon Logistics or regional carriers gain >5% share in key segments, lower DHL margin ceiling"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Deutsche Post DHL Group operates as a distributed logistics brain with sensory inputs (customer demand signals, fuel prices, labor costs), motor outputs (fleet routing, facility operations, last-mile delivery), and strategic planning centers (contract negotiation, capex allocation, M&A). Its supply-chain division acts as a central hub integrating customer forecasts, inventory data, and transportation networks; its express division operates as a high-velocity reflex arc for time-sensitive parcels. The group's financial and regulatory compliance functions (CFO, GC, auditor) manage capital structure and stakeholder reporting, while its technology and automation investments (AI routing, warehouse robotics) represent ongoing neural-network upgrades to operational efficiency.",
+    "suppliers": [
+      {
+        "name": "Shell Global",
+        "ticker": "SHEL",
+        "cik": "0000949870",
+        "slug": "shell_global",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel Supply & Energy Cost",
+        "relationshipNote": "Primary diesel and jet-fuel supplier for DHL's global fleet (aircraft, trucks, vans). Fuel costs represent ~8–10% of DHL's operating expenses; price volatility directly impacts EBIT margins. DHL hedges 50–70% of forward fuel exposure via commodity derivatives; disclosed in 20-F Item 1A risk factors. Shell's quarterly price guidance and supply disruptions (refinery outages, geopolitical events) are key margin-sensitivity drivers.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Siemens Logistics",
+        "ticker": "SIE",
+        "cik": null,
+        "slug": "siemens_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Sorting & Automation Equipment",
+        "relationshipNote": "Supplier of automated sorting systems, conveyor networks, and parcel-handling equipment for DHL's 400+ distribution centers globally. Siemens Logistics' modular automation platform supports DHL's capex-light expansion strategy;. Recent partnership on AI-driven predictive maintenance (2023–2024) aims to reduce downtime by 15–20% and extend equipment lifecycle.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Volvo Group",
+        "ticker": "VOLV.B",
+        "cik": null,
+        "slug": "volvo_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Vehicle Fleet Supply",
+        "relationshipNote": "Major supplier of heavy-duty trucks and electric vehicles (Volvo FH, FM, FE series) for DHL's European and global fleet. DHL operates ~80,000 vehicles; Volvo supplies ~15–20% of new vehicle purchases annually. Volvo's transition to electric drivetrains (Volvo FH Electric) aligns with DHL's carbon-neutral 2050 target;. Pricing and delivery lead times are negotiated annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Airbus",
+        "ticker": "AIR",
+        "cik": null,
+        "slug": "airbus",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Aircraft Supply & Maintenance",
+        "relationshipNote": "Primary supplier of aircraft (A330, A350 freighter variants) and maintenance support for DHL Express's global air network. DHL operates ~260 aircraft; Airbus supplies ~40% of the fleet. Airbus's A350F freighter (launched 2024) offers 30% better fuel efficiency vs. older A330s; DHL has committed to 10–15 aircraft orders (disclosed in 2023 earnings). Maintenance contracts and spare-parts supply are critical to network reliability.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huawei Technologies",
+        "ticker": null,
+        "cik": null,
+        "slug": "huawei_technologies",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "IT Infrastructure & Logistics Software",
+        "relationshipNote": "Supplier of IT infrastructure, cloud services, and logistics-management software platforms for DHL's global operations. Huawei's supply-chain visibility platform integrates real-time tracking, warehouse management, and customer-facing APIs across 220+ countries. Geopolitical risk (US sanctions, data-sovereignty concerns) creates contingency-planning pressure; DHL maintains multi-vendor strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Packaging Corporation of America",
+        "ticker": "PKG",
+        "cik": "0000075677",
+        "slug": "packaging_corp_america",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Packaging Materials",
+        "relationshipNote": "Major supplier of corrugated cardboard, kraft paper, and protective packaging materials for DHL's parcel operations. Packaging costs represent ~3–4% of DHL's eCommerce Solutions segment revenue. PCA's pricing power (tied to virgin fiber and recycled-content costs) directly impacts DHL's margin; DHL has long-term supply agreements with price-escalation clauses tied to commodity indices. Sustainability initiatives (recycled content targets) are jointly managed.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "IG Metall (German Labor Union)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ig_metall",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Labor Relations & Wage Negotiation",
+        "relationshipNote": "IG Metall represents ~2.2M workers in German manufacturing and logistics, including ~50,000 DHL employees in Germany. Biennial wage negotiations (most recent: 2023) set baseline labor-cost inflation for DHL's largest operating region. 2023 agreement secured 12% wage increase over 30 months; 2025 negotiations will be critical for margin guidance. DHL's automation capex strategy is partly driven by labor-cost mitigation.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Freight Forwarding & Contract-Logistics Competitor",
+        "relationshipNote": "Kuehne+Nagel is a direct competitor in contract logistics, freight forwarding, and supply-chain solutions globally. K+N operates ~700 facilities and competes for the same automotive, tech, and consumer-goods customers as DHL. K+N's recent focus on nearshoring solutions (Mexico, Eastern Europe) mirrors DHL's strategy. Pricing benchmarking and customer-win/loss tracking vs. K+N inform DHL's competitive positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Maersk Line",
+        "ticker": "MAERSK.B",
+        "cik": null,
+        "slug": "maersk_line",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Ocean Freight & Integrated Logistics",
+        "relationshipNote": "Maersk is a key ocean-freight and integrated-logistics partner for DHL's international supply-chain operations. DHL uses Maersk's container services for cross-border shipments (Asia-Europe, US-Europe); Maersk's digital platform (Twill) integrates with DHL's visibility systems. Joint offerings in contract logistics (e.g., port-to-warehouse services) generate ~. Fuel-cost pass-through mechanisms are negotiated annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Fedex Corporation",
+        "ticker": "FDX",
+        "cik": "0001048911",
+        "slug": "fedex_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Express Delivery & Logistics Competitor",
+        "relationshipNote": "FedEx is DHL's primary global competitor in express delivery and integrated logistics. FedEx operates ~650 aircraft and ~80,000 vehicles; competes directly with DHL Express in international parcel and time-definite services. FedEx's 2023–2024 cost-reduction initiatives (network optimization, automation) and margin recovery trajectory are key benchmarks for DHL's operational efficiency. Pricing power and customer-retention rates are monitored quarterly.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "UPS Inc.",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "slug": "ups_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Parcel & Logistics Competitor",
+        "relationshipNote": "UPS is a major competitor in parcel delivery, supply-chain solutions, and healthcare logistics globally. UPS operates ~120,000 vehicles and ~600 aircraft; competes with DHL in B2B and B2C segments. UPS's healthcare/pharma logistics division (UPS Healthcare) is a direct competitor to DHL Life Sciences. Margin trends, pricing power, and automation capex at UPS inform DHL's competitive strategy and investment priorities.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "BMW Group",
+        "ticker": "BMW",
+        "cik": null,
+        "slug": "bmw_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Automotive Customer",
+        "relationshipNote": "BMW is a tier-1 customer for DHL Supply Chain, utilizing integrated logistics for parts distribution, manufacturing-site delivery, and reverse logistics across Europe and Asia. BMW's supply-chain footprint spans 30+ manufacturing and assembly plants; DHL manages inbound parts flow and outbound finished-vehicle logistics. BMW's shift to electric-vehicle production (EV ramp 2024–2030) requires DHL to adapt battery-logistics and thermal-management capabilities.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Siemens AG",
+        "ticker": "SIE",
+        "cik": null,
+        "slug": "siemens_ag",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Industrial Customer",
+        "relationshipNote": "Siemens is a major customer for DHL Supply Chain, leveraging DHL's contract-logistics services for manufacturing-equipment distribution, spare-parts management, and reverse logistics globally. Siemens operates 300+ manufacturing sites; DHL manages complex supply chains for industrial automation, energy, and healthcare divisions. Siemens's digital-transformation initiatives (Industry 4.0) drive demand for real-time supply-chain visibility and predictive logistics.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Amazon.com Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_com",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "eCommerce Customer & Competitor",
+        "relationshipNote": "Amazon is both a major customer and a strategic competitor for DHL. DHL provides last-mile delivery services for Amazon in select European markets (Germany, UK, France);. Simultaneously, Amazon Logistics competes with DHL in last-mile delivery and is expanding its own contract-logistics capabilities. This dual relationship creates strategic tension; DHL's exposure to Amazon is monitored for concentration risk and competitive displacement.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Abbott Laboratories",
+        "slug": "abbott_laboratories",
+        "ticker": "ABT",
+        "cik": "0000001800",
+        "brainNodeId": "M1",
+        "relationshipNote": "Abbott is a mission-critical customer relying on DHL's cold-chain logistics for temperature-sensitive diagnostics, pharmaceuticals, and nutrition products. DHL operates Abbott's distribution from European and Asian manufacturing hubs to hospital networks and retail channels globally, managing recurring flows of diagnostics reagents and medical devices requiring precise temperature control throughout international supply networks.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.518Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "abbott_laboratories",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "AbbVie Inc.",
+        "slug": "abbvie",
+        "ticker": "ABBV",
+        "cik": "0001551152",
+        "brainNodeId": "M1",
+        "relationshipNote": "AbbVie is a major pharmaceutical customer utilizing DHL's cold-chain expertise for temperature-sensitive biologics distribution across 150+ countries. DHL manages warehousing and last-mile delivery of specialty pharmaceuticals, providing critical logistics infrastructure supporting AbbVie's global pharmaceutical network and regulatory compliance requirements across multiple therapeutic domains.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.518Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "abbvie",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Automatic Data Processing, Inc.",
+        "slug": "adp",
+        "ticker": "ADP",
+        "cik": "0000008670",
+        "brainNodeId": "M1",
+        "relationshipNote": "ADP partners with DHL for international distribution of HCM platform hardware to EMEA and APAC clients. DHL manages customs clearance and last-mile delivery of time-and-attendance devices and badge readers, supporting ADP's global expansion and ensuring reliable hardware delivery to enterprise customers managing workforce administration and compliance across international markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.518Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "adp",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Agilent Technologies, Inc.",
+        "slug": "agilent",
+        "ticker": "A",
+        "cik": "1090872",
+        "brainNodeId": "M1",
+        "relationshipNote": "Agilent is a key customer relying on DHL's network optimization and customs-clearance expertise for international instrument and reagent distribution. DHL manages shipments to pharmaceutical labs and research organizations across Europe, Asia-Pacific, and Americas, ensuring compliance with freshness guarantees and service-level agreements critical to Agilent's competitive positioning in analytical instrumentation.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.518Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "agilent",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Alkermes, Inc.",
+        "slug": "alkermes",
+        "ticker": "ALKS",
+        "cik": "0000850261",
+        "brainNodeId": "M1",
+        "relationshipNote": "Alkermes utilizes DHL's international cold-chain logistics for specialty-pharmaceutical distribution of Vivitrol and Lybalvi across European, Canadian, and Australian markets. DHL's global cold-chain network and pharmaceutical expertise support Alkermes' commercial expansion in medication-assisted treatment, ensuring reliable delivery of temperature-sensitive injectables to international healthcare systems.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.518Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "alkermes",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Amgen Inc.",
+        "slug": "amgen",
+        "ticker": "AMGN",
+        "cik": "0000318154",
+        "brainNodeId": "M1",
+        "relationshipNote": "Amgen is a tier-1 customer leveraging DHL's international cold-chain distribution for its monoclonal antibody portfolio across Europe, Asia-Pacific, and emerging markets. DHL operates temperature-controlled distribution centers in 15+ countries, managing complex regulatory compliance and specialized handling requirements essential to Amgen's global commercialization of biologics therapies.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.518Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "amgen",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Apple Inc.",
+        "slug": "apple",
+        "ticker": "AAPL",
+        "cik": "0000320193",
+        "brainNodeId": "M1",
+        "relationshipNote": "Apple is a flagship customer relying on DHL for primary global logistics operations, managing inbound component flows from semiconductor suppliers to contract manufacturers and outbound finished-goods distribution. DHL handles the majority of Apple's international logistics volume, coordinating complex supply-chain flows critical to iPhone and device launches across regional markets worldwide.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.518Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "apple",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Applied Materials, Inc.",
+        "slug": "applied_materials",
+        "ticker": "AMAT",
+        "cik": "0000006951",
+        "brainNodeId": "M1",
+        "relationshipNote": "Applied Materials relies on DHL as primary logistics partner for semiconductor equipment shipments to Asia-Pacific fabrication facilities. DHL manages complex customs clearance, export-control compliance, and on-time delivery of high-value, fragile tools to TSMC, Samsung, and other advanced foundries, ensuring regulatory adherence critical to AMAT's equipment distribution strategy.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.519Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "applied_materials",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Biogen Inc.",
+        "slug": "biogen",
+        "ticker": "BIIB",
+        "cik": "0000875045",
+        "brainNodeId": "M1",
+        "relationshipNote": "Biogen is a major customer utilizing DHL's dedicated cold-chain logistics network for temperature-sensitive biologics including Leqembi, Spinraza, and multiple sclerosis injectables. DHL provides refrigerated transport with real-time temperature monitoring and last-mile delivery to specialty pharmacies and infusion centers, ensuring product integrity and therapeutic efficacy throughout distribution.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.519Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "biogen",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Broadcom Inc.",
+        "slug": "broadcom",
+        "ticker": "AVGO",
+        "cik": "0001730168",
+        "brainNodeId": "M1",
+        "relationshipNote": "Broadcom is a key customer leveraging DHL's inbound logistics from TSMC and Samsung fabs to Broadcom's assembly facilities in Singapore, Malaysia, and the U.S. DHL manages wafer transport and finished-goods distribution, handling the majority of Broadcom's international semiconductor logistics while navigating geopolitical trade restrictions and export-control requirements affecting supply-chain operations.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.519Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "broadcom",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Bruker Corporation",
+        "slug": "bruker",
+        "ticker": "BRKR",
+        "cik": "1104657",
+        "brainNodeId": "M1",
+        "relationshipNote": "Bruker relies on DHL for international logistics of scientific instruments, spare parts, and service equipment globally. DHL's specialized handling for sensitive equipment including NMR magnets and mass spectrometers, combined with customs-clearance expertise, is critical to Bruker's on-time delivery performance and customer satisfaction in pharmaceutical and research laboratory markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.519Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "bruker",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Charles River Laboratories International, Inc.",
+        "slug": "charles_river_labs",
+        "ticker": "CRL",
+        "cik": "1100682",
+        "brainNodeId": "M1",
+        "relationshipNote": "Charles River Labs utilizes DHL's temperature-controlled logistics for laboratory animal shipments and bioanalytical samples across North America and Europe. DHL's specialized life-sciences division provides dedicated handling for live-animal transport requiring ventilation, temperature, and humidity control, supporting CRL's preclinical and clinical trial operations with regulatory compliance.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.521Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "charles_river_labs",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Danaher Corporation",
+        "slug": "danaher",
+        "ticker": "DHR",
+        "cik": "0000313616",
+        "brainNodeId": "M1",
+        "relationshipNote": "Danaher partners with DHL as global logistics provider for bioprocessing equipment and diagnostics distribution. DHL manages temperature-controlled shipments of sensitive consumables including bioreactor components and reagents to pharmaceutical and biotech customers worldwide, providing specialized hazardous-material handling and compliance capabilities supporting Danaher's life-sciences ecosystem.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.521Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "danaher",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "DexCom, Inc.",
+        "slug": "dexcom",
+        "ticker": "DXCM",
+        "cik": "0001093557",
+        "brainNodeId": "M1",
+        "relationshipNote": "DexCom leverages DHL's cold-chain logistics for international sensor distribution from Mexico assembly to European, UK, Canadian, and Australian distribution centers. DHL manages the majority of DexCom's international shipment volume, providing temperature-controlled logistics critical to sensor stability and shelf-life preservation throughout global supply chains serving diabetes-management markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.523Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "dexcom",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Eli Lilly and Company",
+        "slug": "eli_lilly",
+        "ticker": "LLY",
+        "cik": "0000059478",
+        "brainNodeId": "M1",
+        "relationshipNote": "Eli Lilly is a major pharmaceutical customer utilizing DHL's cold-chain expertise for temperature-controlled transportation of biologics and specialty injectables including tirzepatide and donanemab globally. DHL's international distribution network and logistics infrastructure are essential to Lilly's ability to commercialize GLP-1 therapeutics and biologics across diverse regulatory markets and healthcare systems.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.523Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "eli_lilly",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Emerson Electric Co.",
+        "slug": "emerson_electric",
+        "ticker": "EMR",
+        "cik": "0000032604",
+        "brainNodeId": "M1",
+        "relationshipNote": "Emerson Electric is a customer leveraging DHL's international logistics and distribution services, particularly across Europe and Asia. DHL's customs-clearance capabilities, international freight expertise, and supply-chain visibility support Emerson's global operations, ensuring reliable distribution of automation and process-management equipment to industrial and energy customers worldwide.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.523Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "emerson_electric",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "General Mills, Inc.",
+        "slug": "general_mills",
+        "ticker": "GIS",
+        "cik": "0000040704",
+        "brainNodeId": "M1",
+        "relationshipNote": "General Mills operates fulfillment centers through DHL for its direct-to-consumer e-commerce platform, with DHL providing robotic picking and automated distribution. DHL supports General Mills' growing DTC channel, which is expanding at double-digit rates and driving margin recovery through automation investments that enhance operational efficiency and order-fulfillment speed.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.523Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "general_mills",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Hologic, Inc.",
+        "slug": "hologic",
+        "ticker": "HOLX",
+        "cik": "0000880149",
+        "brainNodeId": "M1",
+        "relationshipNote": "Hologic relies on DHL's healthcare logistics division for temperature-controlled distribution of diagnostic samples including prenatal cfDNA testing, blood screening, and STI diagnostics from collection sites to reference laboratories. DHL's specialized cold-chain networks ensure timely delivery of time-sensitive biological specimens, supporting Hologic's diagnostic testing and clinical outcomes across women's health markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.524Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "hologic",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Illinois Tool Works Inc.",
+        "slug": "illinois_tool_works",
+        "ticker": "ITW",
+        "cik": "0000049826",
+        "brainNodeId": "M1",
+        "relationshipNote": "ITW partners with DHL for international logistics covering European and Asian operations, including customs clearance and last-mile delivery of test-and-measurement and specialty-products exports. DHL manages approximately 15–20% of ITW's international distribution volume, providing supply-chain visibility and customs expertise critical to ITW's diversified manufacturing operations across multiple industrial markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.524Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "illinois_tool_works",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Illumina, Inc.",
+        "slug": "illumina",
+        "ticker": "ILMN",
+        "cik": "1110803",
+        "brainNodeId": "M1",
+        "relationshipNote": "Illumina partners with DHL for global instrument and consumable distribution, including temperature-controlled logistics for sequencing reagents and supplies. DHL's network supports Illumina's direct-to-customer model and regional service centers worldwide, ensuring reliable product delivery critical to genomics research and clinical-diagnostics adoption across pharmaceutical, academic, and healthcare institutions.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "news",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.525Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "illumina",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Indivior PLC",
+        "slug": "indivior",
+        "ticker": "INDV",
+        "cik": "0001625297",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL operates Indivior's primary cold-chain logistics network for Sublocade and Opvee distribution across U.S. pharmacies and clinics. Specialized temperature-controlled transport (2–8°C) ensures product integrity for addiction-medicine franchises. Contract includes on-time delivery performance guarantees critical to Indivior's revenue realization and patient access objectives.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.525Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "indivior",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychaincoldchainlogistics"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Intel Corporation",
+        "slug": "intel",
+        "ticker": "INTC",
+        "cik": "0000050863",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL manages Intel's global semiconductor equipment and materials logistics, handling high-value ASML and AMAT tool shipments to fabs in Arizona, Ohio, and Ireland. Supply-chain visibility and customs expertise are essential to Intel's capex execution and technology-node transition timelines, particularly for leading-edge fab operations.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.525Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "intel",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Jazz Pharmaceuticals plc",
+        "slug": "jazz_pharmaceuticals",
+        "ticker": "JAZZ",
+        "cik": "1232524",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL provides temperature-controlled logistics and cold-chain management for Jazz's specialty pharmaceutical products, particularly Xywav liquid formulation requiring refrigeration. Cold-chain logistics represent a critical operational constraint disclosed in Jazz's 10-K filings. DHL's network ensures compliance with pharmaceutical storage and handling standards.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.525Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "jazz_pharmaceuticals",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Johnson & Johnson",
+        "slug": "johnson_and_johnson",
+        "ticker": "JNJ",
+        "cik": "0000200406",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL serves as global logistics partner for JNJ pharmaceutical and medtech distribution, managing cold-chain logistics for biologics and temperature-controlled transport for devices across international distribution centers in Europe, Asia-Pacific, and Latin America. Specialized handling ensures compliance with FDA and international regulatory requirements.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.526Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "johnson_and_johnson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "L3Harris Technologies, Inc.",
+        "slug": "l3harris",
+        "ticker": "LHX",
+        "cik": "0000202058",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL provides international logistics and customs-clearance services for L3Harris' allied-nation exports. ITAR-compliant documentation and secure facility management reduce regulatory risk and export-control burden. Defense-sector logistics expertise supports L3Harris' classified systems integration and international partnership mandates.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.526Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "l3harris",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Lululemon Athletica Inc.",
+        "slug": "lululemon",
+        "ticker": "LULU",
+        "cik": "1397187",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL operates Lululemon's e-commerce fulfillment and last-mile delivery in North America and Europe. DHL's labor-cost performance and delivery-speed capabilities directly impact Lululemon's direct-to-consumer margins and customer satisfaction. Partnership is critical as DTC channel represents approximately half of Lululemon's total revenue.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.526Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "lululemon",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Masimo Corporation",
+        "slug": "masimo",
+        "ticker": "MASI",
+        "cik": "0000937556",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL Supply Chain manages Masimo's global distribution network including temperature-controlled warehousing, hospital last-mile delivery, and reverse-logistics for device repairs. FDA compliance with 21 CFR Part 11 requirements ensures patient-monitoring equipment reaches healthcare providers with full traceability and integrity standards.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.526Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "masimo",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Reckitt Benckiser Group PLC (Mead Johnson Division)",
+        "slug": "mead_johnson",
+        "ticker": "RBGLY",
+        "cik": "0000077360",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL operates international freight forwarding and emerging-market distribution for Mead Johnson's Enfamil pediatric nutrition expansion in India, Southeast Asia, and Latin America. Customs clearance and local warehousing support supply-chain resilience in growth markets. Contract includes specialized handling for infant formula regulatory compliance.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "earnings-call",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.526Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "mead_johnson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychaindeutschepostdhlgroup"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Medtronic plc",
+        "slug": "medtronic",
+        "ticker": "MDT",
+        "cik": "0001613103",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL Supply Chain manages Medtronic's global distribution network for implantable devices, surgical instruments, and diabetes products across 190+ countries. Temperature-controlled and secure logistics for high-value, time-sensitive medical devices ensure FDA, CE Mark, and international regulatory compliance, supporting hospital and patient access.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.526Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "medtronic",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Merck KGaA",
+        "slug": "merck_kgaa",
+        "ticker": "MRK.DE",
+        "cik": null,
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL Supply Chain provides global logistics, warehousing, and distribution for Merck KGaA's MilliporeSigma division and pharmaceutical products. Temperature-controlled distribution for pharmaceutical shipments and time-sensitive lab-consumables delivery to research institutions and manufacturers ensure product efficacy and scientific integrity.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.527Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "merck_kgaa",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Meta Platforms, Inc.",
+        "slug": "meta_platforms",
+        "ticker": "META",
+        "cik": "0001326801",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL manages global logistics for Ray-Ban Meta smart glasses and hardware shipments, handling last-mile delivery to retail partners and direct-to-consumer channels. Estimated to represent significant Meta hardware logistics volume. Partnership is critical for wearables go-to-market execution and inventory distribution across global markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "news",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.527Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "meta_platforms",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Mondelez International, Inc.",
+        "slug": "mondelez",
+        "ticker": "MDLZ",
+        "cik": "0001103982",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL operates Mondelez's primary distribution centers in EMEA, LatAm, and AMEA regions, providing 3PL warehousing, order fulfillment, and last-mile delivery to retail partners. Contract includes fuel-cost pass-through mechanisms tied to diesel indices, reflecting DHL's role in managing snacking-category supply-chain economics and retail velocity.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.527Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "mondelez",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Nestlé S.A.",
+        "slug": "nestle",
+        "ticker": "NSRGY",
+        "cik": "0001000799",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL Supply Chain manages Nestlé's inbound logistics for raw materials and outbound distribution for finished goods across Europe and Asia-Pacific. Handles significant portion of Nestlé's total logistics volume, including contract manufacturing logistics. Partnership supports Nestlé's multi-category portfolio distribution across diverse retail and foodservice channels.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.527Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "nestle",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "NIKE, Inc.",
+        "slug": "nike",
+        "ticker": "NKE",
+        "cik": "0000320187",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL operates Nike's last-mile distribution network in North America and Europe, managing DC-to-store and DC-to-consumer deliveries. DHL's labor-cost inflation and capacity constraints directly impact Nike's direct-to-consumer fulfillment costs. Partnership supports Nike's wholesale-channel rebalancing and inventory normalization cycles across retail networks.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.527Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "nike",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Novo Nordisk A/S",
+        "slug": "novo_nordisk",
+        "ticker": "NVO",
+        "cik": "0000353278",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL serves as primary global logistics partner for Novo Nordisk's pharmaceutical distribution, managing cold-chain logistics for GLP-1 products across U.S., EU, and emerging markets. Operates dedicated temperature-controlled facilities in 15+ countries with service-level agreements ensuring product availability for obesity and diabetes treatment markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.527Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "novo_nordisk",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "NVIDIA Corporation",
+        "slug": "nvidia",
+        "ticker": "NVDA",
+        "cik": "0001045810",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL manages NVIDIA's global logistics and distribution network for GPU shipments to hyperscalers and OEM partners. Taiwan-to-U.S. and Taiwan-to-Europe supply-chain routes are critical for H100/H200 delivery timelines. DHL's capacity and cost structure directly influence NVIDIA's gross margins and customer delivery performance in datacenter markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.527Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "nvidia",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Organon & Co.",
+        "slug": "organon",
+        "ticker": "OGN",
+        "cik": "1821825",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL operates Organon's global pharmaceutical logistics network, including cold-chain distribution for pediatric vaccines and temperature-controlled storage for contraceptives. Estimated to handle significant international distribution volume. Multi-year contract with performance guarantees supports Organon's emerging-market expansion and healthcare policy compliance objectives.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.528Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "organon",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Pearson PLC",
+        "slug": "pearson",
+        "ticker": "PSO",
+        "cik": "0000938323",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL serves as international logistics partner for Pearson's global textbook and assessment material distribution to UK, Europe, and Asia-Pacific markets. Manages customs clearance, regional warehousing, and last-mile delivery with service-level agreements for on-time delivery. Partnership supports Pearson's education-sector modernization and assessment distribution networks.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.528Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "pearson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychaindeutschepostdhlgroup"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Pfizer Inc.",
+        "slug": "pfizer",
+        "ticker": "PFE",
+        "cik": "0000078003",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL is global logistics and cold-chain distribution partner for Pfizer vaccines including Comirnaty and other pharmaceutical products. Operates ultra-cold storage facilities and specialized transport infrastructure essential for mRNA vaccine distribution. Post-pandemic partnership has transitioned to sustained capacity for Pfizer's core pharmaceutical portfolio.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.529Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "pfizer",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Rockwell Automation, Inc.",
+        "slug": "rockwell_automation",
+        "ticker": "ROK",
+        "cik": "1024478",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL manages inbound logistics from contract manufacturers and outbound distribution to Rockwell's regional distribution centers and direct customers. Network optimization and customs brokerage capabilities support Rockwell's global supply chain. DHL's industrial logistics segment serves Rockwell's manufacturing automation equipment distribution and factory-automation market reach.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.529Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "rockwell_automation",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.888Z"
+      },
+      {
+        "name": "Sealed Air Corporation",
+        "slug": "sealed_air",
+        "ticker": "SEE",
+        "cik": "0000086312",
+        "brainNodeId": "M1",
+        "relationshipNote": "Sealed Air relies on DHL Supply Chain for European and APAC distribution, leveraging regional distribution centers and cold-chain capabilities for temperature-sensitive packaging materials. The partnership supports Sealed Air's global logistics footprint, with DHL managing international freight, warehousing, and reefer transport critical to maintaining product integrity across emerging markets and developed economies.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.529Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "sealed_air",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychaindeutschepostdhlgroup"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.889Z"
+      },
+      {
+        "name": "Stryker Corporation",
+        "slug": "stryker",
+        "ticker": "SYK",
+        "cik": "0000310567",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL operates Stryker's global cold-chain logistics for tissue preservation, maintaining precise temperature control across 40+ countries. The partnership includes real-time monitoring, regulatory compliance with FDA and EMA standards, and emergency delivery protocols essential for Stryker's Cryolife tissue products, ensuring medical-device supply-chain reliability and patient safety globally.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.529Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "stryker",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.889Z"
+      },
+      {
+        "name": "Tandem Diabetes Care, Inc.",
+        "slug": "tandem_diabetes",
+        "ticker": "TNDM",
+        "cik": "1438133",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL manages Tandem's European distribution network, handling customs clearance, warehousing, and last-mile delivery to clinics and patients. The partnership leverages DHL's CE-mark compliance expertise to support regulatory adherence for Tandem's insulin-delivery devices across EU markets, enabling efficient market access and patient reach throughout the region.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-Q",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.529Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "tandem_diabetes",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychaininternational"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.889Z"
+      },
+      {
+        "name": "Teva Pharmaceutical Industries Ltd.",
+        "slug": "teva_pharmaceutical",
+        "ticker": "TEVA",
+        "cik": "0000818686",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL serves as Teva's primary global logistics partner for finished-goods distribution to wholesalers, pharmacies, and hospital systems. The partnership includes temperature-controlled warehousing and last-mile delivery across North America, Europe, and emerging markets, supporting Teva's generic drug portfolio and ensuring cold-chain integrity throughout the supply network.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.529Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "teva_pharmaceutical",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.889Z"
+      },
+      {
+        "name": "Thermo Fisher Scientific Inc.",
+        "slug": "thermo_fisher_scientific",
+        "ticker": "TMO",
+        "cik": "0000097745",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL operates regional distribution centers for Thermo Fisher across Europe, Asia-Pacific, and Latin America, providing warehousing, order fulfillment, and last-mile delivery for laboratory consumables and equipment. The partnership includes customs brokerage and regulatory support, enabling efficient regional customer fulfillment while managing complex life-sciences logistics requirements.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.529Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "thermo_fisher_scientific",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.889Z"
+      },
+      {
+        "name": "Unilever PLC",
+        "slug": "unilever",
+        "ticker": "UL",
+        "cik": "0000217076",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL manages Unilever's European distribution centers and handles approximately 40% of finished-goods distribution in EMEA, supporting 2,000+ SKUs across 40+ countries. The partnership achieves high service standards while managing commodity-cost sensitivity and sustainability mandates, enabling efficient retail network replenishment and market-responsive supply-chain operations.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.529Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "unilever",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.889Z"
+      },
+      {
+        "name": "Vertex Pharmaceuticals Incorporated",
+        "slug": "vertex_pharmaceuticals",
+        "ticker": "VRTX",
+        "cik": "0000875320",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL manages Vertex's global pharmaceutical distribution and cold-chain logistics across 100+ countries, supporting Vertex's cystic-fibrosis portfolio. The partnership includes temperature-controlled warehousing, last-mile delivery to specialty pharmacies, and patient-assistance-program fulfillment, ensuring regulatory compliance and supply reliability for high-margin specialty pharmaceutical products.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.530Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "vertex_pharmaceuticals",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.889Z"
+      },
+      {
+        "name": "3M Company",
+        "slug": "3m",
+        "ticker": "MMM",
+        "cik": "0000066740",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL Supply Chain manages 3M's international logistics for raw-material sourcing and finished-goods distribution to European and Asia-Pacific customers. The partnership includes customs brokerage supporting EU REACH compliance and TSCA documentation, enabling efficient supply-chain operations across diverse product categories and regulatory environments.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.532Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "3m",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.889Z"
+      },
+      {
+        "name": "The Clorox Company",
+        "slug": "clorox",
+        "ticker": "CLX",
+        "cik": "0000021076",
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL handles Clorox's export logistics to Canada, Mexico, and select international markets, including Brita filter-cartridge distribution. The partnership demonstrated resilience during Clorox's 2023 operational disruptions, with DHL supporting logistics rerouting and maintaining stable service delivery across international customer segments throughout recovery.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.532Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "clorox",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.889Z"
+      },
+      {
+        "name": "Huhtamäki Oyj",
+        "slug": "huhtamaki",
+        "ticker": "HUH1V.HE",
+        "cik": null,
+        "brainNodeId": "M1",
+        "relationshipNote": "DHL provides contract logistics, warehousing, and distribution services for Huhtamäki's European and Asia-Pacific operations, supporting regional customer fulfillment and inventory management. The partnership spans dedicated warehousing facilities across multiple regions, enabling efficient product distribution for Huhtamäki's molded-fiber and flexible-packaging portfolios.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.532Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "huhtamaki",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "dhl_supply_chain||dhlsupplychain"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:54:33.889Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Contract-Logistics & LTL Competitor",
+        "relationshipNote": "XPO is a leading North American contract-logistics and less-than-truckload (LTL) competitor. XPO operates ~600 facilities and ~19,000 vehicles; competes with DHL Supply Chain in automotive, consumer, and tech logistics. XPO's 2023–2024 margin expansion (EBIT margin +300 bps) via automation and pricing power is a key benchmark for DHL's operational leverage. XPO's recent focus on nearshoring (Mexico expansion) mirrors DHL's strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Logistics Competitor",
+        "relationshipNote": "J.B. Hunt is a major North American integrated-logistics competitor with ~23,000 trucks and ~500 facilities. J.B. Hunt competes with DHL in contract logistics, intermodal, and dedicated-contract carriage. J.B. Hunt's recent capex focus on automation and technology (AI routing, autonomous-vehicle pilots) signals competitive pressure on DHL's operational-efficiency investments. Pricing power and customer-retention rates are monitored quarterly.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schneider National Inc.",
+        "ticker": "SNDR",
+        "cik": "0000087686",
+        "slug": "schneider_national",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Contract-Logistics & Intermodal Competitor",
+        "relationshipNote": "Schneider National is a diversified logistics competitor with ~10,000 trucks, ~500 facilities, and a growing contract-logistics division. Schneider competes with DHL in automotive, consumer, and industrial logistics in North America. Schneider's recent margin expansion (EBIT margin 12–14%) and capex focus on automation are competitive benchmarks. Schneider's intermodal and dedicated-carriage offerings complement DHL's global supply-chain positioning.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Amazon Logistics",
+        "ticker": null,
+        "cik": null,
+        "slug": "amazon_logistics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Last-Mile Delivery Competitor",
+        "relationshipNote": "Amazon Logistics is an emerging competitor in last-mile delivery and contract logistics, leveraging Amazon's scale and technology. Amazon Logistics operates ~3,500 delivery stations and ~500,000 independent contractors globally; competes directly with DHL eCommerce Solutions in parcel delivery. Amazon's vertical integration and cost advantages (cross-subsidy from retail) create pricing pressure on DHL. Market-share trends in key markets (US, Germany, UK) are monitored quarterly.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000091142",
+        "slug": "saia_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "LTL & Regional Logistics Competitor",
+        "relationshipNote": "Saia is a regional LTL and logistics competitor in North America with ~2,000 trucks and ~100 facilities. Saia competes with DHL in regional contract logistics and dedicated carriage. Saia's recent margin expansion and capex focus on automation signal competitive pressure. Saia's smaller scale limits direct competition with DHL globally, but regional pricing and service-level benchmarking are relevant.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Geodis",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Contract-Logistics Competitor & Partner",
+        "relationshipNote": "Geodis (SNCF subsidiary) is both a competitor and occasional partner in contract logistics and last-mile delivery. Geodis operates ~700 facilities across Europe and Asia; competes directly with DHL Supply Chain in automotive and consumer-goods logistics. Joint ventures in select markets (e.g., Eastern Europe) allow cost-sharing on facility expansion. Pricing and service-level benchmarking vs. Geodis inform DHL's contract-renewal strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ],
+        "_reslottedFrom": "customers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "German Federal Financial Supervisory Authority (BaFin)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bafin",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Regulation & Capital Markets",
+        "relationshipNote": "BaFin oversees Deutsche Post DHL Group's capital-markets compliance, financial reporting, and corporate governance as a German public company. BaFin enforces German Securities Trading Act (WpHG) and EU Market Abuse Regulation (MAR). DHL's quarterly earnings filings, insider-trading disclosures, and ad-hoc announcements (8-K equivalents) are subject to BaFin review. Regulatory breaches or disclosure failures can trigger fines and reputational damage.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "U.S. Capital Markets Regulation",
+        "relationshipNote": "The SEC regulates DHL's U.S. operations and any U.S.-listed securities or ADRs. DHL files 20-F annual reports with the SEC as a foreign private issuer. SEC enforcement actions (e.g., cybersecurity disclosure, sanctions compliance) can impact DHL's U.S. market access and investor confidence. DHL's U.S. Express and Supply Chain divisions are subject to SEC disclosure requirements if material events occur.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "European Commission (Competition Directorate-General)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_competition",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Regulation",
+        "relationshipNote": "The EC's Competition Directorate-General (DG COMP) oversees DHL's merger-and-acquisition activity, pricing practices, and competitive conduct in the EU. DHL's 2023 acquisition of Sennder (digital freight platform) and other tuck-in deals require EC approval. DHL's dominant position in German and European logistics creates heightened antitrust scrutiny. Pricing-coordination allegations or market-foreclosure complaints can trigger investigations and fines (up to 10% of global revenue).",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation (DOT)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Transportation Safety & Compliance",
+        "relationshipNote": "The DOT regulates DHL Express's U.S. air and ground operations, including safety, hazmat handling, and driver-hours compliance. DHL's U.S. Express division operates ~5,000 vehicles and ~50 aircraft; DOT inspections and compliance audits are ongoing. Safety violations, hazmat incidents, or driver-hours breaches can result in fines, operational restrictions, or loss of operating authority. DHL's safety record is disclosed in annual sustainability reports.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "European Union (Environmental Regulation)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_environment",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental & Carbon Regulation",
+        "relationshipNote": "The EU's environmental regulations (EU ETS, Euro 6 emissions standards, Corporate Sustainability Reporting Directive) directly impact DHL's fleet operations and sustainability reporting. DHL's carbon-neutral 2050 target and interim 2030 goals (50% emissions reduction) are aligned with EU climate policy. Failure to meet emissions targets or sustainability disclosures can trigger fines and reputational damage. DHL's sustainability report (2023) discloses Scope 1/2/3 emissions and climate-risk scenarios.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "KPMG AG",
+      "ticker": null,
+      "cik": null,
+      "slug": "kpmg_ag",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Risk Assessment",
+      "relationshipNote": "KPMG AG is Deutsche Post DHL Group's external auditor and provides audit, tax, and advisory services. KPMG audits DHL's consolidated financial statements (20-F filing with SEC, annual report filed with German authorities). KPMG's audit opinion and any audit adjustments or going-concern warnings are material to investor confidence. KPMG also provides internal-audit and risk-management advisory services; audit fees and non-audit fees are disclosed in the annual report.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Deutsche Bank AG",
+        "ticker": "DBK",
+        "cik": null,
+        "slug": "deutsche_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Investment Banking",
+        "relationshipNote": "Deutsche Bank is a major lender and investment-banking partner for DHL. DB provides revolving credit facilities, term loans, and bond-underwriting services. DHL's debt structure includes €3–4B in bank facilities and €4–5B in public bonds; DB is a lead arranger on major refinancings. DB's credit-rating assessments and lending decisions influence DHL's cost of capital. Quarterly covenant compliance and debt-maturity management are coordinated with DB.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "BlackRock is a major institutional shareholder in Deutsche Post DHL Group, holding ~. BlackRock's voting power and engagement on ESG, governance, and capital-allocation issues influence DHL's strategic direction. BlackRock's proxy voting and stewardship activities are disclosed in its annual stewardship report. DHL's dividend policy and share-buyback programs are subject to BlackRock's approval and engagement.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group",
+        "ticker": null,
+        "cik": "0001193125",
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "Vanguard is a major institutional shareholder in Deutsche Post DHL Group, holding ~. Vanguard's engagement on governance, ESG, and capital allocation influences DHL's strategic priorities. Vanguard's proxy voting and stewardship activities are disclosed in its annual stewardship report. DHL's dividend sustainability and share-buyback programs are subject to Vanguard's scrutiny.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "German Government (KfW Development Bank)",
+        "ticker": null,
+        "cik": null,
+        "slug": "kfw_development_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Lender & Green-Finance Partner",
+        "relationshipNote": "KfW (Kreditanstalt für Wiederaufbau) provides green-finance and sustainability-linked lending to DHL for fleet electrification, facility upgrades, and automation capex. DHL has accessed KfW's green-loan programs (e.g., KfW 262 for electric vehicles) to fund €500M+ in sustainability capex. KfW's favorable terms and long tenors support DHL's carbon-neutral 2050 target. Loan covenants are tied to ESG metrics (emissions reduction, safety targets).",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Frank Appel",
+        "slug": "frank_appel",
+        "title": "Chief Executive Officer (CEO)",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Frank Appel has served as CEO of Deutsche Post DHL Group since 2008 (16+ years). Appel has led DHL through the 2008 financial crisis, e-commerce boom, pandemic, and current supply-chain transformation. His strategic priorities include nearshoring, automation, sustainability, and healthcare logistics. Appel's compensation (salary, bonus, long-term incentives) is disclosed in the annual report's compensation section. His quarterly earnings-call commentary drives market expectations.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Melanie Kreis",
+        "slug": "melanie_kreis",
+        "title": "Chief Financial Officer (CFO)",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Melanie Kreis became CFO of Deutsche Post DHL Group in 2021. Kreis oversees financial planning, capital allocation, debt management, and investor relations. Her quarterly earnings-call commentary on margin trends, capex guidance, and dividend policy directly impacts investor expectations. Kreis's background in finance and operations (prior roles at Siemens, Boehringer Ingelheim) brings operational rigor to financial management. Her compensation and performance targets are disclosed in the annual report.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Tobias Meyer",
+        "slug": "tobias_meyer",
+        "title": "Chief Operating Officer (COO) / Supply Chain Division CEO",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Supply-Chain Execution",
+        "relationshipNote": "Tobias Meyer leads DHL Supply Chain division (€14.2B revenue, 8–10% EBIT margin target). Meyer oversees contract-logistics operations, customer relationships, and operational efficiency initiatives across 220+ countries. His quarterly commentary on utilization rates, pricing power, and customer wins/losses informs DHL's supply-chain segment guidance. Meyer's background in operations and logistics (prior roles at DHL, Kuehne+Nagel) brings deep industry expertise.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Claudia Süßmuth Dyckerhoff",
+        "slug": "claudia_suessmund_dyckerhoff",
+        "title": "General Counsel (GC) / Chief Compliance Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal, Compliance & Risk Management",
+        "relationshipNote": "Claudia Süßmuth Dyckerhoff serves as General Counsel and Chief Compliance Officer for Deutsche Post DHL Group. She oversees legal affairs, regulatory compliance, antitrust matters, and risk management. Her role is critical in navigating EU competition law, sanctions compliance, and data-privacy regulations. Süßmuth Dyckerhoff's disclosures on legal contingencies and compliance matters are included in the annual report's risk-factors section.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "DHL Parcel Volume Index (Weekly)",
+        "slug": "dhl_parcel_volume_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Signal",
+        "relationshipNote": "DHL publishes weekly parcel-volume data (eCommerce Solutions segment) as a real-time demand indicator. Parcel volumes are seasonally strong in Q4 (holiday season) and weak in Q1. Year-over-year growth rates signal e-commerce demand trends and competitive share shifts. DHL's parcel-volume guidance is a key driver of quarterly earnings expectations. Deviations from guidance (up/down) trigger immediate market repricing.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "DHL Contract-Logistics Utilization Rate (Quarterly)",
+        "slug": "dhl_contract_logistics_utilization",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capacity Signal",
+        "relationshipNote": "DHL discloses contract-logistics facility utilization rates (% of capacity in use) quarterly. Utilization rates signal customer demand, pricing power, and margin expansion potential. High utilization (>85%) supports pricing increases; low utilization (<70%) signals competitive pressure and margin compression risk. Utilization trends are a leading indicator of DHL's EBIT margin trajectory. Quarterly changes in utilization are monitored by investors and analysts.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "20-F"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "supplyChain",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.156Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Shell Global",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Packaging Corporation of America",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Siemens Logistics",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Volvo Group",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Airbus",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Maersk Line",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Amazon.com Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Abbott Laboratories",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "AbbVie Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Automatic Data Processing, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Agilent Technologies, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Alkermes, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Amgen Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Apple Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Applied Materials, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Biogen Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Broadcom Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Bruker Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Charles River Laboratories International, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Danaher Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "DexCom, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Eli Lilly and Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Emerson Electric Co.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "General Mills, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Hologic, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Illinois Tool Works Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Illumina, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Indivior PLC",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Intel Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Jazz Pharmaceuticals plc",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Johnson & Johnson",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "L3Harris Technologies, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Lululemon Athletica Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Masimo Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Reckitt Benckiser Group PLC (Mead Johnson Division)",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Medtronic plc",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Merck KGaA",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Meta Platforms, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Mondelez International, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Nestlé S.A.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "NIKE, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Novo Nordisk A/S",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "NVIDIA Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Organon & Co.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Pearson PLC",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Pfizer Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Rockwell Automation, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Sealed Air Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Stryker Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Tandem Diabetes Care, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Teva Pharmaceutical Industries Ltd.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Thermo Fisher Scientific Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Unilever PLC",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Vertex Pharmaceuticals Incorporated",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "3M Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "The Clorox Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Huhtamäki Oyj",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Huawei Technologies",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "IG Metall (German Labor Union)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "German Federal Financial Supervisory Authority (BaFin)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "European Commission (Competition Directorate-General)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Kuehne+Nagel",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Geodis",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "XPO Logistics Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "J.B. Hunt Transport Services",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Schneider National Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Amazon Logistics",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Saia Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Fedex Corporation",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "UPS Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "BMW Group",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Siemens AG",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "DHL Parcel Volume Index (Weekly)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Transportation (DOT)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "European Union (Environmental Regulation)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "Deutsche Bank AG",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "German Government (KfW Development Bank)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "DHL Contract-Logistics Utilization Rate (Quarterly)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "BlackRock Inc.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Vanguard Group",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "KPMG AG",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "KPMG AG",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "neuralRegion": "HAB",
+        "neuralRegionLabel": "Habenula",
+        "businessSignature": "contrarian_board_lock",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p5_stuck"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.325,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern",
+            "noveltyAnchor": "Anti-reward framework for board-decision diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research"
+            ],
+            "angle": "Anti-reward decision dynamics in board composition"
+          },
+          "investment": {
+            "thesis": "Activist-investor catalysts during contrarian-board lock",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+            "methodology": "event-study of board refresh and subsequent capital-action"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p5",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "ketamine (habenula modulation)",
+          "DBS to habenula in treatment-resistant depression",
+          "lateralized reward training"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:00.751Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Method and system for detecting contrarian board lock via Habenula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting contrarian board lock signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Habenula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold. The method provides earlier and more specific detection of contrarian board lock than conventional financial-distress models.",
+          "background": "Detection of contrarian board lock in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting contrarian board lock until well after the signature has been priced. Contrarian board lock represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Habenula (ketamine) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting contrarian board lock signature comprises: receiving filing data and counterparty network data, determining a Habenula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Anti-reward framework for board-decision diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting contrarian board lock signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Habenula-equivalent decoupling score, wherein the determining the Habenula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Habenula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Habenula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"ketamine\", \"DBS to habenula in treatment-resistant depression\", and \"lateralized reward training\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Anti-reward framework for board-decision diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.014Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "programs": [
+          "NACD research"
+        ],
+        "artifact": {
+          "title": "Translational Habenula-equivalent detection and intervention protocols for contrarian board lock",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit contrarian board lock signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with contrarian board lock-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Habenula-equivalent isomorphic pathology significantly modulates contrarian board lock detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Deutsche Post DHL Group and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified contrarian board lock signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects contrarian board lock signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Habenula-equivalent contrarian board lock detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Habenula isomorphic pathology will increase contrarian board lock detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Habenula-equivalent contrarian board lock detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for contrarian board lock against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Anti-reward decision dynamics in board composition",
+          "innovation": "The proposed work is innovative because it integrates Habenula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.014Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "side": "LONG",
+        "horizon": "12-24mo",
+        "artifact": {
+          "header": "Deutsche Post DHL Group (DHL.DE) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
+          "variantView": "The market is pricing this for continued distress, but the functional-network and kernel readings from the bridge-pattern engine show Habenula-equivalent isomorphic pathology that the Street's models are not registering. Specifically: kernel_p5_stuck.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Contract Logistics & Express Delivery (German Public) entities exhibiting contrarian board lock: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Deutsche Post DHL Group\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the contrarian board lock pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Contract Logistics & Express Delivery (German Public) peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.325).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Contract Logistics & Express Delivery (German Public); additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.014Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Empirical test of Habenula-equivalent contrarian board lock mapping on Deutsche Post DHL Group",
+          "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+          "methodology": "event-study of board refresh and subsequent capital-action",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.014Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.014Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

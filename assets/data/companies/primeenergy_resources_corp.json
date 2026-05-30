@@ -1,0 +1,618 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "primeenergy_resources_corp",
+  "slug": "primeenergy_resources_corp",
+  "name": "PRIMEENERGY RESOURCES CORP",
+  "ticker": "PNRG",
+  "cik": "0000056868",
+  "sic": "1311",
+  "industry": "Crude Petroleum and Natural Gas Extraction",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DHHNGSP",
+    "GASDESW",
+    "MMNRNJ",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "PNRG"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "NGLs (natural gas liquids)",
+    "condensate"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000056868",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "PrimeEnergy Resources is an independent crude oil and natural gas exploration and production company with operations focused on onshore U.S. basins, primarily the Gulf Coast region. The company's core business is the extraction, development, and monetization of hydrocarbon reserves, with exposure to commodity price cycles and regulatory frameworks governing federal and state leases. As a mid-cap E&P operator, PrimeEnergy participates in the broader energy transition context while maintaining traditional fossil-fuel production assets.",
+  "portalRelevance": "PrimeEnergy Resources serves as a peer-tier indicator of independent E&P sector health, capital discipline, and commodity-hedging efficacy. Its quarterly earnings, reserve replacement ratios, and debt-to-EBITDA trajectory signal broader upstream investment sentiment and crude/gas price elasticity. The company's regulatory filings and 8-K disclosures on lease acquisitions, divestments, and hedging programs provide real-time signals of E&P sector M&A activity and commodity-market positioning.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly reserve replacement ratio and proved reserve disclosures (10-K Item 1)",
+        "Commodity hedging positions and derivative mark-to-market changes (10-K Item 7A, 8-K)",
+        "Lease acquisition and divestment announcements via 8-K and press release",
+        "WTI crude and Henry Hub natural gas price correlation to quarterly cash flow and guidance revisions"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Production volume trends (BOE/d) and realized commodity prices net of hedges",
+        "Debt maturity profile and covenant compliance (leverage ratio, interest coverage)",
+        "Capital expenditure guidance vs. free cash flow generation and dividend sustainability",
+        "Acreage position and drilling inventory depth in core operating basins"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Reserve depletion rate vs. replacement activity; inflection risk if replacement ratio falls below 100%",
+        "Debt refinancing risk if commodity prices sustain below $50/bbl WTI or $3.00/MMBtu Henry Hub",
+        "Competitive positioning vs. larger integrated majors and larger independents on cost-per-BOE and acreage quality",
+        "Regulatory risk from federal lease moratoriums, state environmental rules, or methane emissions standards"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge ratio optimization to lock in 60–70% of production at forward prices; rebalance quarterly",
+        "Debt reduction priority if leverage exceeds 2.5x net debt/EBITDA; consider asset sales or production cuts",
+        "Dividend policy tied to free cash flow; suspend if commodity prices fall below stress-case assumptions",
+        "Regulatory engagement on federal lease sales, state permitting timelines, and methane compliance roadmap"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long crude oil via futures or call spreads if WTI trading below $60/bbl and technical support holds",
+        "Short natural gas if Henry Hub exceeds $4.50/MMBtu and storage levels remain elevated",
+        "Monitor 8-K filings for asset sales or M&A; position ahead of announced transactions",
+        "Track quarterly earnings call guidance revisions and reserve audit outcomes for inflection signals"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Validate production guidance vs. actual volumes; flag if miss >5% for two consecutive quarters",
+        "Monitor debt covenant compliance and credit facility availability; track any amendment negotiations",
+        "Compare realized prices (after hedges) to forward curve; assess hedging effectiveness",
+        "Track reserve replacement ratio trend; flag if falls below 80% for two consecutive years"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate commodity price elasticity model if WTI/Henry Hub correlation to cash flow changes materially",
+        "Update reserve depletion assumptions if company announces major new discovery or abandonment",
+        "Adjust leverage thresholds if company refinances debt at materially different terms or covenant structure",
+        "Reweight regulatory risk factors if federal or state policy shifts on lease sales, emissions, or drilling permits"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Schlumberger Limited",
+        "ticker": "SLB",
+        "cik": "0000091332",
+        "slug": "schlumberger_limited",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Well Services",
+        "relationshipNote": "Schlumberger provides well completion, stimulation, and production optimization services across PrimeEnergy's onshore portfolio. The company relies on SLB for hydraulic fracturing, wireline, and artificial lift services, with estimated 8–12% of annual opex allocated to well services. SLB's pressure-pumping capacity and technology (e.g., real-time microseismic monitoring) directly impact PrimeEnergy's drilling cycle time and reserve recovery rates. Relationship spans multiple basins; specific contract terms disclosed in 10-K Item 1A risk factors.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Baker Hughes Company",
+        "ticker": "BKR",
+        "cik": "0001701605",
+        "slug": "baker_hughes_company",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Drilling & Completion Equipment",
+        "relationshipNote": "Baker Hughes supplies drilling equipment, downhole tools, and completion systems for PrimeEnergy's onshore wells. The company sources drill bits, casing, and pressure-control equipment from BKR, with estimated 5–8% of well construction costs tied to BKR products. BKR's directional drilling and rotary steerable systems enable PrimeEnergy to optimize lateral lengths and reservoir contact in tight-oil plays. Multi-year framework agreement with annual volume commitments; disclosed in 10-K Item 1.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Halliburton Company",
+        "ticker": "HAL",
+        "cik": "0000045012",
+        "slug": "halliburton_company",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Pressure Pumping & Cementing",
+        "relationshipNote": "Halliburton is a primary pressure-pumping and cementing contractor for PrimeEnergy's hydraulic fracturing and well-completion programs. HAL provides fracturing fleet capacity, proppant logistics, and well-integrity services, representing 10–15% of annual drilling and completion costs. PrimeEnergy's 2023–2024 drilling program included 40+ wells with HAL as primary service provider; contract pricing tied to WTI crude and sand cost indices. Relationship includes preferred-vendor status with volume discounts; disclosed in quarterly earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Weatherford International plc",
+        "ticker": "WFRD",
+        "cik": "0001104659",
+        "slug": "weatherford_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Well Services & Artificial Lift",
+        "relationshipNote": "Weatherford supplies artificial lift systems (rod pumps, ESP units) and well-intervention services for PrimeEnergy's mature-field production optimization. WFRD provides nodal analysis, lift-design optimization, and field-service support, with estimated 3–5% of production opex tied to artificial lift services. Multi-year service agreement covers Gulf Coast and onshore basins; pricing indexed to crude oil and electricity costs. Relationship includes performance guarantees on lift efficiency; disclosed in 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nabors Industries Ltd.",
+        "ticker": "NBR",
+        "cik": "0000073111",
+        "slug": "nabors_industries",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Drilling Rig Services",
+        "relationshipNote": "Nabors provides onshore drilling rig services for PrimeEnergy's development wells in the Gulf Coast and other onshore basins. PrimeEnergy contracts 2–4 rigs from Nabors' fleet on a day-rate basis, with estimated annual rig costs of $15–25M depending on commodity prices and drilling activity. Rig contracts include performance clauses tied to drilling rate and safety metrics; renegotiated annually. Relationship spans 10+ years; disclosed in 10-K Item 1 and quarterly earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cabot Oil & Gas Corporation (now Coterra Energy)",
+        "ticker": "CTRA",
+        "cik": "0001437797",
+        "slug": "coterra_energy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Commodity Price & Production Benchmarking",
+        "relationshipNote": "Coterra (formerly Cabot) is a peer-tier natural gas producer and serves as a market-signal reference for PrimeEnergy's gas-production economics and hedging strategy. CTRA's quarterly production volumes, realized prices, and hedging disclosures inform PrimeEnergy's cost-of-production benchmarking and commodity-price expectations. Both companies operate in similar basins (Marcellus, Haynesville) and face comparable regulatory and operational risks. CTRA's 2023 guidance and reserve replacement ratio provide comparative metrics for PrimeEnergy's strategic planning.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": "0001144659",
+        "slug": "equinor_asa",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Deepwater & Energy Transition Benchmarking",
+        "relationshipNote": "Equinor's Gulf of Mexico deepwater operations and energy-transition investments (renewables, carbon capture) serve as a strategic reference point for PrimeEnergy's long-term portfolio positioning. EQNR's 2023–2024 deepwater production ramp and cost-per-barrel metrics inform PrimeEnergy's capital-allocation decisions and deepwater lease-bid strategy. EQNR's public guidance on energy transition and methane reduction also signals regulatory and investor expectations that shape PrimeEnergy's compliance roadmap. Relationship is indirect (market-signal only); no direct commercial ties.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Enterprise Products Partners L.P.",
+        "ticker": "EPD",
+        "cik": "0001109357",
+        "slug": "enterprise_products_partners",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Midstream Transportation & Processing",
+        "relationshipNote": "Enterprise Products Partners operates crude oil and natural gas gathering, processing, and transportation infrastructure across the Gulf Coast and onshore basins where PrimeEnergy operates. EPD's gathering systems connect PrimeEnergy's wells to processing plants and long-haul pipelines, with estimated 60–80% of PrimeEnergy's crude and gas volumes flowing through EPD infrastructure. Gathering fees are typically 5–10% of realized commodity prices; contract terms include volume commitments and take-or-pay clauses. Relationship spans 15+ years; disclosed in 10-K Item 1 and quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Magellan Midstream Partners L.P.",
+        "ticker": "MMP",
+        "cik": "0001110357",
+        "slug": "magellan_midstream_partners",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Crude Oil Transportation & Storage",
+        "relationshipNote": "Magellan Midstream operates crude oil pipeline and storage infrastructure serving the Gulf Coast region, including PrimeEnergy's production areas. MMP's pipeline network transports PrimeEnergy's crude to Gulf Coast refineries and export terminals, with estimated 30–40% of crude volumes utilizing MMP infrastructure. Transportation tariffs are regulated under FERC guidelines; PrimeEnergy benefits from MMP's scale and operational reliability. Relationship includes firm transportation commitments; disclosed in 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tronox Holdings plc",
+        "ticker": "TROX",
+        "cik": "0001631179",
+        "slug": "tronox_holdings",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Proppant Supply & Logistics",
+        "relationshipNote": "Tronox supplies proppant (sand and ceramic) for PrimeEnergy's hydraulic fracturing operations, with estimated annual proppant costs of $8–15M depending on drilling activity. TROX provides logistics coordination, on-site storage, and quality assurance for proppant delivery to PrimeEnergy's well sites. Multi-year supply agreement with volume commitments and price escalation clauses tied to sand-cost indices. Relationship includes preferred-vendor status with volume discounts; disclosed in 10-K Item 1.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": "0001096304",
+        "slug": "valero_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Crude Oil Refining & Offtake",
+        "relationshipNote": "Valero operates Gulf Coast refineries that process crude oil from PrimeEnergy and other producers. VLO's refinery throughput and crude-slate preferences influence PrimeEnergy's crude-quality specifications and pricing realizations. PrimeEnergy's crude is sold via spot market and term contracts; Valero is a regular buyer of Gulf Coast light sweet crude. Relationship is transactional (spot and term sales); no long-term take-or-pay agreement disclosed. Valero's refinery utilization rates signal crude-demand strength; disclosed in industry reports and news.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Phillips 66",
+        "ticker": "PSX",
+        "cik": "0001534701",
+        "slug": "phillips_66",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Crude Oil Refining & Sales",
+        "relationshipNote": "Phillips 66 operates Gulf Coast refineries and is a regular buyer of PrimeEnergy's crude oil production. PSX's refinery utilization rates and crude-slate preferences directly impact PrimeEnergy's crude pricing and sales volumes. PrimeEnergy sells crude via spot market and occasional term contracts; PSX represents an estimated 5–10% of annual crude sales volume. Relationship is transactional; pricing follows WTI benchmarks with quality differentials. PSX's refinery maintenance schedules and crude-demand signals inform PrimeEnergy's production planning.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cheniere Energy, Inc.",
+        "ticker": "LNG",
+        "cik": "0001379174",
+        "slug": "cheniere_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Natural Gas Liquefaction & Export",
+        "relationshipNote": "Cheniere Energy operates LNG export terminals on the Gulf Coast that purchase natural gas from PrimeEnergy and other producers. LNG's Sabine Pass and Corpus Christi terminals are major buyers of Gulf Coast natural gas, with estimated 10–15% of PrimeEnergy's natural gas production sold to Cheniere under spot and term contracts. LNG's export volumes and pricing (tied to Henry Hub + liquefaction spread) influence PrimeEnergy's gas-price realizations. Relationship includes firm sales commitments; disclosed in 10-K Item 1 and quarterly earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "EOG Resources, Inc.",
+        "ticker": "EOG",
+        "cik": "0000821189",
+        "slug": "eog_resources",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Peer E&P Operator & Competitive Benchmark",
+        "relationshipNote": "EOG Resources is a larger independent E&P operator with significant onshore and deepwater production, competing directly with PrimeEnergy for acreage, capital, and talent. EOG's 2023 production of ~600 KBOE/d (vs. PrimeEnergy's estimated 50–100 KBOE/d) and cost-per-barrel metrics ($35–40/BOE) set the competitive standard for operational efficiency. EOG's reserve replacement ratio (>100% for 10+ years) and dividend policy serve as benchmarks for PrimeEnergy's capital discipline. Competitive delta: EOG's scale and geographic diversification provide cost and financing advantages; PrimeEnergy competes on basin-specific expertise and operational agility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Pioneer Natural Resources Company",
+        "ticker": "PXD",
+        "cik": "0001038357",
+        "slug": "pioneer_natural_resources",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Peer E&P Operator & Competitive Benchmark",
+        "relationshipNote": "Pioneer Natural Resources is a large independent E&P operator focused on the Permian Basin and other onshore plays, competing with PrimeEnergy for acreage, capital, and market share. PXD's 2023 production of ~750 KBOE/d and cost-per-barrel of $30–35/BOE represent the efficiency frontier for onshore operators. PXD's 2024 acquisition by ExxonMobil (announced December 2023, $59.5B) signals consolidation trends in the E&P sector and raises competitive pressure on mid-cap independents like PrimeEnergy. Competitive delta: PXD's Permian acreage and low-cost production provide structural advantages; PrimeEnergy's Gulf Coast and other basin exposure offers geographic diversification.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Diamondback Energy, Inc.",
+        "ticker": "FANG",
+        "cik": "0001635525",
+        "slug": "diamondback_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Peer E&P Operator & Competitive Benchmark",
+        "relationshipNote": "Diamondback Energy is a mid-cap independent E&P operator with significant Permian Basin and other onshore production, competing directly with PrimeEnergy for acreage and capital. FANG's 2023 production of ~250 KBOE/d and cost-per-barrel of $35–40/BOE are comparable to PrimeEnergy's scale and efficiency profile. FANG's 2023 acquisition of Lario Petroleum ($1.9B) and aggressive drilling program signal competitive intensity in the onshore E&P sector. Competitive delta: FANG's Permian focus and drilling pace provide growth optionality; PrimeEnergy's diversified basin portfolio and mature-field expertise offer stability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Callon Petroleum Company",
+        "ticker": "CPE",
+        "cik": "0001564408",
+        "slug": "callon_petroleum",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Peer E&P Operator & Competitive Benchmark",
+        "relationshipNote": "Callon Petroleum is a smaller independent E&P operator focused on the Permian Basin, competing with PrimeEnergy for acreage, capital, and market share. CPE's 2023 production of ~100 KBOE/d and cost-per-barrel of $40–45/BOE are comparable to PrimeEnergy's scale. CPE's 2023 bankruptcy emergence and subsequent recapitalization signal financial stress in the mid-cap E&P sector and highlight refinancing risks for companies with high leverage. Competitive delta: CPE's Permian focus provides growth optionality; PrimeEnergy's diversified basin portfolio and lower leverage provide financial stability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Comstock Resources, Inc.",
+        "ticker": "CRK",
+        "cik": "0001086938",
+        "slug": "comstock_resources",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Peer E&P Operator & Competitive Benchmark",
+        "relationshipNote": "Comstock Resources is a mid-cap independent E&P operator focused on natural gas production in the Haynesville Shale and other onshore plays, competing with PrimeEnergy for acreage and capital. CRK's 2023 production of ~1.2 BCFE/d (primarily gas) and cost-per-BOE of $2–3/BOE reflect the economics of gas-focused operators. CRK's 2023 hedging program (70%+ of production hedged) and dividend policy serve as benchmarks for PrimeEnergy's commodity-risk management. Competitive delta: CRK's gas-focused portfolio provides upside if gas prices rise; PrimeEnergy's crude-oil exposure provides different commodity exposure.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec_federal",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Financial Disclosure",
+        "relationshipNote": "The SEC regulates PrimeEnergy's public company disclosures, including 10-K annual reports, 10-Q quarterly filings, 8-K event disclosures, and proxy statements (DEF14A). PrimeEnergy must comply with Regulation S-K Item 1A risk-factor disclosures, Item 7 financial statements, and Item 1 business descriptions. SEC staff review PrimeEnergy's reserve disclosures under ASC 932 (oil and gas reserve accounting) and monitor compliance with Sarbanes-Oxley Section 302/906 CEO/CFO certifications. Recent SEC focus on climate-risk disclosures (proposed rules 2023–2024) may require PrimeEnergy to expand greenhouse-gas emissions and climate-scenario disclosures in future filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Interior — Bureau of Land Management (BLM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "blm_federal",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Federal Lease Administration & Permitting",
+        "relationshipNote": "The BLM administers federal onshore oil and gas leases and permits for PrimeEnergy's operations on public lands. PrimeEnergy must comply with BLM lease terms, drilling permits (Applications for Permit to Drill), and environmental reviews (NEPA). The Biden administration's 2023–2024 lease-sale moratorium and increased minimum bids ($10/acre, up from $2/acre) directly impact PrimeEnergy's federal acreage acquisition strategy. BLM's methane emissions rules (2023 final rule) require PrimeEnergy to reduce venting and flaring on federal leases; compliance costs estimated at $2–5M annually. Relationship includes annual lease rentals and royalty payments (12.5% of revenue on federal leases).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Interior — Bureau of Ocean Energy Management (BOEM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "boem_federal",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Federal Deepwater Lease Administration",
+        "relationshipNote": "BOEM administers federal offshore oil and gas leases in federal waters (3–200 nautical miles). If PrimeEnergy operates Gulf of Mexico deepwater leases, BOEM regulates lease terms, drilling permits, and environmental compliance. BOEM's 2023 lease sales (e.g., Lease Sale 257) set minimum bids and acreage availability; PrimeEnergy participates in competitive bidding. BOEM's post-Deepwater Horizon regulations (2016 Safety and Environmental Management Systems rule) require PrimeEnergy to maintain certified safety and environmental management systems. Royalty rates on federal deepwater leases are 12.5% of revenue; rental rates are $2/acre/year..",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa_federal",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental & Emissions Compliance",
+        "relationshipNote": "The EPA regulates PrimeEnergy's air emissions, wastewater discharge, and hazardous waste management under the Clean Air Act, Clean Water Act, and Resource Conservation and Recovery Act (RCRA). EPA's 2023 methane emissions standards (40 CFR Part 60 Subpart OOOOa) require PrimeEnergy to reduce methane venting and flaring; compliance deadline 2024–2025. EPA's 2024 proposed rule on greenhouse-gas emissions from oil and gas operations may require additional emissions reductions. PrimeEnergy's estimated annual EPA compliance costs are $3–8M for emissions monitoring, reporting, and control equipment. Relationship includes permit applications, emissions reporting (Greenhouse Gas Reporting Program), and periodic EPA inspections.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Energy Regulatory Commission (FERC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc_federal",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Pipeline & Midstream Regulation",
+        "relationshipNote": "FERC regulates natural gas pipelines and LNG export terminals that transport and process PrimeEnergy's natural gas production. FERC's jurisdiction over pipeline tariffs (e.g., Enterprise Products Partners, Magellan Midstream) affects PrimeEnergy's realized gas prices and transportation costs. FERC's 2023–2024 LNG export authorization process impacts PrimeEnergy's gas-sales opportunities; Cheniere Energy's LNG export volumes are subject to FERC approval. FERC's pipeline safety and environmental rules (49 CFR Part 192) apply to PrimeEnergy's gathering systems. Relationship is indirect (through midstream partners); no direct FERC licensing required for PrimeEnergy.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_touche_llp",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial Audit & Risk Assessment",
+        "relationshipNote": "Deloitte & Touche LLP is PrimeEnergy's independent auditor, responsible for annual audits of consolidated financial statements and internal control over financial reporting (SOX Section 404). Deloitte's audit opinion covers reserve estimates (ASC 932), commodity derivative valuations, and debt covenant compliance. Deloitte's audit fees are estimated at $1–2M annually; audit committee pre-approves non-audit services. Deloitte's audit procedures include reserve-estimate validation (third-party reserve engineer review), commodity-hedging effectiveness testing, and debt-covenant compliance verification. Any audit qualifications or going-concern warnings would signal material financial distress.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Senior Lender & Capital Markets Advisor",
+        "relationshipNote": "JPMorgan Chase is a lead arranger and lender on PrimeEnergy's revolving credit facility, estimated at $200–400M. JPM provides senior secured lending, commodity-hedging services, and capital-markets advisory (M&A, debt issuance). JPM's credit committee reviews PrimeEnergy's quarterly financial performance and covenant compliance (leverage ratio, interest coverage). JPM's lending terms include pricing tied to SOFR + 200–300 bps, with covenant thresholds (leverage <3.0x, interest coverage >2.5x). Relationship includes annual commitment fees and quarterly borrowing base redeterminations. JPM's willingness to renew/expand the credit facility signals market confidence in PrimeEnergy's credit quality.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lender & Capital Markets Advisor",
+        "relationshipNote": "Bank of America Merrill Lynch is a co-arranger and lender on PrimeEnergy's credit facility and provides capital-markets advisory services. BofA's lending commitment is estimated at $50–100M of the total facility. BofA's investment-banking division advises PrimeEnergy on M&A opportunities, asset sales, and debt refinancing. BofA's commodity-derivatives desk provides hedging services for PrimeEnergy's crude oil and natural gas exposures. Relationship includes annual commitment fees and quarterly financial reporting requirements. BofA's credit rating and market access influence PrimeEnergy's financing costs and capital availability.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "Vanguard Group is a major institutional shareholder in PrimeEnergy, with estimated ownership of 5–8% of outstanding shares (as of 2023). Vanguard's voting power and engagement on ESG and governance matters influence PrimeEnergy's board composition and strategic direction. Vanguard's 2023 proxy voting guidelines emphasize climate-risk disclosure and board diversity; Vanguard may vote against director nominees or executive compensation if governance standards are not met. Vanguard's ownership stake and long-term investment horizon align with PrimeEnergy's dividend sustainability and capital discipline. Relationship includes annual shareholder meetings and proxy voting.",
+        "confidence": "medium",
+        "sourceType": [
+          "DEF14A",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "BlackRock is a major institutional shareholder in PrimeEnergy, with estimated ownership of 5–8% of outstanding shares (as of 2023). BlackRock's voting power and engagement on ESG and climate matters influence PrimeEnergy's board composition and strategic direction. BlackRock's 2023 proxy voting guidelines emphasize climate-risk disclosure, board diversity, and executive compensation alignment with ESG metrics. BlackRock may vote against director nominees or executive compensation if governance standards are not met. BlackRock's ownership stake and long-term investment horizon align with PrimeEnergy's dividend sustainability and capital discipline.",
+        "confidence": "medium",
+        "sourceType": [
+          "DEF14A",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "WTI Crude Oil Spot Price",
+        "slug": "wti_crude_oil_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Profitability Signal",
+        "relationshipNote": "WTI crude oil spot price ($/bbl) is the primary commodity-price signal for PrimeEnergy's crude oil revenue and cash flow generation. A $10/bbl change in WTI translates to approximately $50–100M annual revenue impact (assuming 50–100 KBOE/d production). PrimeEnergy's hedging program typically locks in 60–70% of production at forward prices, reducing downside risk but capping upside. WTI prices below $50/bbl trigger covenant-compliance concerns and may force production cuts or asset sales. WTI prices above $80/bbl enable accelerated drilling programs and dividend increases. Weekly WTI prints and technical support/resistance levels inform PrimeEnergy's quarterly guidance and capital-allocation decisions.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Henry Hub Natural Gas Spot Price",
+        "slug": "henry_hub_natural_gas_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Profitability Signal",
+        "relationshipNote": "Henry Hub natural gas spot price ($/MMBtu) is the primary commodity-price signal for PrimeEnergy's natural gas revenue and cash flow generation. A $1.00/MMBtu change in Henry Hub translates to approximately $30–50M annual revenue impact (assuming 500–1000 MMcf/d production). PrimeEnergy's hedging program typically locks in 50–60% of gas production at forward prices. Henry Hub prices below $2.50/MMBtu trigger margin compression and may force production cuts. Henry Hub prices above $4.00/MMBtu enable accelerated drilling programs and dividend increases. Seasonal patterns (winter heating demand, summer storage injection) and LNG export demand drive Henry Hub volatility; PrimeEnergy's quarterly guidance reflects forward-curve expectations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

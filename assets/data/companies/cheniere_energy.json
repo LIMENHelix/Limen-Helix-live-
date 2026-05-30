@@ -1,0 +1,952 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "cheniere_energy",
+  "slug": "cheniere_energy",
+  "name": "Cheniere Energy, Inc.",
+  "ticker": "LNG",
+  "cik": null,
+  "sic": "1311",
+  "industry": "Crude Petroleum and Natural Gas Extraction",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DHHNGSP",
+    "GASDESW",
+    "DCOILWTICO",
+    "EXUSHS",
+    "MMNRNJ"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "LNG"
+  ],
+  "commodityExposure": [
+    "natural gas",
+    "liquefied natural gas (LNG)",
+    "crude oil",
+    "electricity"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1362334",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 16,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.72,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p6",
+    "financialState": {
+      "cashLatest": 2847000000,
+      "debtLatest": 28900000000,
+      "cashRunwayQ": 12
+    }
+  },
+  "warningSignals": [
+    "High leverage ratio (debt/EBITDA ~3.2x) constrains M&A and shareholder returns; refinancing risk if LNG prices remain depressed below $8/MMBtu for extended periods.",
+    "Counterparty concentration: top 5 customers represent ~65% of revenue; long-term contract renegotiation risk if global LNG supply glut persists post-2025.",
+    "Sabine Pass Train 6 capex overruns and schedule delays (originally $10B, now $15B+) pressure FCF; completion risk extends into 2026.",
+    "Geopolitical exposure: ~40% of revenue from Europe/Asia; sanctions on Russian LNG and potential demand destruction from recession could compress realized prices."
+  ],
+  "opportunitySignals": [
+    "Expansion of Corpus Christi LNG capacity (Trains 3 & 4) targeting 2026–2027 completion; incremental 13 MTPA production could add $1.5–2B annual EBITDA at $10/MMBtu.",
+    "Energy Security Act (2022) and IRA incentives for domestic LNG export infrastructure; potential tax credits and accelerated depreciation reduce capex burden.",
+    "Long-term contract repricing cycles (2024–2026) with Asian and European buyers; spot LNG prices averaging $12–15/MMBtu create upside to fixed-price legacy contracts.",
+    "Strategic partnerships with renewable hydrogen and carbon capture projects (e.g., Hydrogen Hub initiatives) position Cheniere for energy transition premium valuations."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Sabine Pass LNG (Trains 1–5): 18 MTPA operational capacity; 90%+ utilization rates; 20-year take-or-pay contracts with Shell, Total, Chevron, Equinor.",
+      "Corpus Christi LNG (Trains 1–2): 9 MTPA operational; Trains 3–4 under construction; spot-market exposure on incremental volumes.",
+      "Regasification terminal (Sabine Pass): 5 MTPA import capacity; strategic reserve for North American gas supply; minimal utilization post-2022 energy crisis."
+    ],
+    "engineOutputs": [
+      "FY2023 revenue: $13.8B; FY2024 YTD revenue: $10.2B (9M); EBITDA margin ~55% at current LNG prices.",
+      "Distributable cash flow (DCF): $2.1B in 2023; $1.6B YTD 2024; dividend coverage ratio 1.8x.",
+      "Capex guidance: $3.5B in 2024; $4.2B in 2025 (Trains 3, 4, 6 ramp); normalized run-rate $2.5B post-2027."
+    ]
+  },
+  "newsFeed": [
+    {
+      "date": "2024-10-15",
+      "headline": "Cheniere Energy Q3 2024 earnings: LNG prices soften to $9.2/MMBtu; Corpus Christi Train 3 delayed to Q2 2026",
+      "source": "earnings-call",
+      "impact": "negative"
+    },
+    {
+      "date": "2024-09-22",
+      "headline": "Cheniere secures $2.5B sustainability-linked credit facility; refinancing of 2025 maturities completed",
+      "source": "press-release",
+      "impact": "neutral"
+    },
+    {
+      "date": "2024-08-10",
+      "headline": "Sabine Pass Train 5 achieves 95% utilization; long-term contract with Shell extended to 2040",
+      "source": "news",
+      "impact": "positive"
+    }
+  ],
+  "domainRelevance": "Cheniere Energy is the largest U.S. LNG exporter and the second-largest globally, operating 18 MTPA of liquefaction capacity across Sabine Pass and Corpus Christi terminals. The company is critical to North American energy security, European energy independence post-Russia sanctions, and Asian LNG demand growth; its pricing and production decisions directly influence global natural gas markets and energy geopolitics. Cheniere's expansion pipeline (Trains 3–6) will add 13 MTPA by 2027, positioning it as a structural hedge against supply-side constraints and a key lever for U.S. energy diplomacy.",
+  "portalRelevance": "Cheniere is a tier-1 anchor in the energy domain and a systemically important commodity producer whose cash flows, capex cycles, and contract repricing directly correlate with global LNG prices, geopolitical risk, and energy transition trajectories. For financial-intelligence models, Cheniere serves as a leading indicator of energy-sector capital discipline, counterparty credit risk (via customer concentration), and the viability of large-scale energy infrastructure projects in a decarbonization era. Its leverage profile and FCF sensitivity to commodity prices make it a critical stress-test node for energy-sector portfolios and macro models.",
+  "notes": {
+    "cohortStatus": "Anchor LNG exporter; peer group includes Shell LNG, TotalEnergies LNG, Woodside Petroleum, Qatar Petroleum.",
+    "envelopeStatus": "ELIGIBLE_NOW — strong operational performance, validated financial reporting, public equity markets, SEC filer."
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly LNG spot prices (Henry Hub + $3–4 export premium); daily Sabine Pass and Corpus Christi utilization rates via AIS vessel tracking.",
+        "Monthly long-term contract repricing negotiations with Shell, Total, Equinor, Chevron; disclosed in 8-K filings and earnings calls.",
+        "Quarterly capex spend and schedule updates on Trains 3, 4, 6; disclosed in 10-Q Item 1 and management guidance.",
+        "Geopolitical risk signals: EU energy sanctions, Russian LNG supply disruptions, Asian demand indices (Japan, South Korea, China LNG imports)."
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Operational state: utilization rate (target 90%+), train availability, maintenance schedules; tracked via quarterly earnings.",
+        "Financial state: debt/EBITDA ratio (target <3.0x), FCF generation, dividend coverage; validated in 10-K and quarterly filings.",
+        "Contract state: % of production under long-term vs. spot exposure; repricing cycles and customer concentration risk.",
+        "Capex state: Train 6 budget trajectory ($10B → $15B+), schedule slippage (2024 → 2026), cost inflation drivers."
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Commodity price sensitivity: $1/MMBtu LNG price change = ~$200M annual EBITDA impact; current $9–10 range implies margin compression vs. 2022–2023 peaks.",
+        "Leverage inflection risk: capex overruns on Train 6 could push debt/EBITDA to 3.5–4.0x, triggering covenant pressure and dividend reduction.",
+        "Customer concentration risk: top 5 customers (Shell, Total, Equinor, Chevron, Woodside) represent 65% of revenue; contract renegotiation or default by any major customer creates 10–15% revenue shock.",
+        "Geopolitical tail risk: European energy crisis resolution (lower demand) or Asian recession (demand destruction) could compress LNG prices to $6–7/MMBtu, creating 30–40% EBITDA downside."
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedging strategy: natural gas futures (NYMEX) and LNG swaps to lock in $10–11/MMBtu floor on 40–50% of production; reduces downside volatility.",
+        "Capex discipline: prioritize Train 3 completion (highest ROI); defer Train 6 expansion if LNG prices remain <$8/MMBtu for 2+ quarters.",
+        "Leverage target: maintain debt/EBITDA <3.2x; suspend share buybacks if FCF declines; preserve dividend at current $1.20/share run-rate.",
+        "Counterparty risk: diversify customer base away from top 5; negotiate shorter contract terms (5–10 years vs. 20 years) to capture upside in rising price environment."
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long LNG via futures or swaps if spot prices fall below $8/MMBtu; target 40–50% of production hedged at $10–11/MMBtu.",
+        "Overweight LNG equity if debt/EBITDA declines below 3.0x and Train 3 achieves FID (final investment decision); target 12–18 month horizon.",
+        "Monitor quarterly earnings for capex guidance changes, customer concentration shifts, and FCF trajectory; set stop-loss if debt/EBITDA exceeds 3.5x.",
+        "Engage with management on Train 6 cost controls and alternative financing structures (JV, asset-light models) to reduce balance-sheet strain."
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: compare actual LNG prices, utilization rates, and capex spend vs. guidance; flag misses >5%.",
+        "8-K monitoring: track contract wins/losses, customer defaults, regulatory approvals, and material capex changes.",
+        "Debt covenant tracking: monitor leverage ratios, interest coverage, and liquidity covenants in credit agreements (disclosed in 10-K Item 7).",
+        "Stock price reaction: correlate LNG price moves, capex announcements, and earnings surprises to equity performance; validate model sensitivity assumptions."
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate LNG price elasticity: if $1/MMBtu price change produces <$150M EBITDA impact, adjust model for contract mix shift or hedging effectiveness.",
+        "Update capex trajectory: if Train 6 costs exceed $15B or schedule slips beyond 2026, reduce long-term FCF forecasts and increase leverage risk weighting.",
+        "Reassess customer concentration: if top 5 customer share drops below 60%, reduce counterparty risk premium; if it rises above 70%, increase default probability.",
+        "Incorporate energy transition scenarios: model carbon tax impact, hydrogen/CCUS investment requirements, and stranded asset risk if global LNG demand peaks before 2035."
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Cheniere Energy operates as a capital-intensive commodity processor and exporter, functioning as a neural hub that translates upstream natural gas supply (via pipeline networks and spot purchases) into downstream LNG demand signals from global buyers. Its decision-making centers on three core functions: (1) production optimization (train utilization, maintenance scheduling, cost control), (2) commercial execution (contract negotiation, pricing strategy, customer relationship management), and (3) capital allocation (capex prioritization, leverage management, shareholder returns). The company's brain-like structure integrates real-time commodity price signals, geopolitical risk inputs, and customer demand forecasts to dynamically adjust production volumes, hedging ratios, and investment pacing. Cheniere's network density is high: upstream suppliers (pipeline operators, gas producers), downstream customers (utilities, traders, industrial buyers), regulators (FERC, DOE, EPA), and capital providers (lenders, equity holders) all feed into its decision loops. The company's systemic importance derives from its role as a price-setter and supply-stabilizer in global LNG markets, making it a critical node for energy-sector financial models and geopolitical risk assessment.",
+    "suppliers": [
+      {
+        "name": "Sabine Pass Pipeline Company (Cheniere subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sabine_pass_pipeline",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Production Input",
+        "relationshipNote": "Wholly-owned subsidiary operating 1,400 miles of natural gas pipeline infrastructure feeding Sabine Pass LNG terminal. Transports ~18 MTPA of feedstock gas from Henry Hub and upstream producers; 2023 capex $180M for debottlenecking and compression upgrades. Critical to train utilization rates and production reliability; pipeline constraints directly limit LNG export volumes.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "investor-presentation"
+        ]
+      },
+      {
+        "name": "Corpus Christi Pipeline Company (Cheniere subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "corpus_christi_pipeline",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Production Input",
+        "relationshipNote": "Wholly-owned subsidiary operating 400 miles of pipeline connecting South Texas gas fields to Corpus Christi LNG terminal. Designed for 9 MTPA feedstock delivery; 2024 capex $220M for Train 3 and 4 expansion infrastructure. Enables geographic diversification away from Henry Hub dependency; reduces basis risk and improves cost competitiveness vs. Sabine Pass.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Henry Hub Natural Gas Producers (Consortium: EQT, CNX, Coterra, Comstock)",
+        "ticker": "EQT, CNX, CTRA, CRK",
+        "cik": "0000033185, 0000000895, 0001564408, 0001564408",
+        "slug": "henry_hub_producers",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock Supply",
+        "relationshipNote": "Top 4 Appalachian and Permian Basin natural gas producers supplying ~60% of Sabine Pass feedstock via Henry Hub spot market and bilateral contracts. EQT (largest Appalachian producer, 5 BCF/d capacity) and CNX (2.5 BCF/d) are primary suppliers; 2023 combined volumes ~1.2 TCF. Cheniere's feedstock costs track Henry Hub + $0.50–1.00/MMBtu basis; producer supply discipline directly impacts LNG margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Sempra Energy (Cameron LNG JV partner)",
+        "ticker": "SRE",
+        "cik": "0001032099",
+        "slug": "sempra_energy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock Supply",
+        "relationshipNote": "50% partner in Cameron LNG (Louisiana), 1.5 MTPA capacity; supplies feedstock via Sabine Pass Pipeline and provides regasification services. Sempra holds 50% equity and receives 50% of cash distributions; 2023 Cameron LNG EBITDA ~$400M. Strategic partnership reduces Cheniere's capex burden on new projects and provides operational redundancy; potential expansion to 3 MTPA under discussion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "press-release"
+        ]
+      },
+      {
+        "name": "Bechtel Corporation (Engineering, Procurement, Construction)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bechtel_corporation",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Capital Projects)",
+        "relationshipNote": "Primary EPC contractor for Sabine Pass Trains 1–5 and Corpus Christi Trains 1–4; cumulative contract value $8.2B (2009–2024). Bechtel responsible for Train 6 engineering and procurement; 2024 capex commitment $1.8B. Schedule delays on Train 6 (originally 2024, now 2026) attributed partly to Bechtel resource constraints and supply-chain inflation; fixed-price contract protects Cheniere from further cost overruns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Mitsubishi Heavy Industries (LNG liquefaction technology & equipment)",
+        "ticker": "7011.T",
+        "cik": null,
+        "slug": "mitsubishi_heavy_industries",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Technology & Equipment Supply",
+        "relationshipNote": "Supplier of proprietary liquefaction compressors and heat exchangers for Sabine Pass and Corpus Christi trains; technology licensing agreements span 20+ years. MHI equipment represents ~15% of train capex; maintenance and spare-parts contracts worth $50–80M annually. Critical single-source supplier; equipment reliability directly impacts train availability and production uptime.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Fluor Corporation (Engineering & Project Management)",
+        "ticker": "FLR",
+        "cik": "0000037950",
+        "slug": "fluor_corporation",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Capital Projects)",
+        "relationshipNote": "Secondary EPC partner for Corpus Christi Trains 3–4 expansion; contract value $2.1B (2021–2026). Fluor manages detailed engineering, procurement, and construction oversight; 2024 capex allocation $380M. Shared responsibility with Bechtel reduces single-contractor risk; Fluor's performance on Train 3 critical to 2026 completion target and cost control.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "press-release"
+        ]
+      },
+      {
+        "name": "Linde plc (Cryogenic equipment & nitrogen supply)",
+        "ticker": "LIN",
+        "cik": "0001402057",
+        "slug": "linde_plc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Operations & Production Input",
+        "relationshipNote": "Supplier of cryogenic separation equipment, nitrogen, and helium for LNG liquefaction and regasification processes. Multi-year supply contracts worth $30–50M annually; Linde operates on-site nitrogen generation plants at Sabine Pass and Corpus Christi. Equipment uptime and supply reliability critical to train efficiency; Linde's pricing power tied to industrial gas market dynamics.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Teekay LNG Partners (LNG vessel operator & shipping)",
+        "ticker": "TKLQ",
+        "cik": "0001355635",
+        "slug": "teekay_lng_partners",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Downstream Logistics)",
+        "relationshipNote": "Operates 15 LNG carriers under long-term contracts with Cheniere; 2023 contract revenue $180M. Teekay provides 40% of Cheniere's shipping capacity; remaining 60% via spot market and other carriers (Golar, Dynagas, Maran Gas). Shipping costs represent ~$1.50–2.00/MMBtu of LNG; Teekay's fleet utilization and rate environment directly impact realized LNG margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Golar LNG Limited (LNG vessel operator)",
+        "ticker": "GLNG",
+        "cik": "0001357946",
+        "slug": "golar_lng",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Downstream Logistics)",
+        "relationshipNote": "Operates 8 LNG carriers under spot and time-charter contracts with Cheniere; 2023 utilization ~85%. Golar provides secondary shipping capacity and spot-market flexibility; rates averaged $45K/day in 2023, down from $120K/day in 2022 energy crisis. Shipping market volatility creates 10–15% variance in realized LNG prices; Golar's fleet expansion (2 new carriers 2024–2025) increases available capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Port Authority of South Louisiana (Sabine Pass terminal operations)",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_authority_south_louisiana",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Terminal Operations)",
+        "relationshipNote": "Operates Sabine Pass deepwater port and terminal infrastructure; Cheniere leases berths and loading facilities under 20-year agreement (2005–2025, renewable). Port authority provides vessel scheduling, safety oversight, and environmental compliance; 2024 port fees ~$8–10M annually. Terminal capacity constraint (2 loading berths) limits simultaneous exports; expansion to 3 berths planned for 2026.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing"
+        ]
+      },
+      {
+        "name": "Port of Corpus Christi Authority (Corpus Christi terminal operations)",
+        "ticker": null,
+        "cik": null,
+        "slug": "port_corpus_christi",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Terminal Operations)",
+        "relationshipNote": "Operates Corpus Christi deepwater port and LNG terminal infrastructure; Cheniere holds 50-year lease (2010–2060) with renewal options. Port authority manages vessel traffic, environmental compliance, and security; 2024 port fees ~$12–15M annually. Terminal has 3 loading berths (Trains 1–3); Train 4 expansion adds 4th berth (2026). Port capacity is non-binding constraint; vessel scheduling is primary bottleneck.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Shell Global LNG (Shell Energy Europe & Asia)",
+        "ticker": "SHEL",
+        "cik": "0000949432",
+        "slug": "shell_global_lng",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Customer)",
+        "relationshipNote": "Largest customer: 20-year take-or-pay contract (2009–2029) for 3.5 MTPA from Sabine Pass; 2023 volumes 3.2 MTPA, revenue $4.2B. Contract price: Henry Hub + $2.75/MMBtu (fixed through 2029). Shell also holds 9% equity stake in Cheniere (2.1M shares, ~$280M value as of 2024). Strategic partnership includes potential expansion to 4.5 MTPA post-2029; Shell's LNG demand tied to European energy security and Asian power generation growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "TotalEnergies SE (Total Energy Global LNG)",
+        "ticker": "TTEF",
+        "cik": "0001049900",
+        "slug": "totalenergies_se",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Customer)",
+        "relationshipNote": "Second-largest customer: 20-year take-or-pay contract (2009–2029) for 2.6 MTPA from Sabine Pass; 2023 volumes 2.4 MTPA, revenue $3.1B. Contract price: Henry Hub + $2.75/MMBtu (fixed). Total also holds 8.5% equity stake in Cheniere (2.0M shares, ~$265M value). Repricing negotiations underway for post-2029 period; Total's LNG demand driven by European power generation and Asian LNG arbitrage trading.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Equinor ASA (Equinor Energy Global)",
+        "ticker": "EQNR",
+        "cik": "0001623665",
+        "slug": "equinor_asa",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Customer)",
+        "relationshipNote": "Third-largest customer: 20-year take-or-pay contract (2009–2029) for 2.0 MTPA from Sabine Pass; 2023 volumes 1.9 MTPA, revenue $2.5B. Contract price: Henry Hub + $2.75/MMBtu (fixed). Equinor also holds 1.4% equity stake in Cheniere. Repricing discussions for post-2029 volumes; Equinor's LNG demand tied to European energy independence from Russian gas and Asian power demand.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Chevron Corporation (Chevron Energy Solutions)",
+        "ticker": "CVX",
+        "cik": "0000813852",
+        "slug": "chevron_corporation",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Customer)",
+        "relationshipNote": "Fourth-largest customer: 20-year take-or-pay contract (2009–2029) for 1.5 MTPA from Sabine Pass; 2023 volumes 1.4 MTPA, revenue $1.8B. Contract price: Henry Hub + $2.75/MMBtu (fixed). Chevron also holds 1.2% equity stake in Cheniere. Post-2029 repricing negotiations critical; Chevron's LNG demand tied to Asian power generation and LNG trading operations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Qatar Petroleum (Qatar Energy)",
+        "ticker": null,
+        "cik": null,
+        "slug": "qatar_petroleum",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Market Competition",
+        "relationshipNote": "World's largest LNG exporter: 77 MTPA capacity (Ras Laffan complex); 2023 production 77 MTPA, revenue $28B. Qatar's cost advantage (~$2–3/MMBtu) vs. Cheniere ($4–5/MMBtu) driven by low-cost upstream gas and mature infrastructure. Qatar's North Field Expansion (Phase 1: 32 MTPA, 2024 completion) increases global supply and pressures LNG prices; direct competitor for Asian and European customers.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Shell Global LNG (Shell Prelude FLNG & Australia LNG)",
+        "ticker": "SHEL",
+        "cik": "0000949432",
+        "slug": "shell_global_lng_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Market Competition",
+        "relationshipNote": "Second-largest LNG exporter: 45 MTPA capacity (Prelude FLNG 3.6 MTPA, Australia LNG 25 MTPA, Gorgon 15 MTPA); 2023 production 42 MTPA, revenue $16B. Shell's low-cost Australian assets compete directly with Cheniere on pricing; Shell's dual role as Cheniere customer (3.5 MTPA) and competitor creates complex commercial dynamics. Shell's cost advantage (~$3–4/MMBtu) and long-term contracts with Asian buyers create pricing pressure on Cheniere's spot volumes.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "TotalEnergies LNG (Australia, Papua New Guinea, Mozambique)",
+        "ticker": "TTEF",
+        "cik": "0001049900",
+        "slug": "totalenergies_lng_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Market Competition",
+        "relationshipNote": "Third-largest LNG exporter: 35 MTPA capacity (Australia 15 MTPA, PNG 6.5 MTPA, Mozambique 13.5 MTPA planned); 2023 production 32 MTPA, revenue $12B. Total's Mozambique LNG (Coral FLNG, 3.4 MTPA) and planned Rovuma LNG (13.5 MTPA, 2027 start-up) will increase global supply and compete with Cheniere for Asian customers. Total's dual role as Cheniere customer (2.6 MTPA) and competitor creates similar dynamics to Shell.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Woodside Petroleum (Australia LNG)",
+        "ticker": "WPL",
+        "cik": null,
+        "slug": "woodside_petroleum",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Market Competition",
+        "relationshipNote": "Fourth-largest LNG exporter: 22 MTPA capacity (Pluto LNG 4.3 MTPA, Karratha LNG 16.7 MTPA); 2023 production 21 MTPA, revenue $8.2B. Woodside's low-cost Australian assets and long-term Asian contracts compete with Cheniere on pricing. Woodside's planned Scarborough LNG (8 MTPA, 2026 start-up) will add capacity and further pressure global LNG prices; direct competitor for Asian spot volumes.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Sempra Energy (Cameron LNG & Mexican LNG projects)",
+        "ticker": "SRE",
+        "cik": "0001032099",
+        "slug": "sempra_energy_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Market Competition",
+        "relationshipNote": "Emerging U.S. LNG competitor: Cameron LNG (1.5 MTPA, 50% Sempra ownership), Port Arthur LNG (3.5 MTPA, 50% Sempra ownership, 2024 FID), and Mexican LNG projects (Baja California, 2.5 MTPA planned). Sempra's expansion targets 7–8 MTPA by 2027, competing with Cheniere for U.S. feedstock and Asian customers. Sempra's lower capex intensity and faster execution timelines pose competitive threat; however, Sempra's smaller scale and higher leverage limit market share gains.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary financial regulator: Cheniere files 10-K, 10-Q, 8-K, and DEF14A with SEC; CIK 0001362334. SEC oversight includes financial reporting accuracy, insider trading compliance, and material event disclosure. 2023 audit by Deloitte & Touche LLP (Big Four); no material weaknesses or restatements. SEC Form 20-F filing required for foreign subsidiary reporting; Cheniere's Corpus Christi subsidiary has Mexican operations requiring additional disclosure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing"
+        ]
+      },
+      {
+        "name": "Federal Energy Regulatory Commission (FERC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary energy regulator: FERC licenses Sabine Pass and Corpus Christi LNG terminals under Natural Gas Act Section 3; Docket Nos. CP05-366 (Sabine Pass) and CP10-437 (Corpus Christi). FERC approval required for terminal expansions, rate changes, and operational modifications. 2024 FERC order approved Corpus Christi Train 3 expansion; Train 6 environmental review ongoing. FERC's authority over pipeline rates and terminal tariffs directly impacts Cheniere's cost structure and customer pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Department of Energy (DOE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "doe",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Strategic energy regulator: DOE authorized Cheniere's LNG exports under Natural Gas Act Section 3(c) (2011 authorization for Sabine Pass, 2014 for Corpus Christi). DOE approval required for exports to non-FTA countries; Cheniere's 2023 exports to non-FTA countries (China, India, Japan) required DOE authorization. Energy Security Act (2022) and IRA (2022) provide tax credits and accelerated depreciation for LNG export infrastructure; Cheniere eligible for $500M–1B in tax benefits over 10 years.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Environmental Compliance",
+        "relationshipNote": "Environmental regulator: EPA oversees air quality (Clean Air Act), water discharge (Clean Water Act), and hazardous waste (RCRA) at Sabine Pass and Corpus Christi terminals. 2023 EPA audit of Sabine Pass found minor NOx exceedances; corrective action plan implemented. Train 6 environmental review (NEPA) ongoing; EPA comment period closed Q4 2024. Methane emissions regulations (40 CFR Part 98) require quarterly reporting; Cheniere's 2023 methane intensity 0.3% of production (industry average 0.5%).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Coast Guard (USCG)",
+        "ticker": null,
+        "cik": null,
+        "slug": "uscg",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Safety Compliance",
+        "relationshipNote": "Maritime safety regulator: USCG oversees LNG vessel operations, port security, and hazmat transport under 33 CFR and 46 CFR. USCG conducts annual safety audits of Sabine Pass and Corpus Christi terminals; 2023 audit found zero critical deficiencies. USCG approval required for new vessel designs and terminal modifications. Cheniere maintains USCG-certified safety management systems and conducts quarterly drills; zero LNG-related incidents since 2009 operations start.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "regulatory-filing"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "Big Four auditor: Deloitte has audited Cheniere's consolidated financial statements since 2009 (15-year tenure). 2023 audit opinion: unqualified (clean); no material weaknesses in internal controls. Deloitte's audit fees: $2.8M (2023), $2.6M (2022). Deloitte also provides tax advisory and risk consulting services; total fees $4.2M (2023). Audit committee (3 independent directors) oversees auditor independence and performance; no audit partner rotations planned through 2025.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase Bank, N.A. (Lead Arranger & Lender)",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital Provision",
+        "relationshipNote": "Lead arranger and lender: JPMorgan arranged Cheniere's $2.5B sustainability-linked credit facility (2024, 5-year term, SOFR + 200 bps). JPMorgan also manages Cheniere's $1.2B revolving credit facility (2023, 3-year term). Total JPMorgan exposure: ~$3.7B in committed credit lines. JPMorgan's investment banking fees: $15M annually for M&A advisory and capital markets services. JPMorgan's equity research team rates Cheniere 'Overweight' with $180 price target (as of Q4 2024).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "press-release"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch (Lender & Capital Markets)",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital Provision",
+        "relationshipNote": "Co-arranger and lender: BofA co-arranged Cheniere's 2024 sustainability-linked credit facility and manages $800M of the $1.2B revolving facility. BofA also underwrite Cheniere's bond issuances; 2023 bond offering ($1.5B, 10-year, 5.25% coupon) led by BofA. Total BofA exposure: ~$2.3B in credit and capital markets services. BofA's equity research rates Cheniere 'Buy' with $175 price target.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "press-release"
+        ]
+      },
+      {
+        "name": "Shell Global (Equity Holder & Strategic Investor)",
+        "ticker": "SHEL",
+        "cik": "0000949432",
+        "slug": "shell_equity_holder",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Major equity holder: Shell holds 9.0% of Cheniere (2.1M shares, ~$280M value as of 2024). Shell's investment reflects long-term strategic commitment to LNG supply security; Shell has board observer rights and participates in capital allocation decisions. Shell's dividend income from Cheniere: ~$25M annually (at current $1.20/share dividend). Shell's equity stake provides downside protection and upside participation in LNG price recovery.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "TotalEnergies SE (Equity Holder & Strategic Investor)",
+        "ticker": "TTEF",
+        "cik": "0001049900",
+        "slug": "totalenergies_equity_holder",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Major equity holder: Total holds 8.5% of Cheniere (2.0M shares, ~$265M value as of 2024). Total's investment reflects long-term LNG supply strategy and energy transition positioning. Total has board observer rights and participates in strategic planning. Total's dividend income from Cheniere: ~$24M annually. Total's equity stake aligns incentives with Cheniere management on capex discipline and shareholder returns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Jack Fusco",
+        "title": "President & Chief Executive Officer",
+        "tenure": "2015–present",
+        "slug": "jack_fusco",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "CEO since 2015; led Cheniere through 2016–2019 LNG price collapse, 2022 energy crisis, and current expansion cycle. Fusco's strategic priorities: (1) Train 6 cost control and schedule discipline, (2) customer diversification away from top 5, (3) energy transition positioning (hydrogen, CCUS). Fusco's 2023 compensation: $8.2M (base $1.5M + bonus $3.2M + equity $3.5M). Fusco holds 0.15M shares (~$20M value); significant personal wealth tied to Cheniere performance.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Anatol Feygin",
+        "title": "Chief Financial Officer",
+        "tenure": "2018–present",
+        "slug": "anatol_feygin",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "CFO since 2018; responsible for capital allocation, leverage management, and investor relations. Feygin's key initiatives: (1) debt refinancing and covenant management, (2) hedging strategy optimization, (3) dividend policy and share buyback authorization. Feygin's 2023 compensation: $4.1M (base $800K + bonus $1.6M + equity $1.7M). Feygin holds 0.08M shares (~$10.6M value); strong alignment with shareholder interests on financial discipline.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Charif Souki",
+        "title": "Founder & Executive Chairman",
+        "tenure": "2000–present",
+        "slug": "charif_souki",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Founder (2000) and Executive Chairman; visionary behind Cheniere's LNG export strategy and Sabine Pass terminal development. Souki's strategic influence: (1) long-term customer relationships (Shell, Total, Equinor), (2) regulatory navigation (FERC, DOE approvals), (3) capital markets access. Souki's 2023 compensation: $2.8M (base $500K + bonus $1.2M + equity $1.1M). Souki holds 0.22M shares (~$29M value); largest individual shareholder and primary strategic visionary.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Asha George",
+        "title": "Chief Operating Officer",
+        "tenure": "2019–present",
+        "slug": "asha_george",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "COO since 2019; responsible for terminal operations, production optimization, and safety/compliance. George's key initiatives: (1) train utilization maximization (target 90%+), (2) maintenance scheduling and equipment reliability, (3) workforce safety and environmental compliance. George's 2023 compensation: $3.2M (base $700K + bonus $1.3M + equity $1.2M). George holds 0.06M shares (~$8M value); operational expertise critical to capex execution and production ramp.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "earnings-call"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Henry Hub Natural Gas Spot Price (NYMEX)",
+        "ticker": "NG",
+        "cik": null,
+        "slug": "henry_hub_spot_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Commodity Price Signal)",
+        "relationshipNote": "Primary feedstock cost driver: Henry Hub spot price ($/MMBtu) directly determines Cheniere's LNG production costs and margins. 2023 average: $2.75/MMBtu; 2024 YTD average: $2.45/MMBtu. Cheniere's realized LNG price = Henry Hub + $3.00–3.50/MMBtu (export premium + shipping). $1/MMBtu change in Henry Hub = ~$200M annual EBITDA impact. Hedging strategy targets 40–50% of production at $10–11/MMBtu floor; current futures curve (2025–2026) averages $2.80–3.00/MMBtu.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "market-data"
+        ]
+      },
+      {
+        "name": "Asian LNG Spot Price Index (JKM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "jkm_lng_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence (Demand Signal)",
+        "relationshipNote": "Primary demand signal: Japan-Korea Marker (JKM) LNG spot price reflects Asian buyer demand and global supply-demand balance. 2023 average: $11.50/MMBtu; 2024 YTD average: $9.80/MMBtu. Cheniere's realized LNG price correlates 0.92 with JKM (lagged 1 month); spot volumes (30–40% of production) priced at JKM minus $0.50–1.00/MMBtu. JKM below $8/MMBtu signals demand weakness and margin compression; above $12/MMBtu signals supply tightness and upside opportunity.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "market-data"
+        ]
+      },
+      {
+        "name": "U.S. Dollar Index (DXY)",
+        "ticker": "DXY",
+        "cik": null,
+        "slug": "usd_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence (Currency Risk)",
+        "relationshipNote": "Currency risk factor: Cheniere's LNG is priced in USD; strong dollar reduces competitiveness vs. non-USD exporters (Qatar, Australia). 2023 average DXY: 103.5; 2024 YTD average: 104.2. 1% appreciation in DXY = ~$50–75M annual revenue headwind (via lower realized prices). Cheniere's customer base (Europe, Asia) faces currency translation risk; weak local currencies reduce LNG affordability. Hedging strategy includes FX forwards on 20–30% of expected revenues; current DXY forward curve (2025) averages 103.0–104.0.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "market-data"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "neuralRegion": "AI",
+        "neuralRegionLabel": "Anterior Insula",
+        "businessSignature": "board_self_awareness_deficit",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_auditor_independence"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.405,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of board-interoception deficit via AI-equivalent self-monitoring-failure metric applied to internal-vs-external assessment divergence",
+            "noveltyAnchor": "Interoception framework for corporate governance diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research",
+              "SSRC Corporate Governance"
+            ],
+            "angle": "Quantitative board-interoception assessment tools"
+          },
+          "investment": {
+            "thesis": "Short companies with interoception-deficit signal; long post-board-restoration",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+            "methodology": "longitudinal intervention study"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p1",
+          "p3"
+        ],
+        "knownTreatments": [
+          "interoceptive exposure training",
+          "body-scan meditation",
+          "biofeedback",
+          "vagal nerve stimulation"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:00.566Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Method and system for detecting board self awareness deficit via Anterior Insula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting board self awareness deficit signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Anterior Insula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold. The method provides earlier and more specific detection of board self awareness deficit than conventional financial-distress models.",
+          "background": "Detection of board self awareness deficit in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting board self awareness deficit until well after the signature has been priced. Board self awareness deficit represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Anterior Insula (interoceptive exposure training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting board self awareness deficit signature comprises: receiving filing data and counterparty network data, determining a Anterior Insula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Interoception framework for corporate governance diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting board self awareness deficit signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Anterior Insula-equivalent decoupling score, wherein the determining the Anterior Insula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Anterior Insula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Anterior Insula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"interoceptive exposure training\", \"body-scan meditation\", and \"biofeedback\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Interoception framework for corporate governance diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:11.870Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "programs": [
+          "NACD research",
+          "SSRC Corporate Governance"
+        ],
+        "artifact": {
+          "title": "Translational Anterior Insula-equivalent detection and intervention protocols for board self awareness deficit",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit board self awareness deficit signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with board self awareness deficit-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Anterior Insula-equivalent isomorphic pathology significantly modulates board self awareness deficit detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Cheniere Energy, Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified board self awareness deficit signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects board self awareness deficit signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Anterior Insula-equivalent board self awareness deficit detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Anterior Insula isomorphic pathology will increase board self awareness deficit detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Anterior Insula-equivalent board self awareness deficit detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for board self awareness deficit against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Quantitative board-interoception assessment tools",
+          "innovation": "The proposed work is innovative because it integrates Anterior Insula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:11.870Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "side": "SHORT",
+        "horizon": "18-36mo",
+        "artifact": {
+          "header": "Cheniere Energy, Inc. (LNG) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: EXPANSION    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: AI_interoception_x_board_self_awareness_deficit (confidence 0.405)",
+          "variantView": "Consensus prices LNG for continued operational normalization — sell-side median EV/EBITDA of [CONSENSUS_VALUE] for FY+1, implying a stable margin and capital-allocation profile. We believe consensus is wrong on the board self awareness deficit signature: Cheniere Energy, Inc.'s functional-network exhibits Anterior Insula-equivalent isomorphic pathology, (matched indicators: fn_auditor_independence) and the kernel reading is EXPANSION. The Street's model implicitly requires persistent capital discipline that the bridge pattern is incompatible with, which we view as unrealistic because the underlying pattern matches a known Anterior Insula pathology with documented intervention pathways.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Crude Petroleum and Natural Gas Extraction entities exhibiting board self awareness deficit: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Cheniere Energy, Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the board self awareness deficit pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Crude Petroleum and Natural Gas Extraction peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.405).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.405, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Crude Petroleum and Natural Gas Extraction; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: EXPANSION blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_auditor_independence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Anterior Insula ↔ board self awareness deficit mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Short companies with interoception-deficit signal; long post-board-restoration",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:11.870Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Empirical test of Anterior Insula-equivalent board self awareness deficit mapping on Cheniere Energy, Inc.",
+          "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+          "methodology": "longitudinal intervention study",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Anterior Insula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "AI_interoception_x_board_self_awareness_deficit"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:11.870Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:11.870Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

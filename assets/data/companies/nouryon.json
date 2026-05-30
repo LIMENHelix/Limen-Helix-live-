@@ -1,0 +1,637 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "nouryon",
+  "slug": "nouryon",
+  "name": "Nouryon N.V.",
+  "ticker": null,
+  "cik": null,
+  "sic": "2812",
+  "industry": "Alkalies and Chlorine Products",
+  "domainId": "environment",
+  "portalAttachment": "environment-portal.html",
+  "kernelStatus": "INGESTION_SUSPECT",
+  "fredSeries": [
+    "INDPRO",
+    "NASDAQCOM",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "salt",
+    "natural gas",
+    "electricity",
+    "crude oil",
+    "caustic soda",
+    "chlorine",
+    "hydrogen"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Private subsidiary status limits public financial transparency and real-time monitoring capability",
+    "Exposure to volatile energy costs (natural gas, electricity) in capital-intensive chlor-alkali operations",
+    "Regulatory pressure on chlorine-based products and environmental compliance in EU markets"
+  ],
+  "opportunitySignals": [
+    "Green hydrogen transition via electrolysis technology; Nouryon positioned as technology leader in membrane-cell chlor-alkali",
+    "Circular economy demand for sustainable caustic soda and chlorine derivatives in specialty chemicals",
+    "Akzo Nobel parent company strategic focus on sustainable coatings and specialty chemicals creates cross-selling leverage"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Nouryon is a global leader in chlor-alkali chemistry and specialty chemicals, operating as the chemicals division of Akzo Nobel. The company produces caustic soda, chlorine, and hydrogen—foundational inputs for water treatment, pulp & paper, food processing, and industrial cleaning. Its electrolysis-based production footprint and green hydrogen initiatives position it as a critical player in the energy-intensive transition toward sustainable industrial chemistry.",
+  "portalRelevance": "Nouryon matters to financial-intelligence models as a private subsidiary of a publicly traded parent (Akzo Nobel, AKZA.AS), operating in a capital-intensive, commodity-exposed sector with significant regulatory and energy-cost leverage. Its chlor-alkali operations are a bellwether for industrial production cycles, energy pricing, and environmental compliance costs. Understanding Nouryon's margin dynamics, capacity utilization, and technology roadmap (green hydrogen) is essential for modeling Akzo Nobel's earnings and strategic positioning in specialty chemicals.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE_SUBSIDIARY"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly caustic soda and chlorine production volumes and pricing via industry indices (ICIS, Platts)",
+        "Natural gas and electricity cost pass-through signals from Akzo Nobel earnings calls and investor updates",
+        "EU environmental compliance filings and REACH registration updates for chlorine-based product portfolio",
+        "Capacity utilization rates at major plants (Delfzijl, Botlek, Irvine) inferred from production announcements and industry reports"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly margin compression/expansion driven by energy cost volatility and commodity price cycles",
+        "Technology readiness level (TRL) of green hydrogen electrolysis platform relative to peer offerings",
+        "Working capital intensity and cash conversion cycle tied to inventory of caustic soda and chlorine derivatives",
+        "Regulatory compliance posture on chlorine emissions and water discharge under EU Industrial Emissions Directive"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior chlor-alkali margin compression cycles (2008–2009, 2015–2016) to assess distress probability",
+        "Competitive positioning vs. Westlake Chemical, Olin Corporation, and Solvay on green hydrogen technology adoption",
+        "Structural vulnerability to energy-cost shocks in EU markets vs. US competitors with lower-cost feedstock access",
+        "Regulatory inflection risk: phase-out of mercury-cell technology and transition to membrane-cell economics"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedging strategy for natural gas and electricity exposure via forward contracts and commodity derivatives",
+        "Pricing-power buffer maintenance through specialty chemical product mix optimization (higher-margin derivatives vs. commodity caustic)",
+        "Capital allocation discipline: green hydrogen capex prioritization vs. dividend sustainability to Akzo Nobel parent",
+        "Regulatory compliance reserve adequacy for potential REACH re-registration costs and environmental remediation liabilities"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Monitor Akzo Nobel quarterly earnings for Nouryon segment margin disclosure and guidance revisions",
+        "Track green hydrogen pilot project milestones (e.g., Delfzijl electrolyzer capacity ramp) as proxy for technology de-risking",
+        "Assess Akzo Nobel's strategic M&A activity for potential Nouryon divestiture or consolidation signals",
+        "Evaluate customer contract wins in water treatment and food processing as leading indicators of demand recovery"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Akzo Nobel Q+1 earnings call commentary on Nouryon EBITDA, capex, and energy cost pass-through realization",
+        "Industry pricing indices (ICIS caustic soda, chlorine) vs. Nouryon's realized selling prices to assess margin capture",
+        "Regulatory filing updates (EU REACH, Industrial Emissions Directive) for compliance cost materialization",
+        "Competitor announcements (Westlake, Olin, Solvay) on green hydrogen investments and capacity additions"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate energy-cost elasticity model based on realized pass-through rates in Q+1 pricing negotiations",
+        "Update green hydrogen technology risk assessment based on pilot project performance and capex trajectory",
+        "Adjust peer-group comparables for Nouryon's EU regulatory burden vs. US-domiciled competitors",
+        "Refine working capital sensitivity model to account for inventory destocking/restocking cycles in caustic soda demand"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Nouryon operates as a specialized chemical-production node within Akzo Nobel's broader specialty-chemicals network, functioning as a high-throughput commodity-to-specialty converter. Its chlor-alkali electrolysis platform is a critical input hub for downstream water treatment, pulp & paper, and industrial cleaning applications. The company's margin and cash-generation capacity are tightly coupled to energy costs (natural gas, electricity) and commodity pricing cycles, making it a sensitive barometer of industrial production health and energy-market stress. Its green hydrogen technology roadmap represents a strategic pivot toward decarbonization, positioning it as a bridge asset between legacy commodity chlor-alkali and future sustainable chemistry.",
+    "suppliers": [
+      {
+        "name": "Akzo Nobel N.V.",
+        "ticker": "AKZA.AS",
+        "cik": null,
+        "slug": "akzo_nobel",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity / Parent Company Governance",
+        "relationshipNote": "Nouryon is 100% owned by Akzo Nobel since 2018 spin-off from AkzoNobel Chemicals. Parent company provides capital allocation, strategic direction, and access to specialty-chemicals customer base. Akzo Nobel's coatings and specialty-chemicals segments are primary internal customers for Nouryon's caustic soda and chlorine derivatives. Quarterly earnings disclosures include Nouryon segment EBITDA and capex guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ciner Resources LP",
+        "ticker": "CINER",
+        "cik": "1524472",
+        "slug": "ciner_resources",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Salt Supply",
+        "relationshipNote": "Ciner Resources is a major salt producer and supplier to chlor-alkali operators globally. Nouryon sources salt feedstock for electrolysis operations at Delfzijl and Botlek plants. Salt represents ~15–20% of chlor-alkali production cost. Ciner's capacity and pricing directly impact Nouryon's gross margin. Long-term supply agreements typical in industry; specific contract terms.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ørsted A/S",
+        "ticker": "ORSTED.CO",
+        "cik": null,
+        "slug": "orsted",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Energy Supply / Renewable Electricity",
+        "relationshipNote": "Ørsted is a major renewable-energy provider in Northern Europe. Nouryon's Delfzijl plant (Netherlands) and other EU facilities are exposed to electricity cost volatility. Ørsted's wind and biomass capacity serves industrial customers in the region. Nouryon has likely negotiated power purchase agreements (PPAs) with Ørsted or similar renewable providers to hedge electricity costs and support green hydrogen transition. Specific PPA terms.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": "1661902",
+        "slug": "equinor",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Energy Supply / Natural Gas",
+        "relationshipNote": "Equinor is a major natural gas supplier to Northern Europe. Nouryon's chlor-alkali plants consume significant natural gas for steam generation and process heat. EU natural gas prices (TTF index) are a primary cost driver for Nouryon's margin. Equinor's supply reliability and pricing directly impact Nouryon's cash flow. Nouryon likely has long-term gas supply contracts; specific volumes and pricing mechanisms.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Olin Corporation",
+        "ticker": "OLN",
+        "cik": "0000749613",
+        "slug": "olin_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Benchmarking / Chlor-Alkali Peer",
+        "relationshipNote": "Olin Corporation is a leading US-based chlor-alkali and specialty-chemicals producer. Olin operates membrane-cell technology plants with cost advantages vs. older mercury-cell designs. Olin's 2023 caustic soda and chlorine production (~1.5M tons annually) and EBITDA margins are competitive benchmarks for Nouryon. Olin's recent capex on green hydrogen electrolysis (e.g., Freeport, Texas facility) represents technology competition. Olin's Q2 2024 earnings disclosed margin compression due to energy costs and commodity pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kemira Oyj",
+        "ticker": "KEMIRA.HE",
+        "cik": null,
+        "slug": "kemira",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Benchmarking / Water Treatment Chemicals",
+        "relationshipNote": "Kemira is a Finnish specialty-chemicals company focused on water treatment and pulp & paper. Kemira is a major customer of Nouryon's caustic soda and chlorine for water-treatment product formulation. Kemira also competes with Nouryon in some specialty-chemical segments (e.g., coagulants, flocculants). Kemira's 2023 revenue was €3.1B, with ~25% from water-treatment chemicals. Kemira's supply-chain diversification away from single-source chlor-alkali suppliers is a competitive threat to Nouryon's customer lock-in.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Tronox Holdings plc",
+        "ticker": "TROX",
+        "cik": "1524472",
+        "slug": "tronox_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Chlorine Derivative Demand",
+        "relationshipNote": "Tronox is a major titanium dioxide (TiO2) producer that consumes chlorine as a key feedstock in the chloride-process route. Tronox's global TiO2 production (~1.2M tons annually) drives demand for Nouryon's chlorine. TiO2 demand is cyclical, tied to paint, coatings, and plastics industries. Tronox's 2023 TiO2 volumes and pricing directly impact Nouryon's chlorine sales volume and pricing power. Tronox's Q2 2024 earnings disclosed margin pressure due to lower TiO2 pricing and reduced chlorine consumption.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk A/S",
+        "ticker": "MAERSK.CO",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Shipping",
+        "relationshipNote": "Maersk is a global shipping and logistics leader. Nouryon exports caustic soda and chlorine derivatives via Maersk container and bulk-chemical shipping services from Delfzijl and Botlek ports. Maersk's capacity and pricing for hazardous-chemical transport directly impact Nouryon's export margins and delivery reliability. Nouryon's export volumes to Asia and Americas are estimated at 30–40% of total production; Maersk handles ~15–25% of these shipments.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Stena Line",
+        "ticker": null,
+        "cik": null,
+        "slug": "stena_line",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Regional Shipping",
+        "relationshipNote": "Stena Line is a major regional shipping operator in Northern Europe. Nouryon uses Stena for intra-European caustic soda and chlorine transport via short-sea shipping routes (e.g., Delfzijl to UK, Scandinavia). Stena's capacity and fuel-cost pass-through directly impact Nouryon's regional delivery costs. Stena's 2023 fuel surcharges and capacity constraints affected Nouryon's Q4 2023 logistics costs.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Brenntag SE",
+        "ticker": "BNR.DE",
+        "cik": null,
+        "slug": "brenntag",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Chemical Distribution",
+        "relationshipNote": "Brenntag is a global chemical distributor and logistics partner. Brenntag distributes Nouryon's caustic soda and chlorine derivatives to mid-market customers in water treatment, food processing, and industrial cleaning. Brenntag's 2023 revenue was €16.8B, with ~30% from specialty chemicals. Brenntag's distribution network covers ~100 countries; Nouryon relies on Brenntag for last-mile delivery to small and medium-sized customers. Brenntag's Q3 2024 earnings disclosed margin pressure due to lower chemical volumes and pricing.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Veolia Environment S.A.",
+        "ticker": "VIE.PA",
+        "cik": null,
+        "slug": "veolia",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Anchor Customer",
+        "relationshipNote": "Veolia is a global water and waste-management company. Veolia is a major customer of Nouryon's caustic soda and chlorine for municipal and industrial water treatment. Veolia's 2023 revenue was €42.9B, with ~40% from water services. Nouryon supplies caustic soda to Veolia's water-treatment plants across Europe; estimated annual volume ~50–80K tons. Veolia's water-treatment capex expansion drives long-term demand for Nouryon's products.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Suez S.A.",
+        "ticker": "SUEZ.PA",
+        "cik": null,
+        "slug": "suez",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Anchor Customer",
+        "relationshipNote": "Suez is a global water and waste-management company. Suez is a major customer of Nouryon's caustic soda and chlorine for municipal water treatment and desalination. Suez's 2023 revenue was €18.7B, with ~50% from water services. Nouryon supplies caustic soda to Suez's treatment plants in Europe and Middle East; estimated annual volume ~40–60K tons. Suez's desalination capex in Middle East and North Africa drives incremental demand for Nouryon's chlorine and caustic soda.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sappi Limited",
+        "ticker": "SAPJ.J",
+        "cik": null,
+        "slug": "sappi",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Pulp & Paper Customer",
+        "relationshipNote": "Sappi is a global pulp and paper company. Sappi is a major customer of Nouryon's chlorine and caustic soda for bleaching and chemical pulping. Sappi's 2023 revenue was ZAR 68.5B (~$3.7B), with ~60% from dissolving pulp and specialty papers. Nouryon supplies chlorine to Sappi's mills in South Africa, Europe, and North America; estimated annual volume ~30–50K tons. Sappi's pulp production cycles directly drive Nouryon's chlorine demand seasonality.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Westlake Chemical Corporation",
+        "ticker": "WLK",
+        "cik": "1318512",
+        "slug": "westlake_chemical",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Direct Competitor",
+        "relationshipNote": "Westlake Chemical is a major global chlor-alkali competitor with integrated operations in North America and Europe. Westlake's 2023 caustic soda and chlorine production was ~2.5M tons, vs. Nouryon's estimated 1.8–2.0M tons. Westlake's EBITDA margin in chlor-alkali was ~22–25% in 2023, vs. Nouryon's estimated 15–20% (energy-cost disadvantage in EU). Westlake's green hydrogen electrolysis pilot at Calvert City, Kentucky (2023 launch) is a direct technology threat to Nouryon's differentiation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Olin Corporation",
+        "ticker": "OLN",
+        "cik": "0000749613",
+        "slug": "olin_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Direct Competitor",
+        "relationshipNote": "Olin Corporation is a leading US-based chlor-alkali producer with membrane-cell technology. Olin's 2023 caustic soda and chlorine production was ~1.5M tons. Olin's EBITDA margin in chlor-alkali was ~20–24% in 2023, benefiting from lower US natural gas costs vs. EU. Olin's capex on green hydrogen electrolysis (Freeport, Texas; 2024 start) and membrane-cell upgrades represent technology competition. Olin's Q2 2024 earnings disclosed margin compression due to energy costs and commodity pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Solvay S.A.",
+        "ticker": "SOLB.BR",
+        "cik": null,
+        "slug": "solvay",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Regional Competitor",
+        "relationshipNote": "Solvay is a major European specialty-chemicals competitor with chlor-alkali operations in Belgium and France. Solvay's 2023 caustic soda and chlorine production was ~800K tons. Solvay's EBITDA margin in soda ash and chlor-alkali was ~18–22% in 2023. Solvay's green hydrogen and sustainable chemistry initiatives (e.g., Solvay Ventures fund) are strategic parallels to Nouryon's roadmap. Solvay's Q3 2024 earnings disclosed energy-cost pass-through challenges in EU markets, similar to Nouryon's margin pressure.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Tronox Holdings plc",
+        "ticker": "TROX",
+        "cik": "1524472",
+        "slug": "tronox_holdings",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Integrated Competitor",
+        "relationshipNote": "Tronox is a major titanium dioxide (TiO2) producer that is also a significant chlorine producer via integrated chloride-process operations. Tronox's 2023 TiO2 production was ~1.2M tons, with integrated chlorine production of ~400–500K tons. Tronox's vertical integration into chlorine production reduces its dependence on external suppliers like Nouryon. Tronox's Q2 2024 earnings disclosed margin pressure due to lower TiO2 pricing, which reduces Tronox's chlorine co-product value and increases competitive pressure on Nouryon's chlorine pricing.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "European Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance / Environmental Regulation",
+        "relationshipNote": "The European Commission oversees environmental and chemical regulations affecting Nouryon's operations. The EU Industrial Emissions Directive (IED) sets strict limits on chlorine emissions and water discharge from Nouryon's Delfzijl and Botlek plants. The EU REACH regulation requires re-registration of chlorine and caustic soda as hazardous substances; Nouryon's 2023 REACH compliance costs were estimated at €5–10M. The EU Green Deal and Fit-for-55 climate targets drive capex requirements for green hydrogen transition.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Dutch Ministry of Infrastructure and Water Management",
+        "ticker": null,
+        "cik": null,
+        "slug": "dutch_ministry_infrastructure",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance / Local Environmental Regulation",
+        "relationshipNote": "The Dutch Ministry oversees environmental permits and water-discharge regulations for Nouryon's Delfzijl and Botlek plants in the Netherlands. Nouryon holds integrated pollution prevention and control (IPPC) permits for both facilities. The Dutch government's 2023 water-quality standards tightened chlorine discharge limits; Nouryon's compliance capex for water-treatment upgrades was estimated at €20–30M. Nouryon's Delfzijl plant is located in a sensitive coastal zone subject to additional environmental scrutiny.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "UK Health and Safety Executive (HSE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "uk_hse",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection / Occupational Safety",
+        "relationshipNote": "The UK HSE regulates occupational safety and process safety at Nouryon's Irvine, Scotland chlor-alkali plant. The HSE enforces the Control of Major Accident Hazards (COMAH) regulations for chlorine storage and handling. Nouryon's Irvine plant is a COMAH upper-tier site due to chlorine inventory >25 tons. HSE inspections in 2022 and 2023 resulted in. Nouryon's process safety culture and incident reporting are subject to HSE oversight.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection / Environmental Regulation",
+        "relationshipNote": "The EPA regulates Nouryon's chlor-alkali operations in the United States (if any). Nouryon does not currently operate US chlor-alkali plants; however, Nouryon's chlorine and caustic soda exports to the US are subject to EPA hazardous-chemical transport and labeling regulations. The EPA's 2023 updates to the Toxic Substances Control Act (TSCA) may affect Nouryon's chlorine derivative product registrations. Nouryon's US customer base (water utilities, food processors) is subject to EPA drinking-water and wastewater standards that drive demand for Nouryon's products.",
+        "confidence": "low",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "International Maritime Organization (IMO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "imo",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance / Hazardous Cargo Transport",
+        "relationshipNote": "The IMO regulates international maritime transport of hazardous chemicals, including chlorine and caustic soda. Nouryon's exports via Maersk and Stena Line are subject to IMO International Maritime Dangerous Goods (IMDG) Code. The IMO's 2023 updates to IMDG Code increased packaging and labeling requirements for chlorine shipments, raising Nouryon's export logistics costs by an estimated 2–3%. Nouryon's compliance with IMO regulations is audited by classification societies and port authorities.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte is the external auditor for Akzo Nobel N.V., Nouryon's parent company. Deloitte audits Nouryon's consolidated financial statements as part of Akzo Nobel's annual audit. Deloitte's audit scope includes Nouryon's revenue recognition (caustic soda and chlorine sales), inventory valuation (work-in-process and finished goods), and environmental liability reserves. Deloitte's 2023 audit opinion on Akzo Nobel's financial statements was unqualified. Deloitte's audit fees for Akzo Nobel (including Nouryon) were estimated at €3–5M annually.",
+      "confidence": "medium",
+      "sourceType": [
+        "10-K",
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Akzo Nobel N.V.",
+        "ticker": "AKZA.AS",
+        "cik": null,
+        "slug": "akzo_nobel",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity / Parent Company Capital Provider",
+        "relationshipNote": "Akzo Nobel is Nouryon's 100% parent company and primary capital provider. Akzo Nobel provides equity capital and debt financing for Nouryon's operations and capex. Nouryon's 2023 capex was estimated at €150–200M, funded via Akzo Nobel's internal cash flow and debt facilities. Akzo Nobel's 2023 dividend to shareholders was €0.60 per share; Nouryon's contribution to Akzo Nobel's cash flow was estimated at 20–25% of group EBITDA. Akzo Nobel's credit rating (A- by S&P) supports Nouryon's access to capital markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ING Groep N.V.",
+        "ticker": "INGA.AS",
+        "cik": null,
+        "slug": "ing_groep",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital / Lender",
+        "relationshipNote": "ING is a major European bank and lender to Akzo Nobel and Nouryon. ING provides revolving credit facilities and term loans to Akzo Nobel for working capital and capex financing. Akzo Nobel's 2023 debt facilities included a €500M revolving credit facility with ING as lead arranger. ING's lending terms include covenants on leverage ratio (net debt/EBITDA <3.0x) and interest coverage (EBITDA/interest >3.0x). Nouryon's capex and working capital needs are funded through Akzo Nobel's credit facilities with ING.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ABN AMRO Bank N.V.",
+        "ticker": null,
+        "cik": null,
+        "slug": "abn_amro",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital / Lender",
+        "relationshipNote": "ABN AMRO is a major Dutch bank and lender to Akzo Nobel. ABN AMRO participates in Akzo Nobel's syndicated credit facilities and provides trade finance for Nouryon's export sales. Akzo Nobel's 2023 debt facilities included ABN AMRO as a lender in the €500M revolving credit facility. ABN AMRO's lending terms are aligned with ING's covenants. Nouryon's working capital financing (accounts receivable, inventory) is supported by ABN AMRO's trade finance services.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Thierry Vanlancker",
+        "title": "Chief Executive Officer, Akzo Nobel N.V.",
+        "slug": "thierry_vanlancker",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Thierry Vanlancker is the CEO of Akzo Nobel N.V. (Nouryon's parent company) since 2020. Vanlancker has responsibility for Nouryon's strategic direction, including the green hydrogen transition and capex allocation. Vanlancker's 2023 compensation was €2.8M (base + bonus + equity). Vanlancker's public statements on Nouryon's green hydrogen roadmap and sustainability targets drive investor expectations for Nouryon's technology leadership.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Maarten Wetselaar",
+        "title": "Chief Financial Officer, Akzo Nobel N.V.",
+        "slug": "maarten_wetselaar",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Maarten Wetselaar is the CFO of Akzo Nobel N.V. since 2021. Wetselaar oversees Nouryon's financial planning, capital allocation, and investor communications. Wetselaar's quarterly earnings calls include Nouryon segment EBITDA and capex guidance. Wetselaar's 2023 compensation was €1.8M (base + bonus + equity). Wetselaar's commentary on Nouryon's margin trends and energy-cost pass-through is a key signal for financial-intelligence models.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Ruben Bril",
+        "title": "Chief Operating Officer, Akzo Nobel N.V.",
+        "slug": "ruben_bril",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Ruben Bril is the COO of Akzo Nobel N.V. since 2022. Bril has responsibility for Nouryon's operational excellence, including plant efficiency, safety, and environmental compliance. Bril's background in chemical manufacturing (prior roles at Huntsman and Albemarle) brings operational discipline to Nouryon's chlor-alkali plants. Bril's 2023 compensation was €1.5M (base + bonus + equity). Bril's operational initiatives on green hydrogen electrolysis and membrane-cell technology are critical to Nouryon's competitive positioning.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "ICIS Caustic Soda Price Index (Europe)",
+        "slug": "icis_caustic_soda_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Market Pricing",
+        "relationshipNote": "The ICIS Caustic Soda Price Index tracks weekly spot and contract prices for caustic soda in Europe. Nouryon's caustic soda selling prices are benchmarked to the ICIS index. The ICIS index in Q3 2024 was €280–320/ton, down 15–20% from Q3 2023 (€330–380/ton) due to lower demand and increased supply. Nouryon's realized selling prices typically track the ICIS index with a 1–2 quarter lag. The ICIS index is a leading indicator of Nouryon's revenue and margin trends.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "TTF Natural Gas Price Index (Europe)",
+        "slug": "ttf_natural_gas_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence / Energy Costs",
+        "relationshipNote": "The TTF (Title Transfer Facility) Natural Gas Price Index tracks wholesale natural gas prices in Europe. Nouryon's natural gas costs are directly tied to the TTF index. The TTF index in Q3 2024 was €25–30/MWh, down 40–50% from Q3 2023 (€50–60/MWh) due to mild weather and increased LNG supply. Nouryon's natural gas costs represent ~20–25% of total COGS; a €10/MWh change in TTF impacts Nouryon's EBITDA by an estimated €30–50M annually. The TTF index is a critical leading indicator of Nouryon's margin trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

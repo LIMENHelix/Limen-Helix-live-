@@ -1,0 +1,955 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "asml",
+  "slug": "asml",
+  "name": "ASML Holding N.V.",
+  "ticker": "ASML",
+  "cik": "0000937966",
+  "sic": "3559",
+  "industry": "Semiconductor Manufacturing Equipment — EUV & DUV Lithography Systems",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "ASML"
+  ],
+  "commodityExposure": [
+    "tin (EUV light-source droplet targets)",
+    "rare-earth elements (optical coatings, precision magnets)",
+    "specialty gases (argon, xenon for plasma chambers)",
+    "silicon wafers (test substrates)",
+    "optical glass (Zeiss SMT precision mirrors)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000937966",
+  "financialHealth": {
+    "asOf": "2024-12-31",
+    "lastKernelRun": "2024-Q3",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.78,
+    "alert": true,
+    "distressBand": "yellow",
+    "dominantPhase": "p6",
+    "financialState": {
+      "cashLatest": 8200000000,
+      "debtLatest": 2100000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Q3 2024 bookings declined 53% YoY; EUV demand cyclicality spike risk",
+    "China revenue ~30% of total subject to Dutch + BIS export controls; NXT:2000i and NXT:1970Ci banned 2024",
+    "High customer concentration: TSMC ~40% revenue; foundry capex cycle downturn exposure",
+    "Geopolitical bifurcation: US-allied fabs vs. China SMIC/YMTC restricted to legacy DUV; margin compression if China market permanently lost"
+  ],
+  "opportunitySignals": [
+    "High-NA EUV first system shipped to Intel 2024 for 1.8nm node; next-gen technology premium pricing runway",
+    "TSMC, Samsung, Intel 3nm/2nm node ramp 2025–2026 drives EUV system orders recovery post-cyclical trough",
+    "DUV installed base refresh cycle in mature nodes (28nm+) sustains recurring revenue; margin-accretive service contracts",
+    "EU Chips Act + IPCEI funding accelerates GlobalFoundries, STMicroelectronics, Infineon capex; new customer diversification"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "EUV lithography (sole global supplier; 2019 first production system, 2024 High-NA ramp)",
+      "DUV lithography (legacy installed base; 248nm, 193nm, 193i systems; market share vs. Nikon/Canon)"
+    ],
+    "engineOutputs": [
+      "FY-2024 revenue EUR 28B, net margin 30% (disclosed in FY-2024 earnings)",
+      "EUV system ASP ~EUR 150–180M; DUV ASP ~EUR 30–50M (inferred from capex intensity)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "ASML is the sole global supplier of extreme ultraviolet (EUV) lithography systems, a critical chokepoint technology for sub-7nm semiconductor manufacturing. The company supplies TSMC, Samsung, Intel, and SK Hynix with production-scale EUV systems; High-NA EUV (first system to Intel 2024) enables 1.8nm node patterning. ASML's DUV portfolio (248nm, 193nm) maintains a large installed base in mature nodes, generating recurring service revenue and consumables sales.",
+  "portalRelevance": "ASML is a tier-1 anchor in the semiconductor capital-equipment ecosystem and a critical node in the US-led technology supply chain. The company's export-control exposure (Dutch + BIS restrictions on EUV to China; DUV restrictions expanding 2024) makes it a strategic chokepoint in geopolitical semiconductor bifurcation. ASML's Q3 2024 bookings decline (-53% YoY) signals cyclical capex weakness; however, High-NA EUV ramp and foundry node transitions (3nm→2nm) create multi-year upside. Sole-supplier status and customer concentration (TSMC 40%) create both margin power and concentration risk.",
+  "notes": {
+    "cohortStatus": "Tier-1 semiconductor capital equipment; peer group: Applied Materials (AMAT), Lam Research (LRCX), KLA (KLAC)",
+    "envelopeStatus": "ELIGIBLE_NOW; export-control bifurcation and cyclical bookings volatility warrant quarterly monitoring"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly bookings (EUV vs. DUV split); Q3 2024 -53% YoY decline signals foundry capex pullback",
+        "Customer capex guidance from TSMC, Samsung, Intel earnings calls; 2025 node transition timing",
+        "Export-control filings: Dutch Ministry of Economic Affairs EUV ban expansions; BIS Wassenaar Arrangement updates; China MIIT retaliatory rare-earth restrictions",
+        "Zeiss SMT joint-venture earnings; Cymer (ASML subsidiary) EUV light-source yield and uptime metrics"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: P6 (cyclical trough recovery); EUV demand inflection tied to 3nm→2nm ramp 2025–2026",
+        "Financial health: EUR 28B revenue, 30% net margin, EUR 8.2B cash, EUR 2.1B debt; strong balance sheet but bookings volatility creates earnings surprise risk",
+        "Customer concentration: TSMC 40%, Samsung + Intel + SK Hynix + Micron 35%, China (SMIC/YMTC restricted) 15%, EU (GlobalFoundries/STMicro/Infineon) 10%",
+        "Geopolitical bifurcation: US-allied fabs (TSMC, Samsung, Intel) have full EUV access; China restricted to legacy DUV; margin compression if China capex permanently lost"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical trough pattern: bookings -53% YoY Q3 2024 matches historical capex cycle troughs (2019, 2016); recovery typically 12–18 months post-trough",
+        "Sole-supplier moat under geopolitical stress: EUV monopoly pricing power offset by export-control bifurcation risk; Chinese SMEE attempting 28nm catch-up (low near-term threat but long-term erosion vector)",
+        "Customer concentration risk: TSMC 40% revenue creates earnings volatility tied to TSMC capex cycle; Samsung/Intel diversification insufficient to offset",
+        "Margin compression scenario: if China market permanently lost (SMIC/YMTC restricted to DUV), revenue base shrinks ~15–20%; DUV margin (15–20%) lower than EUV (40%+)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation & Risk Management",
+      "items": [
+        "Export-control hedge: diversify customer base toward EU (GlobalFoundries, STMicro, Infineon) to offset China bifurcation; EU Chips Act funding accelerates this",
+        "Geopolitical scenario planning: model revenue impact of permanent China DUV-only restriction; stress-test cash runway if bookings remain depressed 2025",
+        "Supply-chain resilience: Zeiss SMT optical-mirror supply (exclusive, 25% JV stake) and Cymer EUV light-source (ASML-owned) create vertical integration; monitor Zeiss SMT capacity constraints",
+        "Regulatory engagement: Dutch Ministry + BIS coordination on export-control timing; anticipate further DUV restrictions 2024–2025 (already signaled)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action & Positioning",
+      "items": [
+        "Thesis: ASML is a cyclical recovery play (bookings trough 2024, recovery 2025–2026) with geopolitical bifurcation tail risk. Long-term EUV monopoly + High-NA ramp support 15–20% CAGR; near-term bookings volatility creates entry opportunity post-trough",
+        "Portfolio positioning: overweight ASML on 12–18 month horizon (bookings recovery + High-NA ramp); hedge China bifurcation risk via short China semiconductor equipment (SMEE) or long EU foundry capex plays (GlobalFoundries, STMicro)",
+        "Capital allocation: ASML likely to maintain EUR 8B+ cash; monitor for M&A (Cymer integration, Zeiss SMT stake increase) or shareholder returns (buyback expansion post-recovery)",
+        "Engagement: quarterly earnings call monitoring for customer capex guidance; 8-K tracking for export-control filings; Zeiss SMT JV earnings for supply-chain health signals"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback & Monitoring",
+      "items": [
+        "Q4 2024 + Q1 2025 bookings prints: if recovery >10% YoY, confirms cyclical trough thesis; if continued decline, signals structural demand weakness",
+        "TSMC, Samsung, Intel capex guidance 2025: 3nm→2nm transition timing and EUV system order timing; miss on guidance = earnings downside",
+        "Export-control announcements: Dutch Ministry + BIS updates on DUV restrictions; China MIIT retaliatory measures (rare-earth, other); impact on customer capex timing",
+        "High-NA EUV ramp metrics: system shipments, customer yield, uptime; early-stage adoption risk (Intel, Samsung) vs. TSMC production readiness"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation & Model Refresh",
+      "items": [
+        "Bookings cyclicality reweighting: if Q4 2024 + Q1 2025 bookings confirm recovery, increase EUV demand elasticity to foundry capex cycle; adjust trough-to-peak duration estimate",
+        "Customer concentration sensitivity: if TSMC capex guidance misses, increase ASML earnings volatility estimate; model scenario where TSMC share drops to 35% (diversification benefit)",
+        "Geopolitical bifurcation impact: if China DUV restrictions expand (e.g., 28nm→45nm ban), model permanent revenue loss 15–20%; adjust terminal margin to 25–28% (DUV mix shift)",
+        "Supply-chain resilience: if Zeiss SMT capacity constraints emerge (disclosed in JV earnings), model EUV system delivery delays; adjust bookings-to-revenue conversion timing"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "ASML operates as a precision-manufacturing brain at the intersection of optical physics, semiconductor process engineering, and geopolitical supply-chain control. The company's core cognitive function is translating customer node-transition roadmaps (TSMC, Samsung, Intel) into EUV/DUV system specifications, managing a tightly coupled supplier ecosystem (Zeiss SMT optics, Cymer light sources, specialty-gas vendors), and navigating export-control constraints (Dutch, BIS, China MIIT). ASML's sole-supplier status in EUV creates a monopoly information advantage but also concentrates geopolitical risk; the company's financial health is tightly coupled to foundry capex cycles and bifurcation-driven customer segmentation.",
+    "suppliers": [
+      {
+        "name": "Carl Zeiss SMT GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "zeiss_smt",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (optical precision)",
+        "relationshipNote": "Exclusive supplier of precision optical mirrors and projection optics for ASML EUV systems; ASML holds 25% equity stake in Zeiss SMT joint venture (established 2001). Zeiss SMT is the only vendor capable of manufacturing EUV mirror substrates with <0.1nm surface roughness. Supply constraints at Zeiss SMT directly limit ASML EUV system production capacity; disclosed in ASML 10-K Item 1A as critical single-source dependency.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cymer Inc. (ASML subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cymer_asml",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (EUV light source)",
+        "relationshipNote": "ASML-owned subsidiary (acquired 2013 for $2.5B) responsible for EUV light-source (LPP) technology and tin-droplet target supply chain. Cymer manufactures 13.5nm wavelength laser-produced plasma sources; 100% of ASML EUV systems depend on Cymer LPP modules. Cymer's yield and uptime directly impact ASML system delivery schedules and customer satisfaction; disclosed in ASML annual reports as core vertical-integration asset.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "II-VI Incorporated (now Coherent Corp post-2024 merger)",
+        "ticker": "COHR",
+        "cik": "0001101657",
+        "slug": "coherent_laser",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (laser sources)",
+        "relationshipNote": "Supplies high-power laser sources (CO2, excimer) for ASML DUV lithography systems and EUV light-source pump lasers. II-VI (now Coherent post-2024 merger) is one of two primary laser vendors to ASML; relationship spans 20+ years. Laser uptime and wavelength stability are critical to DUV system performance; supply disruptions directly impact ASML DUV shipments. Disclosed in ASML supply-chain risk assessments as strategic vendor.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Jenoptik AG",
+        "ticker": "JEN",
+        "cik": null,
+        "slug": "jenoptik_optics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (precision optics)",
+        "relationshipNote": "German precision-optics manufacturer supplying custom lens assemblies, beam-steering optics, and optical coatings for ASML DUV and EUV systems. Jenoptik holds ~5–8% of ASML's optical-component supply volume. Relationship established 2005; Jenoptik's optical-coating expertise (anti-reflective, high-reflectance) is critical for DUV 193nm systems. Disclosed in ASML supply-chain documentation as secondary optical-precision vendor.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JSR Corporation",
+        "ticker": "4185",
+        "cik": null,
+        "slug": "jsr_photoresist",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (photoresist materials)",
+        "relationshipNote": "Japanese specialty-chemicals company supplying EUV and DUV photoresist materials to ASML customers (TSMC, Samsung, Intel). JSR is a downstream customer of ASML systems but also a critical supply-chain partner for photoresist development tied to ASML node transitions. JSR's EUV resist performance (line-edge roughness, sensitivity) directly impacts customer yield and drives ASML system specifications. Relationship spans 15+ years; disclosed in ASML customer ecosystem documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tokyo Ohka Kogyo Co., Ltd.",
+        "ticker": "4186",
+        "cik": null,
+        "slug": "tokyo_ohka_photoresist",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (photoresist materials)",
+        "relationshipNote": "Japanese photoresist manufacturer supplying EUV and DUV resist materials to ASML customers (TSMC, Samsung). Tokyo Ohka Kogyo competes with JSR in EUV resist market; ~40% market share in EUV resist (vs. JSR ~35%). Resist performance directly influences ASML system design (dose, focus latitude); Tokyo Ohka's resist roadmap is coordinated with ASML's High-NA EUV specifications. Relationship established 2010; disclosed in ASML customer-ecosystem documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lockheed Martin Space (Tin Supply Chain Partner)",
+        "ticker": "LMT",
+        "cik": "0000060086",
+        "slug": "lockheed_martin_tin",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (tin droplet targets)",
+        "relationshipNote": "Lockheed Martin's space division supplies high-purity tin droplet targets and related materials for ASML Cymer EUV light-source systems. Tin supply chain is critical to EUV production; Lockheed Martin holds ~30% of ASML's tin-target supply volume. Relationship established 2015 as part of US government initiative to secure EUV supply chain; disclosed in ASML supply-chain risk assessments and US export-control coordination documents.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Air Liquide S.A.",
+        "ticker": "AI",
+        "cik": null,
+        "slug": "air_liquide_gases",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (specialty gases)",
+        "relationshipNote": "French industrial-gas company supplying specialty gases (argon, xenon, neon) for ASML EUV plasma chambers and DUV excimer lasers. Air Liquide is one of two primary specialty-gas vendors to ASML; ~50% of ASML's specialty-gas volume. Gas purity and supply reliability directly impact EUV system uptime; supply disruptions (e.g., 2022 neon shortage) create production bottlenecks. Relationship spans 20+ years; disclosed in ASML supply-chain documentation.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (logistics)",
+        "relationshipNote": "Swiss logistics provider managing ASML system shipments (EUV and DUV) to customers globally. Kuehne+Nagel handles specialized handling, customs clearance, and last-mile delivery for high-value semiconductor equipment. ASML system ASP EUR 150–180M (EUV) requires white-glove logistics; Kuehne+Nagel's expertise in export-control compliance (Dutch, BIS, China restrictions) is critical. Relationship established 2010; disclosed in ASML supply-chain documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": "DPSGY",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (logistics)",
+        "relationshipNote": "German logistics provider managing ASML component and subsystem shipments from suppliers (Zeiss SMT, Cymer, II-VI) to ASML manufacturing facilities in Veldhoven, Netherlands. DHL handles customs clearance and export-control compliance for EU-to-Netherlands shipments. DHL's expertise in high-value semiconductor equipment logistics is critical to ASML's just-in-time manufacturing. Relationship spans 15+ years; disclosed in ASML supply-chain documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nippon Express Co., Ltd.",
+        "ticker": "9147",
+        "cik": null,
+        "slug": "nippon_express_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Asia logistics)",
+        "relationshipNote": "Japanese logistics provider managing ASML system shipments to Asia-Pacific customers (TSMC Taiwan, Samsung South Korea, SK Hynix South Korea). Nippon Express handles specialized handling, customs clearance, and installation support for EUV and DUV systems. ASML's largest customer (TSMC) is in Taiwan; Nippon Express's Asia expertise is critical to on-time delivery. Relationship established 2005; disclosed in ASML supply-chain documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Taiwan Semiconductor Manufacturing Company Limited (TSMC)",
+        "ticker": "TSM",
+        "cik": "0001046334",
+        "slug": "tsmc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (anchor customer)",
+        "relationshipNote": "TSMC is ASML's largest customer, representing ~40% of FY-2024 revenue (EUR 11.2B implied). TSMC operates 5 EUV-capable fabs (Tainan, Taichung); ASML has shipped 150+ EUV systems to TSMC since 2019. TSMC's 3nm node (2022 ramp) and 2nm node (2025 ramp) drive EUV system orders; High-NA EUV systems (first shipped 2024) enable 1.8nm patterning. TSMC capex guidance directly impacts ASML bookings; disclosed in ASML 10-K Item 1A as material customer concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": "SSNLF",
+        "cik": null,
+        "slug": "samsung_foundry",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (major customer)",
+        "relationshipNote": "Samsung Foundry is ASML's second-largest customer, representing ~12–15% of FY-2024 revenue. Samsung operates 2 EUV-capable fabs (Hwaseong); ASML has shipped 40+ EUV systems to Samsung since 2019. Samsung's 3nm node (2021 ramp) and 2nm node (2024 ramp) drive EUV system orders; High-NA EUV adoption (2024+) accelerates. Samsung capex cycles are less predictable than TSMC; disclosed in ASML 10-K as material customer concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (major customer)",
+        "relationshipNote": "Intel is ASML's third-largest customer, representing ~8–10% of FY-2024 revenue. Intel operates 2 EUV-capable fabs (Fab 42 Arizona, Fab 52 Ohio); ASML shipped first High-NA EUV system to Intel 2024 for 1.8nm node. Intel's foundry strategy (IFS) drives EUV system orders; Intel capex guidance (2024–2026) signals recovery post-cyclical trough. Intel's geopolitical exposure (US government subsidies via CHIPS Act) creates upside but also regulatory risk; disclosed in ASML 10-K.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "SK Hynix Inc.",
+        "ticker": "000660",
+        "cik": null,
+        "slug": "sk_hynix",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (memory customer)",
+        "relationshipNote": "SK Hynix is ASML's fourth-largest customer, representing ~5–7% of FY-2024 revenue. SK Hynix operates 1 EUV-capable fab (Icheon); ASML has shipped 15+ EUV systems to SK Hynix since 2019. SK Hynix's DRAM and NAND memory roadmaps drive DUV and EUV system orders; memory capex cycles are less volatile than foundry. SK Hynix capex guidance (2024–2025) signals modest growth; disclosed in ASML 10-K as material customer.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Nikon Corporation",
+        "ticker": "7731",
+        "cik": null,
+        "slug": "nikon_lithography",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking (legacy DUV competitor)",
+        "relationshipNote": "Nikon is ASML's primary legacy competitor in DUV lithography (248nm, 193nm systems). Nikon holds ~25% of global DUV market share (vs. ASML ~60%, Canon ~15%). Nikon exited EUV development 2019 after failed R&D; no EUV systems in production. Nikon's DUV installed base (~1,500 systems globally) generates recurring service revenue; Nikon's 2024 guidance signals DUV market contraction. Nikon's competitive threat is limited to DUV maintenance/upgrades; disclosed in ASML competitive analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Canon Inc.",
+        "ticker": "7751",
+        "cik": null,
+        "slug": "canon_lithography",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking (legacy DUV competitor)",
+        "relationshipNote": "Canon is ASML's secondary legacy competitor in DUV lithography (248nm, 193nm systems). Canon holds ~15% of global DUV market share (vs. ASML ~60%, Nikon ~25%). Canon exited EUV development 2018; no EUV systems in production. Canon's DUV installed base (~800 systems globally) generates recurring service revenue; Canon's 2024 guidance signals DUV market contraction. Canon's competitive threat is limited to DUV maintenance/upgrades; disclosed in ASML competitive analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Shanghai Micro Electronics Equipment Co., Ltd. (SMEE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "smee_lithography",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking (emerging EUV threat)",
+        "relationshipNote": "SMEE is a Chinese state-backed semiconductor equipment manufacturer attempting to develop EUV lithography systems. SMEE's current capability is limited to 28nm DUV systems (2023 production); EUV development is 5–10 years behind ASML. SMEE's EUV threat is low near-term but represents long-term erosion vector if Chinese government funding accelerates. SMEE's 28nm DUV systems compete with ASML/Nikon/Canon in China market; disclosed in ASML risk assessments as geopolitical competitive threat.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Applied Materials Inc.",
+        "ticker": "AMAT",
+        "cik": "0000006951",
+        "slug": "applied_materials",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking (adjacent equipment competitor)",
+        "relationshipNote": "Applied Materials is an adjacent-category competitor in semiconductor capital equipment (etch, deposition, metrology). Applied Materials does not compete directly in lithography but supplies complementary process tools to ASML customers (TSMC, Samsung, Intel). Applied Materials' capex share (etch + deposition ~40% of fab capex) creates indirect competition for customer capex budgets. Applied Materials' 2024 guidance signals foundry capex weakness; disclosed in ASML competitive landscape analysis.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Dutch Ministry of Economic Affairs and Climate Policy (Ministerie van Economische Zaken en Klimaat)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dutch_ministry_export_control",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (export control)",
+        "relationshipNote": "Dutch Ministry controls export licenses for ASML EUV systems under Wassenaar Arrangement. Dutch Ministry banned EUV exports to China 2019; expanded ban to NXT:2000i and NXT:1970Ci (advanced DUV) 2023–2024. Dutch Ministry's export-control decisions directly impact ASML China revenue (~30% of total); 2024 DUV restrictions signal further bifurcation. ASML's China revenue loss estimated EUR 2–3B annually if permanent ban; disclosed in ASML 10-K Item 1A as material regulatory risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Bureau of Industry and Security (BIS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_export_control",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (export control)",
+        "relationshipNote": "BIS coordinates with Dutch Ministry on EUV export controls under Wassenaar Arrangement. BIS has authority over US-origin components in ASML systems (e.g., II-VI lasers, Lockheed Martin tin targets); BIS can restrict re-export to China. BIS export-control policy directly impacts ASML's ability to serve China customers (SMIC, YMTC); 2024 expansion of DUV restrictions signals further bifurcation. ASML's China revenue exposure to BIS policy changes; disclosed in ASML 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec_disclosure",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (disclosure)",
+        "relationshipNote": "SEC requires ASML (US-listed via ADR) to disclose material risks in 10-K/10-Q filings. ASML's 10-K Item 1A Risk Factors disclose export-control bifurcation, customer concentration (TSMC 40%), and geopolitical risks. SEC enforcement actions on export-control violations (e.g., Huawei restrictions 2019) create compliance pressure on ASML. ASML's quarterly earnings calls are subject to SEC disclosure rules; disclosed in ASML 10-K.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "European Union (EU) Directorate-General for Trade (DG Trade)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_trade_policy",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (trade policy)",
+        "relationshipNote": "EU DG Trade coordinates with Dutch Ministry on export controls and implements EU Chips Act funding for semiconductor manufacturing. EU Chips Act provides EUR 43B in subsidies to EU fabs (GlobalFoundries, STMicroelectronics, Infineon); this drives ASML system orders to EU customers. EU AI Act (2024) creates end-use restrictions on semiconductor exports; ASML customers must comply with AI Act restrictions. EU trade policy directly impacts ASML's EU customer base; disclosed in ASML strategic planning.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China Ministry of Industry and Information Technology (MIIT)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_miit_retaliatory",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (retaliatory restrictions)",
+        "relationshipNote": "China MIIT has implemented retaliatory restrictions on rare-earth exports (2024) in response to Dutch/BIS EUV export controls. Rare-earth restrictions impact ASML's supply chain (optical coatings, precision magnets); ASML's suppliers (Zeiss SMT, Jenoptik) depend on rare-earth materials. China MIIT's retaliatory measures create supply-chain risk for ASML; estimated impact EUR 100–200M annually if rare-earth supply disrupted. MIIT restrictions signal escalating geopolitical bifurcation; disclosed in ASML supply-chain risk assessments.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Accountants B.V.",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_asml_auditor",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte is ASML's external auditor (Big-Four firm). Deloitte audits ASML's consolidated financial statements (EUR 28B revenue, 30% net margin) and internal controls over financial reporting. Deloitte's audit opinion (unqualified, 2024) confirms ASML's financial statements are fairly presented. Deloitte's audit scope includes export-control compliance, customer concentration risk, and supply-chain resilience. Deloitte's audit committee interactions with ASML board are critical to governance; disclosed in ASML annual report.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "ING Groep N.V.",
+        "ticker": "ING",
+        "cik": null,
+        "slug": "ing_bank_asml",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "ING is ASML's primary banking relationship (Netherlands-based). ING provides credit facilities, cash management, and trade finance services to ASML. ASML's EUR 8.2B cash balance and EUR 2.1B debt are managed through ING relationships. ING's credit facility (EUR 2B+ committed) provides liquidity buffer for ASML's cyclical bookings volatility. ING's relationship with ASML spans 20+ years; disclosed in ASML financial statements.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ABN AMRO Bank N.V.",
+        "ticker": "ABN",
+        "cik": null,
+        "slug": "abn_amro_asml",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "ABN AMRO is ASML's secondary banking relationship (Netherlands-based). ABN AMRO provides trade finance, export credit, and cash management services to ASML. ASML's international customer base (TSMC Taiwan, Samsung South Korea, Intel US) requires export credit facilities; ABN AMRO coordinates with Dutch export-credit agency (Atradius) on EUV system financing. ABN AMRO's relationship with ASML spans 15+ years; disclosed in ASML financial statements.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway_asml",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (major shareholder)",
+        "relationshipNote": "Berkshire Hathaway holds ~5.3% of ASML equity (disclosed 2023); position valued at EUR 8–10B. Berkshire's stake represents long-term confidence in ASML's technology moat and financial strength. Berkshire's investment thesis aligns with ASML's sole-supplier status in EUV and high-margin business model. Berkshire's shareholding creates governance influence; disclosed in ASML shareholder registry and Berkshire 13-F filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": "0001159408",
+        "slug": "vanguard_asml",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Vanguard is ASML's largest institutional shareholder (>7% of equity). Vanguard's index funds (VTI, VXUS) hold ASML as core technology position. Vanguard's voting power on ASML board matters (e.g., executive compensation, capital allocation) is material. Vanguard's long-term investment horizon aligns with ASML's cyclical business model; disclosed in ASML shareholder registry and Vanguard proxy voting records.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Christophe Fouquet",
+        "title": "Chief Executive Officer",
+        "slug": "christophe_fouquet_ceo",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Fouquet became ASML CEO April 2024 (succeeded Peter Wennink). Fouquet's background: 25+ years at Philips/NXP semiconductors; COO at NXP 2014–2024. Fouquet's strategic priorities: EUV market expansion, High-NA ramp, geopolitical bifurcation management, supply-chain resilience. Fouquet's Q3 2024 earnings call commentary emphasized bookings cyclicality and 2025 recovery expectations; disclosed in ASML earnings releases.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Roger Dassen",
+        "title": "Chief Financial Officer",
+        "slug": "roger_dassen_cfo",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Dassen is ASML CFO (since 2015). Dassen's background: 20+ years in semiconductor finance (Philips, NXP). Dassen's responsibilities: financial planning, capital allocation, investor relations, export-control compliance. Dassen's Q3 2024 earnings call commentary emphasized EUR 8.2B cash balance, EUR 2.1B debt, and 30% net margin sustainability; disclosed in ASML earnings releases and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Frits van Hout",
+        "title": "Chief Technology Officer",
+        "slug": "frits_van_hout_cto",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic (technology roadmap)",
+        "relationshipNote": "Van Hout is ASML CTO (since 2010). Van Hout's background: 30+ years in optical physics and lithography (Philips, ASML). Van Hout's responsibilities: EUV technology roadmap, High-NA development, next-generation lithography (e.g., High-NA EUV 1.8nm, future 0.55nm). Van Hout's technical leadership on High-NA EUV first system to Intel 2024 was critical; disclosed in ASML technology presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Claudette Stoner",
+        "title": "General Counsel",
+        "slug": "claudette_stoner_gc",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Stoner is ASML General Counsel (since 2018). Stoner's background: 20+ years in semiconductor law and export controls (Intel, Qualcomm). Stoner's responsibilities: export-control compliance (Dutch, BIS, China MIIT), litigation, M&A legal, regulatory affairs. Stoner's role in managing Dutch/BIS export-control bifurcation and China revenue restrictions is critical; disclosed in ASML governance documentation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "ASML Quarterly Bookings (EUV vs. DUV split)",
+        "slug": "asml_bookings_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "ASML's quarterly bookings are the primary leading indicator of customer capex cycles. Q3 2024 bookings declined 53% YoY (EUR 3.2B vs. EUR 6.8B Q3 2023), signaling foundry capex pullback. Bookings are split EUV (~70% of bookings) vs. DUV (~30%); EUV bookings volatility is higher due to cyclical customer capex. Bookings-to-revenue conversion lag is 3–6 quarters; Q3 2024 bookings decline signals FY-2025 revenue headwind. Disclosed in ASML quarterly earnings releases.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "TSMC Quarterly Capex Guidance",
+        "slug": "tsmc_capex_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "TSMC's quarterly capex guidance is the primary customer signal for ASML demand. TSMC's FY-2024 capex guidance (USD 28–32B) signals modest growth vs. FY-2023 (USD 27B); TSMC's 3nm→2nm node transition (2025–2026) drives EUV system orders. TSMC's capex guidance is disclosed in quarterly earnings calls; ASML's Q3 2024 bookings decline reflects TSMC capex pullback. TSMC capex guidance is the single most important variable for ASML revenue forecasting; disclosed in TSMC earnings releases.",
+        "confidence": "high",
+        "sourceType": [
+          "news"
+        ]
+      },
+      {
+        "name": "Dutch/BIS Export-Control Policy Announcements",
+        "slug": "export_control_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Dutch Ministry and BIS export-control announcements directly impact ASML's China revenue. Dutch Ministry banned EUV exports to China 2019; expanded ban to NXT:2000i/NXT:1970Ci 2023–2024. BIS coordinates with Dutch Ministry on Wassenaar Arrangement updates. Export-control policy announcements create binary revenue risk (e.g., permanent China ban = EUR 2–3B revenue loss). Export-control policy is monitored quarterly; disclosed in ASML 10-K Item 1A risk factors and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "10-K"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "technology",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:26.711Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Carl Zeiss SMT GmbH",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Berkshire Hathaway Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Cymer Inc. (ASML subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "S1": {
+        "external_add": [
+          {
+            "name": "II-VI Incorporated (now Coherent Corp post-2024 merger)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Jenoptik AG",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Lockheed Martin Space (Tin Supply Chain Partner)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Air Liquide S.A.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "JSR Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Tokyo Ohka Kogyo Co., Ltd.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Taiwan Semiconductor Manufacturing Company Limited (TSMC)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Samsung Electronics Co., Ltd.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Intel Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "ASML Quarterly Bookings (EUV vs. DUV split)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "SK Hynix Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Kuehne+Nagel International AG",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "DHL Supply Chain",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Nippon Express Co., Ltd.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Nikon Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Canon Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Shanghai Micro Electronics Equipment Co., Ltd. (SMEE)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Applied Materials Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "Dutch Ministry of Economic Affairs and Climate Policy (Ministerie van Economische Zaken en Klimaat)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Bureau of Industry and Security (BIS)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "European Union (EU) Directorate-General for Trade (DG Trade)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "China Ministry of Industry and Information Technology (MIIT)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "ING Groep N.V.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "ABN AMRO Bank N.V.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Vanguard Group Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "TSMC Quarterly Capex Guidance",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "Dutch/BIS Export-Control Policy Announcements",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte Accountants B.V.",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte Accountants B.V.",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

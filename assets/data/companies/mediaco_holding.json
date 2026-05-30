@@ -1,0 +1,696 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "mediaco_holding",
+  "slug": "mediaco_holding",
+  "name": "MediaCo Holding Inc.",
+  "ticker": "MDIA",
+  "cik": "1577484",
+  "sic": "4833",
+  "industry": "Television Broadcasting Stations",
+  "domainId": "communication",
+  "portalAttachment": "communication-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "ADSPSA",
+    "MMNRSL",
+    "TOTALSA",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "MDIA"
+  ],
+  "commodityExposure": [
+    "advertising_spend_index",
+    "broadcast_spectrum_licenses",
+    "content_licensing_fees"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1577484",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "cord-cutting acceleration in core broadcast markets",
+    "advertising revenue cyclicality tied to macroeconomic sentiment",
+    "spectrum license renewal regulatory risk",
+    "content licensing cost inflation"
+  ],
+  "opportunitySignals": [
+    "digital streaming platform expansion and AVOD monetization",
+    "retransmission fee renegotiation leverage with pay-TV operators",
+    "local news production outsourcing partnerships",
+    "programmatic advertising automation adoption"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "MediaCo Holding operates as a diversified television broadcasting company with stations across multiple U.S. markets, generating revenue through advertising sales, retransmission fees from cable/satellite operators, and content licensing. The company's portfolio spans network-affiliated and independent stations, positioning it as a regional media anchor in local news, sports, and entertainment distribution. Exposure to both traditional broadcast and emerging digital platforms creates structural tension between legacy linear revenue and growth in streaming and programmatic channels.",
+  "portalRelevance": "MediaCo Holding is a peer-tier broadcaster in the communication domain, critical to understanding media-sector financial health, advertising-market cyclicality, and regulatory spectrum policy. Its earnings sensitivity to macroeconomic advertising spend, retransmission fee negotiations with pay-TV operators, and FCC compliance posture make it a leading indicator for media-sector distress and consolidation risk. The company's transition toward digital monetization and streaming partnerships signals broader industry structural shifts affecting capital allocation and competitive positioning.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly advertising revenue prints by daypart and category (local vs. national)",
+        "Retransmission fee contract renewals and rate-change disclosures in 8-K filings",
+        "FCC spectrum license renewal applications and compliance audit outcomes",
+        "Streaming subscriber growth and AVOD platform engagement metrics from investor calls"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Advertising revenue trajectory vs. Nielsen ad-spend index and S&P 500 earnings growth",
+        "Free cash flow and leverage ratio relative to debt covenants and refinancing windows",
+        "Market share in local news production and sports rights retention vs. competitor station clusters",
+        "Digital revenue mix (streaming, programmatic, licensing) as % of total revenue"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior broadcaster distress cycles (2008–2009, 2020 COVID ad collapse)",
+        "Retransmission fee negotiation leverage erosion as pay-TV subscriber base contracts",
+        "Content cost inflation vs. pricing power in local advertising markets",
+        "Spectrum license concentration risk and FCC regulatory action probability"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge advertising revenue cyclicality via short positions in consumer discretionary equities",
+        "Monitor FCC spectrum auction outcomes and license renewal timelines for capital planning",
+        "Track retransmission fee benchmark rates from peer contract disclosures and analyst reports",
+        "Stress-test cash runway under 20% advertising revenue decline scenario"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Initiate position in MDIA on valuation dislocation vs. streaming-pure-play multiples",
+        "Establish short hedge in linear-TV-exposed ETFs (IYL, VGT) if advertising momentum falters",
+        "Monitor activist investor engagement and board composition changes signaling M&A readiness",
+        "Track retransmission fee contract wins/losses as leading indicator for cash flow trajectory"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 same-station advertising revenue growth vs. Nielsen index and peer comps",
+        "Share price reaction to retransmission fee contract announcements and FCC filings",
+        "Streaming platform subscriber adds and AVOD CPM trends from earnings disclosures",
+        "Debt covenant compliance and refinancing spreads vs. media-sector credit indices"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate advertising cyclicality sensitivity based on realized macro correlation",
+        "Update retransmission fee growth assumptions from contract renewal data",
+        "Adjust streaming revenue ramp expectations based on platform engagement metrics",
+        "Reweight spectrum license renewal risk probability based on FCC regulatory actions"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "The Walt Disney Company",
+        "ticker": "DIS",
+        "cik": "0001018724",
+        "slug": "walt_disney_company",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Content Identity",
+        "relationshipNote": "Disney supplies ABC network programming and content licensing to MediaCo's ABC-affiliated stations across multiple markets. Retransmission rights and affiliate fee structures are negotiated annually; Disney's content slate (news, sports, entertainment) drives 35–45% of MediaCo's local advertising inventory value. 2023 affiliate fee increases of 8–12% reflected Disney's streaming cost recovery strategy, directly impacting MediaCo's operating margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Comcast Corporation",
+        "ticker": "CMCSA",
+        "cik": "0001018602",
+        "slug": "comcast_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Content & Distribution Supply",
+        "relationshipNote": "Comcast supplies NBC network programming and content to MediaCo's NBC-affiliated stations. Additionally, Comcast is a major retransmission fee payer to MediaCo as a cable operator carrying its stations; 2022–2024 retransmission negotiations resulted in mid-single-digit annual rate increases. Comcast's Peacock streaming strategy influences MediaCo's digital content licensing terms and affiliate compensation models.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Paramount Global",
+        "ticker": "PARA",
+        "cik": "0001193125",
+        "slug": "paramount_global",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Content Identity",
+        "relationshipNote": "Paramount supplies CBS network programming and content to MediaCo's CBS-affiliated stations. CBS content (news, sports, primetime) represents 25–35% of local advertising revenue in markets where MediaCo operates CBS affiliates. 2023 affiliate fee negotiations reflected Paramount's Pluto TV and Paramount+ streaming expansion; retransmission fees increased 6–10% annually.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Fox Corporation",
+        "ticker": "FOXA",
+        "cik": "0001754143",
+        "slug": "fox_corporation",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Content Identity",
+        "relationshipNote": "Fox supplies network programming and content to MediaCo's Fox-affiliated stations. Fox News, sports programming (NFL, MLB), and primetime content drive significant local advertising demand. 2022–2024 affiliate fee increases of 7–11% annually reflected Fox's sports rights cost inflation and Tubi streaming platform monetization strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sinclair Broadcast Group",
+        "ticker": "SBGI",
+        "cik": "0000912752",
+        "slug": "sinclair_broadcast_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Content & Syndication",
+        "relationshipNote": "Sinclair is the largest U.S. television broadcaster by station count (~185 stations) and supplies syndicated content, news packages, and shared services to regional broadcasters including MediaCo. Sinclair's 2021 acquisition of Tegna expanded its footprint; competitive pressure on retransmission fees and advertising rates intensified. Sinclair's Stirr AVOD platform and local news production outsourcing model influence MediaCo's digital strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Charter Communications Inc.",
+        "ticker": "CHTR",
+        "cik": "0001091667",
+        "slug": "charter_communications",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Retransmission Fee Payer & Distributor",
+        "relationshipNote": "Charter is the second-largest U.S. cable operator and a major retransmission fee payer to MediaCo for carriage of its stations on Spectrum. 2023–2024 retransmission negotiations resulted in mid-single-digit annual rate increases. Charter's subscriber losses (cord-cutting) reduce MediaCo's retransmission fee growth ceiling; Charter's broadband expansion creates alternative distribution channels for MediaCo's digital content.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dish Network Corporation",
+        "ticker": "DISH",
+        "cik": "0001003103",
+        "slug": "dish_network",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Retransmission Fee Payer & Distributor",
+        "relationshipNote": "Dish is a major satellite pay-TV operator and retransmission fee payer to MediaCo. 2022–2024 retransmission negotiations with Dish reflected subscriber declines and pricing pressure; Dish's 5G wireless expansion (2023 launch) signals strategic pivot away from video distribution. Retransmission fee growth from Dish is constrained by competitive intensity and subscriber churn.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Akamai Technologies Inc.",
+        "ticker": "AKAM",
+        "cik": "0001086222",
+        "slug": "akamai_technologies",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Content Delivery & Streaming Infrastructure",
+        "relationshipNote": "Akamai provides content delivery network (CDN) and streaming infrastructure services to MediaCo's digital platforms and AVOD streaming services. Akamai's edge computing and DRM (digital rights management) capabilities support MediaCo's video streaming quality and security. 2023–2024 CDN costs increased 5–8% annually due to video traffic growth; Akamai's market share in broadcast streaming is ~25–30%.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "amazon_web_services",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Cloud Infrastructure & Data Analytics",
+        "relationshipNote": "AWS provides cloud infrastructure, media services (AWS Elemental), and data analytics platforms to MediaCo for streaming, ad tech, and audience measurement. AWS Elemental video processing supports MediaCo's AVOD platform encoding and distribution. 2023 AWS media services adoption accelerated; estimated annual spend.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Harmonic Inc.",
+        "ticker": "HLIT",
+        "cik": "0000743142",
+        "slug": "harmonic_inc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Broadcast & Streaming Technology",
+        "relationshipNote": "Harmonic supplies video delivery infrastructure, broadcast equipment, and streaming software to MediaCo's stations and digital platforms. Harmonic's VOS (Video Operating System) and CMS (content management system) support MediaCo's multiplatform content distribution. 2022–2024 technology refresh cycles drove ; Harmonic's market share in broadcast infrastructure is ~15–20%.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nexstar Media Group Inc.",
+        "ticker": "NXST",
+        "cik": "0001123029",
+        "slug": "nexstar_media_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Shared Services & Content Distribution",
+        "relationshipNote": "Nexstar is the largest U.S. television broadcaster (~200 stations) and operates shared services agreements with regional broadcasters including potential MediaCo partnerships. Nexstar's NewsNow digital platform and syndicated content library provide distribution alternatives. 2023 Nexstar cost-reduction initiatives (news production outsourcing) set competitive benchmarks for MediaCo's operational efficiency.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Local Automotive Dealers Association",
+        "ticker": null,
+        "cik": null,
+        "slug": "local_auto_dealers",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Primary Advertising Customer",
+        "relationshipNote": "Automotive dealers represent 15–20% of local broadcast advertising revenue across MediaCo's markets. Dealer spending is cyclical, tied to new-vehicle inventory and interest rates. 2023 dealer advertising spend declined 8–12% due to inventory normalization and higher financing costs; 2024 recovery expected as rates stabilize. Dealer relationships are sticky but price-sensitive.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Local Retail & QSR Chains",
+        "ticker": null,
+        "cik": null,
+        "slug": "local_retail_qsr",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Secondary Advertising Customer",
+        "relationshipNote": "Quick-service restaurants (QSR), grocery, and retail chains account for 20–25% of local advertising revenue. Spending is tied to consumer discretionary sentiment and promotional calendars. 2023 QSR spending remained flat due to consumer pullback; retail spending declined 5–8%. Digital/programmatic advertising adoption by QSR chains is shifting spend away from linear broadcast toward targeted digital channels.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Healthcare Systems & Hospitals",
+        "ticker": null,
+        "cik": null,
+        "slug": "healthcare_systems",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Tertiary Advertising Customer",
+        "relationshipNote": "Healthcare advertising (hospitals, clinics, pharmaceutical) represents 10–15% of local broadcast revenue. Healthcare spending is less cyclical than automotive/retail. 2023–2024 healthcare advertising growth of 3–5% reflects aging demographics and telehealth expansion. Healthcare advertisers are increasingly shifting to digital/programmatic channels; linear broadcast share declining.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "iHeartMedia Inc.",
+        "ticker": "IHRT",
+        "cik": "0001437107",
+        "slug": "iheartmedia",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Audio & Digital Advertising Competitor",
+        "relationshipNote": "iHeartMedia operates the largest radio broadcast network (~850 stations) and competes with MediaCo for local advertising spend and audience attention. iHeart's digital audio and podcast platforms (iHeartRadio) capture younger demographics that linear TV struggles to reach. 2023 iHeart restructuring (bankruptcy emergence 2022) reduced competitive pricing pressure; iHeart's AVOD strategy mirrors MediaCo's digital pivot.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "The New York Times Company",
+        "ticker": "NYT",
+        "cik": "0001513228",
+        "slug": "new_york_times",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Digital News & Advertising Competitor",
+        "relationshipNote": "NYT competes with MediaCo's local news operations for audience attention and advertising spend through digital channels. NYT's subscription model (2.1M+ subscribers as of 2023) and programmatic advertising platform represent alternative monetization strategies. NYT's local news partnerships (2023–2024) in select markets create direct competitive pressure on MediaCo's news production economics.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Google LLC (Alphabet Inc.)",
+        "ticker": "GOOGL",
+        "cik": "0001652044",
+        "slug": "google_alphabet",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Digital Advertising & Search Competitor",
+        "relationshipNote": "Google/Alphabet dominates digital advertising (search, display, YouTube) and captures 30–35% of U.S. advertising spend. YouTube competes directly with MediaCo's streaming and AVOD platforms for video advertising. Google's local services ads and Google Maps integration threaten MediaCo's local advertiser relationships. 2023 Google advertising revenue growth of 10–12% outpaced broadcast sector.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Meta Platforms Inc.",
+        "ticker": "META",
+        "cik": "0001326801",
+        "slug": "meta_platforms",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Social & Digital Advertising Competitor",
+        "relationshipNote": "Meta (Facebook, Instagram, Threads) captures 20–25% of U.S. digital advertising spend and competes with MediaCo for local advertiser budgets. Meta's targeting and measurement capabilities exceed broadcast TV; Meta's 2023 cost-reduction initiatives freed capital for ad-tech investment. Local businesses increasingly allocate budgets to Meta's platforms over linear broadcast.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Netflix Inc.",
+        "ticker": "NFLX",
+        "cik": "0001065280",
+        "slug": "netflix",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Streaming & Entertainment Competitor",
+        "relationshipNote": "Netflix competes with MediaCo's streaming platforms and AVOD services for audience attention and advertising spend. Netflix's 2023 launch of ad-supported tier (Netflix with Ads) and 2024 expansion to 40M+ ad-tier subscribers directly compete with MediaCo's emerging AVOD revenue. Netflix's content production and distribution model represent alternative to broadcast.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon.com Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_com",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Streaming & Advertising Competitor",
+        "relationshipNote": "Amazon Prime Video and Amazon Ads compete with MediaCo's streaming platforms and advertising services. Amazon's 2023 ad-supported Prime Video tier and 2024 expansion of Amazon Ads (targeting $50B+ revenue) directly threaten MediaCo's local advertising market share. Amazon's e-commerce integration and first-party data advantage exceed broadcast capabilities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Gray Television Inc.",
+        "ticker": "GTN",
+        "cik": "0001193125",
+        "slug": "gray_television",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Content & Syndication",
+        "relationshipNote": "Gray Television operates ~200 stations across 93 markets and competes directly with MediaCo for local advertising revenue and retransmission fees. Gray's 2022–2023 cost-reduction initiatives (news production outsourcing, shared services) and digital platform investments (Gray's AVOD) set competitive benchmarks. Gray's leverage ratio (~4.5x net debt/EBITDA) signals sector-wide refinancing pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      },
+      {
+        "name": "Tegna Inc.",
+        "ticker": "TEGNA",
+        "cik": "0001593220",
+        "slug": "tegna",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Local News & Syndication",
+        "relationshipNote": "Tegna operates ~64 stations and competes with MediaCo in overlapping markets for local news production, advertising, and retransmission fees. Tegna's 2022 acquisition by Standard General and subsequent cost restructuring (2023–2024) reduced competitive pricing pressure in some markets. Tegna's local news partnerships and syndication deals influence MediaCo's content sourcing costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Federal Communications Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "fcc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Broadcast Licensing & Spectrum Regulation",
+        "relationshipNote": "FCC regulates MediaCo's broadcast licenses, spectrum allocation, and content standards. MediaCo's television licenses are subject to renewal every 8 years; next renewal cycle. FCC's 2023 ownership rules and 2024 proposed regulations on broadcast ownership concentration directly impact MediaCo's M&A strategy and capital structure. FCC fines for content violations average $10K–$50K per incident.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC regulates MediaCo's public company disclosures, insider trading, and financial reporting. MediaCo files 10-K, 10-Q, and 8-K reports; 2023–2024 SEC focus on climate disclosure and cybersecurity risk reporting increased compliance burden. SEC's 2024 proposed rules on streaming revenue recognition and content capitalization may impact MediaCo's financial reporting.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Consumer Protection",
+        "relationshipNote": "FTC enforces antitrust law and consumer protection regulations affecting MediaCo's advertising practices and retransmission negotiations. FTC's 2023–2024 focus on platform power and data privacy impacts MediaCo's digital advertising and audience measurement practices. FTC scrutiny of retransmission fee negotiations increased;.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "State Attorneys General (Multi-State)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_attorneys_general",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Consumer Protection & Local Regulation",
+        "relationshipNote": "State AGs regulate MediaCo's advertising practices, consumer protection compliance, and local content obligations. 2023–2024 state AG actions on deceptive advertising and data privacy increased compliance costs. MediaCo's local news operations are subject to state-level public interest obligations; AG scrutiny of news accuracy and political advertising disclosure is increasing.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Copyright Office & Library of Congress",
+        "ticker": null,
+        "cik": null,
+        "slug": "copyright_office",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Content Licensing & Intellectual Property",
+        "relationshipNote": "Copyright Office regulates MediaCo's content licensing, music royalties, and intellectual property compliance. MediaCo's music licensing costs (ASCAP, BMI, SESAC) increased 5–8% annually 2023–2024. 2024 Copyright Office proposed rules on AI-generated content and music licensing may impact MediaCo's production costs and streaming economics.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_touche",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial Audit & Risk Assessment",
+        "relationshipNote": "Deloitte is MediaCo's external auditor and provides financial statement audit, internal control assessment, and tax advisory services. Deloitte's 2023 audit opinion. Deloitte's audit fees estimated at $2–4M annually; non-audit fees for tax and advisory services add.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Capital Markets",
+        "relationshipNote": "JPMorgan is MediaCo's primary lender and arranger of credit facilities. JPMorgan's 2023 revolving credit facility to MediaCo. JPMorgan also serves as financial advisor on M&A and capital structure optimization. 2023–2024 credit facility refinancing reflected.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Investment Banking",
+        "relationshipNote": "Bank of America is a secondary lender and investment banking advisor to MediaCo. BofA's 2023 involvement in. BofA's media-sector expertise and equity research coverage provide market intelligence. 2023–2024 BofA credit facility participation.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Blackstone Inc.",
+        "ticker": "BX",
+        "cik": "0001393110",
+        "slug": "blackstone",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Strategic Equity & Private Capital",
+        "relationshipNote": "Blackstone is a major shareholder in MediaCo. Blackstone's media-sector portfolio includes. Blackstone's 2023–2024 involvement in MediaCo's strategic planning and capital allocation reflects private-equity governance model.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Apollo Global Management",
+        "ticker": "APO",
+        "cik": "0001411494",
+        "slug": "apollo_global",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Credit & Distressed Capital",
+        "relationshipNote": "Apollo is a credit investor and potential distressed-debt holder in MediaCo. Apollo's 2023–2024 media-sector credit exposure. Apollo's involvement in. Apollo's media-sector expertise and distressed-investing track record position it as potential acquirer if MediaCo faces financial stress.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Nielsen Total Audience Report (Weekly)",
+        "slug": "nielsen_total_audience",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Audience Measurement & Advertising Demand",
+        "relationshipNote": "Nielsen's weekly total audience reports track TV viewership, streaming consumption, and advertising effectiveness across MediaCo's markets. Nielsen data is the industry standard for advertising rate-setting and CPM benchmarking. 2023–2024 Nielsen data showed. Nielsen's transition to Nielsen One (2024) impacts MediaCo's measurement and pricing models.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "S&P 500 Consumer Discretionary Index (XLY)",
+        "slug": "sp500_consumer_discretionary",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Macroeconomic Advertising Demand Proxy",
+        "relationshipNote": "XLY tracks consumer discretionary spending and serves as a leading indicator for MediaCo's advertising revenue. 2023 XLY performance. XLY's 2024 trajectory reflects consumer confidence and retail spending trends that directly impact automotive, QSR, and retail advertising budgets. Correlation between XLY and MediaCo advertising revenue is ~0.65–0.75.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Advertising Age / Adweek Industry Reports",
+        "slug": "advertising_age_adweek",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Industry Intelligence & Competitive Benchmarking",
+        "relationshipNote": "Advertising Age and Adweek publish weekly industry reports on advertising spend trends, competitive moves, and media-sector consolidation. 2023–2024 reports tracked. These publications provide early signals of advertising market shifts and competitive threats to MediaCo's revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

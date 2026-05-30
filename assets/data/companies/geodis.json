@@ -1,0 +1,1650 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "geodis",
+  "slug": "geodis",
+  "name": "GEODIS SA",
+  "ticker": null,
+  "cik": null,
+  "sic": "4213",
+  "industry": "Contract Logistics & Freight Forwarding",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplyChain-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "TOTALSA",
+    "IMPGS",
+    "EXPGS",
+    "TRUCKD",
+    "ICSA",
+    "MMNRNJ",
+    "GASDESW",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "diesel fuel (Brent crude, WTI futures)",
+    "natural gas (European wholesale)",
+    "labor (European wage inflation, SMIC, sectoral agreements)",
+    "real estate (warehouse & distribution center leases)",
+    "shipping containers (ISO 20ft/40ft)",
+    "pallets (EUR, CHEP pooling)",
+    "electricity (fleet charging infrastructure)",
+    "carbon credits (EU ETS allowances)"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "European logistics sector margin compression from labor cost inflation (SMIC +5.7% in 2024) and fuel volatility (Brent >$90/bbl creates 200–300 bps margin headwind)",
+    "SNCF parent company debt burden (~€50B) and state-ownership governance constraints limiting capital deployment for GEODIS electrification and automation capex",
+    "Exposure to automotive & manufacturing supply chains vulnerable to cyclical downturns (German manufacturing PMI <45 signals 15–20% utilization decline risk)",
+    "Regulatory pressure on diesel-powered fleet operations in EU environmental zones (Berlin, Hamburg, Munich diesel bans effective 2024–2025) requiring accelerated electrification capex",
+    "Customer concentration risk: Volkswagen Group + BMW Group represent ~25–30% of revenue; OEM supply-chain consolidation and nearshoring reduce GEODIS's traditional automotive logistics share"
+  ],
+  "opportunitySignals": [
+    "E-commerce fulfillment demand growth across Europe (Eurostat e-commerce penetration +12% YoY in 2023–2024) driving contract logistics expansion and last-mile margin opportunity",
+    "Nearshoring of manufacturing from Asia to Eastern Europe (Poland, Czech Republic, Hungary) creating regional distribution network arbitrage and GEODIS's geographic density advantage",
+    "Digital supply-chain visibility and last-mile optimization as service-line margin drivers; GEODIS's digital platform investments (real-time tracking, autonomous routing) command 50–100 bps pricing premium vs. legacy competitors",
+    "Consolidation of fragmented European logistics market (>5,000 independent operators) favoring scale players like GEODIS; M&A targets in Poland, Romania, Hungary offer 15–25% EBITDA accretion",
+    "Electrification capex funded by EIB green finance and EU recovery funds; GEODIS's fleet electrification (target 30% by 2030) creates competitive moat vs. pure-play 3PLs lacking parent-company capital access"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "GEODIS is Europe's largest contract logistics and freight-forwarding operator, managing multimodal transportation, warehousing, and supply-chain solutions across 67 countries with ~45,000 employees and ~700 distribution centers. As a wholly-owned subsidiary of SNCF (French state-owned rail operator), GEODIS anchors the European supply chain for automotive (VW, BMW, Renault), consumer goods (Nestlé, Unilever, P&G), pharmaceutical, and e-commerce sectors, leveraging SNCF's rail network for cost-efficient bulk transport and cross-border consolidation. The company's scale, geographic footprint, and integrated rail-truck-parcel modal mix make it a critical node in European just-in-time manufacturing and omnichannel retail fulfillment, with particular strength in Germany, France, Benelux, and Poland.",
+  "portalRelevance": "GEODIS functions as a tier-1 logistics infrastructure provider and strategic bottleneck for multinational supply chains across Europe, with unique structural advantages from SNCF ownership that distinguish it from publicly-traded 3PL peers (DHL Supply Chain, DB Schenker, Kuehne+Nagel). For financial-intelligence models tracking supply-chain resilience, inflation pass-through, and cyclical manufacturing health, GEODIS's utilization rates, fuel-cost absorption, and customer contract renegotiations are leading indicators of European industrial demand, retail inventory velocity, and pricing power in a consolidating logistics market. Its state-backed ownership creates distinctive capital-allocation dynamics and regulatory relationships that affect European logistics consolidation strategy, electrification investment, and labor-cost escalation pass-through.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly utilization rates across ~700 distribution centers by region (France, Germany, Benelux, Poland, Spain) — proxy for European manufacturing & retail demand; target >85% utilization for margin sustainability",
+        "Fuel surcharge pass-through rates to customers (% of diesel cost increases absorbed vs. passed to customer contracts) — indicator of pricing power vs. commodity inflation; typical lag 30–60 days",
+        "Automotive OEM order-to-delivery cycle times and inventory turns (VW, BMW, Renault supply-chain signals) — cyclical manufacturing health; PMI <45 signals 15–20% volume decline risk",
+        "E-commerce parcel volume growth and last-mile cost per shipment (Amazon, Zalando, Cdiscount fulfillment) — omnichannel penetration & margin pressure; e-commerce >12% YoY growth signals margin expansion"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly utilization-weighted capacity utilization across regional hubs; rolling 4-quarter average vs. prior-year baseline; target 82–88% for optimal margin realization",
+        "Rolling 12-month fuel cost as % of revenue and hedging ratio (diesel futures contracts, fixed-price supplier agreements); typical 8–12% of COGS; hedging ratio 40–60% of forward exposure",
+        "Customer concentration by vertical (automotive %, pharma %, consumer goods %, e-commerce %) and contract duration (multi-year vs. spot); VW + BMW >25% of revenue creates cyclical exposure",
+        "Fleet age, electrification roadmap, and compliance status with EU emissions regulations (Euro VI trucks, electric vehicle penetration); capex trajectory €200–300M annually for fleet renewal and automation"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior European logistics downturns (2008–09 financial crisis: 25–30% volume decline; 2020 COVID: 15–20% decline with e-commerce offset; 2022–23 energy crisis: 10–15% margin compression) for margin compression signatures and recovery timing",
+        "Competitive positioning vs. DHL Supply Chain, DB Schenker, Kuehne+Nagel on pricing (€/km, €/pallet), service level (on-time delivery >98%), and geographic density (distribution center count, last-mile coverage); GEODIS's rail integration creates 5–10% cost advantage in bulk freight",
+        "SNCF parent-company debt service burden (~€50B debt, €2–3B annual interest) and likelihood of dividend/capex constraints vs. peer-group investment cycles; state-ownership creates political constraints on labor cost pass-through",
+        "Regulatory risk from EU Green Deal (carbon pricing, electrification mandates by 2030), labour cost escalation (SMIC +5.7% in 2024, sectoral wage agreements), and environmental zone restrictions (diesel bans in major cities) affecting fleet composition and capex"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge fuel-cost exposure via diesel futures (ICE Gasoil contracts) or long-term fixed-price contracts with anchor customers (VW, BMW); typical hedge ratio 40–60% of forward 12-month exposure; fuel surcharge clauses in contracts lag commodity moves 30–60 days",
+        "Monitor SNCF debt refinancing cycles (€5–8B annual refinancing need) and EU state-aid scrutiny for capital-allocation flexibility; French government fiscal support announcements signal GEODIS capex availability",
+        "Track EU carbon border adjustment mechanism (CBAM) and scope-3 emissions reporting requirements (EU Corporate Sustainability Reporting Directive) for pricing model impact; carbon cost pass-through mechanisms in customer contracts are emerging competitive differentiator",
+        "Establish customer contract escalation clauses tied to wage inflation indices (French SMIC, German sectoral agreements, Polish minimum wage); labour cost inflation 5–7% annually requires 2–3% pricing escalation to maintain margins"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Overweight European manufacturing & automotive supply-chain exposure when GEODIS utilization signals inflection upward (>85% utilization, PMI >50, OEM order books >3 months); underweight when utilization <80% or PMI <45",
+        "Underweight when fuel costs spike without corresponding customer surcharge absorption (Brent >$100/bbl and fuel surcharge realization <80% signals margin compression); monitor fuel hedging ratio and contract renegotiation cycles",
+        "Monitor SNCF refinancing spreads (CDS, bond yields) and French government fiscal support announcements for parent-company stress indicators; state-ownership creates political constraints on dividend cuts but also capital-access advantages",
+        "Track e-commerce fulfillment contract wins (Amazon, Zalando, Cdiscount announcements) and last-mile margin expansion as offset to traditional 3PL commoditization; e-commerce >40% of revenue signals structural margin shift and reduced cyclical sensitivity"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly utilization rate disclosure (if available via SNCF consolidated reporting or industry surveys) vs. prior-year and guidance; utilization >85% signals pricing power and margin expansion opportunity",
+        "Customer win/loss announcements and contract value disclosures in SNCF investor communications or industry press; major contract wins (>€50M annual value) signal market share gains vs. DHL, DB Schenker, K+N",
+        "Fuel surcharge realization and customer churn rates as proxy for pricing power sustainability; contract renegotiations and customer losses signal margin pressure and competitive intensity",
+        "Regulatory filing changes (EU emissions compliance, labour agreements, environmental zone restrictions) signaling cost-structure shifts; electrification capex announcements and fleet renewal timelines indicate long-term margin trajectory"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate European manufacturing-cycle sensitivity if e-commerce fulfillment becomes >40% of revenue (structural margin shift from cyclical automotive to stable e-commerce); adjust utilization elasticity and pricing power assumptions",
+        "Reweight fuel-cost pass-through elasticity based on realized customer contract renegotiations; if surcharge realization drops below 70%, increase fuel-cost hedging ratio and reduce margin forecasts by 50–100 bps",
+        "Update SNCF parent-company leverage impact on GEODIS capex and M&A appetite if debt-to-EBITDA breaches 3.5x thresholds; state-ownership creates political constraints on dividend cuts but also capital-access advantages vs. private-equity-backed competitors",
+        "Incorporate electrification capex requirements into long-term margin modeling if EU mandates accelerate faster than industry consensus (e.g., 50% electric fleet by 2028 vs. 2030); EIB green finance availability and EU recovery fund access create capex funding advantage vs. pure-play 3PLs"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Shell Global",
+        "ticker": "SHEL",
+        "cik": "0000949826",
+        "slug": "shell_global",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel & Energy Supply",
+        "relationshipNote": "Primary diesel fuel supplier for GEODIS's ~15,000-vehicle fleet across Europe. Fuel costs represent 8–12% of operating expenses; Shell's pricing, supply reliability, and carbon-intensity reporting directly impact GEODIS margin realization and EU emissions compliance. Long-term supply agreements with fuel-surcharge pass-through mechanisms (typically 30–60 day lag) are standard; Brent crude >$100/bbl creates 200–300 bps margin headwind if surcharge realization <80%.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Michelin",
+        "ticker": "MICP",
+        "cik": null,
+        "slug": "michelin",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fleet Maintenance & Tires",
+        "relationshipNote": "Exclusive or preferred tire supplier for GEODIS heavy-truck and distribution-center equipment fleets. Tire costs and replacement cycles are material to fleet operating expense (2–3% of COGS); Michelin's tire-durability innovations and retreading programs directly reduce GEODIS per-kilometer costs by 5–8%. European logistics operators typically lock in multi-year tire supply agreements with volume commitments; Michelin's electric-vehicle tire portfolio supports GEODIS's fleet electrification roadmap.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Volvo Group (Renault Trucks, Volvo Trucks)",
+        "ticker": "VOLVB",
+        "cik": null,
+        "slug": "volvo_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Fleet Vehicles & Electrification",
+        "relationshipNote": "Major supplier of heavy-duty trucks and electric vehicle platforms to GEODIS fleet renewal programs. Volvo's Renault Trucks and Volvo Trucks divisions supply ~30–40% of GEODIS's new truck acquisitions; electrification roadmap (Volvo FH Electric, Renault E-Tech Heavy) is critical to GEODIS's EU emissions compliance and total-cost-of-ownership modeling. Multi-year fleet-purchase agreements with volume discounts (10–15% off list) are standard; 2024–2030 capex €200–300M annually for fleet electrification.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Daimler Truck AG (Mercedes-Benz Trucks, Freightliner)",
+        "ticker": "DTG",
+        "cik": null,
+        "slug": "daimler_truck",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Fleet Vehicles & Powertrain",
+        "relationshipNote": "Secondary heavy-truck supplier (Mercedes-Benz Trucks, Freightliner) to GEODIS fleet operations, particularly in Germany and Central Europe. Daimler's electric truck platform (eActros, eActros Max) and hydrogen fuel-cell initiatives (GenH2) are strategic alternatives to Volvo for GEODIS's decarbonization pathway. Fleet-purchase volumes and service-network density drive supplier selection; Daimler supplies ~20–30% of GEODIS's new truck acquisitions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "CHEP (Brambles Limited)",
+        "ticker": "BXB",
+        "cik": null,
+        "slug": "chep",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Returnable Packaging & Asset Management",
+        "relationshipNote": "CHEP is GEODIS's primary pallet and container pooling partner across Europe, providing returnable pallets, crates, and containers for automotive and consumer-goods supply chains. Pallet-pooling costs represent 2–4% of COGS; CHEP's asset utilization rates and reverse-logistics efficiency directly impact GEODIS's per-shipment economics. Long-term pooling agreements with volume commitments (millions of pallets annually) are standard; CHEP's digital tracking (IoT, RFID) supports GEODIS's supply-chain visibility initiatives.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schoeller Allibert",
+        "ticker": null,
+        "cik": null,
+        "slug": "schoeller_allibert",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Returnable Packaging & Pooling",
+        "relationshipNote": "Secondary pallet and container pooling partner for GEODIS, particularly in Central Europe and pharmaceutical supply chains. Schoeller Allibert's plastic crate and reusable container solutions support GEODIS's pharmaceutical and food-logistics verticals; pooling agreements cover ~20–30% of GEODIS's returnable-packaging volume. Schoeller's sustainability focus (100% recyclable materials) aligns with GEODIS's EU Green Deal compliance and customer sustainability commitments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel (Freight Forwarding & Customs)",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Freight Forwarding & Customs Clearance",
+        "relationshipNote": "Competing and complementary freight-forwarding partner for GEODIS's international air/ocean shipments and customs brokerage. K+N's global network and digital platforms (Saloodo!, Freightpro) create both competitive pressure and partnership opportunities for GEODIS's cross-border European and intercontinental logistics. Market share in freight forwarding is contested; K+N's pricing power and technology differentiation (automation, visibility) are key competitive vectors vs. GEODIS's regional strength.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Siemens Logistics (Warehouse Automation)",
+        "ticker": "SIE",
+        "cik": null,
+        "slug": "siemens_logistics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Distribution Center Automation & IT",
+        "relationshipNote": "Siemens Logistics supplies warehouse automation systems, conveyor networks, and sorting technology for GEODIS's ~700 distribution centers. Automation capex represents 10–15% of annual capex budget (~€20–45M annually); Siemens's software integration (WMS, TMS) and robotics (automated picking, sorting) directly impact GEODIS's labor productivity and throughput. Multi-year automation contracts with performance guarantees are standard; automation ROI typically 3–4 years.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "SAP SE (Enterprise Resource Planning)",
+        "ticker": "SAP",
+        "cik": null,
+        "slug": "sap",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Supply Chain & Financial Systems",
+        "relationshipNote": "SAP provides enterprise resource planning (ERP), supply-chain management (SCM), and financial systems for GEODIS's operations across 67 countries. SAP's cloud platform (S/4HANA) supports GEODIS's digital transformation and real-time supply-chain visibility initiatives. Multi-year software licensing and implementation contracts (€5–10M annually) are standard; SAP's supply-chain analytics support GEODIS's pricing and utilization optimization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Eaton Corporation (Electric Vehicle Charging)",
+        "ticker": "ETN",
+        "cik": "0000030753",
+        "slug": "eaton",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "EV Charging Infrastructure",
+        "relationshipNote": "Eaton supplies electric vehicle charging infrastructure and power-management systems for GEODIS's fleet electrification roadmap. Charging infrastructure capex represents 15–20% of electrification capex budget (~€30–60M annually by 2028); Eaton's DC fast-charging solutions support GEODIS's long-haul truck electrification. Multi-year charging infrastructure contracts with site development and maintenance are standard; charging network density is critical to fleet utilization and range anxiety mitigation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "FedEx Corporation",
+        "slug": "fedex",
+        "ticker": "FDX",
+        "cik": "1048911",
+        "brainNodeId": null,
+        "relationshipNote": "FedEx provides air courier services supporting GEODIS's international logistics operations. FedEx's weekly volume metrics and yield trends offer real-time signals of supply-chain health and trade-flow momentum. As a critical upstream partner, FedEx's capital intensity and leverage profile inform GEODIS's capacity planning and pricing strategies across European and global freight corridors.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.591Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "fedex",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "geodis||geodissa"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "SNCF Fret (SNCF Freight Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sncf_fret",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Rail Transport & Bulk Freight",
+        "relationshipNote": "Parent-company rail freight operator providing cost-advantaged bulk transport for GEODIS's automotive, consumer goods, and intermodal shipments across Europe. SNCF Fret's network density (France, Germany, Benelux, Spain, Italy) and capacity utilization directly impact GEODIS's modal-mix economics and carbon-intensity reporting. Integrated SNCF-GEODIS supply chains (e.g., automotive parts distribution) leverage rail for 15–25% cost advantage vs. pure-truck competitors; rail represents ~10–15% of GEODIS's total freight volume.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Maersk Line (Ocean Freight & Logistics)",
+        "ticker": "MAERSK",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Intercontinental Freight & Last-Mile",
+        "relationshipNote": "Strategic partner for GEODIS's intercontinental ocean freight and last-mile delivery networks. Maersk's global container shipping and integrated logistics platform (Maersk Logistics) complement GEODIS's European distribution strength; joint ventures and partnership agreements for Asian-to-Europe supply chains (nearshoring) are material to GEODIS's growth. Maersk's digital platform (Twill) supports GEODIS's supply-chain visibility; partnership covers ~5–10% of GEODIS's intercontinental freight volume.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Eurostar / SNCF Connect (Cross-Border Rail)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eurostar_sncf",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Cross-Border Rail Infrastructure",
+        "relationshipNote": "SNCF's cross-border rail infrastructure (Eurostar, TGV, regional networks) provides backbone for GEODIS's European distribution network and last-mile connectivity. Rail-based distribution hubs in Paris, Lyon, Brussels, Amsterdam, and Frankfurt leverage SNCF's infrastructure for cost-efficient consolidation and cross-border shipment routing. Integrated SNCF ecosystem creates competitive moat vs. non-rail-backed 3PLs; rail infrastructure access reduces GEODIS's capex burden for distribution-center real estate by 10–15%.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Volkswagen Group (VW, Audi, Porsche, Skoda)",
+        "ticker": "VWAGY",
+        "cik": null,
+        "slug": "volkswagen_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Automotive Customer",
+        "relationshipNote": "Volkswagen Group is GEODIS's largest customer, accounting for ~15–20% of revenue through just-in-time parts distribution, finished-vehicle logistics, and supply-chain management across European manufacturing plants (Germany, Czech Republic, Poland, Spain). VW's supply-chain transformation (electrification, nearshoring, supplier consolidation) directly shapes GEODIS's service offerings and margin structure. Multi-year contracts with volume commitments and performance-based pricing (on-time delivery >98%, damage <0.5%) are standard; VW's cyclical demand volatility (automotive production ±20% YoY) is GEODIS's primary revenue risk.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BMW Group (BMW, Mini, Rolls-Royce)",
+        "ticker": "BMWYY",
+        "cik": null,
+        "slug": "bmw_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Automotive Customer",
+        "relationshipNote": "BMW Group is a top-3 GEODIS customer, representing ~10–12% of revenue through inbound logistics, parts distribution, and finished-vehicle delivery across German and European plants (Munich, Leipzig, Regensburg, Dingolfing). BMW's premium-segment supply chains require high service levels and visibility; GEODIS's German distribution network and SNCF rail integration are critical competitive advantages. Contract terms include performance guarantees (on-time >99%), technology-sharing agreements for supply-chain digitalization, and sustainability-linked pricing (carbon-neutral logistics by 2030).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nestlé SA",
+        "ticker": "NSRGY",
+        "cik": null,
+        "slug": "nestle",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Consumer Goods Customer",
+        "relationshipNote": "Nestlé is a major GEODIS customer for European distribution of food, beverage, and nutrition products, representing ~5–8% of revenue. Nestlé's supply-chain efficiency initiatives and sustainability commitments (carbon-neutral logistics by 2030) drive GEODIS's service innovation and electrification roadmap. Long-term contracts with volume-based pricing (€/pallet, €/km) and sustainability-linked performance metrics (scope-3 emissions reduction) are standard; Nestlé's geographic footprint (France, Germany, Benelux, Spain, Italy) drives GEODIS's distribution-center network density.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Amazon EU (e-commerce fulfillment)",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "E-Commerce Fulfillment Customer",
+        "relationshipNote": "Amazon is a rapidly growing GEODIS customer for European e-commerce fulfillment, last-mile delivery, and returns processing. Amazon's growth in Europe (particularly Germany, France, UK) is driving GEODIS's parcel-network expansion and automation investments. Contract terms are highly competitive and volume-based (€/parcel, €/return); Amazon's scale and negotiating power create margin pressure but also growth opportunity for GEODIS's digital logistics capabilities. E-commerce fulfillment represents ~5–10% of GEODIS's revenue and is growing 15–20% YoY.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Unilever PLC",
+        "ticker": "UL",
+        "cik": "0000217076",
+        "slug": "unilever",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Consumer Goods Customer",
+        "relationshipNote": "Unilever is a major GEODIS customer for European distribution of personal care, home care, and food products. Unilever's supply-chain optimization and sustainability initiatives (Unilever Sustainable Living Plan) drive GEODIS's service innovation and carbon-reduction commitments. Multi-year contracts with volume commitments (millions of pallets annually) and performance-based pricing are standard; Unilever's geographic footprint (France, Germany, Benelux, Spain, Italy, Poland) drives GEODIS's distribution-center network density and utilization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Renault Group",
+        "ticker": "RNLSY",
+        "cik": null,
+        "slug": "renault_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Automotive Customer",
+        "relationshipNote": "Renault Group is a significant GEODIS customer for parts distribution, finished-vehicle logistics, and supply-chain management across European plants (France, Spain, Romania, Turkey). Renault's supply-chain transformation (electrification, nearshoring) and cost-reduction initiatives drive GEODIS's service innovation. Multi-year contracts with volume commitments and performance-based pricing are standard; Renault's French headquarters and SNCF relationship create strategic alignment with GEODIS's SNCF parent.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Procter & Gamble",
+        "ticker": "PG",
+        "cik": "0000080424",
+        "slug": "procter_gamble",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Consumer Goods Customer",
+        "relationshipNote": "P&G is a major GEODIS customer for European distribution of personal care, home care, and health products. P&G's supply-chain efficiency initiatives and sustainability commitments drive GEODIS's service innovation and carbon-reduction roadmap. Multi-year contracts with volume commitments (millions of cases annually) and performance-based pricing (on-time >98%, damage <0.3%) are standard; P&G's geographic footprint (France, Germany, Benelux, Spain, Italy) drives GEODIS's distribution-center network density.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Zalando SE (E-commerce)",
+        "ticker": "ZAL",
+        "cik": null,
+        "slug": "zalando",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "E-Commerce Fulfillment Customer",
+        "relationshipNote": "Zalando is a growing GEODIS customer for European e-commerce fulfillment, last-mile delivery, and returns processing. Zalando's expansion across Europe (Germany, France, Benelux, Spain, Italy, Poland) is driving GEODIS's parcel-network expansion and automation investments. Contract terms are volume-based (€/parcel, €/return); Zalando's growth trajectory (15–20% YoY) creates margin opportunity for GEODIS's digital logistics capabilities. E-commerce fulfillment for Zalando represents ~2–4% of GEODIS's revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Agilent Technologies, Inc.",
+        "slug": "agilent",
+        "ticker": "A",
+        "cik": "1090872",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS operates Agilent's European and Asia-Pacific distribution centers, managing instrument inventory positioning and reagent fulfillment. Warehouse automation and customs expertise support Agilent's regional service-delivery commitments. This partnership leverages GEODIS's healthcare logistics capabilities to enable Agilent's biotech and pharmaceutical customer relationships.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.591Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "agilent",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodissncfsubsidiary"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Bruker Corporation",
+        "slug": "bruker",
+        "ticker": "BRKR",
+        "cik": "1104657",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS operates Bruker's European distribution center and manages last-mile delivery for spare parts and service equipment across EU markets. Proximity to Bruker's headquarters reduces inventory carrying costs and improves service-call response times. This partnership strengthens GEODIS's position in the scientific-instruments supply chain.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "earnings-call",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.591Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "bruker",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodissncfsubsidiary"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Charles River Laboratories International, Inc.",
+        "slug": "charles_river_labs",
+        "ticker": "CRL",
+        "cik": "1100682",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS operates Charles River Labs' European distribution network, managing inventory and fulfillment for preclinical study materials and clinical trial supplies across EU facilities. Real-time ERP integration provides visibility into research-material flows. This partnership connects GEODIS to early-stage pharmaceutical innovation and biotech sector health indicators.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.591Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "charles_river_labs",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodis"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Cybin Inc.",
+        "slug": "cybin",
+        "ticker": "CYBN",
+        "cik": "1824596",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS provides pharmaceutical-grade warehousing, inventory management, and distribution services to Cybin. DEA-licensed facilities support controlled-substance handling and regulatory compliance for clinical supply chain. This partnership positions GEODIS in the nascent psychedelic medicine sector's supply-chain infrastructure.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "cybin",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodis"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Expeditors International of Washington, Inc.",
+        "slug": "expeditors_international",
+        "ticker": "EXPD",
+        "cik": "0000746515",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS serves as a European contract logistics partner, providing warehousing and last-mile services for Expeditors' Europe fulfillment network. This relationship enables Expeditors' European e-commerce growth while giving GEODIS visibility into trade-flow patterns and cross-border logistics demand across the continent.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "earnings_call",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "expeditors_international",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodissca"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Hologic, Inc.",
+        "slug": "hologic",
+        "ticker": "HOLX",
+        "cik": "0000880149",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS manages international distribution and customs clearance for Hologic's breast imaging systems and surgical instruments in EMEA and APAC markets. Regional distribution centers support Hologic's healthcare logistics needs. This partnership positions GEODIS as a critical enabler of women's health diagnostics supply chains.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "hologic",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodis"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Honeywell International Inc.",
+        "slug": "honeywell",
+        "ticker": "HON",
+        "cik": "0000773840",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS operates international air and ocean freight for Honeywell Aerospace Systems components destined for Airbus European final-assembly plants and regional OEMs. This partnership connects GEODIS to commercial aviation demand cycles and defense procurement through Honeywell's aerospace-logistics operations.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "honeywell",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodissncfsubsidiary"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Illinois Tool Works Inc.",
+        "slug": "illinois_tool_works",
+        "ticker": "ITW",
+        "cik": "0000049826",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS serves as European distribution and warehousing partner for ITW's food-equipment and specialty-products segments. Regional distribution centers in France, Germany, and UK manage inventory and order fulfillment. This partnership provides GEODIS with exposure to industrial manufacturing health and operational leverage across end-markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "illinois_tool_works",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodis"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Johnson & Johnson",
+        "slug": "johnson_and_johnson",
+        "ticker": "JNJ",
+        "cik": "0000200406",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS operates regional distribution centers for Johnson & Johnson MedTech products—orthopedic implants, surgical instruments, and cardiovascular devices—in North America and Europe. Inventory management and just-in-time coordination for hospital procurement support JNJ's healthcare supply chains. Partnership signals pharmaceutical and MedTech demand health.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "johnson_and_johnson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodis"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Leidos Holdings, Inc.",
+        "slug": "leidos",
+        "ticker": "LDOS",
+        "cik": "1336920",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS provides supply-chain management and logistics services for Leidos' hardware and component distribution, with government-sector logistics capabilities including secure handling. This partnership connects GEODIS to defense IT procurement velocity and prime-contractor ecosystem health.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "leidos",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodisllc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "McKesson Corporation",
+        "slug": "mckesson",
+        "ticker": "MCK",
+        "cik": "0000927653",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS provides international logistics and customs brokerage for McKesson's pharmaceutical imports and exports, supporting European and Asia-Pacific expansion. Temperature-controlled, regulated shipments across borders leverage GEODIS's healthcare logistics expertise. Partnership signals pharmaceutical distribution and reimbursement dynamics.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "mckesson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodis"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Mondelez International, Inc.",
+        "slug": "mondelez",
+        "ticker": "MDLZ",
+        "cik": "0001103982",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS operates Mondelez's primary distribution network in Western Europe, covering UK, France, Germany, and Benelux. Fuel-cost pass-through and labor-cost inflation add recurring expenses to European logistics spend. Partnership positions GEODIS in consumer-staples supply chains and inflation-pass-through dynamics.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "mondelez",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodisse"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Northrop Grumman Corporation",
+        "slug": "northrop_grumman",
+        "ticker": "NOC",
+        "cik": "1133421",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS provides international logistics, customs brokerage, and export compliance services for Northrop Grumman's non-classified aerospace components and spare parts. This partnership connects GEODIS to U.S. defense spending trajectories and industrial base capacity constraints through a Tier-1 defense prime.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "northrop_grumman",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodissncfsubsidiary"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Pearson PLC",
+        "slug": "pearson",
+        "ticker": "PSO",
+        "cik": "0000938323",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS serves as regional distribution and warehousing partner for Pearson's UK and European operations, managing fulfillment centers for assessment materials and school-district delivery. Inventory management and returns processing support education-sector modernization. Partnership exposes GEODIS to EdTech adoption velocity.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "pearson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodisgeodissca"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Rockwell Automation, Inc.",
+        "slug": "rockwell_automation",
+        "ticker": "ROK",
+        "cik": "1024478",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS manages Rockwell Automation's international logistics, including customs clearance, tariff compliance, and cross-border distribution in Europe and Asia-Pacific. Regulatory expertise mitigates trade-policy risks. This partnership connects GEODIS to manufacturing capex cycles and factory automation spending trends.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "rockwell_automation",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodissubsidiaryofsncflogistics"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "Sealed Air Corporation",
+        "slug": "sealed_air",
+        "ticker": "SEE",
+        "cik": "0000086312",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS operates Sealed Air's primary European distribution network across six regional hubs with capacity supporting outbound freight and reverse-logistics for recycling programs. This partnership positions GEODIS in packaging-sector demand, e-commerce automation, and sustainability mandate evolution.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.592Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "sealed_air",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodissncflogistics"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "United Parcel Service, Inc.",
+        "slug": "united_parcel_service",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS operates bonded warehouses at US-Mexico and Canadian borders, integrating with UPS Trade Direct for USMCA-compliant staging and duty-deferral. This partnership connects GEODIS to global tariff regimes, supply-chain reshoring velocity, and cross-border commerce health through trade-policy exposure.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.593Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "united_parcel_service",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodissncfsubsidiary"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      },
+      {
+        "name": "United Parcel Service, Inc.",
+        "slug": "ups",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "brainNodeId": "M1",
+        "relationshipNote": "GEODIS provides cross-border logistics and customs brokerage for UPS international parcels across Europe and Asia. SNCF Logistics parent ownership and European last-mile capabilities support UPS's international expansion. Partnership signals consumer demand, e-commerce velocity, and supply-chain stress patterns.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.593Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "ups",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "geodis||geodissncflogisticssubsidiary"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:47:41.997Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "DB Schenker (Deutsche Bahn subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "db_schenker",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Logistics & Rail Operator",
+        "relationshipNote": "DB Schenker competes directly with GEODIS on European contract logistics and rail-integrated freight. Both companies leverage parent-company rail assets (SNCF vs. Deutsche Bahn) for cost advantage vs. pure-play 3PLs. DB Schenker's German manufacturing-sector relationships and rail network density create competitive parity; pricing and service-level differentiation are key competitive vectors. DB Schenker's scale (~500 distribution centers) and Deutsche Bahn's financial backing create structural competitive pressure on GEODIS's margins and market share.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel (K+N)",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Freight Forwarding & Logistics",
+        "relationshipNote": "K+N is a major competitor in European freight forwarding, contract logistics, and supply-chain management. K+N's global network, digital platforms (Saloodo!, Freightpro), and customer relationships in automotive and pharma create direct competition with GEODIS. K+N's Swiss ownership and private-equity backing (Sogespar) create different capital-allocation dynamics vs. GEODIS's state-owned SNCF parent. Pricing power and technology differentiation (automation, visibility) are key competitive vectors; K+N's scale (~500 distribution centers) creates competitive parity.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Rhenus SE",
+        "ticker": null,
+        "cik": null,
+        "slug": "rhenus_se",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Mid-Tier Competing Logistics Provider",
+        "relationshipNote": "Rhenus is a mid-tier European contract logistics competitor with ~600 distribution centers and strong presence in automotive and chemical logistics. Rhenus's family-owned structure and private-equity backing (Hellman & Friedman) create different capital-allocation dynamics vs. GEODIS's state-owned SNCF parent. Rhenus competes on regional density and customer intimacy; consolidation target or acquisition threat in fragmented European market. Rhenus's pricing and service-level differentiation create competitive pressure on GEODIS's margins in Central Europe.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Agility (Middle East & Asia-focused logistics)",
+        "ticker": null,
+        "cik": null,
+        "slug": "agility",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Global Logistics Provider",
+        "relationshipNote": "Agility is a global logistics competitor with growing European presence through acquisitions and partnerships. Agility's Middle East and Asia-Pacific strength and private-equity backing (Hellman & Friedman) create competitive pressure in nearshoring and intercontinental supply chains. Agility's digital-first strategy and emerging-market expertise create differentiation vs. GEODIS's European-centric, state-owned model. Agility's European expansion (Poland, Czech Republic, Hungary) targets GEODIS's growth markets.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics (European Contract Logistics)",
+        "ticker": "XPO",
+        "cik": "1104057",
+        "slug": "xpo_logistics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Contract Logistics Provider",
+        "relationshipNote": "XPO Logistics is a growing competitor in European contract logistics and freight forwarding, with ~300 distribution centers and presence in automotive, pharma, and consumer goods. XPO's technology-first strategy (automation, digital platforms) and private-equity backing (Carlyle) create competitive pressure on GEODIS's margins. XPO's European expansion and acquisition strategy (e.g., Norbert Dentressangle 2015) target GEODIS's customer base and geographic markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain (Deutsche Post subsidiary)",
+        "ticker": "DPSGY",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in Contract Logistics",
+        "relationshipNote": "DHL Supply Chain is GEODIS's primary direct competitor in European contract logistics, with ~600 distribution centers and similar customer verticals (automotive, pharma, consumer goods). DHL's scale, Deutsche Post's financial backing, and global network create structural competitive parity. Competitive battlegrounds include pricing (€/km, €/pallet), service-level agreements (on-time >98%), technology differentiation (automation, visibility), and customer switching costs. Market share in automotive logistics is particularly contested; DHL's pricing power and technology investments create competitive pressure on GEODIS's margins.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "European Commission (DG MOVE, DG COMP)",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Transport Regulation",
+        "relationshipNote": "EC's Directorate-General for Mobility and Transport (DG MOVE) regulates European logistics, road transport, and intermodal freight; DG COMP oversees antitrust enforcement in logistics consolidation. GEODIS's scale and SNCF ownership create regulatory scrutiny on market concentration and state-aid compliance. EU Green Deal and carbon-pricing directives (ETS, CBAM effective 2026) directly impact GEODIS's fleet electrification roadmap and pricing model. Consolidation M&A (e.g., acquisition of Rhenus, Agility) requires EC approval and competition review.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "French Ministry of Transport (DGITM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "french_ministry_transport",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "National Transport & SNCF Governance",
+        "relationshipNote": "French government's transport ministry oversees SNCF and GEODIS through ownership and regulatory authority. French labour law (SMIC wage floors +5.7% in 2024, 35-hour work week, sectoral agreements) directly impacts GEODIS's labour cost structure and competitiveness vs. Eastern European competitors. State-aid and capital-allocation decisions for SNCF are made through French government channels; political cycles affect GEODIS's investment priorities and dividend policy.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "German Federal Ministry of Transport (BMDV)",
+        "ticker": null,
+        "cik": null,
+        "slug": "german_ministry_transport",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "German Transport & Environmental Regulation",
+        "relationshipNote": "German transport ministry regulates road haulage, emissions, and logistics operations in Germany (GEODIS's largest market). German environmental zones (Umweltzonen) and diesel-bans in major cities (Berlin, Hamburg, Munich effective 2024–2025) directly impact GEODIS's fleet composition and electrification capex. German labour agreements (sectoral wage floors €14–16/hour, working-time directives) create cost pressures; regulatory compliance is material to GEODIS's German operations (25–30% of revenue).",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "European Environment Agency (EEA) / EU Emissions Trading System (ETS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eea_ets",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Climate & Emissions Regulation",
+        "relationshipNote": "EU's Emissions Trading System (ETS) and Carbon Border Adjustment Mechanism (CBAM effective 2026) directly impact GEODIS's fuel costs and carbon-intensity reporting. EEA's environmental monitoring and EU Green Deal targets (55% emissions reduction by 2030) drive GEODIS's electrification roadmap and scope-3 emissions accounting. Fuel-cost pass-through mechanisms in customer contracts are tied to ETS carbon prices (€50–100/tonne CO2); regulatory changes create margin volatility of 50–150 bps annually.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "International Labour Organization (ILO) / EU Labour Directives",
+        "ticker": null,
+        "cik": null,
+        "slug": "ilo_eu_labour",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Labour Standards & Working Conditions",
+        "relationshipNote": "EU labour directives (Working Time Directive 2003/88/EC, Posted Workers Directive 2018/957) and ILO conventions regulate GEODIS's driver working hours (max 10 hours/day, 56 hours/week), rest periods (11 hours minimum daily), and cross-border employment. Eastern European driver recruitment and wage arbitrage are constrained by EU labour-mobility rules and minimum-wage escalation (Poland +15% 2023–2024). Regulatory compliance and labour-cost inflation (5–7% annually) are material to GEODIS's margin structure.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte France",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_france",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial & Compliance Audit",
+        "relationshipNote": "Deloitte is GEODIS's primary external auditor, responsible for annual financial statement audits and compliance attestations. As a private company, GEODIS's audit is not publicly disclosed; Deloitte's audit scope includes SNCF consolidation, supply-chain accounting, and regulatory compliance (EU transport, labour, environmental). Audit findings and management letters inform GEODIS's internal control and risk-management frameworks; audit fees represent ~€2–4M annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "SNCF (Parent Company & Equity Owner)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sncf",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Parent Company & Strategic Owner",
+        "relationshipNote": "SNCF is GEODIS's 100% owner and primary capital provider. SNCF's debt burden (~€50B, debt-to-EBITDA ~3.2x) and state-ownership governance create capital-allocation constraints on GEODIS's capex and M&A. SNCF's strategic focus on rail and integrated logistics drives GEODIS's investment priorities (electrification €200–300M annually, automation €20–45M annually). Dividend and capex decisions are made through SNCF's board and French government channels; political cycles affect GEODIS's financial flexibility.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "European Investment Bank (EIB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_investment_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Green Finance & Infrastructure Lending",
+        "relationshipNote": "EIB provides long-term financing for GEODIS's electrification and sustainability projects through SNCF. EIB's green-finance mandates and climate-aligned lending create favorable terms (2–3% below market rates) for GEODIS's fleet electrification and distribution-center decarbonization capex. EIB financing is material to GEODIS's capital structure; typical EIB loan size €50–200M with 10–15 year tenors supporting €200–300M annual electrification capex.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "French Development Agency (AFD)",
+        "ticker": null,
+        "cik": null,
+        "slug": "french_development_agency",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "State-Backed Development Finance",
+        "relationshipNote": "AFD provides concessional financing for GEODIS's sustainability and regional development projects through SNCF. AFD's focus on climate transition and supply-chain resilience aligns with GEODIS's electrification and nearshoring initiatives. State-backed financing creates favorable terms (2–4% below market rates) but also governance constraints tied to French industrial policy; typical AFD loan size €20–100M with 12–20 year tenors.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "European Manufacturing PMI (Markit/S&P Global)",
+        "ticker": null,
+        "cik": null,
+        "slug": "european_manufacturing_pmi",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Manufacturing Demand Signal",
+        "relationshipNote": "European Manufacturing PMI is a leading indicator of GEODIS's utilization rates and revenue growth. PMI components (new orders, production, supplier deliveries) directly correlate with GEODIS's distribution-center activity and freight volumes. Monthly PMI releases (Markit/S&P Global) provide real-time demand signals; PMI <45 signals 15–20% volume decline risk, PMI >55 signals margin expansion opportunity. GEODIS's utilization elasticity to PMI is ~2–3x (1 point PMI change = 2–3 point utilization change).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eurostat Retail Sales Index & E-Commerce Growth",
+        "ticker": null,
+        "cik": null,
+        "slug": "eurostat_retail_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Retail Demand & E-Commerce Signal",
+        "relationshipNote": "Eurostat's retail sales index and e-commerce growth rates are leading indicators of GEODIS's parcel and fulfillment volumes. E-commerce penetration growth (particularly in Germany, France, Benelux) drives GEODIS's last-mile network expansion and margin opportunity. Monthly retail sales data provides demand visibility; e-commerce growth >12% YoY signals margin expansion opportunity for GEODIS. E-commerce represents ~5–10% of GEODIS's revenue and is growing 15–20% YoY.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Brent Crude Oil & Diesel Futures (ICE Gasoil)",
+        "ticker": null,
+        "cik": null,
+        "slug": "brent_crude_oil",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Fuel Cost & Margin Pressure Signal",
+        "relationshipNote": "Brent crude and diesel futures prices (ICE Gasoil contracts) directly impact GEODIS's fuel costs (8–12% of operating expenses). Fuel-cost pass-through mechanisms in customer contracts create lag between commodity price moves and margin realization (30–60 days). Diesel price spikes >$1.50/liter create 200–300 bps margin compression risk; hedging strategies and customer surcharge realization are critical to GEODIS's profitability. GEODIS's fuel-cost elasticity to Brent is ~0.8–1.0x.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "supplyChain",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.401Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Shell Global",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Michelin",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "CHEP (Brambles Limited)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Schoeller Allibert",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Volvo Group (Renault Trucks, Volvo Trucks)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Daimler Truck AG (Mercedes-Benz Trucks, Freightliner)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Eaton Corporation (Electric Vehicle Charging)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Kuehne+Nagel (Freight Forwarding & Customs)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Siemens Logistics (Warehouse Automation)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "SAP SE (Enterprise Resource Planning)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Volkswagen Group (VW, Audi, Porsche, Skoda)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "BMW Group (BMW, Mini, Rolls-Royce)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Nestlé SA",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Unilever PLC",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Renault Group",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Procter & Gamble",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "European Manufacturing PMI (Markit/S&P Global)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Amazon EU (e-commerce fulfillment)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Zalando SE (E-commerce)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Agilent Technologies, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Bruker Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Charles River Laboratories International, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Cybin Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Expeditors International of Washington, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Hologic, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Honeywell International Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Illinois Tool Works Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Johnson & Johnson",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Leidos Holdings, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "McKesson Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Mondelez International, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Northrop Grumman Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Pearson PLC",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Rockwell Automation, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Sealed Air Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "United Parcel Service, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "United Parcel Service, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "SNCF Fret (SNCF Freight Division)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Maersk Line (Ocean Freight & Logistics)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Eurostar / SNCF Connect (Cross-Border Rail)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "DB Schenker (Deutsche Bahn subsidiary)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Kuehne+Nagel (K+N)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Rhenus SE",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Agility (Middle East & Asia-focused logistics)",
+            "type": "peer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "XPO Logistics (European Contract Logistics)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "DHL Supply Chain (Deutsche Post subsidiary)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "European Commission (DG MOVE, DG COMP)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "French Ministry of Transport (DGITM)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "German Federal Ministry of Transport (BMDV)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "International Labour Organization (ILO) / EU Labour Directives",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "European Environment Agency (EEA) / EU Emissions Trading System (ETS)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "SNCF (Parent Company & Equity Owner)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "European Investment Bank (EIB)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "French Development Agency (AFD)",
+            "type": "investor",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Eurostat Retail Sales Index & E-Commerce Growth",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "Brent Crude Oil & Diesel Futures (ICE Gasoil)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte France",
+            "type": "auditor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte France",
+            "type": "auditor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

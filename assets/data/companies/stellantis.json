@@ -1,0 +1,738 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "stellantis",
+  "slug": "stellantis",
+  "name": "Stellantis N.V.",
+  "ticker": "STLA",
+  "cik": null,
+  "sic": "3711",
+  "industry": "Motor Vehicles and Passenger Car Bodies",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "TOTALSA",
+    "INDPRO",
+    "UMCSENT",
+    "ICSA",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "STLA"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "steel",
+    "aluminum",
+    "palladium",
+    "lithium",
+    "cobalt",
+    "nickel"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?cik=null",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Stellantis N.V., formed via the 2021 merger of Fiat Chrysler Automobiles and the PSA Group, is the world's fourth-largest automaker by revenue, commanding ~12% global market share across mass-market and premium segments (Jeep, Ram, Peugeot, Citroën, Opel, Alfa Romeo, Lancia, Abarth). The company operates 130+ manufacturing facilities across North America, Europe, and emerging markets, generating €152B in annual revenue (2023) and serving 4.2M vehicle sales annually. Stellantis is a critical node in the automotive supply chain, driving demand for steel, aluminum, semiconductors, and battery materials while managing exposure to EV transition, commodity volatility, and geopolitical supply-chain fragmentation.",
+  "portalRelevance": "Stellantis is a tier-1 anchor in the industrial economy and supply-chain intelligence models due to its scale, geographic footprint, and structural role as a demand aggregator for raw materials and components. The company's quarterly earnings, production guidance, and capital allocation decisions cascade through automotive suppliers, logistics networks, and commodity markets; its EV transition roadmap and battery-supply partnerships signal sector-wide technology adoption rates. As a major employer (255K+ employees) and capital-intensive manufacturer, Stellantis is a leading indicator for industrial production, labor-cost inflation, and geopolitical trade-policy impact on manufacturing.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly global vehicle sales by brand and region (disclosed in investor updates)",
+        "Quarterly gross margin and pricing-power metrics (10-K Item 8 financial statements)",
+        "Supply-chain disruption notices and semiconductor allocation changes (8-K filings, earnings calls)",
+        "Battery-supply contract announcements and EV production ramp milestones (press releases, investor day)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly free cash flow and net debt trajectory relative to €50B+ capex guidance through 2030",
+        "Production utilization rates by plant and segment (disclosed in quarterly earnings)",
+        "EV mix penetration by region and brand (target: 100% EV by 2030 in Europe, 50% by 2030 in North America)",
+        "Commodity cost exposure and hedging posture (aluminum, steel, battery materials)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Margin compression risk from EV transition capex and battery-cost inflation vs. legacy ICE cash generation",
+        "Geopolitical supply-chain fragmentation (Taiwan semiconductor dependency, Russian palladium exposure pre-2022, China battery-material concentration)",
+        "Competitive pressure from Tesla, BYD, and legacy OEM EV ramps (VW, GM, Ford) on pricing and market share",
+        "Labor-cost inflation and unionization risk in North America (UAW 2023 contract precedent)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "EU CO2 emissions standards (95 g/km fleet average by 2025, 55% reduction by 2030) driving EV mix acceleration",
+        "US IRA tax-credit eligibility for EV production and battery-supply-chain localization (critical for North America margin)",
+        "Antitrust scrutiny on battery-supply partnerships and vertical integration (EU, US FTC review of OEM-battery-maker JVs)",
+        "Tariff exposure on imported vehicles and components (US 25% auto tariff threat, EU retaliatory measures)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Accelerate battery-supply partnerships (LG Energy Solution, Samsung SDI, CATL JVs) to secure 2M+ EV annual capacity by 2030",
+        "Optimize North American production footprint and labor productivity to defend Ram/Jeep margin leadership",
+        "Divest or restructure underperforming European brands (Lancia revival, Opel profitability path) to improve consolidated EBITDA",
+        "Hedge commodity exposure (steel, aluminum, lithium futures) and manage FX exposure across €-dominated European operations"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 global sales print vs. guidance and prior-year comp (early indicator of demand and pricing power)",
+        "Gross margin and operating leverage realization vs. EV mix and commodity-cost assumptions",
+        "Free cash flow conversion and capex execution vs. €50B+ 2024–2030 guidance (capital discipline signal)",
+        "EV production ramp and battery-supply contract fulfillment vs. 2030 targets (technology execution risk)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate EV transition timeline and capex intensity based on realized demand elasticity and battery-cost curves",
+        "Update commodity-hedging ratios and supplier-concentration risk model based on geopolitical and supply-chain volatility",
+        "Adjust competitive-intensity assumptions for North American truck/SUV segment as EV penetration accelerates",
+        "Refine labor-cost inflation sensitivity and union-contract precedent impact on consolidated margin trajectory"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Stellantis operates as a distributed decision-making system across 14 brands and 130+ manufacturing facilities, integrating upstream commodity procurement (steel, aluminum, semiconductors, battery materials), mid-stream component supply (powertrains, electronics, interiors), downstream distribution and retail networks, and capital-market signaling. The company's core function is demand aggregation and production optimization: translating consumer preferences (ICE vs. EV, truck vs. sedan, mass-market vs. premium) into supply-chain pull signals that cascade through tier-1 suppliers, logistics partners, and commodity markets. Financial health depends on margin realization across brand portfolios, production utilization, commodity-cost management, and capital efficiency in the €50B+ EV transition capex cycle.",
+    "suppliers": [
+      {
+        "name": "LG Energy Solution Co., Ltd.",
+        "ticker": "051910.KS",
+        "cik": null,
+        "slug": "lg_energy_solution",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Battery Supply & EV Enablement",
+        "relationshipNote": "Strategic battery-supply partner for Stellantis EV ramp; joint venture established 2021 to supply lithium-ion cells for North American and European EV platforms. LG Energy supplies ~30% of Stellantis battery demand across Jeep, Ram, and Peugeot EV lineups. Contract extends through 2030 with capacity targets of 200+ GWh annually. Critical dependency for achieving 100% EV sales in Europe and 50% in North America by 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "press release",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Samsung SDI Co., Ltd.",
+        "ticker": "006400.KS",
+        "cik": null,
+        "slug": "samsung_sdi",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Battery Supply & EV Enablement",
+        "relationshipNote": "Secondary battery-supply partner for Stellantis EV platforms in Europe and North America. Samsung SDI supplies prismatic and cylindrical cells for Peugeot, Citroën, and Opel EV models. Joint venture announced 2022 targeting 200+ GWh capacity by 2030. Diversifies battery-supply risk away from single-source dependency and provides technology optionality (solid-state battery R&D collaboration).",
+        "confidence": "high",
+        "sourceType": [
+          "press release",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "CATL (Contemporary Amperex Technology Co., Limited)",
+        "ticker": "300750.SZ",
+        "cik": null,
+        "slug": "catl",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Battery Supply & EV Enablement",
+        "relationshipNote": "Strategic battery-supply partnership for Stellantis EV production in Europe and China. CATL supplies lithium iron phosphate (LFP) and nickel-based cells for cost-competitive EV platforms targeting mass-market segments. Joint venture established 2023 with capacity targets of 100+ GWh by 2030. Provides access to LFP technology and Chinese supply-chain cost advantages critical for competitive EV pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "press release",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ArcelorMittal S.A.",
+        "ticker": "MT",
+        "cik": "1099219",
+        "slug": "arcelormittal",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Steel Supply & Lightweighting",
+        "relationshipNote": "Primary steel supplier for Stellantis vehicle platforms across North America and Europe. ArcelorMittal supplies high-strength steel, advanced high-strength steel (AHSS), and specialty grades for body structures, chassis, and EV battery enclosures. Long-term supply agreements (2020–2025) cover ~2M+ metric tons annually. Critical for cost management as steel represents 8–10% of vehicle COGS and EV platforms require specialized grades for battery protection.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Novelis Inc.",
+        "ticker": "NOVL",
+        "cik": "1141537",
+        "slug": "novelis",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Aluminum Supply & Lightweighting",
+        "relationshipNote": "Leading aluminum-rolled-products supplier for Stellantis body panels, hoods, and structural components. Novelis supplies ~150K+ metric tons annually of automotive-grade aluminum sheet for mass-market and premium brands. Supply agreements (2019–2024) include sustainability commitments (recycled content targets) and cost-pass-through mechanisms tied to LME aluminum prices. Lightweighting is critical for EV range optimization and fuel-economy compliance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bosch Group (Robert Bosch GmbH)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bosch_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Powertrain & Electronics Supply",
+        "relationshipNote": "Tier-1 supplier of powertrains, electronics, and autonomous-driving systems for Stellantis platforms. Bosch supplies engine management systems, transmission controls, EV motor controllers, and ADAS sensors across all 14 brands. Estimated 12–15% of Stellantis vehicle COGS. Long-term partnerships (2015–2030) include joint development of EV battery-management systems and software-defined vehicle architectures. Critical for EV transition execution.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Aptiv PLC",
+        "ticker": "APTV",
+        "cik": "1357615",
+        "slug": "aptiv",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Electrical Architecture & Autonomous Systems",
+        "relationshipNote": "Supplier of electrical architecture, wiring harnesses, and autonomous-driving platforms for Stellantis EV and next-generation vehicles. Aptiv supplies integrated electrical systems for Jeep, Ram, and Peugeot EV platforms, with estimated 8–10% of vehicle COGS. Joint ventures in autonomous-driving technology (2023–2030) position Aptiv as critical for Level 2+ autonomy rollout. Supply agreements extend through 2030 with EV-specific content growth targets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Magna International Inc.",
+        "ticker": "MGA",
+        "cik": "1141537",
+        "slug": "magna_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Contract Manufacturing & Subsystems",
+        "relationshipNote": "Contract manufacturer and subsystems supplier for Stellantis, providing complete vehicle assembly services, seating systems, and powertrain components. Magna manufactures Jeep Wrangler and other platforms at facilities in North America and Europe. Estimated 10–12% of Stellantis vehicle COGS. Long-term agreements (2018–2028) include EV platform development and battery-enclosure manufacturing. Provides production flexibility and geographic diversification.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Linamar Corporation",
+        "ticker": "LNR",
+        "cik": "1104659",
+        "slug": "linamar",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Powertrain Components & EV Transition",
+        "relationshipNote": "Tier-1 supplier of powertrain components (transmissions, drivelines, engine blocks) and EV motor housings for Stellantis platforms. Linamar supplies ~5–7% of vehicle COGS across North American and European production. Supply agreements (2020–2030) include transition from ICE to EV powertrains, with growing exposure to electric motor and battery-housing manufacturing. Critical for managing ICE-to-EV supply-chain transition.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lear Corporation",
+        "ticker": "LEA",
+        "cik": "1061163",
+        "slug": "lear_corporation",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Interior Systems & Electrical Distribution",
+        "relationshipNote": "Supplier of seating systems, electrical distribution, and interior components for Stellantis vehicles. Lear supplies ~6–8% of vehicle COGS across all 14 brands. Long-term agreements (2019–2029) include EV-specific interior architectures and software-defined cabin systems. Lear's electrical-distribution expertise is critical for EV high-voltage system integration and battery-management connectivity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Linamar Corporation",
+        "ticker": "LNR",
+        "cik": "1104659",
+        "slug": "linamar",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Commodity Sourcing",
+        "relationshipNote": "",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Inbound Logistics & Parts Distribution",
+        "relationshipNote": "Global logistics partner for Stellantis inbound component supply and parts distribution across North America and Europe. DHL manages supplier-to-plant logistics for tier-1 and tier-2 components, with estimated 2–3% of vehicle COGS in logistics costs. Long-term contracts (2018–2025) include just-in-time delivery optimization and supply-chain visibility platforms. Critical for managing semiconductor and battery-component supply-chain disruptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "1025023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Finished-Vehicle Logistics & Distribution",
+        "relationshipNote": "Major carrier for Stellantis finished-vehicle distribution in North America, transporting vehicles from manufacturing plants to dealer networks. J.B. Hunt operates dedicated Stellantis lanes with estimated 8–10% of North American distribution volume. Contracts (2019–2024) include temperature-controlled transport for EV battery modules and specialized handling for high-value Ram and Jeep models. Critical for dealer-network supply and market responsiveness.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Freight & Customs Clearance",
+        "relationshipNote": "Global freight forwarder and customs broker for Stellantis international vehicle and component shipments. Kuehne+Nagel manages cross-border logistics for European and North American operations, including tariff optimization and regulatory compliance. Estimated 1–2% of vehicle COGS in logistics costs. Contracts include supply-chain visibility and geopolitical risk management (tariff exposure, sanctions compliance).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "1104659",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Last-Mile & Dealer Delivery",
+        "relationshipNote": "Last-mile logistics provider for Stellantis dealer delivery and customer transport in North America. XPO operates dedicated Stellantis distribution centers and delivery networks, with estimated 3–5% of North American distribution volume. Contracts (2020–2025) include EV-specific delivery protocols and charging-infrastructure coordination. Critical for dealer-network efficiency and customer satisfaction metrics.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Hertz Global Holdings, Inc.",
+        "ticker": "HTZ",
+        "cik": "1467623",
+        "slug": "hertz_global",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Fleet & Rental Customer",
+        "relationshipNote": "Major fleet customer for Stellantis vehicles, particularly Ram trucks and Jeep SUVs for rental and commercial fleets. Hertz purchases ~50K+ vehicles annually from Stellantis, representing ~1–2% of North American sales volume. Fleet contracts (2020–2025) include pricing discounts, warranty terms, and EV adoption targets. Critical for volume stability and cash-flow predictability in North American market.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Enterprise Holdings Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "enterprise_holdings",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Fleet & Rental Customer",
+        "relationshipNote": "Major fleet customer for Stellantis vehicles across Enterprise Rent-A-Car and National Car Rental brands. Enterprise purchases ~80K+ vehicles annually from Stellantis, representing ~2–3% of North American sales volume. Fleet agreements include volume commitments, pricing tiers, and EV transition roadmaps. Critical for volume stability and market-share defense in North American rental market.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Volkswagen Group (Volkswagen AG)",
+        "ticker": "VOW",
+        "cik": null,
+        "slug": "volkswagen_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global OEM Competitor & EV Leader",
+        "relationshipNote": "Direct global competitor with ~12% market share and stronger EV positioning (VW, Audi, Porsche, Skoda brands). VW Group targets 70% EV sales by 2030 vs. Stellantis 100% in Europe, 50% in North America. VW's battery-supply partnerships (Northvolt, QuantumScape) and software-defined vehicle strategy (VW.OS) represent competitive threats. VW's 2023 revenue €296B exceeds Stellantis €152B, but Stellantis has stronger North American truck/SUV profitability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Toyota Motor Corporation",
+        "ticker": "7203.T",
+        "cik": null,
+        "slug": "toyota_motor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global OEM Competitor & Hybrid Leader",
+        "relationshipNote": "Global competitor with ~10% market share and hybrid-technology leadership (Prius, RAV4 Hybrid). Toyota's hybrid strategy delays full EV transition vs. Stellantis, but provides near-term margin advantage and customer-acceptance optionality. Toyota's 2023 revenue ¥37.2T (~$250B) and superior profitability (operating margin ~10% vs. Stellantis ~6%) reflect operational excellence. Competitive threat in mass-market segments (Corolla, Camry) and emerging markets.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "General Motors Company",
+        "ticker": "GM",
+        "cik": "1467858",
+        "slug": "general_motors",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "North American OEM Competitor",
+        "relationshipNote": "Direct North American competitor with ~10% US market share and aggressive EV transition (Ultium platform, Cadillac Lyriq, GMC Hummer EV). GM targets 1M+ EV sales by 2025 and 100% EV sales by 2035. GM's 2023 revenue $171B and strong truck/SUV portfolio (Silverado, Tahoe) compete directly with Stellantis Ram and Jeep. GM's battery-supply partnerships (LG Energy Solution, Ultium Cells JVs) and software strategy (OnStar, Super Cruise) represent competitive threats.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ford Motor Company",
+        "ticker": "F",
+        "cik": "37996",
+        "slug": "ford_motor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "North American OEM Competitor",
+        "relationshipNote": "Direct North American competitor with ~13% US market share and strong truck/SUV portfolio (F-150, Mustang Mach-E, Explorer). Ford targets 2M EV sales by 2026 and 50% EV sales by 2030. Ford's 2023 revenue $136B and profitable truck segment (F-150 Lightning) compete directly with Stellantis Ram. Ford's battery-supply partnerships (SK Innovation, Redwood Materials) and software strategy (BlueCruise) represent competitive threats in North American market.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Tesla, Inc.",
+        "ticker": "TSLA",
+        "cik": "1318605",
+        "slug": "tesla",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "EV Pure-Play Disruptor & Pricing Threat",
+        "relationshipNote": "Pure-play EV competitor with ~2M annual sales (2023) and dominant market share in premium EV segment. Tesla's 2023 revenue $81.5B and operating margin ~15% reflect manufacturing efficiency and pricing power. Tesla's vertical integration (battery, software, charging) and direct-to-consumer sales model represent structural competitive threats to Stellantis EV profitability. Tesla's price cuts (2023) and Model 3/Y dominance pressure Stellantis EV pricing and margin realization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "BYD Company Limited",
+        "ticker": "1211.HK",
+        "cik": null,
+        "slug": "byd_company",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "EV & Battery Vertical Competitor",
+        "relationshipNote": "Chinese EV and battery manufacturer with 1.6M+ annual EV sales (2023) and dominant battery-supply position (CATL partnership). BYD's 2023 revenue ¥602B (~$83B) and vertical integration (battery, vehicle, charging) represent emerging competitive threat in cost-competitive EV segments. BYD's LFP battery technology and pricing power threaten Stellantis EV margin realization in mass-market segments. Limited direct competition in North America and Europe but growing threat in emerging markets.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Governance",
+        "relationshipNote": "Primary financial regulator for Stellantis US-listed ADR (STLA) and Form 20-F filer. SEC oversees quarterly and annual financial disclosures, insider trading, and corporate-governance compliance. Stellantis files Form 20-F annually (foreign private issuer) with SEC, disclosing material risks, executive compensation, and related-party transactions. SEC enforcement actions on disclosure accuracy and timeliness are material to investor confidence and capital-market access.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "Regulator of vehicle emissions standards (EPA Tier 3, CARB LEV III) and fuel-economy requirements (CAFE standards). Stellantis must comply with EPA CO2 emissions targets (2025: 170 g/mile fleet average, declining to 82 g/mile by 2035). EPA enforcement actions on emissions cheating or non-compliance carry fines up to $37,500 per vehicle. EV transition is critical for meeting 2035 targets; failure to achieve EV mix targets creates material compliance risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "National Highway Traffic Safety Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "nhtsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Vehicle Safety & Recall Compliance",
+        "relationshipNote": "Regulator of vehicle safety standards (FMVSS) and recall authority. NHTSA has issued multiple recalls for Stellantis vehicles (Jeep, Ram, Chrysler) related to electrical systems, braking, and fire risks. 2023 recalls exceeded 2M vehicles, creating warranty costs and brand-reputation risk. NHTSA investigations into EV battery thermal runaway and autonomous-driving safety are material to Stellantis EV transition risk profile.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "European Commission (Directorate-General for Mobility and Transport)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_mobility",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "EU Emissions & EV Transition Regulation",
+        "relationshipNote": "Primary regulator of EU vehicle emissions (Euro 6 standards, 2025 CO2 targets of 93.6 g/km fleet average, 2030 target of 55% reduction). EC enforces EV transition through CO2 penalties (€95 per g/km per vehicle sold) and battery-supply-chain regulations (EU Battery Regulation 2023/1542). Stellantis faces material compliance risk if EV mix targets are not achieved; 2023 EU sales represent ~40% of total revenue, making EC compliance critical.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Consumer Protection",
+        "relationshipNote": "Regulator of antitrust compliance and consumer protection. FTC has authority over dealer-franchise practices, warranty disclosures, and battery-supply-chain vertical integration. FTC scrutiny of OEM-battery-maker JVs (LG Energy Solution, Samsung SDI partnerships) may create compliance risk if deemed anti-competitive. FTC enforcement on right-to-repair and software-lock practices is emerging risk for Stellantis EV platforms.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP (US) / Deloitte Audit & Assurance Services (EU)",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Internal Controls",
+      "relationshipNote": "Primary external auditor for Stellantis consolidated financial statements and internal-control assessments (SOX 404 compliance for US-listed ADR). Deloitte audits €152B+ annual revenue and complex consolidation of 14 brands across 130+ facilities. Audit scope includes revenue recognition (dealer incentives, fleet sales), inventory valuation (EV transition write-downs), and goodwill impairment testing. Auditor changes or qualification opinions would signal material control or accounting risks.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Intesa Sanpaolo S.p.A.",
+        "ticker": "ISP",
+        "cik": null,
+        "slug": "intesa_sanpaolo",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Relationship Bank",
+        "relationshipNote": "Primary relationship bank and lender for Stellantis, providing revolving credit facilities and term loans. Intesa Sanpaolo is a major shareholder (via Exor holding company) and provides €5B+ in committed credit lines. Banking relationship includes treasury management, FX hedging, and commodity-hedging services. Intesa's credit decisions and covenant monitoring are material to Stellantis financial flexibility and capital-allocation strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Exor N.V.",
+        "ticker": "EXO",
+        "cik": null,
+        "slug": "exor_nv",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Controlling Shareholder & Strategic Governance",
+        "relationshipNote": "Controlling shareholder of Stellantis via Agnelli family holding company (25.4% stake as of 2023). Exor exercises board control and strategic direction through CEO John Elkann and board representation. Exor's capital-allocation decisions (dividend policy, capex authorization, M&A strategy) are material to Stellantis governance and shareholder returns. Exor's diversified portfolio (Ferrari, Aston Martin, CNH Industrial) creates potential conflicts of interest and capital-allocation trade-offs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Public Investment Fund (Saudi Arabia)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pif_saudi",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Equity Investor & Capital Provider",
+        "relationshipNote": "Saudi Arabia's sovereign wealth fund holds ~5% stake in Stellantis (acquired 2021–2023). PIF provides long-term capital and strategic partnership for EV transition and battery-supply-chain development. PIF's investment signals geopolitical alignment and access to Middle Eastern markets. PIF's capital commitment reduces refinancing risk and supports €50B+ capex guidance through 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "BNP Paribas S.A.",
+        "ticker": "BNP",
+        "cik": null,
+        "slug": "bnp_paribas",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicated Lender & Bond Underwriter",
+        "relationshipNote": "Major syndicated lender and bond underwriter for Stellantis debt issuances. BNP Paribas manages €3B+ in committed credit facilities and leads bond syndications for Stellantis capital-raising. Banking relationship includes FX hedging, commodity hedging, and M&A advisory services. BNP's credit decisions and covenant monitoring are material to Stellantis financial flexibility.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Carlos Tavares",
+        "title": "Chief Executive Officer",
+        "slug": "carlos_tavares",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "CEO since 2021 (merger of FCA and PSA). Tavares is architect of Stellantis EV transition strategy, €50B+ capex plan, and cost-reduction programs (€3B+ annual savings target). Tavares' prior role at PSA (2014–2021) established EV and software-defined vehicle roadmaps. His leadership style emphasizes operational discipline, supplier consolidation, and margin protection. Tavares' compensation (€19.5M in 2023) is tied to EBITDA and EV transition milestones.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Natalie Knight",
+        "title": "Chief Financial Officer",
+        "slug": "natalie_knight",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "CFO since 2021 (appointed from FCA finance team). Knight oversees €152B+ annual revenue, €50B+ capex guidance, and €5B+ annual dividend policy. Knight's prior role at FCA (2014–2021) established financial controls and cost-management systems. Her responsibilities include debt management, credit-rating maintenance, and investor relations. Knight's compensation is tied to EBITDA and free-cash-flow targets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "John Elkann",
+        "title": "Chairperson",
+        "slug": "john_elkann",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Strategic Oversight",
+        "relationshipNote": "Chairperson since 2021 and member of Agnelli family (via Exor holding company). Elkann exercises board control and strategic direction, including CEO selection and compensation. Elkann's prior roles at Fiat and Ferrari established automotive expertise and family-business governance. His responsibilities include board composition, audit oversight, and shareholder engagement. Elkann's influence over capital allocation and strategic pivots is material to Stellantis direction.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Suzanne Donohoe",
+        "title": "General Counsel",
+        "slug": "suzanne_donohoe",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "General Counsel since 2021 (appointed from FCA legal team). Donohoe oversees legal compliance, regulatory affairs, and litigation management across 130+ facilities and 14 brands. Her responsibilities include antitrust compliance, environmental-law compliance, and labor-relations management. Donohoe's prior experience at FCA (2014–2021) established legal-control systems and regulatory relationships.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Global Vehicle Sales Volume (Monthly)",
+        "slug": "global_sales_volume",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Signal",
+        "relationshipNote": "Monthly global vehicle sales by brand and region (Jeep, Ram, Peugeot, Citroën, Opel, Alfa Romeo, Lancia, Abarth) disclosed in investor updates. Target: 4.2M+ vehicles annually. Signal indicates demand strength, pricing power, and market-share trends. Comp-store sales equivalent for automotive; early indicator of quarterly revenue and margin realization.",
+        "confidence": "high",
+        "sourceType": [
+          "press release",
+          "investor update"
+        ]
+      },
+      {
+        "name": "EV Sales Mix & Production Ramp",
+        "slug": "ev_sales_mix",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Transition Progress",
+        "relationshipNote": "Quarterly EV sales mix (% of total sales) and production capacity utilization by region. Target: 100% EV in Europe by 2030, 50% in North America by 2030. Signal indicates EV transition execution, battery-supply-chain effectiveness, and competitive positioning. Material to margin realization and capital-allocation efficiency.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings call",
+          "investor update"
+        ]
+      }
+    ]
+  }
+}

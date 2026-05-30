@@ -1,0 +1,219 @@
+{
+  "universeId": "civilization",
+  "title": "Civilization Domains",
+  "layout": { "type": "golden_spiral", "scale": 1.0 },
+  "nodes": [
+    {
+      "id": "governance",
+      "label": "Governance",
+      "weight": 1.0,
+      "group": "control",
+      "childUniverse": "governance",
+      "addr": "civilization.governance",
+      "description": "State authority, executive, legislative, and judicial functions, international diplomacy, policy formation."
+    },
+    {
+      "id": "economy",
+      "label": "Economy",
+      "weight": 1.0,
+      "group": "exchange",
+      "childUniverse": "economy",
+      "addr": "civilization.economy",
+      "description": "Production, consumption, GDP, labor markets, monetary systems, economic cycles."
+    },
+    {
+      "id": "infrastructure",
+      "label": "Infrastructure",
+      "weight": 1.0,
+      "group": "structure",
+      "childUniverse": "infrastructure",
+      "addr": "civilization.infrastructure",
+      "description": "Built environment, utilities, transport networks, water systems, urban planning."
+    },
+    {
+      "id": "energy",
+      "label": "Energy",
+      "weight": 1.0,
+      "group": "power",
+      "childUniverse": "energy",
+      "addr": "civilization.energy",
+      "description": "Generation, distribution, fossil fuels, renewables, nuclear, grid management."
+    },
+    {
+      "id": "agriculture",
+      "label": "Agriculture",
+      "weight": 1.0,
+      "group": "nourishment",
+      "childUniverse": "agriculture",
+      "addr": "civilization.agriculture",
+      "description": "Crop production, livestock, aquaculture, food processing, supply and distribution."
+    },
+    {
+      "id": "industry",
+      "label": "Industry",
+      "weight": 1.0,
+      "group": "formation",
+      "childUniverse": "industry",
+      "addr": "civilization.industry",
+      "description": "Manufacturing, materials processing, fabrication, industrial chemistry, quality systems."
+    },
+    {
+      "id": "science",
+      "label": "Science",
+      "weight": 1.0,
+      "group": "discovery",
+      "childUniverse": "science",
+      "addr": "civilization.science",
+      "description": "Research institutions, basic and applied science, peer review, knowledge generation."
+    },
+    {
+      "id": "medicine",
+      "label": "Medicine",
+      "weight": 1.0,
+      "group": "repair",
+      "childUniverse": "medicine",
+      "addr": "civilization.medicine",
+      "description": "Healthcare delivery, pharmaceuticals, public health, mental health, biotech."
+    },
+    {
+      "id": "education",
+      "label": "Education",
+      "weight": 1.0,
+      "group": "transmission",
+      "childUniverse": "education",
+      "addr": "civilization.education",
+      "description": "K-12, higher education, vocational training, knowledge transmission across generations."
+    },
+    {
+      "id": "technology",
+      "label": "Technology",
+      "weight": 1.0,
+      "group": "coordination",
+      "childUniverse": "technology",
+      "addr": "civilization.technology",
+      "description": "Computing, AI, software, hardware, cybersecurity, digital infrastructure."
+    },
+    {
+      "id": "communication",
+      "label": "Communication",
+      "weight": 1.0,
+      "group": "signal",
+      "childUniverse": "communication",
+      "addr": "civilization.communication",
+      "description": "Media, telecommunications, internet, broadcasting, information flow and narrative."
+    },
+    {
+      "id": "culture",
+      "label": "Culture",
+      "weight": 1.0,
+      "group": "identity",
+      "childUniverse": "culture",
+      "addr": "civilization.culture",
+      "description": "Arts, humanities, heritage, entertainment, social identity, creative expression."
+    },
+    {
+      "id": "defense",
+      "label": "Defense",
+      "weight": 1.0,
+      "group": "protection",
+      "childUniverse": "defense",
+      "addr": "civilization.defense",
+      "description": "Military, national security, strategic deterrence, civil defense, force projection."
+    },
+    {
+      "id": "environment",
+      "label": "Environment",
+      "weight": 1.0,
+      "group": "substrate",
+      "childUniverse": "environment",
+      "addr": "civilization.environment",
+      "description": "Ecosystems, biodiversity, climate systems, pollution control, conservation."
+    },
+    {
+      "id": "religion",
+      "label": "Religion / Symbolic Systems",
+      "weight": 1.0,
+      "group": "meaning",
+      "childUniverse": "religion",
+      "addr": "civilization.religion",
+      "description": "Theology, spiritual institutions, philosophical frameworks, moral order, ritual."
+    },
+    {
+      "id": "population",
+      "label": "Population / Demographics",
+      "weight": 1.0,
+      "group": "organism",
+      "childUniverse": "population",
+      "addr": "civilization.population",
+      "description": "Birth rates, migration, aging, urbanization, labor force, demographic transition."
+    },
+    {
+      "id": "trade",
+      "label": "Trade & Logistics",
+      "weight": 1.0,
+      "group": "movement",
+      "childUniverse": "trade",
+      "addr": "civilization.trade",
+      "description": "Supply chains, freight, shipping, customs, international commerce, last-mile delivery."
+    },
+    {
+      "id": "law",
+      "label": "Law & Regulation",
+      "weight": 1.0,
+      "group": "order",
+      "childUniverse": "law",
+      "addr": "civilization.law",
+      "description": "Legal codes, regulatory bodies, enforcement, compliance, standards, due process."
+    },
+    {
+      "id": "finance",
+      "label": "Finance",
+      "weight": 1.0,
+      "group": "capital",
+      "childUniverse": "finance",
+      "addr": "civilization.finance",
+      "description": "Banking, capital markets, insurance, investment, credit systems, monetary policy."
+    },
+    {
+      "id": "intelligence",
+      "label": "Intelligence & Data",
+      "weight": 1.0,
+      "group": "awareness",
+      "childUniverse": "intelligence",
+      "addr": "civilization.intelligence",
+      "description": "Data collection, analytics, national intelligence, surveillance, information warfare."
+    }
+  ],
+  "edges": [
+    { "source": "governance", "target": "economy", "type": "CONTROLS", "weight": 0.8 },
+    { "source": "economy", "target": "infrastructure", "type": "SUPPLIES", "weight": 0.7 },
+    { "source": "infrastructure", "target": "energy", "type": "DEPENDS_ON", "weight": 0.8 },
+    { "source": "energy", "target": "agriculture", "type": "SUPPLIES", "weight": 0.8 },
+    { "source": "agriculture", "target": "industry", "type": "SUPPLIES", "weight": 0.7 },
+    { "source": "industry", "target": "science", "type": "TRANSFORMS", "weight": 0.6 },
+    { "source": "science", "target": "medicine", "type": "TRANSFORMS", "weight": 0.8 },
+    { "source": "medicine", "target": "education", "type": "SUPPLIES", "weight": 0.6 },
+    { "source": "education", "target": "technology", "type": "SUPPLIES", "weight": 0.7 },
+    { "source": "technology", "target": "communication", "type": "SUPPLIES", "weight": 0.8 },
+    { "source": "communication", "target": "culture", "type": "TRANSFORMS", "weight": 0.7 },
+    { "source": "culture", "target": "defense", "type": "DEPENDS_ON", "weight": 0.5 },
+    { "source": "defense", "target": "environment", "type": "DEPENDS_ON", "weight": 0.5 },
+    { "source": "environment", "target": "religion", "type": "TRANSFORMS", "weight": 0.5 },
+    { "source": "religion", "target": "population", "type": "CONTROLS", "weight": 0.6 },
+    { "source": "population", "target": "trade", "type": "SUPPLIES", "weight": 0.7 },
+    { "source": "trade", "target": "law", "type": "DEPENDS_ON", "weight": 0.7 },
+    { "source": "law", "target": "finance", "type": "CONTROLS", "weight": 0.8 },
+    { "source": "finance", "target": "intelligence", "type": "SUPPLIES", "weight": 0.6 },
+    { "source": "intelligence", "target": "governance", "type": "SUPPLIES", "weight": 0.8 },
+    { "source": "energy", "target": "industry", "type": "SUPPLIES", "weight": 0.7 },
+    { "source": "science", "target": "technology", "type": "TRANSFORMS", "weight": 0.8 },
+    { "source": "education", "target": "science", "type": "SUPPLIES", "weight": 0.7 },
+    { "source": "law", "target": "governance", "type": "CONTROLS", "weight": 0.8 },
+    { "source": "finance", "target": "economy", "type": "CONTROLS", "weight": 0.8 },
+    { "source": "medicine", "target": "population", "type": "SUPPLIES", "weight": 0.7 },
+    { "source": "agriculture", "target": "population", "type": "SUPPLIES", "weight": 0.8 },
+    { "source": "intelligence", "target": "defense", "type": "SUPPLIES", "weight": 0.8 },
+    { "source": "environment", "target": "energy", "type": "DEPENDS_ON", "weight": 0.7 },
+    { "source": "technology", "target": "finance", "type": "SUPPLIES", "weight": 0.6 }
+  ]
+}

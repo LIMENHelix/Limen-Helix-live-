@@ -1,0 +1,543 @@
+/**
+ * cross-domain-detector.js
+ * LIMEN HELIX — Cross-Domain Pattern Detector
+ *
+ * CLIENT-SIDE ADVISORY LAYER ONLY.
+ * Detects correlated stress patterns across domains using live feed data.
+ * Requires 2 consecutive ticks above threshold to trigger.
+ * Factors in stress value, trend direction, freshness, and source confidence.
+ *
+ * Depends on: window.LIMENDomains, window.LIMENSourceAudit
+ * Listens: limen:domain-update
+ * Emits: limen:cross-domain-signal, limen:opportunity-detected
+ *
+ * Renders: compact SYSTEMIC SIGNALS panel (top 3 active patterns)
+ *
+ * Load order: after domain-signal-engine.js
+ */
+
+(function () {
+  'use strict';
+
+  // ─── Pattern definitions ─────────────────────────────────────────────────
+
+  var PATTERNS = [
+    {
+      id: 'energy_supply',
+      domains: ['energy', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'logistics disruption',
+      drivers: ['oil price pressure', 'freight cost elevation', 'fuel supply stress'],
+      options: [
+        { label: 'trace supply chain exposure', type: 'analysis' },
+        { label: 'investigate energy drivers', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'economy_liquidity',
+      domains: ['economy', 'supplyChain'],
+      threshold: 0.50,
+      pattern: 'financial tightening',
+      drivers: ['employment contraction', 'logistics cost pressure', 'demand-supply imbalance'],
+      options: [
+        { label: 'analyze liquidity indicators', type: 'analysis' },
+        { label: 'monitor credit conditions', type: 'monitoring' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'health_research',
+      domains: ['health', 'research'],
+      threshold: 0.40,
+      pattern: 'medical innovation cluster',
+      drivers: ['adverse event reporting surge', 'publication rate acceleration', 'clinical activity spike'],
+      options: [
+        { label: 'explore emerging treatments', type: 'discovery' },
+        { label: 'trace research-clinical pipeline', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'environment_energy',
+      domains: ['environment', 'energy'],
+      threshold: 0.45,
+      pattern: 'climate-resource pressure',
+      drivers: ['weather disruption', 'energy demand volatility', 'infrastructure strain'],
+      options: [
+        { label: 'map climate-energy exposure', type: 'analysis' },
+        { label: 'investigate renewable transition', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'tech_research',
+      domains: ['technology', 'research'],
+      threshold: 0.35,
+      pattern: 'innovation acceleration',
+      drivers: ['patent activity surge', 'research volume spike', 'disruption cycle signal'],
+      options: [
+        { label: 'explore technology frontiers', type: 'discovery' },
+        { label: 'trace research-to-market pipeline', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'economy_health',
+      domains: ['economy', 'health'],
+      threshold: 0.55,
+      pattern: 'economic-health stress',
+      drivers: ['labor market pressure', 'healthcare system load', 'public health expenditure stress'],
+      options: [
+        { label: 'investigate health-economy linkage', type: 'analysis' },
+        { label: 'monitor workforce health indicators', type: 'monitoring' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    // ─── Patterns from civilization connectome (new 13 domains) ────────
+    {
+      id: 'governance_economy',
+      domains: ['governance', 'economy'],
+      threshold: 0.45,
+      pattern: 'policy-market feedback',
+      drivers: ['regulatory intervention', 'fiscal policy shift', 'institutional instability'],
+      options: [
+        { label: 'trace governance-market linkage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'infrastructure_energy',
+      domains: ['infrastructure', 'energy'],
+      threshold: 0.45,
+      pattern: 'infrastructure-energy dependency',
+      drivers: ['grid strain', 'utility capacity pressure', 'transport-energy coupling'],
+      options: [
+        { label: 'map infrastructure-energy exposure', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'agriculture_population',
+      domains: ['agriculture', 'population'],
+      threshold: 0.45,
+      pattern: 'food-population pressure',
+      drivers: ['crop yield decline', 'population growth', 'food distribution stress'],
+      options: [
+        { label: 'analyze food security indicators', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'industry_economy',
+      domains: ['industry', 'economy'],
+      threshold: 0.50,
+      pattern: 'industrial-economic contraction',
+      drivers: ['manufacturing decline', 'demand erosion', 'employment contraction'],
+      options: [
+        { label: 'trace industrial output drivers', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'finance_economy',
+      domains: ['finance', 'economy'],
+      threshold: 0.50,
+      pattern: 'financial-economic coupling',
+      drivers: ['credit tightening', 'market volatility', 'capital flow disruption'],
+      options: [
+        { label: 'investigate financial contagion', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'defense_intelligence',
+      domains: ['defense', 'intelligence'],
+      threshold: 0.40,
+      pattern: 'security-intelligence escalation',
+      drivers: ['threat level elevation', 'information warfare signals', 'surveillance spike'],
+      options: [
+        { label: 'assess strategic posture', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'law_governance',
+      domains: ['law', 'governance'],
+      threshold: 0.45,
+      pattern: 'regulatory-governance stress',
+      drivers: ['compliance burden', 'legislative instability', 'enforcement pressure'],
+      options: [
+        { label: 'trace regulatory impact chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'communication_culture',
+      domains: ['communication', 'culture'],
+      threshold: 0.40,
+      pattern: 'media-cultural fragmentation',
+      drivers: ['narrative divergence', 'misinformation pressure', 'social cohesion strain'],
+      options: [
+        { label: 'analyze information ecosystem', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'education_research',
+      domains: ['education', 'research'],
+      threshold: 0.35,
+      pattern: 'knowledge pipeline stress',
+      drivers: ['funding pressure', 'enrollment shifts', 'research output variance'],
+      options: [
+        { label: 'trace education-research pipeline', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'religion_population',
+      domains: ['religion', 'population'],
+      threshold: 0.40,
+      pattern: 'demographic-moral tension',
+      drivers: ['value system pressure', 'demographic transition', 'institutional trust erosion'],
+      options: [
+        { label: 'investigate social cohesion', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'supplyChain_agriculture',
+      domains: ['supplyChain', 'agriculture'],
+      threshold: 0.45,
+      pattern: 'food logistics disruption',
+      drivers: ['freight cost spike', 'cold chain stress', 'distribution bottleneck'],
+      options: [
+        { label: 'map food supply chain exposure', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'intelligence_governance',
+      domains: ['intelligence', 'governance'],
+      threshold: 0.40,
+      pattern: 'intelligence-governance loop',
+      drivers: ['data integrity pressure', 'policy information gap', 'surveillance-state tension'],
+      options: [
+        { label: 'assess information-policy coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'finance_law',
+      domains: ['finance', 'law'],
+      threshold: 0.45,
+      pattern: 'financial-regulatory coupling',
+      drivers: ['compliance cost escalation', 'enforcement activity surge', 'market regulation pressure'],
+      options: [
+        { label: 'trace financial regulatory impact', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    }
+  ];
+
+  // ─── State ───────────────────────────────────────────────────────────────
+
+  var _prevAbove = {};
+  var _activePatterns = [];
+  var _sessionTriggered = {};
+  var _idCounter = 0;
+  var _panelEl = null;
+
+  for (var p = 0; p < PATTERNS.length; p++) {
+    _prevAbove[p] = false;
+  }
+
+  // ─── Detection logic ──────────────────────────────────────────────────
+
+  function detect() {
+    var domains = window.LIMENDomains || {};
+    var audit = window.LIMENSourceAudit || {};
+    var packets = (window.LIMENCivilizationAdapter && window.LIMENCivilizationAdapter.getAll())
+                || window.LIMENCivilizationPackets || {};
+    var newActive = [];
+
+    // Truth-preferred stress reader: brain via packet truth.stressScore wins
+    // over the flat LIMENDomains[id].stress (which can be civ-side / older).
+    function _truthStress(domainId, slot) {
+      var p = packets[domainId];
+      if (p && p.truth && typeof p.truth.stressScore === 'number') return p.truth.stressScore;
+      if (p && typeof p.stressScore === 'number') return p.stressScore;
+      if (slot && typeof slot.brainStress === 'number') return slot.brainStress;
+      if (slot && typeof slot.stress === 'number') return slot.stress;
+      return 0;
+    }
+
+    for (var i = 0; i < PATTERNS.length; i++) {
+      var pat = PATTERNS[i];
+      var dA = domains[pat.domains[0]];
+      var dB = domains[pat.domains[1]];
+
+      var stressA = _truthStress(pat.domains[0], dA);
+      var stressB = _truthStress(pat.domains[1], dB);
+
+      // Both domains must be materially elevated
+      var isAbove = stressA >= pat.threshold && stressB >= pat.threshold;
+
+      // Factor in trend — co-rising amplifies, divergent dampens
+      var trendA = (dA && dA.trend) || 0;
+      var trendB = (dB && dB.trend) || 0;
+      var coRising = trendA > 0.02 && trendB > 0.02;
+
+      // Factor in source confidence
+      var confA = (dA && dA.confidence) || 0;
+      var confB = (dB && dB.confidence) || 0;
+      var avgConf = (confA + confB) / 2;
+
+      // Compute severity: average stress weighted by confidence
+      var rawSeverity = (stressA + stressB) / 2;
+      var severity = _clamp(Math.round(rawSeverity * avgConf * 100) / 100, 0, 1);
+      // Boost if co-rising
+      if (coRising) severity = _clamp(severity + 0.08, 0, 1);
+
+      // Combined confidence from source confidence and co-trend
+      var patternConf = _clamp(Math.round(avgConf * (coRising ? 1.1 : 0.9) * 100) / 100, 0, 1);
+
+      // Require 2 consecutive ticks above threshold
+      if (isAbove && _prevAbove[i]) {
+        // Build drivers from actual domain signals
+        var liveDrivers = _buildLiveDrivers(pat, dA, dB);
+
+        var signal = {
+          id: pat.id + '_' + (++_idCounter),
+          patternId: pat.id,
+          domains: pat.domains.slice(),
+          pattern: pat.pattern,
+          severity: severity,
+          confidence: patternConf,
+          drivers: liveDrivers,
+          options: pat.options,
+          stressA: stressA,
+          stressB: stressB,
+          sourceStatusA: (audit[pat.domains[0]] && audit[pat.domains[0]].status) || 'FALLBACK',
+          sourceStatusB: (audit[pat.domains[1]] && audit[pat.domains[1]].status) || 'FALLBACK',
+          updated: Date.now()
+        };
+
+        newActive.push(signal);
+
+        // Emit only on first trigger per session
+        if (!_sessionTriggered[i]) {
+          _sessionTriggered[i] = true;
+          _dispatch('limen:cross-domain-signal', signal);
+          // Also emit legacy event for narrator compatibility
+          _dispatch('limen:opportunity-detected', {
+            type: 'systemic',
+            domains: pat.domains.slice(),
+            label: pat.pattern,
+            description: pat.domains[0] + ' and ' + pat.domains[1] + ' show correlated stress',
+            confidence: patternConf,
+            signal: signal,
+            timestamp: Date.now()
+          });
+        }
+      } else if (!isAbove) {
+        _sessionTriggered[i] = false;
+      }
+
+      _prevAbove[i] = isAbove;
+    }
+
+    // Sort by severity descending, keep top 3
+    newActive.sort(function (a, b) { return b.severity - a.severity; });
+    _activePatterns = newActive.slice(0, 3);
+
+    window.LIMENCrossDomain = {
+      active: _activePatterns,
+      patterns: PATTERNS,
+      timestamp: Date.now()
+    };
+
+    _renderPanel();
+  }
+
+  function _buildLiveDrivers(pat, dA, dB) {
+    var drivers = [];
+    // Pull real signals from domain data
+    var sigA = (dA && dA.signals) || [];
+    var sigB = (dB && dB.signals) || [];
+    for (var a = 0; a < sigA.length && drivers.length < 2; a++) {
+      drivers.push(sigA[a]);
+    }
+    for (var b = 0; b < sigB.length && drivers.length < 3; b++) {
+      drivers.push(sigB[b]);
+    }
+    // Fallback to pattern template drivers if no live signals
+    if (drivers.length === 0) {
+      for (var f = 0; f < pat.drivers.length && drivers.length < 3; f++) {
+        drivers.push(pat.drivers[f]);
+      }
+    }
+    return drivers;
+  }
+
+  // ─── Systemic Signals panel ──────────────────────────────────────────────
+
+  var _isConsolePage = (function() {
+    var p = location.pathname.replace(/^\//, '').replace(/\.html$/, '');
+    return p === '' || p === 'civilization' || p === 'connectome';
+  })();
+
+  function _ensurePanel() {
+    if (!_isConsolePage) return;
+    if (_panelEl) return;
+    _panelEl = document.createElement('div');
+    _panelEl.id = 'limen-systemic-panel';
+    _panelEl.style.cssText = [
+      'position:fixed',
+      'top:60px',
+      'left:12px',
+      'background:rgba(8,9,12,0.92)',
+      'border:1px solid rgba(201,169,78,0.15)',
+      'padding:8px 12px',
+      'font-family:"IBM Plex Mono",monospace',
+      'font-size:0.48rem',
+      'letter-spacing:1.5px',
+      'z-index:9996',
+      'border-radius:2px',
+      'pointer-events:none',
+      'box-shadow:0 2px 8px rgba(0,0,0,0.5)',
+      'line-height:1.8',
+      'min-width:180px',
+      'display:none'
+    ].join(';');
+    document.body.appendChild(_panelEl);
+  }
+
+  function _renderPanel() {
+    if (!_isConsolePage) return;
+    _ensurePanel();
+
+    // Phase 2 Patch B residual — SYSTEMIC SIGNALS panel suppressed to complete
+    // the floating-surface removal begun in commits c0d42b6d58a + 564aeb5493b.
+    // DOM node preserved via _ensurePanel so ui-mode-manager PANEL_MAP lookups
+    // keep resolving. Render output and display:block toggles short-circuited.
+    if (_panelEl) _panelEl.style.display = 'none';
+    return;
+
+    if (_activePatterns.length === 0) {
+      _panelEl.style.display = 'none';
+      return;
+    }
+
+    var gold = '#c9a94e';
+    var teal = '#5ab5a0';
+    var dim = 'rgba(201,169,78,0.4)';
+    var red = '#e85454';
+    var orange = '#d4a44e';
+
+    var html = '<div style="color:' + gold + ';font-size:0.50rem;margin-bottom:4px">SYSTEMIC SIGNALS</div>';
+
+    for (var i = 0; i < _activePatterns.length; i++) {
+      var pat = _activePatterns[i];
+      var sevColor = teal;
+      if (pat.severity > 0.65) sevColor = red;
+      else if (pat.severity > 0.40) sevColor = orange;
+
+      var sevPct = Math.round(pat.severity * 100);
+
+      html += '<div style="color:' + dim + ';margin-bottom:2px">';
+      html += '<span style="color:' + sevColor + '">\u2022</span> ';
+      html += '<span style="color:rgba(200,195,184,0.6)">' + pat.pattern + '</span>';
+      var confPct = Math.round(pat.confidence * 100);
+      html += '<span style="color:' + dim + ';font-size:0.40rem"> ' + sevPct + '%</span>';
+      html += '<span style="color:' + dim + ';font-size:0.38rem"> conf:' + confPct + '%</span>';
+
+      // Source status badges + freshness
+      var badgeA = pat.sourceStatusA;
+      var badgeB = pat.sourceStatusB;
+      var badgeColorA = badgeA === 'LIVE' ? teal : (badgeA === 'PARTIAL' ? orange : red);
+      var badgeColorB = badgeB === 'LIVE' ? teal : (badgeB === 'PARTIAL' ? orange : red);
+      var patFresh = _freshness(pat.updated);
+      html += '<br><span style="font-size:0.38rem;color:' + dim + ';margin-left:10px">';
+      html += pat.domains[0] + ':<span style="color:' + badgeColorA + '">' + badgeA + '</span>';
+      html += ' ' + pat.domains[1] + ':<span style="color:' + badgeColorB + '">' + badgeB + '</span>';
+      html += ' \u2022 ' + patFresh;
+      html += '</span>';
+      html += '</div>';
+    }
+
+    // Gate visibility behind panel state manager
+    if (window.LIMENPanelState && !window.LIMENPanelState.isVisible('limen-systemic-panel')) {
+      return;
+    }
+    _panelEl.style.display = 'block';
+    _panelEl.innerHTML = html;
+  }
+
+  // ─── Event listener ──────────────────────────────────────────────────────
+
+  function _onDomainUpdate() {
+    detect();
+  }
+
+  // ─── Lifecycle ───────────────────────────────────────────────────────────
+
+  function start() {
+    var fs = window.LIMENFeedState;
+    if (fs && typeof fs.onHydrated === 'function') {
+      fs.onHydrated(function () {
+        window.addEventListener('limen:domain-update', _onDomainUpdate);
+        window.addEventListener('limen:world-signals-updated', _onDomainUpdate);
+        detect();
+      });
+    } else {
+      window.addEventListener('limen:domain-update', _onDomainUpdate);
+      window.addEventListener('limen:world-signals-updated', _onDomainUpdate);
+      detect();
+    }
+  }
+
+  function stop() {
+    window.removeEventListener('limen:domain-update', _onDomainUpdate);
+    window.removeEventListener('limen:world-signals-updated', _onDomainUpdate);
+    _activePatterns = [];
+    if (_panelEl) _panelEl.style.display = 'none';
+  }
+
+  function getActive() {
+    return _activePatterns.slice();
+  }
+
+  // ─── Utilities ───────────────────────────────────────────────────────────
+
+  function _clamp(val, min, max) {
+    return Math.min(max, Math.max(min, val));
+  }
+
+  function _freshness(ts) {
+    if (!ts) return 'unknown';
+    var age = Date.now() - ts;
+    if (age < 60000) return 'just now';
+    if (age < 3600000) return Math.floor(age / 60000) + 'm ago';
+    if (age < 86400000) return Math.floor(age / 3600000) + 'h ago';
+    return Math.floor(age / 86400000) + 'd ago';
+  }
+
+  function _dispatch(name, detail) {
+    try {
+      window.dispatchEvent(new CustomEvent(name, { detail: detail }));
+    } catch (e) { /* silent */ }
+  }
+
+  // ─── Public API ──────────────────────────────────────────────────────────
+
+  window.LIMENCrossDomain = { active: [], patterns: PATTERNS, timestamp: null };
+
+  window.LIMENCrossDomainDetector = {
+    start: start,
+    stop: stop,
+    detect: detect,
+    getActive: getActive
+  };
+
+})();

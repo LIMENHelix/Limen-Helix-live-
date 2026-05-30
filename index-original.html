@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>LIMEN HELIX — Recursive Phase Diagnostics</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;height:100vh;width:100vw;font-family:Georgia,serif}
+#matrix{position:fixed;inset:0;z-index:1}
+#kaleidoscope{position:fixed;inset:0;z-index:2}
+#fireRing{position:fixed;inset:0;z-index:201;pointer-events:none}
+
+/* Gate — container only, no layout influence */
+#gate{position:fixed;inset:0;z-index:10;cursor:pointer}
+#gate::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 20%,rgba(0,0,0,0.25) 55%,rgba(0,0,0,0.65) 100%);pointer-events:none;z-index:1}
+/* Eye + quote — fixed to viewport center, immune to keyboard/input/content */
+#gate-center{position:fixed;z-index:13;display:flex;flex-direction:column;align-items:center;pointer-events:none}
+#gate-center>*{pointer-events:auto}
+
+/* Corner glyphs */
+.cg{position:absolute;font-size:1.4rem;color:rgba(201,169,78,0.3);letter-spacing:4px;z-index:3;animation:gb 5s ease-in-out infinite;text-shadow:0 0 15px rgba(201,169,78,0.2)}
+.cg.tl{top:1.5rem;left:1.5rem}.cg.tr{top:1.5rem;right:1.5rem;animation-delay:1.2s}.cg.bl{bottom:1.5rem;left:1.5rem;animation-delay:2.5s}.cg.br{bottom:1.5rem;right:1.5rem;animation-delay:3.7s}
+@keyframes gb{0%,100%{opacity:.3;text-shadow:0 0 15px rgba(201,169,78,0.2)}50%{opacity:.8;text-shadow:0 0 30px rgba(201,169,78,0.5)}}
+
+/* THE PORTAL — title lives inside the beam */
+#eye-container{display:none}
+#gt{text-align:center;z-index:3;padding:0;background:none;border-radius:0}
+#gt1{font-size:2.4rem;letter-spacing:22px;color:rgba(201,169,78,0.85);text-transform:uppercase;font-family:monospace;margin:0;text-shadow:0 0 40px rgba(201,169,78,0.6),0 0 80px rgba(201,169,78,0.2);font-weight:bold;animation:titlePulse 4s ease-in-out infinite}
+@keyframes titlePulse{0%,100%{text-shadow:0 0 35px rgba(201,169,78,0.5),0 0 70px rgba(201,169,78,0.15);color:rgba(201,169,78,0.8)}50%{text-shadow:0 0 50px rgba(201,169,78,0.7),0 0 100px rgba(201,169,78,0.25);color:rgba(201,169,78,0.95)}}
+#gt2{font-size:0.72rem;color:#d4c8a0;letter-spacing:0.5px;font-style:italic;text-shadow:0 0 20px rgba(255,215,0,0.3);line-height:1.5;max-width:440px;margin:0 auto}
+#gt3{font-size:.45rem;letter-spacing:3px;color:#7a6c4e;font-family:Georgia,serif;margin-top:.3rem;font-weight:300;text-shadow:0 0 12px rgba(255,215,0,0.15)}
+#gate:hover #gt1{color:rgba(201,169,78,1);text-shadow:0 0 35px rgba(201,169,78,0.6)}
+#gate:hover #gt2{color:#e8dcc0;text-shadow:0 0 25px rgba(255,215,0,0.4)}
+#gate:hover #gt3{color:#9a8c60}
+#gate:hover .cg{color:rgba(201,169,78,0.5)}
+
+/* Portal */
+#portal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0);transition:background 1.5s ease}
+#portal *{position:relative;z-index:1}
+#vr{width:0;height:0;border-radius:50%;background:radial-gradient(ellipse at center,rgba(8,5,18,0.97) 0%,rgba(2,1,5,0.99) 100%);transition:all 2s cubic-bezier(0.16,1,0.3,1);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+#pc{opacity:0;transform:scale(0.85);transition:all 1s ease;text-align:center;padding:0.5rem 0.6rem 1rem;width:100%;max-width:440px}
+#pc.vis{opacity:1;transform:scale(1)}
+.ctp{font-size:.6rem;letter-spacing:8px;color:#C9A94E;text-transform:uppercase;font-family:monospace;margin-bottom:.5rem;font-weight:bold}
+.ctt{font-size:1.12rem;color:#f8eacb;font-weight:300;margin-bottom:.15rem}
+.cts{font-size:.44rem;color:#8a7a5a;line-height:1.4;margin-bottom:.6rem;font-style:italic;font-weight:600;text-shadow:0 0 10px rgba(201,169,78,0.15)}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:.5rem}
+.oc{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px;border:1px solid rgba(201,169,78,0.15);background:rgba(201,169,78,0.02);text-decoration:none;cursor:pointer;transition:all .4s;overflow:hidden;border-radius:3px}
+.oc:hover{border-color:rgba(201,169,78,0.5);background:rgba(201,169,78,0.08);box-shadow:0 0 40px rgba(201,169,78,0.08)}
+.og-hero{margin-bottom:5px}
+.oc-primary{cursor:pointer;padding:11px 9px;border-color:rgba(201,169,78,0.28);background:rgba(201,169,78,0.035)}
+.oc-primary:hover{border-color:rgba(201,169,78,0.45);background:rgba(201,169,78,0.06);box-shadow:0 0 30px rgba(201,169,78,0.08)}
+.oc-primary .oi{font-size:1.15rem;color:rgba(234,216,166,0.9);margin-bottom:2px}
+.oc-primary .on{font-size:.42rem;letter-spacing:4px;color:rgba(234,216,166,0.88)}
+.oc-primary .od{font-size:.33rem;letter-spacing:2px;color:rgba(200,195,184,0.42);margin-top:2px}
+.og{gap:4px;margin-bottom:.35rem}
+.oc{padding:7px 5px}
+.oi{font-size:1.12rem;margin-bottom:2px;display:block}.on{font-size:.4rem;letter-spacing:2px;color:#C9A94E;text-transform:uppercase;display:block;font-weight:bold;white-space:nowrap}.od{font-size:.38rem;color:#555;margin-top:2px;letter-spacing:0.5px;display:block}
+.pb{display:inline-block;background:none;border:1px solid rgba(201,169,78,0.12);color:#444;padding:6px 18px;font-size:.55rem;letter-spacing:3px;cursor:pointer;text-transform:uppercase;font-family:monospace;transition:all .3s;text-decoration:none;margin-top:.4rem;font-weight:bold}
+.pb:hover{color:#C9A94E;border-color:rgba(201,169,78,0.35)}
+.gate-opening{opacity:0!important;transition:opacity 1.2s!important}
+
+/* ═══ ORACLE ═══ */
+body.oracle-open #gate{cursor:default}
+#oracle-wrap{position:fixed;z-index:15;width:92%;max-width:520px;padding:0;display:none}
+body.oracle-open #oracle-wrap{display:block}
+/* Fixed bounded transcript — never pushes page down */
+#oracle-chat{position:relative;z-index:2;min-height:40px;max-height:180px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(201,169,78,0.08) transparent}
+#oracle-chat::-webkit-scrollbar{display:none}
+.ora-msg{animation:oraIn 0.3s ease}
+@keyframes oraIn{from{opacity:0}to{opacity:1}}
+.ora-eye{padding:4px 0;font-size:0.44rem;color:rgba(245,240,225,0.88);line-height:1.5;font-family:Georgia,serif;text-align:center}
+.ora-typing .ora-cursor{display:inline-block;width:2px;height:1em;background:rgba(201,169,78,0.5);margin-left:2px;animation:oraBlink 0.8s infinite}
+@keyframes oraBlink{0%,100%{opacity:1}50%{opacity:0}}
+#oracle-input-row{display:flex;gap:6px;align-items:flex-end;margin-top:12px;position:relative;z-index:2}
+#oracle-input{flex:1;background:rgba(5,8,16,0.6);border:1px solid rgba(201,169,78,0.15);border-radius:6px;padding:8px 10px;font-family:Georgia,serif;font-size:0.65rem;color:rgba(245,240,225,0.92);resize:none;line-height:1.5;max-height:80px;outline:none;transition:border-color 0.2s}
+#oracle-input:focus{border-color:rgba(201,169,78,0.4)}
+#oracle-input::placeholder{color:rgba(200,195,184,0.2)}
+#oracle-send{background:rgba(201,169,78,0.1);border:1px solid rgba(201,169,78,0.2);color:rgba(201,169,78,0.7);font-family:monospace;font-size:0.55rem;letter-spacing:2px;padding:10px 16px;border-radius:6px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;white-space:nowrap}
+#oracle-send:hover{background:rgba(201,169,78,0.2);color:rgba(201,169,78,1);border-color:rgba(201,169,78,0.4)}
+#oracle-send:disabled{opacity:0.3;cursor:default}
+/* Gear button for voice settings */
+#oracle-gear{background:none;border:1px solid rgba(201,169,78,0.1);color:rgba(200,195,184,0.25);font-size:0.8rem;padding:8px 10px;border-radius:6px;cursor:pointer;transition:all 0.2s;line-height:1}
+#oracle-gear:hover{color:rgba(201,169,78,0.6);border-color:rgba(201,169,78,0.25)}
+#oracle-gear.active{color:rgba(201,169,78,0.5);border-color:rgba(201,169,78,0.2)}
+#oracle-status{font-size:0.5rem;letter-spacing:2px;color:rgba(200,195,184,0.15);text-align:center;padding:3px 0;font-family:monospace;position:relative;z-index:2}
+/* Voice settings popup — anchored to gear button */
+#oracle-voice-settings{display:none;position:absolute;bottom:100%;right:0;margin-bottom:8px;padding:10px 12px;background:rgba(2,3,8,0.95);border:1px solid rgba(201,169,78,0.12);border-radius:6px;z-index:20;min-width:260px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#oracle-voice-settings.open{display:block}
+.ovs-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:0.5rem;font-family:monospace;color:rgba(200,195,184,0.35);letter-spacing:1px}
+.ovs-row label{min-width:50px;text-transform:uppercase;font-size:0.4rem;letter-spacing:2px}
+.ovs-row select,.ovs-row input[type=range]{flex:1;background:rgba(0,0,0,0.4);border:1px solid rgba(201,169,78,0.1);color:rgba(240,235,220,0.8);font-family:monospace;font-size:0.5rem;padding:4px 6px;border-radius:3px;outline:none}
+.ovs-row input[type=range]{-webkit-appearance:none;height:4px;border:none;padding:0;cursor:pointer}
+.ovs-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:rgba(201,169,78,0.5);border:1px solid rgba(201,169,78,0.2)}
+.ovs-val{font-size:0.4rem;color:rgba(201,169,78,0.4);min-width:30px;text-align:right}
+.ovs-preview{font-size:0.4rem;letter-spacing:2px;color:rgba(201,169,78,0.3);cursor:pointer;text-align:center;margin-top:4px;padding:4px;border:1px solid rgba(201,169,78,0.06);border-radius:3px;transition:color 0.2s}
+.ovs-preview:hover{color:rgba(201,169,78,0.6)}
+.ovs-close{font-size:0.38rem;letter-spacing:2px;color:rgba(200,195,184,0.2);cursor:pointer;text-align:right;margin-bottom:6px;text-transform:uppercase}
+.ovs-close:hover{color:rgba(200,195,184,0.4)}
+#oracle-cta{position:fixed;z-index:14;text-align:center}
+#oracle-cta button{background:none;border:1px solid rgba(201,169,78,0.15);color:rgba(201,169,78,0.4);padding:10px 28px;font-size:0.6rem;letter-spacing:4px;cursor:pointer;text-transform:uppercase;font-family:monospace;transition:all 0.3s;border-radius:4px}
+#oracle-cta button:hover{color:rgba(201,169,78,0.8);border-color:rgba(201,169,78,0.35);background:rgba(201,169,78,0.06)}
+
+/* Front-page menu fit fix — tighten the inner-circle entry menu so all
+   cards (including Support the Work) are visible inside #vr without
+   clipping. Scoped to #stage-choices so #stage-mission is not affected. */
+#stage-choices{padding:0;line-height:1.15}
+#stage-choices .ctt{font-size:.78rem;margin-bottom:.05rem}
+#stage-choices .cts{font-size:.34rem;line-height:1.25;margin-bottom:.22rem}
+#stage-choices .og-hero{margin-bottom:2px}
+#stage-choices .og{gap:2px;margin-bottom:.12rem}
+#stage-choices .oc{padding:3px 4px}
+#stage-choices .oc-primary{padding:5px 6px}
+#stage-choices .oc-primary .oi{font-size:.78rem;margin-bottom:0}
+#stage-choices .oc-primary .on{font-size:.34rem;letter-spacing:2.5px}
+#stage-choices .oc-primary .od{font-size:.27rem;letter-spacing:1px;margin-top:0}
+#stage-choices .oi{font-size:.76rem;margin-bottom:0}
+#stage-choices .on{font-size:.3rem;letter-spacing:1.2px}
+#stage-choices .od{font-size:.28rem;margin-top:0;line-height:1.2}
+#stage-choices .pb{margin-top:.1rem;padding:3px 11px;font-size:.42rem;letter-spacing:2px}
+
+@media(max-width:600px){.cg{font-size:1rem}#gt1{font-size:1.6rem;letter-spacing:14px}#gt{padding:.4rem .8rem}.ctt{font-size:.88rem}.cts{font-size:.4rem;line-height:1.4;margin-bottom:.4rem}.og{gap:3px}.oc{padding:6px 5px}.on{font-size:.36rem;letter-spacing:1.5px}.od{font-size:.32rem}.oi{font-size:.88rem}.pb{padding:5px 14px;font-size:.45rem}#pc{padding:.4rem;max-width:95%}#stage-choices .ctt{font-size:.78rem}#stage-choices .cts{font-size:.36rem;margin-bottom:.25rem}#stage-choices .oc{padding:4px 4px}#stage-choices .oc-primary{padding:5px 6px}#stage-choices .oc-primary .oi{font-size:.85rem}#stage-choices .oi{font-size:.82rem}#stage-choices .on{font-size:.32rem}#stage-choices .od{font-size:.3rem}}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<canvas id="kaleidoscope"></canvas>
+<canvas id="fireRing"></canvas>
+
+<div id="gate" onclick="openThreshold()">
+  <span class="cg tl">Ω · Α</span><span class="cg tr">Δ · Σ</span>
+  <span class="cg bl">Ψ · Θ</span><span class="cg br">Φ · Λ</span>
+  <div id="gate-center">
+    <div id="eye-container"><canvas id="eyeCanvas"></canvas></div>
+    <div id="gt" style="margin-top:0.2rem;padding:0.4rem 1rem">
+      <div id="gt1">LIMEN HELIX</div>
+    </div>
+  </div>
+  <!-- Oracle conversational AI disabled -->
+  <div id="oracle-cta" style="display:none"></div>
+  <div id="oracle-wrap" style="display:none"></div>
+</div>
+
+<div id="portal">
+  <div id="vr">
+    <div id="pc">
+      <!-- STAGE 1: Mission statement (fades in first, then out) -->
+      <div id="stage-mission" style="opacity:0;transition:opacity 1.5s ease;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:460px">
+        <p style="font-size:.6rem;letter-spacing:8px;color:rgba(201,169,78,0.6);text-transform:uppercase;font-family:monospace;margin-bottom:1.2rem;font-weight:bold">Chapel of the LIMEN Helix</p>
+        <p style="font-size:1.05rem;color:rgba(201,169,78,0.45);letter-spacing:1px;font-family:Georgia,serif;font-style:italic;line-height:2;margin-bottom:1.5rem">All proceeds generated through the Chapel of the LIMEN Helix and LIMEN Helix Transformational Sciences LLC are reinvested into research, development, and educational resources supporting neurodivergent populations, including autism spectrum disorder, ADHD, trauma-related dysregulation, and recursive nervous system regulation.</p>
+        <p style="font-size:.45rem;color:rgba(201,169,78,0.15);letter-spacing:4px;text-transform:uppercase;font-family:monospace">501(c)(3) · EIN <span style="unicode-bidi:bidi-override;direction:ltr">33&#8209;4945631</span></p>
+      </div>
+      <!-- STAGE 2: Inner chamber choices (fades in after mission fades out) -->
+      <div id="stage-choices" style="opacity:0;transition:opacity 1.2s ease">
+        <h1 class="ctt">LIMEN HELIX</h1>
+        <div class="og-hero">
+          <a href="/master-brain.html" class="oc oc-primary" onclick="event.stopPropagation()"><span class="oi">&#x2609;</span><span class="on">LIMEN Helix Master Brain</span><span class="od">Executive &middot; Metacognitive Orchestration</span></a>
+        </div>
+        <div class="og">
+          <a href="#" class="oc" onclick="event.stopPropagation();event.preventDefault();openCodeGate('console')"><span class="oi">&#x25CE;</span><span class="on">Civilization</span><span class="od">11 Domains · P0&ndash;P10 Lifecycle</span></a>
+          <a href="#" class="oc" onclick="event.stopPropagation();event.preventDefault();openCodeGate('spiral')"><span class="oi">⊘</span><span class="on">The Helix</span><span class="od">Phases · Protocols · Research</span></a>
+          <a href="#" class="oc" onclick="event.stopPropagation();event.preventDefault();openCodeGate('limen-report')"><span class="oi">◈</span><span class="on">The Limen Report</span><span class="od">Phase Simulator · Cross-Domain Intelligence</span></a>
+          <a href="#" class="oc" onclick="event.stopPropagation();event.preventDefault();openCodeGate('helix-report')"><span class="oi">◈</span><span class="on">The Helix Report</span><span class="od">Phase Diagnostics · Coming Soon</span></a>
+          <a href="#" class="oc" onclick="event.stopPropagation();event.preventDefault();openCodeGate('clinical')"><span class="oi">⚕</span><span class="on">Clinical Map</span><span class="od">40 Diagnoses · 452 Interventions · DSM-5</span></a>
+          <a href="#" class="oc" onclick="event.stopPropagation();event.preventDefault();openCodeGate('navigator')"><span class="oi">◉</span><span class="on">Navigator</span><span class="od">27 Domains · 173K+ Paths · Universal Access</span></a>
+          <a href="/civilization-opportunities" class="oc" onclick="event.stopPropagation()"><span class="oi">✦</span><span class="on">Observatory</span><span class="od">Cross-Domain Opportunities · Patents · Grants · Investments</span></a>
+        </div>
+        <div style="text-align:center;margin-top:2px">
+          <a href="#" class="oc" style="display:inline-flex;width:auto;padding:5px 16px" onclick="event.stopPropagation();event.preventDefault();openDonateModal()"><span class="oi">✦</span><span class="on">Support the Work</span><span class="od">Sustain the Mission · Development</span></a>
+        </div>
+        <button class="pb" onclick="closeThreshold()">← Return to Gate</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══ GREEK WORDS ═══
+var words=[
+// Core framework
+'ΛΙΜΕΝ','ΕΛΙΞ','ΣΠΕΙΡΑ','ΚΑΤΩΦΛΙ','ΦΑΣΙΣ',
+// DMN terminology (Raichle 2001)
+'ΕΓΚΕΦΑΛΟΣ','ΝΕΥΡΩΝΑΣ','ΣΥΝΑΨΗ','ΑΜΥΓΔΑΛΗ','ΙΠΠΟΚΑΜΠΟΣ',
+'ΝΕΥΡΟΠΛΑΣΤΙΚΟΤΗΤΑ','ΝΕΥΡΙΚΟ ΣΥΣΤΗΜΑ',
+// Phase names in Greek
+'ΠΗΓΗ','ΑΝΩΜΑΛΙΑ','ΡΥΘΜΟΣ','ΣΚΟΤΟΣ','ΕΙΡΗΝΗ',
+'ΑΝΤΟΧΗ','ΤΑΞΗ','ΔΙΑΧΩΡΙΣΜΟΣ','ΣΥΝΕΙΔΗΣΗ','ΚΑΤΩΦΛΙ','ΑΝΑΣΤΑΣΙΣ',
+// Neurotransmitters
+'ΝΤΟΠΑΜΙΝΗ','ΣΕΡΟΤΟΝΙΝΗ','ΚΟΡΤΙΖΟΛΗ','ΩΚΥΤΟΚΙΝΗ','ΑΔΡΕΝΑΛΙΝΗ',
+// Key scientific concepts
+'ΟΜΟΙΟΣΤΑΣΙΣ','ΕΝΤΡΟΠΙΑ','ΕΝΕΡΓΕΙΑ',
+'ΑΝΑΣΥΓΚΡΟΤΗΣΗ','ΕΝΣΩΜΑΤΩΣΗ','ΑΝΑΔΥΣΗ',
+// Brain regions (Greek)
+'ΦΛΟΙΟΣ','ΘΑΛΑΜΟΣ','ΚΛΕΙΣΤΡΟ',
+// Polyvagal (Porges 2011)
+'ΠΝΕΥΜΟΝΟΓΑΣΤΡΙΚΟ','ΠΑΡΑΣΥΜΠΑΘΗΤΙΚΟ','ΣΥΜΠΑΘΗΤΙΚΟ',
+// Systems science (Prigogine, Scheffer)
+'ΜΕΤΑΒΑΣΙΣ ΦΑΣΗΣ','ΕΛΚΥΣΤΗΣ','ΑΥΤΟΟΡΓΑΝΩΣΗ',
+'ΚΡΙΣΙΜΟ ΚΑΤΩΦΛΙ','ΦΡΑΚΤΑΛ',
+// Paper-derived
+'ΑΥΤΟΒΙΟΓΡΑΦΙΚΟ','ΑΥΤΟΑΝΑΦΟΡΙΚΟ','ΠΡΟΣΟΧΗ',
+'ΔΙΚΤΥΟ ΣΗΜΑΝΤΙΚΟΤΗΤΑΣ','ΔΙΚΤΥΟ ΕΛΕΓΧΟΥ',
+'ΑΥΤΟΑΝΑΦΟΡΙΚΗ ΕΠΕΞΕΡΓΑΣΙΑ',
+// Researcher names as honorifics
+'RAICHLE','CARHART-HARRIS','PORGES','FRISTON','NADER','SCHEFFER','PRIGOGINE',
+'DAMASIO','BREWER','POLLAN'
+];
+var greekChars='ΩΔΨΦΛΣΘΑΒΓΕΖΗΙΚΜΝΞΟΠΡΤΥΧωδψφλσθαβγεζηικμνξοπρτυχ'.split('');
+
+// ═══ INTELLIGENCE FIELD (replaces matrix rain + kaleidoscope) ═══
+var dpr=window.devicePixelRatio||1;
+
+// Use matrix canvas for the intelligence field, hide kaleidoscope
+var mc=document.getElementById('matrix'),mx=mc.getContext('2d');
+var kc=document.getElementById('kaleidoscope');
+kc.style.display='none'; // kaleidoscope replaced
+
+mc.width=window.innerWidth*dpr;mc.height=window.innerHeight*dpr;
+mc.style.width=window.innerWidth+'px';mc.style.height=window.innerHeight+'px';
+mx.scale(dpr,dpr);
+
+// Symbol particles — sparse, drifting, breathing
+var W=window.innerWidth,H=window.innerHeight;
+var SYMBOL_COUNT=Math.min(Math.floor(W*H/15000),50); // visible but restrained: ~35-50
+var allSyms=greekChars.concat(words.slice(0,15));
+var particles=[];
+for(var pi=0;pi<SYMBOL_COUNT;pi++){
+  particles.push({
+    x:Math.random()*W,
+    y:Math.random()*H,
+    vx:(Math.random()-0.5)*0.15,  // very slow drift
+    vy:(Math.random()-0.5)*0.08,
+    sym:allSyms[Math.floor(Math.random()*allSyms.length)],
+    size:10+Math.random()*6,
+    alpha:0,
+    targetAlpha:0.12+Math.random()*0.12, // visible: 0.12-0.24
+    phase:Math.random()*Math.PI*2,       // breathing phase offset
+    life:0,
+    maxLife:600+Math.random()*800,        // frames before dissolving
+    depth:0.5+Math.random()*0.5           // parallax depth
+  });
+}
+
+// Cluster system — occasional brief groupings
+var cluster={active:false,cx:0,cy:0,timer:0,interval:400+Math.random()*300};
+
+var fieldT=0;
+var _fieldActive=true;
+
+function drawField(){
+  if(!_fieldActive){requestAnimationFrame(drawField);return;}
+  mx.clearRect(0,0,W,H);
+  fieldT++;
+
+  // Read biosensor state (behavior-only, no camera)
+  var bio={arousal:0.5,coherence:0.5,cognitiveLoad:0.5};
+  if(window._limenBio&&typeof window._limenBio.getState==='function'){
+    var bs=window._limenBio.getState();
+    bio.arousal=bs.arousal||0.5;bio.coherence=bs.coherence||0.5;bio.cognitiveLoad=bs.cognitiveLoad||0.5;
+  }
+
+  // Global breath pulse — coherence smooths it, instability adds irregularity
+  var breathIrregularity=bio.coherence>0.6?0:((1-bio.coherence)*0.15*Math.sin(fieldT*0.037));
+  var breath=0.5+0.5*Math.sin(fieldT*0.008+breathIrregularity);
+
+  // ── FULL-VIEWPORT PORTAL BEAM (biosensor-modulated) ──
+  var bCx=W/2;
+  // Arousal modulates beam: high → brighter tighter core, calm → softer wider
+  var arousalMod=0.8+bio.arousal*0.4; // 0.8-1.2
+  var bPulse=(0.97+0.03*Math.sin(fieldT*0.006))*arousalMod;
+  var coreW=1.0+bio.arousal*1.0; // 1.0-2.0 — tighter when calm, sharper when aroused
+  var glowW=30+((1-bio.arousal)*20); // 30-50 — wider when calm
+
+  // Outer glow — wide, very faint
+  var outerGlow=mx.createLinearGradient(bCx-glowW,0,bCx+glowW,0);
+  outerGlow.addColorStop(0,'rgba(201,169,78,0)');
+  outerGlow.addColorStop(0.3,'rgba(201,169,78,'+(0.02*bPulse)+')');
+  outerGlow.addColorStop(0.5,'rgba(234,216,166,'+(0.04*bPulse)+')');
+  outerGlow.addColorStop(0.7,'rgba(201,169,78,'+(0.02*bPulse)+')');
+  outerGlow.addColorStop(1,'rgba(201,169,78,0)');
+  // Vertical fade at edges
+  var vFade=mx.createLinearGradient(0,0,0,H);
+  vFade.addColorStop(0,'rgba(0,0,0,0)');
+  vFade.addColorStop(0.08,'rgba(201,169,78,'+(0.03*bPulse)+')');
+  vFade.addColorStop(0.45,'rgba(234,216,166,'+(0.05*bPulse)+')');
+  vFade.addColorStop(0.55,'rgba(234,216,166,'+(0.05*bPulse)+')');
+  vFade.addColorStop(0.92,'rgba(201,169,78,'+(0.03*bPulse)+')');
+  vFade.addColorStop(1,'rgba(0,0,0,0)');
+  mx.fillStyle=outerGlow;
+  mx.fillRect(bCx-glowW,0,glowW*2,H);
+
+  // Mid glow
+  var midW=12;
+  mx.globalAlpha=0.06*bPulse;
+  var midGlow=mx.createLinearGradient(bCx-midW,0,bCx+midW,0);
+  midGlow.addColorStop(0,'rgba(201,169,78,0)');
+  midGlow.addColorStop(0.3,'rgba(234,216,166,1)');
+  midGlow.addColorStop(0.5,'rgba(255,245,220,1)');
+  midGlow.addColorStop(0.7,'rgba(234,216,166,1)');
+  midGlow.addColorStop(1,'rgba(201,169,78,0)');
+  mx.fillStyle=midGlow;
+  mx.fillRect(bCx-midW,0,midW*2,H);
+
+  // Bright core — thin line
+  mx.globalAlpha=0.15*bPulse;
+  mx.fillStyle='#EAD8A6';
+  mx.fillRect(bCx-coreW/2,0,coreW,H);
+
+  // Brighter center hotspot
+  mx.globalAlpha=0.08*bPulse;
+  var hotspot=mx.createRadialGradient(bCx,H*0.5,0,bCx,H*0.5,H*0.25);
+  hotspot.addColorStop(0,'rgba(255,245,220,1)');
+  hotspot.addColorStop(0.5,'rgba(234,216,166,0.5)');
+  hotspot.addColorStop(1,'rgba(201,169,78,0)');
+  mx.fillStyle=hotspot;
+  mx.fillRect(bCx-H*0.25,H*0.25,H*0.5,H*0.5);
+
+  mx.globalAlpha=1;
+
+  // Cluster logic
+  cluster.timer++;
+  if(!cluster.active&&cluster.timer>cluster.interval){
+    cluster.active=true;cluster.timer=0;
+    cluster.cx=W*0.2+Math.random()*W*0.6;
+    cluster.cy=H*0.2+Math.random()*H*0.6;
+    cluster.interval=500+Math.random()*400;
+  }
+  if(cluster.active&&cluster.timer>120){cluster.active=false;cluster.timer=0;}
+
+  for(var i=0;i<particles.length;i++){
+    var p=particles[i];
+    p.life++;
+
+    // Lifecycle: emerge → live → dissolve
+    if(p.life<60){
+      p.alpha+=(p.targetAlpha-p.alpha)*0.03; // fade in
+    }else if(p.life>p.maxLife-80){
+      p.alpha*=0.97; // fade out
+    }
+
+    // Reset when dissolved
+    if(p.life>p.maxLife){
+      p.x=Math.random()*W;p.y=Math.random()*H;
+      p.vx=(Math.random()-0.5)*0.15;p.vy=(Math.random()-0.5)*0.08;
+      p.sym=allSyms[Math.floor(Math.random()*allSyms.length)];
+      p.alpha=0;p.targetAlpha=0.12+Math.random()*0.12;
+      p.life=0;p.maxLife=600+Math.random()*800;
+      p.phase=Math.random()*Math.PI*2;
+      continue;
+    }
+
+    // Drift — cognitive load slows movement
+    var driftScale=1.0-bio.cognitiveLoad*0.5; // 0.5-1.0
+    p.x+=p.vx*p.depth*driftScale;
+    p.y+=p.vy*p.depth*driftScale;
+
+    // Focus/coherence → subtle inward drift toward beam center
+    if(bio.coherence>0.55){
+      var toCenterX=(W/2-p.x)*0.00004*bio.coherence;
+      p.vx+=toCenterX;
+    }
+
+    // Cluster pull (very gentle)
+    if(cluster.active){
+      var dx=cluster.cx-p.x,dy=cluster.cy-p.y;
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<200){p.vx+=dx*0.00003;p.vy+=dy*0.00003;}
+    }
+
+    // Wrap edges
+    if(p.x<-30)p.x=W+20;if(p.x>W+30)p.x=-20;
+    if(p.y<-20)p.y=H+20;if(p.y>H+20)p.y=-20;
+
+    // Breathing alpha — cognitive load dims slightly
+    var loadDim=1.0-bio.cognitiveLoad*0.2; // 0.8-1.0
+    var breathAlpha=p.alpha*(0.8+0.2*Math.sin(fieldT*0.015+p.phase))*breath*loadDim;
+
+    // Brightness bias toward beam center
+    var distFromCenter=Math.abs(p.x-W/2)/(W/2); // 0 at center, 1 at edge
+    var centerBias=1.0-distFromCenter*0.4; // 0.6-1.0
+    breathAlpha*=centerBias;
+
+    // Color: muted gold with subtle variation
+    var hue=45+Math.sin(p.phase+fieldT*0.003)*8;
+    mx.globalAlpha=Math.max(0,Math.min(breathAlpha,0.28));
+    mx.fillStyle='hsl('+hue+',40%,65%)';
+    mx.font=Math.round(p.size*p.depth)+'px monospace';
+    mx.fillText(p.sym,p.x,p.y);
+  }
+
+  mx.globalAlpha=1;
+  requestAnimationFrame(drawField);
+}
+drawField();
+
+// Pause when tab hidden
+document.addEventListener('visibilitychange',function(){_fieldActive=!document.hidden;});
+
+// ═══ THE PORTAL — light gateway, replaces eye ═══
+var ec=document.getElementById('eyeCanvas'),ex=ec.getContext('2d');
+var eyeClicked=false; // kept for openThreshold compatibility
+var portalT=0;
+
+function resizeEye(){
+  var cont=document.getElementById('eye-container');
+  if(!cont)return;
+  ec.width=cont.offsetWidth*2;ec.height=cont.offsetHeight*2;
+}
+resizeEye();
+
+function drawPortal(){
+  var w=ec.width,h=ec.height,cx=w/2,cy=h/2;
+  ex.clearRect(0,0,w,h);
+  portalT+=0.008;
+
+  var breath=0.7+0.3*Math.sin(portalT*1.2);
+
+  // Deep radial atmosphere: black → navy → gold haze
+  var atmo=ex.createRadialGradient(cx,cy,0,cx,cy,Math.max(w,h)*0.5);
+  atmo.addColorStop(0,'rgba(201,169,78,'+(0.04*breath)+')');
+  atmo.addColorStop(0.3,'rgba(20,25,50,'+(0.06*breath)+')');
+  atmo.addColorStop(0.7,'rgba(5,8,16,0.03)');
+  atmo.addColorStop(1,'rgba(0,0,0,0)');
+  ex.fillStyle=atmo;
+  ex.fillRect(0,0,w,h);
+
+  // Vertical light beam / doorway
+  var beamW=w*0.06;
+  var beamH=h*0.7;
+  var beamAlpha=0.12+0.05*Math.sin(portalT*0.9);
+
+  // Outer glow
+  var glow=ex.createRadialGradient(cx,cy,beamW,cx,cy,beamW*6);
+  glow.addColorStop(0,'rgba(201,169,78,'+(beamAlpha*0.5)+')');
+  glow.addColorStop(0.4,'rgba(201,169,78,'+(beamAlpha*0.15)+')');
+  glow.addColorStop(1,'rgba(0,0,0,0)');
+  ex.fillStyle=glow;
+  ex.fillRect(0,0,w,h);
+
+  // Core beam — vertical rectangle with soft edges via gradient
+  for(var li=0;li<3;li++){
+    var lw=beamW*(1-li*0.25);
+    var la=beamAlpha*(1-li*0.3)*breath;
+    var grad=ex.createLinearGradient(cx-lw,0,cx+lw,0);
+    grad.addColorStop(0,'rgba(201,169,78,0)');
+    grad.addColorStop(0.3,'rgba(201,169,78,'+la+')');
+    grad.addColorStop(0.5,'rgba(230,210,160,'+la*1.2+')');
+    grad.addColorStop(0.7,'rgba(201,169,78,'+la+')');
+    grad.addColorStop(1,'rgba(201,169,78,0)');
+    ex.fillStyle=grad;
+
+    // Vertical fade at top and bottom
+    var vGrad=ex.createLinearGradient(0,cy-beamH/2,0,cy+beamH/2);
+    vGrad.addColorStop(0,'rgba(201,169,78,0)');
+    vGrad.addColorStop(0.15,'rgba(201,169,78,'+la+')');
+    vGrad.addColorStop(0.5,'rgba(230,210,160,'+la*1.3+')');
+    vGrad.addColorStop(0.85,'rgba(201,169,78,'+la+')');
+    vGrad.addColorStop(1,'rgba(201,169,78,0)');
+
+    ex.fillStyle=grad;
+    ex.fillRect(cx-lw,cy-beamH/2,lw*2,beamH);
+  }
+
+  // Threshold line — horizontal accent at center
+  var lineAlpha=0.08+0.04*Math.sin(portalT*1.5);
+  ex.beginPath();
+  ex.moveTo(cx-w*0.18,cy);
+  ex.lineTo(cx+w*0.18,cy);
+  var lineGrad=ex.createLinearGradient(cx-w*0.18,0,cx+w*0.18,0);
+  lineGrad.addColorStop(0,'rgba(201,169,78,0)');
+  lineGrad.addColorStop(0.3,'rgba(201,169,78,'+lineAlpha+')');
+  lineGrad.addColorStop(0.5,'rgba(255,230,170,'+lineAlpha*1.5+')');
+  lineGrad.addColorStop(0.7,'rgba(201,169,78,'+lineAlpha+')');
+  lineGrad.addColorStop(1,'rgba(201,169,78,0)');
+  ex.strokeStyle=lineGrad;
+  ex.lineWidth=1;
+  ex.stroke();
+
+  requestAnimationFrame(drawPortal);
+}
+drawPortal();
+
+// ═══ FIRE RING ═══
+var fc=document.getElementById('fireRing'),fx2=fc.getContext('2d');
+fc.width=window.innerWidth*dpr;fc.height=window.innerHeight*dpr;
+fc.style.width=window.innerWidth+'px';fc.style.height=window.innerHeight+'px';
+fx2.scale(dpr,dpr);
+var fireActive=false,fireRadius=0,fireTargetR=0,fireT=0;
+var ringChars='ΩΔΨΦΛΣΘΑΒΓΕΖΗΙΚΜΝΞΟΠΡΤΥΧωδψφλσθ'.split('');
+
+var fc=document.getElementById('fireRing'),fx2=fc.getContext('2d');
+fc.width=window.innerWidth*dpr;fc.height=window.innerHeight*dpr;
+fc.style.width=window.innerWidth+'px';fc.style.height=window.innerHeight+'px';
+fx2.scale(dpr,dpr);
+var fireActive=false,fireRadius=0,fireTargetR=0,fireT=0;
+var sparks=[];
+for(var i=0;i<300;i++){sparks.push({angle:Math.random()*Math.PI*2,speed:0.5+Math.random()*2.5,dist:0.92+Math.random()*0.16,size:1+Math.random()*3.5,life:Math.random(),hue:Math.floor(Math.random()*60)+15,drift:(Math.random()-0.5)*0.3})}
+var ringChars='ΩΔΨΦΛΣΘΑΒΓΕΖΗΙΚΜΝΞΟΠΡΤΥΧωδψφλσθ'.split('');
+
+function drawFire(){
+  fx2.clearRect(0,0,window.innerWidth,window.innerHeight);
+  if(!fireActive||fireRadius<3){
+    fireRadius+=(fireTargetR-fireRadius)*0.04;
+    requestAnimationFrame(drawFire);return;
+  }
+  // Anchor ring center + radius to #vr portal circle (single source of truth)
+  var vrEl=document.getElementById('vr');
+  var cx,cy;
+  if(vrEl&&vrEl.offsetWidth>10){
+    var vrRect=vrEl.getBoundingClientRect();
+    cx=vrRect.left+vrRect.width/2;
+    cy=vrRect.top+vrRect.height/2;
+    // Sync fire ring radius to half of #vr's actual rendered size + small offset for framing
+    fireTargetR=vrRect.width/2+8;
+  }else{
+    cx=window.innerWidth/2;cy=window.innerHeight/2;
+  }
+  fireRadius+=(fireTargetR-fireRadius)*0.03;
+  fireT+=0.03;
+  
+  // 6 glowing rings
+  for(var r=0;r<6;r++){
+    var rr=fireRadius-r*2.5;if(rr<1)continue;
+    fx2.beginPath();fx2.arc(cx,cy,rr,0,Math.PI*2);
+    fx2.strokeStyle='rgba(255,'+(170-r*15)+','+(40+r*8)+','+(0.2-r*0.025)+')';
+    fx2.lineWidth=10-r*1.5;fx2.shadowColor='rgba(255,140,30,0.5)';fx2.shadowBlur=35-r*4;fx2.stroke();fx2.shadowBlur=0;
+  }
+  // White hot edge
+  fx2.beginPath();fx2.arc(cx,cy,fireRadius,0,Math.PI*2);
+  fx2.strokeStyle='rgba(255,230,170,0.4)';fx2.lineWidth=3;fx2.shadowColor='rgba(255,210,120,0.8)';fx2.shadowBlur=30;fx2.stroke();fx2.shadowBlur=0;
+  
+  // Orbiting runes
+  for(var i=0;i<48;i++){
+    var a=(i/48)*Math.PI*2+fireT*0.6;
+    fx2.save();fx2.translate(cx+Math.cos(a)*fireRadius,cy+Math.sin(a)*fireRadius);fx2.rotate(a+Math.PI/2);
+    fx2.font='bold 10px monospace';fx2.fillStyle='rgba(255,210,90,'+(0.4+Math.sin(fireT*3+i)*0.4)+')';
+    fx2.shadowColor='rgba(255,160,30,0.9)';fx2.shadowBlur=12;fx2.textAlign='center';fx2.fillText(ringChars[i%ringChars.length],0,0);fx2.restore();
+  }
+  // Sparks
+  for(var i=0;i<sparks.length;i++){
+    var s=sparks[i];s.angle+=s.speed*0.02;s.life-=0.003;s.dist+=s.drift*0.001;
+    if(s.life<=0){s.angle=Math.random()*Math.PI*2;s.life=0.5+Math.random()*0.5;s.dist=0.92+Math.random()*0.16}
+    var sx=cx+Math.cos(s.angle)*fireRadius*s.dist,sy=cy+Math.sin(s.angle)*fireRadius*s.dist;
+    fx2.beginPath();fx2.arc(sx+Math.sin(fireT*5+i)*4,sy-s.size*3*s.life,s.size*s.life,0,Math.PI*2);
+    fx2.fillStyle='hsla('+s.hue+',100%,'+(50+s.life*30)+'%,'+(s.life*0.9)+')';fx2.shadowColor='hsla('+s.hue+',100%,60%,0.6)';fx2.shadowBlur=10;fx2.fill();fx2.shadowBlur=0;
+  }
+  // Flares
+  if(Math.random()<0.15){var fa=Math.random()*Math.PI*2;fx2.beginPath();fx2.arc(cx+Math.cos(fa)*fireRadius,cy+Math.sin(fa)*fireRadius,3+Math.random()*6,0,Math.PI*2);fx2.fillStyle='rgba(255,245,210,0.7)';fx2.shadowColor='rgba(255,220,120,1)';fx2.shadowBlur=30;fx2.fill();fx2.shadowBlur=0}
+  
+  requestAnimationFrame(drawFire);
+}
+drawFire();
+
+// ═══ RESIZE ═══
+window.addEventListener('resize',function(){
+  dpr=window.devicePixelRatio||1;
+  var W=window.innerWidth,H=window.innerHeight;
+  mc.width=kc.width=fc.width=W*dpr;mc.height=kc.height=fc.height=H*dpr;
+  mc.style.width=kc.style.width=fc.style.width=W+'px';
+  mc.style.height=kc.style.height=fc.style.height=H+'px';
+  mx.scale(dpr,dpr);kx.scale(dpr,dpr);fx2.scale(dpr,dpr);
+  cols=Math.floor(W/(fontSize*0.5));drops=[];colWords=[];colCharIdx=[];
+  for(var i=0;i<cols;i++){drops[i]=Math.random()*-100;colWords[i]=Math.random()<0.4?words[Math.floor(Math.random()*words.length)]:'';colCharIdx[i]=0}
+  resizeEye();
+});
+
+// ═══ SPIRAL ENTRY — tunnel on first visit, direct on return ═══
+function enterSpiral(){
+  var qs=window.location.search||'';
+  var isAdmin=qs.indexOf('limen=spiral99')!==-1||qs.indexOf('limen=helix33')!==-1;
+  var seenTunnel=false;
+  try{seenTunnel=localStorage.getItem('limenTunnelSeen')==='1'}catch(e){}
+  
+  if(!seenTunnel||isAdmin){
+    // First time or admin — go through the death tunnel
+    window.location.href='tunnel.html'+qs;
+  }else{
+    // Already died once — go direct
+    window.location.href='spiral.html'+qs;
+  }
+}
+
+// ═══ PORTAL CONTROLS ═══
+function openThreshold(){
+  eyeClicked=true;
+
+  // Start fire ring immediately
+  fireActive=true;
+  // Fire ring radius will be anchored to #vr's actual rendered size each frame (see drawFire)
+  // Set initial target; drawFire() will sync to #vr once it expands
+  fireTargetR=0;
+  
+  var g=document.getElementById('gate'),p=document.getElementById('portal'),
+      vr=document.getElementById('vr'),pc=document.getElementById('pc'),
+      mission=document.getElementById('stage-mission'),
+      choices=document.getElementById('stage-choices');
+  
+  // Reset stages
+  mission.style.opacity='0';
+  choices.style.opacity='0';
+  
+  setTimeout(function(){g.classList.add('gate-opening')},800);
+  setTimeout(function(){
+    p.style.display='flex';
+    setTimeout(function(){p.style.background='rgba(0,0,0,0.8)'},50);
+  },1200);
+  setTimeout(function(){
+    vr.style.width='90vmin';vr.style.height='90vmin';
+    vr.style.maxWidth='680px';vr.style.maxHeight='680px';
+  },1400);
+  // Stage 1: Show mission statement
+  setTimeout(function(){
+    pc.classList.add('vis');
+    mission.style.opacity='1';
+  },2200);
+  // Stage 2: Fade out mission, fade in choices
+  setTimeout(function(){
+    mission.style.opacity='0';
+  },7000);
+  setTimeout(function(){
+    mission.style.display='none';
+    choices.style.opacity='1';
+  },8500);
+  setTimeout(function(){g.style.display='none'},2500);
+}
+
+function closeThreshold(){
+  var g=document.getElementById('gate'),p=document.getElementById('portal'),
+      vr=document.getElementById('vr'),pc=document.getElementById('pc'),
+      mission=document.getElementById('stage-mission'),
+      choices=document.getElementById('stage-choices');
+  pc.classList.remove('vis');
+  choices.style.opacity='0';
+  mission.style.opacity='0';
+  fireTargetR=0;
+  setTimeout(function(){vr.style.width='0';vr.style.height='0'},300);
+  setTimeout(function(){p.style.background='rgba(0,0,0,0)'},1000);
+  setTimeout(function(){
+    p.style.display='none';fireActive=false;fireRadius=0;
+    eyeClicked=false;eyeTarget=0;
+    mission.style.display='';// reset for next open
+    g.style.display='flex';g.classList.remove('gate-opening');
+  },1400);
+}
+
+// Parallax on eye
+gateEl.addEventListener('mousemove',function(e){
+  var r=this.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+  document.getElementById('eye-container').style.transform='translate('+x*20+'px,'+y*15+'px)';
+});
+
+// ═══ FORCED ENTRY — post-payment eye takeover ═══
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  if(!params.get('paid'))return;
+  
+  // Store tier from POS into localStorage on this domain
+  var tier=parseInt(params.get('tier'))||0;
+  var tk=params.get('tk')||'';
+  try{
+    var existing=JSON.parse(localStorage.getItem('limenAccess')||'{"totalPaid":0,"tier":-1}');
+    if(tier>existing.tier){existing.tier=tier;existing.token=tk;}
+    localStorage.setItem('limenAccess',JSON.stringify(existing));
+  }catch(e){}
+  
+  // Hide all non-eye elements
+  var gate=document.getElementById('gate');
+  var glyphs=document.querySelectorAll('.cg');
+  var subtitle=document.querySelector('#gate p');
+  glyphs.forEach(function(g){g.style.transition='opacity 1s';g.style.opacity='0'});
+  if(subtitle)subtitle.style.display='none';
+  
+  // Create takeover overlay
+  var takeoverDiv=document.createElement('div');
+  takeoverDiv.id='eyeTakeover';
+  takeoverDiv.style.cssText='position:fixed;inset:0;z-index:9999;background:#000;opacity:0;transition:opacity 0.5s;pointer-events:none;display:flex;align-items:center;justify-content:center;flex-direction:column';
+  var takeoverMsg=document.createElement('div');
+  takeoverMsg.style.cssText='font-family:monospace;font-size:clamp(0.65rem,2vw,1rem);letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,78,0);transition:color 2s;text-align:center;position:fixed;bottom:15%;z-index:10000';
+  takeoverDiv.appendChild(takeoverMsg);
+  document.body.appendChild(takeoverDiv);
+  
+  // Create whiteout
+  var wo=document.createElement('div');
+  wo.style.cssText='position:fixed;inset:0;z-index:10001;background:#fff;opacity:0;transition:opacity 0.6s;pointer-events:none';
+  document.body.appendChild(wo);
+  
+  var eyeContainer=document.getElementById('eye-container');
+  
+  // Phase 1 (0s): Fade to black, show just the eye
+  setTimeout(function(){takeoverDiv.style.opacity='1'},100);
+  
+  // Phase 2 (1.5s): Eye begins opening on its own — they didn't click it
+  setTimeout(function(){
+    eyeTarget=1;
+    eyeClicked=true;
+    takeoverMsg.textContent="YOUR OFFERING HAS BEEN ACCEPTED";
+    takeoverMsg.style.color='rgba(201,169,78,0.9)';
+  },1500);
+  
+  // Phase 3 (4s): Eye fully open — message changes  
+  setTimeout(function(){
+    takeoverMsg.style.color='rgba(201,169,78,0)';
+    setTimeout(function(){
+      takeoverMsg.textContent='THE THRESHOLD OPENS';
+      takeoverMsg.style.color='rgba(201,169,78,0.9)';
+    },800);
+  },4000);
+  
+  // Phase 4 (6s): Eye begins SCALING — zooming into the pupil
+  // The eye-container grows to fill the screen over 5 seconds
+  setTimeout(function(){
+    eyeContainer.style.transition='transform 6s cubic-bezier(0.25,0.1,0.25,1)';
+    eyeContainer.style.transformOrigin='center center';
+    eyeContainer.style.transform='scale(8)';// fills well past screen edges — you're IN the pupil
+    eyeContainer.style.zIndex='10000';
+  },6000);
+  
+  // Phase 5 (8s): Message — fear trigger
+  setTimeout(function(){
+    takeoverMsg.style.color='rgba(201,169,78,0)';
+    setTimeout(function(){
+      takeoverMsg.textContent='LOOK CLOSER';
+      takeoverMsg.style.color='rgba(201,169,78,0.85)';
+    },600);
+  },8000);
+  
+  // Phase 6 (10s): Scale even more — past the iris, INTO the pupil void
+  setTimeout(function(){
+    eyeContainer.style.transition='transform 4s cubic-bezier(0.4,0,0.2,1)';
+    eyeContainer.style.transform='scale(25)';
+  },10000);
+  
+  // Phase 7 (12s): Message gone, just black pupil filling screen
+  setTimeout(function(){
+    takeoverMsg.style.color='rgba(201,169,78,0)';
+  },11500);
+  
+  // Phase 8 (13s): Brief flash then redirect to tunnel
+  setTimeout(function(){
+    wo.style.opacity='0.15';
+    setTimeout(function(){wo.style.opacity='0'},100);
+  },13000);
+  
+  // Phase 9 (14s): Full whiteout
+  setTimeout(function(){
+    wo.style.opacity='1';
+  },14000);
+  
+  // Phase 10 (15s): Redirect to tunnel
+  setTimeout(function(){
+    var qs=window.location.search.replace(/[?&]paid=[^&]*/g,'').replace(/[?&]tier=[^&]*/g,'').replace(/[?&]tk=[^&]*/g,'');
+    if(qs&&qs[0]!=='?')qs='?'+qs;
+    if(!qs)qs='';
+    window.location.href='tunnel.html'+qs;
+  },15000);
+})();
+</script>
+
+<!-- DONATE MODAL -->
+<div id="donateModal" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.95);align-items:center;justify-content:center;flex-direction:column">
+  <div style="text-align:center;max-width:420px;padding:2rem;width:90%">
+    <div style="font-size:.55rem;letter-spacing:6px;color:rgba(201,169,78,0.5);text-transform:uppercase;font-family:monospace;margin-bottom:.6rem;font-weight:bold">Support the Work</div>
+    <div style="font-size:.75rem;color:#c8b98a;font-style:italic;font-family:Georgia,serif;margin-bottom:1.8rem;line-height:1.7">100% of proceeds support research and resources for neurodivergent populations.</div>
+    <div class="donate-list">
+      <a href="https://researchautism.org/donate/?form=DONATIONS" target="_blank" rel="noopener" class="donate-opt" onclick="event.stopPropagation()">
+        <span class="donate-name">Organization for Autism Research</span>
+        <span class="donate-desc">Applied research improving daily life for autistic individuals</span>
+      </a>
+      <a href="https://www.autismspeaks.org/donate" target="_blank" rel="noopener" class="donate-opt" onclick="event.stopPropagation()">
+        <span class="donate-name">Autism Speaks</span>
+        <span class="donate-desc">Advocacy, research funding, and family support services</span>
+      </a>
+      <a href="https://chadd.app.neoncrm.com/forms/donation2024" target="_blank" rel="noopener" class="donate-opt" onclick="event.stopPropagation()">
+        <span class="donate-name">CHADD &mdash; Children &amp; Adults with ADHD</span>
+        <span class="donate-desc">ADHD education, advocacy, and support &middot; 501(c)(3)</span>
+      </a>
+      <a href="https://give.childrensmercykids.org/give/280980/#!/donation/checkout?c_src=na&amp;c_src2=website" target="_blank" rel="noopener" class="donate-opt" onclick="event.stopPropagation()">
+        <span class="donate-name">Children&rsquo;s Mercy &mdash; Donate</span>
+        <span class="donate-desc">Support autism programs at Children&rsquo;s Mercy Hospital</span>
+      </a>
+    </div>
+    <button style="background:none;border:1px solid rgba(201,169,78,0.12);color:rgba(201,169,78,0.3);padding:8px 22px;font-size:.6rem;letter-spacing:3px;cursor:pointer;text-transform:uppercase;font-family:monospace;margin-top:1.4rem;transition:all .3s" onclick="closeDonateModal()" onmouseover="this.style.borderColor='rgba(201,169,78,0.35)';this.style.color='rgba(201,169,78,0.6)'" onmouseout="this.style.borderColor='rgba(201,169,78,0.12)';this.style.color='rgba(201,169,78,0.3)'">&larr; Back</button>
+  </div>
+</div>
+<style>
+.donate-list{display:flex;flex-direction:column;gap:8px}
+.donate-opt{display:block;padding:12px 16px;border:1px solid rgba(201,169,78,0.12);background:rgba(201,169,78,0.02);text-decoration:none;cursor:pointer;transition:all .4s;border-radius:3px;text-align:left}
+.donate-opt:hover{border-color:rgba(201,169,78,0.45);background:rgba(201,169,78,0.07);box-shadow:0 0 30px rgba(201,169,78,0.06)}
+.donate-name{display:block;font-size:.7rem;letter-spacing:2px;color:#C9A94E;font-family:monospace;font-weight:bold}
+.donate-desc{display:block;font-size:.55rem;color:#c8b98a;margin-top:3px;letter-spacing:1px;font-family:Georgia,serif}
+.donate-opt:hover .donate-desc{color:#e0d4b0}
+@media(max-width:600px){.donate-opt{padding:10px 12px}.donate-name{font-size:.6rem}.donate-desc{font-size:.45rem}}
+</style>
+<script>
+function openDonateModal(){
+  var m=document.getElementById('donateModal');
+  m.style.display='flex';m.style.opacity='0';
+  requestAnimationFrame(function(){m.style.transition='opacity 0.4s ease';m.style.opacity='1'});
+}
+function closeDonateModal(){
+  var m=document.getElementById('donateModal');
+  m.style.opacity='0';
+  setTimeout(function(){m.style.display='none';m.style.transition=''},400);
+}
+</script>
+
+<!-- CODE GATE OVERLAY -->
+<div id="codeGate" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.95);align-items:center;justify-content:center;flex-direction:column">
+  <div style="text-align:center;max-width:340px;padding:2rem">
+    <div style="font-size:.55rem;letter-spacing:6px;color:rgba(201,169,78,0.4);text-transform:uppercase;font-family:monospace;margin-bottom:1.5rem;font-weight:bold">Access Required</div>
+    <div style="font-size:.85rem;color:rgba(201,169,78,0.3);font-style:italic;font-family:Georgia,serif;margin-bottom:2rem;line-height:1.8">This gateway is restricted.<br>Enter the access code to proceed.</div>
+    <div id="codeDisplay" style="font-size:2.2rem;letter-spacing:18px;color:rgba(201,169,78,0.7);font-family:monospace;min-height:3rem;margin-bottom:1.5rem;text-shadow:0 0 20px rgba(201,169,78,0.3)">____</div>
+    <div id="codeGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:240px;margin:0 auto 1.5rem">
+      <button class="ck" onclick="codeKey(1)">1</button>
+      <button class="ck" onclick="codeKey(2)">2</button>
+      <button class="ck" onclick="codeKey(3)">3</button>
+      <button class="ck" onclick="codeKey(4)">4</button>
+      <button class="ck" onclick="codeKey(5)">5</button>
+      <button class="ck" onclick="codeKey(6)">6</button>
+      <button class="ck" onclick="codeKey(7)">7</button>
+      <button class="ck" onclick="codeKey(8)">8</button>
+      <button class="ck" onclick="codeKey(9)">9</button>
+      <button class="ck" onclick="codeClear()" style="font-size:.6rem;letter-spacing:2px">CLR</button>
+      <button class="ck" onclick="codeKey(0)">0</button>
+      <button class="ck" onclick="codeSubmit()" style="font-size:.6rem;letter-spacing:2px;color:rgba(201,169,78,0.6)">↵</button>
+    </div>
+    <div id="codeMsg" style="font-size:.6rem;letter-spacing:3px;color:rgba(255,60,40,0);font-family:monospace;text-transform:uppercase;min-height:1.2rem;transition:color .3s"></div>
+    <button style="background:none;border:1px solid rgba(201,169,78,0.1);color:rgba(201,169,78,0.25);padding:6px 18px;font-size:.55rem;letter-spacing:3px;cursor:pointer;text-transform:uppercase;font-family:monospace;margin-top:1rem;transition:all .3s" onclick="closeCodeGate()" onmouseover="this.style.borderColor='rgba(201,169,78,0.3)';this.style.color='rgba(201,169,78,0.5)'" onmouseout="this.style.borderColor='rgba(201,169,78,0.1)';this.style.color='rgba(201,169,78,0.25)'">← Back</button>
+  </div>
+</div>
+<style>
+.ck{background:none;border:1px solid rgba(201,169,78,0.15);color:rgba(201,169,78,0.6);font-size:1.3rem;font-family:monospace;padding:14px;cursor:pointer;transition:all .2s;border-radius:3px}
+.ck:hover{border-color:rgba(201,169,78,0.4);background:rgba(201,169,78,0.05);color:rgba(201,169,78,0.9)}
+.ck:active{background:rgba(201,169,78,0.12);transform:scale(0.95)}
+@media(max-width:600px){.ck{padding:12px;font-size:1.1rem}#codeDisplay{font-size:1.8rem;letter-spacing:14px}}
+</style>
+<script>
+var _codeInput='',_codeTarget='',_correctCode='9338';
+var _codeDests={console:'civilization.html',connectome:'civilization.html',clinical:'clinical-portal.html','helix-report':'helix-report.html','limen-report':'limen-report.html',navigator:'navigator.html',spiral:'tunnel.html'};
+var _returnUrl=(function(){var m=location.search.match(/[?&]return=([^&]*)/);return m?decodeURIComponent(m[1]):null})();
+
+function openCodeGate(target){
+  _codeTarget=target;_codeInput='';
+  updateCodeDisplay();
+  document.getElementById('codeMsg').style.color='rgba(255,60,40,0)';
+  var g=document.getElementById('codeGate');
+  g.style.display='flex';
+  g.style.opacity='0';
+  requestAnimationFrame(function(){g.style.transition='opacity 0.4s ease';g.style.opacity='1'});
+}
+function closeCodeGate(){
+  var g=document.getElementById('codeGate');
+  g.style.opacity='0';
+  setTimeout(function(){g.style.display='none';g.style.transition=''},400);
+  _codeInput='';
+}
+function codeKey(n){
+  if(_codeInput.length>=4)return;
+  _codeInput+=String(n);
+  updateCodeDisplay();
+  if(_codeInput.length===4)setTimeout(codeSubmit,200);
+}
+function codeClear(){_codeInput='';updateCodeDisplay();document.getElementById('codeMsg').style.color='rgba(255,60,40,0)';}
+function codeSubmit(){
+  if(_codeInput===_correctCode){
+    document.getElementById('codeMsg').textContent='ACCESS GRANTED';
+    document.getElementById('codeMsg').style.color='rgba(201,169,78,0.7)';
+    document.getElementById('codeDisplay').style.color='rgba(201,169,78,1)';
+    document.getElementById('codeDisplay').style.textShadow='0 0 30px rgba(201,169,78,0.6)';
+    localStorage.setItem('limen_gate','1');
+    sessionStorage.setItem('limen_access','granted');
+    setTimeout(function(){window.location.href=_returnUrl||_codeDests[_codeTarget]||'civilization.html'},800);
+  } else {
+    document.getElementById('codeMsg').textContent='INCORRECT CODE';
+    document.getElementById('codeMsg').style.color='rgba(255,60,40,0.7)';
+    document.getElementById('codeDisplay').style.color='rgba(255,60,40,0.5)';
+    setTimeout(function(){
+      _codeInput='';updateCodeDisplay();
+      document.getElementById('codeDisplay').style.color='rgba(201,169,78,0.7)';
+      document.getElementById('codeMsg').style.color='rgba(255,60,40,0)';
+    },1200);
+  }
+}
+function updateCodeDisplay(){
+  var d='';
+  for(var i=0;i<4;i++){d+=i<_codeInput.length?_codeInput[i]:'_';if(i<3)d=' ';}
+  document.getElementById('codeDisplay').textContent=d;
+}
+// Auto-open code gate if redirected from a gated page
+if(_returnUrl){openCodeGate('return');}
+
+// Keyboard support
+document.addEventListener('keydown',function(e){
+  var g=document.getElementById('codeGate');
+  if(g.style.display!=='flex')return;
+  if(e.key>='0'&&e.key<='9')codeKey(parseInt(e.key));
+  else if(e.key==='Backspace'||e.key==='Delete'){_codeInput=_codeInput.slice(0,-1);updateCodeDisplay();}
+  else if(e.key==='Enter')codeSubmit();
+  else if(e.key==='Escape')closeCodeGate();
+});
+</script>
+
+<script>
+// ═══ ORACLE — DISABLED ═══
+// Interactive AI responses temporarily disabled.
+// All oracle execution paths are no-ops.
+window.startOracle=function(){};
+window.oracleSend=function(){};
+function toggleGear(){}
+function previewVoice(){}
+// Gate center positioning (extracted from oracle block)
+(function(){
+  var _vh=window.innerHeight;
+  var _vw=window.innerWidth;
+  var gc=document.getElementById('gate-center');
+  if(gc){
+    gc.style.top=Math.round(_vh*0.50)+'px';
+    gc.style.left=Math.round(_vw*0.5)+'px';
+    gc.style.transform='translate(-50%,-50%)';
+  }
+})();
+// (Phase journey animation removed)
+
+(function(){
+  var c=document.getElementById('phaseJourney');
+  if(!c)return;
+  var W=340,H=90,DPR=window.devicePixelRatio||1;
+  c.width=W*DPR;c.height=H*DPR;
+  c.style.width=W+'px';c.style.height=H+'px';
+  var ctx=c.getContext('2d');
+  ctx.scale(DPR,DPR);
+
+  var PHASES=[
+    {id:'P0',label:'SOURCE',posture:0,env:'calm',glow:0.4,color:'201,169,78'},
+    {id:'P1',label:'RUPTURE',posture:0.15,env:'crack',glow:0.5,color:'201,169,78'},
+    {id:'P2',label:'RHYTHM',posture:0.05,env:'wave',glow:0.45,color:'14,165,233'},
+    {id:'P3',label:'DARKNESS',posture:0.4,env:'noise',glow:0.3,color:'232,84,84'},
+    {id:'P4',label:'PEACE',posture:0.1,env:'clear',glow:0.5,color:'16,185,129'},
+    {id:'P5',label:'AWARENESS',posture:-0.05,env:'field',glow:0.6,color:'201,169,78'},
+    {id:'P6',label:'ORDER',posture:-0.1,env:'grid',glow:0.55,color:'201,169,78'},
+    {id:'P7',label:'DISSOLUTION',posture:0.3,env:'frag',glow:0.35,color:'139,92,246'},
+    {id:'P8',label:'WITNESS',posture:0,env:'halo',glow:0.65,color:'167,139,250'},
+    {id:'P9',label:'THRESHOLD',posture:-0.08,env:'gate',glow:0.8,color:'234,179,8'},
+    {id:'P10',label:'RETURN',posture:-0.12,env:'luminous',glow:0.9,color:'234,179,8'}
+  ];
+
+  var CYCLE=15000; // 15s loop
+  var ground=H-18;
+  var margin=22;
+  var span=W-margin*2;
+
+  function drawFigure(x,y,posture,alpha,color,env,glowAmt){
+    // Human silhouette proportions (side profile, ~32px tall)
+    var scale=0.85;
+    var headR=2.8*scale;
+    var neckH=2*scale;
+    var torsoH=12*scale;
+    var legH=14*scale;
+    var totalH=headR*2+neckH+torsoH+legH;
+    var lean=posture*8;
+
+    // Key body points
+    var headCY=y-totalH+headR+lean*0.3;
+    var neckY=headCY+headR+neckH*0.5;
+    var shoulderY=neckY+neckH*0.5;
+    var waistY=shoulderY+torsoH*0.55;
+    var hipY=shoulderY+torsoH;
+    var kneeY=hipY+legH*0.5;
+
+    // Walk cycle — smooth sinusoidal
+    var walkPhase=Date.now()/420; // calm pace
+    var walkAmp=Math.max(0.15,1-Math.abs(posture)*1.8); // reduced when burdened
+    var legSwing=Math.sin(walkPhase)*4.5*walkAmp*scale;
+    var armSwing=Math.sin(walkPhase)*3*walkAmp*scale;
+    var hipBob=Math.abs(Math.sin(walkPhase))*0.8*walkAmp;
+
+    ctx.lineCap='round';ctx.lineJoin='round';
+
+    // Glow aura
+    if(glowAmt>0.3){
+      var grad=ctx.createRadialGradient(x,shoulderY,0,x,shoulderY,14*glowAmt);
+      grad.addColorStop(0,'rgba('+color+','+(0.1*glowAmt)+')');
+      grad.addColorStop(1,'rgba('+color+',0)');
+      ctx.beginPath();ctx.arc(x,shoulderY,14*glowAmt,0,Math.PI*2);
+      ctx.fillStyle=grad;ctx.fill();
+    }
+
+    // Environment effects
+    if(env==='crack'){
+      ctx.strokeStyle='rgba(232,84,84,'+(alpha*0.25)+')';ctx.lineWidth=0.6;
+      ctx.beginPath();ctx.moveTo(x-8,ground+2);ctx.lineTo(x-5,ground-3);ctx.lineTo(x-2,ground+1);ctx.stroke();
+    }else if(env==='wave'){
+      ctx.strokeStyle='rgba(14,165,233,'+(alpha*0.15)+')';ctx.lineWidth=0.5;
+      for(var wi=0;wi<3;wi++){var wy=ground+3+wi*2;ctx.beginPath();ctx.moveTo(x-14,wy);ctx.quadraticCurveTo(x-7,wy-2,x,wy);ctx.quadraticCurveTo(x+7,wy+2,x+14,wy);ctx.stroke();}
+    }else if(env==='noise'){
+      ctx.fillStyle='rgba(232,84,84,'+(alpha*0.12)+')';
+      for(var ni=0;ni<8;ni++){ctx.fillRect(x-12+Math.sin(ni*2.3+Date.now()/800)*14,headCY-6+Math.cos(ni*1.9+Date.now()/600)*20,0.8,0.8);}
+    }else if(env==='field'){
+      ctx.strokeStyle='rgba(201,169,78,'+(alpha*0.12)+')';ctx.lineWidth=0.5;
+      ctx.beginPath();ctx.arc(x,waistY,14,0,Math.PI*2);ctx.stroke();
+    }else if(env==='grid'){
+      ctx.strokeStyle='rgba(201,169,78,'+(alpha*0.08)+')';ctx.lineWidth=0.4;
+      for(var gi=-3;gi<=3;gi++){ctx.beginPath();ctx.moveTo(x+gi*5,ground-2);ctx.lineTo(x+gi*5,ground+4);ctx.stroke();}
+    }else if(env==='frag'){
+      ctx.strokeStyle='rgba(139,92,246,'+(alpha*0.2)+')';ctx.lineWidth=0.6;
+      ctx.beginPath();ctx.moveTo(x-3,shoulderY-2);ctx.lineTo(x-7,shoulderY-6);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(x+3,waistY);ctx.lineTo(x+8,waistY-2);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(x-1,hipY+2);ctx.lineTo(x-5,hipY+5);ctx.stroke();
+    }else if(env==='halo'){
+      ctx.strokeStyle='rgba(167,139,250,'+(alpha*0.18)+')';ctx.lineWidth=0.5;
+      ctx.beginPath();ctx.arc(x+lean*0.3,headCY-1,headR+3.5,0,Math.PI*2);ctx.stroke();
+    }else if(env==='gate'){
+      ctx.strokeStyle='rgba(234,179,8,'+(alpha*0.25)+')';ctx.lineWidth=0.6;
+      ctx.beginPath();ctx.moveTo(x,ground+4);ctx.lineTo(x,headCY-8);ctx.stroke();
+      ctx.strokeStyle='rgba(234,179,8,'+(alpha*0.12)+')';
+      ctx.beginPath();ctx.moveTo(x-6,headCY-8);ctx.lineTo(x+6,headCY-8);ctx.stroke();
+    }else if(env==='luminous'){
+      var lg=ctx.createRadialGradient(x,waistY,0,x,waistY,20);
+      lg.addColorStop(0,'rgba(234,179,8,'+(0.07*glowAmt)+')');
+      lg.addColorStop(1,'rgba(234,179,8,0)');
+      ctx.beginPath();ctx.arc(x,waistY,20,0,Math.PI*2);ctx.fillStyle=lg;ctx.fill();
+    }
+
+    // === HUMAN SILHOUETTE (filled, side profile) ===
+    ctx.fillStyle='rgba('+color+','+alpha+')';
+
+    // Head — slightly oval
+    ctx.beginPath();
+    var hx=x+lean*0.3;
+    ctx.ellipse(hx,headCY,headR*0.9,headR,0,0,Math.PI*2);
+    ctx.fill();
+
+    // Torso — filled shape with shoulders and waist
+    var shW=4.5*scale; // shoulder half-width
+    var waistW=3*scale;
+    ctx.beginPath();
+    ctx.moveTo(hx-shW*0.3+lean*0.15,shoulderY); // left shoulder
+    ctx.lineTo(hx+shW*0.7+lean*0.15,shoulderY); // right shoulder (side view)
+    ctx.quadraticCurveTo(hx+shW*0.5+lean*0.08,waistY,hx+waistW*0.4+lean*0.05,hipY-hipBob);
+    ctx.lineTo(hx-waistW*0.4+lean*0.05,hipY-hipBob);
+    ctx.quadraticCurveTo(hx-shW*0.3+lean*0.08,waistY,hx-shW*0.3+lean*0.15,shoulderY);
+    ctx.fill();
+
+    // Neck
+    ctx.fillRect(hx-1.2*scale+lean*0.2,shoulderY-neckH,2.4*scale,neckH);
+
+    // Legs — two limbs with walk cycle, thicker at thigh
+    ctx.lineWidth=2.2*scale;ctx.strokeStyle='rgba('+color+','+alpha+')';
+    // Back leg
+    var bKneeX=hx-legSwing*0.4+lean*0.03;
+    var bFootX=hx-legSwing+lean*0.02;
+    var bKneeY2=kneeY-hipBob-Math.abs(legSwing)*0.15;
+    ctx.beginPath();ctx.moveTo(hx+lean*0.05,hipY-hipBob);ctx.quadraticCurveTo(bKneeX,bKneeY2,bFootX,y);ctx.stroke();
+    // Front leg
+    var fKneeX=hx+legSwing*0.4+lean*0.03;
+    var fFootX=hx+legSwing+lean*0.02;
+    var fKneeY2=kneeY-hipBob-Math.abs(legSwing)*0.15;
+    ctx.beginPath();ctx.moveTo(hx+lean*0.05,hipY-hipBob);ctx.quadraticCurveTo(fKneeX,fKneeY2,fFootX,y);ctx.stroke();
+
+    // Arms — pendulum swing opposite to legs
+    ctx.lineWidth=1.6*scale;
+    var armLen=9*scale;
+    // Back arm
+    var baEndX=hx-armSwing+lean*0.1;
+    var baEndY=shoulderY+armLen*0.7;
+    ctx.beginPath();ctx.moveTo(hx+lean*0.15,shoulderY+1);ctx.quadraticCurveTo(hx-armSwing*0.5+lean*0.1,shoulderY+armLen*0.4,baEndX,baEndY);ctx.stroke();
+    // Front arm
+    var faEndX=hx+armSwing+lean*0.1;
+    var faEndY=shoulderY+armLen*0.7;
+    ctx.beginPath();ctx.moveTo(hx+lean*0.15,shoulderY+1);ctx.quadraticCurveTo(hx+armSwing*0.5+lean*0.1,shoulderY+armLen*0.4,faEndX,faEndY);ctx.stroke();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    var t=(Date.now()%CYCLE)/CYCLE; // 0→1 over cycle
+    var phaseIdx=t*PHASES.length;
+    var pi=Math.floor(phaseIdx);
+    var blend=phaseIdx-pi;
+    var curr=PHASES[Math.min(pi,PHASES.length-1)];
+    var next=PHASES[Math.min(pi+1,PHASES.length-1)];
+
+    // Figure position — moves left to right
+    var fx=margin+t*span;
+
+    // Interpolate
+    var posture=curr.posture+(next.posture-curr.posture)*blend;
+    var glow=curr.glow+(next.glow-curr.glow)*blend;
+    var alpha=0.55+glow*0.3;
+
+    // Ground line — faint
+    ctx.strokeStyle='rgba(201,169,78,0.06)';
+    ctx.lineWidth=0.5;
+    ctx.beginPath();ctx.moveTo(margin,ground+4);ctx.lineTo(W-margin,ground+4);ctx.stroke();
+
+    // Phase markers on ground
+    for(var mi=0;mi<PHASES.length;mi++){
+      var mx=margin+(mi/(PHASES.length-1))*span;
+      var isCurrent=Math.abs(mx-fx)<(span/PHASES.length)*0.6;
+      ctx.fillStyle=isCurrent?'rgba('+curr.color+',0.5)':'rgba(201,169,78,0.08)';
+      ctx.fillRect(mx-0.5,ground+2,1,4);
+      // Label
+      ctx.font='5px monospace';
+      ctx.textAlign='center';
+      ctx.fillStyle=isCurrent?'rgba('+curr.color+',0.45)':'rgba(201,169,78,0.06)';
+      ctx.fillText(PHASES[mi].id,mx,ground+14);
+    }
+
+    // Draw figure
+    drawFigure(fx,ground,posture,alpha,curr.color,curr.env,glow);
+
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
+})();
+</script>
+<script>
+// (original oracle block disabled — early exit)
+(function(){
+  return; // DISABLED: conversational AI removed
+  var ORACLE_API='https://limen-helix-api.vercel.app/api/oracle';
+  var chatEl=document.getElementById('oracle-chat');
+  var inputEl=document.getElementById('oracle-input');
+  var sendBtn=document.getElementById('oracle-send');
+  var statusEl=document.getElementById('oracle-status');
+  var history=[];
+  var voiceOn=true;
+  var synth=window.speechSynthesis;
+  var currentTone='neutral';
+
+  // Lock positions using initial viewport height (immune to mobile keyboard resize)
+  var _vh=window.innerHeight;
+  var _vw=window.innerWidth;
+  var gateCenter=document.getElementById('gate-center');
+  var oracleWrap=document.getElementById('oracle-wrap');
+  var oracleCta=document.getElementById('oracle-cta');
+  // Eye: centered vertically at 42% (slightly above true center for visual balance)
+  gateCenter.style.top=Math.round(_vh*0.46)+'px';
+  gateCenter.style.left=Math.round(_vw*0.5)+'px';
+  gateCenter.style.transform='translate(-50%,-50%)';
+  // CTA: below eye group
+  oracleCta.style.top=Math.round(_vh*0.66)+'px';
+  oracleCta.style.left=Math.round(_vw*0.5)+'px';
+  oracleCta.style.transform='translateX(-50%)';
+  // Oracle wrap: below CTA
+  oracleWrap.style.top=Math.round(_vh*0.66)+'px';
+  oracleWrap.style.left=Math.round(_vw*0.5)+'px';
+  oracleWrap.style.transform='translateX(-50%)';
+
+  // Prevent mobile keyboard from shifting fixed elements
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',function(){
+      // Keep positions locked to initial viewport — do not recalculate
+      document.body.style.height=_vh+'px';
+    });
+  }
+  var sending=false;
+
+  // Tone detection
+  function detectTone(t){
+    var l=t.toLowerCase();
+    if(/\b(hurt|pain|dark|lost|alone|scared|afraid|dying|dead|kill|suicide|hopeless|worthless|empty|numb|broken)\b/.test(l))return'dark';
+    if(/\b(love|happy|joy|excited|wonderful|grateful|amazing|beautiful|laugh|funny)\b/.test(l))return'bright';
+    if(/\b(worried|anxious|nervous|stressed|overwhelmed|tired|exhausted|confused)\b/.test(l))return'gentle';
+    if(/\b(angry|furious|rage|hate|frustrated)\b/.test(l))return'intense';
+    if(/\b(child|kid|son|daughter|parent|family|mom|dad)\b/.test(l))return'warm';
+    return'neutral';
+  }
+
+  var toneHues={neutral:45,warm:160,dark:280,bright:50,gentle:210,intense:0};
+  window._oracleToneHue=45;
+
+  // Voice settings
+  var voiceSelect=document.getElementById('ovs-voice');
+  var rateSlider=document.getElementById('ovs-rate');
+  var pitchSlider=document.getElementById('ovs-pitch');
+  var volSlider=document.getElementById('ovs-vol');
+  var rateVal=document.getElementById('ovs-rate-val');
+  var pitchVal=document.getElementById('ovs-pitch-val');
+  var volVal=document.getElementById('ovs-vol-val');
+  var settingsPanel=document.getElementById('oracle-voice-settings');
+  var gearBtn=document.getElementById('oracle-gear');
+  var selectedVoiceIdx=-1;
+
+  function populateVoices(){
+    if(!synth)return;
+    var voices=synth.getVoices();
+    voiceSelect.innerHTML='';
+    var preferred=['Samantha','Google UK English Female','Karen','Daniel','Google US English','Zira','David','Alex'];
+    var bestIdx=-1;
+    for(var i=0;i<voices.length;i++){
+      var v=voices[i];
+      if(v.lang.indexOf('en')!==0)continue;
+      var opt=document.createElement('option');
+      opt.value=i;
+      opt.textContent=v.name+(v.lang?' ('+v.lang+')':'');
+      voiceSelect.appendChild(opt);
+      if(bestIdx===-1){
+        for(var p=0;p<preferred.length;p++){
+          if(v.name.indexOf(preferred[p])!==-1){bestIdx=i;break;}
+        }
+      }
+    }
+    if(bestIdx!==-1){voiceSelect.value=bestIdx;selectedVoiceIdx=bestIdx;}
+    else if(voiceSelect.options.length>0){selectedVoiceIdx=parseInt(voiceSelect.options[0].value);}
+  }
+  if(synth){
+    populateVoices();
+    if(synth.onvoiceschanged!==undefined)synth.onvoiceschanged=populateVoices;
+  }
+  voiceSelect.addEventListener('change',function(){selectedVoiceIdx=parseInt(this.value);});
+  rateSlider.addEventListener('input',function(){rateVal.textContent=parseFloat(this.value).toFixed(2);});
+  pitchSlider.addEventListener('input',function(){pitchVal.textContent=parseFloat(this.value).toFixed(2);});
+  volSlider.addEventListener('input',function(){volVal.textContent=parseFloat(this.value).toFixed(2);});
+
+  // Speak ONLY after typing completes — never during
+  function speak(text){
+    if(!voiceOn||!synth)return;
+    synth.cancel();
+    var utt=new SpeechSynthesisUtterance(text);
+    utt.rate=parseFloat(rateSlider.value);
+    utt.pitch=parseFloat(pitchSlider.value);
+    utt.volume=parseFloat(volSlider.value);
+    var voices=synth.getVoices();
+    if(selectedVoiceIdx>=0&&selectedVoiceIdx<voices.length){utt.voice=voices[selectedVoiceIdx];}
+    synth.speak(utt);
+  }
+
+  window.toggleGear=function(){
+    settingsPanel.classList.toggle('open');
+    gearBtn.classList.toggle('active',settingsPanel.classList.contains('open'));
+  };
+
+  window.previewVoice=function(){
+    speak('I can see you. And honestly? You look like someone with excellent questions.');
+  };
+
+  // Voice-first reveal — voice starts immediately, text types alongside
+  function revealText(el,text,cb){
+    el.textContent='';
+    var cursor=document.createElement('span');
+    cursor.className='ora-cursor';
+    el.appendChild(cursor);
+    // Start voice immediately — don't wait for typing
+    speak(text);
+    var i=0;
+    function tick(){
+      if(i<text.length){
+        el.insertBefore(document.createTextNode(text[i]),cursor);
+        i++;
+        setTimeout(tick,12+Math.random()*8); // faster typing
+      }else{
+        if(cursor.parentNode)cursor.parentNode.removeChild(cursor);
+        if(cb)cb();
+      }
+    }
+    tick();
+  }
+
+  // Show message — replaces previous, no scrolling conversation
+  function showEyeMessage(text,typed){
+    chatEl.innerHTML='';
+    var wrap=document.createElement('div');wrap.className='ora-msg';
+    var body=document.createElement('div');body.className='ora-eye';
+    wrap.appendChild(body);
+    chatEl.appendChild(wrap);
+    if(typed){
+      body.classList.add('ora-typing');
+      revealText(body,text,function(){body.classList.remove('ora-typing');});
+    }else{
+      body.textContent=text;
+    }
+  }
+
+  // Always unlock input
+  function unlock(){
+    sending=false;
+    sendBtn.disabled=false;
+    inputEl.disabled=false;
+    inputEl.focus();
+  }
+
+  // Start oracle
+  window.startOracle=function(){
+    document.body.classList.add('oracle-open');
+    document.getElementById('oracle-cta').style.display='none';
+    // No fire ring — that belongs to the portal transition only
+    setTimeout(function(){
+      showEyeMessage("There you are. What brought you here today?",true);
+    },300);
+    inputEl.focus();
+  };
+
+  // Send — previous message disappears, eye responds in place
+  window.oracleSend=function(){
+    if(sending)return;
+    var text=inputEl.value.trim();
+    if(!text)return;
+    sending=true;
+    currentTone=detectTone(text);
+    window._oracleToneHue=toneHues[currentTone]||45;
+    history.push({role:'user',content:text});
+    inputEl.value='';inputEl.style.height='auto';
+    sendBtn.disabled=true;
+    // Clear previous message, show waiting state
+    chatEl.innerHTML='';
+    statusEl.textContent='THE EYE IS LOOKING\u2026';
+
+    // Include behavior-only biosensor state if available
+    var bioState=null;
+    if(window._limenBio&&typeof window._limenBio.getState==='function'){
+      var bs=window._limenBio.getState();
+      bioState={arousal:Math.round(bs.arousal*100)/100,coherence:Math.round(bs.coherence*100)/100,cognitiveLoad:Math.round(bs.cognitiveLoad*100)/100,archetype:bs.archetype||'unknown'};
+    }
+    // Apply stance guard before sending
+    var guardedMessages=window._oracleStanceGuard
+      ?window._oracleStanceGuard.guardMessages(history)
+      :history;
+    var payload={messages:guardedMessages,tone:currentTone,bioState:bioState};
+    console.log('[Oracle] Sending:',JSON.stringify(payload).substring(0,200));
+
+    fetch(ORACLE_API,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    })
+    .then(function(r){
+      console.log('[Oracle] HTTP status:',r.status);
+      if(!r.ok){
+        return r.text().then(function(body){
+          console.error('[Oracle] Error response:',body);
+          var detail='Oracle unavailable';
+          try{var d=JSON.parse(body);detail=d.detail||detail;}catch(e){}
+          throw new Error(detail);
+        });
+      }
+      return r.json();
+    })
+    .then(function(data){
+      console.log('[Oracle] Response received, text length:',(data.text||'').length);
+      var reply=data.text;
+      if(!reply){
+        console.warn('[Oracle] Empty text in response:',data);
+        reply='I blinked. Say that again?';
+      }
+      history.push({role:'assistant',content:reply});
+      statusEl.textContent='';
+      showEyeMessage(reply,true);
+      unlock();
+    })
+    .catch(function(err){
+      console.error('[Oracle] Catch:',err);
+      statusEl.textContent=err.message;
+      showEyeMessage('The connection flickered. You can try again.',true);
+      unlock();
+    });
+  };
+
+  // Enter key
+  inputEl.addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();e.stopPropagation();window.oracleSend();}
+  });
+  // Auto-resize
+  inputEl.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px';});
+  // Stop clicks inside oracle from triggering gate
+  document.getElementById('oracle-wrap').addEventListener('click',function(e){e.stopPropagation();});
+  document.getElementById('oracle-cta').addEventListener('click',function(e){e.stopPropagation();});
+  // Voices loaded via populateVoices() above
+})();
+</script>
+
+<!-- Biosensor: behavior-only, no camera/BLE/mic -->
+<script src="biosensorEngine.js" defer></script>
+<script>
+// Start biosensor in behavior-only mode after page loads
+window.addEventListener('load', function() {
+  if (typeof window.startBiosensorEngine !== 'function') return;
+  try {
+    window._limenBio = window.startBiosensorEngine({ hud: false });
+    // Behavior channel auto-starts. Do NOT enable camera/BLE/motion.
+    console.log('[Biosensor] Behavior-only mode active on landing page');
+  } catch(e) {
+    console.warn('[Biosensor] Init failed:', e);
+  }
+});
+</script>
+
+</body>
+</html>

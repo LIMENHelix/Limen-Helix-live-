@@ -1,0 +1,783 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "volvo_group",
+  "slug": "volvo_group",
+  "name": "Volvo Group AB",
+  "ticker": null,
+  "cik": null,
+  "sic": "3711",
+  "industry": "Motor Vehicles & Passenger Car Bodies",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "FOREIGN_FILER",
+  "fredSeries": [
+    "TOTALSA",
+    "INDPRO",
+    "UMCSENT",
+    "HOUST",
+    "PERMIT",
+    "ICSA",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "steel",
+    "aluminum",
+    "diesel",
+    "crude oil",
+    "copper",
+    "rubber",
+    "rare earth elements"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "FOREIGN_FILER",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Heavy exposure to cyclical construction & mining equipment demand; 2023–2024 downturn in China infrastructure spending",
+    "Supply-chain concentration in semiconductor & electronic control modules; geopolitical risk in Taiwan/Korea sourcing",
+    "Transition to electric powertrains requires massive capex; legacy diesel-truck installed base creates stranded-asset risk",
+    "Regulatory pressure on emissions (EU Stage V, China National VI) compresses margin on legacy platforms"
+  ],
+  "opportunitySignals": [
+    "Electrification of heavy-duty trucks (Volvo FH Electric, Volvo FM Electric) addresses decarbonization mandates in EU/California",
+    "Autonomous hauling in mining (Volvo A60H, partnership with Autonomous Haulage Systems) captures premium in resource extraction",
+    "Aftermarket services & digital telematics (Volvo Connect, Dynafleet) shift revenue mix toward recurring, higher-margin streams",
+    "Infrastructure stimulus in US (Bipartisan Infrastructure Law) and India (National Infrastructure Pipeline) drive medium-haul demand"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Volvo Group is a global leader in heavy-duty trucks, construction equipment, and industrial powertrains, serving infrastructure development, mining, and logistics sectors across 190+ countries. The company's truck division (Volvo Trucks, Renault Trucks, Mack Trucks) and construction equipment segment (Volvo Construction Equipment, Terex partnership legacy) are critical to capital-intensive projects in transportation, mining, and urban development. Volvo's transition to electric and autonomous platforms directly shapes decarbonization pathways in heavy transport and construction, making it a bellwether for infrastructure-sector electrification.",
+  "portalRelevance": "Volvo Group is an anchor peer in the global heavy-equipment and commercial-vehicle ecosystem, with direct exposure to cyclical infrastructure spending, commodity input costs, and regulatory emissions transitions. Its financial health and order-book trajectory signal demand health in construction, mining, and logistics; its supply-chain dependencies (semiconductor, steel, powertrain components) and capital-intensity make it a critical node for understanding infrastructure-sector resilience and capex cycles. As a Swedish multinational with significant North American operations (Mack Trucks, Volvo Trucks USA), it bridges European and US regulatory regimes and serves as a proxy for global trade and industrial-production momentum.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "FOREIGN_FILER"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly order intake & backlog disclosures (quarterly earnings calls); leading indicator of 6–12 month revenue visibility",
+        "Commodity price indices (steel, diesel, aluminum) via Bloomberg/FRED; direct input-cost pass-through risk",
+        "Regulatory filing cadence (EU emissions compliance, China National VI adoption timelines); product-line obsolescence triggers",
+        "Supply-chain event notifications (semiconductor shortage impact, port congestion, logistics cost inflation); operational margin compression signals"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly order-to-delivery ratio and backlog-to-revenue conversion; capacity utilization & demand sustainability",
+        "Gross margin trend by segment (trucks vs. construction equipment); pricing power vs. input-cost inflation",
+        "Free cash flow generation and capex intensity; electrification investment burn rate vs. legacy cash generation",
+        "Geographic revenue mix (Europe, North America, Asia-Pacific); exposure to China construction slowdown and US infrastructure stimulus"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn pattern-match: order intake decline → backlog compression → margin pressure → capex deferral (2023–2024 China slowdown exemplar)",
+        "Electrification inflection risk: legacy diesel platform revenue cliff vs. EV ramp adoption curve; customer financing constraints for higher EV capex",
+        "Supply-chain fragility: semiconductor dependency on TSMC/Samsung; rare-earth magnet sourcing from China; single-source powertrain component risk",
+        "Competitive intensity: Daimler Trucks (Mercedes-Benz), Scania (VW Group), Hyundai Heavy Industries; margin compression in mature markets"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "EU Stage V / Euro 6 emissions compliance: product-line refresh capex; legacy inventory write-down risk if transition accelerates",
+        "China National VI adoption (2021 mandate): market-share defense in world's largest truck market; localized EV platform investment",
+        "US EPA Tier 4 Final / proposed heavy-duty GHG standards (2027+): Mack Trucks & Volvo Trucks USA product roadmap alignment",
+        "Antitrust scrutiny: Volvo-Renault Trucks integration (2001 merger legacy); potential divestitures if EU competition authority intervenes"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio rebalancing: reduce cyclical construction-equipment exposure; overweight recurring aftermarket services (Volvo Connect, Dynafleet)",
+        "Hedging: commodity futures on steel/diesel; currency forwards on EUR/USD, CNY exposure; equity-index puts on construction-cycle downturns",
+        "Engagement: board dialogue on capex allocation (EV vs. legacy); supply-chain resilience roadmap; customer financing programs for EV adoption",
+        "Thesis validation: track quarterly order intake, backlog-to-revenue ratio, and gross margin; set stop-loss on EV adoption delays or China demand collapse"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings: order intake, backlog, revenue by segment, gross margin, free cash flow; compare guidance revisions to macro indicators",
+        "Annual report (20-F filing): supply-chain concentration disclosures, capex guidance, EV platform progress, geographic revenue breakdown",
+        "Industry indices: construction equipment orders (Dodge Momentum Index), truck registrations (SADA, VDIK), mining capex cycles",
+        "Competitive benchmarking: Daimler Trucks, Scania, Hyundai Heavy Industries margin trends; market-share shifts in key geographies"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight commodity sensitivity: if steel/diesel volatility increases, raise hedging ratio; if EV adoption accelerates, reduce commodity beta",
+        "Update cyclical phase classification: track order-intake leading indicators; adjust portfolio positioning ahead of backlog-to-revenue inflection",
+        "Refine supply-chain risk model: incorporate semiconductor lead-time data, port congestion indices, and geopolitical risk scores for China/Taiwan",
+        "Recalibrate EV transition timeline: monitor customer financing adoption, regulatory enforcement pace, and competitive EV product launches; adjust terminal-value assumptions"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Volvo Group operates as a distributed decision-making network spanning heavy-duty truck manufacturing, construction equipment, and powertrain systems. The company's core cognitive function integrates demand signals from infrastructure, mining, and logistics customers; translates regulatory emissions mandates into product-platform roadmaps; manages commodity input volatility and supply-chain dependencies; and allocates capital between legacy diesel platforms and emerging electric/autonomous systems. Its functional network spans raw-material suppliers (steel, semiconductors), logistics partners (ports, freight), institutional customers (mining operators, fleet owners), regulatory bodies (EU, China, US EPA), and capital providers (banks, equity markets), with feedback loops through order intake, backlog conversion, and margin realization.",
+    "suppliers": [
+      {
+        "name": "ThyssenKrupp AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "thyssenkrupp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Steel Supply",
+        "relationshipNote": "Primary supplier of high-strength steel and stainless-steel components for truck frames, chassis, and structural assemblies. ThyssenKrupp supplies ~15–20% of Volvo Group's ferrous materials; 2023 supply agreement includes sustainability clauses (carbon-neutral steel by 2030). Volvo's exposure to ThyssenKrupp's cost inflation and production disruptions is material; 2022 energy crisis in Germany compressed ThyssenKrupp margins, flowing through to Volvo input costs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bosch Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "bosch_group",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Electronic Control Systems & Sensors",
+        "relationshipNote": "Supplies electronic control modules (ECMs), engine management systems, and sensor suites for Volvo trucks and construction equipment. Bosch is a critical dependency for EU Stage V and China National VI emissions compliance; 2021–2024 semiconductor shortage created 6–8 week lead-time extensions. Volvo's EV transition increases Bosch battery-management and power-electronics dependency; estimated 8–12% of Volvo's electronics bill of materials.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cummins Inc.",
+        "ticker": "CMI",
+        "cik": "0000023996",
+        "slug": "cummins",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Diesel Powertrains & Emissions Systems",
+        "relationshipNote": "Supplies diesel engines and aftertreatment systems (SCR, DPF) for Volvo Trucks North America and select international markets. Cummins partnership dates to 1990s; represents ~10–15% of Volvo Group's powertrain sourcing. Cummins' transition to natural gas and hydrogen engines (Cummins Westport JV) creates alternative-fuel optionality for Volvo; 2023 Cummins announced $1B+ EV powertrain investment, aligning with Volvo's electrification roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Allison Transmission Holdings Inc.",
+        "ticker": "ALSN",
+        "cik": "0001579241",
+        "slug": "allison_transmission",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Automatic Transmission Systems",
+        "relationshipNote": "Supplies heavy-duty automatic transmissions for Volvo Trucks North America (Mack Trucks, Volvo Trucks USA). Allison is the dominant OEM supplier in North American heavy-truck market; Volvo's Mack division uses Allison transmissions in ~60% of medium-duty and heavy-duty configurations. 2022 Allison announced $500M+ capex for EV transmission development; critical for Volvo's North American EV truck platform launch (Volvo FH Electric NA, Mack LR Electric).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Linamar Corporation",
+        "ticker": "LMR",
+        "cik": "0001380495",
+        "slug": "linamar",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Powertrain Components & Castings",
+        "relationshipNote": "Supplies aluminum and ductile-iron castings, crankshafts, and transmission housings for Volvo Group engines and powertrains. Linamar is a Tier-1 supplier to Volvo Trucks and Volvo Penta (marine engines); represents ~3–5% of Volvo's component sourcing. 2023 Linamar expanded EV motor-housing and battery-case production; Volvo's electrification roadmap increases Linamar's strategic importance for lightweight aluminum structures.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Meritor Inc.",
+        "ticker": "MTOR",
+        "cik": "0001497904",
+        "slug": "meritor",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Axles, Drivelines & Brake Systems",
+        "relationshipNote": "Supplies heavy-duty axles, drivelines, and integrated brake systems for Volvo Trucks North America and international markets. Meritor is a critical Tier-1 partner for Mack Trucks and Volvo Trucks USA; 2021 Meritor acquired ArvinMeritor's commercial-vehicle business, consolidating axle supply. Meritor's 2023 EV axle and drivetrain platform development directly supports Volvo's electric-truck roadmap; estimated 5–8% of Volvo's drivetrain bill of materials.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Wärtsilä Oyj",
+        "ticker": null,
+        "cik": null,
+        "slug": "wartsila",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Marine & Industrial Engines",
+        "relationshipNote": "Supplies large marine diesel engines and LNG propulsion systems for Volvo Penta (Volvo Group's marine division). Wärtsilä partnership spans 20+ years; 2019 Volvo Penta acquired Wärtsilä's fuel-cell technology IP for marine applications. Wärtsilä's transition to methanol and ammonia fuels aligns with Volvo Penta's decarbonization strategy; represents ~2–3% of Volvo Group revenue but critical for maritime emissions compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hexagon AB",
+        "ticker": null,
+        "cik": null,
+        "slug": "hexagon_ab",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Digital Solutions & Fleet Telematics",
+        "relationshipNote": "Supplies digital fleet-management and autonomous-vehicle positioning systems for Volvo Group's Dynafleet and Volvo Connect platforms. Hexagon's geolocation and real-time data analytics underpin Volvo's autonomous-hauling initiatives in mining (Volvo A60H partnership with Autonomous Haulage Systems). 2022 Hexagon expanded mining-automation portfolio; Volvo's digital-services revenue growth depends on Hexagon's platform reliability and feature velocity.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sandvik AB",
+        "ticker": null,
+        "cik": null,
+        "slug": "sandvik",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Wear Parts & Mining Equipment Components",
+        "relationshipNote": "Supplies wear-resistant components, cutting tools, and specialized materials for Volvo Construction Equipment's mining and quarrying product lines. Sandvik is a key partner for Volvo's A-series articulated haulers and L-series wheel loaders used in mining; 2021 Sandvik launched carbide-tipped bucket teeth and blade systems optimized for Volvo equipment. Represents ~2–3% of Volvo Construction Equipment's bill of materials; critical for customer retention in high-wear mining applications.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk A/S",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Container & Breakbulk Shipping",
+        "relationshipNote": "Primary ocean-freight partner for Volvo Group's finished-goods exports from European and Asian manufacturing hubs to North America and Asia-Pacific markets. Maersk handles ~25–30% of Volvo's containerized truck and equipment shipments; 2023 Maersk's carbon-neutral shipping initiatives align with Volvo's Scope 3 emissions targets. Volvo's supply-chain resilience depends on Maersk's port-congestion management and schedule reliability; 2021–2022 port delays extended Volvo's order-to-delivery cycle by 4–6 weeks.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DB Schenker",
+        "ticker": null,
+        "cik": null,
+        "slug": "db_schenker",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "European Land & Multimodal Logistics",
+        "relationshipNote": "Manages intra-European distribution and component logistics for Volvo's truck and construction-equipment manufacturing plants. DB Schenker operates dedicated Volvo freight lanes (Sweden–Germany–Poland–Hungary); 2022 contract renewal included sustainability clauses (electric truck adoption by 2025). DB Schenker's supply-chain visibility platform integrates with Volvo's production-planning systems; estimated 15–20% of Volvo's European logistics spend.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "North American Truck & Intermodal Logistics",
+        "relationshipNote": "Primary logistics partner for Volvo Trucks USA and Mack Trucks' finished-goods distribution across North America. J.B. Hunt operates dedicated Volvo/Mack delivery lanes and manages dealer-to-customer final-mile logistics; 2023 J.B. Hunt placed orders for 500+ Volvo FH Electric and Mack LR Electric trucks for fleet trials. J.B. Hunt's adoption of Volvo EV trucks signals customer confidence; represents ~10–15% of Volvo North America's logistics spend.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Freight Forwarding & Supply-Chain Solutions",
+        "relationshipNote": "Provides global freight-forwarding and supply-chain visibility services for Volvo Group's component sourcing and finished-goods distribution. Kuehne+Nagel manages Volvo's Asia-to-Europe and Asia-to-North America logistics corridors; 2022 partnership expanded to include real-time supply-chain tracking via blockchain. Kuehne+Nagel's digital platform integrates with Volvo's ERP; critical for managing semiconductor and powertrain-component lead times during supply-chain disruptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "North American LTL & Dedicated Logistics",
+        "relationshipNote": "Operates dedicated less-than-truckload (LTL) and dedicated logistics services for Volvo Trucks USA and Mack Trucks' parts distribution and dealer-support logistics. XPO manages Volvo's North American parts-distribution network; 2023 XPO expanded electric-truck fleet (150+ units) for Volvo parts delivery. XPO's EV adoption demonstrates customer confidence in Volvo truck reliability; represents ~5–8% of Volvo North America's logistics spend.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Rio Tinto Limited",
+        "ticker": "RIO",
+        "cik": "0001096752",
+        "slug": "rio_tinto",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Mining & Resource Extraction",
+        "relationshipNote": "Major institutional customer for Volvo Construction Equipment's A-series articulated haulers and L-series wheel loaders in iron ore, copper, and coal mining operations globally. Rio Tinto operates 50+ Volvo haulers across Australian, African, and South American mines; 2023 Rio Tinto pilot program for autonomous Volvo A60H haulers in Pilbara iron-ore operations. Rio Tinto's capex cycles directly drive Volvo Construction Equipment demand; represents ~3–5% of Volvo Construction Equipment revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BHP Group Limited",
+        "ticker": "BHP",
+        "cik": "0001049413",
+        "slug": "bhp_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Mining & Resource Extraction",
+        "relationshipNote": "Major institutional customer for Volvo Construction Equipment's mining haulers and loaders across copper, iron ore, and coal operations in Australia, Chile, and Africa. BHP operates 40+ Volvo A-series and L-series units; 2022 BHP committed to autonomous-hauling trials with Volvo and Autonomous Haulage Systems in Escondida copper mine (Chile). BHP's mining capex and autonomous-adoption roadmap are leading indicators for Volvo Construction Equipment demand; represents ~2–4% of Volvo Construction Equipment revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Glencore plc",
+        "ticker": "GLEN",
+        "cik": "0001687621",
+        "slug": "glencore",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Mining & Commodity Trading",
+        "relationshipNote": "Significant customer for Volvo Construction Equipment's haulers and loaders in copper, zinc, and coal mining operations across Zambia, DRC, Australia, and Peru. Glencore operates 30+ Volvo units; 2023 Glencore announced $5B+ capex program for copper expansion, driving demand for Volvo equipment. Glencore's commodity-price sensitivity and capex cycles create cyclical revenue volatility for Volvo Construction Equipment; represents ~2–3% of Volvo Construction Equipment revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fortescue Metals Group Limited",
+        "ticker": "FMG",
+        "cik": "0001391595",
+        "slug": "fortescue_metals",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Iron Ore Mining & Production",
+        "relationshipNote": "Major customer for Volvo Construction Equipment's A-series articulated haulers in Pilbara iron-ore mining operations (Australia). Fortescue operates 25+ Volvo haulers; 2023 Fortescue partnered with Volvo and Autonomous Haulage Systems for autonomous-hauling deployment in Pilbara. Fortescue's iron-ore production and capex cycles are leading indicators for Volvo Construction Equipment demand in Asia-Pacific; represents ~1–2% of Volvo Construction Equipment revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Daimler Truck Holding AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "daimler_truck",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Heavy-Duty Truck Manufacturing",
+        "relationshipNote": "Primary global competitor in heavy-duty trucks; Daimler Truck (Mercedes-Benz Trucks, Freightliner, Western Star) holds ~20–25% global market share vs. Volvo's ~15–18%. Daimler Truck's 2021 IPO and subsequent EV platform launches (eActros, eFE) directly compete with Volvo FH Electric and Volvo FM Electric. 2023 Daimler Truck announced $1B+ capex for EV truck production in Germany and US; margin compression in heavy-truck segment driven by EV transition capex and commodity inflation.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Scania AB",
+        "ticker": null,
+        "cik": null,
+        "slug": "scania",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Heavy-Duty Truck Manufacturing",
+        "relationshipNote": "Major competitor in European and emerging-market heavy-duty trucks; Scania (owned by Volkswagen Group since 2008) holds ~12–15% European market share. Scania's modular truck platform and strong aftermarket services (Scania Fleet Management) compete with Volvo's Dynafleet. 2023 Scania launched Scania L-series electric truck; VW Group's capital advantage and EV platform sharing (MEB architecture) create competitive pressure on Volvo's margins in Europe.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hyundai Heavy Industries Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "hyundai_heavy_industries",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Heavy-Duty Trucks & Construction Equipment",
+        "relationshipNote": "Emerging competitor in heavy-duty trucks and construction equipment, particularly in Asia-Pacific and Middle East markets. Hyundai Heavy Industries (now Korea Shipbuilding & Offshore Engineering) supplies Hyundai Trucks and Hyundai Construction Equipment; 2022 Hyundai announced $2B+ capex for EV truck and autonomous-equipment development. Hyundai's cost advantage and growing market share in Asia-Pacific create competitive pressure on Volvo's emerging-market margins; represents ~5–8% of global heavy-truck market.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "PACCAR Inc.",
+        "ticker": "PCAR",
+        "cik": "0000075362",
+        "slug": "paccar",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Heavy-Duty Truck Manufacturing (North America)",
+        "relationshipNote": "Major competitor in North American heavy-duty trucks; PACCAR (Peterbilt, Kenworth, DAF) holds ~25–30% North American market share vs. Volvo/Mack's ~20–25%. PACCAR's strong dealer network and customer loyalty create competitive moat in North America. 2023 PACCAR announced EV truck development (Peterbilt Model 579EV, Kenworth T680EV); PACCAR's higher margins and capital efficiency pose competitive threat to Volvo's North American profitability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Construction Equipment & Mining Haulers",
+        "relationshipNote": "Primary competitor in construction equipment and mining haulers; Caterpillar's 320–390 series excavators and 980–988 wheel loaders compete with Volvo's L-series loaders. Caterpillar holds ~30–35% global construction-equipment market share vs. Volvo's ~10–12%. 2023 Caterpillar announced $500M+ capex for EV and autonomous-equipment development; Caterpillar's scale and dealer network create competitive advantage in North America and emerging markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Komatsu Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "komatsu",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Construction Equipment & Mining Haulers",
+        "relationshipNote": "Major competitor in construction equipment and mining haulers, particularly in Asia-Pacific markets. Komatsu's PC-series excavators and WA-series wheel loaders compete with Volvo's L-series. Komatsu holds ~20–25% Asia-Pacific construction-equipment market share. 2023 Komatsu announced autonomous-hauling partnership with Volvo competitor in Australia; Komatsu's strong Asia-Pacific presence and autonomous-technology investments create competitive pressure on Volvo's regional margins.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "European Commission (Directorate-General for Mobility and Transport)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dgmove",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Emissions & Vehicle Regulation",
+        "relationshipNote": "Primary regulator for Volvo Group's European truck and construction-equipment operations. EC enforces Euro 6 emissions standards (NOx, particulate matter) and CO2 reduction targets (55% by 2030 vs. 2021 baseline). 2023 EC proposed Euro 7 standard (further NOx/PM reduction); Volvo's EU Stage V construction-equipment compliance and truck electrification roadmap directly respond to EC mandates. Non-compliance risks €5,000–€30,000 per vehicle penalties.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "Regulator for Volvo Trucks USA and Mack Trucks' emissions compliance. EPA enforces Tier 4 Final standards (NOx, PM) and proposed heavy-duty GHG standards (2027+, targeting 25% CO2 reduction). 2023 EPA proposed stricter NOx limits for heavy-duty trucks; Volvo's Mack Trucks division must comply with EPA standards for North American market. Non-compliance risks $43,280 per vehicle penalties and market-access restrictions.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "China Ministry of Ecology and Environment (MEE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_mee",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Emissions & Vehicle Regulation",
+        "relationshipNote": "Regulator for Volvo Group's China truck and construction-equipment operations. MEE enforces China National VI emissions standard (equivalent to Euro 6); 2021 mandate for all new trucks. 2023 MEE proposed National VI-B standard (further NOx reduction). Volvo's China truck sales (~15–20% of global truck revenue) depend on National VI compliance. Non-compliance risks market-access restrictions and €2,000–€5,000 per vehicle penalties in China.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Governance",
+        "relationshipNote": "Regulator for Volvo Group's North American subsidiaries (Mack Trucks, Volvo Trucks USA) and any US-listed debt or equity. Volvo Group is a Swedish multinational; US operations subject to SEC disclosure rules if Volvo lists ADRs or US-traded debt. 2023 SEC proposed climate disclosure rules (Scope 1, 2, 3 emissions); Volvo's decarbonization roadmap and supply-chain emissions reporting align with SEC expectations.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Swedish Financial Supervisory Authority (Finansinspektionen)",
+        "ticker": null,
+        "cik": null,
+        "slug": "swedish_fsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Governance",
+        "relationshipNote": "Primary financial regulator for Volvo Group AB (Swedish parent company). Finansinspektionen enforces Swedish Companies Act and EU Market Abuse Regulation (MAR); Volvo Group files annual reports (20-F equivalent) with Swedish Financial Supervisory Authority. 2023 Finansinspektionen issued guidance on climate-risk disclosure; Volvo's annual sustainability report aligns with Swedish regulatory expectations.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP (Sweden)",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_sweden",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Primary external auditor for Volvo Group AB (Swedish parent). Deloitte conducts annual financial audits of consolidated Volvo Group accounts and provides internal-control assessments. 2023 Deloitte audit scope includes supply-chain risk assessment, commodity-hedging effectiveness, and EV transition capex capitalization. Deloitte's audit opinions and management-letter findings are disclosed in Volvo's annual report (20-F equivalent).",
+      "confidence": "high",
+      "sourceType": [
+        "statutory",
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Nordea Bank Abp",
+        "ticker": null,
+        "cik": null,
+        "slug": "nordea_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Credit Facility Provider",
+        "relationshipNote": "Primary relationship bank for Volvo Group; provides revolving credit facilities, term loans, and trade-finance services. Nordea's €2B+ credit facility to Volvo Group (2023 renewal) supports working-capital management and capex financing. Nordea's credit covenants include leverage ratios (Net Debt/EBITDA <3.0x) and interest-coverage ratios (EBITDA/Interest >3.0x); covenant breaches would trigger acceleration clauses.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Deutsche Bank AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "deutsche_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Underwriter & Capital Markets",
+        "relationshipNote": "Lead underwriter for Volvo Group's EUR-denominated bond issuances and syndicated loans. Deutsche Bank arranged Volvo's €1.5B senior unsecured bond offering (2023, 3.5% coupon, 5-year maturity). Deutsche Bank also provides M&A advisory services for Volvo's potential acquisitions or divestitures (e.g., Volvo Construction Equipment strategic review). Estimated 8–12% of Volvo's debt-capital sourcing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": "0001168054",
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Shareholder (>5%)",
+        "relationshipNote": "Vanguard is a significant institutional shareholder in Volvo Group AB (estimated 5–7% ownership stake as of 2023). Vanguard's ESG investment criteria and climate-risk mandates influence Volvo's sustainability reporting and EV transition roadmap. Vanguard's voting power on Volvo's board resolutions (e.g., capex allocation, dividend policy) creates governance influence; Vanguard's engagement on decarbonization targets aligns with Volvo's 2030 carbon-neutral goal.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Shareholder (>5%)",
+        "relationshipNote": "BlackRock is a significant institutional shareholder in Volvo Group AB (estimated 4–6% ownership stake as of 2023). BlackRock's Aladdin platform and climate-risk analytics inform Volvo's ESG strategy and capital-allocation decisions. BlackRock's voting power on Volvo's board resolutions and engagement on supply-chain transparency and emissions reduction create governance influence; BlackRock's divestment threats on non-compliant companies incentivize Volvo's EV transition.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Martin Lundstedt",
+        "ticker": null,
+        "cik": null,
+        "slug": "martin_lundstedt",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer",
+        "relationshipNote": "CEO of Volvo Group since 2015; architect of Volvo's electrification and autonomous-vehicle strategy. Lundstedt announced 2030 carbon-neutral target (2021) and EV truck platform launches (Volvo FH Electric 2021, Volvo FM Electric 2023). Lundstedt's strategic vision emphasizes recurring digital-services revenue (Volvo Connect, Dynafleet) and autonomous-hauling partnerships; 2023 earnings calls highlight EV adoption acceleration and supply-chain resilience investments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Karin Frick",
+        "ticker": null,
+        "cik": null,
+        "slug": "karin_frick",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": "CFO of Volvo Group since 2019; responsible for capital allocation, debt management, and financial reporting. Frick oversees Volvo's €2B+ annual capex budget (split between EV platforms, legacy-truck production, and construction-equipment modernization). Frick's quarterly earnings guidance and full-year outlook directly signal management's demand expectations and margin-recovery trajectory; 2023 guidance emphasized working-capital optimization and free-cash-flow improvement.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Claes Erixon",
+        "ticker": null,
+        "cik": null,
+        "slug": "claes_erixon",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer",
+        "relationshipNote": "COO of Volvo Group (Trucks division); oversees manufacturing operations, supply-chain management, and production-capacity planning across European and North American truck plants. Erixon manages Volvo's response to semiconductor shortages, logistics disruptions, and EV platform ramp-up. 2023 Erixon announced €500M+ capex for EV truck production capacity in Sweden and US; responsible for order-to-delivery cycle optimization and manufacturing-cost reduction.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Jörgen Lööf",
+        "ticker": null,
+        "cik": null,
+        "slug": "jorgen_loof",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "General Counsel & Chief Compliance Officer",
+        "relationshipNote": "General Counsel of Volvo Group; responsible for legal compliance, regulatory affairs, and litigation management. Lööf oversees Volvo's response to EU emissions regulations, antitrust investigations, and product-liability claims. 2023 Lööf's office managed Volvo's compliance with EU Stage V and China National VI standards; responsible for supply-chain due diligence and conflict-minerals reporting.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Volvo Group Order Intake (Trucks Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "volvo_order_intake_trucks",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Leading Indicator",
+        "relationshipNote": "Monthly order intake for Volvo Trucks division (Europe, North America, Asia-Pacific) is a leading indicator of 6–12 month revenue visibility and demand health. Q3 2023 order intake declined 15% YoY (to 18,500 units) due to China infrastructure slowdown and North American freight-market weakness. Order-intake trends signal customer confidence in EV truck adoption and economic cycle positioning; backlog-to-delivery ratio indicates production-capacity utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Volvo Construction Equipment Demand Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "volvo_ce_demand_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capex Cycle Signal",
+        "relationshipNote": "Volvo Construction Equipment's quarterly order intake and backlog reflect mining capex cycles and construction-equipment demand in Asia-Pacific, Europe, and North America. Q3 2023 CE order intake declined 20% YoY due to mining capex deferrals and China construction slowdown. CE demand is highly cyclical; mining-company capex announcements (Rio Tinto, BHP, Glencore) are leading indicators for Volvo CE revenue 12–18 months forward.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Volvo Gross Margin (Trucks & CE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "volvo_gross_margin",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Pricing Power & Input-Cost Inflation Signal",
+        "relationshipNote": "Volvo Group's quarterly gross margin (Trucks + CE combined) reflects pricing power, commodity input costs (steel, aluminum, diesel), and manufacturing-cost efficiency. Q3 2023 gross margin compressed to 18.2% (vs. 20.1% in Q3 2022) due to steel/aluminum inflation and EV platform ramp-up costs. Gross-margin trends signal customer pricing acceptance, supply-chain cost inflation, and EV transition capex burden; margin recovery depends on commodity-price stabilization and EV volume ramp.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

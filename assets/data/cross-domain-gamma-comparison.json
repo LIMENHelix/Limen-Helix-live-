@@ -1,0 +1,171 @@
+{
+  "_generated": "Test #6 — cross-domain dynamical-class comparison",
+  "_date": "2026-05-13",
+  "_companion_doc": "docs/cross-domain-class-comparison.md",
+  "_method": "PubMed-grounded lit review; per-phase clinical-autonomic equivalents mapped to financial-cohort dynamical class; relative persistence ordering compared.",
+
+  "verdict": {
+    "class_ordering_transfers": true,
+    "class_ordering_clinical": "ATTRACTOR > RECOVERY > TRANSIENT",
+    "class_ordering_financial": "ATTRACTOR > RECOVERY > TRANSIENT",
+    "magnitude_transfers": false,
+    "rationale": "Clinical autonomic literature exhibits the same three-class persistence ordering as the financial cohort (Test #5). Magnitudes span 3-5 orders of magnitude in clinical (years vs minutes vs seconds) vs ~1 order of magnitude in financial (quarters); template's prediction that ORDERING transfers but TIMING does not is confirmed."
+  },
+
+  "clinical_class_timescales": {
+    "ATTRACTOR": {
+      "representative_states": [
+        "dorsal vagal collapse (chronic PTSD)",
+        "dissociative amnesia (chronic)",
+        "ventral vagal stable (healthy baseline)",
+        "chronic sympathetic activation (CHF, hypertension)",
+        "dysthymia / chronic depression"
+      ],
+      "typical_persistence": {
+        "magnitude": "months_to_years",
+        "examples_pmid": {
+          "PTSD_mean_duration_outpatient_depression_sample": {
+            "value": "16 years",
+            "pmid": "27636557",
+            "doi": "10.1080/15299732.2016.1237402"
+          },
+          "generalised_dissociative_amnesia_natural_recovery": {
+            "value": "6 years 10 months",
+            "pmid": "31831515",
+            "doi": "10.1136/bcr-2019-231270"
+          },
+          "dysthymia_mean_episode_duration": {
+            "value": "3 to 4 years",
+            "pmid": "14533944",
+            "doi": "10.2165/00023210-200317130-00001"
+          },
+          "chronic_heart_failure_sympathetic_persistence": {
+            "value": "years (positive-feedback maintained)",
+            "pmid": "25598170",
+            "doi": "10.1111/apha.12447"
+          }
+        }
+      },
+      "financial_phases": ["p7a", "p4", "p10"],
+      "financial_class_gamma_test5": 0.510
+    },
+    "RECOVERY": {
+      "representative_states": [
+        "vagal recovery after acute stressor",
+        "cortisol return to baseline after TSST",
+        "post-night-shift fatigue recovery",
+        "social engagement re-activation",
+        "mid-recovery from chronic state"
+      ],
+      "typical_persistence": {
+        "magnitude": "minutes_to_days",
+        "examples_pmid": {
+          "vagal_recovery_post_TSST": {
+            "value": "minutes",
+            "pmid": "27608360",
+            "doi": "10.1016/j.psyneuen.2016.08.029"
+          },
+          "HPA_cortisol_recovery_healthy": {
+            "value": "30 to 60 minutes",
+            "pmid": "36732491",
+            "doi": "10.1038/s41398-023-02331-7"
+          },
+          "nightshift_fatigue_full_recovery": {
+            "value": "at least 3 days",
+            "pmid": "30178495",
+            "doi": "10.1111/jonm.12664"
+          },
+          "HRV_post_acute_emotional_stressor": {
+            "value": "hours",
+            "pmid": "20299007",
+            "doi": "10.1016/j.biopsych.2010.02.001"
+          }
+        }
+      },
+      "financial_phases": ["p0", "p1", "p3", "p5", "p6", "p8"],
+      "financial_class_gamma_test5": 0.266
+    },
+    "TRANSIENT": {
+      "representative_states": [
+        "acoustic startle reflex onset",
+        "panic attack peak",
+        "tonic immobility episode (acute)",
+        "orienting reflex",
+        "break-from-stability transition"
+      ],
+      "typical_persistence": {
+        "magnitude": "milliseconds_to_minutes",
+        "examples_pmid": {
+          "acoustic_startle_EMG_latency": {
+            "value": "54 to 113 ms",
+            "pmid": "16525797",
+            "doi": "10.1007/s00221-006-0413-y"
+          },
+          "startle_late_orienting_response": {
+            "value": "308 to 522 ms",
+            "pmid": "16525797",
+            "doi": "10.1007/s00221-006-0413-y"
+          },
+          "panic_attack_peak_DSM_IV": {
+            "value": "less than or equal to 10 minutes",
+            "pmid": "9492526",
+            "doi": null
+          },
+          "panic_attack_peak_Cochrane_2023": {
+            "value": "less than or equal to 10 minutes",
+            "pmid": "38014714",
+            "doi": "10.1002/14651858.CD012729.pub3"
+          },
+          "startle_habituation_spontaneous_recovery": {
+            "value": "approximately 24 hours",
+            "pmid": "33920438",
+            "doi": "10.3390/insects12040339"
+          }
+        }
+      },
+      "financial_phases": ["p2", "p7", "p7b", "p9"],
+      "financial_class_gamma_test5": 0.043
+    }
+  },
+
+  "phase_to_clinical_mapping": {
+    "p7a": {
+      "class": "ATTRACTOR",
+      "clinical_equivalent": "dorsal vagal collapse / chronic dissociation / chronic PTSD",
+      "primary_citations": ["31831515", "27636557", "36732491", "21857553"]
+    },
+    "p4": {
+      "class": "ATTRACTOR",
+      "clinical_equivalent": "ventral vagal stable / parasympathetic anchored baseline",
+      "primary_citations": ["38108034", "20299007"]
+    },
+    "p10": {
+      "class": "ATTRACTOR",
+      "clinical_equivalent": "chronic sympathetic over-activation (chronic HF, hypertension, dysthymia)",
+      "primary_citations": ["25598170", "14533944", "39411574"]
+    },
+    "p0":  { "class": "RECOVERY",  "clinical_equivalent": "returned-to-baseline mid-recovery",       "primary_citations": ["27608360"] },
+    "p1":  { "class": "RECOVERY",  "clinical_equivalent": "orienting / vigilance phase",             "primary_citations": [] },
+    "p3":  { "class": "RECOVERY",  "clinical_equivalent": "sympathetic distress (ongoing pressure)", "primary_citations": ["20299007"] },
+    "p5":  { "class": "RECOVERY",  "clinical_equivalent": "vagal recovery from acute stressor",      "primary_citations": ["27608360"] },
+    "p6":  { "class": "RECOVERY",  "clinical_equivalent": "social-engagement system reactivation",   "primary_citations": ["38108034"] },
+    "p8":  { "class": "RECOVERY",  "clinical_equivalent": "mid-recovery from chronic state",         "primary_citations": ["37526676", "30178495"] },
+    "p2":  { "class": "TRANSIENT", "clinical_equivalent": "orienting reflex onset",                  "primary_citations": ["16525797"] },
+    "p7":  { "class": "TRANSIENT", "clinical_equivalent": "break-from-stability transition",         "primary_citations": ["26701284"] },
+    "p7b": { "class": "TRANSIENT", "clinical_equivalent": "sympathetic storm / panic attack peak",   "primary_citations": ["38014714", "9492526"] },
+    "p9":  { "class": "TRANSIENT", "clinical_equivalent": "acute startle / rupture event",           "primary_citations": ["16525797", "33920438"] }
+  },
+
+  "open_questions": [
+    "Within-class heterogeneity: chronic heart failure persists longer than dysthymia? If so, P10-equivalent has lower γ than P7a-equivalent in clinical, mirroring financial cohort.",
+    "Polyvagal phylogenetic ordering (ventral lost first, sympathetic second, dorsal lost last) is about FAILURE order, not DWELL time. Need to derive a separate fail-order signature from financial cohort to compare directly.",
+    "Bidirectional M-matrix calibration (Section 6 item #8) — derive coupling coefficients from polyvagal/HRV literature AND from Thing 1 business cohort independently and compare."
+  ],
+
+  "literature_cited_pubmed_pmids": [
+    "38108034", "35941799", "31831515", "27636557", "21857553",
+    "36732491", "26701284", "37203155", "25598170", "39411574",
+    "14533944", "27608360", "20299007", "37526676", "30178495",
+    "16525797", "33920438", "9492526", "38014714"
+  ]
+}

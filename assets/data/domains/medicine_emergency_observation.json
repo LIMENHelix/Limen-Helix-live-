@@ -1,0 +1,2066 @@
+{
+  "domainId": "medicine_emergency_observation",
+  "title": "Observation Medicine",
+  "parentPortal": "medicine_emergency_portal.html",
+  "parentLabel": "Emergency Medicine",
+  "phase": "P8",
+  "activations": [
+    {
+      "brainNodeId": "MDT",
+      "state": "active",
+      "domainLabel": "Observation Medicine Assessment & Diagnostics",
+      "domainDescription": "Systematic management of observation medicine assessment & diagnostics across all observation medicine functions and operations",
+      "group": "analysis",
+      "phase": "P8",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Evaluate Observation Medicine Assessment & Diagnostics Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Evaluate a healthcare system redesign for observation medicine assessment & diagnostics following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "REACTIVE_OBSERVATION_MEDICINE_ASSESSMEN -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for observation medicine assessment & diagnostics using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Observation Medicine Assessment & Diagnostics Continuous Improvement Cycle",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Integrate a competency-based medical education program for observation medicine assessment & diagnostics aligned with ACGME milestones and entrustable professional activities.",
+          "cite": "Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81; Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226",
+          "target": "FRAGMENTED_OBSERVATION_MEDICINE_ASSESSMEN -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            },
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            }
+          ],
+          "steps": [
+            "Assess clinical skill gaps for observation medicine assessment & diagnostics using ACGME milestone assessment",
+            "Design simulation curriculum with case scenarios mapped to competency domains",
+            "Deliver high-fidelity simulation sessions with structured debriefing per PEARLS framework",
+            "Assess performance using validated checklists and global rating scales",
+            "Track longitudinal competency progression and remediation needs"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical competency assessment score using OSCE and simulation performance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical competency assessment score measured quarterly. Target: 90% trainees meet competency. PHASE 3 (Months 4-6): Midpoint review — compare against ACGME milestone benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical competency assessment score trending toward 95% meeting milestones. Escalate if <80% meeting floor. ANNUAL REVIEW: Comprehensive audit using ACGME milestone framework. Report to Graduate Medical Education Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Observation Medicine Assessment & Diagnostics Adaptive Management System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Conduct a pharmacy automation system for observation medicine assessment & diagnostics deploying CPOE, clinical decision support, and automated dispensing per ISMP guidelines.",
+          "cite": "Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press; AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ",
+          "target": "SILOED_OBSERVATION_MEDICINE_ASSESSMEN -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess accreditation readiness for observation medicine assessment & diagnostics against JCI International Patient Safety Goals",
+            "Conduct gap analysis across JCI standards with department-level findings",
+            "Design remediation plans with responsible parties, timelines, and evidence requirements",
+            "Implement improvements with mock survey, tracer methodology, and staff preparation",
+            "Achieve JCI accreditation and establish continuous compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — bed occupancy optimization using hospital bed management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — bed occupancy optimization measured daily. Target: occupancy 80-85%. PHASE 3 (Months 4-6): Midpoint review — compare against NHS bed management targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — bed occupancy optimization trending toward optimal range maintained. Escalate if <below 90% ceiling. ANNUAL REVIEW: Comprehensive audit using NHS bed management framework. Report to COO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Observation Medicine Assessment & Diagnostics Knowledge Transfer Program",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Design a just culture implementation for observation medicine assessment & diagnostics using Reason human error framework with transparent event reporting and learning systems.",
+          "cite": "Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969; Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851",
+          "target": "OUTDATED_OBSERVATION_MEDICINE_ASSESSMEN -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            },
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            }
+          ],
+          "steps": [
+            "Assess safety culture for observation medicine assessment & diagnostics using AHRQ SOPS culture survey",
+            "Design just culture policy with algorithm for human error, at-risk, and reckless behavior",
+            "Implement voluntary event reporting system with feedback and learning loops",
+            "Conduct patient safety leadership WalkRounds with executive team",
+            "Track culture survey trends, reporting rates, and serious safety event reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient experience scores (HCAHPS) using CMS HCAHPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient experience scores (HCAHPS) measured monthly. Target: top-quartile nationally. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Compare benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient experience scores (HCAHPS) trending toward top-decile. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using CMS HCAHPS framework. Report to Patient Experience Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Observation Medicine Assessment & Diagnostics Continuous Improvement Cycle",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Deploy a clinical AI governance framework for observation medicine assessment & diagnostics deploying validated algorithms with AMA augmented intelligence policy safeguards.",
+          "cite": "SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED; ONC (2023). Health IT Certification Program. Office of the National Coordinator",
+          "target": "INEFFICIENT_OBSERVATION_MEDICINE_ASSESSMEN -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EHR maturity for observation medicine assessment & diagnostics using HIMSS EMRAM stage evaluation",
+            "Design optimization plan targeting CDS, documentation, and workflow efficiency",
+            "Implement clinical decision support rules aligned with evidence-based guidelines",
+            "Deploy physician informatics champions for adoption and continuous improvement",
+            "Measure EMRAM stage advancement, CDS effectiveness, and clinician satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — EHR adoption maturity using HIMSS EMRAM score. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — EHR adoption maturity measured biannually. Target: EMRAM Stage 6. PHASE 3 (Months 4-6): Midpoint review — compare against HIMSS EMRAM Stage 7 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — EHR adoption maturity trending toward Stage 7. Escalate if <Stage 5 floor. ANNUAL REVIEW: Comprehensive audit using HIMSS EMRAM framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Observation Medicine Assessment & Diagnostics Adaptive Management System",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Operationalize a healthcare system redesign for observation medicine assessment & diagnostics following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "INCONSISTENT_OBSERVATION_MEDICINE_ASSESSMEN -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for observation medicine assessment & diagnostics using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_emergency_observation_abdominal_portal.html"
+    },
+    {
+      "brainNodeId": "A1",
+      "state": "active",
+      "domainLabel": "Observation Medicine Core Operations",
+      "domainDescription": "Systematic management of observation medicine core operations across all observation medicine functions and operations",
+      "group": "operations",
+      "phase": "P8",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Implement Observation Medicine Core Operations Governance Structure",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Implement an evidence-based clinical pathway for observation medicine core operations integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "OUTDATED_OBSERVATION_MEDICINE_CORE_OPER -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for observation medicine core operations using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Observation Medicine Core Operations Assessment Protocol",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Institutionalize a patient safety coaching initiative for observation medicine core operations using TeamSTEPPS communication tools and crew resource management principles.",
+          "cite": "Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181; Gawande, A. (2009). The Checklist Manifesto. Henry Holt",
+          "target": "INEFFICIENT_OBSERVATION_MEDICINE_CORE_OPER -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            },
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess teamwork and communication for observation medicine core operations using TeamSTEPPS readiness assessment",
+            "Train clinical teams in SBAR, CUS, and huddle/debrief techniques",
+            "Conduct simulation-based team training with realistic clinical scenarios",
+            "Implement daily safety huddles and structured handoff protocols",
+            "Measure communication errors, near-misses, and teamwork climate scores"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — simulation training hours using simulation center scheduling system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — simulation training hours measured quarterly. Target: 40 hours per clinician/year. PHASE 3 (Months 4-6): Midpoint review — compare against Society for Simulation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — simulation training hours trending toward 60 hours. Escalate if <24 hours minimum. ANNUAL REVIEW: Comprehensive audit using SSH certification standards. Report to Simulation Center Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Observation Medicine Core Operations Diagnostic Dashboard",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Configure a perioperative care optimization for observation medicine core operations implementing Enhanced Recovery After Surgery (ERAS) protocols with standardized pathways.",
+          "cite": "Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust; JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International",
+          "target": "INCONSISTENT_OBSERVATION_MEDICINE_CORE_OPER -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess laboratory operations for observation medicine core operations against CAP accreditation checklist",
+            "Design quality system with proficiency testing, QC procedures, and document control",
+            "Implement LIS upgrade with auto-verification rules and critical value notification",
+            "Establish quality indicators for TAT, error rates, and customer satisfaction",
+            "Achieve CAP accreditation and maintain through biennial inspection readiness"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — emergency department throughput using ED tracking board analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — emergency department throughput measured daily. Target: door-to-provider <30 min. PHASE 3 (Months 4-6): Midpoint review — compare against CMS ED throughput targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — emergency department throughput trending toward <20 minutes. Escalate if <<45 minute ceiling. ANNUAL REVIEW: Comprehensive audit using CMS OP-18 measure. Report to Emergency Department Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Observation Medicine Core Operations Governance Structure",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Strengthen a patient engagement initiative for observation medicine core operations implementing shared decision-making using Ottawa Decision Support Framework tools.",
+          "cite": "Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139; Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383",
+          "target": "UNMONITORED_OBSERVATION_MEDICINE_CORE_OPER -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            },
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Survey clinician well-being for observation medicine core operations using Maslach Burnout Inventory",
+            "Design organizational interventions targeting workload, autonomy, and community",
+            "Implement peer support program and confidential counseling resources",
+            "Address EHR burden through documentation optimization and scribes",
+            "Track burnout prevalence, turnover rates, and patient safety correlations"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical staff burnout rate using Maslach Burnout Inventory. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical staff burnout rate measured biannually. Target: burnout below 30%. PHASE 3 (Months 4-6): Midpoint review — compare against NAM Clinician Well-Being targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical staff burnout rate trending toward below 20%. Escalate if <below 40% ceiling. ANNUAL REVIEW: Comprehensive audit using NAM Action Collaborative. Report to Chief Wellness Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Observation Medicine Core Operations Assessment Protocol",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Monitor a telehealth program for observation medicine core operations implementing ATA practice guidelines with remote monitoring and virtual care pathways.",
+          "cite": "HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7; HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics",
+          "target": "UNDERPERFORMING_OBSERVATION_MEDICINE_CORE_OPER -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess AI readiness for observation medicine core operations using FDA/AMA AI governance framework",
+            "Identify high-value clinical AI use cases with safety and efficacy evidence",
+            "Validate AI algorithms using local data with fairness and bias analysis",
+            "Deploy with clinical workflow integration, monitoring, and feedback loops",
+            "Track AI performance metrics, clinical outcomes, and user trust indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical AI deployment using AI governance dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical AI deployment measured quarterly. Target: 3 validated AI tools in production. PHASE 3 (Months 4-6): Midpoint review — compare against AMA Augmented Intelligence policy. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical AI deployment trending toward 5 tools deployed. Escalate if <1 tool minimum. ANNUAL REVIEW: Comprehensive audit using AMA AI framework. Report to AI Clinical Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Observation Medicine Core Operations Diagnostic Dashboard",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Build an evidence-based clinical pathway for observation medicine core operations integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027; Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759",
+          "target": "REACTIVE_OBSERVATION_MEDICINE_CORE_OPER -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            },
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            }
+          ],
+          "steps": [
+            "Stratify population risk for observation medicine core operations using validated risk prediction models",
+            "Design care coordination protocols for high-risk patients with multidisciplinary teams",
+            "Implement care management platform with alerts, outreach, and transition support",
+            "Deploy community health worker and social determinant intervention programs",
+            "Measure Triple Aim outcomes: patient experience, population health, and per capita cost"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient safety indicator composite using AHRQ PSI analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient safety indicator composite measured quarterly. Target: top-quartile PSI score. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ PSI national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient safety indicator composite trending toward top-decile score. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using AHRQ PSI framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_emergency_observation_chest_portal.html"
+    },
+    {
+      "brainNodeId": "NBM",
+      "state": "active",
+      "domainLabel": "Observation Medicine Infrastructure & Capacity",
+      "domainDescription": "Systematic management of observation medicine infrastructure & capacity across all observation medicine functions and operations",
+      "group": "systems",
+      "phase": "P8",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Implement Observation Medicine Infrastructure & Capacity Assessment Protocol",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Implement an evidence-based clinical pathway for observation medicine infrastructure & capacity integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71; WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO",
+          "target": "UNDERPERFORMING_OBSERVATION_MEDICINE_INFRASTRU -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            },
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess value delivery for observation medicine infrastructure & capacity using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Observation Medicine Infrastructure & Capacity Diagnostic Dashboard",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Institutionalize a patient safety coaching initiative for observation medicine infrastructure & capacity using TeamSTEPPS communication tools and crew resource management principles.",
+          "cite": "Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226; Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81",
+          "target": "REACTIVE_OBSERVATION_MEDICINE_INFRASTRU -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            },
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map educational objectives for observation medicine infrastructure & capacity to ACGME competencies and EPAs",
+            "Design competency-based curriculum with workplace-based assessments",
+            "Implement portfolio-based evaluation with entrustment decisions",
+            "Conduct competency committee reviews with aggregated assessment data",
+            "Graduate learners based on demonstrated competency achievement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — CME completion rate using CME tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — CME completion rate measured annually. Target: 100% physicians current. PHASE 3 (Months 4-6): Midpoint review — compare against ACCME accreditation requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — CME completion rate trending toward 100% with specialty credits. Escalate if <95% minimum. ANNUAL REVIEW: Comprehensive audit using ACCME framework. Report to CME Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Observation Medicine Infrastructure & Capacity Governance Structure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Configure a perioperative care optimization for observation medicine infrastructure & capacity implementing Enhanced Recovery After Surgery (ERAS) protocols with standardized pathways.",
+          "cite": "AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ; Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press",
+          "target": "FRAGMENTED_OBSERVATION_MEDICINE_INFRASTRU -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit HAI rates for observation medicine infrastructure & capacity using CDC NHSN standardized infection ratios",
+            "Design prevention bundles per SHEA/IDSA practice recommendations",
+            "Implement bundles with education, audit, and feedback for hand hygiene and line care",
+            "Deploy electronic surveillance for real-time HAI detection and reporting",
+            "Measure SIR reduction and sustain with ongoing bundle compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — surgical site infection rate using NHSN surgical surveillance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — surgical site infection rate measured monthly. Target: SSI below national benchmark. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN procedure-specific SIR. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — surgical site infection rate trending toward SIR below 0.7. Escalate if <SIR below 1.0 ceiling. ANNUAL REVIEW: Comprehensive audit using CDC SSI prevention bundle. Report to Surgical Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Strengthen Observation Medicine Infrastructure & Capacity Assessment Protocol",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Strengthen a patient engagement initiative for observation medicine infrastructure & capacity implementing shared decision-making using Ottawa Decision Support Framework tools.",
+          "cite": "Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851; Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969",
+          "target": "SILOED_OBSERVATION_MEDICINE_INFRASTRU -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            },
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            }
+          ],
+          "steps": [
+            "Evaluate patient engagement for observation medicine infrastructure & capacity using patient activation measure (PAM)",
+            "Design shared decision-making program with condition-specific decision aids",
+            "Train clinicians in motivational interviewing and SDM techniques",
+            "Implement patient portals with care plan access and messaging capabilities",
+            "Measure PAM scores, SDM utilization, and patient experience improvements"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture score using AHRQ SOPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture score measured annually. Target: 75% positive safety culture. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ SOPS national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture score trending toward 85% positive. Escalate if <65% positive floor. ANNUAL REVIEW: Comprehensive audit using AHRQ SOPS framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Monitor Observation Medicine Infrastructure & Capacity Diagnostic Dashboard",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Monitor a telehealth program for observation medicine infrastructure & capacity implementing ATA practice guidelines with remote monitoring and virtual care pathways.",
+          "cite": "ONC (2023). Health IT Certification Program. Office of the National Coordinator; SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED",
+          "target": "OUTDATED_OBSERVATION_MEDICINE_INFRASTRU -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate interoperability for observation medicine infrastructure & capacity against ONC TEFCA requirements",
+            "Design FHIR R4 API implementation with patient access and provider exchange",
+            "Implement health information exchange connections with ADT and clinical summary sharing",
+            "Deploy patient data matching and identity management solution",
+            "Measure data exchange volume, query response times, and care gap closure rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interoperability score using ONC Interoperability Standards. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interoperability score measured quarterly. Target: FHIR R4 API live. PHASE 3 (Months 4-6): Midpoint review — compare against ONC TEFCA framework requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interoperability score trending toward TEFCA participation. Escalate if <FHIR read-only minimum. ANNUAL REVIEW: Comprehensive audit using ONC TEFCA framework. Report to CIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Observation Medicine Infrastructure & Capacity Governance Structure",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Build an evidence-based clinical pathway for observation medicine infrastructure & capacity integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "INEFFICIENT_OBSERVATION_MEDICINE_INFRASTRU -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess value delivery for observation medicine infrastructure & capacity using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_emergency_observation_shortterm_portal.html"
+    },
+    {
+      "brainNodeId": "SC",
+      "state": "active",
+      "domainLabel": "Observation Medicine Risk & Resilience",
+      "domainDescription": "Systematic management of observation medicine risk & resilience across all observation medicine functions and operations",
+      "group": "governance",
+      "phase": "P8",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Evaluate Observation Medicine Risk & Resilience Adaptive Management System",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Evaluate a healthcare system redesign for observation medicine risk & resilience following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "REACTIVE_OBSERVATION_MEDICINE_RISK___RE -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for observation medicine risk & resilience using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Observation Medicine Risk & Resilience Knowledge Transfer Program",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Integrate a competency-based medical education program for observation medicine risk & resilience aligned with ACGME milestones and entrustable professional activities.",
+          "cite": "Gawande, A. (2009). The Checklist Manifesto. Henry Holt; Dreyfus, S.E. (2004). The Five-Stage Model of Adult Skill Acquisition. Bulletin of Science Technology & Society, 24(3), 177-181",
+          "target": "FRAGMENTED_OBSERVATION_MEDICINE_RISK___RE -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Gawande, A.",
+              "year": 2009,
+              "title": "The Checklist Manifesto",
+              "journal": "Henry Holt",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Dreyfus, S.E.",
+              "year": 2004,
+              "title": "The Five-Stage Model of Adult Skill Acquisition",
+              "journal": "Bulletin of Science Technology & Society",
+              "volume": "24(3)",
+              "pages": "177-181",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EBP competency for observation medicine risk & resilience using Fresno test or Berlin questionnaire",
+            "Design training in literature search, critical appraisal, and evidence synthesis",
+            "Deliver journal club facilitation training with structured appraisal tools",
+            "Implement bedside teaching of evidence application and GRADE interpretation",
+            "Measure EBP knowledge, attitudes, and clinical practice change outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical decision support utilization using CDS analytics dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical decision support utilization measured monthly. Target: 70% alert acknowledgment rate. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ CDS Five Rights benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical decision support utilization trending toward 85% acknowledgment. Escalate if <50% acknowledgment floor. ANNUAL REVIEW: Comprehensive audit using AHRQ CDS framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Observation Medicine Risk & Resilience Continuous Improvement Cycle",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Conduct a pharmacy automation system for observation medicine risk & resilience deploying CPOE, clinical decision support, and automated dispensing per ISMP guidelines.",
+          "cite": "JCI (2020). JCI Accreditation Standards for Hospitals 7e. Joint Commission International; Cochrane, A.L. (1972). Effectiveness and Efficiency. Nuffield Provincial Hospitals Trust",
+          "target": "SILOED_OBSERVATION_MEDICINE_RISK___RE -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "JCI",
+              "year": 2020,
+              "title": "JCI Accreditation Standards for Hospitals 7e",
+              "journal": "Joint Commission International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Cochrane, A.L.",
+              "year": 1972,
+              "title": "Effectiveness and Efficiency",
+              "journal": "Nuffield Provincial Hospitals Trust",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess surgical care for observation medicine risk & resilience using ACS NSQIP outcomes data",
+            "Design ERAS protocol with evidence-based pre-, intra-, and post-operative elements",
+            "Implement standardized surgical safety checklist per WHO Safe Surgery framework",
+            "Deploy real-time surgical site surveillance with NHSN reporting",
+            "Measure ERAS compliance, LOS reduction, and complication rate improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — medication error rate using medication event reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — medication error rate measured monthly. Target: 50% reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against ISMP safety benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — medication error rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISMP Guidelines. Report to Pharmacy Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Design Observation Medicine Risk & Resilience Adaptive Management System",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Design a just culture implementation for observation medicine risk & resilience using Reason human error framework with transparent event reporting and learning systems.",
+          "cite": "Edmondson, A.C. (1999). Psychological Safety and Learning Behavior in Work Teams. Administrative Science Quarterly, 44(2), 350-383; Makary, M.A. & Daniel, M. (2016). Medical Error: The Third Leading Cause of Death in the US. BMJ, 353, i2139. doi:10.1136/bmj.i2139",
+          "target": "OUTDATED_OBSERVATION_MEDICINE_RISK___RE -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Edmondson, A.C.",
+              "year": 1999,
+              "title": "Psychological Safety and Learning Behavior in Work Teams",
+              "journal": "Administrative Science Quarterly",
+              "volume": "44(2)",
+              "pages": "350-383",
+              "doi": null
+            },
+            {
+              "author": "Makary, M.A. & Daniel, M.",
+              "year": 2016,
+              "title": "Medical Error: The Third Leading Cause of Death in the US",
+              "journal": "BMJ",
+              "volume": "353",
+              "pages": "i2139",
+              "doi": "10.1136/bmj.i2139"
+            }
+          ],
+          "steps": [
+            "Evaluate HRO readiness for observation medicine risk & resilience using Weick and Sutcliffe HRO assessment",
+            "Design high-reliability program with preoccupation with failure and deference to expertise",
+            "Implement safety behaviors: stop-the-line, cross-checking, and three-way communication",
+            "Deploy real-time safety dashboards with tiered daily management huddles",
+            "Measure safety event rates, near-miss reporting, and HRO culture maturity"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — health equity metric using CMS health disparity measures. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — health equity metric measured quarterly. Target: disparity gap <10% across groups. PHASE 3 (Months 4-6): Midpoint review — compare against CMS equity targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — health equity metric trending toward gap <5%. Escalate if <gap <20% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS Framework for Health Equity. Report to Health Equity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Deploy Observation Medicine Risk & Resilience Knowledge Transfer Program",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Deploy a clinical AI governance framework for observation medicine risk & resilience deploying validated algorithms with AMA augmented intelligence policy safeguards.",
+          "cite": "HIMSS (2022). EMRAM: Electronic Medical Record Adoption Model. HIMSS Analytics; HL7 International (2019). FHIR R4: Fast Healthcare Interoperability Resources. HL7",
+          "target": "INEFFICIENT_OBSERVATION_MEDICINE_RISK___RE -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "HIMSS",
+              "year": 2022,
+              "title": "EMRAM: Electronic Medical Record Adoption Model",
+              "journal": "HIMSS Analytics",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HL7 International",
+              "year": 2019,
+              "title": "FHIR R4: Fast Healthcare Interoperability Resources",
+              "journal": "HL7",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess cybersecurity for observation medicine risk & resilience using NIST CSF and HIPAA Security Rule gaps",
+            "Design defense-in-depth with network segmentation, encryption, and access controls",
+            "Implement SIEM, endpoint protection, and medical device security program",
+            "Conduct tabletop exercises and penetration testing with incident response drills",
+            "Achieve HHS 405(d) HICP alignment with annual risk assessment and attestation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity healthcare maturity using NIST CSF + HIPAA assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity healthcare maturity measured quarterly. Target: NIST tier 3 with HIPAA compliance. PHASE 3 (Months 4-6): Midpoint review — compare against HHS 405(d) HICP benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity healthcare maturity trending toward tier 4. Escalate if <tier 2 with HIPAA floor. ANNUAL REVIEW: Comprehensive audit using HHS 405(d) HICP framework. Report to CISO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Operationalize Observation Medicine Risk & Resilience Continuous Improvement Cycle",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Operationalize a healthcare system redesign for observation medicine risk & resilience following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759; Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027",
+          "target": "INCONSISTENT_OBSERVATION_MEDICINE_RISK___RE -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            },
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for observation medicine risk & resilience using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ],
+      "childPortal": "medicine_emergency_observation_syncope_portal.html"
+    },
+    {
+      "brainNodeId": "VAN",
+      "state": "active",
+      "domainLabel": "Observation Medicine Policy & Governance",
+      "domainDescription": "Systematic management of observation medicine policy & governance across all observation medicine functions and operations",
+      "group": "innovation",
+      "phase": "P8",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Streamline Observation Medicine Policy & Governance Operational Readiness Check",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Streamline an evidence-based clinical pathway for observation medicine policy & governance integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Institute of Medicine (2001). Crossing the Quality Chasm. NAP. doi:10.17226/10027; Berwick, D.M. et al. (2008). The Triple Aim: Care Health and Cost. Health Affairs, 27(3), 759-769. doi:10.1377/hlthaff.27.3.759",
+          "target": "SILOED_OBSERVATION_MEDICINE_POLICY___ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Institute of Medicine",
+              "year": 2001,
+              "title": "Crossing the Quality Chasm",
+              "journal": "NAP",
+              "volume": null,
+              "pages": null,
+              "doi": "10.17226/10027"
+            },
+            {
+              "author": "Berwick, D.M. et al.",
+              "year": 2008,
+              "title": "The Triple Aim: Care Health and Cost",
+              "journal": "Health Affairs",
+              "volume": "27(3)",
+              "pages": "759-769",
+              "doi": "10.1377/hlthaff.27.3.759"
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for observation medicine policy & governance using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Observation Medicine Policy & Governance Capacity Building Initiative",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Assess a patient safety coaching initiative for observation medicine policy & governance using TeamSTEPPS communication tools and crew resource management principles.",
+          "cite": "Knowles, M.S. et al. (2015). The Adult Learner 8e. Routledge; ACGME (2022). Common Program Requirements. Accreditation Council for GME",
+          "target": "OUTDATED_OBSERVATION_MEDICINE_POLICY___ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Knowles, M.S. et al.",
+              "year": 2015,
+              "title": "The Adult Learner 8e",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ACGME",
+              "year": 2022,
+              "title": "Common Program Requirements",
+              "journal": "Accreditation Council for GME",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EBP competency for observation medicine policy & governance using Fresno test or Berlin questionnaire",
+            "Design training in literature search, critical appraisal, and evidence synthesis",
+            "Deliver journal club facilitation training with structured appraisal tools",
+            "Implement bedside teaching of evidence application and GRADE interpretation",
+            "Measure EBP knowledge, attitudes, and clinical practice change outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical decision support utilization using CDS analytics dashboard. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical decision support utilization measured monthly. Target: 70% alert acknowledgment rate. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ CDS Five Rights benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical decision support utilization trending toward 85% acknowledgment. Escalate if <50% acknowledgment floor. ANNUAL REVIEW: Comprehensive audit using AHRQ CDS framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Observation Medicine Policy & Governance Early Warning System",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Create a perioperative care optimization for observation medicine policy & governance implementing Enhanced Recovery After Surgery (ERAS) protocols with standardized pathways.",
+          "cite": "CMS (2023). Conditions of Participation for Hospitals. Centers for Medicare & Medicaid; WHO (2020). World Health Statistics. WHO",
+          "target": "INEFFICIENT_OBSERVATION_MEDICINE_POLICY___ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "CMS",
+              "year": 2023,
+              "title": "Conditions of Participation for Hospitals",
+              "journal": "Centers for Medicare & Medicaid",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2020,
+              "title": "World Health Statistics",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess surgical care for observation medicine policy & governance using ACS NSQIP outcomes data",
+            "Design ERAS protocol with evidence-based pre-, intra-, and post-operative elements",
+            "Implement standardized surgical safety checklist per WHO Safe Surgery framework",
+            "Deploy real-time surgical site surveillance with NHSN reporting",
+            "Measure ERAS compliance, LOS reduction, and complication rate improvement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — medication error rate using medication event reporting system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — medication error rate measured monthly. Target: 50% reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against ISMP safety benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — medication error rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using ISMP Guidelines. Report to Pharmacy Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Observation Medicine Policy & Governance Operational Readiness Check",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Evaluate a patient engagement initiative for observation medicine policy & governance implementing shared decision-making using Ottawa Decision Support Framework tools.",
+          "cite": "Pronovost, P. et al. (2006). An Intervention to Decrease Catheter-Related Bloodstream Infections. NEJM, 355(26), 2725-2732. doi:10.1056/NEJMoa061115; Reason, J. (2000). Human Error: Models and Management. BMJ, 320(7237), 768-770. doi:10.1136/bmj.320.7237.768",
+          "target": "INCONSISTENT_OBSERVATION_MEDICINE_POLICY___ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Pronovost, P. et al.",
+              "year": 2006,
+              "title": "An Intervention to Decrease Catheter-Related Bloodstream Infections",
+              "journal": "NEJM",
+              "volume": "355(26)",
+              "pages": "2725-2732",
+              "doi": "10.1056/NEJMoa061115"
+            },
+            {
+              "author": "Reason, J.",
+              "year": 2000,
+              "title": "Human Error: Models and Management",
+              "journal": "BMJ",
+              "volume": "320(7237)",
+              "pages": "768-770",
+              "doi": "10.1136/bmj.320.7237.768"
+            }
+          ],
+          "steps": [
+            "Evaluate HRO readiness for observation medicine policy & governance using Weick and Sutcliffe HRO assessment",
+            "Design high-reliability program with preoccupation with failure and deference to expertise",
+            "Implement safety behaviors: stop-the-line, cross-checking, and three-way communication",
+            "Deploy real-time safety dashboards with tiered daily management huddles",
+            "Measure safety event rates, near-miss reporting, and HRO culture maturity"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — health equity metric using CMS health disparity measures. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — health equity metric measured quarterly. Target: disparity gap <10% across groups. PHASE 3 (Months 4-6): Midpoint review — compare against CMS equity targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — health equity metric trending toward gap <5%. Escalate if <gap <20% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS Framework for Health Equity. Report to Health Equity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Integrate Observation Medicine Policy & Governance Capacity Building Initiative",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Integrate a telehealth program for observation medicine policy & governance implementing ATA practice guidelines with remote monitoring and virtual care pathways.",
+          "cite": "DICOM Standards Committee (2023). DICOM: Digital Imaging and Communications in Medicine. NEMA; WHO (2019). ICD-11: International Classification of Diseases 11th Revision. WHO",
+          "target": "UNMONITORED_OBSERVATION_MEDICINE_POLICY___ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "DICOM Standards Committee",
+              "year": 2023,
+              "title": "DICOM: Digital Imaging and Communications in Medicine",
+              "journal": "NEMA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2019,
+              "title": "ICD-11: International Classification of Diseases 11th Revision",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess cybersecurity for observation medicine policy & governance using NIST CSF and HIPAA Security Rule gaps",
+            "Design defense-in-depth with network segmentation, encryption, and access controls",
+            "Implement SIEM, endpoint protection, and medical device security program",
+            "Conduct tabletop exercises and penetration testing with incident response drills",
+            "Achieve HHS 405(d) HICP alignment with annual risk assessment and attestation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — cybersecurity healthcare maturity using NIST CSF + HIPAA assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — cybersecurity healthcare maturity measured quarterly. Target: NIST tier 3 with HIPAA compliance. PHASE 3 (Months 4-6): Midpoint review — compare against HHS 405(d) HICP benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — cybersecurity healthcare maturity trending toward tier 4. Escalate if <tier 2 with HIPAA floor. ANNUAL REVIEW: Comprehensive audit using HHS 405(d) HICP framework. Report to CISO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Conduct Observation Medicine Policy & Governance Early Warning System",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Conduct an evidence-based clinical pathway for observation medicine policy & governance integrating Cochrane systematic review evidence with Donabedian structure-process-outcome framework.",
+          "cite": "Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71; WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO",
+          "target": "UNDERPERFORMING_OBSERVATION_MEDICINE_POLICY___ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            },
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess clinical microsystem for observation medicine policy & governance using Dartmouth microsystem assessment",
+            "Identify waste using Lean value stream mapping in clinical workflow",
+            "Design workflow improvements with standard work and visual management",
+            "Implement changes with team engagement and PDSA testing",
+            "Measure efficiency, quality, and staff satisfaction outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — healthcare-associated infection rate using NHSN surveillance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — healthcare-associated infection rate measured monthly. Target: 50% HAI reduction from baseline. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN SIR benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — healthcare-associated infection rate trending toward 75% reduction. Escalate if <25% reduction floor. ANNUAL REVIEW: Comprehensive audit using CDC NHSN framework. Report to Infection Prevention Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EC",
+      "state": "active",
+      "domainLabel": "Observation Medicine Technology & Innovation",
+      "domainDescription": "Systematic management of observation medicine technology & innovation across all observation medicine functions and operations",
+      "group": "development",
+      "phase": "P8",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Observation Medicine Technology & Innovation Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a value-based care transformation for observation medicine technology & innovation implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71; WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO",
+          "target": "INCONSISTENT_OBSERVATION_MEDICINE_TECHNOLOG -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            },
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for observation medicine technology & innovation using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Observation Medicine Technology & Innovation Feedback Loop Design",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop a clinical mentorship program for observation medicine technology & innovation pairing experienced practitioners with trainees using Dreyfus skill acquisition model.",
+          "cite": "Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226; Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81",
+          "target": "UNMONITORED_OBSERVATION_MEDICINE_TECHNOLOG -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            },
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess clinical skill gaps for observation medicine technology & innovation using ACGME milestone assessment",
+            "Design simulation curriculum with case scenarios mapped to competency domains",
+            "Deliver high-fidelity simulation sessions with structured debriefing per PEARLS framework",
+            "Assess performance using validated checklists and global rating scales",
+            "Track longitudinal competency progression and remediation needs"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical competency assessment score using OSCE and simulation performance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical competency assessment score measured quarterly. Target: 90% trainees meet competency. PHASE 3 (Months 4-6): Midpoint review — compare against ACGME milestone benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical competency assessment score trending toward 95% meeting milestones. Escalate if <80% meeting floor. ANNUAL REVIEW: Comprehensive audit using ACGME milestone framework. Report to Graduate Medical Education Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Observation Medicine Technology & Innovation Sustainability Audit",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a JCI-accredited quality infrastructure for observation medicine technology & innovation implementing International Patient Safety Goals with hospital-wide surveillance.",
+          "cite": "AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ; Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press",
+          "target": "UNDERPERFORMING_OBSERVATION_MEDICINE_TECHNOLOG -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess accreditation readiness for observation medicine technology & innovation against JCI International Patient Safety Goals",
+            "Conduct gap analysis across JCI standards with department-level findings",
+            "Design remediation plans with responsible parties, timelines, and evidence requirements",
+            "Implement improvements with mock survey, tracer methodology, and staff preparation",
+            "Achieve JCI accreditation and establish continuous compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — bed occupancy optimization using hospital bed management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — bed occupancy optimization measured daily. Target: occupancy 80-85%. PHASE 3 (Months 4-6): Midpoint review — compare against NHS bed management targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — bed occupancy optimization trending toward optimal range maintained. Escalate if <below 90% ceiling. ANNUAL REVIEW: Comprehensive audit using NHS bed management framework. Report to COO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Implement Observation Medicine Technology & Innovation Innovation Pipeline",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement a clinician well-being program for observation medicine technology & innovation addressing burnout using NAM Action Collaborative recommendations with organizational interventions.",
+          "cite": "Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851; Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969",
+          "target": "REACTIVE_OBSERVATION_MEDICINE_TECHNOLOG -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            },
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            }
+          ],
+          "steps": [
+            "Assess safety culture for observation medicine technology & innovation using AHRQ SOPS culture survey",
+            "Design just culture policy with algorithm for human error, at-risk, and reckless behavior",
+            "Implement voluntary event reporting system with feedback and learning loops",
+            "Conduct patient safety leadership WalkRounds with executive team",
+            "Track culture survey trends, reporting rates, and serious safety event reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient experience scores (HCAHPS) using CMS HCAHPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient experience scores (HCAHPS) measured monthly. Target: top-quartile nationally. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Compare benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient experience scores (HCAHPS) trending toward top-decile. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using CMS HCAHPS framework. Report to Patient Experience Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Institutionalize Observation Medicine Technology & Innovation Feedback Loop Design",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a healthcare cybersecurity program for observation medicine technology & innovation implementing NIST CSF with HIPAA compliance per HHS 405(d) Health Industry Cybersecurity Practices.",
+          "cite": "ONC (2023). Health IT Certification Program. Office of the National Coordinator; SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED",
+          "target": "FRAGMENTED_OBSERVATION_MEDICINE_TECHNOLOG -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EHR maturity for observation medicine technology & innovation using HIMSS EMRAM stage evaluation",
+            "Design optimization plan targeting CDS, documentation, and workflow efficiency",
+            "Implement clinical decision support rules aligned with evidence-based guidelines",
+            "Deploy physician informatics champions for adoption and continuous improvement",
+            "Measure EMRAM stage advancement, CDS effectiveness, and clinician satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — EHR adoption maturity using HIMSS EMRAM score. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — EHR adoption maturity measured biannually. Target: EMRAM Stage 6. PHASE 3 (Months 4-6): Midpoint review — compare against HIMSS EMRAM Stage 7 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — EHR adoption maturity trending toward Stage 7. Escalate if <Stage 5 floor. ANNUAL REVIEW: Comprehensive audit using HIMSS EMRAM framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Configure Observation Medicine Technology & Innovation Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a value-based care transformation for observation medicine technology & innovation implementing Porter outcomes measurement hierarchy with bundled payment models.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "SILOED_OBSERVATION_MEDICINE_TECHNOLOG -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for observation medicine technology & innovation using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Observation Medicine Human Capital & Development",
+      "domainDescription": "Systematic management of observation medicine human capital & development across all observation medicine functions and operations",
+      "group": "quality",
+      "phase": "P8",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Operationalize Observation Medicine Human Capital & Development Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Operationalize a healthcare system redesign for observation medicine human capital & development following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO; Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71",
+          "target": "UNMONITORED_OBSERVATION_MEDICINE_HUMAN_CAP -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            }
+          ],
+          "steps": [
+            "Assess value delivery for observation medicine human capital & development using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Calibrate Observation Medicine Human Capital & Development Continuous Improvement Cycle",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Calibrate a competency-based medical education program for observation medicine human capital & development aligned with ACGME milestones and entrustable professional activities.",
+          "cite": "Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81; Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226",
+          "target": "UNDERPERFORMING_OBSERVATION_MEDICINE_HUMAN_CAP -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            },
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            }
+          ],
+          "steps": [
+            "Map educational objectives for observation medicine human capital & development to ACGME competencies and EPAs",
+            "Design competency-based curriculum with workplace-based assessments",
+            "Implement portfolio-based evaluation with entrustment decisions",
+            "Conduct competency committee reviews with aggregated assessment data",
+            "Graduate learners based on demonstrated competency achievement"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — CME completion rate using CME tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — CME completion rate measured annually. Target: 100% physicians current. PHASE 3 (Months 4-6): Midpoint review — compare against ACCME accreditation requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — CME completion rate trending toward 100% with specialty credits. Escalate if <95% minimum. ANNUAL REVIEW: Comprehensive audit using ACCME framework. Report to CME Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Streamline Observation Medicine Human Capital & Development Adaptive Management System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Streamline a pharmacy automation system for observation medicine human capital & development deploying CPOE, clinical decision support, and automated dispensing per ISMP guidelines.",
+          "cite": "Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press; AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ",
+          "target": "REACTIVE_OBSERVATION_MEDICINE_HUMAN_CAP -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit HAI rates for observation medicine human capital & development using CDC NHSN standardized infection ratios",
+            "Design prevention bundles per SHEA/IDSA practice recommendations",
+            "Implement bundles with education, audit, and feedback for hand hygiene and line care",
+            "Deploy electronic surveillance for real-time HAI detection and reporting",
+            "Measure SIR reduction and sustain with ongoing bundle compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — surgical site infection rate using NHSN surgical surveillance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — surgical site infection rate measured monthly. Target: SSI below national benchmark. PHASE 3 (Months 4-6): Midpoint review — compare against CDC NHSN procedure-specific SIR. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — surgical site infection rate trending toward SIR below 0.7. Escalate if <SIR below 1.0 ceiling. ANNUAL REVIEW: Comprehensive audit using CDC SSI prevention bundle. Report to Surgical Quality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Assess Observation Medicine Human Capital & Development Knowledge Transfer Program",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Assess a just culture implementation for observation medicine human capital & development using Reason human error framework with transparent event reporting and learning systems.",
+          "cite": "Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969; Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851",
+          "target": "FRAGMENTED_OBSERVATION_MEDICINE_HUMAN_CAP -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            },
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            }
+          ],
+          "steps": [
+            "Evaluate patient engagement for observation medicine human capital & development using patient activation measure (PAM)",
+            "Design shared decision-making program with condition-specific decision aids",
+            "Train clinicians in motivational interviewing and SDM techniques",
+            "Implement patient portals with care plan access and messaging capabilities",
+            "Measure PAM scores, SDM utilization, and patient experience improvements"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — safety culture score using AHRQ SOPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — safety culture score measured annually. Target: 75% positive safety culture. PHASE 3 (Months 4-6): Midpoint review — compare against AHRQ SOPS national benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — safety culture score trending toward 85% positive. Escalate if <65% positive floor. ANNUAL REVIEW: Comprehensive audit using AHRQ SOPS framework. Report to Patient Safety Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Create Observation Medicine Human Capital & Development Continuous Improvement Cycle",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Create a clinical AI governance framework for observation medicine human capital & development deploying validated algorithms with AMA augmented intelligence policy safeguards.",
+          "cite": "SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED; ONC (2023). Health IT Certification Program. Office of the National Coordinator",
+          "target": "SILOED_OBSERVATION_MEDICINE_HUMAN_CAP -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate interoperability for observation medicine human capital & development against ONC TEFCA requirements",
+            "Design FHIR R4 API implementation with patient access and provider exchange",
+            "Implement health information exchange connections with ADT and clinical summary sharing",
+            "Deploy patient data matching and identity management solution",
+            "Measure data exchange volume, query response times, and care gap closure rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — interoperability score using ONC Interoperability Standards. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — interoperability score measured quarterly. Target: FHIR R4 API live. PHASE 3 (Months 4-6): Midpoint review — compare against ONC TEFCA framework requirements. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — interoperability score trending toward TEFCA participation. Escalate if <FHIR read-only minimum. ANNUAL REVIEW: Comprehensive audit using ONC TEFCA framework. Report to CIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Evaluate Observation Medicine Human Capital & Development Adaptive Management System",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Evaluate a healthcare system redesign for observation medicine human capital & development following IOM Six Aims with Lean healthcare methodology and microsystem optimization.",
+          "cite": "Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press; Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743",
+          "target": "OUTDATED_OBSERVATION_MEDICINE_HUMAN_CAP -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            }
+          ],
+          "steps": [
+            "Assess value delivery for observation medicine human capital & development using Porter outcome measurement hierarchy",
+            "Define condition-specific outcome measures covering health status, process, and sustainability",
+            "Design bundled payment model with risk adjustment and quality thresholds",
+            "Implement outcomes tracking with patient-reported measures and cost accounting",
+            "Report value metrics comparing risk-adjusted outcomes to cost per episode"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — 30-day readmission rate using EHR discharge tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — 30-day readmission rate measured monthly. Target: readmission below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Readmissions Reduction target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — 30-day readmission rate trending toward below 12%. Escalate if <below 18% ceiling. ANNUAL REVIEW: Comprehensive audit using CMS HRRP framework. Report to VP of Quality.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PIT",
+      "state": "active",
+      "domainLabel": "Observation Medicine Quality & Performance",
+      "domainDescription": "Systematic management of observation medicine quality & performance across all observation medicine functions and operations",
+      "group": "performance",
+      "phase": "P8",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Monitor Observation Medicine Quality & Performance Process Improvement Initiative",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Monitor a population health management strategy for observation medicine quality & performance using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "Sackett, D.L. et al. (1996). Evidence Based Medicine: What It Is and What It Isnt. BMJ, 312, 71-72. doi:10.1136/bmj.312.7023.71; WHO (2010). Health Systems Financing: The Path to Universal Coverage. WHO",
+          "target": "OUTDATED_OBSERVATION_MEDICINE_QUALITY__ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Sackett, D.L. et al.",
+              "year": 1996,
+              "title": "Evidence Based Medicine: What It Is and What It Isnt",
+              "journal": "BMJ",
+              "volume": "312",
+              "pages": "71-72",
+              "doi": "10.1136/bmj.312.7023.71"
+            },
+            {
+              "author": "WHO",
+              "year": 2010,
+              "title": "Health Systems Financing: The Path to Universal Coverage",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for observation medicine quality & performance using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Build Observation Medicine Quality & Performance Resilience Assessment",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Build an evidence-based practice training for observation medicine quality & performance teaching critical appraisal, GRADE methodology, and clinical guideline application.",
+          "cite": "Epstein, R.M. & Hundert, E.M. (2002). Defining and Assessing Professional Competence. JAMA, 287(2), 226-235. doi:10.1001/jama.287.2.226; Ericsson, K.A. (2004). Deliberate Practice and the Acquisition of Expert Performance. Academic Medicine, 79(10), S70-S81",
+          "target": "INEFFICIENT_OBSERVATION_MEDICINE_QUALITY__ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Epstein, R.M. & Hundert, E.M.",
+              "year": 2002,
+              "title": "Defining and Assessing Professional Competence",
+              "journal": "JAMA",
+              "volume": "287(2)",
+              "pages": "226-235",
+              "doi": "10.1001/jama.287.2.226"
+            },
+            {
+              "author": "Ericsson, K.A.",
+              "year": 2004,
+              "title": "Deliberate Practice and the Acquisition of Expert Performance",
+              "journal": "Academic Medicine",
+              "volume": "79(10)",
+              "pages": "S70-S81",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess clinical skill gaps for observation medicine quality & performance using ACGME milestone assessment",
+            "Design simulation curriculum with case scenarios mapped to competency domains",
+            "Deliver high-fidelity simulation sessions with structured debriefing per PEARLS framework",
+            "Assess performance using validated checklists and global rating scales",
+            "Track longitudinal competency progression and remediation needs"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — clinical competency assessment score using OSCE and simulation performance. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — clinical competency assessment score measured quarterly. Target: 90% trainees meet competency. PHASE 3 (Months 4-6): Midpoint review — compare against ACGME milestone benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — clinical competency assessment score trending toward 95% meeting milestones. Escalate if <80% meeting floor. ANNUAL REVIEW: Comprehensive audit using ACGME milestone framework. Report to Graduate Medical Education Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Optimize Observation Medicine Quality & Performance Risk Mitigation Strategy",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Optimize an infection prevention bundle for observation medicine quality & performance deploying CDC NHSN surveillance with evidence-based prevention practices per SHEA guidelines.",
+          "cite": "AHRQ (2019). Patient Safety Indicators Technical Specifications. AHRQ; Starfield, B. (1998). Primary Care: Balancing Health Needs, Services, and Technology. Oxford University Press",
+          "target": "INCONSISTENT_OBSERVATION_MEDICINE_QUALITY__ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "AHRQ",
+              "year": 2019,
+              "title": "Patient Safety Indicators Technical Specifications",
+              "journal": "AHRQ",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Starfield, B.",
+              "year": 1998,
+              "title": "Primary Care: Balancing Health Needs, Services, and Technology",
+              "journal": "Oxford University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess accreditation readiness for observation medicine quality & performance against JCI International Patient Safety Goals",
+            "Conduct gap analysis across JCI standards with department-level findings",
+            "Design remediation plans with responsible parties, timelines, and evidence requirements",
+            "Implement improvements with mock survey, tracer methodology, and staff preparation",
+            "Achieve JCI accreditation and establish continuous compliance monitoring"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — bed occupancy optimization using hospital bed management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — bed occupancy optimization measured daily. Target: occupancy 80-85%. PHASE 3 (Months 4-6): Midpoint review — compare against NHS bed management targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — bed occupancy optimization trending toward optimal range maintained. Escalate if <below 90% ceiling. ANNUAL REVIEW: Comprehensive audit using NHS bed management framework. Report to COO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Launch Observation Medicine Quality & Performance Process Improvement Initiative",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Launch a health equity program for observation medicine quality & performance addressing disparities using CMS equity framework with disaggregated outcomes data.",
+          "cite": "Leape, L.L. (1994). Error in Medicine. JAMA, 272(23), 1851-1857. doi:10.1001/jama.272.23.1851; Berwick, D.M. (2003). Disseminating Innovations in Health Care. JAMA, 289(15), 1969-1975. doi:10.1001/jama.289.15.1969",
+          "target": "UNMONITORED_OBSERVATION_MEDICINE_QUALITY__ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Leape, L.L.",
+              "year": 1994,
+              "title": "Error in Medicine",
+              "journal": "JAMA",
+              "volume": "272(23)",
+              "pages": "1851-1857",
+              "doi": "10.1001/jama.272.23.1851"
+            },
+            {
+              "author": "Berwick, D.M.",
+              "year": 2003,
+              "title": "Disseminating Innovations in Health Care",
+              "journal": "JAMA",
+              "volume": "289(15)",
+              "pages": "1969-1975",
+              "doi": "10.1001/jama.289.15.1969"
+            }
+          ],
+          "steps": [
+            "Assess safety culture for observation medicine quality & performance using AHRQ SOPS culture survey",
+            "Design just culture policy with algorithm for human error, at-risk, and reckless behavior",
+            "Implement voluntary event reporting system with feedback and learning loops",
+            "Conduct patient safety leadership WalkRounds with executive team",
+            "Track culture survey trends, reporting rates, and serious safety event reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — patient experience scores (HCAHPS) using CMS HCAHPS survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — patient experience scores (HCAHPS) measured monthly. Target: top-quartile nationally. PHASE 3 (Months 4-6): Midpoint review — compare against CMS Hospital Compare benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — patient experience scores (HCAHPS) trending toward top-decile. Escalate if <above median floor. ANNUAL REVIEW: Comprehensive audit using CMS HCAHPS framework. Report to Patient Experience Director.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Develop Observation Medicine Quality & Performance Resilience Assessment",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Develop an EHR optimization for observation medicine quality & performance advancing HIMSS EMRAM maturity with clinical decision support and order set standardization.",
+          "cite": "ONC (2023). Health IT Certification Program. Office of the National Coordinator; SNOMED International (2023). SNOMED CT: Systematized Nomenclature of Medicine. SNOMED",
+          "target": "UNDERPERFORMING_OBSERVATION_MEDICINE_QUALITY__ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "ONC",
+              "year": 2023,
+              "title": "Health IT Certification Program",
+              "journal": "Office of the National Coordinator",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "SNOMED International",
+              "year": 2023,
+              "title": "SNOMED CT: Systematized Nomenclature of Medicine",
+              "journal": "SNOMED",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess EHR maturity for observation medicine quality & performance using HIMSS EMRAM stage evaluation",
+            "Design optimization plan targeting CDS, documentation, and workflow efficiency",
+            "Implement clinical decision support rules aligned with evidence-based guidelines",
+            "Deploy physician informatics champions for adoption and continuous improvement",
+            "Measure EMRAM stage advancement, CDS effectiveness, and clinician satisfaction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — EHR adoption maturity using HIMSS EMRAM score. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — EHR adoption maturity measured biannually. Target: EMRAM Stage 6. PHASE 3 (Months 4-6): Midpoint review — compare against HIMSS EMRAM Stage 7 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — EHR adoption maturity trending toward Stage 7. Escalate if <Stage 5 floor. ANNUAL REVIEW: Comprehensive audit using HIMSS EMRAM framework. Report to CMIO.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        },
+        {
+          "label": "Establish Observation Medicine Quality & Performance Risk Mitigation Strategy",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Establish a population health management strategy for observation medicine quality & performance using Triple Aim framework with risk stratification and care coordination protocols.",
+          "cite": "Donabedian, A. (1988). The Quality of Care: How Can It Be Assessed?. JAMA, 260(12), 1743-1748. doi:10.1001/jama.260.12.1743; Porter, M.E. & Teisberg, E.O. (2006). Redefining Health Care. Harvard Business School Press",
+          "target": "REACTIVE_OBSERVATION_MEDICINE_QUALITY__ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Donabedian, A.",
+              "year": 1988,
+              "title": "The Quality of Care: How Can It Be Assessed?",
+              "journal": "JAMA",
+              "volume": "260(12)",
+              "pages": "1743-1748",
+              "doi": "10.1001/jama.260.12.1743"
+            },
+            {
+              "author": "Porter, M.E. & Teisberg, E.O.",
+              "year": 2006,
+              "title": "Redefining Health Care",
+              "journal": "Harvard Business School Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct clinical outcomes audit for observation medicine quality & performance using Donabedian framework and risk-adjusted analysis",
+            "Search Cochrane Library and synthesize best available evidence for target condition",
+            "Design clinical pathway with GRADE-rated recommendations and measurable quality indicators",
+            "Implement pathway with order sets, education, and real-time adherence monitoring",
+            "Evaluate outcomes using statistical process control and publish results"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — hospital standardized mortality ratio using clinical registry and coding data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — hospital standardized mortality ratio measured monthly. Target: HSMR below 100. PHASE 3 (Months 4-6): Midpoint review — compare against Dr. Foster/CIHI benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — hospital standardized mortality ratio trending toward HSMR below 90. Escalate if <HSMR below 110 ceiling. ANNUAL REVIEW: Comprehensive audit using CIHI HSMR methodology. Report to Chief Medical Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 90 days, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a emergency medicine systems director for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 14 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "MDT",
+      "target": "A1",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "A1",
+      "target": "NBM",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "NBM",
+      "target": "SC",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "SC",
+      "target": "VAN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "VAN",
+      "target": "EC",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "EC",
+      "target": "BNST",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "BNST",
+      "target": "PIT",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "MDT",
+      "target": "PIT",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "NBM",
+      "target": "MDT",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "MEDICINE_EMERGENCY_OBSERVATION_SYSTEM_FAILURE",
+      "label": "Medicine Emergency Observation System Failure",
+      "summary": "Critical breakdown in Medicine Emergency Observation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "MDT",
+          "dir": "Hyper-active",
+          "detail": "Observation Medicine Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "A1",
+          "dir": "Hypo-active",
+          "detail": "Observation Medicine Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Altered",
+          "detail": "Observation Medicine Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SC",
+          "dir": "Hyper-active",
+          "detail": "Observation Medicine Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VAN",
+          "dir": "Hypo-active",
+          "detail": "Observation Medicine Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MEDICINE_EMERGENCY_OBSERVATION_CAPACITY_OVERLOAD",
+      "label": "Medicine Emergency Observation Capacity Overload",
+      "summary": "Demand exceeding available Medicine Emergency Observation capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "MDT",
+          "dir": "Hyper-active",
+          "detail": "Observation Medicine Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "A1",
+          "dir": "Hyper-active",
+          "detail": "Observation Medicine Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Hyper-active",
+          "detail": "Observation Medicine Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SC",
+          "dir": "Hyper-active",
+          "detail": "Observation Medicine Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MEDICINE_EMERGENCY_OBSERVATION_QUALITY_DEGRADATION",
+      "label": "Medicine Emergency Observation Quality Degradation",
+      "summary": "Progressive decline in Medicine Emergency Observation quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "MDT",
+          "dir": "Hypo-active",
+          "detail": "Observation Medicine Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "A1",
+          "dir": "Altered",
+          "detail": "Observation Medicine Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Hyper-active",
+          "detail": "Observation Medicine Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SC",
+          "dir": "Hypo-active",
+          "detail": "Observation Medicine Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

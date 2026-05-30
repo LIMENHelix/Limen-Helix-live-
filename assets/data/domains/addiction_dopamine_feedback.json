@@ -1,0 +1,99 @@
+{
+  "domainId": "addiction_dopamine_feedback",
+  "title": "Dopamine Source Nucleus — Feedback & Validation",
+  "parentPortal": "addiction_dopamine_portal.html",
+  "parentLabel": "Dopamine Source Nucleus",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Dopamine Source Nucleus — Feedback & Validation — Primary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "addiction_dopamine_feedback_assess_portal.html"
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Dopamine Source Nucleus — Feedback & Validation — Secondary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "addiction_dopamine_feedback_impl_portal.html"
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Dopamine Source Nucleus — Feedback & Validation — Tertiary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "addiction_dopamine_feedback_optim_portal.html"
+    }
+  ]
+}

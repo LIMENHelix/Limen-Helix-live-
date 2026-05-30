@@ -1,0 +1,99 @@
+{
+  "domainId": "pediatric_social_diagnosis",
+  "title": "Social Cognition & Self-Reference — Diagnostic Pattern Recognition",
+  "parentPortal": "pediatric_social_portal.html",
+  "parentLabel": "Social Cognition & Self-Reference",
+  "phase": "P2",
+  "activations": [
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference — Diagnostic Pattern Recognition — Primary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Social Cognition & Self-Reference dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "pediatric_social_diagnosis_assess_portal.html"
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference — Diagnostic Pattern Recognition — Secondary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Social Cognition & Self-Reference dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "pediatric_social_diagnosis_impl_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference — Diagnostic Pattern Recognition — Tertiary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Social Cognition & Self-Reference dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "pediatric_social_diagnosis_optim_portal.html"
+    }
+  ]
+}

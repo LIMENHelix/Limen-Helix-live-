@@ -1,0 +1,511 @@
+{
+  "domainId": "legal_advocacy",
+  "title": "Legal Advocacy / Argumentation",
+  "parentPortal": "legal_portal.html",
+  "parentLabel": "Legal Systems",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Legal Advocacy / Argumentation Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Legal Advocacy / Argumentation indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves legal advocacy / argumentation knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves legal advocacy / argumentation knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.66
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Advocacy / Argumentation Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Advocacy / Argumentation Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "legal_advocacy_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "TrkB",
+      "state": "active",
+      "domainLabel": "Legal Advocacy / Argumentation Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Legal Advocacy / Argumentation activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P8",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "U.S. Federal Courts (PACER)",
+          "ticker_or_id": "PACER_GOV",
+          "functional_reason": "Routes and distributes legal advocacy / argumentation resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Routes and distributes legal advocacy / argumentation resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.68
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Advocacy / Argumentation Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Advocacy / Argumentation Core Operations"
+        }
+      ],
+      "childPortal": "legal_advocacy_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Legal Advocacy / Argumentation Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Legal Advocacy / Argumentation, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P9",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Advocacy / Argumentation Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Advocacy / Argumentation Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "legal_advocacy_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Legal Advocacy / Argumentation Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Legal Advocacy / Argumentation practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P9",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Advocacy / Argumentation Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Advocacy / Argumentation Standards & Governance"
+        }
+      ],
+      "childPortal": "legal_advocacy_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "ENDO",
+      "state": "active",
+      "domainLabel": "Legal Advocacy / Argumentation Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Legal Advocacy / Argumentation methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P9",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Advocacy / Argumentation Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Advocacy / Argumentation Research & Development"
+        }
+      ],
+      "childPortal": "legal_advocacy_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "OXY",
+      "state": "active",
+      "domainLabel": "Legal Advocacy / Argumentation Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Legal Advocacy / Argumentation stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P9",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Advocacy / Argumentation Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Advocacy / Argumentation Risk & Resilience"
+        }
+      ],
+      "childPortal": "legal_advocacy_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "GABA_GLU",
+      "state": "active",
+      "domainLabel": "Legal Advocacy / Argumentation Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Legal Advocacy / Argumentation operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P9",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.93
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Advocacy / Argumentation Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Advocacy / Argumentation Coordination & Integration"
+        }
+      ],
+      "childPortal": "legal_advocacy_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "EI",
+      "state": "active",
+      "domainLabel": "Legal Advocacy / Argumentation Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Legal Advocacy / Argumentation outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P9",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes legal advocacy / argumentation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Legal Advocacy / Argumentation Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Legal Advocacy / Argumentation Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "BDNF",
+      "target": "TrkB",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "TrkB",
+      "target": "RAPHE",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "RAPHE",
+      "target": "LC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "LC",
+      "target": "ENDO",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "ENDO",
+      "target": "OXY",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "OXY",
+      "target": "GABA_GLU",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "GABA_GLU",
+      "target": "EI",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "EI",
+      "target": "BDNF",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "BDNF",
+      "target": "ENDO",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "LC",
+      "target": "GABA_GLU",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "LEGAL_ADVOCACY_SYSTEM_FAILURE",
+      "label": "Legal Advocacy / Argumentation System Failure",
+      "summary": "Critical breakdown in Legal Advocacy / Argumentation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "BDNF",
+          "dir": "Hypo-active",
+          "detail": "Legal Advocacy / Argumentation Assessment & Diagnostics capacity falling below operational thresholds, reducing Legal Advocacy / Argumentation output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TrkB",
+          "dir": "Hypo-active",
+          "detail": "Legal Advocacy / Argumentation Core Operations systems underperforming, creating gaps in Legal Advocacy / Argumentation coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Altered",
+          "detail": "Legal Advocacy / Argumentation Infrastructure & Capacity behavior deviating from established norms, complicating Legal Advocacy / Argumentation management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Hyper-active",
+          "detail": "Legal Advocacy / Argumentation Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Legal Advocacy / Argumentation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "EI",
+          "dir": "Hypo-active",
+          "detail": "Legal Advocacy / Argumentation Performance & Optimization function reduced, compromising Legal Advocacy / Argumentation system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_ADVOCACY_CAPACITY_CRISIS",
+      "label": "Legal Advocacy / Argumentation Capacity Crisis",
+      "summary": "Demand exceeding available Legal Advocacy / Argumentation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "TrkB",
+          "dir": "Hyper-active",
+          "detail": "Legal Advocacy / Argumentation Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Legal Advocacy / Argumentation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hypo-active",
+          "detail": "Legal Advocacy / Argumentation Infrastructure & Capacity systems underperforming, creating gaps in Legal Advocacy / Argumentation coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Altered",
+          "detail": "Legal Advocacy / Argumentation Standards & Governance behavior deviating from established norms, complicating Legal Advocacy / Argumentation management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GABA_GLU",
+          "dir": "Hyper-active",
+          "detail": "Legal Advocacy / Argumentation Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Legal Advocacy / Argumentation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "EI",
+          "dir": "Altered",
+          "detail": "Legal Advocacy / Argumentation Performance & Optimization operating outside normal parameters, introducing uncertainty into Legal Advocacy / Argumentation outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_ADVOCACY_GOVERNANCE_GAP",
+      "label": "Legal Advocacy / Argumentation Governance Gap",
+      "summary": "Oversight or regulatory failure in Legal Advocacy / Argumentation creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hypo-active",
+          "detail": "Legal Advocacy / Argumentation Standards & Governance capacity falling below operational thresholds, reducing Legal Advocacy / Argumentation output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BDNF",
+          "dir": "Altered",
+          "detail": "Legal Advocacy / Argumentation Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Legal Advocacy / Argumentation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ENDO",
+          "dir": "Hyper-active",
+          "detail": "Legal Advocacy / Argumentation Research & Development activity spiking beyond design limits, creating instability across Legal Advocacy / Argumentation operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Altered",
+          "detail": "Legal Advocacy / Argumentation Risk & Resilience patterns disrupted, necessitating adaptive responses within Legal Advocacy / Argumentation frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GABA_GLU",
+          "dir": "Hypo-active",
+          "detail": "Legal Advocacy / Argumentation Coordination & Integration function reduced, compromising Legal Advocacy / Argumentation system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

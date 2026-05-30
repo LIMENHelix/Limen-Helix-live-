@@ -1,0 +1,99 @@
+{
+  "domainId": "metabolic_hpa_action",
+  "title": "HPA Axis Stress-Metabolism Coupling — Action Coordination",
+  "parentPortal": "metabolic_hpa_portal.html",
+  "parentLabel": "HPA Axis Stress-Metabolism Coupling",
+  "phase": "P4",
+  "activations": [
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "HPA Axis Stress-Metabolism Coupling — Action Coordination — Primary Node",
+      "domainDescription": "Action layer — orchestrates implementation across care providers, treatment modalities, medication protocols, and behavioral interventions.",
+      "group": "action_coordination",
+      "phase": "P4",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Treatment Protocol Orchestration",
+          "evidence": "B",
+          "description": "Coordinated execution of selected interventions across providers and modalities"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Protocol",
+          "evidence": "B",
+          "description": "Strategies for maintaining patient adherence and engagement throughout treatment"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Escalation Pathway",
+          "evidence": "B",
+          "description": "Defined escalation criteria and pathways when initial interventions prove insufficient"
+        }
+      ],
+      "childPortal": "metabolic_hpa_action_assess_portal.html"
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "HPA Axis Stress-Metabolism Coupling — Action Coordination — Secondary Node",
+      "domainDescription": "Action layer — orchestrates implementation across care providers, treatment modalities, medication protocols, and behavioral interventions.",
+      "group": "action_coordination",
+      "phase": "P4",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Treatment Protocol Orchestration",
+          "evidence": "B",
+          "description": "Coordinated execution of selected interventions across providers and modalities"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Protocol",
+          "evidence": "B",
+          "description": "Strategies for maintaining patient adherence and engagement throughout treatment"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Escalation Pathway",
+          "evidence": "B",
+          "description": "Defined escalation criteria and pathways when initial interventions prove insufficient"
+        }
+      ],
+      "childPortal": "metabolic_hpa_action_impl_portal.html"
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "HPA Axis Stress-Metabolism Coupling — Action Coordination — Tertiary Node",
+      "domainDescription": "Action layer — orchestrates implementation across care providers, treatment modalities, medication protocols, and behavioral interventions.",
+      "group": "action_coordination",
+      "phase": "P4",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Treatment Protocol Orchestration",
+          "evidence": "B",
+          "description": "Coordinated execution of selected interventions across providers and modalities"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Protocol",
+          "evidence": "B",
+          "description": "Strategies for maintaining patient adherence and engagement throughout treatment"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Escalation Pathway",
+          "evidence": "B",
+          "description": "Defined escalation criteria and pathways when initial interventions prove insufficient"
+        }
+      ],
+      "childPortal": "metabolic_hpa_action_optim_portal.html"
+    }
+  ]
+}

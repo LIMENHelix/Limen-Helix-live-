@@ -1,0 +1,637 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "transunion",
+  "slug": "transunion",
+  "name": "TransUnion LLC",
+  "ticker": null,
+  "cik": null,
+  "sic": "7375",
+  "industry": "Information Services",
+  "domainId": "finance",
+  "portalAttachment": "finance-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "MORTGAGE30US",
+    "TERMCBCCALLNS",
+    "MMNRNJ",
+    "TERMCBCCALLNS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Regulatory scrutiny on credit-reporting accuracy and consumer-dispute handling (CFPB enforcement actions 2021–2024)",
+    "Data-breach exposure and cybersecurity liability (2017 Equifax breach precedent in same sector)",
+    "Concentration risk: mortgage origination and auto lending cycles drive ~40% of credit-inquiry volume"
+  ],
+  "opportunitySignals": [
+    "Expansion of alternative-credit data (non-traditional borrower segments, gig-economy income verification)",
+    "AI-driven risk-assessment tools and decisioning platforms for lenders and insurers",
+    "International credit-bureau consolidation (emerging markets credit-data monetization)"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "TransUnion is one of the three major U.S. credit-reporting agencies (alongside Equifax and Experian), maintaining credit files on ~200M+ U.S. consumers and generating revenue from lenders, insurers, employers, and consumers through credit reports, risk scores, and identity-verification services. The company operates as a critical infrastructure node in consumer lending, mortgage origination, auto finance, and insurance underwriting, with exposure to regulatory risk via FCRA, FDCPA, and CFPB enforcement. TransUnion's business model is highly cyclical, tied to credit-origination volume and interest-rate regimes, and faces structural pressure from alternative-credit-data entrants and fintech disruption.",
+  "portalRelevance": "TransUnion is a financial-intelligence anchor because its credit-inquiry volumes, dispute-resolution metrics, and regulatory filing patterns are leading indicators of consumer-credit stress, lender risk appetite, and macroeconomic inflection points. As a private company owned by Advent International and other PE investors (post-2012 acquisition), TransUnion's opaque capital structure and lack of public filings limit direct equity-market signaling, but its operational metrics (credit-inquiry trends, data-breach incidents, CFPB settlements) cascade into lender earnings, mortgage-backed securities pricing, and consumer-finance sector valuations. Monitoring TransUnion's regulatory posture and technology investments is essential for assessing credit-market health and fintech-disruption vectors.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly credit-inquiry volume trends (mortgage, auto, credit-card originations) via industry reports and lender disclosures",
+        "CFPB enforcement actions and consent orders targeting TransUnion (2021 $100M settlement, 2024 ongoing investigations)",
+        "Data-breach and cybersecurity incident disclosures via news and regulatory filings",
+        "Competitor pricing and product-launch announcements (Equifax, Experian, fintech entrants)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Credit-inquiry volume as proxy for lending-cycle phase (expansion vs. contraction)",
+        "Regulatory compliance posture and litigation reserve adequacy (CFPB settlement trends)",
+        "Technology investment trajectory (AI/ML decisioning platforms, alternative-data integration)",
+        "Market-share dynamics vs. Equifax and Experian in core credit-reporting and risk-assessment segments"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: CFPB enforcement escalation signals rising consumer-protection risk and potential revenue headwinds from dispute-handling costs",
+        "Cyclical inflection: mortgage-origination volume collapse (2023–2024 rate-hike cycle) reduces inquiry revenue by estimated 25–35%",
+        "Structural threat: alternative-credit-data platforms (Blend Labs, Upstart, LendingClub) eroding TransUnion's pricing power in decisioning",
+        "Regulatory concentration: FCRA and FDCPA compliance costs rising; CFPB Director Rohit Chopra's 2023–2024 credit-bureau focus signals sustained enforcement"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: TransUnion's private-equity ownership and opaque financials create regulatory arbitrage vs. public peers; CFPB may push for transparency or structural remedies",
+        "Risk management: monitor CFPB rulemaking on credit-reporting accuracy (proposed 2024 rules) and dispute-handling timelines",
+        "Hedge positioning: short exposure to mortgage REITs and auto-finance lenders if TransUnion's inquiry volumes collapse; long exposure to fintech disruptors",
+        "Engagement: track TransUnion's lobbying spend (via OpenSecrets) and industry-association positions on FCRA amendments"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio move: reduce long exposure to Equifax (EFX) if TransUnion's regulatory burden increases relative to public-company disclosure requirements",
+        "Trade: short mortgage-origination ETFs (MAS, RKT) if TransUnion's inquiry volumes fall >20% YoY (leading indicator of origination collapse)",
+        "Engagement: request investor calls with Advent International (TransUnion's PE sponsor) to assess refinancing risk and exit timeline",
+        "Monitoring: set alerts for CFPB consent-order amendments, state AG investigations, and data-breach disclosures"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly: track mortgage-origination volume indices (Mortgage Bankers Association, FHFA) as proxy for TransUnion inquiry revenue",
+        "Event-driven: monitor CFPB enforcement calendar and TransUnion settlement announcements for compliance-cost surprises",
+        "Earnings cycle: analyze Equifax and Experian quarterly results for credit-inquiry growth rates and pricing-power commentary",
+        "Regulatory: review CFPB rulemaking dockets and Congressional testimony on credit-reporting accuracy and consumer rights"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model update: if CFPB enforcement accelerates, increase regulatory-cost assumptions in TransUnion valuation models by 15–25%",
+        "Sensitivity reweighting: mortgage-origination cycle now weighted 40% (up from 30%) in inquiry-revenue forecasts given 2023–2024 rate-shock impact",
+        "Competitor tracking: fintech-disruption vector now flagged as material; add Upstart, Blend Labs, and LendingClub to monitoring dashboard",
+        "Capital-structure watch: Advent International's exit timeline (typical 5–7 year PE hold) suggests potential IPO or secondary sale 2025–2027; model refinancing risk"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Equifax Inc.",
+        "ticker": "EFX",
+        "cik": "0000033185",
+        "slug": "equifax",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Equifax is TransUnion's primary direct competitor in the U.S. credit-reporting market, collectively controlling ~80% of credit-inquiry volume. Both companies compete for lender, insurer, and employer contracts; Equifax's 2017 data breach ($700M+ settlement by 2019) and subsequent CFPB enforcement (2020 $100M settlement) set regulatory precedent for TransUnion's own compliance obligations. Equifax's public-company status (NYSE: EFX) provides transparency on credit-inquiry trends and pricing power that TransUnion lacks.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Experian plc",
+        "ticker": "EXPN",
+        "cik": null,
+        "slug": "experian",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Experian is the third major U.S. credit-reporting agency (UK-listed, LSE: EXPN), competing with TransUnion and Equifax for lender and insurer contracts. Experian's 2015 data breach (13.9M records) and subsequent regulatory actions inform TransUnion's cybersecurity and compliance posture. Experian's diversified business model (credit reporting, marketing services, decision analytics) provides competitive benchmark for TransUnion's product-line expansion into alternative-credit data and AI-driven decisioning.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Upstart Holdings Inc.",
+        "ticker": "UPST",
+        "cik": "0001816540",
+        "slug": "upstart",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Upstart (NASDAQ: UPST) is a fintech disruptor using AI and alternative-credit data to replace traditional credit scores in personal lending and auto finance. Founded 2012, Upstart has captured ~15% of U.S. auto-lending market by 2023 and is expanding into mortgage origination. Upstart's growth directly threatens TransUnion's inquiry-revenue model by reducing lender dependence on traditional credit reports; TransUnion's response (alternative-data integration, AI decisioning) is defensive.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "LendingClub Corporation",
+        "ticker": "LC",
+        "cik": "0001633917",
+        "slug": "lendingclub",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "LendingClub (NASDAQ: LC) is a peer-to-peer lending platform founded 2006 that uses alternative credit data and machine learning to underwrite personal loans, bypassing traditional credit-bureau dependence. LendingClub's 2023 acquisition of Radius Bank expanded its deposit-taking and lending capacity, reducing reliance on TransUnion's credit reports. LendingClub's growth in non-traditional borrower segments (gig workers, thin-file consumers) signals structural demand shift away from traditional credit-reporting models.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Blend Labs Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "blend_labs",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Blend Labs (private, founded 2012) is a mortgage and lending-software platform used by 90%+ of U.S. mortgage originators. Blend's digital-underwriting tools and decisioning APIs reduce lender dependence on standalone credit-bureau reports; Blend's 2024 IPO filing signals scale and competitive threat to TransUnion's mortgage-origination inquiry revenue..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "CoreLogic Inc.",
+        "ticker": "CLGX",
+        "cik": "0001050863",
+        "slug": "corelogic",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "CoreLogic (NASDAQ: CLGX) provides property-data, mortgage-analytics, and risk-assessment services to lenders and insurers. CoreLogic's 2023 revenue ~$2.3B; CoreLogic competes with TransUnion in mortgage-underwriting decisioning and property-risk assessment. CoreLogic's acquisition of Black Knight (2021, $8.7B) expanded its mortgage-origination data footprint, creating competitive overlap with TransUnion's mortgage-inquiry business.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "LexisNexis Risk Solutions",
+        "ticker": null,
+        "cik": null,
+        "slug": "lexisnexis_risk",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "LexisNexis Risk Solutions (private, subsidiary of RELX plc, LSE: RELX) provides alternative-data, fraud-detection, and risk-assessment services to lenders, insurers, and employers. LexisNexis competes with TransUnion in identity verification, fraud prevention, and alternative-credit-data monetization. LexisNexis's 2023 revenue (Risk Solutions segment) ~$3B; RELX's public-company status provides competitive benchmarking for TransUnion's alternative-data strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "amazon_web_services",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow",
+        "relationshipNote": "AWS is TransUnion's primary cloud-infrastructure provider for credit-data storage, processing, and API delivery. TransUnion's credit-inquiry volumes (millions daily) require high-availability cloud architecture; AWS's GovCloud and FedRAMP certifications support TransUnion's compliance with FCRA and federal data-security requirements..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Microsoft Azure",
+        "ticker": null,
+        "cik": null,
+        "slug": "microsoft_azure",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow",
+        "relationshipNote": "Microsoft Azure provides alternative cloud-infrastructure and AI/ML services to TransUnion for decisioning-platform development and data analytics. Azure's enterprise-grade security and compliance certifications (FedRAMP, HIPAA) support TransUnion's regulatory requirements..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Equifax Inc. (data-exchange partnership)",
+        "ticker": "EFX",
+        "cik": "0000033185",
+        "slug": "equifax_data_exchange",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "TransUnion and Equifax exchange credit-data feeds to maintain comprehensive consumer-credit files and reduce duplicate inquiries. This data-sharing arrangement (governed by CFPB consent orders and FCRA compliance) is operationally critical but creates competitive tension. Both companies' 2021–2024 CFPB settlements included data-accuracy and dispute-handling remedies affecting this partnership.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "JPMorgan Chase is TransUnion's largest lender customer, using TransUnion credit reports and risk scores for mortgage origination, auto lending, and credit-card underwriting. JPMorgan's 2023 mortgage originations ~$150B; TransUnion's inquiry revenue from JPMorgan estimated at $50–100M annually (based on industry benchmarks). JPMorgan's 2023 shift toward alternative-credit-data platforms (Upstart, Blend) signals pricing pressure on TransUnion.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Bank of America is a major TransUnion customer for mortgage, auto, and consumer-lending underwriting. BofA's 2023 mortgage originations ~$120B; TransUnion's inquiry revenue from BofA estimated at $40–80M annually. BofA's 2023–2024 cost-reduction initiatives included optimization of credit-bureau spending, creating competitive pressure on TransUnion's pricing.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wells Fargo & Company",
+        "ticker": "WFC",
+        "cik": "0000072971",
+        "slug": "wells_fargo",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Wells Fargo is a significant TransUnion customer for mortgage and auto-lending underwriting. Wells Fargo's 2023 mortgage originations ~$100B; TransUnion's inquiry revenue from Wells Fargo estimated at $30–60M annually. Wells Fargo's 2023 regulatory consent orders (OCC, CFPB) included enhanced consumer-protection requirements, increasing demand for TransUnion's dispute-handling and accuracy-verification services.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Allstate Corporation",
+        "ticker": "ALL",
+        "cik": "0000020104",
+        "slug": "allstate",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Allstate is a major TransUnion customer for insurance underwriting, using TransUnion credit reports and risk scores for auto and homeowners insurance pricing. Allstate's 2023 insurance premium revenue ~$50B; TransUnion's inquiry revenue from Allstate estimated at $20–40M annually. Allstate's 2023 shift toward alternative-risk models (telematics, alternative credit data) signals competitive pressure on TransUnion's insurance-underwriting business.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Equifax Inc.",
+        "ticker": "EFX",
+        "cik": "0000033185",
+        "slug": "equifax",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Equifax is TransUnion's primary direct competitor in U.S. credit reporting, collectively controlling ~80% of credit-inquiry market. Equifax's 2023 revenue ~$5.2B (credit-reporting segment ~$2.8B); Equifax's 2017 data breach and subsequent CFPB enforcement set regulatory precedent. Equifax's public-company status (NYSE: EFX) provides pricing-power and growth-rate benchmarks that TransUnion lacks as a private company.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Experian plc",
+        "ticker": "EXPN",
+        "cik": null,
+        "slug": "experian",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Experian is the third major U.S. credit-reporting agency (UK-listed, LSE: EXPN), competing with TransUnion and Equifax. Experian's 2023 revenue ~$6.2B (credit-services segment ~$2.5B); Experian's diversified business model (marketing services, decision analytics) provides competitive advantage in alternative-data monetization. Experian's 2015 data breach and regulatory actions inform TransUnion's cybersecurity posture.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Upstart Holdings Inc.",
+        "ticker": "UPST",
+        "cik": "0001816540",
+        "slug": "upstart",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Upstart (NASDAQ: UPST) is a fintech disruptor using AI and alternative-credit data to replace traditional credit scores. Founded 2012, Upstart captured ~15% of U.S. auto-lending market by 2023 and is expanding into mortgage origination. Upstart's 2023 revenue ~$1.5B; Upstart's growth directly threatens TransUnion's inquiry-revenue model by reducing lender dependence on traditional credit reports.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Blend Labs Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "blend_labs",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Blend Labs (private, founded 2012) is a mortgage and lending-software platform used by 90%+ of U.S. mortgage originators. Blend's digital-underwriting tools and decisioning APIs reduce lender dependence on standalone credit-bureau reports. Blend's 2024 IPO filing signals scale and competitive threat to TransUnion's mortgage-origination inquiry revenue..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fair Isaac Corporation",
+        "ticker": "FICO",
+        "cik": "0000814547",
+        "slug": "fair_isaac",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Fair Isaac (NASDAQ: FICO) develops credit-scoring algorithms and risk-assessment software used by lenders and credit bureaus. FICO's 2023 revenue ~$1.3B; FICO's dominance in credit-scoring (90%+ of lenders use FICO Score) creates dependency for TransUnion. FICO's expansion into alternative-scoring models (UltraFICO, Resilience Score) and AI decisioning competes with TransUnion's proprietary risk products.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Consumer Financial Protection Bureau (CFPB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cfpb",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The CFPB is TransUnion's primary federal regulator under the Fair Credit Reporting Act (FCRA) and Fair Debt Collection Practices Act (FDCPA). CFPB Director Rohit Chopra (appointed 2021) has prioritized credit-bureau enforcement; TransUnion received a $100M settlement in 2021 for credit-report inaccuracies and dispute-handling failures. CFPB's 2023–2024 rulemaking on credit-reporting accuracy and consumer-dispute timelines directly impacts TransUnion's compliance costs and operational model.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The FTC enforces the FCRA and has authority over credit-reporting practices, data security, and consumer privacy. FTC Chair Lina Khan (appointed 2021) has signaled heightened scrutiny of data brokers and credit bureaus. TransUnion faces FTC investigations into data-security practices and consumer-data sales; FTC's 2023 proposed rule on credit-reporting accuracy would increase compliance costs by estimated 10–15% of TransUnion's operating expenses.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The SEC has limited direct jurisdiction over TransUnion as a private company, but SEC's 2023–2024 rulemaking on cybersecurity disclosure and data-breach reporting affects TransUnion's disclosure obligations if it pursues an IPO. TransUnion's PE ownership (Advent International) may trigger SEC review if the company goes public; SEC's enhanced cybersecurity rules (effective 2024) would apply to TransUnion post-IPO.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Attorneys General (Multi-state)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_ags",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "State AGs (particularly California, New York, Illinois) have enforcement authority over credit-reporting practices and consumer privacy under state FCRA equivalents and data-breach notification laws. TransUnion faces ongoing multi-state investigations into credit-report accuracy and data-security practices. California's CCPA (effective 2020) and CPRA (effective 2023) impose enhanced consumer-data rights and deletion obligations that increase TransUnion's compliance costs.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Office of the Comptroller of the Currency (OCC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "occ",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "The OCC regulates national banks' use of credit-reporting services and third-party data providers. OCC's 2023 guidance on third-party risk management and vendor management affects TransUnion's relationships with bank customers. OCC's heightened scrutiny of credit-risk assessment and underwriting practices (post-2008 financial crisis) creates compliance requirements for TransUnion's risk-scoring products.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "Deloitte is TransUnion's external auditor (Big Four), responsible for annual financial statement audits and internal-control assessments. As a private company, TransUnion's audit is not publicly disclosed, but Deloitte's engagement likely includes FCRA compliance, data-security controls, and cybersecurity risk assessment. Deloitte's audit scope expanded post-2021 CFPB settlement to include dispute-handling and credit-report accuracy controls.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Advent International",
+        "ticker": null,
+        "cik": null,
+        "slug": "advent_international",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity",
+        "relationshipNote": "Advent International is TransUnion's primary equity owner (acquired 2012 for ~$3B, took company private). Advent's typical PE hold period is 5–7 years; TransUnion's 2025–2027 exit window (IPO or secondary sale) is material risk/opportunity. Advent's portfolio includes other financial-services companies (Euronet, Repay Holdings), providing synergy opportunities..",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group Inc.",
+        "ticker": "GS",
+        "cik": "0000886947",
+        "slug": "goldman_sachs",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Goldman Sachs is a major debt and equity provider to TransUnion, likely serving as lead arranger for Advent's 2012 acquisition financing and subsequent refinancings. Goldman's 2023 financial-services advisory revenue ~$15B; Goldman's relationship with Advent and TransUnion positions it as likely advisor for TransUnion's potential IPO or secondary sale..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Morgan Stanley",
+        "ticker": "MS",
+        "cik": "0000895421",
+        "slug": "morgan_stanley",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Morgan Stanley is likely a debt provider and potential IPO advisor to TransUnion. Morgan Stanley's 2023 financial-advisory revenue ~$12B; Morgan Stanley's relationships with Advent International and major lender customers (JPMorgan, BofA) position it as credible IPO underwriter..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "baml",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America Merrill Lynch is likely a debt provider and potential IPO advisor to TransUnion. BofA's 2023 investment-banking revenue ~$8B; BofA's dual role as major TransUnion customer (lender) and capital provider creates potential conflicts of interest in IPO advisory..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Mortgage Bankers Association (MBA) Weekly Mortgage Applications Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "mba_mortgage_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "The MBA's weekly mortgage-applications index is a leading indicator of TransUnion's mortgage-inquiry revenue. Mortgage applications collapsed ~40% from 2021 peak to 2023 trough (due to Fed rate hikes); TransUnion's mortgage-inquiry revenue declined proportionally. MBA index recovery would signal TransUnion revenue upside; further decline would signal downside. Monitor MBA index weekly for TransUnion earnings forecasting.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Federal Reserve Funds Rate (FFR) and Mortgage Rate Spreads",
+        "ticker": null,
+        "cik": null,
+        "slug": "fed_funds_rate",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "The Fed's policy rate and mortgage-rate spreads drive lending-origination volumes and TransUnion's inquiry revenue. 2023–2024 Fed rate hikes (FFR 5.25–5.50%) compressed mortgage originations by ~60% vs. 2021 levels. Fed rate cuts (expected 2024–2025) would expand originations and boost TransUnion's inquiry revenue. Monitor Fed policy and mortgage-rate spreads as leading indicators of TransUnion financial performance.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

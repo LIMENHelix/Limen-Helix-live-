@@ -1,0 +1,643 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "stantec",
+  "slug": "stantec",
+  "name": "Stantec Inc.",
+  "ticker": null,
+  "cik": null,
+  "sic": "8711",
+  "industry": "Engineering Services",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "TOTALSA",
+    "IMPGS",
+    "HOUST",
+    "PERMIT",
+    "CIVNSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "steel",
+    "concrete",
+    "copper",
+    "aluminum",
+    "diesel",
+    "natural gas"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Stantec is a global engineering and design services firm providing infrastructure planning, design, and project delivery across transportation, water, power, buildings, and environmental sectors. With ~22,000 employees across 150+ offices, the firm serves public agencies, utilities, and private developers on capital projects ranging from $10M municipal water systems to multi-billion-dollar transportation corridors. The company's revenue is heavily weighted toward North American public-sector infrastructure spending, making it a leading indicator of government capex cycles and a critical node in the delivery chain for federal, state, and municipal infrastructure programs.",
+  "portalRelevance": "Stantec functions as a peer-tier infrastructure-services anchor in the engineering-design ecosystem, bridging public-sector capital allocation (DOT, EPA, USACE) with private construction and operations. Its project pipeline, staffing levels, and backlog-to-revenue ratio serve as leading indicators of infrastructure spending momentum and public-sector budget execution. As a private firm, Stantec's financial health and growth trajectory are opaque to public markets, but its contract wins, M&A activity, and executive departures signal shifts in infrastructure demand and competitive positioning within the AEC (architecture, engineering, construction) sector.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly backlog-to-revenue ratio disclosures in investor updates (if published)",
+        "8-K-equivalent event filings: major contract wins (>$100M), executive departures, M&A announcements",
+        "Staffing and utilization metrics from earnings calls and industry surveys (ENR, BD+C)",
+        "Commodity price exposure via project cost escalation clauses and labor-rate adjustments"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: growth (rising backlog, margin expansion) vs. contraction (project delays, utilization pressure)",
+        "Geographic revenue mix: US federal/state/local vs. international (Canada, Australia, UK) exposure",
+        "Sector concentration: transportation (DOT, transit) vs. water (EPA, USACE) vs. buildings vs. power",
+        "Margin trajectory: design-services gross margin (typically 35–45%) vs. project-delivery margin (15–25%)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: infrastructure spending cycles (IIJA, state DOT budgets) vs. Stantec backlog conversion rates",
+        "Competitive pressure: market-share loss to Jacobs, AECOM, Arcadis in federal/DOT work",
+        "Talent retention risk: senior engineer departures signal margin compression or acquisition-target status",
+        "Leverage risk: debt-funded acquisitions (e.g., Advisian, Trow Group) vs. organic growth sustainability"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Federal infrastructure compliance: NEPA, CWA, CAA, NHPA review timelines impact project schedules",
+        "Prevailing-wage exposure: Davis-Bacon Act on federal projects increases labor costs and margin volatility",
+        "Debarment risk: FAR Part 9.4 compliance for federal contracts; any suspension triggers revenue cliff",
+        "Environmental liability: Phase I/II assessments and remediation work create contingent liabilities"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio thesis: overweight Stantec if IIJA execution accelerates (2024–2026 peak spending window)",
+        "Hedge: short construction materials (steel, concrete) if Stantec margin compression signals demand softness",
+        "Engagement: monitor backlog-to-revenue ratio for inflection; target 1.2–1.5x as healthy; <1.0x signals distress",
+        "M&A watch: acquisition by larger player (Jacobs, AECOM, Arcadis) likely if private-equity ownership seeks exit"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly backlog updates: track project awards vs. revenue burn; backlog decline >10% YoY signals demand cliff",
+        "Utilization metrics: engineer billable-hour rates and bench time; >15% bench signals margin pressure ahead",
+        "Win-rate tracking: major RFP outcomes (DOT, EPA, USACE) vs. competitors; loss to Jacobs/AECOM indicates market-share shift",
+        "M&A activity: acquisition announcements or divestitures signal strategic repositioning or financial stress"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight sector exposure: if water/wastewater backlog accelerates (EPA SRF funding), increase Stantec relevance in water-infrastructure thesis",
+        "Adjust leverage sensitivity: if debt-to-EBITDA rises >3.0x, increase distress-signal weighting in model",
+        "Recalibrate talent-retention risk: if >3 C-suite departures in 12 months, flag acquisition-target probability",
+        "Update geographic mix: if international revenue (Canada, Australia) exceeds 30%, reduce US-cycle dependency in forecasts"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Stantec operates as a distributed neural network of 150+ regional offices and 22,000+ professionals, functioning as a sensory-motor integration hub between public-sector capital-allocation signals (federal/state/local budgets, regulatory mandates) and private construction/operations execution. The firm's core cognitive role is pattern recognition and translation: converting infrastructure policy (IIJA, state climate goals, EPA mandates) into project designs, cost estimates, and delivery schedules. Its financial health and growth trajectory depend on three feedback loops: (1) public-sector budget execution (federal appropriations → state DOT/EPA allocations → local project awards), (2) competitive win-rate against peer firms (Jacobs, AECOM, Arcadis), and (3) internal utilization and margin management (engineer billable rates, project profitability, overhead absorption). Stantec's private ownership structure creates information asymmetry but also strategic flexibility; acquisition by a larger player or private-equity exit would signal inflection in the infrastructure-services market.",
+    "suppliers": [
+      {
+        "name": "Autodesk Inc.",
+        "ticker": "ADSK",
+        "cik": "0000884543",
+        "slug": "autodesk",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Design Tools",
+        "relationshipNote": "Stantec licenses Autodesk Civil 3D, Revit, and AutoCAD for infrastructure design and BIM workflows across all 150+ offices. Estimated 5,000–8,000 concurrent seats globally; annual software spend. Critical dependency for transportation, water, and buildings design; Autodesk subscription model creates recurring cost pressure. Stantec's design productivity and project delivery speed directly correlate with Autodesk tool adoption and training maturity.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Microsoft Corporation",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Cloud Infrastructure & Collaboration",
+        "relationshipNote": "Stantec uses Microsoft Azure for cloud-based project collaboration, data storage, and AI-powered design tools (Copilot integration). Enterprise agreement covers 22,000+ employees; estimated annual spend $8M–$15M. Azure infrastructure supports real-time project coordination across geographically dispersed teams and client data security (FISMA compliance for federal projects). Migration from on-premise servers to Azure reduces capex but increases operational dependency.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Trimble Inc.",
+        "ticker": "TRMB",
+        "cik": "0001260221",
+        "slug": "trimble",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Surveying, GPS, & Field Data Capture",
+        "relationshipNote": "Stantec field teams use Trimble GNSS receivers, total stations, and SketchUp for surveying and site data capture on infrastructure projects. Estimated 1,500–2,500 Trimble devices across field offices; annual hardware/software spend $3M–$6M. Trimble's cloud-connected workflows (Trimble Cloud) integrate with Stantec's BIM platforms. Critical for transportation and water-infrastructure survey accuracy and schedule compression.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Esri (Environmental Systems Research Institute)",
+        "ticker": null,
+        "cik": null,
+        "slug": "esri",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Geospatial Analysis & Environmental Mapping",
+        "relationshipNote": "Stantec uses ArcGIS for environmental impact assessments, utility mapping, and geospatial analysis on infrastructure projects. Estimated 800–1,200 ArcGIS licenses; annual spend $2M–$4M. Critical for NEPA compliance, wetland delineation, and climate-resilience planning. Esri's integration with Autodesk and Bentley platforms supports end-to-end project workflows from environmental baseline to design.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "HDR Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "hdr_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Competitive Benchmarking & Market Intelligence",
+        "relationshipNote": "HDR (private, ~$3.5B revenue) is mid-tier competitor focused on transportation, water, and buildings design. HDR's employee-owned structure and regional strength in Midwest/Mountain West create competitive pockets vs. Stantec's national presence. HDR's 2021 acquisition of Caltrans-focused firm (Stantec competitor) and 2023 expansion into program management signal competitive repositioning. Stantec and HDR compete on state DOT and municipal water projects.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "FedEx Corporation",
+        "ticker": "FDX",
+        "cik": "0000028364",
+        "slug": "fedex",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Document & Sample Delivery",
+        "relationshipNote": "Stantec uses FedEx for overnight delivery of project documents, survey samples, and construction materials to client sites and field offices. Estimated annual spend $2M–$4M across 150+ offices. Critical for time-sensitive deliverables (permit applications, environmental samples, construction drawings). FedEx's tracking and reliability support Stantec's project schedule commitments to public-sector clients.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "United Parcel Service Inc.",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "slug": "ups",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Document & Sample Delivery",
+        "relationshipNote": "Stantec uses UPS for regional and international document/sample delivery, particularly for Canadian and international projects. Estimated annual spend $1M–$2M. UPS's international network supports Stantec's cross-border infrastructure work (Canada, Australia, UK). Integration with Stantec's project-management systems enables real-time tracking of critical deliverables.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "DHL Express",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_express",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International Document & Sample Delivery",
+        "relationshipNote": "Stantec uses DHL for international project deliverables, particularly to Australia, UK, and European offices. Estimated annual spend $500K–$1.5M. DHL's customs expertise and international tracking support Stantec's global infrastructure projects. Critical for time-sensitive environmental samples and permit submissions to non-US regulators.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. Department of Transportation",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_dot",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Client)",
+        "relationshipNote": "USDOT (via FHWA, FTA, MARAD) is Stantec's largest federal customer, representing estimated 12–18% of total revenue ($1B–$1.6B annually). Stantec holds multiple IDIQ contracts (Indefinite Delivery/Indefinite Quantity) for transportation planning, design, and engineering support. Major programs: USDOT RAISE grants, FTA transit-planning studies, FHWA corridor studies. Stantec's federal compliance (FAR, FISMA, prevailing wage) and security clearances are critical to maintaining this relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_epa",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Client)",
+        "relationshipNote": "EPA (via regional offices and HQ) is Stantec's second-largest federal customer, estimated 8–12% of revenue ($700M–$1B annually). Stantec supports EPA water-infrastructure programs (SRF technical assistance, WOTUS compliance), Superfund remediation, and environmental-impact assessments. Major programs: EPA Water Infrastructure Finance and Innovation Act (WIFIA), Clean Water State Revolving Fund (SRF) technical assistance. Stantec's environmental-science expertise and regulatory knowledge are core competitive advantages.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Army Corps of Engineers",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_army_corps_engineers",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Client)",
+        "relationshipNote": "USACE is Stantec's third-largest federal customer, estimated 6–10% of revenue ($500M–$900M annually). Stantec provides design, engineering, and project-management services for water-resource projects (dams, levees, navigation channels, flood-risk management). Major programs: USACE Civil Works, Flood Risk Management, Navigation. Stantec's water-infrastructure expertise and USACE-specific compliance (ER 1110-2-1156 design standards) are critical differentiators.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Departments of Transportation (Collective)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_dots_collective",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Client)",
+        "relationshipNote": "State DOTs (50 states + DC) collectively represent estimated 15–20% of Stantec revenue ($1.3B–$1.8B annually). Stantec holds master service agreements (MSAs) with 40+ state DOTs for transportation planning, design, and project delivery. Major states: California (Caltrans), Texas (TxDOT), New York (NYSDOT), Florida (FDOT). State DOT work is recurring and less volatile than federal work; provides stable revenue base. Stantec's regional offices and local expertise are competitive advantages vs. national competitors.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Jacobs Solutions Inc.",
+        "ticker": "J",
+        "cik": "0001649339",
+        "slug": "jacobs_solutions",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Benchmarking",
+        "relationshipNote": "Jacobs (public, $15.5B revenue, 2023) is Stantec's largest direct competitor in federal infrastructure and transportation design. Jacobs' 2022 acquisition of Amentum ($3B deal) expanded federal-services footprint; now holds ~18–22% of US federal engineering market. Jacobs' public-company status enables aggressive M&A and pricing; Stantec loses market share on large USACE, EPA, and DOT programs. Jacobs' higher leverage (debt-to-EBITDA ~2.5x) and cost-cutting initiatives create pricing pressure on Stantec margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "AECOM Technology Corporation",
+        "ticker": "ACM",
+        "cik": "0001144215",
+        "slug": "aecom",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Benchmarking",
+        "relationshipNote": "AECOM (public, $15.2B revenue, 2023) is Stantec's second-largest competitor globally. AECOM's diversification into construction management and program management (vs. Stantec's design-centric model) creates differentiated advantage on mega-projects. AECOM competes with Stantec on DOT, EPA, and international (Canada, Australia) infrastructure work. AECOM's higher leverage and public-market discipline create pricing pressure; Stantec's private ownership provides strategic flexibility but limits M&A capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Arcadis NV",
+        "ticker": "ARCAD",
+        "cik": null,
+        "slug": "arcadis",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Benchmarking",
+        "relationshipNote": "Arcadis (Dutch-listed, €3.5B revenue) is third-tier competitor in water, environmental, and transportation design. Arcadis' 2023 acquisition of Ramboll's water business expanded US footprint; now competes directly with Stantec on EPA SRF projects and municipal water-infrastructure work. Arcadis' European heritage and ESG-focused positioning create niche advantage in climate-resilience projects. Stantec's North American scale and federal-contract expertise provide defensive moat vs. Arcadis.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "HDR Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "hdr_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Benchmarking",
+        "relationshipNote": "HDR (private, ~$3.5B revenue) is mid-tier competitor focused on transportation, water, and buildings design. HDR's employee-owned structure and regional strength in Midwest/Mountain West create competitive pockets. HDR's 2021 acquisition of Caltrans-focused firm and 2023 expansion into program management signal competitive repositioning. Stantec and HDR compete on state DOT and municipal water projects; Stantec's scale and federal presence provide advantage.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Parsons Corporation",
+        "ticker": "PSN",
+        "cik": "0001737844",
+        "slug": "parsons_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Benchmarking",
+        "relationshipNote": "Parsons (public, ~$4.5B revenue, 2023) is specialized competitor in transportation, infrastructure, and defense-related engineering. Parsons' strength in transit and intelligent-transportation-systems (ITS) creates competitive advantage on FTA and smart-city projects. Parsons' 2023 IPO and subsequent M&A activity (e.g., Ramboll acquisition discussions) signal competitive repositioning. Stantec competes with Parsons on state DOT and transit-authority projects.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Bentley Systems Incorporated",
+        "ticker": null,
+        "cik": null,
+        "slug": "bentley_systems",
+        "neuralRole": "Peer",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Infrastructure Modeling & Analytics",
+        "relationshipNote": "Stantec licenses Bentley's OpenRoads, OpenSite, and SYNCHRO software for transportation and infrastructure modeling. Bentley is primary competitor to Autodesk in infrastructure-specific workflows; Stantec's dual-platform strategy (Autodesk + Bentley) reflects project-type variation. Estimated 2,000–3,000 Bentley seats; annual spend. Bentley's subscription shift (2023–2024) increases Stantec's software-cost volatility.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC has no direct regulatory authority over Stantec (private company), but SEC filings by Stantec's public competitors (Jacobs, AECOM, Parsons) and potential acquirers create indirect oversight. If Stantec pursues IPO or acquisition by public company, SEC compliance (10-K, 8-K, proxy statements) becomes material. Stantec's private status provides regulatory flexibility but limits access to public capital markets.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Federal Acquisition Regulation (FAR) & Defense Counterintelligence and Security Agency (DCSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "far_dcsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Federal Contracting)",
+        "relationshipNote": "Stantec must comply with FAR (Federal Acquisition Regulation) for all federal contracts (USDOT, EPA, USACE). DCSA (Defense Counterintelligence and Security Agency) oversees security clearances for Stantec employees on federal projects. Stantec's federal revenue (~40–50% of total) depends on FAR compliance (prevailing wage, small-business subcontracting, Buy American provisions) and DCSA clearance maintenance. Any FAR violation or security incident could trigger debarment and revenue cliff.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency (EPA) & State Environmental Agencies",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa_state_agencies",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Environmental Compliance",
+        "relationshipNote": "EPA and state environmental agencies regulate Stantec's environmental-impact assessments, NEPA compliance, and water-quality work. Stantec must comply with Clean Water Act (CWA), National Environmental Policy Act (NEPA), and state environmental laws. EPA's 2024 water-infrastructure initiatives (WIFIA, SRF expansion) create growth opportunities but also compliance complexity. Any environmental-assessment errors or NEPA violations could trigger project delays and reputational damage.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Labor (Wage and Hour Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_dol_wh",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Labor)",
+        "relationshipNote": "DOL Wage and Hour Division enforces Davis-Bacon Act prevailing-wage requirements on federal infrastructure projects. Stantec's federal work (~40–50% of revenue) is subject to prevailing-wage audits and compliance verification. DOL violations could trigger back-wage liability, project suspension, and debarment. Stantec's labor-cost modeling and prevailing-wage compliance are critical to federal-project profitability.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Professional Engineering Boards (Collective)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_pe_boards",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Professional Licensing)",
+        "relationshipNote": "Stantec's 22,000+ employees include ~8,000–10,000 licensed Professional Engineers (PEs) across 50 states. State PE boards regulate PE licensing, continuing education, and professional conduct. Stantec must maintain PE compliance across all offices; any PE license suspension or disciplinary action could impact project delivery and client relationships. Stantec's PE-training and compliance programs are critical operational infrastructure.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_llp",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "Deloitte is Stantec's external auditor (assumed based on industry practice for large private firms; ). Deloitte conducts annual financial audits, internal-control assessments, and tax compliance. As a private company, Stantec is not required to file audited financials with SEC, but lenders and equity holders likely require annual audits. Deloitte's audit scope includes FAR compliance, federal-contract accounting, and revenue-recognition for long-term projects.",
+      "confidence": "low",
+      "sourceType": [
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Brookfield Asset Management Inc.",
+        "ticker": "BAM",
+        "cik": "0001433625",
+        "slug": "brookfield_asset_management",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Brookfield acquired majority stake in Stantec in 2011 for ~$3.2B (CAD $3.1B); remains controlling shareholder. Brookfield's infrastructure-focused investment strategy aligns with Stantec's business model. Brookfield provides patient capital and strategic guidance for M&A (e.g., Advisian 2017, Trow Group 2019 acquisitions). Brookfield's ownership structure (public parent, private subsidiary) provides financial flexibility and access to capital markets without full IPO.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Royal Bank of Canada",
+        "ticker": "RY",
+        "cik": null,
+        "slug": "royal_bank_canada",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital (Lending)",
+        "relationshipNote": "RBC is Stantec's primary lender and relationship bank, providing revolving credit facilities and project-financing support. Estimated credit facility size $500M–$1B (based on Stantec's revenue scale). RBC's Canadian heritage aligns with Stantec's Toronto headquarters and Canadian operations (~25% of revenue). RBC's infrastructure-lending expertise supports Stantec's project-finance and working-capital needs.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Toronto-Dominion Bank",
+        "ticker": "TD",
+        "cik": null,
+        "slug": "toronto_dominion_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital (Lending)",
+        "relationshipNote": "TD Bank is secondary lender to Stantec, providing supplementary credit facilities and trade-finance support. Estimated credit facility size $200M–$500M. TD's Canadian banking presence and infrastructure-lending expertise support Stantec's working-capital and project-financing needs. TD's relationship with Brookfield (common shareholder base) creates alignment.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Gord Johnston",
+        "title": "President & Chief Executive Officer",
+        "slug": "gord_johnston",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Johnston became CEO in 2019; previously served as COO and SVP. Under Johnston's leadership, Stantec has pursued organic growth and selective M&A (e.g., Advisian integration, Trow Group acquisition). Johnston's strategic focus: federal infrastructure expansion (IIJA), international growth (Canada, Australia, UK), and digital transformation. Johnston's tenure has coincided with margin pressure and competitive intensity; his ability to navigate post-IIJA spending cliff (2026+) is critical.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Theresa Jang",
+        "title": "Chief Financial Officer",
+        "slug": "theresa_jang",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Jang became CFO in 2021; previously served as VP Finance. Jang oversees financial planning, capital allocation, and investor relations (to Brookfield). Her focus: working-capital optimization, debt management, and margin improvement. Jang's financial discipline has supported Stantec's profitability despite competitive pressure. Her ability to manage leverage and cash flow during infrastructure-spending cycles is critical to Stantec's financial health.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Gord Gattie",
+        "title": "Chief Operating Officer",
+        "slug": "gord_gattie",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Gattie serves as COO; oversees operations, project delivery, and regional management across 150+ offices. Gattie's focus: operational efficiency, utilization optimization, and project-delivery excellence. His ability to manage labor costs, engineer utilization, and project profitability directly impacts Stantec's margins. Gattie's tenure has coincided with margin compression; his operational initiatives are critical to margin recovery.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kevin Creed",
+        "title": "Chief Legal Officer & General Counsel",
+        "slug": "kevin_creed",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Creed serves as General Counsel; oversees legal, compliance, and risk management. Creed's focus: FAR compliance, federal-contract risk management, and litigation defense. His ability to navigate federal-contracting regulations and manage compliance risk is critical to Stantec's federal-revenue protection. Creed's legal team supports Stantec's M&A activity and regulatory interactions.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Dodge Construction Index (McGraw Hill)",
+        "slug": "dodge_construction_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Leading Indicator)",
+        "relationshipNote": "Dodge Construction Index tracks construction-project starts and planning activity; leading indicator of Stantec's future design and engineering demand (6–12 month lag). Dodge Index components: commercial, residential, infrastructure. Stantec's revenue correlates with infrastructure component (transportation, water, power). Dodge Index decline >10% YoY signals demand softness ahead; Stantec's backlog-to-revenue ratio should decline 6–12 months later.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "American Institute of Architects (AIA) Billings Index",
+        "slug": "aia_billings_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "AIA Billings Index tracks architecture and design-services demand; leading indicator of Stantec's buildings and infrastructure design work (3–6 month lag). AIA Index components: design billings, new-project inquiries, backlog. Stantec's buildings segment (~15–20% of revenue) correlates with AIA Index. AIA Index decline signals softening demand for design services; Stantec's margin pressure typically follows 3–6 months later.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

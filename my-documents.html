@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · My Documents</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050810;color:#e8e3d9;font-family:'IBM Plex Mono',monospace;padding:20px 24px;font-size:12px;max-width:1100px;margin:0 auto}
+h1{font-size:0.7rem;letter-spacing:4px;color:#C9A94E;margin-bottom:6px}
+.sub{font-size:0.36rem;color:rgba(200,195,184,0.4);letter-spacing:1.5px;margin-bottom:24px}
+.nav{display:flex;gap:14px;margin-bottom:18px;font-size:0.32rem;letter-spacing:1.5px;flex-wrap:wrap}
+a{color:rgba(201,169,78,0.6);text-decoration:none}
+a:hover{color:#C9A94E}
+
+.intro{padding:18px 22px;border:1px solid rgba(90,181,160,0.25);background:rgba(90,181,160,0.04);border-radius:3px;margin-bottom:20px;font-size:0.4rem;color:rgba(220,215,200,0.7);line-height:1.7}
+.intro b{color:#5ab5a0}
+
+.pattern-card{margin-bottom:16px;padding:16px 22px;border:1px solid rgba(201,169,78,0.18);background:rgba(0,0,0,0.25);border-radius:3px}
+.pc-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid rgba(201,169,78,0.1);flex-wrap:wrap}
+.pc-id{font-size:0.46rem;letter-spacing:1.5px;color:#C9A94E;flex:1;min-width:280px}
+.pc-meta{display:flex;gap:14px;font-size:0.3rem;color:rgba(200,195,184,0.45);letter-spacing:1px}
+.pc-meta b{color:rgba(200,195,184,0.7);font-weight:normal}
+
+.pc-summary{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;font-size:0.36rem;color:rgba(200,195,184,0.6);line-height:1.6}
+.pc-summary-block{padding:10px 14px;border:1px solid rgba(255,255,255,0.04);background:rgba(0,0,0,0.2);border-radius:3px}
+.pc-summary-label{font-size:0.3rem;letter-spacing:2px;color:rgba(201,169,78,0.5);text-transform:uppercase;margin-bottom:4px}
+
+.pc-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pc-actions button{font-size:0.34rem;color:#5ab5a0;border:1px solid rgba(90,181,160,0.4);background:rgba(90,181,160,0.04);font-family:inherit;cursor:pointer;padding:8px 14px;border-radius:2px;letter-spacing:1.5px;text-transform:uppercase}
+.pc-actions button:hover{color:#5ab5a0;border-color:rgba(90,181,160,0.7);background:rgba(90,181,160,0.08)}
+.pc-actions button.all{background:rgba(201,169,78,0.06);color:#C9A94E;border-color:rgba(201,169,78,0.5)}
+.pc-actions button.all:hover{color:#C9A94E;border-color:#C9A94E;background:rgba(201,169,78,0.12)}
+.pc-actions button:disabled{opacity:0.4;cursor:default}
+.pc-progress{margin-left:14px;font-size:0.32rem;color:rgba(200,195,184,0.5);letter-spacing:1px}
+.pc-progress.success{color:#5ab5a0}
+.pc-progress.error{color:#e85454}
+
+.empty-state{padding:60px 20px;text-align:center;color:rgba(200,195,184,0.3);font-size:0.5rem;letter-spacing:3px;text-transform:uppercase}
+.empty-state-help{font-size:0.34rem;color:rgba(200,195,184,0.4);letter-spacing:1px;margin-top:12px;text-transform:none;line-height:1.7}
+.empty-state-help a{color:rgba(201,169,78,0.6)}
+
+.footer{margin-top:30px;font-size:0.32rem;color:rgba(200,195,184,0.3);letter-spacing:1px;text-align:center;line-height:1.6}
+
+.toast{position:fixed;bottom:20px;right:20px;padding:10px 16px;background:rgba(0,0,0,0.85);border:1px solid rgba(201,169,78,0.4);color:#e8e3d9;font-size:0.36rem;border-radius:3px;letter-spacing:1px;z-index:1000;display:none;max-width:400px}
+.toast.show{display:block}
+.toast.ok{border-color:rgba(90,181,160,0.5)}
+.toast.err{border-color:rgba(232,84,84,0.5)}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="/">← INDEX</a>
+  <a href="/operator-guide.html">★ OPERATOR GUIDE</a>
+  <a href="/pattern-proposals.html">PATTERN PROPOSALS</a>
+  <a href="/master-inbox.html">MASTER BRAIN INBOX</a>
+</div>
+
+<h1>MY DOCUMENTS</h1>
+<div class="sub">YOUR APPROVED BRIDGE PATTERNS · DOWNLOAD THE 20-30 PAGE FILING DOCUMENTS</div>
+
+<div class="intro">
+  Every pattern you've approved on <a href="/pattern-proposals.html">/pattern-proposals.html</a> shows up here.
+  Click <b>Download all 4 documents</b> for any single pattern, or use the <b>Auto-generate ALL documents for ALL patterns</b> button below to walk through every approved pattern × every lane in one go.
+  Each individual document is a 20–30 page DOCX, USPTO/NIH/SBA-shape, calibrated for a <b>new business with no investor yet</b>.
+  <br><br>
+  Save each download to your <code style="color:rgba(201,169,78,0.7)">LIMEN Helix Files</code> desktop folder. Each individual download takes 30–90 seconds while Claude Sonnet generates the content. The "all" buttons run sequentially so you can step away.
+
+  <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06)">
+    <button id="generateEverything" disabled title="Disabled pending dedup fix — see banner" style="font-size:0.4rem;color:rgba(200,195,184,0.3);border:1px solid rgba(200,195,184,0.15);background:rgba(0,0,0,0.2);font-family:inherit;cursor:not-allowed;padding:10px 18px;border-radius:2px;letter-spacing:1.5px;text-transform:uppercase">
+      ⬇⬇⬇ Auto-generate ALL (disabled — duplicates in Redis cause repeat prints)
+    </button>
+    <span id="globalProgress" style="margin-left:14px;font-size:0.34rem;color:rgba(232,84,84,0.6);letter-spacing:1px">Paused. Use per-pattern "Download all 4" buttons one at a time instead.</span>
+  </div>
+</div>
+
+<div id="patterns-list"></div>
+
+<div class="footer">
+  LIMEN Helix · documents minted from approved bridge patterns via <code>/api/print-from-pattern</code>
+</div>
+
+<script>
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+
+fetch('/api/pattern-proposal?_=' + Date.now())
+  .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
+  .then(render)
+  .catch(function(err){
+    document.getElementById('patterns-list').innerHTML = '<div class="empty-state">Endpoint unavailable (' + esc(err) + ')<div class="empty-state-help">Could not reach /api/pattern-proposal. Reload in a moment.</div></div>';
+  });
+
+function render(d) {
+  var proposals = (d && d.proposals) || [];
+
+  // latest-wins dedup by pattern.id
+  var seen = {};
+  var unique = [];
+  for (var i = 0; i < proposals.length; i++) {
+    var p = proposals[i];
+    var id = p.pattern && p.pattern.id;
+    if (!id || seen[id]) continue;
+    seen[id] = true;
+    unique.push(p);
+  }
+
+  var approved = unique.filter(function(p){ return p.status === 'APPROVED'; });
+
+  var listEl = document.getElementById('patterns-list');
+  if (approved.length === 0) {
+    listEl.innerHTML = '<div class="empty-state">No approved patterns yet<div class="empty-state-help">Approve some on <a href="/pattern-proposals.html">/pattern-proposals.html</a> first — they\'ll appear here with download buttons.</div></div>';
+    return;
+  }
+
+  listEl.innerHTML = approved.map(renderCard).join('');
+  document.querySelectorAll('button[data-lane]').forEach(function(btn){
+    btn.addEventListener('click', function() { downloadOne(btn); });
+  });
+  document.querySelectorAll('button[data-action="all"]').forEach(function(btn){
+    btn.addEventListener('click', function() { downloadAll(btn); });
+  });
+
+  // Global generate-everything button: walks every approved pattern × every lane
+  window.__approvedPatterns = approved;
+  var globalBtn = document.getElementById('generateEverything');
+  if (globalBtn) {
+    globalBtn.addEventListener('click', generateEverything);
+  }
+}
+
+async function generateEverything() {
+  var btn = document.getElementById('generateEverything');
+  var prog = document.getElementById('globalProgress');
+  var patterns = window.__approvedPatterns || [];
+  if (patterns.length === 0) { toast('No approved patterns yet', 'err'); return; }
+  var lanes = ['patent', 'grant', 'sba', 'research'];
+  var total = patterns.length * lanes.length;
+  var done = 0, succeeded = [], failed = [];
+  btn.disabled = true;
+  document.querySelectorAll('.pattern-card button').forEach(function(b){ b.disabled = true; });
+
+  var started = Date.now();
+  for (var i = 0; i < patterns.length; i++) {
+    var p = patterns[i];
+    var slug = p.sourcePortal;
+    var id = p.pattern && p.pattern.id;
+    if (!slug || !id) continue;
+    // Mark this card visually
+    var card = document.querySelector('.pattern-card[data-id="' + id + '"]');
+    if (card) {
+      card.style.boxShadow = '0 0 0 2px rgba(201,169,78,0.4)';
+      card.querySelector('[data-progress]').className = 'pc-progress';
+    }
+    for (var j = 0; j < lanes.length; j++) {
+      var lane = lanes[j];
+      var elapsed = Math.round((Date.now() - started) / 1000);
+      prog.textContent = 'Pattern ' + (i + 1) + '/' + patterns.length + ' (' + slug + ') · lane ' + (j + 1) + '/' + lanes.length + ' (' + lane + ') · ' + done + '/' + total + ' done · ' + elapsed + 's elapsed';
+      if (card) card.querySelector('[data-progress]').textContent = 'generating ' + lane + '...';
+      try {
+        await downloadDocx(slug, lane, id);
+        succeeded.push(id + '/' + lane);
+        done++;
+        if (card) { card.querySelector('[data-progress]').className = 'pc-progress success'; card.querySelector('[data-progress]').textContent = '✓ ' + (j + 1) + '/4'; }
+      } catch (err) {
+        failed.push({ id: id, lane: lane, error: err.message || err });
+        done++;
+        if (card) { card.querySelector('[data-progress]').className = 'pc-progress error'; card.querySelector('[data-progress]').textContent = '✗ ' + lane + ': ' + (err.message || err); }
+      }
+    }
+    if (card) {
+      card.style.boxShadow = '';
+      if (failed.filter(function(f){ return f.id === id; }).length === 0) {
+        card.querySelector('[data-progress]').className = 'pc-progress success';
+        card.querySelector('[data-progress]').textContent = '✓ all 4 downloaded';
+      }
+    }
+  }
+  var totalElapsed = Math.round((Date.now() - started) / 1000);
+  prog.textContent = 'Done · ' + succeeded.length + '/' + total + ' downloaded · ' + failed.length + ' failed · ' + Math.round(totalElapsed / 60) + 'min ' + (totalElapsed % 60) + 's total';
+  btn.disabled = false;
+  document.querySelectorAll('.pattern-card button').forEach(function(b){ b.disabled = false; });
+  if (failed.length === 0) toast('All ' + total + ' documents downloaded — move them from Downloads to LIMEN Helix Files', 'ok');
+  else { toast(succeeded.length + '/' + total + ' succeeded · ' + failed.length + ' failed · check progress text', 'err'); console.log('failures:', failed); }
+}
+
+function renderCard(p) {
+  var pat = p.pattern || {};
+  var n = pat.neural || {};
+  var b = pat.business || {};
+  var br = pat.bridge || {};
+  var slug = p.sourcePortal || 'unknown';
+  var id = pat.id || '';
+
+  return '<div class="pattern-card" data-id="' + esc(id) + '" data-slug="' + esc(slug) + '">' +
+    '<div class="pc-head">' +
+      '<div class="pc-id">' + esc(id) + '</div>' +
+      '<div class="pc-meta">' +
+        '<span>source <b>' + esc(slug) + '</b></span>' +
+        '<span>approved <b>' + (p.approvedAt ? new Date(p.approvedAt).toLocaleDateString() : '—') + '</b></span>' +
+        '<span>conf <b>' + (br.confidence != null ? br.confidence.toFixed(2) : '—') + '</b></span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="pc-summary">' +
+      '<div class="pc-summary-block">' +
+        '<div class="pc-summary-label">Neural</div>' +
+        esc(n.regionLabel || n.region || '—') + (n.state ? ' · <span style="color:rgba(200,195,184,0.45)">' + esc(n.state) + '</span>' : '') +
+      '</div>' +
+      '<div class="pc-summary-block">' +
+        '<div class="pc-summary-label">Target signature</div>' +
+        esc((b.signature || '—').replace(/_/g, ' ')) +
+      '</div>' +
+    '</div>' +
+    '<div class="pc-actions">' +
+      '<button class="all" data-action="all">⬇ Download all 4 documents</button>' +
+      '<button data-lane="patent">Patent only</button>' +
+      '<button data-lane="grant">Grant only</button>' +
+      '<button data-lane="sba">SBA loan only</button>' +
+      '<button data-lane="research">Research only</button>' +
+      '<span class="pc-progress" data-progress></span>' +
+    '</div>' +
+  '</div>';
+}
+
+async function downloadOne(btn) {
+  var card = btn.closest('.pattern-card');
+  var id = card.dataset.id;
+  var slug = card.dataset.slug;
+  var lane = btn.dataset.lane;
+  var progressEl = card.querySelector('[data-progress]');
+  card.querySelectorAll('button').forEach(function(b){ b.disabled = true; });
+  progressEl.className = 'pc-progress';
+  progressEl.textContent = 'generating ' + lane + ' · 30-90s...';
+  try {
+    await downloadDocx(slug, lane, id);
+    progressEl.className = 'pc-progress success';
+    progressEl.textContent = '✓ ' + lane + ' downloaded';
+    toast(lane + ' downloaded — save to LIMEN Helix Files', 'ok');
+  } catch (err) {
+    progressEl.className = 'pc-progress error';
+    progressEl.textContent = '✗ ' + lane + ': ' + (err.message || err);
+    toast('Failed: ' + (err.message || err), 'err');
+  } finally {
+    card.querySelectorAll('button').forEach(function(b){ b.disabled = false; });
+  }
+}
+
+async function downloadAll(btn) {
+  var card = btn.closest('.pattern-card');
+  var id = card.dataset.id;
+  var slug = card.dataset.slug;
+  var progressEl = card.querySelector('[data-progress]');
+  card.querySelectorAll('button').forEach(function(b){ b.disabled = true; });
+  var lanes = ['patent', 'grant', 'sba', 'research'];
+  var succeeded = [];
+  var failed = [];
+  for (var i = 0; i < lanes.length; i++) {
+    var lane = lanes[i];
+    progressEl.className = 'pc-progress';
+    progressEl.textContent = '[' + (i+1) + '/4] generating ' + lane + ' · 30-90s...';
+    try {
+      await downloadDocx(slug, lane, id);
+      succeeded.push(lane);
+    } catch (err) {
+      failed.push(lane + ' (' + (err.message || err) + ')');
+    }
+  }
+  if (failed.length === 0) {
+    progressEl.className = 'pc-progress success';
+    progressEl.textContent = '✓ All 4 documents downloaded';
+    toast('All 4 documents downloaded — save them to LIMEN Helix Files', 'ok');
+  } else {
+    progressEl.className = 'pc-progress error';
+    progressEl.textContent = succeeded.length + '/4 succeeded · failed: ' + failed.join(', ');
+  }
+  card.querySelectorAll('button').forEach(function(b){ b.disabled = false; });
+}
+
+async function downloadDocx(slug, lane, patternId) {
+  var url = '/api/print-from-pattern?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&patternId=' + encodeURIComponent(patternId);
+  var r = await fetch(url);
+  if (!r.ok) {
+    var t = '';
+    try { var j = await r.json(); t = j.error || ('HTTP ' + r.status); } catch (e) { t = 'HTTP ' + r.status; }
+    throw new Error(t);
+  }
+  var blob = await r.blob();
+  var cd = r.headers.get('Content-Disposition') || '';
+  var m = cd.match(/filename="([^"]+)"/);
+  var fname = m ? m[1] : (slug + '__' + lane + '.docx');
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = fname;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+function toast(msg, kind) {
+  var t = document.getElementById('toast');
+  if (!t) { t = document.createElement('div'); t.id = 'toast'; t.className = 'toast'; document.body.appendChild(t); }
+  t.className = 'toast ' + (kind || '') + ' show';
+  t.textContent = msg;
+  setTimeout(function(){ t.classList.remove('show'); }, 3500);
+}
+</script>
+</body>
+</html>

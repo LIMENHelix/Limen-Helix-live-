@@ -1,0 +1,511 @@
+{
+  "domainId": "legal_criminal",
+  "title": "Criminal Threat Assessment",
+  "parentPortal": "legal_portal.html",
+  "parentLabel": "Legal Systems",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Criminal Threat Assessment Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Criminal Threat Assessment indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves criminal threat assessment knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Stores and retrieves criminal threat assessment knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.7
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Criminal Threat Assessment Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Criminal Threat Assessment Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "legal_criminal_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "PCC",
+      "state": "active",
+      "domainLabel": "Criminal Threat Assessment Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Criminal Threat Assessment activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors criminal threat assessment signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Stores and retrieves criminal threat assessment knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.72
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Criminal Threat Assessment Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Criminal Threat Assessment Core Operations"
+        }
+      ],
+      "childPortal": "legal_criminal_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Criminal Threat Assessment Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Criminal Threat Assessment, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Routes and distributes criminal threat assessment resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "U.S. Federal Courts (PACER)",
+          "ticker_or_id": "PACER_GOV",
+          "functional_reason": "Routes and distributes criminal threat assessment resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.7
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Criminal Threat Assessment Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Criminal Threat Assessment Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "legal_criminal_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "EC",
+      "state": "active",
+      "domainLabel": "Criminal Threat Assessment Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Criminal Threat Assessment practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Stores and retrieves criminal threat assessment knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves criminal threat assessment knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.85
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Criminal Threat Assessment Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Criminal Threat Assessment Standards & Governance"
+        }
+      ],
+      "childPortal": "legal_criminal_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "FEF",
+      "state": "active",
+      "domainLabel": "Criminal Threat Assessment Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Criminal Threat Assessment methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Executes core criminal threat assessment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core criminal threat assessment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Criminal Threat Assessment Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Criminal Threat Assessment Research & Development"
+        }
+      ],
+      "childPortal": "legal_criminal_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Criminal Threat Assessment Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Criminal Threat Assessment stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core criminal threat assessment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Executes core criminal threat assessment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Criminal Threat Assessment Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Criminal Threat Assessment Risk & Resilience"
+        }
+      ],
+      "childPortal": "legal_criminal_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Criminal Threat Assessment Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Criminal Threat Assessment operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Executes core criminal threat assessment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core criminal threat assessment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Criminal Threat Assessment Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Criminal Threat Assessment Coordination & Integration"
+        }
+      ],
+      "childPortal": "legal_criminal_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Criminal Threat Assessment Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Criminal Threat Assessment outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core criminal threat assessment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Executes core criminal threat assessment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Criminal Threat Assessment Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Criminal Threat Assessment Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "mPFC",
+      "target": "PCC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "PCC",
+      "target": "AG",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "AG",
+      "target": "EC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "EC",
+      "target": "FEF",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "FEF",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "IPS",
+      "target": "SMA",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "SMA",
+      "target": "BROCA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "BROCA",
+      "target": "mPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "FEF",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "EC",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "LEGAL_CRIMINAL_SYSTEM_FAILURE",
+      "label": "Criminal Threat Assessment System Failure",
+      "summary": "Critical breakdown in Criminal Threat Assessment systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo-active",
+          "detail": "Criminal Threat Assessment Assessment & Diagnostics capacity falling below operational thresholds, reducing Criminal Threat Assessment output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PCC",
+          "dir": "Hypo-active",
+          "detail": "Criminal Threat Assessment Core Operations systems underperforming, creating gaps in Criminal Threat Assessment coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Altered",
+          "detail": "Criminal Threat Assessment Infrastructure & Capacity behavior deviating from established norms, complicating Criminal Threat Assessment management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Hyper-active",
+          "detail": "Criminal Threat Assessment Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Criminal Threat Assessment",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo-active",
+          "detail": "Criminal Threat Assessment Performance & Optimization function reduced, compromising Criminal Threat Assessment system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_CRIMINAL_CAPACITY_CRISIS",
+      "label": "Criminal Threat Assessment Capacity Crisis",
+      "summary": "Demand exceeding available Criminal Threat Assessment capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "PCC",
+          "dir": "Hyper-active",
+          "detail": "Criminal Threat Assessment Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Criminal Threat Assessment",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-active",
+          "detail": "Criminal Threat Assessment Infrastructure & Capacity systems underperforming, creating gaps in Criminal Threat Assessment coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EC",
+          "dir": "Altered",
+          "detail": "Criminal Threat Assessment Standards & Governance behavior deviating from established norms, complicating Criminal Threat Assessment management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hyper-active",
+          "detail": "Criminal Threat Assessment Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Criminal Threat Assessment",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered",
+          "detail": "Criminal Threat Assessment Performance & Optimization operating outside normal parameters, introducing uncertainty into Criminal Threat Assessment outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_CRIMINAL_GOVERNANCE_GAP",
+      "label": "Criminal Threat Assessment Governance Gap",
+      "summary": "Oversight or regulatory failure in Criminal Threat Assessment creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hypo-active",
+          "detail": "Criminal Threat Assessment Standards & Governance capacity falling below operational thresholds, reducing Criminal Threat Assessment output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Criminal Threat Assessment Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Criminal Threat Assessment",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FEF",
+          "dir": "Hyper-active",
+          "detail": "Criminal Threat Assessment Research & Development activity spiking beyond design limits, creating instability across Criminal Threat Assessment operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Altered",
+          "detail": "Criminal Threat Assessment Risk & Resilience patterns disrupted, necessitating adaptive responses within Criminal Threat Assessment frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo-active",
+          "detail": "Criminal Threat Assessment Coordination & Integration function reduced, compromising Criminal Threat Assessment system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2234 @@
+{
+  "domainId": "education",
+  "title": "Education",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P9",
+  "activations": [
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "K-12 Teaching",
+      "domainDescription": "Structured instruction of foundational knowledge and skills from kindergarten through high school graduation",
+      "domainFunction": "Translates curriculum into age-appropriate lessons, manages classroom dynamics, and scaffolds student development across cognitive and social domains",
+      "whyThisNode": "Broca's area governs speech production and sequential rule application, mirroring how K-12 teaching converts abstract knowledge into structured, communicable sequences for learners",
+      "group": "primary",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Standardized test score decline",
+        "Classroom engagement drop"
+      ],
+      "treatments": [
+        {
+          "label": "Evidence-Based Pedagogy Training",
+          "type": "STRUCTURAL",
+          "description": "Teacher professional development grounded in cognitive science of learning and retrieval practice",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Formative Assessment Systems",
+          "type": "DIAGNOSTIC",
+          "description": "Frequent low-stakes assessments providing real-time feedback on student understanding",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "education_k12_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Instructure (Canvas)",
+          "ticker_or_id": "INST",
+          "functional_reason": "Executes core k-12 teaching operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Duolingo",
+          "ticker_or_id": "DUOL",
+          "functional_reason": "Executes core k-12 teaching operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Pearson PLC",
+          "ticker_or_id": "PSO",
+          "functional_reason": "Executes core k-12 teaching operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "K-12 Teaching",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Corporate Communications"
+        },
+        {
+          "domain": "governance",
+          "role": "Legislative Process"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Smartcity"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Advocacy / Argumentation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Broca's Area"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Speech Production & Phonological Proc..."
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Communication"
+        },
+        {
+          "domain": "science",
+          "role": "Publication and Dissemination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Higher Education",
+      "domainDescription": "University-level teaching, scholarship, and credentialing across liberal arts, sciences, and professional programs",
+      "domainFunction": "Cultivates advanced conceptual understanding, critical analysis, and domain expertise through seminar, lecture, and research mentorship",
+      "whyThisNode": "Angular gyrus integrates cross-modal information for abstract conceptual processing and semantic knowledge, paralleling higher education's mission of synthesizing diverse knowledge into deep understanding",
+      "group": "higher",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Enrollment decline",
+        "Graduate employment mismatch"
+      ],
+      "treatments": [
+        {
+          "label": "Competency-Based Credentialing",
+          "type": "STRUCTURAL",
+          "description": "Degree programs structured around demonstrated skill mastery rather than seat time",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Learning Outcome Assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Institutional measurement of actual knowledge and skill acquisition across programs",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "education_higher_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Duolingo",
+          "ticker_or_id": "DUOL",
+          "functional_reason": "Executes core higher education operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "PowerSchool",
+          "ticker_or_id": "PWSC",
+          "functional_reason": "Routes and distributes higher education resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "Khan Academy",
+          "ticker_or_id": "KHAN_NPO",
+          "functional_reason": "Amplifies and scales higher education capacity, driving growth and expanding reach of higher education operations",
+          "binding_strength": 0.65
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Higher Education",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "International Law"
+        },
+        {
+          "domain": "industry",
+          "role": "Research and Development"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Phoneme-Grapheme Mapping"
+        },
+        {
+          "domain": "population",
+          "role": "Education Levels"
+        },
+        {
+          "domain": "religion",
+          "role": "Religious Education"
+        },
+        {
+          "domain": "science",
+          "role": "Citation Networks"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Risk Profiling Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Vocational Training",
+      "domainDescription": "Hands-on skill development for trades, technical careers, and applied professions",
+      "domainFunction": "Builds procedural expertise through apprenticeship, lab work, and supervised practice in carpentry, welding, healthcare, IT, and other skilled trades",
+      "whyThisNode": "M1 primary motor cortex controls skilled voluntary movement and procedural motor learning, directly paralleling vocational training's emphasis on physical skill acquisition and hands-on mastery",
+      "group": "vocational",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "treatments": [
+        {
+          "label": "Apprenticeship Expansion Programs",
+          "type": "STRUCTURAL",
+          "description": "Employer-partnered earn-and-learn pathways combining classroom theory with paid on-the-job training",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Skills Gap Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Labor market data integration identifying mismatches between training programs and employer needs",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "education_vocational_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Duolingo",
+          "ticker_or_id": "DUOL",
+          "functional_reason": "Executes core vocational training operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Coursera",
+          "ticker_or_id": "COUR",
+          "functional_reason": "Executes core vocational training operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "2U Inc",
+          "ticker_or_id": "TWOU",
+          "functional_reason": "Executes core vocational training operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Vocational Training",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        },
+        {
+          "domain": "population",
+          "role": "Labor Force"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Curriculum Design",
+      "domainDescription": "Systematic planning and sequencing of educational content, objectives, and assessment strategies",
+      "domainFunction": "Architects learning progressions that build knowledge hierarchically, aligning standards, materials, and evaluation across grade levels and disciplines",
+      "whyThisNode": "dlPFC orchestrates executive planning, sequencing, and working memory organization, mirroring curriculum design's core function of structuring knowledge into coherent, progressive learning architectures",
+      "group": "policy",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified"
+      ],
+      "treatments": [
+        {
+          "label": "Backward Design Frameworks",
+          "type": "STRUCTURAL",
+          "description": "Start from desired outcomes and work backward to design assessments and instructional activities",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Curriculum Mapping Software",
+          "type": "DIAGNOSTIC",
+          "description": "Digital tools visualizing alignment between standards, instruction, and assessment across the system",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "education_curriculum_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Duolingo",
+          "ticker_or_id": "DUOL",
+          "functional_reason": "Executes core curriculum design operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Coursera",
+          "ticker_or_id": "COUR",
+          "functional_reason": "Executes core curriculum design operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Instructure (Canvas)",
+          "ticker_or_id": "INST",
+          "functional_reason": "Executes core curriculum design operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Curriculum Design",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Urban Planning"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Student Assessment",
+      "domainDescription": "Measurement and evaluation of student learning through standardized tests, portfolios, and performance tasks",
+      "domainFunction": "Detects gaps between expected and actual student performance, informing instructional adjustment and accountability reporting",
+      "whyThisNode": "dACC monitors for errors and discrepancies between expected and actual outcomes, directly paralleling how assessment systems detect gaps between learning goals and student achievement",
+      "group": "secondary",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Assessment validity challenge",
+        "Score inflation pattern"
+      ],
+      "treatments": [
+        {
+          "label": "Balanced Assessment Systems",
+          "type": "STRUCTURAL",
+          "description": "Integration of formative, interim, and summative measures for comprehensive learning picture",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Item Response Theory Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Statistical modeling ensuring test items accurately measure intended constructs across populations",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "education_student_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "College Board",
+          "ticker_or_id": "COLLEGE_BOARD",
+          "functional_reason": "Detects and monitors student assessment signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "ETS (Educational Testing Service)",
+          "ticker_or_id": "ETS",
+          "functional_reason": "Detects and monitors student assessment signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Duolingo",
+          "ticker_or_id": "DUOL",
+          "functional_reason": "Detects and monitors student assessment signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Student Assessment",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        },
+        {
+          "domain": "industry",
+          "role": "Quality Control"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Learning Science",
+      "domainDescription": "Research into cognitive mechanisms of memory formation, retrieval, transfer, and skill acquisition",
+      "domainFunction": "Generates evidence-based principles for how humans learn, remember, and apply knowledge, translating findings into instructional practice",
+      "whyThisNode": "Hippocampus is the primary structure for memory encoding and consolidation, the biological substrate of the learning process that learning science studies and optimizes",
+      "group": "research",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "treatments": [
+        {
+          "label": "Spaced Retrieval Practice",
+          "type": "STRUCTURAL",
+          "description": "Implementing interleaved, spaced testing schedules based on memory consolidation research",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cognitive Load Measurement",
+          "type": "DIAGNOSTIC",
+          "description": "Assessing instructional materials for working memory demands to optimize information presentation",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "education_learning_portal.html",
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "ETS (Educational Testing Service)",
+          "ticker_or_id": "ETS",
+          "functional_reason": "Stores and retrieves learning science knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "PowerSchool",
+          "ticker_or_id": "PWSC",
+          "functional_reason": "Stores and retrieves learning science knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "McGraw Hill",
+          "ticker_or_id": "MCGRAW",
+          "functional_reason": "Stores and retrieves learning science knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Learning Science",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        },
+        {
+          "domain": "legal",
+          "role": "Precedent / Legal Memory"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Special Education",
+      "domainDescription": "Individualized instruction for students with disabilities, learning differences, and exceptional needs",
+      "domainFunction": "Adapts teaching methods, environments, and materials to the unique cognitive, sensory, and behavioral profiles of each learner requiring specialized support",
+      "whyThisNode": "Temporoparietal junction enables perspective-taking and theory of mind, the cognitive capacity essential for understanding and adapting to the unique inner experience of each special-needs learner",
+      "group": "primary",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "IEP compliance failure",
+        "Disproportionate placement rates"
+      ],
+      "treatments": [
+        {
+          "label": "Universal Design for Learning",
+          "type": "STRUCTURAL",
+          "description": "Flexible instructional design providing multiple means of engagement, representation, and expression",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Psychoeducational Assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Comprehensive cognitive and academic testing to identify specific learning profiles and needs",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "education_special_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Duolingo",
+          "ticker_or_id": "DUOL",
+          "functional_reason": "Detects and monitors special education signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "ETS (Educational Testing Service)",
+          "ticker_or_id": "ETS",
+          "functional_reason": "Detects and monitors special education signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "College Board",
+          "ticker_or_id": "COLLEGE_BOARD",
+          "functional_reason": "Detects and monitors special education signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Special Education",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        },
+        {
+          "domain": "provider",
+          "role": "Patient Perspective-Taking"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OXY",
+      "state": "active",
+      "domainLabel": "Early Childhood Education",
+      "domainDescription": "Nurturing developmental environments for children from birth through age five",
+      "domainFunction": "Provides attachment-rich, play-based learning experiences that build social-emotional, linguistic, and cognitive foundations during critical developmental windows",
+      "whyThisNode": "Oxytocin system mediates bonding, attachment, and social trust formation, the relational substrate upon which all early childhood learning depends",
+      "group": "primary",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Kindergarten readiness decline",
+        "Childcare desert expansion"
+      ],
+      "treatments": [
+        {
+          "label": "Universal Pre-K Programs",
+          "type": "STRUCTURAL",
+          "description": "Publicly funded preschool access ensuring all children enter kindergarten with foundational skills",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Developmental Screening Protocols",
+          "type": "DIAGNOSTIC",
+          "description": "Standardized early identification of developmental delays for timely intervention",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "education_early_portal.html",
+      "phase_archetype": "P9",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Khan Academy",
+          "ticker_or_id": "KHAN_NPO",
+          "functional_reason": "Amplifies and scales early childhood education capacity, driving growth and expanding reach of early childhood education operations",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Chegg",
+          "ticker_or_id": "CHGG",
+          "functional_reason": "Stores and retrieves early childhood education knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Coursera",
+          "ticker_or_id": "COUR",
+          "functional_reason": "Executes core early childhood education operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Early Childhood Education",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Team Culture"
+        },
+        {
+          "domain": "medicine",
+          "role": "Nursing Care"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Bonding & Attachment"
+        },
+        {
+          "domain": "population",
+          "role": "Birth Rates"
+        },
+        {
+          "domain": "provider",
+          "role": "Team Cohesion / Culture"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Oxytocin Bonding System"
+        },
+        {
+          "domain": "communication",
+          "role": "captioning accuracy — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Lighting Design — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Distance Learning",
+      "domainDescription": "Remote education delivery through digital platforms, asynchronous content, and virtual classrooms",
+      "domainFunction": "Extends educational access beyond geographic constraints through technology-mediated instruction, enabling flexible scheduling and global reach",
+      "whyThisNode": "Frontoparietal Network coordinates adaptive task switching and attentional control across distributed processing, mirroring how distance learning coordinates distributed learners and resources across digital networks",
+      "group": "higher",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Completion rate collapse",
+        "Digital divide widening"
+      ],
+      "treatments": [
+        {
+          "label": "Adaptive Learning Platforms",
+          "type": "STRUCTURAL",
+          "description": "AI-driven courseware adjusting difficulty and pacing to individual learner performance in real time",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Engagement Analytics Dashboards",
+          "type": "DIAGNOSTIC",
+          "description": "Real-time monitoring of login frequency, time-on-task, and interaction patterns to identify at-risk learners",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Pearson PLC",
+          "ticker_or_id": "PSO",
+          "functional_reason": "Executes core distance learning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "McGraw Hill",
+          "ticker_or_id": "MCGRAW",
+          "functional_reason": "Executes core distance learning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "2U Inc",
+          "ticker_or_id": "TWOU",
+          "functional_reason": "Executes core distance learning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "education_distance_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Distance Learning",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        },
+        {
+          "domain": "medicine",
+          "role": "Gut-Brain Axis"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Library Systems",
+      "domainDescription": "Organized repositories of knowledge providing curated access to books, databases, archives, and digital resources",
+      "domainFunction": "Catalogs, preserves, and provides equitable access to humanity's recorded knowledge, supporting research, literacy, and lifelong learning",
+      "whyThisNode": "Precuneus supports episodic memory retrieval and mental imagery, functioning as an internal knowledge repository and recall system that parallels the library's role as civilization's external memory",
+      "group": "research",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Collection funding cuts",
+        "Digital access gap"
+      ],
+      "treatments": [
+        {
+          "label": "Open Access Digital Libraries",
+          "type": "STRUCTURAL",
+          "description": "Publicly funded digitization and free online access to scholarly and cultural collections",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Information Literacy Curriculum",
+          "type": "DIAGNOSTIC",
+          "description": "Structured instruction in source evaluation, database navigation, and critical information consumption",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "ETS (Educational Testing Service)",
+          "ticker_or_id": "ETS",
+          "functional_reason": "Detects and monitors library systems signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "2U Inc",
+          "ticker_or_id": "TWOU",
+          "functional_reason": "Executes core library systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "College Board",
+          "ticker_or_id": "COLLEGE_BOARD",
+          "functional_reason": "Detects and monitors library systems signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.66
+        }
+      ],
+      "childPortal": "education_admissions_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Library Systems",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Spatial Self-Awareness"
+        },
+        {
+          "domain": "industry",
+          "role": "Sustainability"
+        },
+        {
+          "domain": "medicine",
+          "role": "Addiction Medicine"
+        },
+        {
+          "domain": "religion",
+          "role": "Prophecy & Revelation"
+        },
+        {
+          "domain": "science",
+          "role": "Theoretical Physics"
+        },
+        {
+          "domain": "technology",
+          "role": "Quantum Computing"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Easy-Read Formats — Regulation Strategy"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Teacher Training",
+      "domainDescription": "Pre-service and in-service professional development of educators across all levels and specialties",
+      "domainFunction": "Builds pedagogical skill, content knowledge, and classroom management capacity through coursework, mentorship, and supervised practice teaching",
+      "whyThisNode": "Supplementary motor area plans and sequences complex actions before execution, paralleling how teacher training prepares educators with rehearsed instructional sequences and classroom routines before they face students",
+      "group": "vocational",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "New teacher attrition spike",
+        "Preparation program quality decline"
+      ],
+      "treatments": [
+        {
+          "label": "Clinical Residency Models",
+          "type": "STRUCTURAL",
+          "description": "Year-long mentored teaching residencies in partner schools replacing brief student teaching placements",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Teaching Performance Assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Portfolio-based evaluation of actual classroom instruction quality for licensure decisions",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Instructure (Canvas)",
+          "ticker_or_id": "INST",
+          "functional_reason": "Executes core teacher training operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Duolingo",
+          "ticker_or_id": "DUOL",
+          "functional_reason": "Executes core teacher training operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Coursera",
+          "ticker_or_id": "COUR",
+          "functional_reason": "Executes core teacher training operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        }
+      ],
+      "childPortal": "education_edtech_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Teacher Training",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Military Command"
+        },
+        {
+          "domain": "industry",
+          "role": "Heavy Equipment"
+        },
+        {
+          "domain": "neurology",
+          "role": "Supplementary Motor Area"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Process Improvement"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Theater & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Recruitment & Training"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Educational Policy",
+      "domainDescription": "Governance frameworks, funding mechanisms, and regulatory structures shaping educational systems",
+      "domainFunction": "Sets standards, allocates resources, and establishes accountability systems that determine educational access, quality, and equity at scale",
+      "whyThisNode": "vmPFC integrates emotional valuation with decision-making to guide value-based choices, mirroring how educational policy weighs competing societal values (equity, excellence, efficiency) to shape governance decisions",
+      "group": "policy",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation"
+      ],
+      "treatments": [
+        {
+          "label": "Weighted Student Funding",
+          "type": "STRUCTURAL",
+          "description": "Per-pupil funding formulas with additional weights for poverty, disability, and English learner status",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Policy Impact Evaluation",
+          "type": "DIAGNOSTIC",
+          "description": "Rigorous quasi-experimental studies of policy effects on student outcomes before scaling",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Khan Academy",
+          "ticker_or_id": "KHAN_NPO",
+          "functional_reason": "Amplifies and scales educational policy capacity, driving growth and expanding reach of educational policy operations",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "2U Inc",
+          "ticker_or_id": "TWOU",
+          "functional_reason": "Executes core educational policy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "Stride Inc",
+          "ticker_or_id": "LRN",
+          "functional_reason": "Executes core educational policy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.69
+        }
+      ],
+      "childPortal": "education_equity_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Educational Policy",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        },
+        {
+          "domain": "legal",
+          "role": "Judicial Temperament / Equity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Literacy",
+      "domainDescription": "Development of reading, writing, and comprehension skills as the foundation of all further learning",
+      "domainFunction": "Builds phonemic awareness, decoding fluency, vocabulary depth, and reading comprehension through structured, evidence-based instruction",
+      "whyThisNode": "Wernicke's area is the primary region for language comprehension and semantic processing, the neural foundation of the literacy skills that education aims to develop",
+      "group": "primary",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase"
+      ],
+      "treatments": [
+        {
+          "label": "Structured Literacy Programs",
+          "type": "STRUCTURAL",
+          "description": "Systematic phonics instruction with explicit teaching of decoding, spelling, and morphology",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Universal Reading Screening",
+          "type": "DIAGNOSTIC",
+          "description": "Brief assessments administered three times yearly to identify students falling behind grade-level reading benchmarks",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "ETS (Educational Testing Service)",
+          "ticker_or_id": "ETS",
+          "functional_reason": "Stores and retrieves literacy knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "PowerSchool",
+          "ticker_or_id": "PWSC",
+          "functional_reason": "Stores and retrieves literacy knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "McGraw Hill",
+          "ticker_or_id": "MCGRAW",
+          "functional_reason": "Stores and retrieves literacy knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.91
+        }
+      ],
+      "childPortal": "education_international_portal.html",
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Literacy",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "industry",
+          "role": "Defense Ind"
+        },
+        {
+          "domain": "legal",
+          "role": "Statutory Interpretation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Wernicke's Area"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Comprehension"
+        },
+        {
+          "domain": "religion",
+          "role": "Scripture & Canon"
+        },
+        {
+          "domain": "science",
+          "role": "Computer Science"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradezone"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Coordination & Integration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "STEM Education",
+      "domainDescription": "Integrated instruction in science, technology, engineering, and mathematics disciplines",
+      "domainFunction": "Develops quantitative reasoning, scientific inquiry, computational thinking, and engineering design skills through hands-on, problem-based learning",
+      "whyThisNode": "Intraparietal sulcus processes numerical magnitude, spatial reasoning, and quantitative comparison, the neural substrates of the mathematical and spatial thinking central to STEM education",
+      "group": "secondary",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase"
+      ],
+      "treatments": [
+        {
+          "label": "Inquiry-Based Science Instruction",
+          "type": "STRUCTURAL",
+          "description": "Student-driven investigation replacing lecture-based science teaching with hands-on experimentation",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Math Diagnostic Interviews",
+          "type": "DIAGNOSTIC",
+          "description": "One-on-one clinical interviews revealing specific conceptual misconceptions in mathematical thinking",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "McGraw Hill",
+          "ticker_or_id": "MCGRAW",
+          "functional_reason": "Executes core stem education operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Duolingo",
+          "ticker_or_id": "DUOL",
+          "functional_reason": "Executes core stem education operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Pearson PLC",
+          "ticker_or_id": "PSO",
+          "functional_reason": "Executes core stem education operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        }
+      ],
+      "childPortal": "education_libraries_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "STEM Education",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "religion",
+          "role": "Sacred Architecture"
+        },
+        {
+          "domain": "science",
+          "role": "Mathematics"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Human Capital & Development"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Farm Productivity Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "Arts Education",
+      "domainDescription": "Instruction in visual arts, music, theater, dance, and creative expression as essential components of human development",
+      "domainFunction": "Cultivates aesthetic perception, creative problem-solving, emotional expression, and cultural literacy through studio practice and performance",
+      "whyThisNode": "Fusiform gyrus specializes in fine-grained visual discrimination and pattern recognition, the perceptual foundation for visual arts education and aesthetic judgment",
+      "group": "secondary",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Arts program elimination",
+        "Creative skill assessment decline"
+      ],
+      "treatments": [
+        {
+          "label": "Arts Integration Across Curriculum",
+          "type": "STRUCTURAL",
+          "description": "Embedding artistic practice within core academic subjects to deepen understanding through creative expression",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Portfolio-Based Arts Assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Curated student work collections evaluated against rubrics for growth in technique, expression, and critique",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "College Board",
+          "ticker_or_id": "COLLEGE_BOARD",
+          "functional_reason": "Detects and monitors arts education signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Duolingo",
+          "ticker_or_id": "DUOL",
+          "functional_reason": "Detects and monitors arts education signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "ETS (Educational Testing Service)",
+          "ticker_or_id": "ETS",
+          "functional_reason": "Detects and monitors arts education signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        }
+      ],
+      "childPortal": "education_literacy_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Arts Education",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Succession"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Design"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pathology"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Face Processing & Visual Recognition"
+        },
+        {
+          "domain": "technology",
+          "role": "User Interface Design"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Speechlang"
+        },
+        {
+          "domain": "culture",
+          "role": "Fashion & Design"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Research Universities",
+      "domainDescription": "Institutions combining advanced teaching with original scholarship and knowledge creation",
+      "domainFunction": "Generates new knowledge through faculty research, trains doctoral scholars, and drives innovation through basic and applied inquiry across all disciplines",
+      "whyThisNode": "Default Mode Network supports spontaneous thought, creative ideation, and the integration of disparate concepts, mirroring the open-ended, self-directed inquiry that defines university research",
+      "group": "research",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Research funding decline",
+        "Publication integrity crisis"
+      ],
+      "treatments": [
+        {
+          "label": "Open Science Mandates",
+          "type": "STRUCTURAL",
+          "description": "Required pre-registration, open data, and open access publication for publicly funded research",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Research Output Quality Metrics",
+          "type": "DIAGNOSTIC",
+          "description": "Moving beyond citation counts to assess reproducibility, practical impact, and knowledge contribution",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "2U Inc",
+          "ticker_or_id": "TWOU",
+          "functional_reason": "Executes core research universities operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "McGraw Hill",
+          "ticker_or_id": "MCGRAW",
+          "functional_reason": "Executes core research universities operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Chegg",
+          "ticker_or_id": "CHGG",
+          "functional_reason": "Stores and retrieves research universities knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.69
+        }
+      ],
+      "content": {
+        "tier1": {
+          "label": "TEASER",
+          "access": "free",
+          "text": "Research universities are the civilization-scale externalization of the Default Mode Network — spontaneous inquiry, narrative construction, and the integration of disparate knowledge domains."
+        },
+        "tier2": {
+          "label": "CHAPEL",
+          "access": "gated",
+          "gate": "spiral99",
+          "text": "The Default Mode Network does not rest. It narrates. It simulates. It weaves the threads of past experience into the fabric of future possibility. When you sit in a university library and feel the weight of accumulated thought pressing against the edges of your own questions, you are experiencing the mPFC-PCC coupling that defines the DMN at its most generative.\n\nSelf-referential processing is peer review. Every time a researcher holds their own hypothesis up to scrutiny, they are engaging the medial prefrontal cortex — the same region that asks, across every waking moment, who am I in relation to what I know? The university institutionalizes this question. It makes self-examination a profession.\n\nAutobiographical memory is institutional knowledge. The university’s archives, its citation networks, its oral traditions passed from advisor to doctoral student — these are the hippocampal-cortical consolidation loops of civilization itself. What the brain does in sleep, the university does across generations: it replays, it integrates, it transforms episodic experience into semantic structure.\n\nFuture simulation is grant-funded hypothesis generation. The DMN’s prospective function — its capacity to project the self into imagined futures — finds its institutional mirror in the research proposal. Every grant application is an act of mental time travel: if we allocate these resources, if we follow this method, we will arrive at knowledge that does not yet exist.\n\nThe mPFC-PCC coupling is the dialogue between individual researcher identity and accumulated scholarly tradition. The posterior cingulate holds the panoramic view — the sense of where one stands in the landscape of all that has been thought. The medial prefrontal holds the personal stake — the conviction that this particular question matters. When these regions synchronize, the result is not mere scholarship. It is the felt sense of participating in something larger than any single mind.\n\nThis is what the research university does. It is the Default Mode Network of civilization, and it never truly rests."
+        },
+        "tier3": {
+          "label": "PROTOCOL + STUDY",
+          "access": "gated",
+          "gate": "spiral99",
+          "citation": {
+            "authors": "Buckner, R.L., Andrews-Hanna, J.R., & Schacter, D.L.",
+            "year": 2008,
+            "title": "The brain’s default network: Anatomy, function, and relevance to disease",
+            "journal": "Annals of the New York Academy of Sciences",
+            "volume": "1124(1)",
+            "pages": "1–38",
+            "doi": "10.1196/annals.1440.011",
+            "url": "https://doi.org/10.1196/annals.1440.011"
+          },
+          "protocol": "The DMN comprises midline structures (mPFC, PCC, precuneus) and lateral parietal regions (angular gyrus, lateral temporal cortex). Buckner et al. established that this network activates during internally directed cognition — autobiographical memory retrieval, future simulation, theory of mind, and moral reasoning. The network deactivates during externally directed attention tasks. Its disruption is implicated in Alzheimer’s disease, depression, and schizophrenia. The research university mirrors this architecture: its ‘default mode’ is open-ended inquiry, and it deactivates (or should) when administrative demands override scholarly freedom."
+        }
+      },
+      "childPortal": "education_finance_edu_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Research Universities",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        },
+        {
+          "domain": "religion",
+          "role": "Theological Doctrine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "rPFC",
+      "state": "active",
+      "domainLabel": "Governance Edu",
+      "domainDescription": "Governance Edu systems within Education",
+      "group": "primary",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "education_governance_edu_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Governance Edu",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "screen rdr — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Streetscape Design — Assessment & Monitoring — Predictive Modeling"
+        },
+        {
+          "domain": "defense",
+          "role": "aeromedical diag — Root Cause Analysis"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Restructuring — Implementation & Strategy — Quality Gates"
+        },
+        {
+          "domain": "energy",
+          "role": "processing diag — Intervention Planning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ventilation Systems — Optimization & Innovation — Performance Tuning"
+        },
+        {
+          "domain": "finance",
+          "role": "Control Remediation — Implementation & Strategy — Technology Deployment"
+        },
+        {
+          "domain": "governance",
+          "role": "Ownership Registries — Implementation & Strategy — Workforce Alignment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "sgACC",
+      "state": "active",
+      "domainLabel": "Research Edu",
+      "domainDescription": "Research Edu systems within Education",
+      "group": "primary",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "education_research_edu_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Research Edu",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Universal Design"
+        },
+        {
+          "domain": "culture",
+          "role": "Coiling Techniques — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "recon isr — Signal Acquisition"
+        },
+        {
+          "domain": "economy",
+          "role": "investbank underwriting — Signal Acquisition"
+        },
+        {
+          "domain": "energy",
+          "role": "battrecycling economics — Signal Acquisition"
+        },
+        {
+          "domain": "environment",
+          "role": "smog ground — Signal Acquisition"
+        },
+        {
+          "domain": "finance",
+          "role": "Realestate Fin"
+        },
+        {
+          "domain": "governance",
+          "role": "judintegr caseassgn — Signal Acquisition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMN",
+      "state": "active",
+      "domainLabel": "Workforce Dev",
+      "domainDescription": "Workforce Dev systems within Education",
+      "group": "primary",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "education_workforce_dev_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Workforce Dev",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Somatic Awareness Network"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "captioning styling — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power — Diagnostic Analysis"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Core Operations"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Recycling Quality & Performance"
+        },
+        {
+          "domain": "environment",
+          "role": "Air Quality Standards Policy & Governance"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "FUNDING_CRISIS",
+      "label": "Education Funding Crisis",
+      "summary": "Chronic underfunding of public education creating resource scarcity, facility deterioration, and inability to attract or retain qualified educators",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Policy mechanisms failing to generate adequate and equitable funding formulas across districts",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Curriculum design constrained by lack of materials, technology, and professional development budget",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo-active",
+          "detail": "K-12 classroom instruction quality degraded by oversized classes and outdated materials",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo-active",
+          "detail": "Teacher training programs underfunded, producing inadequately prepared educators",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hypo-active",
+          "detail": "Library systems defunded, collections aging, and digital access contracts cancelled",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "TEACHER_SHORTAGE",
+      "label": "Teacher Shortage Emergency",
+      "summary": "Critical shortage of qualified teachers driven by low compensation, burnout, and declining enrollment in education preparation programs",
+      "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo-active",
+          "detail": "Classrooms staffed by long-term substitutes and emergency-certified personnel lacking pedagogical training",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo-active",
+          "detail": "Teacher preparation programs see enrollment collapse as candidates choose higher-paying fields",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Special education positions hardest hit, with unfilled caseloads leaving vulnerable students without mandated services",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Hypo-active",
+          "detail": "Early childhood educator pipeline depleted by poverty-level wages in the childcare sector",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "ACHIEVEMENT_GAP",
+      "label": "Achievement Gap Crisis",
+      "summary": "Persistent disparities in educational outcomes across racial, socioeconomic, and geographic lines reflecting structural inequity in resource distribution and opportunity access",
+      "circuits": [
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo-active",
+          "detail": "Literacy rates in underserved communities far below grade level, compounding across all subjects",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Hypo-active",
+          "detail": "STEM access severely limited in under-resourced schools, perpetuating workforce exclusion",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Altered",
+          "detail": "Assessment systems detecting gaps but institutional response mechanisms failing to close them",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Policy frameworks unable to overcome entrenched funding inequities tied to property tax bases",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Hypo-active",
+          "detail": "Digital divide limiting distance learning access for rural and low-income students",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "ACCREDITATION_FAILURE",
+      "label": "Accreditation & Quality Failure",
+      "summary": "Breakdown of quality assurance mechanisms allowing credential inflation, diploma mills, and programs that fail to produce competent graduates",
+      "circuits": [
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-active",
+          "detail": "Higher education institutions awarding degrees without ensuring genuine knowledge acquisition",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Assessment standards weakened by grade inflation and lowered rigor, masking actual learning deficits",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hypo-active",
+          "detail": "Research universities prioritizing revenue over scholarly integrity, undermining knowledge creation mission",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Vocational programs issuing certifications without adequate hands-on competency verification",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "TECHNOLOGY_DISRUPTION",
+      "label": "Technology Disruption of Education",
+      "summary": "Rapid AI and digital technology advancement destabilizing traditional educational models, assessment integrity, and the definition of essential human skills",
+      "circuits": [
+        {
+          "nodeId": "FPN",
+          "dir": "Hyper-active",
+          "detail": "Distance learning platforms proliferating faster than quality control or pedagogical integration can manage",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Altered",
+          "detail": "Assessment validity undermined by AI-generated student work that evades plagiarism detection",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Learning science confronting fundamental questions about memory and skill development when AI handles recall tasks",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-active",
+          "detail": "Curriculum design scrambling to redefine essential skills and knowledge in an AI-augmented world",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered",
+          "detail": "Teaching methods disrupted as student attention and engagement patterns shift in technology-saturated environments",
+          "evidence": "Strong"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "BROCA",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "TPJ",
+      "target": "OXY",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "OXY",
+      "target": "WERN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "AG",
+      "target": "FPN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "IPS",
+      "target": "FG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "HIPP",
+      "target": "PRECUNEUS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "DMN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "BROCA",
+      "target": "AG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "AG",
+      "target": "M1",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "M1",
+      "target": "dlPFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "dACC",
+      "target": "HIPP",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "HIPP",
+      "target": "BROCA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "WERN",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "SMA",
+      "target": "dACC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "vmPFC",
+      "target": "HIPP",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "FG",
+      "target": "BROCA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "DMN",
+      "target": "AG",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "BROCA",
+      "target": "DMN",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "OXY",
+      "target": "FPN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FPN",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "SMA",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "vmPFC",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "IPS",
+      "target": "PRECUNEUS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Demographic Analysis Assessment & Diagnostics → Admissions — Adaptation & Learning (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Demographic Analysis Assessment & Diagnostics → Entrance Exams Risk & Resilience (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Demographic Analysis Assessment & Diagnostics → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Educational Policy → Admissions — Adaptation & Learning (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Educational Policy → Entrance Exams Risk & Resilience (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Educational Policy → Admissions Equity — State Assessment (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Curriculum Design → Learning Science (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Portfolio Review Human Capital & Development → Admissions — Adaptation & Learning (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Student Assessment → Admissions — Adaptation & Learning (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Admissions Equity Infrastructure & Capacity → Admissions Equity Risk & Resilience (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Admissions Equity Infrastructure & Capacity → Admissions — Regulation Strategy (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Admissions Equity Infrastructure & Capacity → Admissions — Signal Detection — Secondary (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Transfer Pathways Assessment & Diagnostics → Admissions Equity Risk & Resilience (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Enrollment Forecasting Technology & Innovation → Admissions — Regulation Strategy (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Selection Criteria Infrastructure & Capacity → Admissions — Diagnostic Analysis — Tertiary (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Admissions — Diagnostic Analysis — Tertiary → Student Assessment (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Portfolio Review Assessment & Diagnostics → Admissions — Diagnostic Analysis — Tertiary (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Admissions — Adaptation & Learning → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Entrance Exams Policy & Governance (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Admissions Equity Core Operations → Learning Science (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Learning Science → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Enrollment Forecasting Policy & Governance → Scenario Planning — State Assessment (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Scenario Planning — State Assessment → Recruitment Strategies Infrastructure & Capacity (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Scenario Planning — State Assessment → Admissions Equity Quality & Performance (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Admissions Equity Quality & Performance → Educational Policy (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Teacher Training → Vocational Training (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Application Process → Selection Criteria Risk & Resilience (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Selection Criteria Risk & Resilience → Admissions Equity Infrastructure & Capacity (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Admissions Equity Technology & Innovation → Admissions Equity Infrastructure & Capacity (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Recruitment Strategies Assessment & Diagnostics → Admissions Equity Risk & Resilience (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Portfolio Review Risk & Resilience → Admissions — Adaptation & Learning (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Portfolio Review Risk & Resilience → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.750Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

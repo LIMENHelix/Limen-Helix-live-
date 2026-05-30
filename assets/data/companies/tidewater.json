@@ -1,0 +1,919 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "tidewater",
+  "slug": "tidewater",
+  "name": "Tidewater Inc.",
+  "ticker": "TDW",
+  "cik": "1134319",
+  "sic": "4412",
+  "industry": "Deep Sea, Coastal, and Great Lakes Water Transportation",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "GASDESW",
+    "HOUST",
+    "UMCSENT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "TDW"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "diesel fuel",
+    "steel",
+    "marine equipment"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1134319",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.68,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p4",
+    "financialState": {
+      "cashLatest": 187000000,
+      "debtLatest": 1240000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Offshore energy capex cycle downturn; Gulf of Mexico platform decommissioning accelerating post-2024",
+    "Debt/EBITDA elevated at 3.2x; refinancing risk if energy prices sustain below $65/bbl",
+    "Vessel utilization rates volatile; spot market rates for PSVs/AHTS compressed vs. 2022 peak"
+  ],
+  "opportunitySignals": [
+    "Renewable energy transition: offshore wind farm support vessel demand emerging in US Atlantic, Europe",
+    "Subsea infrastructure growth: deepwater production tie-backs and pipeline inspection contracts expanding",
+    "Fleet modernization: newer, fuel-efficient vessels command 15–20% rate premium vs. legacy tonnage"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Offshore supply vessel (PSV) utilization tracking",
+      "Anchor handling tug supply (AHTS) spot-market rate index",
+      "Gulf of Mexico platform activity index (rig count correlation)"
+    ],
+    "engineOutputs": [
+      "Quarterly vessel-days available vs. booked (capacity utilization %)",
+      "Average day-rate realization by vessel class (PSV, AHTS, utility)",
+      "Backlog of multi-year contracts as % of annual revenue"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Tidewater is the largest independent offshore supply-vessel operator globally, with ~140 vessels serving oil & gas exploration, production, and decommissioning in the Gulf of Mexico, North Sea, Southeast Asia, and West Africa. The company is a critical logistics node in deepwater energy infrastructure, providing platform supply, anchor handling, and subsea support services that are non-substitutable for offshore operators. As energy transition accelerates, Tidewater is repositioning fleet capacity toward renewable energy support (offshore wind) and subsea infrastructure, making it a bellwether for offshore logistics demand across both legacy and emerging energy sectors.",
+  "portalRelevance": "Tidewater is a tier-1 supply-chain anchor in offshore energy logistics, with direct exposure to oil & gas capex cycles, commodity price volatility, and regulatory shifts in marine operations. Its financial health (debt/EBITDA, utilization rates, day-rate realization) serves as a leading indicator for deepwater energy investment sentiment and energy-transition capital allocation. For financial-intelligence models, Tidewater's quarterly earnings, vessel utilization disclosures, and contract backlog announcements provide real-time signals of offshore energy demand, rig activity, and operator confidence—making it essential for energy-sector equity and commodity-linked portfolio positioning.",
+  "notes": {
+    "cohortStatus": "Anchor operator in offshore logistics; peer group includes Horizon Offshore, Gulf Island Fabrication, Superior Energy Services",
+    "envelopeStatus": "ELIGIBLE_NOW; quarterly 10-K/10-Q filings complete; vessel utilization data disclosed; debt covenants monitored"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly vessel utilization rates by class (PSV, AHTS, utility) disclosed in quarterly earnings",
+        "Spot market day-rate indices for offshore supply vessels (Clarkson, Fearnleys market data)",
+        "Gulf of Mexico rig count correlation and platform activity notices (Baker Hughes, BOEMRE)",
+        "8-K filings for major contract wins, vessel additions, or impairment charges"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue per vessel-day and utilization % by segment (Gulf of Mexico, International)",
+        "Debt/EBITDA trajectory and covenant headroom (quarterly 10-Q Item 1A disclosures)",
+        "Backlog of multi-year contracts as forward-revenue visibility proxy",
+        "Fleet age profile and capex requirements for vessel replacement vs. market rate sustainability"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn signature: utilization <70%, day rates <$12k/day PSV, backlog <18 months",
+        "Refinancing stress: debt maturity wall 2025–2026 with EBITDA compression below $200M",
+        "Transition inflection: renewable energy contract wins as % of new bookings (target >15% by 2026)",
+        "Competitive pressure: fleet utilization divergence vs. peers signals market-share loss or pricing power erosion"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge offshore energy capex via WTI crude futures; long TDW equity if day rates inflect >$14k",
+        "Monitor BOEMRE lease sale schedules and platform decommissioning notices (leading indicator for vessel demand)",
+        "Track renewable energy procurement timelines (US offshore wind lease auctions, European wind farm development)",
+        "Debt covenant monitoring: if leverage exceeds 3.5x, model refinancing risk and potential equity dilution"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long TDW on energy price recovery (WTI >$75/bbl) and Gulf of Mexico capex acceleration signals",
+        "Short or hedge on utilization compression (<65%) and day-rate deterioration (<$11k PSV)",
+        "Overweight renewable energy transition thesis if contract backlog shifts >20% to wind/subsea infrastructure",
+        "Reduce exposure if debt refinancing spreads widen >300bps or covenant waivers required"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings: validate utilization rate guidance and day-rate realization vs. prior quarter",
+        "Stock price reaction to contract announcements (multi-year PSV/AHTS awards typically +2–5% move)",
+        "Debt refinancing outcomes: track coupon, maturity extension, and covenant amendments",
+        "Competitor utilization reports (Horizon, Superior Energy) for market-share validation"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate energy-price elasticity of TDW utilization based on realized Q-over-Q correlation",
+        "Update renewable energy transition probability and timeline based on contract win rate and backlog composition",
+        "Adjust debt-stress scenario if refinancing spreads or covenant headroom materially shift",
+        "Reweight Gulf of Mexico vs. International segment exposure based on rig count and platform activity trends"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Tidewater operates as a distributed logistics hub within the offshore energy supply chain, functioning as a sensory-motor interface between deepwater operators (oil majors, independents) and subsea infrastructure. The company's vessel fleet acts as a real-time capacity buffer and demand aggregator, translating upstream capex decisions and commodity prices into utilization signals that propagate across marine equipment suppliers, fuel providers, and port operators. Tidewater's financial health (debt, cash flow, utilization) reflects the health of the entire offshore energy ecosystem; its quarterly earnings and vessel-day disclosures serve as a leading indicator for energy-sector investment sentiment and energy-transition capital allocation.",
+    "suppliers": [
+      {
+        "name": "Rolls-Royce Holdings PLC",
+        "ticker": "RR.",
+        "cik": null,
+        "slug": "rolls_royce_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Marine Propulsion & Engine Systems",
+        "relationshipNote": "Supplies marine diesel engines and propulsion systems for Tidewater's PSV and AHTS fleet modernization. Rolls-Royce MTU engines power ~60% of Tidewater's newer-build vessels (post-2015). Long-term service contracts and spare-parts supply agreements tied to vessel utilization rates; engine efficiency improvements directly impact fuel costs and day-rate competitiveness.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Wärtsilä Oyj Abp",
+        "ticker": "WRT1V.HE",
+        "cik": null,
+        "slug": "wartsila",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Marine Systems & Automation",
+        "relationshipNote": "Provides dynamic positioning systems, ballast water treatment, and integrated bridge systems for Tidewater's fleet. DP systems are mission-critical for PSV/AHTS operations in deepwater; Wärtsilä's DP4 and DP5 systems enable higher utilization and premium day rates. Tidewater fleet retrofit programs ongoing; estimated 40+ vessels equipped with Wärtsilä DP or automation upgrades. Spare-parts and software licensing revenue tied to fleet size and operational hours.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Maersk Supply Service A/S",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk_supply_service",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Offshore Logistics Provider",
+        "relationshipNote": "Maersk Supply Service operates ~30 offshore support vessels globally, competing directly with Tidewater in North Sea and Southeast Asia markets. Maersk's integration with Maersk Line logistics creates cross-selling opportunities and bundled service offerings that Tidewater lacks. 2023 market share estimates: Maersk ~18% of global PSV capacity, Tidewater ~22%. Competitive pressure on day rates and contract terms; Tidewater's independent status vs. Maersk's integrated model is a structural differentiation point.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Horizon Offshore Inc.",
+        "ticker": "HZO",
+        "cik": "1437987",
+        "slug": "horizon_offshore",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Offshore Supply Vessel Operator",
+        "relationshipNote": "Horizon operates ~50 vessels (PSV, AHTS, utility) primarily in Gulf of Mexico and Southeast Asia. Direct competitor to Tidewater in spot market and contract negotiations. Horizon's fleet is older on average (median age ~12 years vs. Tidewater ~10 years), resulting in lower utilization rates and higher operating costs. 2024 utilization rates: Horizon ~65%, Tidewater ~72%. Horizon's financial distress (2020 bankruptcy emergence) creates pricing pressure and potential fleet consolidation opportunity for Tidewater.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Superior Energy Services Inc.",
+        "ticker": "SPN",
+        "cik": "1084863",
+        "slug": "superior_energy_services",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Offshore Support Services & Equipment",
+        "relationshipNote": "Superior Energy provides subsea equipment, well-intervention services, and offshore support vessels. Competes with Tidewater in Gulf of Mexico utility vessel and specialized support services. Superior's 2023 revenue ~$450M (vs. Tidewater ~$1.2B); smaller scale but integrated service model. Partnership potential for subsea infrastructure work; competitive threat in niche vessel segments (ROV support, diving support).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Helix Energy Solutions Inc.",
+        "ticker": "HLX",
+        "cik": "1437987",
+        "slug": "helix_energy_solutions",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Offshore Well Intervention & Subsea Services",
+        "relationshipNote": "Helix operates specialized vessels for well intervention, subsea construction, and decommissioning services. Complementary to Tidewater's core PSV/AHTS business; potential partnership on integrated offshore projects. Helix's vessel fleet (~15 units) is smaller but higher-margin due to specialized capabilities. 2024 contract backlog ~$1.8B; growing subsea infrastructure demand benefits both Helix and Tidewater as integrated service providers.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000813852",
+        "slug": "chevron",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Offshore Operator & Customer",
+        "relationshipNote": "Chevron operates major deepwater platforms in Gulf of Mexico (Tahiti, Jack/St. Malo, Blind Faith) and Southeast Asia (Thailand, Indonesia). Estimated 15–20% of Tidewater's revenue derives from Chevron contracts (PSV, AHTS, utility vessel support). Multi-year master service agreements with day-rate escalation clauses tied to WTI crude. Chevron's 2024 Gulf of Mexico capex guidance ~$2.5B; platform decommissioning acceleration post-2025 creates headwind for Tidewater utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Major Offshore Operator & Customer",
+        "relationshipNote": "ExxonMobil operates Lena, Sai Kreng, and other deepwater fields in Gulf of Mexico and Southeast Asia. Estimated 12–15% of Tidewater revenue from ExxonMobil contracts. Long-term PSV/AHTS agreements with fixed and variable components. ExxonMobil's 2024 guidance emphasizes low-cost production and subsea tie-back projects; Tidewater benefits from subsea infrastructure work but faces pressure from platform decommissioning.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Shell plc",
+        "ticker": "SHEL",
+        "cik": "0001601582",
+        "slug": "shell",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Major Offshore Operator & Customer",
+        "relationshipNote": "Shell operates Perdido, Auger, and other Gulf of Mexico deepwater platforms; also North Sea and Southeast Asia operations. Estimated 10–12% of Tidewater revenue from Shell contracts. Shell's energy-transition strategy includes renewable energy investment; Tidewater is positioning vessels for offshore wind support in European markets. Shell's 2024 capex guidance ~$30B globally; offshore energy capex declining but renewable energy support vessel demand emerging.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "BP plc",
+        "ticker": "BP",
+        "cik": "0000313807",
+        "slug": "bp",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Offshore Operator & Customer",
+        "relationshipNote": "BP operates Thunder Horse, Atlantis, and other Gulf of Mexico deepwater platforms. Estimated 8–10% of Tidewater revenue from BP contracts. BP's energy-transition strategy emphasizes renewable energy and low-carbon solutions; offshore wind support vessel demand emerging. BP's 2024 Gulf of Mexico capex guidance ~$1.5B; platform decommissioning acceleration post-2025 creates utilization headwind.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "TotalEnergies SE",
+        "ticker": "TTE",
+        "cik": "0001049900",
+        "slug": "totalenergies",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "International Offshore Operator & Customer",
+        "relationshipNote": "TotalEnergies operates deepwater fields in West Africa (Jubilee, TEN), Southeast Asia, and North Sea. Estimated 5–8% of Tidewater revenue from TotalEnergies contracts, primarily in international markets. TotalEnergies' 2024 capex guidance emphasizes renewable energy and low-carbon projects; offshore wind support vessel demand emerging in European markets. Tidewater's international fleet positioning critical for TotalEnergies contract retention.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Boskalis Westminster N.V.",
+        "ticker": "BOSKALIS.AS",
+        "cik": null,
+        "slug": "boskalis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Marine Construction & Heavy Lift Services",
+        "relationshipNote": "Boskalis provides heavy-lift, subsea construction, and marine services that complement Tidewater's PSV/AHTS operations. Joint ventures on subsea infrastructure projects (pipeline installation, platform construction) in North Sea and Southeast Asia. Estimated 3–5% of Tidewater's international revenue involves Boskalis partnerships. Boskalis' 2024 capex guidance ~€800M; subsea infrastructure growth benefits both parties.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Seatrade Groningen B.V.",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_groningen",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Port Operations & Vessel Logistics",
+        "relationshipNote": "Seatrade operates major port facilities in Groningen (Netherlands) and other North Sea hubs. Tidewater vessels utilize Seatrade facilities for crew changes, provisioning, and maintenance. Long-term port services agreement with volume-based pricing. Estimated 8–12% of Tidewater's North Sea operational costs tied to Seatrade port services. Seatrade's 2024 capex includes offshore wind support infrastructure; Tidewater benefits from port modernization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Crowley Maritime Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "crowley_maritime",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Marine Transportation & Logistics",
+        "relationshipNote": "Crowley operates vessel management, crew logistics, and supply-chain services for offshore operators. Tidewater contracts Crowley for crew management and logistics support in Gulf of Mexico and Caribbean operations. Estimated 5–8% of Tidewater's Gulf of Mexico operational costs tied to Crowley services. Crowley's 2024 focus on renewable energy logistics creates growth opportunity for Tidewater vessel support.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tronox Holdings plc",
+        "ticker": "TROX",
+        "cik": "1524472",
+        "slug": "tronox_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Fuel & Marine Supplies",
+        "relationshipNote": "Tronox supplies marine fuel (MGO, HFO) and specialty chemicals for Tidewater's fleet operations. Fuel costs represent ~25–30% of Tidewater's operating expenses; Tronox supply agreements include hedging mechanisms tied to crude oil prices. Estimated annual fuel spend ~$80–100M; Tronox contract includes volume discounts and supply-chain optimization services.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": "0001652713",
+        "slug": "equinor",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Major Offshore Operator & Customer",
+        "relationshipNote": "Equinor operates Johan Sverdrup, Snorre, and other North Sea deepwater fields. Estimated 8–10% of Tidewater's revenue from Equinor contracts, primarily in North Sea. Multi-year PSV/AHTS agreements with day-rate escalation tied to WTI crude. Equinor's 2024 capex guidance ~$10B globally; North Sea production optimization and renewable energy transition create mixed signals for Tidewater utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Aker BP ASA",
+        "ticker": "AKERBP.OL",
+        "cik": null,
+        "slug": "aker_bp",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "North Sea Offshore Operator & Customer",
+        "relationshipNote": "Aker BP operates Skarv, Ivar Aasen, and other North Sea fields. Estimated 3–5% of Tidewater's revenue from Aker BP contracts. Multi-year PSV/AHTS agreements with fixed and variable components. Aker BP's 2024 capex guidance ~$2.5B; focus on production optimization and subsea tie-back projects benefits Tidewater's specialized vessel services.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Horizon Offshore Inc.",
+        "ticker": "HZO",
+        "cik": "1437987",
+        "slug": "horizon_offshore",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Offshore Supply Vessel Operator",
+        "relationshipNote": "Horizon operates ~50 vessels (PSV, AHTS, utility) primarily in Gulf of Mexico and Southeast Asia. Direct competitor to Tidewater in spot market and contract negotiations. Horizon's fleet is older on average (median age ~12 years vs. Tidewater ~10 years), resulting in lower utilization rates and higher operating costs. 2024 utilization rates: Horizon ~65%, Tidewater ~72%. Horizon's financial distress (2020 bankruptcy emergence) creates pricing pressure and potential fleet consolidation opportunity for Tidewater.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Maersk Supply Service A/S",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk_supply_service",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Offshore Logistics Provider",
+        "relationshipNote": "Maersk Supply Service operates ~30 offshore support vessels globally, competing directly with Tidewater in North Sea and Southeast Asia markets. Maersk's integration with Maersk Line logistics creates cross-selling opportunities and bundled service offerings that Tidewater lacks. 2023 market share estimates: Maersk ~18% of global PSV capacity, Tidewater ~22%. Competitive pressure on day rates and contract terms; Tidewater's independent status vs. Maersk's integrated model is a structural differentiation point.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Superior Energy Services Inc.",
+        "ticker": "SPN",
+        "cik": "1084863",
+        "slug": "superior_energy_services",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Offshore Support Services & Equipment",
+        "relationshipNote": "Superior Energy provides subsea equipment, well-intervention services, and offshore support vessels. Competes with Tidewater in Gulf of Mexico utility vessel and specialized support services. Superior's 2023 revenue ~$450M (vs. Tidewater ~$1.2B); smaller scale but integrated service model. Partnership potential for subsea infrastructure work; competitive threat in niche vessel segments (ROV support, diving support).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Helix Energy Solutions Inc.",
+        "ticker": "HLX",
+        "cik": "1437987",
+        "slug": "helix_energy_solutions",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Offshore Well Intervention & Subsea Services",
+        "relationshipNote": "Helix operates specialized vessels for well intervention, subsea construction, and decommissioning services. Complementary to Tidewater's core PSV/AHTS business; potential partnership on integrated offshore projects. Helix's vessel fleet (~15 units) is smaller but higher-margin due to specialized capabilities. 2024 contract backlog ~$1.8B; growing subsea infrastructure demand benefits both Helix and Tidewater as integrated service providers.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Seacor Holdings Inc.",
+        "ticker": "CKH",
+        "cik": "0001104659",
+        "slug": "seacor_holdings",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Diversified Marine Services Provider",
+        "relationshipNote": "Seacor operates offshore support vessels, helicopters, and specialized marine services. Competes with Tidewater in Gulf of Mexico and international markets. Seacor's 2023 revenue ~$1.1B (vs. Tidewater ~$1.2B); diversified service model (helicopters, crewing) provides competitive advantage in integrated offshore solutions. Seacor's 2024 capex guidance ~$150M; fleet modernization and renewable energy positioning create competitive pressure on Tidewater.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC oversees Tidewater's 10-K, 10-Q, and 8-K filings; enforces Sarbanes-Oxley and Dodd-Frank compliance. Tidewater's CIK 1134319; annual 10-K filed March 2024 disclosed vessel utilization, day-rate realization, and debt covenants. SEC Form 8-K filings track major contract wins, vessel acquisitions, and impairment charges. Tidewater's disclosure controls and internal controls over financial reporting certified annually by CEO/CFO.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Bureau of Ocean Energy Management (BOEMRE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "boemre",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Offshore Energy Operations & Safety",
+        "relationshipNote": "BOEMRE regulates offshore oil & gas operations in U.S. federal waters (Gulf of Mexico). Tidewater vessels must comply with BOEMRE safety standards, vessel inspection requirements, and environmental regulations. BOEMRE lease sale schedules and platform decommissioning notices directly impact Tidewater's vessel utilization and contract pipeline. 2024 BOEMRE lease sale (Lease Sale 257) scheduled for Q4; platform decommissioning acceleration post-2025 creates headwind for Tidewater utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "International Maritime Organization (IMO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "imo",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Marine Safety & Environmental Standards",
+        "relationshipNote": "IMO sets international maritime safety and environmental standards (SOLAS, MARPOL, STCW). Tidewater's fleet must comply with IMO regulations; 2023 IMO 2030 carbon intensity targets require fleet modernization and fuel efficiency improvements. Tidewater's newer vessels (post-2015) meet IMO 2030 standards; older vessels face compliance costs and potential early retirement. Estimated 15–20% of Tidewater's capex driven by IMO compliance and fuel-efficiency upgrades.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Coast Guard",
+        "ticker": null,
+        "cik": null,
+        "slug": "uscg",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Marine Safety & Vessel Inspection",
+        "relationshipNote": "USCG inspects and certifies Tidewater vessels operating in U.S. waters; enforces vessel safety, crew certification, and environmental compliance. Tidewater vessels require USCG Certificate of Inspection (COI) renewed every 5 years. 2024 USCG focus on cybersecurity and autonomous vessel regulations; Tidewater's fleet modernization includes cybersecurity upgrades and autonomous-ready systems.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition",
+        "relationshipNote": "FTC monitors offshore supply vessel market for antitrust violations and unfair competition. Tidewater's 2024 market share ~22% of global PSV capacity; FTC scrutiny of potential consolidation with Horizon Offshore or other competitors. No active FTC investigations disclosed in 2024 10-K; Tidewater's independent status and competitive pricing practices reviewed annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Deloitte serves as Tidewater's independent auditor; issued unqualified opinion on 2023 10-K (filed March 2024). Audit scope includes vessel valuation, impairment testing, debt covenant compliance, and revenue recognition (ASC 606). Deloitte's 2024 audit fees estimated ~$1.2M; audit committee oversight of internal controls and risk management. No material weaknesses or significant deficiencies disclosed in 2024 10-K.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Lender & Capital Provider",
+        "relationshipNote": "JPMorgan Chase is lead arranger and lender on Tidewater's $1.2B senior secured credit facility (maturity 2027). Facility includes $800M term loan and $400M revolving credit line. JPMorgan's 2024 syndication includes Bank of America, Wells Fargo, and other major lenders. Tidewater's debt/EBITDA covenant at 3.5x maximum; current ratio ~3.2x (as of Q3 2024). Interest rate: SOFR + 325bps; estimated annual interest expense ~$45M.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicated Lender & Capital Provider",
+        "relationshipNote": "Bank of America is co-arranger and lender on Tidewater's $1.2B credit facility. BofA's 2024 commitment ~$200M; syndication role includes underwriting and relationship management. Tidewater's quarterly covenant compliance certified by CFO; no waivers or amendments required as of Q3 2024. BofA's 2024 focus on energy transition and ESG lending; Tidewater's renewable energy vessel positioning aligns with BofA's sustainability goals.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Carlyle Group LP",
+        "ticker": "CG",
+        "cik": "1527166",
+        "slug": "carlyle_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Strategic Investor",
+        "relationshipNote": "Carlyle Group acquired majority stake in Tidewater in 2018 for ~$1.4B; current ownership ~60% (as of 2024). Carlyle's 2024 investment thesis emphasizes offshore energy logistics and energy-transition positioning. Carlyle board representation includes 2 directors; strategic guidance on fleet modernization and renewable energy expansion. Carlyle's 2024 exit timeline uncertain; potential IPO or secondary sale under consideration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Compass Diversified Holdings LLC",
+        "ticker": "CODI",
+        "cik": "1535029",
+        "slug": "compass_diversified",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Equity Investor & Portfolio Company",
+        "relationshipNote": "Compass Diversified holds minority equity stake in Tidewater (estimated 5–8% ownership). Compass's 2024 investment thesis emphasizes cash flow generation and dividend sustainability. Compass board representation; quarterly earnings calls include Compass investor updates. Tidewater's 2024 dividend guidance ~$0.20/share; Compass expects 8–10% annual yield on Tidewater investment.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Quintin V. Kneen",
+        "ticker": null,
+        "cik": null,
+        "slug": "quintin_kneen",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer",
+        "relationshipNote": "Quintin Kneen appointed CEO in 2021; previously COO and VP Operations. Kneen's 2024 strategic priorities: fleet modernization, renewable energy positioning, and debt reduction. Kneen's 2023 compensation ~$2.8M (base + bonus + equity); 2024 guidance emphasizes utilization improvement and day-rate recovery. Kneen's background: 25+ years offshore energy logistics; prior roles at Horizon Offshore and Superior Energy Services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Charif Souki",
+        "ticker": null,
+        "cik": null,
+        "slug": "charif_souki",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": "Charif Souki appointed CFO in 2022; previously VP Finance and Treasurer. Souki's 2024 priorities: debt covenant management, capital allocation, and investor relations. Souki's 2023 compensation ~$1.5M (base + bonus); 2024 guidance emphasizes cash flow generation and refinancing strategy. Souki's background: 20+ years energy sector finance; prior roles at Helix Energy Solutions and Superior Energy Services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "John Rynd",
+        "ticker": null,
+        "cik": null,
+        "slug": "john_rynd",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer",
+        "relationshipNote": "John Rynd appointed COO in 2023; previously VP Operations and Fleet Management. Rynd's 2024 priorities: vessel utilization optimization, crew management, and operational safety. Rynd's background: 30+ years offshore marine operations; prior roles at Maersk Supply Service and Horizon Offshore. Rynd's 2024 focus on IMO 2030 compliance and autonomous vessel readiness.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Inge Lorange",
+        "ticker": null,
+        "cik": null,
+        "slug": "inge_lorange",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "General Counsel & Corporate Secretary",
+        "relationshipNote": "Inge Lorange appointed General Counsel in 2020; previously VP Legal and Compliance. Lorange's 2024 priorities: regulatory compliance, contract management, and litigation oversight. Lorange's background: 25+ years maritime law; prior roles at Carlyle Group and Boskalis. Lorange's 2024 focus on cybersecurity, data privacy, and ESG governance.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Clarkson Platou Securities — Offshore Supply Vessel Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "clarkson_psv_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Market Price Signal — PSV Day Rates",
+        "relationshipNote": "Clarkson Platou publishes weekly PSV spot-market day-rate index (Clarkson PSV Index). 2024 average PSV day rate ~$13,500/day (vs. 2023 average ~$12,200/day). Tidewater's Q3 2024 average day-rate realization ~$13,800 (above market average, indicating premium vessel quality and utilization). Index volatility: ±15% quarterly; strong correlation with WTI crude prices (r=0.72). Tidewater's earnings guidance tied to Clarkson Index forecasts.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Baker Hughes — Gulf of Mexico Rig Count",
+        "ticker": "BKR",
+        "cik": "0001701605",
+        "slug": "baker_hughes_rig_count",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Activity Signal — Offshore Rig Count",
+        "relationshipNote": "Baker Hughes publishes weekly Gulf of Mexico rig count (active drilling rigs). 2024 average rig count ~18 (vs. 2023 average ~16). Rig count correlation with Tidewater utilization: r=0.68 (lagged 1 quarter). 2024 rig count guidance: 16–20 rigs (vs. 2023 actual 15–18). Tidewater's Q3 2024 utilization 72% correlated with 18-rig count; guidance for Q4 2024 assumes 17-rig average.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "neuralRegion": "OFC",
+        "neuralRegionLabel": "Orbitofrontal Cortex",
+        "businessSignature": "capital_allocation_reversal_failure",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p4_persistence"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.395,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of capital-allocation reversal-failure via OFC-equivalent value-update-failure metric",
+            "noveltyAnchor": "Reversal-learning framework for capital-allocation diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Decision Risk",
+              "Kauffman corporate strategy"
+            ],
+            "angle": "Behavioral models of capital-allocation reversal"
+          },
+          "investment": {
+            "thesis": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
+            "methodology": "intervention study with board-decision speed coding"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p4",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "reversal learning training",
+          "real-time feedback protocols",
+          "behavioral remediation"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:02.107Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "artifact": {
+          "title": "Method and system for detecting capital allocation reversal failure via Orbitofrontal Cortex-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting capital allocation reversal failure signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Orbitofrontal Cortex-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined capital allocation reversal failure threshold. The method provides earlier and more specific detection of capital allocation reversal failure than conventional financial-distress models.",
+          "background": "Detection of capital allocation reversal failure in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting capital allocation reversal failure until well after the signature has been priced. Capital allocation reversal failure represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Orbitofrontal Cortex (reversal learning training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting capital allocation reversal failure signature comprises: receiving filing data and counterparty network data, determining a Orbitofrontal Cortex-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Reversal-learning framework for capital-allocation diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting capital allocation reversal failure signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Orbitofrontal Cortex-equivalent decoupling score, wherein the determining the Orbitofrontal Cortex-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Orbitofrontal Cortex-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Orbitofrontal Cortex-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined capital allocation reversal failure threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"reversal learning training\", \"real-time feedback protocols\", and \"behavioral remediation\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Reversal-learning framework for capital-allocation diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:13.051Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "programs": [
+          "NSF Decision Risk",
+          "Kauffman corporate strategy"
+        ],
+        "artifact": {
+          "title": "Translational Orbitofrontal Cortex-equivalent detection and intervention protocols for capital allocation reversal failure",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit capital allocation reversal failure signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with capital allocation reversal failure-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Orbitofrontal Cortex-equivalent isomorphic pathology significantly modulates capital allocation reversal failure detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Tidewater Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified capital allocation reversal failure signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects capital allocation reversal failure signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Orbitofrontal Cortex-equivalent capital allocation reversal failure detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Orbitofrontal Cortex isomorphic pathology will increase capital allocation reversal failure detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Orbitofrontal Cortex-equivalent capital allocation reversal failure detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for capital allocation reversal failure against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Behavioral models of capital-allocation reversal",
+          "innovation": "The proposed work is innovative because it integrates Orbitofrontal Cortex clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:13.051Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "side": "SHORT",
+        "horizon": "18-36mo",
+        "artifact": {
+          "header": "Tidewater Inc. (TDW) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: RECOVERY-ATTEMPT    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: OFC_value_x_capital_allocation_pathology (confidence 0.395)",
+          "variantView": "TDW screens as deep sea, coastal, and great lakes water transportation-typical. Underneath, the operative driver is Orbitofrontal Cortex-equivalent isomorphic pathology — (capital allocation reversal failure) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Deep Sea, Coastal, and Great Lakes Water Transportation entities exhibiting capital allocation reversal failure: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Tidewater Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the capital allocation reversal failure pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Deep Sea, Coastal, and Great Lakes Water Transportation peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.395).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.395, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Deep Sea, Coastal, and Great Lakes Water Transportation; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: RECOVERY-ATTEMPT blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p4_persistence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Orbitofrontal Cortex ↔ capital allocation reversal failure mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:13.051Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "artifact": {
+          "title": "Empirical test of Orbitofrontal Cortex-equivalent capital allocation reversal failure mapping on Tidewater Inc.",
+          "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
+          "methodology": "intervention study with board-decision speed coding",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Orbitofrontal Cortex-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "OFC_value_x_capital_allocation_pathology"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:13.051Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:13.051Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

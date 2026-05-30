@@ -1,0 +1,639 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "adyen",
+  "slug": "adyen",
+  "name": "Adyen N.V.",
+  "ticker": "ADYEY",
+  "cik": null,
+  "sic": "7372",
+  "industry": "Services—Prepackaged Software",
+  "domainId": "finance",
+  "portalAttachment": "finance-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DEXUSEU",
+    "DEXJPUS",
+    "DEXUSUK",
+    "MMNRNJ",
+    "TERMCBCCALLNS",
+    "VIXCLS"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "ADYEY"
+  ],
+  "commodityExposure": [],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?slug=adyen",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Adyen is a global payments infrastructure provider enabling merchants, platforms, and financial institutions to accept and process payments across all channels—online, in-store, and mobile. Operating in 190+ countries with direct acquiring capabilities in 50+ markets, Adyen processes over €300B in annual transaction value and competes directly with Stripe, Square, and legacy acquirers like Worldpay and FIS. The company's unified commerce platform and proprietary risk-management engine position it as a critical backbone for omnichannel retail, travel, and fintech ecosystems.",
+  "portalRelevance": "Adyen is a tier-1 anchor in the financial-infrastructure domain, serving as a primary payment processor for major e-commerce, travel, and retail platforms (including Uber, Spotify, Booking.com, and luxury brands). Its role as a non-bank acquirer with direct settlement relationships and proprietary fraud-detection algorithms makes it a leading indicator of global commerce velocity, cross-border transaction flows, and merchant-acquisition trends. For financial-intelligence models, Adyen's quarterly transaction volumes, take-rate compression dynamics, and regulatory exposure (PSD2, open-banking mandates, FCA oversight) signal broader shifts in payment-rail consolidation and fintech disruption.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly transaction volume and gross dollar volume (GDV) growth by geography and vertical (travel, e-commerce, retail, fintech)",
+        "Take-rate compression signals from competitive pricing pressure and merchant mix shift toward higher-volume, lower-margin segments",
+        "Regulatory filing activity: PSD2 compliance milestones, FCA enforcement actions, GDPR data-processing audits, and cross-border settlement rule changes",
+        "8-K disclosures of major customer wins (Uber, Booking.com, Spotify renewals) and platform integrations (Shopify, WooCommerce, SAP)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue growth trajectory, operating margin expansion/contraction, and free-cash-flow generation relative to capex intensity",
+        "Customer concentration risk: top-10 customer contribution to GDV and revenue; churn/renewal rates for anchor accounts",
+        "Geographic revenue mix and FX exposure: EUR/USD, GBP/USD, JPY/USD sensitivity given 60%+ international revenue base",
+        "Competitive positioning: market share vs. Stripe (private), Square (SQ), Worldpay (WP), FIS (FIS), and emerging challengers (Checkout.com, Wise)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: take-rate compression cycles vs. historical precedent in payment-processing (Visa/Mastercard margin cycles); identify inflection points",
+        "Regulatory stress test: PSD2 open-banking mandate impact on Adyen's proprietary data moat and pricing power; FCA investigation outcomes",
+        "Customer concentration vulnerability: assess Uber/Booking.com renewal risk and platform-shift scenarios (e.g., Shopify moving to proprietary payments)",
+        "Fintech disruption vector: threat from embedded-finance platforms (Stripe, Wise, Checkout) capturing merchant relationships and reducing Adyen's TAM"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: Adyen's regulatory moat (direct acquiring licenses, settlement relationships) is defensible but eroding; PSD2 and open-banking mandates reduce switching costs",
+        "Risk management: hedge take-rate compression via long positions in payment-processing SaaS peers (Shopify, Block); short exposure to legacy acquirers (FIS, Worldpay)",
+        "Capital allocation: monitor Adyen's M&A strategy for bolt-on fintech acquisitions (fraud, risk, lending) to offset core payment-processing margin pressure",
+        "Engagement: track quarterly earnings calls for guidance on take-rate trends, customer concentration, and regulatory headwinds; monitor 20-F filings for FCA/ECB correspondence"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long thesis: Adyen as a pure-play on global commerce growth and fintech consolidation; overweight if take-rate stabilizes and customer concentration improves",
+        "Short thesis: Adyen faces structural margin pressure from Stripe/Checkout competition and regulatory headwinds; underweight if top-10 customer concentration exceeds 40% of GDV",
+        "Tactical trade: pairs trade—long Adyen vs. short FIS/Worldpay if Adyen gains market share in high-growth verticals (fintech, travel, luxury)",
+        "Portfolio positioning: use Adyen as a barometer for cross-border payment flows and emerging-market commerce velocity; rebalance on quarterly GDV guidance misses"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Earnings validation: compare quarterly GDV growth vs. guidance; track take-rate trends and customer acquisition cost (CAC) payback periods",
+        "Price action: monitor stock reaction to regulatory announcements (FCA enforcement, PSD2 milestones) and competitive wins/losses (Shopify, Uber renewals)",
+        "Filing updates: review 20-F annual reports for changes in customer concentration, geographic mix, and regulatory disclosures; track 8-K filings for M&A, executive changes",
+        "Peer benchmarking: compare Adyen's take-rate, operating margin, and customer retention vs. Stripe (if private data available), Square, and Checkout.com"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model recalibration: adjust take-rate compression assumptions based on quarterly results; update customer concentration risk weighting if top-10 concentration moves >5% YoY",
+        "Regulatory sensitivity: increase FCA/ECB monitoring frequency if enforcement actions escalate; adjust PSD2 impact assumptions based on actual open-banking adoption rates",
+        "Competitive dynamics: reweight Stripe/Checkout threat assessment based on merchant feedback and platform-integration announcements; monitor Wise's expansion into merchant payments",
+        "Macro linkage: recalibrate GDV growth sensitivity to e-commerce penetration, travel recovery, and cross-border trade flows; adjust FX hedging assumptions based on EUR/USD volatility"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Adyen operates as a distributed neural hub within the global payments ecosystem, functioning as a sensory-motor interface between merchants (retail, travel, fintech platforms) and financial institutions (banks, card networks, settlement systems). Its core competency—real-time transaction routing, fraud detection, and multi-currency settlement—mirrors a thalamic relay and motor-cortex integration point. The company's proprietary risk engine and direct acquiring relationships create a feedback loop that continuously refines transaction classification and merchant-risk profiling, analogous to cerebellar learning. Regulatory pressures (PSD2, open-banking mandates) are forcing Adyen to share data and routing logic, eroding its proprietary moat and requiring strategic pivots toward higher-value services (risk, lending, loyalty) to maintain margin and relevance.",
+    "suppliers": [
+      {
+        "name": "Visa Inc.",
+        "ticker": "V",
+        "cik": "1144896",
+        "slug": "visa",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Payment Network & Clearing",
+        "relationshipNote": "Visa is a primary card-network partner for Adyen's acquiring operations, providing card-brand rules, settlement infrastructure, and fraud-prevention services. Adyen routes Visa transactions through Visa's network and pays interchange fees and network fees; Visa's 2023 guidance emphasized growth in direct-to-merchant acquiring, creating competitive tension with Adyen's core business model. Visa's dominance in card payments (60%+ of global card volume) makes it a critical dependency for Adyen's transaction routing and settlement.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Mastercard Incorporated",
+        "ticker": "MA",
+        "cik": "1141391",
+        "slug": "mastercard",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Payment Network & Clearing",
+        "relationshipNote": "Mastercard is Adyen's second-largest card-network partner, providing similar routing, settlement, and fraud services. Mastercard's 2023 strategic focus on fintech partnerships and embedded payments creates both opportunity (Adyen as a fintech enabler) and threat (Mastercard's direct-to-merchant initiatives). Mastercard processes ~30% of global card volume; Adyen's take-rate depends partly on Mastercard's competitive pricing and network-fee structures.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "American Express Company",
+        "ticker": "AXP",
+        "cik": "0000004962",
+        "slug": "american_express",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Payment Network & Clearing",
+        "relationshipNote": "American Express is a tertiary but high-value card-network partner for Adyen, particularly in premium and travel segments where Amex card volume is concentrated. Amex's closed-loop model and higher interchange rates create margin opportunities for Adyen; however, Amex's 2022 expansion of direct-merchant relationships and fintech partnerships (Ramp, Brex) signals competitive pressure. Amex represents ~10% of global card volume but higher-margin transactions for acquirers.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "SWIFT (Society for Worldwide Interbank Financial Telecommunication)",
+        "ticker": null,
+        "cik": null,
+        "slug": "swift",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Cross-Border Settlement Infrastructure",
+        "relationshipNote": "SWIFT is the critical backbone for Adyen's cross-border payment settlement and liquidity management. Adyen uses SWIFT for correspondent banking, FX settlement, and multi-currency liquidity routing across 190+ countries. SWIFT's 2023 initiatives on instant payments (gpi) and blockchain integration create both opportunities (faster settlement) and risks (alternative rails like Ripple, Stellar). SWIFT dependency is non-negotiable for Adyen's international acquiring operations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Worldpay (FIS subsidiary)",
+        "ticker": "FIS",
+        "cik": "0001659166",
+        "slug": "fis",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Competitive Supplier (Acquiring Infrastructure)",
+        "relationshipNote": "Worldpay, owned by FIS since 2019, is a legacy acquiring competitor and indirect supplier of settlement and fraud-prevention services to Adyen's merchant base. Worldpay's 2023 market share in acquiring (~15% globally) and its integration with FIS's broader payments ecosystem create competitive pressure on Adyen's take-rates and customer acquisition. Adyen's faster innovation cycle and lower cost structure have eroded Worldpay's competitive position, particularly in fintech and e-commerce segments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Stripe Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "stripe",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Competitive Supplier (Payments Platform)",
+        "relationshipNote": "Stripe is Adyen's most significant competitive threat in the global payments space, offering a unified payments platform with direct acquiring, fraud detection, and fintech integrations. Stripe's 2023 valuation at $95B (down from $95B in 2021) and expansion into lending, treasury, and embedded payments directly compete with Adyen's TAM expansion strategy. Stripe's developer-first positioning and API-first architecture have captured significant market share in high-growth fintech and e-commerce segments, pressuring Adyen's take-rates.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Checkout.com",
+        "ticker": null,
+        "cik": null,
+        "slug": "checkout_com",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Competitive Supplier (Payments Platform)",
+        "relationshipNote": "Checkout.com is an emerging competitor in the global acquiring space, backed by $290M in Series C funding (2021) and valued at $15B. Checkout's focus on omnichannel payments, direct acquiring in 45+ markets, and fintech partnerships (Wise, Revolut) create competitive pressure on Adyen's merchant acquisition and take-rate margins. Checkout's 2023 expansion into risk and lending mirrors Adyen's own diversification strategy, signaling intensifying competition for high-value merchant relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Wise (formerly TransferWise)",
+        "ticker": "WISE",
+        "cik": null,
+        "slug": "wise",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Competitive Supplier (Cross-Border Payments)",
+        "relationshipNote": "Wise is a disruptive competitor in cross-border payments and FX settlement, offering lower-cost alternatives to traditional acquiring for international transactions. Wise's 2023 IPO and expansion into merchant payments (via Checkout.com partnership) create direct competition with Adyen's high-margin cross-border acquiring business. Wise's real-time FX rates and multi-currency accounts reduce merchant dependence on traditional acquirers, pressuring Adyen's take-rates on international transactions.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Equinix Inc.",
+        "ticker": "EQIX",
+        "cik": "1101596",
+        "slug": "equinix",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Data Center & Network Infrastructure",
+        "relationshipNote": "Equinix provides critical data-center and colocation services for Adyen's transaction-processing infrastructure across multiple geographic regions. Adyen's real-time transaction routing and fraud-detection engines require ultra-low-latency connectivity; Equinix's global footprint (240+ data centers) enables Adyen's sub-millisecond settlement capabilities. Adyen's dependence on Equinix's infrastructure is high, particularly for latency-sensitive merchant integrations and cross-border settlement.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Akamai Technologies Inc.",
+        "ticker": "AKAM",
+        "cik": "1084869",
+        "slug": "akamai",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Content Delivery & DDoS Protection",
+        "relationshipNote": "Akamai provides content-delivery and DDoS-protection services for Adyen's merchant-facing APIs and payment pages, ensuring high availability and security. Adyen's 2023 focus on API-first architecture and merchant self-service portals depends on Akamai's edge-computing and security infrastructure. Akamai's global CDN and bot-management services protect Adyen's platform from fraud and cyber attacks, critical for maintaining merchant trust.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "AWS (Amazon Web Services)",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Cloud Infrastructure & Compute",
+        "relationshipNote": "AWS provides cloud infrastructure, compute, and storage services for Adyen's transaction-processing and data-analytics platforms. Adyen's 2023 migration toward cloud-native architecture and real-time analytics depends on AWS's global infrastructure and managed services. AWS's dominance in cloud payments (35%+ market share) and integration with fintech platforms (Stripe, Square) makes it a critical operational dependency for Adyen's scaling strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Uber Technologies Inc.",
+        "ticker": "UBER",
+        "cik": "1543151",
+        "slug": "uber",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (Ride-Hailing & Delivery)",
+        "relationshipNote": "Uber is Adyen's largest customer by transaction volume, processing billions of ride-hailing and Uber Eats payment transactions annually across 70+ countries. Adyen's 2023 earnings disclosures indicate Uber represents 8–10% of total GDV; Uber's 2024 contract renewal with Adyen (disclosed in Q1 2024 earnings) signals continued strategic partnership. Uber's growth in emerging markets and expansion into advertising create upside for Adyen's cross-border and high-volume transaction processing.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Booking.com (Expedia Group subsidiary)",
+        "ticker": "EXPE",
+        "cik": "1616707",
+        "slug": "booking_com",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer (Travel & Hospitality)",
+        "relationshipNote": "Booking.com is Adyen's second-largest customer, processing hotel, flight, and vacation rental payments across 220+ countries. Adyen's 2023 earnings indicate Booking.com represents 5–7% of total GDV; Booking's 2024 strategic focus on alternative accommodations and dynamic pricing creates incremental transaction volume for Adyen. Booking's exposure to travel recovery and emerging-market tourism growth directly correlates with Adyen's GDV expansion in high-margin travel verticals.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Spotify Technology S.A.",
+        "ticker": "SPOT",
+        "cik": "1500254",
+        "slug": "spotify",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Customer (Subscription Payments)",
+        "relationshipNote": "Spotify uses Adyen for subscription payment processing across 180+ markets, handling recurring billing for 500M+ users. Adyen's 2023 customer concentration disclosures indicate Spotify represents 2–3% of GDV; Spotify's 2024 expansion into podcasting and audiobooks creates incremental payment-processing opportunities. Spotify's high-volume, low-margin subscription model drives Adyen's recurring-revenue base and geographic diversification.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Square Inc. (Block Inc.)",
+        "ticker": "SQ",
+        "cik": "1512673",
+        "slug": "square",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Omnichannel Payments Competitor",
+        "relationshipNote": "Square (now Block) is a direct competitor in omnichannel payments, offering point-of-sale, e-commerce, and invoicing solutions. Block's 2023 revenue of $17.6B (vs. Adyen's €1.4B) reflects broader diversification into lending (Square Capital), FX (TBD), and crypto (Cash App); however, Block's take-rates (2.6–3.5%) are higher than Adyen's (1.5–2.5%), reflecting different merchant mix. Block's focus on SMB and mid-market merchants contrasts with Adyen's enterprise and platform focus, reducing direct overlap.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Fiserv Inc.",
+        "ticker": "FISV",
+        "cik": "0000798354",
+        "slug": "fiserv",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Payments & Financial Services Infrastructure",
+        "relationshipNote": "Fiserv is a legacy competitor in payments processing and financial-services infrastructure, with 2023 revenue of $17.1B. Fiserv's 2023 acquisition of Fintech Select (for $650M) and expansion into embedded payments signal competitive pressure on Adyen's TAM. However, Fiserv's legacy customer base and slower innovation cycle have ceded market share to Adyen in high-growth fintech and e-commerce segments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "PayPal Holdings Inc.",
+        "ticker": "PYPL",
+        "cik": "1633917",
+        "slug": "paypal",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Digital Payments & Wallet Competitor",
+        "relationshipNote": "PayPal is a legacy competitor in digital payments and merchant acquiring, with 2023 revenue of $13.1B. PayPal's 2023 strategic pivot toward merchant services (Braintree, Venmo for Business) and its 2024 separation of Venmo create competitive pressure on Adyen's merchant-acquisition TAM. However, PayPal's higher take-rates (3–4%) and legacy merchant base limit direct competition with Adyen's enterprise and platform focus.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Global Payments Inc.",
+        "ticker": "GPN",
+        "cik": "1123508",
+        "slug": "global_payments",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Omnichannel Payments & Acquiring",
+        "relationshipNote": "Global Payments is a direct competitor in omnichannel acquiring and payment processing, with 2023 revenue of $7.7B. Global Payments' 2023 focus on integrated payments and software solutions (Heartland, Genius) creates competitive pressure on Adyen's enterprise merchant base. Global Payments' geographic footprint (100+ countries) and vertical specialization (hospitality, retail) overlap with Adyen's growth markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Flywire Corporation",
+        "ticker": "FLYW",
+        "cik": "1823051",
+        "slug": "flywire",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Vertical-Specific Payments (Education, Healthcare)",
+        "relationshipNote": "Flywire is a specialized competitor in vertical-specific payments (education, healthcare, travel), with 2023 revenue of $365M. Flywire's 2023 IPO and focus on high-value, low-volume transactions in regulated verticals create niche competition with Adyen's expansion into healthcare and education payments. Flywire's higher take-rates (2–3%) reflect regulatory complexity and specialized compliance requirements.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Financial Conduct Authority (FCA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fca_uk",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Primary Regulator (UK Payments & Consumer Protection)",
+        "relationshipNote": "The FCA is Adyen's primary regulator in the UK, overseeing payment-institution licensing, consumer protection, and anti-money-laundering compliance. Adyen holds FCA authorization as a payment institution (PI) and is subject to FCA's 2023 operational resilience rules and 2024 open-banking mandate enforcement. FCA's 2023 investigation into payment-institution fees and 2024 focus on fintech consumer protection create regulatory headwinds for Adyen's UK operations.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Central Bank (ECB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ecb",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Payments System Regulator (Eurozone)",
+        "relationshipNote": "The ECB oversees Adyen's operations in the Eurozone, including payment-system participation, settlement risk, and compliance with PSD2 and instant-payments regulations. Adyen's 2023 participation in ECB's Target Instant Payment Settlement (TIPS) system and compliance with PSD2 open-banking mandates create operational and competitive pressures. ECB's 2024 focus on digital-euro integration and cross-border payment efficiency directly impacts Adyen's settlement infrastructure and take-rate dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Capital Markets Regulator (ADR Listing)",
+        "relationshipNote": "The SEC oversees Adyen's American Depositary Receipt (ADR) listing on Nasdaq and requires compliance with U.S. securities laws, including 20-F annual reporting and Sarbanes-Oxley controls. Adyen's 2023 20-F filing disclosed $1.8B in revenue and €300B in GDV; SEC's 2024 focus on cybersecurity disclosure (Item 1A risk factors) and climate-related reporting create incremental compliance burdens. SEC's oversight of Adyen's capital structure and executive compensation is material for U.S. institutional investors.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Financial Crimes Enforcement Network (FinCEN)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fincen",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Anti-Money-Laundering & Sanctions Regulator",
+        "relationshipNote": "FinCEN oversees Adyen's compliance with U.S. anti-money-laundering (AML) and sanctions regulations, including Know-Your-Customer (KYC) and Suspicious Activity Reporting (SAR) requirements. Adyen's 2023 expansion into high-risk verticals (crypto, gambling, adult services) increases FinCEN scrutiny and compliance costs. FinCEN's 2024 focus on beneficial-ownership transparency and sanctions evasion detection creates operational and reputational risks for Adyen.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Dutch Financial Markets Authority (AFM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "afm_netherlands",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Home-Country Regulator (Netherlands)",
+        "relationshipNote": "The AFM is Adyen's home-country regulator in the Netherlands, overseeing payment-institution licensing, market conduct, and consumer protection. Adyen's 2023 headquarters in Amsterdam and Dutch incorporation make AFM oversight material for governance and compliance. AFM's 2024 focus on fintech consumer protection and data-privacy enforcement (GDPR) create regulatory compliance requirements for Adyen's Dutch operations.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Auditor & Risk Assessment",
+      "relationshipNote": "Deloitte is Adyen's external auditor, responsible for auditing annual financial statements and internal-control effectiveness under IFRS and SOX 404 standards. Deloitte's 2023 audit opinion on Adyen's €1.8B revenue and €300B GDV processing provides assurance to investors and regulators. Deloitte's audit scope includes assessment of payment-processing controls, fraud-detection effectiveness, and regulatory-compliance frameworks.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (5%+ Stake)",
+        "relationshipNote": "Berkshire Hathaway disclosed a 5.2% stake in Adyen (€1.2B position) in Q2 2023, signaling confidence in Adyen's long-term competitive positioning and fintech-disruption thesis. Berkshire's 2023 investment in Adyen reflects Warren Buffett's strategic pivot toward payments infrastructure and fintech exposure. Berkshire's stake provides Adyen with a stable, long-term anchor shareholder and potential strategic partnership opportunities.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Advent International",
+        "ticker": null,
+        "cik": null,
+        "slug": "advent_international",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Growth Equity Investor",
+        "relationshipNote": "Advent International is a major shareholder in Adyen, holding a significant stake acquired through Adyen's 2018 IPO and subsequent secondary offerings. Advent's 2023 stake in Adyen (estimated 5–7%) reflects confidence in Adyen's TAM expansion and fintech-disruption positioning. Advent's board representation and strategic guidance provide Adyen with growth-equity expertise and M&A advisory support.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ING Groep N.V.",
+        "ticker": "ING",
+        "cik": null,
+        "slug": "ing_groep",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Banking Partner & Liquidity Provider",
+        "relationshipNote": "ING is Adyen's primary banking partner and liquidity provider, offering settlement accounts, FX services, and credit facilities. ING's 2023 relationship with Adyen includes working-capital financing and cross-border payment settlement services. ING's strategic interest in fintech partnerships and open-banking initiatives aligns with Adyen's expansion into embedded payments and fintech integrations.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Pieter van de Walle",
+        "title": "Chief Executive Officer (CEO)",
+        "slug": "pieter_van_de_walle",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Pieter van de Walle became CEO in 2018 and has led Adyen's expansion into new verticals (travel, fintech, luxury) and geographic markets (Asia-Pacific, Latin America). Van de Walle's 2023 strategic focus on take-rate stabilization and operating-margin expansion reflects competitive pressure from Stripe and Checkout.com. Van de Walle's background in payments and fintech (prior roles at Adyen and other fintech firms) positions him to navigate regulatory headwinds and competitive disruption.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Ingo Umlauf",
+        "title": "Chief Financial Officer (CFO)",
+        "slug": "ingo_umlauf",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Ingo Umlauf became CFO in 2020 and oversees Adyen's financial planning, capital allocation, and investor relations. Umlauf's 2023 guidance on take-rate compression and operating-margin targets reflects realistic assessment of competitive pressures and regulatory headwinds. Umlauf's background in financial services and fintech (prior roles at Allianz, Zalando) provides expertise in scaling financial operations and managing investor expectations.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Sjoerd Bakker",
+        "title": "Chief Operating Officer (COO)",
+        "slug": "sjoerd_bakker",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Execution",
+        "relationshipNote": "Sjoerd Bakker oversees Adyen's operational execution, including transaction processing, fraud detection, and customer-support infrastructure. Bakker's 2023 focus on operational resilience and real-time settlement capabilities reflects regulatory requirements and competitive demands. Bakker's background in payments operations and infrastructure provides expertise in scaling transaction-processing systems and managing operational risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Global E-Commerce Transaction Volume Index",
+        "slug": "ecommerce_volume_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Indicator",
+        "relationshipNote": "E-commerce transaction volumes are a leading indicator of Adyen's GDV growth, particularly in high-margin segments (luxury, travel, fintech). Adyen's 2023 GDV growth of 20% YoY reflects strong e-commerce recovery post-pandemic and expansion into emerging markets. Monitoring e-commerce penetration rates and transaction-value trends provides early signals of Adyen's revenue trajectory and take-rate dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Cross-Border Payment Volume & FX Volatility",
+        "slug": "cross_border_fx_volatility",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital Flows",
+        "relationshipNote": "Cross-border payment volumes and FX volatility directly impact Adyen's take-rate margins and settlement risk. Adyen's 2023 exposure to EUR/USD, GBP/USD, and JPY/USD fluctuations creates earnings volatility; 60%+ of Adyen's revenue is international, making FX a material driver. Monitoring cross-border payment trends and FX volatility provides signals of Adyen's margin expansion/compression and geographic growth dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,511 @@
+{
+  "domainId": "legal_precedent",
+  "title": "Precedent / Legal Memory",
+  "parentPortal": "legal_portal.html",
+  "parentLabel": "Legal Systems",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Precedent / Legal Memory Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Precedent / Legal Memory indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core precedent / legal memory operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Executes core precedent / legal memory operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Precedent / Legal Memory Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Precedent / Legal Memory Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "legal_precedent_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Precedent / Legal Memory Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Precedent / Legal Memory activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Detects and monitors precedent / legal memory signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Detects and monitors precedent / legal memory signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.86
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Precedent / Legal Memory Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Precedent / Legal Memory Core Operations"
+        }
+      ],
+      "childPortal": "legal_precedent_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Precedent / Legal Memory Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Precedent / Legal Memory, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core precedent / legal memory operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Executes core precedent / legal memory operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Precedent / Legal Memory Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Precedent / Legal Memory Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "legal_precedent_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Precedent / Legal Memory Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Precedent / Legal Memory practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves precedent / legal memory knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves precedent / legal memory knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Precedent / Legal Memory Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Precedent / Legal Memory Standards & Governance"
+        }
+      ],
+      "childPortal": "legal_precedent_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Precedent / Legal Memory Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Precedent / Legal Memory methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors precedent / legal memory signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Detects and monitors precedent / legal memory signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Precedent / Legal Memory Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Precedent / Legal Memory Research & Development"
+        }
+      ],
+      "childPortal": "legal_precedent_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Precedent / Legal Memory Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Precedent / Legal Memory stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Routes and distributes precedent / legal memory resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Routes and distributes precedent / legal memory resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.87
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Precedent / Legal Memory Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Precedent / Legal Memory Risk & Resilience"
+        }
+      ],
+      "childPortal": "legal_precedent_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Precedent / Legal Memory Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Precedent / Legal Memory operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core precedent / legal memory operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves precedent / legal memory knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.69
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Precedent / Legal Memory Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Precedent / Legal Memory Coordination & Integration"
+        }
+      ],
+      "childPortal": "legal_precedent_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Precedent / Legal Memory Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Precedent / Legal Memory outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Stabilizes precedent / legal memory oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Stabilizes precedent / legal memory oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.88
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Precedent / Legal Memory Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Precedent / Legal Memory Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "M1",
+      "target": "S1",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "S1",
+      "target": "dlPFC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "HIPP",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "dACC",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "THAL",
+      "target": "OFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "OFC",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "CBLM",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "M1",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "HIPP",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "LEGAL_PRECEDENT_SYSTEM_FAILURE",
+      "label": "Precedent / Legal Memory System Failure",
+      "summary": "Critical breakdown in Precedent / Legal Memory systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Precedent / Legal Memory Assessment & Diagnostics capacity falling below operational thresholds, reducing Precedent / Legal Memory output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "Precedent / Legal Memory Core Operations systems underperforming, creating gaps in Precedent / Legal Memory coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Precedent / Legal Memory Infrastructure & Capacity behavior deviating from established norms, complicating Precedent / Legal Memory management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper-active",
+          "detail": "Precedent / Legal Memory Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Precedent / Legal Memory",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Precedent / Legal Memory Performance & Optimization function reduced, compromising Precedent / Legal Memory system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_PRECEDENT_CAPACITY_CRISIS",
+      "label": "Precedent / Legal Memory Capacity Crisis",
+      "summary": "Demand exceeding available Precedent / Legal Memory capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "S1",
+          "dir": "Hyper-active",
+          "detail": "Precedent / Legal Memory Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Precedent / Legal Memory",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Precedent / Legal Memory Infrastructure & Capacity systems underperforming, creating gaps in Precedent / Legal Memory coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Precedent / Legal Memory Standards & Governance behavior deviating from established norms, complicating Precedent / Legal Memory management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Precedent / Legal Memory Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Precedent / Legal Memory",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Precedent / Legal Memory Performance & Optimization operating outside normal parameters, introducing uncertainty into Precedent / Legal Memory outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_PRECEDENT_GOVERNANCE_GAP",
+      "label": "Precedent / Legal Memory Governance Gap",
+      "summary": "Oversight or regulatory failure in Precedent / Legal Memory creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Precedent / Legal Memory Standards & Governance capacity falling below operational thresholds, reducing Precedent / Legal Memory output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Precedent / Legal Memory Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Precedent / Legal Memory",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Precedent / Legal Memory Research & Development activity spiking beyond design limits, creating instability across Precedent / Legal Memory operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Precedent / Legal Memory Risk & Resilience patterns disrupted, necessitating adaptive responses within Precedent / Legal Memory frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo-active",
+          "detail": "Precedent / Legal Memory Coordination & Integration function reduced, compromising Precedent / Legal Memory system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

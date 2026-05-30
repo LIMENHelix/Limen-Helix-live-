@@ -1,0 +1,2338 @@
+{
+  "domainId": "defense",
+  "title": "Defense",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Command Structure",
+      "domainDescription": "Military command hierarchy, chain of command, and unified decision-making authority that directs all defense operations",
+      "domainFunction": "Executes top-down executive control, maintaining strategic goals in working memory while coordinating subordinate operations",
+      "whyThisNode": "Dorsolateral PFC is the seat of executive control and working memory â€” command structure is civilization's executive authority, holding strategic intent while directing all subordinate actions",
+      "group": "strategy",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Chain of command breakdown",
+        "Civilian-military authority conflict"
+      ],
+      "treatments": [
+        {
+          "label": "Civilian Oversight Strengthening",
+          "type": "STRUCTURAL",
+          "description": "Constitutional and institutional mechanisms ensuring democratic control of military command authority",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Command Decision Auditing",
+          "type": "DIAGNOSTIC",
+          "description": "After-action review systems evaluating command decisions for strategic alignment and operational effectiveness",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_command_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Shield AI",
+          "ticker_or_id": "SHIELD_AI",
+          "functional_reason": "Executes core command structure operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "RTX Corporation",
+          "ticker_or_id": "RTX",
+          "functional_reason": "Executes core command structure operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "General Dynamics",
+          "ticker_or_id": "GD",
+          "functional_reason": "Executes core command structure operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Command Structure",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Ground Forces",
+      "domainDescription": "Army and infantry units providing territorial control, ground combat capability, and physical force projection",
+      "domainFunction": "Executes direct motor commands â€” the primary effector output translating strategic intent into physical kinetic action on the ground",
+      "whyThisNode": "Primary motor cortex drives voluntary movement â€” ground forces are civilization's primary motor output, translating command decisions into physical territorial action",
+      "group": "military",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Force readiness degradation",
+        "Manpower shortages"
+      ],
+      "treatments": [
+        {
+          "label": "Readiness Maintenance Programs",
+          "type": "STRUCTURAL",
+          "description": "Sustained training, equipment modernization, and personnel retention ensuring ground force combat readiness",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Urban Warfare Adaptation",
+          "type": "DIAGNOSTIC",
+          "description": "Specialized training and equipment for modern combat environments including dense urban and hybrid warfare",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_ground_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Executes core ground forces operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Lockheed Martin",
+          "ticker_or_id": "LMT",
+          "functional_reason": "Executes core ground forces operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Anduril Industries",
+          "ticker_or_id": "ANDURIL",
+          "functional_reason": "Executes core ground forces operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Ground Forces",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Naval Operations",
+      "domainDescription": "Maritime forces including surface fleets, submarines, and coastal defense protecting sea lanes and projecting power across oceans",
+      "domainFunction": "Monitors and integrates visceral-autonomic signals from the vast internal environment, maintaining homeostatic control across fluid territories",
+      "whyThisNode": "Nucleus tractus solitarius monitors the body's vast internal fluid environment â€” naval operations patrol civilization's vast oceanic domain, maintaining control across fluid territories",
+      "group": "military",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Sea lane interdiction",
+        "Fleet aging and capability gaps"
+      ],
+      "treatments": [
+        {
+          "label": "Fleet Modernization Programs",
+          "type": "STRUCTURAL",
+          "description": "Phased replacement and upgrade of naval assets ensuring capability parity with adversary maritime forces",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Maritime Domain Awareness",
+          "type": "DIAGNOSTIC",
+          "description": "Integrated sensor networks providing real-time tracking of all vessel movements in strategic waterways",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_naval_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "L3Harris Technologies",
+          "ticker_or_id": "LHX",
+          "functional_reason": "Routes and distributes naval operations resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "RTX Corporation",
+          "ticker_or_id": "RTX",
+          "functional_reason": "Executes core naval operations operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Palantir Technologies",
+          "ticker_or_id": "PLTR",
+          "functional_reason": "Detects and monitors naval operations signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.7
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Naval Operations",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Hydroelectric Power"
+        },
+        {
+          "domain": "environment",
+          "role": "Ocean Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Maritime and Ports"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Brainstem Metabolic Integration"
+        },
+        {
+          "domain": "science",
+          "role": "Earth Sciences"
+        },
+        {
+          "domain": "trade",
+          "role": "Container Shipping"
+        },
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FEF",
+      "state": "active",
+      "domainLabel": "Air Power",
+      "domainDescription": "Air forces including fighter aircraft, bombers, drones, and air defense systems controlling the aerial domain",
+      "domainFunction": "Directs rapid attentional saccades across spatial domains, providing fast scanning and targeting of threats in the overhead field",
+      "whyThisNode": "Frontal eye fields control voluntary gaze shifts and spatial targeting â€” air power is civilization's rapid-scan targeting system, directing attention and force across the aerial domain",
+      "group": "military",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Air superiority loss",
+        "Anti-access/area-denial threats"
+      ],
+      "treatments": [
+        {
+          "label": "Next-Gen Air Platform Development",
+          "type": "STRUCTURAL",
+          "description": "Investment in advanced fighter, drone, and stealth technologies maintaining air superiority margins",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Integrated Air Defense Systems",
+          "type": "DIAGNOSTIC",
+          "description": "Multi-layered detection and interception networks protecting airspace from missile and aircraft threats",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_air_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Executes core air power operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "RTX Corporation",
+          "ticker_or_id": "RTX",
+          "functional_reason": "Executes core air power operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "General Dynamics",
+          "ticker_or_id": "GD",
+          "functional_reason": "Executes core air power operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Air Power",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Offgrid"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Air Transport"
+        },
+        {
+          "domain": "trade",
+          "role": "Air Freight"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Satellite Systems"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Master Planning Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Cyber Warfare",
+      "domainDescription": "Offensive and defensive operations in cyberspace targeting digital infrastructure, networks, and information systems",
+      "domainFunction": "Executes flexible cognitive control across distributed digital networks, adapting defensive and offensive operations in real time",
+      "whyThisNode": "Frontoparietal network enables adaptive task control and flexible routing â€” cyber warfare operates through the same flexible digital control, adapting attacks and defenses across networks",
+      "group": "cyber",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Critical infrastructure cyber breach",
+        "Zero-day exploit weaponization"
+      ],
+      "treatments": [
+        {
+          "label": "Cyber Defense Force Development",
+          "type": "STRUCTURAL",
+          "description": "Dedicated cyber military units with offensive and defensive capabilities for digital domain operations",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Critical Infrastructure Hardening",
+          "type": "DIAGNOSTIC",
+          "description": "Security standards and redundancy requirements for power grids, financial systems, and government networks",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_cyber_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Kratos Defense",
+          "ticker_or_id": "KTOS",
+          "functional_reason": "Executes core cyber warfare operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "BAE Systems",
+          "ticker_or_id": "BA.L",
+          "functional_reason": "Executes core cyber warfare operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "BWX Technologies",
+          "ticker_or_id": "BWXT",
+          "functional_reason": "Executes core cyber warfare operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Cyber Warfare",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Nuclear Deterrence",
+      "domainDescription": "Strategic nuclear weapons capability and doctrine providing existential threat deterrence through mutually assured destruction",
+      "domainFunction": "Mediates the most extreme threat responses â€” freezing, fight-or-flight escalation, and last-resort survival behaviors under existential danger",
+      "whyThisNode": "Periaqueductal gray orchestrates extreme survival responses under mortal threat â€” nuclear deterrence is civilization's ultimate threat response, activating only under existential danger",
+      "group": "nuclear",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Deterrence credibility erosion",
+        "Nuclear proliferation"
+      ],
+      "treatments": [
+        {
+          "label": "Arms Control Treaty Maintenance",
+          "type": "STRUCTURAL",
+          "description": "Bilateral and multilateral agreements limiting nuclear arsenals and preventing destabilizing arms races",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Second-Strike Survivability",
+          "type": "DIAGNOSTIC",
+          "description": "Hardened basing, submarine-based deterrents, and launch-on-warning systems ensuring retaliatory capability",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_nuclear_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Lockheed Martin",
+          "ticker_or_id": "LMT",
+          "functional_reason": "Executes core nuclear deterrence operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Palantir Technologies",
+          "ticker_or_id": "PLTR",
+          "functional_reason": "Detects and monitors nuclear deterrence signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Kratos Defense",
+          "ticker_or_id": "KTOS",
+          "functional_reason": "Executes core nuclear deterrence operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.79
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Nuclear Deterrence",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Pain-Defense Gate"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Endogenous Analgesic System"
+        },
+        {
+          "domain": "energy",
+          "role": "Nuclear Power"
+        },
+        {
+          "domain": "neurology",
+          "role": "Periaqueductal Gray"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Defense Cascade Modulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Quality & Performance"
+        },
+        {
+          "domain": "culture",
+          "role": "Landscape Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Rural Development Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DAN",
+      "state": "active",
+      "domainLabel": "Intelligence & SIGINT",
+      "domainDescription": "Signals intelligence, human intelligence, and analysis operations providing strategic and tactical information superiority",
+      "domainFunction": "Sustains focused top-down attention on salient targets, filtering vast information streams to extract threat-relevant signals",
+      "whyThisNode": "Dorsal attention network directs goal-driven attention to specific targets â€” intelligence services direct focused attention across vast information landscapes to extract critical signals",
+      "group": "intelligence",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Intelligence collection gaps",
+        "Analyst workforce attrition"
+      ],
+      "treatments": [
+        {
+          "label": "Multi-INT Fusion Centers",
+          "type": "STRUCTURAL",
+          "description": "Integrated facilities combining signals, human, imagery, and open-source intelligence into unified assessments",
+          "evidence": "Strong"
+        },
+        {
+          "label": "AI-Assisted Analysis Platforms",
+          "type": "DIAGNOSTIC",
+          "description": "Machine learning tools processing massive data volumes to surface patterns and anomalies for human analysts",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_intelligence_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "RTX Corporation",
+          "ticker_or_id": "RTX",
+          "functional_reason": "Executes core intelligence & sigint operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "BWX Technologies",
+          "ticker_or_id": "BWXT",
+          "functional_reason": "Executes core intelligence & sigint operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Anduril Industries",
+          "ticker_or_id": "ANDURIL",
+          "functional_reason": "Executes core intelligence & sigint operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Equipment Maintenance Risk & Resilience",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Environmental Monitoring"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Building Restoration — State Assessment"
+        },
+        {
+          "domain": "economy",
+          "role": "Land Tenure Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Equity Human Capital & Development"
+        },
+        {
+          "domain": "energy",
+          "role": "Charging Systems — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Logistics & Supply",
+      "domainDescription": "Military supply chain management, transportation, warehousing, and distribution sustaining force projection and readiness",
+      "domainFunction": "Coordinates precise timing and sequencing of complex procedural operations, ensuring smooth execution of multi-step delivery chains",
+      "whyThisNode": "Cerebellum coordinates precision timing and procedural sequencing â€” logistics is the military's coordination engine, precisely sequencing supply flows to sustain operations",
+      "group": "logistics",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Supply chain disruption",
+        "Ammunition stockpile depletion"
+      ],
+      "treatments": [
+        {
+          "label": "Predictive Logistics Systems",
+          "type": "STRUCTURAL",
+          "description": "AI-driven demand forecasting and autonomous resupply routing maintaining forward stockpiles",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Strategic Reserve Stockpiling",
+          "type": "DIAGNOSTIC",
+          "description": "Pre-positioned material reserves at strategic locations ensuring rapid response capability",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_logistics_portal.html",
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Kratos Defense",
+          "ticker_or_id": "KTOS",
+          "functional_reason": "Executes core logistics & supply operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "L3Harris Technologies",
+          "ticker_or_id": "LHX",
+          "functional_reason": "Detects and monitors logistics & supply signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "BWX Technologies",
+          "ticker_or_id": "BWXT",
+          "functional_reason": "Stabilizes logistics & supply oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Equipment Maintenance Infrastructure & Capacity",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Strategic Planning",
+      "domainDescription": "Long-range defense strategy, force structure planning, threat assessment, and national security policy formulation",
+      "domainFunction": "Maintains executive control over complex multi-step planning, holding strategic objectives while evaluating contingency options",
+      "whyThisNode": "Executive control network sustains goal-directed planning under complexity â€” strategic planning holds long-range defense objectives while evaluating multi-branch contingencies",
+      "group": "strategy",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Strategic surprise",
+        "Threat assessment failure"
+      ],
+      "treatments": [
+        {
+          "label": "Red Team Exercises",
+          "type": "STRUCTURAL",
+          "description": "Adversarial simulation programs stress-testing strategic assumptions and identifying blind spots",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Scenario Planning Frameworks",
+          "type": "DIAGNOSTIC",
+          "description": "Structured futures analysis exploring multiple threat trajectories and force-structure responses",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Anduril Industries",
+          "ticker_or_id": "ANDURIL",
+          "functional_reason": "Executes core strategic planning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Executes core strategic planning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Shield AI",
+          "ticker_or_id": "SHIELD_AI",
+          "functional_reason": "Executes core strategic planning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        }
+      ],
+      "childPortal": "defense_strategic_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Strategic Planning",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Economic Indicators"
+        },
+        {
+          "domain": "governance",
+          "role": "Public Administration"
+        },
+        {
+          "domain": "medicine",
+          "role": "Epidemiology"
+        },
+        {
+          "domain": "population",
+          "role": "Census Systems"
+        },
+        {
+          "domain": "science",
+          "role": "Statistical Inference"
+        },
+        {
+          "domain": "technology",
+          "role": "Operating Systems"
+        },
+        {
+          "domain": "trade",
+          "role": "Inventory Management"
+        },
+        {
+          "domain": "communication",
+          "role": "Audio Description Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Weapons Systems",
+      "domainDescription": "Development, procurement, and maintenance of military hardware from small arms to precision-guided munitions and missile systems",
+      "domainFunction": "Selects and initiates action programs from a repertoire of response options, calibrating force output to match situational demands",
+      "whyThisNode": "Striatum selects actions from competing motor programs based on learned reward â€” weapons systems are the action-selection repertoire, matching capability to threat requirements",
+      "group": "military",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Weapons system obsolescence",
+        "Procurement cost overruns"
+      ],
+      "treatments": [
+        {
+          "label": "Acquisition Reform",
+          "type": "STRUCTURAL",
+          "description": "Streamlined procurement processes reducing cost overruns and development timelines for critical weapons programs",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Modular Platform Design",
+          "type": "DIAGNOSTIC",
+          "description": "Standardized weapon architectures enabling rapid capability upgrades without full system replacement",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Palantir Technologies",
+          "ticker_or_id": "PLTR",
+          "functional_reason": "Detects and monitors weapons systems signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Detects and monitors weapons systems signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "L3Harris Technologies",
+          "ticker_or_id": "LHX",
+          "functional_reason": "Detects and monitors weapons systems signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.66
+        }
+      ],
+      "childPortal": "defense_alliances_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Weapons Systems",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VAN",
+      "state": "active",
+      "domainLabel": "Special Operations",
+      "domainDescription": "Elite unconventional warfare units conducting counterterrorism, direct action, and special reconnaissance missions",
+      "domainFunction": "Detects and reorients attention toward unexpected salient stimuli, enabling rapid response to surprising threat events",
+      "whyThisNode": "Ventral attention network detects unexpected salient stimuli and reorients attention â€” special operations respond to unexpected threats with rapid, flexible reorientation",
+      "group": "military",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Operator burnout and attrition",
+        "Mission scope creep"
+      ],
+      "treatments": [
+        {
+          "label": "Operator Wellness Programs",
+          "type": "STRUCTURAL",
+          "description": "Comprehensive physical and psychological support systems for special operations personnel and families",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Mission Authority Boundaries",
+          "type": "DIAGNOSTIC",
+          "description": "Clear legal and operational frameworks preventing mission scope expansion beyond strategic intent",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Shield AI",
+          "ticker_or_id": "SHIELD_AI",
+          "functional_reason": "Detects and monitors special operations signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Lockheed Martin",
+          "ticker_or_id": "LMT",
+          "functional_reason": "Detects and monitors special operations signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Kratos Defense",
+          "ticker_or_id": "KTOS",
+          "functional_reason": "Detects and monitors special operations signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "defense_defreform_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Special Operations",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "cultural ad — Signal Acquisition"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Performance & Optimization"
+        },
+        {
+          "domain": "culture",
+          "role": "LEED Certification Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Finance — State Assessment"
+        },
+        {
+          "domain": "education",
+          "role": "College Admissions Risk & Resilience"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Economics Infrastructure & Capacity"
+        },
+        {
+          "domain": "environment",
+          "role": "Air Quality Modeling Technology & Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Civil Defense",
+      "domainDescription": "Protection of civilian populations during conflict through shelter systems, evacuation plans, and emergency preparedness",
+      "domainFunction": "Generates fear-conditioned defensive responses, activating protective behaviors and mobilizing autonomic readiness under threat",
+      "whyThisNode": "Central amygdala drives fear-conditioned defensive responses â€” civil defense activates protective behaviors for civilian populations when existential threats are detected",
+      "group": "logistics",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Shelter infrastructure neglect",
+        "Evacuation plan inadequacy"
+      ],
+      "treatments": [
+        {
+          "label": "Civil Defense Modernization",
+          "type": "STRUCTURAL",
+          "description": "Updated shelter networks, warning systems, and evacuation infrastructure reflecting contemporary threat profiles",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Population Resilience Training",
+          "type": "DIAGNOSTIC",
+          "description": "Regular civilian drills and preparedness education building community-level defense capability",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Kratos Defense",
+          "ticker_or_id": "KTOS",
+          "functional_reason": "Executes core civil defense operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Leidos Holdings",
+          "ticker_or_id": "LDOS",
+          "functional_reason": "Detects and monitors civil defense signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Booz Allen Hamilton",
+          "ticker_or_id": "BAH",
+          "functional_reason": "Stores and retrieves civil defense knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.72
+        }
+      ],
+      "childPortal": "defense_deftech_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Equipment Maintenance Technology & Innovation",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "environment",
+          "role": "Soilenv"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "industry",
+          "role": "Safety Systems"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Emergency Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Law Enforcement Response"
+        },
+        {
+          "domain": "medicine",
+          "role": "Emergency Medicine"
+        },
+        {
+          "domain": "population",
+          "role": "Refugee Populations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Military Medicine",
+      "domainDescription": "Battlefield medical care, combat casualty treatment, field hospitals, and military health services sustaining force health",
+      "domainFunction": "Maintains homeostatic regulation of the body's internal environment, coordinating stress responses and physiological recovery",
+      "whyThisNode": "Hypothalamus regulates homeostasis and coordinates stress recovery â€” military medicine maintains the fighting force's physiological readiness and recovery under combat stress",
+      "group": "logistics",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Mass casualty event overwhelm",
+        "Medical supply shortages"
+      ],
+      "treatments": [
+        {
+          "label": "Forward Surgical Team Deployment",
+          "type": "STRUCTURAL",
+          "description": "Mobile surgical units positioned near combat zones reducing evacuation time for critical injuries",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Telemedicine Combat Support",
+          "type": "DIAGNOSTIC",
+          "description": "Remote specialist consultation systems enabling expert medical guidance at austere forward locations",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Kratos Defense",
+          "ticker_or_id": "KTOS",
+          "functional_reason": "Executes core military medicine operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Lockheed Martin",
+          "ticker_or_id": "LMT",
+          "functional_reason": "Executes core military medicine operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "General Dynamics",
+          "ticker_or_id": "GD",
+          "functional_reason": "Executes core military medicine operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.78
+        }
+      ],
+      "childPortal": "defense_missile_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Equipment Maintenance Human Capital & Development",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "rACC",
+      "state": "active",
+      "domainLabel": "Veteran Affairs",
+      "domainDescription": "Post-service support for military veterans including healthcare, reintegration, disability compensation, and mental health services",
+      "domainFunction": "Processes emotional regulation and autonomic recovery after stress, facilitating return to baseline functioning",
+      "whyThisNode": "Rostral ACC supports emotional regulation and conflict resolution â€” veteran affairs helps former service members regulate post-combat stress and reintegrate into civilian baseline",
+      "group": "strategy",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Veteran suicide rates",
+        "Reintegration failure"
+      ],
+      "treatments": [
+        {
+          "label": "Comprehensive Veteran Healthcare",
+          "type": "STRUCTURAL",
+          "description": "Integrated physical and mental health systems addressing PTSD, TBI, and chronic conditions in veteran populations",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Transition Assistance Programs",
+          "type": "DIAGNOSTIC",
+          "description": "Pre-separation training in civilian career skills, financial planning, and community reintegration support",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Anduril Industries",
+          "ticker_or_id": "ANDURIL",
+          "functional_reason": "Detects and monitors veteran affairs signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "BAE Systems",
+          "ticker_or_id": "BA.L",
+          "functional_reason": "Executes core veteran affairs operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "CACI International",
+          "ticker_or_id": "CACI",
+          "functional_reason": "Detects and monitors veteran affairs signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.73
+        }
+      ],
+      "childPortal": "defense_peacekeeping_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Coastal Defense Human Capital & Development",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Medical Ethics"
+        },
+        {
+          "domain": "science",
+          "role": "Ethics Review"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Acoustic Design Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Subsidized Credit"
+        },
+        {
+          "domain": "education",
+          "role": "Portfolio Review Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Arms Control & Treaties",
+      "domainDescription": "International agreements limiting weapons proliferation, restricting weapon types, and establishing rules of engagement",
+      "domainFunction": "Integrates emotional and value-based information into decision-making, enabling cooperative restraint based on long-term value computation",
+      "whyThisNode": "Ventromedial PFC integrates values into decisions, enabling cooperation over aggression â€” arms control treaties represent value-based restraint, choosing long-term stability over short-term advantage",
+      "group": "strategy",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Treaty withdrawal cascades",
+        "Verification regime failure"
+      ],
+      "treatments": [
+        {
+          "label": "Verification Technology Investment",
+          "type": "STRUCTURAL",
+          "description": "Advanced monitoring systems including satellite, seismic, and on-site inspection capabilities ensuring treaty compliance",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Multilateral Negotiation Frameworks",
+          "type": "DIAGNOSTIC",
+          "description": "Standing diplomatic channels and confidence-building measures maintaining arms control dialogue",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "General Dynamics",
+          "ticker_or_id": "GD",
+          "functional_reason": "Executes core arms control & treaties operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Booz Allen Hamilton",
+          "ticker_or_id": "BAH",
+          "functional_reason": "Stores and retrieves arms control & treaties knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Lockheed Martin",
+          "ticker_or_id": "LMT",
+          "functional_reason": "Executes core arms control & treaties operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        }
+      ],
+      "childPortal": "defense_personnel_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Arms Control & Treaties",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Recruitment & Training",
+      "domainDescription": "Military personnel recruitment, basic training, advanced skill development, and force readiness preparation",
+      "domainFunction": "Plans and programs complex motor sequences before execution, building procedural repertoires through intensive rehearsal",
+      "whyThisNode": "Supplementary motor area programs complex action sequences before execution â€” military training programs complex operational procedures through intensive rehearsal before deployment",
+      "group": "military",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Recruitment shortfalls",
+        "Training standard degradation"
+      ],
+      "treatments": [
+        {
+          "label": "Modern Recruitment Strategies",
+          "type": "STRUCTURAL",
+          "description": "Updated outreach targeting diverse talent pools with competitive compensation and career development paths",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Simulation-Based Training Systems",
+          "type": "DIAGNOSTIC",
+          "description": "Virtual and augmented reality platforms providing realistic combat training at reduced cost and risk",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Shield AI",
+          "ticker_or_id": "SHIELD_AI",
+          "functional_reason": "Executes core recruitment & training operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "RTX Corporation",
+          "ticker_or_id": "RTX",
+          "functional_reason": "Executes core recruitment & training operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "BWX Technologies",
+          "ticker_or_id": "BWXT",
+          "functional_reason": "Executes core recruitment & training operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        }
+      ],
+      "childPortal": "defense_procurement_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Recruitment & Training",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Teacher Training"
+        },
+        {
+          "domain": "governance",
+          "role": "Military Command"
+        },
+        {
+          "domain": "industry",
+          "role": "Heavy Equipment"
+        },
+        {
+          "domain": "neurology",
+          "role": "Supplementary Motor Area"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Process Improvement"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Theater & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RSC",
+      "state": "active",
+      "domainLabel": "Space",
+      "domainDescription": "Space systems within Defense",
+      "group": "strategy",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "defense_space_portal.html",
+      "companies": [
+        {
+          "name": "SpaceX",
+          "ticker_or_id": "SPACEX",
+          "functional_reason": "Spatial navigation and launch trajectory systems mirror RSC scene construction and contextual spatial mapping",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Northrop Grumman",
+          "ticker_or_id": "NOC",
+          "functional_reason": "Space defense systems require spatial context memory and navigational reference frames paralleling RSC function",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "United Launch Alliance",
+          "ticker_or_id": "ULA",
+          "functional_reason": "Orbital mechanics and spatial trajectory planning mirror RSC visuospatial navigation computations",
+          "binding_strength": 0.8
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Space",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "population",
+          "role": "Rural Decline"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Assessment & Diagnostics"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Heritage Preservation"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Technology & Innovation"
+        },
+        {
+          "domain": "education",
+          "role": "Competitive Admissions Core Operations"
+        },
+        {
+          "domain": "energy",
+          "role": "Collection Systems Technology & Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Veterans",
+      "domainDescription": "Veterans systems within Defense",
+      "group": "strategy",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "defense_veterans_portal.html",
+      "companies": [
+        {
+          "name": "Booz Allen Hamilton",
+          "ticker_or_id": "BAH",
+          "functional_reason": "Veteran transition services require cognitive conflict resolution and performance monitoring paralleling dACC error detection",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Leidos Holdings",
+          "ticker_or_id": "LDOS",
+          "functional_reason": "VA health IT systems manage sustained cognitive load and resource allocation matching dACC effortful control",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "SAIC",
+          "ticker_or_id": "SAIC",
+          "functional_reason": "Veteran benefits administration requires systematic process optimization and regulatory compliance tracking matching dACC function",
+          "binding_strength": 0.8
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Veterans",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "MICRO",
+      "state": "active",
+      "domainLabel": "Wmd",
+      "domainDescription": "Wmd systems within Defense",
+      "group": "strategy",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "defense_wmd_portal.html",
+      "companies": [
+        {
+          "name": "BWX Technologies",
+          "ticker_or_id": "BWXT",
+          "functional_reason": "Nuclear materials handling requires immune-like containment and threat neutralization paralleling microglial surveillance",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Battelle Memorial Institute",
+          "ticker_or_id": "BATTELLE",
+          "functional_reason": "CBRN defense research mirrors microglial pathogen detection and neuroinflammatory response coordination",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Emergent BioSolutions",
+          "ticker_or_id": "EBS",
+          "functional_reason": "Biodefense countermeasures directly parallel microglial immune activation and threat clearance mechanisms",
+          "binding_strength": 0.85
+        }
+      ],
+      "neuralRole": "Support",
+      "brainNodeRoleCanonical": "Wmd",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Biodiversity"
+        },
+        {
+          "domain": "medicine",
+          "role": "Immunology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Metabolic Neuroinflammation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Microglial Neuroinflammation"
+        },
+        {
+          "domain": "communication",
+          "role": "Timeline Management"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Protocol Development Operations"
+        },
+        {
+          "domain": "education",
+          "role": "Demographic Analysis Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PIN",
+      "state": "active",
+      "domainLabel": "Special Ops",
+      "domainDescription": "Special Ops systems within Defense",
+      "group": "strategy",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "defense_special_ops_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Special Ops",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Polar & Cryosphere"
+        },
+        {
+          "domain": "religion",
+          "role": "Monastic Traditions"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradepolicy"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Risk & Resilience"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Human Capital & Development"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "INVASION",
+      "label": "Invasion",
+      "summary": "Foreign military incursion into sovereign territory requiring full-spectrum defense mobilization across ground, air, naval, and cyber domains",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hyper-active",
+          "detail": "Ground forces fully mobilized for territorial defense and counterattack operations",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-active",
+          "detail": "Command authority centralized under crisis executive control with accelerated decision cycles",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FEF",
+          "dir": "Hyper-active",
+          "detail": "Air power surged to contest aerial domain and provide close air support",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Civil defense fully activated with population shelter and evacuation operations underway",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper-active",
+          "detail": "Logistics chains operating at maximum throughput to sustain combat operations",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "CYBER_ATTACK",
+      "label": "Cyber Attack",
+      "summary": "Coordinated digital assault targeting critical infrastructure, military networks, and government systems, potentially disabling defense capabilities without kinetic action",
+      "circuits": [
+        {
+          "nodeId": "FPN",
+          "dir": "Altered",
+          "detail": "Cyber warfare networks compromised with adversary code disrupting command-and-control routing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DAN",
+          "dir": "Hypo-active",
+          "detail": "Intelligence collection degraded as signals infrastructure is targeted and corrupted",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Command decision-making impaired by information uncertainty and network unreliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Logistics coordination disrupted as digital supply chain management systems go offline",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "NUCLEAR_THREAT",
+      "label": "Nuclear Threat",
+      "summary": "Escalation to potential nuclear conflict through brinkmanship, proliferation to unstable actors, or failure of deterrence doctrine",
+      "circuits": [
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-active",
+          "detail": "Nuclear deterrence posture at maximum alert with launch authorization protocols activated",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Arms control frameworks collapsed, removing cooperative restraint mechanisms",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Hyper-active",
+          "detail": "Strategic planning under extreme time pressure evaluating escalation and de-escalation options",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Civil defense in maximum alert with nuclear shelter and evacuation protocols activated",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "INTELLIGENCE_FAILURE",
+      "label": "Intelligence Failure",
+      "summary": "Catastrophic failure to detect, analyze, or communicate strategic threats, resulting in strategic surprise and inadequate defense preparation",
+      "circuits": [
+        {
+          "nodeId": "DAN",
+          "dir": "Hypo-active",
+          "detail": "Intelligence collection missed critical indicators due to attention directed at wrong targets",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Hypo-active",
+          "detail": "Strategic planning based on flawed assessments, producing misaligned force posture",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Command decisions made on incomplete or inaccurate intelligence, degrading operational effectiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VAN",
+          "dir": "Hypo-active",
+          "detail": "Special operations unable to redirect toward emerging threats due to insufficient early warning",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "LOGISTICS_COLLAPSE",
+      "label": "Logistics Collapse",
+      "summary": "Breakdown of military supply chains through disruption, attrition, or overextension, rendering forces unable to sustain combat operations",
+      "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Supply coordination breaks down with stockpiles depleted and resupply routes severed",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Ground forces combat effectiveness degrades as ammunition, fuel, and equipment run out",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo-active",
+          "detail": "Military medical support collapses as pharmaceutical and surgical supplies are exhausted",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-active",
+          "detail": "Weapons systems grounded or inoperable due to spare parts and maintenance shortfalls",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "CIVIL_UNREST",
+      "label": "Civil Unrest",
+      "summary": "Internal instability requiring defense forces to balance civil order maintenance with protection of civil liberties, risking institutional legitimacy",
+      "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Civil defense systems activated for domestic crisis but risk escalating confrontation with civilians",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Command authority strained by tension between security directives and democratic accountability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Altered",
+          "detail": "Value-based decision-making conflicted between order maintenance and rights protection",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Hyper-active",
+          "detail": "Emotional regulation systems strained as military personnel face morally complex domestic operations",
+          "evidence": "Strong"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "dlPFC",
+      "target": "ECN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "ECN",
+      "target": "rACC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "rACC",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "NTS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NTS",
+      "target": "FEF",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FEF",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "STRI",
+      "target": "VAN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "VAN",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CBLM",
+      "target": "CeA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CeA",
+      "target": "HYPO",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "M1",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "M1",
+      "target": "FPN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "FPN",
+      "target": "PAG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PAG",
+      "target": "DAN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "DAN",
+      "target": "CBLM",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "CBLM",
+      "target": "dlPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "vmPFC",
+      "target": "FPN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "SMA",
+      "target": "PAG",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "FPN",
+      "target": "DAN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "PAG",
+      "target": "CBLM",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "DAN",
+      "target": "dlPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "HYPO",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "dlPFC",
+      "target": "SMA",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "rACC",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "STRI",
+      "target": "FPN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "DAN",
+      "target": "CeA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Coastal Defense Quality & Performance → Air Power — Regulation Strategy — Secondary (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Coastal Defense Quality & Performance → Equipment Maintenance Technology & Innovation (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Coastal Defense Quality & Performance → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Arms Control & Treaties → Air Power — Regulation Strategy — Secondary (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Arms Control & Treaties → Equipment Maintenance Technology & Innovation (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Arms Control & Treaties → Nuclear Deterrence (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Command Structure → Veterans (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Command Structure → Parts Supply Core Operations (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Coastal Defense Human Capital & Development → Air Power — Regulation Strategy — Secondary (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Veterans → Air Power — Regulation Strategy — Secondary (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Air Power — State Assessment — Tertiary → Equipment Maintenance Assessment & Diagnostics (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Air Power — State Assessment — Tertiary → Airlift Planning Infrastructure & Capacity (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Air Power — State Assessment — Tertiary → Depot Maintenance Infrastructure & Capacity (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Aeromedical Evacuation Human Capital & Development → Equipment Maintenance Assessment & Diagnostics (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Fighter Training Infrastructure & Capacity → Airlift Planning Infrastructure & Capacity (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Naval Operations → Aeromedical Evacuation Risk & Resilience (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Aeromedical Evacuation Risk & Resilience → Veterans (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Coastal Defense Assessment & Diagnostics → Aeromedical Evacuation Risk & Resilience (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Air Power — Regulation Strategy — Secondary → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Equipment Maintenance Human Capital & Development (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Air Power — Feedback & Validation — Tertiary → Parts Supply Core Operations (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Parts Supply Core Operations → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Bomber Aircraft Quality & Performance → Aeromedical Evacuation Technology & Innovation (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Aeromedical Evacuation Technology & Innovation → Air Superiority Core Operations (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Aeromedical Evacuation Technology & Innovation → Equipment Maintenance Policy & Governance (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Equipment Maintenance Policy & Governance → Arms Control & Treaties (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Recruitment & Training → Ground Forces (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Weapons Systems → Airlift Operations Quality & Performance (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Airlift Operations Quality & Performance → Air Power — State Assessment — Tertiary (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Equipment Maintenance Infrastructure & Capacity → Air Power — State Assessment — Tertiary (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Air Power → Equipment Maintenance Assessment & Diagnostics (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Cyber Warfare → Command Structure (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Coastal Defense Risk & Resilience → Air Power — Regulation Strategy — Secondary (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Coastal Defense Risk & Resilience → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.734Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

@@ -1,0 +1,2756 @@
+{
+  "domainId": "p2_agri_foodproc",
+  "title": "Food Processing",
+  "parentPortal": "p2_agri_portal.html",
+  "parentLabel": "Agriculture",
+  "phase": "P7",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Milling",
+      "domainDescription": "Grain milling for flour, meal, and feed ingredient production",
+      "group": "grain_processing",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_foodproc_milling_portal.html",
+      "treatments": [
+        {
+          "label": "Multi-Origin Grain Sourcing Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Diversifying grain procurement across at least three geographic origins and maintaining 30-day buffer stocks reduces exposure to single-region weather or logistics disruptions. Forward contracting with staggered delivery windows smooths supply flow during peak demand periods.",
+          "cite": "Aung, M.M. & Chang, Y.S. (2014). Traceability in a food supply chain: Safety and quality perspectives. Food Control, 39, 172-184. doi:10.1016/j.foodcont.2013.11.007; Roth, A.V., Tsay, A.A., Pullman, M.E. & Gray, J.V. (2008). Unraveling the food supply chain: Strategic insights from China and the 2007 recalls. Journal of Supply Chain Management, 44(1), 22-39. doi:10.1111/j.1745-493X.2008.00043.x",
+          "target": "SUPPLY DIVERSIFICATION -> BUFFER STOCK MAINTENANCE -> CONTINUOUS MILL OPERATION",
+          "citation": [
+            {
+              "author": "Aung, M.M. & Chang, Y.S.",
+              "year": 2014,
+              "title": "Traceability in a food supply chain: Safety and quality perspectives",
+              "journal": "Food Control",
+              "volume": "39",
+              "pages": "172-184",
+              "doi": "10.1016/j.foodcont.2013.11.007"
+            },
+            {
+              "author": "Roth, A.V., Tsay, A.A., Pullman, M.E. & Gray, J.V.",
+              "year": 2008,
+              "title": "Unraveling the food supply chain: Strategic insights from China and the 2007 recalls",
+              "journal": "Journal of Supply Chain Management",
+              "volume": "44(1)",
+              "pages": "22-39",
+              "doi": "10.1111/j.1745-493X.2008.00043.x"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Check grain temperature with probe thermometer at 3 bin locations weekly; target ≤5°F rise from baseline per 30-day period. Monitor grain moisture content biweekly; maintain within ±0.5% of target storage moisture. Inspect for insect activity with probe traps at bin surface and core monthly; target zero live insects per trap. Assess bin condition (condensation, crust formation, odor) at every aeration fan cycle.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Energy Audit and Load-Shifting Protocol",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Conducting quarterly energy audits of roller mills, sifters, and pneumatic conveying systems identifies parasitic loads and scheduling opportunities. Shifting high-draw operations to off-peak utility rate windows reduces per-unit energy cost by 12-18 percent without altering throughput.",
+          "cite": "Beckman, J. & Xiarchos, I.M. (2013). Why are Californian farmers adopting more (and larger) parsing systems?. Energy Policy, 55, 40-49. doi:10.1016/j.enpol.2012.11.024; USDA Rural Energy for America Program (2019). Energy audit and renewable energy development assistance. USDA Rural Development",
+          "target": "ENERGY AUDIT FINDINGS -> LOAD SCHEDULING -> UNIT COST REDUCTION",
+          "citation": [
+            {
+              "author": "Beckman, J. & Xiarchos, I.M.",
+              "year": 2013,
+              "title": "Why are Californian farmers adopting more (and larger) parsing systems?",
+              "journal": "Energy Policy",
+              "volume": "55",
+              "pages": "40-49",
+              "doi": "10.1016/j.enpol.2012.11.024"
+            },
+            {
+              "author": "USDA Rural Energy for America Program",
+              "year": 2019,
+              "title": "Energy audit and renewable energy development assistance",
+              "journal": "USDA Rural Development",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to a food safety specialist or HACCP consultant for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        },
+        {
+          "label": "Cross-Training and Fatigue Management Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Structured cross-training program enabling each milling operator to perform at least two additional station roles reduces dependency on single-skill workers. Fatigue risk management training addresses overtime-related error patterns identified by OSHA as leading indicators of workplace injuries.",
+          "cite": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S. (2019). Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature. Journal of Soil and Water Conservation, 74(5), 520-534. doi:10.2489/jswc.74.5.520; Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R. (2006). Understanding and promoting adoption of conservation practices by rural landholders. Australian Journal of Experimental Agriculture, 46(11), 1407-1424. doi:10.1071/EA05037",
+          "target": "OPERATOR CROSS-TRAINING -> FATIGUE AWARENESS -> REDUCED ERROR AND INJURY",
+          "citation": [
+            {
+              "author": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S.",
+              "year": 2019,
+              "title": "Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "74(5)",
+              "pages": "520-534",
+              "doi": "10.2489/jswc.74.5.520"
+            },
+            {
+              "author": "Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R.",
+              "year": 2006,
+              "title": "Understanding and promoting adoption of conservation practices by rural landholders",
+              "journal": "Australian Journal of Experimental Agriculture",
+              "volume": "46(11)",
+              "pages": "1407-1424",
+              "doi": "10.1071/EA05037"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a food safety specialist or HACCP consultant for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Dust Collection and Explosion Prevention System Upgrade",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Installing or upgrading dust collection with explosion venting, suppression systems, and spark detection on all roller mills and bucket elevators per NFPA 61 requirements. Proper dust management simultaneously improves air quality for worker retention and reduces combustible dust hazard.",
+          "cite": "[CITATION NEEDED: Installing or upgrading dust collection with explosion venting, suppression systems, and spark detec]",
+          "target": "DUST CONTROL INFRASTRUCTURE -> EXPLOSION RISK REDUCTION -> WORKER SAFETY AND RETENTION",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Installing or upgrading dust collection with explosion venting, suppression systems, and spark detec]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Workplace Culture for Retention and Safety Reporting",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Establishing near-miss reporting systems with non-punitive response protocols and monthly safety committee meetings that include line workers builds engagement and reduces turnover. Plants with active safety cultures show 20-30 percent lower voluntary separation rates in food manufacturing.",
+          "cite": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C. (2006). Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn. Iowa State University Extension PM 2015, 1-28; Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A. (2005). Field-scale variability in optimal nitrogen fertilizer rate for corn. Agronomy Journal, 97(2), 452-461. doi:10.2134/agronj2005.0452",
+          "target": "SAFETY CULTURE ENGAGEMENT -> NEAR-MISS REPORTING -> RETENTION AND HAZARD REDUCTION",
+          "citation": [
+            {
+              "author": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C.",
+              "year": 2006,
+              "title": "Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn",
+              "journal": "Iowa State University Extension PM 2015",
+              "volume": null,
+              "pages": "1-28",
+              "doi": null
+            },
+            {
+              "author": "Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A.",
+              "year": 2005,
+              "title": "Field-scale variability in optimal nitrogen fertilizer rate for corn",
+              "journal": "Agronomy Journal",
+              "volume": "97(2)",
+              "pages": "452-461",
+              "doi": "10.2134/agronj2005.0452"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Conduct monthly compliance audits; target zero protocol violations per 30-day cycle. Track incident reports pre- versus post-implementation; target ≥50% reduction in safety incidents within 6 months. Assess team safety behavior with unannounced spot-checks at least twice per month.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a food safety specialist or HACCP consultant for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Real-Time Moisture and Ash Monitoring Instruments",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "In-line NIR moisture and ash analyzers on mill product streams provide continuous flour quality data enabling immediate roller gap adjustment. Reduces out-of-spec product by catching quality drift before full silo contamination occurs.",
+          "cite": "[CITATION NEEDED: In-line NIR moisture and ash analyzers on mill product streams provide continuous flour quality data]",
+          "target": "CONTINUOUS QUALITY DATA -> IMMEDIATE ADJUSTMENT -> REDUCED OUT-OF-SPEC PRODUCT",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: In-line NIR moisture and ash analyzers on mill product streams provide continuous flour quality data]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Tractors",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Canning",
+      "domainDescription": "Thermal preservation of fruits, vegetables, and meats in sealed containers",
+      "group": "preservation",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_foodproc_canning_portal.html",
+      "treatments": [
+        {
+          "label": "Critical Control Point Verification Intensification",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Increasing CCP verification frequency for retort temperature, come-up time, and container seal integrity beyond minimum HACCP plan requirements during high-risk production windows. Double-verification at shift changes closes the gap where most thermal process deviations go undetected.",
+          "cite": "Bilderback, T.E., Boyer, C.R., Chappell, M., Fain, G.B., Fare, D., Gilliam, C., Jackson, B.E., Lea-Cox, J., LeBude, A.V., Niemiera, A., Owen, J.S., Ruter, J., Tilt, K. & Warren, S. (2013). Best management practices: Guide for producing nursery crops, 3rd Edition. Southern Nursery Association, 1-103; Yeager, T.H., Gilliam, C.H., Bilderback, T.E., Fare, D.C., Niemiera, A.X. & Tilt, K.M. (2007). Best management practices: Guide for producing container-grown plants. Southern Nursery Association",
+          "target": "CCP VERIFICATION FREQUENCY -> DEVIATION DETECTION -> CONTAMINATION PREVENTION",
+          "citation": [
+            {
+              "author": "Bilderback, T.E., Boyer, C.R., Chappell, M., Fain, G.B., Fare, D., Gilliam, C., Jackson, B.E., Lea-Cox, J., LeBude, A.V., Niemiera, A., Owen, J.S., Ruter, J., Tilt, K. & Warren, S.",
+              "year": 2013,
+              "title": "Best management practices: Guide for producing nursery crops, 3rd Edition",
+              "journal": "Southern Nursery Association",
+              "volume": null,
+              "pages": "1-103",
+              "doi": null
+            },
+            {
+              "author": "Yeager, T.H., Gilliam, C.H., Bilderback, T.E., Fare, D.C., Niemiera, A.X. & Tilt, K.M.",
+              "year": 2007,
+              "title": "Best management practices: Guide for producing container-grown plants",
+              "journal": "Southern Nursery Association",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Retort Energy Recovery and Optimization",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Installing heat recovery systems on retort blow-down steam and condensate return lines captures 15-25 percent of thermal energy currently vented to atmosphere. Coupled with retort scheduling optimization to maximize batch density, total steam consumption per case drops measurably.",
+          "cite": "Beckman, J. & Xiarchos, I.M. (2013). Why are Californian farmers adopting more (and larger) parsing systems?. Energy Policy, 55, 40-49. doi:10.1016/j.enpol.2012.11.024; USDA Rural Energy for America Program (2019). Energy audit and renewable energy development assistance. USDA Rural Development",
+          "target": "HEAT RECOVERY INSTALLATION -> STEAM CONSUMPTION REDUCTION -> ENERGY COST SAVINGS",
+          "citation": [
+            {
+              "author": "Beckman, J. & Xiarchos, I.M.",
+              "year": 2013,
+              "title": "Why are Californian farmers adopting more (and larger) parsing systems?",
+              "journal": "Energy Policy",
+              "volume": "55",
+              "pages": "40-49",
+              "doi": "10.1016/j.enpol.2012.11.024"
+            },
+            {
+              "author": "USDA Rural Energy for America Program",
+              "year": 2019,
+              "title": "Energy audit and renewable energy development assistance",
+              "journal": "USDA Rural Development",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Retort Operator Thermal Process Authority Training",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "All retort operators must complete Better Process Control School per FDA regulation and maintain current certification. Supplemental in-house training covers facility-specific scheduled processes, deviation procedures, and proper use of temperature-indicating devices.",
+          "cite": "[CITATION NEEDED: All retort operators must complete Better Process Control School per FDA regulation and maintain cur]",
+          "target": "OPERATOR CERTIFICATION -> PROCESS DEVIATION RESPONSE -> PRODUCT SAFETY ASSURANCE",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: All retort operators must complete Better Process Control School per FDA regulation and maintain cur]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a food safety specialist or HACCP consultant for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Retort Instrumentation and Data Logger Modernization",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Replacing mercury-in-glass thermometers and paper chart recorders with calibrated RTD sensors and electronic data loggers provides continuous auditable records. Automated alarm systems notify supervisors immediately when process temperature drops below scheduled process minimums.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "DIGITAL INSTRUMENTATION -> CONTINUOUS MONITORING -> AUTOMATED DEVIATION ALERTS",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Pre-Shift Safety and Quality Huddle Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Five-minute pre-shift huddles reviewing prior shift CCP records, equipment status, and any near-miss events build collective ownership of food safety outcomes. When line workers internalize thermal process criticality rather than viewing it as management oversight, deviation reporting increases.",
+          "cite": "Mortimore, S. & Wallace, C. (2013). HACCP: A Practical Approach, 3rd Edition. Springer, 1-475. doi:10.1007/978-1-4614-5028-3; Codex Alimentarius Commission (2003). Hazard Analysis and Critical Control Point (HACCP) System and Guidelines for its Application. CAC/RCP 1-1969 Rev. 4",
+          "target": "PRE-SHIFT REVIEW RITUAL -> COLLECTIVE OWNERSHIP -> IMPROVED DEVIATION REPORTING",
+          "citation": [
+            {
+              "author": "Mortimore, S. & Wallace, C.",
+              "year": 2013,
+              "title": "HACCP: A Practical Approach, 3rd Edition",
+              "journal": "Springer",
+              "volume": null,
+              "pages": "1-475",
+              "doi": "10.1007/978-1-4614-5028-3"
+            },
+            {
+              "author": "Codex Alimentarius Commission",
+              "year": 2003,
+              "title": "Hazard Analysis and Critical Control Point (HACCP) System and Guidelines for its Application",
+              "journal": "CAC/RCP 1-1969 Rev. 4",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30 and 90 days; target ≥80% of staff following new protocol by day 90. Track the number of decisions documented with supporting data per month; target ≥3 data-backed decisions per decision-maker per month. Reassess culture adherence quarterly through anonymous team survey scoring 1-5 on practice commitment.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified equipment technician or dealer service manager for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Container Seal Integrity Testing Kit",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Standardized double-seam teardown and visual inspection tools for metal cans, plus vacuum testing equipment for glass containers, enable routine seal verification at frequencies exceeding minimum HACCP requirements. Early detection of seamer drift prevents post-process contamination.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "SEAL TESTING FREQUENCY -> SEAMER DRIFT DETECTION -> POST-PROCESS CONTAMINATION PREVENTION",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified equipment technician or dealer service manager for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Post-Harvest Handling",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Freezing",
+      "domainDescription": "Rapid and blast freezing for long-term preservation of perishable foods",
+      "group": "preservation",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_foodproc_freezing_portal.html",
+      "treatments": [
+        {
+          "label": "Refrigeration System COP Optimization Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Systematic optimization of compressor staging, condenser maintenance, and evaporator defrost cycles to maximize coefficient of performance (COP) across seasonal ambient temperature ranges. Annual refrigeration system audit with third-party energy engineer identifies specific efficiency improvement opportunities.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "COP OPTIMIZATION -> ENERGY PER TON REDUCTION -> OPERATING COST CONTROL",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Ammonia Safety and Emergency Response Coaching",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Comprehensive training for all freezing plant personnel on ammonia refrigeration hazard recognition, personal protective equipment use, leak detection response, and emergency evacuation procedures. Required under OSHA PSM for facilities with more than 10,000 lbs ammonia charge.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "AMMONIA SAFETY TRAINING -> LEAK RESPONSE COMPETENCY -> PERSONNEL SAFETY",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified equipment technician or dealer service manager for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Variable Frequency Drive Retrofit on Compressors and Fans",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Retrofitting VFDs on ammonia compressor motors and evaporator fan motors enables capacity modulation matching actual thermal load rather than cycling on/off. VFD installations on freezing plant compressors typically deliver 15-30 percent energy savings depending on load profile variability.",
+          "cite": "Beckman, J. & Xiarchos, I.M. (2013). Why are Californian farmers adopting more (and larger) parsing systems?. Energy Policy, 55, 40-49. doi:10.1016/j.enpol.2012.11.024; USDA Rural Energy for America Program (2019). Energy audit and renewable energy development assistance. USDA Rural Development",
+          "target": "VFD INSTALLATION -> LOAD-MATCHED OPERATION -> ENERGY CONSUMPTION REDUCTION",
+          "citation": [
+            {
+              "author": "Beckman, J. & Xiarchos, I.M.",
+              "year": 2013,
+              "title": "Why are Californian farmers adopting more (and larger) parsing systems?",
+              "journal": "Energy Policy",
+              "volume": "55",
+              "pages": "40-49",
+              "doi": "10.1016/j.enpol.2012.11.024"
+            },
+            {
+              "author": "USDA Rural Energy for America Program",
+              "year": 2019,
+              "title": "Energy audit and renewable energy development assistance",
+              "journal": "USDA Rural Development",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Shared Energy Accountability Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Posting daily energy consumption per pound frozen at shift level and recognizing low-consumption shifts creates peer accountability for door discipline, defrost timing, and product staging practices that directly affect refrigeration load. Operator behaviors account for 10-15 percent of total freezing energy variance.",
+          "cite": "Beckman, J. & Xiarchos, I.M. (2013). Why are Californian farmers adopting more (and larger) parsing systems?. Energy Policy, 55, 40-49. doi:10.1016/j.enpol.2012.11.024; USDA Rural Energy for America Program (2019). Energy audit and renewable energy development assistance. USDA Rural Development",
+          "target": "ENERGY VISIBILITY -> OPERATOR BEHAVIOR CHANGE -> LOAD REDUCTION",
+          "citation": [
+            {
+              "author": "Beckman, J. & Xiarchos, I.M.",
+              "year": 2013,
+              "title": "Why are Californian farmers adopting more (and larger) parsing systems?",
+              "journal": "Energy Policy",
+              "volume": "55",
+              "pages": "40-49",
+              "doi": "10.1016/j.enpol.2012.11.024"
+            },
+            {
+              "author": "USDA Rural Energy for America Program",
+              "year": 2019,
+              "title": "Energy audit and renewable energy development assistance",
+              "journal": "USDA Rural Development",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a food safety specialist or HACCP consultant for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Thermal Load Monitoring and Trending Dashboard",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Cloud-connected sensors on suction pressure, discharge pressure, condenser approach temperature, and product core temperature feed a dashboard showing real-time and trended system efficiency. Alerts trigger when system COP drops below baseline, indicating maintenance needs before energy waste compounds.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "REAL-TIME COP TRACKING -> EARLY DEGRADATION DETECTION -> PREVENTIVE MAINTENANCE TRIGGER",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Peak Demand Management and Thermal Storage",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Building cold storage thermal mass during off-peak electricity rate periods and reducing compressor loading during demand peaks through pre-cooling schedules and ice bank systems. Coordination with utility demand response programs may provide additional revenue offsets.",
+          "cite": "Kader, A.A. (2002). Postharvest Technology of Horticultural Crops, 3rd Edition. University of California ANR Publication 3311, 1-535; Yahia, E.M. (2011). Modified and controlled atmospheres for the storage, transportation, and packaging of horticultural commodities. CRC Press, 1-589",
+          "target": "PEAK LOAD SHIFTING -> DEMAND CHARGE REDUCTION -> UTILITY COST OPTIMIZATION",
+          "citation": [
+            {
+              "author": "Kader, A.A.",
+              "year": 2002,
+              "title": "Postharvest Technology of Horticultural Crops, 3rd Edition",
+              "journal": "University of California ANR Publication 3311",
+              "volume": null,
+              "pages": "1-535",
+              "doi": null
+            },
+            {
+              "author": "Yahia, E.M.",
+              "year": 2011,
+              "title": "Modified and controlled atmospheres for the storage, transportation, and packaging of horticultural commodities",
+              "journal": "CRC Press",
+              "volume": null,
+              "pages": "1-589",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Check grain temperature with probe thermometer at 3 bin locations weekly; target ≤5°F rise from baseline per 30-day period. Monitor grain moisture content biweekly; maintain within ±0.5% of target storage moisture. Inspect for insect activity with probe traps at bin surface and core monthly; target zero live insects per trap. Assess bin condition (condensation, crust formation, odor) at every aeration fan cycle.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Irrigation Management",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Fermentation",
+      "domainDescription": "Microbial transformation for cheese, yogurt, beer, and fermented foods",
+      "group": "bioprocessing",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_foodproc_fermentation_portal.html",
+      "treatments": [
+        {
+          "label": "Dual-Source Substrate Qualification Protocol",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Qualifying at least two approved substrate suppliers per fermentation product with documented incoming material specifications ensures uninterrupted culture inoculation when primary suppliers face disruption. Specification testing on receipt verifies sugar content, pH, and microbiological quality before batch commitment.",
+          "cite": "[CITATION NEEDED: Qualifying at least two approved substrate suppliers per fermentation product with documented incomi]",
+          "target": "SUPPLIER QUALIFICATION -> SUBSTRATE CONSISTENCY -> FERMENTATION RELIABILITY",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Qualifying at least two approved substrate suppliers per fermentation product with documented incomi]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Fermentation Mentor-Apprentice Pairing",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Pairing experienced fermentation technicians with new hires for 90-day structured mentorship covering culture propagation, pH/temperature monitoring, organoleptic evaluation, and off-flavor troubleshooting. Tacit knowledge transfer is critical in fermentation where outcomes depend on sensory judgment not fully captured in SOPs.",
+          "cite": "Bilderback, T.E., Boyer, C.R., Chappell, M., Fain, G.B., Fare, D., Gilliam, C., Jackson, B.E., Lea-Cox, J., LeBude, A.V., Niemiera, A., Owen, J.S., Ruter, J., Tilt, K. & Warren, S. (2013). Best management practices: Guide for producing nursery crops, 3rd Edition. Southern Nursery Association, 1-103; Yeager, T.H., Gilliam, C.H., Bilderback, T.E., Fare, D.C., Niemiera, A.X. & Tilt, K.M. (2007). Best management practices: Guide for producing container-grown plants. Southern Nursery Association",
+          "target": "KNOWLEDGE TRANSFER -> SENSORY COMPETENCY -> CONSISTENT PRODUCT QUALITY",
+          "citation": [
+            {
+              "author": "Bilderback, T.E., Boyer, C.R., Chappell, M., Fain, G.B., Fare, D., Gilliam, C., Jackson, B.E., Lea-Cox, J., LeBude, A.V., Niemiera, A., Owen, J.S., Ruter, J., Tilt, K. & Warren, S.",
+              "year": 2013,
+              "title": "Best management practices: Guide for producing nursery crops, 3rd Edition",
+              "journal": "Southern Nursery Association",
+              "volume": null,
+              "pages": "1-103",
+              "doi": null
+            },
+            {
+              "author": "Yeager, T.H., Gilliam, C.H., Bilderback, T.E., Fare, D.C., Niemiera, A.X. & Tilt, K.M.",
+              "year": 2007,
+              "title": "Best management practices: Guide for producing container-grown plants",
+              "journal": "Southern Nursery Association",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a food safety specialist or HACCP consultant for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Effluent Pre-Treatment and Byproduct Recovery System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Installing anaerobic pre-treatment for high-BOD fermentation effluent captures biogas for facility heating while reducing municipal sewer surcharges. Spent grain, whey permeate, and other byproducts can be diverted to animal feed or composting rather than entering the wastewater stream.",
+          "cite": "Rynk, R. (1992). On-Farm Composting Handbook. NRAES-54, Northeast Regional Agricultural Engineering Service, 1-186; Diaz, L.F., de Bertoldi, M., Bidlingmaier, W. & Stentiford, E. (2007). Compost Science and Technology. Waste Management Series Vol. 8, Elsevier, 1-364. doi:10.1016/S1478-7482(07)80001-0",
+          "target": "ANAEROBIC PRE-TREATMENT -> BOD LOAD REDUCTION -> SEWER SURCHARGE ELIMINATION",
+          "citation": [
+            {
+              "author": "Rynk, R.",
+              "year": 1992,
+              "title": "On-Farm Composting Handbook",
+              "journal": "NRAES-54, Northeast Regional Agricultural Engineering Service",
+              "volume": null,
+              "pages": "1-186",
+              "doi": null
+            },
+            {
+              "author": "Diaz, L.F., de Bertoldi, M., Bidlingmaier, W. & Stentiford, E.",
+              "year": 2007,
+              "title": "Compost Science and Technology",
+              "journal": "Waste Management Series Vol. 8, Elsevier",
+              "volume": null,
+              "pages": "1-364",
+              "doi": "10.1016/S1478-7482(07)80001-0"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Zero-Waste Mindset and Byproduct Innovation Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Empowering production teams to identify byproduct valorization opportunities through quarterly innovation challenges with management sponsorship. Successful programs have converted spent yeast to nutritional supplements, whey to protein concentrate, and fermentation CO2 to carbonation supply.",
+          "cite": "[CITATION NEEDED: Empowering production teams to identify byproduct valorization opportunities through quarterly innov]",
+          "target": "INNOVATION CULTURE -> BYPRODUCT VALORIZATION -> WASTE STREAM DIVERSION",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Empowering production teams to identify byproduct valorization opportunities through quarterly innov]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a food safety specialist or HACCP consultant for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Automated Fermentation Parameter Logging System",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "pH, temperature, dissolved oxygen, and CO2 evolution rate sensors connected to SCADA or cloud logging platforms provide continuous fermentation trajectory data. Batch-to-batch comparison against golden-batch profiles enables early detection of sluggish or runaway fermentations before product loss occurs.",
+          "cite": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C. (2006). Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn. Iowa State University Extension PM 2015, 1-28; Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A. (2005). Field-scale variability in optimal nitrogen fertilizer rate for corn. Agronomy Journal, 97(2), 452-461. doi:10.2134/agronj2005.0452",
+          "target": "CONTINUOUS PARAMETER LOGGING -> TRAJECTORY COMPARISON -> EARLY DEVIATION INTERVENTION",
+          "citation": [
+            {
+              "author": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C.",
+              "year": 2006,
+              "title": "Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn",
+              "journal": "Iowa State University Extension PM 2015",
+              "volume": null,
+              "pages": "1-28",
+              "doi": null
+            },
+            {
+              "author": "Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A.",
+              "year": 2005,
+              "title": "Field-scale variability in optimal nitrogen fertilizer rate for corn",
+              "journal": "Agronomy Journal",
+              "volume": "97(2)",
+              "pages": "452-461",
+              "doi": "10.2134/agronj2005.0452"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Raw Material Variability Compensation Procedure",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Establishing standardized adjustment protocols for culture inoculation rate, fermentation temperature, and process duration based on incoming substrate analysis results. When raw material quality varies due to supply disruptions, pre-defined compensation tables maintain product consistency without requiring ad-hoc operator decisions.",
+          "cite": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C. (2006). Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn. Iowa State University Extension PM 2015, 1-28; Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A. (2005). Field-scale variability in optimal nitrogen fertilizer rate for corn. Agronomy Journal, 97(2), 452-461. doi:10.2134/agronj2005.0452",
+          "target": "SUBSTRATE ANALYSIS -> PARAMETER ADJUSTMENT -> PRODUCT CONSISTENCY DESPITE VARIABILITY",
+          "citation": [
+            {
+              "author": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C.",
+              "year": 2006,
+              "title": "Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn",
+              "journal": "Iowa State University Extension PM 2015",
+              "volume": null,
+              "pages": "1-28",
+              "doi": null
+            },
+            {
+              "author": "Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A.",
+              "year": 2005,
+              "title": "Field-scale variability in optimal nitrogen fertilizer rate for corn",
+              "journal": "Agronomy Journal",
+              "volume": "97(2)",
+              "pages": "452-461",
+              "doi": "10.2134/agronj2005.0452"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Historical Records",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Meat Processing",
+      "domainDescription": "Slaughter, fabrication, curing, and ready-to-eat meat product manufacturing",
+      "group": "animal_products",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_foodproc_meatproc_portal.html",
+      "treatments": [
+        {
+          "label": "HACCP Plan Intensification for Pathogen Control",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Strengthening HACCP plans with additional CCPs for pre-operational sanitation verification, carcass intervention steps (organic acid rinse, steam pasteurization), and post-lethality environmental monitoring. Multi-hurdle antimicrobial strategies applied at slaughter, fabrication, and packaging stages provide redundant pathogen barriers.",
+          "cite": "Mortimore, S. & Wallace, C. (2013). HACCP: A Practical Approach, 3rd Edition. Springer, 1-475. doi:10.1007/978-1-4614-5028-3; Codex Alimentarius Commission (2003). Hazard Analysis and Critical Control Point (HACCP) System and Guidelines for its Application. CAC/RCP 1-1969 Rev. 4",
+          "target": "MULTI-HURDLE INTERVENTION -> REDUNDANT PATHOGEN BARRIERS -> CONTAMINATION EVENT PREVENTION",
+          "citation": [
+            {
+              "author": "Mortimore, S. & Wallace, C.",
+              "year": 2013,
+              "title": "HACCP: A Practical Approach, 3rd Edition",
+              "journal": "Springer",
+              "volume": null,
+              "pages": "1-475",
+              "doi": "10.1007/978-1-4614-5028-3"
+            },
+            {
+              "author": "Codex Alimentarius Commission",
+              "year": 2003,
+              "title": "Hazard Analysis and Critical Control Point (HACCP) System and Guidelines for its Application",
+              "journal": "CAC/RCP 1-1969 Rev. 4",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Regional Livestock Procurement Diversification",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Establishing procurement relationships with producers across multiple geographic regions and species categories reduces vulnerability to localized disease outbreaks, drought-driven herd liquidation, or transport disruptions. Maintaining qualified backup suppliers with pre-negotiated contingency pricing enables rapid source switching.",
+          "cite": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D. (2011). Climate impacts on agriculture: Implications for crop production. Agronomy Journal, 103(2), 351-370. doi:10.2134/agronj2010.0303; Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C. (2012). Climate Change and Agriculture in the United States: Effects and Adaptation. USDA Technical Bulletin 1935, 1-186",
+          "target": "SUPPLIER DIVERSIFICATION -> GEOGRAPHIC RISK SPREAD -> CONTINUOUS THROUGHPUT",
+          "citation": [
+            {
+              "author": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D.",
+              "year": 2011,
+              "title": "Climate impacts on agriculture: Implications for crop production",
+              "journal": "Agronomy Journal",
+              "volume": "103(2)",
+              "pages": "351-370",
+              "doi": "10.2134/agronj2010.0303"
+            },
+            {
+              "author": "Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C.",
+              "year": 2012,
+              "title": "Climate Change and Agriculture in the United States: Effects and Adaptation",
+              "journal": "USDA Technical Bulletin 1935",
+              "volume": null,
+              "pages": "1-186",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement protocol across all animal groups; maintain individual or lot-level treatment records per regulatory requirements",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Scout treated areas at 7-day intervals post-application; record pest/weed/disease pressure on a 0-10 severity scale at ≥5 locations per field. Target pest population below the economic threshold within 14 days of treatment. Compare treated versus untreated check strips at harvest; target ≥yield protection value exceeding treatment cost. Reassess product efficacy and resistance risk at season end.",
+          "escalation": "If pest/disease pressure remains above the economic threshold 14 days post-treatment, or if treated populations rebound to >75% of pre-treatment levels within 21 days, escalate to a plant pathologist or extension plant disease specialist for resistance screening and alternative mode-of-action evaluation. If two consecutive applications of the same product class fail to reduce pressure below threshold, discontinue that class and request specialist-guided rotation plan within 7 days."
+        },
+        {
+          "label": "Sanitation Standard Operating Procedure Coaching",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Hands-on sanitation training for all production and sanitation crew members covering proper chemical concentration, contact time, rinse verification, equipment disassembly, and environmental swabbing technique. Annual competency verification with practical demonstration ensures knowledge retention beyond initial orientation.",
+          "cite": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S. (2019). Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature. Journal of Soil and Water Conservation, 74(5), 520-534. doi:10.2489/jswc.74.5.520; Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R. (2006). Understanding and promoting adoption of conservation practices by rural landholders. Australian Journal of Experimental Agriculture, 46(11), 1407-1424. doi:10.1071/EA05037",
+          "target": "SANITATION COMPETENCY -> BIOFILM ELIMINATION -> ENVIRONMENTAL PATHOGEN CONTROL",
+          "citation": [
+            {
+              "author": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S.",
+              "year": 2019,
+              "title": "Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "74(5)",
+              "pages": "520-534",
+              "doi": "10.2489/jswc.74.5.520"
+            },
+            {
+              "author": "Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R.",
+              "year": 2006,
+              "title": "Understanding and promoting adoption of conservation practices by rural landholders",
+              "journal": "Australian Journal of Experimental Agriculture",
+              "volume": "46(11)",
+              "pages": "1407-1424",
+              "doi": "10.1071/EA05037"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified equipment technician or dealer service manager for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Ergonomic Workstation Redesign for Retention",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Redesigning fabrication line workstations with adjustable-height platforms, anti-fatigue matting, improved knife sharpening stations, and ergonomic tool handles reduces repetitive strain injuries that are the primary driver of meat processing workforce turnover. OSHA recordable injury rates in meat processing exceed all-manufacturing averages by 2-3x.",
+          "cite": "[CITATION NEEDED: Redesigning fabrication line workstations with adjustable-height platforms, anti-fatigue matting, im]",
+          "target": "ERGONOMIC REDESIGN -> INJURY RATE REDUCTION -> WORKFORCE RETENTION",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Redesigning fabrication line workstations with adjustable-height platforms, anti-fatigue matting, im]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Wastewater Pre-Treatment DAF System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Dissolved air flotation (DAF) systems remove 85-95 percent of fats, oils, grease, and 50-70 percent of TSS from meat processing wastewater before discharge to municipal treatment. Properly sized DAF with polymer conditioning prevents BOD surcharge violations and enables recovered grease to be sold to rendering.",
+          "cite": "[CITATION NEEDED: Dissolved air flotation (DAF) systems remove 85-95 percent of fats, oils, grease, and 50-70 percent ]",
+          "target": "DAF INSTALLATION -> FOG AND BOD REMOVAL -> DISCHARGE COMPLIANCE",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Dissolved air flotation (DAF) systems remove 85-95 percent of fats, oils, grease, and 50-70 percent ]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Food Safety Culture Assessment and Improvement",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Conducting anonymous food safety culture surveys across all shifts and departments, followed by action planning with hourly employee participation, addresses the behavioral root causes of contamination events. Plants where line workers feel empowered to stop production for food safety concerns show significantly fewer recall events.",
+          "cite": "Mortimore, S. & Wallace, C. (2013). HACCP: A Practical Approach, 3rd Edition. Springer, 1-475. doi:10.1007/978-1-4614-5028-3; Codex Alimentarius Commission (2003). Hazard Analysis and Critical Control Point (HACCP) System and Guidelines for its Application. CAC/RCP 1-1969 Rev. 4",
+          "target": "CULTURE ASSESSMENT -> BEHAVIORAL ROOT CAUSE ACTION -> STOP-AUTHORITY EMPOWERMENT",
+          "citation": [
+            {
+              "author": "Mortimore, S. & Wallace, C.",
+              "year": 2013,
+              "title": "HACCP: A Practical Approach, 3rd Edition",
+              "journal": "Springer",
+              "volume": null,
+              "pages": "1-475",
+              "doi": "10.1007/978-1-4614-5028-3"
+            },
+            {
+              "author": "Codex Alimentarius Commission",
+              "year": 2003,
+              "title": "Hazard Analysis and Critical Control Point (HACCP) System and Guidelines for its Application",
+              "journal": "CAC/RCP 1-1969 Rev. 4",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Conduct monthly compliance audits; target zero protocol violations per 30-day cycle. Track incident reports pre- versus post-implementation; target ≥50% reduction in safety incidents within 6 months. Assess team safety behavior with unannounced spot-checks at least twice per month.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a food safety specialist or HACCP consultant for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Environmental Monitoring Program Swab Mapping Tool",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Digital facility mapping tool tracking all environmental monitoring sample sites, results history, corrective actions, and trend analysis for Listeria spp. and indicator organisms. Automated alerts when positive results cluster in zones enable targeted deep-clean interventions before product contact surfaces are affected.",
+          "cite": "[CITATION NEEDED: Digital facility mapping tool tracking all environmental monitoring sample sites, results history, c]",
+          "target": "SWAB DATA MAPPING -> CLUSTER DETECTION -> TARGETED INTERVENTION BEFORE PRODUCT CONTACT",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Digital facility mapping tool tracking all environmental monitoring sample sites, results history, c]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Workforce Recruitment and Bilingual Onboarding Program",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Structured recruitment partnerships with community organizations and bilingual (English/Spanish) onboarding programs with translated SOPs, visual work instructions, and peer mentors reduce time-to-productivity and first-year turnover. Addressing language barriers in safety training is both an OSHA obligation and retention strategy.",
+          "cite": "[CITATION NEEDED: Structured recruitment partnerships with community organizations and bilingual (English/Spanish) onb]",
+          "target": "BILINGUAL ONBOARDING -> COMPREHENSION AND ENGAGEMENT -> REDUCED TURNOVER",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Structured recruitment partnerships with community organizations and bilingual (English/Spanish) onb]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a food safety specialist or HACCP consultant for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Crop Protection",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver"
+        },
+        {
+          "domain": "business",
+          "role": "Risk Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Markets"
+        },
+        {
+          "domain": "environment",
+          "role": "Wildlife Management"
+        },
+        {
+          "domain": "legal",
+          "role": "Criminal Threat Assessment"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Metabolic Anxiety and Threat"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Threat Detection & Emotional Reactivity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Dairy Processing",
+      "domainDescription": "Pasteurization, cheese making, and cultured dairy product manufacturing",
+      "group": "animal_products",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_foodproc_dairyproc_portal.html",
+      "treatments": [
+        {
+          "label": "Listeria Environmental Monitoring Intensification",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Expanding environmental monitoring programs beyond minimum regulatory requirements to include Zone 1-4 sampling with increased frequency in moisture-prone areas such as floor drains, condensate drip points, and CIP return lines. Trend analysis of indicator organism results predicts harborage development before Listeria monocytogenes colonization.",
+          "cite": "[CITATION NEEDED: Expanding environmental monitoring programs beyond minimum regulatory requirements to include Zone 1]",
+          "target": "EXPANDED MONITORING -> HARBORAGE PREDICTION -> PRE-EMPTIVE SANITATION",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Expanding environmental monitoring programs beyond minimum regulatory requirements to include Zone 1]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Delineate management zones using spatial data; assign zone-specific prescriptions with rate tables",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Pasteurizer Heat Regeneration Efficiency Optimization",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Optimizing HTST pasteurizer regeneration section plate configuration and flow balance to achieve 90-94 percent heat regeneration reduces steam consumption for heating and glycol/water consumption for cooling. Annual plate inspection and gasket replacement maintains heat transfer efficiency that degrades with milk stone buildup.",
+          "cite": "Kader, A.A. (2002). Postharvest Technology of Horticultural Crops, 3rd Edition. University of California ANR Publication 3311, 1-535; Yahia, E.M. (2011). Modified and controlled atmospheres for the storage, transportation, and packaging of horticultural commodities. CRC Press, 1-589",
+          "target": "REGENERATION OPTIMIZATION -> STEAM REDUCTION -> ENERGY COST CONTROL",
+          "citation": [
+            {
+              "author": "Kader, A.A.",
+              "year": 2002,
+              "title": "Postharvest Technology of Horticultural Crops, 3rd Edition",
+              "journal": "University of California ANR Publication 3311",
+              "volume": null,
+              "pages": "1-535",
+              "doi": null
+            },
+            {
+              "author": "Yahia, E.M.",
+              "year": 2011,
+              "title": "Modified and controlled atmospheres for the storage, transportation, and packaging of horticultural commodities",
+              "journal": "CRC Press",
+              "volume": null,
+              "pages": "1-589",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Dairy Operator PMO Compliance Training",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Comprehensive training for dairy plant operators on Pasteurized Milk Ordinance requirements including proper HTST operation, divert valve testing, sealed-reference thermometer calibration, CIP verification, and regulatory recording procedures. Competency-based assessment ensures operators understand the public health rationale behind each requirement.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "PMO TRAINING -> REGULATORY COMPETENCY -> COMPLIANT PASTEURIZATION",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a dairy nutritionist or dairy management specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Whey Processing and Valorization Infrastructure",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Installing ultrafiltration and reverse osmosis membrane systems to concentrate whey protein and lactose from cheese-making waste streams converts a disposal liability into revenue-generating whey protein concentrate (WPC) and whey permeate products. Eliminates land-application disposal costs and associated nutrient loading concerns.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "MEMBRANE CONCENTRATION -> WHEY VALORIZATION -> WASTE STREAM ELIMINATION",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Apply prescribed rates using calibrated equipment; document actual application rates per zone for variance tracking",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a food safety specialist or HACCP consultant for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        },
+        {
+          "label": "CIP System Automation and Chemical Use Optimization",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Automated clean-in-place systems with conductivity-controlled chemical dosing, temperature verification, and timed rinse sequences ensure consistent sanitation while minimizing water, chemical, and energy consumption. Programmable CIP recipes eliminate operator-dependent variability in cleaning effectiveness that contributes to contamination risk.",
+          "cite": "Mortimore, S. & Wallace, C. (2013). HACCP: A Practical Approach, 3rd Edition. Springer, 1-475. doi:10.1007/978-1-4614-5028-3; Codex Alimentarius Commission (2003). Hazard Analysis and Critical Control Point (HACCP) System and Guidelines for its Application. CAC/RCP 1-1969 Rev. 4",
+          "target": "CIP AUTOMATION -> CONSISTENT SANITATION -> CONTAMINATION RISK REDUCTION",
+          "citation": [
+            {
+              "author": "Mortimore, S. & Wallace, C.",
+              "year": 2013,
+              "title": "HACCP: A Practical Approach, 3rd Edition",
+              "journal": "Springer",
+              "volume": null,
+              "pages": "1-475",
+              "doi": "10.1007/978-1-4614-5028-3"
+            },
+            {
+              "author": "Codex Alimentarius Commission",
+              "year": 2003,
+              "title": "Hazard Analysis and Critical Control Point (HACCP) System and Guidelines for its Application",
+              "journal": "CAC/RCP 1-1969 Rev. 4",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Continuous Improvement and Food Safety Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Establishing plant-wide food safety culture through visible management commitment, anonymous near-miss reporting, monthly all-hands food safety reviews, and recognition programs for employees who identify hazards. Integrating food safety into performance evaluations at all levels signals organizational priority beyond regulatory compliance.",
+          "cite": "Mortimore, S. & Wallace, C. (2013). HACCP: A Practical Approach, 3rd Edition. Springer, 1-475. doi:10.1007/978-1-4614-5028-3; Codex Alimentarius Commission (2003). Hazard Analysis and Critical Control Point (HACCP) System and Guidelines for its Application. CAC/RCP 1-1969 Rev. 4",
+          "target": "MANAGEMENT COMMITMENT -> EMPLOYEE ENGAGEMENT -> PROACTIVE HAZARD IDENTIFICATION",
+          "citation": [
+            {
+              "author": "Mortimore, S. & Wallace, C.",
+              "year": 2013,
+              "title": "HACCP: A Practical Approach, 3rd Edition",
+              "journal": "Springer",
+              "volume": null,
+              "pages": "1-475",
+              "doi": "10.1007/978-1-4614-5028-3"
+            },
+            {
+              "author": "Codex Alimentarius Commission",
+              "year": 2003,
+              "title": "Hazard Analysis and Critical Control Point (HACCP) System and Guidelines for its Application",
+              "journal": "CAC/RCP 1-1969 Rev. 4",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Conduct monthly compliance audits; target zero protocol violations per 30-day cycle. Track incident reports pre- versus post-implementation; target ≥50% reduction in safety incidents within 6 months. Assess team safety behavior with unannounced spot-checks at least twice per month.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a food safety specialist or HACCP consultant for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Dairy Processing Energy and Water Benchmarking Tool",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Spreadsheet or cloud-based tool tracking energy (BTU/lb milk processed) and water (gal/lb milk processed) intensity metrics against industry benchmarks published by Innovation Center for U.S. Dairy. Monthly trending identifies efficiency degradation and validates improvement project ROI.",
+          "cite": "Beckman, J. & Xiarchos, I.M. (2013). Why are Californian farmers adopting more (and larger) parsing systems?. Energy Policy, 55, 40-49. doi:10.1016/j.enpol.2012.11.024; USDA Rural Energy for America Program (2019). Energy audit and renewable energy development assistance. USDA Rural Development",
+          "target": "BENCHMARKING DATA -> EFFICIENCY GAP IDENTIFICATION -> TARGETED IMPROVEMENT PROJECTS",
+          "citation": [
+            {
+              "author": "Beckman, J. & Xiarchos, I.M.",
+              "year": 2013,
+              "title": "Why are Californian farmers adopting more (and larger) parsing systems?",
+              "journal": "Energy Policy",
+              "volume": "55",
+              "pages": "40-49",
+              "doi": "10.1016/j.enpol.2012.11.024"
+            },
+            {
+              "author": "USDA Rural Energy for America Program",
+              "year": 2019,
+              "title": "Energy audit and renewable energy development assistance",
+              "journal": "USDA Rural Development",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Skilled Operator Retention and Apprenticeship Pipeline",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Partnering with community colleges and trade schools to create dairy processing apprenticeship programs with structured classroom and on-the-job training tracks. Apprenticeship pipelines address the skilled operator shortage by providing career advancement pathways that improve retention of trained workers in competitive labor markets.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "APPRENTICESHIP PIPELINE -> CAREER PATHWAY -> SKILLED OPERATOR RETENTION",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a dairy nutritionist or dairy management specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Seasonal Patterns",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Labor Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Mining and Extraction"
+        },
+        {
+          "domain": "environment",
+          "role": "Geological Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Raw Materials"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Somatosensory Cortex"
+        },
+        {
+          "domain": "technology",
+          "role": "IoT & Sensors"
+        },
+        {
+          "domain": "trade",
+          "role": "Last-Mile Delivery"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator — Signal Detection & Input — Secondary Node"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Oil Extraction",
+      "domainDescription": "Mechanical pressing and solvent extraction of vegetable and seed oils",
+      "group": "extraction",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_foodproc_oilextract_portal.html",
+      "treatments": [
+        {
+          "label": "Multi-Oilseed Procurement and Inventory Buffering",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Diversifying oilseed procurement across soybean, canola, sunflower, and specialty seeds from multiple origins with 45-day minimum inventory buffers reduces exposure to single-commodity trade disruptions. Pre-positioned contracts with domestic crushers provide fallback supply when import channels are disrupted.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "PROCUREMENT DIVERSIFICATION -> INVENTORY BUFFER -> CONTINUOUS EXTRACTION OPERATION",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Hexane Loss Reduction and Emission Control Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Systematic hexane loss tracking through mass balance accounting (gallons lost per ton of seed processed) identifies fugitive emission sources. Target hexane loss below 0.2 gal/ton through improved DT (desolventizer-toaster) operation, mineral oil absorption systems, and condenser efficiency optimization.",
+          "cite": "Nafziger, E.D. (2012). Corn planting date and plant population. Journal of Production Agriculture, 7(1), 59-62. doi:10.2134/jpa1994.0059; De Bruin, J.L. & Pedersen, P. (2008). Effect of row spacing and seeding rate on soybean yield. Agronomy Journal, 100(3), 704-710. doi:10.2134/agronj2007.0226",
+          "target": "HEXANE MASS BALANCE -> LOSS SOURCE IDENTIFICATION -> EMISSION REDUCTION",
+          "citation": [
+            {
+              "author": "Nafziger, E.D.",
+              "year": 2012,
+              "title": "Corn planting date and plant population",
+              "journal": "Journal of Production Agriculture",
+              "volume": "7(1)",
+              "pages": "59-62",
+              "doi": "10.2134/jpa1994.0059"
+            },
+            {
+              "author": "De Bruin, J.L. & Pedersen, P.",
+              "year": 2008,
+              "title": "Effect of row spacing and seeding rate on soybean yield",
+              "journal": "Agronomy Journal",
+              "volume": "100(3)",
+              "pages": "704-710",
+              "doi": "10.2134/agronj2007.0226"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Process Safety Management Operator Training",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "All extraction facility operators must complete PSM training covering hexane flammability hazards, LEL monitoring, hot work permit procedures, mechanical integrity inspections, and emergency response. Annual refresher training with practical drills addresses the high-consequence nature of solvent extraction operations.",
+          "cite": "[CITATION NEEDED: All extraction facility operators must complete PSM training covering hexane flammability hazards, L]",
+          "target": "PSM TRAINING -> HAZARD AWARENESS -> INCIDENT PREVENTION",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: All extraction facility operators must complete PSM training covering hexane flammability hazards, L]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a food safety specialist or HACCP consultant for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Wastewater Treatment and Oilseed Meal Byproduct Infrastructure",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Installing oil-water separators, equalization basins, and pH adjustment systems for extraction process wastewater while establishing reliable meal byproduct sales channels to animal feed compounders. Spent meal quality management (residual oil, protein content, aflatoxin testing) maintains byproduct market value.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "WASTEWATER TREATMENT -> EFFLUENT COMPLIANCE -> BYPRODUCT VALUE CAPTURE",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Environmental and Safety Reporting Transparency Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Creating open reporting culture where operators report hexane odors, equipment leaks, and near-miss events without fear of reprisal. Monthly safety committee meetings with operator representatives review all reports and track corrective actions to completion. Facilities with strong PSM culture experience significantly fewer catastrophic incidents.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "OPEN REPORTING CULTURE -> NEAR-MISS CAPTURE -> PROACTIVE HAZARD ELIMINATION",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Conduct monthly compliance audits; target zero protocol violations per 30-day cycle. Track incident reports pre- versus post-implementation; target ≥50% reduction in safety incidents within 6 months. Assess team safety behavior with unannounced spot-checks at least twice per month.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified equipment technician or dealer service manager for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Solvent Extraction Mass Balance and Efficiency Tracker",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Digital tool calculating daily oil recovery efficiency from incoming seed oil content (NIR analysis), residual oil in spent flakes, miscella concentration, and hexane usage. Dashboard visualization of efficiency trends enables operators and managers to identify process drift and prioritize maintenance actions.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "MASS BALANCE TRACKING -> DRIFT DETECTION -> RECOVERY OPTIMIZATION",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Premium Markets",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Packaging & Labeling",
+      "domainDescription": "Food-grade packaging, nutrition labeling, and shelf-life management",
+      "group": "finishing",
+      "phase": "P8",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_foodproc_packlabel_portal.html",
+      "treatments": [
+        {
+          "label": "Packaging Integrity Verification at CCP",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Designating package seal integrity as a Critical Control Point with defined monitoring frequency, critical limits (seal strength, vacuum level, visual defect criteria), and corrective actions ensures post-process contamination prevention. Statistical sampling plans based on lot size provide defensible verification without 100 percent inspection.",
+          "cite": "[CITATION NEEDED: Designating package seal integrity as a Critical Control Point with defined monitoring frequency, cr]",
+          "target": "SEAL CCP DESIGNATION -> SYSTEMATIC VERIFICATION -> POST-PROCESS CONTAMINATION PREVENTION",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Designating package seal integrity as a Critical Control Point with defined monitoring frequency, cr]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Visual Inspection and Quality Standards Training",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Training packaging line operators on visual defect identification using standardized defect reference cards, limit samples, and pass/fail decision criteria. Refresher training addresses the skill degradation that occurs with temporary workforce turnover, ensuring consistent quality judgment across all shifts and personnel.",
+          "cite": "[CITATION NEEDED: Training packaging line operators on visual defect identification using standardized defect referenc]",
+          "target": "DEFECT IDENTIFICATION TRAINING -> CONSISTENT JUDGMENT -> QUALITY MAINTENANCE DESPITE TURNOVER",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Training packaging line operators on visual defect identification using standardized defect referenc]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a food safety specialist or HACCP consultant for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Automated Inspection and Rejection Equipment",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Installing vision inspection systems, metal detectors, X-ray inspection, and checkweighers on packaging lines provides objective, consistent defect detection independent of operator fatigue or skill level. Automated rejection systems remove non-conforming packages without manual intervention, maintaining line speed during labor shortages.",
+          "cite": "[CITATION NEEDED: Installing vision inspection systems, metal detectors, X-ray inspection, and checkweighers on packag]",
+          "target": "AUTOMATED INSPECTION -> LABOR-INDEPENDENT DETECTION -> CONSISTENT QUALITY AT SPEED",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Installing vision inspection systems, metal detectors, X-ray inspection, and checkweighers on packag]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Quality-First Line Culture and Empowered Stop Authority",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Empowering all packaging line operators to stop the line when defect rates exceed defined thresholds without waiting for supervisor approval. Recognition programs for quality catches and transparent tracking of prevented-defect metrics build intrinsic motivation for quality vigilance even among temporary workers.",
+          "cite": "[CITATION NEEDED: Empowering all packaging line operators to stop the line when defect rates exceed defined thresholds]",
+          "target": "STOP AUTHORITY -> IMMEDIATE DEFECT RESPONSE -> QUALITY CULTURE REINFORCEMENT",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Empowering all packaging line operators to stop the line when defect rates exceed defined thresholds]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a food safety specialist or HACCP consultant for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Label Compliance Verification Checklist Tool",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Structured checklist tool covering all FDA mandatory label elements (nutrition facts panel, allergen declarations, net weight, ingredient statement, establishment number) with sign-off workflow for label proof approval before print runs. Prevents costly label recalls from missing allergen declarations or incorrect nutrition information.",
+          "cite": "[CITATION NEEDED: Structured checklist tool covering all FDA mandatory label elements (nutrition facts panel, allergen]",
+          "target": "SYSTEMATIC LABEL REVIEW -> ERROR PREVENTION -> RECALL AVOIDANCE",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Structured checklist tool covering all FDA mandatory label elements (nutrition facts panel, allergen]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to a food safety specialist or HACCP consultant for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        },
+        {
+          "label": "Packaging Line Staffing Flexibility Strategy",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Developing tiered staffing models combining core permanent operators with pre-trained temporary labor pools and cross-trained personnel from adjacent departments. Pre-season training cohorts for temporary workers complete basic GMP, allergen awareness, and line-specific training before peak production periods begin.",
+          "cite": "[CITATION NEEDED: Developing tiered staffing models combining core permanent operators with pre-trained temporary labo]",
+          "target": "TIERED STAFFING MODEL -> PRE-TRAINED LABOR POOL -> MAINTAINED THROUGHPUT DURING SHORTAGE",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Developing tiered staffing models combining core permanent operators with pre-trained temporary labo]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Food Processing",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PIN",
+      "state": "active",
+      "domainLabel": "Food Processing — Action Coordination",
+      "domainDescription": "Food Processing — Action Coordination within Food Processing",
+      "group": "grain_processing",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_foodproc_ri_action_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Food Processing — Action Coordination",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Polar & Cryosphere"
+        },
+        {
+          "domain": "religion",
+          "role": "Monastic Traditions"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradepolicy"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Risk & Resilience"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Special Ops"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "sgACC",
+      "state": "active",
+      "domainLabel": "Food Processing — Adaptation & Learning",
+      "domainDescription": "Food Processing — Adaptation & Learning within Food Processing",
+      "group": "grain_processing",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_foodproc_ri_adapt_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Food Processing — Adaptation & Learning",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Research Edu"
+        },
+        {
+          "domain": "communication",
+          "role": "Universal Design"
+        },
+        {
+          "domain": "culture",
+          "role": "Coiling Techniques — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "recon isr — Signal Acquisition"
+        },
+        {
+          "domain": "economy",
+          "role": "investbank underwriting — Signal Acquisition"
+        },
+        {
+          "domain": "energy",
+          "role": "battrecycling economics — Signal Acquisition"
+        },
+        {
+          "domain": "environment",
+          "role": "smog ground — Signal Acquisition"
+        },
+        {
+          "domain": "finance",
+          "role": "Realestate Fin"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "MAMM",
+      "state": "active",
+      "domainLabel": "Food Processing — Diagnostic Analysis",
+      "domainDescription": "Food Processing — Diagnostic Analysis within Food Processing",
+      "group": "grain_processing",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_foodproc_ri_diagnosis_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Food Processing — Diagnostic Analysis",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Translation Services Risk & Resilience"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Heritage"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Human Capital & Development"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Infrastructure & Capacity"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Monitoring & Evaluation"
+        },
+        {
+          "domain": "energy",
+          "role": "Collection Systems Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "rPFC",
+      "state": "active",
+      "domainLabel": "Food Processing — Feedback & Validation",
+      "domainDescription": "Food Processing — Feedback & Validation within Food Processing",
+      "group": "grain_processing",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_foodproc_ri_feedback_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Food Processing — Feedback & Validation",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Governance Edu"
+        },
+        {
+          "domain": "communication",
+          "role": "screen rdr — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Streetscape Design — Assessment & Monitoring — Predictive Modeling"
+        },
+        {
+          "domain": "defense",
+          "role": "aeromedical diag — Root Cause Analysis"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Restructuring — Implementation & Strategy — Quality Gates"
+        },
+        {
+          "domain": "energy",
+          "role": "processing diag — Intervention Planning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ventilation Systems — Optimization & Innovation — Performance Tuning"
+        },
+        {
+          "domain": "finance",
+          "role": "Control Remediation — Implementation & Strategy — Technology Deployment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Food Processing — Regulation Strategy",
+      "domainDescription": "Food Processing — Regulation Strategy within Food Processing",
+      "group": "grain_processing",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_foodproc_ri_regulate_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Food Processing — Regulation Strategy",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "legal",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "provider",
+          "role": "Continuity of Care Network"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Cultural Adaptation — Regulation Strategy"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "interior acoustics — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Aeromedical Evacuation Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CLAUST",
+      "state": "active",
+      "domainLabel": "Food Processing — Signal Detection",
+      "domainDescription": "Food Processing — Signal Detection within Food Processing",
+      "group": "grain_processing",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_foodproc_ri_signal_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Food Processing — Signal Detection",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "psychedelic",
+          "role": "Consciousness Integration Hub"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Cultural Econ"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Protocol Development Systems"
+        },
+        {
+          "domain": "education",
+          "role": "Demographic Analysis Quality & Performance"
+        },
+        {
+          "domain": "energy",
+          "role": "Frequency Regulation Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DV",
+      "state": "active",
+      "domainLabel": "Food Processing — State Assessment",
+      "domainDescription": "Food Processing — State Assessment within Food Processing",
+      "group": "grain_processing",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_foodproc_ri_state_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Climate & Weather — Action Coordination",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Water Cycles"
+        },
+        {
+          "domain": "communication",
+          "role": "Audio Description Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Fighter Aircraft Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Trend Analysis"
+        },
+        {
+          "domain": "education",
+          "role": "Demographic Analysis Infrastructure & Capacity"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Packs Human Capital & Development"
+        },
+        {
+          "domain": "finance",
+          "role": "Accounting — Adaptation & Learning"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "M1",
+      "target": "THAL",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "NAcc",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "HIPP",
+      "target": "S1",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "BLA",
+      "target": "HYPO",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "S1",
+      "target": "HYPO",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "THAL",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "HYPO",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NAcc",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "BLA",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    }
+  ],
+  "issues": [
+    {
+      "id": "CONTAMINATION_EVENT",
+      "label": "Contamination Event",
+      "summary": "Pathogen or chemical contamination in processing facility requiring product recall and production shutdown",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Meat processing line contamination with Salmonella or E. coli from sanitation failure",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hyper-active",
+          "detail": "Dairy processing equipment harboring Listeria in hard-to-clean zones despite CIP protocols",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hypo-active",
+          "detail": "Packaging inspection failing to detect compromised seals allowing post-process contamination",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-active",
+          "detail": "Canning process deviation not detected by critical control point monitoring",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SUPPLY_INTERRUPTION",
+      "label": "Supply Interruption",
+      "summary": "Raw material shortage or quality inconsistency disrupting continuous processing operations",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Milling operations idled by grain supply disruption from weather-shortened harvest",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hypo-active",
+          "detail": "Meat processing throughput reduced by livestock supply contraction from disease or drought",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Oilseed processing capacity underutilized due to trade-disrupted import supply",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Fermentation processes producing inconsistent results from variable raw material quality",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_COST_SURGE",
+      "label": "Energy Cost Surge",
+      "summary": "Natural gas and electricity price spikes making energy-intensive processing operations uneconomic",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper-active",
+          "detail": "Freezing operations consuming unsustainable energy costs as natural gas prices spike",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Milling energy costs per unit rising faster than finished product pricing can adjust",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Canning retort operations energy-intensive and unable to reduce steam consumption without process redesign",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Altered",
+          "detail": "Dairy pasteurization and refrigeration consuming combined 60 percent of facility energy budget",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LABOR_SHORTAGE",
+      "label": "Labor Shortage",
+      "summary": "Processing plant unable to staff production lines forcing reduced shifts and throughput during peak season",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hypo-active",
+          "detail": "Meat processing plants operating at reduced capacity due to insufficient line workers",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "Dairy processing schedules compressed as skilled operators unavailable for second shifts",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered",
+          "detail": "Packaging and labeling quality declining with undertrained temporary workforce",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Milling operations running overtime with fatigued operators increasing error and injury rates",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "WASTE_STREAM_OVERLOAD",
+      "label": "Waste Stream Overload",
+      "summary": "Processing byproducts and wastewater exceeding treatment and disposal capacity triggering environmental violations",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Meat processing wastewater BOD loading overwhelming treatment lagoon capacity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper-active",
+          "detail": "Oil extraction hexane emissions exceeding permitted air quality thresholds",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Fermentation byproduct streams requiring disposal pathways not available at current volume",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Altered",
+          "detail": "Dairy whey disposal costs rising as land application sites reach nutrient loading limits",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:16.446Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

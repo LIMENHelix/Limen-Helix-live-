@@ -1,0 +1,2469 @@
+{
+  "domainId": "legal",
+  "title": "Legal Systems",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Judicial Reasoning",
+      "domainDescription": "Appellate and trial-level legal analysis and decision-making",
+      "domainFunction": "Synthesizes precedent, statute, and fact patterns into coherent legal reasoning and judicial opinions",
+      "whyThisNode": "dlPFC drives executive reasoning and planning — judicial analysis requires the same sustained complex reasoning and working memory",
+      "group": "adjudication",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "WRONGFUL_CONVICTION",
+        "CONSTITUTIONAL_CRISIS",
+        "REGULATORY_OVERREACH"
+      ],
+      "treatments": [
+        {
+          "label": "Judicial bias training",
+          "type": "STRUCTURAL",
+          "description": "Implement implicit bias training and structured decision protocols for bench officers to reduce cognitive bias",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Appellate reversal rate analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Track reversal rates by judge and issue type to identify systematic reasoning failures requiring correction",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "legal_judicial_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core judicial reasoning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core judicial reasoning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Executes core judicial reasoning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Judicial Reasoning",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Prosecutorial Oversight",
+      "domainDescription": "State enforcement of criminal and regulatory law",
+      "domainFunction": "Monitors violations, files charges, and prosecutes cases on behalf of the state with conflict monitoring for ethical boundaries",
+      "whyThisNode": "dACC is the conflict monitor — prosecution must constantly balance zeal for conviction against ethical obligations to justice",
+      "group": "prosecution",
+      "phase": "P6",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "WRONGFUL_CONVICTION",
+        "REGULATORY_OVERREACH"
+      ],
+      "treatments": [
+        {
+          "label": "Brady compliance protocol",
+          "type": "STRUCTURAL",
+          "description": "Systematic disclosure checklists ensuring all exculpatory evidence is shared with defense as constitutionally required",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Conviction integrity unit",
+          "type": "DIAGNOSTIC",
+          "description": "Dedicated unit reviewing past convictions for prosecutorial error, misconduct, or newly discovered evidence",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "legal_prosecutorial_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Detects and monitors prosecutorial oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors prosecutorial oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Harvey AI",
+          "ticker_or_id": "HARVEY_AI",
+          "functional_reason": "Detects and monitors prosecutorial oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Prosecutorial Oversight",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vlPFC",
+      "state": "active",
+      "domainLabel": "Defense Advocacy",
+      "domainDescription": "Legal representation protecting individual rights against state power",
+      "domainFunction": "Challenges state action, inhibits prosecutorial overreach, and ensures due process protections are enforced",
+      "whyThisNode": "vlPFC is the inhibitory control center — defense counsel's role is to check and restrain the power of the prosecution and state",
+      "group": "defense",
+      "phase": "P6",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "WRONGFUL_CONVICTION",
+        "ACCESS_TO_JUSTICE"
+      ],
+      "treatments": [
+        {
+          "label": "Public defender caseload reform",
+          "type": "STRUCTURAL",
+          "description": "Enforce ABA-recommended maximum caseloads to ensure adequate defense representation quality",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Defense adequacy audit",
+          "type": "DIAGNOSTIC",
+          "description": "Review Strickland claims and ineffective assistance rates to identify systemic defense quality failures",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "legal_defense_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core defense advocacy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core defense advocacy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Executes core defense advocacy operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Defense Advocacy",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Impulse Brake System"
+        },
+        {
+          "domain": "business",
+          "role": "Legal & Governance"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Response Inhibition & Emotion Regulation"
+        },
+        {
+          "domain": "provider",
+          "role": "Regulatory Compliance"
+        },
+        {
+          "domain": "communication",
+          "role": "Public Relations"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Assessment & Diagnostics"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture — Signal Detection"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Judicial Temperament / Equity",
+      "domainDescription": "Equitable judgment balancing law with fairness and human impact",
+      "domainFunction": "Evaluates the human cost of legal outcomes and guides equitable discretion in sentencing, settlements, and rulings",
+      "whyThisNode": "vmPFC mediates emotional valuation and moral judgment — equity jurisdiction requires weighing human impact alongside strict law",
+      "group": "adjudication",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "WRONGFUL_CONVICTION",
+        "ACCESS_TO_JUSTICE",
+        "CONSTITUTIONAL_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Restorative justice integration",
+          "type": "STRUCTURAL",
+          "description": "Implement restorative justice alternatives for appropriate cases to balance punishment with healing and accountability",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Sentencing disparity analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Statistical analysis of sentencing outcomes by race, gender, and socioeconomic status to detect inequitable patterns",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "legal_temperament_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Harvey AI",
+          "ticker_or_id": "HARVEY_AI",
+          "functional_reason": "Models and simulates judicial temperament / equity scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Routes and distributes judicial temperament / equity resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Stores and retrieves judicial temperament / equity knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.72
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Judicial Temperament / Equity",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Court Administration / Case Routing",
+      "domainDescription": "Court system case management and routing infrastructure",
+      "domainFunction": "Routes cases through the judicial system — filing, assignment, scheduling, and tracking from initiation to resolution",
+      "whyThisNode": "Thalamus is the brain's information relay — court administration routes every case to the correct courtroom, judge, and docket",
+      "group": "adjudication",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ACCESS_TO_JUSTICE",
+        "MASS_TORT"
+      ],
+      "treatments": [
+        {
+          "label": "Electronic case management system",
+          "type": "STRUCTURAL",
+          "description": "Implement modern e-filing and case management to reduce routing delays and improve tracking transparency",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Case processing time audit",
+          "type": "DIAGNOSTIC",
+          "description": "Track time-to-disposition by case type to identify bottlenecks and unjust delay in the system",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "legal_court_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Routes and distributes court administration / case routing resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "U.S. Federal Courts (PACER)",
+          "ticker_or_id": "PACER_GOV",
+          "functional_reason": "Routes and distributes court administration / case routing resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Routes and distributes court administration / case routing resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Court Administration / Case Routing",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "medicine",
+          "role": "Neurology"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Precedent / Legal Memory",
+      "domainDescription": "Common law precedent, statutory interpretation history, and institutional memory",
+      "domainFunction": "Stores and retrieves the vast body of precedent, legislative history, and institutional knowledge that legal reasoning depends on",
+      "whyThisNode": "Hippocampus encodes and retrieves memory — the legal system's reliance on precedent (stare decisis) is a memory-dependent function",
+      "group": "adjudication",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "WRONGFUL_CONVICTION",
+        "CONSTITUTIONAL_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Precedent database modernization",
+          "type": "STRUCTURAL",
+          "description": "AI-assisted legal research tools to ensure all relevant precedent is identified before judicial decision-making",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Stare decisis health check",
+          "type": "DIAGNOSTIC",
+          "description": "Review judicial departures from established precedent to distinguish principled evolution from erratic inconsistency",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "legal_precedent_portal.html",
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves precedent / legal memory knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves precedent / legal memory knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves precedent / legal memory knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.94
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Precedent / Legal Memory",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Legal Risk Detection",
+      "domainDescription": "Early warning systems for legal exposure and compliance risk",
+      "domainFunction": "Detects emerging legal risks, liability exposure, and compliance vulnerabilities before they become crises",
+      "whyThisNode": "Anterior insula drives interoceptive risk sensing — legal risk detection requires the same gut-level pattern recognition of impending threat",
+      "group": "compliance",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "CORPORATE_FRAUD",
+        "REGULATORY_OVERREACH",
+        "MASS_TORT"
+      ],
+      "treatments": [
+        {
+          "label": "Legal risk monitoring program",
+          "type": "STRUCTURAL",
+          "description": "Ongoing legal landscape scanning for regulatory changes, enforcement trends, and emerging liability areas",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Compliance gap assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Annual review of organizational compliance posture against current regulatory requirements and enforcement priorities",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "legal_legal_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Detects and monitors legal risk detection signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Detects and monitors legal risk detection signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors legal risk detection signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Legal Risk Detection",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Intuition / Pattern Recognition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Criminal Threat Assessment",
+      "domainDescription": "Evaluation of criminal conduct, fraud, and threat to public safety",
+      "domainFunction": "Assesses threat level of criminal behavior and corporate misconduct to calibrate enforcement response",
+      "whyThisNode": "Amygdala evaluates threats — criminal law assesses the threat individuals and organizations pose to society",
+      "group": "prosecution",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CORPORATE_FRAUD",
+        "WRONGFUL_CONVICTION"
+      ],
+      "treatments": [
+        {
+          "label": "Evidence-based risk assessment instruments",
+          "type": "STRUCTURAL",
+          "description": "Replace subjective dangerousness assessments with validated actuarial tools for bail, sentencing, and parole decisions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Recidivism prediction accuracy review",
+          "type": "DIAGNOSTIC",
+          "description": "Track predicted versus actual recidivism rates to calibrate risk assessment instruments over time",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "legal_criminal_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves criminal threat assessment knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core criminal threat assessment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Routes and distributes criminal threat assessment resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.77
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Criminal Threat Assessment",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver"
+        },
+        {
+          "domain": "business",
+          "role": "Risk Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Markets"
+        },
+        {
+          "domain": "environment",
+          "role": "Wildlife Management"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Metabolic Anxiety and Threat"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Threat Detection & Emotional Reactivity"
+        },
+        {
+          "domain": "provider",
+          "role": "Risk Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Legal Advocacy / Argumentation",
+      "domainDescription": "Oral and written legal argumentation in adversarial proceedings",
+      "domainFunction": "Produces the persuasive legal speech — briefs, oral arguments, closing statements — that drives adversarial adjudication",
+      "whyThisNode": "Broca's area drives speech production — legal advocacy is fundamentally a language-output function of persuasion and argumentation",
+      "group": "defense",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ACCESS_TO_JUSTICE",
+        "WRONGFUL_CONVICTION"
+      ],
+      "treatments": [
+        {
+          "label": "Advocacy skills training",
+          "type": "STRUCTURAL",
+          "description": "Trial advocacy programs, moot court, and CLE focused on effective written and oral legal communication",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Brief quality assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Peer review of legal writing quality, argument clarity, and persuasiveness across the bar",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Executes core legal advocacy / argumentation operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core legal advocacy / argumentation operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core legal advocacy / argumentation operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        }
+      ],
+      "childPortal": "legal_advocacy_portal.html",
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Legal Advocacy / Argumentation",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Corporate Communications"
+        },
+        {
+          "domain": "education",
+          "role": "K-12 Teaching"
+        },
+        {
+          "domain": "governance",
+          "role": "Legislative Process"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Smartcity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Broca's Area"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Speech Production & Phonological Proc..."
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Communication"
+        },
+        {
+          "domain": "science",
+          "role": "Publication and Dissemination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Multi-District / Complex Coordination",
+      "domainDescription": "Coordination of complex multi-party and multi-jurisdictional litigation",
+      "domainFunction": "Orchestrates coordination across courts, jurisdictions, and parties in complex litigation, MDL, and class actions",
+      "whyThisNode": "Frontoparietal network coordinates distributed executive function — complex litigation requires orchestrating multiple simultaneous proceedings",
+      "group": "transactional",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "MASS_TORT",
+        "CONSTITUTIONAL_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "MDL coordination protocol",
+          "type": "STRUCTURAL",
+          "description": "Establish lead counsel, steering committees, and bellwether trial selection for efficient mass litigation management",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Complex litigation efficiency audit",
+          "type": "DIAGNOSTIC",
+          "description": "Track MDL duration, settlement rates, and attorney fee proportionality against recovery",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Executes core multi-district / complex coordination operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Executes core multi-district / complex coordination operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core multi-district / complex coordination operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        }
+      ],
+      "childPortal": "family_law_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Multi-District / Complex Coordination",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "medicine",
+          "role": "Gut-Brain Axis"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Settlement / Negotiation",
+      "domainDescription": "Evaluating offers, counteroffers, and resolution outcomes",
+      "domainFunction": "Evaluates the value of settlement options, plea bargains, and negotiated outcomes against trial risk and cost",
+      "whyThisNode": "OFC evaluates reward value and outcome probability — settlement negotiation requires the same cost-benefit and risk-reward calculation",
+      "group": "transactional",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ACCESS_TO_JUSTICE",
+        "MASS_TORT"
+      ],
+      "treatments": [
+        {
+          "label": "ADR program expansion",
+          "type": "STRUCTURAL",
+          "description": "Mandatory mediation and early neutral evaluation to resolve disputes before full litigation cost accrues",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Settlement outcome tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Compare settlement outcomes against trial verdicts in similar cases to calibrate negotiation strategy",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Stores and retrieves settlement / negotiation knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Allocates and regulates settlement / negotiation resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves settlement / negotiation knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.77
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Settlement / Negotiation",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Reward & Food Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Jury / Fact-Finder Perspective",
+      "domainDescription": "Understanding how lay fact-finders perceive evidence and argument",
+      "domainFunction": "Models how jurors, judges, and other fact-finders will perceive and weigh evidence, testimony, and argument",
+      "whyThisNode": "TPJ mediates theory of mind — trial lawyers must model the jury's perspective to craft persuasive case narratives",
+      "group": "adjudication",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "WRONGFUL_CONVICTION",
+        "ACCESS_TO_JUSTICE"
+      ],
+      "treatments": [
+        {
+          "label": "Jury selection science integration",
+          "type": "STRUCTURAL",
+          "description": "Use voir dire psychology and community attitude surveys to improve jury composition analysis",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Post-trial juror feedback",
+          "type": "DIAGNOSTIC",
+          "description": "Systematic post-verdict juror interviews to understand deliberation dynamics and evidence interpretation",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Detects and monitors jury / fact-finder perspective signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Detects and monitors jury / fact-finder perspective signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Harvey AI",
+          "ticker_or_id": "HARVEY_AI",
+          "functional_reason": "Detects and monitors jury / fact-finder perspective signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Jury / Fact-Finder Perspective",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        },
+        {
+          "domain": "provider",
+          "role": "Patient Perspective-Taking"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Legal Procedure / Rules Engine",
+      "domainDescription": "Procedural rules governing litigation conduct",
+      "domainFunction": "Executes the habitual procedural rules — filing deadlines, discovery protocols, evidentiary standards — that structure litigation",
+      "whyThisNode": "Striatum drives habitual procedures — civil and criminal procedure are the routinized rules that every case must follow",
+      "group": "regulatory",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ACCESS_TO_JUSTICE",
+        "REGULATORY_OVERREACH"
+      ],
+      "treatments": [
+        {
+          "label": "Procedural simplification initiative",
+          "type": "STRUCTURAL",
+          "description": "Rules committee review to eliminate unnecessary procedural complexity that creates barriers to justice",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Procedural compliance audit",
+          "type": "DIAGNOSTIC",
+          "description": "Track dismissals and sanctions due to procedural error to identify systemic procedural failure points",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves legal procedure / rules engine knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves legal procedure / rules engine knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core legal procedure / rules engine operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.67
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Legal Procedure / Rules Engine",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "neurology",
+          "role": "Striatum (Caudate/Putamen)"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Constitutional Identity / Rule of Law",
+      "domainDescription": "Foundational constitutional principles and rule-of-law framework",
+      "domainFunction": "Maintains the self-model of the legal system — constitutional principles, separation of powers, and rule-of-law identity",
+      "whyThisNode": "mPFC maintains the self-concept — the Constitution is the legal system's self-model, defining its identity and boundaries",
+      "group": "regulatory",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "CONSTITUTIONAL_CRISIS",
+        "REGULATORY_OVERREACH"
+      ],
+      "treatments": [
+        {
+          "label": "Constitutional review strengthening",
+          "type": "STRUCTURAL",
+          "description": "Robust judicial review mechanisms to check legislative and executive action against constitutional limits",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Rule of law index monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Track World Justice Project rule-of-law indicators to detect systemic degradation of legal system integrity",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "World Intellectual Property Organization",
+          "ticker_or_id": "WIPO",
+          "functional_reason": "Allocates and regulates constitutional identity / rule of law resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves constitutional identity / rule of law knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves constitutional identity / rule of law knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.74
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Constitutional Identity / Rule of Law",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Addictive Identity Narrative"
+        },
+        {
+          "domain": "business",
+          "role": "Brand & Identity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration"
+        },
+        {
+          "domain": "medicine",
+          "role": "Primary Care"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Cognition & Self-Reference"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Self-Referential Processing Hub"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Diagnostic Analysis"
+        },
+        {
+          "domain": "culture",
+          "role": "Social Identity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Legal System Stress / Backlog",
+      "domainDescription": "Systemic stress from caseload overload and resource constraints",
+      "domainFunction": "Reflects the chronic stress state of overburdened courts — backlogs, understaffing, and resource scarcity",
+      "whyThisNode": "HPA axis drives stress response — court system backlog is a chronic stress syndrome that degrades all judicial functions",
+      "group": "compliance",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "ACCESS_TO_JUSTICE",
+        "MASS_TORT",
+        "CRISIS_OVERFLOW"
+      ],
+      "treatments": [
+        {
+          "label": "Court funding advocacy",
+          "type": "STRUCTURAL",
+          "description": "Advocate for adequate judicial funding — judges, clerks, courtrooms, and technology proportional to caseload",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Backlog analysis dashboard",
+          "type": "DIAGNOSTIC",
+          "description": "Real-time tracking of pending cases, average disposition time, and judicial vacancy rates",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core legal system stress / backlog operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Stores and retrieves legal system stress / backlog knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Stores and retrieves legal system stress / backlog knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.75
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Legal System Stress / Backlog",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Stress-Relapse Cascade"
+        },
+        {
+          "domain": "business",
+          "role": "Organizational Stress"
+        },
+        {
+          "domain": "metabolic",
+          "role": "HPA Axis Stress-Metabolism Coupling"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Stress Response System"
+        },
+        {
+          "domain": "provider",
+          "role": "Provider Stress Response"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Stress Axis Normalization"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Styling Infrastructure & Capacity"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control — Feedback & Validation — Tertiary Node"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "Victim / Witness Services",
+      "domainDescription": "Support for crime victims and witnesses navigating the legal system",
+      "domainFunction": "Provides empathic support, advocacy, and practical assistance to victims and witnesses engaged with the legal system",
+      "whyThisNode": "Empathy network enables understanding of suffering — victim services require attuned support for people in acute distress",
+      "group": "defense",
+      "phase": "P6",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "ACCESS_TO_JUSTICE",
+        "WRONGFUL_CONVICTION"
+      ],
+      "treatments": [
+        {
+          "label": "Victim advocate program",
+          "type": "STRUCTURAL",
+          "description": "Dedicated victim advocates assigned at case initiation to guide victims through the legal process",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Victim satisfaction survey",
+          "type": "DIAGNOSTIC",
+          "description": "Track victim experience of the justice process — feeling heard, safe, and treated with dignity",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Stores and retrieves victim / witness services knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves victim / witness services knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves victim / witness services knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.79
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Victim / Witness Services",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Client Relations"
+        },
+        {
+          "domain": "energy",
+          "role": "Carbon Cap"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pediatric Med"
+        },
+        {
+          "domain": "provider",
+          "role": "Empathic Capacity"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Language Resources — State Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Pilot Design Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Regulatory Framework",
+      "domainDescription": "Administrative agency rulemaking and enforcement",
+      "domainFunction": "Maintains sustained regulatory oversight across economic sectors — the persistent monitoring function of administrative law",
+      "whyThisNode": "Cingulo-opercular network maintains sustained task vigilance — regulatory agencies provide the same persistent monitoring of compliance",
+      "group": "regulatory",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "REGULATORY_OVERREACH",
+        "CORPORATE_FRAUD"
+      ],
+      "treatments": [
+        {
+          "label": "Cost-benefit analysis requirement",
+          "type": "STRUCTURAL",
+          "description": "Require rigorous cost-benefit analysis for all new regulations to prevent disproportionate regulatory burden",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Regulatory impact assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Post-implementation review of regulatory effectiveness versus unintended economic consequences",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors regulatory framework signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Detects and monitors regulatory framework signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Detects and monitors regulatory framework signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Regulatory Framework",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "provider",
+          "role": "Continuity of Care Network"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Cultural Adaptation — Regulation Strategy"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "interior acoustics — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Aeromedical Evacuation Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics — State Assessment"
+        },
+        {
+          "domain": "education",
+          "role": "Transfer Policies Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Damages / Remedies",
+      "domainDescription": "Monetary and equitable remedies for legal wrongs",
+      "domainFunction": "Calculates and awards the compensatory, punitive, and equitable remedies that incentivize legal compliance and deter wrongdoing",
+      "whyThisNode": "Nucleus accumbens processes reward and motivation — damages and remedies are the reward/punishment signals that drive legal behavior",
+      "group": "transactional",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "MASS_TORT",
+        "CORPORATE_FRAUD",
+        "ACCESS_TO_JUSTICE"
+      ],
+      "treatments": [
+        {
+          "label": "Damages standardization guidelines",
+          "type": "STRUCTURAL",
+          "description": "Develop transparent damages calculation frameworks to reduce unpredictability and ensure proportionate awards",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Awards outcome analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Statistical analysis of damage awards by case type, jurisdiction, and demographics to detect systemic disparities",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors damages / remedies signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves damages / remedies knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core damages / remedies operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.66
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Damages / Remedies",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        },
+        {
+          "domain": "trade",
+          "role": "Commodity Exchanges"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Statutory Interpretation",
+      "domainDescription": "Reading and interpreting legislative text",
+      "domainFunction": "Comprehends and interprets statutory language, regulatory text, and contractual provisions",
+      "whyThisNode": "Wernicke's area drives language comprehension — statutory interpretation is fundamentally a language-parsing function",
+      "group": "adjudication",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "CONSTITUTIONAL_CRISIS",
+        "REGULATORY_OVERREACH"
+      ],
+      "treatments": [
+        {
+          "label": "Interpretive methodology framework",
+          "type": "STRUCTURAL",
+          "description": "Clear articulation of interpretive methodology (textualist, purposivist, dynamic) to ensure consistency and predictability",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Legislative drafting quality review",
+          "type": "DIAGNOSTIC",
+          "description": "Identify ambiguous statutory language that generates excessive litigation and recommend clarifying amendments",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "NetDocuments",
+          "ticker_or_id": "NETDOCS",
+          "functional_reason": "Stores and retrieves statutory interpretation knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Stores and retrieves statutory interpretation knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Stores and retrieves statutory interpretation knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Statutory Interpretation",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Literacy"
+        },
+        {
+          "domain": "industry",
+          "role": "Defense Ind"
+        },
+        {
+          "domain": "neurology",
+          "role": "Wernicke's Area"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Comprehension"
+        },
+        {
+          "domain": "religion",
+          "role": "Scripture & Canon"
+        },
+        {
+          "domain": "science",
+          "role": "Computer Science"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradezone"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Coordination & Integration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Law Enforcement Response",
+      "domainDescription": "Police and enforcement agency conduct and accountability",
+      "domainFunction": "Executes immediate enforcement actions — arrests, searches, seizures — that the legal system authorizes and oversees",
+      "whyThisNode": "Central amygdala triggers automatic defensive responses — law enforcement is the automatic response arm of the justice system",
+      "group": "prosecution",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "WRONGFUL_CONVICTION",
+        "CONSTITUTIONAL_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Police accountability framework",
+          "type": "STRUCTURAL",
+          "description": "Body camera mandates, use-of-force reporting, and independent oversight boards for law enforcement conduct",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Use-of-force pattern analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Statistical analysis of force incidents by demographics, circumstance, and officer to detect pattern violations",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core law enforcement response operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Relativity",
+          "ticker_or_id": "RELATIVITY",
+          "functional_reason": "Stores and retrieves law enforcement response knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Stores and retrieves law enforcement response knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.65
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Law Enforcement Response",
+      "brainNodeLabelCanonical": "Legal Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "environment",
+          "role": "Soilenv"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "industry",
+          "role": "Safety Systems"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Emergency Systems"
+        },
+        {
+          "domain": "medicine",
+          "role": "Emergency Medicine"
+        },
+        {
+          "domain": "population",
+          "role": "Refugee Populations"
+        },
+        {
+          "domain": "provider",
+          "role": "Crisis Response Protocol"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "dlPFC",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Judicial reasoning guided by equity considerations"
+    },
+    {
+      "from": "dlPFC",
+      "to": "HIPP",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Legal reasoning draws on precedent memory"
+    },
+    {
+      "from": "dACC",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Prosecutorial oversight feeds judicial review"
+    },
+    {
+      "from": "dACC",
+      "to": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Prosecution coordinates with threat assessment"
+    },
+    {
+      "from": "vlPFC",
+      "to": "dACC",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Defense checks prosecutorial overreach"
+    },
+    {
+      "from": "vlPFC",
+      "to": "BROCA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Defense drives advocacy argumentation"
+    },
+    {
+      "from": "THAL",
+      "to": "dlPFC",
+      "type": "fast",
+      "weight": 0.85,
+      "label": "Court routing delivers cases to judicial reasoning"
+    },
+    {
+      "from": "THAL",
+      "to": "FPN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Case routing feeds complex litigation coordination"
+    },
+    {
+      "from": "AI",
+      "to": "BLA",
+      "type": "fast",
+      "weight": 0.8,
+      "label": "Risk detection triggers criminal threat assessment"
+    },
+    {
+      "from": "AI",
+      "to": "CON",
+      "type": "excit",
+      "weight": 0.75,
+      "label": "Legal risk sensing informs regulatory oversight"
+    },
+    {
+      "from": "BLA",
+      "to": "CeA",
+      "type": "fast",
+      "weight": 0.85,
+      "label": "Threat assessment triggers enforcement response"
+    },
+    {
+      "from": "mPFC",
+      "to": "dlPFC",
+      "type": "modul",
+      "weight": 0.8,
+      "label": "Constitutional principles constrain judicial reasoning"
+    },
+    {
+      "from": "mPFC",
+      "to": "CON",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Rule of law guides regulatory framework"
+    },
+    {
+      "from": "HIPP",
+      "to": "WERN",
+      "type": "excit",
+      "weight": 0.75,
+      "label": "Precedent memory informs statutory interpretation"
+    },
+    {
+      "from": "OFC",
+      "to": "NAcc",
+      "type": "modul",
+      "weight": 0.75,
+      "label": "Settlement valuation guides damages calculation"
+    },
+    {
+      "from": "TPJ",
+      "to": "BROCA",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Jury perspective shapes advocacy approach"
+    },
+    {
+      "from": "STRI",
+      "to": "THAL",
+      "type": "excit",
+      "weight": 0.75,
+      "label": "Procedural rules govern case routing"
+    },
+    {
+      "from": "HPA",
+      "to": "dlPFC",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "System backlog stress degrades judicial reasoning quality"
+    },
+    {
+      "from": "FPN",
+      "to": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Complex coordination informs settlement strategy"
+    },
+    {
+      "from": "EMP",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.65,
+      "label": "Victim experience informs equitable judgment"
+    },
+    {
+      "from": "CON",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Regulatory monitoring feeds risk detection"
+    },
+    {
+      "from": "NAcc",
+      "to": "STRI",
+      "type": "modul",
+      "weight": 0.65,
+      "label": "Remedies incentivize procedural compliance"
+    },
+    {
+      "from": "mPFC",
+      "to": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Constitutional Identity / Rule of Law → Criminal Threat Assessment (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "mPFC",
+      "to": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Constitutional Identity / Rule of Law → Law Enforcement Response (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "mPFC",
+      "to": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Constitutional Identity / Rule of Law → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Judicial Temperament / Equity → Criminal Threat Assessment (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Judicial Temperament / Equity → Law Enforcement Response (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Judicial Temperament / Equity → Legal Risk Detection Coordination & Integration (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "dlPFC",
+      "to": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Judicial Reasoning → Prosecutorial Oversight (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "rACC",
+      "to": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Prosecutorial Oversight Research & Development → Criminal Threat Assessment (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Court Administration / Case Routing → [V1] (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Court Administration / Case Routing → [A1] (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Court Administration / Case Routing → Legal Advocacy / Argumentation — Signal Detection — Secondary (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LGN",
+      "to": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Judicial Temperament / Equity Assessment & Diagnostics → [V1] (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "MGN",
+      "to": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Judicial Temperament / Equity Core Operations → [A1] (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NTS",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Legal Risk Detection Performance & Optimization → Legal Risk Detection (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "AI",
+      "to": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Legal Risk Detection → Prosecutorial Oversight (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "PI",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[PI] → Legal Risk Detection (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "BLA",
+      "to": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Criminal Threat Assessment → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "PVN",
+      "to": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "HPA cascade descending",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "HPA",
+      "to": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Legal System Stress / Backlog → Precedent / Legal Memory (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "HIPP",
+      "to": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Precedent / Legal Memory → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "VTA",
+      "to": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Legal Advocacy / Argumentation — Action Coordination — Secondary → Damages / Remedies (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NAcc",
+      "to": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Damages / Remedies → Judicial Temperament / Equity Infrastructure & Capacity (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NAcc",
+      "to": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Damages / Remedies → Settlement / Negotiation (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "OFC",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Settlement / Negotiation → Judicial Temperament / Equity (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "SMA",
+      "to": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Criminal Threat Assessment Coordination & Integration → Legal Advocacy / Argumentation — Adaptation & Learning — Tertiary (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "STRI",
+      "to": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Legal Procedure / Rules Engine → [GP] (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "GP",
+      "to": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "[GP] → Court Administration / Case Routing (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "CBLM",
+      "to": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Legal Advocacy / Argumentation — Diagnostic Analysis — Secondary → Court Administration / Case Routing (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "FEF",
+      "to": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Criminal Threat Assessment Research & Development → [V1] (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "FPN",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Multi-District / Complex Coordination → Judicial Reasoning (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LC",
+      "to": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Legal Advocacy / Argumentation Standards & Governance → Criminal Threat Assessment (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LC",
+      "to": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Legal Advocacy / Argumentation Standards & Governance → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "WRONGFUL_CONVICTION",
+      "label": "Wrongful Conviction / Judicial Error",
+      "summary": "Innocent person convicted due to systemic failures in investigation, prosecution, defense, or adjudication",
+      "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-monitored",
+          "detail": "Prosecutorial oversight failed — exculpatory evidence suppressed or ignored in pursuit of conviction",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo-resourced",
+          "detail": "Defense advocacy inadequate — overloaded public defender unable to mount effective challenge to state case",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Biased",
+          "detail": "Judicial reasoning compromised by confirmation bias, tunnel vision, or political pressure on bench",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-aggressive",
+          "detail": "Law enforcement extracted false confession through coercive interrogation tactics",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Corrupted",
+          "detail": "Eyewitness memory unreliable — suggestive identification procedures produced false positive identifications",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-reactive",
+          "detail": "Threat assessment inflated by media pressure, public fear, and political demand for conviction",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "REGULATORY_OVERREACH",
+      "label": "Regulatory Overreach",
+      "summary": "Administrative agencies exceeding statutory authority or imposing disproportionate regulatory burden",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hyper-expanded",
+          "detail": "Regulatory framework expanded far beyond original statutory authorization through aggressive interpretation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Strained",
+          "detail": "Constitutional separation of powers stressed — executive agencies exercising quasi-legislative and quasi-judicial power",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-vigilant",
+          "detail": "Compliance burden so extensive that regulated entities spend more on compliance than on core business function",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Overwhelming",
+          "detail": "Procedural complexity reaches levels where even good-faith compliance becomes practically impossible",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Overloaded",
+          "detail": "Regulatory text volume exceeds interpretive capacity — overlapping and contradictory requirements create confusion",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ACCESS_TO_JUSTICE",
+      "label": "Access to Justice Crisis",
+      "summary": "Systemic barriers preventing individuals from meaningfully accessing the legal system to protect their rights",
+      "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Unavailable",
+          "detail": "Legal representation inaccessible — 80% of civil legal needs of low-income Americans go unmet",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Obstructed",
+          "detail": "Court system routing impenetrable to pro se litigants — procedural complexity creates effective barriers to entry",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Chronic",
+          "detail": "Court system chronically underfunded — years-long backlogs make timely justice impossible",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Exclusionary",
+          "detail": "Procedural rules designed for represented parties effectively exclude self-represented litigants from fair process",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Inaccessible",
+          "detail": "Settlement and dispute resolution options priced beyond reach of most individuals with legitimate claims",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Absent",
+          "detail": "Victim and witness support services inadequate — people in crisis navigating opaque bureaucracy without help",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MASS_TORT",
+      "label": "Mass Tort / Class Action",
+      "summary": "Large-scale litigation affecting thousands of claimants from a common wrongdoing requiring coordinated judicial management",
+      "circuits": [
+        {
+          "nodeId": "FPN",
+          "dir": "Overwhelmed",
+          "detail": "Multi-district coordination strained — thousands of individual claims requiring centralized management and bellwether selection",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Saturated",
+          "detail": "Court routing systems overwhelmed by volume — case management infrastructure buckles under mass filing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Distorted",
+          "detail": "Damages calculation distorted — attorney fee structures may misalign incentives between class counsel and claimants",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Pressured",
+          "detail": "Settlement pressure enormous — defendant facing existential liability, plaintiffs facing years of delay if no settlement",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Maximal",
+          "detail": "System stress at maximum — judicial resources consumed by mass litigation at expense of all other cases",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CONSTITUTIONAL_CRISIS",
+      "label": "Constitutional Crisis",
+      "summary": "Fundamental challenge to constitutional order — separation of powers violated, rule of law threatened, or democratic norms eroded",
+      "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Fractured",
+          "detail": "Constitutional identity under siege — foundational principles being challenged, reinterpreted, or openly defied",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Paralyzed",
+          "detail": "Judicial reasoning unable to resolve crisis within normal legal framework — no precedent for the situation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Insufficient",
+          "detail": "Precedent memory inadequate — constitutional crisis presents novel fact patterns that existing law cannot address",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Politicized",
+          "detail": "Law enforcement allegiance uncertain — enforcement agencies caught between competing claims to authority",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Conflicted",
+          "detail": "Prosecutorial oversight paralyzed by political conflict — unable to enforce law impartially when political stakes are existential",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Destabilized",
+          "detail": "Regulatory framework losing legitimacy — agencies uncertain whether current administration will be upheld or overturned",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CORPORATE_FRAUD",
+      "label": "Corporate Fraud / White Collar Crime",
+      "summary": "Systematic financial deception by corporate actors — accounting fraud, securities violations, or consumer deception at scale",
+      "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Delayed",
+          "detail": "Legal risk detection failed — fraud concealed through complexity, offshore structures, and regulatory arbitrage",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-activated",
+          "detail": "Threat to public trust and financial markets detected — systemic risk from widespread corporate dishonesty",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Mobilized",
+          "detail": "Prosecutorial apparatus activated — grand juries, SEC enforcement, and DOJ task forces assembled",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Failed",
+          "detail": "Regulatory framework breached — oversight systems that should have prevented fraud were captured, underfunded, or circumvented",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Inadequate",
+          "detail": "Damages and penalties insufficient to deter — corporate fines treated as cost of doing business rather than punishment",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Strained",
+          "detail": "Complex coordination required — multi-agency, multi-jurisdiction investigation spanning years and thousands of documents",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:37.797Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

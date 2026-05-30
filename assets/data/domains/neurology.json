@@ -1,0 +1,2401 @@
+{
+  "domainId": "neurology",
+  "title": "Neurology",
+  "parentPortal": "clinical.html",
+  "parentLabel": "Clinical",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Primary Motor Cortex",
+      "domainDescription": "Voluntary movement execution and upper motor neuron output",
+      "domainFunction": "Executes voluntary movement commands via corticospinal tract; Betz cells project to spinal motor neurons",
+      "whyThisNode": "Primary motor output — M1 is the final cortical station for voluntary movement, directly affected in stroke, ALS, and movement disorders",
+      "group": "motor_disorders",
+      "phase": "P6",
+      "weight": 1,
+      "treatments": [
+        {
+          "label": "Constraint-induced movement therapy",
+          "type": "STRUCTURAL",
+          "description": "Constrains unaffected limb to force use of paretic limb, overcoming learned non-use via neuroplasticity",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Motor cortex transcranial magnetic stimulation assessment",
+          "type": "DIAGNOSTIC",
+          "description": "TMS motor evoked potentials evaluate corticospinal tract integrity and upper motor neuron function",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "neurology_primary_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Primary Motor Cortex",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "population",
+          "role": "Labor Force"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area",
+      "domainDescription": "Motor planning, sequencing, and internally generated movement",
+      "domainFunction": "Plans and sequences complex voluntary movements; critical for internally-cued motor programs",
+      "whyThisNode": "Motor planning hub — SMA hypoactivation underlies impaired movement initiation in Parkinson's and motor sequencing deficits in ALS",
+      "group": "motor_disorders",
+      "phase": "P6",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "label": "Rhythmic auditory stimulation for gait",
+          "type": "STRUCTURAL",
+          "description": "External rhythmic cues bypass defective internal timing to improve gait initiation and cadence",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Functional MRI motor mapping",
+          "type": "DIAGNOSTIC",
+          "description": "fMRI activation mapping delineates SMA contribution to motor planning deficits pre-surgically",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "neurology_suppl_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Supplementary Motor Area",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Teacher Training"
+        },
+        {
+          "domain": "governance",
+          "role": "Military Command"
+        },
+        {
+          "domain": "industry",
+          "role": "Heavy Equipment"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Process Improvement"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Theater & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Recruitment & Training"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SNIG",
+      "state": "active",
+      "domainLabel": "Substantia Nigra",
+      "domainDescription": "Dopaminergic motor circuit origin and nigrostriatal pathway",
+      "domainFunction": "Produces dopamine for the nigrostriatal pathway; loss of SNpc neurons is the hallmark of Parkinson's disease",
+      "whyThisNode": "Dopaminergic motor source — SNpc degeneration is the defining pathology of Parkinson's disease, the second most common neurodegenerative disorder",
+      "group": "motor_disorders",
+      "phase": "P6",
+      "weight": 0.95,
+      "treatments": [
+        {
+          "label": "DaTscan (dopamine transporter imaging)",
+          "type": "DIAGNOSTIC",
+          "description": "SPECT imaging of striatal dopamine transporter density to confirm nigrostriatal degeneration",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Levodopa/carbidopa initiation",
+          "type": "IMMEDIATE",
+          "description": "Dopamine precursor replacement therapy for symptomatic Parkinson's disease",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "neurology_substantia_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Substantia Nigra",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Description Standards"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Mixed-Use Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Policy & Governance"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Assessment & Diagnostics"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Quality & Performance"
+        },
+        {
+          "domain": "energy",
+          "role": "Collection Systems Assessment & Diagnostics"
+        },
+        {
+          "domain": "environment",
+          "role": "Exposure Modeling Policy & Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen)",
+      "domainDescription": "Basal ganglia input nucleus for motor and cognitive processing",
+      "domainFunction": "Integrates cortical input and dopaminergic modulation to select and gate motor programs via direct/indirect pathways",
+      "whyThisNode": "Movement selection gateway — striatal dopamine depletion drives motor symptoms in Parkinson's; Huntington's disease selectively destroys striatal neurons",
+      "group": "motor_disorders",
+      "phase": "P6",
+      "weight": 0.95,
+      "treatments": [
+        {
+          "label": "Dopamine agonist therapy",
+          "type": "STRUCTURAL",
+          "description": "Direct D2/D3 receptor stimulation for early Parkinson's to preserve striatal function",
+          "evidence": "Strong"
+        },
+        {
+          "label": "MRI volumetric analysis of striatum",
+          "type": "DIAGNOSTIC",
+          "description": "Quantitative MRI measures striatal atrophy progression in Huntington's and parkinsonian syndromes",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "neurology_striatum_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Striatum (Caudate/Putamen)",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STN",
+      "state": "active",
+      "domainLabel": "Subthalamic Nucleus",
+      "domainDescription": "Basal ganglia indirect pathway relay and DBS target",
+      "domainFunction": "Drives excitatory output to GPi; becomes hyperactive when striatal inhibition fails, suppressing thalamocortical drive",
+      "whyThisNode": "DBS target for movement disorders — STN hyperactivity is central to parkinsonian bradykinesia, and STN-DBS is the most performed functional neurosurgery worldwide",
+      "group": "motor_disorders",
+      "phase": "P6",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "label": "Deep brain stimulation evaluation",
+          "type": "REFERRAL",
+          "description": "Multidisciplinary assessment for STN-DBS candidacy in medication-refractory Parkinson's disease",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Levodopa challenge test",
+          "type": "DIAGNOSTIC",
+          "description": "Supratherapeutic levodopa dose assesses motor responsiveness to predict DBS outcomes",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "neurology_subthalamic_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Subthalamic Nucleus",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "population",
+          "role": "Youthpop"
+        },
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "univ desgn — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Sustainable Architecture Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Efficiency Modeling Systems"
+        },
+        {
+          "domain": "education",
+          "role": "Trend Analysis Risk & Resilience"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Technology & Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "GP",
+      "state": "active",
+      "domainLabel": "Globus Pallidus",
+      "domainDescription": "Basal ganglia output nucleus controlling thalamocortical drive",
+      "domainFunction": "GPi provides tonic inhibition of thalamus; excessive GPi output in parkinsonism suppresses movement initiation",
+      "whyThisNode": "Motor output gatekeeper — GPi over-inhibition of thalamus produces bradykinesia; GPi-DBS is an alternative to STN-DBS for dystonia and Parkinson's",
+      "group": "motor_disorders",
+      "phase": "P6",
+      "weight": 0.85,
+      "treatments": [
+        {
+          "label": "GPi-DBS for dystonia",
+          "type": "STRUCTURAL",
+          "description": "Pallidal deep brain stimulation is first-line surgical treatment for medication-refractory dystonia",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Amantadine for dyskinesia",
+          "type": "IMMEDIATE",
+          "description": "NMDA antagonist reduces levodopa-induced dyskinesias by modulating pallidal output",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "neurology_globus_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Globus Pallidus",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Strategic Planning & Alignment"
+        },
+        {
+          "domain": "culture",
+          "role": "Spatial Planning Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Quality & Performance"
+        },
+        {
+          "domain": "economy",
+          "role": "Performance Tuning Evaluation"
+        },
+        {
+          "domain": "education",
+          "role": "Selection Criteria Risk & Resilience"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Safety Infrastructure & Capacity"
+        },
+        {
+          "domain": "environment",
+          "role": "Emission Standards Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Thalamus",
+      "domainDescription": "Central relay station for motor, sensory, and consciousness circuits",
+      "domainFunction": "Relays and gates sensory/motor information to cortex; thalamocortical oscillations drive seizures, tremor, and consciousness",
+      "whyThisNode": "Neural crossroads — thalamic dysfunction underlies seizure propagation, tremor oscillation, pain gating, and consciousness disorders across neurology",
+      "group": "seizure",
+      "phase": "P6",
+      "weight": 1,
+      "treatments": [
+        {
+          "label": "VIM thalamotomy (focused ultrasound)",
+          "type": "STRUCTURAL",
+          "description": "MRI-guided focused ultrasound ablation of VIM thalamus for medication-refractory essential tremor",
+          "evidence": "Strong"
+        },
+        {
+          "label": "EEG with thalamocortical rhythm analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Scalp EEG evaluates thalamocortical oscillation patterns in seizure disorders and absence epilepsy",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "neurology_thalamus_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Thalamus",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Cerebellum",
+      "domainDescription": "Motor coordination, balance, and error correction",
+      "domainFunction": "Coordinates movement timing, corrects motor errors, and maintains balance via vestibulo-cerebellar and cerebello-thalamo-cortical circuits",
+      "whyThisNode": "Coordination center — cerebellar dysfunction produces ataxia, intention tremor, and dysmetria in MS, stroke, and hereditary ataxias",
+      "group": "motor_disorders",
+      "phase": "P6",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "label": "Balance and coordination rehabilitation",
+          "type": "STRUCTURAL",
+          "description": "Vestibular and proprioceptive retraining exercises for cerebellar ataxia management",
+          "evidence": "Strong"
+        },
+        {
+          "label": "MRI posterior fossa evaluation",
+          "type": "DIAGNOSTIC",
+          "description": "High-resolution MRI assesses cerebellar lesions, atrophy, and posterior fossa structural abnormalities",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "neurology_cerebellum_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Cerebellum",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        },
+        {
+          "domain": "religion",
+          "role": "Ritual Practice"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Hippocampus",
+      "domainDescription": "Episodic memory formation and temporal lobe epilepsy focus",
+      "domainFunction": "Encodes new episodic memories; hippocampal sclerosis is the most common pathology in temporal lobe epilepsy",
+      "whyThisNode": "Memory and seizure nexus — hippocampal atrophy is the earliest structural marker of Alzheimer's, and hippocampal sclerosis drives temporal lobe epilepsy",
+      "group": "cognitive",
+      "phase": "P6",
+      "weight": 0.95,
+      "treatments": [
+        {
+          "label": "Hippocampal volumetry on MRI",
+          "type": "DIAGNOSTIC",
+          "description": "Quantitative hippocampal volume measurement tracks Alzheimer's progression and epilepsy lateralization",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cholinesterase inhibitor therapy",
+          "type": "STRUCTURAL",
+          "description": "Donepezil/rivastigmine increases hippocampal cholinergic transmission in Alzheimer's disease",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Hippocampus",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "GABA_GLU",
+      "state": "active",
+      "domainLabel": "Excitation-Inhibition Balance",
+      "domainDescription": "GABAergic inhibition and glutamatergic excitation equilibrium",
+      "domainFunction": "Maintains cortical excitation-inhibition balance; failure triggers seizures, excitotoxicity, and neurodegeneration",
+      "whyThisNode": "Seizure threshold controller — GABA/glutamate imbalance is the fundamental mechanism of epilepsy and contributes to excitotoxic neuronal death across disorders",
+      "group": "seizure",
+      "phase": "P6",
+      "weight": 0.95,
+      "treatments": [
+        {
+          "label": "Antiepileptic drug selection",
+          "type": "STRUCTURAL",
+          "description": "Targeted AED therapy based on seizure type: sodium channel blockers, GABA enhancers, or SV2A modulators",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Therapeutic drug level monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Serum AED levels ensure therapeutic range and guide dose adjustments to prevent breakthrough seizures",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Excitation-Inhibition Balance",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Excitatory-Inhibitory Balance"
+        },
+        {
+          "domain": "environment",
+          "role": "Envlaw"
+        },
+        {
+          "domain": "medicine",
+          "role": "Anesthesiology"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Excitation-Inhibition Balance"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Excitation-Inhibition Rebalancing"
+        },
+        {
+          "domain": "communication",
+          "role": "Visualcomm"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Superiority Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Periaqueductal Gray",
+      "domainDescription": "Central pain modulation and migraine generator",
+      "domainFunction": "Orchestrates descending pain modulation; dysfunction as migraine generator allows trigeminovascular activation",
+      "whyThisNode": "Pain control center — PAG dysfunction is implicated in migraine chronification, and PAG lesions cause central pain syndromes",
+      "group": "pain",
+      "phase": "P6",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "label": "CGRP monoclonal antibody therapy",
+          "type": "STRUCTURAL",
+          "description": "Anti-CGRP antibodies (erenumab, fremanezumab) for migraine prevention targeting trigeminovascular pathway",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Headache diary and trigger identification",
+          "type": "DIAGNOSTIC",
+          "description": "Systematic tracking of headache frequency, triggers, and medication use to guide treatment decisions",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Periaqueductal Gray",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Pain-Defense Gate"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Endogenous Analgesic System"
+        },
+        {
+          "domain": "energy",
+          "role": "Nuclear Power"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Defense Cascade Modulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Quality & Performance"
+        },
+        {
+          "domain": "culture",
+          "role": "Landscape Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Nuclear Deterrence"
+        },
+        {
+          "domain": "economy",
+          "role": "Rural Development Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Broca's Area",
+      "domainDescription": "Expressive language production and motor speech",
+      "domainFunction": "Produces fluent speech output; damage causes non-fluent aphasia with preserved comprehension",
+      "whyThisNode": "Speech production center — Broca's area infarction in left MCA stroke causes expressive aphasia, one of the most devastating stroke outcomes",
+      "group": "cerebrovascular",
+      "phase": "P6",
+      "weight": 0.85,
+      "treatments": [
+        {
+          "label": "Aphasia rehabilitation (speech-language therapy)",
+          "type": "STRUCTURAL",
+          "description": "Intensive constraint-induced language therapy and melodic intonation therapy for post-stroke aphasia",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Acute stroke language assessment (NIHSS)",
+          "type": "DIAGNOSTIC",
+          "description": "Bedside language testing within NIHSS quantifies aphasia severity and guides thrombolysis/thrombectomy decisions",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Broca's Area",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Corporate Communications"
+        },
+        {
+          "domain": "education",
+          "role": "K-12 Teaching"
+        },
+        {
+          "domain": "governance",
+          "role": "Legislative Process"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Smartcity"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Advocacy / Argumentation"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Speech Production & Phonological Proc..."
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Communication"
+        },
+        {
+          "domain": "science",
+          "role": "Publication and Dissemination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Wernicke's Area",
+      "domainDescription": "Language comprehension and auditory processing",
+      "domainFunction": "Decodes spoken and written language; damage causes fluent aphasia with impaired comprehension",
+      "whyThisNode": "Comprehension center — Wernicke's area damage in posterior temporal stroke produces receptive aphasia, and language network disruption occurs in Alzheimer's and FTD",
+      "group": "cerebrovascular",
+      "phase": "P6",
+      "weight": 0.8,
+      "treatments": [
+        {
+          "label": "Comprehensive aphasia assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Western Aphasia Battery and Boston Diagnostic Aphasia Exam classify aphasia type and guide therapy",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Augmentative communication devices",
+          "type": "STRUCTURAL",
+          "description": "Speech-generating devices and communication boards for severe comprehension or expression deficits",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Wernicke's Area",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Literacy"
+        },
+        {
+          "domain": "industry",
+          "role": "Defense Ind"
+        },
+        {
+          "domain": "legal",
+          "role": "Statutory Interpretation"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Comprehension"
+        },
+        {
+          "domain": "religion",
+          "role": "Scripture & Canon"
+        },
+        {
+          "domain": "science",
+          "role": "Computer Science"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradezone"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Coordination & Integration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "V1",
+      "state": "active",
+      "domainLabel": "Primary Visual Cortex",
+      "domainDescription": "Visual processing, aura generation, and optic pathway",
+      "domainFunction": "Processes visual input from retina via LGN; cortical spreading depression in V1 generates migraine aura",
+      "whyThisNode": "Visual processing and aura origin — V1 hyperexcitability drives migraine with aura, PCA stroke causes hemianopia, and optic neuritis is the hallmark of MS",
+      "group": "pain",
+      "phase": "P6",
+      "weight": 0.85,
+      "treatments": [
+        {
+          "label": "Visual field perimetry",
+          "type": "DIAGNOSTIC",
+          "description": "Automated perimetry maps visual field defects from optic neuritis, stroke, or compressive lesions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Neuromodulation for migraine with aura",
+          "type": "STRUCTURAL",
+          "description": "Single-pulse TMS (sTMS) device applied to occipital cortex aborts cortical spreading depression during aura",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Primary Visual Cortex",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Diagnostics & Imaging"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Visual Cortex Activation"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Photography & Visual Media"
+        },
+        {
+          "domain": "culture",
+          "role": "Visual Arts"
+        },
+        {
+          "domain": "defense",
+          "role": "Equipment Maintenance Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Value Chains"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Equity Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Primary Somatosensory Cortex",
+      "domainDescription": "Somatic sensation processing and central sensitization",
+      "domainFunction": "Processes touch, pain, and proprioceptive input; central sensitization in S1 drives allodynia in migraine and neuropathic pain",
+      "whyThisNode": "Sensory gateway — S1 hyperexcitability produces cutaneous allodynia in chronic migraine, and somatosensory stroke causes contralateral numbness",
+      "group": "pain",
+      "phase": "P6",
+      "weight": 0.8,
+      "treatments": [
+        {
+          "label": "Quantitative sensory testing",
+          "type": "DIAGNOSTIC",
+          "description": "Standardized testing of thermal, vibration, and pain thresholds maps somatosensory dysfunction",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Botulinum toxin for chronic migraine",
+          "type": "STRUCTURAL",
+          "description": "OnabotulinumtoxinA 31-site injection protocol reduces peripheral trigeminal sensitization and central S1 hyperexcitability",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Primary Somatosensory Cortex",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Labor Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Mining and Extraction"
+        },
+        {
+          "domain": "environment",
+          "role": "Geological Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Raw Materials"
+        },
+        {
+          "domain": "technology",
+          "role": "IoT & Sensors"
+        },
+        {
+          "domain": "trade",
+          "role": "Last-Mile Delivery"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator — Signal Detection & Input — Secondary Node"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Signal Detection — Secondary"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Corpus Callosum",
+      "domainDescription": "Interhemispheric white matter connectivity",
+      "domainFunction": "Connects homologous cortical regions across hemispheres; demyelination disrupts bilateral coordination and cognitive integration",
+      "whyThisNode": "Interhemispheric bridge — corpus callosum Dawson finger lesions are pathognomonic for MS, and callosal disconnection affects stroke recovery and ALS-FTD",
+      "group": "autoimmune",
+      "phase": "P6",
+      "weight": 0.85,
+      "treatments": [
+        {
+          "label": "MRI with DTI tractography",
+          "type": "DIAGNOSTIC",
+          "description": "Diffusion tensor imaging maps white matter tract integrity and demyelination burden in MS and ALS",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Disease-modifying therapy for MS",
+          "type": "STRUCTURAL",
+          "description": "High-efficacy DMTs (anti-CD20, natalizumab) reduce new lesion formation and slow white matter damage",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Corpus Callosum",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Transmission Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Road Networks"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interhemispheric Connectivity"
+        },
+        {
+          "domain": "technology",
+          "role": "Networking & Internet"
+        },
+        {
+          "domain": "trade",
+          "role": "Freight Forwarding"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Assessment & Diagnostics"
+        },
+        {
+          "domain": "communication",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "MICRO",
+      "state": "active",
+      "domainLabel": "Microglial Neuroinflammation",
+      "domainDescription": "CNS innate immune activation and inflammatory cascades",
+      "domainFunction": "Resident brain immune cells activate in response to injury and disease; chronic activation drives neurodegeneration across disorders",
+      "whyThisNode": "Neuroinflammation driver — microglial activation is central to MS, Alzheimer's amyloid response, post-stroke injury, and neurodegenerative disease progression",
+      "group": "autoimmune",
+      "phase": "P6",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "label": "Anti-CD20 B-cell depletion therapy",
+          "type": "STRUCTURAL",
+          "description": "Ocrelizumab/ofatumumab targets B-cell-driven neuroinflammation in relapsing and progressive MS",
+          "evidence": "Strong"
+        },
+        {
+          "label": "CSF inflammatory marker panel",
+          "type": "DIAGNOSTIC",
+          "description": "CSF oligoclonal bands, IgG index, and cell count differentiate inflammatory from non-inflammatory CNS conditions",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Support",
+      "brainNodeRoleCanonical": "Microglial Neuroinflammation",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Biodiversity"
+        },
+        {
+          "domain": "medicine",
+          "role": "Immunology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Metabolic Neuroinflammation"
+        },
+        {
+          "domain": "communication",
+          "role": "Timeline Management"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Technology & Innovation"
+        },
+        {
+          "domain": "defense",
+          "role": "Wmd"
+        },
+        {
+          "domain": "economy",
+          "role": "Protocol Development Operations"
+        },
+        {
+          "domain": "education",
+          "role": "Demographic Analysis Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Dorsolateral Prefrontal Cortex",
+      "domainDescription": "Executive function, working memory, and cognitive control",
+      "domainFunction": "Coordinates executive function, working memory, and cognitive flexibility; disrupted in MS cognitive impairment and ALS-FTD spectrum",
+      "whyThisNode": "Executive control center — dlPFC dysfunction underlies cognitive impairment in MS (most common deficit), ALS-FTD spectrum, and post-stroke executive dysfunction",
+      "group": "cognitive",
+      "phase": "P6",
+      "weight": 0.85,
+      "treatments": [
+        {
+          "label": "Neuropsychological testing battery",
+          "type": "DIAGNOSTIC",
+          "description": "Standardized cognitive assessment (BICAMS for MS, ECAS for ALS) quantifies executive and processing speed deficits",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cognitive rehabilitation program",
+          "type": "STRUCTURAL",
+          "description": "Computer-based and strategy-based cognitive training targeting processing speed and working memory deficits",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Dorsolateral Prefrontal Cortex",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OSC",
+      "state": "active",
+      "domainLabel": "Neural Oscillations",
+      "domainDescription": "Cortical rhythms, pathological oscillations, and synchrony",
+      "domainFunction": "Normal oscillatory activity coordinates neural communication; pathological oscillations drive seizures, tremor, and absence epilepsy",
+      "whyThisNode": "Rhythm and synchrony — pathological high-frequency oscillations mark seizure onset zones, 3 Hz spike-wave drives absence epilepsy, and beta oscillations are disrupted in Parkinson's",
+      "group": "seizure",
+      "phase": "P6",
+      "weight": 0.85,
+      "treatments": [
+        {
+          "label": "Prolonged video-EEG monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Continuous EEG captures ictal events, localizes seizure onset, and identifies pathological oscillation patterns",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Responsive neurostimulation (RNS)",
+          "type": "STRUCTURAL",
+          "description": "Closed-loop intracranial stimulation detects and disrupts pathological oscillations at seizure onset in real time",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Neural Oscillations",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Neural Oscillation Patterns"
+        },
+        {
+          "domain": "communication",
+          "role": "Change Management Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture Performance & Optimization"
+        },
+        {
+          "domain": "defense",
+          "role": "Aircraft Readiness Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Resource Mobilization Operations"
+        },
+        {
+          "domain": "education",
+          "role": "Essay Evaluation Assessment & Diagnostics"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Assessment & Diagnostics"
+        },
+        {
+          "domain": "environment",
+          "role": "Tropospheric Ozone Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Locus Coeruleus",
+      "domainDescription": "Noradrenergic arousal, migraine premonitory phase, and autonomic regulation",
+      "domainFunction": "Primary brain norepinephrine source; modulates arousal, attention, and autonomic function; degeneration contributes to PD non-motor symptoms",
+      "whyThisNode": "Noradrenergic modulator — LC activation drives migraine premonitory symptoms, LC degeneration causes PD depression and RBD, and LC norepinephrine modulates seizure threshold",
+      "group": "pain",
+      "phase": "P6",
+      "weight": 0.8,
+      "treatments": [
+        {
+          "label": "Beta-blocker migraine prophylaxis",
+          "type": "STRUCTURAL",
+          "description": "Propranolol modulates noradrenergic tone and reduces migraine attack frequency",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Sleep behavior assessment",
+          "type": "DIAGNOSTIC",
+          "description": "REM sleep behavior disorder screening as prodromal marker of synucleinopathy (PD, Lewy body dementia)",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Locus Coeruleus",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Noradrenergic Withdrawal Storm"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Arousal Regulation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Noradrenergic Metabolic Arousal"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Arousal Regulation & Hypervigilance"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Policy & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Park Design Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Raphe Nuclei",
+      "domainDescription": "Serotonergic pain modulation and migraine pathophysiology",
+      "domainFunction": "Primary brain serotonin source; modulates pain descending pathways; serotonergic dysfunction is central to migraine pathophysiology",
+      "whyThisNode": "Serotonin and pain hub — dorsal raphe dysfunction underlies migraine (triptans act on 5-HT1B/1D receptors), and serotonergic degeneration contributes to PD depression",
+      "group": "pain",
+      "phase": "P6",
+      "weight": 0.8,
+      "treatments": [
+        {
+          "label": "Triptan therapy for acute migraine",
+          "type": "IMMEDIATE",
+          "description": "Sumatriptan/rizatriptan activates 5-HT1B/1D receptors to abort migraine by inhibiting trigeminovascular CGRP release",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Medication overuse headache screening",
+          "type": "DIAGNOSTIC",
+          "description": "Assess triptan and analgesic use frequency; >10 days/month indicates medication overuse headache risk",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Raphe Nuclei",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Serotonergic Mood Regulation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Serotonergic Tone"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Serotonergic Metabolic Modulation"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Serotonin System Development"
+        },
+        {
+          "domain": "population",
+          "role": "Aging Population"
+        },
+        {
+          "domain": "provider",
+          "role": "System Morale / Well-Being"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Serotonergic Reset Center"
+        },
+        {
+          "domain": "religion",
+          "role": "Mystical Experience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Brain-Derived Neurotrophic Factor",
+      "domainDescription": "Neuroplasticity, neuroprotection, and recovery signaling",
+      "domainFunction": "Supports neuronal survival, synaptic plasticity, and neurogenesis; critical for post-injury recovery and rehabilitation outcomes",
+      "whyThisNode": "Neuroplasticity signal — BDNF genotype predicts stroke rehabilitation outcomes, exercise-induced BDNF supports Alzheimer's neuroprotection, and BDNF signaling is disrupted in neurodegeneration",
+      "group": "cognitive",
+      "phase": "P6",
+      "weight": 0.75,
+      "treatments": [
+        {
+          "label": "Aerobic exercise prescription (150 min/week)",
+          "type": "STRUCTURAL",
+          "description": "Regular aerobic exercise upregulates BDNF, preserves hippocampal volume, and improves outcomes across neurological conditions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "BDNF Val66Met genotyping (research)",
+          "type": "DIAGNOSTIC",
+          "description": "BDNF polymorphism testing may predict rehabilitation responsiveness in stroke and neurodegenerative conditions",
+          "evidence": "Emerging"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Brain-Derived Neurotrophic Factor",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Neuroplastic Recovery Factor"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Neuroplasticity Signaling"
+        },
+        {
+          "domain": "medicine",
+          "role": "Rehabilitation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Neurotrophic Metabolic Protection"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Neuroplasticity Window"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Feedback & Validation — Primary"
+        },
+        {
+          "domain": "culture",
+          "role": "Digital Cult"
+        },
+        {
+          "domain": "defense",
+          "role": "Bomber Aircraft Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RF",
+      "state": "active",
+      "domainLabel": "Reticular Formation",
+      "domainDescription": "Consciousness, arousal, and respiratory drive",
+      "domainFunction": "Maintains consciousness and arousal via ascending reticular activating system; drives respiratory rhythm generation",
+      "whyThisNode": "Consciousness and breathing — RF dysfunction causes loss of consciousness in generalized seizures, pontine hemorrhage causes coma, and RF degeneration in ALS causes respiratory failure",
+      "group": "neuromuscular",
+      "phase": "P6",
+      "weight": 0.85,
+      "treatments": [
+        {
+          "label": "Pulmonary function monitoring (FVC)",
+          "type": "DIAGNOSTIC",
+          "description": "Serial forced vital capacity testing detects respiratory muscle decline in ALS and neuromuscular diseases",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Non-invasive ventilation (BiPAP)",
+          "type": "IMMEDIATE",
+          "description": "Bilevel positive airway pressure extends survival and improves quality of life in ALS respiratory decline",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Reticular Formation",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Risk Profiling Operations"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture Coordination & Integration"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift Policy & Governance"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness — Optimization & Innovation"
+        },
+        {
+          "domain": "education",
+          "role": "Test Preparation — State Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Diagnostic Mapping Operations"
+        },
+        {
+          "domain": "environment",
+          "role": "aqstandard emission — Signal Acquisition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LAR",
+      "state": "active",
+      "domainLabel": "Laryngeal Motor Control",
+      "domainDescription": "Speech production, swallowing, and airway protection",
+      "domainFunction": "Controls vocal cord movement, swallowing coordination, and airway protection; bulbar motor neuron loss causes dysarthria and dysphagia",
+      "whyThisNode": "Bulbar function center — laryngeal motor neuron loss causes progressive dysarthria and dysphagia in ALS, and bulbar dysfunction creates aspiration risk in stroke and myasthenia",
+      "group": "neuromuscular",
+      "phase": "P6",
+      "weight": 0.8,
+      "treatments": [
+        {
+          "label": "Videofluoroscopic swallow study",
+          "type": "DIAGNOSTIC",
+          "description": "Dynamic imaging of swallowing mechanics identifies aspiration risk and guides diet modification in bulbar dysfunction",
+          "evidence": "Strong"
+        },
+        {
+          "label": "LSVT LOUD speech therapy",
+          "type": "STRUCTURAL",
+          "description": "Amplitude-focused intensive speech therapy for Parkinson's hypophonia and ALS dysarthria",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Laryngeal Motor Control",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Quality & Performance"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Farm Productivity Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Human Capital & Development"
+        },
+        {
+          "domain": "energy",
+          "role": "Safety Standards Quality & Performance"
+        },
+        {
+          "domain": "environment",
+          "role": "Exposure Modeling Risk & Resilience"
+        },
+        {
+          "domain": "finance",
+          "role": "Accounting Technology Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Hypothalamus",
+      "domainDescription": "Autonomic regulation, migraine premonitory phase, and sleep-wake cycling",
+      "domainFunction": "Regulates autonomic homeostasis, circadian rhythms, and neuroendocrine function; hypothalamic activation initiates migraine premonitory phase",
+      "whyThisNode": "Autonomic command center — hypothalamic activation drives migraine prodrome (yawning, cravings), cluster headache circadian pattern, and sleep disorder pathophysiology",
+      "group": "sleep",
+      "phase": "P6",
+      "weight": 0.8,
+      "treatments": [
+        {
+          "label": "Sleep-wake cycle evaluation",
+          "type": "DIAGNOSTIC",
+          "description": "Actigraphy and polysomnography assess circadian disruption contributing to headache and seizure disorders",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Circadian rhythm stabilization",
+          "type": "STRUCTURAL",
+          "description": "Regular sleep-wake schedule, light therapy, and melatonin to stabilize hypothalamic circadian output",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Hypothalamus",
+      "brainNodeLabelCanonical": "Neurology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "population",
+          "role": "Gender Demographics"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "SNIG",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.95
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "INHIBITS",
+      "weight": 0.9
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "INHIBITS",
+      "weight": 0.9
+    },
+    {
+      "source": "THAL",
+      "target": "M1",
+      "type": "EXCITES",
+      "weight": 0.9
+    },
+    {
+      "source": "STN",
+      "target": "GP",
+      "type": "EXCITES",
+      "weight": 0.9
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "EXCITES",
+      "weight": 0.85
+    },
+    {
+      "source": "THAL",
+      "target": "GABA_GLU",
+      "type": "MODULATES",
+      "weight": 0.85
+    },
+    {
+      "source": "GABA_GLU",
+      "target": "OSC",
+      "type": "MODULATES",
+      "weight": 0.9
+    },
+    {
+      "source": "HIPP",
+      "target": "EC",
+      "type": "CONNECTS",
+      "weight": 0.9
+    },
+    {
+      "source": "MICRO",
+      "target": "CC",
+      "type": "DAMAGES",
+      "weight": 0.85
+    },
+    {
+      "source": "PAG",
+      "target": "RAPHE",
+      "type": "MODULATES",
+      "weight": 0.85
+    },
+    {
+      "source": "RAPHE",
+      "target": "THAL",
+      "type": "INHIBITS",
+      "weight": 0.8
+    },
+    {
+      "source": "LC",
+      "target": "THAL",
+      "type": "MODULATES",
+      "weight": 0.8
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "DRIVES",
+      "weight": 0.9
+    },
+    {
+      "source": "M1",
+      "target": "RF",
+      "type": "CONNECTS",
+      "weight": 0.8
+    },
+    {
+      "source": "BROCA",
+      "target": "LAR",
+      "type": "DRIVES",
+      "weight": 0.85
+    },
+    {
+      "source": "BDNF",
+      "target": "HIPP",
+      "type": "SUPPORTS",
+      "weight": 0.8
+    },
+    {
+      "source": "HYPO",
+      "target": "PAG",
+      "type": "MODULATES",
+      "weight": 0.8
+    },
+    {
+      "source": "dlPFC",
+      "target": "STRI",
+      "type": "EXCITES",
+      "weight": 0.8
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Cerebellum — Regulation Strategy — Primary Node → Cerebellum — Regulation Strategy — Secondary Node (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Cerebellum — Regulation Strategy — Primary Node → Globus Pallidus Assessment & Diagnostics (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Cerebellum — Regulation Strategy — Primary Node → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Cerebellum — Regulation Strategy — Tertiary Node → Cerebellum — Regulation Strategy — Secondary Node (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Cerebellum — Regulation Strategy — Tertiary Node → Globus Pallidus Assessment & Diagnostics (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Cerebellum — Regulation Strategy — Tertiary Node → Periaqueductal Gray (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Dorsolateral Prefrontal Cortex → Cerebellum — State Interpretation — Secondary Node (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Dorsolateral Prefrontal Cortex → Hippocampus (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Subthalamic Nucleus Research & Development → Cerebellum — Regulation Strategy — Secondary Node (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Cerebellum — State Interpretation — Secondary Node → Cerebellum — Regulation Strategy — Secondary Node (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Thalamus → Primary Visual Cortex (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Thalamus → Substantia Nigra Research & Development (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Thalamus → Primary Somatosensory Cortex (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Thalamus Assessment & Diagnostics → Primary Visual Cortex (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Thalamus Core Operations → Substantia Nigra Research & Development (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[NTS] → Cerebellum — Diagnostic Pattern Recognition — Tertiary Node (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Cerebellum — Diagnostic Pattern Recognition — Tertiary Node → Cerebellum — State Interpretation — Secondary Node (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[PI] → Cerebellum — Diagnostic Pattern Recognition — Tertiary Node (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Cerebellum — Regulation Strategy — Secondary Node → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Hypothalamus (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Cerebellum — Feedback & Validation — Tertiary Node → Hippocampus (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Hippocampus → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Cerebellum — Action Coordination — Secondary Node → Cerebellum — Action Coordination — Primary Node (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Cerebellum — Action Coordination — Primary Node → Thalamus Infrastructure & Capacity (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Cerebellum — Action Coordination — Primary Node → Cerebellum — Diagnostic Pattern Recognition — Primary Node (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Cerebellum — Diagnostic Pattern Recognition — Primary Node → Cerebellum — Regulation Strategy — Tertiary Node (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Primary Motor Cortex Research & Development → Primary Visual Cortex (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[FPN] → Dorsolateral Prefrontal Cortex (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Locus Coeruleus → Cerebellum — Regulation Strategy — Secondary Node (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Locus Coeruleus → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "PARKINSONS",
+      "label": "Parkinson's Disease",
+      "summary": "Progressive loss of dopaminergic neurons in substantia nigra pars compacta disrupts basal ganglia motor circuit, causing bradykinesia, rigidity, and tremor",
+      "circuits": [
+        {
+          "nodeId": "SNIG",
+          "dir": "Hypo",
+          "detail": "Dopaminergic neuronal loss in SNpc — hallmark pathology; >60% loss before symptom onset",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo",
+          "detail": "Striatal dopamine depletion (putamen > caudate) — motor symptoms correlate with putaminal loss",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "Subthalamic nucleus overactive due to reduced GPe inhibition — primary DBS target",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "GPi output excessive — over-inhibits thalamus, suppressing motor cortex activation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "Thalamocortical drive suppressed by GPi over-inhibition producing bradykinesia",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "Motor cortex hypoactivation — reduced movement initiation and amplitude",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "Supplementary motor area underactivated — impaired internally-generated movement sequencing",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Altered",
+          "detail": "Mesolimbic dopamine loss causing apathy, anhedonia, and depression in PD",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PPN",
+          "dir": "Altered",
+          "detail": "Pedunculopontine nucleus degeneration causing postural instability and gait freezing",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OLF",
+          "dir": "Hypo",
+          "detail": "Olfactory bulb alpha-synuclein deposition — hyposmia is earliest premotor symptom",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Altered",
+          "detail": "Noradrenergic cell loss contributing to depression, REM sleep behavior disorder, and orthostatic hypotension",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ALZHEIMERS",
+      "label": "Alzheimer's Disease",
+      "summary": "Amyloid-beta plaques and neurofibrillary tau tangles cause progressive neuronal loss beginning in entorhinal cortex and hippocampus, spreading to association cortices",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "Hippocampal atrophy — earliest structural change; correlates with episodic memory loss",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "Entorhinal cortex first region affected by tau pathology; gateway to hippocampal memory circuit",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NBM",
+          "dir": "Hypo",
+          "detail": "Nucleus basalis of Meynert cholinergic neuron loss — basis for cholinesterase inhibitor therapy",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PCC",
+          "dir": "Hypo",
+          "detail": "Posterior cingulate/precuneus hypometabolism — earliest FDG-PET finding; DMN hub disrupted",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Altered",
+          "detail": "Default mode network progressively disconnects — amyloid deposition follows DMN topology",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hypo",
+          "detail": "Precuneus hypometabolism and atrophy — correlates with episodic memory and self-referential processing loss",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Hypo",
+          "detail": "Angular gyrus atrophy — contributes to semantic memory loss and spatial disorientation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hypo",
+          "detail": "Language network degradation — word-finding difficulty progressing to aphasia in later stages",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "MICRO",
+          "dir": "Hyper",
+          "detail": "Microglial neuroinflammation — activated microglia surround plaques; inflammatory cascade amplifies neuronal damage",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "MIGRAINE",
+      "label": "Migraine",
+      "summary": "Cortical spreading depression triggers trigeminovascular activation; CGRP release from trigeminal afferents causes neurogenic inflammation and thalamic sensitization drives photophobia and allodynia",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "Thalamic sensitization amplifies sensory signals producing photophobia, phonophobia, and allodynia",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Altered",
+          "detail": "PAG dysfunction as migraine generator — iron deposits found in chronic migraineurs; descending pain modulation fails",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "Locus coeruleus activation during premonitory phase — photophobia and arousal changes",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Altered",
+          "detail": "Dorsal raphe serotonergic dysfunction — triptans act via 5-HT1B/1D receptors on trigeminal nerves",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hyper",
+          "detail": "Somatosensory cortex hyperexcitable during migraine — cutaneous allodynia via central sensitization",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "V1",
+          "dir": "Hyper",
+          "detail": "Visual cortex hyperexcitability — cortical spreading depression originates in occipital cortex during aura",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered",
+          "detail": "Hypothalamic activation in premonitory phase — yawning, food cravings, mood changes before headache",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "Insula processes pain and interoceptive signals — activated during migraine attacks",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "MS",
+      "label": "Multiple Sclerosis",
+      "summary": "Autoimmune demyelination in CNS white matter with axonal damage creating multifocal lesions disseminated in space and time, preferentially affecting optic nerve, periventricular white matter, and spinal cord",
+      "circuits": [
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "Corpus callosum lesions (Dawson fingers) disrupt interhemispheric connectivity — hallmark MS location",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "V1",
+          "dir": "Altered",
+          "detail": "Optic nerve demyelination (optic neuritis) — most common presenting symptom; afferent pupillary defect",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Cerebellar and brainstem lesions producing ataxia, intention tremor, nystagmus, and scanning speech",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Corticospinal tract demyelination producing upper motor neuron signs: spasticity, weakness, hyperreflexia",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "Hippocampal atrophy contributes to memory impairment present in 40-65% of MS patients",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Frontal white matter lesions disrupt processing speed and executive function — most common cognitive deficit",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "MICRO",
+          "dir": "Hyper",
+          "detail": "Activated microglia drive chronic neuroinflammation — targets of emerging MS therapies",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DISS",
+          "dir": "Altered",
+          "detail": "Widespread white matter disconnection disrupts distributed cognitive networks",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "ISCHEMIC_STROKE",
+      "label": "Ischemic Stroke",
+      "summary": "Acute interruption of cerebral blood flow by thrombus or embolism causes core infarct and salvageable penumbra; time-dependent neural circuit damage depends on vascular territory",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "MCA territory motor cortex infarction producing contralateral hemiparesis (most common deficit)",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Left MCA inferior frontal infarction producing expressive (Broca) aphasia",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo",
+          "detail": "Left posterior temporal infarction producing receptive (Wernicke) aphasia",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Strategic thalamic infarct can cause memory loss, apathy, or aphasia depending on nuclei affected",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "V1",
+          "dir": "Hypo",
+          "detail": "PCA territory infarction producing contralateral homonymous hemianopia",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Cerebellar stroke causing ataxia, vertigo, dysmetria; risk of posterior fossa edema and herniation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "White matter tract damage disrupts interhemispheric transfer and distributed network function",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BDNF",
+          "dir": "Altered",
+          "detail": "BDNF Val66Met polymorphism affects post-stroke neuroplasticity and rehabilitation outcomes",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FOCAL_SEIZURE",
+      "label": "Focal (Partial) Seizures",
+      "summary": "Abnormal hypersynchronous discharge originating in a localized cortical focus; thalamocortical loops amplify and propagate ictal activity while GABAergic inhibition fails locally",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "Thalamocortical relay neurons entrained into hypersynchronous oscillations during seizure propagation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "Hippocampal sclerosis and mossy fiber sprouting create recurrent excitatory loops",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "GABA_GLU",
+          "dir": "Altered",
+          "detail": "GABAergic interneuron failure with unopposed glutamatergic excitation at seizure focus",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "Insular cortex involvement in autonomic seizure semiology (ictal tachycardia, epigastric aura)",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "Amygdala kindling model — repeated subthreshold stimulation lowers seizure threshold",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hyper",
+          "detail": "Motor cortex involvement produces contralateral clonic movements in motor-onset seizures",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OSC",
+          "dir": "Altered",
+          "detail": "Pathological high-frequency oscillations (250-500 Hz ripples) mark seizure onset zone",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Cerebellar modulation of cortical excitability disrupted; potential seizure suppression role",
+          "evidence": "Emerging"
+        }
+      ]
+    },
+    {
+      "id": "ALS",
+      "label": "Amyotrophic Lateral Sclerosis",
+      "summary": "Progressive degeneration of upper and lower motor neurons with TDP-43 proteinopathy; motor cortex UMN loss causes spasticity and anterior horn LMN loss causes weakness, atrophy, and fasciculations",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "Betz cell (upper motor neuron) degeneration in primary motor cortex producing spasticity and hyperreflexia",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "Premotor cortex involvement producing impaired motor planning and sequencing",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Bulbar onset: corticobulbar degeneration producing dysarthria, dysphagia, and pseudobulbar affect",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Frontotemporal dysfunction in 50% — executive and behavioral changes even without full FTD",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LAR",
+          "dir": "Hypo",
+          "detail": "Laryngeal motor neuron loss producing voice weakness and eventual inability to speak",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RF",
+          "dir": "Altered",
+          "detail": "Phrenic motor neuron and brainstem respiratory center degeneration producing respiratory failure",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "Corticospinal tract degeneration visible on DTI; corpus callosum involvement in ALS-FTD",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ESSENTIAL_TREMOR",
+      "label": "Essential Tremor",
+      "summary": "Cerebello-thalamo-cortical circuit oscillation at 4-12 Hz driven by Purkinje cell loss in cerebellar cortex, with VIM thalamic relay of pathological oscillation to motor cortex",
+      "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Purkinje cell loss in cerebellar cortex; cerebellar output dysregulated",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "VIM thalamic nucleus relays cerebellar oscillation to motor cortex — primary DBS/lesion target",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Motor cortex receives oscillatory input from VIM producing rhythmic tremor output",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GABA_GLU",
+          "dir": "Altered",
+          "detail": "GABAergic deficit suggested by ethanol responsiveness and reduced GABA in cerebellar dentate",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OSC",
+          "dir": "Altered",
+          "detail": "Coherent oscillatory activity at tremor frequency in cerebello-thalamo-cortical loop",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NEOCER",
+          "dir": "Altered",
+          "detail": "Neocerebellum (lateral hemispheres) shows metabolic hyperactivity during tremor",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:37.787Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

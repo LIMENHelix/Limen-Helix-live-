@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; ECONOMY OPPORTUNITIES</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace;height:100%;overflow-x:hidden}
+
+/* ═══ HEADER — matches civilization nav exactly ═══ */
+.opp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 16px;border-bottom:1px solid rgba(201,169,78,0.08);
+  background:rgba(5,8,16,0.95);position:sticky;top:0;z-index:100;
+}
+.ch-title{font-size:clamp(0.48rem,1.4vw,0.60rem);letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,78,0.5)}
+.ch-title a{color:rgba(201,169,78,0.45);text-decoration:none;transition:color 0.2s}
+.ch-title a:hover{color:rgba(201,169,78,0.9)}
+.ch-bc-sep{color:rgba(201,169,78,0.2)}
+.ch-bc-active{color:rgba(201,169,78,0.7)}
+.opp-nav{display:flex;gap:8px;align-items:center}
+.opp-nav a,.opp-nav button{
+  font-family:inherit;font-size:0.38rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(201,169,78,0.4);text-decoration:none;padding:3px 10px;
+  border:1px solid rgba(201,169,78,0.1);border-radius:2px;background:none;cursor:pointer;
+  transition:all 0.2s;
+}
+.opp-nav a:hover,.opp-nav button:hover{color:rgba(201,169,78,0.8);border-color:rgba(201,169,78,0.3)}
+
+/* ═══ COMMAND STRIP ═══ */
+.opp-command{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:10px 20px;border-bottom:1px solid rgba(201,169,78,0.06);
+  font-size:0.45rem;letter-spacing:1.2px;color:#c0b8a5;
+}
+.opp-stat{color:rgba(201,169,78,0.6)}
+.opp-stat-val{color:#C9A94E;font-weight:bold}
+.opp-summary{flex:1;text-align:right;font-size:0.48rem;color:#d0c8b8}
+
+/* ═══ CARD GRID ═══ */
+.opp-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:12px;padding:16px 20px;
+}
+@media(max-width:700px){.opp-grid{grid-template-columns:1fr}}
+
+/* ═══ CARD ═══ */
+.opp-card{
+  background:#0e1018;border:1px solid rgba(201,169,78,0.08);border-radius:4px;
+  padding:14px 16px;cursor:pointer;transition:border-color 0.2s;position:relative;
+}
+.opp-card:hover{border-color:rgba(201,169,78,0.25)}
+.opp-card.selected{border-color:rgba(201,169,78,0.5);background:#111420}
+.opp-card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
+.opp-card-title{font-size:0.6rem;color:#e8e3d9;letter-spacing:0.5px;flex:1}
+.opp-card-type{
+  font-size:0.36rem;letter-spacing:1.5px;text-transform:uppercase;
+  padding:2px 8px;border-radius:2px;white-space:nowrap;flex-shrink:0;
+}
+.type-invest{background:rgba(90,181,160,0.12);color:#5ab5a0}
+.type-build{background:rgba(74,143,212,0.12);color:#4a8fd4}
+.type-fund{background:rgba(201,169,78,0.12);color:#C9A94E}
+.type-patent{background:rgba(168,85,247,0.12);color:#a855f7}
+.type-advise{background:rgba(255,152,0,0.12);color:#FF9800}
+.type-procure{background:rgba(232,84,84,0.12);color:#e85454}
+
+.opp-card-explain{font-size:0.5rem;color:#d0c8b8;line-height:1.6;margin-bottom:8px}
+.opp-card-action{
+  font-size:0.48rem;color:#5ab5a0;padding:6px 10px;margin-bottom:8px;
+  background:rgba(90,181,160,0.06);border-left:2px solid rgba(90,181,160,0.3);border-radius:0 2px 2px 0;
+}
+.opp-card-why{font-size:0.42rem;color:#c0b8a5;margin-bottom:6px}
+.opp-card-value{font-size:0.45rem;color:#C9A94E;margin-bottom:4px}
+.opp-card-meta{display:flex;gap:10px;flex-wrap:wrap;font-size:0.38rem;color:#a09888;letter-spacing:0.8px}
+.opp-card-meta span{white-space:nowrap}
+.sat-low{color:#5ab5a0}.sat-medium{color:#C9A94E}.sat-high{color:#e85454}
+.opp-card-check{position:absolute;top:10px;right:10px;width:14px;height:14px;
+  border:1px solid rgba(201,169,78,0.2);border-radius:2px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:0.4rem;color:#C9A94E;
+}
+.opp-card-check.checked{background:rgba(201,169,78,0.15);border-color:rgba(201,169,78,0.5)}
+
+/* ═══ PLAYBOOK PANEL ═══ */
+.opp-playbook{
+  display:none;position:fixed;top:0;right:0;width:min(520px,90vw);height:100vh;
+  background:#0a0c14;border-left:1px solid rgba(201,169,78,0.12);
+  overflow-y:auto;z-index:200;padding:0;
+}
+.opp-playbook.open{display:block}
+.opp-pb-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 16px;border-bottom:1px solid rgba(201,169,78,0.08);
+  position:sticky;top:0;background:#0a0c14;z-index:1;
+}
+.opp-pb-title{font-size:0.5rem;letter-spacing:2px;color:#C9A94E;text-transform:uppercase}
+.opp-pb-close{background:none;border:none;color:#666;font-size:0.7rem;cursor:pointer;padding:4px 8px}
+.opp-pb-section{padding:10px 16px;border-bottom:1px solid rgba(201,169,78,0.04)}
+.opp-pb-label{font-size:0.4rem;letter-spacing:2px;color:rgba(201,169,78,0.4);text-transform:uppercase;margin-bottom:4px}
+.opp-pb-text{font-size:0.48rem;color:rgba(200,195,184,0.7);line-height:1.6}
+.opp-pb-step{padding:3px 0 3px 12px;border-left:2px solid rgba(201,169,78,0.1);margin:3px 0;font-size:0.45rem;color:#d0c8b8}
+
+/* ═══ ACTION BAR ═══ */
+.opp-action-bar{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  padding:8px 20px;background:rgba(5,8,16,0.95);
+  border-top:1px solid rgba(201,169,78,0.12);z-index:100;
+  align-items:center;gap:12px;
+}
+.opp-action-bar.has-selected{display:flex}
+.opp-action-count{font-size:0.45rem;color:#c0b8a5;letter-spacing:1px}
+.opp-action-btn{
+  font-family:inherit;font-size:0.42rem;letter-spacing:1.5px;text-transform:uppercase;
+  padding:6px 16px;border-radius:2px;cursor:pointer;transition:all 0.2s;
+}
+.opp-action-btn.primary{background:rgba(201,169,78,0.15);border:1px solid rgba(201,169,78,0.3);color:#C9A94E}
+.opp-action-btn.primary:hover{background:rgba(201,169,78,0.25)}
+.opp-action-btn.disabled{background:rgba(100,100,100,0.08);border:1px solid rgba(100,100,100,0.15);color:#555;cursor:not-allowed}
+.opp-action-spacer{flex:1}
+
+/* ═══ PRINT ═══ */
+@media print{
+  .opp-header,.opp-action-bar,.opp-playbook,.opp-card-check{display:none!important}
+  .opp-card{break-inside:avoid;border:1px solid #333}
+  body{background:#fff;color:#111}
+  .opp-card-title{color:#111}.opp-card-explain{color:#444}
+  .opp-card-action{color:#0a6;border-color:#0a6;background:#f0faf5}
+  .opp-card-value{color:#8a6d1b}
+}
+</style>
+</head>
+<body>
+<script src="assets/js/auth-gate.js"></script>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+<script src="assets/js/domain-identity.js"></script>
+<script>
+var _DOMAIN_FILTER = 'economy';
+var _DOMAIN_LABELS = {};
+var _DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
+</script>
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+
+<!-- COMMAND STRIP -->
+<div class="opp-command" id="oppCommand"></div>
+<div style="text-align:right;font-size:0.28rem;color:#706860;letter-spacing:1px;padding:2px 16px" id="oppLastUpdated"></div>
+
+<!-- TOP ACTIONS NOW -->
+<!-- Top 3 removed — stars in main list are sufficient -->
+
+<!-- CARD GRID -->
+<div class="opp-grid" id="oppGrid"></div>
+
+<!-- PLAYBOOK PANEL -->
+<div class="opp-playbook" id="oppPlaybook"></div>
+
+<!-- ACTION BAR -->
+<div class="opp-action-bar" id="oppActionBar">
+  <span class="opp-action-count" id="oppSelectedCount">0 selected</span>
+  <div class="opp-action-spacer"></div>
+  <button class="opp-action-btn primary" onclick="generateActionReport()">Generate Action Report</button>
+  <button class="opp-action-btn disabled" disabled>Execute (coming soon)</button>
+</div>
+
+<!-- SCRIPTS: load feed engines for data access -->
+<script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/feed-store.js"></script>
+<script src="assets/js/feed-state.js"></script>
+<script src="assets/js/domain-signal-engine.js"></script>
+<script src="assets/js/cross-domain-detector.js"></script>
+<script src="assets/js/limen-bootstrap.js"></script>
+<script src="assets/js/domain-brains/economy-refresh-controller.js"></script>
+<script src="assets/js/executive/limen-executive-control.js"></script>
+<script src="assets/js/executive/limen-simulation-engine.js"></script>
+<script src="assets/js/executive/limen-executive-ui.js"></script>
+<script src="assets/js/portfolio-context.js"></script>
+<script src="assets/js/connectome-resolver.js"></script>
+<script src="assets/js/connectome-kernel-adapter.js"></script>
+<script src="assets/js/kernel-output-interpreter.js"></script>
+<script src="assets/js/node-translation.js"></script>
+<script src="assets/js/domain-brains/data/economy-opportunity-playbooks.js"></script>
+
+<script>
+(function(){
+'use strict';
+
+// ═══ DYNAMIC CIK LOOKUP ═══
+// Loads company-index.json once, builds ticker→{cik,slug,name} map
+var _cikMap = {};    // TICKER → { cik, slug, name }
+var _cikReady = false;
+
+(function _loadCompanyIndex() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'assets/data/company-index.json', true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      try {
+        var idx = JSON.parse(xhr.responseText);
+        var byTicker = idx.byTicker || {};
+        var companies = idx.companies || {};
+        for (var ticker in byTicker) {
+          var slug = byTicker[ticker];
+          var co = companies[slug];
+          if (co && co.cik) {
+            _cikMap[ticker] = { cik: co.cik, slug: slug, name: co.name };
+          }
+        }
+        _cikReady = true;
+        console.log('[Opportunities] CIK map loaded: ' + Object.keys(_cikMap).length + ' tickers');
+      } catch (e) { console.warn('[Opportunities] CIK map parse error:', e); }
+    }
+  };
+  xhr.onerror = function() { console.warn('[Opportunities] CIK map load failed'); };
+  xhr.send();
+})();
+
+// Lookup: returns { cik, slug, name } or null
+function _lookupCIK(ticker) {
+  if (!ticker || ticker === 'N/A') return null;
+  return _cikMap[ticker.toUpperCase()] || null;
+}
+
+// ═══ PLAYBOOK DEFINITIONS ═══
+// Canonical dataset lives in assets/js/domain-brains/data/economy-opportunity-playbooks.js
+// (loaded above as window.LIMENEconomyOpportunityPlaybooks). Shared with the
+// economy-brain so /opportunities.html projects the same rich fields.
+
+var PLAYBOOKS = (window.LIMENEconomyOpportunityPlaybooks || []);
+
+// ═══ DATA QUALITY ═══
+
+function _getDataQuality(domainKeys, doms) {
+  var totalSources = 0;
+  var liveSources = 0;
+  for (var i = 0; i < domainKeys.length; i++) {
+    var d = doms[domainKeys[i]];
+    if (!d || !d.sources) continue;
+    for (var j = 0; j < d.sources.length; j++) {
+      totalSources++;
+      if (d.sources[j].live) liveSources++;
+    }
+  }
+  if (totalSources === 0) return { live: 0, total: 0, label: 'NO DATA', color: '#e85454' };
+  var ratio = liveSources / totalSources;
+  var label = liveSources + '/' + totalSources + ' LIVE';
+  var color = ratio >= 0.75 ? '#5ab5a0' : ratio >= 0.5 ? '#C9A94E' : '#e85454';
+  if (ratio === 0) label = 'FALLBACK ONLY';
+  return { live: liveSources, total: totalSources, label: label, color: color };
+}
+
+// ═══ OPPORTUNITY ACTIVATION ═══
+
+var _selected = {};
+var _oppPaperPositions = {}; // symbol → position
+var _oppPaperOrders = {};    // symbol → most recent order
+var _oppExposureFetched = false;
+var _oppPortfolio = null;    // LIMENPortfolioContext.analyzePortfolio result
+
+// ASSET_MAP mirror (invest-type playbook → tickers) for exposure lookup
+var _OPP_INVEST_TICKERS = {
+  demand_contraction:['XLP','XLU','WMT','KO','PG'], fin_law:['PANW','HACK'],
+  health_research:['XBI','IBB','VEEV'], tech_research:['ARKK','QTEC','NVDA','IONQ'],
+  labor_strain:['ADP','PAYX','INTU'], inflation_defense:['TIP','VTIP','GLD','DBA'],
+  gov_econ:['ITA','ICLN','PAVE','XLF'], credit_repositioning:['LQD','TLT','BIL','HYG'],
+  recession_preparation:['XLP','XLU','TLT','GLD','SH'], agri_pop:['MOO','DBA','DE'],
+  supply_agri:['COLD','MOO'], intel_gov:['PLTR','BAH'],
+  fin_econ:['TLT','GLD','SPY','SDS'], comm_culture:['NET'], edu_research:['COUR','DUOL']
+};
+
+function _fetchOppExposure() {
+  fetch('/api/paper-positions')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (data && data.positions) {
+        for (var i = 0; i < data.positions.length; i++) {
+          _oppPaperPositions[data.positions[i].symbol] = data.positions[i];
+        }
+      }
+    })
+    .catch(function() {});
+
+  fetch('/api/paper-orders?status=all&limit=50')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (data && data.orders) {
+        for (var i = 0; i < data.orders.length; i++) {
+          var o = data.orders[i];
+          if (!_oppPaperOrders[o.symbol]) _oppPaperOrders[o.symbol] = o;
+        }
+      }
+      _oppExposureFetched = true;
+      if (window.LIMENPortfolioContext) {
+        _oppPortfolio = window.LIMENPortfolioContext.analyzePortfolio(_oppPaperPositions, _oppPaperOrders);
+      }
+      if (_hasRendered) render(); // re-render with badges
+    })
+    .catch(function() { _oppExposureFetched = true; });
+}
+
+function _getOppExposureBadge(pbId) {
+  if (!_oppExposureFetched) return '';
+  var tickers = _OPP_INVEST_TICKERS[pbId];
+  if (!tickers) return '';
+  var badges = [];
+  for (var i = 0; i < tickers.length; i++) {
+    var t = tickers[i];
+    var pos = _oppPaperPositions[t];
+    var ord = _oppPaperOrders[t];
+    if (pos && Number(pos.qty) > 0) {
+      badges.push('<span style="font-size:0.36rem;padding:1px 5px;background:rgba(201,169,78,0.1);border:1px solid rgba(201,169,78,0.15);border-radius:2px;color:#C9A94E">' + t + ': ' + pos.qty + ' sh</span>');
+    } else if (ord && (ord.status === 'new' || ord.status === 'accepted' || ord.status === 'pending_new')) {
+      badges.push('<span style="font-size:0.36rem;padding:1px 5px;background:rgba(74,143,212,0.1);border:1px solid rgba(74,143,212,0.15);border-radius:2px;color:#4a8fd4">' + t + ': pending</span>');
+    } else if (ord && ord.status === 'filled') {
+      badges.push('<span style="font-size:0.36rem;padding:1px 5px;background:rgba(150,150,150,0.06);border:1px solid rgba(150,150,150,0.1);border-radius:2px;color:#888">' + t + ': traded</span>');
+    }
+  }
+  if (badges.length === 0) return '';
+  return '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">' + badges.join('') + '</div>';
+}
+
+function _activateOpportunities() {
+  var doms = window.LIMENDomains || {};
+  var cd = (window.LIMENCrossDomain && window.LIMENCrossDomain.active) ? window.LIMENCrossDomain.active : [];
+  var cdPatterns = {};
+  for (var ci = 0; ci < cd.length; ci++) {
+    if (cd[ci].patternId) cdPatterns[cd[ci].patternId] = cd[ci];
+    if (cd[ci].id) cdPatterns[cd[ci].id] = cd[ci];
+    if (cd[ci].pattern) cdPatterns[cd[ci].pattern] = cd[ci];
+  }
+
+  // Domain filter: if ?domain= is set, only include playbooks touching that domain
+  var domainFilter = _DOMAIN_FILTER;
+  var domainSK = domainFilter ? (window.LIMENDomainIdentity ? window.LIMENDomainIdentity.snapshotKey(domainFilter) : domainFilter) : null;
+
+  var active = [];
+
+  for (var i = 0; i < PLAYBOOKS.length; i++) {
+    var pb = PLAYBOOKS[i];
+
+    // Apply domain filter
+    if (domainFilter && pb.domains) {
+      var domainMatch = false;
+      for (var dfi = 0; dfi < pb.domains.length; dfi++) {
+        var pbd = pb.domains[dfi];
+        if (pbd === domainFilter || pbd === domainSK) { domainMatch = true; break; }
+      }
+      if (!domainMatch) continue;
+    }
+    var dominated = pb.domains;
+    var isActive = false;
+    var confidence = 0;
+    var urgency = 'low';
+    var whyNow = '';
+
+    if (pb.pattern && cdPatterns[pb.pattern]) {
+      // Cross-domain pattern is firing
+      var pat = cdPatterns[pb.pattern];
+      isActive = true;
+      confidence = Math.round((pat.confidence || 0.5) * 100);
+      urgency = (pat.severity || 0) > 0.65 ? 'high' : (pat.severity || 0) > 0.4 ? 'medium' : 'low';
+      var stresses = (pat.stresses || []).map(function(s){return s.toFixed(2)});
+      whyNow = (pat.domains || []).join(' + ') + ' stress: ' + stresses.join(', ');
+      // Add source detail
+      for (var di = 0; di < (pat.domains || []).length; di++) {
+        var dd = doms[pat.domains[di]];
+        if (dd && dd.sources) {
+          for (var si = 0; si < dd.sources.length; si++) {
+            if (dd.sources[si].live && dd.sources[si].label) {
+              whyNow += ' \u00b7 ' + dd.sources[si].label;
+              break;
+            }
+          }
+        }
+      }
+    } else if (pb.id === 'data_infra') {
+      // Special: count degraded domains
+      var degraded = 0;
+      for (var dk in doms) { if (doms[dk].status === 'PARTIAL' || doms[dk].status === 'FALLBACK') degraded++; }
+      if (degraded >= 3) {
+        isActive = true;
+        confidence = Math.min(90, degraded * 15);
+        urgency = degraded >= 5 ? 'high' : 'medium';
+        whyNow = degraded + ' domains degraded or in fallback';
+      }
+    } else if (pb.id === 'treatment_gap') {
+      // Special: scan for evidence gaps
+      var ar = window.LIMENAnalystReport;
+      if (ar && ar.domains) {
+        for (var ari = 0; ari < ar.domains.length; ari++) {
+          var ard = ar.domains[ari];
+          if ((ard.evidenceScore || 0) >= 0.5 && (ard.treatmentCount || 0) <= 3 && (ard.diagnosticCount || 0) >= 2 && (ard.stress || 0) > 0.35) {
+            isActive = true;
+            confidence = Math.round((ard.evidenceScore || 0) * 100);
+            urgency = ard.stress > 0.65 ? 'high' : 'medium';
+            whyNow = (ard.label || ard.domainId) + ': ' + ard.diagnosticCount + ' diagnoses, only ' + ard.treatmentCount + ' treatments';
+            break;
+          }
+        }
+      }
+    } else if (pb.id === 'patent_vacuum') {
+      // Special: check patent report
+      var reports = window.LIMENReports || {};
+      var patRpt = reports.patentOpportunity;
+      if (patRpt && patRpt.signals) {
+        for (var pi = 0; pi < patRpt.signals.length; pi++) {
+          var ps = patRpt.signals[pi];
+          if (ps.type === 'temporal_gap' && (ps.opportunityScore || 0) > 0.4) {
+            isActive = true;
+            confidence = Math.round((ps.opportunityScore || 0) * 100);
+            urgency = 'medium';
+            whyNow = 'Filing gap in ' + (ps.techNode || 'tech area') + ': ' + (ps.indication || '');
+            break;
+          }
+        }
+      }
+    } else {
+      // Generic: check if relevant domains are stressed (threshold 0.20 post-normalization)
+      var anyStressed = false;
+      var topStress = 0;
+      var topSrc = '';
+      for (var dj = 0; dj < dominated.length; dj++) {
+        var dd2 = doms[dominated[dj]];
+        if (dd2 && dd2.stress > 0.20) {
+          anyStressed = true;
+          if (dd2.stress > topStress) {
+            topStress = dd2.stress;
+            topSrc = '';
+            if (dd2.sources) {
+              for (var sk = 0; sk < dd2.sources.length; sk++) {
+                if (dd2.sources[sk].live && dd2.sources[sk].label) { topSrc = dd2.sources[sk].label; break; }
+              }
+            }
+            if (!topSrc && dd2.signals && dd2.signals.length > 0) {
+              topSrc = typeof dd2.signals[0] === 'string' ? dd2.signals[0] : (dd2.signals[0].label || '');
+            }
+          }
+        }
+      }
+      if (anyStressed) {
+        isActive = true;
+        confidence = Math.round(Math.min(topStress * 100, 90));
+        urgency = topStress > 0.65 ? 'high' : topStress > 0.4 ? 'medium' : 'low';
+        whyNow = topSrc || (dominated[0] + ' stress ' + topStress.toFixed(2));
+      }
+    }
+
+    var quality = _getDataQuality(dominated[0] === 'any' ? Object.keys(doms) : dominated, doms);
+
+    if (isActive) {
+      // Downgrade confidence if data quality is poor
+      if (quality.live === 0 && quality.total > 0) confidence = Math.min(confidence, 20);
+      active.push({
+        pb: pb,
+        confidence: confidence,
+        urgency: urgency,
+        whyNow: whyNow,
+        status: 'active',
+        quality: quality
+      });
+    } else {
+      active.push({
+        pb: pb,
+        confidence: 0,
+        urgency: 'watching',
+        whyNow: 'Monitoring \u2014 triggers not yet met',
+        status: 'watching',
+        quality: quality
+      });
+    }
+  }
+
+  // Debug: log activation results
+  console.log('[Opportunities] Activation results:', {
+    totalPlaybooks: PLAYBOOKS.length,
+    activeCount: active.length,
+    domainCount: Object.keys(doms).length,
+    crossDomainPatterns: cd.length,
+    hasAnalystReport: !!(window.LIMENAnalystReport && window.LIMENAnalystReport.domains),
+    hasPatentReport: !!(window.LIMENReports && window.LIMENReports.patentOpportunity),
+    activeTitles: active.map(function(a){ return a.pb.title })
+  });
+
+  // Sort: active first (high > medium > low), then watching
+  var uOrder = {high:0,medium:1,low:2,watching:3};
+  active.sort(function(a,b) {
+    var ua = uOrder[a.urgency] !== undefined ? uOrder[a.urgency] : 9;
+    var ub = uOrder[b.urgency] !== undefined ? uOrder[b.urgency] : 9;
+    if (ua !== ub) return ua - ub;
+    return b.confidence - a.confidence;
+  });
+
+  return active;
+}
+
+// ═══ CONNECTOME BAR FOR CARDS ═══
+
+function _renderConnectomeBar(opp) {
+  if (!opp.connectome || opp.connectome.nodeCount === 0) return '';
+  var c = opp.connectome;
+  var sourceColor = c.source === 'CONNECTOME' ? '#5ab5a0' : '#666';
+
+  var html = '<div style="margin-top:6px;padding:6px 10px;background:rgba(201,169,78,0.03);border:1px solid rgba(201,169,78,0.06);border-radius:2px;font-size:0.38rem">';
+
+  // Row 1: source tag + node count + cross-domain
+  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:#888;margin-bottom:3px">';
+  html += '<span style="color:' + sourceColor + ';letter-spacing:1px">' + c.source + '</span>';
+  html += '<span>' + c.totalActivated + ' node' + (c.totalActivated > 1 ? 's' : '') + '</span>';
+  if (c.crossDomainNodes > 0) html += '<span style="color:#C9A94E">' + c.crossDomainNodes + ' cross-domain</span>';
+  html += '</div>';
+
+  // Row 2: top nodes with their primary role (much more informative than bare IDs)
+  if (c.nodes && c.nodes.length > 0) {
+    html += '<div style="display:flex;gap:6px;flex-wrap:wrap">';
+    for (var ni = 0; ni < Math.min(c.nodes.length, 3); ni++) {
+      var nd = c.nodes[ni];
+      var ndColor = nd.crossDomain ? '#C9A94E' : '#888';
+      var ndRole = nd.roles && nd.roles[0] ? nd.roles[0] : '';
+      html += '<span style="color:' + ndColor + '">' + nd.id;
+      if (ndRole) html += ' <span style="color:#555;font-size:0.34rem">' + ndRole + '</span>';
+      html += '</span>';
+    }
+    if (c.nodes.length > 3) html += '<span style="color:#555">+' + (c.nodes.length - 3) + '</span>';
+    html += '</div>';
+  }
+
+  // Row 3: feed context — which domains are stressed and how much
+  if (c.feedContext) {
+    var fcKeys = Object.keys(c.feedContext);
+    if (fcKeys.length > 0) {
+      html += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:3px">';
+      for (var fi = 0; fi < fcKeys.length; fi++) {
+        var fk = fcKeys[fi];
+        var fv = c.feedContext[fk];
+        var stColor = fv.stress > 0.65 ? '#e85454' : fv.stress > 0.4 ? '#C9A94E' : '#666';
+        html += '<span style="color:' + stColor + '">' + fk.toUpperCase() + ' ' + (fv.stress * 100).toFixed(0) + '%</span>';
+      }
+      html += '</div>';
+    }
+  }
+
+  html += '</div>';
+  return html;
+}
+
+// Build "why this surfaced" explanation from connectome + feed data
+function _buildWhySurfaced(opp) {
+  if (!opp.connectome || opp.connectome.nodeCount === 0) return '';
+  var c = opp.connectome;
+  var parts = [];
+
+  // Which domains triggered
+  if (c.feedContext) {
+    var stressedDoms = [];
+    for (var dk in c.feedContext) {
+      if (c.feedContext[dk].stress >= 0.35) stressedDoms.push(dk.toUpperCase() + ' (' + (c.feedContext[dk].stress * 100).toFixed(0) + '%)');
+    }
+    if (stressedDoms.length > 0) parts.push('Stressed domains: ' + stressedDoms.join(', '));
+  }
+
+  // Top responsible nodes
+  if (c.nodes && c.nodes.length > 0) {
+    var topNodeDesc = c.nodes.slice(0, 2).map(function(n) {
+      return n.id + (n.roles && n.roles[0] ? ' (' + n.roles[0] + ')' : '');
+    });
+    parts.push('Key nodes: ' + topNodeDesc.join(', '));
+  }
+
+  // Business relevance
+  if (c.businessMappings && c.businessMappings.length > 0) {
+    var sectors = c.businessMappings.slice(0, 2).map(function(bm) { return bm.role; });
+    parts.push('Sector relevance: ' + sectors.join(', '));
+  }
+
+  if (parts.length === 0) return '';
+  return '<div style="margin-top:4px;font-size:0.36rem;color:#666;line-height:1.5">' + parts.join(' \u00b7 ') + '</div>';
+}
+
+// ═══ RENDER ═══
+
+function render() {
+  console.log('[Opportunities] render() called');
+
+  // Economy nav — matches civilization layout exactly
+  var DOMAIN_LABEL = 'Economy';
+  if (_DOMAIN_FILTER) {
+    DOMAIN_LABEL = _DOMAIN_LABELS[_DOMAIN_FILTER] || _DOMAIN_FILTER.charAt(0).toUpperCase() + _DOMAIN_FILTER.slice(1);
+    document.title = 'LIMEN HELIX \u00b7 ' + DOMAIN_LABEL.toUpperCase() + ' OPPORTUNITIES';
+  }
+
+  var opps = _activateOpportunities();
+  // Connectome resolver enrichment
+  if (window.LIMENConnectomeResolver && window.LIMENConnectomeResolver.isReady()) {
+    opps = window.LIMENConnectomeResolver.resolve(opps);
+  }
+  console.log('[Opportunities] opps count:', opps.length, 'grid element:', !!document.getElementById('oppGrid'));
+
+  // Command strip
+  var cmd = document.getElementById('oppCommand');
+  var activeCount = opps.filter(function(o){return o.status==='active'}).length;
+  var highCount = opps.filter(function(o){return o.urgency==='high'}).length;
+  var immCount = opps.filter(function(o){return o.urgency==='high'||o.urgency==='medium'}).length;
+  var watchCount = opps.filter(function(o){return o.status==='watching'}).length;
+  var topDom = '';
+  var doms = window.LIMENDomains || {};
+  var topS = 0;
+  for (var dk in doms) { if (doms[dk].stress > topS) { topS = doms[dk].stress; topDom = dk; } }
+
+  var connectomeCount = opps.filter(function(o){ return o.connectome && o.connectome.source === 'CONNECTOME' && o.status === 'active'; }).length;
+
+  // Intelligence summary from shared Economy state
+  var F = window.LIMENEconomyFresh || {};
+  var ePct = Math.round((F.stress || topS) * 100);
+  var eSev = ePct >= 75 ? 'CRITICAL' : ePct >= 55 ? 'ELEVATED' : ePct >= 35 ? 'MODERATE' : 'CONTAINED';
+  var eSevC = eSev === 'CRITICAL' ? '#e85454' : eSev === 'ELEVATED' ? '#C9A94E' : eSev === 'MODERATE' ? '#4a8fd4' : '#5ab5a0';
+
+  var summaryText = '';
+  if (activeCount > 0) {
+    summaryText = activeCount + ' live opportunit' + (activeCount > 1 ? 'ies' : 'y') + ' generated from Economy intelligence at ' + ePct + '% sector stress. ';
+    if (highCount > 0) summaryText += highCount + ' flagged urgent \u2014 positioning windows may be narrowing. ';
+    if (connectomeCount > 0) summaryText += connectomeCount + ' reinforced by connectome cross-validation.';
+  } else if (watchCount > 0) {
+    summaryText = 'Pipeline quiet. ' + watchCount + ' opportunities in monitoring state. Economy stress at ' + ePct + '% (' + eSev + ') \u2014 ';
+    summaryText += ePct < 30 ? 'insufficient pressure to activate positioning logic.' : 'pressure present but trigger conditions not yet met. Monitor for escalation.';
+  } else {
+    summaryText = 'No opportunities in pipeline. Economy stress: ' + ePct + '%. Signal confidence: ' + Math.round((F.confidence || 0) * 100) + '%. Feed coverage may be insufficient to generate actionable positions.';
+  }
+
+  cmd.innerHTML =
+    '<span class="opp-stat">Active: <span class="opp-stat-val">' + activeCount + '</span></span>' +
+    '<span class="opp-stat">Urgent: <span class="opp-stat-val" style="color:#e85454">' + highCount + '</span></span>' +
+    (connectomeCount > 0 ? '<span class="opp-stat">Connectome: <span class="opp-stat-val" style="color:#5ab5a0">' + connectomeCount + '</span></span>' : '') +
+    '<span class="opp-stat">Watching: <span class="opp-stat-val" style="color:#666">' + watchCount + '</span></span>' +
+    '<span class="opp-stat" style="color:' + eSevC + '">' + eSev + ': <span class="opp-stat-val">' + ePct + '%</span></span>' +
+    '<span class="opp-summary">' + summaryText + '</span>';
+
+  // Cards
+  var grid = document.getElementById('oppGrid');
+  grid.innerHTML = '';
+  for (var i = 0; i < opps.length; i++) {
+    var o = opps[i];
+    var pb = o.pb;
+    var typeClass = 'type-' + pb.type;
+
+    var isWatching = o.status === 'watching';
+    var card = document.createElement('div');
+    card.className = 'opp-card' + (_selected[pb.id] ? ' selected' : '');
+    if (isWatching) card.style.opacity = '0.5';
+    card.setAttribute('data-id', pb.id);
+    card.setAttribute('data-idx', i);
+
+    var urgColor = o.urgency === 'high' ? '#e85454' : o.urgency === 'medium' ? '#C9A94E' : o.urgency === 'watching' ? '#555' : '#5ab5a0';
+    var satClass = 'sat-' + pb.saturation;
+    var statusLabel = isWatching ? 'WATCHING' : o.urgency.toUpperCase();
+
+    // Source indicator for connectome vs domain-only
+    var sourceIndicator = '';
+    if (o.connectome && o.connectome.source === 'CONNECTOME') {
+      sourceIndicator = '<span style="font-size:0.34rem;padding:1px 5px;background:rgba(90,181,160,0.08);border:1px solid rgba(90,181,160,0.12);border-radius:2px;color:#5ab5a0;margin-left:6px">CONNECTOME</span>';
+    }
+
+    card.innerHTML =
+      '<div class="opp-card-check' + (_selected[pb.id] ? ' checked' : '') + '" onclick="toggleSelect(event,\'' + pb.id + '\')">' + (_selected[pb.id] ? '\u2713' : '') + '</div>' +
+      '<div class="opp-card-header">' +
+        '<div class="opp-card-title">' + pb.title + sourceIndicator + '</div>' +
+        '<span class="opp-card-type ' + typeClass + '">' + pb.type.toUpperCase() + '</span>' +
+      '</div>' +
+      '<div class="opp-card-explain">' + pb.explain + '</div>' +
+      (isWatching ? '' : '<div class="opp-card-action">' + pb.action + '</div>') +
+      '<div class="opp-card-why">' + (isWatching ? 'STATUS: Monitoring \u2014 ' + DOMAIN_LABEL + ' stress at ' + ePct + '% (' + eSev + '). Trigger threshold not reached. Will activate if sector pressure escalates or cross-domain convergence fires.' : 'WHY NOW: ' + o.whyNow) + '</div>' +
+      (isWatching ? '' : '<div class="opp-card-value">POTENTIAL: ' + pb.valueRange + '</div>') +
+      (!isWatching && o.confidence ? '<div style="font-size:0.36rem;color:#908878;margin-top:2px">INVALIDATES IF: ' + DOMAIN_LABEL + ' stress drops below 20% or triggering domain conditions resolve. Confidence: ' + o.confidence + '%.</div>' : '') +
+      '<div class="opp-card-meta">' +
+        '<span style="color:' + (o.quality ? o.quality.color : '#666') + '">' + (o.quality ? o.quality.label : '') + '</span>' +
+        '<span class="' + satClass + '">SATURATION: ' + pb.saturation.toUpperCase() + '</span>' +
+        (isWatching ? '' : '<span>CONF: ' + o.confidence + '%</span>') +
+        '<span style="color:' + urgColor + '">' + statusLabel + '</span>' +
+        '<span>' + pb.domains.join(' \u00d7 ').toUpperCase() + '</span>' +
+        '<span>' + pb.window + '</span>' +
+      '</div>' +
+      _renderConnectomeBar(o) +
+      (isWatching ? '' : _buildWhySurfaced(o));
+
+    // Add invest button, exposure badges, and concentration context for invest-type active opportunities
+    if (!isWatching && pb.type === 'invest') {
+      var expBadgeHtml = _getOppExposureBadge(pb.id);
+      if (expBadgeHtml) {
+        var expDiv = document.createElement('div');
+        expDiv.innerHTML = expBadgeHtml;
+        card.appendChild(expDiv.firstChild);
+      }
+      // Portfolio concentration badge
+      if (_oppPortfolio && _oppPortfolio.totalPositions > 0 && window.LIMENPortfolioContext) {
+        var qb = window.LIMENPortfolioContext.quickBadge(pb.id, _oppPortfolio);
+        if (qb.text) {
+          var concSpan = document.createElement('div');
+          concSpan.style.cssText = 'font-size:0.36rem;margin-top:4px;padding:2px 6px;border-radius:2px;color:' + qb.color + ';background:rgba(255,255,255,0.02);border:1px solid ' + qb.color + '22';
+          concSpan.textContent = qb.text;
+          card.appendChild(concSpan);
+        }
+      }
+      var investBtn = document.createElement('button');
+      investBtn.style.cssText = 'display:block;width:100%;margin-top:8px;padding:6px;font-family:inherit;font-size:0.4rem;letter-spacing:1.5px;text-transform:uppercase;background:rgba(90,181,160,0.1);border:1px solid rgba(90,181,160,0.25);color:#5ab5a0;border-radius:2px;cursor:pointer;transition:all 0.2s';
+      investBtn.textContent = 'OPEN INVESTMENT CONSOLE \u2192';
+      investBtn.addEventListener('click', (function(oppObj){ return function(e) {
+        e.stopPropagation();
+        try { sessionStorage.setItem('limen_invest_opp', JSON.stringify(oppObj)); } catch(ex) {}
+        window.location.href = 'investment-console.html?opp=' + encodeURIComponent(oppObj.pb.id) + '&source=' + _DOMAIN_FILTER + '&returnTo=' + encodeURIComponent('/' + _DOMAIN_FILTER + '-opportunities');
+      }})(o));
+      card.appendChild(investBtn);
+    }
+
+    // ── STAR RATING + LEGITIMACY METRICS (always visible) ──
+    var metricsDiv = document.createElement('div');
+    metricsDiv.innerHTML = _buildStarRating(o, i) + _buildLegitimacyMetrics(o);
+    card.appendChild(metricsDiv);
+
+    // ── PIPELINE VERDICT (always visible) ──
+    var pipeDiv = document.createElement('div');
+    pipeDiv.innerHTML = _buildPipelineVerdict(o);
+    card.appendChild(pipeDiv);
+
+    // ── ACTION STACK (always visible — internal-first) ──
+    if (o.status === 'active') {
+      var stackDiv = document.createElement('div');
+      stackDiv.innerHTML = _buildActionStack(o);
+      card.appendChild(stackDiv);
+    }
+
+    // ── EXECUTION BLOCK (internal mode only) ──
+    if (_isInternalMode()) {
+      var execDiv = document.createElement('div');
+      execDiv.innerHTML = _buildExecutionBlock(o);
+      card.appendChild(execDiv);
+    }
+
+    card.addEventListener('click', (function(idx){ return function(e) {
+      if (e.target.classList.contains('opp-card-check')) return;
+      if (e.target.tagName === 'BUTTON') return;
+      openPlaybook(idx);
+    }})(i));
+
+    grid.appendChild(card);
+  }
+
+  _updateActionBar();
+  window._oppData = opps;
+  _injectStarRatings();
+  // Top 3 section removed — stars in main card list are sufficient
+  var _tsEl = document.getElementById('oppLastUpdated');
+  if (_tsEl) _tsEl.textContent = 'Updated: ' + new Date().toLocaleString();
+}
+
+function toggleSelect(e, id) {
+  e.stopPropagation();
+  _selected[id] = !_selected[id];
+  render();
+}
+
+function _updateActionBar() {
+  var count = Object.keys(_selected).filter(function(k){return _selected[k]}).length;
+  var bar = document.getElementById('oppActionBar');
+  bar.style.display = count > 0 ? 'flex' : 'none';
+  document.getElementById('oppSelectedCount').textContent = count + ' selected';
+}
+
+// ═══ PLAYBOOK PANEL ═══
+
+function openPlaybook(idx) {
+  var opps = window._oppData || [];
+  if (!opps[idx]) return;
+  var o = opps[idx];
+  var pb = o.pb;
+
+  var panel = document.getElementById('oppPlaybook');
+  panel.className = 'opp-playbook open';
+
+  var html = '';
+  html += '<div class="opp-pb-header"><span class="opp-pb-title">Step-by-Step Plan</span><button class="opp-pb-close" onclick="closePlaybook()">\u2715</button></div>';
+
+  // Opportunity header with source indicator
+  var pbSourceTag = (o.connectome && o.connectome.source === 'CONNECTOME')
+    ? ' <span style="font-size:0.36rem;color:#5ab5a0;border:1px solid rgba(90,181,160,0.15);padding:1px 5px;border-radius:2px;margin-left:6px">CONNECTOME</span>'
+    : (o.connectome ? ' <span style="font-size:0.36rem;color:#666;border:1px solid rgba(150,150,150,0.1);padding:1px 5px;border-radius:2px;margin-left:6px">DOMAIN</span>' : '');
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">OPPORTUNITY</div><div class="opp-pb-text" style="color:#e8e3d9;font-size:0.55rem">' + pb.title + pbSourceTag + '</div></div>';
+
+  // Type + domains with portal links (carry opportunity context)
+  var oppCtx = '&from=opp&oppTitle=' + encodeURIComponent(pb.title) + '&oppType=' + encodeURIComponent(pb.type);
+  var domainLinks = pb.domains.map(function(d) {
+    return '<a href="portal.html?domain=' + encodeURIComponent(d) + oppCtx + '" style="color:#C9A94E;text-decoration:none" title="Open ' + d + ' portal">' + d.toUpperCase() + '</a>';
+  }).join(' \u00d7 ');
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">TYPE</div><div class="opp-pb-text"><span class="opp-card-type type-' + pb.type + '" style="display:inline;margin-right:8px">' + pb.type.toUpperCase() + '</span>' + domainLinks + '</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">TRIGGER</div><div class="opp-pb-text">' + pb.trigger + '</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">WHY NOW</div><div class="opp-pb-text" style="color:#5ab5a0">' + o.whyNow + '</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">POTENTIAL VALUE</div><div class="opp-pb-text" style="color:#C9A94E">' + pb.valueRange + '</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">VALIDATION</div><div class="opp-pb-text">' + pb.validation + '</div></div>';
+
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">EXECUTION STEPS</div>';
+  for (var si = 0; si < pb.steps.length; si++) {
+    html += '<div class="opp-pb-step">' + (si+1) + '. ' + pb.steps[si] + '</div>';
+  }
+  html += '</div>';
+
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">IF STRENGTHENS</div><div class="opp-pb-text">' + pb.branch_up + '</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">IF WEAKENS</div><div class="opp-pb-text">' + pb.branch_down + '</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">EXPECTED OUTCOME</div><div class="opp-pb-text">' + pb.outcome + '</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">FAILURE CONDITION</div><div class="opp-pb-text" style="color:rgba(232,84,84,0.7)">' + pb.failure + '</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">TIME WINDOW</div><div class="opp-pb-text">' + pb.window + '</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">CONFIDENCE</div><div class="opp-pb-text">' + o.confidence + '%</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">MARKET SATURATION</div><div class="opp-pb-text">' + pb.saturation.toUpperCase() + '</div></div>';
+
+  // FAST PATH — 3-step immediate execution
+  if (pb.fastPath && pb.fastPath.length > 0) {
+    html += '<div class="opp-pb-section" style="background:rgba(90,181,160,0.04);border-left:3px solid rgba(90,181,160,0.3)">';
+    html += '<div class="opp-pb-label" style="color:#5ab5a0">FAST PATH</div>';
+    for (var fi = 0; fi < pb.fastPath.length; fi++) {
+      html += '<div class="opp-pb-step" style="border-left-color:rgba(90,181,160,0.2)">' + pb.fastPath[fi] + '</div>';
+    }
+    html += '</div>';
+  }
+
+  // REAL-WORLD ACTIONS
+  if (pb.realWorld) {
+    html += '<div class="opp-pb-section"><div class="opp-pb-label">REAL-WORLD ACTIONS</div>';
+    if (pb.realWorld.invest && pb.realWorld.invest !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#5ab5a0">INVEST:</strong> ' + pb.realWorld.invest + '</div>';
+    if (pb.realWorld.apply && pb.realWorld.apply !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#C9A94E">APPLY:</strong> ' + pb.realWorld.apply + '</div>';
+    if (pb.realWorld.build && pb.realWorld.build !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#4a8fd4">BUILD:</strong> ' + pb.realWorld.build + '</div>';
+    html += '</div>';
+  }
+
+  // EXAMPLES
+  if (pb.examples && pb.examples.length > 0) {
+    html += '<div class="opp-pb-section"><div class="opp-pb-label">EXAMPLES</div>';
+    for (var ei = 0; ei < pb.examples.length; ei++) {
+      html += '<div class="opp-pb-text" style="padding:2px 0;font-size:0.45rem">\u2022 ' + pb.examples[ei] + '</div>';
+    }
+    html += '</div>';
+  }
+
+  // WHY THIS SURFACED
+  if (o.connectome && o.connectome.feedContext) {
+    var fc = o.connectome.feedContext;
+    var fcKeys = Object.keys(fc);
+    if (fcKeys.length > 0) {
+      html += '<div class="opp-pb-section" style="border-left:3px solid rgba(201,169,78,0.2)">';
+      html += '<div class="opp-pb-label">WHY THIS SURFACED</div>';
+
+      // Feed domains that triggered
+      html += '<div style="margin-bottom:6px">';
+      for (var fci = 0; fci < fcKeys.length; fci++) {
+        var fdk = fcKeys[fci];
+        var fdv = fc[fdk];
+        var fdColor = fdv.stress > 0.65 ? '#e85454' : fdv.stress > 0.4 ? '#C9A94E' : '#5ab5a0';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:0.44rem">';
+        html += '<span style="color:#bbb">' + fdk.toUpperCase() + '</span>';
+        html += '<span style="color:' + fdColor + '">' + (fdv.stress * 100).toFixed(0) + '% ' + fdv.status + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+
+      // Connectome domains mapped
+      if (window.LIMENConnectomeResolver) {
+        var connectomeDoms = [];
+        for (var cdi = 0; cdi < fcKeys.length; cdi++) {
+          var mapped = window.LIMENConnectomeResolver.getConnectomeDomains(fcKeys[cdi]);
+          for (var mi = 0; mi < mapped.length; mi++) {
+            if (connectomeDoms.indexOf(mapped[mi]) === -1) connectomeDoms.push(mapped[mi]);
+          }
+        }
+        if (connectomeDoms.length > 0) {
+          html += '<div style="font-size:0.38rem;color:#666;margin-bottom:4px">Connectome domains: ' + connectomeDoms.join(', ') + '</div>';
+        }
+      }
+
+      // Node-level explanation
+      var c = o.connectome;
+      if (c.nodes && c.nodes.length > 0) {
+        html += '<div style="font-size:0.38rem;color:#666;margin-bottom:3px">Top nodes driving this opportunity:</div>';
+        for (var tni = 0; tni < Math.min(c.nodes.length, 3); tni++) {
+          var tn = c.nodes[tni];
+          html += '<div style="font-size:0.42rem;color:#bbb;padding:1px 0">';
+          html += '<span style="color:' + (tn.crossDomain ? '#C9A94E' : '#888') + ';font-weight:bold">' + tn.id + '</span> ';
+          html += tn.roles.slice(0, 2).join(', ');
+          html += ' <span style="color:#555">(' + tn.feedDomains.join(', ') + ')</span>';
+          html += '</div>';
+        }
+      }
+
+      // Sector relevance from business mappings
+      if (c.businessMappings && c.businessMappings.length > 0) {
+        var sectors = c.businessMappings.slice(0, 3).map(function(bm) { return bm.role; });
+        html += '<div style="font-size:0.38rem;color:#666;margin-top:4px">Sector relevance: <span style="color:#bbb">' + sectors.join(', ') + '</span></div>';
+      }
+
+      html += '</div>';
+    }
+  }
+
+  // CONNECTOME GROUNDING (full detail)
+  if (o.connectome && o.connectome.nodeCount > 0) {
+    var c = o.connectome;
+
+    html += '<div class="opp-pb-section" style="background:rgba(201,169,78,0.03);border-left:3px solid rgba(201,169,78,0.15)">';
+    html += '<div class="opp-pb-label" style="color:#C9A94E">CONNECTOME GROUNDING</div>';
+    html += '<div style="font-size:0.42rem;display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px">';
+    html += '<span style="color:' + (c.source === 'CONNECTOME' ? '#5ab5a0' : '#888') + '">' + c.source + '</span>';
+    html += '<span style="color:#C9A94E">' + c.totalActivated + ' nodes</span>';
+    if (c.crossDomainNodes > 0) html += '<span style="color:#C9A94E">' + c.crossDomainNodes + ' cross-domain</span>';
+    html += '</div>';
+
+    // Activated nodes — with portal drill-down links
+    if (c.nodes && c.nodes.length > 0) {
+      for (var cni = 0; cni < Math.min(c.nodes.length, 6); cni++) {
+        var cn = c.nodes[cni];
+        var nodeColor = cn.crossDomain ? '#C9A94E' : '#888';
+        html += '<div style="font-size:0.42rem;padding:3px 0;border-bottom:1px solid rgba(201,169,78,0.04);display:flex;justify-content:space-between;align-items:center">';
+        html += '<div>';
+        html += '<span style="color:' + nodeColor + ';font-weight:bold">' + cn.id + '</span>';
+        if (cn.crossDomain) html += ' <span style="font-size:0.32rem;color:#C9A94E;border:1px solid rgba(201,169,78,0.15);padding:0 3px;border-radius:1px">CROSS</span>';
+        html += ' <span style="color:#888">' + cn.roles.slice(0, 2).join(', ') + '</span>';
+        html += '</div>';
+        // Domain links — navigate to portal for each feed domain
+        html += '<div style="display:flex;gap:4px">';
+        for (var fdi = 0; fdi < cn.feedDomains.length; fdi++) {
+          var fdLink = cn.feedDomains[fdi];
+          html += '<a href="portal.html?domain=' + encodeURIComponent(fdLink) + oppCtx + '" style="font-size:0.32rem;color:#555;text-decoration:none;padding:1px 4px;border:1px solid rgba(201,169,78,0.08);border-radius:1px" title="Open ' + fdLink + ' portal">' + fdLink + '</a>';
+        }
+        html += '</div>';
+        html += '</div>';
+      }
+      if (c.nodes.length > 6) html += '<div style="font-size:0.36rem;color:#555;margin-top:2px">+ ' + (c.nodes.length - 6) + ' more nodes</div>';
+    }
+
+    // Business mappings
+    if (c.businessMappings && c.businessMappings.length > 0) {
+      html += '<div style="margin-top:8px"><div style="font-size:0.38rem;color:#666;letter-spacing:1px;margin-bottom:3px">BUSINESS MAPPINGS</div>';
+      for (var bmi = 0; bmi < c.businessMappings.length; bmi++) {
+        var bm = c.businessMappings[bmi];
+        html += '<div style="font-size:0.42rem;padding:1px 0;color:#bbb">';
+        html += '<span style="color:' + (bm.strength > 0.5 ? '#C9A94E' : '#888') + '">' + bm.nodeId + '</span>';
+        html += ' \u2192 ' + bm.role;
+        html += ' <a href="portal.html?domain=' + encodeURIComponent(bm.domain) + oppCtx + '" style="color:#555;text-decoration:none;font-size:0.36rem" title="Open ' + bm.domain + ' portal">' + bm.domain + '</a>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
+    // Stressor summary
+    if (c.stressorSummary) {
+      html += '<div style="margin-top:6px;font-size:0.4rem;color:#888;font-style:italic">' + c.stressorSummary + '</div>';
+    }
+
+    html += '</div>';
+  }
+
+  // Kernel annotation container (filled async)
+  html += '<div id="oppPbKernelAnnotation"></div>';
+
+  panel.innerHTML = html;
+
+  // Trigger kernel experiment for this opportunity (async)
+  if (o.connectome && o.connectome.nodeCount > 0 && window.LIMENConnectomeResolver) {
+    var doms = window.LIMENDomains || {};
+    var feedSnapshot = {};
+    for (var fsk in doms) feedSnapshot[fsk] = { stress: doms[fsk].stress || 0, status: doms[fsk].status || 'UNKNOWN' };
+    var lastResolve = window.LIMENConnectomeResolver.getLastResolve();
+    var nodeActs = lastResolve ? lastResolve.nodeActivations : [];
+    window.LIMENConnectomeResolver.runKernelForOpportunity(
+      feedSnapshot, nodeActs, pb.domains || [],
+      function(annotation) {
+        var container = document.getElementById('oppPbKernelAnnotation');
+        if (!container) return;
+        if (!annotation || !annotation.available) {
+          container.innerHTML = '<div class="opp-pb-section" style="opacity:0.5"><div class="opp-pb-label">KERNEL (EXPERIMENTAL — ANNOTATION ONLY)</div><div class="opp-pb-text" style="font-size:0.4rem;color:#555">' + (annotation ? annotation.reason : 'Unavailable') + '</div></div>';
+          return;
+        }
+        var kd = annotation.display;
+        var kh = '<div class="opp-pb-section" style="background:rgba(201,169,78,0.02);border-left:3px solid rgba(201,169,78,0.1)">';
+        kh += '<div class="opp-pb-label" style="color:rgba(201,169,78,0.5)">KERNEL (EXPERIMENTAL — ANNOTATION ONLY)</div>';
+        kh += '<div style="font-size:0.42rem;display:flex;gap:12px;flex-wrap:wrap">';
+        kh += '<span style="color:' + kd.trajectoryColor + '">' + kd.trajectoryLabel + '</span>';
+        kh += '<span style="color:' + kd.phaseColor + '">' + kd.phaseLabel + '</span>';
+        kh += '<span style="color:' + kd.alertColor + '">' + kd.alertLabel + '</span>';
+        kh += '<span style="color:#888">Composite: ' + annotation.composite + ' (' + kd.compositeLabel + ')</span>';
+        kh += '</div>';
+        kh += '<div style="font-size:0.34rem;color:#555;margin-top:4px;font-style:italic">' + annotation.disclaimer + '</div>';
+        kh += '</div>';
+        container.innerHTML = kh;
+      }
+    );
+  }
+}
+
+function closePlaybook() {
+  document.getElementById('oppPlaybook').className = 'opp-playbook';
+}
+
+// ═══ ACTION REPORT ═══
+
+function generateActionReport() {
+  var opps = window._oppData || [];
+  var selectedOpps = opps.filter(function(o){ return _selected[o.pb.id] });
+  if (selectedOpps.length === 0) return;
+
+  var w = window.open('', '_blank', 'width=800,height=900');
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>LIMEN Action Report</title>';
+  html += '<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"IBM Plex Mono",monospace;padding:40px;max-width:800px;margin:0 auto;color:#222;font-size:12px;line-height:1.8}';
+  html += 'h1{font-size:16px;letter-spacing:3px;margin-bottom:4px}h2{font-size:13px;letter-spacing:2px;margin:20px 0 8px;padding-top:16px;border-top:1px solid #ddd}';
+  html += '.action{padding:8px 12px;margin:8px 0;background:#f0faf5;border-left:3px solid #0a6;font-size:11px}.value{color:#8a6d1b;font-weight:bold}';
+  html += '.step{padding:2px 0 2px 16px;border-left:2px solid #ddd;margin:3px 0;font-size:11px}.meta{font-size:10px;color:#888;margin-top:4px}';
+  html += '@media print{body{padding:20px}}</style></head><body>';
+  html += '<h1>LIMEN HELIX ACTION REPORT</h1>';
+  html += '<div class="meta">Generated: ' + new Date().toISOString().replace('T',' ').slice(0,19) + ' UTC \u00b7 ' + selectedOpps.length + ' opportunities</div>';
+
+  for (var i = 0; i < selectedOpps.length; i++) {
+    var o = selectedOpps[i];
+    var pb = o.pb;
+    html += '<h2>' + (i+1) + '. ' + pb.title + ' [' + pb.type.toUpperCase() + ']</h2>';
+    html += '<p>' + pb.explain + '</p>';
+    html += '<div class="action">' + pb.action + '</div>';
+    html += '<p>WHY NOW: ' + o.whyNow + '</p>';
+    html += '<p class="value">POTENTIAL: ' + pb.valueRange + '</p>';
+    html += '<p>SATURATION: ' + pb.saturation.toUpperCase() + ' \u00b7 CONFIDENCE: ' + o.confidence + '% \u00b7 URGENCY: ' + o.urgency.toUpperCase() + '</p>';
+    for (var si = 0; si < pb.steps.length; si++) {
+      html += '<div class="step">' + (si+1) + '. ' + pb.steps[si] + '</div>';
+    }
+  }
+
+  html += '</body></html>';
+  w.document.write(html);
+  w.document.close();
+}
+
+// ═══ INIT ═══
+
+// Bootstrap doesn't start modules on non-canonical pages.
+// Manually start the feed engines we need.
+function _startFeedEngines() {
+  // Start feed state lifecycle
+  if (window.LIMENFeedState && typeof window.LIMENFeedState.start === 'function') {
+    window.LIMENFeedState.start();
+  }
+  // Start domain signal engine (polls /api/domain-snapshot)
+  // This also starts UI rendering — we suppress the panel below.
+  if (window.LIMENDomainEngine && typeof window.LIMENDomainEngine.start === 'function') {
+    window.LIMENDomainEngine.start();
+    console.log('[Opportunities] Domain engine started');
+  } else {
+    console.warn('[Opportunities] LIMENDomainEngine not found');
+  }
+  // Start cross-domain detector
+  if (window.LIMENCrossDomainDetector && typeof window.LIMENCrossDomainDetector.start === 'function') {
+    window.LIMENCrossDomainDetector.start();
+  }
+  // Domain panel UI is now suppressed at the engine level (_isConsolePage guard)
+}
+
+console.log('[Opportunities] Init: LIMENDomainEngine=', typeof window.LIMENDomainEngine, 'LIMENFeedState=', typeof window.LIMENFeedState, 'LIMENCrossDomainDetector=', typeof window.LIMENCrossDomainDetector);
+_startFeedEngines();
+_fetchOppExposure();
+// Load connectome node directory for resolver
+if (window.LIMENConnectomeResolver) {
+  window.LIMENConnectomeResolver.loadDirectory(function() {
+    console.log('[Opportunities] Connectome directory loaded');
+    if (_hasRendered) render(); // re-render with connectome data
+  });
+}
+
+// Wait for feed data before rendering — event-driven with fallback
+var _hasRendered = false;
+var _domainRenderQueued = false;
+
+function _doRender() {
+  if (_hasRendered) return;
+  _hasRendered = true;
+  render();
+  // Throttled re-render on domain updates (max once per 5s)
+  var _updateTimer = null;
+  window.addEventListener('limen:domain-update', function() {
+    if (_updateTimer) return;
+    _updateTimer = setTimeout(function() { _updateTimer = null; render(); }, 5000);
+  });
+}
+
+// Try immediately, then listen for data
+(function _checkDomains() {
+  var doms = window.LIMENDomains;
+  if (doms && Object.keys(doms).length > 0) { _doRender(); return; }
+  // Listen for first domain update
+  if (!_domainRenderQueued) {
+    _domainRenderQueued = true;
+    window.addEventListener('limen:domain-update', function() { _doRender(); }, { once: true });
+  }
+})();
+
+// Force render after 3s no matter what — ensures page is never blank
+setTimeout(function() { _doRender(); }, 3000);
+
+// Subscribe to shared refresh controller (single source of truth — no independent fetch)
+document.addEventListener('limen:economy-refresh', function() {
+  render();
+  var tsEl = document.getElementById('oppLastUpdated');
+  var F = window.LIMENEconomyFresh || {};
+  if (tsEl) tsEl.textContent = (F.status === 'LIVE' ? '\u25CF ' : '\u25CB ') + F.status + ' \u00b7 ' + new Date().toLocaleTimeString() + ' \u00b7 cycle ' + (F.cycle || 0) + ' \u00b7 stress ' + Math.round((F.stress || 0) * 100) + '%';
+});
+
+// Expose for onclick handlers
+// ═══════════════════════════════════════════════════════════════════════════
+// INTERNAL EXECUTION MODE + LEGITIMACY METRICS + PIPELINE VERDICTS
+// Additive layer — does not modify existing playbooks, scoring, or rendering
+// ═══════════════════════════════════════════════════════════════════════════
+
+function _isInternalMode() {
+  if (new URL(window.location.href).searchParams.get('internal') === 'true') return true;
+  try { return localStorage.getItem('limen_internal') === 'true'; } catch (e) { return false; }
+}
+
+// ── LEGITIMACY METRICS (always visible on every card) ──────────────────────
+
+function _computeLegitimacy(o) {
+  var pb = o.pb;
+  var doms = window.LIMENDomains || {};
+  var quality = o.quality || { live: 0, total: 0 };
+
+  // Signal Integrity
+  var sigInt = 'INFERRED';
+  if (quality.live > 0 && quality.total > 0) {
+    var ratio = quality.live / quality.total;
+    if (ratio >= 0.75) sigInt = 'LIVE';
+    else if (ratio >= 0.5) sigInt = 'PARTIAL';
+  }
+  if (quality.total === 0) sigInt = 'SIMULATED';
+
+  // Entity Support — check if playbook has CIK-backed companies in examples or tickers
+  var tickers = _OPP_INVEST_TICKERS[pb.id] || [];
+  var entSupport = 'NONE';
+  if (tickers.length > 0 && pb.examples && pb.examples.length > 0) entSupport = 'MAPPED';
+  else if (pb.examples && pb.examples.length > 0) entSupport = 'PARTIAL';
+
+  // Market Timing — use market stress triage if available
+  var mkt = window.LIMENMarketStressTriage;
+  var timing = 'EARLY';
+  if (mkt) {
+    var combined = mkt.combined || 0;
+    var mode = mkt.mode || 'neutral';
+    if (mode === 'opportunity' || (combined < 0.30 && o.status === 'active')) timing = 'ALIGNED';
+    else if (combined > 0.60 || mode === 'defensive') timing = 'CONFLICTED';
+    else timing = 'EARLY';
+  } else {
+    timing = o.status === 'active' ? 'EARLY' : 'EARLY';
+  }
+
+  // Invalidation Risk — based on data quality + confidence spread
+  var invalidation = 'UNKNOWN';
+  if (o.status === 'watching') {
+    invalidation = 'UNKNOWN';
+  } else if (sigInt === 'SIMULATED' || quality.live === 0) {
+    invalidation = 'HIGH';
+  } else if (o.confidence < 40 || sigInt === 'INFERRED') {
+    invalidation = 'MED';
+  } else if (o.confidence >= 60 && sigInt === 'LIVE') {
+    invalidation = 'LOW';
+  } else {
+    invalidation = 'MED';
+  }
+
+  return { signalIntegrity: sigInt, entitySupport: entSupport, marketTiming: timing, invalidationRisk: invalidation };
+}
+
+function _buildLegitimacyMetrics(o) {
+  var m = _computeLegitimacy(o);
+  var colors = {
+    LIVE:'#5ab5a0', PARTIAL:'#C9A94E', INFERRED:'#888', SIMULATED:'#e85454',
+    NONE:'#e85454', MAPPED:'#5ab5a0',
+    ALIGNED:'#5ab5a0', EARLY:'#C9A94E', CONFLICTED:'#e85454',
+    LOW:'#5ab5a0', MED:'#C9A94E', HIGH:'#e85454', UNKNOWN:'#555'
+  };
+  var h = '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;padding-top:6px;border-top:1px solid rgba(201,169,78,0.06)">';
+  h += '<span style="font-size:0.3rem;letter-spacing:1px;color:' + (colors[m.signalIntegrity]||'#888') + '">SIG:' + m.signalIntegrity + '</span>';
+  h += '<span style="font-size:0.3rem;letter-spacing:1px;color:' + (colors[m.entitySupport]||'#888') + '">ENT:' + m.entitySupport + '</span>';
+  h += '<span style="font-size:0.3rem;letter-spacing:1px;color:' + (colors[m.marketTiming]||'#888') + '">MKT:' + m.marketTiming + '</span>';
+  h += '<span style="font-size:0.3rem;letter-spacing:1px;color:' + (colors[m.invalidationRisk]||'#888') + '">INV:' + m.invalidationRisk + '</span>';
+  h += '</div>';
+  return h;
+}
+
+// ── PIPELINE VERDICT (always visible) ──────────────────────────────────────
+
+function _buildPipelineVerdict(o) {
+  var m = _computeLegitimacy(o);
+  var verdict, color;
+
+  if (o.status === 'watching') {
+    verdict = 'MONITORING'; color = '#555';
+  } else if (o.confidence >= 60 && m.signalIntegrity === 'LIVE' && m.invalidationRisk === 'LOW') {
+    verdict = 'HIGH POTENTIAL'; color = '#5ab5a0';
+  } else if (o.confidence >= 35 && (m.signalIntegrity === 'LIVE' || m.signalIntegrity === 'PARTIAL')) {
+    verdict = 'DEVELOPING'; color = '#C9A94E';
+  } else {
+    verdict = 'SPECULATIVE'; color = '#888';
+  }
+
+  return '<div style="margin-top:4px;font-size:0.34rem;letter-spacing:2px;color:' + color + '">' + verdict + '</div>';
+}
+
+// ── INTERNAL ACTION SIGNAL (internal mode only) ───────────────────────────
+
+function _computeActionSignal(o) {
+  if (o.status === 'watching') return { signal: 'HOLD', color: '#555' };
+  var m = _computeLegitimacy(o);
+
+  // Language control: NEVER imply certainty when data is weak
+  if (m.invalidationRisk === 'HIGH' || m.marketTiming === 'CONFLICTED') {
+    return { signal: 'HOLD', color: '#888' };
+  }
+  if (m.signalIntegrity === 'SIMULATED' || m.entitySupport === 'NONE') {
+    return { signal: 'EXPLORE', color: '#C9A94E' };
+  }
+  if (o.confidence >= 60 && m.signalIntegrity === 'LIVE' && m.invalidationRisk === 'LOW' && m.marketTiming !== 'CONFLICTED') {
+    return { signal: 'ACT NOW', color: '#5ab5a0' };
+  }
+  if (o.confidence >= 40 && m.signalIntegrity !== 'SIMULATED') {
+    return { signal: 'STAGE', color: '#4a8fd4' };
+  }
+  return { signal: 'EXPLORE', color: '#C9A94E' };
+}
+
+// ── EXECUTION BLOCK (internal mode only) ──────────────────────────────────
+
+// Execution path data per playbook — invest, build, fund, structure
+var _EXECUTION_PATHS = {
+  demand_contraction: {
+    invest: [{name:'Consumer Staples SPDR',ticker:'XLP',cik:'ETF',support:'MAPPED'},{name:'Utilities SPDR',ticker:'XLU',cik:'ETF',support:'MAPPED'},{name:'Walmart',ticker:'WMT',cik:'104169',support:'MAPPED'},{name:'Coca-Cola',ticker:'KO',cik:'21344',support:'MAPPED'},{name:'Procter & Gamble',ticker:'PG',cik:'80424',support:'MAPPED'}],
+    build: {model:'Consumer demand tracking and essential-goods distribution platform',pays:'Retailers, CPG companies, economic forecasters',whyNow:'Demand contraction creates need for real-time consumer activity intelligence'},
+    fund: ['SBA loans for essential goods distribution','Economic development grants','Consumer tech venture funds'],
+    structure: ['SaaS LLC','Analytics platform','Revenue: subscription + data licensing']
+  },
+  fin_law: {
+    invest: [{name:'Palo Alto Networks',ticker:'PANW',cik:'',support:'MAPPED'},{name:'CrowdStrike',ticker:'CRWD',cik:'1535527',support:'MAPPED'},{name:'LegalZoom',ticker:'LZ',cik:'1286139',support:'MAPPED'},{name:'LogicGate',ticker:'N/A',cik:'',support:'UNVERIFIED'},{name:'Drata',ticker:'N/A',cik:'',support:'UNVERIFIED'}],
+    build: {model:'Regulatory change tracker for financial companies',pays:'Banks, fintechs, compliance departments',whyNow:'New regulations driving compliance tool demand'},
+    fund: ['SBIR/STTR for regulatory technology','Fintech accelerators (Y Combinator, Techstars)','Angel investors in regtech'],
+    structure: ['SaaS LLC','Subscription model','Revenue: monthly SaaS + implementation fees']
+  },
+  health_research: {
+    invest: [{name:'Biotech ETF',ticker:'XBI',cik:'ETF',support:'MAPPED'},{name:'iShares Biotech',ticker:'IBB',cik:'ETF',support:'MAPPED'},{name:'Veeva Systems',ticker:'VEEV',cik:'',support:'MAPPED'},{name:'Exact Sciences',ticker:'EXAS',cik:'1124140',support:'UNVERIFIED'}],
+    build: {model:'Clinical data aggregation for convergence areas',pays:'Biotech companies, clinical research orgs',whyNow:'Health + research stress convergence creates clinical gaps'},
+    fund: ['NIH R01/R21 grants (grants.gov)','NSF SBIR Phase I ($275K)','BARDA for pandemic preparedness'],
+    structure: ['C-Corp for venture funding','IP protection via provisional patents','Revenue: data licensing + platform fees']
+  },
+  tech_research: {
+    invest: [{name:'ARK Innovation',ticker:'ARKK',cik:'ETF',support:'MAPPED'},{name:'NVIDIA',ticker:'NVDA',cik:'1045810',support:'MAPPED'},{name:'IonQ',ticker:'IONQ',cik:'',support:'MAPPED'},{name:'Rigetti Computing',ticker:'RGTI',cik:'',support:'UNVERIFIED'}],
+    build: {model:'Tech transfer platform connecting labs to commercial partners',pays:'Universities, research labs, corporate R&D',whyNow:'Technology + research stress signals untranslated innovation'},
+    fund: ['NSF I-Corps ($50K)','ARPA-E for energy tech','DOD SBIR for dual-use technology'],
+    structure: ['LLC or C-Corp depending on IP strategy','Licensing model','Revenue: transaction fees on tech transfer deals']
+  },
+  labor_strain: {
+    invest: [{name:'ADP',ticker:'ADP',cik:'8670',support:'MAPPED'},{name:'Paychex',ticker:'PAYX',cik:'723531',support:'MAPPED'},{name:'Intuit',ticker:'INTU',cik:'896878',support:'MAPPED'}],
+    build: {model:'Workforce redeployment and retraining platform',pays:'Employers, staffing agencies, workforce development boards',whyNow:'Labor market strain creates demand for mobility and retraining solutions'},
+    fund: ['DOL workforce development grants','EDA economic adjustment grants','Workforce tech venture funds'],
+    structure: ['SaaS LLC','Platform model','Revenue: per-placement fees + enterprise SaaS']
+  },
+  inflation_defense: {
+    invest: [{name:'iShares TIPS',ticker:'TIP',cik:'ETF',support:'MAPPED'},{name:'Vanguard Short TIPS',ticker:'VTIP',cik:'ETF',support:'MAPPED'},{name:'SPDR Gold',ticker:'GLD',cik:'ETF',support:'MAPPED'},{name:'Invesco Agriculture',ticker:'DBA',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Inflation impact analytics and margin defense platform',pays:'CFOs, procurement teams, pricing strategists',whyNow:'Persistent inflation creates demand for real-time cost pass-through intelligence'},
+    fund: ['Fintech accelerators','Corporate innovation budgets','Economic research grants'],
+    structure: ['SaaS LLC','Analytics model','Revenue: enterprise subscriptions + consulting']
+  },
+  gov_econ: {
+    invest: [{name:'iShares Defense',ticker:'ITA',cik:'ETF',support:'MAPPED'},{name:'Clean Energy ETF',ticker:'ICLN',cik:'ETF',support:'MAPPED'},{name:'Infrastructure ETF',ticker:'PAVE',cik:'ETF',support:'MAPPED'},{name:'Financial Select',ticker:'XLF',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Policy impact tracker mapping government actions to sectors',pays:'Hedge funds, policy analysts, lobbyists',whyNow:'Governance + economy stress signals policy-driven market moves'},
+    fund: ['Government innovation grants','Think tank partnerships','Political risk advisory retainers'],
+    structure: ['LLC','Subscription SaaS + advisory','Revenue: institutional subscriptions']
+  },
+  recession_preparation: {
+    invest: [{name:'Consumer Staples',ticker:'XLP',cik:'ETF',support:'MAPPED'},{name:'Utilities',ticker:'XLU',cik:'ETF',support:'MAPPED'},{name:'iShares 20+ Year Treasury',ticker:'TLT',cik:'ETF',support:'MAPPED'},{name:'SPDR Gold',ticker:'GLD',cik:'ETF',support:'MAPPED'},{name:'ProShares Short S&P',ticker:'SH',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Recession early warning and sector rotation platform',pays:'Asset managers, family offices, institutional investors',whyNow:'Macro stress signals approaching recession threshold — rotation intelligence in demand'},
+    fund: ['Economic research grants','Fintech accelerators','Institutional partnerships'],
+    structure: ['SaaS LLC','Institutional analytics model','Revenue: terminal subscriptions + data licensing']
+  },
+  agri_pop: {
+    invest: [{name:'VanEck Agribusiness',ticker:'MOO',cik:'ETF',support:'MAPPED'},{name:'Invesco Agriculture',ticker:'DBA',cik:'ETF',support:'MAPPED'},{name:'Deere & Company',ticker:'DE',cik:'315189',support:'MAPPED'}],
+    build: {model:'Precision agriculture platform for smallholder farmers',pays:'Agricultural cooperatives, development banks, governments',whyNow:'Agriculture + population stress demands food security solutions'},
+    fund: ['USDA NIFA grants','World Bank agricultural development','Bill & Melinda Gates Foundation agriculture'],
+    structure: ['Social enterprise LLC or B-Corp','Impact investment model','Revenue: SaaS per-acre licensing + development grants']
+  },
+  treatment_gap: {
+    invest: [],
+    build: {model:'SaaS addressing the specific diagnostic gap identified',pays:'Customers experiencing the diagnosed problem',whyNow:'Strong evidence of problem with few existing solutions'},
+    fund: ['NSF SBIR Phase I ($275K)','Y Combinator','Domain-specific accelerators'],
+    structure: ['C-Corp for venture track','IP-first strategy','Revenue: SaaS subscription']
+  },
+  patent_vacuum: {
+    invest: [],
+    build: {model:'IP portfolio in underexplored CPC group',pays:'Licensing to companies entering the space',whyNow:'Innovation happening but nobody filing — first-mover IP advantage'},
+    fund: ['USPTO provisional filing ($320 small entity)','Patent attorney via UpCounsel (~$3K)','IP-backed venture funding'],
+    structure: ['LLC holding IP','Licensing model','Revenue: royalties + defensive licensing']
+  },
+  gov_procure: {
+    invest: [],
+    build: {model:'Compliance monitoring tool for the specific regulation',pays:'Government agency via contract','whyNow':'Regulatory pressure creates procurement demand'},
+    fund: ['Self-funded (capability statement + past performance)','SBA 8(a) if eligible','Teaming agreements with primes'],
+    structure: ['LLC registered in SAM.gov','Government contracting vehicle','Revenue: cost-plus or firm-fixed-price contracts']
+  },
+  data_infra: {
+    invest: [],
+    build: {model:'Government data API normalization service',pays:'Data consumers, analytics platforms, LIMEN itself',whyNow:'Multiple feed sources degraded — infrastructure gap confirmed'},
+    fund: ['SBIR for data infrastructure','Open data initiative grants','Angel/seed for data tooling'],
+    structure: ['LLC','API subscription model','Revenue: per-call pricing + enterprise plans']
+  },
+  credit_repositioning: {
+    invest: [{name:'iShares Investment Grade',ticker:'LQD',cik:'ETF',support:'MAPPED'},{name:'iShares 20+ Year Treasury',ticker:'TLT',cik:'ETF',support:'MAPPED'},{name:'SPDR Treasury Bill',ticker:'BIL',cik:'ETF',support:'MAPPED'},{name:'iShares High Yield',ticker:'HYG',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Credit conditions monitoring and capital access platform',pays:'CFOs, treasurers, lending officers, private credit funds',whyNow:'Credit tightening creates demand for alternative capital access intelligence'},
+    fund: ['Fintech accelerators','Bank innovation partnerships','SBIR for financial infrastructure'],
+    structure: ['SaaS LLC','Credit analytics model','Revenue: institutional subscriptions + API access']
+  },
+  supply_agri: {
+    invest: [{name:'Americold Realty',ticker:'COLD',cik:'',support:'MAPPED'},{name:'VanEck Agribusiness',ticker:'MOO',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Cold chain integrity tracking platform',pays:'Food distributors, grocery chains, ag exporters',whyNow:'Supply chain + agriculture stress reveals logistics gaps'},
+    fund: ['USDA Value-Added Producer grants','SBA loans','Cold chain venture funds'],
+    structure: ['LLC','IoT SaaS model','Revenue: per-shipment tracking fees']
+  },
+  intel_gov: {
+    invest: [{name:'Palantir',ticker:'PLTR',cik:'1321655',support:'MAPPED'},{name:'Booz Allen Hamilton',ticker:'BAH',cik:'1443646',support:'MAPPED'}],
+    build: {model:'Policy intelligence advisory platform',pays:'Government agencies, think tanks, defense contractors',whyNow:'Intelligence + governance stress signals structural disconnect'},
+    fund: ['In-Q-Tel','DOD innovation programs','Government consulting retainers'],
+    structure: ['LLC with clearance capability','Advisory + platform hybrid','Revenue: retainers + platform licensing']
+  },
+  fin_econ: {
+    invest: [{name:'iShares 20+ Year Treasury',ticker:'TLT',cik:'ETF',support:'MAPPED'},{name:'SPDR Gold',ticker:'GLD',cik:'ETF',support:'MAPPED'},{name:'S&P 500 ETF',ticker:'SPY',cik:'ETF',support:'MAPPED'},{name:'ProShares UltraShort',ticker:'SDS',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Financial stress hedging advisory',pays:'Family offices, RIAs, hedge funds',whyNow:'Finance + economy stress creates hedging demand'},
+    fund: ['Self-funded advisory','RIA registration (SEC/state)','Strategic partnerships with custodians'],
+    structure: ['RIA LLC','Fee-only advisory model','Revenue: AUM fees + consulting']
+  },
+  comm_culture: {
+    invest: [{name:'Cloudflare',ticker:'NET',cik:'',support:'MAPPED'}],
+    build: {model:'Cultural analytics platform',pays:'Media companies, brands, political campaigns',whyNow:'Communication + culture stress signals narrative shifts'},
+    fund: ['NEA/NEH grants for cultural technology','Media accelerators','Angel investors in media tech'],
+    structure: ['LLC','SaaS + API model','Revenue: data subscriptions']
+  },
+  edu_research: {
+    invest: [{name:'Coursera',ticker:'COUR',cik:'1783879',support:'MAPPED'},{name:'Duolingo',ticker:'DUOL',cik:'',support:'MAPPED'}],
+    build: {model:'AI-assisted curriculum adaptation platform',pays:'Universities, school districts, corporate training',whyNow:'Education + research stress demands adaptive learning'},
+    fund: ['Department of Education IES grants','NSF IUSE grants','EdTech venture funds'],
+    structure: ['C-Corp or LLC','SaaS subscription','Revenue: per-seat licensing']
+  }
+};
+
+// ── TOP ACTIONS NOW (top 3 shortlist) ──────────────────────────────────
+
+// "Next Step Tonight" suggestions per playbook type
+var _TONIGHT_STEPS = {
+  invest: function(o) {
+    var paths = _EXECUTION_PATHS[o.pb.id];
+    var ticker = (paths && paths.invest && paths.invest[0]) ? paths.invest[0].ticker : null;
+    if (ticker && ticker !== 'N/A') return 'Run company portal phase check on ' + ticker + ' \u2192 set watchlist';
+    return 'Open brokerage \u2192 search domain tickers \u2192 set watchlist';
+  },
+  build: function(o) {
+    return 'Outline 1-page problem statement from portal diagnosis for ' + o.pb.domains[0];
+  },
+  patent: function(o) {
+    return 'Search patents.google.com for ' + o.pb.domains[0] + ' technology gaps';
+  },
+  procure: function(o) {
+    return 'Check SAM.gov for active solicitations matching ' + o.pb.domains[0] + ' signals';
+  },
+  fund: function(o) {
+    return 'Search grants.gov for open FOAs in ' + o.pb.domains[0] + ' category';
+  },
+  advise: function(o) {
+    return 'Draft 3-slide advisory pitch using portal treatment data for ' + o.pb.domains[0];
+  }
+};
+
+function _renderTopActionsNow(opps) {
+  var container = document.getElementById('topActionsNow');
+  if (!container) return;
+
+  // Rank active opportunities
+  var active = opps.filter(function(o) { return o.status === 'active'; });
+  if (active.length === 0) { container.style.display = 'none'; return; }
+
+  // Score for ranking (same as star rating + outcome weight)
+  active.forEach(function(o) {
+    var score = o.confidence;
+    if (o.urgency === 'high') score += 20;
+    else if (o.urgency === 'medium') score += 10;
+    if (o.quality && o.quality.live > 0) score += 10;
+    var factor = _oppOutcomeFactor(o.pb ? o.pb.domains : []);
+    score = Math.round(score * factor);
+    o._rankScore = score;
+  });
+  active.sort(function(a, b) { return b._rankScore - a._rankScore; });
+  var top3 = active.slice(0, 3);
+
+  var doms = window.LIMENDomains || {};
+  var h = '';
+  h += '<div style="padding:12px 16px;margin:0 16px 12px;border:1px solid rgba(201,169,78,0.12);background:rgba(201,169,78,0.02);border-radius:4px">';
+  h += '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">';
+  h += '<span style="font-size:0.5rem;letter-spacing:3px;color:#C9A94E">TOP ACTIONS NOW</span>';
+  h += '<span style="font-size:0.3rem;letter-spacing:1px;color:#807868">INTERNAL \u00b7 RECURSIVE ENGINE</span>';
+  h += '</div>';
+
+  for (var i = 0; i < top3.length; i++) {
+    var o = top3[i];
+    var pb = o.pb;
+    var paths = _EXECUTION_PATHS[pb.id];
+    var m = _computeLegitimacy(o);
+    var type = pb.type || 'build';
+    var stars = 5 - i;
+    var starStr = '';
+    for (var s = 0; s < stars; s++) starStr += '\u2605';
+    for (var e = stars; e < 5; e++) starStr += '\u2606';
+
+    // Find card index for jump link
+    var cardIdx = opps.indexOf(o);
+
+    // WHY NOW — one line
+    var whyLine = '';
+    for (var di = 0; di < pb.domains.length; di++) {
+      var dd = doms[pb.domains[di]];
+      if (dd && dd.stress > 0.2) {
+        if (whyLine) whyLine += ' + ';
+        whyLine += pb.domains[di].toUpperCase() + ' ' + (dd.stress * 100).toFixed(0) + '%';
+      }
+    }
+    if (!whyLine) whyLine = o.whyNow.split('\u00b7')[0].trim();
+
+    // 3 target entities
+    var entities = [];
+    if (paths && paths.invest) {
+      for (var ei = 0; ei < Math.min(paths.invest.length, 3); ei++) {
+        var co = paths.invest[ei];
+        var _dyn2 = (co.ticker && co.ticker !== 'N/A') ? _lookupCIK(co.ticker) : null;
+        var _cik2 = _dyn2 ? _dyn2.cik : (co.cik || '');
+        var _slug2 = _dyn2 ? _dyn2.slug : '';
+        var entStr = (co.ticker !== 'N/A' ? '<span style="color:#C9A94E">' + co.ticker + '</span> ' : '') + co.name;
+        if (_cik2 && _cik2 !== 'ETF') {
+          entStr += ' <a href="company-portal.html?company=' + (_slug2 || '') + '" style="font-size:0.28rem;color:rgba(90,181,160,0.4);text-decoration:none">CIK:' + _cik2 + '</a>';
+        } else if (_cik2 === 'ETF' || co.cik === 'ETF') {
+          entStr += ' <span style="font-size:0.28rem;color:#706860">ETF</span>';
+        }
+        entities.push(entStr);
+      }
+    } else if (pb.examples) {
+      entities = pb.examples.slice(0, 3);
+    }
+
+    // One fast entry
+    var fastPaths = _FAST_ENTRY[type] || _FAST_ENTRY.build;
+    var fastOne = fastPaths[0];
+
+    // One money path
+    var moneyPaths = _MONEY_PATHS[type] || _MONEY_PATHS.build;
+    var moneyOne = moneyPaths[0];
+
+    // Tonight step
+    var tonightFn = _TONIGHT_STEPS[type] || _TONIGHT_STEPS.build;
+    var tonight = tonightFn(o);
+
+    // Legitimacy colors
+    var lColors = {
+      LIVE:'#5ab5a0', PARTIAL:'#C9A94E', INFERRED:'#888', SIMULATED:'#e85454',
+      NONE:'#e85454', MAPPED:'#5ab5a0',
+      ALIGNED:'#5ab5a0', EARLY:'#C9A94E', CONFLICTED:'#e85454',
+      LOW:'#5ab5a0', MED:'#C9A94E', HIGH:'#e85454', UNKNOWN:'#555'
+    };
+
+    h += '<div style="padding:10px 12px;margin-bottom:8px;border-left:3px solid rgba(201,169,78,0.2);background:rgba(0,0,0,0.12);border-radius:2px">';
+
+    // Header row
+    h += '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">';
+    h += '<span style="color:#C9A94E;font-size:0.5rem;letter-spacing:2px">' + starStr + '</span>';
+    h += '<span style="font-size:0.48rem;color:#e8e3d9;letter-spacing:0.5px">' + pb.title + '</span>';
+    h += '<span style="font-size:0.34rem;letter-spacing:1.5px;color:#a09888;text-transform:uppercase">' + type + '</span>';
+    h += '<a href="#" onclick="event.preventDefault();document.querySelector(\'[data-idx=\\x22' + cardIdx + '\\x22]\').scrollIntoView({behavior:\\x27smooth\\x27});return false" style="font-size:0.32rem;color:rgba(201,169,78,0.4);text-decoration:none;margin-left:auto">\u2193 FULL CARD</a>';
+    h += '</div>';
+
+    // WHY NOW
+    h += '<div style="font-size:0.38rem;color:rgba(201,169,78,0.6);margin-bottom:6px">' + whyLine + '</div>';
+
+    // Body grid
+    h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:0.36rem">';
+
+    // Left: entities + entry + money
+    h += '<div>';
+    h += '<div style="color:#9a9080;font-size:0.3rem;letter-spacing:1px;margin-bottom:2px">TARGETS</div>';
+    for (var ti = 0; ti < entities.length; ti++) {
+      h += '<div style="color:rgba(220,215,200,0.65)">' + entities[ti] + '</div>';
+    }
+    h += '<div style="color:#9a9080;font-size:0.3rem;letter-spacing:1px;margin-top:4px;margin-bottom:2px">48H ENTRY</div>';
+    h += '<div style="color:#d8d0c0">' + fastOne.action + '</div>';
+    h += '<div style="color:#9a9080;font-size:0.3rem;letter-spacing:1px;margin-top:4px;margin-bottom:2px">MONEY</div>';
+    h += '<div style="color:#d0c8b8">' + moneyOne.path + ' <span style="color:#908878">' + moneyOne.label + '</span></div>';
+    h += '</div>';
+
+    // Right: legitimacy + tonight
+    h += '<div>';
+    h += '<div style="color:#9a9080;font-size:0.3rem;letter-spacing:1px;margin-bottom:2px">LEGITIMACY</div>';
+    h += '<div style="color:' + (lColors[m.signalIntegrity]||'#888') + '">SIG: ' + m.signalIntegrity + '</div>';
+    h += '<div style="color:' + (lColors[m.entitySupport]||'#888') + '">ENT: ' + m.entitySupport + '</div>';
+    h += '<div style="color:' + (lColors[m.marketTiming]||'#888') + '">MKT: ' + m.marketTiming + '</div>';
+    h += '<div style="color:' + (lColors[m.invalidationRisk]||'#888') + '">INV: ' + m.invalidationRisk + '</div>';
+    h += '<div style="color:#9a9080;font-size:0.3rem;letter-spacing:1px;margin-top:6px;margin-bottom:2px">TONIGHT</div>';
+    h += '<div style="color:#C9A94E;font-size:0.38rem">' + tonight + '</div>';
+    h += '</div>';
+
+    h += '</div>'; // grid
+    h += '</div>'; // card
+  }
+
+  h += '</div>';
+  container.innerHTML = h;
+  container.style.display = 'block';
+}
+
+// ── OUTCOME-ADJUSTED RANKING ─────────────────────────────────────────
+// Reads pathway weights from localStorage (written by console-clarity outcome loop).
+// Applies same hub-specificity + direct/transfer logic as console-clarity.
+
+var _OPP_PATHWAY_MAP = {
+  energy: ['THAL','dlPFC','BLA'], health: ['NTS','AI','HIPP'],
+  finance: ['BLA','vmPFC','NAcc'], technology: ['dlPFC','THAL','BDNF'],
+  defense: ['BLA','PAG','dACC'], environment: ['NTS','THAL','AI'],
+  education: ['HIPP','PCC','DMN'], governance: ['dlPFC','dACC','mPFC'],
+  industry: ['THAL','dlPFC','GP'], trade: ['THAL','dlPFC','NAcc']
+};
+var _OPP_HUB_FREQ = {};
+(function() {
+  for (var d in _OPP_PATHWAY_MAP) {
+    for (var i = 0; i < _OPP_PATHWAY_MAP[d].length; i++) {
+      _OPP_HUB_FREQ[_OPP_PATHWAY_MAP[d][i]] = (_OPP_HUB_FREQ[_OPP_PATHWAY_MAP[d][i]] || 0) + 1;
+    }
+  }
+})();
+
+function _oppOutcomeFactor(domains) {
+  var weights;
+  try { weights = JSON.parse(localStorage.getItem('limen_pathway_weights') || '{}'); } catch(e) { return 1.0; }
+  var domain = domains && domains[0] ? domains[0] : '';
+  var nodes = _OPP_PATHWAY_MAP[domain];
+  if (!nodes) return 1.0; // unmapped = no adjustment
+  var nodeFactors = [];
+  for (var i = 0; i < nodes.length; i++) {
+    var w = weights[nodes[i]];
+    if (!w || !w.total) continue;
+    var raw = w.factor;
+    var isDirect = w.domains && w.domains[domain];
+    if (isDirect) {
+      nodeFactors.push(raw);
+    } else {
+      var spec = 1 / Math.sqrt(_OPP_HUB_FREQ[nodes[i]] || 1);
+      nodeFactors.push(1.0 + (raw - 1.0) * spec);
+    }
+  }
+  if (nodeFactors.length === 0) return 1.0;
+  nodeFactors.sort(function(a, b) { return Math.abs(b - 1.0) - Math.abs(a - 1.0); });
+  var anchor = nodeFactors[0];
+  if (nodeFactors.length === 1) return Math.max(0.8, Math.min(1.2, anchor));
+  var restSum = 0;
+  for (var j = 1; j < nodeFactors.length; j++) restSum += nodeFactors[j];
+  var blended = anchor * 0.6 + (restSum / (nodeFactors.length - 1)) * 0.4;
+  return Math.max(0.8, Math.min(1.2, blended));
+}
+
+// ── STAR RATING (top 5 active opportunities) ──────────────────────────
+
+function _buildStarRating(o, cardIndex) {
+  if (o.status !== 'active') return '';
+  // Score: confidence + urgency + data quality
+  var score = o.confidence;
+  if (o.urgency === 'high') score += 20;
+  else if (o.urgency === 'medium') score += 10;
+  if (o.quality && o.quality.live > 0) score += 10;
+  // Apply outcome-adjusted factor from pathway weights
+  var factor = _oppOutcomeFactor(o.pb ? o.pb.domains : []);
+  score = Math.round(score * factor);
+  o._rankScore = score;
+  return ''; // actual stars rendered in _injectStarRatings after all cards scored
+}
+
+function _injectStarRatings() {
+  var opps = window._oppData;
+  if (!opps) return;
+  var active = opps.filter(function(o) { return o.status === 'active' && o._rankScore; });
+  active.sort(function(a, b) { return b._rankScore - a._rankScore; });
+  var top5 = active.slice(0, 5);
+  for (var i = 0; i < top5.length; i++) {
+    var idx = opps.indexOf(top5[i]);
+    var card = document.querySelector('[data-idx="' + idx + '"]');
+    if (!card) continue;
+    var stars = 5 - i; // 5 stars for #1, 4 for #2, etc.
+    var starStr = '';
+    for (var s = 0; s < stars; s++) starStr += '\u2605';
+    for (var e = stars; e < 5; e++) starStr += '\u2606';
+    var badge = document.createElement('div');
+    badge.style.cssText = 'position:absolute;top:6px;right:6px;font-size:0.5rem;color:#C9A94E;letter-spacing:2px';
+    badge.textContent = starStr;
+    card.style.position = 'relative';
+    card.appendChild(badge);
+  }
+}
+
+// ── ACTION STACK (always visible for active opportunities) ────────────
+
+// Fast entry paths per playbook type
+var _FAST_ENTRY = {
+  invest: [
+    {action: 'Buy equity via brokerage', detail: 'Use mapped tickers below'},
+    {action: 'Set limit orders at support', detail: 'Check 50-day MA on Yahoo Finance'},
+    {action: 'Open watchlist position', detail: 'Track for 48h before full entry'}
+  ],
+  build: [
+    {action: 'Draft 1-page problem statement', detail: 'Use portal diagnosis as source'},
+    {action: 'Search Crunchbase for competitors', detail: 'If <5, white space confirmed'},
+    {action: 'File LLC in home state', detail: '$50\u2013$500 depending on state'}
+  ],
+  patent: [
+    {action: 'Search patents.google.com', detail: 'Check CPC group for recent filings'},
+    {action: 'Draft 5 method claims from portal treatments', detail: 'Use treatment steps as claim language'},
+    {action: 'File provisional on uspto.gov', detail: '$320 small entity'}
+  ],
+  procure: [
+    {action: 'Register on SAM.gov', detail: 'Get UEI number if not registered'},
+    {action: 'Search active solicitations', detail: 'Filter by agency from law signal'},
+    {action: 'Draft capability statement', detail: '1-page matching solicitation scope'}
+  ],
+  fund: [
+    {action: 'Check grants.gov for open FOAs', detail: 'Filter by domain keyword'},
+    {action: 'Draft concept paper', detail: 'Use portal diagnosis + treatment gap'},
+    {action: 'Contact program officer', detail: 'Email listed on grant announcement'}
+  ],
+  advise: [
+    {action: 'Draft advisory pitch deck', detail: 'Problem from portal, solution from treatments'},
+    {action: 'Identify 3 target orgs', detail: 'Use entity registry companies'},
+    {action: 'Send cold outreach', detail: 'LinkedIn or direct email'}
+  ]
+};
+
+// Money paths per playbook type
+var _MONEY_PATHS = {
+  invest: [
+    {path: 'Self-fund', label: 'Brokerage account'},
+    {path: 'Margin', label: 'If high conviction only'}
+  ],
+  build: [
+    {path: 'Self-fund', label: 'Bootstrap MVP'},
+    {path: 'SBA microloan', label: '$500\u2013$50K'},
+    {path: 'Grant', label: 'SBIR/STTR if tech-based'},
+    {path: 'Partner capital', label: 'Co-founder or angel'}
+  ],
+  patent: [
+    {path: 'Self-fund', label: '$320 provisional + $3K attorney'},
+    {path: 'IP fund', label: 'Patent-backed venture if portfolio'}
+  ],
+  procure: [
+    {path: 'Self-fund', label: 'Capability statement is free'},
+    {path: 'SBA 8(a)', label: 'If socially disadvantaged eligible'},
+    {path: 'Teaming', label: 'Sub to prime contractor'}
+  ],
+  fund: [
+    {path: 'Grant application', label: 'No cost to apply'},
+    {path: 'Cost share', label: 'Some grants require 20\u201350% match'}
+  ],
+  advise: [
+    {path: 'Self-fund', label: 'Time investment only'},
+    {path: 'Retainer', label: 'Invoice after first engagement'},
+    {path: 'Partner capital', label: 'Rev-share with domain expert'}
+  ]
+};
+
+function _buildActionStack(o) {
+  var pb = o.pb;
+  var paths = _EXECUTION_PATHS[pb.id];
+  var type = pb.type || 'build';
+  var doms = window.LIMENDomains || {};
+  var m = _computeLegitimacy(o);
+
+  var h = '<div style="margin-top:8px;padding:8px 10px;border-top:1px solid rgba(201,169,78,0.1);background:rgba(0,0,0,0.1)">';
+  h += '<div style="font-size:0.36rem;letter-spacing:2px;color:rgba(201,169,78,0.5);margin-bottom:6px">ACTION STACK</div>';
+
+  // A. TARGET ENTITIES
+  if (paths && paths.invest && paths.invest.length > 0) {
+    h += '<div style="margin-bottom:6px">';
+    h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:#9a9080;margin-bottom:3px">TARGET ENTITIES</div>';
+    for (var i = 0; i < Math.min(paths.invest.length, 5); i++) {
+      var co = paths.invest[i];
+      var supColor = co.support === 'MAPPED' ? 'rgba(90,181,160,0.7)' : 'rgba(200,195,184,0.35)';
+      h += '<div style="font-size:0.38rem;color:rgba(220,215,200,0.7);padding:1px 0">';
+      var _dyn = (co.ticker && co.ticker !== 'N/A') ? _lookupCIK(co.ticker) : null;
+      var _cik = _dyn ? _dyn.cik : (co.cik || '');
+      var _slug = _dyn ? _dyn.slug : '';
+      if (co.ticker !== 'N/A') h += '<span style="color:#C9A94E;margin-right:4px">' + co.ticker + '</span>';
+      h += co.name;
+      if (_cik && _cik !== 'ETF') {
+        h += ' <a href="company-portal.html?company=' + (_slug || '') + '" style="font-size:0.26rem;color:rgba(90,181,160,0.5);text-decoration:none" title="Open company portal">CIK:' + _cik + '</a>';
+      } else if (_cik === 'ETF' || co.cik === 'ETF') {
+        h += ' <span style="font-size:0.26rem;color:#807868">ETF</span>';
+      }
+      h += ' <span style="font-size:0.26rem;color:' + supColor + '">' + co.support + '</span>';
+      h += '</div>';
+    }
+    h += '</div>';
+  } else if (pb.examples && pb.examples.length > 0) {
+    h += '<div style="margin-bottom:6px">';
+    h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:#9a9080;margin-bottom:3px">TARGET ENTITIES</div>';
+    for (var ei = 0; ei < Math.min(pb.examples.length, 3); ei++) {
+      h += '<div style="font-size:0.36rem;color:#c0b8a5;padding:1px 0">' + pb.examples[ei] + ' <span style="font-size:0.26rem;color:#908878">UNVERIFIED</span></div>';
+    }
+    h += '</div>';
+  }
+
+  // B. FAST ENTRY PATH
+  var fastPaths = _FAST_ENTRY[type] || _FAST_ENTRY.build;
+  h += '<div style="margin-bottom:6px">';
+  h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:#9a9080;margin-bottom:3px">48H ENTRY</div>';
+  for (var fi = 0; fi < fastPaths.length; fi++) {
+    h += '<div style="font-size:0.36rem;padding:2px 0;border-left:2px solid rgba(201,169,78,0.08);padding-left:6px">';
+    h += '<span style="color:rgba(220,215,200,0.7)">' + fastPaths[fi].action + '</span>';
+    h += '<span style="color:#908878;font-size:0.3rem;margin-left:6px">' + fastPaths[fi].detail + '</span>';
+    h += '</div>';
+  }
+  h += '</div>';
+
+  // C. MONEY PATH
+  var moneyPaths = _MONEY_PATHS[type] || _MONEY_PATHS.build;
+  h += '<div style="margin-bottom:6px">';
+  h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:#9a9080;margin-bottom:3px">MONEY PATH</div>';
+  for (var mi = 0; mi < moneyPaths.length; mi++) {
+    h += '<div style="font-size:0.36rem;color:#d8d0c0;padding:1px 0">';
+    h += moneyPaths[mi].path + ' <span style="font-size:0.3rem;color:#908878">' + moneyPaths[mi].label + '</span>';
+    h += '</div>';
+  }
+  h += '<div style="font-size:0.26rem;color:#706860;letter-spacing:1px;margin-top:2px">INTERNAL \u00b7 UNVERIFIED</div>';
+  h += '</div>';
+
+  // D. WHY NOW (SYSTEM SIGNAL)
+  h += '<div>';
+  h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:#9a9080;margin-bottom:3px">WHY NOW</div>';
+  var whyParts = [];
+  // Domain stress
+  for (var di = 0; di < pb.domains.length; di++) {
+    var dd = doms[pb.domains[di]];
+    if (dd && dd.stress > 0.2) {
+      whyParts.push(pb.domains[di].toUpperCase() + ' ' + (dd.stress * 100).toFixed(0) + '%');
+    }
+  }
+  if (whyParts.length > 0) {
+    h += '<div style="font-size:0.36rem;color:#d8d0c0">Stress: ' + whyParts.join(' + ') + '</div>';
+  }
+  // Timing
+  h += '<div style="font-size:0.36rem;color:rgba(220,215,200,0.5)">Timing: ' + m.marketTiming + ' \u00b7 Signal: ' + m.signalIntegrity + '</div>';
+  // Cross-domain
+  if (o.whyNow && o.whyNow.indexOf('+') !== -1) {
+    h += '<div style="font-size:0.36rem;color:rgba(201,169,78,0.5)">Cross-domain: ' + o.whyNow.split('\u00b7')[0].trim() + '</div>';
+  }
+  h += '</div>';
+
+  h += '</div>';
+  return h;
+}
+
+function _buildExecutionBlock(o) {
+  var pb = o.pb;
+  var paths = _EXECUTION_PATHS[pb.id];
+  var action = _computeActionSignal(o);
+  var m = _computeLegitimacy(o);
+
+  var h = '<div style="margin-top:8px;padding:8px 10px;border:1px solid rgba(201,169,78,0.08);background:rgba(0,0,0,0.15);border-radius:3px">';
+
+  // Internal action signal
+  h += '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px">';
+  h += '<span style="font-size:0.42rem;letter-spacing:2px;color:' + action.color + ';font-weight:bold">' + action.signal + '</span>';
+  h += '<span style="font-size:0.28rem;letter-spacing:1px;color:#807868">INTERNAL \u00b7 RECURSIVE ENGINE</span>';
+  h += '</div>';
+
+  if (!paths) {
+    h += '<div style="font-size:0.34rem;color:#555;letter-spacing:1px">No execution paths defined for this playbook</div>';
+    h += '</div>';
+    return h;
+  }
+
+  // A. INVEST PATH
+  if (paths.invest && paths.invest.length > 0) {
+    h += '<div style="margin-bottom:6px">';
+    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">INVEST PATH</div>';
+    for (var i = 0; i < paths.invest.length; i++) {
+      var co = paths.invest[i];
+      var supColor = co.support === 'MAPPED' ? '#5ab5a0' : '#888';
+      h += '<div style="font-size:0.38rem;color:#bbb;padding:1px 0">';
+      h += co.name;
+      if (co.ticker !== 'N/A') h += ' <span style="color:#C9A94E">(' + co.ticker + ')</span>';
+      h += ' <span style="font-size:0.28rem;color:' + supColor + '">' + co.support + '</span>';
+      h += '</div>';
+    }
+    h += '</div>';
+  }
+
+  // B. BUILD PATH
+  if (paths.build) {
+    h += '<div style="margin-bottom:6px">';
+    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">BUILD PATH</div>';
+    h += '<div style="font-size:0.36rem;color:#bbb">' + paths.build.model + '</div>';
+    h += '<div style="font-size:0.32rem;color:#888">Pays: ' + paths.build.pays + '</div>';
+    // Language control: downgrade "why now" if data is weak
+    var whyLabel = (m.signalIntegrity === 'SIMULATED' || m.invalidationRisk === 'HIGH')
+      ? 'Hypothesis: ' + paths.build.whyNow
+      : 'Why now: ' + paths.build.whyNow;
+    h += '<div style="font-size:0.32rem;color:#888">' + whyLabel + '</div>';
+    h += '</div>';
+  }
+
+  // C. FUND PATH
+  if (paths.fund && paths.fund.length > 0) {
+    h += '<div style="margin-bottom:6px">';
+    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">FUND PATH</div>';
+    h += '<div style="font-size:0.28rem;color:#807868;margin-bottom:2px">POTENTIAL SOURCES \u2014 NOT VERIFIED</div>';
+    for (var f = 0; f < paths.fund.length; f++) {
+      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.fund[f] + '</div>';
+    }
+    h += '</div>';
+  }
+
+  // D. STRUCTURE PATH
+  if (paths.structure && paths.structure.length > 0) {
+    h += '<div style="margin-bottom:4px">';
+    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">STRUCTURE PATH</div>';
+    h += '<div style="font-size:0.28rem;color:#807868;margin-bottom:2px">OPTIONS \u2014 USER RESPONSIBILITY</div>';
+    for (var s = 0; s < paths.structure.length; s++) {
+      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.structure[s] + '</div>';
+    }
+    h += '</div>';
+  }
+
+  h += '</div>';
+  return h;
+}
+
+window.toggleSelect = toggleSelect;
+window.openPlaybook = openPlaybook;
+window.closePlaybook = closePlaybook;
+window.generateActionReport = generateActionReport;
+
+})();
+</script>
+</body>
+</html>

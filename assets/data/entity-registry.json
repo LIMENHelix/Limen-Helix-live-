@@ -1,0 +1,898 @@
+{
+  "_schema_version": "1.0.0",
+  "_description": "LIMEN Entity Registry — company, business, profession, and institution entities attached to domain portals. Entities attach to portals/subportals, NOT directly to top-level domains.",
+  "_entity_schema": {
+    "type": "entity",
+    "entityType": "company | business | profession | institution | government_body | ngo",
+    "name": "string — legal or common entity name",
+    "ticker": "string | null — stock ticker if publicly traded",
+    "cik": "string | null — SEC Central Index Key",
+    "sic": "string — Standard Industrial Classification code",
+    "industry": "string — human-readable industry label",
+    "domainId": "string — top-level civilization domain (e.g. 'health')",
+    "portalId": "string — portal attachment point (e.g. 'medicine_metabolic')",
+    "subportalId": "string | null — subportal if deeper attachment needed",
+    "domainRelevance": "string — why this entity matters to the domain",
+    "portalRelevance": "string — specific role within this portal's scope",
+    "notes": "string | null"
+  },
+
+  "domains": {
+
+    "health": {
+      "label": "Medicine / Health",
+      "portals": {
+        "medicine_diagnostics": {
+          "label": "Clinical Circuit Map",
+          "entities": [
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Quest Diagnostics",
+              "ticker": "DGX",
+              "cik": "1022079",
+              "sic": "8071",
+              "industry": "Medical Laboratories",
+              "domainId": "health",
+              "portalId": "medicine_diagnostics",
+              "subportalId": null,
+              "domainRelevance": "Largest US clinical laboratory; produces diagnostic data that feeds clinical decision-making across all specialties",
+              "portalRelevance": "Primary source of lab-based diagnostic confirmation for differential diagnosis workflows",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Laboratory Corporation of America",
+              "ticker": "LH",
+              "cik": "920148",
+              "sic": "8071",
+              "industry": "Medical Laboratories",
+              "domainId": "health",
+              "portalId": "medicine_diagnostics",
+              "subportalId": null,
+              "domainRelevance": "Second-largest US clinical lab network; drug development services and genomic diagnostics",
+              "portalRelevance": "Companion diagnostics and precision medicine testing that shapes treatment selection",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Illumina",
+              "ticker": "ILMN",
+              "cik": "1110803",
+              "sic": "3841",
+              "industry": "Surgical & Medical Instruments",
+              "domainId": "health",
+              "portalId": "medicine_diagnostics",
+              "subportalId": null,
+              "domainRelevance": "Dominant sequencing platform; enables genomic diagnostics across oncology, rare disease, prenatal",
+              "portalRelevance": "Genomic sequencing infrastructure underlying precision diagnostic workflows",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Exact Sciences",
+              "ticker": "EXAS",
+              "cik": "1124140",
+              "sic": "2835",
+              "industry": "In Vitro Diagnostics",
+              "domainId": "health",
+              "portalId": "medicine_diagnostics",
+              "subportalId": null,
+              "domainRelevance": "Cancer screening diagnostics (Cologuard, Oncotype); early detection shifts treatment trajectories",
+              "portalRelevance": "Non-invasive screening tests that trigger diagnostic escalation pathways",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Hologic",
+              "ticker": "HOLX",
+              "cik": "880365",
+              "sic": "3841",
+              "industry": "Surgical & Medical Instruments",
+              "domainId": "health",
+              "portalId": "medicine_diagnostics",
+              "subportalId": null,
+              "domainRelevance": "Breast and cervical cancer diagnostics; molecular diagnostics for infectious disease",
+              "portalRelevance": "Imaging-based and molecular diagnostic platforms for screening and differential diagnosis",
+              "notes": null
+            }
+          ]
+        },
+
+        "medicine_neurology": {
+          "label": "Neurology Circuit Map",
+          "entities": [
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Biogen",
+              "ticker": "BIIB",
+              "cik": "875045",
+              "sic": "2836",
+              "industry": "Biological Products",
+              "domainId": "health",
+              "portalId": "medicine_neurology",
+              "subportalId": null,
+              "domainRelevance": "Leading neurodegeneration therapeutics; MS, ALS, Alzheimer's pipeline",
+              "portalRelevance": "Anti-amyloid therapies (Lecanemab/Aduhelm) directly target neurodegenerative circuit pathology",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Neurocrine Biosciences",
+              "ticker": "NBIX",
+              "cik": "914475",
+              "sic": "2836",
+              "industry": "Biological Products",
+              "domainId": "health",
+              "portalId": "medicine_neurology",
+              "subportalId": null,
+              "domainRelevance": "Movement disorder therapeutics (tardive dyskinesia, Huntington's chorea)",
+              "portalRelevance": "VMAT2 inhibitors targeting basal ganglia motor circuit dysfunction",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Medtronic",
+              "ticker": "MDT",
+              "cik": "1613103",
+              "sic": "3841",
+              "industry": "Surgical & Medical Instruments",
+              "domainId": "health",
+              "portalId": "medicine_neurology",
+              "subportalId": null,
+              "domainRelevance": "Deep brain stimulation devices; spinal cord stimulation; neurovascular intervention",
+              "portalRelevance": "DBS hardware that modulates subthalamic/GPi circuits in Parkinson's and essential tremor",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "UCB SA",
+              "ticker": "UCB.BR",
+              "cik": null,
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_neurology",
+              "subportalId": null,
+              "domainRelevance": "Epilepsy and autoimmune neurology (Keppra, Briviact, Zilucoplan)",
+              "portalRelevance": "Anti-seizure medications targeting cortical excitability circuits",
+              "notes": "Brussels Euronext listed"
+            },
+            {
+              "type": "entity",
+              "entityType": "institution",
+              "name": "Mayo Clinic — Department of Neurology",
+              "ticker": null,
+              "cik": null,
+              "sic": "8062",
+              "industry": "General Medical & Surgical Hospitals",
+              "domainId": "health",
+              "portalId": "medicine_neurology",
+              "subportalId": null,
+              "domainRelevance": "Top-ranked US neurology program; generates clinical evidence and treatment protocols",
+              "portalRelevance": "Reference center for complex neurological diagnosis and circuit-based treatment validation",
+              "notes": "Non-profit institution"
+            }
+          ]
+        },
+
+        "medicine_metabolic": {
+          "label": "Metabolic Circuit Map",
+          "entities": [
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Novo Nordisk",
+              "ticker": "NVO",
+              "cik": "353278",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_metabolic",
+              "subportalId": null,
+              "domainRelevance": "Global leader in diabetes and obesity therapeutics (Ozempic, Wegovy, insulin portfolio)",
+              "portalRelevance": "GLP-1 agonists that modulate hypothalamic appetite circuits and insulin signaling",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Eli Lilly",
+              "ticker": "LLY",
+              "cik": "59478",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_metabolic",
+              "subportalId": null,
+              "domainRelevance": "Diabetes/obesity pipeline (Mounjaro/tirzepatide); insulin franchise",
+              "portalRelevance": "Dual GIP/GLP-1 agonism targeting metabolic syndrome via incretin circuit modulation",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "DexCom",
+              "ticker": "DXCM",
+              "cik": "1093557",
+              "sic": "3841",
+              "industry": "Surgical & Medical Instruments",
+              "domainId": "health",
+              "portalId": "medicine_metabolic",
+              "subportalId": null,
+              "domainRelevance": "Continuous glucose monitoring; real-time metabolic data driving treatment decisions",
+              "portalRelevance": "CGM sensor data feeds metabolic stress monitoring and insulin titration protocols",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Abbott Laboratories",
+              "ticker": "ABT",
+              "cik": "1800",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_metabolic",
+              "subportalId": null,
+              "domainRelevance": "FreeStyle Libre CGM system; nutritional products (Ensure, Glucerna); diagnostics",
+              "portalRelevance": "Point-of-care metabolic testing and continuous glucose data infrastructure",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Insulet Corporation",
+              "ticker": "PODD",
+              "cik": "1145197",
+              "sic": "3841",
+              "industry": "Surgical & Medical Instruments",
+              "domainId": "health",
+              "portalId": "medicine_metabolic",
+              "subportalId": null,
+              "domainRelevance": "Omnipod insulin delivery system; closed-loop automated insulin dosing",
+              "portalRelevance": "Automated insulin delivery hardware that implements metabolic regulation treatment protocols",
+              "notes": null
+            }
+          ]
+        },
+
+        "medicine_pediatric_med": {
+          "label": "Pediatric Circuit Map",
+          "entities": [
+            {
+              "type": "entity",
+              "entityType": "institution",
+              "name": "Children's Hospital of Philadelphia (CHOP)",
+              "ticker": null,
+              "cik": null,
+              "sic": "8069",
+              "industry": "Specialty Hospitals",
+              "domainId": "health",
+              "portalId": "medicine_pediatric_med",
+              "subportalId": null,
+              "domainRelevance": "Top-ranked US pediatric hospital; research hub for developmental neuroscience",
+              "portalRelevance": "Generates pediatric treatment protocols and neurodevelopmental circuit mapping evidence",
+              "notes": "Non-profit institution"
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Supernus Pharmaceuticals",
+              "ticker": "SUPN",
+              "cik": "1356576",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_pediatric_med",
+              "subportalId": null,
+              "domainRelevance": "Pediatric CNS therapeutics (ADHD, epilepsy); Qelbree, Trokendi XR",
+              "portalRelevance": "Non-stimulant ADHD medications targeting prefrontal-striatal circuits in children",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Jazz Pharmaceuticals",
+              "ticker": "JAZZ",
+              "cik": "1232524",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_pediatric_med",
+              "subportalId": null,
+              "domainRelevance": "Pediatric narcolepsy and epilepsy (Epidiolex, Xywav); sleep-wake circuit therapeutics",
+              "portalRelevance": "Cannabidiol-based treatments for pediatric seizure circuits (Dravet, LGS)",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Harmony Biosciences",
+              "ticker": "HRMY",
+              "cik": "1803914",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_pediatric_med",
+              "subportalId": null,
+              "domainRelevance": "Narcolepsy therapeutics (pitolisant/Wakix) for pediatric and adult populations",
+              "portalRelevance": "Histamine H3 receptor inverse agonist targeting hypothalamic wake circuits",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Acadia Pharmaceuticals",
+              "ticker": "ACAD",
+              "cik": "1070524",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_pediatric_med",
+              "subportalId": null,
+              "domainRelevance": "Rett syndrome (trofinetide/Daybue); neurodevelopmental circuit rescue",
+              "portalRelevance": "First approved Rett syndrome treatment targeting synaptic circuit normalization",
+              "notes": null
+            }
+          ]
+        },
+
+        "medicine_gutbrain": {
+          "label": "Gut-Brain Axis",
+          "entities": [
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Axial Biotherapeutics",
+              "ticker": null,
+              "cik": null,
+              "sic": "2836",
+              "industry": "Biological Products",
+              "domainId": "health",
+              "portalId": "medicine_gutbrain",
+              "subportalId": null,
+              "domainRelevance": "Gut-brain axis therapeutics; microbiome-derived small molecules for CNS disorders",
+              "portalRelevance": "Directly targeting gut-brain signaling pathways for Parkinson's and autism",
+              "notes": "Private company"
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Seres Therapeutics",
+              "ticker": "MCRB",
+              "cik": "1609809",
+              "sic": "2836",
+              "industry": "Biological Products",
+              "domainId": "health",
+              "portalId": "medicine_gutbrain",
+              "subportalId": null,
+              "domainRelevance": "Microbiome therapeutics (SER-109/Vowst for C. diff); ecobiotic platform",
+              "portalRelevance": "FDA-approved microbiome restoration that modulates enteric nervous system signaling",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Evoke Pharma",
+              "ticker": "EVOK",
+              "cik": "1559865",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_gutbrain",
+              "subportalId": null,
+              "domainRelevance": "Gastroparesis treatment (Gimoti/metoclopramide nasal); gastric motility via vagal modulation",
+              "portalRelevance": "Dopamine antagonist acting on gut-brain vagal circuits to restore gastric emptying",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Ironwood Pharmaceuticals",
+              "ticker": "IRWD",
+              "cik": "1446847",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_gutbrain",
+              "subportalId": null,
+              "domainRelevance": "IBS-C therapeutics (Linzess/linaclotide); GI motility and visceral pain",
+              "portalRelevance": "Guanylate cyclase-C agonist modulating enteric nervous system pain and secretion circuits",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "institution",
+              "name": "Johns Hopkins Center for Neurogastroenterology",
+              "ticker": null,
+              "cik": null,
+              "sic": "8062",
+              "industry": "General Medical & Surgical Hospitals",
+              "domainId": "health",
+              "portalId": "medicine_gutbrain",
+              "subportalId": null,
+              "domainRelevance": "Leading research center for gut-brain interaction disorders and enteric neuroscience",
+              "portalRelevance": "Generates clinical evidence for gut-brain axis treatment protocols",
+              "notes": "Non-profit institution"
+            }
+          ]
+        },
+
+        "medicine_addiction": {
+          "label": "Addiction Circuit Map",
+          "entities": [
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Indivior",
+              "ticker": "INDV",
+              "cik": "1723089",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_addiction",
+              "subportalId": null,
+              "domainRelevance": "Opioid use disorder treatment leader (Sublocade, Suboxone); buprenorphine platform",
+              "portalRelevance": "Long-acting buprenorphine targeting mu-opioid receptor circuits in addiction",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Alkermes",
+              "ticker": "ALKS",
+              "cik": "850261",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_addiction",
+              "subportalId": null,
+              "domainRelevance": "Addiction and serious mental illness (Vivitrol/naltrexone, Aristada, Lybalvi)",
+              "portalRelevance": "Extended-release naltrexone blocking opioid reward circuits (VTA-NAc pathway)",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Pear Therapeutics",
+              "ticker": null,
+              "cik": "1835567",
+              "sic": "7372",
+              "industry": "Prepackaged Software",
+              "domainId": "health",
+              "portalId": "medicine_addiction",
+              "subportalId": null,
+              "domainRelevance": "FDA-cleared digital therapeutics for substance use (reSET, reSET-O); CBT delivery",
+              "portalRelevance": "Digital delivery of contingency management and CBT targeting prefrontal control circuits",
+              "notes": "Filed bankruptcy 2023; IP acquired by others"
+            },
+            {
+              "type": "entity",
+              "entityType": "institution",
+              "name": "NIDA — National Institute on Drug Abuse",
+              "ticker": null,
+              "cik": null,
+              "sic": "9711",
+              "industry": "National Security",
+              "domainId": "health",
+              "portalId": "medicine_addiction",
+              "subportalId": null,
+              "domainRelevance": "Primary US federal research funder for addiction neuroscience and treatment development",
+              "portalRelevance": "Funds and validates circuit-based addiction research that informs treatment protocols",
+              "notes": "Federal agency under NIH"
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "BioXcel Therapeutics",
+              "ticker": "BTAI",
+              "cik": "1720893",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_addiction",
+              "subportalId": null,
+              "domainRelevance": "Agitation in substance withdrawal and psychiatric emergencies (Igalmi/dexmedetomidine)",
+              "portalRelevance": "Alpha-2 agonist targeting locus coeruleus noradrenergic circuits in acute withdrawal",
+              "notes": null
+            }
+          ]
+        },
+
+        "medicine_psychedelic": {
+          "label": "Psychedelic Circuit Map",
+          "entities": [
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "MAPS PBC (Lykos Therapeutics)",
+              "ticker": null,
+              "cik": null,
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_psychedelic",
+              "subportalId": null,
+              "domainRelevance": "MDMA-assisted therapy for PTSD; completed Phase 3 trials; FDA submission pathway",
+              "portalRelevance": "MDMA protocol targeting amygdala fear extinction and prefrontal emotional processing circuits",
+              "notes": "Public benefit corporation; nonprofit-affiliated"
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Compass Pathways",
+              "ticker": "CMPS",
+              "cik": "1816736",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_psychedelic",
+              "subportalId": null,
+              "domainRelevance": "Psilocybin therapy for treatment-resistant depression; COMP360 program",
+              "portalRelevance": "Synthetic psilocybin targeting default mode network and 5-HT2A serotonergic circuits",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Atai Life Sciences",
+              "ticker": "ATAI",
+              "cik": "1842279",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_psychedelic",
+              "subportalId": null,
+              "domainRelevance": "Psychedelic and consciousness medicine platform (DMT, ibogaine, MDMA analogs)",
+              "portalRelevance": "Multi-compound approach targeting diverse serotonergic and glutamatergic circuit pathways",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "company",
+              "name": "Johnson & Johnson (Janssen)",
+              "ticker": "JNJ",
+              "cik": "200406",
+              "sic": "2834",
+              "industry": "Pharmaceutical Preparations",
+              "domainId": "health",
+              "portalId": "medicine_psychedelic",
+              "subportalId": null,
+              "domainRelevance": "Esketamine (Spravato) for treatment-resistant depression; first FDA-approved psychedelic-adjacent therapeutic",
+              "portalRelevance": "NMDA antagonist/ketamine derivative targeting glutamatergic circuits for rapid antidepressant effect",
+              "notes": null
+            },
+            {
+              "type": "entity",
+              "entityType": "institution",
+              "name": "Johns Hopkins Center for Psychedelic & Consciousness Research",
+              "ticker": null,
+              "cik": null,
+              "sic": "8062",
+              "industry": "General Medical & Surgical Hospitals",
+              "domainId": "health",
+              "portalId": "medicine_psychedelic",
+              "subportalId": null,
+              "domainRelevance": "Pioneering psilocybin and psychedelic research center; published foundational circuit mapping studies",
+              "portalRelevance": "Source of primary clinical evidence for psychedelic circuit modulation protocols",
+              "notes": "Non-profit research center"
+            }
+          ]
+        }
+      }
+    },
+
+    "economy": {
+      "label": "Economy",
+      "portals": {
+        "economy_gdp": {
+          "label": "GDP & Growth",
+          "entities": [
+            { "type": "entity", "entityType": "institution", "name": "Federal Reserve System", "ticker": null, "cik": null, "sic": "6011", "industry": "Federal Reserve Banks", "domainId": "economy", "portalId": "economy_gdp", "subportalId": null, "domainRelevance": "Sets monetary policy that directly determines GDP growth trajectory", "portalRelevance": "Interest rate decisions are the primary lever on aggregate demand and output", "notes": "Federal agency" },
+            { "type": "entity", "entityType": "company", "name": "JPMorgan Chase", "ticker": "JPM", "cik": "19617", "sic": "6020", "industry": "State Commercial Banks", "domainId": "economy", "portalId": "economy_gdp", "subportalId": null, "domainRelevance": "Largest US bank; credit creation drives economic expansion", "portalRelevance": "Commercial lending volume is a leading indicator of GDP momentum", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Walmart", "ticker": "WMT", "cik": "104169", "sic": "5331", "industry": "Variety Stores", "domainId": "economy", "portalId": "economy_gdp", "subportalId": null, "domainRelevance": "Largest private employer; consumer spending proxy (~$600B revenue)", "portalRelevance": "Same-store sales growth is a real-time consumer GDP component signal", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Caterpillar", "ticker": "CAT", "cik": "18230", "sic": "3531", "industry": "Construction Machinery", "domainId": "economy", "portalId": "economy_gdp", "subportalId": null, "domainRelevance": "Capital goods bellwether; equipment orders signal business investment (GDP I component)", "portalRelevance": "Dealer inventory and order backlog are leading GDP investment indicators", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "FedEx", "ticker": "FDX", "cik": "1048911", "sic": "4513", "industry": "Air Courier Services", "domainId": "economy", "portalId": "economy_gdp", "subportalId": null, "domainRelevance": "Global trade volume proxy; package volume correlates with economic activity", "portalRelevance": "FedEx volume index is a real-time GDP nowcasting input", "notes": null }
+          ]
+        }
+      }
+    },
+
+    "energy": {
+      "label": "Energy",
+      "portals": {
+        "energy_oil": {
+          "label": "Oil & Gas",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "ExxonMobil", "ticker": "XOM", "cik": "34088", "sic": "2911", "industry": "Petroleum Refining", "domainId": "energy", "portalId": "energy_oil", "subportalId": null, "domainRelevance": "Largest US integrated oil company; upstream production drives crude supply", "portalRelevance": "Production volumes directly affect global oil supply-demand balance", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Chevron", "ticker": "CVX", "cik": "93410", "sic": "2911", "industry": "Petroleum Refining", "domainId": "energy", "portalId": "energy_oil", "subportalId": null, "domainRelevance": "Second-largest US oil company; Permian Basin and international production", "portalRelevance": "Capital expenditure signals drive oil supply forecasts", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "ConocoPhillips", "ticker": "COP", "cik": "1163165", "sic": "1311", "industry": "Crude Petroleum & Natural Gas", "domainId": "energy", "portalId": "energy_oil", "subportalId": null, "domainRelevance": "Largest independent E&P; pure-play upstream production barometer", "portalRelevance": "Production guidance and drilling activity indicate near-term supply trajectory", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Schlumberger (SLB)", "ticker": "SLB", "cik": "87347", "sic": "1389", "industry": "Oil & Gas Field Services", "domainId": "energy", "portalId": "energy_oil", "subportalId": null, "domainRelevance": "Largest oilfield services company; drilling activity proxy", "portalRelevance": "Rig count and services revenue signal upstream investment and future production", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "OPEC", "ticker": null, "cik": null, "sic": "9621", "industry": "Regulation of Petroleum", "domainId": "energy", "portalId": "energy_oil", "subportalId": null, "domainRelevance": "Controls ~40% of global oil production; quota decisions set price floors", "portalRelevance": "OPEC+ production targets are the dominant supply-side oil price signal", "notes": "Intergovernmental organization" }
+          ]
+        }
+      }
+    },
+
+    "technology": {
+      "label": "Technology",
+      "portals": {
+        "technology_ai": {
+          "label": "AI & Computing",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "NVIDIA", "ticker": "NVDA", "cik": "1045810", "sic": "3674", "industry": "Semiconductors", "domainId": "technology", "portalId": "technology_ai", "subportalId": null, "domainRelevance": "Dominant AI training hardware; GPU compute is the bottleneck for AI capability", "portalRelevance": "Data center GPU revenue is the primary signal for AI infrastructure buildout", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Microsoft", "ticker": "MSFT", "cik": "789019", "sic": "7372", "industry": "Prepackaged Software", "domainId": "technology", "portalId": "technology_ai", "subportalId": null, "domainRelevance": "Azure AI/OpenAI partnership; enterprise AI deployment at scale", "portalRelevance": "Azure AI consumption metrics signal enterprise AI adoption rates", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Alphabet (Google)", "ticker": "GOOGL", "cik": "1652044", "sic": "7372", "industry": "Prepackaged Software", "domainId": "technology", "portalId": "technology_ai", "subportalId": null, "domainRelevance": "Gemini/DeepMind AI; TPU infrastructure; search AI integration", "portalRelevance": "AI-driven search revenue and cloud AI consumption indicate consumer/enterprise AI penetration", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Taiwan Semiconductor (TSMC)", "ticker": "TSM", "cik": "1046179", "sic": "3674", "industry": "Semiconductors", "domainId": "technology", "portalId": "technology_ai", "subportalId": null, "domainRelevance": "Fabricates >90% of advanced chips; single point of failure for AI compute supply", "portalRelevance": "Advanced node utilization rates indicate AI hardware demand trajectory", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Palantir Technologies", "ticker": "PLTR", "cik": "1321655", "sic": "7372", "industry": "Prepackaged Software", "domainId": "technology", "portalId": "technology_ai", "subportalId": null, "domainRelevance": "AI-powered data analytics for government and enterprise decision-making", "portalRelevance": "AIP platform adoption signals institutional AI deployment maturity", "notes": null }
+          ]
+        }
+      }
+    },
+
+    "finance": {
+      "label": "Finance",
+      "portals": {
+        "finance_banking": {
+          "label": "Banking & Credit",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Goldman Sachs", "ticker": "GS", "cik": "886982", "sic": "6211", "industry": "Security Brokers & Dealers", "domainId": "finance", "portalId": "finance_banking", "subportalId": null, "domainRelevance": "Systemic investment bank; trading revenues signal market liquidity", "portalRelevance": "FICC and equity trading volumes indicate financial system stress or stability", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Bank of America", "ticker": "BAC", "cik": "70858", "sic": "6020", "industry": "State Commercial Banks", "domainId": "finance", "portalId": "finance_banking", "subportalId": null, "domainRelevance": "Second-largest US bank; consumer banking signals credit cycle position", "portalRelevance": "Consumer delinquency rates and deposit flows indicate banking stress", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Visa", "ticker": "V", "cik": "1403161", "sic": "7389", "industry": "Services — Misc Business Services", "domainId": "finance", "portalId": "finance_banking", "subportalId": null, "domainRelevance": "Processes ~$15T annually; payment volume is a real-time economic activity signal", "portalRelevance": "Cross-border payment volume indicates global trade finance health", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "BlackRock", "ticker": "BLK", "cik": "1364742", "sic": "6726", "industry": "Investment Offices", "domainId": "finance", "portalId": "finance_banking", "subportalId": null, "domainRelevance": "Largest asset manager ($10T+ AUM); fund flows signal capital allocation trends", "portalRelevance": "ETF flow data indicates risk appetite and sector rotation in financial markets", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "SEC — Securities and Exchange Commission", "ticker": null, "cik": null, "sic": "9631", "industry": "Regulation of Securities", "domainId": "finance", "portalId": "finance_banking", "subportalId": null, "domainRelevance": "Market regulator; enforcement actions signal systemic risk and compliance health", "portalRelevance": "SEC filings and enforcement activity are structural inputs to financial stress assessment", "notes": "Federal agency" }
+          ]
+        }
+      }
+    },
+
+    "environment": {
+      "label": "Environment",
+      "portals": {
+        "environment_climate": {
+          "label": "Climate & Emissions",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "NextEra Energy", "ticker": "NEE", "cik": "753308", "sic": "4911", "industry": "Electric Services", "domainId": "environment", "portalId": "environment_climate", "subportalId": null, "domainRelevance": "Largest US renewable energy generator (wind/solar); clean energy transition leader", "portalRelevance": "Renewable generation capacity growth signals decarbonization progress", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Tesla", "ticker": "TSLA", "cik": "1318605", "sic": "3711", "industry": "Motor Vehicles & Passenger Car Bodies", "domainId": "environment", "portalId": "environment_climate", "subportalId": null, "domainRelevance": "EV adoption pace-setter; energy storage deployment; demand-side emissions reduction", "portalRelevance": "EV delivery volumes indicate transportation electrification trajectory", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Enphase Energy", "ticker": "ENPH", "cik": "1463101", "sic": "3674", "industry": "Semiconductors", "domainId": "environment", "portalId": "environment_climate", "subportalId": null, "domainRelevance": "Residential solar microinverters and battery systems; distributed generation infrastructure", "portalRelevance": "Residential solar installation rates signal grassroots clean energy adoption", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "EPA — Environmental Protection Agency", "ticker": null, "cik": null, "sic": "9511", "industry": "Air & Water Resource Management", "domainId": "environment", "portalId": "environment_climate", "subportalId": null, "domainRelevance": "Sets emissions standards and enforcement; regulatory framework for environmental compliance", "portalRelevance": "EPA rulemaking and enforcement data indicate environmental regulatory stress trajectory", "notes": "Federal agency" },
+            { "type": "entity", "entityType": "company", "name": "Brookfield Renewable Partners", "ticker": "BEP", "cik": "1736874", "sic": "4911", "industry": "Electric Services", "domainId": "environment", "portalId": "environment_climate", "subportalId": null, "domainRelevance": "~30GW global renewable portfolio (hydro, wind, solar, storage)", "portalRelevance": "Diversified renewable generation data signals global clean energy investment flows", "notes": null }
+          ]
+        }
+      }
+    },
+
+    "governance": {
+      "label": "Governance",
+      "portals": {
+        "governance_regulatory": {
+          "label": "Regulatory",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Booz Allen Hamilton", "ticker": "BAH", "cik": "1443646", "sic": "7389", "industry": "Services — Misc Business Services", "domainId": "governance", "portalId": "governance_regulatory", "subportalId": null, "domainRelevance": "Government consulting; federal IT modernization; defense analytics", "portalRelevance": "Federal contract volume signals government digital transformation and regulatory capacity", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Leidos Holdings", "ticker": "LDOS", "cik": "1336920", "sic": "7389", "industry": "Services — Misc Business Services", "domainId": "governance", "portalId": "governance_regulatory", "subportalId": null, "domainRelevance": "Defense/intelligence/civil IT contractor; government operations infrastructure", "portalRelevance": "Government IT contract backlog indicates regulatory system modernization trajectory", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "SAIC", "ticker": "SAIC", "cik": "1571123", "sic": "7389", "industry": "Services — Misc Business Services", "domainId": "governance", "portalId": "governance_regulatory", "subportalId": null, "domainRelevance": "Government IT/engineering services across defense, intel, and civilian agencies", "portalRelevance": "Federal mission IT revenue signals government operational capability investment", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "GAO — Government Accountability Office", "ticker": null, "cik": null, "sic": "9199", "industry": "General Government", "domainId": "governance", "portalId": "governance_regulatory", "subportalId": null, "domainRelevance": "Congressional watchdog; audits and reports signal governance effectiveness gaps", "portalRelevance": "GAO high-risk list identifies structural governance failures requiring intervention", "notes": "Federal agency" },
+            { "type": "entity", "entityType": "company", "name": "Palantir Technologies", "ticker": "PLTR", "cik": "1321655", "sic": "7372", "industry": "Prepackaged Software", "domainId": "governance", "portalId": "governance_regulatory", "subportalId": null, "domainRelevance": "Data analytics platform for government decision-making; defense and intel contracts", "portalRelevance": "Gotham/Apollo platform adoption signals government data-driven governance maturity", "notes": "Also in technology_ai" }
+          ]
+        }
+      }
+    },
+
+    "defense": {
+      "label": "Defense",
+      "portals": {
+        "defense_military": {
+          "label": "Military & Hardware",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Lockheed Martin", "ticker": "LMT", "cik": "936468", "sic": "3761", "industry": "Guided Missiles & Space Vehicles", "domainId": "defense", "portalId": "defense_military", "subportalId": null, "domainRelevance": "Largest US defense contractor; F-35 program, missile defense, space systems", "portalRelevance": "Order backlog and delivery rates indicate defense industrial base capacity", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "RTX Corporation", "ticker": "RTX", "cik": "101829", "sic": "3724", "industry": "Aircraft Engines & Engine Parts", "domainId": "defense", "portalId": "defense_military", "subportalId": null, "domainRelevance": "Missile systems (Raytheon), aircraft engines (Pratt & Whitney), avionics (Collins)", "portalRelevance": "Patriot/NASAMS production rates signal air defense capability readiness", "notes": "Formerly Raytheon Technologies" },
+            { "type": "entity", "entityType": "company", "name": "Northrop Grumman", "ticker": "NOC", "cik": "1133421", "sic": "3812", "industry": "Defense Electronics", "domainId": "defense", "portalId": "defense_military", "subportalId": null, "domainRelevance": "B-21 bomber, nuclear deterrent systems, space-based ISR", "portalRelevance": "Strategic deterrence program progress indicates nuclear posture readiness", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "General Dynamics", "ticker": "GD", "cik": "40533", "sic": "3731", "industry": "Ship Building & Repairing", "domainId": "defense", "portalId": "defense_military", "subportalId": null, "domainRelevance": "Submarines (Electric Boat), tanks (GDLS), Gulfstream, IT services", "portalRelevance": "Naval shipbuilding backlogs signal maritime force projection capability timeline", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "DARPA", "ticker": null, "cik": null, "sic": "9711", "industry": "National Security", "domainId": "defense", "portalId": "defense_military", "subportalId": null, "domainRelevance": "Advanced defense research; creates breakthrough military technology that reshapes capability", "portalRelevance": "DARPA program portfolio signals next-generation defense capability investment direction", "notes": "Federal agency under DoD" }
+          ]
+        }
+      }
+    },
+
+    "agriculture": {
+      "label": "Agriculture",
+      "portals": {
+        "agriculture_crop": {
+          "label": "Crop Production",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Deere & Company", "ticker": "DE", "cik": "315189", "sic": "3523", "industry": "Farm Machinery & Equipment", "domainId": "agriculture", "portalId": "agriculture_crop", "subportalId": null, "domainRelevance": "Dominant farm equipment manufacturer; precision agriculture technology leader", "portalRelevance": "Equipment orders and precision ag adoption signal farming productivity trajectory", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Corteva Agriscience", "ticker": "CTVA", "cik": "1755672", "sic": "2870", "industry": "Agricultural Chemicals", "domainId": "agriculture", "portalId": "agriculture_crop", "subportalId": null, "domainRelevance": "Seeds and crop protection; hybrid seed genetics drive yield potential", "portalRelevance": "Seed technology adoption rates and crop protection volumes signal crop production capacity", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Archer-Daniels-Midland", "ticker": "ADM", "cik": "7084", "sic": "2040", "industry": "Grain Mill Products", "domainId": "agriculture", "portalId": "agriculture_crop", "subportalId": null, "domainRelevance": "Global commodity processor; grain trading and processing volumes signal crop market health", "portalRelevance": "Processing margins and origination volumes indicate crop supply chain stress", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Nutrien", "ticker": "NTR", "cik": "1725964", "sic": "2870", "industry": "Agricultural Chemicals", "domainId": "agriculture", "portalId": "agriculture_crop", "subportalId": null, "domainRelevance": "Largest fertilizer producer; potash/nitrogen/phosphate inputs determine crop yield ceiling", "portalRelevance": "Fertilizer pricing and application volumes signal crop input cost pressure", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "USDA", "ticker": null, "cik": null, "sic": "9641", "industry": "Regulation of Agricultural Marketing", "domainId": "agriculture", "portalId": "agriculture_crop", "subportalId": null, "domainRelevance": "Sets agricultural policy; WASDE reports drive commodity markets globally", "portalRelevance": "Crop production estimates and subsidy programs directly shape agricultural stress signals", "notes": "Federal agency" }
+          ]
+        }
+      }
+    },
+
+    "infrastructure": {
+      "label": "Infrastructure",
+      "portals": {
+        "infrastructure_construction": {
+          "label": "Construction & Built Environment",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Vulcan Materials", "ticker": "VMC", "cik": "1396009", "sic": "1400", "industry": "Mining & Quarrying — Nonmetallic Minerals", "domainId": "infrastructure", "portalId": "infrastructure_construction", "subportalId": null, "domainRelevance": "Largest US aggregates producer; construction material demand = infrastructure activity", "portalRelevance": "Aggregate shipment volumes are a physical-world infrastructure spending signal", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "AECOM", "ticker": "ACM", "cik": "868857", "sic": "8711", "industry": "Engineering Services", "domainId": "infrastructure", "portalId": "infrastructure_construction", "subportalId": null, "domainRelevance": "Infrastructure engineering/construction management; federal and municipal projects", "portalRelevance": "Backlog growth signals infrastructure project pipeline and execution capacity", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Jacobs Solutions", "ticker": "J", "cik": "49196", "sic": "8711", "industry": "Engineering Services", "domainId": "infrastructure", "portalId": "infrastructure_construction", "subportalId": null, "domainRelevance": "Critical infrastructure engineering; water, transport, energy facility design", "portalRelevance": "Government infrastructure contract wins indicate public infrastructure investment trajectory", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "United Rentals", "ticker": "URI", "cik": "1067701", "sic": "7359", "industry": "Equipment Rental & Leasing", "domainId": "infrastructure", "portalId": "infrastructure_construction", "subportalId": null, "domainRelevance": "Equipment rental demand directly reflects construction activity levels", "portalRelevance": "Fleet utilization rates are a real-time construction activity proxy", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "Army Corps of Engineers", "ticker": null, "cik": null, "sic": "9711", "industry": "National Security", "domainId": "infrastructure", "portalId": "infrastructure_construction", "subportalId": null, "domainRelevance": "Manages federal water infrastructure, flood control, and navigation projects", "portalRelevance": "USACE project funding and completion rates signal federal infrastructure health", "notes": "Federal agency under DoD" }
+          ]
+        }
+      }
+    },
+
+    "education": {
+      "label": "Education",
+      "portals": {
+        "education_higher": {
+          "label": "Higher Education",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Coursera", "ticker": "COUR", "cik": "1651562", "sic": "7372", "industry": "Prepackaged Software", "domainId": "education", "portalId": "education_higher", "subportalId": null, "domainRelevance": "Online education platform; enrollment trends signal workforce reskilling demand", "portalRelevance": "Course completion rates and degree enrollment indicate educational access trajectory", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Chegg", "ticker": "CHGG", "cik": "1364954", "sic": "7372", "industry": "Prepackaged Software", "domainId": "education", "portalId": "education_higher", "subportalId": null, "domainRelevance": "Student services platform; subscriber trends signal higher education demand shifts", "portalRelevance": "Subscription data indicates student engagement patterns and learning support demand", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Instructure (Canvas)", "ticker": null, "cik": "1355839", "sic": "7372", "industry": "Prepackaged Software", "domainId": "education", "portalId": "education_higher", "subportalId": null, "domainRelevance": "Canvas LMS used by ~30% of US colleges; digital learning infrastructure", "portalRelevance": "LMS usage metrics signal digital pedagogy adoption and course delivery health", "notes": "Acquired by Thoma Bravo" },
+            { "type": "entity", "entityType": "company", "name": "2U (edX)", "ticker": null, "cik": "1459417", "sic": "7372", "industry": "Prepackaged Software", "domainId": "education", "portalId": "education_higher", "subportalId": null, "domainRelevance": "Online degree program partnerships with top universities; OPM model", "portalRelevance": "University partnership enrollment trends indicate online degree market health", "notes": "Filed bankruptcy 2024; edX brand continuing" },
+            { "type": "entity", "entityType": "institution", "name": "Department of Education", "ticker": null, "cik": null, "sic": "9411", "industry": "Administration of Education Programs", "domainId": "education", "portalId": "education_higher", "subportalId": null, "domainRelevance": "Federal student aid policy; Title IV funding shapes institutional viability", "portalRelevance": "Pell Grant disbursements and default rates signal educational access equity", "notes": "Federal agency" }
+          ]
+        }
+      }
+    },
+
+    "communication": {
+      "label": "Communication",
+      "portals": {
+        "communication_media": {
+          "label": "Media & Broadcasting",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Meta Platforms", "ticker": "META", "cik": "1326801", "sic": "7372", "industry": "Prepackaged Software", "domainId": "communication", "portalId": "communication_media", "subportalId": null, "domainRelevance": "Largest social media platform (~3.9B MAU); shapes information flow and public discourse", "portalRelevance": "User engagement and content moderation metrics signal information ecosystem health", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Comcast", "ticker": "CMCSA", "cik": "1166691", "sic": "4841", "industry": "Cable & Other Pay TV", "domainId": "communication", "portalId": "communication_media", "subportalId": null, "domainRelevance": "Largest US broadband provider; NBCUniversal media; broadband is communication infrastructure", "portalRelevance": "Broadband subscriber metrics indicate communication infrastructure access rates", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Walt Disney Company", "ticker": "DIS", "cik": "1744489", "sic": "7812", "industry": "Motion Picture Production", "domainId": "communication", "portalId": "communication_media", "subportalId": null, "domainRelevance": "Major media conglomerate; streaming, broadcast, studio content shapes cultural narrative", "portalRelevance": "Streaming subscriber trends and content reach signal media influence trajectory", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "AT&T", "ticker": "T", "cik": "732717", "sic": "4813", "industry": "Telephone Communications", "domainId": "communication", "portalId": "communication_media", "subportalId": null, "domainRelevance": "Major US telecom; wireless/fiber connectivity infrastructure", "portalRelevance": "Wireless subscriber net adds and fiber deployment signal communication infrastructure build-out", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "FCC — Federal Communications Commission", "ticker": null, "cik": null, "sic": "9631", "industry": "Regulation of Communications", "domainId": "communication", "portalId": "communication_media", "subportalId": null, "domainRelevance": "Regulates spectrum, broadcast, broadband; shapes communication infrastructure policy", "portalRelevance": "Broadband deployment reports and spectrum auctions signal communication capacity trajectory", "notes": "Federal agency" }
+          ]
+        }
+      }
+    },
+
+    "supplyChain": {
+      "label": "Supply Chain / Trade",
+      "portals": {
+        "trade_logistics": {
+          "label": "Logistics & Trade",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "UPS", "ticker": "UPS", "cik": "1090727", "sic": "4215", "industry": "Courier Services (Air/Ground)", "domainId": "supplyChain", "portalId": "trade_logistics", "subportalId": null, "domainRelevance": "Global package logistics; volume is a real-time trade activity signal", "portalRelevance": "Domestic and international package volumes indicate supply chain throughput", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Maersk", "ticker": "MAERSK-B.CO", "cik": null, "sic": "4412", "industry": "Deep Sea Foreign Transportation", "domainId": "supplyChain", "portalId": "trade_logistics", "subportalId": null, "domainRelevance": "Largest container shipping line; ocean freight rates signal global trade stress", "portalRelevance": "Container rates and vessel utilization indicate maritime supply chain congestion", "notes": "Copenhagen listed" },
+            { "type": "entity", "entityType": "company", "name": "XPO Logistics", "ticker": "XPO", "cik": "1166003", "sic": "4213", "industry": "Trucking (Except Local)", "domainId": "supplyChain", "portalId": "trade_logistics", "subportalId": null, "domainRelevance": "North American LTL trucking; ground freight volumes signal domestic supply chain health", "portalRelevance": "LTL tonnage and pricing signal domestic logistics demand and capacity balance", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Flexport", "ticker": null, "cik": null, "sic": "4731", "industry": "Freight Transportation Arrangement", "domainId": "supplyChain", "portalId": "trade_logistics", "subportalId": null, "domainRelevance": "Digital freight forwarding; supply chain visibility platform", "portalRelevance": "Shipment volume and transit time data provide real-time supply chain friction signals", "notes": "Private company" },
+            { "type": "entity", "entityType": "institution", "name": "CBP — Customs and Border Protection", "ticker": null, "cik": null, "sic": "9711", "industry": "National Security", "domainId": "supplyChain", "portalId": "trade_logistics", "subportalId": null, "domainRelevance": "Processes all US imports/exports; enforcement actions affect trade flow", "portalRelevance": "Customs processing times and trade enforcement data signal supply chain regulatory friction", "notes": "Federal agency under DHS" }
+          ]
+        }
+      }
+    },
+
+    "industry": {
+      "label": "Industry",
+      "portals": {
+        "industry_manufacturing": {
+          "label": "Manufacturing",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "3M Company", "ticker": "MMM", "cik": "66740", "sic": "3841", "industry": "Surgical & Medical Instruments", "domainId": "industry", "portalId": "industry_manufacturing", "subportalId": null, "domainRelevance": "Diversified industrial conglomerate; manufacturing output across multiple sectors", "portalRelevance": "Organic growth rates across industrial segments signal manufacturing health", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Honeywell International", "ticker": "HON", "cik": "773840", "sic": "3825", "industry": "Instruments for Measuring", "domainId": "industry", "portalId": "industry_manufacturing", "subportalId": null, "domainRelevance": "Industrial automation, aerospace, building tech; process control infrastructure", "portalRelevance": "Industrial automation orders signal manufacturing modernization investment", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Illinois Tool Works", "ticker": "ITW", "cik": "49826", "sic": "3460", "industry": "Metal Forgings & Stampings", "domainId": "industry", "portalId": "industry_manufacturing", "subportalId": null, "domainRelevance": "Diversified manufacturer; 7 segments track different industrial end-markets", "portalRelevance": "Segment-level organic growth is a granular industrial production proxy", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Emerson Electric", "ticker": "EMR", "cik": "32604", "sic": "3825", "industry": "Instruments for Measuring", "domainId": "industry", "portalId": "industry_manufacturing", "subportalId": null, "domainRelevance": "Industrial automation and process control; factory floor intelligence", "portalRelevance": "Automation backlog signals factory modernization pace and industrial output capacity", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "ISM — Institute for Supply Management", "ticker": null, "cik": null, "sic": "8611", "industry": "Business Associations", "domainId": "industry", "portalId": "industry_manufacturing", "subportalId": null, "domainRelevance": "Publishes PMI; the single most-watched manufacturing health indicator globally", "portalRelevance": "ISM Manufacturing PMI is the primary signal for industrial sector stress assessment", "notes": "Non-profit trade organization" }
+          ]
+        }
+      }
+    },
+
+    "culture": {
+      "label": "Culture",
+      "portals": {
+        "culture_arts": {
+          "label": "Arts & Cultural Production",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Live Nation Entertainment", "ticker": "LYV", "cik": "1335258", "sic": "7941", "industry": "Professional Sports Clubs", "domainId": "culture", "portalId": "culture_arts", "subportalId": null, "domainRelevance": "Largest live events company; ticket sales signal cultural participation rates", "portalRelevance": "Concert attendance and event revenue indicate live cultural production health", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Spotify Technology", "ticker": "SPOT", "cik": "1639920", "sic": "7372", "industry": "Prepackaged Software", "domainId": "culture", "portalId": "culture_arts", "subportalId": null, "domainRelevance": "Dominant music streaming; listening data maps cultural consumption patterns", "portalRelevance": "Artist discovery metrics and genre trends signal cultural production diversity", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Netflix", "ticker": "NFLX", "cik": "1065280", "sic": "7812", "industry": "Motion Picture Production", "domainId": "culture", "portalId": "culture_arts", "subportalId": null, "domainRelevance": "Global streaming content; shapes narrative culture and storytelling norms", "portalRelevance": "International content investment and viewing hours indicate cultural globalization pace", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "NEA — National Endowment for the Arts", "ticker": null, "cik": null, "sic": "9999", "industry": "Nonclassifiable Establishments", "domainId": "culture", "portalId": "culture_arts", "subportalId": null, "domainRelevance": "Federal arts funding; grant distribution signals public cultural investment priorities", "portalRelevance": "NEA grant patterns indicate where cultural production is being strengthened or neglected", "notes": "Federal agency" },
+            { "type": "entity", "entityType": "company", "name": "Endeavor Group", "ticker": null, "cik": "1818974", "sic": "7941", "industry": "Professional Sports Clubs", "domainId": "culture", "portalId": "culture_arts", "subportalId": null, "domainRelevance": "Talent representation (WME), sports (UFC), events; cultural economy infrastructure", "portalRelevance": "Talent pipeline and event economics signal cultural production market health", "notes": "Taken private 2024 by Silver Lake" }
+          ]
+        }
+      }
+    },
+
+    "religion": {
+      "label": "Religion",
+      "portals": {
+        "religion_institutions": {
+          "label": "Religious Institutions",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Salem Communications", "ticker": "SALM", "cik": "1050606", "sic": "4832", "industry": "Radio Broadcasting", "domainId": "religion", "portalId": "religion_institutions", "subportalId": null, "domainRelevance": "Largest US religious radio broadcaster; audience reach signals faith community engagement", "portalRelevance": "Listener metrics and digital engagement indicate religious media consumption patterns", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Hobby Lobby", "ticker": null, "cik": null, "sic": "5947", "industry": "Gift & Novelty Shops", "domainId": "religion", "portalId": "religion_institutions", "subportalId": null, "domainRelevance": "Faith-driven corporation; legal precedent setter for religious freedom in business", "portalRelevance": "Corporate religious liberty cases signal religion-commerce tension trajectory", "notes": "Private company" },
+            { "type": "entity", "entityType": "institution", "name": "Pew Research Center — Religion & Public Life", "ticker": null, "cik": null, "sic": "8733", "industry": "Noncommercial Research Organizations", "domainId": "religion", "portalId": "religion_institutions", "subportalId": null, "domainRelevance": "Authoritative religious demographics surveys; tracks faith affiliation and practice trends", "portalRelevance": "Religious landscape surveys are the primary data source for faith community health assessment", "notes": "Non-profit" },
+            { "type": "entity", "entityType": "institution", "name": "National Association of Evangelicals", "ticker": null, "cik": null, "sic": "8661", "industry": "Religious Organizations", "domainId": "religion", "portalId": "religion_institutions", "subportalId": null, "domainRelevance": "Represents ~45K congregations; policy positions signal evangelical institutional direction", "portalRelevance": "Membership trends and policy statements indicate evangelical institutional health", "notes": "Non-profit" },
+            { "type": "entity", "entityType": "institution", "name": "USCCB — US Conference of Catholic Bishops", "ticker": null, "cik": null, "sic": "8661", "industry": "Religious Organizations", "domainId": "religion", "portalId": "religion_institutions", "subportalId": null, "domainRelevance": "Largest single US denomination governance; parish health signals Catholic institutional trajectory", "portalRelevance": "Parish closures, seminary enrollment, and sacramental participation indicate structural religious change", "notes": "Non-profit" }
+          ]
+        }
+      }
+    },
+
+    "population": {
+      "label": "Population",
+      "portals": {
+        "population_demographics": {
+          "label": "Demographics",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "HCA Healthcare", "ticker": "HCA", "cik": "860730", "sic": "8062", "industry": "General Medical & Surgical Hospitals", "domainId": "population", "portalId": "population_demographics", "subportalId": null, "domainRelevance": "Largest US for-profit hospital operator; patient volumes signal population health demand", "portalRelevance": "Admissions and ER visit data are real-time population health indicators", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "UnitedHealth Group", "ticker": "UNH", "cik": "731766", "sic": "6324", "industry": "Hospital & Medical Service Plans", "domainId": "population", "portalId": "population_demographics", "subportalId": null, "domainRelevance": "Largest US health insurer + Optum services; claims data maps population health", "portalRelevance": "Medical cost ratios and utilization trends signal population health trajectory", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "Census Bureau", "ticker": null, "cik": null, "sic": "9199", "industry": "General Government", "domainId": "population", "portalId": "population_demographics", "subportalId": null, "domainRelevance": "Definitive US population data; demographics shape all domain stress projections", "portalRelevance": "ACS surveys and intercensal estimates are foundational population signals", "notes": "Federal agency under Commerce" },
+            { "type": "entity", "entityType": "institution", "name": "CDC — Centers for Disease Control", "ticker": null, "cik": null, "sic": "9431", "industry": "Administration of Public Health Programs", "domainId": "population", "portalId": "population_demographics", "subportalId": null, "domainRelevance": "Public health surveillance; mortality, morbidity, and vital statistics data", "portalRelevance": "MMWR reports and WONDER database are primary population health stress signals", "notes": "Federal agency under HHS" },
+            { "type": "entity", "entityType": "company", "name": "Molina Healthcare", "ticker": "MOH", "cik": "1179929", "sic": "6324", "industry": "Hospital & Medical Service Plans", "domainId": "population", "portalId": "population_demographics", "subportalId": null, "domainRelevance": "Medicaid/ACA managed care; serves vulnerable populations; enrollment signals safety-net demand", "portalRelevance": "Medicaid enrollment and cost trends indicate population vulnerability trajectory", "notes": null }
+          ]
+        }
+      }
+    },
+
+    "law": {
+      "label": "Law",
+      "portals": {
+        "law_regulatory": {
+          "label": "Legal & Regulatory",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Thomson Reuters", "ticker": "TRI", "cik": "1750", "sic": "7372", "industry": "Prepackaged Software", "domainId": "law", "portalId": "law_regulatory", "subportalId": null, "domainRelevance": "Westlaw legal research; legal analytics; regulatory intelligence platform", "portalRelevance": "Legal research volume and regulatory filing data signal legal system activity", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "LegalZoom", "ticker": "LZ", "cik": "1495231", "sic": "7389", "industry": "Services — Misc Business Services", "domainId": "law", "portalId": "law_regulatory", "subportalId": null, "domainRelevance": "Online legal services; business formation trends signal entrepreneurial and legal demand", "portalRelevance": "Business formation and legal document volumes indicate legal access trends", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Veritone", "ticker": "VERI", "cik": "1615165", "sic": "7372", "industry": "Prepackaged Software", "domainId": "law", "portalId": "law_regulatory", "subportalId": null, "domainRelevance": "AI-powered legal evidence management; courts and law enforcement analytics", "portalRelevance": "AI legal technology adoption signals judicial system modernization pace", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "DOJ — Department of Justice", "ticker": null, "cik": null, "sic": "9222", "industry": "Legal Counsel & Prosecution", "domainId": "law", "portalId": "law_regulatory", "subportalId": null, "domainRelevance": "Federal law enforcement and prosecution; antitrust, civil rights, national security", "portalRelevance": "Prosecution rates and enforcement priorities signal legal system stress concentration", "notes": "Federal agency" },
+            { "type": "entity", "entityType": "institution", "name": "Administrative Office of the US Courts", "ticker": null, "cik": null, "sic": "9211", "industry": "Courts", "domainId": "law", "portalId": "law_regulatory", "subportalId": null, "domainRelevance": "Federal court administration; caseload data signals judicial system capacity", "portalRelevance": "Case filing and disposition rates indicate judicial system throughput and backlog stress", "notes": "Judicial branch agency" }
+          ]
+        }
+      }
+    },
+
+    "intelligence": {
+      "label": "Intelligence",
+      "portals": {
+        "intelligence_analysis": {
+          "label": "Intelligence & Analysis",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Palantir Technologies", "ticker": "PLTR", "cik": "1321655", "sic": "7372", "industry": "Prepackaged Software", "domainId": "intelligence", "portalId": "intelligence_analysis", "subportalId": null, "domainRelevance": "Intelligence community analytics platform; Gotham for defense/intel, Foundry for commercial", "portalRelevance": "IC contract expansion signals intelligence analysis modernization", "notes": "Also in technology_ai and governance" },
+            { "type": "entity", "entityType": "company", "name": "L3Harris Technologies", "ticker": "LHX", "cik": "202058", "sic": "3812", "industry": "Defense Electronics", "domainId": "intelligence", "portalId": "intelligence_analysis", "subportalId": null, "domainRelevance": "ISR systems, signals intelligence, space-based collection; tactical intelligence hardware", "portalRelevance": "ISR platform deliveries and SIGINT contract values signal intelligence collection capability", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Maxar Technologies", "ticker": null, "cik": "1121142", "sic": "3812", "industry": "Defense Electronics", "domainId": "intelligence", "portalId": "intelligence_analysis", "subportalId": null, "domainRelevance": "Satellite imagery and geospatial intelligence (GEOINT) for IC and commercial", "portalRelevance": "Imagery collection capacity and analysis throughput signal GEOINT infrastructure health", "notes": "Acquired by Advent International 2023" },
+            { "type": "entity", "entityType": "institution", "name": "ODNI — Office of the Director of National Intelligence", "ticker": null, "cik": null, "sic": "9711", "industry": "National Security", "domainId": "intelligence", "portalId": "intelligence_analysis", "subportalId": null, "domainRelevance": "Coordinates 18-member IC; threat assessments shape national security posture", "portalRelevance": "Annual Threat Assessment and IC budget signals indicate intelligence priority shifts", "notes": "Federal agency" },
+            { "type": "entity", "entityType": "company", "name": "Recorded Future", "ticker": null, "cik": null, "sic": "7372", "industry": "Prepackaged Software", "domainId": "intelligence", "portalId": "intelligence_analysis", "subportalId": null, "domainRelevance": "Threat intelligence platform; real-time OSINT analysis for government and enterprise", "portalRelevance": "Threat indicator volume and attribution confidence signal cyber/geopolitical threat trajectory", "notes": "Acquired by Mastercard 2024" }
+          ]
+        }
+      }
+    },
+
+    "research": {
+      "label": "Research / Science",
+      "portals": {
+        "research_basic": {
+          "label": "Basic & Applied Research",
+          "entities": [
+            { "type": "entity", "entityType": "company", "name": "Thermo Fisher Scientific", "ticker": "TMO", "cik": "97745", "sic": "3826", "industry": "Laboratory Analytical Instruments", "domainId": "research", "portalId": "research_basic", "subportalId": null, "domainRelevance": "Largest life sciences tools company; instruments/reagents enable research globally", "portalRelevance": "Research instrument orders signal R&D investment trajectory", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Danaher Corporation", "ticker": "DHR", "cik": "313616", "sic": "3841", "industry": "Surgical & Medical Instruments", "domainId": "research", "portalId": "research_basic", "subportalId": null, "domainRelevance": "Life sciences, diagnostics, and environmental science instruments", "portalRelevance": "Bioprocessing and research tool revenue signal biopharma R&D activity", "notes": null },
+            { "type": "entity", "entityType": "company", "name": "Charles River Laboratories", "ticker": "CRL", "cik": "802481", "sic": "8731", "industry": "Commercial Physical & Biological Research", "domainId": "research", "portalId": "research_basic", "subportalId": null, "domainRelevance": "Contract research (CRO); preclinical services that enable drug development", "portalRelevance": "Study initiation rates and backlog signal pharmaceutical R&D pipeline health", "notes": null },
+            { "type": "entity", "entityType": "institution", "name": "NIH — National Institutes of Health", "ticker": null, "cik": null, "sic": "9431", "industry": "Administration of Public Health Programs", "domainId": "research", "portalId": "research_basic", "subportalId": null, "domainRelevance": "Largest biomedical research funder globally (~$47B/yr); shapes research direction", "portalRelevance": "Grant funding levels and study section priorities signal research investment direction", "notes": "Federal agency under HHS" },
+            { "type": "entity", "entityType": "institution", "name": "NSF — National Science Foundation", "ticker": null, "cik": null, "sic": "9661", "industry": "Space Research & Technology", "domainId": "research", "portalId": "research_basic", "subportalId": null, "domainRelevance": "Funds fundamental science research across all disciplines; shapes scientific workforce", "portalRelevance": "NSF funding patterns indicate where basic science investment is expanding or contracting", "notes": "Federal agency" }
+          ]
+        }
+      }
+    }
+  }
+}

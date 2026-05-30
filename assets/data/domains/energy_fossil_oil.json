@@ -1,0 +1,2379 @@
+{
+  "domainId": "energy_fossil_oil",
+  "title": "Oil Production",
+  "parentPortal": "energy_fossil_portal.html",
+  "parentLabel": "Fossil Fuels",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "ADR",
+      "state": "active",
+      "domainLabel": "Oil Production Assessment & Diagnostics",
+      "domainDescription": "Systematic management of oil production assessment & diagnostics across all oil production functions and operations",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Design Oil Production Assessment & Diagnostics Integration Architecture",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Design a distributed energy resources integration plan for oil production assessment & diagnostics per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "SILOED_OIL_PRODUCTION_ASSESSMENT___DI -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for oil production assessment & diagnostics using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Deploy Oil Production Assessment & Diagnostics Capability Maturity Model",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Deploy a grid operator certification program for oil production assessment & diagnostics aligned with NERC System Operator Certification requirements.",
+          "cite": "Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013; DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy",
+          "target": "OUTDATED_OIL_PRODUCTION_ASSESSMENT___DI -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            },
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for oil production assessment & diagnostics against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Oil Production Assessment & Diagnostics Quality Assurance Program",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Operationalize a substation upgrade program for oil production assessment & diagnostics implementing IEC 61850 communications with digital relay protection schemes.",
+          "cite": "Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press; IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC",
+          "target": "INEFFICIENT_OIL_PRODUCTION_ASSESSMENT___DI -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for oil production assessment & diagnostics using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Oil Production Assessment & Diagnostics Integration Architecture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Calibrate an energy workforce equity program for oil production assessment & diagnostics with targeted recruitment and pre-apprenticeship per DOE equity initiatives.",
+          "cite": "Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106; Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002",
+          "target": "INCONSISTENT_OIL_PRODUCTION_ASSESSMENT___DI -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            },
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for oil production assessment & diagnostics using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Oil Production Assessment & Diagnostics Capability Maturity Model",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Streamline a SCADA/EMS cybersecurity hardening for oil production assessment & diagnostics per NERC CIP standards with intrusion detection and access controls.",
+          "cite": "Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia; PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab",
+          "target": "UNMONITORED_OIL_PRODUCTION_ASSESSMENT___DI -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for oil production assessment & diagnostics against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Oil Production Assessment & Diagnostics Quality Assurance Program",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Assess a distributed energy resources integration plan for oil production assessment & diagnostics per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "UNDERPERFORMING_OIL_PRODUCTION_ASSESSMENT___DI -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for oil production assessment & diagnostics using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_fossil_oil_drilling_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Grid Storage Risk & Resilience",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 1,
+      "linkedCompanies": [],
+      "crossDomainAffinities": [
+        {
+          "domain": "metabolic",
+          "role": "Adrenal Steroidogenesis"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Assessment & Diagnostics"
+        },
+        {
+          "domain": "culture",
+          "role": "Hospitality Design Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "transport special — Signal Acquisition"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Transfer Policies Infrastructure & Capacity"
+        },
+        {
+          "domain": "environment",
+          "role": "Electrostatic Precipitators — State Assessment"
+        },
+        {
+          "domain": "finance",
+          "role": "Variance Analysis Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PULV",
+      "state": "active",
+      "domainLabel": "Oil Production Core Operations",
+      "domainDescription": "Systematic management of oil production core operations across all oil production functions and operations",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Establish Oil Production Core Operations Risk Mitigation Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish an energy security diversification strategy for oil production core operations using IEA energy security indicators and supply chain risk assessment.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "FRAGMENTED_OIL_PRODUCTION_CORE_OPERATIONS -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for oil production core operations using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Oil Production Core Operations Process Improvement Initiative",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Implement a power systems protection training for oil production core operations covering relay coordination, fault analysis, and NERC PRC compliance.",
+          "cite": "Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302; NERC (2023). Long-Term Reliability Assessment. NERC",
+          "target": "SILOED_OIL_PRODUCTION_CORE_OPERATIONS -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            },
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for oil production core operations against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Oil Production Core Operations Resilience Assessment",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Institutionalize a distribution grid modernization for oil production core operations deploying AMI, ADMS, and DERMS per IEEE 2030 interoperability standards.",
+          "cite": "FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC; IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE",
+          "target": "OUTDATED_OIL_PRODUCTION_CORE_OPERATIONS -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for oil production core operations using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Oil Production Core Operations Risk Mitigation Strategy",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Configure a social license engagement process for oil production core operations using IAEA stakeholder methodology for energy infrastructure siting.",
+          "cite": "Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004; Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044",
+          "target": "INEFFICIENT_OIL_PRODUCTION_CORE_OPERATIONS -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            },
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for oil production core operations using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Oil Production Core Operations Process Improvement Initiative",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Strengthen a grid simulation platform for oil production core operations deploying PSSE/PowerWorld with NERC MOD-032 model validation.",
+          "cite": "Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003; HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy",
+          "target": "INCONSISTENT_OIL_PRODUCTION_CORE_OPERATIONS -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            },
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for oil production core operations against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Oil Production Core Operations Resilience Assessment",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Monitor an energy security diversification strategy for oil production core operations using IEA energy security indicators and supply chain risk assessment.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "UNMONITORED_OIL_PRODUCTION_CORE_OPERATIONS -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for oil production core operations using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_fossil_oil_enhanced_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "battrecycling collection — Signal Acquisition",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 1,
+      "linkedCompanies": [],
+      "crossDomainAffinities": [
+        {
+          "domain": "population",
+          "role": "Ruralpop"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Document Structure"
+        },
+        {
+          "domain": "culture",
+          "role": "Ecological Design Technology & Innovation"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift — State Assessment"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Transfer Policies Risk & Resilience"
+        },
+        {
+          "domain": "environment",
+          "role": "Trend Analysis"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Oil Production Infrastructure & Capacity",
+      "domainDescription": "Systematic management of oil production infrastructure & capacity across all oil production functions and operations",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Strengthen Oil Production Infrastructure & Capacity Stakeholder Engagement Plan",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Strengthen a hydrogen economy strategy for oil production infrastructure & capacity applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "EIA (2023). Annual Energy Outlook. US Energy Information Administration; Smil, V. (2017). Energy and Civilization: A History. MIT Press",
+          "target": "INCONSISTENT_OIL_PRODUCTION_INFRASTRUCTURE_ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for oil production infrastructure & capacity using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Oil Production Infrastructure & Capacity Training Curriculum",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Monitor a renewable energy installer training for oil production infrastructure & capacity using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy; Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013",
+          "target": "UNMONITORED_OIL_PRODUCTION_INFRASTRUCTURE_ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            }
+          ],
+          "steps": [
+            "Assess protection engineering skills for oil production infrastructure & capacity against NERC PRC standards",
+            "Design training in relay coordination, fault analysis, and settings development",
+            "Deliver simulation-based training with ETAP/SKM relay coordination tools",
+            "Conduct competency assessment with practical relay testing and setting exercises",
+            "Track protection system misoperation rates for trained personnel"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy management competency using CEM/CMVP certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy management competency measured biannually. Target: 50 certified energy managers. PHASE 3 (Months 4-6): Midpoint review — compare against AEE certification benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy management competency trending toward 75 managers. Escalate if <30 minimum. ANNUAL REVIEW: Comprehensive audit using AEE certification framework. Report to Energy Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Build Oil Production Infrastructure & Capacity Strategic Alignment Review",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Build a pipeline integrity management system for oil production infrastructure & capacity per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC; Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press",
+          "target": "UNDERPERFORMING_OIL_PRODUCTION_INFRASTRUCTURE_ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate generation fleet for oil production infrastructure & capacity using heat rate and availability analysis",
+            "Design efficiency improvements per ASME PTC performance test codes",
+            "Implement combustion tuning, heat recovery, and auxiliary load optimization",
+            "Deploy performance monitoring with real-time analytics and predictive maintenance",
+            "Track capacity factor and heat rate improvements against fleet benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — power plant capacity factor using generation performance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — power plant capacity factor measured monthly. Target: target capacity factor by type. PHASE 3 (Months 4-6): Midpoint review — compare against NREL ATB benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — power plant capacity factor trending toward top-quartile performance. Escalate if <bottom-quartile escalation. ANNUAL REVIEW: Comprehensive audit using NREL ATB framework. Report to Generation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Oil Production Infrastructure & Capacity Stakeholder Engagement Plan",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Optimize an energy justice program for oil production infrastructure & capacity using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002; Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106",
+          "target": "REACTIVE_OIL_PRODUCTION_INFRASTRUCTURE_ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            },
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            }
+          ],
+          "steps": [
+            "Assess energy workforce demographics for oil production infrastructure & capacity using BLS and utility data",
+            "Design diversity recruitment program with pre-apprenticeship and mentorship",
+            "Partner with HBCUs, tribal colleges, and community organizations",
+            "Implement paid internship and apprenticeship pathways with wraparound support",
+            "Track workforce diversity metrics and retention rates against DOE targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy efficiency behavior adoption using smart meter analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy efficiency behavior adoption measured monthly. Target: 15% voluntary demand reduction. PHASE 3 (Months 4-6): Midpoint review — compare against EPA ENERGY STAR benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy efficiency behavior adoption trending toward 25% reduction. Escalate if <8% reduction floor. ANNUAL REVIEW: Comprehensive audit using EPA ENERGY STAR framework. Report to Demand-Side Management Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Oil Production Infrastructure & Capacity Training Curriculum",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Launch a smart grid analytics platform for oil production infrastructure & capacity integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab; Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia",
+          "target": "FRAGMENTED_OIL_PRODUCTION_INFRASTRUCTURE_ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate RE siting for oil production infrastructure & capacity using NREL SAM and wind/solar resource data",
+            "Design GIS-based siting platform with environmental and grid constraint layers",
+            "Implement interconnection screening with hosting capacity and upgrade cost analysis",
+            "Deploy optimization engine for portfolio siting across resource zones",
+            "Measure development success rates and LCOE outcomes against projections"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy data platform completeness using data quality audit system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy data platform completeness measured monthly. Target: 90% data streams validated. PHASE 3 (Months 4-6): Midpoint review — compare against Green Button standard coverage. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy data platform completeness trending toward 95% validated. Escalate if <80% validated floor. ANNUAL REVIEW: Comprehensive audit using Green Button Connect framework. Report to Data Analytics Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Oil Production Infrastructure & Capacity Strategic Alignment Review",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Develop a hydrogen economy strategy for oil production infrastructure & capacity applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard; IEA (2023). World Energy Outlook. IEA Publications",
+          "target": "SILOED_OIL_PRODUCTION_INFRASTRUCTURE_ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for oil production infrastructure & capacity using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_fossil_oil_exploration_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Power Generation",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        },
+        {
+          "domain": "population",
+          "role": "Labor Force"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CING",
+      "state": "active",
+      "domainLabel": "Oil Production Risk & Resilience",
+      "domainDescription": "Systematic management of oil production risk & resilience across all oil production functions and operations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Operationalize Oil Production Risk & Resilience Continuous Improvement Cycle",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Operationalize a hydrogen economy strategy for oil production risk & resilience applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "SILOED_OIL_PRODUCTION_RISK___RESILIEN -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for oil production risk & resilience using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Oil Production Risk & Resilience Adaptive Management System",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Calibrate a renewable energy installer training for oil production risk & resilience using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "Jenkins, J.D. et al. (2021). Getting to Zero Carbon Emissions in the Electric Power Sector. Joule, 5(12), 2951-2953. doi:10.1016/j.joule.2021.11.013; DOE (2022). Pathways to Commercial Liftoff: Clean Hydrogen. US Department of Energy",
+          "target": "OUTDATED_OIL_PRODUCTION_RISK___RESILIEN -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Jenkins, J.D. et al.",
+              "year": 2021,
+              "title": "Getting to Zero Carbon Emissions in the Electric Power Sector",
+              "journal": "Joule",
+              "volume": "5(12)",
+              "pages": "2951-2953",
+              "doi": "10.1016/j.joule.2021.11.013"
+            },
+            {
+              "author": "DOE",
+              "year": 2022,
+              "title": "Pathways to Commercial Liftoff: Clean Hydrogen",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for oil production risk & resilience against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Oil Production Risk & Resilience Knowledge Transfer Program",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Streamline a pipeline integrity management system for oil production risk & resilience per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "Jacobson, M.Z. (2020). 100% Clean Renewable Energy and Storage for Everything. Cambridge University Press; IEC (2010). IEC 61850: Communication Networks for Power Utility Automation. IEC",
+          "target": "INEFFICIENT_OIL_PRODUCTION_RISK___RESILIEN -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Jacobson, M.Z.",
+              "year": 2020,
+              "title": "100% Clean Renewable Energy and Storage for Everything",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEC",
+              "year": 2010,
+              "title": "IEC 61850: Communication Networks for Power Utility Automation",
+              "journal": "IEC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for oil production risk & resilience using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Oil Production Risk & Resilience Continuous Improvement Cycle",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Assess an energy justice program for oil production risk & resilience using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Dietz, T. et al. (2009). Household Actions Can Provide a Behavioral Wedge. PNAS, 106(44), 18452-18456. doi:10.1073/pnas.0908738106; Sovacool, B.K. & Dworkin, M.H. (2015). Energy Justice: Conceptual Insights and Practical Applications. Applied Energy, 142, 435-444. doi:10.1016/j.apenergy.2015.01.002",
+          "target": "INCONSISTENT_OIL_PRODUCTION_RISK___RESILIEN -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Dietz, T. et al.",
+              "year": 2009,
+              "title": "Household Actions Can Provide a Behavioral Wedge",
+              "journal": "PNAS",
+              "volume": "106(44)",
+              "pages": "18452-18456",
+              "doi": "10.1073/pnas.0908738106"
+            },
+            {
+              "author": "Sovacool, B.K. & Dworkin, M.H.",
+              "year": 2015,
+              "title": "Energy Justice: Conceptual Insights and Practical Applications",
+              "journal": "Applied Energy",
+              "volume": "142",
+              "pages": "435-444",
+              "doi": "10.1016/j.apenergy.2015.01.002"
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for oil production risk & resilience using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Oil Production Risk & Resilience Adaptive Management System",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Create a smart grid analytics platform for oil production risk & resilience integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "Sandia National Labs (2020). Energy Storage Valuation Toolkit. Sandia; PNNL (2023). GridLAB-D Simulation Framework. Pacific Northwest National Lab",
+          "target": "UNMONITORED_OIL_PRODUCTION_RISK___RESILIEN -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Sandia National Labs",
+              "year": 2020,
+              "title": "Energy Storage Valuation Toolkit",
+              "journal": "Sandia",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "PNNL",
+              "year": 2023,
+              "title": "GridLAB-D Simulation Framework",
+              "journal": "Pacific Northwest National Lab",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for oil production risk & resilience against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Oil Production Risk & Resilience Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Evaluate a hydrogen economy strategy for oil production risk & resilience applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "UNDERPERFORMING_OIL_PRODUCTION_RISK___RESILIEN -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for oil production risk & resilience using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_fossil_oil_extraction_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Grid Storage Human Capital & Development",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Transit"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Scripted Description"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Ecological Design Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Aeromedical Evacuation Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Monitoring & Evaluation"
+        },
+        {
+          "domain": "education",
+          "role": "admit eqty — Signal Acquisition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PBN",
+      "state": "active",
+      "domainLabel": "Oil Production Policy & Governance",
+      "domainDescription": "Systematic management of oil production policy & governance across all oil production functions and operations",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Streamline Oil Production Policy & Governance Early Warning System",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Streamline an integrated resource plan for oil production policy & governance using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard; IEA (2023). World Energy Outlook. IEA Publications",
+          "target": "SILOED_OIL_PRODUCTION_POLICY___GOVERN -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for oil production policy & governance using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Oil Production Policy & Governance Operational Readiness Check",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Assess an energy auditor qualification program for oil production policy & governance following BPI Building Analyst and RESNET HERS rater pathways.",
+          "cite": "Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241; MIT Energy Initiative (2022). Future of Energy Storage. MIT",
+          "target": "OUTDATED_OIL_PRODUCTION_POLICY___GOVERN -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            },
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate installer skills for oil production policy & governance against NABCEP Job Task Analysis",
+            "Design hands-on training with PV design, installation, and commissioning modules",
+            "Deliver field-based training with code compliance (NEC 690/705) and safety emphasis",
+            "Support NABCEP certification exam preparation and continuing education",
+            "Measure installation quality through inspection pass rates and warranty claims"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid operator competency using NERC operator certification tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid operator competency measured biannually. Target: 100% operators NERC certified. PHASE 3 (Months 4-6): Midpoint review — compare against NERC System Operator Certification. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid operator competency trending toward 100% with CE credits. Escalate if <100% base cert. ANNUAL REVIEW: Comprehensive audit using NERC certification program. Report to VP of Operations.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Oil Production Policy & Governance Capacity Building Initiative",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Create a power plant efficiency optimization for oil production policy & governance using ASME PTC performance testing with heat rate improvement measures.",
+          "cite": "DOE (2023). National Transmission Planning Study. US Department of Energy; NREL (2022). Annual Technology Baseline. NREL",
+          "target": "INEFFICIENT_OIL_PRODUCTION_POLICY___GOVERN -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate distribution for oil production policy & governance using hosting capacity and reliability analysis",
+            "Design modernization program with AMI, FLISR, and Volt-VAR optimization",
+            "Procure and deploy ADMS with SCADA integration and DMS functionality",
+            "Implement DERMS for real-time DER visibility, dispatch, and settlement",
+            "Measure reliability improvement through SAIDI/SAIFI and customer minutes metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — distribution system hosting capacity using DER interconnection analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — distribution system hosting capacity measured quarterly. Target: hosting capacity increase 25%. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1547 DER integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — distribution system hosting capacity trending toward 40% increase. Escalate if <15% increase floor. ANNUAL REVIEW: Comprehensive audit using IEEE 1547 framework. Report to Distribution Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Oil Production Policy & Governance Early Warning System",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Evaluate a community energy development initiative for oil production policy & governance enabling cooperative ownership models per EU Clean Energy Package.",
+          "cite": "Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003; Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125",
+          "target": "INCONSISTENT_OIL_PRODUCTION_POLICY___GOVERN -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            },
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess community energy potential for oil production policy & governance using solar and wind resource mapping",
+            "Design community ownership models: cooperatives, solar gardens, and PPAs",
+            "Implement pilot community energy projects with technical and financial support",
+            "Establish peer learning network connecting community energy organizations",
+            "Measure community energy deployment, ownership rates, and economic benefits"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — community RE ownership rate using co-op and community solar registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — community RE ownership rate measured biannually. Target: 10% generation community-owned. PHASE 3 (Months 4-6): Midpoint review — compare against EU energy community benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — community RE ownership rate trending toward 20% community-owned. Escalate if <5% floor. ANNUAL REVIEW: Comprehensive audit using EU Clean Energy Package framework. Report to Community Energy Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Oil Production Policy & Governance Operational Readiness Check",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Integrate an energy storage optimization tool for oil production policy & governance using Sandia StorageVET methodology for value stacking analysis.",
+          "cite": "NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3; EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute",
+          "target": "UNMONITORED_OIL_PRODUCTION_POLICY___GOVERN -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit SCADA/EMS cybersecurity for oil production policy & governance against NERC CIP standards",
+            "Design defense-in-depth architecture with electronic security perimeters",
+            "Implement CIP-compliant access management, monitoring, and incident response",
+            "Deploy security information event management (SIEM) for OT networks",
+            "Conduct annual CIP audit with third-party verification and remediation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — smart meter deployment coverage using AMI deployment tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — smart meter deployment coverage measured monthly. Target: 80% meter penetration. PHASE 3 (Months 4-6): Midpoint review — compare against EU smart metering mandate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — smart meter deployment coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using IEC 62052/62053 standards. Report to Metering Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Conduct Oil Production Policy & Governance Capacity Building Initiative",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Conduct an integrated resource plan for oil production policy & governance using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "UNDERPERFORMING_OIL_PRODUCTION_POLICY___GOVERN -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for oil production policy & governance using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Grid Storage Quality & Performance",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Atmospheric Regulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Assessment & Diagnostics"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Aeromedical Evacuation Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Livestock Economics Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Transfer Policies Human Capital & Development"
+        },
+        {
+          "domain": "finance",
+          "role": "Litigation Support Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Oil Production Technology & Innovation",
+      "domainDescription": "Systematic management of oil production technology & innovation across all oil production functions and operations",
+      "group": "development",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Configure Oil Production Technology & Innovation Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Configure a grid decarbonization roadmap for oil production technology & innovation following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "UNDERPERFORMING_OIL_PRODUCTION_TECHNOLOGY___IN -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for oil production technology & innovation using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Oil Production Technology & Innovation Innovation Pipeline",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Strengthen a certified energy manager program for oil production technology & innovation per AEE CEM body of knowledge with industrial efficiency focus.",
+          "cite": "Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302; NERC (2023). Long-Term Reliability Assessment. NERC",
+          "target": "REACTIVE_OIL_PRODUCTION_TECHNOLOGY___IN -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            },
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess protection engineering skills for oil production technology & innovation against NERC PRC standards",
+            "Design training in relay coordination, fault analysis, and settings development",
+            "Deliver simulation-based training with ETAP/SKM relay coordination tools",
+            "Conduct competency assessment with practical relay testing and setting exercises",
+            "Track protection system misoperation rates for trained personnel"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy management competency using CEM/CMVP certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy management competency measured biannually. Target: 50 certified energy managers. PHASE 3 (Months 4-6): Midpoint review — compare against AEE certification benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy management competency trending toward 75 managers. Escalate if <30 minimum. ANNUAL REVIEW: Comprehensive audit using AEE certification framework. Report to Energy Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Oil Production Technology & Innovation Feedback Loop Design",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Monitor a transmission expansion program for oil production technology & innovation following FERC Order 1000 planning with multi-value project assessment.",
+          "cite": "FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC; IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE",
+          "target": "FRAGMENTED_OIL_PRODUCTION_TECHNOLOGY___IN -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate generation fleet for oil production technology & innovation using heat rate and availability analysis",
+            "Design efficiency improvements per ASME PTC performance test codes",
+            "Implement combustion tuning, heat recovery, and auxiliary load optimization",
+            "Deploy performance monitoring with real-time analytics and predictive maintenance",
+            "Track capacity factor and heat rate improvements against fleet benchmarks"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — power plant capacity factor using generation performance system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — power plant capacity factor measured monthly. Target: target capacity factor by type. PHASE 3 (Months 4-6): Midpoint review — compare against NREL ATB benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — power plant capacity factor trending toward top-quartile performance. Escalate if <bottom-quartile escalation. ANNUAL REVIEW: Comprehensive audit using NREL ATB framework. Report to Generation Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Build Oil Production Technology & Innovation Sustainability Audit",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Build an energy efficiency behavior change program for oil production technology & innovation applying Dietz behavioral wedge methodology with smart meter feedback.",
+          "cite": "Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004; Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044",
+          "target": "SILOED_OIL_PRODUCTION_TECHNOLOGY___IN -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            },
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            }
+          ],
+          "steps": [
+            "Assess energy workforce demographics for oil production technology & innovation using BLS and utility data",
+            "Design diversity recruitment program with pre-apprenticeship and mentorship",
+            "Partner with HBCUs, tribal colleges, and community organizations",
+            "Implement paid internship and apprenticeship pathways with wraparound support",
+            "Track workforce diversity metrics and retention rates against DOE targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy efficiency behavior adoption using smart meter analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy efficiency behavior adoption measured monthly. Target: 15% voluntary demand reduction. PHASE 3 (Months 4-6): Midpoint review — compare against EPA ENERGY STAR benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy efficiency behavior adoption trending toward 25% reduction. Escalate if <8% reduction floor. ANNUAL REVIEW: Comprehensive audit using EPA ENERGY STAR framework. Report to Demand-Side Management Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Oil Production Technology & Innovation Innovation Pipeline",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Optimize a renewable resource assessment platform for oil production technology & innovation integrating NREL SAM with GIS-based siting and interconnection analysis.",
+          "cite": "Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003; HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy",
+          "target": "OUTDATED_OIL_PRODUCTION_TECHNOLOGY___IN -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            },
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate RE siting for oil production technology & innovation using NREL SAM and wind/solar resource data",
+            "Design GIS-based siting platform with environmental and grid constraint layers",
+            "Implement interconnection screening with hosting capacity and upgrade cost analysis",
+            "Deploy optimization engine for portfolio siting across resource zones",
+            "Measure development success rates and LCOE outcomes against projections"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy data platform completeness using data quality audit system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy data platform completeness measured monthly. Target: 90% data streams validated. PHASE 3 (Months 4-6): Midpoint review — compare against Green Button standard coverage. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy data platform completeness trending toward 95% validated. Escalate if <80% validated floor. ANNUAL REVIEW: Comprehensive audit using Green Button Connect framework. Report to Data Analytics Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Oil Production Technology & Innovation Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Launch a grid decarbonization roadmap for oil production technology & innovation following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "INEFFICIENT_OIL_PRODUCTION_TECHNOLOGY___IN -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess hydrogen potential for oil production technology & innovation using DOE Hydrogen Shot techno-economics",
+            "Design hydrogen production roadmap: electrolysis, SMR+CCS, and biological pathways",
+            "Develop hydrogen infrastructure plan for storage, transport, and end-use",
+            "Implement pilot projects with industrial and transport sector partners",
+            "Track hydrogen cost trajectory toward $1/kg DOE target"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy storage deployment using storage project registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy storage deployment measured quarterly. Target: 500 MW cumulative storage. PHASE 3 (Months 4-6): Midpoint review — compare against NREL storage deployment targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy storage deployment trending toward 1 GW cumulative. Escalate if <250 MW floor. ANNUAL REVIEW: Comprehensive audit using DOE Storage Grand Challenge. Report to Energy Storage Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "flow applications — Signal Acquisition",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "legal",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "provider",
+          "role": "Continuity of Care Network"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Cultural Adaptation — Regulation Strategy"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "interior acoustics — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Aeromedical Evacuation Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Oil Production Human Capital & Development",
+      "domainDescription": "Systematic management of oil production human capital & development across all oil production functions and operations",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Design Oil Production Human Capital & Development Capability Maturity Model",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Design a distributed energy resources integration plan for oil production human capital & development per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "UNMONITORED_OIL_PRODUCTION_HUMAN_CAPITAL__ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for oil production human capital & development using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Deploy Oil Production Human Capital & Development Quality Assurance Program",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Deploy a grid operator certification program for oil production human capital & development aligned with NERC System Operator Certification requirements.",
+          "cite": "NERC (2023). Long-Term Reliability Assessment. NERC; Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302",
+          "target": "UNDERPERFORMING_OIL_PRODUCTION_HUMAN_CAPITAL__ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate installer skills for oil production human capital & development against NABCEP Job Task Analysis",
+            "Design hands-on training with PV design, installation, and commissioning modules",
+            "Deliver field-based training with code compliance (NEC 690/705) and safety emphasis",
+            "Support NABCEP certification exam preparation and continuing education",
+            "Measure installation quality through inspection pass rates and warranty claims"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid operator competency using NERC operator certification tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid operator competency measured biannually. Target: 100% operators NERC certified. PHASE 3 (Months 4-6): Midpoint review — compare against NERC System Operator Certification. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid operator competency trending toward 100% with CE credits. Escalate if <100% base cert. ANNUAL REVIEW: Comprehensive audit using NERC certification program. Report to VP of Operations.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Oil Production Human Capital & Development Integration Architecture",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Operationalize a substation upgrade program for oil production human capital & development implementing IEC 61850 communications with digital relay protection schemes.",
+          "cite": "IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE; FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC",
+          "target": "REACTIVE_OIL_PRODUCTION_HUMAN_CAPITAL__ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate distribution for oil production human capital & development using hosting capacity and reliability analysis",
+            "Design modernization program with AMI, FLISR, and Volt-VAR optimization",
+            "Procure and deploy ADMS with SCADA integration and DMS functionality",
+            "Implement DERMS for real-time DER visibility, dispatch, and settlement",
+            "Measure reliability improvement through SAIDI/SAIFI and customer minutes metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — distribution system hosting capacity using DER interconnection analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — distribution system hosting capacity measured quarterly. Target: hosting capacity increase 25%. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1547 DER integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — distribution system hosting capacity trending toward 40% increase. Escalate if <15% increase floor. ANNUAL REVIEW: Comprehensive audit using IEEE 1547 framework. Report to Distribution Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Oil Production Human Capital & Development Capability Maturity Model",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Calibrate an energy workforce equity program for oil production human capital & development with targeted recruitment and pre-apprenticeship per DOE equity initiatives.",
+          "cite": "Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044; Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004",
+          "target": "FRAGMENTED_OIL_PRODUCTION_HUMAN_CAPITAL__ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            },
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            }
+          ],
+          "steps": [
+            "Assess community energy potential for oil production human capital & development using solar and wind resource mapping",
+            "Design community ownership models: cooperatives, solar gardens, and PPAs",
+            "Implement pilot community energy projects with technical and financial support",
+            "Establish peer learning network connecting community energy organizations",
+            "Measure community energy deployment, ownership rates, and economic benefits"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — community RE ownership rate using co-op and community solar registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — community RE ownership rate measured biannually. Target: 10% generation community-owned. PHASE 3 (Months 4-6): Midpoint review — compare against EU energy community benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — community RE ownership rate trending toward 20% community-owned. Escalate if <5% floor. ANNUAL REVIEW: Comprehensive audit using EU Clean Energy Package framework. Report to Community Energy Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Oil Production Human Capital & Development Quality Assurance Program",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Streamline a SCADA/EMS cybersecurity hardening for oil production human capital & development per NERC CIP standards with intrusion detection and access controls.",
+          "cite": "HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy; Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003",
+          "target": "SILOED_OIL_PRODUCTION_HUMAN_CAPITAL__ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Audit SCADA/EMS cybersecurity for oil production human capital & development against NERC CIP standards",
+            "Design defense-in-depth architecture with electronic security perimeters",
+            "Implement CIP-compliant access management, monitoring, and incident response",
+            "Deploy security information event management (SIEM) for OT networks",
+            "Conduct annual CIP audit with third-party verification and remediation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — smart meter deployment coverage using AMI deployment tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — smart meter deployment coverage measured monthly. Target: 80% meter penetration. PHASE 3 (Months 4-6): Midpoint review — compare against EU smart metering mandate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — smart meter deployment coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using IEC 62052/62053 standards. Report to Metering Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Oil Production Human Capital & Development Integration Architecture",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Assess a distributed energy resources integration plan for oil production human capital & development per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "EIA (2023). Annual Energy Outlook. US Energy Information Administration; Smil, V. (2017). Energy and Civilization: A History. MIT Press",
+          "target": "OUTDATED_OIL_PRODUCTION_HUMAN_CAPITAL__ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for oil production human capital & development using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Flow Cell Design — State Assessment",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 1,
+      "linkedCompanies": [],
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Oil Production Quality & Performance",
+      "domainDescription": "Systematic management of oil production quality & performance across all oil production functions and operations",
+      "group": "performance",
+      "phase": "P3",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Build Oil Production Quality & Performance Assessment Protocol",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Build an integrated resource plan for oil production quality & performance using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "FRAGMENTED_OIL_PRODUCTION_QUALITY___PERFO -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for oil production quality & performance using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Oil Production Quality & Performance Diagnostic Dashboard",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Optimize an energy auditor qualification program for oil production quality & performance following BPI Building Analyst and RESNET HERS rater pathways.",
+          "cite": "MIT Energy Initiative (2022). Future of Energy Storage. MIT; Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241",
+          "target": "SILOED_OIL_PRODUCTION_QUALITY___PERFO -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for oil production quality & performance against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Oil Production Quality & Performance Governance Structure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Launch a power plant efficiency optimization for oil production quality & performance using ASME PTC performance testing with heat rate improvement measures.",
+          "cite": "NREL (2022). Annual Technology Baseline. NREL; DOE (2023). National Transmission Planning Study. US Department of Energy",
+          "target": "OUTDATED_OIL_PRODUCTION_QUALITY___PERFO -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for oil production quality & performance using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Oil Production Quality & Performance Assessment Protocol",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Develop a community energy development initiative for oil production quality & performance enabling cooperative ownership models per EU Clean Energy Package.",
+          "cite": "Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125; Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003",
+          "target": "INEFFICIENT_OIL_PRODUCTION_QUALITY___PERFO -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            },
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for oil production quality & performance using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Oil Production Quality & Performance Diagnostic Dashboard",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Establish an energy storage optimization tool for oil production quality & performance using Sandia StorageVET methodology for value stacking analysis.",
+          "cite": "EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute; NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3",
+          "target": "INCONSISTENT_OIL_PRODUCTION_QUALITY___PERFO -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for oil production quality & performance against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Oil Production Quality & Performance Governance Structure",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Implement an integrated resource plan for oil production quality & performance using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "UNMONITORED_OIL_PRODUCTION_QUALITY___PERFO -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for oil production quality & performance using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a fossil fuel transition planner for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Nuclear Power",
+      "brainNodeLabelCanonical": "Energy",
+      "linkedDirectiveCount": 1,
+      "linkedCompanies": [],
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Pain-Defense Gate"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Endogenous Analgesic System"
+        },
+        {
+          "domain": "neurology",
+          "role": "Periaqueductal Gray"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Defense Cascade Modulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Quality & Performance"
+        },
+        {
+          "domain": "culture",
+          "role": "Landscape Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Nuclear Deterrence"
+        },
+        {
+          "domain": "economy",
+          "role": "Rural Development Human Capital & Development"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "ADR",
+      "target": "PULV",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "PULV",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "M1",
+      "target": "CING",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "CING",
+      "target": "PBN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PBN",
+      "target": "CON",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "CON",
+      "target": "AI",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "AI",
+      "target": "PAG",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "ADR",
+      "target": "PAG",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "ADR",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "ENERGY_FOSSIL_OIL_SYSTEM_FAILURE",
+      "label": "Energy Fossil Oil System Failure",
+      "summary": "Critical breakdown in Energy Fossil Oil systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "ADR",
+          "dir": "Hyper-active",
+          "detail": "Oil Production Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PULV",
+          "dir": "Hypo-active",
+          "detail": "Oil Production Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Oil Production Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Hyper-active",
+          "detail": "Oil Production Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PBN",
+          "dir": "Hypo-active",
+          "detail": "Oil Production Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_FOSSIL_OIL_CAPACITY_OVERLOAD",
+      "label": "Energy Fossil Oil Capacity Overload",
+      "summary": "Demand exceeding available Energy Fossil Oil capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "ADR",
+          "dir": "Hyper-active",
+          "detail": "Oil Production Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PULV",
+          "dir": "Hyper-active",
+          "detail": "Oil Production Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hyper-active",
+          "detail": "Oil Production Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Hyper-active",
+          "detail": "Oil Production Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_FOSSIL_OIL_QUALITY_DEGRADATION",
+      "label": "Energy Fossil Oil Quality Degradation",
+      "summary": "Progressive decline in Energy Fossil Oil quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "ADR",
+          "dir": "Hypo-active",
+          "detail": "Oil Production Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PULV",
+          "dir": "Altered",
+          "detail": "Oil Production Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hyper-active",
+          "detail": "Oil Production Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CING",
+          "dir": "Hypo-active",
+          "detail": "Oil Production Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:29.242Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

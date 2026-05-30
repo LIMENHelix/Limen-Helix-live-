@@ -1,0 +1,2814 @@
+{
+  "domainId": "p2_agri_landuse",
+  "title": "Land Use & Property",
+  "parentPortal": "p2_agri_portal.html",
+  "parentLabel": "Agriculture",
+  "phase": "P4",
+  "activations": [
+    {
+      "brainNodeId": "EC",
+      "state": "active",
+      "domainLabel": "Land Ownership",
+      "domainDescription": "Fee simple ownership and title transfer of agricultural real estate",
+      "group": "tenure",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_landuse_ownership_portal.html",
+      "treatments": [
+        {
+          "label": "Purchase of Development Rights Program",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "State and county PDR programs compensate landowners for voluntarily extinguishing development rights while retaining agricultural ownership. This directly addresses farmland conversion by making it financially viable to keep land in production rather than selling to developers, with permanent deed restrictions that survive title transfer.",
+          "cite": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K. (2004). Land trusts and conservation easements: Who is conserving what for whom?. Conservation Biology, 18(1), 65-75. doi:10.1111/j.1523-1739.2004.00401.x; Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M. (2007). Conservation easements: Biodiversity protection and private use. Conservation Biology, 21(3), 709-718. doi:10.1111/j.1523-1739.2007.00660.x",
+          "target": "FARMLAND_CONVERSION -> EC -> dACC -> HIPP",
+          "citation": [
+            {
+              "author": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K.",
+              "year": 2004,
+              "title": "Land trusts and conservation easements: Who is conserving what for whom?",
+              "journal": "Conservation Biology",
+              "volume": "18(1)",
+              "pages": "65-75",
+              "doi": "10.1111/j.1523-1739.2004.00401.x"
+            },
+            {
+              "author": "Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M.",
+              "year": 2007,
+              "title": "Conservation easements: Biodiversity protection and private use",
+              "journal": "Conservation Biology",
+              "volume": "21(3)",
+              "pages": "709-718",
+              "doi": "10.1111/j.1523-1739.2007.00660.x"
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Execute financial action: submit applications, secure approvals, document terms and compliance requirements",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Absentee Landowner Engagement Campaign",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Targeted outreach to non-operator landowners connects absentee owners with conservation program enrollment opportunities and qualified tenant matches willing to implement soil health practices. Direct mail, county extension events, and online landowner portals reduce information asymmetry that causes conservation underinvestment on rented acres.",
+          "cite": "Claassen, R., Cattaneo, A. & Johansson, R. (2008). Cost-effective design of agri-environmental payment programs: U.S. experience in theory and practice. Ecological Economics, 65(4), 737-752. doi:10.1016/j.ecolecon.2007.07.032; Wallander, S., Aillery, M., Hellerstein, D. & Hand, M. (2013). The Role of Conservation Programs in Drought Risk Adaptation. USDA-ERS Economic Research Report 148, 1-44",
+          "target": "TENURE_INSTABILITY -> EC -> vmPFC -> TPJ",
+          "citation": [
+            {
+              "author": "Claassen, R., Cattaneo, A. & Johansson, R.",
+              "year": 2008,
+              "title": "Cost-effective design of agri-environmental payment programs: U.S. experience in theory and practice",
+              "journal": "Ecological Economics",
+              "volume": "65(4)",
+              "pages": "737-752",
+              "doi": "10.1016/j.ecolecon.2007.07.032"
+            },
+            {
+              "author": "Wallander, S., Aillery, M., Hellerstein, D. & Hand, M.",
+              "year": 2013,
+              "title": "The Role of Conservation Programs in Drought Risk Adaptation",
+              "journal": "USDA-ERS Economic Research Report 148",
+              "volume": null,
+              "pages": "1-44",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect soil samples at 0-6-inch and 6-12-inch depths before implementation and annually thereafter; target measurable improvement in the primary metric (organic matter, aggregate stability, or nutrient level) within 3 years. Measure infiltration rate with a double-ring infiltrometer or timed ponding test at 3 representative points per field; target ≥15% improvement within 2 years. Document soil condition observations (compaction, earthworm counts, residue decomposition) at spring and fall tillage windows.",
+          "escalation": "If the target soil health metric (organic matter, aggregate stability, or infiltration rate) shows no measurable improvement after 3 annual sampling cycles, escalate to a certified crop adviser (CCA) or soil scientist for comprehensive soil health diagnostic including biological assay, compaction profiling, and drainage assessment. If infiltration rate declines by >20% from baseline at any measurement point, investigate compaction or structural damage before the next field operation."
+        },
+        {
+          "label": "Land Price Inflation Hedging via Installment Sales",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Structured installment sale contracts allow retiring owners to sell to beginning farmers at agricultural productivity value while deferring capital gains recognition under IRC Section 453. This creates an affordable entry pathway that bypasses speculative market pricing and provides the seller with a steady income stream during retirement.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "LAND_PRICE_INFLATION -> EC -> dlPFC -> AG",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to an agricultural appraiser or farm management specialist for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        },
+        {
+          "label": "Conservation Compliance Technical Assistance",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "One-on-one NRCS technical assistance helps landowners develop conservation plans for highly erodible land that maintain USDA program eligibility while protecting soil resources. Coaching covers HEL determination, approved conservation systems, and the compliance consequences of breaking out fragile ground.",
+          "cite": "Claassen, R., Cattaneo, A. & Johansson, R. (2008). Cost-effective design of agri-environmental payment programs: U.S. experience in theory and practice. Ecological Economics, 65(4), 737-752. doi:10.1016/j.ecolecon.2007.07.032; Wallander, S., Aillery, M., Hellerstein, D. & Hand, M. (2013). The Role of Conservation Programs in Drought Risk Adaptation. USDA-ERS Economic Research Report 148, 1-44",
+          "target": "SOIL_DEGRADATION -> EC -> HIPP -> dACC",
+          "citation": [
+            {
+              "author": "Claassen, R., Cattaneo, A. & Johansson, R.",
+              "year": 2008,
+              "title": "Cost-effective design of agri-environmental payment programs: U.S. experience in theory and practice",
+              "journal": "Ecological Economics",
+              "volume": "65(4)",
+              "pages": "737-752",
+              "doi": "10.1016/j.ecolecon.2007.07.032"
+            },
+            {
+              "author": "Wallander, S., Aillery, M., Hellerstein, D. & Hand, M.",
+              "year": 2013,
+              "title": "The Role of Conservation Programs in Drought Risk Adaptation",
+              "journal": "USDA-ERS Economic Research Report 148",
+              "volume": null,
+              "pages": "1-44",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified crop adviser (CCA) or soil scientist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Succession Planning Coaching for Landowner Families",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Facilitated family meetings led by extension educators or farm succession specialists help multi-generational families articulate goals, identify successors, and align expectations before engaging legal counsel. Coaching addresses the emotional barriers that prevent farm families from initiating transfer conversations until crisis forces liquidation.",
+          "cite": "Mishra, A.K., El-Osta, H.S. & Shaik, S. (2010). Succession decisions in U.S. family farm businesses. Journal of Agricultural and Resource Economics, 35(1), 133-152; Lobley, M., Baker, J.R. & Whitehead, I. (2010). Farm succession and retirement: Some international comparisons. Journal of Agriculture, Food Systems, and Community Development, 1(1), 49-64. doi:10.5304/jafscd.2010.011.009",
+          "target": "SUCCESSION_FAILURE -> EC -> AG -> OFC",
+          "citation": [
+            {
+              "author": "Mishra, A.K., El-Osta, H.S. & Shaik, S.",
+              "year": 2010,
+              "title": "Succession decisions in U.S. family farm businesses",
+              "journal": "Journal of Agricultural and Resource Economics",
+              "volume": "35(1)",
+              "pages": "133-152",
+              "doi": null
+            },
+            {
+              "author": "Lobley, M., Baker, J.R. & Whitehead, I.",
+              "year": 2010,
+              "title": "Farm succession and retirement: Some international comparisons",
+              "journal": "Journal of Agriculture, Food Systems, and Community Development",
+              "volume": "1(1)",
+              "pages": "49-64",
+              "doi": "10.5304/jafscd.2010.011.009"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to an agricultural appraiser or farm management specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Agricultural District Enrollment",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Voluntary agricultural district programs provide enrolled landowners with enhanced right-to-farm protections, property tax stabilization, and insulation from eminent domain and special assessment districts. These structural protections reduce conversion pressure by creating a legally recognized commitment to continued agricultural use that municipalities must respect in planning decisions.",
+          "cite": "Daniels, T. & Bowers, D. (1997). Holding Our Ground: Protecting America's Farms and Farmland. Island Press, 1-334; Centner, T.J. (2006). Governments and unconstitutional takings: When do right-to-farm laws go too far?. Boston College Environmental Affairs Law Review, 33(1), 87-148",
+          "target": "FARMLAND_CONVERSION -> EC -> dACC -> OFC",
+          "citation": [
+            {
+              "author": "Daniels, T. & Bowers, D.",
+              "year": 1997,
+              "title": "Holding Our Ground: Protecting America's Farms and Farmland",
+              "journal": "Island Press",
+              "volume": null,
+              "pages": "1-334",
+              "doi": null
+            },
+            {
+              "author": "Centner, T.J.",
+              "year": 2006,
+              "title": "Governments and unconstitutional takings: When do right-to-farm laws go too far?",
+              "journal": "Boston College Environmental Affairs Law Review",
+              "volume": "33(1)",
+              "pages": "87-148",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Soil Health Benchmark Dashboard",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "A parcel-level soil health tracking tool that integrates NRCS Web Soil Survey data, annual soil test results, and cover crop adoption records to give landowners a longitudinal view of soil condition trends on each owned tract. Provides visual scoring that connects management decisions to measurable soil organic matter and aggregate stability changes.",
+          "cite": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E. (1997). Soil quality: A concept, definition, and framework for evaluation. Soil Science Society of America Journal, 61(1), 4-10. doi:10.2136/sssaj1997.03615995006100010001x; Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E. (2015). Soil biology for resilient, healthy soil. Journal of Soil and Water Conservation, 70(1), 12A-18A. doi:10.2489/jswc.70.1.12A",
+          "target": "SOIL_DEGRADATION -> EC -> dlPFC -> HIPP",
+          "citation": [
+            {
+              "author": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E.",
+              "year": 1997,
+              "title": "Soil quality: A concept, definition, and framework for evaluation",
+              "journal": "Soil Science Society of America Journal",
+              "volume": "61(1)",
+              "pages": "4-10",
+              "doi": "10.2136/sssaj1997.03615995006100010001x"
+            },
+            {
+              "author": "Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E.",
+              "year": 2015,
+              "title": "Soil biology for resilient, healthy soil",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "70(1)",
+              "pages": "12A-18A",
+              "doi": "10.2489/jswc.70.1.12A"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect soil samples at 0-6-inch and 6-12-inch depths before implementation and annually thereafter; target measurable improvement in the primary metric (organic matter, aggregate stability, or nutrient level) within 3 years. Measure infiltration rate with a double-ring infiltrometer or timed ponding test at 3 representative points per field; target ≥15% improvement within 2 years. Document soil condition observations (compaction, earthworm counts, residue decomposition) at spring and fall tillage windows.",
+          "escalation": "If the target soil health metric (organic matter, aggregate stability, or infiltration rate) shows no measurable improvement after 3 annual sampling cycles, escalate to a certified crop adviser (CCA) or soil scientist for comprehensive soil health diagnostic including biological assay, compaction profiling, and drainage assessment. If infiltration rate declines by >20% from baseline at any measurement point, investigate compaction or structural damage before the next field operation."
+        },
+        {
+          "label": "Landowner Conservation Stewardship Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Peer-led landowner networks and conservation field days build a community norm where responsible stewardship is a visible part of ownership identity, not merely regulatory compliance. Recognition programs for landowners who maintain soil health scores, enroll in easements, or mentor beginning farmers create social reinforcement that sustains long-term conservation behavior.",
+          "cite": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E. (1997). Soil quality: A concept, definition, and framework for evaluation. Soil Science Society of America Journal, 61(1), 4-10. doi:10.2136/sssaj1997.03615995006100010001x; Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E. (2015). Soil biology for resilient, healthy soil. Journal of Soil and Water Conservation, 70(1), 12A-18A. doi:10.2489/jswc.70.1.12A",
+          "target": "TENURE_INSTABILITY -> EC -> vmPFC -> HIPP",
+          "citation": [
+            {
+              "author": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E.",
+              "year": 1997,
+              "title": "Soil quality: A concept, definition, and framework for evaluation",
+              "journal": "Soil Science Society of America Journal",
+              "volume": "61(1)",
+              "pages": "4-10",
+              "doi": "10.2136/sssaj1997.03615995006100010001x"
+            },
+            {
+              "author": "Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E.",
+              "year": 2015,
+              "title": "Soil biology for resilient, healthy soil",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "70(1)",
+              "pages": "12A-18A",
+              "doi": "10.2489/jswc.70.1.12A"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified crop adviser (CCA) or soil scientist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Carbon Sequestration",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Wetlands"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Standards & Governance"
+        },
+        {
+          "domain": "communication",
+          "role": "Universal Design — State Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Interior Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power — Adaptation & Learning"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Trade Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "College Admissions Policy & Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Leasing",
+      "domainDescription": "Cash rent and crop-share lease arrangements between owners and operators",
+      "group": "tenure",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_landuse_leasing_portal.html",
+      "treatments": [
+        {
+          "label": "Multi-Year Flex Lease Structure",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Three-to-five-year lease agreements with flex rent provisions tied to commodity prices and yield outcomes replace annual cash rent contracts that discourage conservation investment. Longer terms give tenants the economic confidence to invest in soil health practices whose benefits materialize over multiple growing seasons.",
+          "cite": "Kirwan, B.E. (2009). The incidence of U.S. agricultural subsidies on farmland rental rates. Journal of Political Economy, 117(1), 138-164. doi:10.1086/598688; Tsoodle, L.J., Golden, B.B. & Featherstone, A.M. (2006). Factors influencing Kansas agricultural farm land values. Land Economics, 82(1), 124-139. doi:10.3368/le.82.1.124",
+          "target": "TENURE_INSTABILITY -> vmPFC -> EC -> HIPP",
+          "citation": [
+            {
+              "author": "Kirwan, B.E.",
+              "year": 2009,
+              "title": "The incidence of U.S. agricultural subsidies on farmland rental rates",
+              "journal": "Journal of Political Economy",
+              "volume": "117(1)",
+              "pages": "138-164",
+              "doi": "10.1086/598688"
+            },
+            {
+              "author": "Tsoodle, L.J., Golden, B.B. & Featherstone, A.M.",
+              "year": 2006,
+              "title": "Factors influencing Kansas agricultural farm land values",
+              "journal": "Land Economics",
+              "volume": "82(1)",
+              "pages": "124-139",
+              "doi": "10.3368/le.82.1.124"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        },
+        {
+          "label": "Conservation Lease Addendum",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "A standardized lease addendum that specifies conservation practice expectations, cost-sharing between landlord and tenant, and reimbursement provisions if the lease terminates before conservation investments are fully amortized. This removes the structural disincentive for tenants to invest in practices on land they do not own.",
+          "cite": "Kirwan, B.E. (2009). The incidence of U.S. agricultural subsidies on farmland rental rates. Journal of Political Economy, 117(1), 138-164. doi:10.1086/598688; Tsoodle, L.J., Golden, B.B. & Featherstone, A.M. (2006). Factors influencing Kansas agricultural farm land values. Land Economics, 82(1), 124-139. doi:10.3368/le.82.1.124",
+          "target": "TENURE_INSTABILITY -> vmPFC -> EC -> dACC",
+          "citation": [
+            {
+              "author": "Kirwan, B.E.",
+              "year": 2009,
+              "title": "The incidence of U.S. agricultural subsidies on farmland rental rates",
+              "journal": "Journal of Political Economy",
+              "volume": "117(1)",
+              "pages": "138-164",
+              "doi": "10.1086/598688"
+            },
+            {
+              "author": "Tsoodle, L.J., Golden, B.B. & Featherstone, A.M.",
+              "year": 2006,
+              "title": "Factors influencing Kansas agricultural farm land values",
+              "journal": "Land Economics",
+              "volume": "82(1)",
+              "pages": "124-139",
+              "doi": "10.3368/le.82.1.124"
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to an agricultural appraiser or farm management specialist for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        },
+        {
+          "label": "Lease Negotiation Coaching for Non-Operator Landowners",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Extension-led workshops coach non-operator landowners on lease negotiation fundamentals including fair rental rate determination, flex lease calculations, and conservation clause language. Many absentee owners accept below-market or above-market rents because they lack confidence to negotiate, perpetuating either tenant exploitation or farmland disinvestment.",
+          "cite": "Kirwan, B.E. (2009). The incidence of U.S. agricultural subsidies on farmland rental rates. Journal of Political Economy, 117(1), 138-164. doi:10.1086/598688; Tsoodle, L.J., Golden, B.B. & Featherstone, A.M. (2006). Factors influencing Kansas agricultural farm land values. Land Economics, 82(1), 124-139. doi:10.3368/le.82.1.124",
+          "target": "LAND_PRICE_INFLATION -> vmPFC -> dlPFC -> EC",
+          "citation": [
+            {
+              "author": "Kirwan, B.E.",
+              "year": 2009,
+              "title": "The incidence of U.S. agricultural subsidies on farmland rental rates",
+              "journal": "Journal of Political Economy",
+              "volume": "117(1)",
+              "pages": "138-164",
+              "doi": "10.1086/598688"
+            },
+            {
+              "author": "Tsoodle, L.J., Golden, B.B. & Featherstone, A.M.",
+              "year": 2006,
+              "title": "Factors influencing Kansas agricultural farm land values",
+              "journal": "Land Economics",
+              "volume": "82(1)",
+              "pages": "124-139",
+              "doi": "10.3368/le.82.1.124"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to an agricultural appraiser or farm management specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "State Model Lease Template System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Adoption of university-extension-developed model farm lease templates that include standard conservation language, clear termination provisions, and flex rent worksheets. These templates replace informal handshake agreements that create disputes and undermine long-term land stewardship by providing a legally sound framework both parties can customize.",
+          "cite": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S. (2019). Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature. Journal of Soil and Water Conservation, 74(5), 520-534. doi:10.2489/jswc.74.5.520; Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R. (2006). Understanding and promoting adoption of conservation practices by rural landholders. Australian Journal of Experimental Agriculture, 46(11), 1407-1424. doi:10.1071/EA05037",
+          "target": "TENURE_INSTABILITY -> vmPFC -> EC -> TPJ",
+          "citation": [
+            {
+              "author": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S.",
+              "year": 2019,
+              "title": "Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "74(5)",
+              "pages": "520-534",
+              "doi": "10.2489/jswc.74.5.520"
+            },
+            {
+              "author": "Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R.",
+              "year": 2006,
+              "title": "Understanding and promoting adoption of conservation practices by rural landholders",
+              "journal": "Australian Journal of Experimental Agriculture",
+              "volume": "46(11)",
+              "pages": "1407-1424",
+              "doi": "10.1071/EA05037"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Rental Rate Benchmarking Dashboard",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "USDA NASS county-level cash rent data and university-published flex lease calculators enable both parties to anchor lease negotiations to objective productivity-based benchmarks rather than speculative land values. The dashboard integrates soil productivity indices, commodity price trends, and input cost data to compute a defensible fair rental range.",
+          "cite": "Kirwan, B.E. (2009). The incidence of U.S. agricultural subsidies on farmland rental rates. Journal of Political Economy, 117(1), 138-164. doi:10.1086/598688; Tsoodle, L.J., Golden, B.B. & Featherstone, A.M. (2006). Factors influencing Kansas agricultural farm land values. Land Economics, 82(1), 124-139. doi:10.3368/le.82.1.124",
+          "target": "LAND_PRICE_INFLATION -> vmPFC -> dlPFC -> OFC",
+          "citation": [
+            {
+              "author": "Kirwan, B.E.",
+              "year": 2009,
+              "title": "The incidence of U.S. agricultural subsidies on farmland rental rates",
+              "journal": "Journal of Political Economy",
+              "volume": "117(1)",
+              "pages": "138-164",
+              "doi": "10.1086/598688"
+            },
+            {
+              "author": "Tsoodle, L.J., Golden, B.B. & Featherstone, A.M.",
+              "year": 2006,
+              "title": "Factors influencing Kansas agricultural farm land values",
+              "journal": "Land Economics",
+              "volume": "82(1)",
+              "pages": "124-139",
+              "doi": "10.3368/le.82.1.124"
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        },
+        {
+          "label": "Tenant Stewardship Recognition Program",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "County-level recognition programs that publicly honor farm tenants who implement conservation practices on leased land, creating positive social pressure and landlord confidence that selecting conservation-minded tenants protects long-term land value. Awards at county soil and water district banquets and in local farm publications reinforce stewardship norms.",
+          "cite": "Kirwan, B.E. (2009). The incidence of U.S. agricultural subsidies on farmland rental rates. Journal of Political Economy, 117(1), 138-164. doi:10.1086/598688; Tsoodle, L.J., Golden, B.B. & Featherstone, A.M. (2006). Factors influencing Kansas agricultural farm land values. Land Economics, 82(1), 124-139. doi:10.3368/le.82.1.124",
+          "target": "TENURE_INSTABILITY -> vmPFC -> EC -> HIPP",
+          "citation": [
+            {
+              "author": "Kirwan, B.E.",
+              "year": 2009,
+              "title": "The incidence of U.S. agricultural subsidies on farmland rental rates",
+              "journal": "Journal of Political Economy",
+              "volume": "117(1)",
+              "pages": "138-164",
+              "doi": "10.1086/598688"
+            },
+            {
+              "author": "Tsoodle, L.J., Golden, B.B. & Featherstone, A.M.",
+              "year": 2006,
+              "title": "Factors influencing Kansas agricultural farm land values",
+              "journal": "Land Economics",
+              "volume": "82(1)",
+              "pages": "124-139",
+              "doi": "10.3368/le.82.1.124"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified irrigation designer (CID) or water management specialist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Climate Adaptation",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Zoning",
+      "domainDescription": "County and municipal land use classifications and permitted uses",
+      "group": "regulation",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_landuse_zoning_portal.html",
+      "treatments": [
+        {
+          "label": "Agricultural Protection Zoning Overlay",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establishing agricultural protection overlay districts with minimum lot sizes (25-160 acres) and restricted permitted uses prevents parcel fragmentation that makes farming economically unviable. This proactive zoning approach has been demonstrated to slow farmland conversion rates by 50-80% in adopting jurisdictions compared to conventional zoning.",
+          "cite": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C. (2006). Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn. Iowa State University Extension PM 2015, 1-28; Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A. (2005). Field-scale variability in optimal nitrogen fertilizer rate for corn. Agronomy Journal, 97(2), 452-461. doi:10.2134/agronj2005.0452",
+          "target": "FARMLAND_CONVERSION -> dACC -> EC -> HIPP",
+          "citation": [
+            {
+              "author": "Sawyer, J.E., Nafziger, E.D., Randall, G.W., Bundy, L.G., Rehm, G.W. & Joern, B.C.",
+              "year": 2006,
+              "title": "Concepts and Rationale for Regional Nitrogen Rate Guidelines for Corn",
+              "journal": "Iowa State University Extension PM 2015",
+              "volume": null,
+              "pages": "1-28",
+              "doi": null
+            },
+            {
+              "author": "Scharf, P.C., Kitchen, N.R., Sudduth, K.A., Davis, J.G., Hubbard, V.C. & Lory, J.A.",
+              "year": 2005,
+              "title": "Field-scale variability in optimal nitrogen fertilizer rate for corn",
+              "journal": "Agronomy Journal",
+              "volume": "97(2)",
+              "pages": "452-461",
+              "doi": "10.2134/agronj2005.0452"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to an agricultural appraiser or farm management specialist for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        },
+        {
+          "label": "Erosion-Prone Land Zoning Restriction",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "County zoning ordinances that restrict row-crop cultivation on Class VI-VIII soils and slopes exceeding 15% to permanent vegetation or managed forestry prevent the soil degradation that accelerates when marginal land is brought under tillage during high commodity price cycles.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "SOIL_DEGRADATION -> dACC -> EC -> HIPP",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect soil samples at 0-6-inch and 6-12-inch depths before implementation and annually thereafter; target measurable improvement in the primary metric (organic matter, aggregate stability, or nutrient level) within 3 years. Measure infiltration rate with a double-ring infiltrometer or timed ponding test at 3 representative points per field; target ≥15% improvement within 2 years. Document soil condition observations (compaction, earthworm counts, residue decomposition) at spring and fall tillage windows.",
+          "escalation": "If the target soil health metric (organic matter, aggregate stability, or infiltration rate) shows no measurable improvement after 3 annual sampling cycles, escalate to a certified crop adviser (CCA) or soil scientist for comprehensive soil health diagnostic including biological assay, compaction profiling, and drainage assessment. If infiltration rate declines by >20% from baseline at any measurement point, investigate compaction or structural damage before the next field operation."
+        },
+        {
+          "label": "Planning Commission Agricultural Literacy Training",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Training workshops for county planning commissioners and zoning board members on agricultural economics, soil classification significance, and the irreversibility of farmland conversion equip decision-makers to evaluate rezoning petitions with agricultural impact understanding rather than purely fiscal considerations.",
+          "cite": "Daniels, T. & Bowers, D. (1997). Holding Our Ground: Protecting America's Farms and Farmland. Island Press, 1-334; Centner, T.J. (2006). Governments and unconstitutional takings: When do right-to-farm laws go too far?. Boston College Environmental Affairs Law Review, 33(1), 87-148",
+          "target": "FARMLAND_CONVERSION -> dACC -> EC -> OFC",
+          "citation": [
+            {
+              "author": "Daniels, T. & Bowers, D.",
+              "year": 1997,
+              "title": "Holding Our Ground: Protecting America's Farms and Farmland",
+              "journal": "Island Press",
+              "volume": null,
+              "pages": "1-334",
+              "doi": null
+            },
+            {
+              "author": "Centner, T.J.",
+              "year": 2006,
+              "title": "Governments and unconstitutional takings: When do right-to-farm laws go too far?",
+              "journal": "Boston College Environmental Affairs Law Review",
+              "volume": "33(1)",
+              "pages": "87-148",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified crop adviser (CCA) or soil scientist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "County Comprehensive Plan Agricultural Element",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Incorporating a mandatory agricultural element into county comprehensive plans establishes formal policy recognition of farmland as critical infrastructure. The agricultural element identifies prime farmland areas, establishes growth boundaries, and creates consistency requirements that prevent ad hoc rezoning decisions from undermining long-term agricultural viability.",
+          "cite": "Daniels, T. & Bowers, D. (1997). Holding Our Ground: Protecting America's Farms and Farmland. Island Press, 1-334; Centner, T.J. (2006). Governments and unconstitutional takings: When do right-to-farm laws go too far?. Boston College Environmental Affairs Law Review, 33(1), 87-148",
+          "target": "FARMLAND_CONVERSION -> dACC -> EC -> dlPFC",
+          "citation": [
+            {
+              "author": "Daniels, T. & Bowers, D.",
+              "year": 1997,
+              "title": "Holding Our Ground: Protecting America's Farms and Farmland",
+              "journal": "Island Press",
+              "volume": null,
+              "pages": "1-334",
+              "doi": null
+            },
+            {
+              "author": "Centner, T.J.",
+              "year": 2006,
+              "title": "Governments and unconstitutional takings: When do right-to-farm laws go too far?",
+              "journal": "Boston College Environmental Affairs Law Review",
+              "volume": "33(1)",
+              "pages": "87-148",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a USDA service center representative or extension policy specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Agricultural Impact Assessment Tool",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "A standardized agricultural impact assessment scoring tool modeled on the USDA Land Evaluation and Site Assessment (LESA) system that planning commissions apply to every rezoning application affecting agricultural land. Quantitative scoring of soil quality, farm size, adjacent land use, and water availability creates objective criteria that reduce arbitrary conversion approvals.",
+          "cite": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E. (1997). Soil quality: A concept, definition, and framework for evaluation. Soil Science Society of America Journal, 61(1), 4-10. doi:10.2136/sssaj1997.03615995006100010001x; Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E. (2015). Soil biology for resilient, healthy soil. Journal of Soil and Water Conservation, 70(1), 12A-18A. doi:10.2489/jswc.70.1.12A",
+          "target": "FARMLAND_CONVERSION -> dACC -> EC -> dlPFC",
+          "citation": [
+            {
+              "author": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E.",
+              "year": 1997,
+              "title": "Soil quality: A concept, definition, and framework for evaluation",
+              "journal": "Soil Science Society of America Journal",
+              "volume": "61(1)",
+              "pages": "4-10",
+              "doi": "10.2136/sssaj1997.03615995006100010001x"
+            },
+            {
+              "author": "Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E.",
+              "year": 2015,
+              "title": "Soil biology for resilient, healthy soil",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "70(1)",
+              "pages": "12A-18A",
+              "doi": "10.2489/jswc.70.1.12A"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Farm-Friendly Zoning Compliance Culture",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Building a political culture where agricultural zoning protections are viewed as economic development rather than property rights restrictions requires sustained engagement between farm organizations and local government. Farmer participation on planning commissions, agricultural advisory committees, and public comment processes normalizes the expectation that prime farmland is not a development reserve.",
+          "cite": "Daniels, T. & Bowers, D. (1997). Holding Our Ground: Protecting America's Farms and Farmland. Island Press, 1-334; Centner, T.J. (2006). Governments and unconstitutional takings: When do right-to-farm laws go too far?. Boston College Environmental Affairs Law Review, 33(1), 87-148",
+          "target": "SOIL_DEGRADATION -> dACC -> EC -> HIPP",
+          "citation": [
+            {
+              "author": "Daniels, T. & Bowers, D.",
+              "year": 1997,
+              "title": "Holding Our Ground: Protecting America's Farms and Farmland",
+              "journal": "Island Press",
+              "volume": null,
+              "pages": "1-334",
+              "doi": null
+            },
+            {
+              "author": "Centner, T.J.",
+              "year": 2006,
+              "title": "Governments and unconstitutional takings: When do right-to-farm laws go too far?",
+              "journal": "Boston College Environmental Affairs Law Review",
+              "volume": "33(1)",
+              "pages": "87-148",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to an agricultural appraiser or farm management specialist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Calibration",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Conservation Easements",
+      "domainDescription": "Voluntary legal agreements restricting development to protect farmland",
+      "group": "conservation",
+      "phase": "P5",
+      "weight": 0.7,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_landuse_easements_portal.html",
+      "treatments": [
+        {
+          "label": "ACEP-ALE Enrollment Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Systematic enrollment of prime and unique farmland in the USDA Agricultural Conservation Easement Program — Agricultural Land Easements (ACEP-ALE) leverages federal cost-share (up to 50%) with state and local matching funds to permanently protect farmland from conversion. Strategic targeting of parcels under greatest development pressure maximizes the conversion-prevention impact per dollar.",
+          "cite": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K. (2004). Land trusts and conservation easements: Who is conserving what for whom?. Conservation Biology, 18(1), 65-75. doi:10.1111/j.1523-1739.2004.00401.x; Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M. (2007). Conservation easements: Biodiversity protection and private use. Conservation Biology, 21(3), 709-718. doi:10.1111/j.1523-1739.2007.00660.x",
+          "target": "FARMLAND_CONVERSION -> HIPP -> EC -> dACC",
+          "citation": [
+            {
+              "author": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K.",
+              "year": 2004,
+              "title": "Land trusts and conservation easements: Who is conserving what for whom?",
+              "journal": "Conservation Biology",
+              "volume": "18(1)",
+              "pages": "65-75",
+              "doi": "10.1111/j.1523-1739.2004.00401.x"
+            },
+            {
+              "author": "Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M.",
+              "year": 2007,
+              "title": "Conservation easements: Biodiversity protection and private use",
+              "journal": "Conservation Biology",
+              "volume": "21(3)",
+              "pages": "709-718",
+              "doi": "10.1111/j.1523-1739.2007.00660.x"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to an agricultural appraiser or farm management specialist for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        },
+        {
+          "label": "Conservation Easement Stewardship Planning",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Incorporating soil health benchmarks and erosion control requirements into easement terms ensures that protected farmland does not degrade in productivity even though it is permanently shielded from development. Stewardship plans attached to easements specify cover crop minimums, tillage restrictions on slopes, and periodic soil testing requirements.",
+          "cite": "Renard, K.G., Foster, G.R., Weesies, G.A., McCool, D.K. & Yoder, D.C. (1997). Predicting Soil Erosion by Water: A Guide to Conservation Planning with the RUSLE. USDA Agriculture Handbook 703, 1-404; Dabney, S.M., Yoder, D.C., Vieira, D.A.N. & Bingner, R.L. (2011). Enhancing RUSLE to include runoff-driven phenomena. Hydrological Processes, 25(9), 1373-1390. doi:10.1002/hyp.7897",
+          "target": "SOIL_DEGRADATION -> HIPP -> EC -> dlPFC",
+          "citation": [
+            {
+              "author": "Renard, K.G., Foster, G.R., Weesies, G.A., McCool, D.K. & Yoder, D.C.",
+              "year": 1997,
+              "title": "Predicting Soil Erosion by Water: A Guide to Conservation Planning with the RUSLE",
+              "journal": "USDA Agriculture Handbook 703",
+              "volume": null,
+              "pages": "1-404",
+              "doi": null
+            },
+            {
+              "author": "Dabney, S.M., Yoder, D.C., Vieira, D.A.N. & Bingner, R.L.",
+              "year": 2011,
+              "title": "Enhancing RUSLE to include runoff-driven phenomena",
+              "journal": "Hydrological Processes",
+              "volume": "25(9)",
+              "pages": "1373-1390",
+              "doi": "10.1002/hyp.7897"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        },
+        {
+          "label": "Easement Valuation and Tax Benefit Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Qualified appraisers and tax professionals coach landowners on the charitable deduction value of donated conservation easements, including the enhanced easement incentive allowing deductions up to 100% of AGI for qualifying farmers. This coaching addresses the widespread misunderstanding that easements are financially punitive rather than tax-advantaged.",
+          "cite": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K. (2004). Land trusts and conservation easements: Who is conserving what for whom?. Conservation Biology, 18(1), 65-75. doi:10.1111/j.1523-1739.2004.00401.x; Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M. (2007). Conservation easements: Biodiversity protection and private use. Conservation Biology, 21(3), 709-718. doi:10.1111/j.1523-1739.2007.00660.x",
+          "target": "FARMLAND_CONVERSION -> HIPP -> EC -> OFC",
+          "citation": [
+            {
+              "author": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K.",
+              "year": 2004,
+              "title": "Land trusts and conservation easements: Who is conserving what for whom?",
+              "journal": "Conservation Biology",
+              "volume": "18(1)",
+              "pages": "65-75",
+              "doi": "10.1111/j.1523-1739.2004.00401.x"
+            },
+            {
+              "author": "Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M.",
+              "year": 2007,
+              "title": "Conservation easements: Biodiversity protection and private use",
+              "journal": "Conservation Biology",
+              "volume": "21(3)",
+              "pages": "709-718",
+              "doi": "10.1111/j.1523-1739.2007.00660.x"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Execute financial action: submit applications, secure approvals, document terms and compliance requirements",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to an agricultural appraiser or farm management specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Land Trust Accreditation and Monitoring Framework",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Land trusts accredited through the Land Trust Accreditation Commission maintain standardized easement monitoring, legal defense funds, and annual property inspections that ensure permanent easement protections are actually enforced across ownership transfers. Accreditation creates the institutional infrastructure that makes perpetual easements credible.",
+          "cite": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K. (2004). Land trusts and conservation easements: Who is conserving what for whom?. Conservation Biology, 18(1), 65-75. doi:10.1111/j.1523-1739.2004.00401.x; Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M. (2007). Conservation easements: Biodiversity protection and private use. Conservation Biology, 21(3), 709-718. doi:10.1111/j.1523-1739.2007.00660.x",
+          "target": "FARMLAND_CONVERSION -> HIPP -> EC -> dACC",
+          "citation": [
+            {
+              "author": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K.",
+              "year": 2004,
+              "title": "Land trusts and conservation easements: Who is conserving what for whom?",
+              "journal": "Conservation Biology",
+              "volume": "18(1)",
+              "pages": "65-75",
+              "doi": "10.1111/j.1523-1739.2004.00401.x"
+            },
+            {
+              "author": "Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M.",
+              "year": 2007,
+              "title": "Conservation easements: Biodiversity protection and private use",
+              "journal": "Conservation Biology",
+              "volume": "21(3)",
+              "pages": "709-718",
+              "doi": "10.1111/j.1523-1739.2007.00660.x"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "GIS-Based Easement Priority Mapping Tool",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "A GIS decision-support tool that overlays USDA prime farmland soil maps, development pressure indices, existing easement coverage, and watershed boundaries to prioritize parcels where easement acquisition delivers the greatest combined farmland protection and soil conservation benefit. Enables limited program funding to target the highest-impact parcels.",
+          "cite": "McBratney, A.B., Mendonca Santos, M.L. & Minasny, B. (2003). On digital soil mapping. Geoderma, 117(1-2), 3-52. doi:10.1016/S0016-7061(03)00223-4; Corwin, D.L. & Lesch, S.M. (2005). Apparent soil electrical conductivity measurements in agriculture. Computers and Electronics in Agriculture, 46(1-3), 11-43. doi:10.1016/j.compag.2004.10.005",
+          "target": "SOIL_DEGRADATION -> HIPP -> EC -> dACC",
+          "citation": [
+            {
+              "author": "McBratney, A.B., Mendonca Santos, M.L. & Minasny, B.",
+              "year": 2003,
+              "title": "On digital soil mapping",
+              "journal": "Geoderma",
+              "volume": "117(1-2)",
+              "pages": "3-52",
+              "doi": "10.1016/S0016-7061(03)00223-4"
+            },
+            {
+              "author": "Corwin, D.L. & Lesch, S.M.",
+              "year": 2005,
+              "title": "Apparent soil electrical conductivity measurements in agriculture",
+              "journal": "Computers and Electronics in Agriculture",
+              "volume": "46(1-3)",
+              "pages": "11-43",
+              "doi": "10.1016/j.compag.2004.10.005"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Conservation Easement Community Norm Building",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Peer-led easement holder networks and farmland conservation recognition events build social acceptance of easements as a badge of stewardship rather than a sacrifice of property rights. When neighbors see respected community members enrolling land, the perceived social cost of easement participation drops and voluntary enrollment rates increase.",
+          "cite": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K. (2004). Land trusts and conservation easements: Who is conserving what for whom?. Conservation Biology, 18(1), 65-75. doi:10.1111/j.1523-1739.2004.00401.x; Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M. (2007). Conservation easements: Biodiversity protection and private use. Conservation Biology, 21(3), 709-718. doi:10.1111/j.1523-1739.2007.00660.x",
+          "target": "FARMLAND_CONVERSION -> HIPP -> EC -> AG",
+          "citation": [
+            {
+              "author": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K.",
+              "year": 2004,
+              "title": "Land trusts and conservation easements: Who is conserving what for whom?",
+              "journal": "Conservation Biology",
+              "volume": "18(1)",
+              "pages": "65-75",
+              "doi": "10.1111/j.1523-1739.2004.00401.x"
+            },
+            {
+              "author": "Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M.",
+              "year": 2007,
+              "title": "Conservation easements: Biodiversity protection and private use",
+              "journal": "Conservation Biology",
+              "volume": "21(3)",
+              "pages": "709-718",
+              "doi": "10.1111/j.1523-1739.2007.00660.x"
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to an agricultural appraiser or farm management specialist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Historical Records",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Property Tax",
+      "domainDescription": "Agricultural use value assessment and property tax exemption programs",
+      "group": "fiscal",
+      "phase": "P6",
+      "weight": 0.7,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_landuse_proptax_portal.html",
+      "treatments": [
+        {
+          "label": "Agricultural Use Value Assessment Enrollment",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Enrolling farmland in state agricultural use value assessment programs (also called current-use valuation or greenbelt programs) ensures property tax liability reflects the income-generating capacity of the land rather than speculative development value. All 50 states offer some form of preferential agricultural assessment, but enrollment rates are often below potential due to awareness gaps.",
+          "cite": "[CITATION NEEDED: Enrolling farmland in state agricultural use value assessment programs (also called current-use valu]",
+          "target": "FARMLAND_CONVERSION -> OFC -> EC -> dlPFC",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Enrolling farmland in state agricultural use value assessment programs (also called current-use valu]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Estate Tax Special Use Valuation (IRC 2032A)",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Electing IRC Section 2032A special use valuation allows qualifying farm estates to value farmland at its agricultural use value rather than fair market value for estate tax purposes, reducing taxable estate value by up to $1,310,000 (2024 indexed amount). This directly addresses the forced land sales triggered when estate tax liability is computed on inflated speculative values.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "SUCCESSION_FAILURE -> OFC -> EC -> AG",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized price per unit versus local market benchmark weekly; target ≥5% premium capture within the first marketing year. Monitor basis levels relative to 3-year average; document timing of sales decisions versus seasonal price patterns. Assess marketing plan performance at mid-season and year-end; target total revenue within ≥95% of pre-season projection.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Property Tax Circuit Breaker Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Extension educators and tax professionals coach farm families on navigating the intersection of property tax, income tax, and estate tax provisions that affect farmland retention decisions. Many operators are unaware of circuit breaker credits, rollback penalty calculations for withdrawing from use-value programs, and the interaction between conservation easement donations and property tax reductions.",
+          "cite": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K. (2004). Land trusts and conservation easements: Who is conserving what for whom?. Conservation Biology, 18(1), 65-75. doi:10.1111/j.1523-1739.2004.00401.x; Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M. (2007). Conservation easements: Biodiversity protection and private use. Conservation Biology, 21(3), 709-718. doi:10.1111/j.1523-1739.2007.00660.x",
+          "target": "LAND_PRICE_INFLATION -> OFC -> EC -> dlPFC",
+          "citation": [
+            {
+              "author": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K.",
+              "year": 2004,
+              "title": "Land trusts and conservation easements: Who is conserving what for whom?",
+              "journal": "Conservation Biology",
+              "volume": "18(1)",
+              "pages": "65-75",
+              "doi": "10.1111/j.1523-1739.2004.00401.x"
+            },
+            {
+              "author": "Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M.",
+              "year": 2007,
+              "title": "Conservation easements: Biodiversity protection and private use",
+              "journal": "Conservation Biology",
+              "volume": "21(3)",
+              "pages": "709-718",
+              "doi": "10.1111/j.1523-1739.2007.00660.x"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to an agricultural appraiser or farm management specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "State Use-Value Assessment Formula Reform",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Legislative reform of state use-value assessment formulas to use capitalized net farm income rather than comparable sales approaches prevents speculative market dynamics from infiltrating the agricultural assessment calculation. States using income-based formulas (e.g., Iowa, Indiana) provide more stable and genuinely agricultural-reflective assessments than those using adjusted market approaches.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "LAND_PRICE_INFLATION -> OFC -> EC -> dlPFC",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized price per unit versus local market benchmark weekly; target ≥5% premium capture within the first marketing year. Monitor basis levels relative to 3-year average; document timing of sales decisions versus seasonal price patterns. Assess marketing plan performance at mid-season and year-end; target total revenue within ≥95% of pre-season projection.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Property Tax Impact Calculator",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "A spreadsheet-based calculator that models the property tax consequences of use-value enrollment, withdrawal, rollback penalties, and conservation easement effects on assessed value. Enables farm families to quantify the actual dollar impact of various land use decisions on their annual tax burden and compare scenarios before committing to irreversible choices.",
+          "cite": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K. (2004). Land trusts and conservation easements: Who is conserving what for whom?. Conservation Biology, 18(1), 65-75. doi:10.1111/j.1523-1739.2004.00401.x; Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M. (2007). Conservation easements: Biodiversity protection and private use. Conservation Biology, 21(3), 709-718. doi:10.1111/j.1523-1739.2007.00660.x",
+          "target": "FARMLAND_CONVERSION -> OFC -> EC -> AG",
+          "citation": [
+            {
+              "author": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K.",
+              "year": 2004,
+              "title": "Land trusts and conservation easements: Who is conserving what for whom?",
+              "journal": "Conservation Biology",
+              "volume": "18(1)",
+              "pages": "65-75",
+              "doi": "10.1111/j.1523-1739.2004.00401.x"
+            },
+            {
+              "author": "Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M.",
+              "year": 2007,
+              "title": "Conservation easements: Biodiversity protection and private use",
+              "journal": "Conservation Biology",
+              "volume": "21(3)",
+              "pages": "709-718",
+              "doi": "10.1111/j.1523-1739.2007.00660.x"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Agricultural Assessment Advocacy Culture",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Farm Bureau, commodity organization, and conservation district engagement in state legislative processes builds sustained political support for maintaining and strengthening agricultural use-value assessment programs. When farm communities treat use-value assessment as a shared public good requiring active defense rather than an entitlement, legislative erosion of these programs is less likely.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "SUCCESSION_FAILURE -> OFC -> EC -> dACC",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to an agricultural appraiser or farm management specialist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Commodity Markets",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Land Valuation",
+      "domainDescription": "Appraisal methods based on productivity, comparable sales, and income",
+      "group": "valuation",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_landuse_valuation_portal.html",
+      "treatments": [
+        {
+          "label": "Income Capitalization Appraisal Approach",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Shifting farmland appraisals from comparable-sales-driven methods to income capitalization approaches values land based on its sustainable agricultural earning capacity rather than speculative transaction prices. When lenders, assessors, and buyers anchor to income-based values, the feedback loop between speculative purchases and inflated comparables is disrupted.",
+          "cite": "Nickerson, C., Morehart, M., Kuethe, T., Beckman, J., Ifft, J. & Williams, R. (2012). Trends in U.S. Farmland Values and Ownership. USDA-ERS Economic Information Bulletin 92, 1-48; Gloy, B.A., Boehlje, M.D., Dobbins, C.L., Hurt, C. & Baker, T.G. (2011). Are economic fundamentals driving farmland values?. Choices, 26(2), 1-6",
+          "target": "LAND_PRICE_INFLATION -> dlPFC -> EC -> vmPFC",
+          "citation": [
+            {
+              "author": "Nickerson, C., Morehart, M., Kuethe, T., Beckman, J., Ifft, J. & Williams, R.",
+              "year": 2012,
+              "title": "Trends in U.S. Farmland Values and Ownership",
+              "journal": "USDA-ERS Economic Information Bulletin 92",
+              "volume": null,
+              "pages": "1-48",
+              "doi": null
+            },
+            {
+              "author": "Gloy, B.A., Boehlje, M.D., Dobbins, C.L., Hurt, C. & Baker, T.G.",
+              "year": 2011,
+              "title": "Are economic fundamentals driving farmland values?",
+              "journal": "Choices",
+              "volume": "26(2)",
+              "pages": "1-6",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized price per unit versus local market benchmark weekly; target ≥5% premium capture within the first marketing year. Monitor basis levels relative to 3-year average; document timing of sales decisions versus seasonal price patterns. Assess marketing plan performance at mid-season and year-end; target total revenue within ≥95% of pre-season projection.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Soil Quality Discount Factor in Appraisal",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Incorporating quantitative soil health metrics (organic matter percentage, aggregate stability, infiltration rate) as adjustment factors in agricultural appraisals creates market price signals that reward conservation investment and penalize degradation. When declining soil quality reduces appraised value, landowners gain a direct financial incentive to maintain soil health.",
+          "cite": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E. (1997). Soil quality: A concept, definition, and framework for evaluation. Soil Science Society of America Journal, 61(1), 4-10. doi:10.2136/sssaj1997.03615995006100010001x; Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E. (2015). Soil biology for resilient, healthy soil. Journal of Soil and Water Conservation, 70(1), 12A-18A. doi:10.2489/jswc.70.1.12A",
+          "target": "SOIL_DEGRADATION -> dlPFC -> EC -> HIPP",
+          "citation": [
+            {
+              "author": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E.",
+              "year": 1997,
+              "title": "Soil quality: A concept, definition, and framework for evaluation",
+              "journal": "Soil Science Society of America Journal",
+              "volume": "61(1)",
+              "pages": "4-10",
+              "doi": "10.2136/sssaj1997.03615995006100010001x"
+            },
+            {
+              "author": "Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E.",
+              "year": 2015,
+              "title": "Soil biology for resilient, healthy soil",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "70(1)",
+              "pages": "12A-18A",
+              "doi": "10.2489/jswc.70.1.12A"
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Execute financial action: submit applications, secure approvals, document terms and compliance requirements",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect soil samples at 0-6-inch and 6-12-inch depths before implementation and annually thereafter; target measurable improvement in the primary metric (organic matter, aggregate stability, or nutrient level) within 3 years. Measure infiltration rate with a double-ring infiltrometer or timed ponding test at 3 representative points per field; target ≥15% improvement within 2 years. Document soil condition observations (compaction, earthworm counts, residue decomposition) at spring and fall tillage windows.",
+          "escalation": "If the target soil health metric (organic matter, aggregate stability, or infiltration rate) shows no measurable improvement after 3 annual sampling cycles, escalate to a certified crop adviser (CCA) or soil scientist for comprehensive soil health diagnostic including biological assay, compaction profiling, and drainage assessment. If infiltration rate declines by >20% from baseline at any measurement point, investigate compaction or structural damage before the next field operation."
+        },
+        {
+          "label": "Appraisal Methodology Training for Agricultural Lenders",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Targeted training for Farm Credit System appraisers and community bank agricultural lenders on distinguishing between agricultural productivity value and speculative market value in loan underwriting. When lenders use productivity-based loan-to-value ratios, they reduce their own risk exposure to farmland price corrections and avoid fueling speculative bidding through overleveraged loans.",
+          "cite": "Barry, P.J. & Ellinger, P.N. (2012). Financial Management in Agriculture, 7th Edition. Pearson, 1-576; Langemeier, M.R. (2018). Measuring Farm Profitability. Purdue University Center for Commercial Agriculture",
+          "target": "LAND_PRICE_INFLATION -> dlPFC -> EC -> OFC",
+          "citation": [
+            {
+              "author": "Barry, P.J. & Ellinger, P.N.",
+              "year": 2012,
+              "title": "Financial Management in Agriculture, 7th Edition",
+              "journal": "Pearson",
+              "volume": null,
+              "pages": "1-576",
+              "doi": null
+            },
+            {
+              "author": "Langemeier, M.R.",
+              "year": 2018,
+              "title": "Measuring Farm Profitability",
+              "journal": "Purdue University Center for Commercial Agriculture",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Execute financial action: submit applications, secure approvals, document terms and compliance requirements",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to an agricultural appraiser or farm management specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "USDA Land Values Survey Methodology Framework",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "The USDA NASS Land Values Survey provides the structural benchmark that anchors farmland valuation discussions at state and county levels. Consistent annual methodology using stratified sampling of actual transactions creates a reliable reference that resists manipulation by individual speculative sales distorting local comparable databases.",
+          "cite": "Nickerson, C., Morehart, M., Kuethe, T., Beckman, J., Ifft, J. & Williams, R. (2012). Trends in U.S. Farmland Values and Ownership. USDA-ERS Economic Information Bulletin 92, 1-48; Gloy, B.A., Boehlje, M.D., Dobbins, C.L., Hurt, C. & Baker, T.G. (2011). Are economic fundamentals driving farmland values?. Choices, 26(2), 1-6",
+          "target": "LAND_PRICE_INFLATION -> dlPFC -> EC -> vmPFC",
+          "citation": [
+            {
+              "author": "Nickerson, C., Morehart, M., Kuethe, T., Beckman, J., Ifft, J. & Williams, R.",
+              "year": 2012,
+              "title": "Trends in U.S. Farmland Values and Ownership",
+              "journal": "USDA-ERS Economic Information Bulletin 92",
+              "volume": null,
+              "pages": "1-48",
+              "doi": null
+            },
+            {
+              "author": "Gloy, B.A., Boehlje, M.D., Dobbins, C.L., Hurt, C. & Baker, T.G.",
+              "year": 2011,
+              "title": "Are economic fundamentals driving farmland values?",
+              "journal": "Choices",
+              "volume": "26(2)",
+              "pages": "1-6",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized price per unit versus local market benchmark weekly; target ≥5% premium capture within the first marketing year. Monitor basis levels relative to 3-year average; document timing of sales decisions versus seasonal price patterns. Assess marketing plan performance at mid-season and year-end; target total revenue within ≥95% of pre-season projection.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Corn Suitability Rating and Productivity Index Tools",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "State-specific productivity index systems such as Iowa's Corn Suitability Rating 2 (CSR2) and Illinois's Productivity Index (PI) provide objective, soil-science-based measures of agricultural earning potential that appraisers, assessors, and buyers can use to normalize per-acre values to a common productivity standard. These tools make the soil quality component of value transparent and quantifiable.",
+          "cite": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E. (1997). Soil quality: A concept, definition, and framework for evaluation. Soil Science Society of America Journal, 61(1), 4-10. doi:10.2136/sssaj1997.03615995006100010001x; Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E. (2015). Soil biology for resilient, healthy soil. Journal of Soil and Water Conservation, 70(1), 12A-18A. doi:10.2489/jswc.70.1.12A",
+          "target": "SOIL_DEGRADATION -> dlPFC -> EC -> OFC",
+          "citation": [
+            {
+              "author": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E.",
+              "year": 1997,
+              "title": "Soil quality: A concept, definition, and framework for evaluation",
+              "journal": "Soil Science Society of America Journal",
+              "volume": "61(1)",
+              "pages": "4-10",
+              "doi": "10.2136/sssaj1997.03615995006100010001x"
+            },
+            {
+              "author": "Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E.",
+              "year": 2015,
+              "title": "Soil biology for resilient, healthy soil",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "70(1)",
+              "pages": "12A-18A",
+              "doi": "10.2489/jswc.70.1.12A"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
+          "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        },
+        {
+          "label": "Transparency in Farmland Transaction Reporting",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Building a professional culture where farmland sale terms, prices, and conditions are accurately reported in real estate transfer documents and communicated to USDA NASS surveyors improves the quality of valuation data available to all market participants. Norms against non-disclosure clauses and inflated reporting in farmland transactions reduce the information asymmetries that enable speculative pricing.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "LAND_PRICE_INFLATION -> dlPFC -> EC -> vmPFC",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30 and 90 days; target ≥80% of staff following new protocol by day 90. Track the number of decisions documented with supporting data per month; target ≥3 data-backed decisions per decision-maker per month. Reassess culture adherence quarterly through anonymous team survey scoring 1-5 on practice commitment.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to an agricultural appraiser or farm management specialist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Inventory Management",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Farm Succession",
+      "domainDescription": "Intergenerational transfer planning for family farm continuity",
+      "group": "planning",
+      "phase": "P8",
+      "weight": 0.7,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_landuse_succession_portal.html",
+      "treatments": [
+        {
+          "label": "Phased Ownership Transfer Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "A structured multi-year plan that transfers farm assets incrementally through annual gift tax exclusions (currently $18,000 per donor per recipient), installment sales, and entity interest transfers. Phased transfer avoids the estate tax shock of a lump transfer at death and gives the successor time to build management capacity while the senior generation mentors them.",
+          "cite": "[CITATION NEEDED: A structured multi-year plan that transfers farm assets incrementally through annual gift tax exclus]",
+          "target": "SUCCESSION_FAILURE -> AG -> EC -> OFC",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: A structured multi-year plan that transfers farm assets incrementally through annual gift tax exclus]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized price per unit versus local market benchmark weekly; target ≥5% premium capture within the first marketing year. Monitor basis levels relative to 3-year average; document timing of sales decisions versus seasonal price patterns. Assess marketing plan performance at mid-season and year-end; target total revenue within ≥95% of pre-season projection.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Beginning Farmer Financing Access Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Connecting next-generation operators with FSA Beginning Farmer loans, state beginning farmer tax credit programs, and Farm Credit beginning farmer lending programs addresses the capital access barrier that prevents succession. FSA direct and guaranteed loans offer favorable terms including reduced down payments and interest rate reductions for qualifying beginning farmers.",
+          "cite": "Barry, P.J. & Ellinger, P.N. (2012). Financial Management in Agriculture, 7th Edition. Pearson, 1-576; Langemeier, M.R. (2018). Measuring Farm Profitability. Purdue University Center for Commercial Agriculture",
+          "target": "LAND_PRICE_INFLATION -> AG -> EC -> dlPFC",
+          "citation": [
+            {
+              "author": "Barry, P.J. & Ellinger, P.N.",
+              "year": 2012,
+              "title": "Financial Management in Agriculture, 7th Edition",
+              "journal": "Pearson",
+              "volume": null,
+              "pages": "1-576",
+              "doi": null
+            },
+            {
+              "author": "Langemeier, M.R.",
+              "year": 2018,
+              "title": "Measuring Farm Profitability",
+              "journal": "Purdue University Center for Commercial Agriculture",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Execute financial action: submit applications, secure approvals, document terms and compliance requirements",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Family Farm Succession Facilitation Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Trained succession facilitators guide multi-generational farm families through a structured process that separates the emotional dimensions of transfer (fairness among heirs, identity transition for retiring operators) from the technical dimensions (entity structure, tax planning, financing). Extension programs in most states offer facilitated succession workshops and one-on-one coaching.",
+          "cite": "Mishra, A.K., El-Osta, H.S. & Shaik, S. (2010). Succession decisions in U.S. family farm businesses. Journal of Agricultural and Resource Economics, 35(1), 133-152; Lobley, M., Baker, J.R. & Whitehead, I. (2010). Farm succession and retirement: Some international comparisons. Journal of Agriculture, Food Systems, and Community Development, 1(1), 49-64. doi:10.5304/jafscd.2010.011.009",
+          "target": "SUCCESSION_FAILURE -> AG -> EC -> TPJ",
+          "citation": [
+            {
+              "author": "Mishra, A.K., El-Osta, H.S. & Shaik, S.",
+              "year": 2010,
+              "title": "Succession decisions in U.S. family farm businesses",
+              "journal": "Journal of Agricultural and Resource Economics",
+              "volume": "35(1)",
+              "pages": "133-152",
+              "doi": null
+            },
+            {
+              "author": "Lobley, M., Baker, J.R. & Whitehead, I.",
+              "year": 2010,
+              "title": "Farm succession and retirement: Some international comparisons",
+              "journal": "Journal of Agriculture, Food Systems, and Community Development",
+              "volume": "1(1)",
+              "pages": "49-64",
+              "doi": "10.5304/jafscd.2010.011.009"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Execute financial action: submit applications, secure approvals, document terms and compliance requirements",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to an agricultural appraiser or farm management specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Family Limited Partnership or LLC Structure",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establishing a family limited partnership (FLP) or LLC to hold farm real estate enables fractional interest transfers at valuation discounts for lack of marketability and minority interest, reducing gift and estate tax exposure while maintaining operational control in the managing partner or member. The entity structure also prevents involuntary partition among heirs.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "SUCCESSION_FAILURE -> AG -> EC -> OFC",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized price per unit versus local market benchmark weekly; target ≥5% premium capture within the first marketing year. Monitor basis levels relative to 3-year average; document timing of sales decisions versus seasonal price patterns. Assess marketing plan performance at mid-season and year-end; target total revenue within ≥95% of pre-season projection.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Succession Planning Timeline and Checklist Tool",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "A comprehensive checklist tool that organizes the succession planning process into phases: family goal-setting, financial analysis, entity selection, document preparation, and implementation milestones. The tool tracks completion of critical items including updated wills, buy-sell agreements, life insurance funding, and title transfers that must align for the plan to function as intended.",
+          "cite": "Mishra, A.K., El-Osta, H.S. & Shaik, S. (2010). Succession decisions in U.S. family farm businesses. Journal of Agricultural and Resource Economics, 35(1), 133-152; Lobley, M., Baker, J.R. & Whitehead, I. (2010). Farm succession and retirement: Some international comparisons. Journal of Agriculture, Food Systems, and Community Development, 1(1), 49-64. doi:10.5304/jafscd.2010.011.009",
+          "target": "TENURE_INSTABILITY -> AG -> EC -> vmPFC",
+          "citation": [
+            {
+              "author": "Mishra, A.K., El-Osta, H.S. & Shaik, S.",
+              "year": 2010,
+              "title": "Succession decisions in U.S. family farm businesses",
+              "journal": "Journal of Agricultural and Resource Economics",
+              "volume": "35(1)",
+              "pages": "133-152",
+              "doi": null
+            },
+            {
+              "author": "Lobley, M., Baker, J.R. & Whitehead, I.",
+              "year": 2010,
+              "title": "Farm succession and retirement: Some international comparisons",
+              "journal": "Journal of Agriculture, Food Systems, and Community Development",
+              "volume": "1(1)",
+              "pages": "49-64",
+              "doi": "10.5304/jafscd.2010.011.009"
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Execute financial action: submit applications, secure approvals, document terms and compliance requirements",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Intergenerational Farm Continuity Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Building a community expectation that succession planning is a standard part of farm management rather than a taboo topic requires visible examples and peer encouragement. Farm Bureau young farmer programs, beginning farmer networks, and extension succession events create venues where both generations see that planning is normal, achievable, and practiced by respected peers.",
+          "cite": "Mishra, A.K., El-Osta, H.S. & Shaik, S. (2010). Succession decisions in U.S. family farm businesses. Journal of Agricultural and Resource Economics, 35(1), 133-152; Lobley, M., Baker, J.R. & Whitehead, I. (2010). Farm succession and retirement: Some international comparisons. Journal of Agriculture, Food Systems, and Community Development, 1(1), 49-64. doi:10.5304/jafscd.2010.011.009",
+          "target": "SUCCESSION_FAILURE -> AG -> EC -> vmPFC",
+          "citation": [
+            {
+              "author": "Mishra, A.K., El-Osta, H.S. & Shaik, S.",
+              "year": 2010,
+              "title": "Succession decisions in U.S. family farm businesses",
+              "journal": "Journal of Agricultural and Resource Economics",
+              "volume": "35(1)",
+              "pages": "133-152",
+              "doi": null
+            },
+            {
+              "author": "Lobley, M., Baker, J.R. & Whitehead, I.",
+              "year": 2010,
+              "title": "Farm succession and retirement: Some international comparisons",
+              "journal": "Journal of Agriculture, Food Systems, and Community Development",
+              "volume": "1(1)",
+              "pages": "49-64",
+              "doi": "10.5304/jafscd.2010.011.009"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to an agricultural appraiser or farm management specialist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Research & Education",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Higher Education"
+        },
+        {
+          "domain": "governance",
+          "role": "International Law"
+        },
+        {
+          "domain": "industry",
+          "role": "Research and Development"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Phoneme-Grapheme Mapping"
+        },
+        {
+          "domain": "population",
+          "role": "Education Levels"
+        },
+        {
+          "domain": "religion",
+          "role": "Religious Education"
+        },
+        {
+          "domain": "science",
+          "role": "Citation Networks"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Use Rights",
+      "domainDescription": "Water rights, mineral rights, and access easements tied to agricultural land",
+      "group": "rights",
+      "phase": "P4",
+      "weight": 0.7,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_landuse_userights_portal.html",
+      "treatments": [
+        {
+          "label": "Use Rights Documentation and Title Search Strategy",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "A systematic title search protocol that identifies all severed mineral rights, water rights appropriations, access easements, and utility corridors attached to agricultural parcels before transfer or lease execution. Documenting the complete bundle of rights prevents disputes that destabilize tenure when previously unknown encumbrances surface after a transaction closes.",
+          "cite": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K. (2004). Land trusts and conservation easements: Who is conserving what for whom?. Conservation Biology, 18(1), 65-75. doi:10.1111/j.1523-1739.2004.00401.x; Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M. (2007). Conservation easements: Biodiversity protection and private use. Conservation Biology, 21(3), 709-718. doi:10.1111/j.1523-1739.2007.00660.x",
+          "target": "TENURE_INSTABILITY -> TPJ -> EC -> vmPFC",
+          "citation": [
+            {
+              "author": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K.",
+              "year": 2004,
+              "title": "Land trusts and conservation easements: Who is conserving what for whom?",
+              "journal": "Conservation Biology",
+              "volume": "18(1)",
+              "pages": "65-75",
+              "doi": "10.1111/j.1523-1739.2004.00401.x"
+            },
+            {
+              "author": "Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M.",
+              "year": 2007,
+              "title": "Conservation easements: Biodiversity protection and private use",
+              "journal": "Conservation Biology",
+              "volume": "21(3)",
+              "pages": "709-718",
+              "doi": "10.1111/j.1523-1739.2007.00660.x"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Water Rights Appropriation Retention Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "In prior appropriation states, maintaining water rights requires demonstrating beneficial use. A proactive strategy ensures that farmland water rights are exercised, documented, and defended against abandonment or forfeiture claims, particularly during drought years or crop rotation periods when irrigation may be reduced. Loss of water rights can permanently diminish land value and agricultural viability.",
+          "cite": "Bullock, D.G. (1992). Crop rotation. Critical Reviews in Plant Sciences, 11(4), 309-326. doi:10.1080/07352689209382349; Davis, A.S., Hill, J.D., Chase, C.A., Johanns, A.M. & Liebman, M. (2012). Increasing cropping system diversity balances productivity, profitability and environmental health. PLoS ONE, 7(10), e47149. doi:10.1371/journal.pone.0047149",
+          "target": "SUCCESSION_FAILURE -> TPJ -> EC -> AG",
+          "citation": [
+            {
+              "author": "Bullock, D.G.",
+              "year": 1992,
+              "title": "Crop rotation",
+              "journal": "Critical Reviews in Plant Sciences",
+              "volume": "11(4)",
+              "pages": "309-326",
+              "doi": "10.1080/07352689209382349"
+            },
+            {
+              "author": "Davis, A.S., Hill, J.D., Chase, C.A., Johanns, A.M. & Liebman, M.",
+              "year": 2012,
+              "title": "Increasing cropping system diversity balances productivity, profitability and environmental health",
+              "journal": "PLoS ONE",
+              "volume": "7(10)",
+              "pages": "e47149",
+              "doi": "10.1371/journal.pone.0047149"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Design multi-season rotation schedule with specific timing windows, input rates, and sequencing constraints",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Use Rights Education for Successor Operators",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Coaching next-generation operators on the legal framework governing water rights, mineral rights, and access easements specific to their state jurisdiction prevents costly mistakes during transition. Many successors are unaware that water rights may not automatically transfer with land title, that mineral rights can be severed and sold independently, or that verbal access agreements are unenforceable.",
+          "cite": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K. (2004). Land trusts and conservation easements: Who is conserving what for whom?. Conservation Biology, 18(1), 65-75. doi:10.1111/j.1523-1739.2004.00401.x; Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M. (2007). Conservation easements: Biodiversity protection and private use. Conservation Biology, 21(3), 709-718. doi:10.1111/j.1523-1739.2007.00660.x",
+          "target": "SUCCESSION_FAILURE -> TPJ -> AG -> EC",
+          "citation": [
+            {
+              "author": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K.",
+              "year": 2004,
+              "title": "Land trusts and conservation easements: Who is conserving what for whom?",
+              "journal": "Conservation Biology",
+              "volume": "18(1)",
+              "pages": "65-75",
+              "doi": "10.1111/j.1523-1739.2004.00401.x"
+            },
+            {
+              "author": "Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M.",
+              "year": 2007,
+              "title": "Conservation easements: Biodiversity protection and private use",
+              "journal": "Conservation Biology",
+              "volume": "21(3)",
+              "pages": "709-718",
+              "doi": "10.1111/j.1523-1739.2007.00660.x"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified irrigation designer (CID) or water management specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Formal Use Rights Agreement Templates",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Standardized written agreement templates for common agricultural use rights situations including surface use agreements with mineral lessees, irrigation water sharing agreements between neighbors, and field access easements replace the verbal understandings that generate disputes. Written agreements with clear terms, durations, and compensation provisions create enforceable expectations that stabilize tenure.",
+          "cite": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K. (2004). Land trusts and conservation easements: Who is conserving what for whom?. Conservation Biology, 18(1), 65-75. doi:10.1111/j.1523-1739.2004.00401.x; Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M. (2007). Conservation easements: Biodiversity protection and private use. Conservation Biology, 21(3), 709-718. doi:10.1111/j.1523-1739.2007.00660.x",
+          "target": "TENURE_INSTABILITY -> TPJ -> EC -> vmPFC",
+          "citation": [
+            {
+              "author": "Merenlender, A.M., Huntsinger, L., Guthey, G. & Fairfax, S.K.",
+              "year": 2004,
+              "title": "Land trusts and conservation easements: Who is conserving what for whom?",
+              "journal": "Conservation Biology",
+              "volume": "18(1)",
+              "pages": "65-75",
+              "doi": "10.1111/j.1523-1739.2004.00401.x"
+            },
+            {
+              "author": "Rissman, A.R., Lozier, L., Comendant, T., Kareiva, P., Kiesecker, J.M., Shaw, M.R. & Merenlender, A.M.",
+              "year": 2007,
+              "title": "Conservation easements: Biodiversity protection and private use",
+              "journal": "Conservation Biology",
+              "volume": "21(3)",
+              "pages": "709-718",
+              "doi": "10.1111/j.1523-1739.2007.00660.x"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Water Rights Tracking and Compliance Tool",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "A digital tracking system that monitors water rights permit conditions, reporting deadlines, flow measurement records, and beneficial use documentation requirements prevents inadvertent forfeiture of valuable appropriative water rights. In states with use-it-or-lose-it doctrines, missed reporting or documentation gaps can trigger abandonment proceedings that permanently extinguish agricultural water access.",
+          "cite": "[CITATION NEEDED: A digital tracking system that monitors water rights permit conditions, reporting deadlines, flow me]",
+          "target": "TENURE_INSTABILITY -> TPJ -> EC -> dlPFC",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: A digital tracking system that monitors water rights permit conditions, reporting deadlines, flow me]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Execute installation/conversion: verify flow rates, pressure settings, and distribution uniformity at each zone",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
+          "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
+        },
+        {
+          "label": "Right-to-Farm Awareness and Advocacy Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Building awareness among farm operators and rural communities of state right-to-farm law protections creates a culture where agricultural use rights are assertively maintained rather than quietly surrendered to nuisance complaints from encroaching residential neighbors. All 50 states have right-to-farm statutes, but their protective scope varies and many farmers are unaware of the specific protections available.",
+          "cite": "Daniels, T. & Bowers, D. (1997). Holding Our Ground: Protecting America's Farms and Farmland. Island Press, 1-334; Centner, T.J. (2006). Governments and unconstitutional takings: When do right-to-farm laws go too far?. Boston College Environmental Affairs Law Review, 33(1), 87-148",
+          "target": "TENURE_INSTABILITY -> TPJ -> EC -> dACC",
+          "citation": [
+            {
+              "author": "Daniels, T. & Bowers, D.",
+              "year": 1997,
+              "title": "Holding Our Ground: Protecting America's Farms and Farmland",
+              "journal": "Island Press",
+              "volume": null,
+              "pages": "1-334",
+              "doi": null
+            },
+            {
+              "author": "Centner, T.J.",
+              "year": 2006,
+              "title": "Governments and unconstitutional takings: When do right-to-farm laws go too far?",
+              "journal": "Boston College Environmental Affairs Law Review",
+              "volume": "33(1)",
+              "pages": "87-148",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to an agricultural appraiser or farm management specialist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Trade Agreements",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Land Use & Property — Action Coordination",
+      "domainDescription": "Land Use & Property — Action Coordination within Land Use & Property",
+      "group": "tenure",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_landuse_ri_action_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Land Use & Property — Action Coordination",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "STEM Education"
+        },
+        {
+          "domain": "religion",
+          "role": "Sacred Architecture"
+        },
+        {
+          "domain": "science",
+          "role": "Mathematics"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Human Capital & Development"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SPL",
+      "state": "active",
+      "domainLabel": "Land Use & Property — Adaptation & Learning",
+      "domainDescription": "Land Use & Property — Adaptation & Learning within Land Use & Property",
+      "group": "tenure",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_landuse_ri_adapt_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Land Use & Property — Adaptation & Learning",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "digitalads social — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Placemaking — Assessment & Monitoring — Outcome Tracking"
+        },
+        {
+          "domain": "defense",
+          "role": "basing signal — Signal Filtering"
+        },
+        {
+          "domain": "economy",
+          "role": "Land Tenure — Optimization & Innovation — Waste Reduction"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Scaffolds — State Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "economics diag — Root Cause Analysis"
+        },
+        {
+          "domain": "environment",
+          "role": "aqmodeling exposure — Signal Acquisition"
+        },
+        {
+          "domain": "finance",
+          "role": "auditstd gaas — Signal Acquisition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CAUD",
+      "state": "active",
+      "domainLabel": "Land Use & Property — Diagnostic Analysis",
+      "domainDescription": "Land Use & Property — Diagnostic Analysis within Land Use & Property",
+      "group": "tenure",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_landuse_ri_diagnosis_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Land Use & Property — Diagnostic Analysis",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Hydrogen"
+        },
+        {
+          "domain": "governance",
+          "role": "Civil Service"
+        },
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — Feedback & Validation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OLF",
+      "state": "active",
+      "domainLabel": "Land Use & Property — Feedback & Validation",
+      "domainDescription": "Land Use & Property — Feedback & Validation within Land Use & Property",
+      "group": "tenure",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_landuse_ri_feedback_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Commodity Markets — Adaptation & Learning",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Screen Reader Compatibility Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Aircraft Maintenance Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "econ agribiz — Signal Acquisition"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — Diagnostic Analysis"
+        },
+        {
+          "domain": "energy",
+          "role": "Solid-State Batteries Assessment & Diagnostics"
+        },
+        {
+          "domain": "environment",
+          "role": "Air Quality Standards Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Land Use & Property — Regulation Strategy",
+      "domainDescription": "Land Use & Property — Regulation Strategy within Land Use & Property",
+      "group": "tenure",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_landuse_ri_regulate_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Land Use & Property — Regulation Strategy",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Noradrenergic Withdrawal Storm"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Arousal Regulation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Noradrenergic Metabolic Arousal"
+        },
+        {
+          "domain": "neurology",
+          "role": "Locus Coeruleus"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Arousal Regulation & Hypervigilance"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Policy & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Park Design Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VIA",
+      "state": "active",
+      "domainLabel": "Land Use & Property — Signal Detection",
+      "domainDescription": "Land Use & Property — Signal Detection within Land Use & Property",
+      "group": "tenure",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_landuse_ri_signal_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Land Use & Property — Signal Detection",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Assistive Technology — Implementation & Strategy — Quality Gates"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture — Feedback & Validation"
+        },
+        {
+          "domain": "defense",
+          "role": "Multirole Fighters — State Assessment"
+        },
+        {
+          "domain": "economy",
+          "role": "Farm Productivity — Implementation & Strategy — Technology Deployment"
+        },
+        {
+          "domain": "education",
+          "role": "MOOC Delivery — State Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage — Adaptation & Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Airquality — Action Coordination"
+        },
+        {
+          "domain": "finance",
+          "role": "COSO Framework — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ENDO",
+      "state": "active",
+      "domainLabel": "Land Use & Property — State Assessment",
+      "domainDescription": "Land Use & Property — State Assessment within Land Use & Property",
+      "group": "tenure",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_landuse_ri_state_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Fertilizers & Nutrients — Regulation Strategy",
+      "brainNodeLabelCanonical": "P2",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "psychedelic",
+          "role": "Endocannabinoid Modulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Finance — Implementation & Strategy"
+        },
+        {
+          "domain": "education",
+          "role": "entrance prep — Signal Acquisition"
+        },
+        {
+          "domain": "energy",
+          "role": "Utility Storage Assessment & Diagnostics"
+        },
+        {
+          "domain": "environment",
+          "role": "Emission Standards Assessment & Diagnostics"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "EC",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "EC",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "EC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "HIPP",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "dlPFC",
+      "target": "EC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "OFC",
+      "target": "EC",
+      "type": "CONTROLS",
+      "weight": 0.5
+    },
+    {
+      "source": "HIPP",
+      "target": "EC",
+      "type": "CONTROLS",
+      "weight": 0.5
+    },
+    {
+      "source": "AG",
+      "target": "EC",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "AG",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    }
+  ],
+  "issues": [
+    {
+      "id": "FARMLAND_CONVERSION",
+      "label": "Farmland Conversion",
+      "summary": "Productive agricultural land permanently lost to urban development, solar installations, and infrastructure expansion",
+      "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hypo-active",
+          "detail": "Prime farmland ownership transferring to development interests at rates exceeding conservation enrollment",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Local zoning boards approving agricultural land conversion without adequate replacement provisions",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Property tax assessments incentivizing development over agricultural use as land values inflate",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Conservation easement programs underfunded relative to conversion pressure in peri-urban areas",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "TENURE_INSTABILITY",
+      "label": "Tenure Instability",
+      "summary": "Short-term leases and absentee ownership discouraging long-term conservation investment on rented farmland",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Altered",
+          "detail": "One-year lease terms creating disincentive for soil health investment that benefits future tenants",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EC",
+          "dir": "Hypo-active",
+          "detail": "Absentee landlords unaware of conservation program opportunities for their enrolled acreage",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-active",
+          "detail": "Farm succession planning delayed until operator incapacity creates forced liquidation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Altered",
+          "detail": "Use rights disputes between landowners and tenants over conservation practice implementation",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LAND_PRICE_INFLATION",
+      "label": "Land Price Inflation",
+      "summary": "Agricultural land values escalating beyond productive earning capacity making entry impossible for beginning farmers",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-active",
+          "detail": "Speculative land purchases at multiples of agricultural earnings pricing out working farmers",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Property tax burden escalating as assessed values follow speculative rather than agricultural pricing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Altered",
+          "detail": "Cash rent levels tracking inflated land values rather than crop revenue potential",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-active",
+          "detail": "Beginning farmer entry blocked by down payment requirements exceeding savings accumulation rate",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SOIL_DEGRADATION",
+      "label": "Soil Degradation",
+      "summary": "Erosion, nutrient depletion, and organic matter loss reducing productive capacity of cultivated land over time",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Conservation easement acreage insufficient to protect critical watershed headlands and slopes",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EC",
+          "dir": "Hypo-active",
+          "detail": "Landowners not participating in conservation programs leaving vulnerable acres unprotected",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Zoning enforcement not preventing cultivation of highly erodible land classifications",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Land valuation not discounting for soil quality degradation trends on specific parcels",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SUCCESSION_FAILURE",
+      "label": "Succession Failure",
+      "summary": "Aging farm operators unable to transfer operations to next generation due to estate tax, debt, or lack of successor",
+      "circuits": [
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-active",
+          "detail": "Farm succession plans nonexistent for majority of operations with operators over 65",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EC",
+          "dir": "Altered",
+          "detail": "Land ownership fragmenting through inheritance into non-farming heirs who liquidate",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Estate tax valuation forcing land sale to cover tax liability on appreciated farmland",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Intergenerational use rights transfers complicated by unclear verbal agreements and expectations",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:15.093Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

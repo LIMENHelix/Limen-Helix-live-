@@ -1,0 +1,511 @@
+{
+  "domainId": "legal_prosecutorial",
+  "title": "Prosecutorial Oversight",
+  "parentPortal": "legal_portal.html",
+  "parentLabel": "Legal Systems",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "vlPFC",
+      "state": "active",
+      "domainLabel": "Prosecutorial Oversight Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Prosecutorial Oversight indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Executes core prosecutorial oversight operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core prosecutorial oversight operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Prosecutorial Oversight Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Prosecutorial Oversight Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "legal_prosecutorial_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Prosecutorial Oversight Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Prosecutorial Oversight activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Detects and monitors prosecutorial oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Detects and monitors prosecutorial oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Prosecutorial Oversight Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Prosecutorial Oversight Core Operations"
+        }
+      ],
+      "childPortal": "legal_prosecutorial_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Prosecutorial Oversight Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Prosecutorial Oversight, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "iManage",
+          "ticker_or_id": "IMANAGE",
+          "functional_reason": "Stores and retrieves prosecutorial oversight knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors prosecutorial oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.68
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Prosecutorial Oversight Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Prosecutorial Oversight Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "legal_prosecutorial_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "RSC",
+      "state": "active",
+      "domainLabel": "Prosecutorial Oversight Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Prosecutorial Oversight practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Routes and distributes prosecutorial oversight resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Thomson Reuters Legal",
+          "ticker_or_id": "TRI",
+          "functional_reason": "Stores and retrieves prosecutorial oversight knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.73
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Prosecutorial Oversight Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Prosecutorial Oversight Standards & Governance"
+        }
+      ],
+      "childPortal": "legal_prosecutorial_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "rACC",
+      "state": "active",
+      "domainLabel": "Prosecutorial Oversight Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Prosecutorial Oversight methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Litera",
+          "ticker_or_id": "LITERA",
+          "functional_reason": "Executes core prosecutorial oversight operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Wolters Kluwer",
+          "ticker_or_id": "WLSNY",
+          "functional_reason": "Stores and retrieves prosecutorial oversight knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.72
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Prosecutorial Oversight Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Prosecutorial Oversight Research & Development"
+        }
+      ],
+      "childPortal": "legal_prosecutorial_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "TPOLE",
+      "state": "active",
+      "domainLabel": "Prosecutorial Oversight Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Prosecutorial Oversight stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors prosecutorial oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Stores and retrieves prosecutorial oversight knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.76
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Prosecutorial Oversight Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Prosecutorial Oversight Risk & Resilience"
+        }
+      ],
+      "childPortal": "legal_prosecutorial_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "DAN",
+      "state": "active",
+      "domainLabel": "Prosecutorial Oversight Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Prosecutorial Oversight operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Clio (Themis Solutions)",
+          "ticker_or_id": "CLIO",
+          "functional_reason": "Executes core prosecutorial oversight operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "ContractPodAi",
+          "ticker_or_id": "CONTRACTPOD",
+          "functional_reason": "Executes core prosecutorial oversight operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Prosecutorial Oversight Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Prosecutorial Oversight Coordination & Integration"
+        }
+      ],
+      "childPortal": "legal_prosecutorial_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "VAN",
+      "state": "active",
+      "domainLabel": "Prosecutorial Oversight Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Prosecutorial Oversight outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Kira Systems",
+          "ticker_or_id": "KIRA",
+          "functional_reason": "Detects and monitors prosecutorial oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "LexisNexis Legal",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Detects and monitors prosecutorial oversight signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        }
+      ],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Prosecutorial Oversight Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Prosecutorial Oversight Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "vlPFC",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "TPJ",
+      "target": "PRECUNEUS",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "RSC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "RSC",
+      "target": "rACC",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "rACC",
+      "target": "TPOLE",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "TPOLE",
+      "target": "DAN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "DAN",
+      "target": "VAN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VAN",
+      "target": "vlPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "vlPFC",
+      "target": "rACC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "RSC",
+      "target": "DAN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "LEGAL_PROSECUTORIAL_SYSTEM_FAILURE",
+      "label": "Prosecutorial Oversight System Failure",
+      "summary": "Critical breakdown in Prosecutorial Oversight systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo-active",
+          "detail": "Prosecutorial Oversight Assessment & Diagnostics capacity falling below operational thresholds, reducing Prosecutorial Oversight output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Prosecutorial Oversight Core Operations systems underperforming, creating gaps in Prosecutorial Oversight coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Altered",
+          "detail": "Prosecutorial Oversight Infrastructure & Capacity behavior deviating from established norms, complicating Prosecutorial Oversight management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPOLE",
+          "dir": "Hyper-active",
+          "detail": "Prosecutorial Oversight Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Prosecutorial Oversight",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VAN",
+          "dir": "Hypo-active",
+          "detail": "Prosecutorial Oversight Performance & Optimization function reduced, compromising Prosecutorial Oversight system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_PROSECUTORIAL_CAPACITY_CRISIS",
+      "label": "Prosecutorial Oversight Capacity Crisis",
+      "summary": "Demand exceeding available Prosecutorial Oversight capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hyper-active",
+          "detail": "Prosecutorial Oversight Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Prosecutorial Oversight",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hypo-active",
+          "detail": "Prosecutorial Oversight Infrastructure & Capacity systems underperforming, creating gaps in Prosecutorial Oversight coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RSC",
+          "dir": "Altered",
+          "detail": "Prosecutorial Oversight Standards & Governance behavior deviating from established norms, complicating Prosecutorial Oversight management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DAN",
+          "dir": "Hyper-active",
+          "detail": "Prosecutorial Oversight Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Prosecutorial Oversight",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VAN",
+          "dir": "Altered",
+          "detail": "Prosecutorial Oversight Performance & Optimization operating outside normal parameters, introducing uncertainty into Prosecutorial Oversight outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEGAL_PROSECUTORIAL_GOVERNANCE_GAP",
+      "label": "Prosecutorial Oversight Governance Gap",
+      "summary": "Oversight or regulatory failure in Prosecutorial Oversight creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "RSC",
+          "dir": "Hypo-active",
+          "detail": "Prosecutorial Oversight Standards & Governance capacity falling below operational thresholds, reducing Prosecutorial Oversight output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Altered",
+          "detail": "Prosecutorial Oversight Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Prosecutorial Oversight",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Hyper-active",
+          "detail": "Prosecutorial Oversight Research & Development activity spiking beyond design limits, creating instability across Prosecutorial Oversight operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPOLE",
+          "dir": "Altered",
+          "detail": "Prosecutorial Oversight Risk & Resilience patterns disrupted, necessitating adaptive responses within Prosecutorial Oversight frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DAN",
+          "dir": "Hypo-active",
+          "detail": "Prosecutorial Oversight Coordination & Integration function reduced, compromising Prosecutorial Oversight system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2448 @@
+{
+  "domainId": "science",
+  "title": "Science",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Hypothesis Generation",
+      "domainDescription": "The creative cognitive process of formulating testable explanations for observed phenomena, drawing on prior knowledge, analogical reasoning, and imaginative speculation.",
+      "domainFunction": "Produces novel candidate explanations by combining existing knowledge with creative inference, generating the testable propositions that initiate the scientific method cycle.",
+      "whyThisNode": "The DMN (default mode network) activates during unconstrained, internally-directed thought including imagination, mental simulation, and creative ideation, directly paralleling how hypothesis generation relies on free-ranging mental exploration to conceive novel explanatory frameworks.",
+      "group": "research",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance"
+      ],
+      "treatments": [
+        {
+          "label": "Interdisciplinary Research Workshops",
+          "type": "STRUCTURAL",
+          "description": "Convene researchers from disparate fields to cross-pollinate conceptual frameworks, enabling novel hypothesis formation through exposure to unfamiliar paradigms and methodologies.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Systematic Literature Gap Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Apply text mining and citation network analysis to identify unexplored intersections between research fields where novel hypotheses are most likely to yield productive investigations.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "science_hypothesis_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Thermo Fisher Scientific",
+          "ticker_or_id": "TMO",
+          "functional_reason": "Executes core hypothesis generation operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "National Science Foundation",
+          "ticker_or_id": "NSF_GOV",
+          "functional_reason": "Allocates and regulates hypothesis generation resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "DARPA",
+          "ticker_or_id": "DARPA_GOV",
+          "functional_reason": "Detects and monitors hypothesis generation signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.66
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Hypothesis Generation",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Experimental Design",
+      "domainDescription": "The structured planning of experiments including variable control, randomization, blinding, sample sizing, and measurement protocols to generate valid, interpretable data.",
+      "domainFunction": "Architects the controlled conditions under which hypotheses are tested, ensuring that experimental outcomes can be attributed to the manipulated variables rather than confounds or chance.",
+      "whyThisNode": "The dlPFC (dorsolateral prefrontal cortex) orchestrates executive planning, working memory manipulation, and cognitive control over complex task structures, directly paralleling how experimental design requires systematic planning, variable management, and controlled execution of complex research protocols.",
+      "group": "research",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation"
+      ],
+      "treatments": [
+        {
+          "label": "Pre-Registration Requirements",
+          "type": "STRUCTURAL",
+          "description": "Mandate public registration of experimental designs, hypotheses, and analysis plans before data collection to prevent post-hoc modifications that inflate false positive rates.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Design of Experiments Methodology",
+          "type": "DIAGNOSTIC",
+          "description": "Apply factorial and response surface design techniques to systematically identify the optimal experimental conditions with minimum trial count while maximizing information yield.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "science_experimental_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Bruker Corporation",
+          "ticker_or_id": "BRKR",
+          "functional_reason": "Executes core experimental design operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "SpaceX",
+          "ticker_or_id": "SPACEX",
+          "functional_reason": "Executes core experimental design operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Agilent Technologies",
+          "ticker_or_id": "A",
+          "functional_reason": "Executes core experimental design operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Experimental Design",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Peer Review",
+      "domainDescription": "The evaluation of scientific manuscripts and grant proposals by qualified experts who assess methodological rigor, novelty, significance, and validity before publication or funding.",
+      "domainFunction": "Filters the scientific record by subjecting claims to critical expert scrutiny, identifying methodological flaws, unsupported conclusions, and insufficient evidence before research enters the public domain.",
+      "whyThisNode": "The dACC (dorsal anterior cingulate cortex) monitors for errors, evaluates conflicts between competing interpretations, and signals when revision is needed, directly paralleling how peer review monitors scientific claims for errors, evaluates conflicting evidence, and signals when manuscripts require revision.",
+      "group": "peer_review",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis"
+      ],
+      "treatments": [
+        {
+          "label": "Open Peer Review Adoption",
+          "type": "STRUCTURAL",
+          "description": "Transition from anonymous to transparent review where reviewer identities and reports are published alongside accepted papers, increasing accountability and review quality.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Reviewer Calibration Studies",
+          "type": "DIAGNOSTIC",
+          "description": "Periodically assess inter-reviewer agreement and detection rates using planted methodological errors to identify and correct systematic biases in the review process.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "science_peer_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Danaher Corporation",
+          "ticker_or_id": "DHR",
+          "functional_reason": "Detects and monitors peer review signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "NASA",
+          "ticker_or_id": "NASA_GOV",
+          "functional_reason": "Detects and monitors peer review signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Illumina",
+          "ticker_or_id": "ILMN",
+          "functional_reason": "Detects and monitors peer review signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Peer Review",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Data Analysis",
+      "domainDescription": "The application of statistical methods, computational algorithms, and visualization techniques to extract meaningful patterns, test hypotheses, and draw valid inferences from experimental and observational data.",
+      "domainFunction": "Transforms raw data into scientific conclusions through statistical testing, model fitting, pattern recognition, and uncertainty quantification that determine whether evidence supports or refutes hypotheses.",
+      "whyThisNode": "The FPN (frontoparietal network) integrates executive control with spatial and quantitative processing to perform goal-directed analytical reasoning, directly paralleling how data analysis integrates methodological rigor with quantitative computation to extract valid scientific conclusions.",
+      "group": "data",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting"
+      ],
+      "treatments": [
+        {
+          "label": "Reproducible Analysis Pipelines",
+          "type": "STRUCTURAL",
+          "description": "Mandate version-controlled code repositories, containerized computing environments, and automated workflow documentation for all published analyses to ensure computational reproducibility.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Statistical Audit Programs",
+          "type": "DIAGNOSTIC",
+          "description": "Implement automated and expert-reviewed checks for common statistical errors including multiple comparison corrections, assumption violations, and effect size reporting standards.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "science_data_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "SpaceX",
+          "ticker_or_id": "SPACEX",
+          "functional_reason": "Executes core data analysis operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Bruker Corporation",
+          "ticker_or_id": "BRKR",
+          "functional_reason": "Executes core data analysis operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Thermo Fisher Scientific",
+          "ticker_or_id": "TMO",
+          "functional_reason": "Executes core data analysis operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Data Analysis",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Laboratory Methods",
+      "domainDescription": "The practical techniques, instruments, and protocols used to conduct experiments, collect samples, make measurements, and generate the raw data upon which scientific conclusions depend.",
+      "domainFunction": "Executes the physical procedures of scientific investigation including sample preparation, instrument operation, data collection, and measurement that translate experimental designs into empirical observations.",
+      "whyThisNode": "M1 (primary motor cortex) executes the precise physical actions that translate planned intentions into actual motor outputs, directly paralleling how laboratory methods execute the precise physical procedures that translate experimental designs into actual empirical data.",
+      "group": "research",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility"
+      ],
+      "treatments": [
+        {
+          "label": "Laboratory Accreditation Programs",
+          "type": "STRUCTURAL",
+          "description": "Implement ISO 17025 laboratory management systems with documented procedures, calibration schedules, and proficiency testing to ensure measurement quality and traceability.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Method Validation Studies",
+          "type": "DIAGNOSTIC",
+          "description": "Conduct systematic validation of analytical methods for accuracy, precision, linearity, sensitivity, and robustness to confirm fitness for purpose before deployment in research programs.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "science_laboratory_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "NASA",
+          "ticker_or_id": "NASA_GOV",
+          "functional_reason": "Executes core laboratory methods operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Agilent Technologies",
+          "ticker_or_id": "A",
+          "functional_reason": "Executes core laboratory methods operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "SpaceX",
+          "ticker_or_id": "SPACEX",
+          "functional_reason": "Executes core laboratory methods operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Laboratory Methods",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Publication and Dissemination",
+      "domainDescription": "The systems for communicating scientific findings through journals, conferences, preprints, and media, making knowledge available to the research community and public.",
+      "domainFunction": "Transforms research findings into structured written communications that enter the permanent scientific record, enabling knowledge accumulation, critique, and application by the global research community.",
+      "whyThisNode": "Broca's area is the brain's center for language production, transforming internal ideas into structured communicative output, directly paralleling how scientific publication transforms internal research findings into structured written communications for external audiences.",
+      "group": "peer_review",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media"
+      ],
+      "treatments": [
+        {
+          "label": "Open Access Mandates",
+          "type": "STRUCTURAL",
+          "description": "Require publicly funded research to be published in open access formats, removing paywalls that restrict knowledge dissemination and limiting information asymmetries.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Science Communication Training",
+          "type": "DIAGNOSTIC",
+          "description": "Provide researchers with structured training in writing for diverse audiences, including plain-language summaries and media engagement, to improve the accuracy and reach of scientific communication.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "science_publication_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Thermo Fisher Scientific",
+          "ticker_or_id": "TMO",
+          "functional_reason": "Executes core publication and dissemination operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Bruker Corporation",
+          "ticker_or_id": "BRKR",
+          "functional_reason": "Executes core publication and dissemination operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "SpaceX",
+          "ticker_or_id": "SPACEX",
+          "functional_reason": "Executes core publication and dissemination operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Publication and Dissemination",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Corporate Communications"
+        },
+        {
+          "domain": "education",
+          "role": "K-12 Teaching"
+        },
+        {
+          "domain": "governance",
+          "role": "Legislative Process"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Smartcity"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Advocacy / Argumentation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Broca's Area"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Speech Production & Phonological Proc..."
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Communication"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Citation Networks",
+      "domainDescription": "The interconnected web of references between scientific publications that maps intellectual influence, tracks knowledge flow, and reveals the structure of scientific fields.",
+      "domainFunction": "Creates the connective tissue between scientific works, enabling credit attribution, influence tracking, field mapping, and the identification of foundational papers and emerging research fronts.",
+      "whyThisNode": "The angular gyrus integrates multimodal information and supports semantic association and cross-referencing of concepts, directly paralleling how citation networks integrate and cross-reference scientific works, creating semantic links between concepts across the research literature.",
+      "group": "peer_review",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion"
+      ],
+      "treatments": [
+        {
+          "label": "Alternative Metrics Development",
+          "type": "STRUCTURAL",
+          "description": "Deploy diverse impact indicators including altmetrics, usage statistics, and societal impact measures to provide a more complete picture of research influence beyond raw citation counts.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Citation Network Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Apply bibliometric algorithms to map research fronts, identify citation cartels, detect emerging fields, and trace intellectual lineage across the scientific literature.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "science_citation_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Bruker Corporation",
+          "ticker_or_id": "BRKR",
+          "functional_reason": "Detects and monitors citation networks signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Elsevier (RELX)",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Stores and retrieves citation networks knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "Howard Hughes Medical Institute",
+          "ticker_or_id": "HHMI_NPO",
+          "functional_reason": "Allocates and regulates citation networks resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.7
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Citation Networks",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Higher Education"
+        },
+        {
+          "domain": "governance",
+          "role": "International Law"
+        },
+        {
+          "domain": "industry",
+          "role": "Research and Development"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Phoneme-Grapheme Mapping"
+        },
+        {
+          "domain": "population",
+          "role": "Education Levels"
+        },
+        {
+          "domain": "religion",
+          "role": "Religious Education"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Risk Profiling Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Funding and Grants",
+      "domainDescription": "The financial systems that allocate resources to scientific research through government agencies, private foundations, industry partnerships, and institutional support.",
+      "domainFunction": "Directs financial resources to research programs based on scientific merit, societal relevance, and strategic priorities, determining which questions can be investigated and at what scale.",
+      "whyThisNode": "The vmPFC (ventromedial prefrontal cortex) integrates value signals with long-term consequence assessment to guide resource-allocation decisions, directly paralleling how funding agencies evaluate the value and potential consequences of research proposals to allocate limited financial resources.",
+      "group": "funding",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias"
+      ],
+      "treatments": [
+        {
+          "label": "Diversified Funding Portfolios",
+          "type": "STRUCTURAL",
+          "description": "Establish multiple independent funding streams including curiosity-driven, mission-oriented, and high-risk/high-reward programs to reduce dependence on any single agency or priority framework.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Funding Outcome Assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Track the long-term scientific and societal outcomes of funded research programs to identify which allocation strategies produce the highest return on investment for knowledge advancement.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "science_funding_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Agilent Technologies",
+          "ticker_or_id": "A",
+          "functional_reason": "Detects and monitors funding and grants signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Max Planck Society",
+          "ticker_or_id": "MAX_PLANCK",
+          "functional_reason": "Stores and retrieves funding and grants knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "SpaceX",
+          "ticker_or_id": "SPACEX",
+          "functional_reason": "Executes core funding and grants operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.65
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Funding and Grants",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Replication",
+      "domainDescription": "The practice of repeating experiments to verify that results are consistent and reliable, serving as the primary self-correction mechanism of the scientific process.",
+      "domainFunction": "Validates scientific claims by independently reproducing experimental conditions and results, distinguishing robust findings from artifacts, errors, and statistical flukes.",
+      "whyThisNode": "The hippocampus consolidates and retrieves memories, enabling comparison of current experience with stored representations to verify consistency, directly paralleling how replication retrieves and re-executes prior experiments to verify that current results are consistent with original findings.",
+      "group": "research",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability"
+      ],
+      "treatments": [
+        {
+          "label": "Registered Replication Reports",
+          "type": "STRUCTURAL",
+          "description": "Establish journal formats that guarantee publication of high-quality replication attempts regardless of outcome, removing the publication bias against null and negative replication results.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Reproducibility Checklists",
+          "type": "DIAGNOSTIC",
+          "description": "Require authors to complete standardized checklists documenting all materials, conditions, and procedures necessary for independent replication as a condition of publication.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Max Planck Society",
+          "ticker_or_id": "MAX_PLANCK",
+          "functional_reason": "Stores and retrieves replication knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Howard Hughes Medical Institute",
+          "ticker_or_id": "HHMI_NPO",
+          "functional_reason": "Stores and retrieves replication knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Illumina",
+          "ticker_or_id": "ILMN",
+          "functional_reason": "Stores and retrieves replication knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "science_replication_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Replication",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Statistical Inference",
+      "domainDescription": "The mathematical framework for drawing conclusions from data under uncertainty, including frequentist hypothesis testing, Bayesian inference, and information-theoretic approaches.",
+      "domainFunction": "Provides the formal logical machinery for quantifying evidence strength, estimating parameters, testing predictions, and making decisions under uncertainty that underlies all empirical science.",
+      "whyThisNode": "The ECN (executive control network) manages effortful cognitive processing, rule application, and logical reasoning under demanding conditions, directly paralleling how statistical inference applies formal mathematical rules to draw rigorous logical conclusions from data under conditions of uncertainty.",
+      "group": "data",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect"
+      ],
+      "treatments": [
+        {
+          "label": "Statistical Literacy Programs",
+          "type": "STRUCTURAL",
+          "description": "Require comprehensive statistical training for all researchers including effect size estimation, confidence intervals, Bayesian methods, and recognition of common inferential errors.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Sensitivity Analysis Protocols",
+          "type": "DIAGNOSTIC",
+          "description": "Mandate multiverse analysis and robustness checks across alternative analytical specifications to verify that conclusions are not contingent on arbitrary methodological choices.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "SpaceX",
+          "ticker_or_id": "SPACEX",
+          "functional_reason": "Executes core statistical inference operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "NASA",
+          "ticker_or_id": "NASA_GOV",
+          "functional_reason": "Executes core statistical inference operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Danaher Corporation",
+          "ticker_or_id": "DHR",
+          "functional_reason": "Executes core statistical inference operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        }
+      ],
+      "childPortal": "science_collaboration_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Statistical Inference",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Economic Indicators"
+        },
+        {
+          "domain": "governance",
+          "role": "Public Administration"
+        },
+        {
+          "domain": "medicine",
+          "role": "Epidemiology"
+        },
+        {
+          "domain": "population",
+          "role": "Census Systems"
+        },
+        {
+          "domain": "technology",
+          "role": "Operating Systems"
+        },
+        {
+          "domain": "trade",
+          "role": "Inventory Management"
+        },
+        {
+          "domain": "communication",
+          "role": "Audio Description Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Theoretical Physics",
+      "domainDescription": "The branch of physics that constructs mathematical models and abstract frameworks to explain fundamental physical phenomena including spacetime, quantum mechanics, and cosmology.",
+      "domainFunction": "Develops the deepest explanatory frameworks for physical reality through mathematical abstraction, thought experiments, and formal theory construction that guide experimental physics and technology development.",
+      "whyThisNode": "The precuneus supports mental imagery, spatial reasoning, and self-referential abstraction, enabling internal simulation of complex spatial and conceptual structures, directly paralleling how theoretical physics constructs abstract internal models of physical reality through spatial-mathematical imagination.",
+      "group": "theoretical",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Theory-experiment disconnect",
+        "Mathematical consistency failure",
+        "Predictive stagnation"
+      ],
+      "treatments": [
+        {
+          "label": "Theory-Experiment Collaboration Grants",
+          "type": "STRUCTURAL",
+          "description": "Fund joint programs that pair theoretical physicists with experimentalists to ensure theoretical predictions remain testable and experimental discoveries inform theory development.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Formal Consistency Verification",
+          "type": "DIAGNOSTIC",
+          "description": "Apply automated theorem proving and mathematical verification tools to check internal consistency of theoretical frameworks and identify hidden assumptions or contradictions.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Bruker Corporation",
+          "ticker_or_id": "BRKR",
+          "functional_reason": "Detects and monitors theoretical physics signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "NASA",
+          "ticker_or_id": "NASA_GOV",
+          "functional_reason": "Detects and monitors theoretical physics signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "Elsevier (RELX)",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Stores and retrieves theoretical physics knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.74
+        }
+      ],
+      "childPortal": "science_computing_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Theoretical Physics",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Spatial Self-Awareness"
+        },
+        {
+          "domain": "education",
+          "role": "Library Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Sustainability"
+        },
+        {
+          "domain": "medicine",
+          "role": "Addiction Medicine"
+        },
+        {
+          "domain": "religion",
+          "role": "Prophecy & Revelation"
+        },
+        {
+          "domain": "technology",
+          "role": "Quantum Computing"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Easy-Read Formats — Regulation Strategy"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Biology and Life Sciences",
+      "domainDescription": "The study of living organisms, their structure, function, growth, evolution, and interactions, spanning molecular biology through ecology.",
+      "domainFunction": "Investigates the mechanisms of life from molecular to ecosystem scales, generating knowledge that underpins medicine, agriculture, biotechnology, and environmental conservation.",
+      "whyThisNode": "The hypothalamus regulates the body's core biological processes including metabolism, growth, reproduction, and homeostasis, directly paralleling how biology and life sciences study the fundamental mechanisms of living systems including metabolism, growth, reproduction, and homeostatic regulation.",
+      "group": "applied",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Biological containment breach",
+        "Model organism limitation",
+        "Ethical boundary concern"
+      ],
+      "treatments": [
+        {
+          "label": "Biosafety Level Standardization",
+          "type": "STRUCTURAL",
+          "description": "Implement and enforce standardized containment protocols across research institutions to prevent accidental release of engineered organisms and maintain public trust in biological research.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cross-Scale Integration Studies",
+          "type": "DIAGNOSTIC",
+          "description": "Fund research that explicitly bridges molecular, cellular, organismal, and ecological levels to identify emergent properties that single-scale studies miss.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Bruker Corporation",
+          "ticker_or_id": "BRKR",
+          "functional_reason": "Detects and monitors biology and life sciences signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "Elsevier (RELX)",
+          "ticker_or_id": "RELX",
+          "functional_reason": "Stores and retrieves biology and life sciences knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Agilent Technologies",
+          "ticker_or_id": "A",
+          "functional_reason": "Detects and monitors biology and life sciences signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.78
+        }
+      ],
+      "childPortal": "science_ethics_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Biology and Life Sciences",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Chemistry",
+      "domainDescription": "The study of matter, its properties, composition, structure, and the transformations it undergoes during chemical reactions, bridging physics and biology.",
+      "domainFunction": "Characterizes molecular structures and reaction mechanisms, enabling the design and synthesis of new materials, drugs, catalysts, and chemical processes that underpin modern technology and medicine.",
+      "whyThisNode": "The orbitofrontal cortex evaluates and compares the relative value of different options based on their properties and predicted outcomes, directly paralleling how chemistry evaluates and compares the properties and reactivities of different molecular structures to predict and design chemical transformations.",
+      "group": "applied",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Synthesis irreproducibility",
+        "Reagent purity issue",
+        "Reaction hazard escalation"
+      ],
+      "treatments": [
+        {
+          "label": "Automated Synthesis Platforms",
+          "type": "STRUCTURAL",
+          "description": "Deploy robotic synthesis systems that execute reactions with precise reproducibility, enabling high-throughput screening of reaction conditions and reducing human error in chemical procedures.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Reaction Monitoring Analytics",
+          "type": "DIAGNOSTIC",
+          "description": "Apply in-situ spectroscopic monitoring to track reaction intermediates and kinetics in real time, enabling mechanistic understanding and optimization of synthetic procedures.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "DARPA",
+          "ticker_or_id": "DARPA_GOV",
+          "functional_reason": "Detects and monitors chemistry signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "Howard Hughes Medical Institute",
+          "ticker_or_id": "HHMI_NPO",
+          "functional_reason": "Allocates and regulates chemistry resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "National Science Foundation",
+          "ticker_or_id": "NSF_GOV",
+          "functional_reason": "Allocates and regulates chemistry resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.7
+        }
+      ],
+      "childPortal": "science_instruments_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Chemistry",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Mathematics",
+      "domainDescription": "The abstract discipline of quantity, structure, space, and change that provides the formal language and logical framework underlying all quantitative sciences.",
+      "domainFunction": "Supplies the formal logical structures, proof techniques, and computational methods that serve as the universal language of science, enabling precise formulation of theories and rigorous derivation of consequences.",
+      "whyThisNode": "The IPS (intraparietal sulcus) is the brain's primary center for numerical magnitude processing, spatial computation, and mathematical reasoning, directly paralleling how mathematics provides the computational and spatial-logical framework for all quantitative scientific reasoning.",
+      "group": "theoretical",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Proof verification challenge",
+        "Computational intractability",
+        "Applied-pure disconnect"
+      ],
+      "treatments": [
+        {
+          "label": "Computer-Assisted Proof Systems",
+          "type": "STRUCTURAL",
+          "description": "Develop and deploy formal verification systems that can check mathematical proofs for logical validity, reducing reliance on human review alone for increasingly complex results.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Mathematical Modeling Workshops",
+          "type": "DIAGNOSTIC",
+          "description": "Bridge pure mathematics and applied science through structured workshops where mathematicians and domain scientists collaboratively formalize research questions into tractable mathematical frameworks.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "NASA",
+          "ticker_or_id": "NASA_GOV",
+          "functional_reason": "Executes core mathematics operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "SpaceX",
+          "ticker_or_id": "SPACEX",
+          "functional_reason": "Executes core mathematics operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Danaher Corporation",
+          "ticker_or_id": "DHR",
+          "functional_reason": "Executes core mathematics operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "science_integrity_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Mathematics",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "STEM Education"
+        },
+        {
+          "domain": "religion",
+          "role": "Sacred Architecture"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Human Capital & Development"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Farm Productivity Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Earth Sciences",
+      "domainDescription": "The study of the Earth's physical systems including geology, oceanography, atmospheric science, and climatology, investigating planetary processes across temporal and spatial scales.",
+      "domainFunction": "Characterizes the physical, chemical, and biological processes that shape the Earth's surface, interior, oceans, and atmosphere, providing the scientific basis for resource management and hazard mitigation.",
+      "whyThisNode": "The NTS (nucleus tractus solitarius) integrates visceral signals about the body's internal fluid and chemical environment, directly paralleling how earth sciences integrate data about the planet's internal and surface processes including fluid dynamics, chemical cycles, and environmental sensing.",
+      "group": "applied",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Observation network gap",
+        "Model-observation divergence",
+        "Data continuity break"
+      ],
+      "treatments": [
+        {
+          "label": "Global Observation Networks",
+          "type": "STRUCTURAL",
+          "description": "Maintain and expand long-term monitoring networks for seismic, atmospheric, oceanic, and cryospheric observations that provide the continuous data records essential for understanding Earth system change.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Earth System Model Validation",
+          "type": "DIAGNOSTIC",
+          "description": "Systematically compare model outputs against observational data across multiple Earth system components to identify biases, improve parameterizations, and quantify prediction uncertainties.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "CERN",
+          "ticker_or_id": "CERN",
+          "functional_reason": "Detects and monitors earth sciences signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "Howard Hughes Medical Institute",
+          "ticker_or_id": "HHMI_NPO",
+          "functional_reason": "Allocates and regulates earth sciences resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Agilent Technologies",
+          "ticker_or_id": "A",
+          "functional_reason": "Detects and monitors earth sciences signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.73
+        }
+      ],
+      "childPortal": "science_metrics_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Earth Sciences",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Hydroelectric Power"
+        },
+        {
+          "domain": "environment",
+          "role": "Ocean Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Maritime and Ports"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Brainstem Metabolic Integration"
+        },
+        {
+          "domain": "trade",
+          "role": "Container Shipping"
+        },
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation Performance & Optimization"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Social Sciences",
+      "domainDescription": "The study of human behavior, social structures, institutions, and cultural phenomena through systematic observation, experimentation, and theoretical analysis.",
+      "domainFunction": "Investigates the mechanisms of human social behavior, institutional function, and cultural dynamics, providing evidence-based frameworks for policy, education, and organizational design.",
+      "whyThisNode": "The TPJ (temporoparietal junction) is the brain's center for social cognition, theory of mind, and perspective-taking, directly paralleling how social sciences study the mechanisms of social cognition, interpersonal dynamics, and institutional behavior from multiple perspectives.",
+      "group": "applied",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern"
+      ],
+      "treatments": [
+        {
+          "label": "Cross-Cultural Research Consortia",
+          "type": "STRUCTURAL",
+          "description": "Establish international research partnerships that conduct parallel studies across diverse cultural contexts to test the generalizability of social science findings beyond Western samples.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Measurement Invariance Testing",
+          "type": "DIAGNOSTIC",
+          "description": "Apply confirmatory factor analysis and differential item functioning tests to verify that psychological and social constructs are measured equivalently across populations before drawing comparative conclusions.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Bruker Corporation",
+          "ticker_or_id": "BRKR",
+          "functional_reason": "Detects and monitors social sciences signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Thermo Fisher Scientific",
+          "ticker_or_id": "TMO",
+          "functional_reason": "Detects and monitors social sciences signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Agilent Technologies",
+          "ticker_or_id": "A",
+          "functional_reason": "Detects and monitors social sciences signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.86
+        }
+      ],
+      "childPortal": "science_openscience_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Social Sciences",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "rACC",
+      "state": "active",
+      "domainLabel": "Ethics Review",
+      "domainDescription": "The institutional oversight of research involving human subjects, animals, and emerging technologies to ensure compliance with ethical principles, informed consent, and welfare protections.",
+      "domainFunction": "Evaluates the ethical dimensions of proposed research to protect participant welfare, ensure informed consent, prevent exploitation, and maintain public trust in the research enterprise.",
+      "whyThisNode": "The rACC (rostral anterior cingulate cortex) processes moral emotions, evaluates the ethical dimensions of decisions, and signals when actions conflict with internalized values, directly paralleling how ethics review evaluates research proposals against moral principles and signals when protocols conflict with ethical standards.",
+      "group": "peer_review",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern"
+      ],
+      "treatments": [
+        {
+          "label": "Adaptive Ethics Frameworks",
+          "type": "STRUCTURAL",
+          "description": "Develop ethics review guidelines that evolve with emerging technologies such as AI, gene editing, and neurotechnology, ensuring oversight keeps pace with scientific capabilities.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Ethics Audit Programs",
+          "type": "DIAGNOSTIC",
+          "description": "Conduct post-approval audits of ongoing research to verify continued compliance with approved protocols and identify emerging ethical concerns not anticipated during initial review.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Thermo Fisher Scientific",
+          "ticker_or_id": "TMO",
+          "functional_reason": "Executes core ethics review operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "National Science Foundation",
+          "ticker_or_id": "NSF_GOV",
+          "functional_reason": "Allocates and regulates ethics review resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Agilent Technologies",
+          "ticker_or_id": "A",
+          "functional_reason": "Detects and monitors ethics review signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.71
+        }
+      ],
+      "childPortal": "science_scicomm_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Ethics Review",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Medical Ethics"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Acoustic Design Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Human Capital & Development"
+        },
+        {
+          "domain": "economy",
+          "role": "Subsidized Credit"
+        },
+        {
+          "domain": "education",
+          "role": "Portfolio Review Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Computer Science",
+      "domainDescription": "The study of computation, information processing, algorithm design, and the construction of software and hardware systems that extend human cognitive and analytical capabilities.",
+      "domainFunction": "Develops the computational tools, algorithms, and data structures that enable all other sciences to process, model, and simulate phenomena beyond the reach of manual analysis.",
+      "whyThisNode": "Wernicke's area processes and comprehends complex structured input, interpreting symbolic representations into meaning, directly paralleling how computer science processes and interprets complex structured data and symbolic code, transforming formal instructions into meaningful computational outcomes.",
+      "group": "data",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Algorithm bias discovery",
+        "Computational reproducibility failure",
+        "Security vulnerability"
+      ],
+      "treatments": [
+        {
+          "label": "Open Source Research Software",
+          "type": "STRUCTURAL",
+          "description": "Mandate that computational tools developed with public funding be released as open source with documentation, enabling peer verification and reducing dependence on proprietary black-box systems.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Code Review for Research Software",
+          "type": "DIAGNOSTIC",
+          "description": "Implement systematic code review practices for research software analogous to peer review for manuscripts, catching bugs and logical errors before they propagate into published results.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "CERN",
+          "ticker_or_id": "CERN",
+          "functional_reason": "Stores and retrieves computer science knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Howard Hughes Medical Institute",
+          "ticker_or_id": "HHMI_NPO",
+          "functional_reason": "Stores and retrieves computer science knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "National Science Foundation",
+          "ticker_or_id": "NSF_GOV",
+          "functional_reason": "Stores and retrieves computer science knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.92
+        }
+      ],
+      "childPortal": "science_translation_portal.html",
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Computer Science",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Literacy"
+        },
+        {
+          "domain": "industry",
+          "role": "Defense Ind"
+        },
+        {
+          "domain": "legal",
+          "role": "Statutory Interpretation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Wernicke's Area"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Comprehension"
+        },
+        {
+          "domain": "religion",
+          "role": "Scripture & Canon"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradezone"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Coordination & Integration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "MGN",
+      "state": "active",
+      "domainLabel": "Workforce",
+      "domainDescription": "Workforce systems within Science",
+      "group": "research",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "science_workforce_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Workforce",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "technology",
+          "role": "Techtalent"
+        },
+        {
+          "domain": "communication",
+          "role": "Radio Spectrum"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "landscape urban — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Fighter Training Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Restructuring Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Enrollment Forecasting Technology & Innovation"
+        },
+        {
+          "domain": "energy",
+          "role": "Material Recovery Quality & Performance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PRC",
+      "state": "active",
+      "domainLabel": "Policy Sci",
+      "domainDescription": "Policy Sci systems within Science",
+      "group": "research",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "science_policy_sci_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Policy Sci",
+      "brainNodeLabelCanonical": "Science",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Audio Description — Implementation & Strategy — Pilot Design"
+        },
+        {
+          "domain": "culture",
+          "role": "Cultural Buildings — Implementation & Strategy — Workforce Alignment"
+        },
+        {
+          "domain": "defense",
+          "role": "fighters training — Signal Acquisition"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics — Feedback & Validation"
+        },
+        {
+          "domain": "education",
+          "role": "edtech evl — Signal Acquisition"
+        },
+        {
+          "domain": "energy",
+          "role": "Material Recovery — State Assessment"
+        },
+        {
+          "domain": "environment",
+          "role": "dispersn diag — Root Cause Analysis"
+        },
+        {
+          "domain": "finance",
+          "role": "gaas diag — Root Cause Analysis"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "REPLICATION_CRISIS",
+      "label": "Replication Crisis",
+      "summary": "Systematic failure to reproduce published findings across multiple scientific disciplines, revealing widespread problems with statistical practices, publication incentives, and methodological transparency that undermine confidence in the scientific record.",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Replication efforts consistently fail to reproduce original findings, indicating that the scientific memory system is storing unreliable information",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Peer review fails to catch the methodological weaknesses and statistical errors that produce irreproducible results, indicating error-detection breakdown",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Altered",
+          "detail": "Data analysis practices shift toward p-hacking and selective reporting as researchers face pressure to produce statistically significant results",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Altered",
+          "detail": "Statistical inference is systematically misapplied through significance threshold fetishism, multiple comparison violations, and underpowered studies",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered",
+          "detail": "Publication systems selectively disseminate positive results while suppressing null findings, creating a distorted scientific record",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Altered",
+          "detail": "Funding incentives reward novel positive findings over replication studies, systematically defunding the verification mechanism of science",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "FUNDING_COLLAPSE",
+      "label": "Research Funding Collapse",
+      "summary": "Severe reduction in government and institutional research funding due to economic downturn, political deprioritization, or budget reallocation, causing laboratory closures, talent exodus, and abandonment of long-term research programs.",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Funding allocation systems contract sharply, reducing grant success rates to unsustainable levels and forcing triage of entire research programs",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Laboratory operations scale down or shut entirely as equipment budgets, consumables, and technical staff positions are eliminated",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hypo-active",
+          "detail": "Hypothesis generation narrows to only safe, incremental questions as researchers avoid the risk of pursuing bold ideas that might not yield fundable results",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Experimental designs are compromised by inadequate sample sizes, reduced controls, and equipment substitutions as budgets constrain methodological choices",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Social science research disproportionately loses funding as limited budgets are redirected to perceived higher-priority STEM fields",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "DATA_FRAUD",
+      "label": "Systematic Data Fraud",
+      "summary": "Discovery of fabricated or falsified data in high-profile publications, potentially spanning years of research output and affecting downstream studies that built upon the fraudulent work, triggering institutional investigations and retraction cascades.",
+      "circuits": [
+        {
+          "nodeId": "FPN",
+          "dir": "Hyper-active",
+          "detail": "Data analysis forensics intensifies as statistical anomaly detection tools are applied retroactively to identify fabricated datasets across the suspect researcher's entire output",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Peer review and editorial systems enter heightened scrutiny mode as journals re-examine published work and tighten data verification requirements",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Altered",
+          "detail": "Citation networks are disrupted as retracted papers are removed, orphaning downstream work that cited fraudulent findings as foundational evidence",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "rACC",
+          "dir": "Hyper-active",
+          "detail": "Ethics review processes activate investigations and strengthen oversight protocols in response to the integrity breach, increasing scrutiny of ongoing research",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Replication efforts are redirected to systematically re-test the suspect researcher's key findings, potentially invalidating entire lines of dependent research",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered",
+          "detail": "Publication systems issue retractions and corrections while journals implement stricter data availability and verification requirements for future submissions",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "PARADIGM_CONFLICT",
+      "label": "Paradigm Conflict",
+      "summary": "Fundamental disagreement between established and emerging theoretical frameworks within a discipline, dividing the research community and paralyzing progress as competing camps interpret evidence through incompatible conceptual lenses.",
+      "circuits": [
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-active",
+          "detail": "Hypothesis generation proliferates as both paradigm camps produce competing explanatory frameworks, generating more theoretical proposals than can be empirically adjudicated",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hyper-active",
+          "detail": "Theoretical abstraction intensifies as each camp constructs increasingly elaborate formal frameworks to defend their paradigmatic position",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Altered",
+          "detail": "Peer review becomes politicized as reviewers aligned with one paradigm systematically reject work from the opposing framework regardless of methodological quality",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Experimental designs become adversarial, with each camp designing studies to falsify the other's predictions rather than test their own",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Altered",
+          "detail": "Citation patterns fragment into isolated clusters as each paradigm camp preferentially cites its own literature and ignores the other's contributions",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "BRAIN_DRAIN",
+      "label": "Scientific Brain Drain",
+      "summary": "Exodus of trained scientists from research careers or from specific countries due to poor compensation, limited opportunities, political instability, or industry competition, depleting the human capital required for sustained scientific progress.",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Experimental design expertise is lost as experienced researchers leave, reducing the methodological sophistication of remaining research programs",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Laboratory capability degrades as skilled technicians and principal investigators depart, leaving equipment underutilized and protocols undocumented",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Altered",
+          "detail": "Funding allocation shifts as grant review panels lose qualified reviewers and remaining funds chase a shrinking pool of competitive applicants",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hypo-active",
+          "detail": "The diversity and creativity of hypothesis generation declines as intellectual perspectives narrow with the departure of researchers from varied backgrounds",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Social science and humanities research communities are disproportionately hollowed out as researchers in these lower-funded fields are first to leave for better-compensated careers",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Institutional memory and tacit methodological knowledge are lost as senior researchers retire or emigrate without adequate knowledge transfer to the next generation",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "PUBLICATION_BIAS",
+      "label": "Publication Bias",
+      "summary": "Systematic distortion of the scientific record caused by preferential publication of positive and novel results over null, negative, and replication findings, creating a misleading evidence base that inflates effect sizes and suppresses contradictory data.",
+      "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered",
+          "detail": "Publication and dissemination systems filter out null and negative results, creating a scientific record that systematically overrepresents positive findings",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Altered",
+          "detail": "Peer review evaluations are biased toward accepting manuscripts with significant p-values, creating a quality filter that selects on results rather than methods",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Replication studies cannot find publication outlets, suppressing the self-correction mechanism that validates or invalidates published findings",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Altered",
+          "detail": "Citation networks amplify publication bias as positive-result papers accumulate citations while unpublished null results remain invisible to the citation system",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Altered",
+          "detail": "Statistical inference is corrupted as published effect sizes are systematically inflated by the selective publication of studies that happened to reach significance",
+          "evidence": "Strong"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "DMN",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "M1",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "BROCA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "BROCA",
+      "target": "AG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "AG",
+      "target": "rACC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FPN",
+      "target": "ECN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "ECN",
+      "target": "WERN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "HYPO",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "OFC",
+      "target": "NTS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NTS",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "DMN",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "dACC",
+      "target": "FPN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "FPN",
+      "target": "vmPFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "vmPFC",
+      "target": "PRECUNEUS",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PRECUNEUS",
+      "target": "HYPO",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "HYPO",
+      "target": "DMN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "HIPP",
+      "target": "FPN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "rACC",
+      "target": "vmPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "WERN",
+      "target": "PRECUNEUS",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "vmPFC",
+      "target": "HYPO",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "IPS",
+      "target": "DMN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "TPJ",
+      "target": "dACC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "DMN",
+      "target": "WERN",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "M1",
+      "target": "AG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "AG",
+      "target": "ECN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ECN",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "vmPFC",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "IPS",
+      "target": "NTS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "databases scopus — Signal Acquisition → Social Media Metrics Human Capital & Development (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "databases scopus — Signal Acquisition → H-Index Analysis Technology & Innovation (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "databases scopus — Signal Acquisition → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Funding and Grants → Social Media Metrics Human Capital & Development (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Funding and Grants → H-Index Analysis Technology & Innovation (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Funding and Grants → Alternative Metrics Core Operations (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Experimental Design → Peer Review (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Experimental Design → Replication (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Ethics Review → Social Media Metrics Human Capital & Development (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Peer Review → Social Media Metrics Human Capital & Development (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "altmetric usage — Signal Acquisition → Crossref System Risk & Resilience (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "altmetric usage — Signal Acquisition → Citation Networks — Regulation Strategy (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "altmetric usage — Signal Acquisition → Citation Networks Policy & Governance (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Citation Networks Assessment & Diagnostics → Crossref System Risk & Resilience (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Workforce → Citation Networks — Regulation Strategy (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Earth Sciences → Alternative Metrics Assessment & Diagnostics (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Alternative Metrics Assessment & Diagnostics → Peer Review (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Usage Statistics — State Assessment → Alternative Metrics Assessment & Diagnostics (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Social Media Metrics Human Capital & Development → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Biology and Life Sciences (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Social Media Metrics Quality & Performance → Replication (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Replication → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Citation Analysis Technology & Innovation → Alternative Metrics Infrastructure & Capacity (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Alternative Metrics Infrastructure & Capacity → Citation Networks Infrastructure & Capacity (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Alternative Metrics Infrastructure & Capacity → Chemistry (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Chemistry → Funding and Grants (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Alternative Metrics Policy & Governance → Laboratory Methods (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Self-Citation Policy & Governance → Usage Statistics Technology & Innovation (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Usage Statistics Technology & Innovation → altmetric usage — Signal Acquisition (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Crossref System Technology & Innovation → altmetric usage — Signal Acquisition (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Citation Cartels Core Operations → Crossref System Risk & Resilience (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Data Analysis → Experimental Design (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Citation Mapping Quality & Performance → Social Media Metrics Human Capital & Development (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Citation Mapping Quality & Performance → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.728Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

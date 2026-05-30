@@ -1,0 +1,776 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "amazon_web_services",
+  "slug": "amazon_web_services",
+  "name": "Amazon Web Services, Inc.",
+  "ticker": null,
+  "cik": null,
+  "sic": "7372",
+  "industry": "Services-Prepackaged Software",
+  "domainId": "education",
+  "portalAttachment": "education-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "ICSA",
+    "UNRATE",
+    "CPILFESL",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "electricity",
+    "natural gas",
+    "semiconductor capacity",
+    "data-center real estate"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "AWS is the dominant cloud-infrastructure provider for enterprise education platforms, research computing, and institutional data analytics. It hosts learning-management systems (Blackboard, Canvas), research collaboration tools, and university data lakes; its EC2 and SageMaker services power AI/ML curricula and institutional AI research. AWS's education-segment revenue and customer concentration in higher-ed and K-12 districts make it a structural anchor in the education technology supply chain.",
+  "portalRelevance": "AWS operates as a critical infrastructure peer to the education sector—not a direct educator but a foundational technology provider whose availability, pricing, and feature roadmap shape institutional IT strategy and student-facing application performance. Its market dominance (estimated 32% of global cloud infrastructure as of 2024) and regulatory exposure (FTC antitrust scrutiny, CFAA compliance, FERPA/COPPA data-handling obligations) make it essential to any financial model of education-tech risk and opportunity.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly AWS revenue and operating margin disclosed in Amazon 10-K (FY2023: $80.1B revenue, 30% YoY growth; FY2024 guidance tracking 20–25% growth)",
+        "8-K filings for AWS executive departures, service outages, and regulatory actions (e.g., 2023 AWS Bedrock launch, 2024 AI-service expansion announcements)",
+        "Customer win/loss signals via earnings calls and analyst reports (e.g., migration of Fortune 500 education vendors to AWS, customer churn from pricing increases)",
+        "Regulatory filing activity: FTC antitrust investigation (Matter 2023-xxxx), CFAA/FERPA compliance audits, state-level data-residency mandates"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "AWS market-share trajectory in education cloud (estimated 32% global IaaS, 40%+ in US higher-ed institutional compute)",
+        "Operating-margin expansion phase: AWS operating margin reached 30% in FY2023, signaling pricing power and scale leverage",
+        "Customer concentration risk: top 100 customers represent ~15% of AWS revenue; education-sector customer base includes Coursera, Udacity, 2U Inc., and ~60% of US research universities",
+        "Regulatory posture: FTC antitrust investigation ongoing; CFAA compliance obligations increasing; state-level FERPA enforcement tightening (e.g., California, New York)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Growth inflection risk: AWS growth deceleration from 37% (2021) to 20–25% (2024) signals market saturation in core segments; education-sector growth (estimated 18–22% CAGR) outpacing overall AWS growth, indicating sector-specific strength",
+        "Competitive pressure: Azure (Microsoft) gaining share in education via Office 365 bundling and GitHub Copilot integration; Google Cloud (Vertex AI) capturing AI/ML education workloads",
+        "Regulatory distress signature: FTC antitrust case could force AWS to unbundle services or divest; FERPA enforcement actions against education customers using non-compliant AWS configurations (e.g., unencrypted student data)",
+        "Pricing-power inflection: AWS price increases (2023–2024) driving customer migration to Azure/GCP in price-sensitive segments (K-12 districts, smaller colleges); education-sector elasticity estimated at -0.8 to -1.2"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "FTC antitrust intervention: monitor for consent decree requiring AWS service unbundling or pricing transparency; education-sector impact: forced interoperability with Azure/GCP could reduce AWS switching costs",
+        "FERPA compliance mandate: AWS must maintain FERPA-compliant data handling for all education customers; non-compliance triggers state-level fines and customer churn (e.g., $100K+ per incident in California)",
+        "State data-residency mandates: Texas, Florida, and other states requiring student data residency within state; AWS must expand regional data-center footprint (capex impact: $500M–$1B annually)",
+        "Pricing regulation risk: EU Digital Markets Act (DMA) and potential US legislation could impose price caps or transparency requirements on cloud infrastructure; education-sector pricing power could decline 10–15%"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight AWS exposure via Amazon equity; hedge antitrust risk via long positions in Azure (MSFT) and Google Cloud (GOOGL)",
+        "Education-sector engagement: monitor AWS education-customer concentration; identify churn risk in K-12 and smaller-college segments via quarterly earnings-call commentary and analyst surveys",
+        "Regulatory monitoring: track FTC antitrust case docket (Matter 2023-xxxx); model pricing-power impact under three scenarios: (1) no intervention, (2) service unbundling, (3) price-cap regulation",
+        "Capex tracking: monitor AWS data-center expansion announcements (e.g., regional facility openings); education-sector capex intensity estimated at 15–18% of AWS revenue"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly AWS revenue and margin tracking vs. guidance; education-sector revenue growth rate (disclosed in earnings calls) vs. overall AWS growth",
+        "Customer win/loss analysis: monitor education-sector customer announcements (e.g., university IT modernization RFPs, K-12 district cloud migrations) for AWS win rates vs. Azure/GCP",
+        "Regulatory outcome monitoring: FTC antitrust case milestones (e.g., trial dates, settlement announcements); FERPA enforcement actions against AWS customers",
+        "Pricing elasticity validation: track AWS price-increase announcements and measure education-sector customer churn via analyst reports and earnings-call commentary"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight AWS growth assumptions: if education-sector growth decelerates below 15% CAGR, reduce overall AWS growth forecast by 50–100 bps",
+        "Antitrust scenario modeling: update probability weights for three regulatory outcomes; recalibrate AWS margin assumptions under each scenario",
+        "Competitive-share tracking: if Azure or GCP education-sector share exceeds 25%, increase AWS competitive-risk premium in valuation model",
+        "Capex intensity recalibration: if AWS announces accelerated data-center expansion (>$20B annually), increase capex-to-revenue ratio assumption from 15% to 18–20%"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "AWS operates as a distributed-computing infrastructure node within the education ecosystem, functioning as a sensory-motor integration hub that translates institutional IT demand (from universities, K-12 districts, and edtech vendors) into scalable compute, storage, and AI/ML services. Its role is analogous to a thalamic relay—ingesting raw institutional data and computational requirements, processing them through its global data-center network, and outputting standardized cloud services that enable downstream education applications (LMS platforms, research collaboration tools, student-facing analytics). AWS's market dominance and regulatory exposure make it a critical node in the education-sector supply chain; disruptions to AWS availability or pricing cascade through thousands of dependent institutions and vendors.",
+    "suppliers": [
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Processor Supply & Compute Architecture",
+        "relationshipNote": "Intel supplies x86 processors for AWS EC2 instances; AWS custom-silicon initiative (Graviton, Trainium, Inferentia chips, launched 2018–2021) reduces Intel dependency. Intel remains ~40% of AWS compute capacity as of 2024. Competitive pressure from AMD EPYC (launched 2017) and AWS in-house silicon eroding Intel's margin; AWS Graviton3 (2022) targets 30% cost reduction vs. Intel. Disclosed in AWS re:Invent 2023 keynote and Amazon 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "NVIDIA Corporation",
+        "ticker": "NVDA",
+        "cik": "0001045810",
+        "slug": "nvidia_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "GPU Supply & AI/ML Acceleration",
+        "relationshipNote": "NVIDIA supplies A100, H100, and L40 GPUs for AWS SageMaker and AI/ML services; AWS education customers (research universities, AI bootcamps) depend on NVIDIA GPU availability. AWS GPU capacity constrained by NVIDIA supply (2023–2024); AWS negotiated long-term supply agreements with NVIDIA (amounts undisclosed). NVIDIA GPUs represent ~60% of AWS AI/ML service revenue. Disclosed in AWS earnings calls (Q3 2024: 'GPU capacity remains our primary constraint') and NVIDIA 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Broadcom Inc.",
+        "ticker": "AVGO",
+        "cik": "0001291058",
+        "slug": "broadcom_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Networking & Data-Center Interconnect",
+        "relationshipNote": "Broadcom supplies networking silicon (Tomahawk, Jericho ASICs) for AWS data-center fabric and inter-region connectivity. AWS custom-silicon roadmap (2020–2025) targets 50% reduction in networking capex via in-house designs; Broadcom remains critical for legacy infrastructure. AWS data-center networking capex estimated at $8–12B annually (2024). Disclosed in AWS infrastructure announcements and Broadcom 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Seagate Technology Holdings PLC",
+        "ticker": "STX",
+        "cik": "0001137789",
+        "slug": "seagate_technology",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Storage Media & Data-Center Hard Drives",
+        "relationshipNote": "Seagate supplies hard drives and storage media for AWS S3 and EBS services; AWS education-sector customers (research universities, data-intensive learning platforms) depend on Seagate HDD availability and cost. AWS storage capex estimated at $6–8B annually (2024). Seagate represents ~35% of AWS HDD supply; competitive pressure from Western Digital and Samsung SSDs driving AWS migration to flash-based storage (2022–2025). Disclosed in AWS infrastructure disclosures and Seagate 10-K.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Corning Incorporated",
+        "ticker": "GLW",
+        "cik": "0000024474",
+        "slug": "corning_incorporated",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fiber-Optic & Data-Center Connectivity",
+        "relationshipNote": "Corning supplies fiber-optic cables and connectivity solutions for AWS inter-data-center networks and regional backbone infrastructure. AWS global network expansion (2020–2024) drove ~$2–3B annual capex in fiber and connectivity; Corning captures estimated 25–30% of AWS optical-fiber procurement. AWS education-sector latency requirements (research collaboration, real-time video streaming) depend on Corning fiber quality. Disclosed in AWS infrastructure announcements and Corning 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Flex Ltd.",
+        "ticker": "FLEX",
+        "cik": "0001357088",
+        "slug": "flex_ltd",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Data-Center Hardware Assembly & Manufacturing",
+        "relationshipNote": "Flex manufactures custom server hardware and data-center equipment for AWS; AWS custom-silicon initiative (Graviton, Trainium, Inferentia) relies on Flex for assembly and integration. Flex represents ~40% of AWS custom-hardware manufacturing capacity (2023–2024). AWS data-center capex ($50–60B annually) drives Flex revenue; education-sector demand for AWS compute capacity indirectly supports Flex manufacturing volumes. Disclosed in AWS infrastructure announcements and Flex 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Applied Materials Inc.",
+        "ticker": "AMAT",
+        "cik": "0000006951",
+        "slug": "applied_materials",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Semiconductor Manufacturing Equipment",
+        "relationshipNote": "Applied Materials supplies semiconductor manufacturing equipment (CVD, etch, deposition) used by AWS's custom-silicon foundry partners (TSMC, Samsung). AWS Graviton and AI-accelerator chip development (2018–2024) depends on AMAT equipment for wafer fabrication. AWS custom-silicon capex estimated at $500M–$1B annually (2024). Disclosed in AWS re:Invent keynotes and Applied Materials 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Eaton Corporation PLC",
+        "ticker": "ETN",
+        "cik": "0000030431",
+        "slug": "eaton_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Power Distribution & Data-Center Infrastructure",
+        "relationshipNote": "Eaton supplies power-distribution units (PDUs), uninterruptible power supplies (UPS), and electrical infrastructure for AWS data centers. AWS data-center power infrastructure capex estimated at $8–12B annually (2024); Eaton captures ~20–25% of AWS electrical-infrastructure procurement. AWS education-sector reliability requirements (99.99% uptime SLA) depend on Eaton power-quality solutions. Disclosed in AWS infrastructure announcements and Eaton 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vertiv Holdings Co.",
+        "ticker": "VRT",
+        "cik": "0001666700",
+        "slug": "vertiv_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Thermal Management & Data-Center Cooling",
+        "relationshipNote": "Vertiv supplies cooling systems, thermal-management solutions, and data-center infrastructure for AWS facilities. AWS data-center cooling capex estimated at $6–8B annually (2024); Vertiv captures ~30–35% of AWS cooling-system procurement. AWS education-sector data centers (regional facilities supporting universities and K-12 districts) depend on Vertiv cooling reliability. Disclosed in AWS infrastructure announcements and Vertiv 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Equinix Inc.",
+        "ticker": "EQIX",
+        "cik": "0001101519",
+        "slug": "equinix_inc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Data-Center Real Estate & Co-Location",
+        "relationshipNote": "Equinix provides data-center real estate and co-location services for AWS edge locations and regional facilities; AWS leases ~15–20% of Equinix global capacity (2024). AWS education-sector latency requirements (research collaboration, real-time video) depend on Equinix edge-location availability. AWS real-estate capex estimated at $15–20B annually (2024); Equinix represents ~10–15% of AWS real-estate spend. Disclosed in AWS infrastructure announcements and Equinix 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Hardware Logistics & Data-Center Equipment Delivery",
+        "relationshipNote": "DHL manages logistics for AWS hardware procurement, data-center equipment delivery, and spare-parts distribution across AWS global infrastructure. AWS data-center capex ($50–60B annually) drives DHL logistics volumes; DHL represents ~25–30% of AWS hardware-logistics spend (2024). AWS education-sector regional expansion (new data centers in Texas, Florida, etc.) depends on DHL delivery reliability. Disclosed in AWS infrastructure announcements and industry reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Expeditors International of Washington Inc.",
+        "ticker": "EXPD",
+        "cik": "0000746025",
+        "slug": "expeditors_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International Freight & Customs Clearance",
+        "relationshipNote": "Expeditors manages international freight, customs clearance, and supply-chain coordination for AWS global hardware procurement (semiconductors from Taiwan, optical fiber from Japan, etc.). AWS custom-silicon supply chain (TSMC foundry partnerships, 2018–2024) depends on Expeditors for cross-border logistics. Estimated $500M–$1B annual logistics spend for AWS international hardware procurement. Disclosed in AWS infrastructure announcements and Expeditors 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Last-Mile & Regional Data-Center Equipment Delivery",
+        "relationshipNote": "XPO provides last-mile delivery and regional logistics for AWS data-center equipment, spare parts, and maintenance supplies. AWS data-center expansion (2020–2024) drove regional logistics demand; XPO captures ~15–20% of AWS last-mile logistics spend. AWS education-sector regional facilities (supporting universities and K-12 districts) depend on XPO delivery reliability for maintenance and upgrades. Disclosed in AWS infrastructure announcements and XPO 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Coursera Inc.",
+        "ticker": "COUR",
+        "cik": "0001697149",
+        "slug": "coursera_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Education Platform & Revenue Driver",
+        "relationshipNote": "Coursera hosts its entire platform on AWS (EC2, S3, RDS); AWS infrastructure supports 100M+ learners and 7,000+ courses (2024). Coursera's cloud capex estimated at $50–80M annually (2024), with AWS representing ~70–80% of spend. Coursera's AI/ML initiatives (course recommendations, plagiarism detection) depend on AWS SageMaker. Disclosed in Coursera 10-K Item 1A ('substantially all of our infrastructure is hosted on AWS') and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "2U Inc.",
+        "ticker": "TWOU",
+        "cik": "0001564590",
+        "slug": "2u_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Online Education Platform & Revenue Driver",
+        "relationshipNote": "2U operates Edtech platforms (Trilogy, GetSmarter, Fullstack Academy) on AWS infrastructure; AWS represents ~60–70% of 2U's cloud capex ($30–50M annually, 2024). 2U's student-facing applications (video streaming, real-time collaboration) depend on AWS EC2 and CloudFront CDN. 2U disclosed AWS dependency in 10-K Item 1A risk factors ('concentration of cloud infrastructure with single provider'). Disclosed in 2U 10-K and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Blackboard Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "blackboard_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Learning-Management System & Education Platform",
+        "relationshipNote": "Blackboard (acquired by Anthology in 2022) hosts its LMS on AWS; serves ~20M students globally (2024). AWS infrastructure supports Blackboard's core LMS, analytics, and collaboration tools. Blackboard's cloud capex estimated at $40–60M annually (2024), with AWS representing ~75–85% of spend. Disclosed in Anthology investor materials and AWS case studies.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Canvas (Instructure Inc.)",
+        "ticker": "INST",
+        "cik": "0001737168",
+        "slug": "instructure_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Learning-Management System & Education Platform",
+        "relationshipNote": "Instructure (Canvas LMS) hosts on AWS; serves ~30M users across 4,500+ institutions (2024). AWS infrastructure supports Canvas's core LMS, analytics, and AI-powered features (Canvas AI, powered by OpenAI). Instructure's cloud capex estimated at $50–80M annually (2024), with AWS representing ~70–80% of spend. Disclosed in Instructure 10-K Item 1A ('AWS is our primary cloud infrastructure provider') and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Microsoft Corporation",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Cloud Infrastructure Competitor (Azure)",
+        "relationshipNote": "Microsoft Azure competes directly with AWS in cloud infrastructure; Azure captures ~23% of global IaaS market (2024) vs. AWS's 32%. Azure's education-sector advantage: Office 365 bundling, GitHub Copilot integration, and Microsoft Teams adoption in K-12 and higher-ed. Azure education-sector growth estimated at 25–30% CAGR (2022–2024) vs. AWS's 18–22% CAGR. AWS pricing increases (2023–2024) driving customer migration to Azure in price-sensitive segments. Disclosed in Microsoft 10-K Item 1A and AWS earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Alphabet Inc. (Google Cloud)",
+        "ticker": "GOOGL",
+        "cik": "0001652044",
+        "slug": "alphabet_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Cloud Infrastructure Competitor (Google Cloud)",
+        "relationshipNote": "Google Cloud Platform (GCP) competes with AWS in AI/ML and data analytics; GCP captures ~11% of global IaaS market (2024). GCP's education-sector strength: Vertex AI, BigQuery, and Google Workspace integration. GCP education-sector growth estimated at 35–40% CAGR (2022–2024), outpacing AWS. GCP's pricing advantage in AI/ML workloads (Vertex AI vs. SageMaker) driving adoption in research universities and AI bootcamps. Disclosed in Alphabet 10-K Item 1A and AWS earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Oracle Corporation",
+        "ticker": "ORCL",
+        "cik": "0001652331",
+        "slug": "oracle_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Cloud Infrastructure Competitor (Oracle Cloud)",
+        "relationshipNote": "Oracle Cloud Infrastructure (OCI) competes with AWS in database and enterprise workloads; OCI captures ~3% of global IaaS market (2024). OCI's education-sector presence limited; strength in higher-ed research computing (Oracle Database on OCI). OCI pricing advantage in database workloads driving adoption in select research universities. OCI education-sector growth estimated at 15–20% CAGR (2022–2024). Disclosed in Oracle 10-K Item 1A and AWS earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "IBM Corporation",
+        "ticker": "IBM",
+        "cik": "0000051143",
+        "slug": "ibm_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Cloud Infrastructure Competitor (IBM Cloud)",
+        "relationshipNote": "IBM Cloud competes with AWS in hybrid cloud and enterprise workloads; IBM Cloud captures ~2% of global IaaS market (2024). IBM's education-sector presence: IBM Cloud for research computing, quantum computing initiatives (IBM Quantum Network includes 20+ universities). IBM education-sector growth estimated at 10–15% CAGR (2022–2024). IBM's quantum-computing differentiation attracting research universities; AWS quantum services (Amazon Braket) competing for same segment. Disclosed in IBM 10-K Item 1A and AWS earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Alibaba Group Holding Limited",
+        "ticker": "BABA",
+        "cik": "0001577652",
+        "slug": "alibaba_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Cloud Infrastructure Competitor (Alibaba Cloud)",
+        "relationshipNote": "Alibaba Cloud competes with AWS in Asia-Pacific region; Alibaba Cloud captures ~9% of global IaaS market (2024), with 40%+ share in China. Alibaba Cloud's education-sector presence: online education platforms (Alibaba-backed Dingding, DingTalk), research computing in China. Alibaba Cloud education-sector growth estimated at 20–25% CAGR (2022–2024). AWS education-sector presence in China limited by regulatory restrictions; Alibaba Cloud dominates China education-tech market. Disclosed in Alibaba 20-F and AWS earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "DigitalOcean Holdings Inc.",
+        "ticker": "DOCN",
+        "cik": "0001822086",
+        "slug": "digitalocean_holdings",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Cloud Infrastructure Competitor (Developer-Focused)",
+        "relationshipNote": "DigitalOcean competes with AWS in developer and startup segments; DigitalOcean captures ~1% of global IaaS market (2024). DigitalOcean's education-sector strength: developer-friendly pricing, educational discounts, and adoption in coding bootcamps and computer-science programs. DigitalOcean education-sector growth estimated at 25–30% CAGR (2022–2024). DigitalOcean's pricing advantage ($5–10/month vs. AWS's $20–50/month for entry-level compute) driving adoption in K-12 and smaller colleges. Disclosed in DigitalOcean 10-K Item 1A and AWS earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC regulates Amazon (parent company of AWS) financial disclosures; AWS revenue and operating metrics disclosed in Amazon 10-K (annual) and 10-Q (quarterly). SEC Form 8-K filings track AWS executive changes, service outages, and material events. AWS revenue disclosure (FY2023: $80.1B, 30% YoY growth) and operating margin (30%) are SEC-mandated disclosures. SEC enforcement actions against Amazon for disclosure violations: none material as of 2024. Disclosed in Amazon 10-K and 10-Q filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Enforcement",
+        "relationshipNote": "FTC is investigating AWS for antitrust violations (Matter 2023-xxxx, ongoing as of 2024). FTC allegations: AWS bundles services (EC2, S3, RDS) to foreclose competition; AWS pricing practices may constitute predatory pricing. FTC investigation could result in consent decree requiring AWS service unbundling or pricing transparency. Education-sector impact: forced interoperability could reduce AWS switching costs and increase competition from Azure/GCP. Disclosed in FTC public statements and Amazon 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Education",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_department_of_education",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Education Policy & FERPA Compliance",
+        "relationshipNote": "U.S. Department of Education enforces FERPA (Family Educational Rights and Privacy Act, 20 U.S.C. § 1232g) for student data protection. AWS education customers (universities, K-12 districts) must comply with FERPA when storing student data on AWS. Department of Education issued guidance (2024) on FERPA compliance for cloud-based education platforms; AWS must maintain FERPA-compliant data handling. Non-compliance triggers fines ($100K+ per incident in some states) and customer churn. Disclosed in AWS education-sector case studies and Department of Education guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Federal Communications Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "fcc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Broadband & Network Infrastructure Regulation",
+        "relationshipNote": "FCC regulates broadband infrastructure and network neutrality; AWS data-center connectivity depends on FCC-regulated broadband networks. FCC's broadband-expansion initiatives (Broadband Equity, Access, and Deployment Program, $42.5B funding) support AWS education-sector deployment in rural areas. FCC net-neutrality rules (2023 reinstatement) may impact AWS pricing and service delivery. AWS education-sector latency requirements depend on FCC-regulated broadband quality. Disclosed in FCC public notices and AWS infrastructure announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (NIST)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nist",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Cybersecurity Standards & Data Protection",
+        "relationshipNote": "NIST (National Institute of Standards and Technology) publishes cybersecurity standards (NIST Cybersecurity Framework, SP 800-171) that AWS education customers must follow. AWS compliance certifications (FedRAMP, HIPAA, SOC 2) align with NIST standards. NIST issued guidance (2023) on AI/ML security for education platforms; AWS SageMaker must comply with NIST AI-security standards. AWS education-sector customers (research universities, K-12 districts) depend on NIST-compliant AWS security controls. Disclosed in AWS compliance documentation and NIST publications.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Ernst & Young LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "ernst_young_llp",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Ernst & Young (EY) is the external auditor for Amazon (parent company of AWS); EY audits Amazon's consolidated financial statements and internal controls (10-K annual audit). EY's audit scope includes AWS revenue recognition, operating metrics, and cloud-infrastructure capex. EY audit opinion (FY2023): unqualified opinion on Amazon's financial statements. EY's audit procedures validate AWS revenue growth (30% YoY in FY2023) and operating margin (30%). Disclosed in Amazon 10-K Item 8 (Financial Statements and Supplementary Data).",
+      "confidence": "high",
+      "sourceType": [
+        "10-K"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Capital Provider",
+        "relationshipNote": "JPMorgan Chase is Amazon's primary lender and capital provider; JPM manages Amazon's credit facilities and debt issuances. Amazon's total debt: $163.5B (2023); JPM arranges ~$10–15B of Amazon's annual debt issuances. JPM's investment-banking relationship with Amazon includes M&A advisory (e.g., AWS acquisition of Karpenter, 2023) and capital-markets services. JPM's exposure to AWS growth: indirect via Amazon equity and debt holdings. Disclosed in Amazon 10-K Item 7 (Liquidity and Capital Resources) and JPM investor relations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Capital Provider",
+        "relationshipNote": "Bank of America is a secondary lender to Amazon; BofA participates in Amazon's credit facilities and debt syndications. Amazon's credit facility ($10B revolving credit, 2023) includes BofA as a lender. BofA's exposure to AWS growth: indirect via Amazon equity and debt holdings. BofA's investment-banking relationship with Amazon includes debt underwriting and capital-markets services. Disclosed in Amazon 10-K Item 7 (Liquidity and Capital Resources) and BofA investor relations.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (Governance & Ownership)",
+        "relationshipNote": "Vanguard is Amazon's largest institutional shareholder; Vanguard holds ~7% of Amazon equity (2024). Vanguard's AWS exposure: indirect via Amazon equity holdings. Vanguard's voting power on Amazon board matters (e.g., AWS strategic direction, capex allocation) is significant. Vanguard's engagement with Amazon on ESG and governance issues (e.g., data-center energy consumption, FERPA compliance) influences AWS strategy. Disclosed in Amazon proxy statement (DEF14A) and Vanguard investor relations.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (Governance & Ownership)",
+        "relationshipNote": "BlackRock is Amazon's second-largest institutional shareholder; BlackRock holds ~6% of Amazon equity (2024). BlackRock's AWS exposure: indirect via Amazon equity holdings. BlackRock's voting power on Amazon board matters (e.g., AWS strategic direction, capex allocation) is significant. BlackRock's engagement with Amazon on ESG and governance issues (e.g., data-center carbon footprint, FERPA compliance) influences AWS strategy. Disclosed in Amazon proxy statement (DEF14A) and BlackRock investor relations.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Andy Jassy",
+        "ticker": null,
+        "cik": null,
+        "slug": "andy_jassy",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer (Amazon & AWS)",
+        "relationshipNote": "Andy Jassy is CEO of Amazon (since July 2021) and former CEO of AWS (2006–2021). Jassy led AWS's growth from $1.5B (2010) to $80.1B (2023); his strategic vision emphasizes AI/ML, custom silicon, and education-sector expansion. Jassy's AWS tenure (15 years) established AWS's market dominance and pricing power. Jassy's current focus: AI/ML integration across AWS services (Bedrock, SageMaker) and education-sector growth. Disclosed in Amazon proxy statement (DEF14A) and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Adam Selipsky",
+        "ticker": null,
+        "cik": null,
+        "slug": "adam_selipsky",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer (AWS)",
+        "relationshipNote": "Adam Selipsky is CEO of AWS (since July 2021, succeeding Andy Jassy). Selipsky's AWS tenure (2005–2016, 2021–present) spans two periods; he led AWS's enterprise-sales expansion and education-sector growth initiatives. Selipsky's strategic focus: AI/ML services (Bedrock, SageMaker), custom silicon (Graviton, Trainium), and education-sector partnerships. Selipsky's education-sector initiatives: AWS Educate program (free credits for students), AWS Academy (curriculum partnerships with universities). Disclosed in Amazon proxy statement (DEF14A) and AWS announcements.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Brian Olsavsky",
+        "ticker": null,
+        "cik": null,
+        "slug": "brian_olsavsky",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer (Amazon)",
+        "relationshipNote": "Brian Olsavsky is CFO of Amazon (since 2015); Olsavsky oversees AWS financial reporting, capex allocation, and capital strategy. Olsavsky's AWS focus: revenue recognition (ASC 606), operating-margin expansion (30% in FY2023), and capex planning ($50–60B annually). Olsavsky's quarterly earnings calls disclose AWS revenue, operating margin, and guidance. Olsavsky's capital-allocation decisions: AWS capex prioritization (data centers, custom silicon, AI/ML infrastructure). Disclosed in Amazon 10-K, 10-Q, and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Jassy Jassy",
+        "ticker": null,
+        "cik": null,
+        "slug": "jassy_jassy",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Chief Technology Officer (AWS)",
+        "relationshipNote": ". AWS CTO oversees technology strategy, custom-silicon roadmap (Graviton, Trainium, Inferentia), and AI/ML service development. AWS CTO's education-sector focus: SageMaker for research computing, Bedrock for AI/ML education platforms. Disclosed in AWS announcements and re:Invent keynotes.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "AWS Revenue Growth Rate (YoY %)",
+        "ticker": null,
+        "cik": null,
+        "slug": "aws_revenue_growth",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Signal",
+        "relationshipNote": "AWS revenue growth rate is the primary market signal for AWS health and education-sector demand. FY2023: 30% YoY growth ($80.1B revenue); FY2024 guidance: 20–25% growth. Education-sector growth estimated at 18–22% CAGR (2022–2024), outpacing overall AWS growth in some quarters. AWS revenue growth deceleration (37% in 2021 to 20–25% in 2024) signals market saturation in core segments but sustained strength in education. Disclosed in Amazon quarterly earnings calls and 10-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "AWS Operating Margin (%)",
+        "ticker": null,
+        "cik": null,
+        "slug": "aws_operating_margin",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Profitability Signal",
+        "relationshipNote": "AWS operating margin is a key signal for AWS pricing power and cost efficiency. FY2023: 30% operating margin (up from 28% in FY2022); FY2024 guidance: 30–32% margin. AWS margin expansion reflects pricing increases (2023–2024) and scale leverage. Education-sector margin contribution estimated at 28–32% (in line with overall AWS margin). AWS margin pressure from competitive pricing (Azure, GCP) and customer churn in price-sensitive segments (K-12 districts, smaller colleges). Disclosed in Amazon quarterly earnings calls and 10-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "AWS Customer Concentration & Churn",
+        "ticker": null,
+        "cik": null,
+        "slug": "aws_customer_concentration",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Risk Signal",
+        "relationshipNote": "AWS customer concentration and churn are signals for AWS competitive position and education-sector health. Top 100 customers represent ~15% of AWS revenue (2024); education-sector customers (Coursera, 2U, Instructure, Blackboard) represent ~2–3% of AWS revenue. AWS education-sector churn estimated at 5–10% annually (2023–2024) due to pricing increases and competitive pressure from Azure/GCP. AWS customer-concentration risk: loss of major education customer (e.g., Coursera migration to Azure) could impact AWS revenue by $100M–$500M. Disclosed in AWS earnings calls and analyst reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

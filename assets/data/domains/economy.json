@@ -1,0 +1,2430 @@
+{
+  "domainId": "economy",
+  "title": "Economy",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "GDP Output",
+      "domainDescription": "Total productive output of a nation's economy measured as gross domestic product across all sectors",
+      "domainFunction": "Generates goods and services, drives employment, creates wealth, and serves as the primary indicator of economic health and productive capacity",
+      "whyThisNode": "M1 primary motor cortex generates the brain's physical output through voluntary movement, directly paralleling how GDP represents the economy's total productive output",
+      "group": "production",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "GDP contraction",
+        "Output gap widening"
+      ],
+      "treatments": [
+        {
+          "label": "Industrial Policy Stimulus",
+          "type": "STRUCTURAL",
+          "description": "Targeted investment in high-multiplier sectors through tax incentives, infrastructure spending, and workforce development to boost productive output",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Productivity Enhancement Programs",
+          "type": "STRUCTURAL",
+          "description": "Invest in automation, R&D tax credits, and technology transfer programs to increase output per worker across manufacturing and service sectors",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "economy_gdp_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Peterson Institute",
+          "ticker_or_id": "PIIE",
+          "functional_reason": "Models and simulates gdp output scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Bureau of Labor Statistics",
+          "ticker_or_id": "BLS_GOV",
+          "functional_reason": "Stores and retrieves gdp output knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "Bloomberg LP",
+          "ticker_or_id": "BLOOMBERG",
+          "functional_reason": "Detects and monitors gdp output signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.78
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "GDP Output",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        },
+        {
+          "domain": "population",
+          "role": "Labor Force"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Labor Markets",
+      "domainDescription": "Workforce participation, employment dynamics, wage structures, and labor-management relations across the economy",
+      "domainFunction": "Matches workers to jobs, sets wages through supply and demand, provides social mobility pathways, and distributes economic participation across populations",
+      "whyThisNode": "S1 somatosensory cortex receives tactile feedback from the body, paralleling how labor markets sense and respond to workforce conditions, providing feedback on economic conditions through employment data",
+      "group": "labor",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Mass unemployment",
+        "Wage stagnation crisis"
+      ],
+      "treatments": [
+        {
+          "label": "Active Labor Market Policies",
+          "type": "STRUCTURAL",
+          "description": "Deploy retraining programs, job placement services, and transitional employment to maintain workforce participation during structural shifts",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Minimum Wage and Benefits Reform",
+          "type": "STRUCTURAL",
+          "description": "Adjust wage floors and portable benefits packages to reflect productivity gains and cost of living while maintaining employment incentives",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "economy_labor_portal.html",
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Bureau of Labor Statistics",
+          "ticker_or_id": "BLS_GOV",
+          "functional_reason": "Detects and monitors labor markets signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "S&P Global",
+          "ticker_or_id": "SPGI",
+          "functional_reason": "Detects and monitors labor markets signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Bureau of Economic Analysis",
+          "ticker_or_id": "BEA_GOV",
+          "functional_reason": "Detects and monitors labor markets signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.93
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Labor Markets",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Mining and Extraction"
+        },
+        {
+          "domain": "environment",
+          "role": "Geological Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Raw Materials"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Somatosensory Cortex"
+        },
+        {
+          "domain": "technology",
+          "role": "IoT & Sensors"
+        },
+        {
+          "domain": "trade",
+          "role": "Last-Mile Delivery"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator — Signal Detection & Input — Secondary Node"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Signal Detection — Secondary"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Capital Markets",
+      "domainDescription": "Stock exchanges, bond markets, venture capital, and financial intermediation systems that allocate investment capital",
+      "domainFunction": "Prices risk, allocates capital to productive enterprises, enables corporate fundraising, provides liquidity, and generates price signals that guide investment decisions",
+      "whyThisNode": "OFC evaluates rewards, risks, and expected outcomes to guide behavior, directly paralleling how capital markets evaluate risk-reward profiles to guide investment allocation decisions",
+      "group": "markets",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Market volatility spike",
+        "Capital flight"
+      ],
+      "treatments": [
+        {
+          "label": "Market Circuit Breakers",
+          "type": "STRUCTURAL",
+          "description": "Implement trading halts, position limits, and volatility-triggered pauses to prevent cascading sell-offs and restore orderly price discovery",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Investor Protection Regulation",
+          "type": "STRUCTURAL",
+          "description": "Strengthen disclosure requirements, insider trading enforcement, and fiduciary standards to maintain market integrity and investor confidence",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "economy_capital_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Moody's Corporation",
+          "ticker_or_id": "MCO",
+          "functional_reason": "Evaluates and arbitrates capital markets decisions, weighing competing options and setting value-based priorities",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Congressional Budget Office",
+          "ticker_or_id": "CBO_GOV",
+          "functional_reason": "Stores and retrieves capital markets knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "World Bank Group",
+          "ticker_or_id": "WORLD_BANK",
+          "functional_reason": "Allocates and regulates capital markets resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.73
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Capital Markets",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Reward & Food Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Monetary Policy",
+      "domainDescription": "Central bank operations controlling money supply, interest rates, and credit conditions to manage inflation and employment",
+      "domainFunction": "Sets benchmark interest rates, conducts open market operations, manages reserve requirements, and uses forward guidance to shape economic expectations",
+      "whyThisNode": "The thalamus relays and gates information flow throughout the brain, paralleling how monetary policy relays price signals throughout the economy and gates the flow of credit and liquidity",
+      "group": "monetary",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Interest rate miscalibration",
+        "Liquidity trap"
+      ],
+      "treatments": [
+        {
+          "label": "Forward Guidance Clarity",
+          "type": "STRUCTURAL",
+          "description": "Improve central bank communication through clear inflation targeting, dot plots, and explicit policy reaction functions to anchor market expectations",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Unconventional Monetary Tools",
+          "type": "STRUCTURAL",
+          "description": "Deploy quantitative easing, yield curve control, or negative rates as supplementary tools when conventional rate-setting reaches its effective lower bound",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "economy_monetary_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "S&P Global",
+          "ticker_or_id": "SPGI",
+          "functional_reason": "Detects and monitors monetary policy signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "International Monetary Fund",
+          "ticker_or_id": "IMF",
+          "functional_reason": "Stabilizes monetary policy oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "Deloitte",
+          "ticker_or_id": "DELOITTE",
+          "functional_reason": "Stores and retrieves monetary policy knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.75
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Monetary Policy",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        },
+        {
+          "domain": "medicine",
+          "role": "Neurology"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Fiscal Policy",
+      "domainDescription": "Government taxation and spending decisions that shape aggregate demand, income distribution, and public investment",
+      "domainFunction": "Sets tax rates, allocates government spending, manages deficits, funds public goods, and uses fiscal levers to stabilize economic cycles",
+      "whyThisNode": "vmPFC integrates value signals with long-term consequences for decision-making, paralleling how fiscal policy weighs competing spending priorities against long-term sustainability",
+      "group": "fiscal",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Fiscal deficit spiral",
+        "Austerity overcorrection"
+      ],
+      "treatments": [
+        {
+          "label": "Countercyclical Fiscal Framework",
+          "type": "STRUCTURAL",
+          "description": "Build automatic stabilizers and rainy-day funds that expand spending during recessions and build surpluses during expansions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Public Investment Prioritization",
+          "type": "STRUCTURAL",
+          "description": "Shift fiscal composition toward high-return public investments in infrastructure, education, and research that generate long-term growth dividends",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "economy_fiscal_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Moody's Corporation",
+          "ticker_or_id": "MCO",
+          "functional_reason": "Evaluates and arbitrates fiscal policy decisions, weighing competing options and setting value-based priorities",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Peterson Institute",
+          "ticker_or_id": "PIIE",
+          "functional_reason": "Models and simulates fiscal policy scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "World Bank Group",
+          "ticker_or_id": "WORLD_BANK",
+          "functional_reason": "Allocates and regulates fiscal policy resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.65
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Fiscal Policy",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        },
+        {
+          "domain": "legal",
+          "role": "Judicial Temperament / Equity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Consumer Spending",
+      "domainDescription": "Household consumption expenditures driving aggregate demand and comprising the largest component of GDP in most economies",
+      "domainFunction": "Purchases goods and services, drives business revenue, shapes production patterns through demand signals, and reflects consumer confidence and economic wellbeing",
+      "whyThisNode": "Nucleus accumbens drives reward-seeking and pleasure anticipation, directly paralleling how consumer desire and reward-seeking behavior drives household spending and demand",
+      "group": "markets",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Consumer confidence collapse",
+        "Spending contraction"
+      ],
+      "treatments": [
+        {
+          "label": "Consumer Confidence Restoration",
+          "type": "STRUCTURAL",
+          "description": "Deploy targeted stimulus payments, tax rebates, and employment guarantees to restore household spending capacity and willingness",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Consumer Protection Strengthening",
+          "type": "STRUCTURAL",
+          "description": "Enhance product safety, lending transparency, and anti-fraud enforcement to maintain trust in market transactions",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "economy_consumer_portal.html",
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Bloomberg LP",
+          "ticker_or_id": "BLOOMBERG",
+          "functional_reason": "Detects and monitors consumer spending signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Peterson Institute",
+          "ticker_or_id": "PIIE",
+          "functional_reason": "Models and simulates consumer spending scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "OECD",
+          "ticker_or_id": "OECD",
+          "functional_reason": "Stabilizes consumer spending oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.75
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Consumer Spending",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        },
+        {
+          "domain": "trade",
+          "role": "Commodity Exchanges"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Industrial Production",
+      "domainDescription": "Manufacturing, mining, and heavy industry sectors producing physical goods through coordinated labor and capital inputs",
+      "domainFunction": "Transforms raw materials into finished goods, generates export value, provides high-wage employment, and forms the productive backbone of material economic output",
+      "whyThisNode": "The striatum coordinates learned action sequences and habitual motor programs, paralleling how industrial production coordinates sequential manufacturing processes and routinized production workflows",
+      "group": "production",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Industrial output decline",
+        "Manufacturing sector hollowing"
+      ],
+      "treatments": [
+        {
+          "label": "Advanced Manufacturing Initiative",
+          "type": "STRUCTURAL",
+          "description": "Invest in robotics, additive manufacturing, and Industry 4.0 technologies to modernize production capabilities and competitiveness",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Supply Chain Resilience Programs",
+          "type": "STRUCTURAL",
+          "description": "Diversify sourcing, build strategic reserves, and incentivize reshoring of critical manufacturing to reduce vulnerability to disruption",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "economy_industrial_portal.html",
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "OECD",
+          "ticker_or_id": "OECD",
+          "functional_reason": "Stabilizes industrial production oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Bureau of Labor Statistics",
+          "ticker_or_id": "BLS_GOV",
+          "functional_reason": "Stores and retrieves industrial production knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Peterson Institute",
+          "ticker_or_id": "PIIE",
+          "functional_reason": "Models and simulates industrial production scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.65
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Industrial Production",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        },
+        {
+          "domain": "neurology",
+          "role": "Striatum (Caudate/Putamen)"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "International Trade",
+      "domainDescription": "Cross-border exchange of goods, services, and capital governed by trade agreements, tariffs, and international economic institutions",
+      "domainFunction": "Enables comparative advantage through specialization, expands market access, facilitates technology transfer, and integrates national economies into global supply chains",
+      "whyThisNode": "TPJ mediates perspective-taking and understanding others' mental states, paralleling how international trade requires understanding foreign market needs, cultural preferences, and trading partner interests",
+      "group": "trade",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Trade deficit explosion",
+        "Export competitiveness collapse"
+      ],
+      "treatments": [
+        {
+          "label": "Trade Agreement Modernization",
+          "type": "STRUCTURAL",
+          "description": "Negotiate updated multilateral trade frameworks that address digital commerce, intellectual property, and environmental standards",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Export Promotion Programs",
+          "type": "STRUCTURAL",
+          "description": "Provide trade finance, market intelligence, and diplomatic support to help domestic firms access and compete in international markets",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "economy_intl_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Bureau of Labor Statistics",
+          "ticker_or_id": "BLS_GOV",
+          "functional_reason": "Detects and monitors international trade signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Bureau of Economic Analysis",
+          "ticker_or_id": "BEA_GOV",
+          "functional_reason": "Detects and monitors international trade signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "McKinsey & Company",
+          "ticker_or_id": "MCKINSEY",
+          "functional_reason": "Detects and monitors international trade signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "International Trade",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        },
+        {
+          "domain": "provider",
+          "role": "Patient Perspective-Taking"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Inflation and Deflation",
+      "domainDescription": "General price level dynamics reflecting the balance between money supply, aggregate demand, and productive capacity",
+      "domainFunction": "Signals economic overheating or contraction, erodes or enhances purchasing power, influences savings and investment decisions, and shapes central bank policy responses",
+      "whyThisNode": "The hypothalamus maintains homeostatic set points for temperature, hunger, and metabolic balance, directly paralleling how inflation/deflation dynamics reflect the economy's struggle to maintain price-level homeostasis",
+      "group": "monetary",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Runaway inflation",
+        "Deflationary spiral"
+      ],
+      "treatments": [
+        {
+          "label": "Inflation Targeting Regime",
+          "type": "STRUCTURAL",
+          "description": "Commit to explicit inflation targets with credible monetary policy tools and transparent communication to anchor price expectations",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Supply-Side Inflation Management",
+          "type": "STRUCTURAL",
+          "description": "Address cost-push inflation through strategic reserve releases, supply chain investments, and competition policy to reduce bottleneck pricing",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "World Bank Group",
+          "ticker_or_id": "WORLD_BANK",
+          "functional_reason": "Allocates and regulates inflation and deflation resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Congressional Budget Office",
+          "ticker_or_id": "CBO_GOV",
+          "functional_reason": "Allocates and regulates inflation and deflation resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Federal Reserve System",
+          "ticker_or_id": "FED_GOV",
+          "functional_reason": "Allocates and regulates inflation and deflation resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.92
+        }
+      ],
+      "childPortal": "economy_inflation_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Inflation and Deflation",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        },
+        {
+          "domain": "population",
+          "role": "Gender Demographics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Debt Markets",
+      "domainDescription": "Government and corporate bond markets, credit markets, and lending institutions that facilitate borrowing and debt management",
+      "domainFunction": "Prices credit risk, enables government and corporate borrowing, provides yield curves that signal economic expectations, and channels savings into productive investment through lending",
+      "whyThisNode": "The basolateral amygdala assigns emotional valence to stimuli for fear conditioning, paralleling how debt markets assign risk premiums based on fear of default and creditworthiness assessments",
+      "group": "markets",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Yield curve inversion",
+        "Credit market freeze"
+      ],
+      "treatments": [
+        {
+          "label": "Credit Market Liquidity Facilities",
+          "type": "STRUCTURAL",
+          "description": "Establish emergency lending facilities and credit guarantee programs to prevent credit market seizures during financial stress",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Debt Sustainability Frameworks",
+          "type": "STRUCTURAL",
+          "description": "Implement sovereign and corporate debt management frameworks with early warning indicators and structured resolution mechanisms",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "International Monetary Fund",
+          "ticker_or_id": "IMF",
+          "functional_reason": "Stabilizes debt markets oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Moody's Corporation",
+          "ticker_or_id": "MCO",
+          "functional_reason": "Detects and monitors debt markets signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Deloitte",
+          "ticker_or_id": "DELOITTE",
+          "functional_reason": "Stores and retrieves debt markets knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.75
+        }
+      ],
+      "childPortal": "economy_debt_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Debt Markets",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver"
+        },
+        {
+          "domain": "business",
+          "role": "Risk Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing"
+        },
+        {
+          "domain": "environment",
+          "role": "Wildlife Management"
+        },
+        {
+          "domain": "legal",
+          "role": "Criminal Threat Assessment"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Metabolic Anxiety and Threat"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Threat Detection & Emotional Reactivity"
+        },
+        {
+          "domain": "provider",
+          "role": "Risk Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Banking System",
+      "domainDescription": "Commercial and investment banking institutions providing deposit services, lending, payment processing, and financial intermediation",
+      "domainFunction": "Accepts deposits, extends credit, processes payments, underwrites securities, and serves as the primary transmission mechanism for monetary policy into the real economy",
+      "whyThisNode": "dlPFC exerts executive control over planning and working memory, paralleling how the banking system exerts operational control over credit allocation, risk management, and financial planning for the economy",
+      "group": "monetary",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Bank run contagion",
+        "Systemic solvency crisis"
+      ],
+      "treatments": [
+        {
+          "label": "Basel Capital Requirements",
+          "type": "STRUCTURAL",
+          "description": "Enforce risk-weighted capital adequacy ratios, leverage limits, and liquidity coverage requirements to ensure bank resilience under stress",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Deposit Insurance and Resolution",
+          "type": "STRUCTURAL",
+          "description": "Maintain credible deposit insurance and orderly bank resolution mechanisms to prevent panic-driven bank runs and contagion",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Deloitte",
+          "ticker_or_id": "DELOITTE",
+          "functional_reason": "Stores and retrieves banking system knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Moody's Corporation",
+          "ticker_or_id": "MCO",
+          "functional_reason": "Detects and monitors banking system signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "World Bank Group",
+          "ticker_or_id": "WORLD_BANK",
+          "functional_reason": "Allocates and regulates banking system resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.76
+        }
+      ],
+      "childPortal": "economy_econforecast_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Banking System",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Urban Planning"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Real Estate",
+      "domainDescription": "Property markets including residential, commercial, and industrial real estate that represent the largest asset class in most economies",
+      "domainFunction": "Provides housing and commercial space, stores household wealth, collateralizes lending, drives construction employment, and shapes urban development patterns",
+      "whyThisNode": "The hippocampus creates spatial maps and contextual memory, directly paralleling how real estate markets map spatial value across locations and encode property histories that determine pricing",
+      "group": "markets",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Housing bubble formation",
+        "Commercial real estate collapse"
+      ],
+      "treatments": [
+        {
+          "label": "Macroprudential Housing Regulation",
+          "type": "STRUCTURAL",
+          "description": "Implement loan-to-value limits, stress-testing requirements, and countercyclical capital buffers specific to real estate lending",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Affordable Housing Investment",
+          "type": "STRUCTURAL",
+          "description": "Deploy public-private partnerships, zoning reform, and housing subsidies to maintain supply-demand balance and prevent affordability crises",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Bureau of Labor Statistics",
+          "ticker_or_id": "BLS_GOV",
+          "functional_reason": "Stores and retrieves real estate knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Congressional Budget Office",
+          "ticker_or_id": "CBO_GOV",
+          "functional_reason": "Stores and retrieves real estate knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Peterson Institute",
+          "ticker_or_id": "PIIE",
+          "functional_reason": "Stores and retrieves real estate knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "economy_inequality_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Real Estate",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        },
+        {
+          "domain": "legal",
+          "role": "Precedent / Legal Memory"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Technology Sector",
+      "domainDescription": "High-technology industries including software, semiconductors, biotech, and AI that drive innovation and productivity growth",
+      "domainFunction": "Develops breakthrough technologies, drives productivity gains, creates high-value intellectual property, disrupts existing industries, and generates outsized economic returns",
+      "whyThisNode": "The frontoparietal network enables flexible cognitive adaptation and complex problem-solving, paralleling how the technology sector solves novel problems and drives adaptive innovation across the economy",
+      "group": "production",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Tech bubble burst",
+        "Innovation stagnation"
+      ],
+      "treatments": [
+        {
+          "label": "R&D Tax Credit Expansion",
+          "type": "STRUCTURAL",
+          "description": "Expand tax incentives for private research and development spending, with enhanced credits for small firms and frontier technologies",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Technology Antitrust Enforcement",
+          "type": "STRUCTURAL",
+          "description": "Prevent monopolistic consolidation in technology markets to maintain competitive innovation dynamics and startup ecosystem health",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Bureau of Economic Analysis",
+          "ticker_or_id": "BEA_GOV",
+          "functional_reason": "Stores and retrieves technology sector knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "OECD",
+          "ticker_or_id": "OECD",
+          "functional_reason": "Stabilizes technology sector oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "International Monetary Fund",
+          "ticker_or_id": "IMF",
+          "functional_reason": "Stabilizes technology sector oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.69
+        }
+      ],
+      "childPortal": "economy_informal_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Technology Sector",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        },
+        {
+          "domain": "medicine",
+          "role": "Gut-Brain Axis"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Services Sector",
+      "domainDescription": "Service industries including healthcare, finance, education, hospitality, and professional services comprising the majority of advanced economies",
+      "domainFunction": "Delivers intangible value through expertise, care, and facilitation; employs the majority of workers; and represents the dominant share of GDP in developed economies",
+      "whyThisNode": "The anterior insula integrates interoceptive awareness with social-emotional processing, paralleling how the services sector requires empathic attunement to client needs and relational quality in service delivery",
+      "group": "labor",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Service sector contraction",
+        "Quality degradation in essential services"
+      ],
+      "treatments": [
+        {
+          "label": "Service Quality Standards",
+          "type": "STRUCTURAL",
+          "description": "Establish industry-specific quality certifications, customer protection standards, and professional licensing to maintain service sector integrity",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Service Sector Digitization",
+          "type": "STRUCTURAL",
+          "description": "Invest in digital platforms, telehealth, fintech, and edtech to improve service delivery efficiency and expand access",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Moody's Corporation",
+          "ticker_or_id": "MCO",
+          "functional_reason": "Detects and monitors services sector signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Bloomberg LP",
+          "ticker_or_id": "BLOOMBERG",
+          "functional_reason": "Detects and monitors services sector signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "McKinsey & Company",
+          "ticker_or_id": "MCKINSEY",
+          "functional_reason": "Detects and monitors services sector signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        }
+      ],
+      "childPortal": "economy_productivity_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Services Sector",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Intuition / Pattern Recognition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Supply Chain",
+      "domainDescription": "Logistics networks, warehousing, distribution, and procurement systems connecting producers to consumers across global networks",
+      "domainFunction": "Moves raw materials and finished goods, manages inventory, coordinates just-in-time delivery, and ensures products reach markets efficiently across complex multi-tier networks",
+      "whyThisNode": "The cerebellum coordinates precise timing, sequencing, and error correction in movement, directly paralleling how supply chains coordinate precise timing, sequencing, and adaptive correction across logistics networks",
+      "group": "trade",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Supply chain disruption",
+        "Logistics network failure"
+      ],
+      "treatments": [
+        {
+          "label": "Supply Chain Diversification",
+          "type": "STRUCTURAL",
+          "description": "Reduce single-source dependencies through multi-sourcing strategies, nearshoring initiatives, and strategic inventory buffers",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Digital Supply Chain Management",
+          "type": "STRUCTURAL",
+          "description": "Deploy blockchain tracking, IoT sensors, and AI-driven demand forecasting to improve supply chain visibility, resilience, and responsiveness",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "OECD",
+          "ticker_or_id": "OECD",
+          "functional_reason": "Stabilizes supply chain oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Federal Reserve System",
+          "ticker_or_id": "FED_GOV",
+          "functional_reason": "Stabilizes supply chain oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "International Monetary Fund",
+          "ticker_or_id": "IMF",
+          "functional_reason": "Stabilizes supply chain oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.94
+        }
+      ],
+      "childPortal": "economy_realestate_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Supply Chain",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        },
+        {
+          "domain": "religion",
+          "role": "Ritual Practice"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Entrepreneurship",
+      "domainDescription": "Startup ecosystems, venture formation, and entrepreneurial activity that drives creative destruction and economic renewal",
+      "domainFunction": "Creates new enterprises, introduces disruptive innovations, generates employment growth, and provides the dynamic engine of capitalist creative destruction",
+      "whyThisNode": "VTA releases dopamine that drives reward-seeking and novelty exploration, directly paralleling how entrepreneurial motivation drives risk-taking, novelty-seeking, and the dopaminergic thrill of venture creation",
+      "group": "production",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Startup formation decline",
+        "Entrepreneurial spirit suppression"
+      ],
+      "treatments": [
+        {
+          "label": "Startup Ecosystem Support",
+          "type": "STRUCTURAL",
+          "description": "Build incubators, reduce regulatory barriers to business formation, and expand access to seed capital and mentorship networks",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Failure-Tolerant Bankruptcy Reform",
+          "type": "STRUCTURAL",
+          "description": "Modernize bankruptcy codes to enable faster debt restructuring and reduce stigma of business failure, encouraging serial entrepreneurship",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "International Monetary Fund",
+          "ticker_or_id": "IMF",
+          "functional_reason": "Stabilizes entrepreneurship oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Bloomberg LP",
+          "ticker_or_id": "BLOOMBERG",
+          "functional_reason": "Detects and monitors entrepreneurship signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "McKinsey & Company",
+          "ticker_or_id": "MCKINSEY",
+          "functional_reason": "Detects and monitors entrepreneurship signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.68
+        }
+      ],
+      "childPortal": "economy_smallbiz_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Entrepreneurship",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus"
+        },
+        {
+          "domain": "business",
+          "role": "Innovation Engine"
+        },
+        {
+          "domain": "energy",
+          "role": "Solar and Wind"
+        },
+        {
+          "domain": "environment",
+          "role": "Renewable Resources"
+        },
+        {
+          "domain": "medicine",
+          "role": "Men's Health Optimization"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Dopaminergic Metabolic Signaling"
+        },
+        {
+          "domain": "population",
+          "role": "Youth Demographics"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Dopaminergic Drive Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Regulatory Framework",
+      "domainDescription": "Economic regulation including antitrust, securities oversight, consumer protection, and environmental standards governing market conduct",
+      "domainFunction": "Sets rules of market conduct, prevents monopolistic abuse, protects consumers and investors, enforces environmental standards, and maintains fair competition",
+      "whyThisNode": "dACC detects conflicts and errors requiring behavioral adjustment, paralleling how economic regulators detect market failures, anticompetitive behavior, and rule violations requiring corrective intervention",
+      "group": "fiscal",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Regulatory failure",
+        "Market manipulation unchecked"
+      ],
+      "treatments": [
+        {
+          "label": "Adaptive Regulatory Sandboxes",
+          "type": "STRUCTURAL",
+          "description": "Create controlled testing environments for innovative products and business models that allow regulators to learn before imposing full compliance burdens",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Regulatory Agency Capacity Building",
+          "type": "STRUCTURAL",
+          "description": "Increase staffing, technology, and analytical capabilities of regulatory agencies to match the complexity of modern financial and technology markets",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Bureau of Labor Statistics",
+          "ticker_or_id": "BLS_GOV",
+          "functional_reason": "Detects and monitors regulatory framework signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Bureau of Economic Analysis",
+          "ticker_or_id": "BEA_GOV",
+          "functional_reason": "Detects and monitors regulatory framework signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "International Monetary Fund",
+          "ticker_or_id": "IMF",
+          "functional_reason": "Detects and monitors regulatory framework signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.92
+        }
+      ],
+      "childPortal": "economy_agri_econ_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Regulatory Framework",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        },
+        {
+          "domain": "industry",
+          "role": "Quality Control"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Economic Indicators",
+      "domainDescription": "Statistical systems tracking GDP, unemployment, inflation, trade balances, and other metrics that guide policy and investment decisions",
+      "domainFunction": "Measures economic performance, generates leading and lagging indicators, informs monetary and fiscal policy calibration, and provides the empirical foundation for economic decision-making",
+      "whyThisNode": "The executive control network monitors task performance and adjusts strategy based on feedback, paralleling how economic indicator systems monitor economic performance and provide the feedback for policy adjustment",
+      "group": "fiscal",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Statistical system degradation",
+        "Indicator manipulation"
+      ],
+      "treatments": [
+        {
+          "label": "Statistical Independence Guarantees",
+          "type": "STRUCTURAL",
+          "description": "Protect statistical agencies from political interference through legal independence, fixed budgets, and transparent methodology publication",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Real-Time Economic Intelligence",
+          "type": "STRUCTURAL",
+          "description": "Supplement traditional lagging indicators with high-frequency data sources including satellite imagery, payments data, and digital activity metrics",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "International Monetary Fund",
+          "ticker_or_id": "IMF",
+          "functional_reason": "Stabilizes economic indicators oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "Deloitte",
+          "ticker_or_id": "DELOITTE",
+          "functional_reason": "Stores and retrieves economic indicators knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "Moody's Corporation",
+          "ticker_or_id": "MCO",
+          "functional_reason": "Detects and monitors economic indicators signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.79
+        }
+      ],
+      "childPortal": "economy_digital_econ_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Economic Indicators",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Public Administration"
+        },
+        {
+          "domain": "medicine",
+          "role": "Epidemiology"
+        },
+        {
+          "domain": "population",
+          "role": "Census Systems"
+        },
+        {
+          "domain": "science",
+          "role": "Statistical Inference"
+        },
+        {
+          "domain": "technology",
+          "role": "Operating Systems"
+        },
+        {
+          "domain": "trade",
+          "role": "Inventory Management"
+        },
+        {
+          "domain": "communication",
+          "role": "Audio Description Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SNS",
+      "state": "active",
+      "domainLabel": "Energy Econ",
+      "domainDescription": "Energy Econ systems within Economy",
+      "group": "production",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "economy_energy_econ_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Energy Econ",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "metabolic",
+          "role": "Sympathetic Metabolic Activation"
+        },
+        {
+          "domain": "religion",
+          "role": "Religionlaw"
+        },
+        {
+          "domain": "communication",
+          "role": "Baseline Calibration Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "commercial office — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift Assessment & Diagnostics"
+        },
+        {
+          "domain": "education",
+          "role": "Trend Analysis Infrastructure & Capacity"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Policy & Governance"
+        },
+        {
+          "domain": "environment",
+          "role": "Stratospheric Ozone Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Supply Chain",
+      "domainDescription": "Supply Chain systems within Economy",
+      "group": "production",
+      "phase": "P5",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "economy_supply_chain_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Supply Chain",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Soilenv"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "industry",
+          "role": "Safety Systems"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Emergency Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Law Enforcement Response"
+        },
+        {
+          "domain": "medicine",
+          "role": "Emergency Medicine"
+        },
+        {
+          "domain": "population",
+          "role": "Refugee Populations"
+        },
+        {
+          "domain": "provider",
+          "role": "Crisis Response Protocol"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "RECESSION",
+      "label": "Recession",
+      "summary": "Sustained contraction in economic output characterized by declining GDP, rising unemployment, falling consumer spending, and business investment pullback, often triggering cascading effects across sectors",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "GDP output contracting as productive capacity sits idle and aggregate demand falls below potential",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "Labor markets seizing up with rising unemployment, reduced hours, and declining participation rates",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Consumer spending retreating as households cut discretionary purchases and increase precautionary saving",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-active",
+          "detail": "Industrial production declining as factories reduce shifts and defer capital investment",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-active",
+          "detail": "Entrepreneurial activity suppressed as risk capital dries up and startup formation declines",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "HYPERINFLATION",
+      "label": "Hyperinflation",
+      "summary": "Extreme and accelerating price increases destroying the purchasing power of currency, eroding savings, collapsing real wages, and threatening the viability of monetary exchange itself",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper-active",
+          "detail": "Price-level homeostasis completely broken with exponential increases in general price level",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Monetary policy transmission mechanism breaking down as conventional interest rate tools lose effectiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Fiscal discipline collapsed with government deficits being monetized through currency printing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered",
+          "detail": "Consumer behavior shifting to panic buying and immediate spending as holding currency becomes irrational",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Debt markets in crisis as lenders demand extreme risk premiums or refuse to lend in devaluing currency",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "International trade partners withdrawing from commercial relationships denominated in the collapsing currency",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "BANKING_CRISIS",
+      "label": "Banking Crisis",
+      "summary": "Systemic failure in the banking sector through insolvency, liquidity crises, or loss of depositor confidence, threatening the payment system and credit intermediation functions essential to economic activity",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Banking system executive functions paralyzed as institutions hoard cash and refuse to lend",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Fear contagion spreading through debt markets as counterparty risk assessments trigger cascading credit freezes",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-active",
+          "detail": "Monetary policy transmission completely blocked as interest rate cuts fail to reach the real economy through frozen banks",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Altered",
+          "detail": "Capital market pricing distorted as asset valuations become disconnected from fundamentals during panic",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper-active",
+          "detail": "Real estate markets collapsing as foreclosures spike and property values plummet from credit withdrawal",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "TRADE_WAR",
+      "label": "Trade War",
+      "summary": "Escalating cycle of retaliatory tariffs, sanctions, and trade barriers between major economies, disrupting global supply chains, raising consumer prices, and fragmenting the international trading system",
+      "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Perspective-taking between trading partners collapsed, replaced by zero-sum confrontational framing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper-active",
+          "detail": "Supply chains thrown into chaos as firms scramble to reroute around tariff barriers and sanctions",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Industrial production disrupted by input cost increases and lost export markets, with some sectors benefiting from protection while others suffer",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper-active",
+          "detail": "Import price inflation feeding through to consumer prices as tariffs raise costs of foreign goods",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Regulatory complexity exploding as compliance requirements multiply across fragmented trade regimes",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Hypo-active",
+          "detail": "Technology sector innovation slowing as cross-border research collaboration and component access restricted",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "DEBT_CRISIS",
+      "label": "Debt Crisis",
+      "summary": "Unsustainable accumulation of sovereign or corporate debt threatening default, requiring painful restructuring, and potentially triggering contagion across interconnected financial systems",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Debt market fear spiraling as bond yields spike and credit default swap spreads widen to crisis levels",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Fiscal policy space exhausted with debt service consuming increasing share of government revenue",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Banking system destabilized as sovereign or corporate bond holdings face mark-to-market losses",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Altered",
+          "detail": "Economic indicators sending contradictory signals as traditional metrics fail to capture debt dynamics",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Monetary policy constrained between need to raise rates for inflation and fear of worsening debt burden",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "MARKET_CRASH",
+      "label": "Market Crash",
+      "summary": "Sudden and severe decline in asset prices across equity, bond, and commodity markets, destroying wealth, triggering margin calls, and potentially cascading into broader economic contraction",
+      "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Capital market risk evaluation overwhelmed by panic selling and herd behavior, rational pricing abandoned",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Fear contagion amplifying sell-offs as loss aversion and margin calls create self-reinforcing downward spirals",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Consumer confidence collapsing as household wealth destruction from portfolio losses suppresses spending",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Real estate values declining as wealth effect reversal and credit tightening reduce property demand",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-active",
+          "detail": "Entrepreneurial and venture capital activity freezing as risk appetite evaporates across investor classes",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Regulatory response scrambling with emergency interventions and ad hoc rule changes adding uncertainty",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "M1",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "STRI",
+      "target": "FPN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FPN",
+      "target": "VTA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "S1",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "OFC",
+      "target": "NAcc",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NAcc",
+      "target": "BLA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "BLA",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "THAL",
+      "target": "HYPO",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "HYPO",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "vmPFC",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "ECN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "TPJ",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "S1",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "S1",
+      "target": "OFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "OFC",
+      "target": "THAL",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "THAL",
+      "target": "vmPFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "vmPFC",
+      "target": "TPJ",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "TPJ",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "VTA",
+      "target": "OFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "AI",
+      "target": "THAL",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "HIPP",
+      "target": "vmPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "dlPFC",
+      "target": "TPJ",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "ECN",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CBLM",
+      "target": "S1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "M1",
+      "target": "ECN",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "FPN",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "AI",
+      "target": "BLA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "BLA",
+      "target": "HYPO",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "HYPO",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "dACC",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Benchmarking → Debt Markets (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Benchmarking → Supply Chain (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Benchmarking → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Fiscal Policy → Debt Markets (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Fiscal Policy → Supply Chain (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Fiscal Policy → Rural Development Human Capital & Development (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Banking System → Regulatory Framework (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Banking System → Real Estate (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Subsidized Credit → Debt Markets (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Regulatory Framework → Debt Markets (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Monetary Policy → Value Chains (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Monetary Policy → Agricultural Trade Risk & Resilience (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Monetary Policy → Labor Markets (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Agricultural Finance Assessment & Diagnostics → Value Chains (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Debt Restructuring Risk & Resilience → Agricultural Trade Risk & Resilience (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Protocol Development Evaluation → Services Sector (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Services Sector → Regulatory Framework (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Subsidy Reform → Services Sector (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Debt Markets → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Inflation and Deflation (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Agricultural Trade — Optimization & Innovation → Real Estate (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Real Estate → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Entrepreneurship → Consumer Spending (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Consumer Spending → Agribusiness Risk & Resilience (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Consumer Spending → Capital Markets (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Capital Markets → Fiscal Policy (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Agricultural Finance Core Operations → GDP Output (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Industrial Production → Performance Tuning Evaluation (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Performance Tuning Evaluation → Monetary Policy (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Supply Chain → Monetary Policy (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Agribusiness Core Operations → Value Chains (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Technology Sector → Banking System (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Agribusiness — State Assessment → Debt Markets (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Agribusiness — State Assessment → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.762Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

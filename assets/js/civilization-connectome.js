@@ -1,0 +1,1200 @@
+// =============================================
+// LIMEN HELIX — CIVILIZATION CONNECTOME MODULE
+// Extracted from civilization.html inline script
+// Wrapped as IIFE with init(canvasId, opts) API
+// =============================================
+(function() {
+"use strict";
+
+var NODE_COLORS = {
+  governance:'#14B8A6', economy:'#F59E0B', infrastructure:'#3B82F6', energy:'#F97316',
+  agriculture:'#10B981', industry:'#EF4444', science:'#06B6D4', medicine:'#84CC16',
+  education:'#8B5CF6', technology:'#0EA5E9', communication:'#6366F1', culture:'#A78BFA',
+  defense:'#64748B', environment:'#22C55E', religion:'#F43F5E', population:'#FB923C',
+  trade:'#EAB308', law:'#94A3B8', finance:'#EC4899', intelligence:'#38BDF8'
+};
+var EDGE_COLORS = {
+  SUPPLIES:{r:16,g:185,b:129}, DEPENDS_ON:{r:59,g:130,b:246},
+  TRANSFORMS:{r:234,g:179,b:8}, CONTROLS:{r:249,g:115,b:22}
+};
+var NODE_TAGLINES = {
+  governance:'Control', economy:'Exchange', infrastructure:'Structure', energy:'Power',
+  agriculture:'Nourishment', industry:'Formation', science:'Discovery', medicine:'Repair',
+  education:'Transmission', technology:'Coordination', communication:'Signal', culture:'Identity',
+  defense:'Protection', environment:'Substrate', religion:'Meaning', population:'Organism',
+  trade:'Movement', law:'Order', finance:'Capital', intelligence:'Awareness'
+};
+var SHORT_NAMES = {
+  governance:'GOVERNANCE', economy:'ECONOMY', infrastructure:'INFRA', energy:'ENERGY',
+  agriculture:'AGRICULTURE', industry:'INDUSTRY', science:'SCIENCE', medicine:'MEDICINE',
+  education:'EDUCATION', technology:'TECHNOLOGY', communication:'COMMS', culture:'CULTURE',
+  defense:'DEFENSE', environment:'ENVIRONMENT', religion:'RELIGION', population:'POPULATION',
+  trade:'TRADE', law:'LAW', finance:'FINANCE', intelligence:'INTEL'
+};
+var HUB_WEIGHTS = {
+  governance:1.0, economy:1.0, infrastructure:0.8, energy:0.9,
+  agriculture:0.8, industry:0.8, science:0.9, medicine:0.7,
+  education:0.7, technology:1.0, communication:0.6, culture:0.6,
+  defense:0.7, environment:0.8, religion:0.5, population:0.8,
+  trade:0.6, law:0.7, finance:0.9, intelligence:0.7
+};
+var GOLDEN_ANGLE = 2.399963229728653;
+var NODE_COUNT = 20;
+
+// Phase mapping for each civilization domain
+var NODE_PHASES = {
+  governance:'P7', economy:'P1', infrastructure:'P4', energy:'P3',
+  agriculture:'P2', industry:'P3', science:'P6', medicine:'P8',
+  education:'P1', technology:'P6', communication:'P6', culture:'P9',
+  defense:'P7', environment:'P0', religion:'P10', population:'P5',
+  trade:'P5', law:'P4', finance:'P1', intelligence:'P9'
+};
+
+// Phase-based impulse colors
+// P0-P2: cool blue/teal | P3: red-orange | P4-P6: green | P7-P9: purple/violet | P10: gold
+var PHASE_PULSE_COLORS = {
+  P0:  {r:14,  g:165, b:233},
+  P1:  {r:6,   g:182, b:212},
+  P2:  {r:14,  g:165, b:233},
+  P3:  {r:239, g:115, b:70},
+  P4:  {r:16,  g:185, b:129},
+  P5:  {r:34,  g:197, b:94},
+  P6:  {r:16,  g:185, b:129},
+  P7:  {r:139, g:92,  b:246},
+  P8:  {r:167, g:139, b:250},
+  P9:  {r:139, g:92,  b:246},
+  P10: {r:234, g:179, b:8}
+};
+
+// Map domain edge types to neural conduction classes
+var EDGE_NEURAL_MAP = {
+  SUPPLIES:   {myelinated:true,  speedRange:[0.10,0.18], brightness:0.85},
+  DEPENDS_ON: {myelinated:false, speedRange:[0.04,0.08], brightness:0.35},
+  TRANSFORMS: {myelinated:true,  speedRange:[0.14,0.22], brightness:0.95},
+  CONTROLS:   {myelinated:true,  speedRange:[0.08,0.14], brightness:0.7}
+};
+
+// 3-LAYER NODE SCHEMA — STRESS CONSTANTS
+var STRESS_CHANNELS = ['legal','liquidity','funding','solvency','demand','ops','people'];
+var STRESS_COLORS = {
+  legal:{r:148,g:163,b:184}, liquidity:{r:56,g:189,b:248}, funding:{r:234,g:179,b:8},
+  solvency:{r:139,g:92,b:246}, demand:{r:34,g:197,b:94}, ops:{r:249,g:115,b:22},
+  people:{r:236,g:72,b:153}
+};
+var TAU = Math.PI * 2;
+
+// === DOMAIN → SUB-PORTAL REGISTRY ===
+var DOMAIN_PORTALS = {
+  medicine:[
+    {name:'Clinical Circuit Map',url:'/clinical'},
+    {name:'Neurology Circuit Map',url:'/neurology'},
+    {name:'Metabolic Circuit Map',url:'/metabolic'},
+    {name:'Pediatric Circuit Map',url:'/pediatric'},
+    {name:'Gut-Brain Axis',url:'/portals/gutbrain-circuit'},
+    {name:'Addiction Circuit Map',url:'/addiction'},
+    {name:'Psychedelic Circuit Map',url:'/psychedelic'},
+    {name:'Provider Portal',url:'/provider-portal'},
+    {name:'Men\'s Health Optimization',url:'/portals/medicine/trt_clinic.html'},
+    {name:'Johnson & Johnson (JNJ)',url:'/company-portal?company=johnson_and_johnson'},
+    {name:'Pfizer (PFE)',url:'/company-portal?company=pfizer'},
+    {name:'Abbott (ABT)',url:'/company-portal?company=abbott_laboratories'},
+    {name:'Medtronic (MDT)',url:'/company-portal?company=medtronic'},
+    {name:'Eli Lilly (LLY)',url:'/company-portal?company=eli_lilly'}
+  ],
+  religion:[
+    {name:'Contemplative Circuit Map',url:'/contemplative'},
+    {name:'Salem Comm (SALM)',url:'/company-portal?company=salem_communications'},
+    {name:'Gannett (GCI)',url:'/company-portal?company=gannett'},
+    {name:'Scholastic (SCHL)',url:'/company-portal?company=scholastic'},
+    {name:'HMH (HMHC)',url:'/company-portal?company=houghton_mifflin_harcourt'},
+    {name:'Tyndale House',url:'/company-portal?company=tyndale_house'}
+  ],
+  economy:[
+    {name:'Business',url:'/business'},
+    {name:'ADP (ADP)',url:'/company-portal?company=adp'},
+    {name:'Paychex (PAYX)',url:'/company-portal?company=paychex'},
+    {name:'Intuit (INTU)',url:'/company-portal?company=intuit'},
+    {name:'Block (SQ)',url:'/company-portal?company=block'},
+    {name:'Robert Half (RHI)',url:'/company-portal?company=robert_half'}
+  ],
+  finance:[
+    {name:'Helix Portal',url:'/helix-report'},
+    {name:'JPMorgan (JPM)',url:'/company-portal?company=jpmorgan_chase'},
+    {name:'Bank of America (BAC)',url:'/company-portal?company=bank_of_america'},
+    {name:'Goldman Sachs (GS)',url:'/company-portal?company=goldman_sachs'},
+    {name:'Schwab (SCHW)',url:'/company-portal?company=charles_schwab'},
+    {name:'BlackRock (BLK)',url:'/company-portal?company=blackrock'}
+  ],
+  energy:[
+    {name:'Exxon Mobil (XOM)',url:'/company-portal?company=exxon_mobil'},
+    {name:'Chevron (CVX)',url:'/company-portal?company=chevron'},
+    {name:'ConocoPhillips (COP)',url:'/company-portal?company=conocophillips'},
+    {name:'Occidental (OXY)',url:'/company-portal?company=occidental_petroleum'},
+    {name:'NextEra (NEE)',url:'/company-portal?company=nextera_energy'}
+  ],
+  technology:[
+    {name:'Microsoft (MSFT)',url:'/company-portal?company=microsoft'},
+    {name:'Apple (AAPL)',url:'/company-portal?company=apple'},
+    {name:'NVIDIA (NVDA)',url:'/company-portal?company=nvidia'},
+    {name:'Applied Materials (AMAT)',url:'/company-portal?company=applied_materials'},
+    {name:'CrowdStrike (CRWD)',url:'/company-portal?company=crowdstrike'}
+  ],
+  infrastructure:[
+    {name:'Quanta Services (PWR)',url:'/company-portal?company=quanta_services'},
+    {name:'Fluor (FLR)',url:'/company-portal?company=fluor'},
+    {name:'AECOM (ACM)',url:'/company-portal?company=aecom'},
+    {name:'Vulcan Materials (VMC)',url:'/company-portal?company=vulcan_materials'},
+    {name:'Martin Marietta (MLM)',url:'/company-portal?company=martin_marietta_materials'}
+  ],
+  industry:[
+    {name:'Caterpillar (CAT)',url:'/company-portal?company=caterpillar'},
+    {name:'Honeywell (HON)',url:'/company-portal?company=honeywell'},
+    {name:'Emerson (EMR)',url:'/company-portal?company=emerson_electric'},
+    {name:'Rockwell (ROK)',url:'/company-portal?company=rockwell_automation'},
+    {name:'Illinois Tool Works (ITW)',url:'/company-portal?company=illinois_tool_works'}
+  ],
+  communication:[
+    {name:'Comcast (CMCSA)',url:'/company-portal?company=comcast'},
+    {name:'Charter (CHTR)',url:'/company-portal?company=charter_communications'},
+    {name:'T-Mobile (TMUS)',url:'/company-portal?company=t_mobile_us'},
+    {name:'Verizon (VZ)',url:'/company-portal?company=verizon'},
+    {name:'AT&T (T)',url:'/company-portal?company=atandt'}
+  ],
+  defense:[
+    {name:'Lockheed Martin (LMT)',url:'/company-portal?company=lockheed_martin'},
+    {name:'Northrop Grumman (NOC)',url:'/company-portal?company=northrop_grumman'},
+    {name:'L3Harris (LHX)',url:'/company-portal?company=l3harris'},
+    {name:'Leidos (LDOS)',url:'/company-portal?company=leidos'},
+    {name:'Booz Allen (BAH)',url:'/company-portal?company=booz_allen_hamilton'}
+  ],
+  science:[
+    {name:'Danaher (DHR)',url:'/company-portal?company=danaher'},
+    {name:'Agilent (A)',url:'/company-portal?company=agilent'},
+    {name:'Bruker (BRKR)',url:'/company-portal?company=bruker'},
+    {name:'Illumina (ILMN)',url:'/company-portal?company=illumina'},
+    {name:'Charles River (CRL)',url:'/company-portal?company=charles_river_labs'}
+  ],
+  education:[
+    {name:'Coursera (COUR)',url:'/company-portal?company=coursera'},
+    {name:'Stride (LRN)',url:'/company-portal?company=stride'},
+    {name:'Chegg (CHGG)',url:'/company-portal?company=chegg'},
+    {name:'Pearson (PSO)',url:'/company-portal?company=pearson'},
+    {name:'2U (TWOU)',url:'/company-portal?company=2u'}
+  ],
+  culture:[
+    {name:'Disney (DIS)',url:'/company-portal?company=walt_disney'},
+    {name:'Live Nation (LYV)',url:'/company-portal?company=live_nation'},
+    {name:'Spotify (SPOT)',url:'/company-portal?company=spotify'},
+    {name:'Warner Bros (WBD)',url:'/company-portal?company=warner_bros_discovery'},
+    {name:'Electronic Arts (EA)',url:'/company-portal?company=electronic_arts'}
+  ],
+  environment:[
+    {name:'Waste Mgmt (WM)',url:'/company-portal?company=waste_management'},
+    {name:'Republic Svcs (RSG)',url:'/company-portal?company=republic_services'},
+    {name:'Clean Harbors (CLH)',url:'/company-portal?company=clean_harbors'},
+    {name:'Montrose (MEG)',url:'/company-portal?company=montrose_environmental'},
+    {name:'Casella (CWST)',url:'/company-portal?company=casella_waste_systems'}
+  ],
+  population:[
+    {name:'Zillow (ZG)',url:'/company-portal?company=zillow'},
+    {name:'Redfin (RDFN)',url:'/company-portal?company=redfin'},
+    {name:'Equifax (EFX)',url:'/company-portal?company=equifax'},
+    {name:'CoStar (CSGP)',url:'/company-portal?company=costar_group'},
+    {name:'Rocket (RKT)',url:'/company-portal?company=rocket_companies'}
+  ],
+  trade:[
+    {name:'FedEx (FDX)',url:'/company-portal?company=fedex'},
+    {name:'UPS (UPS)',url:'/company-portal?company=united_parcel_service'},
+    {name:'Expeditors (EXPD)',url:'/company-portal?company=expeditors_international'},
+    {name:'C.H. Robinson (CHRW)',url:'/company-portal?company=c_h_robinson'},
+    {name:'XPO (XPO)',url:'/company-portal?company=xpo'}
+  ],
+  law:[
+    {name:'Thomson Reuters (TRI)',url:'/company-portal?company=thomson_reuters'},
+    {name:'RELX (RELX)',url:'/company-portal?company=relx'},
+    {name:'Moody\'s (MCO)',url:'/company-portal?company=moodys'},
+    {name:'S&P Global (SPGI)',url:'/company-portal?company=sandp_global'},
+    {name:'MSCI (MSCI)',url:'/company-portal?company=msci'}
+  ],
+  intelligence:[
+    {name:'Palantir (PLTR)',url:'/company-portal?company=palantir'},
+    {name:'Parsons (PSN)',url:'/company-portal?company=parsons'},
+    {name:'SAIC (SAIC)',url:'/company-portal?company=saic'},
+    {name:'Cognizant (CTSH)',url:'/company-portal?company=cognizant'},
+    {name:'Splunk (SPLK)',url:'/company-portal?company=splunk'}
+  ],
+  governance:[
+    {name:'ICF International (ICFI)',url:'/company-portal?company=icf_international'},
+    {name:'CACI (CACI)',url:'/company-portal?company=caci_international'},
+    {name:'Maximus (MMS)',url:'/company-portal?company=maximus'},
+    {name:'ManTech (MANT)',url:'/company-portal?company=mantech_international'},
+    {name:'Accenture Fed (ACN)',url:'/company-portal?company=accenture_federal_services'}
+  ],
+  agriculture:[
+    {name:'Agriculture Portal',url:'/p2_agri_portal'},
+    {name:'Deere (DE)',url:'/company-portal?company=deere'},
+    {name:'ADM (ADM)',url:'/company-portal?company=archer_daniels_midland'},
+    {name:'Bunge (BG)',url:'/company-portal?company=bunge'},
+    {name:'Corteva (CTVA)',url:'/company-portal?company=corteva'},
+    {name:'Mosaic (MOS)',url:'/company-portal?company=mosaic'}
+  ],
+  addiction:[
+    {name:'Amgen (AMGN)',url:'/company-portal?company=amgen'},
+    {name:'Indivior (INDV)',url:'/company-portal?company=indivior'},
+    {name:'Alkermes (ALKS)',url:'/company-portal?company=alkermes'},
+    {name:'Teva (TEVA)',url:'/company-portal?company=teva_pharmaceutical'},
+    {name:'Emergent Bio (EBS)',url:'/company-portal?company=emergent_biosolutions'}
+  ],
+  contemplative:[
+    {name:'Calm.com',url:'/company-portal?company=calm_com'},
+    {name:'Insight Timer',url:'/company-portal?company=insight_timer'},
+    {name:'Lululemon (LULU)',url:'/company-portal?company=lululemon'},
+    {name:'Mindbody',url:'/company-portal?company=mindbody'},
+    {name:'Sounds True',url:'/company-portal?company=sounds_true'}
+  ],
+  legal:[
+    {name:'LegalZoom (LZ)',url:'/company-portal?company=legalzoom'},
+    {name:'Everbridge (EVBG)',url:'/company-portal?company=everbridge'},
+    {name:'DLocal (DLO)',url:'/company-portal?company=dlocal'},
+    {name:'DocuSign (DOCU)',url:'/company-portal?company=docusign'},
+    {name:'CSG Systems (CSGS)',url:'/company-portal?company=csg_systems'}
+  ],
+  metabolic:[
+    {name:'Novo Nordisk (NVO)',url:'/company-portal?company=novo_nordisk'},
+    {name:'Dexcom (DXCM)',url:'/company-portal?company=dexcom_meta'},
+    {name:'Insulet (PODD)',url:'/company-portal?company=insulet'},
+    {name:'Tandem (TNDM)',url:'/company-portal?company=tandem_diabetes'},
+    {name:'Abbott (ABT)',url:'/company-portal?company=abbott_metabolic'}
+  ],
+  neurology:[
+    {name:'Biogen (BIIB)',url:'/company-portal?company=biogen'},
+    {name:'Jazz Pharma (JAZZ)',url:'/company-portal?company=jazz_pharmaceuticals'},
+    {name:'Acadia (ACAD)',url:'/company-portal?company=acadia_pharmaceuticals'},
+    {name:'Axsome (AXSM)',url:'/company-portal?company=axsome_therapeutics'},
+    {name:'Neurocrine (NBIX)',url:'/company-portal?company=neurocrine_biosciences'}
+  ],
+  pediatric:[
+    {name:'Organon (OGN)',url:'/company-portal?company=organon'},
+    {name:'Masimo (MASI)',url:'/company-portal?company=masimo'},
+    {name:'Reckitt/Mead Johnson (RBGLY)',url:'/company-portal?company=mead_johnson'},
+    {name:'Hologic (HOLX)',url:'/company-portal?company=hologic'},
+    {name:'Pediatrix (MD)',url:'/company-portal?company=pediatric_medical_group'}
+  ],
+  psychedelic:[
+    {name:'COMPASS Pathways (CMPS)',url:'/company-portal?company=compass_pathways'},
+    {name:'ATAI Life Sciences (ATAI)',url:'/company-portal?company=atai_life_sciences'},
+    {name:'MindMed (MNMD)',url:'/company-portal?company=mind_medicine'},
+    {name:'Cybin (CYBN)',url:'/company-portal?company=cybin'},
+    {name:'GH Research (GHRS)',url:'/company-portal?company=gh_research'}
+  ]
+};
+
+// === NAVIGATION ===
+var PORTAL_ROUTES = {
+  'governance': '/domain-console?domain=governance',
+  'economy': '/domain-console?domain=economy',
+  'infrastructure': '/domain-console?domain=infrastructure',
+  'energy': '/domain-console?domain=energy',
+  'agriculture': '/domain-console?domain=agriculture',
+  'industry': '/domain-console?domain=industry',
+  'science': '/domain-console?domain=science',
+  'medicine': '/domain-console?domain=medicine',
+  'education': '/domain-console?domain=education',
+  'technology': '/domain-console?domain=technology',
+  'communication': '/domain-console?domain=communication',
+  'culture': '/domain-console?domain=culture',
+  'defense': '/domain-console?domain=defense',
+  'environment': '/domain-console?domain=environment',
+  'religion': '/domain-console?domain=religion',
+  'population': '/domain-console?domain=population',
+  'trade': '/domain-console?domain=trade',
+  'law': '/domain-console?domain=law',
+  'finance': '/domain-console?domain=finance',
+  'intelligence': '/domain-console?domain=intelligence'
+};
+
+// ═══ 3-LAYER HELPER FUNCTIONS ═══
+
+function initPhaseVector(phaseStr) {
+  var vec = {};
+  for (var i = 0; i <= 10; i++) vec['P' + i] = 0;
+  if (phaseStr && vec.hasOwnProperty(phaseStr)) {
+    vec[phaseStr] = 0.75;
+    var idx = parseInt(phaseStr.slice(1));
+    if (idx > 0) vec['P' + (idx - 1)] = 0.08;
+    if (idx < 10) vec['P' + (idx + 1)] = 0.08;
+    var assigned = 0.75 + (idx > 0 ? 0.08 : 0) + (idx < 10 ? 0.08 : 0);
+    var remaining = 1 - assigned;
+    var crumbCount = 11 - (1 + (idx > 0 ? 1 : 0) + (idx < 10 ? 1 : 0));
+    var crumb = crumbCount > 0 ? remaining / crumbCount : 0;
+    for (var i = 0; i <= 10; i++) {
+      var k = 'P' + i;
+      if (k !== phaseStr && !(idx > 0 && i === idx - 1) && !(idx < 10 && i === idx + 1)) {
+        vec[k] = crumb;
+      }
+    }
+  } else {
+    for (var i = 0; i <= 10; i++) vec['P' + i] = 1 / 11;
+  }
+  return vec;
+}
+
+function computeInstability(vec) {
+  var vals = [];
+  for (var k in vec) vals.push(vec[k]);
+  vals.sort(function(a, b) { return b - a; });
+  return 1 - ((vals[0] || 0) - (vals[1] || 0));
+}
+
+function getDominantPhase(vec) {
+  var best = 'P0', bestV = -1;
+  for (var k in vec) {
+    if (vec[k] > bestV) { bestV = vec[k]; best = k; }
+  }
+  return best;
+}
+
+function computeTotalStress(sv) {
+  var sum = 0;
+  for (var i = 0; i < STRESS_CHANNELS.length; i++) {
+    sum += (sv[STRESS_CHANNELS[i]] || 0);
+  }
+  return sum / STRESS_CHANNELS.length;
+}
+
+function hexToRgb(hex) {
+  return {r:parseInt(hex.slice(1,3),16), g:parseInt(hex.slice(3,5),16), b:parseInt(hex.slice(5,7),16)};
+}
+
+// ═══ MODULE-SCOPED STATE ═══
+var NODES, EDGES, DATA, neighborMap;
+var satellites, actionPotentials, bgParticles, wanderers;
+var canvas, ctx, W, H, CX, CY;
+var DPR;
+var t, hoveredNode, spiralAngle, spiralSpeed;
+var topKSet;
+var spiralMaxR;
+var camX, camY, camZ;
+var targetX, targetY, targetZ;
+var dragStart, isDragging;
+var noiseCanvas;
+var transitioning, transitionStart, transitionTarget;
+var clickFadeNode;
+var entryFadeStart;
+var mouseDownPos;
+var lastTouchDist, touchStartPos;
+
+// Module options
+var _miniMode = false;
+var _focusDomain = null;
+var _onNodeClick = null;
+var _tooltip = null;
+var _ttPhase = null;
+var _ttName = null;
+var _ttTagline = null;
+var _subMenu = null;
+var _animFrameId = null;
+
+function resetState() {
+  NODES = []; EDGES = []; DATA = null; neighborMap = {};
+  satellites = []; actionPotentials = []; bgParticles = []; wanderers = [];
+  t = 0; hoveredNode = -1; spiralAngle = 0; spiralSpeed = 0.0003;
+  topKSet = {};
+  spiralMaxR = 0;
+  camX = 0; camY = 0; camZ = 1;
+  targetX = 0; targetY = 0; targetZ = 1;
+  dragStart = null; isDragging = false;
+  noiseCanvas = null;
+  transitioning = false; transitionStart = 0; transitionTarget = null;
+  clickFadeNode = -1;
+  entryFadeStart = -1;
+  mouseDownPos = null;
+  lastTouchDist = 0; touchStartPos = null;
+}
+
+function getPhaseColor(n) {
+  var phase = n.dominant_phase || 'P0';
+  var c = PHASE_PULSE_COLORS[phase] || PHASE_PULSE_COLORS.P0;
+  var inst = n.instability || 0;
+  var sat = Math.max(0.2, 1 - inst * 0.8);
+  return {
+    r: Math.round(120 + (c.r - 120) * sat),
+    g: Math.round(120 + (c.g - 120) * sat),
+    b: Math.round(120 + (c.b - 120) * sat)
+  };
+}
+
+function drawStressRing(x, y, radius, node, alpha) {
+  if (!node || node.total_stress < 0.05) return;
+  var sv = node.stress_vector;
+  if (!sv) return;
+  var segAngle = TAU / 7;
+  var ringWidth = 2;
+  for (var i = 0; i < STRESS_CHANNELS.length; i++) {
+    var ch = STRESS_CHANNELS[i];
+    var val = sv[ch] || 0;
+    if (val < 0.05) continue;
+    var c = STRESS_COLORS[ch];
+    var a = val * node.total_stress * alpha;
+    ctx.beginPath();
+    ctx.arc(x, y, radius + ringWidth, i * segAngle, (i + 1) * segAngle);
+    ctx.strokeStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a + ')';
+    ctx.lineWidth = ringWidth;
+    ctx.stroke();
+  }
+}
+
+function seedStressCivilization(n, idx) {
+  var sv = {legal:0, liquidity:0, funding:0, solvency:0, demand:0, ops:0, people:0};
+  sv.demand = Math.min((n.degree || 0) / 4, 1);
+  sv.funding = Math.min(1 - (n.dataWeight || 0), 1);
+  sv.people = Math.min((n.degree || 0) / 6, 1);
+  var controlsCount = 0, suppliesCount = 0, dependsCount = 0, transformsCount = 0;
+  var lawNeighbor = false, financeNeighbor = false;
+  for (var i = 0; i < EDGES.length; i++) {
+    var e = EDGES[i];
+    if (e.ai === idx || e.bi === idx) {
+      if (e.type === 'CONTROLS') controlsCount++;
+      if (e.type === 'SUPPLIES') suppliesCount++;
+      if (e.type === 'DEPENDS_ON') dependsCount++;
+      if (e.type === 'TRANSFORMS') transformsCount++;
+      var otherIdx = (e.ai === idx) ? e.bi : e.ai;
+      if (NODES[otherIdx] && NODES[otherIdx].id === 'law') lawNeighbor = true;
+      if (NODES[otherIdx] && NODES[otherIdx].id === 'finance') financeNeighbor = true;
+    }
+  }
+  sv.legal = Math.min(controlsCount / 3, 1);
+  if (lawNeighbor) sv.legal = Math.min(sv.legal + 0.2, 1);
+  sv.liquidity = Math.min(suppliesCount / 4, 1);
+  if (financeNeighbor) sv.liquidity = Math.min(sv.liquidity + 0.2, 1);
+  sv.solvency = Math.min(dependsCount / 3, 1);
+  sv.ops = Math.min(transformsCount / 3, 1);
+  if (n.id === 'population' || n.id === 'education' || n.id === 'medicine') {
+    sv.people = Math.min(sv.people + 0.3, 1);
+  }
+  n.stress_vector = sv;
+  n.total_stress = computeTotalStress(sv);
+}
+
+function computeUpwardImpact() {
+  for (var i = 0; i < NODES.length; i++) NODES[i].upward_impact = 0;
+  for (var i = 0; i < EDGES.length; i++) {
+    var e = EDGES[i];
+    var na = NODES[e.ai], nb = NODES[e.bi];
+    if (na) na.upward_impact += (e.weight || 0.5) * (na.total_stress || 0);
+    if (nb) nb.upward_impact += (e.weight || 0.5) * (nb.total_stress || 0);
+  }
+}
+
+function resize() {
+  if (_miniMode) {
+    W = canvas.parentElement ? canvas.parentElement.clientWidth : canvas.clientWidth;
+    H = canvas.parentElement ? canvas.parentElement.clientHeight : canvas.clientHeight;
+  } else {
+    W = window.innerWidth;
+    H = window.innerHeight;
+  }
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  CX = W / 2; CY = H / 2;
+  generateNoise(); generateBgParticles(); generateWanderers();
+}
+
+function generateNoise() {
+  noiseCanvas = document.createElement('canvas');
+  noiseCanvas.width = W; noiseCanvas.height = H;
+  var nc = noiseCanvas.getContext('2d');
+  var id = nc.createImageData(W, H);
+  var d = id.data;
+  for (var i = 0; i < d.length; i += 4) {
+    d[i] = d[i+1] = d[i+2] = Math.random() * 255;
+    d[i+3] = Math.random() < 0.4 ? 6 : 0;
+  }
+  nc.putImageData(id, 0, 0);
+}
+
+function generateBgParticles() {
+  bgParticles = [];
+  var count = _miniMode ? 40 : 120;
+  for (var i = 0; i < count; i++) bgParticles.push({
+    x: Math.random()*W, y: Math.random()*H,
+    r: 0.4 + Math.random()*0.4, a: 0.05 + Math.random()*0.05
+  });
+}
+
+function generateWanderers() {
+  wanderers = [];
+  var count = _miniMode ? 5 : 15;
+  for (var i = 0; i < count; i++) {
+    var crossFrames = (20 + Math.random()*20) * 60;
+    var spd = Math.max(W,H) / crossFrames;
+    var ang = Math.random() * Math.PI * 2;
+    wanderers.push({ x:Math.random()*W, y:Math.random()*H, vx:Math.cos(ang)*spd, vy:Math.sin(ang)*spd });
+  }
+}
+
+// === LOCKED FIBONACCI SPIRAL LAYOUT ===
+function spiralLayout(nodes) {
+  spiralMaxR = Math.min(W, H) * 0.44;
+  var last = Math.max(nodes.length - 1, 1);
+  for (var i = 0; i < nodes.length; i++) {
+    var r = spiralMaxR * (0.38 + 0.62 * (i / last));
+    var theta = i * GOLDEN_ANGLE;
+    nodes[i].x = r * Math.cos(theta);
+    nodes[i].y = r * Math.sin(theta);
+  }
+}
+
+// === SPIRAL GUIDE ARC ===
+function drawSpiralGuide(fa) {
+  if (spiralMaxR <= 0 || NODES.length < 2) return;
+  var last = NODES.length - 1;
+  ctx.beginPath();
+  for (var i = 0; i <= 600; i++) {
+    var st = (i / 600) * (last + 0.5);
+    var r = (st / last) * spiralMaxR;
+    var theta = st * GOLDEN_ANGLE + spiralAngle;
+    var sp = w2s(r * Math.cos(theta), r * Math.sin(theta));
+    if (i === 0) ctx.moveTo(sp.x, sp.y); else ctx.lineTo(sp.x, sp.y);
+  }
+  ctx.strokeStyle = 'rgba(140,170,200,' + (0.06 * fa) + ')';
+  ctx.lineWidth = 0.8;
+  ctx.stroke();
+}
+
+// === MASTER BRAIN CENTRAL SUN (visual only) ===
+// Renders the executive / metacognitive center of gravity at world origin.
+// Layer order (outer -> inner): halo glow, Civilization observatory ring, sun core.
+// No hit-test, no click target, no navigation side-effect.
+function drawMasterBrainSun(fa) {
+  var c = w2s(0, 0);
+  var sunR  = 30 * camZ;
+  var ringR = sunR * 2.1;
+  var haloR = sunR * 3.4;
+
+  var halo = ctx.createRadialGradient(c.x, c.y, sunR * 0.6, c.x, c.y, haloR);
+  halo.addColorStop(0,    'rgba(234,216,166,' + (0.22 * fa) + ')');
+  halo.addColorStop(0.55, 'rgba(201,169,78,'  + (0.08 * fa) + ')');
+  halo.addColorStop(1,    'rgba(201,169,78,0)');
+  ctx.fillStyle = halo;
+  ctx.beginPath();
+  ctx.arc(c.x, c.y, haloR, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(c.x, c.y, ringR, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(140,170,200,' + (0.28 * fa) + ')';
+  ctx.lineWidth = 0.6;
+  ctx.stroke();
+
+  var core = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, sunR);
+  core.addColorStop(0,    'rgba(255,245,220,' + (0.95 * fa) + ')');
+  core.addColorStop(0.45, 'rgba(234,216,166,' + (0.75 * fa) + ')');
+  core.addColorStop(1,    'rgba(201,169,78,'  + (0.18 * fa) + ')');
+  ctx.fillStyle = core;
+  ctx.beginPath();
+  ctx.arc(c.x, c.y, sunR, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// Sun hit-test: screen-space disc within the Civilization observatory ring.
+function hitSun(mx, my) {
+  var c = w2s(0, 0);
+  var hitR = 30 * camZ * 2.1;
+  var dx = mx - c.x, dy = my - c.y;
+  return dx * dx + dy * dy < hitR * hitR;
+}
+
+// === SEQUENTIAL SPINE PULSE ===
+function drawSpinePulse(fa) {
+  if (NODES.length < 2 || spiralMaxR <= 0) return;
+  var last = NODES.length - 1;
+  var hopMs = 1200;
+  var totalMs = NODES.length * hopMs;
+  var now = performance.now();
+  var segProg = ((now % totalMs) / hopMs);
+  var segIdx = Math.floor(segProg) % NODES.length;
+  var frac = segProg - Math.floor(segProg);
+  var px, py;
+  if (segIdx < NODES.length - 1) {
+    var st = segIdx + frac;
+    var r = (st / last) * spiralMaxR;
+    var theta = st * GOLDEN_ANGLE + spiralAngle;
+    px = r * Math.cos(theta);
+    py = r * Math.sin(theta);
+  } else {
+    var fromN = NODES[NODES.length - 1];
+    var toN = NODES[0];
+    px = fromN.x + (toN.x - fromN.x) * frac;
+    py = fromN.y + (toN.y - fromN.y) * frac;
+  }
+  var sp = w2s(px, py);
+  var fadeA = 1;
+  if (frac < 0.1) fadeA = frac / 0.1;
+  else if (frac > 0.9) fadeA = (1 - frac) / 0.1;
+  // Color the spine pulse by the current node's phase
+  var spineNode = NODES[segIdx % NODES.length];
+  var spC = spineNode ? (PHASE_PULSE_COLORS[spineNode.phase] || {r:200,g:230,b:255}) : {r:200,g:230,b:255};
+  ctx.beginPath();
+  ctx.arc(sp.x, sp.y, 2 * camZ, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba('+spC.r+','+spC.g+','+spC.b+',' + (0.9 * fadeA * fa) + ')';
+  ctx.fill();
+  // Bright core
+  ctx.beginPath();
+  ctx.arc(sp.x, sp.y, 0.8 * camZ, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,' + (0.5 * fadeA * fa) + ')';
+  ctx.fill();
+}
+
+function buildLifecycleEdges() {
+  EDGES = [];
+  // Spine: 19 sequential edges following node order
+  var spine = [
+    [0,1,'CONTROLS'],[1,2,'SUPPLIES'],[2,3,'DEPENDS_ON'],[3,4,'SUPPLIES'],
+    [4,5,'SUPPLIES'],[5,6,'TRANSFORMS'],[6,7,'TRANSFORMS'],[7,8,'SUPPLIES'],
+    [8,9,'SUPPLIES'],[9,10,'SUPPLIES'],[10,11,'TRANSFORMS'],[11,12,'DEPENDS_ON'],
+    [12,13,'DEPENDS_ON'],[13,14,'TRANSFORMS'],[14,15,'CONTROLS'],[15,16,'SUPPLIES'],
+    [16,17,'DEPENDS_ON'],[17,18,'CONTROLS'],[18,19,'SUPPLIES']
+  ];
+  // Cross-links: thematic connections between non-adjacent domains
+  var cross = [
+    [19,0,'SUPPLIES',0.8],   // Intelligence -> Governance (closing loop)
+    [3,5,'SUPPLIES',0.7],    // Energy -> Industry
+    [6,9,'TRANSFORMS',0.8],  // Science -> Technology
+    [8,6,'SUPPLIES',0.7],    // Education -> Science
+    [17,0,'CONTROLS',0.8],   // Law -> Governance
+    [18,1,'CONTROLS',0.8],   // Finance -> Economy
+    [7,15,'SUPPLIES',0.7],   // Medicine -> Population
+    [4,15,'SUPPLIES',0.8],   // Agriculture -> Population
+    [19,12,'SUPPLIES',0.8],  // Intelligence -> Defense
+    [13,3,'DEPENDS_ON',0.7], // Environment -> Energy
+    [9,18,'SUPPLIES',0.6]    // Technology -> Finance
+  ];
+  for (var i=0;i<spine.length;i++) EDGES.push({ai:spine[i][0],bi:spine[i][1],type:spine[i][2],weight:0.7,color:EDGE_COLORS[spine[i][2]],chain:true});
+  for (var i=0;i<cross.length;i++) EDGES.push({ai:cross[i][0],bi:cross[i][1],type:cross[i][2],weight:cross[i][3],color:EDGE_COLORS[cross[i][2]],chain:false});
+}
+
+function enforceDegreeCap() {
+  var changed = true;
+  while (changed) { changed = false;
+    var deg = {}; for (var i=0;i<NODES.length;i++) deg[i]=0;
+    for (var i=0;i<EDGES.length;i++) { deg[EDGES[i].ai]++; deg[EDGES[i].bi]++; }
+    for (var i=0;i<NODES.length;i++) if (deg[i]>4) {
+      var worst=-1, worstW=Infinity;
+      for (var j=0;j<EDGES.length;j++) if (!EDGES[j].chain && (EDGES[j].ai===i||EDGES[j].bi===i) && EDGES[j].weight<worstW) { worstW=EDGES[j].weight; worst=j; }
+      if (worst>=0) { EDGES.splice(worst,1); changed=true; break; }
+    }
+  }
+}
+
+function computeSizing() {
+  neighborMap = {};
+  var deg = {};
+  for (var i=0;i<NODES.length;i++) { deg[i]=0; neighborMap[i]={}; }
+  for (var i=0;i<EDGES.length;i++) {
+    var a=EDGES[i].ai, b=EDGES[i].bi;
+    if (a>=0&&b>=0) { deg[a]++; deg[b]++; neighborMap[a][b]=true; neighborMap[b][a]=true; }
+  }
+  for (var i=0;i<NODES.length;i++) {
+    var w = NODES[i].dataWeight;
+    var d = Math.max(deg[i], 1);
+    NODES[i].r = 4 + (w * 3) * Math.sqrt(d);
+    NODES[i].degree = deg[i];
+  }
+  var k = Math.max(Math.ceil(EDGES.length * 0.4), 3);
+  var sorted = [];
+  for (var i = 0; i < EDGES.length; i++) sorted.push({idx: i, w: EDGES[i].weight});
+  sorted.sort(function(a, b) { return b.w - a.w; });
+  topKSet = {};
+  for (var i = 0; i < Math.min(k, sorted.length); i++) topKSet[sorted[i].idx] = true;
+}
+
+function generateSatellites() {
+  satellites = [];
+  for (var i=0;i<NODES.length;i++) {
+    var n = NODES[i], w = n.dataWeight;
+    var count;
+    if (_miniMode) {
+      count = 1 + Math.floor(Math.random() * 2);
+    } else {
+      count = w >= 0.85 ? (8+Math.floor(Math.random()*4)) : w >= 0.65 ? (5+Math.floor(Math.random()*3)) : (2+Math.floor(Math.random()*3));
+    }
+    var placed = [];
+    for (var j=0;j<count;j++) {
+      var sx,sy,att=0;
+      do { var ang=Math.random()*Math.PI*2, dist=14+Math.random()*16;
+        sx=Math.cos(ang)*dist; sy=Math.sin(ang)*dist;
+        var bad=false;
+        for (var k=0;k<placed.length;k++) { var dx=sx-placed[k].ox,dy=sy-placed[k].oy; if (Math.sqrt(dx*dx+dy*dy)<6){bad=true;break;} }
+        att++;
+      } while (bad && att<20);
+      var sat = { parentIdx:i, ox:sx, oy:sy, r:1+Math.random(), opacity:0.12+Math.random()*0.1,
+        driftAngle:Math.random()*Math.PI*2, driftAmp:3, driftPeriod:6+Math.random()*6 };
+      placed.push(sat); satellites.push(sat);
+    }
+  }
+}
+
+function generateActionPotentials() {
+  actionPotentials = [];
+  for (var i=0;i<EDGES.length;i++) {
+    var e = EDGES[i];
+    var neural = EDGE_NEURAL_MAP[e.type] || EDGE_NEURAL_MAP.SUPPLIES;
+    var pulseCount = neural.myelinated ? 3 : 2;
+    for (var j=0;j<pulseCount;j++) {
+      // Compute phase color from connected nodes
+      var na = NODES[e.ai], nb = NODES[e.bi];
+      var phaseA = na ? na.phase : 'P0', phaseB = nb ? nb.phase : 'P0';
+      var ca = PHASE_PULSE_COLORS[phaseA] || PHASE_PULSE_COLORS.P0;
+      var cb = PHASE_PULSE_COLORS[phaseB] || PHASE_PULSE_COLORS.P0;
+      var blendColor = {r:Math.round((ca.r+cb.r)/2), g:Math.round((ca.g+cb.g)/2), b:Math.round((ca.b+cb.b)/2)};
+
+      var sMin = neural.speedRange[0], sMax = neural.speedRange[1];
+      actionPotentials.push({
+        edgeIdx:i, offset:Math.random(),
+        speed: sMin + Math.random() * (sMax - sMin),
+        myelinated: neural.myelinated,
+        brightness: neural.brightness,
+        color: blendColor,
+        size: neural.myelinated ? (0.8 + Math.random()*0.6) : (1.2 + Math.random()*1.0)
+      });
+    }
+  }
+}
+
+function loadData() {
+  fetch('assets/data/civilization.top.json')
+    .then(function(r){return r.json()})
+    .then(function(data){DATA=data;buildGraph(data)})
+    .catch(function(){buildFallback()});
+}
+
+function buildGraph(data) {
+  NODES = [];
+  for (var i=0;i<data.nodes.length;i++) {
+    var n = data.nodes[i];
+    var dw = typeof n.weight==='number' ? n.weight : (HUB_WEIGHTS[n.id]!==undefined ? HUB_WEIGHTS[n.id] : 0.4);
+    NODES.push({ id:n.id, label:n.label, description:n.description, childUniverse:n.childUniverse,
+      addr:n.addr, group:n.group, phaseColor:hexToRgb(NODE_COLORS[n.id]||'#B4C8DC'),
+      phaseHex:NODE_COLORS[n.id]||'#B4C8DC', phase:((window.LIMENPhaseAnnotations&&window.LIMENPhaseAnnotations[n.id])?window.LIMENPhaseAnnotations[n.id].phase.toUpperCase():(NODE_PHASES[n.id]||'P0')), dataWeight:dw, x:0, y:0, tx:0, ty:0, r:6, degree:0,
+      phase_vector:{}, dominant_phase:'', stress_vector:{legal:0,liquidity:0,funding:0,solvency:0,demand:0,ops:0,people:0}, total_stress:0, instability:0, upward_impact:0 });
+  }
+  buildLifecycleEdges(); enforceDegreeCap(); computeSizing();
+  for (var i = 0; i < NODES.length; i++) {
+    NODES[i].phase_vector = initPhaseVector(NODES[i].phase);
+    NODES[i].dominant_phase = getDominantPhase(NODES[i].phase_vector);
+    NODES[i].instability = computeInstability(NODES[i].phase_vector);
+    seedStressCivilization(NODES[i], i);
+  }
+  computeUpwardImpact();
+  spiralLayout(NODES);
+  generateSatellites(); generateActionPotentials();
+  entryFadeStart = performance.now();
+  applyFocusDomain();
+}
+
+function buildFallback() {
+  var ids=['governance','economy','infrastructure','energy','agriculture','industry','science','medicine','education','technology','communication','culture','defense','environment','religion','population','trade','law','finance','intelligence'];
+  var labels=['Governance','Economy','Infrastructure','Energy','Agriculture','Industry','Science','Medicine','Education','Technology','Communication','Culture','Defense','Environment','Religion / Symbolic Systems','Population / Demographics','Trade & Logistics','Law & Regulation','Finance','Intelligence & Data'];
+  var descs=['State authority, executive, legislative, judicial functions.','Production, consumption, GDP, labor markets, monetary systems.','Built environment, utilities, transport networks, urban planning.','Generation, distribution, fossil fuels, renewables, nuclear.','Crop production, livestock, aquaculture, food processing.','Manufacturing, materials processing, fabrication, chemistry.','Research institutions, basic and applied science, peer review.','Healthcare delivery, pharmaceuticals, public health, biotech.','K-12, higher education, vocational training, knowledge transfer.','Computing, AI, software, hardware, cybersecurity, digital infra.','Media, telecommunications, internet, broadcasting, info flow.','Arts, humanities, heritage, entertainment, social identity.','Military, national security, strategic deterrence, civil defense.','Ecosystems, biodiversity, climate systems, conservation.','Theology, spiritual institutions, philosophical frameworks.','Birth rates, migration, aging, urbanization, labor force.','Supply chains, freight, shipping, customs, international commerce.','Legal codes, regulatory bodies, enforcement, compliance.','Banking, capital markets, insurance, investment, credit systems.','Data collection, analytics, national intelligence, surveillance.'];
+  NODES = [];
+  for (var i=0;i<20;i++) {
+    var dw = HUB_WEIGHTS[ids[i]]!==undefined ? HUB_WEIGHTS[ids[i]] : 0.5;
+    NODES.push({ id:ids[i], label:labels[i], description:descs[i], childUniverse:ids[i],
+      addr:'civilization.'+ids[i], group:ids[i], phaseColor:hexToRgb(NODE_COLORS[ids[i]]||'#B4C8DC'),
+      phaseHex:NODE_COLORS[ids[i]]||'#B4C8DC', phase:((window.LIMENPhaseAnnotations&&window.LIMENPhaseAnnotations[ids[i]])?window.LIMENPhaseAnnotations[ids[i]].phase.toUpperCase():(NODE_PHASES[ids[i]]||'P0')), dataWeight:dw, x:0, y:0, tx:0, ty:0, r:6, degree:0,
+      phase_vector:{}, dominant_phase:'', stress_vector:{legal:0,liquidity:0,funding:0,solvency:0,demand:0,ops:0,people:0}, total_stress:0, instability:0, upward_impact:0 });
+  }
+  buildLifecycleEdges(); enforceDegreeCap(); computeSizing();
+  for (var i = 0; i < NODES.length; i++) {
+    NODES[i].phase_vector = initPhaseVector(NODES[i].phase);
+    NODES[i].dominant_phase = getDominantPhase(NODES[i].phase_vector);
+    NODES[i].instability = computeInstability(NODES[i].phase_vector);
+    seedStressCivilization(NODES[i], i);
+  }
+  computeUpwardImpact();
+  spiralLayout(NODES);
+  generateSatellites(); generateActionPotentials();
+  entryFadeStart = performance.now();
+  applyFocusDomain();
+}
+
+function applyFocusDomain() {
+  if (!_focusDomain) return;
+  for (var i = 0; i < NODES.length; i++) {
+    if (NODES[i].id === _focusDomain) {
+      hoveredNode = i;
+      break;
+    }
+  }
+}
+
+function w2s(wx,wy) { return {x:(wx-camX)*camZ+CX, y:(wy-camY)*camZ+CY}; }
+
+function hitTest(mx,my) {
+  for (var i=NODES.length-1;i>=0;i--) {
+    var p=w2s(NODES[i].x,NODES[i].y), dx=mx-p.x, dy=my-p.y;
+    var hitR=Math.max(NODES[i].r+12,20)*camZ;
+    if (dx*dx+dy*dy < hitR*hitR) return i;
+  }
+  return -1;
+}
+
+// === LAYER 3: BACKGROUND ===
+function drawBackground() {
+  var maxR = Math.sqrt(CX*CX+CY*CY);
+  var grad = ctx.createRadialGradient(CX,CY,0,CX,CY,maxR);
+  grad.addColorStop(0,'#080d18'); grad.addColorStop(1,'#020408');
+  ctx.fillStyle = grad; ctx.fillRect(0,0,W,H);
+  if (noiseCanvas) { ctx.globalAlpha=0.03; ctx.drawImage(noiseCanvas,0,0); ctx.globalAlpha=1; }
+  for (var i=0;i<bgParticles.length;i++) {
+    var bp=bgParticles[i]; ctx.beginPath(); ctx.arc(bp.x,bp.y,bp.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(139,184,212,'+bp.a+')'; ctx.fill();
+  }
+  for (var i=0;i<wanderers.length;i++) {
+    var wp=wanderers[i]; wp.x+=wp.vx; wp.y+=wp.vy;
+    if(wp.x<0||wp.x>W){wp.vx*=-1;wp.x=Math.max(0,Math.min(W,wp.x));}
+    if(wp.y<0||wp.y>H){wp.vy*=-1;wp.y=Math.max(0,Math.min(H,wp.y));}
+    ctx.beginPath(); ctx.arc(wp.x,wp.y,1,0,Math.PI*2);
+    ctx.fillStyle='rgba(100,150,180,0.15)'; ctx.fill();
+  }
+}
+
+function drawVignette() {
+  var maxR=Math.sqrt(CX*CX+CY*CY);
+  var grad=ctx.createRadialGradient(CX,CY,maxR*0.75,CX,CY,maxR);
+  grad.addColorStop(0,'rgba(0,0,0,0)'); grad.addColorStop(1,'rgba(0,0,0,0.6)');
+  ctx.fillStyle=grad; ctx.fillRect(0,0,W,H);
+}
+
+function drawWatermark() {
+  ctx.save(); ctx.font='500 '+Math.max(10,W*0.011)+'px monospace';
+  ctx.textAlign='center'; ctx.fillStyle='rgba(140,170,200,0.025)';
+  ctx.fillText('CIVILIZATION \u00b7 DOMAIN CONNECTOME \u00b7 20 SECTORS',CX,CY); ctx.restore();
+}
+
+// === SATELLITES ===
+function drawSatellites(fa) {
+  for (var i=0;i<satellites.length;i++) {
+    var s=satellites[i], n=NODES[s.parentIdx]; if(!n) continue;
+    var dp=(t/s.driftPeriod)*Math.PI*2;
+    var drift=Math.sin(dp+s.driftAngle)*s.driftAmp;
+    var dX=Math.cos(s.driftAngle)*drift, dY=Math.sin(s.driftAngle)*drift;
+    var sp=w2s(n.x+s.ox+dX, n.y+s.oy+dY);
+    ctx.beginPath(); ctx.arc(sp.x,sp.y,s.r*camZ,0,Math.PI*2);
+    ctx.fillStyle='rgba(140,170,200,'+(s.opacity*fa)+')'; ctx.fill();
+  }
+}
+
+
+// === NEURAL IMPULSE PARTICLES — phase-colored, biologically accurate ===
+function drawActionPotentials(fa) {
+  for (var i=0;i<actionPotentials.length;i++) {
+    var ap=actionPotentials[i], e=EDGES[ap.edgeIdx]; if(!e) continue;
+    var na=NODES[e.ai], nb=NODES[e.bi]; if(!na||!nb) continue;
+    var pa=w2s(na.x,na.y), pb=w2s(nb.x,nb.y);
+    var mx2=(pa.x+pb.x)/2, my2=(pa.y+pb.y)/2;
+    var ddx=pb.x-pa.x, ddy=pb.y-pa.y, len=Math.sqrt(ddx*ddx+ddy*ddy)||1;
+    var nx2=-ddy/len, ny2=ddx/len;
+    var bend=35*camZ;
+    var cx1=mx2+nx2*bend, cy1=my2+ny2*bend;
+    var prog=((t*ap.speed)+ap.offset)%1;
+    var mt=1-prog;
+    var px=mt*mt*pa.x+2*mt*prog*cx1+prog*prog*pb.x;
+    var py=mt*mt*pa.y+2*mt*prog*cy1+prog*prog*pb.y;
+    var fadeA; if(prog<0.15) fadeA=prog/0.15; else if(prog>0.85) fadeA=(1-prog)/0.15; else fadeA=1;
+    var c = ap.color;
+    var alpha = fadeA * fa * ap.brightness;
+    var sz = ap.size * camZ;
+
+    if (ap.myelinated) {
+      // Myelinated: sharp spark with bright core
+      ctx.beginPath(); ctx.arc(px,py,sz,0,Math.PI*2);
+      ctx.fillStyle='rgba('+c.r+','+c.g+','+c.b+','+alpha+')'; ctx.fill();
+      if (alpha > 0.3) {
+        ctx.beginPath(); ctx.arc(px,py,sz*0.35,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,'+(alpha*0.5)+')'; ctx.fill();
+      }
+    } else {
+      // Unmyelinated: diffuse glow
+      var glowR = sz * 2.5;
+      var grad = ctx.createRadialGradient(px,py,0,px,py,glowR);
+      grad.addColorStop(0,'rgba('+c.r+','+c.g+','+c.b+','+(alpha*0.7)+')');
+      grad.addColorStop(0.5,'rgba('+c.r+','+c.g+','+c.b+','+(alpha*0.25)+')');
+      grad.addColorStop(1,'rgba('+c.r+','+c.g+','+c.b+',0)');
+      ctx.beginPath(); ctx.arc(px,py,glowR,0,Math.PI*2);
+      ctx.fillStyle=grad; ctx.fill();
+    }
+  }
+}
+
+// === NODE RENDERING ===
+function drawNode(n, idx, nodeAlpha) {
+  var p=w2s(n.x,n.y), isH=idx===hoveredNode;
+  var r=n.r*camZ, pc=getPhaseColor(n), a=nodeAlpha;
+  // L1 cortex view: +15% brightness boost — ambient glow always present
+  var ambR = r * 2.2;
+  var ambG = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,ambR);
+  ambG.addColorStop(0,'rgba('+pc.r+','+pc.g+','+pc.b+','+(0.08*a)+')');
+  ambG.addColorStop(1,'rgba('+pc.r+','+pc.g+','+pc.b+',0)');
+  ctx.beginPath(); ctx.arc(p.x,p.y,ambR,0,Math.PI*2); ctx.fillStyle=ambG; ctx.fill();
+  if (isH) {
+    var gR=r*3, gg=ctx.createRadialGradient(p.x,p.y,r*0.5,p.x,p.y,gR);
+    gg.addColorStop(0,'rgba(180,220,255,'+(0.4*a)+')'); gg.addColorStop(1,'rgba(180,220,255,0)');
+    ctx.beginPath(); ctx.arc(p.x,p.y,gR,0,Math.PI*2); ctx.fillStyle=gg; ctx.fill();
+  }
+  ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2);
+  ctx.fillStyle='rgba(20,28,40,'+(0.9*a)+')'; ctx.fill();
+  // Inner gradient — boosted from 0.25 -> 0.30
+  var ig=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r);
+  ig.addColorStop(0,'rgba('+pc.r+','+pc.g+','+pc.b+','+(0.30*a)+')');
+  ig.addColorStop(1,'rgba('+pc.r+','+pc.g+','+pc.b+',0)');
+  ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fillStyle=ig; ctx.fill();
+  // Border stroke — boosted from 0.2 -> 0.25
+  ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2);
+  ctx.strokeStyle='rgba('+pc.r+','+pc.g+','+pc.b+','+((isH?0.55:0.25)*a)+')';
+  ctx.lineWidth=0.5; ctx.stroke();
+  // Layer 2: stress ring segments
+  drawStressRing(p.x, p.y, r, n, a);
+  if (n.childUniverse) {
+    ctx.font=(6*camZ)+'px monospace'; ctx.textAlign='center';
+    ctx.fillStyle='rgba(180,200,220,'+(0.45*a)+')';
+    ctx.fillText('\u25be',p.x,p.y+r+(3*camZ));
+  }
+  {
+    var lSz=isH?8:7, lA=isH?0.95:0.55;
+    ctx.font=(lSz*camZ)+'px monospace'; ctx.textAlign='center';
+    ctx.fillStyle='rgba(180,200,220,'+(lA*a)+')';
+    var sn=SHORT_NAMES[n.id]||n.id;
+    var lY=n.childUniverse?(p.y+r+(12*camZ)):(p.y+r+(9*camZ));
+    ctx.fillText(sn, p.x, lY);
+  }
+}
+
+// === TOOLTIP ===
+function showTooltip(idx,mx,my) {
+  if (_miniMode) return;
+  var n=NODES[idx];
+  _ttPhase.textContent=NODE_TAGLINES[n.id]||'';
+  _ttPhase.style.color=n.phaseHex; _ttName.textContent=n.label; _ttTagline.textContent=n.description;
+  var ttE=document.getElementById('ttEnter');
+  if(DOMAIN_PORTALS[n.id]) ttE.textContent='View portals \u2192';
+  else if(n.childUniverse && PORTAL_ROUTES[n.childUniverse]) ttE.textContent='Enter portal \u2192';
+  else ttE.textContent='Portal coming soon';
+  _tooltip.style.display='block';
+  var tw=_tooltip.offsetWidth, th=_tooltip.offsetHeight;
+  var tx=mx+20, ty=my-10;
+  if(tx+tw>W-10) tx=mx-tw-20; if(ty+th>H-10) ty=H-th-10; if(ty<10) ty=10;
+  _tooltip.style.left=tx+'px'; _tooltip.style.top=ty+'px';
+}
+function hideTooltip() { if (_miniMode || !_tooltip) return; _tooltip.style.display='none'; }
+
+function showSubMenu(idx) {
+  if (_miniMode) return;
+  var n = NODES[idx], subs = DOMAIN_PORTALS[n.id];
+  var p = w2s(n.x, n.y);
+  var html = '<div class="sm-title">' + (SHORT_NAMES[n.id]||n.id) + '</div>';
+  var domainUrl = PORTAL_ROUTES[n.childUniverse];
+  if (domainUrl) html += '<a class="sm-main" href="'+domainUrl+'">'+n.label+' Portal &rarr;</a>';
+  html += '<div class="sm-sep"></div>';
+  for (var i = 0; i < subs.length; i++) html += '<a href="'+subs[i].url+'">'+subs[i].name+'</a>';
+  _subMenu.innerHTML = html;
+  _subMenu.style.display = 'block';
+  var mx = p.x + 20, my = p.y - 10;
+  var mw = _subMenu.offsetWidth, mh = _subMenu.offsetHeight;
+  if (mx + mw > W - 10) mx = p.x - mw - 20;
+  if (my + mh > H - 10) my = H - mh - 10;
+  if (my < 10) my = 10;
+  _subMenu.style.left = mx + 'px'; _subMenu.style.top = my + 'px';
+}
+function hideSubMenu() { if (_miniMode || !_subMenu) return; _subMenu.style.display = 'none'; }
+
+function navigateToUniverse(idx) {
+  var n=NODES[idx]; if(!n||!n.childUniverse) return;
+  if (_onNodeClick) { _onNodeClick(n); return; }
+  if (_miniMode) { window.location.href = '/connectome.html'; return; }
+  if (DOMAIN_PORTALS[n.id]) { hideTooltip(); showSubMenu(idx); return; }
+  var targetUrl = PORTAL_ROUTES[n.childUniverse];
+  if (!targetUrl) return;
+  if (window.LIMENUIState) window.LIMENUIState.save({ focusDomain: n.id, navigatedAt: Date.now() });
+  transitioning=true; transitionStart=performance.now();
+  transitionTarget=n; clickFadeNode=idx;
+  canvas.style.cursor='default';
+  canvas.style.transition='opacity 150ms';
+  canvas.style.opacity='0';
+  setTimeout(function() { window.location.href = targetUrl; }, 150);
+}
+function checkTransition() {}
+
+// === MAIN DRAW LOOP ===
+function draw() {
+  t += 0.016;
+  spiralAngle += spiralSpeed;
+  if (!_miniMode) {
+    camX+=(targetX-camX)*0.08; camY+=(targetY-camY)*0.08; camZ+=(targetZ-camZ)*0.08;
+  }
+  // Rotate civilization nodes around spiral center
+  var last = Math.max(NODES.length - 1, 1);
+  for (var i = 0; i < NODES.length; i++) {
+    var r = spiralMaxR * (0.38 + 0.62 * (i / last));
+    var theta = i * GOLDEN_ANGLE + spiralAngle;
+    NODES[i].x = r * Math.cos(theta);
+    NODES[i].y = r * Math.sin(theta);
+  }
+  checkTransition();
+
+  var entryA = 1;
+  if (entryFadeStart > 0) {
+    var ee = performance.now() - entryFadeStart;
+    entryA = Math.min(1, ee/400);
+    if (ee >= 400) entryFadeStart = -1;
+  }
+
+  var transA = 1;
+  var fa = entryA * transA;
+
+  drawBackground();
+  ctx.globalAlpha = fa;
+  drawSpiralGuide(fa);
+  drawMasterBrainSun(fa);
+  drawWatermark();
+
+  var hoverActive = hoveredNode >= 0;
+  var hoverN = {};
+  if (hoverActive) { hoverN[hoveredNode]=true; var nm=neighborMap[hoveredNode]; if(nm) for(var k in nm) hoverN[k]=true; }
+
+  drawSatellites(fa);
+
+  drawActionPotentials(fa);
+  drawSpinePulse(fa);
+
+  for (var i=0;i<NODES.length;i++) {
+    var na = fa;
+    if (clickFadeNode>=0 && transitioning && i!==clickFadeNode) {
+      var cf=Math.min(1,(performance.now()-transitionStart)/200);
+      na *= 1 - cf*0.85;
+    }
+    if (hoverActive && !hoverN[i]) na *= 0.25;
+    drawNode(NODES[i], i, na);
+  }
+
+  ctx.globalAlpha = 1;
+  drawVignette();
+  _animFrameId = requestAnimationFrame(draw);
+}
+
+// === EVENT BINDING ===
+function bindFullEvents() {
+  canvas.addEventListener('mousemove', function(e) {
+    var hit=hitTest(e.clientX,e.clientY);
+    if(hit!==hoveredNode) {
+      hoveredNode=hit;
+      if(hit>=0&&NODES[hit].childUniverse&&PORTAL_ROUTES[NODES[hit].childUniverse]) canvas.style.cursor='pointer';
+      else if(hitSun(e.clientX,e.clientY)) canvas.style.cursor='pointer';
+      else canvas.style.cursor='default';
+      if(hit>=0) showTooltip(hit,e.clientX,e.clientY); else hideTooltip();
+    } else if(hit>=0) showTooltip(hit,e.clientX,e.clientY);
+    if(hit<0){ canvas.style.cursor = hitSun(e.clientX,e.clientY) ? 'pointer' : 'default'; }
+    if(isDragging&&dragStart) { targetX-=(e.clientX-dragStart.x)/camZ; targetY-=(e.clientY-dragStart.y)/camZ; dragStart={x:e.clientX,y:e.clientY}; }
+  });
+  canvas.addEventListener('mousedown', function(e) {
+    if(transitioning) return;
+    mouseDownPos={x:e.clientX,y:e.clientY};
+    dragStart={x:e.clientX,y:e.clientY}; isDragging=true;
+  });
+  canvas.addEventListener('mouseup', function(e) {
+    var wasDrag=false;
+    if(mouseDownPos){var dx=e.clientX-mouseDownPos.x,dy=e.clientY-mouseDownPos.y;wasDrag=Math.sqrt(dx*dx+dy*dy)>=5;}
+    isDragging=false; dragStart=null; mouseDownPos=null;
+    if(!wasDrag&&_subMenu&&_subMenu.style.display==='block'){hideSubMenu();return;}
+    if(!wasDrag&&!transitioning&&hitSun(e.clientX,e.clientY)){ window.location.href='/master-brain.html'; return; }
+    if(!wasDrag&&!transitioning){var hit=hitTest(e.clientX,e.clientY);if(hit>=0){hideTooltip();navigateToUniverse(hit);return;}}
+    if(hoveredNode>=0&&NODES[hoveredNode].childUniverse&&PORTAL_ROUTES[NODES[hoveredNode].childUniverse]) canvas.style.cursor='pointer';
+    else canvas.style.cursor='default';
+  });
+  canvas.addEventListener('mouseleave', function(){hoveredNode=-1;hideTooltip();isDragging=false;dragStart=null;mouseDownPos=null;});
+  canvas.addEventListener('wheel', function(e){e.preventDefault();targetZ=Math.max(0.3,Math.min(5,targetZ*(e.deltaY>0?0.9:1.1)));},{passive:false});
+
+  // === TOUCH ===
+  canvas.addEventListener('touchstart', function(e){
+    if(transitioning) return;
+    if(e.touches.length===1){
+      touchStartPos={x:e.touches[0].clientX,y:e.touches[0].clientY};
+      dragStart={x:e.touches[0].clientX,y:e.touches[0].clientY}; isDragging=true;
+    }
+    if(e.touches.length===2){var dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;lastTouchDist=Math.sqrt(dx*dx+dy*dy);}
+  },{passive:true});
+  canvas.addEventListener('touchmove', function(e){e.preventDefault();
+    if(e.touches.length===1&&isDragging&&dragStart){targetX-=(e.touches[0].clientX-dragStart.x)/camZ;targetY-=(e.touches[0].clientY-dragStart.y)/camZ;dragStart={x:e.touches[0].clientX,y:e.touches[0].clientY};}
+    if(e.touches.length===2){var dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;var dist=Math.sqrt(dx*dx+dy*dy);if(lastTouchDist>0) targetZ=Math.max(0.3,Math.min(5,targetZ*(dist/lastTouchDist)));lastTouchDist=dist;}
+  },{passive:false});
+  canvas.addEventListener('touchend', function(e){
+    var wasDrag=false;
+    if(touchStartPos&&e.changedTouches.length>0){
+      var dx=e.changedTouches[0].clientX-touchStartPos.x,dy=e.changedTouches[0].clientY-touchStartPos.y;
+      wasDrag=Math.sqrt(dx*dx+dy*dy)>=5;
+      if(!wasDrag&&_subMenu&&_subMenu.style.display==='block'){hideSubMenu();}
+      else if(!wasDrag&&!transitioning&&hitSun(e.changedTouches[0].clientX,e.changedTouches[0].clientY)){ window.location.href='/master-brain.html'; }
+      else if(!wasDrag&&!transitioning){var hit=hitTest(e.changedTouches[0].clientX,e.changedTouches[0].clientY);if(hit>=0) navigateToUniverse(hit);}
+    }
+    isDragging=false;dragStart=null;lastTouchDist=0;touchStartPos=null;
+  });
+}
+
+function bindMiniEvents() {
+  canvas.addEventListener('click', function(e) {
+    var hit = hitTest(e.clientX, e.clientY);
+    if (hit >= 0) {
+      navigateToUniverse(hit);
+    } else {
+      if (_onNodeClick) {
+        _onNodeClick(null);
+      } else {
+        window.location.href = '/connectome.html';
+      }
+    }
+  });
+}
+
+// === PUBLIC API ===
+function init(canvasId, opts) {
+  opts = opts || {};
+  _miniMode = !!opts.miniMode;
+  _focusDomain = opts.focusDomain || null;
+  _onNodeClick = opts.onNodeClick || null;
+
+  resetState();
+
+  if (_miniMode) {
+    spiralSpeed = 0.00015;
+  }
+
+  DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+
+  canvas = document.getElementById(canvasId);
+  ctx = canvas.getContext('2d');
+
+  if (!_miniMode) {
+    _tooltip = document.getElementById('tooltip');
+    _ttPhase = document.getElementById('ttPhase');
+    _ttName = document.getElementById('ttName');
+    _ttTagline = document.getElementById('ttTagline');
+    _subMenu = document.getElementById('subMenu');
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  if (_miniMode) {
+    bindMiniEvents();
+  } else {
+    bindFullEvents();
+  }
+
+  loadData();
+  draw();
+}
+
+window.CivilizationConnectome = { init: init };
+
+})();

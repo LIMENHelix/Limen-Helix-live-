@@ -1,0 +1,383 @@
+{
+  "domainId": "contemplative_executive",
+  "title": "Executive Attention",
+  "parentPortal": "contemplative_portal.html",
+  "parentLabel": "Contemplative Practice",
+  "phase": "P4",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Executive Attention Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Executive Attention indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P4",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "contemplative_executive_action_portal.html"
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Executive Attention Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Executive Attention activities and deliverables",
+      "group": "operations",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Executive Attention Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "contemplative_executive_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Executive Attention Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Executive Attention, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "contemplative_executive_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Executive Attention Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Executive Attention practices and compliance obligations",
+      "group": "governance",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "contemplative_executive_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Executive Attention Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Executive Attention methods and capabilities",
+      "group": "innovation",
+      "phase": "P4",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "contemplative_executive_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Executive Attention Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Executive Attention stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "contemplative_executive_signal_portal.html"
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Executive Attention Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Executive Attention operations and interfaces",
+      "group": "systems",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "contemplative_executive_state_portal.html"
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Executive Attention Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Executive Attention outputs and resource utilization",
+      "group": "operations",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Executive Attention Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "M1",
+      "target": "S1",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "S1",
+      "target": "dlPFC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "HIPP",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "dACC",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "THAL",
+      "target": "OFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "OFC",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "CBLM",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "M1",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "HIPP",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "CONTEMPLATIVE_EXECUTIVE_SYSTEM_FAILURE",
+      "label": "Executive Attention System Failure",
+      "summary": "Critical breakdown in Executive Attention systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Executive Attention Assessment & Diagnostics capacity falling below operational thresholds, reducing Executive Attention output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "Executive Attention Core Operations systems underperforming, creating gaps in Executive Attention coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Executive Attention Infrastructure & Capacity behavior deviating from established norms, complicating Executive Attention management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper-active",
+          "detail": "Executive Attention Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Executive Attention",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Executive Attention Performance & Optimization function reduced, compromising Executive Attention system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CONTEMPLATIVE_EXECUTIVE_CAPACITY_CRISIS",
+      "label": "Executive Attention Capacity Crisis",
+      "summary": "Demand exceeding available Executive Attention capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "S1",
+          "dir": "Hyper-active",
+          "detail": "Executive Attention Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Executive Attention",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Executive Attention Infrastructure & Capacity systems underperforming, creating gaps in Executive Attention coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Executive Attention Standards & Governance behavior deviating from established norms, complicating Executive Attention management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Executive Attention Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Executive Attention",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Executive Attention Performance & Optimization operating outside normal parameters, introducing uncertainty into Executive Attention outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CONTEMPLATIVE_EXECUTIVE_GOVERNANCE_GAP",
+      "label": "Executive Attention Governance Gap",
+      "summary": "Oversight or regulatory failure in Executive Attention creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Executive Attention Standards & Governance capacity falling below operational thresholds, reducing Executive Attention output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Executive Attention Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Executive Attention",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Executive Attention Research & Development activity spiking beyond design limits, creating instability across Executive Attention operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Executive Attention Risk & Resilience patterns disrupted, necessitating adaptive responses within Executive Attention frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo-active",
+          "detail": "Executive Attention Coordination & Integration function reduced, compromising Executive Attention system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

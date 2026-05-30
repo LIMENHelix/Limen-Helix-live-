@@ -1,0 +1,588 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "rexnord",
+  "slug": "rexnord",
+  "name": "Rexnord Corporation",
+  "ticker": "RXN",
+  "cik": null,
+  "sic": "3568",
+  "industry": "Power Transmission Equipment",
+  "domainId": "agriculture",
+  "portalAttachment": "agriculture-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "MMNRNJ",
+    "TOTALSA",
+    "ICSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "RXN"
+  ],
+  "commodityExposure": [
+    "steel",
+    "aluminum",
+    "copper",
+    "crude oil",
+    "natural gas"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000085541",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Rexnord is a critical supplier of power transmission and motion control equipment to agricultural machinery manufacturers, including John Deere and AGCO, enabling precision farming equipment and harvesting systems. The company's chain, sprocket, and bearing products are embedded in tractors, combines, and irrigation systems that drive mechanized agriculture globally. Rexnord's industrial segment also serves food processing and grain handling, making it a structural dependency for agricultural supply-chain efficiency.",
+  "portalRelevance": "Rexnord functions as a tier-1 specialty supplier to agricultural OEMs and food-processing infrastructure, with direct exposure to farm equipment capex cycles and commodity-price volatility. Its dual exposure to agriculture and industrial manufacturing makes it a leading indicator of farm-sector health and capital spending; disruptions in Rexnord's supply chain or margin compression signal downstream stress in crop production and food logistics. The company's leverage and working-capital intensity create cyclical financial stress during agricultural downturns.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly order-book trends from John Deere and AGCO disclosed in earnings calls and 10-K Item 1A",
+        "Commodity steel and aluminum price indices (LME, COMEX) as leading indicators of COGS pressure",
+        "Agricultural equipment shipment data from VDMA and CEMA trade associations",
+        "Supply-chain disruption notices via 8-K filings and earnings commentary on logistics constraints"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly gross-margin trajectory and inventory-to-sales ratio as working-capital stress indicator",
+        "Debt-to-EBITDA covenant compliance and liquidity runway under agricultural downturn scenarios",
+        "Customer concentration risk.",
+        "Geographic revenue mix (North America vs. Europe vs. Asia-Pacific) exposure to regional farm-sector cycles"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior 2015–2016 agricultural downturn: margin compression, inventory buildup, covenant pressure",
+        "Competitive intensity from SKF, Timken, and Regal Rexnord (post-merger) on pricing power in bearing/chain markets",
+        "Structural risk: customer consolidation (John Deere's market dominance) creates single-point-of-failure exposure",
+        "Cyclical inflection detection: farm-equipment order backlogs vs. commodity-price weakness divergence signals demand cliff"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "SEC 10-K Item 1A risk-factor monitoring for customer concentration and supply-chain disclosure changes",
+        "Antitrust scrutiny.",
+        "Environmental compliance: ISO 14001 and EPA emissions standards for manufacturing facilities",
+        "Trade-policy exposure: tariff impact on imported steel/aluminum and China-sourced components"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Hedge commodity exposure via futures on steel (CME HRC contracts) and copper (COMEX) aligned to quarterly COGS forecasts",
+        "Liquidity buffer: monitor covenant headroom and undrawn credit facility capacity during agricultural downturns",
+        "Customer diversification thesis: track non-agricultural revenue growth (food processing, industrial automation) as margin stabilizer",
+        "Valuation entry: identify P/E compression windows during farm-sector weakness for long accumulation"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings call: gross margin, order-book commentary, and customer capex guidance vs. prior quarter",
+        "10-K filing: updated customer concentration disclosures and supply-chain risk assessments",
+        "Stock-price reaction to John Deere earnings and farm-equipment industry reports (VDMA, CEMA)",
+        "Covenant compliance letters and credit-facility amendment announcements (8-K filings)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate customer-concentration sensitivity based on latest 10-K Item 1A disclosures",
+        "Update commodity-price elasticity of COGS using trailing 8-quarter margin data",
+        "Adjust agricultural-cycle leading-indicator weights based on realized order-book vs. shipment lags",
+        "Incorporate post-merger Regal Rexnord synergy realization into margin-recovery trajectory"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Nippon Steel Corporation",
+        "ticker": "5401.T",
+        "cik": null,
+        "slug": "nippon_steel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Primary supplier of specialty steel for bearing races and chain components. Rexnord sources high-carbon and alloy steel from Nippon's mills in Japan and via North American distribution partners.. Supply disruptions in 2021–2022 (COVID, energy crisis) directly impacted Rexnord's production schedules and margin compression disclosed in Q2 2022 10-K.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Aleris Corporation (Novelis Inc. subsidiary)",
+        "ticker": "NOVL",
+        "cik": "0001579365",
+        "slug": "novelis",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Supplier of aluminum sheet and coil for bearing housings and transmission casings. Novelis (post-Aleris acquisition 2020) provides rolled aluminum to Rexnord's North American plants. Aluminum price volatility (LME-linked) directly flows through to Rexnord's COGS; 2021–2022 aluminum spike contributed to gross-margin compression of.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Copper Development Association (commodity market)",
+        "ticker": null,
+        "cik": null,
+        "slug": "copper_commodity",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Rexnord uses copper in electrical windings for motor-driven transmission systems and bearing lubrication additives. COMEX copper futures prices are a leading indicator of Rexnord's input-cost inflation. 2021–2022 copper spike (peak $10,730/tonne May 2021) created margin headwinds; Rexnord's hedging strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Timken Company",
+        "ticker": "TMK",
+        "cik": "0000097280",
+        "slug": "timken",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Direct competitor in bearing and power-transmission markets. Timken competes with Rexnord on bearing OEM supply to John Deere and AGCO; both companies vie for market share in agricultural and industrial segments. Timken's 2023 gross margin vs. Rexnord's indicates competitive pricing pressure. Timken's geographic diversification (stronger Europe presence) provides competitive advantage in non-North American markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SKF AB",
+        "ticker": "SKFB.ST",
+        "cik": null,
+        "slug": "skf",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Swedish bearing and seal manufacturer competing with Rexnord in agricultural OEM supply. SKF's 2023 revenue and gross margin reflect similar commodity-cost pressures. SKF's stronger European agricultural equipment presence (CLAAS, CNH Industrial) provides geographic hedge vs. Rexnord's North America concentration.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Regal Rexnord Corporation (post-merger entity)",
+        "ticker": "RRX",
+        "cik": "0001564590",
+        "slug": "regal_rexnord",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity",
+        "relationshipNote": "Rexnord merged with Regal Beloit in 2024 to form Regal Rexnord, a $5.8B+ revenue power-transmission and motion-control conglomerate. Merger integration includes consolidation of bearing, chain, and electric-motor product lines;. Combined entity has stronger scale vs. Timken and SKF in North American agricultural OEM supply.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Schaeffler AG",
+        "ticker": "SHA.DE",
+        "cik": null,
+        "slug": "schaeffler",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "German bearing and transmission-component supplier with significant agricultural OEM exposure (CLAAS, CNH Industrial, John Deere Europe). Schaeffler's 2023 revenue €16.7B and gross margin reflect similar commodity pressures. Schaeffler's stronger European footprint and EV drivetrain exposure provide diversification vs. Rexnord's agricultural concentration.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Baldor Electric Company (ABB subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "baldor_electric",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow",
+        "relationshipNote": "Supplier of electric motors and drives integrated into Rexnord's transmission systems for agricultural equipment. ABB's 2023 acquisition of Baldor (completed 2020) consolidated motor-drive supply; Rexnord sources from Baldor. Supply-chain integration and pricing negotiations occur annually;.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Primary logistics partner for Rexnord's North American distribution of bearings, chains, and transmission components to OEM customers. J.B. Hunt operates dedicated freight lanes to John Deere plants in Iowa and Illinois;. 2021–2022 freight-rate inflation (J.B. Hunt's revenue per mile +15%) directly impacted Rexnord's delivery costs and customer pricing negotiations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Contract logistics provider for Rexnord's warehousing and last-mile delivery to regional agricultural equipment distributors. XPO operates distribution centers in serving Rexnord's North American network. 2022–2023 logistics-cost inflation and labor-rate pressures created margin headwinds;.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000091142",
+        "slug": "saia",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Regional LTL carrier for Rexnord's smaller-shipment distribution to agricultural equipment dealers and food-processing customers. Saia's 2023 revenue $2.4B reflects strong agricultural-region demand;. Freight-rate volatility and driver-shortage impacts directly affect Rexnord's delivery reliability and customer service levels.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Deere & Company",
+        "ticker": "DE",
+        "cik": "0000315189",
+        "slug": "john_deere",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Anchor customer: Rexnord supplies bearings, chains, and power-transmission components to John Deere's tractor, combine, and hay-equipment divisions.. 2023 Deere capex cycle strength (record equipment sales) drove Rexnord's order growth; 2024 farm-income weakness signals potential demand cliff. Deere's supply-chain consolidation initiatives (2023–2024) created pricing pressure on Rexnord's margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "AGCO Corporation",
+        "ticker": "AGCO",
+        "cik": "0001074705",
+        "slug": "agco",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Tier-1 customer: Rexnord supplies bearings and transmission components to AGCO's Massey Ferguson, Fendt, and Challenger tractor lines.. AGCO's 2023 revenue $12.7B and 2024 guidance reflect agricultural cycle exposure. AGCO's supply-chain diversification efforts (2023–2024) reduced Rexnord's concentration risk but compressed margins via competitive bidding.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bühler Group (food processing)",
+        "ticker": null,
+        "cik": null,
+        "slug": "buhler_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Food-processing equipment customer: Rexnord supplies bearings and transmission components to Bühler's grain milling and food-processing machinery.. Bühler's 2023 revenue CHF 3.5B reflects global food-processing demand; Rexnord's food-processing segment provides margin stability vs. cyclical agricultural OEM exposure. Bühler's supply-chain consolidation (2022–2023) created pricing pressure on Rexnord's margins.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Timken Company",
+        "ticker": "TMK",
+        "cik": "0000097280",
+        "slug": "timken",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Direct competitor in bearing and power-transmission markets serving agricultural OEMs. Timken's 2023 revenue $4.1B and gross margin reflect similar commodity-cost pressures and customer concentration (John Deere, AGCO). Timken's geographic diversification (stronger Europe presence via Timken Europe) and industrial-segment exposure provide competitive advantage vs. Rexnord's North America agricultural concentration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SKF AB",
+        "ticker": "SKFB.ST",
+        "cik": null,
+        "slug": "skf",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Swedish bearing manufacturer competing with Rexnord in agricultural OEM supply and industrial markets. SKF's 2023 revenue SEK 99.2B and gross margin reflect global diversification. SKF's stronger European agricultural presence (CLAAS, CNH Industrial Europe) and EV drivetrain exposure provide competitive advantage vs. Rexnord's North America focus.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Schaeffler AG",
+        "ticker": "SHA.DE",
+        "cik": null,
+        "slug": "schaeffler",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "German bearing and transmission-component supplier competing with Rexnord in agricultural and industrial markets. Schaeffler's 2023 revenue €16.7B and gross margin reflect European agricultural OEM exposure (CLAAS, CNH Industrial, John Deere Europe). Schaeffler's EV drivetrain and industrial-automation exposure provide diversification vs. Rexnord's agricultural concentration.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NSK Ltd.",
+        "ticker": "6471.T",
+        "cik": null,
+        "slug": "nsk",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Japanese bearing manufacturer with growing agricultural OEM presence in Asia-Pacific markets. NSK's 2023 revenue ¥1.8T and gross margin reflect Asian agricultural equipment demand. NSK's lower-cost manufacturing (Japan, China, India) and Asian market dominance create competitive pressure on Rexnord's North American pricing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Regal Beloit Corporation (pre-merger Rexnord competitor)",
+        "ticker": null,
+        "cik": null,
+        "slug": "regal_beloit_legacy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Regal Beloit merged with Rexnord in 2024 to form Regal Rexnord. Pre-merger, Regal competed with Rexnord in electric motors, bearings, and power-transmission markets. Merger consolidation eliminated direct competition and created $5.8B+ revenue conglomerate with stronger scale vs. Timken and SKF..",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary federal regulator of Rexnord's public disclosures and filings. SEC oversight includes 10-K annual reports, 10-Q quarterly reports, 8-K event filings, and proxy statements (DEF14A). Rexnord's 2024 merger with Regal Beloit required SEC review and disclosure of material terms, synergies, and integration risks. SEC Form 8-A filing for Regal Rexnord ticker (RRX) completed.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Antitrust regulator reviewing Rexnord-Regal Beloit merger (2024). FTC assessment focused on bearing and power-transmission market concentration;. Merger conditions may include divestitures of overlapping product lines or customer accounts to maintain competitive intensity. FTC clearance.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "Regulator of Rexnord's manufacturing facilities under Clean Air Act, Clean Water Act, and RCRA hazardous-waste rules. Rexnord operates manufacturing plants in North America; EPA compliance includes air-emissions permits, wastewater discharge permits, and hazardous-waste management. 2023–2024 EPA enforcement actions may impact operating costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (International Trade Administration)",
+        "ticker": null,
+        "cik": null,
+        "slug": "commerce_ita",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Regulator of Rexnord's tariff exposure and trade-policy compliance. Rexnord imports from China, India, and other countries; tariff exposure includes steel (Section 232), aluminum (Section 232), and agricultural equipment components. 2023–2024 tariff changes directly impact Rexnord's input costs and customer pricing.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Occupational Safety and Health Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "Regulator of Rexnord's workplace safety and occupational health compliance. OSHA oversight includes manufacturing facility inspections, injury-reporting (OSHA 300 logs), and hazard-communication standards. 2023–2024 OSHA inspection results may indicate operational risk or safety-culture issues.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "Big-Four external auditor of Rexnord Corporation (pre-merger entity). Deloitte audits Rexnord's consolidated financial statements and internal controls over financial reporting (SOX 404 compliance). 2023 audit opinion. Post-Regal Beloit merger (2024), Deloitte continues as auditor of Regal Rexnord; merger integration audit procedures include purchase-price allocation, goodwill impairment testing, and synergy realization tracking.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Lead arranger and lender on Rexnord's credit facilities. JPMorgan Chase provided in term loans and revolving credit for Regal Beloit merger financing (2024). Covenant monitoring includes debt-to-EBITDA, interest-coverage, and leverage ratios;. JPMorgan's quarterly covenant-compliance certifications are disclosed in 10-K Item 1A and 8-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Syndicate lender on Rexnord's credit facilities and merger financing. BofA Merrill Lynch provided in term loans and revolving credit for Regal Beloit merger (2024). BofA also serves as financial advisor on M&A and capital-structure optimization;. Quarterly covenant monitoring and liquidity reporting via BofA's credit-administration platform.",
+        "confidence": "medium",
+        "sourceType": [
+          "8-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "John Deere Equipment Sales Index",
+        "slug": "deere_sales_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Leading indicator of Rexnord's agricultural OEM demand. Deere's quarterly equipment sales (disclosed in earnings) drive Rexnord's order-book visibility 1–2 quarters forward. 2023 Deere sales strength (+15% YoY) signaled strong Rexnord demand; 2024 Deere guidance indicates agricultural cycle softening and potential Rexnord revenue headwinds.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Agricultural Commodity Prices (Corn, Soybeans, Wheat)",
+        "slug": "ag_commodity_prices",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Leading indicator of farm-sector profitability and equipment capex spending. USDA corn prices (2023 average $5.30/bu, 2024 ) directly impact farmer cash flow and willingness to invest in new equipment. Rexnord's order-book visibility correlates with 6-month lagged commodity prices; 2024 commodity weakness signals potential Rexnord demand cliff.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

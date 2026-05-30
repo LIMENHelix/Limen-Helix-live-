@@ -1,0 +1,729 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "arcelormittal",
+  "slug": "arcelormittal",
+  "name": "ArcelorMittal S.A.",
+  "ticker": "MT",
+  "cik": null,
+  "sic": "3312",
+  "industry": "Steel Works, Blast Furnaces & Rolling Mills",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "IPMANSW",
+    "ISRATIO",
+    "PPICMM01USA657N",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "MT"
+  ],
+  "commodityExposure": [
+    "iron ore",
+    "coking coal",
+    "natural gas",
+    "electricity",
+    "scrap steel",
+    "crude oil"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=null",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Cyclical steel demand sensitivity to global manufacturing PMI and construction activity",
+    "Commodity input cost volatility (iron ore, coking coal, energy) compresses margins in downturns",
+    "Geopolitical exposure: operations in Ukraine (Kryvyi Rih steelworks) suspended since 2022 invasion",
+    "Decarbonization capex requirements ($2B+ annual green transition investment) pressure returns"
+  ],
+  "opportunitySignals": [
+    "Electric arc furnace (EAF) capacity expansion reduces scrap-steel input costs and emissions",
+    "Infrastructure spending cycles in US, EU, India drive structural demand for flat/long products",
+    "Premium pricing on low-carbon steel (green certifications) emerging in automotive/construction",
+    "Consolidation optionality: acquisition of distressed regional mills at depressed valuations"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "ArcelorMittal is the world's largest steelmaker by crude steel capacity (~95 Mt annually), supplying flat products (automotive, appliances, construction) and long products (infrastructure, machinery) across 60+ countries. The company's integrated blast-furnace footprint in Europe, Americas, and Asia makes it a critical node in global manufacturing supply chains, particularly for automotive OEMs and construction contractors. Exposure to iron ore, coking coal, and energy markets creates direct commodity-price transmission into end-customer pricing power.",
+  "portalRelevance": "ArcelorMittal's financial health and capital allocation decisions are leading indicators of global manufacturing health, construction cycles, and automotive production momentum. As an anchor supplier to Fortune 500 OEMs and infrastructure developers, its quarterly earnings, capex guidance, and debt trajectory signal macroeconomic stress or expansion. The company's decarbonization roadmap and EAF investment pace also benchmark the steel sector's transition risk and competitive positioning in a carbon-constrained economy.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly crude steel production volumes and capacity utilization rates (disclosed in earnings releases and investor presentations)",
+        "Spot iron ore, coking coal, and HRC (hot-rolled coil) price indices; realized average selling prices by product segment",
+        "8-K filings for M&A, asset sales, facility shutdowns, or major capex announcements (e.g., EAF conversions)",
+        "Customer order books and backlog trends from automotive OEM and construction end-market surveys"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly EBITDA margin trajectory and free cash flow generation relative to debt service and capex commitments",
+        "Capacity utilization rate by geography and product line; idle furnace status and restart timeline optionality",
+        "Net debt position and covenant headroom; refinancing calendar and weighted-average cost of debt",
+        "Decarbonization capex burn rate vs. budget; EAF ramp progress and scrap-steel input cost trajectory"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn signature: margin compression from input cost inflation outpacing selling-price increases; inventory build and order cancellations",
+        "Structural headwind: loss of Ukraine production (Kryvyi Rih steelworks) and geopolitical supply-chain fragmentation; EU energy cost premium vs. competitors",
+        "Competitive inflection: EAF-heavy competitors (Nucor, Gerdau) gaining share in long products; Chinese steelmakers undercutting flat-product pricing",
+        "Transition risk: capex intensity of decarbonization (green hydrogen, EAF) vs. near-term cash generation; stranded asset risk in legacy blast-furnace mills"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "EU Carbon Border Adjustment Mechanism (CBAM) tariff exposure on exports; hedging via green-steel certification and EAF capacity shift",
+        "Antitrust scrutiny on consolidation moves; FTC/EU review of any major M&A in North America or Europe",
+        "Environmental compliance: air/water discharge permits, dust emissions limits, and remediation liabilities at legacy mill sites",
+        "Labor relations: collective bargaining cycles in Europe and North America; wage inflation pass-through to customer pricing"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Thesis: Long ArcelorMittal on infrastructure spending inflection (US, EU, India) if capacity utilization >75% and EBITDA margin >20%; short on recession signals (PMI <50, automotive production -YoY)",
+        "Hedge: Long iron ore futures / short HRC futures to isolate margin compression risk; long natural gas calls to hedge energy-cost spikes",
+        "Portfolio positioning: Overweight if decarbonization capex is on track and green-steel premium pricing materializes; underweight if Ukraine geopolitical risk escalates or Chinese export dumping accelerates",
+        "Engagement: Monitor quarterly capex guidance, EAF ramp milestones, and debt reduction targets; flag any covenant waiver requests or asset sales as distress signals"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: crude steel production, EBITDA margin, free cash flow, and net debt vs. guidance; management commentary on order book and pricing power",
+        "Price action: stock reaction to earnings, capex revisions, and dividend/buyback announcements; implied volatility on commodity hedges",
+        "Competitive moves: announcements from Nippon Steel, POSCO, Thyssenkrupp, or Nucor on capacity, M&A, or decarbonization; market share shifts in key end-markets",
+        "Regulatory events: CBAM tariff implementation, antitrust decisions, or environmental enforcement actions affecting cost structure"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight cyclical sensitivity: if manufacturing PMI correlation weakens, adjust demand elasticity model and capacity-utilization forecasts",
+        "Recalibrate margin drivers: if green-steel premium pricing exceeds expectations, increase EAF capex ROI assumptions and extend forecast horizon",
+        "Update geopolitical risk: if Ukraine conflict resolution accelerates Kryvyi Rih restart, model capacity recovery and competitive repositioning vs. European peers",
+        "Refine decarbonization timeline: if EAF ramp lags or green hydrogen costs fall faster than expected, adjust capex intensity and stranded-asset risk estimates"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "ArcelorMittal operates as a global integrated steelmaker with distributed production nodes (blast furnaces, EAF mills, rolling mills) across Europe, Americas, and Asia, coordinating raw-material procurement (iron ore, coking coal), energy sourcing, production scheduling, and customer fulfillment. The company's decision-making integrates commodity-price signals, end-market demand (automotive, construction, machinery), regulatory compliance (emissions, labor), and capital allocation (capex, debt, dividends). Its functional network spans mining operations, logistics partners, automotive OEMs, construction contractors, and financial markets, with strategic exposure to geopolitical shocks (Ukraine), energy markets (EU gas crisis), and decarbonization mandates (CBAM, net-zero commitments).",
+    "suppliers": [
+      {
+        "name": "Vale S.A.",
+        "ticker": "VALE",
+        "cik": "0001410803",
+        "slug": "vale",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Iron Ore",
+        "relationshipNote": "Vale is ArcelorMittal's largest iron ore supplier, providing ~25–30% of global seaborne iron ore volumes. ArcelorMittal's blast furnaces in Europe, Americas, and Asia depend on Vale's Carajás and S11D mines for high-grade pellets and fines. Long-term offtake agreements lock pricing; supply disruptions (e.g., 2019 Brumadinho dam failure) directly compress ArcelorMittal's margin and force spot-market purchases at premium prices. Disclosed in 10-K Item 1A risk factors and quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Rio Tinto Limited",
+        "ticker": "RIO",
+        "cik": "0001096449",
+        "slug": "rio_tinto",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Iron Ore & Coking Coal",
+        "relationshipNote": "Rio Tinto supplies ArcelorMittal with iron ore (Pilbara, Australia) and coking coal (Queensland, Australia). Rio's 2021 acquisition of Cobar copper mine and ongoing coal portfolio optimization affect ArcelorMittal's coking coal cost base. Spot and contract pricing volatility in 2021–2023 (coking coal >$300/t) compressed ArcelorMittal's EBITDA margins by ~15–20%. Relationship documented in 10-K Item 1A and quarterly investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "BHP Group Limited",
+        "ticker": "BHP",
+        "cik": "0001449806",
+        "slug": "bhp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Iron Ore & Coking Coal",
+        "relationshipNote": "BHP supplies ArcelorMittal with iron ore (Mount Newman, Pilbara) and metallurgical coal (Queensland, Bowen Basin). BHP's 2022 decision to exit thermal coal and focus on met coal strengthens supply security for ArcelorMittal's coking operations. Long-term contracts cover ~15–20% of ArcelorMittal's coking coal needs; spot purchases fill remainder. Pricing indexed to quarterly benchmarks; 2023 spot prices averaged $180–220/t. Disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Glencore International PLC",
+        "ticker": "GLEN",
+        "cik": null,
+        "slug": "glencore",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Coking Coal & Scrap Steel Trading",
+        "relationshipNote": "Glencore is a major supplier of coking coal and scrap steel to ArcelorMittal, with trading operations spanning Australia, South Africa, and Colombia. Glencore's 2023 coal production (~130 Mt) and scrap-trading network provide ArcelorMittal with flexible sourcing for EAF mills and blast-furnace supplementation. Spot and forward contracts; pricing volatility in 2022 (coal >$400/t) created margin pressure. Relationship inferred from industry supply-chain analysis and Glencore investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tata Steel Limited",
+        "ticker": "TATASTEEL",
+        "cik": null,
+        "slug": "tata_steel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Scrap Steel & Pig Iron",
+        "relationshipNote": "Tata Steel supplies ArcelorMittal with scrap steel and pig iron from Indian operations (Jamshedpur, Kalinganagar). ArcelorMittal's EAF mills in Europe and Americas source scrap from Tata's recycling network and spot markets. Tata's 2023 crude steel output (~33 Mt) and scrap-collection footprint in India provide ArcelorMittal with cost-competitive feedstock for EAF expansion. Relationship inferred from regional supply-chain dynamics and industry reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fortescue Metals Group Limited",
+        "ticker": "FMG",
+        "cik": null,
+        "slug": "fortescue_metals",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Iron Ore",
+        "relationshipNote": "Fortescue supplies ArcelorMittal with iron ore from Pilbara operations (~170 Mt annual capacity). Fortescue's 2023 production of 180 Mt and focus on lower-cost, higher-volume fines make it a key marginal supplier for ArcelorMittal's blast furnaces. Spot pricing in 2023 averaged $110–130/t; Fortescue's cost curve (~$35–45/t) provides pricing floor. Relationship documented in industry supply-chain reports and Fortescue investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nippon Steel Corporation",
+        "ticker": "5401",
+        "cik": null,
+        "slug": "nippon_steel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Scrap Steel & Technology Licensing",
+        "relationshipNote": "Nippon Steel supplies ArcelorMittal with scrap-steel sourcing expertise and EAF technology licensing. Nippon's 2022 acquisition of US Steel (minority stake) and joint ventures in India (Nippon Steel & Sumitomo Metal India) create indirect supply-chain linkages. Nippon's advanced EAF and green-steel technologies are benchmarked by ArcelorMittal for decarbonization capex planning. Relationship inferred from industry reports and M&A announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Arcelor Mittal Mines Canada Limited (subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "arcelormittal_mines_canada",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Captive Iron Ore & Pellet Production",
+        "relationshipNote": "ArcelorMittal's captive mining subsidiary operates iron ore mines and pellet plants in Canada (Labrador, Quebec), supplying ~8–10 Mt annually to ArcelorMittal's North American blast furnaces. Captive production reduces spot-market exposure and provides cost stability; 2023 production costs ~$45–55/t. Pellet premium (~$15–20/t above fines) improves blast-furnace efficiency. Disclosed in 10-K Item 1 and quarterly earnings presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk A/S",
+        "ticker": "MAERSKB",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Seaborne Iron Ore & Finished Steel",
+        "relationshipNote": "Maersk operates bulk carriers and container services for ArcelorMittal's seaborne iron ore imports (Brazil, Australia to Europe, Americas) and finished-steel exports (coils, plates to Asia, Americas). Maersk's 2023 fleet of ~700 vessels includes specialized bulk carriers for iron ore and coal. Freight rates in 2023 averaged $8–12/t for iron ore; Maersk's spot and contract pricing affects ArcelorMittal's landed cost. Relationship inferred from industry logistics reports and Maersk investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DB Schenker (Deutsche Bahn subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "db_schenker",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Inland Rail & Truck Transport",
+        "relationshipNote": "DB Schenker provides ArcelorMittal with inland rail and truck logistics for finished-steel distribution across Europe. ArcelorMittal's European mills (Arcelor Mittal Europe Flat Products) rely on DB Schenker for last-mile delivery to automotive OEMs and construction contractors. DB Schenker's 2023 rail network spans 40+ countries; contract logistics for ArcelorMittal estimated at. Relationship inferred from industry logistics reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cargill Inc.",
+        "ticker": null,
+        "cik": "0000865436",
+        "slug": "cargill",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Bulk Commodity Logistics",
+        "relationshipNote": "Cargill operates bulk-commodity logistics and port facilities used by ArcelorMittal for iron ore and coal transshipment in North America (Houston, Mobile, Baltimore). Cargill's 2023 port throughput of ~150 Mt includes ArcelorMittal's inbound ore and coal volumes (~15–20 Mt annually). Cargill's logistics contracts with ArcelorMittal are long-term; pricing indexed to port tariffs and commodity volumes. Relationship inferred from industry logistics reports and Cargill investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hapag-Lloyd AG",
+        "ticker": "HLAG",
+        "cik": null,
+        "slug": "hapag_lloyd",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Container & Breakbulk Services",
+        "relationshipNote": "Hapag-Lloyd provides container and breakbulk services for ArcelorMittal's finished-steel exports (tubes, bars, specialty products) to Asia, Americas, and Africa. Hapag-Lloyd's 2023 fleet of ~250 vessels includes specialized breakbulk ships for oversized steel products. Freight rates in 2023 averaged $1,500–2,500/TEU for Asia routes; ArcelorMittal's export volumes estimated at. Relationship inferred from industry reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Volkswagen Group",
+        "ticker": "VOW",
+        "cik": null,
+        "slug": "volkswagen",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Automotive OEM",
+        "relationshipNote": "Volkswagen Group (VW, Audi, Porsche, Skoda) is ArcelorMittal's largest automotive customer, consuming ~2.5–3.0 Mt of flat-rolled steel annually for body panels, chassis, and structural components. VW's 2023 vehicle production of ~9.2 Mt drives ArcelorMittal's automotive segment revenue (~$8–10B annually). Long-term supply agreements lock pricing with annual escalation clauses; VW's EV transition increases demand for high-strength, lightweight steel. Disclosed in 10-K Item 1 and quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "General Motors Company",
+        "ticker": "GM",
+        "cik": "0001467858",
+        "slug": "general_motors",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Automotive OEM",
+        "relationshipNote": "General Motors is a major ArcelorMittal customer, sourcing ~1.5–2.0 Mt of flat-rolled and specialty steel annually for North American vehicle production. GM's 2023 production of ~7.0 Mt and EV ramp (Ultium platform) drive demand for advanced high-strength steel (AHSS) and electrical-steel grades. ArcelorMittal supplies GM's plants in Michigan, Ohio, and Mexico; long-term contracts with annual price negotiations. Disclosed in 10-K Item 1 and quarterly investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "China State Construction Engineering Corporation (CSCEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cscec",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Construction & Infrastructure",
+        "relationshipNote": "CSCEC is a major customer for ArcelorMittal's long products (rebar, wire rod, structural shapes) used in Chinese infrastructure projects (Belt and Road Initiative, domestic construction). ArcelorMittal's China operations (joint ventures with Wuhan Iron & Steel, Hunan Valin) supply CSCEC with ~3–4 Mt annually. Pricing indexed to Shanghai Futures Exchange rebar contracts; 2023 average prices ~$400–450/t. Relationship inferred from industry reports and ArcelorMittal investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "China Baowu Steel Group Corporation Limited",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_baowu",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Global Steelmaker",
+        "relationshipNote": "China Baowu is the world's largest steelmaker by crude steel capacity (~120 Mt annually), competing directly with ArcelorMittal in flat products (automotive, appliances) and long products (construction, machinery). Baowu's 2023 crude steel output of ~115 Mt and cost advantage ($250–300/t all-in vs. ArcelorMittal's $350–400/t) enable aggressive pricing in Asia and emerging markets. Baowu's 2023 acquisition of Valin Steel consolidates Chinese capacity; threat to ArcelorMittal's Asian market share. Relationship inferred from industry reports and trade publications.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nippon Steel Corporation",
+        "ticker": "5401",
+        "cik": null,
+        "slug": "nippon_steel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Global Steelmaker",
+        "relationshipNote": "Nippon Steel is a major competitor in premium flat products (automotive, appliances, electrical steel) and specialty long products. Nippon's 2023 crude steel output of ~27 Mt and focus on high-margin, technology-intensive grades (AHSS, electrical steel) position it as a quality competitor to ArcelorMittal. Nippon's 2022 acquisition of US Steel (minority stake) and joint ventures in India signal expansion into ArcelorMittal's core markets. Relationship inferred from industry reports and M&A announcements.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "POSCO (Pohang Iron and Steel Company)",
+        "ticker": "005490",
+        "cik": null,
+        "slug": "posco",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Global Steelmaker",
+        "relationshipNote": "POSCO is a major competitor in flat products (automotive, appliances) and specialty steels, with 2023 crude steel output of ~28 Mt. POSCO's cost advantage (integrated mills in South Korea, low energy costs) and technology leadership in AHSS and electrical steel threaten ArcelorMittal's premium-product margins. POSCO's 2023 capex of ~$3.5B focused on EAF and green-steel capacity; competitive threat in decarbonization race. Relationship inferred from industry reports and POSCO investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nucor Corporation",
+        "ticker": "NUE",
+        "cik": "0000073309",
+        "slug": "nucor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — EAF-Focused Competitor",
+        "relationshipNote": "Nucor is ArcelorMittal's primary North American competitor, with 2023 crude steel output of ~27 Mt from EAF mills. Nucor's EAF-centric model (lower capex, scrap-based, lower emissions) competes aggressively with ArcelorMittal's integrated mills in long products (rebar, wire rod) and flat products (sheet). Nucor's 2023 EBITDA margin of ~18% vs. ArcelorMittal's ~15% reflects EAF cost advantage. Nucor's 2023 capex of ~$2.5B focused on EAF expansion and specialty grades. Disclosed in 10-K Item 1A and quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Thyssenkrupp AG",
+        "ticker": "TKA",
+        "cik": null,
+        "slug": "thyssenkrupp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — European Integrated Steelmaker",
+        "relationshipNote": "Thyssenkrupp is a major European competitor in flat products and specialty steels, with 2023 crude steel output of ~11 Mt. Thyssenkrupp's integrated mills in Germany (Duisburg) and focus on high-margin specialty grades (stainless, tool steel) position it as a quality competitor to ArcelorMittal. Thyssenkrupp's 2023 capex of ~€1.5B focused on EAF conversion and green-steel capacity; strategic partnership with Salzgitter on hydrogen-based steelmaking. Relationship inferred from industry reports and Thyssenkrupp investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "The SEC regulates ArcelorMittal's US-listed ADRs (ticker MT) and requires quarterly 20-F filings (foreign private issuer). ArcelorMittal's 2023 20-F disclosed $79.8B revenue, $6.2B EBITDA, and $8.1B net debt. SEC filings include risk disclosures on Ukraine geopolitical exposure, commodity price volatility, and decarbonization capex. ArcelorMittal's ADR program (Level 3) enables US institutional investment; SEC compliance is material to capital access. Disclosed in 20-F Item 1A risk factors and Item 5 operating results.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "SEC-filings"
+        ]
+      },
+      {
+        "name": "European Commission (Directorate-General for Competition)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dg_competition",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic",
+        "relationshipNote": "The EU's DG Competition regulates ArcelorMittal's European operations and M&A activity. ArcelorMittal's 2023 European crude steel capacity of ~45 Mt (largest in EU) faces antitrust scrutiny on pricing power and market concentration. EU's 2023 Carbon Border Adjustment Mechanism (CBAM) tariff on steel imports affects ArcelorMittal's competitive positioning vs. non-EU producers. ArcelorMittal's 2020 acquisition of Ilva (Italy) faced EU approval conditions on capacity divestitures. Disclosed in 20-F Item 1A risk factors and quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. International Trade Commission (USITC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "usitc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic",
+        "relationshipNote": "The USITC regulates steel tariffs and trade remedies affecting ArcelorMittal's US operations. ArcelorMittal's 2023 US crude steel capacity of ~25 Mt benefits from Section 232 tariffs (25% on steel imports, in place since 2018). USITC's 2023 investigations into Chinese and Indian steel dumping support tariff protection for ArcelorMittal's North American mills. Tariff uncertainty (potential removal under new administrations) creates pricing volatility. Disclosed in 20-F Item 1A risk factors and quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental Compliance",
+        "relationshipNote": "The EPA regulates ArcelorMittal's US mill emissions (air, water, hazardous waste) under the Clean Air Act and Clean Water Act. ArcelorMittal's US mills (Indiana Harbor, Burns Harbor, Riverdale) face EPA compliance costs for dust, NOx, and particulate emissions. EPA's 2023 proposed rule on greenhouse gas emissions from steel mills could require $500M+ capex for emissions controls. ArcelorMittal's environmental liabilities and remediation costs are disclosed in 20-F Item 1A risk factors. Relationship documented in EPA enforcement records and ArcelorMittal investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news",
+          "regulatory-filings"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic",
+        "relationshipNote": "The FTC reviews ArcelorMittal's M&A activity and pricing practices for antitrust compliance. ArcelorMittal's 2020 acquisition of Ilva (Italy) and 2023 strategic reviews of non-core assets face FTC scrutiny on market concentration. FTC's 2023 focus on steel industry consolidation and pricing coordination creates regulatory risk for ArcelorMittal's future M&A. Pricing practices in flat products (automotive) and long products (construction) are subject to FTC investigation if collusion is suspected. Disclosed in 20-F Item 1A risk factors and quarterly earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu Limited",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte is ArcelorMittal's global external auditor, responsible for auditing consolidated financial statements and internal controls over financial reporting. Deloitte's 2023 audit opinion on ArcelorMittal's 20-F filing covered $79.8B revenue, $6.2B EBITDA, and $8.1B net debt. Deloitte's audit scope includes commodity hedging, environmental liabilities, and decarbonization capex accounting. Deloitte's audit fees and non-audit services are disclosed in ArcelorMittal's proxy statement (DEF14A equivalent). Relationship documented in 20-F Item 8 and auditor engagement letters.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "proxy-statement"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan Chase is a major lender and investment banker for ArcelorMittal, providing syndicated credit facilities and M&A advisory. ArcelorMittal's 2023 debt portfolio of ~$8.1B includes JPMorgan-led facilities (revolving credit, term loans). JPMorgan's 2023 equity research on ArcelorMittal provides market intelligence on steel demand, commodity prices, and competitive positioning. JPMorgan's investment banking team advised on ArcelorMittal's 2020 Ilva acquisition and 2023 strategic reviews. Relationship inferred from industry reports and JPMorgan investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America Merrill Lynch is a major lender and equity research provider for ArcelorMittal. BofA's 2023 credit facilities to ArcelorMittal include syndicated loans and bond underwriting. BofA's equity research team publishes quarterly steel sector reports covering ArcelorMittal's competitive positioning, margin trends, and capex guidance. BofA's investment banking team advised on ArcelorMittal's strategic reviews and asset sales. Relationship inferred from industry reports and BofA investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mittal Family (Lakshmi Mittal, Aditya Mittal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "mittal_family",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Lakshmi Mittal (founder, chairman) and Aditya Mittal (CEO) control ~37% of ArcelorMittal through family trusts and direct holdings. Lakshmi Mittal's 2006 acquisition of Arcelor created the world's largest steelmaker; Aditya Mittal's 2020 appointment as CEO signaled succession planning. Family's long-term capital commitment and strategic vision drive ArcelorMittal's decarbonization roadmap and M&A strategy. Disclosed in 20-F Item 10 (executive compensation) and proxy statement (beneficial ownership).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "proxy-statement",
+          "news"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "BlackRock is ArcelorMittal's largest institutional shareholder, with ~7–8% ownership as of 2023. BlackRock's engagement with ArcelorMittal on ESG (environmental, social, governance) and decarbonization strategy influences capital allocation and board composition. BlackRock's 2023 voting on ArcelorMittal's proxy statement (executive compensation, director elections) reflects shareholder activism on climate risk. Relationship documented in 20-F Item 12 (security ownership) and proxy statement (institutional shareholders).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "proxy-statement",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Aditya Mittal",
+        "title": "Chief Executive Officer",
+        "slug": "aditya_mittal",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Aditya Mittal became CEO in 2020, succeeding Lakshmi Mittal (founder, chairman). Aditya's strategic priorities include decarbonization (green hydrogen, EAF expansion), margin improvement, and M&A discipline. Under Aditya's leadership, ArcelorMittal committed to net-zero emissions by 2050 (2023 announcement) and launched €5B green-steel capex program. Aditya's 2023 compensation package included €2.5M base salary and €3.5M performance bonus. Disclosed in 20-F Item 10 (executive compensation) and quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Geoff Van Dyck",
+        "title": "Chief Financial Officer",
+        "slug": "geoff_van_dyck",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Geoff Van Dyck is ArcelorMittal's CFO, responsible for financial planning, capital allocation, and investor relations. Van Dyck joined ArcelorMittal in 2019 from Glencore (CFO role). Van Dyck's 2023 priorities included debt reduction (target: <2.5x net debt/EBITDA), dividend policy (€0.50/share in 2023), and capex discipline (€4–5B annually). Van Dyck's 2023 compensation package included €1.2M base salary and €1.8M performance bonus. Disclosed in 20-F Item 10 and quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Lakshmi Mittal",
+        "title": "Chairman",
+        "slug": "lakshmi_mittal",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Lakshmi Mittal is ArcelorMittal's founder and chairman, controlling ~37% of shares through family trusts. Lakshmi's 2006 acquisition of Arcelor created the world's largest steelmaker; his strategic vision emphasizes operational excellence, cost leadership, and long-term value creation. Lakshmi's 2023 role focused on board oversight, strategic direction, and shareholder engagement. Lakshmi's 2023 compensation package included €1.5M base salary and board fees. Disclosed in 20-F Item 10 and proxy statement.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "proxy-statement",
+          "news"
+        ]
+      },
+      {
+        "name": "Carole Nakhle",
+        "title": "Chief Commercial Officer",
+        "slug": "carole_nakhle",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Carole Nakhle is ArcelorMittal's Chief Commercial Officer, responsible for sales, marketing, and customer relationships. Nakhle joined ArcelorMittal in 2021 from Arcelor Mittal Europe Flat Products (regional commercial director). Nakhle's 2023 priorities included automotive OEM account management, pricing strategy, and green-steel premium positioning. Nakhle's role is critical to ArcelorMittal's revenue growth and margin expansion in flat products. Disclosed in quarterly earnings calls and investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "investor-presentation"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "World Steel Association (WSA) Crude Steel Production Index",
+        "slug": "wsa_crude_steel_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "The WSA publishes monthly crude steel production data covering 70+ countries, representing ~95% of global output. ArcelorMittal's monthly production (disclosed in investor updates) is benchmarked against WSA global trends. 2023 global crude steel production of ~1,920 Mt (down 3% YoY) signals demand weakness; ArcelorMittal's production of ~59 Mt (down 5% YoY) reflects market softness. WSA data is leading indicator of ArcelorMittal's quarterly volumes and pricing power. Disclosed in WSA monthly reports and ArcelorMittal investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Shanghai Futures Exchange (SHFE) Rebar & Iron Ore Prices",
+        "slug": "shfe_rebar_iron_ore",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "SHFE rebar and iron ore futures prices are leading indicators of global steel demand and commodity costs. 2023 SHFE rebar prices averaged ~2,600 CNY/t (down 15% YoY); iron ore prices averaged ~110 USD/t (down 20% YoY). ArcelorMittal's realized selling prices and input costs track SHFE benchmarks closely. SHFE volatility (e.g., 2022 spike to 4,000+ CNY/t) creates margin compression risk. Disclosed in quarterly earnings calls and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Purchasing Managers' Index (PMI) — Manufacturing",
+        "slug": "pmi_manufacturing",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Global manufacturing PMI (published by IHS Markit) is a leading indicator of industrial production and steel demand. 2023 global manufacturing PMI averaged ~49.5 (below 50 = contraction), signaling weak demand for ArcelorMittal's products. PMI <48 historically correlates with ArcelorMittal's margin compression and volume declines. PMI >52 signals demand recovery and pricing power. ArcelorMittal management references PMI trends in quarterly earnings calls. Disclosed in quarterly earnings calls and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      }
+    ]
+  }
+}

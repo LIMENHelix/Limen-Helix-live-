@@ -1,0 +1,7 @@
+(function(){'use strict';window.LIMENExecution=window.LIMENExecution||{};window.LIMENExecution.phase7=window.LIMENExecution.phase7||{};
+function score(claim){var s=50;var auth=window.LIMENExecution.phase4&&window.LIMENExecution.phase4.approval;if(auth){var cl=auth.getChecklistForType(claim.type||'grant');s+=cl?10:0}if(claim.agreementAccepted)s+=10;if(claim.status==='submitted')s+=15;if(claim.status==='in_review')s+=10;var age=(Date.now()-(claim.claimedAt||Date.now()))/(864e5);if(age>14)s-=10;if(age>30)s-=15;return Math.max(0,Math.min(100,s))}
+function flags(claim){var f=[];if(!claim.agreementAccepted)f.push('No framework acceptance');var age=(Date.now()-(claim.claimedAt||Date.now()))/(864e5);if(age>21)f.push('Stale claim ('+Math.round(age)+'d)');if(!claim.estimatedValue)f.push('No estimated value');return f}
+function confidence(claim){var s=score(claim);if(s>=80)return'READY';if(s>=60)return'CAUTION';if(s>=40)return'BLOCKED';return'HIGH RISK'}
+function summary(claim){return{readinessScore:score(claim),riskFlags:flags(claim),confidenceLabel:confidence(claim),blockerCount:flags(claim).length}}
+function sortQueue(queue){return queue.slice().sort(function(a,b){return score(b.claim||b)-score(a.claim||a)})}
+window.LIMENExecution.phase7.approvalIntel={scoreApprovalReadiness:score,getApprovalRiskFlags:flags,getApprovalConfidence:confidence,getApprovalSummary:summary,sortApprovalQueueIntelligently:sortQueue};})();

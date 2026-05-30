@@ -1,0 +1,2349 @@
+{
+  "domainId": "finance",
+  "title": "Finance",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P7",
+  "activations": [
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Commercial Banking",
+      "domainDescription": "Deposit-taking and lending institutions that serve as the primary relay between savers and borrowers in the real economy",
+      "domainFunction": "Routes capital from surplus agents (depositors) to deficit agents (borrowers), performing credit assessment and maturity transformation that enables economic activity",
+      "whyThisNode": "The thalamus is the brain's central relay station, routing sensory information to appropriate cortical targets â€” commercial banks perform identical relay functions, routing capital from depositors to borrowers while filtering and transforming the signal along the way",
+      "group": "banking",
+      "phase": "P7",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "treatments": [
+        {
+          "label": "Capital adequacy requirements (Basel framework)",
+          "type": "STRUCTURAL",
+          "description": "Mandates minimum capital buffers proportional to risk-weighted assets, ensuring banks can absorb losses without transmitting failure through the financial system",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Deposit insurance and resolution frameworks",
+          "type": "IMMEDIATE",
+          "description": "Prevents bank runs through credible deposit guarantees while establishing orderly resolution procedures that protect depositors without requiring taxpayer bailouts",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "finance_commercial_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Mastercard",
+          "ticker_or_id": "MA",
+          "functional_reason": "Routes and distributes commercial banking resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Visa Inc",
+          "ticker_or_id": "V",
+          "functional_reason": "Routes and distributes commercial banking resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Stripe",
+          "ticker_or_id": "STRIPE",
+          "functional_reason": "Routes and distributes commercial banking resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.88
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Commercial Banking",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Central Banking",
+      "domainDescription": "National monetary authority responsible for price stability, money supply management, and lender-of-last-resort functions",
+      "domainFunction": "Maintains homeostatic equilibrium of the monetary system through interest rate policy, reserve requirements, and emergency liquidity provision during crises",
+      "whyThisNode": "The hypothalamus maintains homeostatic equilibrium across all physiological systems â€” central banks perform identical homeostatic regulation of the monetary system, adjusting interest rates and money supply to maintain price stability and full employment",
+      "group": "monetary",
+      "phase": "P7",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "CURRENCY_COLLAPSE",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "treatments": [
+        {
+          "label": "Inflation targeting with forward guidance",
+          "type": "STRUCTURAL",
+          "description": "Anchors expectations through transparent communication of monetary policy goals, reducing uncertainty and enabling markets to price risk accurately",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Emergency lending facilities (lender of last resort)",
+          "type": "IMMEDIATE",
+          "description": "Provides emergency liquidity to solvent but illiquid institutions during crises, preventing contagion-driven failures that would otherwise cascade through the system",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "finance_central_portal.html",
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Morgan Stanley",
+          "ticker_or_id": "MS",
+          "functional_reason": "Evaluates and arbitrates central banking decisions, weighing competing options and setting value-based priorities",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Visa Inc",
+          "ticker_or_id": "V",
+          "functional_reason": "Routes and distributes central banking resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "PayPal Holdings",
+          "ticker_or_id": "PYPL",
+          "functional_reason": "Executes core central banking operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Central Banking",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Stock Markets",
+      "domainDescription": "Public exchanges where equity shares of corporations are traded, providing price discovery and capital formation for the productive economy",
+      "domainFunction": "Assigns reward value to corporate performance through share price movements, driving capital allocation toward enterprises the market judges most productive",
+      "whyThisNode": "The nucleus accumbens assigns reward value and drives approach behavior based on expected outcomes â€” stock markets perform identical valuation, with share prices reflecting the market's collective reward prediction for corporate performance",
+      "group": "markets",
+      "phase": "P7",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION",
+        "FRAUD_SCANDAL"
+      ],
+      "treatments": [
+        {
+          "label": "Circuit breakers and trading halts",
+          "type": "IMMEDIATE",
+          "description": "Automatic trading pauses triggered by rapid price declines, preventing panic-driven cascading sell-offs and giving market participants time to process information rationally",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Market microstructure reform",
+          "type": "STRUCTURAL",
+          "description": "Updates trading rules to address high-frequency trading advantages, dark pools, and order-flow payment that distort price discovery and disadvantage retail investors",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "finance_stock_portal.html",
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "PayPal Holdings",
+          "ticker_or_id": "PYPL",
+          "functional_reason": "Executes core stock markets operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Mastercard",
+          "ticker_or_id": "MA",
+          "functional_reason": "Routes and distributes stock markets resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Charles Schwab",
+          "ticker_or_id": "SCHW",
+          "functional_reason": "Amplifies and scales stock markets capacity, driving growth and expanding reach of stock markets operations",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Stock Markets",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Reward Valuation Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Sales & Revenue"
+        },
+        {
+          "domain": "economy",
+          "role": "Consumer Spending"
+        },
+        {
+          "domain": "governance",
+          "role": "Electoral Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Damages / Remedies"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Reward-Appetite Circuit"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Reward Processing & Motivation"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Reward Circuit Restoration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Bond Markets",
+      "domainDescription": "Debt securities markets where governments and corporations raise capital through fixed-income instruments with defined repayment schedules",
+      "domainFunction": "Evaluates creditworthiness and assigns risk premiums to borrowers, providing the stable valuation framework that enables long-term capital planning and sovereign financing",
+      "whyThisNode": "The ventromedial prefrontal cortex integrates risk assessment with value judgments in social decision-making â€” bond markets similarly integrate credit risk assessment with yield expectations, producing the risk premiums that reflect collective judgment about borrower reliability",
+      "group": "markets",
+      "phase": "P7",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "CURRENCY_COLLAPSE",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "treatments": [
+        {
+          "label": "Sovereign debt restructuring mechanisms",
+          "type": "STRUCTURAL",
+          "description": "Establishes orderly frameworks for restructuring unsustainable government debt, preventing disorderly defaults that destabilize global bond markets and punish vulnerable populations",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Credit rating agency reform and regulation",
+          "type": "IMMEDIATE",
+          "description": "Addresses conflicts of interest in issuer-pays rating models and improves analytical transparency to prevent the catastrophic rating failures that enabled the 2008 crisis",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "finance_bond_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Charles Schwab",
+          "ticker_or_id": "SCHW",
+          "functional_reason": "Routes and distributes bond markets resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "BlackRock",
+          "ticker_or_id": "BLK",
+          "functional_reason": "Allocates and regulates bond markets resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Square (Block Inc)",
+          "ticker_or_id": "SQ",
+          "functional_reason": "Detects and monitors bond markets signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.78
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Bond Markets",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Insurance",
+      "domainDescription": "Risk-pooling institutions that collect premiums from many to compensate the few who suffer defined losses, enabling economic risk-taking",
+      "domainFunction": "Executes the protective response to identified risks â€” pooling resources across a population to absorb individual shocks that would otherwise be catastrophic",
+      "whyThisNode": "The central nucleus of the amygdala generates defensive behavioral outputs in response to threat â€” insurance is the civilizational analog, executing protective responses to identified risks by pooling resources to absorb shocks that would destroy individual actors",
+      "group": "insurance",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "SYSTEMIC_CONTAGION",
+        "BANKING_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Solvency margin requirements",
+          "type": "STRUCTURAL",
+          "description": "Mandates reserve adequacy to ensure insurers can pay claims even in extreme loss scenarios, preventing the cascading failures that occur when insurance promises prove empty",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Catastrophe bond and reinsurance markets",
+          "type": "IMMEDIATE",
+          "description": "Transfers tail risk to global capital markets through catastrophe bonds and reinsurance layers, preventing concentrated losses from overwhelming individual insurers or national economies",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "finance_insurance_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Citadel Securities",
+          "ticker_or_id": "CITADEL",
+          "functional_reason": "Detects and monitors insurance signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "JPMorgan Chase",
+          "ticker_or_id": "JPM",
+          "functional_reason": "Executes core insurance operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Stripe",
+          "ticker_or_id": "STRIPE",
+          "functional_reason": "Routes and distributes insurance resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.67
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Insurance",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "environment",
+          "role": "Soilenv"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "industry",
+          "role": "Safety Systems"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Emergency Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Law Enforcement Response"
+        },
+        {
+          "domain": "medicine",
+          "role": "Emergency Medicine"
+        },
+        {
+          "domain": "population",
+          "role": "Refugee Populations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Venture Capital",
+      "domainDescription": "High-risk equity investment in early-stage companies, providing the capital that transforms innovation from concept to commercial reality",
+      "domainFunction": "Generates the motivational capital drive that converts novel ideas into funded enterprises, accepting high failure rates in exchange for outsized returns from successful innovations",
+      "whyThisNode": "The ventral tegmental area is the dopaminergic motivation source driving approach behavior toward uncertain but potentially large rewards â€” venture capital embodies identical risk-reward computation, funding uncertain ventures whose expected value justifies the high probability of individual failure",
+      "group": "investment",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "CREDIT_FREEZE"
+      ],
+      "treatments": [
+        {
+          "label": "Startup ecosystem development policy",
+          "type": "STRUCTURAL",
+          "description": "Creates regulatory environments that encourage early-stage investment through tax incentives, simplified incorporation, and intellectual property protections that make risk-taking rational",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Diversified fund-of-funds mandates",
+          "type": "IMMEDIATE",
+          "description": "Institutional portfolio construction that spreads venture risk across multiple funds, stages, and sectors to capture asset-class returns while managing individual investment failures",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "finance_venture_portal.html",
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "PayPal Holdings",
+          "ticker_or_id": "PYPL",
+          "functional_reason": "Executes core venture capital operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Square (Block Inc)",
+          "ticker_or_id": "SQ",
+          "functional_reason": "Detects and monitors venture capital signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "BlackRock",
+          "ticker_or_id": "BLK",
+          "functional_reason": "Allocates and regulates venture capital resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.78
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Venture Capital",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus"
+        },
+        {
+          "domain": "business",
+          "role": "Innovation Engine"
+        },
+        {
+          "domain": "economy",
+          "role": "Entrepreneurship"
+        },
+        {
+          "domain": "energy",
+          "role": "Solar and Wind"
+        },
+        {
+          "domain": "environment",
+          "role": "Renewable Resources"
+        },
+        {
+          "domain": "medicine",
+          "role": "Men's Health Optimization"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Dopaminergic Metabolic Signaling"
+        },
+        {
+          "domain": "population",
+          "role": "Youth Demographics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Private Equity",
+      "domainDescription": "Investment firms that acquire, restructure, and optimize established companies using leveraged capital and operational expertise",
+      "domainFunction": "Performs value-based assessment of underperforming enterprises, acquires control, and restructures operations to extract maximum value from existing corporate assets",
+      "whyThisNode": "The orbitofrontal cortex performs value-based decision-making, comparing options and selecting the highest-value choice â€” private equity performs identical computation, identifying undervalued companies, acquiring them, and restructuring operations to maximize value extraction",
+      "group": "investment",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "FRAUD_SCANDAL",
+        "MARKET_CRASH"
+      ],
+      "treatments": [
+        {
+          "label": "Leverage ratio limits on acquisitions",
+          "type": "STRUCTURAL",
+          "description": "Caps the debt-to-equity ratio in leveraged buyouts to prevent the debt-loading that transfers risk to employees and creditors while concentrating returns among equity holders",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Portfolio company transparency requirements",
+          "type": "IMMEDIATE",
+          "description": "Mandates disclosure of financial performance, employment impacts, and fee structures for PE-owned companies, reducing information asymmetry and accountability gaps",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "finance_private_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Charles Schwab",
+          "ticker_or_id": "SCHW",
+          "functional_reason": "Routes and distributes private equity resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Stripe",
+          "ticker_or_id": "STRIPE",
+          "functional_reason": "Routes and distributes private equity resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "PayPal Holdings",
+          "ticker_or_id": "PYPL",
+          "functional_reason": "Executes core private equity operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.69
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Private Equity",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Derivatives",
+      "domainDescription": "Financial instruments whose value derives from underlying assets, used for hedging risk, speculative trading, and price discovery",
+      "domainFunction": "Performs complex spatial-mathematical computation on relationships between financial variables, enabling risk transfer and price discovery across multiple asset classes simultaneously",
+      "whyThisNode": "The intraparietal sulcus performs spatial computation, numerical processing, and relational reasoning â€” derivatives markets require identical mathematical sophistication, computing complex relationships between underlying assets, strike prices, expiration dates, and volatility surfaces",
+      "group": "markets",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION",
+        "FRAUD_SCANDAL"
+      ],
+      "treatments": [
+        {
+          "label": "Central clearing and margin requirements",
+          "type": "STRUCTURAL",
+          "description": "Routes derivative trades through central counterparties with mandatory collateral, preventing the bilateral counterparty risk accumulation that triggered the 2008 AIG collapse",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Position limits and concentration reporting",
+          "type": "IMMEDIATE",
+          "description": "Caps speculative positions and mandates disclosure when holdings exceed concentration thresholds, preventing single actors from accumulating system-destabilizing exposure",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "finance_derivatives_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Fidelity Investments",
+          "ticker_or_id": "FIDELITY",
+          "functional_reason": "Executes core derivatives operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "PayPal Holdings",
+          "ticker_or_id": "PYPL",
+          "functional_reason": "Executes core derivatives operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Visa Inc",
+          "ticker_or_id": "V",
+          "functional_reason": "Executes core derivatives operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Derivatives",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "STEM Education"
+        },
+        {
+          "domain": "religion",
+          "role": "Sacred Architecture"
+        },
+        {
+          "domain": "science",
+          "role": "Mathematics"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Human Capital & Development"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FEF",
+      "state": "active",
+      "domainLabel": "Forex Markets",
+      "domainDescription": "Global currency exchange markets where national currencies are traded, determining exchange rates that govern international trade and capital flows",
+      "domainFunction": "Directs capital flow attention across the global landscape, scanning for value discrepancies between national currencies and rapidly reallocating capital to exploit differentials",
+      "whyThisNode": "The frontal eye fields direct rapid attentional shifts across the visual field â€” forex markets perform identical rapid scanning across the global currency landscape, with traders constantly shifting attention to exploit price differentials between national monetary units",
+      "group": "monetary",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "CURRENCY_COLLAPSE",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "treatments": [
+        {
+          "label": "Foreign exchange reserve management",
+          "type": "STRUCTURAL",
+          "description": "Maintains adequate currency reserves to defend against speculative attacks and smooth exchange rate volatility that would otherwise disrupt trade and investment flows",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Capital flow management measures",
+          "type": "IMMEDIATE",
+          "description": "Temporary controls on capital inflows or outflows during extreme volatility episodes to prevent destabilizing hot-money flows that overwhelm small and emerging economies",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Mastercard",
+          "ticker_or_id": "MA",
+          "functional_reason": "Executes core forex markets operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Visa Inc",
+          "ticker_or_id": "V",
+          "functional_reason": "Executes core forex markets operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Goldman Sachs",
+          "ticker_or_id": "GS",
+          "functional_reason": "Executes core forex markets operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        }
+      ],
+      "childPortal": "finance_forex_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Forex Markets",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Offgrid"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Air Transport"
+        },
+        {
+          "domain": "trade",
+          "role": "Air Freight"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Satellite Systems"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Master Planning Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Credit Systems",
+      "domainDescription": "Infrastructure for evaluating borrower creditworthiness, extending credit, and managing repayment across consumer and commercial lending",
+      "domainFunction": "Allocates credit resources based on behavioral history, distributing lending capacity toward borrowers whose track record predicts reliable repayment",
+      "whyThisNode": "The striatum encodes reward history and allocates behavioral effort based on past outcomes â€” credit systems perform identical historical analysis, evaluating past repayment behavior to allocate future lending capacity toward borrowers with demonstrated reliability",
+      "group": "banking",
+      "phase": "P7",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "CREDIT_FREEZE",
+        "BANKING_CRISIS",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "treatments": [
+        {
+          "label": "Credit reporting accuracy and dispute resolution",
+          "type": "STRUCTURAL",
+          "description": "Ensures credit data accurately reflects borrower behavior with robust mechanisms for correcting errors, preventing inaccurate records from denying credit to qualified borrowers",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Anti-predatory lending regulations",
+          "type": "IMMEDIATE",
+          "description": "Prohibits lending practices designed to trap borrowers in debt cycles, including hidden fees, balloon payments, and terms that exceed borrower capacity to repay",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "BlackRock",
+          "ticker_or_id": "BLK",
+          "functional_reason": "Allocates and regulates credit systems resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "Morgan Stanley",
+          "ticker_or_id": "MS",
+          "functional_reason": "Evaluates and arbitrates credit systems decisions, weighing competing options and setting value-based priorities",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "JPMorgan Chase",
+          "ticker_or_id": "JPM",
+          "functional_reason": "Executes core credit systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.72
+        }
+      ],
+      "childPortal": "finance_accounting_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Credit Systems",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Mortgage Markets",
+      "domainDescription": "Specialized lending market for real property purchase, where long-term secured loans enable homeownership and real estate investment",
+      "domainFunction": "Encodes property ownership records, contextualizes real estate valuations within local market history, and maintains the spatial-temporal memory of property transactions",
+      "whyThisNode": "The hippocampus performs spatial mapping and contextual memory encoding â€” mortgage markets require identical spatial-contextual processing, encoding property locations, neighborhood contexts, and valuation histories into lending decisions tied to specific places",
+      "group": "banking",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "treatments": [
+        {
+          "label": "Loan-to-value and debt-to-income standards",
+          "type": "STRUCTURAL",
+          "description": "Mandates conservative underwriting ratios that ensure borrowers can service debt under stress scenarios, preventing the reckless lending that inflated the 2008 housing bubble",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Mortgage-backed security transparency",
+          "type": "IMMEDIATE",
+          "description": "Requires full disclosure of underlying loan quality in securitized mortgage products, preventing the opacity that allowed toxic assets to be sold as investment-grade securities",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "MSCI Inc",
+          "ticker_or_id": "MSCI",
+          "functional_reason": "Stores and retrieves mortgage markets knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "PayPal Holdings",
+          "ticker_or_id": "PYPL",
+          "functional_reason": "Executes core mortgage markets operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "Goldman Sachs",
+          "ticker_or_id": "GS",
+          "functional_reason": "Executes core mortgage markets operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        }
+      ],
+      "childPortal": "finance_centralbank_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Mortgage Markets",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Payment Systems",
+      "domainDescription": "Infrastructure enabling the transfer of monetary value between parties, from wire transfers and card networks to digital payment platforms",
+      "domainFunction": "Provides the connective infrastructure linking all financial actors, enabling instantaneous value transfer across the entire economic network",
+      "whyThisNode": "The corpus callosum connects the brain's hemispheres, enabling coordinated bilateral function â€” payment systems similarly connect all economic actors, providing the infrastructure through which value flows between any two points in the financial network",
+      "group": "banking",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "SYSTEMIC_CONTAGION",
+        "BANKING_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Real-time gross settlement systems",
+          "type": "STRUCTURAL",
+          "description": "Eliminates settlement risk through immediate final payment processing, preventing the cascading failures that occur when payment chains break during stress events",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Interoperability standards for digital payments",
+          "type": "IMMEDIATE",
+          "description": "Mandates open standards enabling payment flow between competing platforms, preventing monopolistic fragmentation and ensuring universal financial access",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Stripe",
+          "ticker_or_id": "STRIPE",
+          "functional_reason": "Routes and distributes payment systems resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Mastercard",
+          "ticker_or_id": "MA",
+          "functional_reason": "Routes and distributes payment systems resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "PayPal Holdings",
+          "ticker_or_id": "PYPL",
+          "functional_reason": "Routes and distributes payment systems resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        }
+      ],
+      "childPortal": "finance_compliance_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Payment Systems",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Transmission Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Road Networks"
+        },
+        {
+          "domain": "neurology",
+          "role": "Corpus Callosum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interhemispheric Connectivity"
+        },
+        {
+          "domain": "technology",
+          "role": "Networking & Internet"
+        },
+        {
+          "domain": "trade",
+          "role": "Freight Forwarding"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Assessment & Diagnostics"
+        },
+        {
+          "domain": "communication",
+          "role": "Telecommunications"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Financial Regulation",
+      "domainDescription": "Government agencies and frameworks responsible for overseeing financial institutions, protecting consumers, and maintaining systemic stability",
+      "domainFunction": "Monitors for conflicts between financial institution behavior and regulatory standards, detecting excessive risk-taking and triggering enforcement when stability thresholds are breached",
+      "whyThisNode": "The dorsal anterior cingulate cortex detects conflicts between expected and actual behavior, triggering corrective action â€” financial regulators perform identical monitoring, detecting when risk-taking exceeds prudential bounds and triggering intervention before systemic thresholds are breached",
+      "group": "regulation",
+      "phase": "P7",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "MARKET_CRASH",
+        "FRAUD_SCANDAL",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "treatments": [
+        {
+          "label": "Macroprudential supervision frameworks",
+          "type": "STRUCTURAL",
+          "description": "Monitors systemic risk across the entire financial system rather than individual institutions, detecting correlated exposures and interconnections that create cascading failure potential",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Stress testing and resolution planning",
+          "type": "IMMEDIATE",
+          "description": "Requires systemically important financial institutions to demonstrate survival under extreme scenarios and maintain living wills for orderly dissolution if they fail",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Stripe",
+          "ticker_or_id": "STRIPE",
+          "functional_reason": "Detects and monitors financial regulation signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Square (Block Inc)",
+          "ticker_or_id": "SQ",
+          "functional_reason": "Detects and monitors financial regulation signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "MSCI Inc",
+          "ticker_or_id": "MSCI",
+          "functional_reason": "Detects and monitors financial regulation signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "finance_corporatefin_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Financial Regulation",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Accounting Standards",
+      "domainDescription": "Uniform rules for recording, reporting, and auditing financial transactions that enable transparent comparison across entities",
+      "domainFunction": "Provides the cognitive control framework for financial information processing â€” standardizing how economic activity is recorded so that all participants share a common analytical language",
+      "whyThisNode": "The executive control network maintains cognitive standards and applies consistent rules across variable inputs â€” accounting standards perform identical standardization, ensuring financial information is recorded and reported using consistent methods regardless of entity, industry, or jurisdiction",
+      "group": "regulation",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "International accounting standard convergence (IFRS)",
+          "type": "STRUCTURAL",
+          "description": "Harmonizes financial reporting standards globally, enabling accurate cross-border comparison and reducing regulatory arbitrage opportunities in multinational accounting",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Auditor independence and rotation requirements",
+          "type": "IMMEDIATE",
+          "description": "Prevents cozy auditor-client relationships that compromise audit quality through mandatory rotation periods and restrictions on consulting revenue from audit clients",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Goldman Sachs",
+          "ticker_or_id": "GS",
+          "functional_reason": "Executes core accounting standards operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Square (Block Inc)",
+          "ticker_or_id": "SQ",
+          "functional_reason": "Executes core accounting standards operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Visa Inc",
+          "ticker_or_id": "V",
+          "functional_reason": "Executes core accounting standards operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        }
+      ],
+      "childPortal": "finance_findata_portal.html",
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Accounting Standards",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Economic Indicators"
+        },
+        {
+          "domain": "governance",
+          "role": "Public Administration"
+        },
+        {
+          "domain": "medicine",
+          "role": "Epidemiology"
+        },
+        {
+          "domain": "population",
+          "role": "Census Systems"
+        },
+        {
+          "domain": "science",
+          "role": "Statistical Inference"
+        },
+        {
+          "domain": "technology",
+          "role": "Operating Systems"
+        },
+        {
+          "domain": "trade",
+          "role": "Inventory Management"
+        },
+        {
+          "domain": "communication",
+          "role": "Audio Description Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Risk Management",
+      "domainDescription": "Systematic identification, assessment, and mitigation of financial risks across institutions and portfolios",
+      "domainFunction": "Exercises executive control over financial risk-taking, maintaining working memory of exposure positions and applying strategic planning to keep risk within defined tolerance boundaries",
+      "whyThisNode": "The dorsolateral prefrontal cortex performs executive planning, working memory, and strategic reasoning â€” risk management requires identical capacities to track complex exposure positions across multiple dimensions and execute mitigation strategies before losses materialize",
+      "group": "regulation",
+      "phase": "P7",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "treatments": [
+        {
+          "label": "Value-at-Risk and expected shortfall models",
+          "type": "STRUCTURAL",
+          "description": "Quantitative risk measurement frameworks that estimate potential losses under stress scenarios, enabling institutions to calibrate capital buffers to actual risk exposure",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Enterprise risk management integration",
+          "type": "IMMEDIATE",
+          "description": "Embeds risk assessment across all business functions rather than siloing it in a compliance department, ensuring risk awareness informs every decision from trading desk to boardroom",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "JPMorgan Chase",
+          "ticker_or_id": "JPM",
+          "functional_reason": "Executes core risk management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "PayPal Holdings",
+          "ticker_or_id": "PYPL",
+          "functional_reason": "Executes core risk management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Citadel Securities",
+          "ticker_or_id": "CITADEL",
+          "functional_reason": "Executes core risk management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        }
+      ],
+      "childPortal": "finance_fintech_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Risk Management",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Fintech",
+      "domainDescription": "Technology-driven financial innovation including digital banking, blockchain, decentralized finance, and algorithmic trading systems",
+      "domainFunction": "Provides adaptive, flexible coordination between traditional financial functions using technology, creating new pathways for value transfer, risk assessment, and capital allocation",
+      "whyThisNode": "The frontoparietal network provides flexible task coordination and adaptive cognitive control â€” fintech similarly provides adaptive coordination across financial functions, creating new technological pathways that flexibly recombine traditional banking, lending, and investment capabilities",
+      "group": "markets",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "FRAUD_SCANDAL",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "treatments": [
+        {
+          "label": "Regulatory sandbox programs",
+          "type": "STRUCTURAL",
+          "description": "Controlled environments where fintech innovations can be tested under regulatory supervision before full market deployment, enabling innovation while managing systemic risk",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Digital asset regulatory frameworks",
+          "type": "IMMEDIATE",
+          "description": "Clear legal classification and regulatory treatment of cryptocurrencies, stablecoins, and tokenized assets, providing investor protection without stifling beneficial innovation",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Citadel Securities",
+          "ticker_or_id": "CITADEL",
+          "functional_reason": "Executes core fintech operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Morgan Stanley",
+          "ticker_or_id": "MS",
+          "functional_reason": "Executes core fintech operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Mastercard",
+          "ticker_or_id": "MA",
+          "functional_reason": "Executes core fintech operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        }
+      ],
+      "childPortal": "finance_microfinance_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Fintech",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Reinsurance",
+      "domainDescription": "Reinsurance systems within Finance",
+      "group": "banking",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "finance_reinsurance_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Reinsurance",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator"
+        },
+        {
+          "domain": "energy",
+          "role": "Storage"
+        },
+        {
+          "domain": "medicine",
+          "role": "Metabolic & Endocrine"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Anticipatory Anxiety & Sustained Fear"
+        },
+        {
+          "domain": "communication",
+          "role": "Pilot Design Evaluation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Interior Architecture Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution — State Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Sovereign",
+      "domainDescription": "Sovereign systems within Finance",
+      "group": "banking",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "finance_sovereign_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Sovereign",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Higher Education"
+        },
+        {
+          "domain": "governance",
+          "role": "International Law"
+        },
+        {
+          "domain": "industry",
+          "role": "Research and Development"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Phoneme-Grapheme Mapping"
+        },
+        {
+          "domain": "population",
+          "role": "Education Levels"
+        },
+        {
+          "domain": "religion",
+          "role": "Religious Education"
+        },
+        {
+          "domain": "science",
+          "role": "Citation Networks"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SNIG",
+      "state": "active",
+      "domainLabel": "Wealthmgmt",
+      "domainDescription": "Wealthmgmt systems within Finance",
+      "group": "banking",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "finance_wealthmgmt_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Wealthmgmt",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "neurology",
+          "role": "Substantia Nigra"
+        },
+        {
+          "domain": "communication",
+          "role": "Description Standards"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Standards & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Mixed-Use Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Policy & Governance"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Assessment & Diagnostics"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Quality & Performance"
+        },
+        {
+          "domain": "energy",
+          "role": "Collection Systems Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "sgACC",
+      "state": "active",
+      "domainLabel": "Realestate Fin",
+      "domainDescription": "Realestate Fin systems within Finance",
+      "group": "banking",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "finance_realestate_fin_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Realestate Fin",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Research Edu"
+        },
+        {
+          "domain": "communication",
+          "role": "Universal Design"
+        },
+        {
+          "domain": "culture",
+          "role": "Coiling Techniques — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "recon isr — Signal Acquisition"
+        },
+        {
+          "domain": "economy",
+          "role": "investbank underwriting — Signal Acquisition"
+        },
+        {
+          "domain": "energy",
+          "role": "battrecycling economics — Signal Acquisition"
+        },
+        {
+          "domain": "environment",
+          "role": "smog ground — Signal Acquisition"
+        },
+        {
+          "domain": "governance",
+          "role": "judintegr caseassgn — Signal Acquisition"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "BANKING_CRISIS",
+      "label": "Banking Crisis",
+      "summary": "Systemic failure of commercial banking institutions. Loan losses exceed capital buffers, depositor confidence collapses, and the credit intermediation function freezes. Bank failures cascade through interbank lending networks. The real economy loses access to credit, producing recession or depression.",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "Commercial banking relay function collapses as loan losses erode capital, credit intermediation freezes, and the economy loses its primary capital routing mechanism",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "Central bank forced into emergency mode â€” slashing rates, expanding balance sheet, and providing emergency lending to prevent total system collapse",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo",
+          "detail": "Credit allocation systems freeze as banks refuse to lend even to creditworthy borrowers, producing credit crunch that strangles business investment and consumer spending",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Mortgage markets collapse as property valuations crash, underwater homeowners default, and securitized mortgage products transmit losses across the global financial system",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "Regulatory monitoring failed to detect risk accumulation before crisis, revealing supervisory gaps in risk assessment, capital adequacy enforcement, and systemic interconnection mapping",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Risk management models failed catastrophically, with executives and boards unable to comprehend or control the complex exposures their institutions had accumulated",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "MARKET_CRASH",
+      "label": "Market Crash",
+      "summary": "Rapid and severe decline in asset prices across equity, bond, or commodity markets. Panic selling overwhelms market-making capacity, liquidity evaporates, and price discovery breaks down. Wealth destruction triggers negative feedback loops into consumer confidence and business investment.",
+      "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered",
+          "detail": "Stock market reward valuation collapses as investor sentiment shifts from greed to panic, producing indiscriminate selling that destroys price-discovery function",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Altered",
+          "detail": "Derivatives amplify losses through leveraged positions, margin calls trigger forced liquidation, and complex instruments become impossible to value as markets seize",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Altered",
+          "detail": "Private equity and institutional investor valuations become unreliable as mark-to-market accounting reveals previously hidden losses across portfolio companies",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Risk management capacity overwhelmed as models designed for normal conditions fail in extreme stress, with correlation assumptions breaking down precisely when they matter most",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "Regulatory alarm triggers emergency interventions â€” trading halts, short-selling bans, and emergency liquidity injections as regulators scramble to contain cascading failure",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "CURRENCY_COLLAPSE",
+      "label": "Currency Collapse",
+      "summary": "Rapid devaluation of a national currency destroying purchasing power, savings, and international trade capacity. Capital flight, hyperinflation, and import collapse devastate the real economy. Sovereign debt denominated in foreign currency becomes unpayable.",
+      "circuits": [
+        {
+          "nodeId": "FEF",
+          "dir": "Hyper",
+          "detail": "Forex market attention overwhelms the collapsing currency with massive sell pressure as traders and capital flee to safe-haven currencies",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered",
+          "detail": "Central bank monetary homeostasis fails â€” either through policy error (excessive money printing) or external shock that overwhelms monetary policy capacity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "Bond market confidence collapses as sovereign creditworthiness is destroyed, with government unable to borrow at any sustainable interest rate",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "Payment systems disrupted as merchants refuse depreciating currency, dollarization emerges informally, and the domestic monetary unit loses its transaction medium function",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Credit systems become dysfunctional as lenders cannot price loans in a currency with unpredictable future value, freezing both consumer and commercial lending",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "Commercial banking relay breaks down as banks face currency mismatches on their balance sheets and depositors withdraw savings in panic",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CREDIT_FREEZE",
+      "label": "Credit Freeze",
+      "summary": "Systemic seizure of lending activity. Banks refuse to extend credit to businesses and consumers despite adequate capital. Interbank lending markets freeze as institutions distrust each other's solvency. Economic activity dependent on credit â€” which is nearly all of it â€” grinds to a halt.",
+      "circuits": [
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo",
+          "detail": "Credit allocation systems shut down entirely as banks hoard cash, refuse new lending, and tighten existing credit lines regardless of borrower quality",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "Banking relay function frozen â€” deposits accumulate but are not transmitted to borrowers, breaking the intermediation chain that funds economic activity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "Central bank forced into unconventional monetary policy (quantitative easing, negative rates) to unfreeze credit channels that conventional rate cuts cannot reach",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo",
+          "detail": "Venture capital and growth investment motivation collapses as risk appetite evaporates and investors retreat to cash and government bonds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "Mortgage origination freezes as lenders refuse to extend long-term property loans, collapsing housing markets and construction activity",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "SYSTEMIC_CONTAGION",
+      "label": "Systemic Contagion",
+      "summary": "Failure cascading across interconnected financial institutions. One institution's collapse triggers counterparty losses that exceed capital buffers of connected institutions, producing domino-effect failures. Too-big-to-fail and too-connected-to-fail institutions hold the entire system hostage.",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Banking relay network becomes the contagion pathway â€” interbank lending connections that normally distribute liquidity instead transmit failure from institution to institution",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Altered",
+          "detail": "Payment system infrastructure threatened as clearing and settlement institutions face counterparty failures, risking collapse of the transaction processing backbone",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Hyper",
+          "detail": "Derivative counterparty chains amplify contagion â€” one institution's failure triggers margin calls and counterparty losses across hundreds of connected entities simultaneously",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "Regulatory systems overwhelmed by simultaneous failures across multiple institutions, with crisis management capacity exhausted and coordination between agencies breaking down",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "Insurance sector faces catastrophic claims as credit default swaps and financial guarantees are triggered simultaneously, threatening insurer solvency and deepening the cascade",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "Risk management across the system revealed as correlated â€” all institutions used similar models, held similar positions, and failed simultaneously rather than independently",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "FRAUD_SCANDAL",
+      "label": "Fraud Scandal",
+      "summary": "Major financial fraud uncovered, destroying market trust and revealing systemic failures in accounting, auditing, and regulatory oversight. From Enron to FTX, each scandal reveals that the system's integrity depends on trust infrastructure that fraud systematically undermines.",
+      "circuits": [
+        {
+          "nodeId": "ECN",
+          "dir": "Hypo",
+          "detail": "Accounting standards revealed as inadequate or circumvented â€” financial statements that appeared healthy concealed massive losses, fabricated revenue, or hidden liabilities",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "Regulatory monitoring failed to detect fraud despite warning signs, revealing gaps in oversight capacity, whistleblower channels, and investigative resources",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered",
+          "detail": "Market confidence shattered as investors realize prices reflected fraudulent information, producing sell-offs that punish legitimate companies alongside the fraudulent ones",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Altered",
+          "detail": "Executive decision-making revealed as corrupted â€” leadership prioritized personal enrichment over fiduciary duty, with governance structures failing to prevent or detect misconduct",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Altered",
+          "detail": "Technology platforms exploited to facilitate fraud at unprecedented scale, with algorithmic systems enabling market manipulation, front-running, or client fund misappropriation",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "THAL",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "STRI",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "HIPP",
+      "target": "CC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "HYPO",
+      "target": "FEF",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NAcc",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "vmPFC",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "IPS",
+      "target": "FPN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "VTA",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "ECN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "ECN",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "THAL",
+      "target": "HYPO",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "HYPO",
+      "target": "NAcc",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "NAcc",
+      "target": "CeA",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "CeA",
+      "target": "VTA",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "VTA",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "dACC",
+      "target": "THAL",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CC",
+      "target": "NAcc",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "FEF",
+      "target": "CeA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "FPN",
+      "target": "VTA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CeA",
+      "target": "dACC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "OFC",
+      "target": "THAL",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "dlPFC",
+      "target": "HYPO",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "THAL",
+      "target": "FPN",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "HIPP",
+      "target": "FEF",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FEF",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "IPS",
+      "target": "CeA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "CeA",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "OFC",
+      "target": "ECN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Financial Investigation Infrastructure & Capacity → Accounting — Regulation Strategy — Secondary (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Financial Investigation Infrastructure & Capacity → Insurance (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Financial Investigation Infrastructure & Capacity → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Bond Markets → Accounting — Regulation Strategy — Secondary (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Bond Markets → Insurance (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Bond Markets → Litigation Support Policy & Governance (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Risk Management → Financial Regulation (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Risk Management → Mortgage Markets (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Financial Investigation Core Operations → Accounting — Regulation Strategy — Secondary (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Financial Regulation → Accounting — Regulation Strategy — Secondary (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Commercial Banking → Control Remediation Assessment & Diagnostics (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Commercial Banking → Accounting — Feedback & Validation (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Commercial Banking → intlctrl sox — Signal Acquisition (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Litigation Support Human Capital & Development → Control Remediation Assessment & Diagnostics (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Consolidation — State Assessment → Accounting — Feedback & Validation (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Cost Accounting Quality & Performance → Litigation Support Risk & Resilience (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Litigation Support Risk & Resilience → Financial Regulation (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Accounting Policy & Governance → Litigation Support Risk & Resilience (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Accounting — Regulation Strategy — Secondary → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Central Banking (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Accounting — Diagnostic Analysis → Mortgage Markets (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Mortgage Markets → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Venture Capital → Stock Markets (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Stock Markets → GAAS Compliance Policy & Governance (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Stock Markets → Private Equity (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Private Equity → Bond Markets (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "accttech automate — Signal Acquisition → Variance Analysis Technology & Innovation (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Credit Systems → Accounting — Action Coordination (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Accounting — Action Coordination → Commercial Banking (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Control Remediation Infrastructure & Capacity → Commercial Banking (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Forex Markets → Control Remediation Assessment & Diagnostics (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Fintech → Risk Management (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Accounting Quality & Performance → Accounting — Regulation Strategy — Secondary (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Accounting Quality & Performance → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.669Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

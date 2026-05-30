@@ -1,0 +1,2396 @@
+{
+  "domainId": "p2_agri_seeds",
+  "title": "Seeds & Genetics",
+  "parentPortal": "p2_agri_portal.html",
+  "parentLabel": "Agriculture",
+  "phase": "P0",
+  "activations": [
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Seed Varieties",
+      "domainDescription": "Catalogued cultivar selections adapted to regional growing conditions",
+      "group": "selection",
+      "phase": "P0",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_seeds_varieties_portal.html",
+      "treatments": [
+        {
+          "label": "Regional Cultivar Diversification Plan",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Develop a structured variety portfolio that allocates acreage across multiple genetic backgrounds and maturity groups to reduce single-genotype exposure. The plan uses historical performance data from university variety trials to identify complementary cultivars that hedge against different stress scenarios.",
+          "cite": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C. (2014). Breeding drought-tolerant maize hybrids for the US corn-belt. Quantitative Genetics, Genomics and Plant Breeding, 17-34. doi:10.1079/9780851996011.0017; Hicks, D.R. (2004). Corn Hybrid Selection. University of Minnesota Extension WW-06073",
+          "target": "GENETIC_NARROWING -> reduced monoculture risk -> stabilized field performance",
+          "citation": [
+            {
+              "author": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C.",
+              "year": 2014,
+              "title": "Breeding drought-tolerant maize hybrids for the US corn-belt",
+              "journal": "Quantitative Genetics, Genomics and Plant Breeding",
+              "volume": null,
+              "pages": "17-34",
+              "doi": "10.1079/9780851996011.0017"
+            },
+            {
+              "author": "Hicks, D.R.",
+              "year": 2004,
+              "title": "Corn Hybrid Selection",
+              "journal": "University of Minnesota Extension WW-06073",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Multi-Source Seed Procurement Strategy",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Establish purchasing relationships with at least three independent seed suppliers including public university releases and regional seed companies to maintain access to diverse genetics outside corporate consolidation channels. Contracts should specify minimum lot identity and origin traceability.",
+          "cite": "Aung, M.M. & Chang, Y.S. (2014). Traceability in a food supply chain: Safety and quality perspectives. Food Control, 39, 172-184. doi:10.1016/j.foodcont.2013.11.007; Roth, A.V., Tsay, A.A., Pullman, M.E. & Gray, J.V. (2008). Unraveling the food supply chain: Strategic insights from China and the 2007 recalls. Journal of Supply Chain Management, 44(1), 22-39. doi:10.1111/j.1745-493X.2008.00043.x",
+          "target": "SEED_MONOPOLY -> diversified supply chain -> maintained farmer choice",
+          "citation": [
+            {
+              "author": "Aung, M.M. & Chang, Y.S.",
+              "year": 2014,
+              "title": "Traceability in a food supply chain: Safety and quality perspectives",
+              "journal": "Food Control",
+              "volume": "39",
+              "pages": "172-184",
+              "doi": "10.1016/j.foodcont.2013.11.007"
+            },
+            {
+              "author": "Roth, A.V., Tsay, A.A., Pullman, M.E. & Gray, J.V.",
+              "year": 2008,
+              "title": "Unraveling the food supply chain: Strategic insights from China and the 2007 recalls",
+              "journal": "Journal of Supply Chain Management",
+              "volume": "44(1)",
+              "pages": "22-39",
+              "doi": "10.1111/j.1745-493X.2008.00043.x"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Analyze market conditions and contract terms; model scenarios at current, +15%, and -15% price levels",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a plant breeder or genetics specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Variety Trial Coaching Protocol",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train farm managers to design and interpret on-farm variety strip trials that compare five or more cultivars across representative field zones each season. Coaching covers randomized plot layout, harvest data collection with calibrated yield monitors, and multi-year data synthesis for statistically grounded variety decisions.",
+          "cite": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W. (2004). Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation. Agronomy Journal, 96(1), 100-108. doi:10.2134/agronj2004.1000; Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A. (2004). Appropriateness of Management Zones for Characterizing Spatial Variability. Agronomy Journal, 96(1), 195-203. doi:10.2134/agronj2004.1950",
+          "target": "SEED_QUALITY_FAILURE -> improved selection data -> evidence-based variety choices",
+          "citation": [
+            {
+              "author": "Fridgen, J.J., Kitchen, N.R., Sudduth, K.A., Drummond, S.T., Wiebold, W.J. & Fraisse, C.W.",
+              "year": 2004,
+              "title": "Management Zone Analyst (MZA): Software for Subfield Management Zone Delineation",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "100-108",
+              "doi": "10.2134/agronj2004.1000"
+            },
+            {
+              "author": "Schepers, A.R., Shanahan, J.F., Liebig, M.A., Schepers, J.S., Johnson, S.H. & Luchiari, A.",
+              "year": 2004,
+              "title": "Appropriateness of Management Zones for Characterizing Spatial Variability",
+              "journal": "Agronomy Journal",
+              "volume": "96(1)",
+              "pages": "195-203",
+              "doi": "10.2134/agronj2004.1950"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a domain specialist for root cause analysis and intervention redesign for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Public Variety Access Network",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish cooperative seed procurement structures that aggregate small-farm demand to meet minimum order thresholds for premium varieties, and negotiate group pricing with dealers. Network membership also facilitates seed sharing of public university releases that carry no technology use agreements.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "SEED_ACCESS_INEQUITY -> pooled purchasing power -> equitable genetics access",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Seed Heritage and Stewardship Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Foster community seed libraries and variety heritage programs that preserve locally adapted open-pollinated cultivars alongside commercial hybrids. Cultural programming emphasizes the agronomic and ecological value of genetic diversity and reconnects farmers with seed selection as a foundational agricultural skill.",
+          "cite": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C. (2014). Breeding drought-tolerant maize hybrids for the US corn-belt. Quantitative Genetics, Genomics and Plant Breeding, 17-34. doi:10.1079/9780851996011.0017; Hicks, D.R. (2004). Corn Hybrid Selection. University of Minnesota Extension WW-06073",
+          "target": "GENETIC_NARROWING -> community genetic stewardship -> preserved local adaptation",
+          "citation": [
+            {
+              "author": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C.",
+              "year": 2014,
+              "title": "Breeding drought-tolerant maize hybrids for the US corn-belt",
+              "journal": "Quantitative Genetics, Genomics and Plant Breeding",
+              "volume": null,
+              "pages": "17-34",
+              "doi": "10.1079/9780851996011.0017"
+            },
+            {
+              "author": "Hicks, D.R.",
+              "year": 2004,
+              "title": "Corn Hybrid Selection",
+              "journal": "University of Minnesota Extension WW-06073",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a domain specialist for root cause analysis and intervention redesign for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Digital Variety Selection Decision Tool",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy web-based variety selection platforms that aggregate multi-environment trial data from state extension services, USDA performance databases, and farmer-reported results. The tool filters by soil type, climate zone, disease pressure history, and maturity window to generate ranked variety recommendations with confidence intervals.",
+          "cite": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C. (2014). Breeding drought-tolerant maize hybrids for the US corn-belt. Quantitative Genetics, Genomics and Plant Breeding, 17-34. doi:10.1079/9780851996011.0017; Hicks, D.R. (2004). Corn Hybrid Selection. University of Minnesota Extension WW-06073",
+          "target": "SEED_QUALITY_FAILURE -> data-driven selection -> reduced establishment risk",
+          "citation": [
+            {
+              "author": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C.",
+              "year": 2014,
+              "title": "Breeding drought-tolerant maize hybrids for the US corn-belt",
+              "journal": "Quantitative Genetics, Genomics and Plant Breeding",
+              "volume": null,
+              "pages": "17-34",
+              "doi": "10.1079/9780851996011.0017"
+            },
+            {
+              "author": "Hicks, D.R.",
+              "year": 2004,
+              "title": "Corn Hybrid Selection",
+              "journal": "University of Minnesota Extension WW-06073",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect soil samples at 0-6-inch and 6-12-inch depths before implementation and annually thereafter; target measurable improvement in the primary metric (organic matter, aggregate stability, or nutrient level) within 3 years. Measure infiltration rate with a double-ring infiltrometer or timed ponding test at 3 representative points per field; target ≥15% improvement within 2 years. Document soil condition observations (compaction, earthworm counts, residue decomposition) at spring and fall tillage windows.",
+          "escalation": "If the target soil health metric (organic matter, aggregate stability, or infiltration rate) shows no measurable improvement after 3 annual sampling cycles, escalate to a certified crop adviser (CCA) or soil scientist for comprehensive soil health diagnostic including biological assay, compaction profiling, and drainage assessment. If infiltration rate declines by >20% from baseline at any measurement point, investigate compaction or structural damage before the next field operation."
+        },
+        {
+          "label": "Warm Germination and Cold Vigor Pre-Test Protocol",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Implement pre-planting seed quality verification using AOSA-standard warm germination and accelerated aging vigor tests on every seed lot before committing to planting. Results below threshold trigger lot replacement or adjusted seeding rates, preventing stand failure from undetected quality degradation.",
+          "cite": "Nafziger, E.D. (2012). Corn planting date and plant population. Journal of Production Agriculture, 7(1), 59-62. doi:10.2134/jpa1994.0059; De Bruin, J.L. & Pedersen, P. (2008). Effect of row spacing and seeding rate on soybean yield. Agronomy Journal, 100(3), 704-710. doi:10.2134/agronj2007.0226",
+          "target": "SEED_QUALITY_FAILURE -> pre-plant quality assurance -> protected stand establishment",
+          "citation": [
+            {
+              "author": "Nafziger, E.D.",
+              "year": 2012,
+              "title": "Corn planting date and plant population",
+              "journal": "Journal of Production Agriculture",
+              "volume": "7(1)",
+              "pages": "59-62",
+              "doi": "10.2134/jpa1994.0059"
+            },
+            {
+              "author": "De Bruin, J.L. & Pedersen, P.",
+              "year": 2008,
+              "title": "Effect of row spacing and seeding rate on soybean yield",
+              "journal": "Agronomy Journal",
+              "volume": "100(3)",
+              "pages": "704-710",
+              "doi": "10.2134/agronj2007.0226"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Equitable Variety Allocation Advocacy",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Coach small and beginning farmers on seed ordering timelines, early-booking programs, and dealer negotiation strategies that secure access to top-tier varieties before allocation runs out. Includes guidance on leveraging university extension variety trial data to identify high-performing alternatives when flagship varieties are unavailable.",
+          "cite": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C. (2014). Breeding drought-tolerant maize hybrids for the US corn-belt. Quantitative Genetics, Genomics and Plant Breeding, 17-34. doi:10.1079/9780851996011.0017; Hicks, D.R. (2004). Corn Hybrid Selection. University of Minnesota Extension WW-06073",
+          "target": "SEED_ACCESS_INEQUITY -> informed procurement timing -> secured premium genetics",
+          "citation": [
+            {
+              "author": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C.",
+              "year": 2014,
+              "title": "Breeding drought-tolerant maize hybrids for the US corn-belt",
+              "journal": "Quantitative Genetics, Genomics and Plant Breeding",
+              "volume": null,
+              "pages": "17-34",
+              "doi": "10.1079/9780851996011.0017"
+            },
+            {
+              "author": "Hicks, D.R.",
+              "year": 2004,
+              "title": "Corn Hybrid Selection",
+              "journal": "University of Minnesota Extension WW-06073",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a regional extension director or program evaluation specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Plant Breeding",
+      "domainDescription": "Classical and molecular breeding programs for crop improvement",
+      "group": "science",
+      "phase": "P1",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_seeds_breeding_portal.html",
+      "treatments": [
+        {
+          "label": "Pre-Breeding Pipeline for Exotic Germplasm Introgression",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish systematic pre-breeding programs that cross wild relatives and landraces into adapted backgrounds over multiple generations before entering commercial breeding pipelines. This widens the genetic base available to breeders without sacrificing the agronomic performance that marker-assisted selection alone cannot deliver from unadapted sources.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "GENETIC_NARROWING -> broadened genetic base -> durable resistance and adaptation",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Participatory Plant Breeding Mentorship",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train farmer-breeder cooperators to conduct decentralized selection within segregating populations under their own field conditions, capturing local adaptation that centralized breeding stations miss. Coaching covers cross pollination technique, progeny row evaluation criteria, and data recording for multi-environment analysis.",
+          "cite": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D. (2011). Climate impacts on agriculture: Implications for crop production. Agronomy Journal, 103(2), 351-370. doi:10.2134/agronj2010.0303; Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C. (2012). Climate Change and Agriculture in the United States: Effects and Adaptation. USDA Technical Bulletin 1935, 1-186",
+          "target": "GENETIC_NARROWING -> farmer-directed selection -> locally adapted cultivars",
+          "citation": [
+            {
+              "author": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D.",
+              "year": 2011,
+              "title": "Climate impacts on agriculture: Implications for crop production",
+              "journal": "Agronomy Journal",
+              "volume": "103(2)",
+              "pages": "351-370",
+              "doi": "10.2134/agronj2010.0303"
+            },
+            {
+              "author": "Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C.",
+              "year": 2012,
+              "title": "Climate Change and Agriculture in the United States: Effects and Adaptation",
+              "journal": "USDA Technical Bulletin 1935",
+              "volume": null,
+              "pages": "1-186",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a domain specialist for root cause analysis and intervention redesign for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Integrated Resistance Gene Stacking Program",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Restructure breeding program priorities to pyramid multiple resistance genes from diverse donor sources into elite backgrounds, ensuring each commercial release carries redundant protection mechanisms against key pests. Gene stacking protocols coordinate with entomologists and pathologists to select combinations that delay resistance evolution in target organisms.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "TRAIT_FAILURE -> redundant resistance mechanisms -> extended trait durability",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Apply treatment at labeled rates and timing; record product, rate, weather conditions, and growth stage at application",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Scout treated areas at 7-day intervals post-application; record pest/weed/disease pressure on a 0-10 severity scale at ≥5 locations per field. Target pest population below the economic threshold within 14 days of treatment. Compare treated versus untreated check strips at harvest; target ≥yield protection value exceeding treatment cost. Reassess product efficacy and resistance risk at season end.",
+          "escalation": "If pest/disease pressure remains above the economic threshold 14 days post-treatment, or if treated populations rebound to >75% of pre-treatment levels within 21 days, escalate to an integrated pest management (IPM) specialist or extension entomologist for resistance screening and alternative mode-of-action evaluation. If two consecutive applications of the same product class fail to reduce pressure below threshold, discontinue that class and request specialist-guided rotation plan within 7 days."
+        },
+        {
+          "label": "Breeding Diversity Values Integration",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Embed genetic diversity metrics into breeding program evaluation criteria alongside yield and agronomic performance, so that parent selection committees actively value allelic richness. Annual genetic diversity audits of the breeding nursery maintain accountability for base broadening alongside commercial competitiveness.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "GENETIC_NARROWING -> institutionalized diversity incentives -> sustained allelic richness",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a domain specialist for root cause analysis and intervention redesign for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Genomic Selection and Marker-Assisted Backcross Tools",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy genomic selection models trained on multi-environment phenotypic data to predict breeding values of untested lines, accelerating the incorporation of exotic alleles that field phenotyping alone would require many additional generations to evaluate. Marker-assisted backcross protocols recover recurrent parent background while retaining target donor segments.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "TRAIT_FAILURE -> accelerated gene discovery -> faster resistance deployment",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Phenotyping Platform for Field-Based Screening",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Implement high-throughput phenotyping using drone-mounted multispectral sensors and automated image analysis to evaluate thousands of breeding lines for canopy architecture, disease symptoms, and stress response under field conditions. This restores field-based diversity screening capacity that molecular-only pipelines have eroded.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "GENETIC_NARROWING -> restored field phenotyping -> broader trait evaluation",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Scout treated areas at 7-day intervals post-application; record pest/weed/disease pressure on a 0-10 severity scale at ≥5 locations per field. Target pest population below the economic threshold within 14 days of treatment. Compare treated versus untreated check strips at harvest; target ≥yield protection value exceeding treatment cost. Reassess product efficacy and resistance risk at season end.",
+          "escalation": "If pest/disease pressure remains above the economic threshold 14 days post-treatment, or if treated populations rebound to >75% of pre-treatment levels within 21 days, escalate to a plant pathologist or extension plant disease specialist for resistance screening and alternative mode-of-action evaluation. If two consecutive applications of the same product class fail to reduce pressure below threshold, discontinue that class and request specialist-guided rotation plan within 7 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "GMO Technology",
+      "domainDescription": "Transgenic and gene-editing approaches for trait insertion",
+      "group": "technology",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_seeds_gmo_portal.html",
+      "treatments": [
+        {
+          "label": "Refuge Compliance and IRM Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Implement structured insect resistance management plans that meet or exceed EPA-mandated refuge requirements for Bt crops, ensuring sufficient susceptible insect populations to dilute resistance alleles. Strategy includes block refuge placement, monitoring for unexpected survival, and rapid escalation protocols when resistance is suspected.",
+          "cite": "Norsworthy, J.K., Ward, S.M., Shaw, D.R., Llewellyn, R.S., Nichols, R.L., Webster, T.M., Bradley, K.W., Frisvold, G., Powles, S.B., Burgos, N.R., Witt, W.W. & Barrett, M. (2012). Reducing the risks of herbicide resistance: Best management practices and recommendations. Weed Science, 60(sp1), 31-62. doi:10.1614/WS-D-11-00155.1; Heap, I.M. (2014). Global perspective of herbicide-resistant weeds. Pest Management Science, 70(9), 1306-1315. doi:10.1002/ps.3696",
+          "target": "TRAIT_FAILURE -> maintained susceptible allele frequency -> extended Bt trait durability",
+          "citation": [
+            {
+              "author": "Norsworthy, J.K., Ward, S.M., Shaw, D.R., Llewellyn, R.S., Nichols, R.L., Webster, T.M., Bradley, K.W., Frisvold, G., Powles, S.B., Burgos, N.R., Witt, W.W. & Barrett, M.",
+              "year": 2012,
+              "title": "Reducing the risks of herbicide resistance: Best management practices and recommendations",
+              "journal": "Weed Science",
+              "volume": "60(sp1)",
+              "pages": "31-62",
+              "doi": "10.1614/WS-D-11-00155.1"
+            },
+            {
+              "author": "Heap, I.M.",
+              "year": 2014,
+              "title": "Global perspective of herbicide-resistant weeds",
+              "journal": "Pest Management Science",
+              "volume": "70(9)",
+              "pages": "1306-1315",
+              "doi": "10.1002/ps.3696"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Scout treated areas at 7-day intervals post-application; record pest/weed/disease pressure on a 0-10 severity scale at ≥5 locations per field. Target pest population below the economic threshold within 14 days of treatment. Compare treated versus untreated check strips at harvest; target ≥yield protection value exceeding treatment cost. Reassess product efficacy and resistance risk at season end.",
+          "escalation": "If pest/disease pressure remains above the economic threshold 14 days post-treatment, or if treated populations rebound to >75% of pre-treatment levels within 21 days, escalate to a certified crop adviser (CCA) or agronomist for resistance screening and alternative mode-of-action evaluation. If two consecutive applications of the same product class fail to reduce pressure below threshold, discontinue that class and request specialist-guided rotation plan within 7 days."
+        },
+        {
+          "label": "Technology Use Agreement Literacy Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Educate farmers on the legal and agronomic implications of trait licensing agreements, including replant restrictions, seed saving prohibitions, and stewardship obligations. Coaching empowers informed purchasing decisions and identifies non-GMO or off-patent alternatives where technology fees exceed the yield protection value delivered.",
+          "cite": "Nafziger, E.D. (2012). Corn planting date and plant population. Journal of Production Agriculture, 7(1), 59-62. doi:10.2134/jpa1994.0059; De Bruin, J.L. & Pedersen, P. (2008). Effect of row spacing and seeding rate on soybean yield. Agronomy Journal, 100(3), 704-710. doi:10.2134/agronj2007.0226",
+          "target": "SEED_MONOPOLY -> informed licensing decisions -> optimized technology spend",
+          "citation": [
+            {
+              "author": "Nafziger, E.D.",
+              "year": 2012,
+              "title": "Corn planting date and plant population",
+              "journal": "Journal of Production Agriculture",
+              "volume": "7(1)",
+              "pages": "59-62",
+              "doi": "10.2134/jpa1994.0059"
+            },
+            {
+              "author": "De Bruin, J.L. & Pedersen, P.",
+              "year": 2008,
+              "title": "Effect of row spacing and seeding rate on soybean yield",
+              "journal": "Agronomy Journal",
+              "volume": "100(3)",
+              "pages": "704-710",
+              "doi": "10.2134/agronj2007.0226"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a domain specialist for root cause analysis and intervention redesign for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Public-Sector Biotechnology Infrastructure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Support investment in land-grant university gene-editing programs that develop non-proprietary trait technologies accessible to public breeding programs and independent seed companies. Structural reform addresses patent concentration by creating open-source trait alternatives that small-acreage farmers can access without corporate licensing fees.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "SEED_ACCESS_INEQUITY -> public trait pipelines -> reduced licensing cost barriers",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Transparent Biotech Stewardship Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Cultivate industry-wide commitment to transparent reporting of trait efficacy monitoring data, resistance detection events, and post-commercialization surveillance results. Open data culture enables independent researchers and farmers to assess trait durability honestly rather than relying solely on technology provider performance claims.",
+          "cite": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S. (2019). Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature. Journal of Soil and Water Conservation, 74(5), 520-534. doi:10.2489/jswc.74.5.520; Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R. (2006). Understanding and promoting adoption of conservation practices by rural landholders. Australian Journal of Experimental Agriculture, 46(11), 1407-1424. doi:10.1071/EA05037",
+          "target": "TRAIT_FAILURE -> transparent efficacy data -> proactive resistance management",
+          "citation": [
+            {
+              "author": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S.",
+              "year": 2019,
+              "title": "Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "74(5)",
+              "pages": "520-534",
+              "doi": "10.2489/jswc.74.5.520"
+            },
+            {
+              "author": "Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R.",
+              "year": 2006,
+              "title": "Understanding and promoting adoption of conservation practices by rural landholders",
+              "journal": "Australian Journal of Experimental Agriculture",
+              "volume": "46(11)",
+              "pages": "1407-1424",
+              "doi": "10.1071/EA05037"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30 and 90 days; target ≥80% of staff following new protocol by day 90. Track the number of decisions documented with supporting data per month; target ≥3 data-backed decisions per decision-maker per month. Reassess culture adherence quarterly through anonymous team survey scoring 1-5 on practice commitment.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a domain specialist for root cause analysis and intervention redesign for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Trait Stacking and Rotation Planning Tool",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy decision support software that maps which Bt protein modes of action have been planted in each field over multiple seasons, flagging fields where single-mode reliance exceeds resistance management thresholds. The tool recommends trait rotation sequences and identifies fields where non-Bt refuge hybrids should replace traited seed.",
+          "cite": "Norsworthy, J.K., Ward, S.M., Shaw, D.R., Llewellyn, R.S., Nichols, R.L., Webster, T.M., Bradley, K.W., Frisvold, G., Powles, S.B., Burgos, N.R., Witt, W.W. & Barrett, M. (2012). Reducing the risks of herbicide resistance: Best management practices and recommendations. Weed Science, 60(sp1), 31-62. doi:10.1614/WS-D-11-00155.1; Heap, I.M. (2014). Global perspective of herbicide-resistant weeds. Pest Management Science, 70(9), 1306-1315. doi:10.1002/ps.3696",
+          "target": "TRAIT_FAILURE -> tracked mode-of-action history -> optimized resistance management",
+          "citation": [
+            {
+              "author": "Norsworthy, J.K., Ward, S.M., Shaw, D.R., Llewellyn, R.S., Nichols, R.L., Webster, T.M., Bradley, K.W., Frisvold, G., Powles, S.B., Burgos, N.R., Witt, W.W. & Barrett, M.",
+              "year": 2012,
+              "title": "Reducing the risks of herbicide resistance: Best management practices and recommendations",
+              "journal": "Weed Science",
+              "volume": "60(sp1)",
+              "pages": "31-62",
+              "doi": "10.1614/WS-D-11-00155.1"
+            },
+            {
+              "author": "Heap, I.M.",
+              "year": 2014,
+              "title": "Global perspective of herbicide-resistant weeds",
+              "journal": "Pest Management Science",
+              "volume": "70(9)",
+              "pages": "1306-1315",
+              "doi": "10.1002/ps.3696"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Small-Farm Biotech Access Advocacy Strategy",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Develop cooperative licensing models where farmer organizations negotiate group access to biotech traits at volume-discounted rates, reducing per-acre technology fees for small operations. Strategy includes identifying generic trait options from expired patents and coordinating with public breeders who can incorporate off-patent events into adapted backgrounds.",
+          "cite": "[CITATION NEEDED: Develop cooperative licensing models where farmer organizations negotiate group access to biotech tr]",
+          "target": "SEED_ACCESS_INEQUITY -> cooperative licensing -> affordable biotech access",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Develop cooperative licensing models where farmer organizations negotiate group access to biotech tr]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Seed Treatment",
+      "domainDescription": "Fungicide, insecticide, and biological coatings for seedling protection",
+      "group": "protection",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_seeds_treatment_portal.html",
+      "treatments": [
+        {
+          "label": "Integrated Seed Treatment Selection Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Match seed treatment chemistry to field-specific disease and insect pressure history rather than applying blanket prophylactic packages. Strategy uses soil-test biological assays and previous crop disease records to select only the active ingredients with demonstrated ROI for each field's risk profile, reducing unnecessary chemical load and cost.",
+          "cite": "Nafziger, E.D. (2012). Corn planting date and plant population. Journal of Production Agriculture, 7(1), 59-62. doi:10.2134/jpa1994.0059; De Bruin, J.L. & Pedersen, P. (2008). Effect of row spacing and seeding rate on soybean yield. Agronomy Journal, 100(3), 704-710. doi:10.2134/agronj2007.0226",
+          "target": "SEED_QUALITY_FAILURE -> targeted treatment selection -> improved seedling protection ROI",
+          "citation": [
+            {
+              "author": "Nafziger, E.D.",
+              "year": 2012,
+              "title": "Corn planting date and plant population",
+              "journal": "Journal of Production Agriculture",
+              "volume": "7(1)",
+              "pages": "59-62",
+              "doi": "10.2134/jpa1994.0059"
+            },
+            {
+              "author": "De Bruin, J.L. & Pedersen, P.",
+              "year": 2008,
+              "title": "Effect of row spacing and seeding rate on soybean yield",
+              "journal": "Agronomy Journal",
+              "volume": "100(3)",
+              "pages": "704-710",
+              "doi": "10.2134/agronj2007.0226"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect soil samples at 0-6-inch and 6-12-inch depths before implementation and annually thereafter; target measurable improvement in the primary metric (organic matter, aggregate stability, or nutrient level) within 3 years. Measure infiltration rate with a double-ring infiltrometer or timed ponding test at 3 representative points per field; target ≥15% improvement within 2 years. Document soil condition observations (compaction, earthworm counts, residue decomposition) at spring and fall tillage windows.",
+          "escalation": "If the target soil health metric (organic matter, aggregate stability, or infiltration rate) shows no measurable improvement after 3 annual sampling cycles, escalate to a certified crop adviser (CCA) or soil scientist for comprehensive soil health diagnostic including biological assay, compaction profiling, and drainage assessment. If infiltration rate declines by >20% from baseline at any measurement point, investigate compaction or structural damage before the next field operation."
+        },
+        {
+          "label": "Unbundled Treatment Purchasing Strategy",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Negotiate with seed suppliers to purchase base seed and treatment packages separately where regulations permit, enabling independent selection of fungicide, insecticide, and biological components. This breaks the forced bundling model where proprietary treatment packages inflate costs and prevent field-specific customization.",
+          "cite": "van Lenteren, J.C., Bolckmans, K., Borber, J., Hokkanen, H.M.T. & Tetreault, G.E. (2018). Biological control using invertebrates and microorganisms: Plenty of new opportunities. BioControl, 63(1), 39-59. doi:10.1007/s10526-017-9801-4; Naranjo, S.E., Ellsworth, P.C. & Frisvold, G.B. (2015). Economic value of biological control in integrated pest management of managed plant systems. Annual Review of Entomology, 60, 621-645. doi:10.1146/annurev-ento-010814-021005",
+          "target": "SEED_MONOPOLY -> decoupled treatment purchasing -> restored farmer treatment choice",
+          "citation": [
+            {
+              "author": "van Lenteren, J.C., Bolckmans, K., Borber, J., Hokkanen, H.M.T. & Tetreault, G.E.",
+              "year": 2018,
+              "title": "Biological control using invertebrates and microorganisms: Plenty of new opportunities",
+              "journal": "BioControl",
+              "volume": "63(1)",
+              "pages": "39-59",
+              "doi": "10.1007/s10526-017-9801-4"
+            },
+            {
+              "author": "Naranjo, S.E., Ellsworth, P.C. & Frisvold, G.B.",
+              "year": 2015,
+              "title": "Economic value of biological control in integrated pest management of managed plant systems",
+              "journal": "Annual Review of Entomology",
+              "volume": "60",
+              "pages": "621-645",
+              "doi": "10.1146/annurev-ento-010814-021005"
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Apply treatment at labeled rates and timing; record product, rate, weather conditions, and growth stage at application",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Scout treated areas at 7-day intervals post-application; record pest/weed/disease pressure on a 0-10 severity scale at ≥5 locations per field. Target pest population below the economic threshold within 14 days of treatment. Compare treated versus untreated check strips at harvest; target ≥yield protection value exceeding treatment cost. Reassess product efficacy and resistance risk at season end.",
+          "escalation": "If pest/disease pressure remains above the economic threshold 14 days post-treatment, or if treated populations rebound to >75% of pre-treatment levels within 21 days, escalate to a domain specialist for root cause analysis and intervention redesign for resistance screening and alternative mode-of-action evaluation. If two consecutive applications of the same product class fail to reduce pressure below threshold, discontinue that class and request specialist-guided rotation plan within 7 days."
+        },
+        {
+          "label": "Seed Treatment Efficacy Evaluation Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train agronomists and farm managers to conduct paired-row treatment comparison trials with treated and untreated checks under controlled conditions. Coaching covers proper stand count methodology, emergence timing documentation, and economic threshold analysis to determine when treatment premiums are justified versus planting untreated seed.",
+          "cite": "Pedigo, L.P. & Rice, M.E. (2009). Entomology and Pest Management, 6th Edition. Pearson Prentice Hall, 1-784; Kogan, M. (1998). Integrated pest management: Historical perspectives and contemporary developments. Annual Review of Entomology, 43(1), 243-270. doi:10.1146/annurev.ento.43.1.243",
+          "target": "SEED_QUALITY_FAILURE -> field-verified treatment value -> evidence-based treatment decisions",
+          "citation": [
+            {
+              "author": "Pedigo, L.P. & Rice, M.E.",
+              "year": 2009,
+              "title": "Entomology and Pest Management, 6th Edition",
+              "journal": "Pearson Prentice Hall",
+              "volume": null,
+              "pages": "1-784",
+              "doi": null
+            },
+            {
+              "author": "Kogan, M.",
+              "year": 1998,
+              "title": "Integrated pest management: Historical perspectives and contemporary developments",
+              "journal": "Annual Review of Entomology",
+              "volume": "43(1)",
+              "pages": "243-270",
+              "doi": "10.1146/annurev.ento.43.1.243"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a domain specialist for root cause analysis and intervention redesign for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Seed Treatment Regulatory Compliance Structure",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Implement traceable chain-of-custody documentation for all treated seed from application facility through planting, meeting EPA Worker Protection Standard and state seed law requirements. Structural controls include locked treated-seed storage, pollinator exposure mitigation protocols, and disposal procedures for excess treated seed.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "SEED_MONOPOLY -> transparent treatment traceability -> regulatory compliance and accountability",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Check grain temperature with probe thermometer at 3 bin locations weekly; target ≤5°F rise from baseline per 30-day period. Monitor grain moisture content biweekly; maintain within ±0.5% of target storage moisture. Inspect for insect activity with probe traps at bin surface and core monthly; target zero live insects per trap. Assess bin condition (condensation, crust formation, odor) at every aeration fan cycle.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a grain storage specialist or stored product entomologist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Biological Seed Treatment Adoption Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Promote farmer-to-farmer knowledge exchange around biological seed treatments including Trichoderma, Bacillus, and mycorrhizal inoculants as complements or alternatives to synthetic chemistry. Cultural shift emphasizes soil health integration where biological treatments enhance rhizosphere colonization rather than merely suppressing pathogens.",
+          "cite": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E. (1997). Soil quality: A concept, definition, and framework for evaluation. Soil Science Society of America Journal, 61(1), 4-10. doi:10.2136/sssaj1997.03615995006100010001x; Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E. (2015). Soil biology for resilient, healthy soil. Journal of Soil and Water Conservation, 70(1), 12A-18A. doi:10.2489/jswc.70.1.12A",
+          "target": "SEED_QUALITY_FAILURE -> biological treatment adoption -> enhanced seedling establishment",
+          "citation": [
+            {
+              "author": "Karlen, D.L., Mausbach, M.J., Doran, J.W., Cline, R.G., Harris, R.F. & Schuman, G.E.",
+              "year": 1997,
+              "title": "Soil quality: A concept, definition, and framework for evaluation",
+              "journal": "Soil Science Society of America Journal",
+              "volume": "61(1)",
+              "pages": "4-10",
+              "doi": "10.2136/sssaj1997.03615995006100010001x"
+            },
+            {
+              "author": "Lehman, R.M., Acosta-Martinez, V., Buyer, J.S., Cambardella, C.A., Collins, H.P., Ducey, T.F., Halvorson, J.J., Jin, V.L., Johnson, J.M.F., Kremer, R.J., Lundgren, J.G., Manter, D.K., Maul, J.E., Smith, J.L. & Stott, D.E.",
+              "year": 2015,
+              "title": "Soil biology for resilient, healthy soil",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "70(1)",
+              "pages": "12A-18A",
+              "doi": "10.2489/jswc.70.1.12A"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a certified crop adviser (CCA) or soil scientist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Seed Treatment Application Calibration Equipment",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy precision seed treatment application equipment with gravimetric metering that ensures uniform coating distribution across all seeds in the lot. Calibration tools include fluorescent tracer dye for visual coverage assessment and seed weight-based dosing calculators that prevent under-treatment (inadequate protection) and over-treatment (phytotoxicity).",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "SEED_QUALITY_FAILURE -> uniform treatment application -> consistent seedling protection",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified equipment technician or dealer service manager for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Third-Party Treatment Quality Assurance Structure",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish independent third-party audit programs for seed treatment facilities that verify application equipment calibration, active ingredient concentration, and coating uniformity against published standards. Structural oversight separates quality verification from the treatment applicator, creating accountability for treatment quality that prevents sub-standard applications from reaching farmers.",
+          "cite": "Matthews, G.A. (2014). Pesticide Application Methods, 4th Edition. Wiley-Blackwell, 1-536. doi:10.1002/9781118351284; Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D. (2019). Nozzles: Selection and Sizing. Virginia Cooperative Extension Publication 442-032",
+          "target": "SEED_QUALITY_FAILURE -> independent treatment audits -> verified application quality",
+          "citation": [
+            {
+              "author": "Matthews, G.A.",
+              "year": 2014,
+              "title": "Pesticide Application Methods, 4th Edition",
+              "journal": "Wiley-Blackwell",
+              "volume": null,
+              "pages": "1-536",
+              "doi": "10.1002/9781118351284"
+            },
+            {
+              "author": "Grisso, R.D., Hipkins, P.A., Askew, S.D., Hipkins, L. & McCall, D.",
+              "year": 2019,
+              "title": "Nozzles: Selection and Sizing",
+              "journal": "Virginia Cooperative Extension Publication 442-032",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified equipment technician or dealer service manager for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Seed Storage",
+      "domainDescription": "Climate-controlled warehousing for seed viability preservation",
+      "group": "logistics",
+      "phase": "P4",
+      "weight": 0.7,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_seeds_storage_portal.html",
+      "treatments": [
+        {
+          "label": "Climate-Controlled Storage Standards Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish temperature and relative humidity specifications for all seed storage facilities based on species-specific viability curves, targeting conditions where the sum of storage temperature (Fahrenheit) and relative humidity does not exceed 100. Strategy mandates backup cooling systems and alarm protocols for environmental excursions that trigger accelerated aging.",
+          "cite": "Kader, A.A. (2002). Postharvest Technology of Horticultural Crops, 3rd Edition. University of California ANR Publication 3311, 1-535; Yahia, E.M. (2011). Modified and controlled atmospheres for the storage, transportation, and packaging of horticultural commodities. CRC Press, 1-589",
+          "target": "SEED_QUALITY_FAILURE -> controlled storage environment -> preserved seed vigor",
+          "citation": [
+            {
+              "author": "Kader, A.A.",
+              "year": 2002,
+              "title": "Postharvest Technology of Horticultural Crops, 3rd Edition",
+              "journal": "University of California ANR Publication 3311",
+              "volume": null,
+              "pages": "1-535",
+              "doi": null
+            },
+            {
+              "author": "Yahia, E.M.",
+              "year": 2011,
+              "title": "Modified and controlled atmospheres for the storage, transportation, and packaging of horticultural commodities",
+              "journal": "CRC Press",
+              "volume": null,
+              "pages": "1-589",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Check grain temperature with probe thermometer at 3 bin locations weekly; target ≤5°F rise from baseline per 30-day period. Monitor grain moisture content biweekly; maintain within ±0.5% of target storage moisture. Inspect for insect activity with probe traps at bin surface and core monthly; target zero live insects per trap. Assess bin condition (condensation, crust formation, odor) at every aeration fan cycle.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a grain storage specialist or stored product entomologist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Small-Farm Seed Storage Access Strategy",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Develop cooperative seed storage facilities where small and beginning farmers can access climate-controlled warehousing at shared cost rather than relying on ambient on-farm storage that degrades viability. Co-op model includes seed conditioning equipment, fumigation services, and inventory management that individual small operations cannot afford independently.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "SEED_ACCESS_INEQUITY -> shared storage infrastructure -> equitable seed preservation",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to a certified equipment technician or dealer service manager for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        },
+        {
+          "label": "Seed Viability Monitoring and Lot Rotation Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train warehouse managers on scheduled germination re-testing protocols at 90-day intervals for carry-over seed lots, with clear discard thresholds and lot rotation procedures that ensure oldest viable inventory ships first. Coaching covers accelerated aging test interpretation and seed moisture content measurement using calibrated moisture meters.",
+          "cite": "Hellevang, K.J. (2013). Grain Drying, Handling, and Storage Handbook. MWPS-13, Midwest Plan Service, 1-234; Reed, C. & Arthur, F.H. (2000). Aeration. in Alternatives to Pesticides in Stored-Product IPM, Kluwer Academic Publishers, 51-72. doi:10.1007/978-1-4615-4353-4_3",
+          "target": "SEED_QUALITY_FAILURE -> proactive viability monitoring -> prevented vigor degradation",
+          "citation": [
+            {
+              "author": "Hellevang, K.J.",
+              "year": 2013,
+              "title": "Grain Drying, Handling, and Storage Handbook",
+              "journal": "MWPS-13, Midwest Plan Service",
+              "volume": null,
+              "pages": "1-234",
+              "doi": null
+            },
+            {
+              "author": "Reed, C. & Arthur, F.H.",
+              "year": 2000,
+              "title": "Aeration",
+              "journal": "in Alternatives to Pesticides in Stored-Product IPM, Kluwer Academic Publishers",
+              "volume": null,
+              "pages": "51-72",
+              "doi": "10.1007/978-1-4615-4353-4_3"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a domain specialist for root cause analysis and intervention redesign for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Regional Seed Depot Infrastructure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Establish decentralized seed distribution depots in underserved rural areas where dealer consolidation has eliminated local availability. Depots function as forward-positioned inventory points stocked with regionally adapted varieties, reducing delivery distances and ensuring small-acreage farmers can inspect and purchase seed without traveling to distant distribution centers.",
+          "cite": "Aung, M.M. & Chang, Y.S. (2014). Traceability in a food supply chain: Safety and quality perspectives. Food Control, 39, 172-184. doi:10.1016/j.foodcont.2013.11.007; Roth, A.V., Tsay, A.A., Pullman, M.E. & Gray, J.V. (2008). Unraveling the food supply chain: Strategic insights from China and the 2007 recalls. Journal of Supply Chain Management, 44(1), 22-39. doi:10.1111/j.1745-493X.2008.00043.x",
+          "target": "SEED_ACCESS_INEQUITY -> decentralized distribution -> restored local seed access",
+          "citation": [
+            {
+              "author": "Aung, M.M. & Chang, Y.S.",
+              "year": 2014,
+              "title": "Traceability in a food supply chain: Safety and quality perspectives",
+              "journal": "Food Control",
+              "volume": "39",
+              "pages": "172-184",
+              "doi": "10.1016/j.foodcont.2013.11.007"
+            },
+            {
+              "author": "Roth, A.V., Tsay, A.A., Pullman, M.E. & Gray, J.V.",
+              "year": 2008,
+              "title": "Unraveling the food supply chain: Strategic insights from China and the 2007 recalls",
+              "journal": "Journal of Supply Chain Management",
+              "volume": "44(1)",
+              "pages": "22-39",
+              "doi": "10.1111/j.1745-493X.2008.00043.x"
+            }
+          ],
+          "steps": [
+            "Conduct baseline assessment: measure current performance metrics relevant to the target outcome",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Seed Preservation Stewardship Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Cultivate industry recognition that seed storage is a critical quality control function deserving professional management and investment, not a passive warehousing afterthought. Cultural programming includes annual storage facility audits scored against international seed bank standards and peer benchmarking among warehouse operators.",
+          "cite": "Nafziger, E.D. (2012). Corn planting date and plant population. Journal of Production Agriculture, 7(1), 59-62. doi:10.2134/jpa1994.0059; De Bruin, J.L. & Pedersen, P. (2008). Effect of row spacing and seeding rate on soybean yield. Agronomy Journal, 100(3), 704-710. doi:10.2134/agronj2007.0226",
+          "target": "SEED_QUALITY_FAILURE -> professionalized storage culture -> elevated viability standards",
+          "citation": [
+            {
+              "author": "Nafziger, E.D.",
+              "year": 2012,
+              "title": "Corn planting date and plant population",
+              "journal": "Journal of Production Agriculture",
+              "volume": "7(1)",
+              "pages": "59-62",
+              "doi": "10.2134/jpa1994.0059"
+            },
+            {
+              "author": "De Bruin, J.L. & Pedersen, P.",
+              "year": 2008,
+              "title": "Effect of row spacing and seeding rate on soybean yield",
+              "journal": "Agronomy Journal",
+              "volume": "100(3)",
+              "pages": "704-710",
+              "doi": "10.2134/agronj2007.0226"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a grain storage specialist or stored product entomologist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Automated Environmental Monitoring System",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy IoT sensor networks throughout seed storage facilities that continuously log temperature, relative humidity, and CO2 levels at bin-specific resolution with automated alerts when conditions exceed species-specific thresholds. Data integration with inventory management systems enables lot-level viability risk scoring and prioritized shipping of at-risk inventory.",
+          "cite": "Nafziger, E.D. (2012). Corn planting date and plant population. Journal of Production Agriculture, 7(1), 59-62. doi:10.2134/jpa1994.0059; De Bruin, J.L. & Pedersen, P. (2008). Effect of row spacing and seeding rate on soybean yield. Agronomy Journal, 100(3), 704-710. doi:10.2134/agronj2007.0226",
+          "target": "SEED_QUALITY_FAILURE -> real-time environmental surveillance -> prevented storage-induced degradation",
+          "citation": [
+            {
+              "author": "Nafziger, E.D.",
+              "year": 2012,
+              "title": "Corn planting date and plant population",
+              "journal": "Journal of Production Agriculture",
+              "volume": "7(1)",
+              "pages": "59-62",
+              "doi": "10.2134/jpa1994.0059"
+            },
+            {
+              "author": "De Bruin, J.L. & Pedersen, P.",
+              "year": 2008,
+              "title": "Effect of row spacing and seeding rate on soybean yield",
+              "journal": "Agronomy Journal",
+              "volume": "100(3)",
+              "pages": "704-710",
+              "doi": "10.2134/agronj2007.0226"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Check grain temperature with probe thermometer at 3 bin locations weekly; target ≤5°F rise from baseline per 30-day period. Monitor grain moisture content biweekly; maintain within ±0.5% of target storage moisture. Inspect for insect activity with probe traps at bin surface and core monthly; target zero live insects per trap. Assess bin condition (condensation, crust formation, odor) at every aeration fan cycle.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a grain storage specialist or stored product entomologist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Seed Access Equity and Inclusion Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Foster an industry culture that recognizes equitable seed access as a shared responsibility, encouraging seed dealers and warehouse operators to maintain small-lot packaging options and flexible minimum order quantities for beginning and small-acreage farmers. Cultural programming includes mentorship pairings between established and new growers focused on seed procurement navigation.",
+          "cite": "Nafziger, E.D. (2012). Corn planting date and plant population. Journal of Production Agriculture, 7(1), 59-62. doi:10.2134/jpa1994.0059; De Bruin, J.L. & Pedersen, P. (2008). Effect of row spacing and seeding rate on soybean yield. Agronomy Journal, 100(3), 704-710. doi:10.2134/agronj2007.0226",
+          "target": "SEED_ACCESS_INEQUITY -> inclusive distribution norms -> reduced procurement barriers for small farms",
+          "citation": [
+            {
+              "author": "Nafziger, E.D.",
+              "year": 2012,
+              "title": "Corn planting date and plant population",
+              "journal": "Journal of Production Agriculture",
+              "volume": "7(1)",
+              "pages": "59-62",
+              "doi": "10.2134/jpa1994.0059"
+            },
+            {
+              "author": "De Bruin, J.L. & Pedersen, P.",
+              "year": 2008,
+              "title": "Effect of row spacing and seeding rate on soybean yield",
+              "journal": "Agronomy Journal",
+              "volume": "100(3)",
+              "pages": "704-710",
+              "doi": "10.2134/agronj2007.0226"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a domain specialist for root cause analysis and intervention redesign for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EC",
+      "state": "active",
+      "domainLabel": "Germplasm",
+      "domainDescription": "Genetic resource collections and seed banks for biodiversity preservation",
+      "group": "conservation",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_seeds_germplasm_portal.html",
+      "treatments": [
+        {
+          "label": "Strategic Germplasm Acquisition and Gap Analysis",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Conduct systematic gap analyses of existing germplasm collections to identify underrepresented geographic origins, crop wild relatives, and adaptive trait sources, then prioritize collection missions to fill critical gaps before habitat loss eliminates in-situ populations. Strategy aligns with global collecting priorities established by CGIAR crop trust assessments.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "GENETIC_NARROWING -> targeted collection expansion -> preserved allelic diversity",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified crop adviser (CCA) or agronomist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Germplasm Characterization and Utilization Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train plant breeders and researchers on how to access, request, and effectively utilize national germplasm collection accessions in their breeding programs. Coaching demystifies the GRIN-Global request process, explains material transfer agreements, and provides protocols for incorporating unadapted germplasm into commercial pre-breeding pipelines without losing elite adaptation.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "GENETIC_NARROWING -> increased germplasm utilization -> broadened breeding base",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Evaluate training effectiveness: assess knowledge retention at 30 and 90 days; address identified gaps with refresher modules",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a domain specialist for root cause analysis and intervention redesign for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Community Seed Bank Network Structure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Establish regional community seed banks that maintain locally adapted varieties, heirloom cultivars, and farmer-selected populations in decentralized collections accessible to small-scale growers. Network structure includes standardized accession documentation, viability monitoring protocols, and seed increase partnerships with local farms to maintain living collections.",
+          "cite": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C. (2014). Breeding drought-tolerant maize hybrids for the US corn-belt. Quantitative Genetics, Genomics and Plant Breeding, 17-34. doi:10.1079/9780851996011.0017; Hicks, D.R. (2004). Corn Hybrid Selection. University of Minnesota Extension WW-06073",
+          "target": "SEED_ACCESS_INEQUITY -> decentralized genetic resources -> grassroots germplasm access",
+          "citation": [
+            {
+              "author": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C.",
+              "year": 2014,
+              "title": "Breeding drought-tolerant maize hybrids for the US corn-belt",
+              "journal": "Quantitative Genetics, Genomics and Plant Breeding",
+              "volume": null,
+              "pages": "17-34",
+              "doi": "10.1079/9780851996011.0017"
+            },
+            {
+              "author": "Hicks, D.R.",
+              "year": 2004,
+              "title": "Corn Hybrid Selection",
+              "journal": "University of Minnesota Extension WW-06073",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Genetic Heritage Conservation Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Build public awareness and farmer engagement around germplasm conservation as a shared agricultural heritage responsibility. Cultural programming includes seed heritage festivals, landrace tasting events, and school-based seed saving curricula that connect communities to the genetic diversity underlying their food system and motivate voluntary in-situ conservation on farms.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "GENETIC_NARROWING -> community conservation engagement -> sustained in-situ diversity",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to a food safety specialist or HACCP consultant for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Germplasm Information Management System",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy comprehensive germplasm database systems with passport data, characterization records, evaluation results, and genomic marker profiles linked to physical seed inventory. Tool enables breeders to search for accessions carrying specific adaptive traits, resistance genes, or quality characteristics and request seed directly through integrated ordering workflows.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "SEED_ACCESS_INEQUITY -> searchable genetic resource data -> accelerated germplasm utilization",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Cryopreservation and Long-Term Conservation Protocol",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Implement cryogenic storage protocols for clonally propagated and recalcitrant-seeded species that cannot be maintained through conventional seed banking. Liquid nitrogen storage at -196C provides indefinite preservation of genetic resources that would otherwise require costly field genebank maintenance, with periodic viability verification through regrowth assays.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "GENETIC_NARROWING -> secure long-term conservation -> protected irreplaceable genetic resources",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Compile financial baseline: gather 3 years of records, current balance sheet, and cash flow projections",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
+          "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a grain storage specialist or stored product entomologist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Hybrid Development",
+      "domainDescription": "Inbred line crossing programs for heterosis-driven yield gains",
+      "group": "science",
+      "phase": "P2",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_seeds_hybrids_portal.html",
+      "treatments": [
+        {
+          "label": "Heterotic Group Expansion Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Systematically introduce novel inbred lines from unrelated genetic backgrounds into established heterotic pools to prevent the narrowing of parental diversity that reduces long-term genetic gain. Strategy uses molecular marker analysis to quantify genetic distance between candidate and existing pool members, targeting introductions that maximize heterotic potential.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "GENETIC_NARROWING -> expanded heterotic pools -> sustained long-term genetic gain",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Audit existing infrastructure: document current system capacity, condition, and performance gaps",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Hybrid Testing Network Coordination Coaching",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Train breeding program managers to design efficient multi-environment hybrid testing networks that evaluate experimental hybrids across representative stress environments including drought, disease, and low-fertility conditions. Coaching emphasizes GxE interaction analysis, sufficient test location density, and the discipline to advance only hybrids with broad adaptation rather than single-location champions.",
+          "cite": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D. (2011). Climate impacts on agriculture: Implications for crop production. Agronomy Journal, 103(2), 351-370. doi:10.2134/agronj2010.0303; Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C. (2012). Climate Change and Agriculture in the United States: Effects and Adaptation. USDA Technical Bulletin 1935, 1-186",
+          "target": "TRAIT_FAILURE -> rigorous multi-environment testing -> reliable hybrid performance",
+          "citation": [
+            {
+              "author": "Hatfield, J.L., Boote, K.J., Kimball, B.A., Ziska, L.H., Izaurralde, R.C., Ort, D., Thomson, A.M. & Wolfe, D.",
+              "year": 2011,
+              "title": "Climate impacts on agriculture: Implications for crop production",
+              "journal": "Agronomy Journal",
+              "volume": "103(2)",
+              "pages": "351-370",
+              "doi": "10.2134/agronj2010.0303"
+            },
+            {
+              "author": "Walthall, C.L., Hatfield, J., Backlund, P., Lengnick, L., Marshall, E., Walsh, M., Adkins, S., Aillery, M., Ainsworth, E.A. & Ammann, C.",
+              "year": 2012,
+              "title": "Climate Change and Agriculture in the United States: Effects and Adaptation",
+              "journal": "USDA Technical Bulletin 1935",
+              "volume": null,
+              "pages": "1-186",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a certified crop adviser (CCA) or soil fertility specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Public Hybrid Release Infrastructure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Support land-grant university hybrid development and release programs that provide non-proprietary hybrid options to independent seed companies and farmer cooperatives. Structural investment in public-sector inbred line development and hybrid testing ensures a competitive alternative to corporate hybrid programs exists to serve markets that proprietary programs ignore.",
+          "cite": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C. (2014). Breeding drought-tolerant maize hybrids for the US corn-belt. Quantitative Genetics, Genomics and Plant Breeding, 17-34. doi:10.1079/9780851996011.0017; Hicks, D.R. (2004). Corn Hybrid Selection. University of Minnesota Extension WW-06073",
+          "target": "GENETIC_NARROWING -> public hybrid alternatives -> maintained breeding competition",
+          "citation": [
+            {
+              "author": "Cooper, M., Gho, C., Leafgren, R., Tang, T. & Messina, C.",
+              "year": 2014,
+              "title": "Breeding drought-tolerant maize hybrids for the US corn-belt",
+              "journal": "Quantitative Genetics, Genomics and Plant Breeding",
+              "volume": null,
+              "pages": "17-34",
+              "doi": "10.1079/9780851996011.0017"
+            },
+            {
+              "author": "Hicks, D.R.",
+              "year": 2004,
+              "title": "Corn Hybrid Selection",
+              "journal": "University of Minnesota Extension WW-06073",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized price per unit versus local market benchmark weekly; target ≥5% premium capture within the first marketing year. Monitor basis levels relative to 3-year average; document timing of sales decisions versus seasonal price patterns. Assess marketing plan performance at mid-season and year-end; target total revenue within ≥95% of pre-season projection.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural appraiser or farm management specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Hybrid Stewardship and Refuge Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Cultivate farmer understanding of how hybrid vigor works and why single-cross hybrids cannot be saved and replanted, channeling energy toward constructive engagement with hybrid selection rather than resentment of annual seed purchase requirements. Cultural programming includes field day demonstrations showing inbred parent performance versus hybrid performance to illustrate heterosis directly.",
+          "cite": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S. (2019). Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature. Journal of Soil and Water Conservation, 74(5), 520-534. doi:10.2489/jswc.74.5.520; Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R. (2006). Understanding and promoting adoption of conservation practices by rural landholders. Australian Journal of Experimental Agriculture, 46(11), 1407-1424. doi:10.1071/EA05037",
+          "target": "TRAIT_FAILURE -> informed hybrid management -> optimized heterosis capture",
+          "citation": [
+            {
+              "author": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S.",
+              "year": 2019,
+              "title": "Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "74(5)",
+              "pages": "520-534",
+              "doi": "10.2489/jswc.74.5.520"
+            },
+            {
+              "author": "Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R.",
+              "year": 2006,
+              "title": "Understanding and promoting adoption of conservation practices by rural landholders",
+              "journal": "Australian Journal of Experimental Agriculture",
+              "volume": "46(11)",
+              "pages": "1407-1424",
+              "doi": "10.1071/EA05037"
+            }
+          ],
+          "steps": [
+            "Review current practices: document existing protocols, identify gaps against target standard",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30, 60, and 90 days post-implementation; target ≥75% adherence by day 90. Track the number of behaviors consistent with the target culture per week; target ≥3 observable instances per team member per week. Conduct quarterly anonymous team assessment scoring commitment on a 1-5 scale; target mean score ≥3.5 by second quarter.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to an agricultural energy auditor or renewable energy specialist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Doubled Haploid Production System",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy doubled haploid technology to produce completely homozygous inbred lines in one generation rather than the six to eight generations required by conventional selfing. This accelerates the hybrid development cycle, enabling breeders to test more genetic combinations per year and respond faster to emerging pest resistance or trait failure events.",
+          "cite": "Bernardo, R. (2020). Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE. Heredity, 125, 375-385. doi:10.1038/s41437-020-0312-1; Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W. (2017). Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery. Nature Genetics, 49(9), 1297-1303. doi:10.1038/ng.3920",
+          "target": "TRAIT_FAILURE -> accelerated inbred development -> faster hybrid replacement cycle",
+          "citation": [
+            {
+              "author": "Bernardo, R.",
+              "year": 2020,
+              "title": "Reinventing quantitative genetics for plant breeding: Something old, something new, something borrowed, something BLUE",
+              "journal": "Heredity",
+              "volume": "125",
+              "pages": "375-385",
+              "doi": "10.1038/s41437-020-0312-1"
+            },
+            {
+              "author": "Hickey, J.M., Chiurugwi, T., Mackay, I. & Powell, W.",
+              "year": 2017,
+              "title": "Genomic prediction unifies animal and plant breeding programs to form platforms for biological discovery",
+              "journal": "Nature Genetics",
+              "volume": "49(9)",
+              "pages": "1297-1303",
+              "doi": "10.1038/ng.3920"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Apply treatment at labeled rates and timing; record product, rate, weather conditions, and growth stage at application",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Scout treated areas at 7-day intervals post-application; record pest/weed/disease pressure on a 0-10 severity scale at ≥5 locations per field. Target pest population below the economic threshold within 14 days of treatment. Compare treated versus untreated check strips at harvest; target ≥yield protection value exceeding treatment cost. Reassess product efficacy and resistance risk at season end.",
+          "escalation": "If pest/disease pressure remains above the economic threshold 14 days post-treatment, or if treated populations rebound to >75% of pre-treatment levels within 21 days, escalate to an integrated pest management (IPM) specialist or extension entomologist for resistance screening and alternative mode-of-action evaluation. If two consecutive applications of the same product class fail to reduce pressure below threshold, discontinue that class and request specialist-guided rotation plan within 7 days."
+        },
+        {
+          "label": "Hybrid Prediction Modeling Platform",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Implement genomic prediction models that estimate hybrid performance from inbred line genotypic data before field testing, allowing breeders to screen thousands of potential crosses computationally and advance only the most promising combinations to expensive field evaluation. Models are retrained annually with new phenotypic data to maintain prediction accuracy.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "GENETIC_NARROWING -> computational cross prediction -> efficient diversity exploration",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Seed Certification",
+      "domainDescription": "Quality assurance and regulatory standards for commercial seed production",
+      "group": "governance",
+      "phase": "P5",
+      "weight": 0.7,
+      "diagnosticTriggers": [],
+      "childPortal": "p2_agri_seeds_certification_portal.html",
+      "treatments": [
+        {
+          "label": "Performance-Based Certification Standards Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Expand seed certification beyond genetic purity and germination minimums to include vigor testing, trait efficacy verification, and seedborne pathogen screening as standard requirements. Strategy ensures certification labels provide farmers with comprehensive quality information that predicts actual field establishment rather than merely confirming minimum regulatory compliance.",
+          "cite": "Nafziger, E.D. (2012). Corn planting date and plant population. Journal of Production Agriculture, 7(1), 59-62. doi:10.2134/jpa1994.0059; De Bruin, J.L. & Pedersen, P. (2008). Effect of row spacing and seeding rate on soybean yield. Agronomy Journal, 100(3), 704-710. doi:10.2134/agronj2007.0226",
+          "target": "SEED_QUALITY_FAILURE -> expanded quality metrics -> predictive certification labels",
+          "citation": [
+            {
+              "author": "Nafziger, E.D.",
+              "year": 2012,
+              "title": "Corn planting date and plant population",
+              "journal": "Journal of Production Agriculture",
+              "volume": "7(1)",
+              "pages": "59-62",
+              "doi": "10.2134/jpa1994.0059"
+            },
+            {
+              "author": "De Bruin, J.L. & Pedersen, P.",
+              "year": 2008,
+              "title": "Effect of row spacing and seeding rate on soybean yield",
+              "journal": "Agronomy Journal",
+              "volume": "100(3)",
+              "pages": "704-710",
+              "doi": "10.2134/agronj2007.0226"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Independent Certification Governance Strategy",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Strengthen state seed certification agency independence by establishing funding mechanisms that reduce reliance on industry fees, ensuring standards development reflects farmer needs rather than seed company cost minimization. Strategy includes farmer representation mandates on certification standards committees and public comment requirements for standards revisions.",
+          "cite": "Nafziger, E.D. (2012). Corn planting date and plant population. Journal of Production Agriculture, 7(1), 59-62. doi:10.2134/jpa1994.0059; De Bruin, J.L. & Pedersen, P. (2008). Effect of row spacing and seeding rate on soybean yield. Agronomy Journal, 100(3), 704-710. doi:10.2134/agronj2007.0226",
+          "target": "SEED_MONOPOLY -> independent governance -> farmer-aligned certification standards",
+          "citation": [
+            {
+              "author": "Nafziger, E.D.",
+              "year": 2012,
+              "title": "Corn planting date and plant population",
+              "journal": "Journal of Production Agriculture",
+              "volume": "7(1)",
+              "pages": "59-62",
+              "doi": "10.2134/jpa1994.0059"
+            },
+            {
+              "author": "De Bruin, J.L. & Pedersen, P.",
+              "year": 2008,
+              "title": "Effect of row spacing and seeding rate on soybean yield",
+              "journal": "Agronomy Journal",
+              "volume": "100(3)",
+              "pages": "704-710",
+              "doi": "10.2134/agronj2007.0226"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Develop implementation plan with specific targets, resource requirements, and timeline milestones",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Conduct post-implementation verification: confirm target metrics are moving in expected direction within first review cycle",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Update financial projections monthly; compare actual versus projected cash flow with a target variance of ≤10%. Track the key financial ratio (debt-to-asset, current ratio, or DSCR as applicable) quarterly; target improvement of ≥0.05 per quarter toward benchmark levels. Compile a year-end financial performance comparison versus the 3-year rolling average; target net farm income within ≥90% of projection.",
+          "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to a domain specialist for root cause analysis and intervention redesign for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
+        },
+        {
+          "label": "Certification Auditor Training Program",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Develop rigorous training and continuing education requirements for seed certification field inspectors and laboratory analysts. Coaching covers advanced seed identification techniques, statistical sampling theory for detecting sub-lot variation, and calibration of visual purity assessments against DNA-based variety verification methods.",
+          "cite": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S. (2019). Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature. Journal of Soil and Water Conservation, 74(5), 520-534. doi:10.2489/jswc.74.5.520; Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R. (2006). Understanding and promoting adoption of conservation practices by rural landholders. Australian Journal of Experimental Agriculture, 46(11), 1407-1424. doi:10.1071/EA05037",
+          "target": "SEED_QUALITY_FAILURE -> skilled inspection workforce -> accurate quality assessments",
+          "citation": [
+            {
+              "author": "Prokopy, L.S., Floress, K., Arbuckle, J.G., Church, S.P., Eanes, F.R., Gao, Y., Gramig, B.M., Ranjan, P. & Singh, A.S.",
+              "year": 2019,
+              "title": "Adoption of agricultural conservation practices in the United States: Evidence from 35 years of quantitative literature",
+              "journal": "Journal of Soil and Water Conservation",
+              "volume": "74(5)",
+              "pages": "520-534",
+              "doi": "10.2489/jswc.74.5.520"
+            },
+            {
+              "author": "Pannell, D.J., Marshall, G.R., Barr, N., Curtis, A., Vanclay, F. & Wilkinson, R.",
+              "year": 2006,
+              "title": "Understanding and promoting adoption of conservation practices by rural landholders",
+              "journal": "Australian Journal of Experimental Agriculture",
+              "volume": "46(11)",
+              "pages": "1407-1424",
+              "doi": "10.1071/EA05037"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Design training curriculum: define learning objectives, schedule sessions around operational calendar",
+            "Deliver training with hands-on practice components; require demonstration of competency before field deployment",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
+          "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a domain specialist for root cause analysis and intervention redesign for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
+        },
+        {
+          "label": "Trait Efficacy Post-Market Surveillance Structure",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Establish mandatory post-commercialization monitoring systems within the certification framework that track trait performance in commercial fields and trigger relabeling or decertification when efficacy falls below thresholds. Structural reform connects field-level resistance monitoring data to certification status, providing early warning before widespread trait failure occurs.",
+          "cite": "[CITATION NEEDED: Establish mandatory post-commercialization monitoring systems within the certification framework tha]",
+          "target": "TRAIT_FAILURE -> systematic efficacy surveillance -> proactive trait management",
+          "citation": [
+            {
+              "author": null,
+              "year": null,
+              "title": "[CITATION NEEDED: Establish mandatory post-commercialization monitoring systems within the certification framework tha]",
+              "journal": null,
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Engineer design specifications: size components for peak demand plus 20% safety margin",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Seed Quality Transparency Culture",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Promote industry culture where seed companies compete on quality transparency rather than resisting expanded testing requirements. Cultural shift includes voluntary publication of lot-level vigor test results, independent third-party quality audits, and customer-facing quality dashboards that build trust through data rather than marketing claims.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "SEED_MONOPOLY -> competitive quality transparency -> market-driven quality improvement",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Engage stakeholders: present change rationale with cost-benefit data; gather input on implementation approach",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Survey team adoption at 30 and 90 days; target ≥80% of staff following new protocol by day 90. Track the number of decisions documented with supporting data per month; target ≥3 data-backed decisions per decision-maker per month. Reassess culture adherence quarterly through anonymous team survey scoring 1-5 on practice commitment.",
+          "escalation": "If team adherence survey scores remain below 3.0 out of 5.0 after two quarterly assessments, or if <50% of staff demonstrate target behavior at the 90-day checkpoint, escalate to an agricultural economist or marketing specialist for barrier analysis and program redesign. If two or more individuals consistently score below 2.0, initiate one-on-one coaching intervention within 14 days."
+        },
+        {
+          "label": "Digital Seed Certification Tracking Platform",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Deploy blockchain-anchored digital certification systems that create tamper-proof records linking each seed lot to its complete testing history, field inspection results, and chain-of-custody documentation from production field through retail sale. Farmers can scan bag tags to access full certification data, lot-specific germination results, and trait verification records.",
+          "cite": "Nafziger, E.D. (2012). Corn planting date and plant population. Journal of Production Agriculture, 7(1), 59-62. doi:10.2134/jpa1994.0059; De Bruin, J.L. & Pedersen, P. (2008). Effect of row spacing and seeding rate on soybean yield. Agronomy Journal, 100(3), 704-710. doi:10.2134/agronj2007.0226",
+          "target": "SEED_QUALITY_FAILURE -> traceable quality records -> verified seed lot integrity",
+          "citation": [
+            {
+              "author": "Nafziger, E.D.",
+              "year": 2012,
+              "title": "Corn planting date and plant population",
+              "journal": "Journal of Production Agriculture",
+              "volume": "7(1)",
+              "pages": "59-62",
+              "doi": "10.2134/jpa1994.0059"
+            },
+            {
+              "author": "De Bruin, J.L. & Pedersen, P.",
+              "year": 2008,
+              "title": "Effect of row spacing and seeding rate on soybean yield",
+              "journal": "Agronomy Journal",
+              "volume": "100(3)",
+              "pages": "704-710",
+              "doi": "10.2134/agronj2007.0226"
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "DNA-Based Variety Verification Laboratory Tools",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Implement SSR or SNP marker panels for definitive variety identification that confirms labeled variety matches genetic identity, detecting mislabeling, outcrossing contamination, or fraudulent substitution that visual inspection cannot reliably detect. Laboratory protocols align with ISTA molecular testing guidelines and provide results within 48 hours of sample receipt.",
+          "cite": "ASABE Standards (2015). Agricultural Machinery Management Data (ASAE D497.7). American Society of Agricultural and Biological Engineers; Edwards, W. (2019). Estimating Farm Machinery Costs. Iowa State University Extension PM 710",
+          "target": "SEED_QUALITY_FAILURE -> genetic identity verification -> eliminated variety mislabeling",
+          "citation": [
+            {
+              "author": "ASABE Standards",
+              "year": 2015,
+              "title": "Agricultural Machinery Management Data (ASAE D497.7)",
+              "journal": "American Society of Agricultural and Biological Engineers",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Edwards, W.",
+              "year": 2019,
+              "title": "Estimating Farm Machinery Costs",
+              "journal": "Iowa State University Extension PM 710",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish baseline: collect current-state measurements across all management zones before implementation",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a domain specialist for root cause analysis and intervention redesign for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        },
+        {
+          "label": "Market Concentration Monitoring Dashboard",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Deploy data aggregation tools that track seed market concentration metrics including certified seed lot volumes by company, variety ownership consolidation trends, and regional dealer network density. Dashboard provides regulators and farmer organizations with objective data to identify when market concentration threatens competitive variety access and triggers antitrust review thresholds.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "SEED_MONOPOLY -> concentration monitoring -> evidence-based antitrust oversight",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Assess current skill gaps: survey team competencies against target standards to prioritize training modules",
+            "Evaluate tool options against requirements: compare at least 3 solutions on cost, integration, and support",
+            "Implement core intervention following specifications; document deviations from plan with justification",
+            "Verify results against baseline: compare post-implementation measurements to pre-implementation values within 30 days",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized price per unit versus local market benchmark weekly; target ≥5% premium capture within the first marketing year. Monitor basis levels relative to 3-year average; document timing of sales decisions versus seasonal price patterns. Assess marketing plan performance at mid-season and year-end; target total revenue within ≥95% of pre-season projection.",
+          "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to an agricultural economist or marketing specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Seeds & Genetics — Action Coordination",
+      "domainDescription": "Seeds & Genetics — Action Coordination within Seeds & Genetics",
+      "group": "selection",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_seeds_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "GP",
+      "state": "active",
+      "domainLabel": "Seeds & Genetics — Adaptation & Learning",
+      "domainDescription": "Seeds & Genetics — Adaptation & Learning within Seeds & Genetics",
+      "group": "selection",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_seeds_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "CING",
+      "state": "active",
+      "domainLabel": "Seeds & Genetics — Diagnostic Analysis",
+      "domainDescription": "Seeds & Genetics — Diagnostic Analysis within Seeds & Genetics",
+      "group": "selection",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_seeds_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "DAN",
+      "state": "active",
+      "domainLabel": "Seeds & Genetics — Feedback & Validation",
+      "domainDescription": "Seeds & Genetics — Feedback & Validation within Seeds & Genetics",
+      "group": "selection",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_seeds_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "Seeds & Genetics — Regulation Strategy",
+      "domainDescription": "Seeds & Genetics — Regulation Strategy within Seeds & Genetics",
+      "group": "selection",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_seeds_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Seeds & Genetics — Signal Detection",
+      "domainDescription": "Seeds & Genetics — Signal Detection within Seeds & Genetics",
+      "group": "selection",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_seeds_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "V1",
+      "state": "active",
+      "domainLabel": "Seeds & Genetics — State Assessment",
+      "domainDescription": "Seeds & Genetics — State Assessment within Seeds & Genetics",
+      "group": "selection",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "p2_agri_seeds_ri_state_portal.html"
+    }
+  ],
+  "edges": [
+    {
+      "source": "EC",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "EC",
+      "target": "AG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "AG",
+      "target": "NAcc",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "AG",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "NAcc",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "HIPP",
+      "target": "BLA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "BLA",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "dACC",
+      "target": "HIPP",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "THAL",
+      "type": "CONTROLS",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "GENETIC_NARROWING",
+      "label": "Genetic Narrowing",
+      "summary": "Commercial seed supply converging on limited elite germplasm base increasing vulnerability to novel pest and disease threats",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Seed variety diversity declining as breeding programs focus on few high-performing genetic backgrounds",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EC",
+          "dir": "Hypo-active",
+          "detail": "Germplasm conservation collections underfunded and unable to characterize stored genetic resources",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Hybrid development programs narrowing parent pool to maximize heterosis from proven combiners",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Altered",
+          "detail": "Plant breeding shifting to molecular marker selection reducing field-based diversity screening",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SEED_MONOPOLY",
+      "label": "Seed Monopoly",
+      "summary": "Consolidation of seed industry into few multinational firms restricting farmer choice and increasing input costs",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-active",
+          "detail": "GMO technology access controlled by patent portfolios concentrated in four corporations",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Independent seed varieties disappearing as small breeding programs cannot compete with biotech investment",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Seed certification standards shaped by industry lobbying rather than farmer needs",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Altered",
+          "detail": "Seed treatment packages bundled with proprietary varieties restricting a la carte purchasing",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "TRAIT_FAILURE",
+      "label": "Trait Failure",
+      "summary": "Engineered pest resistance traits losing effectiveness as target organisms evolve counter-adaptations",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Bt corn rootworm resistance spreading as refuge compliance insufficient to delay trait breakdown",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered",
+          "detail": "Hybrid performance declining as resistance traits impose yield drag without providing pest control",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Seed certification not tracking trait efficacy in field conditions to provide early warning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-active",
+          "detail": "New resistance gene discovery lagging behind pest adaptation rate",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SEED_QUALITY_FAILURE",
+      "label": "Seed Quality Failure",
+      "summary": "Poor germination, vigor, or seedborne disease causing stand establishment failure after planting window closes",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hypo-active",
+          "detail": "Seed treatment fungicide efficacy compromised by resistant seedborne pathogens",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-active",
+          "detail": "Storage conditions degrading seed vigor through temperature and humidity fluctuation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Certification testing not detecting sub-lot quality variation within seed shipments",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Variety performance data from controlled plots not reflecting on-farm germination conditions",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SEED_ACCESS_INEQUITY",
+      "label": "Seed Access Inequity",
+      "summary": "Small and beginning farmers unable to access premium genetics due to minimum order sizes, dealer networks, and pricing",
+      "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Top-performing varieties allocated to large-volume customers leaving small farms with second-tier genetics",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EC",
+          "dir": "Hypo-active",
+          "detail": "Public germplasm distribution programs declining as university breeding programs lose funding",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Biotech trait licensing fees making improved genetics uneconomic for small-acreage operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-active",
+          "detail": "Seed dealer network consolidation reducing local availability and agronomic advice for small buyers",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

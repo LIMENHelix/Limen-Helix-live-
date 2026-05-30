@@ -1,0 +1,756 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "arkema",
+  "slug": "arkema",
+  "name": "Arkema S.A.",
+  "ticker": "AKE",
+  "cik": null,
+  "sic": "2800",
+  "industry": "Chemicals & Allied Products",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "MMNRNJ",
+    "NAPMPMI",
+    "ICSA",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "AKE"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "ethylene",
+    "propylene",
+    "fluorine",
+    "ammonia",
+    "sulfuric acid"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": "helix-report.html?cik=null",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Arkema is a global specialty chemicals manufacturer with three core divisions: Adhesives & Functional Products (IMDS, Bostik brand), Advanced Materials (high-performance polymers, fluorochemicals), and Intermediates (commodity chemicals, hydrogen peroxide). The company operates ~60 production facilities across 50+ countries and serves automotive, aerospace, construction, electronics, and industrial end-markets with differentiated chemistries that command pricing power relative to commodity peers.",
+  "portalRelevance": "Arkema functions as a critical mid-tier chemical supplier to diversified industrial and consumer-facing manufacturers, particularly in adhesives (automotive assembly, construction), fluorochemicals (refrigerants, specialty coatings), and hydrogen peroxide (bleaching, disinfection). Its exposure to cyclical feedstock costs (ethylene, propylene, natural gas) and structural demand from automotive/aerospace electrification makes it a material leading indicator of industrial capex cycles and energy-price transmission into downstream supply chains.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly EBITDA and free cash flow prints; feedstock cost pass-through timing in adhesives segment",
+        "8-K filings for M&A, facility shutdowns, or major contract wins in aerospace/automotive",
+        "Bostik brand market-share data in automotive assembly adhesives vs. Henkel, 3M",
+        "Hydrogen peroxide spot pricing and contract renegotiations with bleach/disinfection customers"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Leverage ratio and interest coverage; working-capital intensity tied to commodity price swings",
+        "Segment EBITDA margin trajectory (Adhesives typically 20%+, Intermediates cyclical 8-15%)",
+        "Capacity utilization rates at key fluorochemical and hydrogen peroxide plants",
+        "Customer concentration risk in automotive OEM adhesive supply (top 3 OEMs likely 25-35% of IMDS revenue)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn signature: margin compression in Intermediates when crude/gas spike; adhesives resilience if automotive production holds",
+        "Structural growth inflection: aerospace composite adhesive adoption (Boeing 787, Airbus A350 ramp) vs. legacy aluminum riveting",
+        "Regulatory headwind: phaseout of certain fluorochemicals (HCFC, HFC) under Montreal Protocol; transition to HFO alternatives (Opteon brand) margin accretion",
+        "Feedstock volatility transmission: 60-90 day lag from crude/ethylene spot to contract price resets; gross margin compression if hedging insufficient"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge feedstock exposure via crude/natural gas futures; target 50-70% of next-quarter exposure",
+        "Monitor EU ETS (Emissions Trading System) carbon cost impact on Intermediates segment; model 2025-2030 carbon price scenarios",
+        "Track FDA/EPA fluorochemical restrictions (PFOA, PFAS); Arkema's Opteon HFO portfolio is regulatory tailwind but pricing power uncertain",
+        "Automotive OEM supply-chain resilience: diversify adhesive customer base; negotiate multi-year contracts with price-escalation caps"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long adhesives segment on aerospace/EV assembly growth; short Intermediates on crude >$90/bbl without hedging visibility",
+        "Initiate position in Arkema bonds if credit spreads widen >250bps; target 5-7yr maturity for carry",
+        "Engage IR on Opteon HFO market penetration rates and pricing vs. legacy HFC; model 2025-2027 fluorochemical margin accretion",
+        "Monitor quarterly capex guidance for Advanced Materials expansion (fluorochemicals, specialty polymers); growth capex >€300M/yr signals confidence"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings: validate adhesives volume growth in automotive/aerospace; track gross margin vs. feedstock index",
+        "Quarterly cash flow: monitor working-capital swings tied to commodity price moves; assess debt paydown vs. shareholder returns",
+        "Competitor earnings (Henkel, 3M, Dow): compare adhesives margin trajectory and customer wins/losses",
+        "Regulatory filing tracker: EPA/FDA fluorochemical decisions; EU ETS carbon price updates"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate feedstock hedging sensitivity if crude volatility regime shifts (VIX >25 sustained)",
+        "Reweight adhesives segment growth assumptions if automotive OEM capex guidance declines >10% YoY",
+        "Update fluorochemical margin model if Opteon adoption accelerates faster than 15% CAGR (implies pricing power erosion)",
+        "Adjust leverage tolerance if Arkema pursues major M&A (>€1B); monitor debt/EBITDA covenant headroom"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Arkema operates as a distributed chemical-production and specialty-materials network, functioning as a mid-tier node in global industrial supply chains. Its three-division structure (Adhesives, Advanced Materials, Intermediates) mirrors a sensorimotor-integration architecture: Intermediates act as a commodity-price sensor and raw-material processor; Advanced Materials (fluorochemicals, polymers) function as a differentiation engine with pricing power; Adhesives serve as a direct customer-interface and revenue-stabilization hub. The company's feedstock exposure (ethylene, propylene, natural gas) creates a thalamic information-flow dependency on energy markets, while its customer concentration in automotive/aerospace OEMs and its regulatory exposure to fluorochemical phase-outs create salience-weighted decision nodes. Arkema's profitability and cash generation are highly sensitive to crude-oil price transmission, customer capex cycles, and regulatory compliance costs.",
+    "suppliers": [
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SA",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock",
+        "relationshipNote": "Primary crude-oil and natural-gas supplier to Arkema's European and Middle Eastern crackers. Arkema's Intermediates segment (hydrogen peroxide, commodity chemicals) depends on ethylene/propylene derived from crude feedstock. Spot and contract pricing from Saudi Aramco directly impacts Arkema's gross margins; 2023-2024 crude volatility ($70-$95/bbl) created 200-300bps margin compression in Intermediates.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "INEOS",
+        "ticker": null,
+        "cik": null,
+        "slug": "ineos",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock",
+        "relationshipNote": "Major ethylene and propylene supplier to Arkema's Advanced Materials and Intermediates divisions. INEOS operates large crackers in Europe (Cologne, Köln) and North America; contract pricing with Arkema typically indexed to Platts/ICIS benchmarks with 30-60 day lag. Feedstock cost pass-through to Arkema's adhesives customers is delayed, creating margin volatility.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0000050104",
+        "slug": "huntsman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock",
+        "relationshipNote": "Supplier of specialty chemicals and intermediates (e.g., polyols, isocyanates) to Arkema's adhesives formulation. Huntsman's polyurethane and epoxy resin pricing directly influences Arkema's cost of goods sold in IMDS (Bostik) adhesive products. Competitive pricing pressure from Huntsman and Covestro on polyol costs has compressed adhesive margins 50-100bps annually since 2020.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Covestro AG",
+        "ticker": "1COV.DE",
+        "cik": null,
+        "slug": "covestro",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock",
+        "relationshipNote": "Supplier of polycarbonate, polyurethane, and specialty polymers to Arkema's Advanced Materials division and adhesive formulations. Covestro's 2023 cost-reduction program and capacity rationalization in Europe reduced polyol supply, tightening Arkema's input costs. Competitive dynamics with Huntsman and BASF on polyurethane pricing create margin pressure in Arkema's adhesives segment.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock",
+        "relationshipNote": "Supplier of fluorine compounds and specialty chemicals to Arkema's fluorochemical division (Advanced Materials). Albemarle's fluorine production capacity and pricing directly impact Arkema's Opteon HFO (hydrofluoroolefin) refrigerant and specialty fluorochemical margins. Albemarle's 2022-2023 capacity expansions in North Carolina and China increased competitive pressure on Arkema's fluorochemical pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tronox Holdings plc",
+        "ticker": "TROX",
+        "cik": "0001631280",
+        "slug": "tronox",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock",
+        "relationshipNote": "Supplier of hydrogen peroxide and specialty oxidants to Arkema's Intermediates segment. Tronox operates large H2O2 plants in Europe and North America; contract pricing with Arkema is indexed to spot H2O2 benchmarks. Tronox's 2021 acquisition of Venator's H2O2 assets increased competitive capacity; Arkema's H2O2 margins compressed 100-150bps in 2022-2023 due to oversupply.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "ticker": "EMN",
+        "cik": "0000313807",
+        "slug": "eastman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock",
+        "relationshipNote": "Supplier of specialty polymers, acetyl chemicals, and adhesive resins to Arkema's IMDS and Advanced Materials divisions. Eastman's 2023 capacity expansions in Asia and cost-reduction initiatives created competitive pricing pressure on Arkema's specialty polymer and adhesive formulations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lyondell Basell Industries",
+        "ticker": "LYB",
+        "cik": "0001453952",
+        "slug": "lyondell_basell",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock",
+        "relationshipNote": "Major supplier of polyolefins, polyesters, and intermediate chemicals to Arkema's adhesives and advanced materials divisions. LYB's 2023 cracker utilization rates in Europe and North America directly impact ethylene and propylene availability and pricing to Arkema. Spot market tightness in 2022 created 300-400bps margin compression in Arkema's Intermediates segment.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Clariant AG",
+        "ticker": "CLN.SW",
+        "cik": null,
+        "slug": "clariant",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Feedstock",
+        "relationshipNote": "Supplier of specialty additives, catalysts, and functional chemicals to Arkema's adhesives and advanced materials formulations. Clariant's 2023 restructuring and focus on high-margin specialty products reduced commodity chemical supply; Arkema may face tighter sourcing for certain additive packages.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Arkema Logistics & Distribution Network",
+        "ticker": null,
+        "cik": null,
+        "slug": "arkema_internal_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Arkema operates ~60 production facilities across Europe, North America, and Asia-Pacific with integrated logistics hubs. Internal supply-chain network includes pipeline transport (ethylene, propylene), rail/truck distribution to customers, and warehousing for adhesives (Bostik) and specialty chemicals. 2023 facility rationalization in Europe (Dunkirk, Amiens) reduced logistics costs by ~€50M annually but created customer delivery-time risks.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DB Schenker",
+        "ticker": null,
+        "cik": null,
+        "slug": "db_schenker",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Third-party logistics provider for Arkema's European distribution of adhesives (Bostik) and specialty chemicals. DB Schenker manages warehousing, last-mile delivery, and reverse logistics for Arkema's automotive and construction customers. 2023 freight-cost inflation (15-20% YoY) pressured Arkema's distribution margins; contract renegotiations ongoing for 2024-2025.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel",
+        "ticker": "KNIN.SW",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Global freight forwarder and logistics provider for Arkema's international shipments of specialty chemicals and fluorochemicals. K+N manages ocean freight, air cargo, and customs clearance for Arkema's exports to Asia-Pacific and North America. 2023 container-rate volatility ($3,000-$5,000 per TEU) created 50-100bps margin impact on specialty chemical exports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Rhenus SE",
+        "ticker": null,
+        "cik": null,
+        "slug": "rhenus",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Chemical logistics specialist providing tank-truck transport and storage for Arkema's liquid chemicals (hydrogen peroxide, specialty solvents) across Europe. Rhenus operates dedicated terminals at Arkema's production sites (Dunkirk, Amiens) for bulk distribution. 2023 driver shortage and fuel-cost inflation increased Rhenus rates 12-18% YoY; Arkema exploring in-house fleet expansion.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Maersk Line",
+        "ticker": "MAERSK.CO",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Ocean shipping partner for Arkema's intercontinental transport of specialty chemicals, adhesives, and fluorochemicals. Maersk's 2023 rate reductions (post-2022 peak) improved Arkema's export margins to Asia-Pacific by 100-150bps. Maersk's sustainability initiatives (carbon-neutral shipping options) align with Arkema's ESG commitments but carry 5-10% cost premium.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Volkswagen Group",
+        "ticker": "VOW3.DE",
+        "cik": null,
+        "slug": "volkswagen",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Major automotive OEM customer for Arkema's IMDS (Bostik) structural adhesives used in vehicle assembly (body bonding, windshield adhesion). VW Group accounts for estimated 8-12% of Arkema's adhesives revenue (~€150-200M annually). 2023 EV ramp-up at VW increased adhesive demand for battery-pack assembly; multi-year supply agreements through 2027 lock in pricing with 2% annual escalation.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Boeing Commercial Airplanes",
+        "ticker": "BA",
+        "cik": "0000012927",
+        "slug": "boeing",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Tier-1 aerospace customer for Arkema's Advanced Materials (composite adhesives, specialty polymers) used in 787 Dreamliner and 737 MAX fuselage and wing assembly. Boeing accounts for estimated 5-8% of Arkema's Advanced Materials revenue. 2023 Boeing 787 production ramp (target 38/month by 2025) drives 15-20% CAGR growth in aerospace adhesive demand through 2027; Arkema secured long-term supply contracts with price-escalation caps.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Airbus S.A.S.",
+        "ticker": "AIR.PA",
+        "cik": null,
+        "slug": "airbus",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Major aerospace OEM customer for Arkema's composite adhesives and specialty polymers in A350 XWB and A320 family aircraft. Airbus accounts for estimated 4-6% of Arkema's Advanced Materials revenue. 2023 A350 production ramp (target 13/month by 2025) and A320 NEO adoption drive adhesive demand growth; Arkema's Hysol and Cytec adhesive brands are qualified on Airbus platforms.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Henkel AG",
+        "ticker": "HEN3.DE",
+        "cik": null,
+        "slug": "henkel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Direct competitor in automotive and construction adhesives; also a customer for Arkema's specialty chemicals and intermediates. Henkel's Loctite brand competes with Bostik in structural adhesives for automotive OEMs. 2023 competitive dynamics: Henkel gained share in EV adhesive applications; Arkema responded with Bostik EV-specific product launches. Henkel also sources hydrogen peroxide from Arkema's Intermediates division.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "BASF SE",
+        "ticker": "BAS.DE",
+        "cik": null,
+        "slug": "basf",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Largest global chemical company; direct competitor in adhesives (Ultrabond, Thermaset brands), fluorochemicals (Klea refrigerants), and specialty polymers. BASF's 2023 revenue ~€87B vs. Arkema's ~€10B; BASF's scale advantage in feedstock procurement and R&D spending (~€2B/yr) creates structural margin pressure on Arkema in commodity-adjacent segments. BASF's Opteon HFO portfolio directly competes with Arkema's fluorochemical offerings.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001666700",
+        "slug": "dow",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Major competitor in adhesives, specialty polymers, and intermediate chemicals. Dow's 2023 revenue ~€57B; Dow's adhesive portfolio (Betaforce, Dowsil) competes with Arkema's Bostik in automotive and construction markets. Dow's 2023 cost-reduction program (€1B+ target) and capacity rationalization in Europe created pricing pressure on Arkema's adhesive margins. Dow's fluorochemical business (Freon alternatives) competes with Arkema's Opteon.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "3M Company",
+        "ticker": "MMM",
+        "cik": "0000066740",
+        "slug": "3m",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Competitor in specialty adhesives and functional materials for automotive, aerospace, and electronics. 3M's 2023 revenue ~€35B; 3M's adhesive brands (Scotch, Scotch-Weld) compete with Arkema's Bostik in automotive assembly and aerospace applications. 3M's 2023 restructuring and focus on high-margin segments created competitive intensity in aerospace adhesives; Arkema's Cytec acquisition (2017) was partly defensive response to 3M's aerospace portfolio.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Henkel AG",
+        "ticker": "HEN3.DE",
+        "cik": null,
+        "slug": "henkel_competitor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Direct competitor in adhesives (Loctite, Technomelt brands) and specialty chemicals. Henkel's 2023 revenue ~€22B; Henkel's adhesive segment (~€4B revenue) is comparable in scale to Arkema's IMDS division. Henkel's 2023 market-share gains in EV adhesives (battery-pack assembly) and construction adhesives created competitive pressure on Arkema's pricing. Henkel's cost-reduction initiatives (€1B+ target) enable aggressive pricing in commodity adhesive segments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sika AG",
+        "ticker": "SIK.SW",
+        "cik": null,
+        "slug": "sika",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Competitor in construction adhesives, sealants, and specialty coatings. Sika's 2023 revenue ~€11B; Sika's construction adhesive portfolio competes with Arkema's Bostik in flooring, tile, and waterproofing applications. Sika's 2023 acquisition of Parex (€2.4B) expanded Sika's construction materials footprint; Arkema's construction adhesive margins compressed 50-100bps due to Sika's scale and pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary U.S. securities regulator; Arkema is a foreign private issuer (FPI) with ADRs traded on NASDAQ. SEC Form 20-F annual filing required; Arkema subject to SOX 404 internal-control attestation and Dodd-Frank disclosure rules. 2023 SEC focus on climate-risk disclosure (SEC Climate Disclosure Rule, effective 2024) creates compliance burden for Arkema's carbon-intensive Intermediates segment.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "Regulates Arkema's U.S. chemical manufacturing operations under Clean Air Act, Clean Water Act, and RCRA. EPA's 2023 PFAS (per- and polyfluoroalkyl substances) restrictions directly impact Arkema's fluorochemical division; Arkema's Opteon HFO products are EPA-approved alternatives to legacy HCFC/HFC refrigerants. EPA Toxics Release Inventory (TRI) reporting required for Arkema's U.S. facilities; 2022 TRI data showed.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "European Chemicals Agency (ECHA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "echa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "Regulates Arkema's European chemical operations under REACH (Registration, Evaluation, Authorisation and Restriction of Chemicals). ECHA's 2023 PFAS restrictions and Montreal Protocol HFC phase-down directly impact Arkema's fluorochemical business; Arkema's Opteon HFO portfolio is REACH-compliant but faces pricing pressure from legacy HFC alternatives. ECHA's 2024 PFOA/PFAS ban (effective 2025) requires Arkema to reformulate certain specialty chemical products.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Enforces antitrust law and consumer protection; Arkema subject to FTC scrutiny on adhesive market concentration and competitive practices. 2023 FTC focus on chemical industry M&A (e.g., Huntsman-Albemarle merger scrutiny) creates regulatory risk for Arkema's potential acquisitions. FTC's 2024 Green Guides update affects Arkema's sustainability claims on Opteon HFO and Bostik eco-friendly adhesive products.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Autorité des Marchés Financiers (AMF)",
+        "ticker": null,
+        "cik": null,
+        "slug": "amf",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "French financial regulator; Arkema is listed on Euronext Paris and subject to AMF oversight. AMF requires annual financial reporting (IFRS), corporate governance disclosures (AFEP-MEDEF Code), and ESG reporting (CSRD, effective 2024). 2023 AMF focus on executive compensation and related-party transactions; Arkema's CEO compensation and board independence subject to AMF scrutiny.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Primary external auditor for Arkema S.A. (Deloitte France); audits consolidated financial statements under IFRS and provides SOX 404 attestation for U.S. ADR compliance. Deloitte's 2023 audit opinion: unqualified; no material weaknesses in internal controls. Deloitte's audit fees; Deloitte also provides tax and advisory services to Arkema (non-audit fees ]).",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "BNP Paribas",
+        "ticker": "BNPP.PA",
+        "cik": null,
+        "slug": "bnp_paribas",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Lead arranger and lender on Arkema's €2.5B revolving credit facility (RCF), maturing 2027. BNP Paribas also serves as financial advisor on M&A and capital-markets transactions. 2023 RCF pricing: EURIBOR + 125bps; covenant: net leverage <3.5x EBITDA. BNP Paribas' 2023 ESG lending criteria require Arkema to meet carbon-reduction targets (Scope 1+2 emissions -30% by 2030).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Société Générale",
+        "ticker": "GLE.PA",
+        "cik": null,
+        "slug": "societe_generale",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Co-arranger on Arkema's €2.5B RCF and provider of trade finance and working-capital facilities. Société Générale's 2023 lending exposure to Arkema:. SG also manages Arkema's cash-management and FX-hedging programs; 2023 interest-rate hedging costs increased 50-75bps due to rising EURIBOR.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Arkema S.A. (Treasury & Equity)",
+        "ticker": "AKE",
+        "cik": null,
+        "slug": "arkema_equity",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Arkema's equity capital structure: ~€1.2B market cap (as of 2023); major shareholders include Bpifrance (French state development bank, ~10% stake), institutional investors (Vanguard, BlackRock, ~15% combined), and management/employee stock ownership (~5%). 2023 dividend: €1.50/share; share buyback program: €200M authorized through 2025. Arkema's cost of equity estimated 7-8% based on CAPM (beta ~1.2, risk-free rate ~2.5%, market risk premium ~5%).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Crédit Agricole",
+        "ticker": "CRAPP.PA",
+        "cik": null,
+        "slug": "credit_agricole",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Lender on Arkema's syndicated credit facilities and provider of project finance for capex (e.g., fluorochemical plant expansions). Crédit Agricole's 2023 exposure to Arkema:. CA also provides M&A advisory services; 2023 ESG lending criteria require Arkema to meet carbon-reduction and water-use targets.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Thierry Le Hénaff",
+        "ticker": null,
+        "cik": null,
+        "slug": "thierry_le_henaff",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Chief Executive Officer (CEO) of Arkema S.A. since 2016. Le Hénaff led Arkema's strategic pivot toward specialty chemicals and advanced materials; oversaw Cytec acquisition (2017, €1.4B) and Bostik integration. 2023 compensation:. Le Hénaff's strategic focus: aerospace/EV adhesive growth, fluorochemical margin expansion, and carbon-neutral operations by 2050.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Stéphane Deo",
+        "ticker": null,
+        "cik": null,
+        "slug": "stephane_deo",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Chief Financial Officer (CFO) of Arkema S.A. since 2019. Deo oversees financial planning, capital allocation, and investor relations. 2023 priorities: debt reduction (target net leverage <2.5x EBITDA by 2025), working-capital optimization, and ESG-linked financing. 2023 compensation:. Deo's background: prior CFO roles at Sanofi and Rhodia (Arkema predecessor).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Nathalie Delaby",
+        "ticker": null,
+        "cik": null,
+        "slug": "nathalie_delaby",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "General Counsel (GC) and Chief Compliance Officer of Arkema S.A. since 2020. Delaby oversees legal affairs, regulatory compliance, and litigation management. 2023 priorities: REACH/PFAS compliance, antitrust risk management, and ESG governance. Delaby's background: prior GC roles at Rhodia and Solvay.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Thierry Abribat",
+        "ticker": null,
+        "cik": null,
+        "slug": "thierry_abribat",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Chairman of the Board of Arkema S.A. since 2016. Abribat is a former CEO of Arkema (2006-2016) and provides strategic oversight and governance. 2023 board composition: 11 directors (6 independent, 5 non-independent); board committees: Audit, Compensation, Strategy & CSR. Abribat's tenure: 18 years at Arkema (including CEO period); deep industry expertise in specialty chemicals.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Arkema Weekly Comp-Store Sales (Adhesives Segment)",
+        "ticker": "AKE",
+        "cik": null,
+        "slug": "arkema_comp_sales_adhesives",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Arkema does not publicly disclose weekly comp-store sales (unlike retail peers); however, quarterly adhesive segment revenue and volume growth are disclosed in earnings releases. 2023 Q3 adhesives revenue: €1.8B (+3% YoY); volume growth +1%, pricing +2%. Automotive OEM production indices (IHS Markit) and aerospace build rates (Boeing/Airbus) serve as leading indicators for Arkema's adhesive demand.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Arkema Feedstock Cost Index (Ethylene/Propylene Spot Prices)",
+        "ticker": "AKE",
+        "cik": null,
+        "slug": "arkema_feedstock_cost_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Arkema's gross margins are highly sensitive to ethylene and propylene spot prices (Platts/ICIS benchmarks). 2023 ethylene average: $650/ton (vs. $1,100/ton in 2022); propylene average: $750/ton (vs. $1,200/ton in 2022). Spot price declines improved Arkema's Intermediates segment margins by 200-300bps in 2023. Hedging ratio:.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Arkema Hydrogen Peroxide Spot Price Index",
+        "ticker": "AKE",
+        "cik": null,
+        "slug": "arkema_h2o2_spot_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Arkema's Intermediates segment (hydrogen peroxide, specialty oxidants) is exposed to H2O2 spot pricing. 2023 H2O2 spot price: $350-400/ton (vs. $500-600/ton in 2022); oversupply from Tronox and Albemarle capacity additions compressed Arkema's H2O2 margins 100-150bps. Contract pricing with bleach/disinfection customers typically lags spot by 60-90 days; margin compression expected to persist into Q1 2024.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

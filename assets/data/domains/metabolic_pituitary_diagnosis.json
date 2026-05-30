@@ -1,0 +1,99 @@
+{
+  "domainId": "metabolic_pituitary_diagnosis",
+  "title": "Pituitary Hormone Coordination — Diagnostic Pattern Recognition",
+  "parentPortal": "metabolic_pituitary_portal.html",
+  "parentLabel": "Pituitary Hormone Coordination",
+  "phase": "P2",
+  "activations": [
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination — Diagnostic Pattern Recognition — Primary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Pituitary Hormone Coordination dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_diagnosis_assess_portal.html"
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination — Diagnostic Pattern Recognition — Secondary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Pituitary Hormone Coordination dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_diagnosis_impl_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Pituitary Hormone Coordination — Diagnostic Pattern Recognition — Tertiary Node",
+      "domainDescription": "Diagnosis layer — matches observed state patterns against known pathological signatures, assigns severity, and identifies contributing factors.",
+      "group": "diagnosis",
+      "phase": "P2",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Pattern Matching Protocol",
+          "evidence": "A",
+          "description": "Evidence-based diagnostic criteria matching for Pituitary Hormone Coordination dysfunction patterns"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Severity Staging Framework",
+          "evidence": "B",
+          "description": "Graduated severity classification with prognostic implications"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Differential Diagnosis Tree",
+          "evidence": "A",
+          "description": "Systematic elimination of alternative explanations and comorbid conditions"
+        }
+      ],
+      "childPortal": "metabolic_pituitary_diagnosis_optim_portal.html"
+    }
+  ]
+}

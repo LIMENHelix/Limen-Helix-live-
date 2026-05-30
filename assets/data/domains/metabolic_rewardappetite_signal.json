@@ -1,0 +1,81 @@
+{
+  "domainId": "metabolic_rewardappetite_signal",
+  "title": "Reward-Appetite Circuit — Signal Detection & Input",
+  "parentPortal": "metabolic_rewardappetite_portal.html",
+  "parentLabel": "Reward-Appetite Circuit",
+  "phase": "P0",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Reward-Appetite Circuit — Signal Detection & Input — Primary Node",
+      "domainDescription": "Sensing layer — detects raw signals, biomarkers, behavioral indicators, environmental triggers, and incoming data streams relevant to this functional domain.",
+      "group": "signal_detection",
+      "phase": "P0",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Biomarker Screening Protocol",
+          "evidence": "B",
+          "description": "Systematic screening of biological, behavioral, and environmental signals for Reward-Appetite Circuit"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Signal Integration Framework",
+          "evidence": "B",
+          "description": "Infrastructure for aggregating multi-modal signals into unified assessment input"
+        }
+      ],
+      "childPortal": "metabolic_rewardappetite_signal_assess_portal.html"
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Reward-Appetite Circuit — Signal Detection & Input — Secondary Node",
+      "domainDescription": "Sensing layer — detects raw signals, biomarkers, behavioral indicators, environmental triggers, and incoming data streams relevant to this functional domain.",
+      "group": "signal_detection",
+      "phase": "P0",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Biomarker Screening Protocol",
+          "evidence": "B",
+          "description": "Systematic screening of biological, behavioral, and environmental signals for Reward-Appetite Circuit"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Signal Integration Framework",
+          "evidence": "B",
+          "description": "Infrastructure for aggregating multi-modal signals into unified assessment input"
+        }
+      ],
+      "childPortal": "metabolic_rewardappetite_signal_impl_portal.html"
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Reward-Appetite Circuit — Signal Detection & Input — Tertiary Node",
+      "domainDescription": "Sensing layer — detects raw signals, biomarkers, behavioral indicators, environmental triggers, and incoming data streams relevant to this functional domain.",
+      "group": "signal_detection",
+      "phase": "P0",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Biomarker Screening Protocol",
+          "evidence": "B",
+          "description": "Systematic screening of biological, behavioral, and environmental signals for Reward-Appetite Circuit"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Signal Integration Framework",
+          "evidence": "B",
+          "description": "Infrastructure for aggregating multi-modal signals into unified assessment input"
+        }
+      ],
+      "childPortal": "metabolic_rewardappetite_signal_optim_portal.html"
+    }
+  ]
+}

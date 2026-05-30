@@ -1,0 +1,99 @@
+{
+  "domainId": "neurology_striatum_feedback",
+  "title": "Striatum (Caudate/Putamen) — Feedback & Validation",
+  "parentPortal": "neurology_striatum_portal.html",
+  "parentLabel": "Striatum (Caudate/Putamen)",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) — Feedback & Validation — Primary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "neurology_striatum_feedback_assess_portal.html"
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) — Feedback & Validation — Secondary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "neurology_striatum_feedback_impl_portal.html"
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Striatum (Caudate/Putamen) — Feedback & Validation — Tertiary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "neurology_striatum_feedback_optim_portal.html"
+    }
+  ]
+}

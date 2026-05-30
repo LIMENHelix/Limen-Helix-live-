@@ -1,0 +1,383 @@
+{
+  "domainId": "family_law_case",
+  "title": "Case Strategy / Legal Reasoning",
+  "parentPortal": "family_law_portal.html",
+  "parentLabel": "Family Law",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Case Strategy / Legal Reasoning Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Case Strategy / Legal Reasoning indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Case Strategy / Legal Reasoning Assessment & Diagnostics"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Case Strategy / Legal Reasoning Assessment & Diagnostics"
+        }
+      ],
+      "childPortal": "family_law_case_ri_action_portal.html"
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Case Strategy / Legal Reasoning Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Case Strategy / Legal Reasoning activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Case Strategy / Legal Reasoning Core Operations"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Case Strategy / Legal Reasoning Core Operations"
+        }
+      ],
+      "childPortal": "family_law_case_ri_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Case Strategy / Legal Reasoning Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Case Strategy / Legal Reasoning, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Case Strategy / Legal Reasoning Infrastructure & Capacity"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Case Strategy / Legal Reasoning Infrastructure & Capacity"
+        }
+      ],
+      "childPortal": "family_law_case_ri_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Case Strategy / Legal Reasoning Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Case Strategy / Legal Reasoning practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Case Strategy / Legal Reasoning Standards & Governance"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Case Strategy / Legal Reasoning Standards & Governance"
+        }
+      ],
+      "childPortal": "family_law_case_ri_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Case Strategy / Legal Reasoning Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Case Strategy / Legal Reasoning methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Case Strategy / Legal Reasoning Research & Development"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Case Strategy / Legal Reasoning Research & Development"
+        }
+      ],
+      "childPortal": "family_law_case_ri_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Case Strategy / Legal Reasoning Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Case Strategy / Legal Reasoning stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Case Strategy / Legal Reasoning Risk & Resilience"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Case Strategy / Legal Reasoning Risk & Resilience"
+        }
+      ],
+      "childPortal": "family_law_case_ri_signal_portal.html"
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Case Strategy / Legal Reasoning Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Case Strategy / Legal Reasoning operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Case Strategy / Legal Reasoning Coordination & Integration"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Case Strategy / Legal Reasoning Coordination & Integration"
+        }
+      ],
+      "childPortal": "family_law_case_ri_state_portal.html"
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Case Strategy / Legal Reasoning Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Case Strategy / Legal Reasoning outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Functional Assessment",
+          "evidence": "B",
+          "description": "Assessment for Case Strategy / Legal Reasoning Performance & Optimization"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Planning",
+          "evidence": "B",
+          "description": "Planning for Case Strategy / Legal Reasoning Performance & Optimization"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "vmPFC",
+      "target": "VTA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "NAcc",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "AI",
+      "target": "BLA",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "BLA",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "STRI",
+      "target": "PAG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PAG",
+      "target": "NTS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "NTS",
+      "target": "vmPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "AI",
+      "target": "PAG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "FAMILY_LAW_CASE_SYSTEM_FAILURE",
+      "label": "Case Strategy / Legal Reasoning System Failure",
+      "summary": "Critical breakdown in Case Strategy / Legal Reasoning systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Case Strategy / Legal Reasoning Assessment & Diagnostics capacity falling below operational thresholds, reducing Case Strategy / Legal Reasoning output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-active",
+          "detail": "Case Strategy / Legal Reasoning Core Operations systems underperforming, creating gaps in Case Strategy / Legal Reasoning coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered",
+          "detail": "Case Strategy / Legal Reasoning Infrastructure & Capacity behavior deviating from established norms, complicating Case Strategy / Legal Reasoning management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hyper-active",
+          "detail": "Case Strategy / Legal Reasoning Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Case Strategy / Legal Reasoning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Hypo-active",
+          "detail": "Case Strategy / Legal Reasoning Performance & Optimization function reduced, compromising Case Strategy / Legal Reasoning system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_CASE_CAPACITY_CRISIS",
+      "label": "Case Strategy / Legal Reasoning Capacity Crisis",
+      "summary": "Demand exceeding available Case Strategy / Legal Reasoning capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper-active",
+          "detail": "Case Strategy / Legal Reasoning Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Case Strategy / Legal Reasoning",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Case Strategy / Legal Reasoning Infrastructure & Capacity systems underperforming, creating gaps in Case Strategy / Legal Reasoning coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered",
+          "detail": "Case Strategy / Legal Reasoning Standards & Governance behavior deviating from established norms, complicating Case Strategy / Legal Reasoning management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-active",
+          "detail": "Case Strategy / Legal Reasoning Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Case Strategy / Legal Reasoning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Altered",
+          "detail": "Case Strategy / Legal Reasoning Performance & Optimization operating outside normal parameters, introducing uncertainty into Case Strategy / Legal Reasoning outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "FAMILY_LAW_CASE_GOVERNANCE_GAP",
+      "label": "Case Strategy / Legal Reasoning Governance Gap",
+      "summary": "Oversight or regulatory failure in Case Strategy / Legal Reasoning creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hypo-active",
+          "detail": "Case Strategy / Legal Reasoning Standards & Governance capacity falling below operational thresholds, reducing Case Strategy / Legal Reasoning output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Altered",
+          "detail": "Case Strategy / Legal Reasoning Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Case Strategy / Legal Reasoning",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Case Strategy / Legal Reasoning Research & Development activity spiking beyond design limits, creating instability across Case Strategy / Legal Reasoning operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Case Strategy / Legal Reasoning Risk & Resilience patterns disrupted, necessitating adaptive responses within Case Strategy / Legal Reasoning frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hypo-active",
+          "detail": "Case Strategy / Legal Reasoning Coordination & Integration function reduced, compromising Case Strategy / Legal Reasoning system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

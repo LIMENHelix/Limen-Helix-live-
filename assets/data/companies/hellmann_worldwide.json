@@ -1,0 +1,672 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "hellmann_worldwide",
+  "slug": "hellmann_worldwide",
+  "name": "Hellmann Worldwide Logistics",
+  "ticker": null,
+  "cik": null,
+  "sic": "4213",
+  "industry": "Trucking (except local)",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "TRUCKD",
+    "ICSA",
+    "TOTALSA",
+    "EXPGSRV",
+    "MMNRNJ"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "diesel fuel",
+    "natural gas",
+    "automotive parts",
+    "electronics",
+    "pharmaceuticals",
+    "perishables",
+    "automotive OEM components"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Fuel-cost volatility exposure (diesel price swings 15–40% YoY impact margin)",
+    "Driver shortage structural headwind (trucking industry turnover >100% annually post-2020)",
+    "Regulatory compliance risk (FMCSA hours-of-service enforcement, ELD mandate 2015 adoption)",
+    "Shipper consolidation pressure (Amazon Logistics, UPS Freight, XPO expansion)"
+  ],
+  "opportunitySignals": [
+    "Nearshoring logistics demand (Mexico manufacturing growth, cross-border LTL expansion)",
+    "E-commerce last-mile outsourcing (3PL penetration in parcel/small-package segment)",
+    "Specialized freight premiums (pharma cold-chain, automotive JIT, electronics high-value)",
+    "Digital freight matching (Convoy, Uber Freight adoption reducing empty miles)"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Hellmann Worldwide Logistics operates as a global freight-forwarding and contract-logistics provider, managing LTL (less-than-truckload), FTL (full-truckload), and multimodal shipments across North America, Europe, and Asia-Pacific. The company serves automotive OEMs, pharmaceutical manufacturers, electronics retailers, and FMCG distributors, positioning it as a critical node in just-in-time supply chains where delivery reliability and cost control directly impact customer profitability. Hellmann's exposure to fuel volatility, driver availability, and regulatory compliance (FMCSA, DOT, EPA emissions) makes it a leading indicator of supply-chain stress and shipper demand elasticity.",
+  "portalRelevance": "Hellmann Worldwide is a peer-tier logistics infrastructure provider whose operational metrics (utilization, fuel surcharge realization, shipper contract wins/losses) signal broader supply-chain health and shipper financial stress. As a private company owned by Hellmann SE (German parent), it lacks public equity disclosure but its customer concentration (automotive >25%, pharma >15%, retail >20%) and fuel-cost pass-through dynamics make it a critical barometer for manufacturing and retail margin compression. Its competitive positioning against XPO Logistics, J.B. Hunt, and Saia Inc. in the LTL segment, and against DHL Supply Chain and Geodis in contract logistics, reflects structural shifts in outsourcing and nearshoring.",
+  "notes": {
+    "cohortStatus": "PRIVATE_SUBSIDIARY",
+    "envelopeStatus": "PRIVATE_FILER"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly shipper shipment volume by lane and commodity (automotive, pharma, retail)",
+        "Fuel surcharge realization vs. diesel spot price (margin compression indicator)",
+        "Driver hiring/turnover rates and wage inflation (operational cost pressure)",
+        "Customer contract wins/losses and pricing power (shipper demand elasticity)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Utilization rate by fleet segment (LTL, FTL, dedicated) and geography",
+        "Fuel-cost pass-through lag (30–60 day delay in surcharge realization)",
+        "Shipper concentration risk (top 10 customers as % of revenue)",
+        "Regulatory compliance posture (FMCSA safety rating, ELD adoption, emissions)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Margin compression signature: fuel spike + shipper pricing resistance + driver wage inflation",
+        "Demand inflection: automotive production cuts (OEM inventory destocking) vs. e-commerce parcel growth",
+        "Competitive threat: XPO/J.B. Hunt scale advantage in automation, Amazon Logistics direct threat in last-mile",
+        "Regulatory stress: FMCSA enforcement cycles, EPA emissions compliance capex (electrification roadmap)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Fuel-cost hedging via diesel futures (CME ULSD contracts) to smooth margin volatility",
+        "Shipper contract renegotiation playbook (fuel surcharge escalators, minimum-volume commitments)",
+        "Driver retention programs (wage benchmarking vs. industry, benefits competitiveness)",
+        "Compliance monitoring (FMCSA safety audits, DOT hours-of-service enforcement, EPA Tier 4 final)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Capacity allocation: shift volume toward higher-margin specialized freight (pharma, automotive JIT)",
+        "Pricing action: implement fuel surcharge floor (minimum 5–8% margin buffer) in new shipper contracts",
+        "Technology investment: TMS (transportation management system) upgrade to reduce empty miles, improve asset utilization",
+        "M&A strategy: acquire regional LTL carriers or specialized logistics providers to consolidate market share"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Monthly shipper churn rate and contract renewal pricing (leading indicator of demand elasticity)",
+        "Quarterly utilization and fuel-surcharge realization vs. plan (operational execution)",
+        "Shipper financial health signals (customer bankruptcies, restructurings, production cuts)",
+        "Competitive win/loss analysis vs. XPO, J.B. Hunt, Saia (market-share trajectory)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Shipper concentration reweighting: reduce automotive exposure if OEM inventory destocking accelerates",
+        "Fuel-cost model recalibration: incorporate renewable diesel (RD) blending economics, EV adoption curve",
+        "Driver wage elasticity update: track regional wage inflation vs. turnover outcomes (retention ROI)",
+        "Competitive positioning: monitor XPO/J.B. Hunt automation capex and pricing moves; adjust service-level differentiation"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Shell Global",
+        "ticker": "SHEL",
+        "cik": "0000949870",
+        "slug": "shell_global",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Fuel & Energy Supply",
+        "relationshipNote": "Hellmann's largest fuel supplier via Shell card programs and bulk contracts. Diesel price volatility (WTI-linked, 15–40% YoY swings) directly impacts margin; fuel surcharge mechanisms lag spot price by 30–60 days, creating working-capital pressure. Hellmann negotiates volume discounts and hedging terms annually; fuel typically represents 25–30% of operating cost. Shell's renewable diesel (RD) blending options (ASTM D7468) offer margin upside if shipper sustainability mandates drive premium pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Volvo Trucks",
+        "ticker": "VOLV",
+        "cik": null,
+        "slug": "volvo_trucks",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Fleet Acquisition & Maintenance",
+        "relationshipNote": "Primary heavy-duty truck supplier for Hellmann's owned fleet (Class 8 tractors and trailers). Volvo's FH16 and FM models dominate European operations; North American fleet includes Volvo VNL units. Hellmann's fleet capex (~$150–200M annually estimated) funds 500–800 unit annual purchases. Volvo's I-Shift automated transmission and D13 engine (Euro 6 / EPA Tier 4 final) reduce fuel consumption 3–5% vs. prior generation, improving margin. Warranty and parts availability critical to uptime.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Michelin Tire",
+        "ticker": "MICCF",
+        "cik": null,
+        "slug": "michelin_tire",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Tire & Maintenance Supply",
+        "relationshipNote": "Exclusive or preferred tire supplier for Hellmann's fleet (estimated 8,000–12,000 tires annually). Michelin's Defender and Agilis lines optimize fuel efficiency and durability for LTL/FTL operations. Tire cost ~$400–600 per unit; replacement cycles 3–4 years. Michelin's tire-pressure monitoring systems (TPMS) and predictive maintenance analytics integrate with Hellmann's TMS, reducing blowouts and downtime. Volume rebates and warranty terms negotiated annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sennheiser Communications",
+        "ticker": null,
+        "cik": null,
+        "slug": "sennheiser_communications",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Driver Communication & Safety",
+        "relationshipNote": "Supplier of in-cab communication systems, headsets, and telematics integration for Hellmann's fleet. Driver safety and compliance (FMCSA hours-of-service, distracted-driving prevention) depend on reliable communication hardware. Sennheiser's wireless systems reduce wiring complexity and improve driver ergonomics..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Trimble Transportation",
+        "ticker": "TRMB",
+        "cik": "0000097581",
+        "slug": "trimble_transportation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "TMS & GPS Fleet Tracking",
+        "relationshipNote": "Hellmann's transportation management system (TMS) and GPS fleet-tracking platform provider. Trimble's TMWX and Veoride solutions optimize routing, reduce empty miles, and provide real-time visibility to shippers. Integration with Hellmann's billing and customer portal enables automated shipment tracking and proof-of-delivery (POD). Trimble's AI-powered route optimization saves 2–4% fuel annually. Contract likely $2–5M annually; mission-critical to operations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cummins Inc.",
+        "ticker": "CMI",
+        "cik": "0000026172",
+        "slug": "cummins_inc",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Engine & Powertrain Supply",
+        "relationshipNote": "Supplier of heavy-duty diesel engines (ISX15, X15) and natural-gas engines (ISL G) for Hellmann's fleet. Cummins engines power ~40% of Class 8 tractors in North America. Fuel efficiency (torque curve, emissions control) directly impacts margin. Cummins' aftertreatment systems (SCR, DPF) ensure EPA Tier 4 final compliance. Warranty and parts network critical; Hellmann likely negotiates volume pricing and extended service agreements.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Eaton Hydraulics",
+        "ticker": "ETN",
+        "cik": "0000024996",
+        "slug": "eaton_hydraulics",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Transmission & Drivetrain",
+        "relationshipNote": "Supplier of automated manual transmissions (AMT) and hybrid powertrains for Hellmann's fleet. Eaton's Fuller Advantage and Endurant transmissions reduce fuel consumption 3–6% vs. manual units and improve driver comfort. Hybrid systems (Eaton Hybrid Drive) target 10–15% fuel savings in urban/stop-and-go operations. Hellmann's fleet modernization (2020–2025) likely includes 20–30% AMT/hybrid penetration. Warranty and software updates critical.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Penske Truck Leasing",
+        "ticker": null,
+        "cik": null,
+        "slug": "penske_truck_leasing",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Fleet Capacity & Overflow",
+        "relationshipNote": "Hellmann uses Penske and similar leasing companies for peak-season capacity and equipment overflow. Penske provides short-term (30–90 day) and long-term (1–3 year) lease options for tractors and trailers. Leasing costs ~$1,500–2,500/month per tractor; used for demand spikes (holiday season, shipper surges) without capex. Hellmann's owned-vs.-leased fleet mix (~70/30 estimated) optimizes cost and flexibility. Penske's maintenance-included leases reduce Hellmann's operational burden.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hellmann SE (Parent Company)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hellmann_se",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Corporate Governance & Capital",
+        "relationshipNote": "Hellmann Worldwide Logistics is a subsidiary of Hellmann SE, a German family-owned logistics conglomerate founded 1958. Hellmann SE provides capital, governance, and strategic direction; Hellmann Worldwide operates as a regional profit center. SE's diversified portfolio (freight forwarding, contract logistics, customs brokerage, warehousing) across 140+ countries provides cross-selling opportunities and risk diversification. Hellmann SE's private ownership enables long-term investment in automation and sustainability without quarterly earnings pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt_transport",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer & Capacity Partner",
+        "relationshipNote": "J.B. Hunt is both a direct competitor and occasional capacity partner for Hellmann in LTL and dedicated-contract logistics. J.B. Hunt's 2023 revenue ~$13.2B (vs. Hellmann Worldwide estimated $8–10B) gives it scale advantage in automation and pricing power. Hellmann may subcontract overflow capacity to J.B. Hunt or vice versa during peak seasons. J.B. Hunt's Intermodal and Dedicated divisions compete directly with Hellmann's contract-logistics offerings. Competitive win/loss analysis critical to Hellmann's pricing strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPO Logistics",
+        "ticker": "XPO",
+        "cik": "0001045609",
+        "slug": "xpo_logistics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer & Technology Leader",
+        "relationshipNote": "XPO Logistics is Hellmann's primary LTL and contract-logistics competitor globally. XPO's 2023 revenue ~$16.6B; aggressive automation (autonomous vehicle pilots, AI-driven routing) and M&A (Estes, Old Dominion integration) create scale and technology advantages. XPO's pricing power and customer concentration (top 10 customers ~30% of revenue) mirror Hellmann's exposure. XPO's European operations (Norbert Dentressangle acquisition 2015) directly compete with Hellmann SE's regional footprint. Hellmann must differentiate via service quality, specialized freight, and customer relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": "DPSGY",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Contract-Logistics Competitor",
+        "relationshipNote": "DHL Supply Chain (part of Deutsche Post DHL Group) competes with Hellmann in contract logistics, warehousing, and multimodal services globally. DHL's 2023 revenue ~€84B (group); Supply Chain division ~€20B. DHL's global network and customs expertise (DHL Express integration) provide advantages in cross-border and pharmaceutical logistics. Hellmann's European and Asian operations compete directly with DHL's regional hubs. DHL's financial scale enables aggressive pricing; Hellmann differentiates via specialized services and customer intimacy.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Geodis",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "European Contract-Logistics Competitor",
+        "relationshipNote": "Geodis (SNCF subsidiary) is a major European contract-logistics and freight-forwarding competitor. Geodis' 2023 revenue ~€10.5B; strong in automotive logistics (JIT supply chains) and multimodal services. Hellmann and Geodis compete for automotive OEM contracts (Volkswagen, BMW, Mercedes) in Europe. Geodis' rail and intermodal capabilities (SNCF integration) offer cost advantages for long-haul routes. Hellmann's differentiation lies in specialized pharma and electronics logistics, where Geodis has less expertise.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Amazon Logistics",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_logistics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Disruptive Last-Mile Competitor",
+        "relationshipNote": "Amazon Logistics (Amazon's in-house delivery network) is an emerging threat to Hellmann's parcel and last-mile operations. Amazon Logistics' 2023 estimated capacity ~2.5B parcels annually (vs. UPS ~5.6B, FedEx ~3.5B). Amazon's vertical integration (fulfillment centers, delivery stations, driver network) enables aggressive pricing and margin compression for traditional 3PLs. Hellmann's parcel/small-package segment (~15–20% of revenue estimated) faces direct competition. Hellmann must focus on B2B and specialized freight where Amazon has less presence.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Volkswagen Group",
+        "ticker": "VLKAF",
+        "cik": null,
+        "slug": "volkswagen_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Automotive OEM Customer",
+        "relationshipNote": "Volkswagen Group (VW, Audi, Porsche, Skoda, Bentley) is Hellmann's largest automotive customer globally. VW's JIT supply-chain model requires reliable, frequent shipments of components and finished vehicles. Hellmann manages inbound logistics (supplier-to-plant), in-plant logistics, and outbound distribution across VW's European plants (Wolfsburg, Zwickau, Emden, Hannover) and global facilities. Contract value estimated $200–400M annually; automotive segment represents ~25–30% of Hellmann's revenue. VW's EV transition (ID. platform) and supply-chain regionalization (nearshoring) create both risk (legacy ICE logistics decline) and opportunity (new battery-supply chains).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Pfizer Inc.",
+        "ticker": "PFE",
+        "cik": "0000078003",
+        "slug": "pfizer_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Pharmaceutical Customer",
+        "relationshipNote": "Pfizer is a major pharmaceutical customer for Hellmann's specialized cold-chain and regulated logistics services. Hellmann manages Pfizer's distribution of vaccines (COVID-19, influenza), oncology drugs, and specialty pharmaceuticals globally. Cold-chain logistics requires FDA-compliant temperature control (2–8°C, -70°C for mRNA vaccines), real-time monitoring, and chain-of-custody documentation. Contract value estimated $50–150M annually; pharma segment represents ~15–20% of Hellmann's revenue. Pfizer's supply-chain regionalization (nearshoring to Mexico, Europe) and direct-to-patient distribution models create new logistics requirements and margin opportunities.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Retail Customer",
+        "relationshipNote": "Walmart is a major customer for Hellmann's LTL, FTL, and contract-logistics services in North America and Europe. Walmart's supply-chain model (cross-docking, hub-and-spoke distribution) requires high-frequency, reliable shipments of merchandise from suppliers and distribution centers to stores. Hellmann manages inbound consolidation, regional distribution, and last-mile delivery for Walmart's grocery, general merchandise, and e-commerce operations. Contract value estimated $100–250M annually; retail segment represents ~20–25% of Hellmann's revenue. Walmart's e-commerce growth and supply-chain automation (automation centers, direct-to-store) create both competitive pressure and new service opportunities.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Samsung Electronics",
+        "ticker": "SSNLF",
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Electronics OEM Customer",
+        "relationshipNote": "Samsung is a significant customer for Hellmann's electronics logistics and supply-chain services. Hellmann manages inbound logistics (component suppliers to Samsung plants in South Korea, Vietnam, Mexico), in-plant logistics, and outbound distribution of finished goods (TVs, smartphones, semiconductors) globally. High-value electronics require secure, temperature-controlled, and damage-free handling. Contract value estimated $30–80M annually; electronics segment represents ~10–15% of Hellmann's revenue. Samsung's supply-chain regionalization (nearshoring to Mexico, India) and semiconductor supply-chain volatility create both risk and opportunity for Hellmann.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000091142",
+        "slug": "saia_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional LTL Competitor",
+        "relationshipNote": "Saia is a mid-sized LTL carrier competing with Hellmann in North America. Saia's 2023 revenue ~$2.2B; operates ~3,500 tractors and ~8,500 trailers. Saia's regional footprint (Southeast, Midwest, Southwest) and service quality (on-time delivery, damage rates) compete directly with Hellmann's North American LTL operations. Saia's pricing power and margin profile (~8–12% operating margin) benchmark Hellmann's competitive positioning. Saia's technology investments (TMS, automation) and driver retention programs (wages, benefits) set competitive standards.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Old Dominion Freight Line",
+        "ticker": "ODFL",
+        "cik": "0000885609",
+        "slug": "old_dominion_freight",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Premium LTL Competitor",
+        "relationshipNote": "Old Dominion is the largest LTL carrier in North America by revenue (~$5.0B in 2023). Old Dominion's premium service model (on-time delivery >99%, damage rates <0.5%) and pricing power (operating margin ~20%+) set the competitive benchmark. Old Dominion's network (250+ service centers, 10,000+ tractors) and technology (proprietary TMS, automation) create scale advantages. Hellmann competes with Old Dominion in regional LTL but lacks Old Dominion's scale and pricing power. Hellmann's differentiation lies in specialized freight and contract logistics, not commodity LTL.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "YRC Worldwide",
+        "ticker": "YRCW",
+        "cik": "0000106424",
+        "slug": "yrc_worldwide",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Distressed LTL Competitor",
+        "relationshipNote": "YRC Worldwide (now Yellow Corporation post-2023 bankruptcy) was a major LTL competitor but filed Chapter 11 in August 2023 due to debt burden ($6.3B), labor cost inflation (Teamsters contract 2022), and competitive pressure. YRC's bankruptcy and liquidation (2024) removed ~$1.5B in annual capacity from the market, benefiting surviving competitors like Hellmann. YRC's failure illustrates the structural challenges in commodity LTL: thin margins, high fixed costs, and labor-cost volatility. Hellmann's survival depends on avoiding YRC's debt trap and focusing on higher-margin specialized services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Schneider National",
+        "ticker": "SNDR",
+        "cik": "0000091440",
+        "slug": "schneider_national",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Diversified Logistics Competitor",
+        "relationshipNote": "Schneider National is a diversified transportation and logistics company (2023 revenue ~$5.5B) competing with Hellmann in contract logistics, intermodal, and dedicated services. Schneider's Logistics Solutions division (~$2.0B revenue) directly competes with Hellmann's contract-logistics offerings. Schneider's technology platform (Schneider 360) and driver network (owner-operators, company drivers) provide flexibility. Hellmann competes on service quality and specialization; Schneider competes on scale and technology. Schneider's financial strength (investment-grade credit) enables aggressive pricing and capex investment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global Freight-Forwarding Competitor",
+        "relationshipNote": "Kuehne+Nagel (Swiss-based, publicly traded) is a major global freight-forwarding and contract-logistics competitor. K+N's 2023 revenue ~CHF 37.6B (~$42B); operates in 100+ countries. K+N's Sea Logistics, Air Logistics, and Contract Logistics divisions compete with Hellmann's multimodal and contract-logistics services. K+N's scale, global network, and technology (digital freight marketplace, automation) create competitive advantages. Hellmann competes on regional expertise and customer relationships; K+N competes on global scale and financial strength.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Federal Motor Carrier Safety Administration (FMCSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fmcsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Safety & Compliance Regulator",
+        "relationshipNote": "FMCSA (U.S. Department of Transportation) regulates Hellmann's North American operations via the Federal Motor Carrier Safety Regulations (FMCSR, 49 CFR Part 382–399). Key compliance areas: hours-of-service (HOS) limits (11-hour driving, 14-hour on-duty), electronic logging devices (ELD mandate 2015), driver qualifications (CDL, medical certification), vehicle maintenance (CVSA inspections), and safety ratings (CSA 2010 program). FMCSA enforcement actions (out-of-service orders, fines) directly impact Hellmann's operations and insurance costs. Hellmann's safety rating (CSA percentile) influences shipper selection and pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "EPA regulates Hellmann's fleet emissions via the Clean Air Act and EPA Tier 4 final standards (2010–2015 phase-in). Tier 4 final engines reduce NOx and particulate matter by 90%+ vs. pre-2010 engines. Hellmann's fleet modernization (2015–2025) requires replacement of older engines with compliant units, capex ~$150–200M estimated. EPA's proposed Heavy-Duty Greenhouse Gas (GHG) Phase 3 standards (2027–2035) will mandate further emissions reductions, driving electrification and alternative-fuel adoption. Hellmann's capex planning and fuel-cost assumptions must account for EPA compliance roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Governance",
+        "relationshipNote": "SEC does not directly regulate Hellmann (private company), but Hellmann's parent (Hellmann SE) may face SEC scrutiny if it pursues U.S. IPO or debt issuance. SEC's disclosure rules (Regulation S-K, S-X) and ESG reporting expectations (climate risk, supply-chain transparency) would apply post-IPO. Hellmann's major customers (Walmart, Pfizer, Samsung) face SEC disclosure requirements and may impose supply-chain transparency mandates on Hellmann via contracts. Hellmann's private status provides flexibility but limits access to public capital markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration (FDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Pharmaceutical & Food Safety Compliance",
+        "relationshipNote": "FDA regulates Hellmann's pharmaceutical and food logistics operations via the Food, Drug, and Cosmetic Act (FDCA) and Current Good Manufacturing Practice (CGMP) rules (21 CFR Part 211). Hellmann's cold-chain logistics for Pfizer vaccines and specialty drugs must comply with FDA's temperature-control, chain-of-custody, and documentation requirements. FDA's Drug Supply Chain Security Act (DSCSA, 2013) mandates track-and-trace for pharmaceuticals; Hellmann's TMS must integrate with DSCSA reporting. FDA audits and inspections (every 2–3 years) assess Hellmann's compliance; failures can result in loss of pharmaceutical contracts.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation (DOT)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Transportation Infrastructure & Regulation",
+        "relationshipNote": "DOT (parent agency of FMCSA) regulates Hellmann's hazardous materials (hazmat) transportation via the Hazardous Materials Regulations (HMR, 49 CFR Parts 172–180). Hellmann's fleet may transport hazmat (flammable liquids, corrosives, oxidizers) for industrial and chemical customers; drivers require hazmat endorsement (HE) on CDL. DOT's Pipeline and Hazardous Materials Safety Administration (PHMSA) enforces HMR compliance; violations result in fines and operational restrictions. Hellmann's hazmat training and documentation must meet DOT standards; insurance premiums reflect hazmat exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_llp",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial & Operational Audit",
+        "relationshipNote": "Deloitte is Hellmann Worldwide's external auditor (estimated engagement, not confirmed). Deloitte's audit scope covers financial statements, internal controls, and operational compliance (FMCSA safety, EPA emissions, FDA pharmaceutical logistics). Deloitte's audit committee interactions and management letters assess Hellmann's risk management, IT security, and supply-chain resilience. Deloitte's industry expertise (transportation & logistics) provides benchmarking and advisory services. Audit fees estimated $500K–$2M annually depending on scope and complexity.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Hellmann SE (Parent Company)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hellmann_se",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Primary Capital Provider & Governance",
+        "relationshipNote": "Hellmann SE (German family-owned conglomerate, founded 1958) is Hellmann Worldwide's parent and primary capital provider. SE provides equity capital, debt guarantees, and strategic direction. Hellmann SE's diversified portfolio (freight forwarding, contract logistics, customs brokerage, warehousing) across 140+ countries enables cross-subsidization and risk diversification. SE's private ownership (Hellmann family) enables long-term investment in automation, sustainability, and geographic expansion without quarterly earnings pressure. Estimated annual capex allocation to Hellmann Worldwide: $150–250M (fleet, TMS, facilities).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Deutsche Bank AG",
+        "ticker": "DB",
+        "cik": null,
+        "slug": "deutsche_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Financial Advisor",
+        "relationshipNote": "Deutsche Bank is Hellmann SE's primary relationship bank and likely lender to Hellmann Worldwide. DB provides working-capital facilities (revolving credit, asset-based lending), term loans for capex, and trade finance services. Hellmann's fuel surcharge receivables and shipper payment terms (30–60 days) create working-capital needs; DB's ABL facility likely covers 50–70% of receivables. DB's logistics industry expertise and European footprint align with Hellmann SE's geographic focus. Estimated credit facility: $500M–$1B; interest rates tied to EURIBOR + 150–250 bps.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ING Groep NV",
+        "ticker": "ING",
+        "cik": null,
+        "slug": "ing_groep",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Trade Finance",
+        "relationshipNote": "ING is a secondary lender and trade-finance provider to Hellmann SE and Hellmann Worldwide. ING provides supply-chain financing (invoice discounting, supply-chain finance platforms) and cross-border payment services. Hellmann's global operations (140+ countries) require multi-currency liquidity and trade-finance solutions; ING's global network supports this. Estimated credit facility: $200–500M; interest rates and fees tied to EURIBOR + spreads. ING's supply-chain finance platform may integrate with Hellmann's shipper payment terms.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Diesel Spot Price (ULSD Futures, CME)",
+        "slug": "diesel_spot_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Fuel Cost & Margin Signal",
+        "relationshipNote": "Diesel spot price (WTI-linked, CME ULSD futures) is the primary exogenous shock to Hellmann's margin. Diesel represents 25–30% of operating cost; 10% price swing = 2.5–3% margin impact. Hellmann's fuel surcharge mechanism lags spot price by 30–60 days, creating working-capital pressure and margin volatility. Hellmann's hedging strategy (diesel futures, collar strategies) aims to smooth margin swings. Weekly ULSD futures prices and spot-market tracking are critical to Hellmann's pricing and financial forecasting.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Trucking Freight Index (Cass Freight Index, ATA)",
+        "slug": "trucking_freight_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Demand & Shipper Activity Signal",
+        "relationshipNote": "Cass Freight Index and American Trucking Associations (ATA) Truck Tonnage Index track shipper demand and freight volumes. Monthly index changes signal economic activity, manufacturing production, and retail sales trends. Hellmann's shipper mix (automotive 25–30%, pharma 15–20%, retail 20–25%) correlates with these indices. Rising freight index = pricing power and utilization gains; falling index = margin pressure and capacity underutilization. Hellmann monitors these indices monthly to forecast demand and adjust pricing/capacity strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

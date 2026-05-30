@@ -1,0 +1,383 @@
+{
+  "domainId": "pediatric_social",
+  "title": "Social Cognition & Self-Reference",
+  "parentPortal": "pediatric_portal.html",
+  "parentLabel": "Pediatric Neurodevelopment",
+  "phase": "P0",
+  "activations": [
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Social Cognition & Self-Reference indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P0",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "pediatric_social_action_portal.html"
+    },
+    {
+      "brainNodeId": "PCC",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Social Cognition & Self-Reference activities and deliverables",
+      "group": "operations",
+      "phase": "P0",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Social Cognition & Self-Reference Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "pediatric_social_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Social Cognition & Self-Reference, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "pediatric_social_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "EC",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Social Cognition & Self-Reference practices and compliance obligations",
+      "group": "governance",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "pediatric_social_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "FEF",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Social Cognition & Self-Reference methods and capabilities",
+      "group": "innovation",
+      "phase": "P0",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "pediatric_social_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Social Cognition & Self-Reference stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "pediatric_social_signal_portal.html"
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Social Cognition & Self-Reference operations and interfaces",
+      "group": "systems",
+      "phase": "P0",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "pediatric_social_state_portal.html"
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Social Cognition & Self-Reference Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Social Cognition & Self-Reference outputs and resource utilization",
+      "group": "operations",
+      "phase": "P0",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Social Cognition & Self-Reference Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "mPFC",
+      "target": "PCC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "PCC",
+      "target": "AG",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "AG",
+      "target": "EC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "EC",
+      "target": "FEF",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "FEF",
+      "target": "IPS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "IPS",
+      "target": "SMA",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "SMA",
+      "target": "BROCA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "BROCA",
+      "target": "mPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "FEF",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "EC",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "PEDIATRIC_SOCIAL_SYSTEM_FAILURE",
+      "label": "Social Cognition & Self-Reference System Failure",
+      "summary": "Critical breakdown in Social Cognition & Self-Reference systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo-active",
+          "detail": "Social Cognition & Self-Reference Assessment & Diagnostics capacity falling below operational thresholds, reducing Social Cognition & Self-Reference output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PCC",
+          "dir": "Hypo-active",
+          "detail": "Social Cognition & Self-Reference Core Operations systems underperforming, creating gaps in Social Cognition & Self-Reference coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Altered",
+          "detail": "Social Cognition & Self-Reference Infrastructure & Capacity behavior deviating from established norms, complicating Social Cognition & Self-Reference management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Hyper-active",
+          "detail": "Social Cognition & Self-Reference Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Social Cognition & Self-Reference",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo-active",
+          "detail": "Social Cognition & Self-Reference Performance & Optimization function reduced, compromising Social Cognition & Self-Reference system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PEDIATRIC_SOCIAL_CAPACITY_CRISIS",
+      "label": "Social Cognition & Self-Reference Capacity Crisis",
+      "summary": "Demand exceeding available Social Cognition & Self-Reference capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "PCC",
+          "dir": "Hyper-active",
+          "detail": "Social Cognition & Self-Reference Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Social Cognition & Self-Reference",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-active",
+          "detail": "Social Cognition & Self-Reference Infrastructure & Capacity systems underperforming, creating gaps in Social Cognition & Self-Reference coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EC",
+          "dir": "Altered",
+          "detail": "Social Cognition & Self-Reference Standards & Governance behavior deviating from established norms, complicating Social Cognition & Self-Reference management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hyper-active",
+          "detail": "Social Cognition & Self-Reference Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Social Cognition & Self-Reference",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered",
+          "detail": "Social Cognition & Self-Reference Performance & Optimization operating outside normal parameters, introducing uncertainty into Social Cognition & Self-Reference outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "PEDIATRIC_SOCIAL_GOVERNANCE_GAP",
+      "label": "Social Cognition & Self-Reference Governance Gap",
+      "summary": "Oversight or regulatory failure in Social Cognition & Self-Reference creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hypo-active",
+          "detail": "Social Cognition & Self-Reference Standards & Governance capacity falling below operational thresholds, reducing Social Cognition & Self-Reference output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Social Cognition & Self-Reference Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Social Cognition & Self-Reference",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FEF",
+          "dir": "Hyper-active",
+          "detail": "Social Cognition & Self-Reference Research & Development activity spiking beyond design limits, creating instability across Social Cognition & Self-Reference operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "IPS",
+          "dir": "Altered",
+          "detail": "Social Cognition & Self-Reference Risk & Resilience patterns disrupted, necessitating adaptive responses within Social Cognition & Self-Reference frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo-active",
+          "detail": "Social Cognition & Self-Reference Coordination & Integration function reduced, compromising Social Cognition & Self-Reference system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · Pattern Proposals</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050810;color:#e8e3d9;font-family:'IBM Plex Mono',monospace;padding:20px 24px;font-size:12px}
+h1{font-size:0.6rem;letter-spacing:4px;color:#C9A94E;margin-bottom:4px}
+.sub{font-size:0.36rem;color:rgba(200,195,184,0.3);letter-spacing:1.5px;margin-bottom:20px}
+.nav{display:flex;gap:14px;margin-bottom:18px;font-size:0.32rem;letter-spacing:1.5px;flex-wrap:wrap}
+a{color:rgba(201,169,78,0.55);text-decoration:none}
+a:hover{color:#C9A94E}
+
+.banner{display:flex;align-items:center;gap:24px;padding:18px 26px;border:1px solid rgba(201,169,78,0.15);border-radius:3px;background:rgba(0,0,0,0.3);margin-bottom:20px;flex-wrap:wrap}
+.banner-stat{display:flex;flex-direction:column;min-width:100px}
+.banner-stat-val{font-size:1.4rem;letter-spacing:1px;color:#C9A94E;line-height:1}
+.banner-stat-val.pending{color:#C9A94E}
+.banner-stat-val.approved{color:#5ab5a0}
+.banner-stat-val.rejected{color:#e85454}
+.banner-stat-label{font-size:0.3rem;color:rgba(200,195,184,0.35);letter-spacing:2px;text-transform:uppercase;margin-top:6px}
+.banner-help{flex:1;min-width:300px;font-size:0.32rem;color:rgba(200,195,184,0.45);letter-spacing:0.5px;line-height:1.6}
+
+.trigger{margin:6px 0 6px 0}
+.trigger button{font-size:0.36rem;color:#5ab5a0;border:1px solid rgba(90,181,160,0.4);background:rgba(90,181,160,0.05);font-family:inherit;cursor:pointer;padding:8px 16px;border-radius:2px;letter-spacing:1.5px;text-transform:uppercase}
+.trigger button:hover{color:#5ab5a0;border-color:rgba(90,181,160,0.7);background:rgba(90,181,160,0.1)}
+.trigger button:disabled{opacity:0.5;cursor:default}
+.trigger #triggerStatus{margin-left:14px;font-size:0.32rem;color:rgba(200,195,184,0.5)}
+
+.sect{font-size:0.42rem;letter-spacing:3px;color:rgba(201,169,78,0.4);margin:22px 0 8px;padding-top:12px;border-top:1px solid rgba(201,169,78,0.08);display:flex;align-items:baseline;gap:14px}
+.sect-count{font-size:0.32rem;color:rgba(200,195,184,0.4);letter-spacing:1px}
+
+/* ── Collapsible row ─────────────────────────────────────────────── */
+.row{margin-bottom:3px;border-radius:2px;border:1px solid transparent;background:rgba(0,0,0,0.18);transition:background 0.15s}
+.row:hover{background:rgba(201,169,78,0.03)}
+.row.open{border-color:rgba(201,169,78,0.25);background:rgba(0,0,0,0.3);margin-bottom:8px}
+.row.approved{border-left:3px solid rgba(90,181,160,0.4)}
+.row.rejected{border-left:3px solid rgba(232,84,84,0.35);opacity:0.65}
+
+.row-head{display:grid;grid-template-columns:64px 140px 1fr 1fr 80px 220px;gap:10px;padding:7px 12px;align-items:center;cursor:pointer;font-size:0.36rem}
+.row-num{font-size:0.36rem;color:rgba(201,169,78,0.55);letter-spacing:1.5px;font-family:"IBM Plex Mono",monospace}
+.row-num.dup{color:#e8e3d9}
+.row-num small{color:rgba(200,195,184,0.35);font-size:0.28rem;display:block;letter-spacing:0.5px}
+.row-portal{font-size:0.36rem;letter-spacing:1px;color:#e8e3d9;text-transform:lowercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row-sig{color:rgba(200,195,184,0.6);font-size:0.34rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row-neural{color:#C9A94E;font-size:0.34rem;letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row-conf{font-size:0.32rem;color:rgba(200,195,184,0.5);text-align:right}
+.row-actions{display:flex;gap:4px;justify-content:flex-end}
+.row-actions button{font-size:0.3rem;font-family:inherit;border:1px solid;background:none;cursor:pointer;padding:4px 8px;border-radius:2px;letter-spacing:1px;text-transform:uppercase}
+.row-actions button.approve{color:#5ab5a0;border-color:rgba(90,181,160,0.4)}
+.row-actions button.approve:hover{color:#5ab5a0;border-color:rgba(90,181,160,0.8);background:rgba(90,181,160,0.06)}
+.row-actions button.reject{color:#e85454;border-color:rgba(232,84,84,0.35)}
+.row-actions button.reject:hover{color:#e85454;border-color:rgba(232,84,84,0.7);background:rgba(232,84,84,0.06)}
+.row-actions button.expand{color:rgba(201,169,78,0.55);border-color:rgba(201,169,78,0.25)}
+.row-actions button.expand:hover{color:#C9A94E;border-color:rgba(201,169,78,0.5)}
+.row-actions button:disabled{opacity:0.4;cursor:default}
+.row-actions .status{font-size:0.3rem;letter-spacing:1.5px;padding:4px 8px;border-radius:2px}
+.row-actions .status.approved{color:#5ab5a0;border:1px solid rgba(90,181,160,0.4);background:rgba(90,181,160,0.05)}
+.row-actions .status.rejected{color:#e85454;border:1px solid rgba(232,84,84,0.35);background:rgba(232,84,84,0.05)}
+
+.row-detail{display:none;padding:14px 18px;border-top:1px solid rgba(201,169,78,0.1);background:rgba(0,0,0,0.18);font-size:0.34rem;color:rgba(200,195,184,0.65);line-height:1.6}
+.row.open .row-detail{display:block}
+.row-detail h4{font-size:0.32rem;letter-spacing:2px;color:rgba(201,169,78,0.5);text-transform:uppercase;margin:10px 0 5px;font-weight:normal}
+.row-detail h4:first-child{margin-top:0}
+.row-detail .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px}
+.row-detail .card{padding:10px 12px;border:1px solid rgba(255,255,255,0.04);background:rgba(0,0,0,0.2);border-radius:3px}
+.row-detail code{color:rgba(201,169,78,0.6);font-family:inherit;font-size:0.3rem}
+.row-detail ul{padding-left:18px}
+.row-detail li{margin-bottom:3px}
+.angle-row{padding:6px 10px;border-left:2px solid rgba(90,181,160,0.25);margin-bottom:4px;font-size:0.32rem;color:rgba(200,195,184,0.6);line-height:1.6}
+.angle-lane{color:#5ab5a0;font-size:0.28rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px}
+
+.empty-state{padding:36px;text-align:center;color:rgba(200,195,184,0.3);font-size:0.42rem;letter-spacing:2px;text-transform:uppercase}
+.empty-state-help{font-size:0.32rem;color:rgba(200,195,184,0.35);letter-spacing:1px;margin-top:10px;text-transform:none;line-height:1.7}
+
+.toast{position:fixed;bottom:20px;right:20px;padding:10px 16px;background:rgba(0,0,0,0.85);border:1px solid rgba(201,169,78,0.4);color:#e8e3d9;font-size:0.36rem;border-radius:3px;letter-spacing:1px;z-index:1000;display:none;max-width:400px}
+.toast.show{display:block}
+.toast.ok{border-color:rgba(90,181,160,0.5)}
+.toast.err{border-color:rgba(232,84,84,0.5)}
+
+.footer{margin-top:30px;font-size:0.28rem;color:rgba(200,195,184,0.12);letter-spacing:1.5px;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="/">← INDEX</a>
+  <a href="/operator-guide.html">★ OPERATOR GUIDE</a>
+  <a href="/my-documents.html" style="color:#5ab5a0">⬇ MY DOCUMENTS</a>
+  <a href="/vitals.html">SYSTEM VITALS</a>
+  <a href="/master-inbox.html">MASTER BRAIN INBOX</a>
+</div>
+
+<h1>BRIDGE PATTERN PROPOSALS</h1>
+<div class="sub">SINGLE-LINE QUEUE · CLICK A ROW TO EXPAND · APPROVE / REJECT WITHOUT OPENING</div>
+
+<div class="banner">
+  <div class="banner-stat"><div class="banner-stat-val pending" id="pendingCount">—</div><div class="banner-stat-label">Pending</div></div>
+  <div class="banner-stat"><div class="banner-stat-val approved" id="approvedCount">—</div><div class="banner-stat-label">Approved</div></div>
+  <div class="banner-stat"><div class="banner-stat-val rejected" id="rejectedCount">—</div><div class="banner-stat-label">Rejected</div></div>
+  <div class="banner-stat"><div class="banner-stat-val" id="totalCount">—</div><div class="banner-stat-label">Total</div></div>
+  <div class="banner-help">
+    Each row has a reference number you can use to spot repeats. Same source portal + same business signature with a different neural region = likely a thinly-disguised duplicate. Color-coded by source portal.
+    <div class="trigger">
+      <button id="triggerNow">▶ Author 3 more proposals</button>
+      <span id="triggerStatus"></span>
+    </div>
+  </div>
+</div>
+
+<div class="sect">PENDING REVIEW <span class="sect-count" id="pendingSectCount"></span></div>
+<div id="pending"></div>
+
+<div class="sect">APPROVED <span class="sect-count" id="approvedSectCount"></span></div>
+<div id="approved"></div>
+
+<div class="sect">REJECTED <span class="sect-count" id="rejectedSectCount"></span></div>
+<div id="rejected"></div>
+
+<div class="footer">
+  LIMEN HELIX · pattern proposals · authored by <code>scripts/author-bridge-patterns.mjs</code> via Claude
+</div>
+
+<script>
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];}); }
+function clean(s) { return String(s || '').replace(/_/g, ' '); }
+
+// Color-code rows by source portal so repeats from same source jump out
+function portalColor(slug) {
+  if (!slug) return 'rgba(200,195,184,0.5)';
+  var h = 0; for (var i = 0; i < slug.length; i++) h = ((h << 5) - h + slug.charCodeAt(i)) | 0;
+  var hue = Math.abs(h) % 360;
+  return 'hsl(' + hue + ',45%,68%)';
+}
+
+fetch('/api/pattern-proposal?_=' + Date.now())
+  .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
+  .then(render)
+  .catch(function(err){
+    document.getElementById('pending').innerHTML = '<div class="empty-state">Endpoint unavailable (' + esc(err) + ')<div class="empty-state-help">Could not reach /api/pattern-proposal.</div></div>';
+  });
+
+function render(d) {
+  var proposals = (d && d.proposals) || [];
+
+  // latest-wins dedup by pattern.id
+  var seen = {};
+  var unique = [];
+  for (var i = 0; i < proposals.length; i++) {
+    var p = proposals[i];
+    var id = p.pattern && p.pattern.id;
+    if (!id || seen[id]) continue;
+    seen[id] = true;
+    unique.push(p);
+  }
+
+  // Sort by proposedAt ASC so reference numbers are stable + chronological
+  unique.sort(function(a,b){ return (a.proposedAt || '').localeCompare(b.proposedAt || ''); });
+
+  // Assign persistent reference numbers
+  unique.forEach(function(p, i){ p._refNum = i + 1; });
+
+  // Detect "same source portal + same business signature" — likely re-skin
+  // of an already-considered idea via a different neural region
+  var sigCounts = {};
+  unique.forEach(function(p){
+    var key = (p.sourcePortal || '') + '|' + ((p.pattern && p.pattern.business && p.pattern.business.signature) || '');
+    sigCounts[key] = (sigCounts[key] || 0) + 1;
+  });
+  unique.forEach(function(p){
+    var key = (p.sourcePortal || '') + '|' + ((p.pattern && p.pattern.business && p.pattern.business.signature) || '');
+    p._isDupSig = sigCounts[key] > 1;
+  });
+
+  var pending = unique.filter(function(p){ return p.status === 'PENDING_REVIEW' || !p.status; });
+  var approved = unique.filter(function(p){ return p.status === 'APPROVED'; });
+  var rejected = unique.filter(function(p){ return p.status === 'REJECTED'; });
+
+  document.getElementById('pendingCount').textContent = pending.length;
+  document.getElementById('approvedCount').textContent = approved.length;
+  document.getElementById('rejectedCount').textContent = rejected.length;
+  document.getElementById('totalCount').textContent = unique.length;
+  document.getElementById('pendingSectCount').textContent = '(' + pending.length + ')';
+  document.getElementById('approvedSectCount').textContent = '(' + approved.length + ')';
+  document.getElementById('rejectedSectCount').textContent = '(' + rejected.length + ')';
+
+  document.getElementById('pending').innerHTML = pending.length
+    ? pending.map(renderRow).join('')
+    : '<div class="empty-state">No proposals pending<div class="empty-state-help">Click ▶ Author 3 more proposals above. Or wait for the 6h autonomic cron tick.</div></div>';
+
+  document.getElementById('approved').innerHTML = approved.length
+    ? approved.map(renderRow).join('')
+    : '<div class="empty-state" style="padding:18px;font-size:0.36rem">— None yet —</div>';
+
+  document.getElementById('rejected').innerHTML = rejected.length
+    ? rejected.map(renderRow).join('')
+    : '<div class="empty-state" style="padding:18px;font-size:0.36rem">— None yet —</div>';
+
+  wireRowActions();
+}
+
+function renderRow(p) {
+  var pat = p.pattern || {};
+  var n = pat.neural || {};
+  var b = pat.business || {};
+  var br = pat.bridge || {};
+  var da = pat.derivedAngles || {};
+  var status = p.status || 'PENDING_REVIEW';
+
+  var statusClass = status === 'APPROVED' ? 'approved' : status === 'REJECTED' ? 'rejected' : '';
+  var num = '#' + String(p._refNum).padStart(3, '0');
+  var portalSlug = p.sourcePortal || '?';
+  var portalColored = portalColor(portalSlug);
+  var dup = p._isDupSig;
+
+  var head = '<div class="row-head" data-toggle>' +
+    '<div class="row-num' + (dup ? ' dup' : '') + '">' + num + (dup ? '<small>repeat sig</small>' : '') + '</div>' +
+    '<div class="row-portal" style="color:' + portalColored + '">' + esc(portalSlug) + '</div>' +
+    '<div class="row-sig">' + esc(clean(b.signature || '—')) + '</div>' +
+    '<div class="row-neural">' + esc(n.region || '—') + ' / ' + esc(n.state || '—') + '</div>' +
+    '<div class="row-conf">' + (br.confidence != null ? br.confidence.toFixed(2) : '—') + '</div>' +
+    '<div class="row-actions">' +
+      (status === 'PENDING_REVIEW' || !status
+        ? '<button class="approve" data-action="approve" data-id="' + esc(pat.id) + '">✓ Approve</button>' +
+          '<button class="reject" data-action="reject" data-id="' + esc(pat.id) + '">✗ Reject</button>'
+        : '<span class="status ' + statusClass + '">' + status + '</span>') +
+      '<button class="expand" data-expand>▼</button>' +
+    '</div>' +
+  '</div>';
+
+  // Detail (collapsed by default)
+  var detail = '<div class="row-detail">';
+  detail += '<div class="grid">';
+  detail += '<div class="card"><h4>Neural · ' + esc(n.regionLabel || n.region || '—') + '</h4>' +
+    '<div style="margin-bottom:6px">state: <code>' + esc(n.state || '—') + '</code></div>' +
+    esc(n.mechanism || '') +
+    (n.knownTreatments && n.knownTreatments.length ? '<h4 style="margin-top:8px">Known treatments</h4><ul>' + n.knownTreatments.map(function(t){return '<li>' + esc(t) + '</li>';}).join('') + '</ul>' : '') +
+    (n.clinicalReferences && n.clinicalReferences.length ? '<h4>Clinical references</h4><ul>' + n.clinicalReferences.map(function(r){return '<li>' + esc(r) + '</li>';}).join('') + '</ul>' : '') +
+  '</div>';
+
+  detail += '<div class="card"><h4>Target · ' + esc(clean(b.signature || '—')) + '</h4>' +
+    (b.phaseAffinity && b.phaseAffinity.length ? '<div style="margin-bottom:6px">phases: <code>' + b.phaseAffinity.join(', ') + '</code></div>' : '') +
+    esc(b.description || '') +
+    (b.examples && b.examples.length ? '<h4 style="margin-top:8px">Examples</h4><ul>' + b.examples.map(function(x){return '<li>' + esc(x) + '</li>';}).join('') + '</ul>' : '') +
+    (b.businessReferences && b.businessReferences.length ? '<h4>Business references</h4><ul>' + b.businessReferences.map(function(r){return '<li>' + esc(r) + '</li>';}).join('') + '</ul>' : '') +
+  '</div>';
+  detail += '</div>';
+
+  // Bridge rationale
+  if (br.rationale) {
+    detail += '<h4>Bridge · ' + esc(br.mappingType || 'mapping') + ' · confidence ' + (br.confidence != null ? br.confidence.toFixed(2) : '—') + '</h4>';
+    detail += '<div style="margin-bottom:10px;color:rgba(220,215,200,0.7);line-height:1.7">' + esc(br.rationale) + '</div>';
+  }
+
+  // Indicators
+  if (b.indicators && b.indicators.length) {
+    detail += '<h4>Indicators (' + b.indicators.length + ')</h4>';
+    b.indicators.forEach(function(ind){
+      detail += '<div class="angle-row"><span style="color:#5ab5a0;font-size:0.3rem">' + esc(ind.id || '?') + '</span> — ' + esc(ind.description || '') + '</div>';
+    });
+  }
+
+  // Derived angles per lane
+  detail += '<h4>Derived angles</h4>';
+  ['patent','grant','investment','research','sba','franchise'].forEach(function(lane){
+    var a = da[lane];
+    var empty = !a || (typeof a === 'object' && Object.keys(a).length === 0);
+    if (empty) return;
+    var txt = '';
+    if (lane === 'patent') txt = (a.claimDirection || '') + (a.noveltyAnchor ? ' · novelty: ' + a.noveltyAnchor : '');
+    else if (lane === 'grant') txt = (a.angle || '') + (a.programMatch && a.programMatch.length ? ' · programs: ' + a.programMatch.join('; ') : '');
+    else if (lane === 'investment') txt = (a.thesis || '') + (a.horizon ? ' · horizon: ' + a.horizon : '');
+    else if (lane === 'research') txt = (a.hypothesis || '') + (a.methodology ? ' · method: ' + a.methodology : '');
+    else txt = JSON.stringify(a);
+    detail += '<div class="angle-row"><div class="angle-lane">' + lane + '</div>' + esc(txt) + '</div>';
+  });
+
+  // Metadata footer
+  detail += '<h4>Metadata</h4>';
+  detail += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.4);line-height:1.8">' +
+    'pattern id: <code>' + esc(pat.id) + '</code><br>' +
+    'proposed: ' + (p.proposedAt ? new Date(p.proposedAt).toLocaleString() : '—') +
+    (p.approvedAt ? ' · approved: ' + new Date(p.approvedAt).toLocaleString() : '') +
+    (p.rejectedAt ? ' · rejected: ' + new Date(p.rejectedAt).toLocaleString() : '') + '<br>' +
+    'model: <code>' + esc(p.model || '?') + '</code> · tokens: ' + (p.tokensUsed || '?') +
+  '</div>';
+
+  detail += '</div>';
+
+  return '<div class="row ' + statusClass + '" data-id="' + esc(pat.id) + '">' + head + detail + '</div>';
+}
+
+function wireRowActions() {
+  // Expand toggle: click row-head (NOT the action buttons) OR the ▼ button
+  document.querySelectorAll('.row-head').forEach(function(head) {
+    head.addEventListener('click', function(e) {
+      if (e.target.closest('button[data-action]') || e.target.closest('button[data-expand]') === null && e.target.tagName === 'BUTTON') return;
+      head.closest('.row').classList.toggle('open');
+    });
+  });
+  document.querySelectorAll('button[data-expand]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      btn.closest('.row').classList.toggle('open');
+    });
+  });
+  document.querySelectorAll('button[data-action]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var action = btn.dataset.action;
+      var id = btn.dataset.id;
+      var row = btn.closest('.row');
+      row.querySelectorAll('button').forEach(function(b){ b.disabled = true; });
+      btn.textContent = '…';
+      var body = { id: id }; body[action] = true;
+      fetch('/api/pattern-proposal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
+        .then(function(out){
+          if (!out.ok) throw new Error((out.j && out.j.error) || 'request failed');
+          toast(action === 'approve' ? '✓ Approved' : '✗ Rejected', 'ok');
+          setTimeout(function(){ window.location.reload(); }, 800);
+        })
+        .catch(function(err){
+          row.querySelectorAll('button').forEach(function(b){ b.disabled = false; });
+          btn.textContent = action === 'approve' ? '✓ Approve' : '✗ Reject';
+          toast('Action failed: ' + err.message, 'err');
+        });
+    });
+  });
+}
+
+// Trigger button
+document.getElementById('triggerNow').addEventListener('click', function() {
+  var btn = document.getElementById('triggerNow');
+  var status = document.getElementById('triggerStatus');
+  btn.disabled = true;
+  btn.textContent = 'Calling Claude · 60-120s...';
+  status.textContent = '';
+  fetch('/api/trigger-pattern-author', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ max: 3, targetDomain: 'business' }) })
+    .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
+    .then(function(out){
+      if (!out.ok) throw new Error((out.j && out.j.error) || 'request failed');
+      var p = out.j.proposed || [];
+      var f = out.j.failed || [];
+      status.textContent = '✓ proposed ' + p.length + ' · failed ' + f.length + (out.j.candidatesConsidered === 0 ? ' · ' + (out.j.hint || '') : '');
+      if (p.length > 0) { toast('Authored ' + p.length + ' proposals — reloading', 'ok'); setTimeout(function(){ window.location.reload(); }, 1500); }
+      else { btn.disabled = false; btn.textContent = '▶ Author 3 more proposals'; toast(f.length ? 'All failed' : 'No new candidates', 'err'); }
+    })
+    .catch(function(err){
+      btn.disabled = false; btn.textContent = '▶ Author 3 more proposals'; toast('Trigger failed: ' + err.message, 'err');
+    });
+});
+
+function toast(msg, kind) {
+  var t = document.getElementById('toast');
+  if (!t) { t = document.createElement('div'); t.id = 'toast'; t.className = 'toast'; document.body.appendChild(t); }
+  t.className = 'toast ' + (kind || '') + ' show';
+  t.textContent = msg;
+  setTimeout(function(){ t.classList.remove('show'); }, 3500);
+}
+</script>
+</body>
+</html>

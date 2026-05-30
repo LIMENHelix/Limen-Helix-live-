@@ -1,0 +1,99 @@
+{
+  "domainId": "psychedelic_autobio_regulate",
+  "title": "Autobiographical Memory Loop — Regulation Strategy",
+  "parentPortal": "psychedelic_autobio_portal.html",
+  "parentLabel": "Autobiographical Memory Loop",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Autobiographical Memory Loop — Regulation Strategy — Primary Node",
+      "domainDescription": "Regulation layer — selects intervention strategies based on diagnosis, weighing efficacy, risk, contraindications, and patient/system context.",
+      "group": "regulation",
+      "phase": "P3",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Selection Protocol",
+          "evidence": "A",
+          "description": "Evidence-ranked intervention selection based on diagnosis severity and patient context"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Risk-Benefit Analysis Framework",
+          "evidence": "B",
+          "description": "Systematic weighing of intervention risks against expected benefit for Autobiographical Memory Loop"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Contraindication Guard",
+          "evidence": "A",
+          "description": "Safety checks against known contraindications, drug interactions, and patient-specific risks"
+        }
+      ],
+      "childPortal": "psychedelic_autobio_regulate_assess_portal.html"
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Autobiographical Memory Loop — Regulation Strategy — Secondary Node",
+      "domainDescription": "Regulation layer — selects intervention strategies based on diagnosis, weighing efficacy, risk, contraindications, and patient/system context.",
+      "group": "regulation",
+      "phase": "P3",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Selection Protocol",
+          "evidence": "A",
+          "description": "Evidence-ranked intervention selection based on diagnosis severity and patient context"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Risk-Benefit Analysis Framework",
+          "evidence": "B",
+          "description": "Systematic weighing of intervention risks against expected benefit for Autobiographical Memory Loop"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Contraindication Guard",
+          "evidence": "A",
+          "description": "Safety checks against known contraindications, drug interactions, and patient-specific risks"
+        }
+      ],
+      "childPortal": "psychedelic_autobio_regulate_impl_portal.html"
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Autobiographical Memory Loop — Regulation Strategy — Tertiary Node",
+      "domainDescription": "Regulation layer — selects intervention strategies based on diagnosis, weighing efficacy, risk, contraindications, and patient/system context.",
+      "group": "regulation",
+      "phase": "P3",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Intervention Selection Protocol",
+          "evidence": "A",
+          "description": "Evidence-ranked intervention selection based on diagnosis severity and patient context"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Risk-Benefit Analysis Framework",
+          "evidence": "B",
+          "description": "Systematic weighing of intervention risks against expected benefit for Autobiographical Memory Loop"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Contraindication Guard",
+          "evidence": "A",
+          "description": "Safety checks against known contraindications, drug interactions, and patient-specific risks"
+        }
+      ],
+      "childPortal": "psychedelic_autobio_regulate_optim_portal.html"
+    }
+  ]
+}

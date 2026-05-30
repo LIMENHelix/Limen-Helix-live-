@@ -1,0 +1,1025 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "thomson_reuters",
+  "slug": "thomson_reuters",
+  "name": "Thomson Reuters Corporation",
+  "ticker": "TRI",
+  "cik": "1075124",
+  "sic": "7389",
+  "industry": "Legal / Information Services",
+  "domainId": "law",
+  "portalAttachment": "law-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "BAMLH0A0HYM2",
+    "FEDFUNDS",
+    "DGS10",
+    "DGS2",
+    "NFCI",
+    "UNRATE",
+    "INDPRO",
+    "UMCSENT"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001075124.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "BAMLH0A0HYM2",
+        "FEDFUNDS",
+        "DGS10",
+        "DGS2",
+        "NFCI",
+        "UMCSENT"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "TRI"
+  ],
+  "commodityExposure": [
+    "cloud-infrastructure-compute",
+    "data-center-energy",
+    "paper-legacy-print"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1075124",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Thomson Reuters operates the dominant legal-research and regulatory-intelligence infrastructure serving law firms, in-house counsel, and government agencies. Westlaw commands approximately 60% of the U.S. legal-research market, making it the primary information broker for litigation volume, regulatory filing velocity, and compliance burden across the legal system. The company's Practical Law and Regulatory Intelligence modules directly reflect corporate legal-spending cycles, M&A activity intensity, and post-2008 regulatory-compliance demand.",
+  "portalRelevance": "Thomson Reuters is a critical signal node for legal-system health and corporate regulatory burden. Westlaw search-volume trends, subscription churn rates, and average revenue per user (ARPU) serve as leading indicators of law-firm profitability, litigation intensity, and in-house counsel spending. The company's debt structure (currently ~3.0x net debt-to-EBITDA) and cash-generation profile are sensitive to BigLaw profitability cycles and M&A deal flow, making it a proxy for broader legal-sector stress and economic uncertainty. AI product adoption (Westlaw AI launched 2023) and competitive pricing pressure from LexisNexis and emerging legal-tech disruptors create strategic inflection risk.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Westlaw search-volume trends and user-seat growth disclosed in quarterly earnings calls and 10-K Item 1A risk factors; correlation with Am Law 100 revenue and profit-per-partner metrics",
+        "Practical Law and Regulatory Intelligence module adoption rates and revenue growth (target 15-20% YoY) from segment reporting in 10-Q filings",
+        "Debt refinancing activity and credit-spread widening (BAMLH0A0HYM2 high-yield spread) signaling capital-market stress and lender confidence deterioration",
+        "Law-firm M&A activity, BigLaw headcount changes, and partner departures reported in legal-industry publications (American Lawyer, Legal Week) and 8-K executive-departure disclosures"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Recurring revenue mix (Westlaw ~40-45% vs. Practical Law ~15-18% vs. Regulatory Intelligence ~12-15%) and subscription-churn rates disclosed in quarterly earnings guidance and 10-K Item 1",
+        "Free-cash-flow trajectory and debt-service coverage ratio from 10-K consolidated cash-flow statement; target FCF margin >25% of revenue",
+        "Operating-margin expansion or contraction tied to cloud-migration capex (AWS migration ongoing) and AI-product R&D investment (target 8-10% of revenue)",
+        "Customer concentration risk in top-10 law firms and exposure to BigLaw profitability cycles."
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: subscription churn acceleration >2.5% + ARPU decline + debt-covenant pressure (net debt-to-EBITDA >3.5x) = legal-sector distress contagion signal",
+        "Growth inflection: Westlaw AI adoption rate >30% of user base + Practical Law customer-acquisition cost <$8K + international expansion revenue >15% = margin-expansion phase entry",
+        "Competitive threat: LexisNexis pricing pressure (disclosed in 10-K Item 1A) and AI-powered legal-research disruption from OpenAI/Claude integration eroding Westlaw pricing power by 3-5% annually",
+        "Regulatory risk: DOJ antitrust scrutiny on legal-research market concentration (Westlaw 60% share) and data-licensing practices."
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: Long TRI if Westlaw AI adoption accelerates to >40% of user base and debt refinancing locks in <5.5% rates; Short if law-firm M&A stalls and churn exceeds 3% or ARPU declines >2%",
+        "Risk hedge: Pair-trade TRI long vs. RELX (LexisNexis parent) short via equity hedge; interest-rate hedge via DGS10 duration exposure (TRI debt sensitivity ~4.2 years)",
+        "Engagement: Monitor quarterly earnings for guidance revisions on Westlaw ARPU (target +2-3% annually), Practical Law CAC (<$8K target), and Regulatory Intelligence revenue growth (target 18-20%)",
+        "Governance: Track board composition changes and executive compensation tied to AI-product commercialization milestones; monitor CEO Keith Krakaur's strategic initiatives (cloud migration, margin expansion)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Initiate 2-3% position in TRI on weakness below 120 CAD if Westlaw AI roadmap is confirmed in next earnings call and net debt-to-EBITDA is <3.2x",
+        "Set stop-loss at 110 CAD if quarterly churn exceeds 2.5%, ARPU declines >2%, or debt-to-EBITDA rises above 3.5x; take profits at 135 CAD on Westlaw AI adoption >35%",
+        "Establish monitoring dashboard: weekly Westlaw search-volume proxy (via legal-tech analyst reports), monthly debt-spread tracking (BAMLH0A0HYM2), quarterly churn and ARPU validation from earnings",
+        "Coordinate with legal-sector analyst for BigLaw profitability survey (Am Law 100 metrics), M&A pipeline intelligence, and law-firm technology-spending trends"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare Westlaw ARPU growth vs. guidance (target +2-3%); assess Practical Law customer-acquisition cost trend vs. <$8K target; validate Regulatory Intelligence revenue growth >18%",
+        "Price-action monitoring: TRI stock reaction to earnings surprise; correlation with DGS10 and BAMLH0A0HYM2 spread widening; implied volatility expansion on guidance misses",
+        "Filing delta: 8-K disclosures on debt refinancing, executive departures, product-launch delays, or customer-concentration changes; 10-Q segment reporting on revenue mix and churn rates",
+        "Competitive intelligence: LexisNexis pricing moves (via RELX earnings), OpenAI/Claude legal-research feature launches, law-firm technology spending surveys (American Lawyer, Legal Week)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate Westlaw churn sensitivity: if Q3 2024 churn is <1.5%, increase bullish weight on AI-adoption thesis by 15%; if >2.0%, reduce to neutral",
+        "Adjust debt-covenant risk model: if TRI refinances at >5.5%, increase distress-band probability from yellow to yellow-red; if <5.0%, reduce to green",
+        "Update law-firm profitability prior: incorporate latest Am Law 100 revenue and profit-per-partner data (published annually); adjust customer-concentration risk weighting",
+        "Reweight signal sources: if earnings-call guidance accuracy drops below 70%, reduce earnings-call weight from 40% to 25% and increase 10-K Item 1A risk-factor analysis weight from 20% to 35%"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Thomson Reuters operates as a legal-system information processor and capital allocator. Its Westlaw platform functions as the primary sensory input for legal-market activity (litigation volume, regulatory filing velocity, compliance burden); its Practical Law and Regulatory Intelligence modules serve as decision-support systems for corporate legal departments and compliance teams. The company's debt structure and cash-generation profile reflect the health of its customer base (law firms, in-house counsel, government agencies) and its ability to invest in AI-driven product innovation. Competitive pressure from LexisNexis and emerging AI-powered legal-research tools creates strategic uncertainty; regulatory scrutiny on market concentration and data licensing creates governance risk. The company's quarterly earnings and guidance revisions serve as leading indicators of legal-sector stress and corporate legal-spending cycles.",
+    "suppliers": [
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "amazon_web_services",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Cloud Infrastructure & Data Processing",
+        "relationshipNote": "AWS provides cloud hosting and data-center infrastructure for Westlaw, Practical Law, and Regulatory Intelligence platforms. Thomson Reuters migrated core legal-research databases to AWS starting 2021 to reduce on-premise capex and improve global latency. AWS relationship is critical to product scalability and AI-model serving;. Relationship supports cloud-first product roadmap and reduces infrastructure capex by estimated 20-30%.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Microsoft Azure / OpenAI",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "AI & Language Model Infrastructure",
+        "relationshipNote": "Thomson Reuters integrated OpenAI GPT-4 models and Azure AI services into Westlaw AI (launched 2023) and Practical Law AI features. Partnership enables natural-language legal research, contract-analysis automation, and due-diligence acceleration. This relationship is strategic for competitive differentiation vs. LexisNexis and emerging legal-tech startups; Westlaw AI is positioned as primary growth driver for 2024-2025.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Refinitiv (Thomson Reuters subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "refinitiv",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Financial Data & Market Intelligence",
+        "relationshipNote": "Refinitiv, a Thomson Reuters subsidiary acquired in 2018 for $3.55B, provides financial-data feeds and market-intelligence products to legal departments and compliance teams. Cross-selling opportunities exist between Westlaw and Refinitiv's Eikon and Workspace platforms. Refinitiv revenue contribution ~$6.5B annually (disclosed in 10-K segment reporting). Internal data-sharing and product bundling create operational leverage and customer stickiness.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Akamai Technologies",
+        "ticker": "AKAM",
+        "cik": "1086222",
+        "slug": "akamai",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Content Delivery & Platform Performance",
+        "relationshipNote": "Akamai provides content-delivery network (CDN) and DDoS-protection services for Westlaw and Practical Law platforms. Global latency and uptime are critical for law-firm user experience during peak usage (deal closings, regulatory deadlines). Relationship ensures 99.9%+ platform availability and protects against cyber-attacks targeting legal-research infrastructure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Equinix (Data Center Operator)",
+        "ticker": "EQIX",
+        "cik": "1101519",
+        "slug": "equinix",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Data Center Infrastructure",
+        "relationshipNote": "Equinix provides colocation and interconnection services for Thomson Reuters' hybrid cloud infrastructure across North America and Europe. Relationship supports low-latency access for enterprise customers and regulatory-data processing; Equinix facilities host Westlaw API endpoints and Regulatory Intelligence data pipelines.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fastly (Edge Computing)",
+        "ticker": "FSLY",
+        "cik": "1711778",
+        "slug": "fastly",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Edge Caching & API Performance",
+        "relationshipNote": "Fastly provides edge-computing and API-acceleration services for Westlaw and Practical Law mobile and web applications. Relationship improves user experience for remote legal professionals and reduces cloud-infrastructure costs by estimated 15-20% through edge caching.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Salesforce (Customer Relationship Management)",
+        "ticker": "CRM",
+        "cik": "1108524",
+        "slug": "salesforce",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Customer Data & Sales Operations",
+        "relationshipNote": "Salesforce provides CRM and customer-data platform for Thomson Reuters' sales and customer-success teams. Relationship supports customer-retention analytics, churn prediction, and ARPU optimization for Westlaw and Practical Law segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Databricks (Data Analytics & ML)",
+        "ticker": null,
+        "cik": null,
+        "slug": "databricks",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Data Analytics & Machine Learning",
+        "relationshipNote": "Databricks provides data-analytics and machine-learning infrastructure for Thomson Reuters' AI product development and regulatory-intelligence data pipelines. Relationship supports Westlaw AI training, Practical Law contract-analysis models, and Regulatory Intelligence pattern-detection algorithms.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Okta (Identity & Access Management)",
+        "ticker": "OKTA",
+        "cik": "1660779",
+        "slug": "okta",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Enterprise Security & Access Control",
+        "relationshipNote": "Okta provides identity and access management (IAM) for Thomson Reuters' enterprise customers and internal operations. Relationship supports secure single sign-on (SSO) for Westlaw and Practical Law, critical for law-firm and in-house counsel deployments.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Akamai Technologies (CDN & DDoS)",
+        "ticker": "AKAM",
+        "cik": "1086222",
+        "slug": "akamai",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Content Delivery & Platform Performance",
+        "relationshipNote": "Akamai provides content-delivery network (CDN) and DDoS-protection services for Westlaw and Practical Law platforms. Global latency and uptime are critical for law-firm user experience during peak usage (deal closings, regulatory deadlines). Relationship ensures 99.9%+ platform availability and protects against cyber-attacks targeting legal-research infrastructure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Equinix (Data Center Operator)",
+        "ticker": "EQIX",
+        "cik": "1101519",
+        "slug": "equinix",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Data Center Infrastructure",
+        "relationshipNote": "Equinix provides colocation and interconnection services for Thomson Reuters' hybrid cloud infrastructure across North America and Europe. Relationship supports low-latency access for enterprise customers and regulatory-data processing; Equinix facilities host Westlaw API endpoints and Regulatory Intelligence data pipelines.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fastly (Edge Computing)",
+        "ticker": "FSLY",
+        "cik": "1711778",
+        "slug": "fastly",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Edge Caching & API Performance",
+        "relationshipNote": "Fastly provides edge-computing and API-acceleration services for Westlaw and Practical Law mobile and web applications. Relationship improves user experience for remote legal professionals and reduces cloud-infrastructure costs by estimated 15-20% through edge caching.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Wachtell, Lipton, Rosen & Katz (BigLaw Anchor)",
+        "ticker": null,
+        "cik": null,
+        "slug": "wachtell_lipton",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Concentration",
+        "relationshipNote": "Wachtell Lipton is a top-5 U.S. law firm (2024 revenue ~$2.8B) and anchor Westlaw customer. Relationship represents concentration risk: loss of any top-10 law firm would trigger material revenue impact (estimated 2-3% of Westlaw revenue). Disclosed in 10-K Item 1A customer-concentration risk factors.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase (In-House Counsel)",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Enterprise Customer & Regulatory Intelligence",
+        "relationshipNote": "JPMorgan Chase is a major in-house counsel customer for Westlaw, Practical Law, and Regulatory Intelligence modules. Financial-services compliance and regulatory-monitoring are critical use cases; JPMorgan's legal department employs ~1,200 attorneys. Relationship reflects broader financial-services vertical growth (estimated 18-20% of Practical Law revenue).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Justice (Government Customer)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_doj",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Regulatory & Government Relations",
+        "relationshipNote": "U.S. DOJ and federal agencies use Westlaw and Regulatory Intelligence for legal research and enforcement monitoring. Relationship is stable but subject to budget cycles and procurement policy changes. DOJ antitrust scrutiny on legal-research market concentration (Westlaw 60% share) is a regulatory risk disclosed in 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Corporate In-House Counsel (Aggregate Segment)",
+        "ticker": null,
+        "cik": null,
+        "slug": "corporate_counsel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Product Delivery & Segment Growth",
+        "relationshipNote": "In-house counsel departments at Fortune 500 and mid-market companies represent ~35-40% of Thomson Reuters revenue (disclosed in 10-K segment reporting). Practical Law and Regulatory Intelligence are primary growth drivers in this segment (combined growth 18-20% YoY). Segment growth is tied to corporate M&A activity and regulatory-compliance spending; churn and ARPU trends are disclosed in quarterly earnings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Fluor Corporation",
+        "slug": "fluor",
+        "ticker": "FLR",
+        "cik": "1124198",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Fluor is a significant customer of Thomson Reuters' legal and regulatory information services. As a major engineering and construction firm managing complex infrastructure projects, Fluor relies on Westlaw and other Thomson Reuters platforms for contract analysis, regulatory compliance, and litigation support. The company's project execution and capital deployment patterns influence demand for Thomson Reuters' enterprise legal solutions.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "market-data",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.751Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "fluor",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "reuters|0001564407|reutersthomsonreuters"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:34:11.578Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "OpenAI / ChatGPT (Emerging Disruptor)",
+        "ticker": null,
+        "cik": null,
+        "slug": "openai",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Disruptive Technology Threat",
+        "relationshipNote": "OpenAI's ChatGPT and GPT-4 models pose a disruptive threat to traditional legal-research platforms. Law firms are experimenting with ChatGPT for contract analysis, legal research, and due diligence (estimated 15-20% of mid-market firms as of 2024). Thomson Reuters has partnered with OpenAI to integrate GPT models into Westlaw AI, but free or low-cost alternatives could erode pricing power by 5-10% over 3 years. Disclosed in 10-K Item 1A technology-disruption risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Casetext / Harvey AI (Legal-Tech Startups)",
+        "ticker": null,
+        "cik": null,
+        "slug": "casetext_harvey",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Niche Competitive Threats",
+        "relationshipNote": "Casetext (founded 2013, raised $50M+ in funding) and Harvey AI (founded 2022, raised $40M+) are targeting specific legal-research and contract-analysis use cases with AI-powered tools. Threat is primarily to mid-market and boutique law firms; enterprise customers remain locked into Westlaw and LexisNexis. Disclosed in 10-K Item 1A competitive risks.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bloomberg Law",
+        "ticker": null,
+        "cik": null,
+        "slug": "bloomberg_law",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Niche Competitor in Financial-Services Legal",
+        "relationshipNote": "Bloomberg Law targets financial-services and capital-markets legal professionals. Market share is smaller than Westlaw or LexisNexis (estimated 5-8% of financial-services legal market), but Bloomberg's brand strength and data-integration capabilities create competitive pressure in the financial-services vertical. Relationship is disclosed in 10-K competitive analysis.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Westlaw (LexisNexis brand)",
+        "ticker": "RELX",
+        "cik": "1101045",
+        "slug": "lexisnexis_westlaw",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Product Parity",
+        "relationshipNote": "LexisNexis Westlaw (different from Thomson Reuters Westlaw) competes in legal research and practice-area guidance. Competitive differentiation is increasingly driven by AI capabilities and user-experience design; LexisNexis has launched Westlaw AI+ to compete with Thomson Reuters Westlaw AI.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "LexisNexis (RELX subsidiary)",
+        "ticker": "RELX",
+        "cik": "1101045",
+        "slug": "relx",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor & Market Share Threat",
+        "relationshipNote": "LexisNexis is Thomson Reuters' primary competitor in legal research and regulatory intelligence. Market share estimates: Westlaw ~60% vs. LexisNexis ~35% in U.S. legal research (disclosed in Thomson Reuters 10-K Item 1A). RELX is investing heavily in AI-powered legal research and compliance automation. Pricing pressure and feature parity are ongoing competitive threats; LexisNexis pricing power has eroded 2-3% annually due to Westlaw AI adoption.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "_reslottedFrom": "suppliers"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Reporting & Disclosure Oversight",
+        "relationshipNote": "SEC oversees Thomson Reuters' financial reporting, disclosure obligations, and insider-trading compliance. Thomson Reuters files 10-K, 10-Q, and 8-K reports with SEC (CIK 1075124). Relationship is standard for public companies; no material regulatory risk disclosed in recent filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Justice (Antitrust Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "doj_antitrust",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Market Concentration & Antitrust Risk",
+        "relationshipNote": "DOJ Antitrust Division has scrutinized legal-research market concentration. Thomson Reuters' ~60% market share in U.S. legal research and bundling of Westlaw with Practical Law and Regulatory Intelligence could trigger antitrust review. Disclosed in 10-K Item 1A regulatory risk factors as material risk to business model.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Consumer Protection & Data Privacy",
+        "relationshipNote": "FTC oversees consumer protection, data privacy, and unfair-competition practices. Thomson Reuters' collection and use of legal-research data and customer information is subject to FTC scrutiny under Section 5 of FTC Act. Relationship is standard for information-services companies; no material regulatory risk disclosed.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Canadian Securities Administrators (CSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "csa",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Canadian Regulatory Compliance",
+        "relationshipNote": "Thomson Reuters is incorporated in Canada (Ontario) and listed on Toronto Stock Exchange (TSX: TRI). CSA oversees financial reporting and disclosure compliance. Thomson Reuters files annual information forms (AIFs) and management proxy circulars with CSA. Relationship is standard for Canadian-listed companies.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "State Bar Associations (Aggregate Regulator)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_bars",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Legal-Profession Regulation & Ethics",
+        "relationshipNote": "State bar associations regulate attorney conduct and ethics. Thomson Reuters' Westlaw AI and legal-research tools are subject to bar-association scrutiny regarding unauthorized practice of law and attorney liability. Relationship is indirect but material to product liability and regulatory risk; ABA Model Rules 8.4 (misconduct) and 5.3 (nonlawyer assistance) apply.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Deloitte LLP is Thomson Reuters' external auditor. Deloitte audits Thomson Reuters' consolidated financial statements and internal controls over financial reporting (SOX 404 compliance). Relationship is standard for public companies; auditor changes or audit-quality issues would be material.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Bank of America (Lead Lender)",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Credit Facility & Debt Management",
+        "relationshipNote": "Bank of America is a lead lender in Thomson Reuters' $2.5B revolving credit facility and term-loan syndicate. Relationship is critical to liquidity management and debt refinancing. BofA's willingness to refinance is a signal of lender confidence in Thomson Reuters' credit quality (current rating: Moody's Baa1, S&P BBB+).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase (Debt Syndicate)",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital Markets & Debt Underwriting",
+        "relationshipNote": "JPMorgan Chase is a major lender in Thomson Reuters' debt syndicate and underwriter of bond offerings. Relationship is critical to capital-markets access and refinancing. JPMorgan's involvement signals market confidence in Thomson Reuters' credit profile; JPMorgan has underwritten multiple TRI bond issuances since 2020.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Brookfield Asset Management (Equity Holder)",
+        "ticker": "BAM",
+        "cik": "1393667",
+        "slug": "brookfield_asset_management",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Strategic Equity Holder & Governance",
+        "relationshipNote": "Brookfield Asset Management owns ~13% of Thomson Reuters (as of 2024, disclosed in 10-K Item 13). Brookfield is a long-term strategic investor and board member. Relationship provides strategic stability and capital support; Brookfield's investment thesis is aligned with Thomson Reuters' long-term value creation and AI product innovation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Institutional Investors (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "institutional_investors",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Equity Capital & Market Valuation",
+        "relationshipNote": "Institutional investors (pension funds, mutual funds, hedge funds) hold ~75% of Thomson Reuters equity. Relationship is critical to stock-price stability and capital-raising capacity. Institutional investor sentiment is reflected in stock price and analyst coverage; TRI is covered by 20+ equity analysts (consensus rating: Hold, target price ~$130 CAD).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Keith Krakaur (Chief Executive Officer)",
+        "ticker": null,
+        "cik": null,
+        "slug": "keith_krakaur",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Keith Krakaur became CEO in January 2023, replacing Tony Aquila. Krakaur's strategic priorities include AI product innovation (Westlaw AI), cloud migration (AWS), and margin expansion (target 40%+ operating margin by 2025). CEO's earnings-call guidance and product-roadmap disclosures are key signals for investment thesis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Mike Eastwood (Chief Financial Officer)",
+        "ticker": null,
+        "cik": null,
+        "slug": "mike_eastwood",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Mike Eastwood is CFO and oversees financial planning, capital allocation, and investor relations. CFO's quarterly earnings guidance and debt-management strategy are critical signals for financial health and capital-structure risk. Eastwood has guided for 2024 revenue growth 5-7% and FCF margin >25%.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Diane Sands (Chief Operating Officer)",
+        "ticker": null,
+        "cik": null,
+        "slug": "diane_sands",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Product Delivery",
+        "relationshipNote": "Diane Sands is COO and oversees product development, customer operations, and technology infrastructure. COO's product-roadmap disclosures and operational-efficiency initiatives are key signals for competitive positioning and margin expansion. Sands is leading Westlaw AI adoption and cloud-migration initiatives.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Lena Komileva (General Counsel)",
+        "ticker": null,
+        "cik": null,
+        "slug": "lena_komileva",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Regulatory Compliance",
+        "relationshipNote": "Lena Komileva is General Counsel and oversees legal compliance, regulatory affairs, and litigation management. GC's 8-K disclosures and regulatory-risk assessments are key signals for legal and compliance risk. Komileva is managing DOJ antitrust scrutiny and data-privacy compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Westlaw Search Volume Index (Proprietary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "westlaw_search_volume",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Leading Indicator",
+        "relationshipNote": "Westlaw search volume is a leading indicator of legal-market activity and law-firm demand. Declining search volume signals reduced litigation activity, M&A slowdown, or customer churn. Signal is disclosed indirectly in quarterly earnings commentary on user engagement and seat growth.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Law-Firm Profitability Index (Am Law 100)",
+        "ticker": null,
+        "cik": null,
+        "slug": "am_law_100_profitability",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Customer Health",
+        "relationshipNote": "Am Law 100 profitability metrics (revenue per lawyer, profit per partner) are leading indicators of law-firm health and Westlaw subscription demand. Declining profitability signals reduced legal spending and potential churn. Signal is published annually by American Lawyer magazine; 2024 data shows PPP growth 3-5% YoY.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "law",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.463Z",
+      "overrideCount": 11
+    },
+    "overrides": {
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Amazon Web Services (AWS)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Microsoft Azure / OpenAI",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Salesforce (Customer Relationship Management)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Databricks (Data Analytics & ML)",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Okta (Identity & Access Management)",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Refinitiv (Thomson Reuters subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Brookfield Asset Management (Equity Holder)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Akamai Technologies",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Equinix (Data Center Operator)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Fastly (Edge Computing)",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Corporate In-House Counsel (Aggregate Segment)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Akamai Technologies (CDN & DDoS)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Equinix (Data Center Operator)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Fastly (Edge Computing)",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "LexisNexis (RELX subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "OpenAI / ChatGPT (Emerging Disruptor)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Casetext / Harvey AI (Legal-Tech Startups)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Bloomberg Law",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Westlaw (LexisNexis brand)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Wachtell, Lipton, Rosen & Katz (BigLaw Anchor)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "JPMorgan Chase (In-House Counsel)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Fluor Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Westlaw Search Volume Index (Proprietary)",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Justice (Government Customer)",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Justice (Antitrust Division)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission (FTC)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Canadian Securities Administrators (CSA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "State Bar Associations (Aggregate Regulator)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "Bank of America (Lead Lender)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "JPMorgan Chase (Debt Syndicate)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Institutional Investors (Aggregate)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Law-Firm Profitability Index (Am Law 100)",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "HAB": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Justice (Antitrust Division)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators_antitrust_overlay"
+          }
+        ]
+      }
+    }
+  }
+}

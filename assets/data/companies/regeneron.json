@@ -1,0 +1,852 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "regeneron",
+  "slug": "regeneron",
+  "name": "Regeneron Pharmaceuticals Inc.",
+  "ticker": "REGN",
+  "cik": null,
+  "sic": "2834",
+  "industry": "Pharmaceutical Preparations",
+  "domainId": "medicine",
+  "portalAttachment": "medicine-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "PHRMIND",
+    "UNRATE",
+    "DFF"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "REGN"
+  ],
+  "commodityExposure": [
+    "pharmaceutical raw materials",
+    "active pharmaceutical ingredients",
+    "specialty chemicals",
+    "manufacturing equipment",
+    "clinical trial labor"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1102312",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-15T14:32:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 24,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p6",
+    "financialState": {
+      "cashLatest": 8200000000,
+      "debtLatest": 12100000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Eylea biosimilar competitive pressure post-2024 FDA approvals; revenue concentration risk in ophthalmology franchise (>40% of total revenue)",
+    "Dupixent patent cliff approaching 2029; requires successful pipeline advancement to offset revenue decline",
+    "Regulatory setback risk: PDUFA dates for key programs (Pozelimab, Odronextamab) carry execution risk; any CRL would materially impact growth thesis"
+  ],
+  "opportunitySignals": [
+    "Pozelimab (C5a inhibitor) Phase 3 data in ARDS and other complement-driven indications; $2B+ peak-sales potential if approved 2025–2026",
+    "Odronextamab (CD20/CD3 bispecific) Phase 3 readout in follicular lymphoma; potential blockbuster in hematologic malignancies with $1.5B+ peak sales",
+    "Abicipar (anti-VEGF) ophthalmology expansion; if approved, could offset Eylea biosimilar erosion in wet AMD market"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Phase 3 ARDS trial (Pozelimab)",
+      "Phase 3 follicular lymphoma trial (Odronextamab)",
+      "Phase 2b NASH trial (Ezetimibe + Inclisiran)",
+      "Phase 3 RSV vaccine trial (RSVPreF3)"
+    ],
+    "engineOutputs": [
+      "Eylea (aflibercept) ophthalmology: $6.3B revenue FY2023; biosimilar competition accelerating",
+      "Dupixent (dupilumab) dermatology/allergy: $4.1B revenue FY2023; peak sales trajectory intact through 2028",
+      "Libtayo (cemiplimab) oncology: $1.2B revenue FY2023; expanding into additional tumor types",
+      "Arcalyst (rilonacept) rare inflammatory: $0.8B revenue FY2023; steady growth in hereditary autoinflammatory diseases"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Regeneron is a fully integrated biopharmaceutical company specializing in monoclonal antibodies, bispecific antibodies, and protein therapeutics across ophthalmology, oncology, immunology, and rare inflammatory diseases. The company operates a proprietary VelocImmune platform enabling rapid antibody discovery and development, with a portfolio anchored by blockbuster franchises (Eylea, Dupixent, Libtayo) generating >$12B in annual revenue. Regeneron's clinical pipeline includes high-potential Phase 3 programs in complement inhibition (Pozelimab for ARDS) and bispecific oncology (Odronextamab for lymphoma), positioning it as a mid-tier integrated pharma with outsized R&D productivity relative to peer group.",
+  "portalRelevance": "Regeneron represents a critical node in the biopharmaceutical supply chain and healthcare delivery ecosystem, with direct exposure to FDA regulatory cycles, payer reimbursement dynamics, and competitive biosimilar erosion. As a pure-play drug developer with no manufacturing partnerships for key assets, Regeneron's financial health and capital allocation decisions directly influence biotech sector sentiment and equity-market pricing of clinical-stage programs. The company's ability to execute Phase 3 readouts (Pozelimab, Odronextamab) and defend Eylea market share against biosimilar competition serves as a leading indicator for mid-cap pharma valuation and biotech sector momentum.",
+  "notes": {
+    "cohortStatus": "mid-cap integrated biopharmaceutical; peer group includes Amgen, Gilead, Vertex, Incyte",
+    "envelopeStatus": "ELIGIBLE_NOW; strong balance sheet, validated pipeline, established commercial infrastructure"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly revenue prints by therapeutic area (Eylea, Dupixent, Libtayo, Arcalyst) disclosed in 10-Q/10-K; biosimilar uptake tracked via market-share reports",
+        "FDA PDUFA action letters for Phase 3 programs (Pozelimab, Odronextamab, Abicipar) disclosed via 8-K within 4 business days of decision",
+        "Payer coverage decisions and reimbursement negotiations for new indications; disclosed in earnings calls and investor presentations",
+        "Clinical trial enrollment rates and interim efficacy signals from Phase 3 programs; disclosed via press release and SEC filing within 2 business days"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue trajectory by franchise; Eylea biosimilar erosion rate vs. internal guidance; Dupixent peak-sales timing and patent-cliff risk",
+        "Pipeline probability-of-success (PoS) weighting for Phase 3 programs; FDA feedback risk assessment based on prior CRL history and competitive landscape",
+        "Free-cash-flow generation and capital allocation priorities (R&D spend, M&A, shareholder returns); debt/equity ratio and credit-rating stability",
+        "Market-share position in key therapeutic areas (ophthalmology, dermatology, oncology) vs. Roche, Amgen, Gilead; pricing power and payer pressure"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Biosimilar competition pattern-match: Eylea revenue decline trajectory vs. Humira (AbbVie) post-biosimilar entry; assess magnitude and timing of market-share loss",
+        "Patent-cliff risk signature: Dupixent exclusivity expiration 2029; compare to Humira/Enbrel patent-cliff precedents; model revenue bridge via pipeline advancement",
+        "Phase 3 execution risk: Pozelimab and Odronextamab readouts 2025–2026; assess vs. peer-group Phase 3 success rates (40–50% for oncology, 60–70% for rare disease)",
+        "Regulatory approval pathway risk: FDA feedback on manufacturing scale-up, CMC (chemistry, manufacturing, controls) for bispecific antibodies; assess vs. prior Regeneron CRL history"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedging strategy for Eylea biosimilar revenue decline: model downside scenarios (30%, 50%, 70% market-share loss by 2027); stress-test free-cash-flow and dividend sustainability",
+        "Pipeline risk management: assign probability-weighted NPV to Pozelimab ($2B peak sales, 60% PoS) and Odronextamab ($1.5B peak sales, 55% PoS); model portfolio-level revenue bridge",
+        "Payer pressure mitigation: monitor pricing power in dermatology (Dupixent) and oncology (Libtayo) vs. competitor launches; assess margin compression risk",
+        "Capital allocation guardrails: maintain investment-grade credit rating; preserve R&D spend at 20–22% of revenue; evaluate M&A targets in high-growth therapeutic areas"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Initiate long-dated call spread on REGN stock; long calls at 2026 strike (Pozelimab/Odronextamab approval upside), short calls at 2028 strike (Dupixent patent-cliff downside)",
+        "Establish position in Regeneron convertible bonds; capture yield while maintaining equity upside optionality; monitor credit-rating triggers",
+        "Engage with management on Phase 3 readout timing and FDA feedback; request investor day presentation on pipeline probability-of-success assumptions and manufacturing scale-up plans",
+        "Monitor Eylea biosimilar market-share data via IMS Health / IQVIA reports; set alert thresholds for revenue guidance cuts (>15% YoY decline in ophthalmology segment)"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings call: validate revenue guidance, assess management commentary on biosimilar competition and pipeline advancement; compare to prior guidance",
+        "FDA PDUFA decision: Pozelimab (expected Q2 2025), Odronextamab (expected Q4 2025); approval = upside catalyst, CRL = downside shock",
+        "Dupixent peak-sales trajectory: monitor quarterly revenue growth rates; assess patent-cliff risk via management guidance on pipeline backfill",
+        "Competitive landscape: track Eylea biosimilar approvals (Vabysmo, Optiquel, others); monitor Dupixent competitive threats (Tralokinumab, Lebrikizumab market penetration)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate Phase 3 success-rate assumptions based on interim efficacy data; update NPV models for Pozelimab and Odronextamab quarterly",
+        "Adjust Eylea revenue decline trajectory based on realized biosimilar uptake; reweight portfolio-level revenue bridge assumptions",
+        "Reassess payer reimbursement environment; monitor CMS coverage decisions and managed-care formulary placements for new indications",
+        "Update capital-allocation model based on free-cash-flow realization; adjust dividend-growth and buyback assumptions if cash generation declines >10% YoY"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Regeneron operates as a vertically integrated biopharmaceutical enterprise with a distributed decision-making architecture spanning drug discovery (VelocImmune platform), clinical development (Phase 2–3 pipeline), regulatory affairs (FDA interactions), manufacturing (internal and contract), and commercial operations (sales, marketing, payer relations). The company functions as a neural hub integrating upstream scientific signals (target validation, preclinical efficacy) with downstream market signals (payer coverage, competitor pricing, patient demand), with critical feedback loops from clinical trial data, regulatory feedback, and real-world evidence informing pipeline prioritization and resource allocation.",
+    "suppliers": [
+      {
+        "name": "Lonza Group AG",
+        "ticker": "LONN",
+        "cik": null,
+        "slug": "lonza_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Manufacturing & Operations",
+        "relationshipNote": "Contract manufacturing organization (CMO) for Regeneron's monoclonal antibody and bispecific antibody production; supplies drug substance for Eylea, Dupixent, and Libtayo. Lonza operates dedicated manufacturing suites at Visp (Switzerland) and Slatersville (Rhode Island) facilities. Multi-year supply agreements with capacity commitments; estimated 15–20% of Regeneron's COGS. Relationship established 2010s; expanded post-Dupixent commercialization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Catalent Inc.",
+        "ticker": "CTLT",
+        "cik": "1407623",
+        "slug": "catalent",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Manufacturing & Operations",
+        "relationshipNote": "Contract development and manufacturing organization (CDMO) providing drug product fill-finish services for Regeneron's injectable therapeutics. Catalent operates facilities in Indianapolis (Indiana) and other sites; handles vial filling, labeling, and packaging for Eylea, Dupixent, and Libtayo. Multi-year agreements with volume commitments; estimated 10–15% of COGS. Relationship spans 2015–present; capacity expanded post-Dupixent launch.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Merck KGaA (MilliporeSigma)",
+        "ticker": null,
+        "cik": null,
+        "slug": "merck_kgaa_milliporesigma",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Reagents",
+        "relationshipNote": "Supplier of laboratory reagents, cell culture media, and chromatography resins used in Regeneron's VelocImmune antibody discovery platform and manufacturing processes. MilliporeSigma provides specialized filtration, purification, and analytical equipment. Estimated 5–8% of R&D and manufacturing COGS. Long-standing relationship; critical to platform productivity and manufacturing scale-up.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Thermo Fisher Scientific Inc.",
+        "ticker": "TMO",
+        "cik": "1018724",
+        "slug": "thermo_fisher",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow & Analytical Tools",
+        "relationshipNote": "Supplier of laboratory instruments, sequencing platforms, and bioinformatics software used in Regeneron's drug discovery and development workflows. Thermo Fisher provides next-generation sequencing (NGS) equipment, mass spectrometry systems, and data-analysis platforms. Estimated 3–5% of R&D COGS. Relationship spans 2010s–present; critical to VelocImmune platform efficiency and target identification.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Baxter International Inc. (Baxter BioScience)",
+        "ticker": "BAX",
+        "cik": "0000010456",
+        "slug": "baxter_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Supplier of intravenous immunoglobulin (IVIG) and plasma-derived therapeutics manufacturing expertise; Regeneron has engaged Baxter for specialized manufacturing consulting and capacity planning. Relationship reflects Regeneron's exploration of plasma-derived and recombinant hybrid manufacturing approaches.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Recombinant Antibody Technologies (RAT) / Genmab A/S",
+        "ticker": "GMAB",
+        "cik": null,
+        "slug": "genmab",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Technology",
+        "relationshipNote": "Genmab provides bispecific antibody technology licensing and manufacturing support; Regeneron has licensed Genmab's DuoBody platform for select programs. Relationship reflects Regeneron's strategy to complement VelocImmune with external bispecific platforms for oncology and immunology indications.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sanofi S.A.",
+        "ticker": "SNYNF",
+        "cik": null,
+        "slug": "sanofi",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Strategic Partnership",
+        "relationshipNote": "Strategic partner and co-development/co-commercialization partner for Dupixent (dupilumab) since 2014. Sanofi holds exclusive rights to Dupixent in dermatology and allergy indications outside North America; Regeneron retains North American rights and receives royalties on Sanofi's ex-NA sales. Dupixent generated $4.1B revenue in FY2023 (combined Regeneron + Sanofi); Sanofi's ex-NA sales represent ~$2.5B. Partnership includes manufacturing, regulatory, and commercial collaboration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Bayer AG",
+        "ticker": "BAYN",
+        "cik": null,
+        "slug": "bayer",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Strategic Partnership",
+        "relationshipNote": "Co-development and co-commercialization partner for Eylea (aflibercept) in ophthalmology. Bayer holds exclusive rights to Eylea outside North America; Regeneron retains North American rights and receives royalties on Bayer's ex-NA sales. Eylea generated $6.3B revenue in FY2023 (combined Regeneron + Bayer); Bayer's ex-NA sales represent ~$3.2B. Partnership includes manufacturing, regulatory, and commercial collaboration; critical to Regeneron's ophthalmology franchise.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Cardinal Health Inc.",
+        "ticker": "CAH",
+        "cik": "0000018085",
+        "slug": "cardinal_health",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Pharmaceutical distributor and logistics partner for Regeneron's injectable therapeutics (Eylea, Dupixent, Libtayo, Arcalyst). Cardinal Health operates specialized cold-chain distribution centers and manages last-mile delivery to hospitals, specialty pharmacies, and clinics. Estimated 20–25% of Regeneron's distribution volume. Multi-year agreement with performance metrics on on-time delivery and inventory management.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "McKesson Corporation",
+        "ticker": "MCK",
+        "cik": "0000064978",
+        "slug": "mckesson",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Pharmaceutical distributor and logistics partner for Regeneron's injectable therapeutics. McKesson operates specialized cold-chain distribution and manages inventory for Eylea, Dupixent, and other Regeneron products across hospital and specialty pharmacy channels. Estimated 20–25% of Regeneron's distribution volume. Multi-year agreement with performance metrics on inventory turns and delivery reliability.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Amerita (formerly Amedisys) / Specialty Pharmacy Networks",
+        "ticker": null,
+        "cik": null,
+        "slug": "specialty_pharmacy_networks",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Specialty pharmacy partner for Regeneron's injectable immunology and oncology therapeutics (Dupixent, Libtayo, Arcalyst). Specialty pharmacies handle patient counseling, insurance verification, and home-delivery logistics for self-administered biologics. Estimated 15–20% of Regeneron's patient-facing distribution. Relationship reflects shift toward direct-to-patient delivery models for chronic-use biologics.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "United States Department of Veterans Affairs (VA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_veterans_affairs",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Major institutional buyer of Regeneron therapeutics (Eylea, Dupixent, Libtayo) for VA hospital system and veteran beneficiaries. VA negotiates volume discounts and formulary placement; estimated 5–8% of Regeneron's U.S. revenue. Relationship includes Medicare pricing negotiations and value-based contracting. VA's purchasing power influences broader payer reimbursement strategies.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Centers for Medicare & Medicaid Services (CMS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cms",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Primary payer for Regeneron therapeutics in Medicare Part B (hospital-administered) and Part D (retail pharmacy) programs. CMS sets reimbursement rates, coverage policies, and prior-authorization requirements for Eylea, Dupixent, Libtayo, and Arcalyst. Estimated 25–30% of Regeneron's U.S. revenue flows through CMS programs. Relationship includes annual rate negotiations and coverage determinations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Roche Holding AG (Genentech)",
+        "ticker": "RHHBY",
+        "cik": null,
+        "slug": "roche_genentech",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Direct competitor in ophthalmology (Lucentis, Beovu vs. Eylea), dermatology (Dupilumab licensing from Sanofi), and oncology (Tecentriq, Tiragolumab vs. Libtayo). Roche's ophthalmology franchise generates ~$3.5B revenue; Lucentis faces similar biosimilar competition as Eylea. Roche's bispecific antibody programs (Glofitamab, Tiragolumab) compete with Regeneron's Odronextamab in lymphoma and other indications. Competitive intensity increasing post-2024.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Amgen Inc.",
+        "ticker": "AMGN",
+        "cik": "0000318154",
+        "slug": "amgen",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Competitor in ophthalmology (Vectibix, other VEGF inhibitors), immunology (Enbrel, Kineret vs. Arcalyst), and oncology (Blincyto, Talquetamab vs. Libtayo). Amgen's ophthalmology and immunology franchises generate ~$8B combined revenue. Amgen's bispecific antibody programs (Talquetamab, Teclistamab) compete with Regeneron's pipeline in hematologic malignancies. Competitive intensity in rare inflammatory diseases remains moderate; Amgen's scale advantage in manufacturing and distribution.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eli Lilly and Company",
+        "ticker": "LLY",
+        "cik": "0000059478",
+        "slug": "eli_lilly",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Competitor in dermatology (Lebrikizumab vs. Dupixent), immunology (Baricitinib, Upadacitinib vs. Dupixent), and oncology (Talquetamab, Teclistamab vs. Libtayo). Lilly's dermatology and immunology franchises generate ~$6B combined revenue. Lilly's GLP-1 and JAK inhibitor portfolios represent adjacent-category competitive threats to Regeneron's dermatology and metabolic disease pipelines. Competitive intensity increasing in obesity and metabolic disease indications.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Gilead Sciences Inc.",
+        "ticker": "GILD",
+        "cik": "0001313616",
+        "slug": "gilead",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Competitor in oncology (Yescarta, Tecartus CAR-T vs. Regeneron's pipeline) and immunology (Filgotinib vs. Dupixent). Gilead's oncology franchise generates ~$4B revenue; CAR-T cell therapy represents alternative modality to Regeneron's monoclonal and bispecific antibodies. Competitive intensity in hematologic malignancies moderate; Gilead's manufacturing complexity and patient-specific manufacturing create differentiation vs. off-the-shelf biologics.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Incyte Corporation",
+        "ticker": "INCY",
+        "cik": "0001086307",
+        "slug": "incyte",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking & Competitive Dynamics",
+        "relationshipNote": "Competitor in dermatology (Opzelura, Ruxolitinib vs. Dupixent) and immunology (JAK inhibitors vs. Dupixent). Incyte's dermatology franchise generates ~$1.5B revenue; JAK inhibitor class represents alternative mechanism to IL-4 receptor antagonism. Competitive intensity in atopic dermatitis increasing post-2023 as JAK inhibitors gain payer acceptance. Incyte's smaller scale limits direct competition in oncology and rare disease.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Food and Drug Administration (FDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary regulatory authority for Regeneron's drug approvals, manufacturing oversight, and post-market surveillance. FDA reviews Regeneron's Biologics License Applications (BLAs) for Eylea, Dupixent, Libtayo, Arcalyst, and pipeline programs. PDUFA target action dates for Pozelimab (expected Q2 2025) and Odronextamab (expected Q4 2025) represent critical regulatory milestones. FDA's guidance on bispecific antibody manufacturing and CMC requirements directly impacts Regeneron's manufacturing scale-up plans.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Regulates Regeneron's public disclosures, financial reporting, and corporate governance. SEC reviews Regeneron's 10-K, 10-Q, 8-K filings; monitors insider trading, executive compensation, and material event disclosures. Regeneron's CIK 1102312; filed 10-K for FY2023 on 2024-02-15. SEC's enforcement actions on pharmaceutical pricing and marketing practices represent regulatory risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "SEC filings"
+        ]
+      },
+      {
+        "name": "U.S. Patent and Trademark Office (USPTO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "uspto",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Grants and enforces Regeneron's patent portfolio covering VelocImmune platform, monoclonal antibodies, bispecific antibodies, and manufacturing processes. Regeneron holds 500+ issued U.S. patents; key patents for Eylea expire 2024–2026, Dupixent 2028–2030, Libtayo 2032–2035. USPTO's Patent Trial and Appeal Board (PTAB) reviews patent validity challenges from biosimilar manufacturers. Patent portfolio represents critical competitive moat.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Medicines Agency (EMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Regulatory authority for Regeneron's drug approvals and manufacturing oversight in European Union. EMA reviews Regeneron's Marketing Authorization Applications (MAAs) for Eylea, Dupixent, Libtayo, and pipeline programs. EMA's Committee for Medicinal Products for Human Use (CHMP) provides scientific advice on clinical development and manufacturing. European market represents ~30–35% of Regeneron's global revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Enforces antitrust law and consumer protection regulations affecting Regeneron's business practices. FTC monitors Regeneron's pricing strategies, patent enforcement, and competitive conduct. FTC's scrutiny of pharmaceutical pricing and patent litigation has increased post-2020; Regeneron faces potential enforcement risk if pricing or patent strategies deemed anticompetitive.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "PricewaterhouseCoopers LLP (PwC)",
+      "ticker": null,
+      "cik": null,
+      "slug": "pwc",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "External auditor for Regeneron's consolidated financial statements and internal control over financial reporting. PwC has served as Regeneron's auditor since 2002; issued unqualified audit opinion on FY2023 10-K (filed 2024-02-15). PwC's audit scope includes revenue recognition (product sales, royalties), R&D capitalization, and goodwill impairment testing. Audit fees estimated $8–12M annually.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Lead arranger and lender for Regeneron's credit facilities. JPMorgan manages Regeneron's $2.5B revolving credit facility (undrawn as of FY2023); provides investment banking services for debt issuances and M&A advisory. JPMorgan's equity research team covers Regeneron with buy-side recommendations; influences institutional investor sentiment. Relationship spans 2010s–present.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Lender and investment banking partner for Regeneron. BofA participates in Regeneron's credit facilities and provides debt capital markets services for bond issuances. BofA's equity research team covers Regeneron; influences institutional investor sentiment. Relationship includes M&A advisory and strategic financing services.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sanofi S.A.",
+        "ticker": "SNYNF",
+        "cik": null,
+        "slug": "sanofi_capital",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Strategic equity investor and partner in Regeneron. Sanofi holds ~20% of Regeneron's outstanding shares (as of FY2023); board representation through Sanofi-nominated director. Sanofi's investment reflects long-term partnership on Dupixent and other programs. Sanofi's equity stake provides capital stability and strategic alignment; potential acquisition target if Sanofi increases stake.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Leonard S. Schleifer, M.D., Ph.D.",
+        "slug": "leonard_schleifer",
+        "title": "Founder, Chairman, and Chief Executive Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Founded Regeneron in 1989; has served as CEO since inception. Schleifer holds ~2% of Regeneron's outstanding shares; compensation includes base salary, bonus, and equity awards. Schleifer's scientific background (M.D. from Cornell, Ph.D. in neurobiology from Rockefeller) shapes Regeneron's R&D strategy and VelocImmune platform development. Schleifer's leadership style emphasizes long-term R&D investment and scientific rigor.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Robert E. Landry",
+        "slug": "robert_landry",
+        "title": "Chief Financial Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Joined Regeneron as CFO in 2018; responsible for financial planning, capital allocation, and investor relations. Landry's background includes finance roles at Amgen and other biopharmaceutical companies. Landry oversees Regeneron's dividend policy, share buyback program, and debt management. Compensation includes base salary, bonus, and equity awards.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "George D. Yancopoulos, M.D., Ph.D.",
+        "slug": "george_yancopoulos",
+        "title": "President and Chief Scientific Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic & Scientific Leadership",
+        "relationshipNote": "Co-founder and President of Regeneron; leads scientific strategy and R&D operations. Yancopoulos holds Ph.D. in neurobiology from Rockefeller University; pioneered VelocImmune antibody discovery platform. Yancopoulos' scientific vision drives Regeneron's pipeline prioritization and platform development. Compensation includes base salary, bonus, and equity awards.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Aris Spiliotis",
+        "slug": "aris_spiliotis",
+        "title": "Chief Operating Officer",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Joined Regeneron as COO in 2020; responsible for manufacturing, supply chain, and operational efficiency. Spiliotis' background includes operations roles at Amgen and other biopharmaceutical companies. Spiliotis oversees Regeneron's manufacturing scale-up for Pozelimab, Odronextamab, and other pipeline programs. Compensation includes base salary, bonus, and equity awards.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Eylea Quarterly Revenue (U.S. + Ex-U.S.)",
+        "slug": "eylea_quarterly_revenue",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Eylea (aflibercept) quarterly revenue disclosed in 10-Q earnings releases; represents Regeneron's largest franchise (~45% of total revenue in FY2023). Eylea revenue growth rate tracks biosimilar competitive pressure and market-share dynamics in wet age-related macular degeneration (AMD). Q3 2024 Eylea revenue: $1.6B (flat YoY); biosimilar uptake accelerating post-FDA approvals in 2024. Market signal indicates potential 20–30% revenue decline by 2027 as biosimilar penetration increases.",
+        "confidence": "high",
+        "sourceType": [
+          "10-Q",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Dupixent Quarterly Revenue (Regeneron + Sanofi)",
+        "slug": "dupixent_quarterly_revenue",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Dupixent (dupilumab) quarterly revenue disclosed in 10-Q earnings releases; represents Regeneron's second-largest franchise (~30% of total revenue in FY2023). Dupixent revenue growth rate tracks market penetration in atopic dermatitis, asthma, and chronic rhinosinusitis indications. Q3 2024 Dupixent revenue: $1.4B (Regeneron share, +8% YoY); growth driven by new indications and geographic expansion. Patent exclusivity extends to 2029; peak-sales trajectory intact through 2028.",
+        "confidence": "high",
+        "sourceType": [
+          "10-Q",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Libtayo Quarterly Revenue (Oncology Franchise)",
+        "slug": "libtayo_quarterly_revenue",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Libtayo (cemiplimab) quarterly revenue disclosed in 10-Q earnings releases; represents Regeneron's oncology franchise (~10% of total revenue in FY2023). Libtayo revenue growth rate tracks market penetration in cutaneous squamous cell carcinoma (CSCC), non-small cell lung cancer (NSCLC), and other tumor types. Q3 2024 Libtayo revenue: $0.3B (+15% YoY); growth driven by new indication approvals and competitive positioning vs. Roche/Amgen PD-1/PD-L1 inhibitors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-Q",
+          "earnings-call"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "AMY_threat_overdetection_x_defensive_hedging_excess",
+        "neuralRegion": "BLA",
+        "neuralRegionLabel": "Basolateral Amygdala",
+        "businessSignature": "defensive_hedging_excess",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_hedging_excessive"
+        ],
+        "totalIndicators": 3,
+        "matchRate": 0.333,
+        "confidence": 0.237,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection method for corporate defensive-hedging excess using amygdala-equivalent threat-threshold-shift metric on capital-allocation pattern",
+            "noveltyAnchor": "Quantifies hedging-as-pathology vs hedging-as-prudence via shifted-threshold model"
+          },
+          "grant": {
+            "programMatch": [
+              "FRBNY corporate-risk research",
+              "NSF Decision Risk"
+            ],
+            "angle": "Behavioral measures of corporate avoidance separable from rational hedging"
+          },
+          "investment": {
+            "thesis": "Long companies emerging from hedging-excess via board mandate; short companies with rising defensive-cash without M&A pipeline",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Cash-hoarding companies respond to exposure-therapy-equivalent graduated-investment mandates",
+            "methodology": "natural experiment on companies post-activist-investor exposure mandates"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p7b"
+        ],
+        "knownTreatments": [
+          "exposure therapy",
+          "SSRI",
+          "propranolol (memory reconsolidation)",
+          "EMDR",
+          "vmPFC-to-amygdala connectivity restoration"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:01.814Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "AMY_threat_overdetection_x_defensive_hedging_excess",
+        "confidence": 0.237,
+        "artifact": {
+          "title": "Method and system for detecting defensive hedging excess via Basolateral Amygdala-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting defensive hedging excess signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Basolateral Amygdala-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined defensive hedging excess threshold. The method provides earlier and more specific detection of defensive hedging excess than conventional financial-distress models.",
+          "background": "Detection of defensive hedging excess in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting defensive hedging excess until well after the signature has been priced. Defensive hedging excess represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Basolateral Amygdala (exposure therapy) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting defensive hedging excess signature comprises: receiving filing data and counterparty network data, determining a Basolateral Amygdala-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Quantifies hedging-as-pathology vs hedging-as-prudence via shifted-threshold model. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting defensive hedging excess signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Basolateral Amygdala-equivalent decoupling score, wherein the determining the Basolateral Amygdala-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Basolateral Amygdala-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Basolateral Amygdala-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined defensive hedging excess threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"exposure therapy\", \"SSRI\", and \"propranolol\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Quantifies hedging-as-pathology vs hedging-as-prudence via shifted-threshold model",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.835Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "AMY_threat_overdetection_x_defensive_hedging_excess",
+        "confidence": 0.237,
+        "programs": [
+          "FRBNY corporate-risk research",
+          "NSF Decision Risk"
+        ],
+        "artifact": {
+          "title": "Translational Basolateral Amygdala-equivalent detection and intervention protocols for defensive hedging excess",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit defensive hedging excess signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with defensive hedging excess-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Basolateral Amygdala-equivalent isomorphic pathology significantly modulates defensive hedging excess detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Regeneron Pharmaceuticals Inc. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified defensive hedging excess signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects defensive hedging excess signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Basolateral Amygdala-equivalent defensive hedging excess detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Basolateral Amygdala isomorphic pathology will increase defensive hedging excess detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Basolateral Amygdala-equivalent defensive hedging excess detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for defensive hedging excess against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Behavioral measures of corporate avoidance separable from rational hedging",
+          "innovation": "The proposed work is innovative because it integrates Basolateral Amygdala clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.835Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "AMY_threat_overdetection_x_defensive_hedging_excess",
+        "confidence": 0.237,
+        "side": "SHORT",
+        "horizon": "12-24mo",
+        "artifact": {
+          "header": "Regeneron Pharmaceuticals Inc. (REGN) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: EXPANSION    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: AMY_threat_overdetection_x_defensive_hedging_excess (confidence 0.237)",
+          "variantView": "REGN screens as pharmaceutical preparations-typical. Underneath, the operative driver is Basolateral Amygdala-equivalent isomorphic pathology — (defensive hedging excess) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Pharmaceutical Preparations entities exhibiting defensive hedging excess: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Regeneron Pharmaceuticals Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the defensive hedging excess pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Pharmaceutical Preparations peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.237).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.237, matched indicators 1 of 3.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Pharmaceutical Preparations; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: EXPANSION blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_hedging_excessive\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Basolateral Amygdala ↔ defensive hedging excess mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Long companies emerging from hedging-excess via board mandate; short companies with rising defensive-cash without M&A pipeline",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.835Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "AMY_threat_overdetection_x_defensive_hedging_excess",
+        "confidence": 0.237,
+        "artifact": {
+          "title": "Empirical test of Basolateral Amygdala-equivalent defensive hedging excess mapping on Regeneron Pharmaceuticals Inc.",
+          "hypothesis": "Cash-hoarding companies respond to exposure-therapy-equivalent graduated-investment mandates",
+          "methodology": "natural experiment on companies post-activist-investor exposure mandates",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Basolateral Amygdala-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "AMY_threat_overdetection_x_defensive_hedging_excess"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.835Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.835Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

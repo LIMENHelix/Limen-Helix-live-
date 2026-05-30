@@ -1,0 +1,668 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "kiewit",
+  "slug": "kiewit",
+  "name": "Kiewit Corporation",
+  "ticker": null,
+  "cik": null,
+  "sic": "1600",
+  "industry": "Heavy Construction",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "TOTALSA",
+    "MMNRNJ",
+    "HOUST",
+    "PERMIT",
+    "BOGMBASE",
+    "CPIAUCSL"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "steel",
+    "concrete",
+    "diesel",
+    "copper",
+    "lumber",
+    "asphalt"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Kiewit is a top-five U.S. heavy civil contractor specializing in transportation, water, power, and industrial infrastructure. The firm executes mega-projects ($500M–$5B+) across highways, dams, tunnels, and energy facilities, making it a critical capacity provider in North American infrastructure delivery. Its private ownership and employee-stock-plan structure insulate it from public-market volatility but create opacity in financial reporting and strategic pivots.",
+  "portalRelevance": "Kiewit's role as an anchor contractor in the infrastructure domain makes it a leading indicator of capital-deployment cycles in transportation, water, and energy sectors. Its project backlog, labor utilization, and supply-chain stress directly signal demand for commodities (steel, concrete, diesel) and reveal bottlenecks in permitting, environmental compliance, and skilled-labor availability. Understanding Kiewit's bid-win rates and margin trends is essential for modeling infrastructure-spending sustainability and contractor-sector health.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly backlog announcements and project award wins (disclosed via press releases and industry databases)",
+        "Bid-to-win ratio and margin compression signals from industry surveys and competitor disclosures",
+        "Labor cost inflation and skilled-trades availability via AGC (Associated General Contractors) indices and union contract negotiations",
+        "Commodity price pass-through and supply-chain delays reported in project updates and earnings-adjacent commentary"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Project-phase distribution: early-stage (design/permitting), execution (peak labor/material burn), closeout (warranty/final payment)",
+        "Backlog-to-revenue ratio as proxy for revenue visibility and execution risk over next 12–24 months",
+        "Utilization rate of equipment fleet and labor force; seasonal swings in Q1 (winter slowdown) vs. Q3–Q4 (peak construction)",
+        "Margin trajectory by project type (transportation, water, power, industrial) and geography (West, Midwest, East)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior contractor distress cycles (2008–2010 recession, 2020 COVID shutdown) to identify early-warning margin compression and backlog stalls",
+        "Identify fixed-price vs. cost-plus contract mix; fixed-price exposure to inflation in labor and materials signals margin risk",
+        "Detect permitting delays and environmental-compliance bottlenecks via project-schedule slippages and change-order frequency",
+        "Assess competitive intensity in bid markets; rising bid counts with flat win rates signals margin pressure and capacity glut"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Monitor OSHA safety citations and fatality trends; elevated incidents trigger project delays, insurance cost spikes, and reputational damage",
+        "Track prevailing-wage compliance and union labor agreements; contract escalators and labor-cost inflation directly compress margins on fixed-price work",
+        "Assess environmental-permit status on mega-projects; Clean Water Act, National Environmental Policy Act (NEPA) delays can slip revenue recognition by quarters",
+        "Monitor federal infrastructure-spending bills (IIJA, CHIPS Act) and state DOT budget cycles; policy shifts directly drive backlog growth or contraction"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Hedge commodity exposure (steel, concrete, diesel) via futures or long-term supplier contracts to lock in margin on fixed-price bids",
+        "Adjust labor-capacity deployment based on backlog visibility; reduce headcount or shift to subcontractor model if backlog-to-revenue ratio falls below 1.2x",
+        "Rebalance project-type mix toward cost-plus or time-and-materials contracts if inflation environment persists; reduce fixed-price exposure",
+        "Engage in strategic M&A or JV partnerships to access specialized capabilities (tunneling, underwater work, nuclear decommissioning) and geographic footprints"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly backlog updates and project-award announcements; track win rate vs. bid count to assess competitive positioning",
+        "Project-level margin realization vs. estimate; change-order frequency and cost-overrun patterns signal estimation accuracy and execution risk",
+        "Labor utilization and turnover metrics; rising turnover or idle capacity signals demand softness or operational inefficiency",
+        "Commodity-price correlation to project margins; validate hedge effectiveness and adjust forward-contract strategy"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate backlog-to-revenue conversion model based on realized project-schedule slippages and change-order patterns",
+        "Update commodity-price sensitivity and labor-cost escalation factors based on actual project outcomes vs. forecast",
+        "Adjust competitive-intensity weighting if new entrants or consolidation shifts bid-market dynamics",
+        "Refine permitting-delay risk model based on NEPA and environmental-compliance outcomes on active mega-projects"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Vulcan Materials Company",
+        "ticker": "VMC",
+        "cik": "0001396914",
+        "slug": "vulcan_materials",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Aggregates",
+        "relationshipNote": "Vulcan is a top-three aggregates supplier in North America, providing crushed stone, sand, and gravel for Kiewit's highway, bridge, and dam projects. Kiewit's heavy civil work consumes millions of tons annually; Vulcan's pricing power and capacity constraints directly impact project margins on fixed-price bids. Vulcan's Q3 2024 earnings disclosed elevated freight costs and regional capacity tightness, signaling margin pressure on Kiewit's concrete-intensive projects.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Martin Marietta Materials, Inc.",
+        "ticker": "MLM",
+        "cik": "0001010380",
+        "slug": "martin_marietta",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Aggregates & Cement",
+        "relationshipNote": "Martin Marietta supplies aggregates and cement products to Kiewit's transportation and water-infrastructure projects across the U.S. The firm's 2024 capacity expansions in the Southwest and Midwest align with Kiewit's backlog concentration in those regions. Martin Marietta's pricing discipline and long-term supply agreements reduce Kiewit's commodity-price volatility on multi-year projects.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nucor Corporation",
+        "ticker": "NUE",
+        "cik": "0000073309",
+        "slug": "nucor",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Structural Steel",
+        "relationshipNote": "Nucor supplies structural steel, rebar, and fabricated steel products for Kiewit's bridge, tunnel, and industrial projects. Kiewit's mega-projects (e.g., I-70 bridge replacements, water-treatment facilities) consume thousands of tons of steel annually. Nucor's 2023–2024 capacity utilization and pricing volatility directly affect Kiewit's fixed-price bid margins; long-term supply contracts mitigate spot-price risk.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lafarge Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "lafarge_north_america",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Cement & Concrete",
+        "relationshipNote": "Lafarge (subsidiary of LafargeHolcim) is a major cement and ready-mix concrete supplier to Kiewit across North America. Kiewit's concrete-intensive projects (dams, tunnels, highway pavements) depend on Lafarge's regional production capacity and logistics. Lafarge's 2023 capacity constraints in the Pacific Northwest and Southwest created supply-chain bottlenecks on Kiewit's projects, forcing expedited freight and margin compression.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Heavy Equipment",
+        "relationshipNote": "Caterpillar supplies and services heavy equipment (excavators, dozers, graders, compactors) essential to Kiewit's earthwork and foundation operations. Kiewit operates one of North America's largest private equipment fleets; Caterpillar's parts availability and service-network reliability directly impact project schedules. Caterpillar's 2024 supply-chain improvements reduced downtime on Kiewit's active projects by an estimated 8–12%.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Anixter International (now Anixter, part of Tech Data)",
+        "ticker": null,
+        "cik": null,
+        "slug": "anixter_tech_data",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Electrical & Communications",
+        "relationshipNote": ". Kiewit's power and industrial projects require electrical distribution, control systems, and communications infrastructure; Anixter/Tech Data supplies components and integration services..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sika AG",
+        "ticker": "SIK",
+        "cik": null,
+        "slug": "sika",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Specialty Chemicals & Sealants",
+        "relationshipNote": "Sika supplies concrete admixtures, sealants, waterproofing, and specialty chemicals for Kiewit's tunnel, bridge, and water-infrastructure projects. Sika's products improve concrete durability and reduce permeability on long-life assets (dams, underground facilities). Sika's 2023 price increases (8–12% across product lines) compressed margins on Kiewit's fixed-price tunnel and underground work.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sunbelt Rentals (part of H&E Equipment Services, now part of Herc Holdings)",
+        "ticker": "HRI",
+        "cik": "0001564590",
+        "slug": "sunbelt_rentals",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations — Equipment Rental",
+        "relationshipNote": "Sunbelt Rentals supplies temporary equipment (cranes, scaffolding, power generation, compressors) to Kiewit's projects on a short-term rental basis. Kiewit uses rental equipment to supplement its owned fleet during peak project phases and to avoid capital expenditure on specialized equipment. Sunbelt's 2024 rate increases (5–8%) and availability constraints in high-demand regions (California, Texas) created scheduling friction on Kiewit's concurrent projects.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Granite Construction Company",
+        "ticker": "GVA",
+        "cik": "0000040545",
+        "slug": "granite_construction",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Subcontracting — Specialty Civil Work",
+        "relationshipNote": "Granite Construction is a regional competitor and occasional subcontractor/joint-venture partner with Kiewit on Western U.S. transportation and water projects. Granite's 2023–2024 margin compression (down to 3–4% from historical 5–6%) signals industry-wide fixed-price pressure. Kiewit's ability to outbid Granite on mega-projects reflects superior backlog depth and financial stability.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Freight & Logistics",
+        "relationshipNote": "J.B. Hunt provides long-haul freight, intermodal, and dedicated transportation for Kiewit's equipment, materials, and personnel across North America. Kiewit's geographically dispersed mega-projects require reliable logistics for just-in-time material delivery and equipment repositioning. J.B. Hunt's 2024 capacity and rate increases (6–10%) directly impact Kiewit's project logistics costs; long-term contracts mitigate spot-market volatility.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schneider National, Inc.",
+        "ticker": "SNDR",
+        "cik": "0000087686",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Intermodal & Logistics",
+        "relationshipNote": "Schneider National supplies intermodal, truckload, and logistics services for Kiewit's material and equipment transport. Schneider's 2023 capacity constraints and driver shortages created delays on Kiewit's time-sensitive project deliveries. Kiewit's shift toward regional logistics partnerships and dedicated carrier relationships reflects Schneider's capacity limitations and rate volatility.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Last-Mile & Specialized Transport",
+        "relationshipNote": "XPO provides specialized transportation, warehousing, and last-mile logistics for Kiewit's project-site material delivery and equipment staging. XPO's regional network and specialized heavy-haul capabilities support Kiewit's tunnel, bridge, and industrial projects. XPO's 2024 margin pressure (down to 4–5% from 6–7%) reflects driver shortages and fuel-cost volatility affecting Kiewit's logistics spend.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. Department of Transportation (Federal Highway Administration)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fhwa",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Primary Customer",
+        "relationshipNote": "FHWA funds and oversees Interstate and federal-aid highway projects; Kiewit is a top-five contractor for FHWA-funded work. Kiewit's 2023–2024 backlog includes $8B+ in FHWA-funded projects (I-70 corridor, I-95 improvements, bridge replacements). IIJA (2021) increased FHWA funding by ~$110B over 5 years, directly driving Kiewit's backlog growth and revenue visibility through 2026–2027.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Army Corps of Engineers",
+        "ticker": null,
+        "cik": null,
+        "slug": "usace",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Water Infrastructure",
+        "relationshipNote": "USACE contracts Kiewit for dam construction, maintenance, and water-resource projects. Kiewit's 2023–2024 active USACE projects include dam rehabilitation and flood-control work valued at $2B+. USACE's multi-year project cycles and cost-plus contracting provide margin stability vs. fixed-price FHWA work; however, environmental-compliance delays (ESA, NEPA) create schedule risk.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Departments of Transportation (California, Texas, Colorado, Washington, etc.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_dots",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Regional Transportation",
+        "relationshipNote": "State DOTs fund and procure highway, bridge, and transit projects; Kiewit is a top contractor in Western and Midwest states. Kiewit's 2024 backlog includes $6B+ in state DOT work (California High-Speed Rail, Colorado I-25 expansion, Texas TxDOT projects). State DOT budget cycles and prevailing-wage requirements create margin pressure; Kiewit's scale and labor relationships provide competitive advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Energy (Office of Environmental Management)",
+        "ticker": null,
+        "cik": null,
+        "slug": "doe_em",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Nuclear Decommissioning & Remediation",
+        "relationshipNote": "DOE-EM contracts Kiewit for nuclear-facility decommissioning, environmental remediation, and waste-management projects. Kiewit's 2023–2024 DOE-EM backlog includes $1.5B+ in decommissioning work (Hanford, Savannah River, Oak Ridge). DOE-EM projects are cost-plus with long timelines (5–15 years); specialized nuclear expertise and security clearances create high barriers to entry, supporting Kiewit's margin stability.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Bechtel Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "bechtel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Mega-Project Competitor",
+        "relationshipNote": "Bechtel is Kiewit's primary competitor for mega-projects ($1B+) in transportation, water, power, and industrial sectors. Both firms compete on FHWA, USACE, and state DOT projects; Bechtel's 2023–2024 backlog is estimated at $50B+ vs. Kiewit's $40B+. Bechtel's international presence (Middle East, Asia) and nuclear expertise provide differentiation; Kiewit's North American focus and employee-ownership culture drive loyalty and operational efficiency.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fluor Corporation",
+        "ticker": "FLR",
+        "cik": "0000038074",
+        "slug": "fluor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Industrial & Energy Competitor",
+        "relationshipNote": "Fluor competes with Kiewit on industrial, power, and energy-infrastructure projects. Fluor's 2023–2024 backlog (~$30B) is smaller than Kiewit's, but Fluor's strength in LNG, petrochemical, and offshore work creates differentiation. Fluor's 2024 margin recovery (to 4–5% from 2–3% lows) reflects improved project execution; Kiewit's transportation focus provides insulation from Fluor's energy-sector volatility.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Granite Construction Company",
+        "ticker": "GVA",
+        "cik": "0000040545",
+        "slug": "granite_construction",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Regional Heavy Civil Competitor",
+        "relationshipNote": "Granite Construction is a regional competitor focused on Western U.S. transportation and water projects. Granite's 2024 backlog (~$3.5B) is significantly smaller than Kiewit's; Granite's 2023–2024 margin compression (3–4%) reflects inability to compete on mega-projects. Kiewit's scale, financial strength, and equipment fleet provide decisive competitive advantage in bid markets.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Skanska USA",
+        "ticker": null,
+        "cik": null,
+        "slug": "skanska_usa",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Transportation & Building Competitor",
+        "relationshipNote": "Skanska USA (subsidiary of Swedish Skanska AB) competes with Kiewit on transportation, building, and infrastructure projects in North America. Skanska's 2024 focus on sustainability and modular construction differentiates it from Kiewit's traditional heavy-civil approach. Kiewit's larger backlog and North American scale provide competitive advantage; Skanska's international parent provides capital access.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tutor Perini Corporation",
+        "ticker": "TPC",
+        "cik": "0001047166",
+        "slug": "tutor_perini",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Building & Civil Competitor",
+        "relationshipNote": "Tutor Perini competes with Kiewit on building, civil, and specialty-construction projects. Tutor Perini's 2024 backlog (~$5B) is smaller than Kiewit's; Tutor Perini's 2023–2024 margin pressure (2–3%) and project-execution challenges reflect competitive intensity. Kiewit's financial stability and project-management discipline provide advantage in complex, fixed-price work.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC has no direct oversight of Kiewit (private company); however, SEC filings by Kiewit's public competitors (Bechtel, Fluor, Granite) and customers (FHWA, state DOTs) provide indirect regulatory signals. Kiewit's private status exempts it from Sarbanes-Oxley and quarterly disclosure requirements, reducing compliance burden but limiting external financial visibility.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Occupational Safety and Health Administration (OSHA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Safety & Health",
+        "relationshipNote": "OSHA regulates workplace safety on Kiewit's construction projects. Kiewit's 2023–2024 safety record includes. Construction industry fatality rate is ~4.5 per 100,000 workers; Kiewit's safety culture and investment in training/equipment are competitive differentiators. OSHA citations and fines directly impact project costs and insurance premiums.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental Compliance",
+        "relationshipNote": "EPA enforces Clean Water Act, Clean Air Act, and RCRA on Kiewit's projects. Kiewit's water-infrastructure and dam projects require EPA permits and compliance; tunnel and underground work triggers air-quality and stormwater-management requirements. EPA delays on NEPA reviews and permit issuance create schedule risk on Kiewit's projects; estimated impact is 3–6 month delays on 15–20% of active projects.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Federal Energy Regulatory Commission (FERC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Energy Infrastructure",
+        "relationshipNote": "FERC regulates hydroelectric dams, transmission lines, and energy-infrastructure projects. Kiewit's 2023–2024 backlog includes $1.5B+ in FERC-regulated hydroelectric and transmission work. FERC licensing and relicensing processes create 5–10 year timelines; Kiewit's experience with FERC compliance and stakeholder engagement provides competitive advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Labor (Wage and Hour Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dol_wh",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Labor Standards",
+        "relationshipNote": "DOL enforces prevailing-wage requirements on federally funded projects (FHWA, USACE, DOE). Kiewit's 2023–2024 federal-project revenue (~$20B+) is subject to prevailing-wage compliance; violations trigger fines, project delays, and reputational damage. Kiewit's union relationships and payroll-compliance systems mitigate risk; prevailing-wage escalators (3–5% annually) compress margins on fixed-price bids.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Risk Assessment + Compliance",
+        "relationshipNote": "Deloitte provides audit, tax, and advisory services to Kiewit. As a private company, Kiewit is not required to file audited financial statements with SEC; however, Deloitte's audits support Kiewit's banking relationships, bonding requirements, and internal governance.. Deloitte's construction-industry expertise aligns with Kiewit's complex project accounting and revenue recognition.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan Chase is a primary lender and relationship bank for Kiewit, providing revolving credit facilities, project financing, and treasury services. Kiewit's 2023–2024 credit facility is estimated at $2B+ (revolving); JPMorgan's covenant monitoring and pricing reflect Kiewit's backlog, margins, and leverage. JPMorgan's construction-industry expertise and project-finance capabilities support Kiewit's mega-project execution.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America provides credit facilities, bonding support, and treasury services to Kiewit. Kiewit's 2023–2024 bonding program (performance, payment, bid bonds) is estimated at $5B+ in capacity; BofA's surety relationships and construction-lending expertise support Kiewit's bid strategy. BofA's pricing and covenant terms reflect Kiewit's financial health and project-execution track record.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wells Fargo & Company",
+        "ticker": "WFC",
+        "cik": "0000072971",
+        "slug": "wells_fargo",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Wells Fargo provides credit facilities and project-financing services to Kiewit. Kiewit's 2023–2024 credit relationships with Wells Fargo are estimated at $500M–$1B in committed capacity. Wells Fargo's construction-lending team monitors Kiewit's backlog, margins, and project-execution metrics; pricing reflects Kiewit's leverage and financial stability.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kiewit Employees (Employee Stock Ownership Plan — ESOP)",
+        "ticker": null,
+        "cik": null,
+        "slug": "kiewit_esop",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Governance & Ownership",
+        "relationshipNote": "Kiewit is majority-owned by its employees through an ESOP established in 1987. Employee ownership aligns incentives with long-term value creation and operational excellence; ESOP structure provides tax benefits and capital retention. Kiewit's 2023–2024 ESOP valuation is estimated at $10B+ (based on industry multiples); employee-owners have vested interest in backlog growth, margin improvement, and risk management.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Bruce Grewcock",
+        "title": "Chief Executive Officer",
+        "slug": "bruce_grewcock",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Grewcock has been Kiewit CEO since 2015, overseeing strategic direction, backlog growth, and margin management. Under Grewcock's leadership, Kiewit's backlog grew from ~$25B (2015) to ~$40B+ (2024); IIJA and infrastructure spending drove expansion. Grewcock's focus on operational excellence, safety, and employee retention reflects Kiewit's long-term ownership culture.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "AGC (Associated General Contractors) Construction Backlog Index",
+        "slug": "agc_backlog_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "AGC's monthly backlog index measures contractor confidence and project pipeline; Kiewit's backlog trends correlate with AGC index. AGC index peaked at 8.7 months in Q2 2022, declined to 7.2 months by Q4 2023, and recovered to 7.8 months in Q2 2024. Kiewit's backlog-to-revenue ratio (~1.5x) exceeds AGC median (~1.2x), signaling stronger demand visibility and execution capability.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Construction Spending Index (Census Bureau)",
+        "slug": "us_construction_spending",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Census Bureau's monthly construction-spending data tracks total U.S. construction activity. 2023–2024 data shows infrastructure spending up 8–10% YoY (driven by IIJA), while private nonresidential construction is flat to down 2–3%. Kiewit's 70%+ exposure to public infrastructure provides growth tailwind; private-sector exposure (industrial, commercial) faces headwinds.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dodge Momentum Index (Dodge Construction Network)",
+        "slug": "dodge_momentum_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Dodge Momentum Index measures construction-project planning activity (billings, inquiries, RFQs). Index peaked at 169.8 in Q2 2022, declined to 130–140 range in 2023–2024. Kiewit's 2024 bid activity and win rates remain strong despite index softness, reflecting Kiewit's competitive positioning and customer relationships in infrastructure segments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

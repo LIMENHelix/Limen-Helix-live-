@@ -1,0 +1,2229 @@
+{
+  "meta": {
+    "version": "1.0",
+    "description": "Universal brain connectome — 111 nodes, base for all portals"
+  },
+  "systems": {
+    "dmn": {
+      "label": "Default Mode",
+      "color": {
+        "r": 201,
+        "g": 169,
+        "b": 78
+      }
+    },
+    "salience": {
+      "label": "Salience",
+      "color": {
+        "r": 255,
+        "g": 180,
+        "b": 60
+      }
+    },
+    "executive": {
+      "label": "Executive",
+      "color": {
+        "r": 80,
+        "g": 140,
+        "b": 220
+      }
+    },
+    "limbic": {
+      "label": "Limbic",
+      "color": {
+        "r": 180,
+        "g": 50,
+        "b": 50
+      }
+    },
+    "autonomic": {
+      "label": "Autonomic",
+      "color": {
+        "r": 42,
+        "g": 107,
+        "b": 90
+      }
+    },
+    "hpa": {
+      "label": "HPA Axis",
+      "color": {
+        "r": 200,
+        "g": 120,
+        "b": 40
+      }
+    },
+    "reward": {
+      "label": "Reward",
+      "color": {
+        "r": 220,
+        "g": 80,
+        "b": 80
+      }
+    },
+    "basal": {
+      "label": "Basal Ganglia",
+      "color": {
+        "r": 140,
+        "g": 120,
+        "b": 80
+      }
+    },
+    "thalamic": {
+      "label": "Thalamic",
+      "color": {
+        "r": 160,
+        "g": 160,
+        "b": 160
+      }
+    },
+    "neuromod": {
+      "label": "Neuromodulatory",
+      "color": {
+        "r": 100,
+        "g": 140,
+        "b": 140
+      }
+    },
+    "sensory": {
+      "label": "Sensory",
+      "color": {
+        "r": 120,
+        "g": 160,
+        "b": 180
+      }
+    },
+    "motor": {
+      "label": "Motor",
+      "color": {
+        "r": 160,
+        "g": 80,
+        "b": 60
+      }
+    },
+    "language": {
+      "label": "Language",
+      "color": {
+        "r": 180,
+        "g": 140,
+        "b": 100
+      }
+    },
+    "memory": {
+      "label": "Memory",
+      "color": {
+        "r": 160,
+        "g": 120,
+        "b": 180
+      }
+    },
+    "plasticity": {
+      "label": "Plasticity",
+      "color": {
+        "r": 100,
+        "g": 180,
+        "b": 120
+      }
+    },
+    "gutbrain": {
+      "label": "Gut-Brain",
+      "color": {
+        "r": 140,
+        "g": 100,
+        "b": 160
+      }
+    },
+    "entrainment": {
+      "label": "Entrainment",
+      "color": {
+        "r": 180,
+        "g": 160,
+        "b": 60
+      }
+    },
+    "other": {
+      "label": "Other",
+      "color": {
+        "r": 120,
+        "g": 120,
+        "b": 120
+      }
+    }
+  },
+  "nodes": [
+    {
+      "id": "A1",
+      "label": "A1",
+      "system": "sensory",
+      "size": 3,
+      "mniCoords": {
+        "x": 56,
+        "y": -24,
+        "z": 8
+      },
+      "angle": 1.1309733552923256,
+      "radius": 0.428,
+      "brainFunction": "sound processing, frequency mapping, auditory perception."
+    },
+    {
+      "id": "ACC",
+      "label": "Anterior Cingulate\nCortex",
+      "system": "salience",
+      "size": 6,
+      "mniCoords": {
+        "x": 0,
+        "y": 30,
+        "z": 24
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Conflict monitoring, error detection, effort allocation. Integrates cognitive and emotional processing."
+    },
+    {
+      "id": "ADR",
+      "label": "Adrenal",
+      "system": "hpa",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": 0,
+        "z": -60
+      },
+      "angle": 3.8955748904513436,
+      "radius": 0.304,
+      "brainFunction": "cortisol and adrenaline production, stress response execution."
+    },
+    {
+      "id": "AG",
+      "label": "Angular\nGyrus",
+      "system": "dmn",
+      "size": 4,
+      "mniCoords": {
+        "x": 48,
+        "y": -64,
+        "z": 32
+      },
+      "angle": 2.423514332769269,
+      "radius": 0.102,
+      "brainFunction": "semantic processing, attention reorienting, theory of mind. DMN-language interface."
+    },
+    {
+      "id": "AI",
+      "label": "Anterior\nInsula",
+      "system": "salience",
+      "size": 6,
+      "mniCoords": {
+        "x": 36,
+        "y": 18,
+        "z": 0
+      },
+      "angle": 0.3141592653589793,
+      "radius": 0.304,
+      "brainFunction": "interoception, emotional awareness, empathy, autonomic monitoring. Salience hub."
+    },
+    {
+      "id": "ANT",
+      "label": "Anterior\nThalamus",
+      "system": "thalamic",
+      "size": 3,
+      "mniCoords": {
+        "x": 2,
+        "y": -4,
+        "z": 12
+      },
+      "angle": 5.227610175573416,
+      "radius": 0.256,
+      "brainFunction": "memory circuits, hippocampal relay, spatial navigation."
+    },
+    {
+      "id": "ARC",
+      "label": "Arcuate",
+      "system": "language",
+      "size": 2,
+      "mniCoords": {
+        "x": -48,
+        "y": -24,
+        "z": 12
+      },
+      "angle": 2.450442269800039,
+      "radius": 0.46,
+      "brainFunction": "connects Broca's and Wernicke's areas. Language pathway."
+    },
+    {
+      "id": "ASTRO",
+      "label": "Astrocytes",
+      "system": "other",
+      "size": 4,
+      "mniCoords": {
+        "x": 12,
+        "y": -18,
+        "z": 14
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Synaptic support, neurotransmitter recycling, BBB maintenance, calcium wave signaling, gliotransmission."
+    },
+    {
+      "id": "BBB",
+      "label": "Blood-Brain Barrier",
+      "system": "other",
+      "size": 4,
+      "mniCoords": {
+        "x": 8,
+        "y": -14,
+        "z": 6
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Selective barrier protecting CNS from pathogens, toxins, and peripheral immune signals. Tight junction regulation."
+    },
+    {
+      "id": "BDNF",
+      "label": "BDNF /\nPlasticity",
+      "system": "plasticity",
+      "size": 4,
+      "mniCoords": {
+        "x": 28,
+        "y": -22,
+        "z": -14
+      },
+      "angle": 3.64424747816416,
+      "radius": 0.412,
+      "brainFunction": "brain-derived neurotrophic factor, neuroplasticity, learning, recovery."
+    },
+    {
+      "id": "BLA",
+      "label": "BLA",
+      "system": "limbic",
+      "size": 6,
+      "mniCoords": {
+        "x": 24,
+        "y": -4,
+        "z": -20
+      },
+      "angle": 1.6336281798666925,
+      "radius": 0.268,
+      "brainFunction": "threat evaluation, fear learning, emotional memory encoding."
+    },
+    {
+      "id": "BNST",
+      "label": "BNST",
+      "system": "limbic",
+      "size": 4,
+      "mniCoords": {
+        "x": 6,
+        "y": 2,
+        "z": 4
+      },
+      "angle": 1.9268434942017398,
+      "radius": 0.268,
+      "brainFunction": "sustained anxiety, threat monitoring, stress hormone regulation."
+    },
+    {
+      "id": "BROCA",
+      "label": "Broca",
+      "system": "language",
+      "size": 3,
+      "mniCoords": {
+        "x": -48,
+        "y": 14,
+        "z": 8
+      },
+      "angle": 2.324778563656447,
+      "radius": 0.424,
+      "brainFunction": "speech production, language processing, verbal working memory."
+    },
+    {
+      "id": "CARD",
+      "label": "Cardiac",
+      "system": "autonomic",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": -36,
+        "z": -44
+      },
+      "angle": 3.141592653589793,
+      "radius": 0.262,
+      "brainFunction": "heart rate regulation, HRV generation, vagal brake."
+    },
+    {
+      "id": "CAUD",
+      "label": "Caudate",
+      "system": "basal",
+      "size": 4,
+      "mniCoords": {
+        "x": 12,
+        "y": 14,
+        "z": 8
+      },
+      "angle": 4.39822971502571,
+      "radius": 0.262,
+      "brainFunction": "goal-directed behavior, learning, cognitive flexibility. Part of striatum."
+    },
+    {
+      "id": "CBLM",
+      "label": "Cerebellum",
+      "system": "other",
+      "size": 4,
+      "mniCoords": {
+        "x": 0,
+        "y": -56,
+        "z": -24
+      },
+      "angle": 5.340707511102648,
+      "radius": 0.42,
+      "brainFunction": "motor coordination, timing, error prediction, cognitive sequencing."
+    },
+    {
+      "id": "CC",
+      "label": "Corpus\nCallosum",
+      "system": "other",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": 0,
+        "z": 20
+      },
+      "angle": 3.141592653589793,
+      "radius": 0.38,
+      "brainFunction": "hemispheric communication, interhemispheric integration."
+    },
+    {
+      "id": "CeA",
+      "label": "CeA",
+      "system": "limbic",
+      "size": 4,
+      "mniCoords": {
+        "x": 20,
+        "y": -4,
+        "z": -16
+      },
+      "angle": 1.7802358370342162,
+      "radius": 0.332,
+      "brainFunction": "fear expression, autonomic fear responses, defensive behavior output."
+    },
+    {
+      "id": "CING",
+      "label": "Cingulum",
+      "system": "memory",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": -20,
+        "z": 36
+      },
+      "angle": 3.3929200658769765,
+      "radius": 0.418,
+      "brainFunction": "white matter tract connecting cingulate cortex to hippocampus and frontal lobe."
+    },
+    {
+      "id": "CLAUST",
+      "label": "Claustrum",
+      "system": "other",
+      "size": 3,
+      "mniCoords": {
+        "x": 32,
+        "y": 8,
+        "z": 0
+      },
+      "angle": 4.900884539600077,
+      "radius": 0.36,
+      "brainFunction": "consciousness integration, cross-modal binding, salience coordination."
+    },
+    {
+      "id": "CMZ",
+      "label": "CMZ",
+      "system": "motor",
+      "size": 2,
+      "mniCoords": {
+        "x": 0,
+        "y": -20,
+        "z": 44
+      },
+      "angle": 1.6336281798666923,
+      "radius": 0.412,
+      "brainFunction": "motor intention, effort-based decision making."
+    },
+    {
+      "id": "CON",
+      "label": "Cingulo-\nOpercular",
+      "system": "salience",
+      "size": 2,
+      "mniCoords": {
+        "x": 40,
+        "y": 18,
+        "z": 4
+      },
+      "angle": 0.25132741228718347,
+      "radius": 0.32,
+      "brainFunction": "tonic alertness, sustained task maintenance, error monitoring."
+    },
+    {
+      "id": "dACC",
+      "label": "dACC",
+      "system": "salience",
+      "size": 5,
+      "mniCoords": {
+        "x": 0,
+        "y": 24,
+        "z": 32
+      },
+      "angle": 0.5026548245743669,
+      "radius": 0.256,
+      "brainFunction": "error detection, conflict monitoring, cognitive control, pain processing."
+    },
+    {
+      "id": "DAN",
+      "label": "Dorsal\nAttention",
+      "system": "sensory",
+      "size": 3,
+      "mniCoords": {
+        "x": 28,
+        "y": -56,
+        "z": 48
+      },
+      "angle": 0.7539822368615503,
+      "radius": 0.36,
+      "brainFunction": "voluntary, top-down attention. Goal-directed focus."
+    },
+    {
+      "id": "DISS",
+      "label": "Dissolution",
+      "system": "dmn",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": 48,
+        "z": 16
+      },
+      "angle": 6.094689747964199,
+      "radius": 0.14,
+      "brainFunction": "ego dissolution, entropic brain states, psychedelic-induced network disruption."
+    },
+    {
+      "id": "dlPFC",
+      "label": "dlPFC",
+      "system": "executive",
+      "size": 6,
+      "mniCoords": {
+        "x": 44,
+        "y": 36,
+        "z": 24
+      },
+      "angle": 1.0367255756846319,
+      "radius": 0.304,
+      "brainFunction": "working memory, planning, cognitive control, top-down regulation."
+    },
+    {
+      "id": "DMN",
+      "label": "DEFAULT MODE\nNETWORK",
+      "system": "dmn",
+      "size": 12,
+      "mniCoords": {
+        "x": 0,
+        "y": 55,
+        "z": 20
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "self-referential thought, mind-wandering, autobiographical memory, narrative identity. The neural seat of the \"self.\""
+    },
+    {
+      "id": "DMNMTL",
+      "label": "DMN Subsystem\n(MTL)",
+      "system": "dmn",
+      "size": 5,
+      "mniCoords": {
+        "x": -24,
+        "y": -18,
+        "z": -18
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Mental time travel, future simulation using past episodic memory. Medial temporal lobe subsystem of DMN."
+    },
+    {
+      "id": "DV",
+      "label": "Dorsal\nVagal",
+      "system": "autonomic",
+      "size": 4,
+      "mniCoords": {
+        "x": 2,
+        "y": -42,
+        "z": -48
+      },
+      "angle": 2.764601535159018,
+      "radius": 0.318,
+      "brainFunction": "freeze/shutdown responses, conservation-withdrawal, immobilization."
+    },
+    {
+      "id": "EBA",
+      "label": "Extrastriate Body\nArea",
+      "system": "sensory",
+      "size": 5,
+      "mniCoords": {
+        "x": -48,
+        "y": -72,
+        "z": 4
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Body perception, action recognition from body parts, body image representation."
+    },
+    {
+      "id": "EC",
+      "label": "Entorhinal",
+      "system": "dmn",
+      "size": 3,
+      "mniCoords": {
+        "x": 24,
+        "y": -12,
+        "z": -30
+      },
+      "angle": 5.654866776461627,
+      "radius": 0.102,
+      "brainFunction": "memory gateway, spatial navigation, hippocampal input/output relay."
+    },
+    {
+      "id": "ECN",
+      "label": "Executive\nControl",
+      "system": "executive",
+      "size": 5,
+      "mniCoords": {
+        "x": 40,
+        "y": 40,
+        "z": 28
+      },
+      "angle": 0.8796459430051422,
+      "radius": 0.256,
+      "brainFunction": "working memory, cognitive flexibility, goal-directed behavior."
+    },
+    {
+      "id": "EI",
+      "label": "E/I\nRatio",
+      "system": "neuromod",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": 0,
+        "z": 4
+      },
+      "angle": 6.785840131753953,
+      "radius": 0.424,
+      "brainFunction": "cortical excitation-inhibition balance. Shifted in autism, anxiety, psychosis."
+    },
+    {
+      "id": "EMP",
+      "label": "Empathy",
+      "system": "limbic",
+      "size": 3,
+      "mniCoords": {
+        "x": 50,
+        "y": -54,
+        "z": 20
+      },
+      "angle": 2.366666465704311,
+      "radius": 0.332,
+      "brainFunction": "shared emotional experience, compassion, social cognition."
+    },
+    {
+      "id": "ENDO",
+      "label": "Endocannabinoid",
+      "system": "neuromod",
+      "size": 3,
+      "mniCoords": {
+        "x": 8,
+        "y": 4,
+        "z": -4
+      },
+      "angle": 6.031857894892402,
+      "radius": 0.424,
+      "brainFunction": "stress buffering, pain modulation, appetite, mood regulation."
+    },
+    {
+      "id": "ENS",
+      "label": "Enteric\nNS",
+      "system": "gutbrain",
+      "size": 2,
+      "mniCoords": {
+        "x": 0,
+        "y": 0,
+        "z": -72
+      },
+      "angle": 4.0212385965949355,
+      "radius": 0.442,
+      "brainFunction": "autonomous gut neural network, second brain."
+    },
+    {
+      "id": "FEF",
+      "label": "FEF",
+      "system": "executive",
+      "size": 3,
+      "mniCoords": {
+        "x": 28,
+        "y": -4,
+        "z": 52
+      },
+      "angle": 1.3508848410436112,
+      "radius": 0.304,
+      "brainFunction": "voluntary eye movements, visual attention, spatial awareness."
+    },
+    {
+      "id": "FG",
+      "label": "Fusiform",
+      "system": "language",
+      "size": 4,
+      "mniCoords": {
+        "x": 36,
+        "y": -52,
+        "z": -16
+      },
+      "angle": 2.827433388230814,
+      "radius": 0.424,
+      "brainFunction": "face recognition, visual word form, object categorization."
+    },
+    {
+      "id": "FORN",
+      "label": "Fornix",
+      "system": "memory",
+      "size": 2,
+      "mniCoords": {
+        "x": 0,
+        "y": -8,
+        "z": 12
+      },
+      "angle": 3.2986722862692828,
+      "radius": 0.442,
+      "brainFunction": "major hippocampal output tract, memory circuit white matter."
+    },
+    {
+      "id": "FPC",
+      "label": "Frontopolar Cortex\n(BA10)",
+      "system": "dmn",
+      "size": 5,
+      "mniCoords": {
+        "x": -4,
+        "y": 62,
+        "z": 4
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Prospective memory, multitasking, abstract reasoning, ethical foresight. Most anterior prefrontal region."
+    },
+    {
+      "id": "FPN",
+      "label": "Frontoparietal",
+      "system": "executive",
+      "size": 3,
+      "mniCoords": {
+        "x": 42,
+        "y": 42,
+        "z": 20
+      },
+      "angle": 1.0681415022205298,
+      "radius": 0.36,
+      "brainFunction": "flexible cognitive control, task switching, adaptive behavior."
+    },
+    {
+      "id": "GABA_GLU",
+      "label": "E/I\nBalance",
+      "system": "neuromod",
+      "size": 4,
+      "mniCoords": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "angle": 6.5973445725385655,
+      "radius": 0.456,
+      "brainFunction": "GABA (inhibition) vs glutamate (excitation). Disrupted in anxiety, epilepsy, schizophrenia."
+    },
+    {
+      "id": "GBA",
+      "label": "Gut-Brain\nAxis",
+      "system": "gutbrain",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": 0,
+        "z": -70
+      },
+      "angle": 3.8955748904513436,
+      "radius": 0.418,
+      "brainFunction": "bidirectional communication between gut and brain via vagus."
+    },
+    {
+      "id": "GP",
+      "label": "Globus\nPallidus",
+      "system": "basal",
+      "size": 3,
+      "mniCoords": {
+        "x": 18,
+        "y": 0,
+        "z": 0
+      },
+      "angle": 4.599291644855457,
+      "radius": 0.262,
+      "brainFunction": "motor output regulation, movement inhibition/disinhibition."
+    },
+    {
+      "id": "HAB",
+      "label": "Habenula",
+      "system": "reward",
+      "size": 3,
+      "mniCoords": {
+        "x": 4,
+        "y": -24,
+        "z": 4
+      },
+      "angle": 4.1469023027385274,
+      "radius": 0.36,
+      "brainFunction": "disappointment signaling, reward prediction error, aversion learning. Hyperactive in depression."
+    },
+    {
+      "id": "HIPP",
+      "label": "Hippocampus",
+      "system": "limbic",
+      "size": 6,
+      "mniCoords": {
+        "x": 28,
+        "y": -20,
+        "z": -16
+      },
+      "angle": 2.5132741228718345,
+      "radius": 0.268,
+      "brainFunction": "memory consolidation, spatial navigation, contextual fear conditioning, pattern separation."
+    },
+    {
+      "id": "HPA",
+      "label": "HPA Axis",
+      "system": "hpa",
+      "size": 5,
+      "mniCoords": {
+        "x": 4,
+        "y": -4,
+        "z": -8
+      },
+      "angle": 3.392920065876977,
+      "radius": 0.256,
+      "brainFunction": "stress hormone cascade (CRH → ACTH → cortisol), allostatic load accumulation."
+    },
+    {
+      "id": "HYPO",
+      "label": "Hypothalamus",
+      "system": "hpa",
+      "size": 5,
+      "mniCoords": {
+        "x": 0,
+        "y": -4,
+        "z": -12
+      },
+      "angle": 3.560471674068433,
+      "radius": 0.304,
+      "brainFunction": "homeostatic regulation, stress response initiation, hormone release, circadian rhythm."
+    },
+    {
+      "id": "IC",
+      "label": "Inferior\nColliculus",
+      "system": "other",
+      "size": 2,
+      "mniCoords": {
+        "x": 0,
+        "y": -36,
+        "z": -4
+      },
+      "angle": 5.592034923389832,
+      "radius": 0.44,
+      "brainFunction": "auditory processing relay, sound localization."
+    },
+    {
+      "id": "IPL",
+      "label": "Inferior Parietal\nLobule",
+      "system": "executive",
+      "size": 6,
+      "mniCoords": {
+        "x": -40,
+        "y": -50,
+        "z": 46
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Spatial attention, number processing, tool use cognition, gesture understanding."
+    },
+    {
+      "id": "IPS",
+      "label": "IPS",
+      "system": "executive",
+      "size": 3,
+      "mniCoords": {
+        "x": 36,
+        "y": -50,
+        "z": 48
+      },
+      "angle": 1.5079644737231008,
+      "radius": 0.256,
+      "brainFunction": "spatial attention, numerical processing, visuomotor integration."
+    },
+    {
+      "id": "LANG",
+      "label": "Language\nNetwork",
+      "system": "language",
+      "size": 3,
+      "mniCoords": {
+        "x": -50,
+        "y": 8,
+        "z": 16
+      },
+      "angle": 2.5761059759436304,
+      "radius": 0.424,
+      "brainFunction": "inner speech, narrative processing, self-talk. DMN narrative substrate."
+    },
+    {
+      "id": "LAR",
+      "label": "Laryngeal",
+      "system": "autonomic",
+      "size": 2,
+      "mniCoords": {
+        "x": 2,
+        "y": -34,
+        "z": -42
+      },
+      "angle": 3.2672563597333846,
+      "radius": 0.318,
+      "brainFunction": "voice production, vocal prosody, social communication via vagal tone."
+    },
+    {
+      "id": "LC",
+      "label": "Locus\nCoeruleus",
+      "system": "neuromod",
+      "size": 4,
+      "mniCoords": {
+        "x": 4,
+        "y": -36,
+        "z": -24
+      },
+      "angle": 5.843362335677015,
+      "radius": 0.456,
+      "brainFunction": "norepinephrine production, arousal, attention, stress response, fight-or-flight."
+    },
+    {
+      "id": "LGN",
+      "label": "LGN",
+      "system": "thalamic",
+      "size": 2,
+      "mniCoords": {
+        "x": 22,
+        "y": -26,
+        "z": -4
+      },
+      "angle": 5.428672105403162,
+      "radius": 0.256,
+      "brainFunction": "visual relay from retina to visual cortex."
+    },
+    {
+      "id": "M1",
+      "label": "M1",
+      "system": "motor",
+      "size": 3,
+      "mniCoords": {
+        "x": 36,
+        "y": -20,
+        "z": 56
+      },
+      "angle": 1.382300767579509,
+      "radius": 0.412,
+      "brainFunction": "voluntary movement execution, motor commands."
+    },
+    {
+      "id": "MAMM",
+      "label": "Mammillary",
+      "system": "memory",
+      "size": 2,
+      "mniCoords": {
+        "x": 0,
+        "y": -12,
+        "z": -12
+      },
+      "angle": 3.015928947446201,
+      "radius": 0.418,
+      "brainFunction": "memory circuits, hippocampal relay, spatial memory encoding."
+    },
+    {
+      "id": "MDT",
+      "label": "Mediodorsal",
+      "system": "thalamic",
+      "size": 3,
+      "mniCoords": {
+        "x": 4,
+        "y": -16,
+        "z": 10
+      },
+      "angle": 5.127079210658542,
+      "radius": 0.304,
+      "brainFunction": "prefrontal relay, working memory support, decision-making."
+    },
+    {
+      "id": "MFC",
+      "label": "Medial Frontal\nCortex",
+      "system": "executive",
+      "size": 5,
+      "mniCoords": {
+        "x": 0,
+        "y": 40,
+        "z": 30
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Action monitoring, performance evaluation, social norm tracking. Bridges executive control with self-monitoring."
+    },
+    {
+      "id": "MGN",
+      "label": "MGN",
+      "system": "thalamic",
+      "size": 2,
+      "mniCoords": {
+        "x": 16,
+        "y": -26,
+        "z": -8
+      },
+      "angle": 5.529203070318036,
+      "radius": 0.304,
+      "brainFunction": "auditory relay from inferior colliculus to auditory cortex."
+    },
+    {
+      "id": "MI",
+      "label": "Mid-Insula",
+      "system": "salience",
+      "size": 5,
+      "mniCoords": {
+        "x": -38,
+        "y": 0,
+        "z": 4
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Body-state and behavioral context integration. Bridges interoception (PI) with cognitive evaluation (AI)."
+    },
+    {
+      "id": "MICRO",
+      "label": "Microbiome",
+      "system": "gutbrain",
+      "size": 2,
+      "mniCoords": {
+        "x": 0,
+        "y": 0,
+        "z": -68
+      },
+      "angle": 4.1469023027385274,
+      "radius": 0.418,
+      "brainFunction": "gut bacteria influencing brain via immune, endocrine, and neural pathways."
+    },
+    {
+      "id": "mPFC",
+      "label": "mPFC",
+      "system": "dmn",
+      "size": 7,
+      "mniCoords": {
+        "x": 0,
+        "y": 52,
+        "z": 12
+      },
+      "angle": 0,
+      "radius": 0.078,
+      "brainFunction": "self-referential processing, emotional regulation, value-based decision making. Core DMN hub."
+    },
+    {
+      "id": "NAcc",
+      "label": "Nucleus\nAccumbens",
+      "system": "reward",
+      "size": 6,
+      "mniCoords": {
+        "x": 10,
+        "y": 12,
+        "z": -8
+      },
+      "angle": 3.958406743523139,
+      "radius": 0.27,
+      "brainFunction": "reward processing, motivation, pleasure, addiction. Dopamine target."
+    },
+    {
+      "id": "NBM",
+      "label": "Nucleus\nBasalis",
+      "system": "memory",
+      "size": 2,
+      "mniCoords": {
+        "x": 12,
+        "y": 4,
+        "z": -8
+      },
+      "angle": 3.2044245066615886,
+      "radius": 0.418,
+      "brainFunction": "acetylcholine production, cortical arousal, attention."
+    },
+    {
+      "id": "NEOCER",
+      "label": "Neo-\ncerebellum",
+      "system": "other",
+      "size": 2,
+      "mniCoords": {
+        "x": 28,
+        "y": -70,
+        "z": -28
+      },
+      "angle": 5.529203070318036,
+      "radius": 0.46,
+      "brainFunction": "cognitive cerebellum, language, working memory, executive support."
+    },
+    {
+      "id": "NTS",
+      "label": "NTS",
+      "system": "autonomic",
+      "size": 3,
+      "mniCoords": {
+        "x": 4,
+        "y": -44,
+        "z": -48
+      },
+      "angle": 2.8902652413026093,
+      "radius": 0.262,
+      "brainFunction": "visceral sensory relay, autonomic reflex center, gut-brain interface."
+    },
+    {
+      "id": "OFC",
+      "label": "OFC",
+      "system": "dmn",
+      "size": 4,
+      "mniCoords": {
+        "x": 0,
+        "y": 46,
+        "z": -14
+      },
+      "angle": 4.847028665538538,
+      "radius": 0.078,
+      "brainFunction": "reward valuation, emotional decision-making, social behavior regulation."
+    },
+    {
+      "id": "OLF",
+      "label": "Olfactory",
+      "system": "sensory",
+      "size": 2,
+      "mniCoords": {
+        "x": 20,
+        "y": 28,
+        "z": -16
+      },
+      "angle": 0.6283185307179586,
+      "radius": 0.44,
+      "brainFunction": "smell processing, emotional memory, threat detection."
+    },
+    {
+      "id": "OPIOID",
+      "label": "Opioid\nSystem",
+      "system": "neuromod",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": -30,
+        "z": -10
+      },
+      "angle": 6.220353454107791,
+      "radius": 0.456,
+      "brainFunction": "pain relief, reward, social bonding, stress resilience."
+    },
+    {
+      "id": "OSC",
+      "label": "Oscillatory",
+      "system": "entrainment",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": -30,
+        "z": -20
+      },
+      "angle": 4.272566008882119,
+      "radius": 0.412,
+      "brainFunction": "neural oscillations, brainwave patterns, cross-frequency coupling."
+    },
+    {
+      "id": "OXY",
+      "label": "Oxytocin",
+      "system": "neuromod",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": -2,
+        "z": -10
+      },
+      "angle": 6.408849013323178,
+      "radius": 0.424,
+      "brainFunction": "social bonding, trust, pair bonding, stress buffering, co-regulation."
+    },
+    {
+      "id": "PAG",
+      "label": "PAG",
+      "system": "limbic",
+      "size": 4,
+      "mniCoords": {
+        "x": 0,
+        "y": -32,
+        "z": -8
+      },
+      "angle": 2.220058808536787,
+      "radius": 0.268,
+      "brainFunction": "defensive behaviors (freeze/flight/fight), pain modulation, panic responses."
+    },
+    {
+      "id": "PBN",
+      "label": "Parabrachial",
+      "system": "other",
+      "size": 3,
+      "mniCoords": {
+        "x": 6,
+        "y": -36,
+        "z": -28
+      },
+      "angle": 3.267256359733385,
+      "radius": 0.44,
+      "brainFunction": "taste, pain, visceral sensation relay, arousal, respiratory control."
+    },
+    {
+      "id": "PCC",
+      "label": "PCC",
+      "system": "dmn",
+      "size": 7,
+      "mniCoords": {
+        "x": 0,
+        "y": -52,
+        "z": 26
+      },
+      "angle": 0.8078381109230897,
+      "radius": 0.102,
+      "brainFunction": "autobiographical memory retrieval, internal narrative, self-reflection. Core DMN hub."
+    },
+    {
+      "id": "PI",
+      "label": "Posterior\nInsula",
+      "system": "salience",
+      "size": 3,
+      "mniCoords": {
+        "x": 40,
+        "y": -16,
+        "z": 4
+      },
+      "angle": 0.879645943005142,
+      "radius": 0.256,
+      "brainFunction": "interoceptive processing, pain perception, visceral sensation."
+    },
+    {
+      "id": "PIN",
+      "label": "Pineal",
+      "system": "other",
+      "size": 2,
+      "mniCoords": {
+        "x": 0,
+        "y": -32,
+        "z": 4
+      },
+      "angle": 4.586725274241098,
+      "radius": 0.42,
+      "brainFunction": "melatonin production, circadian rhythm regulation."
+    },
+    {
+      "id": "PIT",
+      "label": "Pituitary",
+      "system": "hpa",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": 2,
+        "z": -24
+      },
+      "angle": 3.728023282259888,
+      "radius": 0.256,
+      "brainFunction": "master endocrine regulator, ACTH release, growth hormone, reproductive hormones."
+    },
+    {
+      "id": "PMC",
+      "label": "Premotor Cortex",
+      "system": "motor",
+      "size": 6,
+      "mniCoords": {
+        "x": -34,
+        "y": -4,
+        "z": 54
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Movement preparation, action selection, mirror neuron activity, tool use planning."
+    },
+    {
+      "id": "PPA",
+      "label": "Parahippocampal\nPlace Area",
+      "system": "memory",
+      "size": 5,
+      "mniCoords": {
+        "x": -26,
+        "y": -42,
+        "z": -10
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Scene and place processing, environment recognition. Selectively responds to spatial layouts and scenes."
+    },
+    {
+      "id": "PPN",
+      "label": "PPN",
+      "system": "other",
+      "size": 2,
+      "mniCoords": {
+        "x": 4,
+        "y": -28,
+        "z": -20
+      },
+      "angle": 5.277875658030852,
+      "radius": 0.46,
+      "brainFunction": "locomotion, arousal, REM sleep, reward processing."
+    },
+    {
+      "id": "PRC",
+      "label": "Perirhinal Cortex",
+      "system": "memory",
+      "size": 5,
+      "mniCoords": {
+        "x": -28,
+        "y": -12,
+        "z": -28
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Object recognition memory, familiarity-based recognition. Critical for visual object-level memory."
+    },
+    {
+      "id": "PRECUNEUS",
+      "label": "Precuneus",
+      "system": "dmn",
+      "size": 5,
+      "mniCoords": {
+        "x": 0,
+        "y": -62,
+        "z": 40
+      },
+      "angle": 1.6156762218461793,
+      "radius": 0.078,
+      "brainFunction": "visuospatial imagery, episodic memory, self-consciousness. DMN integration node."
+    },
+    {
+      "id": "PULV",
+      "label": "Pulvinar",
+      "system": "thalamic",
+      "size": 3,
+      "mniCoords": {
+        "x": 12,
+        "y": -28,
+        "z": 4
+      },
+      "angle": 5.328141140488289,
+      "radius": 0.304,
+      "brainFunction": "visual attention, salience processing, cortical synchronization."
+    },
+    {
+      "id": "PUT",
+      "label": "Putamen",
+      "system": "basal",
+      "size": 4,
+      "mniCoords": {
+        "x": 28,
+        "y": 4,
+        "z": 0
+      },
+      "angle": 4.498760679940584,
+      "radius": 0.318,
+      "brainFunction": "motor execution, habit learning, sensorimotor integration."
+    },
+    {
+      "id": "rACC",
+      "label": "rACC",
+      "system": "dmn",
+      "size": 3,
+      "mniCoords": {
+        "x": 0,
+        "y": 36,
+        "z": 16
+      },
+      "angle": 5.969026041820607,
+      "radius": 0.1,
+      "brainFunction": "emotional processing, self-referential thought, conflict resolution."
+    },
+    {
+      "id": "RAPHE",
+      "label": "Raphe\nNuclei",
+      "system": "neuromod",
+      "size": 4,
+      "mniCoords": {
+        "x": 0,
+        "y": -28,
+        "z": -28
+      },
+      "angle": 5.654866776461628,
+      "radius": 0.424,
+      "brainFunction": "serotonin production, mood regulation, sleep-wake cycling, pain modulation."
+    },
+    {
+      "id": "RF",
+      "label": "Reticular\nFormation",
+      "system": "entrainment",
+      "size": 3,
+      "mniCoords": {
+        "x": 2,
+        "y": -32,
+        "z": -32
+      },
+      "angle": 4.461061568097507,
+      "radius": 0.428,
+      "brainFunction": "arousal, sleep-wake transitions, consciousness maintenance."
+    },
+    {
+      "id": "rPFC",
+      "label": "Right Prefrontal\nCortex",
+      "system": "executive",
+      "size": 5,
+      "mniCoords": {
+        "x": 40,
+        "y": 44,
+        "z": 16
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Negative affect processing, behavioral inhibition, withdrawal motivation, self-critical evaluation."
+    },
+    {
+      "id": "RSC",
+      "label": "Retrosplenial",
+      "system": "dmn",
+      "size": 4,
+      "mniCoords": {
+        "x": 4,
+        "y": -50,
+        "z": 12
+      },
+      "angle": 4.039190554615448,
+      "radius": 0.102,
+      "brainFunction": "spatial memory, navigation, scene construction, episodic memory encoding."
+    },
+    {
+      "id": "S1",
+      "label": "S1",
+      "system": "sensory",
+      "size": 3,
+      "mniCoords": {
+        "x": 40,
+        "y": -28,
+        "z": 56
+      },
+      "angle": 1.3194689145077132,
+      "radius": 0.412,
+      "brainFunction": "touch, pressure, proprioception, body mapping."
+    },
+    {
+      "id": "S2",
+      "label": "Secondary\nSomatosensory",
+      "system": "sensory",
+      "size": 5,
+      "mniCoords": {
+        "x": -52,
+        "y": -24,
+        "z": 18
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Bilateral body representation, tactile object recognition, pain processing integration."
+    },
+    {
+      "id": "SC",
+      "label": "Superior\nColliculus",
+      "system": "other",
+      "size": 2,
+      "mniCoords": {
+        "x": 0,
+        "y": -34,
+        "z": 0
+      },
+      "angle": 5.46637121724624,
+      "radius": 0.44,
+      "brainFunction": "visual orienting, saccadic eye movements, multisensory integration."
+    },
+    {
+      "id": "SCN",
+      "label": "Suprachiasmatic\nNucleus",
+      "system": "autonomic",
+      "size": 4,
+      "mniCoords": {
+        "x": 0,
+        "y": 0,
+        "z": -14
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Master circadian clock. Light entrainment via retinohypothalamic tract. Cortisol and melatonin patterning."
+    },
+    {
+      "id": "SDH",
+      "label": "Spinal Dorsal Horn",
+      "system": "autonomic",
+      "size": 4,
+      "mniCoords": {
+        "x": 0,
+        "y": -38,
+        "z": -44
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Pain signal gating (Gate Control Theory), proprioceptive relay, spinal reflex integration."
+    },
+    {
+      "id": "SEPT",
+      "label": "Septal",
+      "system": "memory",
+      "size": 2,
+      "mniCoords": {
+        "x": 0,
+        "y": 6,
+        "z": 4
+      },
+      "angle": 3.110176727053895,
+      "radius": 0.442,
+      "brainFunction": "reward, pleasure, modulation of hippocampal theta rhythms."
+    },
+    {
+      "id": "sgACC",
+      "label": "Subgenual ACC",
+      "system": "limbic",
+      "size": 5,
+      "mniCoords": {
+        "x": 0,
+        "y": 24,
+        "z": -8
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Emotional regulation, depression circuitry, autonomic tone. Primary DBS target for treatment-resistant depression."
+    },
+    {
+      "id": "SMA",
+      "label": "SMA",
+      "system": "motor",
+      "size": 3,
+      "mniCoords": {
+        "x": 4,
+        "y": -8,
+        "z": 56
+      },
+      "angle": 1.5079644737231006,
+      "radius": 0.428,
+      "brainFunction": "movement planning, sequencing, bilateral coordination."
+    },
+    {
+      "id": "SMN",
+      "label": "Somatomotor",
+      "system": "motor",
+      "size": 3,
+      "mniCoords": {
+        "x": 42,
+        "y": -24,
+        "z": 52
+      },
+      "angle": 1.759291886010284,
+      "radius": 0.428,
+      "brainFunction": "body awareness, movement, embodiment, somatic experiencing."
+    },
+    {
+      "id": "SN",
+      "label": "Salience\nNetwork",
+      "system": "salience",
+      "size": 6,
+      "mniCoords": {
+        "x": 36,
+        "y": 22,
+        "z": 0
+      },
+      "angle": 0.12566370614359174,
+      "radius": 0.256,
+      "brainFunction": "detects behaviorally relevant stimuli, switches between DMN and task-positive networks."
+    },
+    {
+      "id": "SNIG",
+      "label": "Substantia\nNigra",
+      "system": "basal",
+      "size": 3,
+      "mniCoords": {
+        "x": 8,
+        "y": -20,
+        "z": -12
+      },
+      "angle": 4.900884539600077,
+      "radius": 0.318,
+      "brainFunction": "dopamine production for motor control. Degenerates in Parkinson's."
+    },
+    {
+      "id": "SNS",
+      "label": "Sympathetic",
+      "system": "autonomic",
+      "size": 4,
+      "mniCoords": {
+        "x": 4,
+        "y": -38,
+        "z": -40
+      },
+      "angle": 3.015928947446201,
+      "radius": 0.318,
+      "brainFunction": "fight-or-flight activation, arousal, stress mobilization."
+    },
+    {
+      "id": "SPL",
+      "label": "Superior Parietal\nLobule",
+      "system": "executive",
+      "size": 5,
+      "mniCoords": {
+        "x": -20,
+        "y": -62,
+        "z": 58
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Visuospatial processing, reaching/grasping, mental rotation, spatial working memory."
+    },
+    {
+      "id": "STN",
+      "label": "STN",
+      "system": "basal",
+      "size": 3,
+      "mniCoords": {
+        "x": 10,
+        "y": -14,
+        "z": -4
+      },
+      "angle": 4.69982260977033,
+      "radius": 0.318,
+      "brainFunction": "action suppression, impulse control, deep brain stimulation target for OCD."
+    },
+    {
+      "id": "STRI",
+      "label": "Striatum",
+      "system": "reward",
+      "size": 4,
+      "mniCoords": {
+        "x": 14,
+        "y": 8,
+        "z": 0
+      },
+      "angle": 4.335397861953914,
+      "radius": 0.27,
+      "brainFunction": "habit formation, motor planning, reward-based learning, procedural memory."
+    },
+    {
+      "id": "STS",
+      "label": "STS",
+      "system": "language",
+      "size": 4,
+      "mniCoords": {
+        "x": 52,
+        "y": -36,
+        "z": 4
+      },
+      "angle": 2.7017696820872223,
+      "radius": 0.456,
+      "brainFunction": "social perception, voice processing, biological motion, face perception."
+    },
+    {
+      "id": "THAL",
+      "label": "Thalamus",
+      "system": "thalamic",
+      "size": 5,
+      "mniCoords": {
+        "x": 0,
+        "y": -14,
+        "z": 8
+      },
+      "angle": 5.026548245743669,
+      "radius": 0.256,
+      "brainFunction": "sensory relay hub, cortical-cortical communication, arousal regulation, consciousness gating."
+    },
+    {
+      "id": "TPJ",
+      "label": "TPJ",
+      "system": "salience",
+      "size": 4,
+      "mniCoords": {
+        "x": 54,
+        "y": -48,
+        "z": 28
+      },
+      "angle": 0.6911503837897544,
+      "radius": 0.304,
+      "brainFunction": "theory of mind, perspective-taking, self-other distinction."
+    },
+    {
+      "id": "TPOLE",
+      "label": "Temporal\nPole",
+      "system": "dmn",
+      "size": 4,
+      "mniCoords": {
+        "x": 48,
+        "y": 12,
+        "z": -28
+      },
+      "angle": 3.2313524436923586,
+      "radius": 0.078,
+      "brainFunction": "social conceptual knowledge, emotional associations, semantic memory."
+    },
+    {
+      "id": "TrkB",
+      "label": "TrkB",
+      "system": "plasticity",
+      "size": 2,
+      "mniCoords": {
+        "x": 30,
+        "y": -20,
+        "z": -12
+      },
+      "angle": 3.8327430373795472,
+      "radius": 0.428,
+      "brainFunction": "BDNF receptor, synaptic plasticity, neuronal survival signaling."
+    },
+    {
+      "id": "UNC",
+      "label": "Uncinate",
+      "system": "other",
+      "size": 2,
+      "mniCoords": {
+        "x": 32,
+        "y": 4,
+        "z": -20
+      },
+      "angle": 2.1362830044410597,
+      "radius": 0.42,
+      "brainFunction": "connects OFC to temporal lobe. Memory-emotion integration."
+    },
+    {
+      "id": "V1",
+      "label": "V1",
+      "system": "sensory",
+      "size": 3,
+      "mniCoords": {
+        "x": 8,
+        "y": -80,
+        "z": 4
+      },
+      "angle": 0.9424777960769379,
+      "radius": 0.412,
+      "brainFunction": "initial visual processing, edge detection, orientation selectivity."
+    },
+    {
+      "id": "V4V5",
+      "label": "Visual Association\n(V4/V5)",
+      "system": "sensory",
+      "size": 5,
+      "mniCoords": {
+        "x": -42,
+        "y": -72,
+        "z": -4
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Color perception (V4) and motion processing (V5/MT). Higher-order visual feature extraction."
+    },
+    {
+      "id": "VAN",
+      "label": "Ventral\nAttention",
+      "system": "salience",
+      "size": 3,
+      "mniCoords": {
+        "x": 52,
+        "y": 20,
+        "z": 8
+      },
+      "angle": 0.37699111843077515,
+      "radius": 0.38,
+      "brainFunction": "involuntary attention reorienting, surprise detection."
+    },
+    {
+      "id": "VERM",
+      "label": "Vermis",
+      "system": "other",
+      "size": 2,
+      "mniCoords": {
+        "x": 0,
+        "y": -60,
+        "z": -20
+      },
+      "angle": 5.403539364174444,
+      "radius": 0.46,
+      "brainFunction": "emotional processing in cerebellum, fear conditioning, autonomic regulation."
+    },
+    {
+      "id": "VEST",
+      "label": "Vestibular",
+      "system": "other",
+      "size": 2,
+      "mniCoords": {
+        "x": 8,
+        "y": -36,
+        "z": -32
+      },
+      "angle": 4.775220833456485,
+      "radius": 0.42,
+      "brainFunction": "balance, spatial orientation, motion perception."
+    },
+    {
+      "id": "VIA",
+      "label": "Vagal Immune Axis",
+      "system": "autonomic",
+      "size": 4,
+      "mniCoords": {
+        "x": 2,
+        "y": -30,
+        "z": -22
+      },
+      "angle": 0,
+      "radius": 0,
+      "brainFunction": "Inflammatory reflex pathway. Vagus nerve suppresses systemic inflammation via cholinergic anti-inflammatory pathway."
+    },
+    {
+      "id": "vlPFC",
+      "label": "vlPFC",
+      "system": "executive",
+      "size": 4,
+      "mniCoords": {
+        "x": 48,
+        "y": 26,
+        "z": 4
+      },
+      "angle": 1.1938052083641215,
+      "radius": 0.256,
+      "brainFunction": "inhibitory control, language processing, emotional regulation."
+    },
+    {
+      "id": "vmPFC",
+      "label": "vmPFC",
+      "system": "limbic",
+      "size": 6,
+      "mniCoords": {
+        "x": 0,
+        "y": 44,
+        "z": -12
+      },
+      "angle": 2.0734511513692637,
+      "radius": 0.332,
+      "brainFunction": "fear extinction, emotional regulation, value-based decisions, safety signaling."
+    },
+    {
+      "id": "VP",
+      "label": "Ventral\nPallidum",
+      "system": "basal",
+      "size": 3,
+      "mniCoords": {
+        "x": 12,
+        "y": 8,
+        "z": -8
+      },
+      "angle": 4.800353574685204,
+      "radius": 0.262,
+      "brainFunction": "reward and motivation processing, hedonic evaluation."
+    },
+    {
+      "id": "VTA",
+      "label": "VTA",
+      "system": "reward",
+      "size": 5,
+      "mniCoords": {
+        "x": 2,
+        "y": -20,
+        "z": -16
+      },
+      "angle": 4.146902302738527,
+      "radius": 0.31,
+      "brainFunction": "dopamine production, reward prediction, motivation signaling."
+    },
+    {
+      "id": "VV",
+      "label": "Ventral\nVagal",
+      "system": "autonomic",
+      "size": 5,
+      "mniCoords": {
+        "x": 2,
+        "y": -40,
+        "z": -44
+      },
+      "angle": 2.638937829015426,
+      "radius": 0.262,
+      "brainFunction": "social engagement, calm states, safe connection. Polyvagal \"rest and digest.\""
+    },
+    {
+      "id": "WERN",
+      "label": "Wernicke",
+      "system": "language",
+      "size": 3,
+      "mniCoords": {
+        "x": -56,
+        "y": -34,
+        "z": 4
+      },
+      "angle": 2.450442269800039,
+      "radius": 0.456,
+      "brainFunction": "language comprehension, speech perception, semantic processing."
+    }
+  ],
+  "edges": [
+    {
+      "source": "DMN",
+      "target": "mPFC",
+      "type": "excit"
+    },
+    {
+      "source": "DMN",
+      "target": "PCC",
+      "type": "excit"
+    },
+    {
+      "source": "DMN",
+      "target": "PRECUNEUS",
+      "type": "excit"
+    },
+    {
+      "source": "DMN",
+      "target": "AG",
+      "type": "excit"
+    },
+    {
+      "source": "mPFC",
+      "target": "PCC",
+      "type": "excit"
+    },
+    {
+      "source": "PCC",
+      "target": "PRECUNEUS",
+      "type": "excit"
+    },
+    {
+      "source": "PCC",
+      "target": "AG",
+      "type": "excit"
+    },
+    {
+      "source": "PCC",
+      "target": "HIPP",
+      "type": "excit"
+    },
+    {
+      "source": "mPFC",
+      "target": "vmPFC",
+      "type": "excit"
+    },
+    {
+      "source": "mPFC",
+      "target": "dlPFC",
+      "type": "excit"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit"
+    },
+    {
+      "source": "dlPFC",
+      "target": "vlPFC",
+      "type": "excit"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "fast"
+    },
+    {
+      "source": "AI",
+      "target": "BLA",
+      "type": "fast"
+    },
+    {
+      "source": "AI",
+      "target": "vmPFC",
+      "type": "excit"
+    },
+    {
+      "source": "BLA",
+      "target": "CeA",
+      "type": "fast"
+    },
+    {
+      "source": "BLA",
+      "target": "HIPP",
+      "type": "fast"
+    },
+    {
+      "source": "BLA",
+      "target": "BNST",
+      "type": "excit"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib"
+    },
+    {
+      "source": "vmPFC",
+      "target": "NAcc",
+      "type": "excit"
+    },
+    {
+      "source": "PAG",
+      "target": "CeA",
+      "type": "fast"
+    },
+    {
+      "source": "PAG",
+      "target": "DV",
+      "type": "fast"
+    },
+    {
+      "source": "THAL",
+      "target": "dlPFC",
+      "type": "fast"
+    },
+    {
+      "source": "THAL",
+      "target": "BLA",
+      "type": "fast"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "fast"
+    },
+    {
+      "source": "LC",
+      "target": "dlPFC",
+      "type": "fast"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "fast"
+    },
+    {
+      "source": "LC",
+      "target": "dACC",
+      "type": "fast"
+    },
+    {
+      "source": "RAPHE",
+      "target": "mPFC",
+      "type": "modul"
+    },
+    {
+      "source": "RAPHE",
+      "target": "BLA",
+      "type": "modul"
+    },
+    {
+      "source": "RAPHE",
+      "target": "NAcc",
+      "type": "modul"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "modul"
+    },
+    {
+      "source": "NAcc",
+      "target": "STRI",
+      "type": "excit"
+    },
+    {
+      "source": "HAB",
+      "target": "VTA",
+      "type": "inhib"
+    },
+    {
+      "source": "HAB",
+      "target": "RAPHE",
+      "type": "inhib"
+    },
+    {
+      "source": "STRI",
+      "target": "CAUD",
+      "type": "excit"
+    },
+    {
+      "source": "STRI",
+      "target": "PUT",
+      "type": "excit"
+    },
+    {
+      "source": "CAUD",
+      "target": "GP",
+      "type": "inhib"
+    },
+    {
+      "source": "PUT",
+      "target": "GP",
+      "type": "inhib"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib"
+    },
+    {
+      "source": "STN",
+      "target": "GP",
+      "type": "excit"
+    },
+    {
+      "source": "VV",
+      "target": "NTS",
+      "type": "auto"
+    },
+    {
+      "source": "DV",
+      "target": "NTS",
+      "type": "auto"
+    },
+    {
+      "source": "NTS",
+      "target": "BLA",
+      "type": "auto"
+    },
+    {
+      "source": "HYPO",
+      "target": "PIT",
+      "type": "hormonal"
+    },
+    {
+      "source": "PIT",
+      "target": "ADR",
+      "type": "hormonal"
+    },
+    {
+      "source": "HYPO",
+      "target": "PAG",
+      "type": "fast"
+    },
+    {
+      "source": "HIPP",
+      "target": "FORN",
+      "type": "excit"
+    },
+    {
+      "source": "FORN",
+      "target": "MAMM",
+      "type": "excit"
+    },
+    {
+      "source": "MAMM",
+      "target": "ANT",
+      "type": "excit"
+    },
+    {
+      "source": "BROCA",
+      "target": "WERN",
+      "type": "excit"
+    },
+    {
+      "source": "STS",
+      "target": "FG",
+      "type": "excit"
+    },
+    {
+      "source": "STS",
+      "target": "TPJ",
+      "type": "excit"
+    },
+    {
+      "source": "OXY",
+      "target": "VV",
+      "type": "peptide"
+    },
+    {
+      "source": "OXY",
+      "target": "BLA",
+      "type": "peptide"
+    },
+    {
+      "source": "ENDO",
+      "target": "BLA",
+      "type": "peptide"
+    },
+    {
+      "source": "OPIOID",
+      "target": "PAG",
+      "type": "peptide"
+    },
+    {
+      "source": "BDNF",
+      "target": "HIPP",
+      "type": "plastic"
+    },
+    {
+      "source": "BDNF",
+      "target": "dlPFC",
+      "type": "plastic"
+    },
+    {
+      "source": "GBA",
+      "target": "VV",
+      "type": "auto"
+    },
+    {
+      "source": "GBA",
+      "target": "ENS",
+      "type": "auto"
+    },
+    {
+      "source": "PIN",
+      "target": "HYPO",
+      "type": "hormonal"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "fast"
+    },
+    {
+      "source": "PBN",
+      "target": "NTS",
+      "type": "fast"
+    },
+    {
+      "source": "PBN",
+      "target": "BLA",
+      "type": "fast"
+    }
+  ],
+  "edgeTypes": {
+    "fast": {
+      "label": "Fast Relay"
+    },
+    "excit": {
+      "label": "Excitatory"
+    },
+    "inhib": {
+      "label": "Inhibitory"
+    },
+    "modul": {
+      "label": "Modulatory"
+    },
+    "auto": {
+      "label": "Autonomic"
+    },
+    "hormonal": {
+      "label": "Hormonal"
+    },
+    "peptide": {
+      "label": "Peptide"
+    },
+    "plastic": {
+      "label": "Plasticity"
+    }
+  }
+}

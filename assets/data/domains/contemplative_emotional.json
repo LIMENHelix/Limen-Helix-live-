@@ -1,0 +1,383 @@
+{
+  "domainId": "contemplative_emotional",
+  "title": "Emotional Valuation",
+  "parentPortal": "contemplative_portal.html",
+  "parentLabel": "Contemplative Practice",
+  "phase": "P4",
+  "activations": [
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Emotional Valuation Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Emotional Valuation indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P4",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "contemplative_emotional_action_portal.html"
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Emotional Valuation Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Emotional Valuation activities and deliverables",
+      "group": "operations",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Emotional Valuation Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "contemplative_emotional_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Emotional Valuation Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Emotional Valuation, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "contemplative_emotional_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Emotional Valuation Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Emotional Valuation practices and compliance obligations",
+      "group": "governance",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "contemplative_emotional_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Emotional Valuation Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Emotional Valuation methods and capabilities",
+      "group": "innovation",
+      "phase": "P4",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "contemplative_emotional_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Emotional Valuation Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Emotional Valuation stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "contemplative_emotional_signal_portal.html"
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Emotional Valuation Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Emotional Valuation operations and interfaces",
+      "group": "systems",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "contemplative_emotional_state_portal.html"
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Emotional Valuation Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Emotional Valuation outputs and resource utilization",
+      "group": "operations",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Emotional Valuation Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "vmPFC",
+      "target": "VTA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "NAcc",
+      "target": "AI",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "AI",
+      "target": "BLA",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "BLA",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "STRI",
+      "target": "PAG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "PAG",
+      "target": "NTS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "NTS",
+      "target": "vmPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "AI",
+      "target": "PAG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "CONTEMPLATIVE_EMOTIONAL_SYSTEM_FAILURE",
+      "label": "Emotional Valuation System Failure",
+      "summary": "Critical breakdown in Emotional Valuation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Emotional Valuation Assessment & Diagnostics capacity falling below operational thresholds, reducing Emotional Valuation output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-active",
+          "detail": "Emotional Valuation Core Operations systems underperforming, creating gaps in Emotional Valuation coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered",
+          "detail": "Emotional Valuation Infrastructure & Capacity behavior deviating from established norms, complicating Emotional Valuation management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hyper-active",
+          "detail": "Emotional Valuation Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Emotional Valuation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Hypo-active",
+          "detail": "Emotional Valuation Performance & Optimization function reduced, compromising Emotional Valuation system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CONTEMPLATIVE_EMOTIONAL_CAPACITY_CRISIS",
+      "label": "Emotional Valuation Capacity Crisis",
+      "summary": "Demand exceeding available Emotional Valuation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper-active",
+          "detail": "Emotional Valuation Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Emotional Valuation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-active",
+          "detail": "Emotional Valuation Infrastructure & Capacity systems underperforming, creating gaps in Emotional Valuation coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Altered",
+          "detail": "Emotional Valuation Standards & Governance behavior deviating from established norms, complicating Emotional Valuation management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-active",
+          "detail": "Emotional Valuation Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Emotional Valuation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NTS",
+          "dir": "Altered",
+          "detail": "Emotional Valuation Performance & Optimization operating outside normal parameters, introducing uncertainty into Emotional Valuation outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "CONTEMPLATIVE_EMOTIONAL_GOVERNANCE_GAP",
+      "label": "Emotional Valuation Governance Gap",
+      "summary": "Oversight or regulatory failure in Emotional Valuation creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hypo-active",
+          "detail": "Emotional Valuation Standards & Governance capacity falling below operational thresholds, reducing Emotional Valuation output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Altered",
+          "detail": "Emotional Valuation Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Emotional Valuation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-active",
+          "detail": "Emotional Valuation Research & Development activity spiking beyond design limits, creating instability across Emotional Valuation operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Emotional Valuation Risk & Resilience patterns disrupted, necessitating adaptive responses within Emotional Valuation frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hypo-active",
+          "detail": "Emotional Valuation Coordination & Integration function reduced, compromising Emotional Valuation system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

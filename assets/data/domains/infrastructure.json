@@ -1,0 +1,2289 @@
+{
+  "domainId": "infrastructure",
+  "title": "Infrastructure",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P4",
+  "activations": [
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Road Networks",
+      "domainDescription": "Highway systems, arterial roads, and local street networks connecting population centers and enabling ground transportation",
+      "domainFunction": "Enables movement of people and goods by vehicle, connects urban and rural areas, supports commerce, and serves as the primary surface transportation backbone of civilization",
+      "whyThisNode": "The corpus callosum connects the brain's two hemispheres with the largest white-matter tract, directly paralleling how road networks serve as the primary connective infrastructure linking distant population centers",
+      "group": "transport",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Road network deterioration",
+        "Traffic congestion crisis"
+      ],
+      "treatments": [
+        {
+          "label": "Infrastructure Maintenance Investment",
+          "type": "STRUCTURAL",
+          "description": "Prioritize repair and rehabilitation of existing road networks with dedicated maintenance funding to prevent deferred-maintenance decay spirals",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Intelligent Transportation Systems",
+          "type": "STRUCTURAL",
+          "description": "Deploy smart traffic management, adaptive signal control, and real-time routing to optimize existing road capacity before building new corridors",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "infrastructure_road_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Fluor Corporation",
+          "ticker_or_id": "FLR",
+          "functional_reason": "Routes and distributes road networks resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Routes and distributes road networks resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "American Tower",
+          "ticker_or_id": "AMT",
+          "functional_reason": "Routes and distributes road networks resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.88
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Road Networks",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Transmission Lines"
+        },
+        {
+          "domain": "neurology",
+          "role": "Corpus Callosum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interhemispheric Connectivity"
+        },
+        {
+          "domain": "technology",
+          "role": "Networking & Internet"
+        },
+        {
+          "domain": "trade",
+          "role": "Freight Forwarding"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Assessment & Diagnostics"
+        },
+        {
+          "domain": "communication",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Rail Systems",
+      "domainDescription": "Freight and passenger rail networks including conventional, high-speed, and urban rail transit providing high-capacity ground transportation",
+      "domainFunction": "Moves bulk freight and passengers efficiently over long distances, reduces road congestion, provides low-carbon transportation, and anchors metropolitan transit systems",
+      "whyThisNode": "The cerebellum coordinates precise timing and smooth sequencing of movement, directly paralleling how rail systems require precise scheduling, sequencing, and coordination of train movements across shared track networks",
+      "group": "transport",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Rail network underinvestment",
+        "Schedule reliability collapse"
+      ],
+      "treatments": [
+        {
+          "label": "High-Speed Rail Development",
+          "type": "STRUCTURAL",
+          "description": "Invest in dedicated high-speed rail corridors between major cities to provide competitive alternatives to short-haul air travel and highway congestion",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Positive Train Control and Automation",
+          "type": "STRUCTURAL",
+          "description": "Deploy automated safety and scheduling systems to improve reliability, increase throughput, and reduce human-error-driven incidents",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "infrastructure_rail_portal.html",
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Nucor Corporation",
+          "ticker_or_id": "NUE",
+          "functional_reason": "Stabilizes rail systems oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "American Tower",
+          "ticker_or_id": "AMT",
+          "functional_reason": "Stabilizes rail systems oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Federal Highway Administration",
+          "ticker_or_id": "FHWA_GOV",
+          "functional_reason": "Stabilizes rail systems oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Rail Systems",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        },
+        {
+          "domain": "religion",
+          "role": "Ritual Practice"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FEF",
+      "state": "active",
+      "domainLabel": "Air Transport",
+      "domainDescription": "Airports, air traffic control, and aviation infrastructure enabling domestic and international passenger and cargo movement by air",
+      "domainFunction": "Provides rapid long-distance connectivity, enables global commerce and tourism, manages complex three-dimensional traffic flows, and supports emergency logistics",
+      "whyThisNode": "The frontal eye fields direct voluntary gaze and spatial attention across the visual field, paralleling how air transport and traffic control direct aircraft movements across three-dimensional airspace with precision orientation",
+      "group": "transport",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Airport capacity saturation",
+        "Air traffic control failure"
+      ],
+      "treatments": [
+        {
+          "label": "Next-Generation Air Traffic Management",
+          "type": "STRUCTURAL",
+          "description": "Implement satellite-based navigation, digital data links, and AI-assisted traffic flow management to increase airspace capacity and safety",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Airport Expansion and Modernization",
+          "type": "STRUCTURAL",
+          "description": "Expand terminal capacity, add runways, and modernize ground infrastructure at congested hub airports to match growing demand",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "infrastructure_air_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Vulcan Materials",
+          "ticker_or_id": "VMC",
+          "functional_reason": "Executes core air transport operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Jacobs Solutions",
+          "ticker_or_id": "J",
+          "functional_reason": "Executes core air transport operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Executes core air transport operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Air Transport",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Offgrid"
+        },
+        {
+          "domain": "trade",
+          "role": "Air Freight"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Satellite Systems"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Research & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Master Planning Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NTS",
+      "state": "active",
+      "domainLabel": "Maritime and Ports",
+      "domainDescription": "Seaports, shipping lanes, canal systems, and maritime infrastructure handling the majority of global trade by volume",
+      "domainFunction": "Handles containerized cargo, processes bulk commodity imports and exports, enables naval defense, and provides the primary channel for intercontinental goods movement",
+      "whyThisNode": "The nucleus tractus solitarius receives visceral sensory input from the body's internal organs, paralleling how ports serve as the sensory intake points where raw materials and goods enter the economic body from external sources",
+      "group": "transport",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Port congestion crisis",
+        "Maritime chokepoint disruption"
+      ],
+      "treatments": [
+        {
+          "label": "Port Automation and Expansion",
+          "type": "STRUCTURAL",
+          "description": "Deploy automated cranes, autonomous vehicles, and digital scheduling to increase throughput capacity and reduce turnaround times at major ports",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Maritime Corridor Diversification",
+          "type": "STRUCTURAL",
+          "description": "Develop alternative shipping routes and secondary port facilities to reduce vulnerability to disruption at critical chokepoints",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "infrastructure_maritime_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Brookfield Infrastructure",
+          "ticker_or_id": "BIP",
+          "functional_reason": "Routes and distributes maritime and ports resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Routes and distributes maritime and ports resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "American Tower",
+          "ticker_or_id": "AMT",
+          "functional_reason": "Routes and distributes maritime and ports resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Maritime and Ports",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Hydroelectric Power"
+        },
+        {
+          "domain": "environment",
+          "role": "Ocean Chemistry"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Brainstem Metabolic Integration"
+        },
+        {
+          "domain": "science",
+          "role": "Earth Sciences"
+        },
+        {
+          "domain": "trade",
+          "role": "Container Shipping"
+        },
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Quality & Performance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation Performance & Optimization"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Electrical Grid",
+      "domainDescription": "Power generation, transmission, and distribution networks delivering electricity from centralized and distributed sources to end users",
+      "domainFunction": "Generates and distributes electrical power, balances supply and demand in real time, maintains grid frequency stability, and enables all electricity-dependent civilization functions",
+      "whyThisNode": "The thalamus serves as the brain's central relay station routing signals between all regions, directly paralleling how the electrical grid relays power from generation sources to every connected endpoint across the territory",
+      "group": "energy_grid",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Grid frequency instability",
+        "Cascading blackout"
+      ],
+      "treatments": [
+        {
+          "label": "Grid Modernization and Smart Grid",
+          "type": "STRUCTURAL",
+          "description": "Deploy smart meters, automated switching, and distributed energy resource management to improve grid resilience and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Energy Storage Integration",
+          "type": "STRUCTURAL",
+          "description": "Install battery storage, pumped hydro, and other storage technologies to buffer intermittent renewable generation and stabilize grid operations",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "infrastructure_electrical_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Fluor Corporation",
+          "ticker_or_id": "FLR",
+          "functional_reason": "Routes and distributes electrical grid resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Routes and distributes electrical grid resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "American Tower",
+          "ticker_or_id": "AMT",
+          "functional_reason": "Routes and distributes electrical grid resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Electrical Grid",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        },
+        {
+          "domain": "medicine",
+          "role": "Neurology"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Water Treatment",
+      "domainDescription": "Municipal water supply, purification, distribution, and wastewater treatment systems providing clean water and sanitation",
+      "domainFunction": "Purifies source water, distributes potable water to households and industry, collects and treats wastewater, and prevents waterborne disease through sanitation infrastructure",
+      "whyThisNode": "The hypothalamus regulates the body's fluid balance, thirst, and osmotic homeostasis, directly paralleling how water treatment infrastructure maintains the civilization's water balance, purity, and distribution",
+      "group": "water",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Water contamination event",
+        "Distribution system failure"
+      ],
+      "treatments": [
+        {
+          "label": "Water Infrastructure Renewal",
+          "type": "STRUCTURAL",
+          "description": "Replace aging pipes, upgrade filtration plants, and deploy real-time water quality monitoring to prevent lead exposure and contamination events",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Water Recycling and Conservation",
+          "type": "STRUCTURAL",
+          "description": "Implement grey water recycling, desalination, and demand management programs to extend water supply resilience in water-stressed regions",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "infrastructure_water_portal.html",
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Nucor Corporation",
+          "ticker_or_id": "NUE",
+          "functional_reason": "Amplifies and scales water treatment capacity, driving growth and expanding reach of water treatment operations",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Jacobs Solutions",
+          "ticker_or_id": "J",
+          "functional_reason": "Executes core water treatment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "WSP Global",
+          "ticker_or_id": "WSP.TO",
+          "functional_reason": "Stores and retrieves water treatment knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.69
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Water Treatment",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        },
+        {
+          "domain": "population",
+          "role": "Gender Demographics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Telecommunications",
+      "domainDescription": "Telephone, fiber optic, wireless, and satellite communication networks enabling voice, data, and video transmission",
+      "domainFunction": "Carries voice and data communications, connects individuals and institutions, enables remote coordination, and provides the physical layer for digital services and internet access",
+      "whyThisNode": "The language network processes communication signals for production and comprehension, directly paralleling how telecommunications infrastructure transmits and routes communication signals between endpoints",
+      "group": "digital",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Network outage cascade",
+        "Bandwidth capacity exhaustion"
+      ],
+      "treatments": [
+        {
+          "label": "Fiber-to-the-Premises Buildout",
+          "type": "STRUCTURAL",
+          "description": "Expand fiber optic last-mile connections to homes and businesses, replacing copper infrastructure with high-bandwidth future-proof networks",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Network Redundancy and Resilience",
+          "type": "STRUCTURAL",
+          "description": "Build redundant routing paths, diverse carrier connections, and emergency satellite backups to prevent single-point-of-failure outages",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "infrastructure_telecom_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Vulcan Materials",
+          "ticker_or_id": "VMC",
+          "functional_reason": "Amplifies and scales telecommunications capacity, driving growth and expanding reach of telecommunications operations",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Nucor Corporation",
+          "ticker_or_id": "NUE",
+          "functional_reason": "Amplifies and scales telecommunications capacity, driving growth and expanding reach of telecommunications operations",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Jacobs Solutions",
+          "ticker_or_id": "J",
+          "functional_reason": "Models and simulates telecommunications scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.88
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Telecommunications",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Propaganda and Media"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Language Network Development"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Training / Education"
+        },
+        {
+          "domain": "trade",
+          "role": "Wto"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Language Translation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture — Action Coordination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Digital Infrastructure",
+      "domainDescription": "Data centers, cloud computing platforms, internet exchange points, and cybersecurity systems forming the computational backbone of modern civilization",
+      "domainFunction": "Hosts applications and data, provides computational resources, secures digital assets, routes internet traffic, and enables the digital economy and e-government services",
+      "whyThisNode": "The frontoparietal network integrates and processes complex distributed information for adaptive reasoning, paralleling how digital infrastructure integrates distributed computing, storage, and networking for complex information processing",
+      "group": "digital",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Data center outage",
+        "Cybersecurity breach cascade"
+      ],
+      "treatments": [
+        {
+          "label": "Critical Digital Infrastructure Protection",
+          "type": "STRUCTURAL",
+          "description": "Implement zero-trust security architectures, incident response protocols, and mandatory cybersecurity standards for critical digital systems",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Edge Computing Decentralization",
+          "type": "STRUCTURAL",
+          "description": "Distribute computing resources closer to end users through edge data centers, reducing latency and single-point-of-failure risk from centralized facilities",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "infrastructure_digital_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Executes core digital infrastructure operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Fluor Corporation",
+          "ticker_or_id": "FLR",
+          "functional_reason": "Executes core digital infrastructure operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "AECOM",
+          "ticker_or_id": "ACM",
+          "functional_reason": "Executes core digital infrastructure operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Digital Infrastructure",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "industry",
+          "role": "Precision Machining"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        },
+        {
+          "domain": "medicine",
+          "role": "Gut-Brain Axis"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Urban Planning",
+      "domainDescription": "City planning agencies, zoning systems, and land use frameworks that organize spatial development of human settlements",
+      "domainFunction": "Zones land use, plans transportation corridors, manages growth boundaries, coordinates infrastructure placement, and shapes the spatial organization of metropolitan areas",
+      "whyThisNode": "dlPFC provides executive planning and strategic organization of complex goal-directed activities, directly paralleling how urban planning provides strategic spatial organization and long-range development coordination for cities",
+      "group": "civil",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Uncontrolled urban sprawl",
+        "Zoning system failure"
+      ],
+      "treatments": [
+        {
+          "label": "Mixed-Use Zoning Reform",
+          "type": "STRUCTURAL",
+          "description": "Replace rigid single-use zoning with mixed-use, transit-oriented development codes that reduce sprawl and improve urban livability",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Digital Twin Urban Modeling",
+          "type": "STRUCTURAL",
+          "description": "Create comprehensive digital simulations of cities to model infrastructure impacts, optimize placement, and stress-test development proposals before construction",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Martin Marietta Materials",
+          "ticker_or_id": "MLM",
+          "functional_reason": "Executes core urban planning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Granite Construction",
+          "ticker_or_id": "GVA",
+          "functional_reason": "Executes core urban planning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Executes core urban planning operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        }
+      ],
+      "childPortal": "infrastructure_urban_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Urban Planning",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "UNC",
+      "state": "active",
+      "domainLabel": "Bridges and Tunnels",
+      "domainDescription": "Major crossing structures connecting areas separated by water, terrain, or other barriers that would otherwise impede transportation",
+      "domainFunction": "Spans rivers, channels, valleys, and mountain ranges to maintain transportation continuity, requiring specialized engineering and ongoing structural monitoring",
+      "whyThisNode": "The uncinate fasciculus connects distant frontal and temporal brain regions across a physical gap, directly paralleling how bridges and tunnels connect geographically separated areas across physical barriers",
+      "group": "civil",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Structural integrity failure",
+        "Bridge weight restriction cascade"
+      ],
+      "treatments": [
+        {
+          "label": "Structural Health Monitoring",
+          "type": "STRUCTURAL",
+          "description": "Install permanent sensor networks on bridges and tunnels for continuous stress, vibration, and corrosion monitoring with automated alert systems",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Accelerated Bridge Replacement Programs",
+          "type": "STRUCTURAL",
+          "description": "Deploy prefabricated and modular construction methods to rapidly replace structurally deficient bridges before failure events occur",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Fluor Corporation",
+          "ticker_or_id": "FLR",
+          "functional_reason": "Routes and distributes bridges and tunnels resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Routes and distributes bridges and tunnels resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Brookfield Infrastructure",
+          "ticker_or_id": "BIP",
+          "functional_reason": "Routes and distributes bridges and tunnels resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.88
+        }
+      ],
+      "childPortal": "infrastructure_bridges_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Bridges and Tunnels",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "population",
+          "role": "Poverty"
+        },
+        {
+          "domain": "technology",
+          "role": "Ux"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Quality & Performance"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FORN",
+      "state": "active",
+      "domainLabel": "Pipelines",
+      "domainDescription": "Oil, natural gas, water, and chemical pipeline networks transporting fluids and gases across long distances through fixed conduit systems",
+      "domainFunction": "Transports petroleum, natural gas, water, and industrial chemicals from source to destination through sealed conduits, enabling energy distribution and industrial supply",
+      "whyThisNode": "The fornix is a major white-matter bundle carrying signals through a dedicated conduit between hippocampus and hypothalamus, paralleling how pipelines carry resources through dedicated conduits between source and destination",
+      "group": "utilities",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Pipeline rupture event",
+        "Corrosion-induced failure"
+      ],
+      "treatments": [
+        {
+          "label": "In-Line Inspection and Monitoring",
+          "type": "STRUCTURAL",
+          "description": "Deploy smart pigs, ultrasonic sensors, and drone surveillance for continuous pipeline integrity assessment and early leak detection",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Pipeline Material Upgrade",
+          "type": "STRUCTURAL",
+          "description": "Replace aging steel and cast-iron segments with corrosion-resistant composites and modern alloys to extend service life and prevent failures",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "WSP Global",
+          "ticker_or_id": "WSP.TO",
+          "functional_reason": "Stores and retrieves pipelines knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Nucor Corporation",
+          "ticker_or_id": "NUE",
+          "functional_reason": "Amplifies and scales pipelines capacity, driving growth and expanding reach of pipelines operations",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "Granite Construction",
+          "ticker_or_id": "GVA",
+          "functional_reason": "Executes core pipelines operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        }
+      ],
+      "childPortal": "infrastructure_construction_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Pipelines",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Pipeline Networks"
+        },
+        {
+          "domain": "technology",
+          "role": "Blockchain"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Core Operations"
+        },
+        {
+          "domain": "communication",
+          "role": "User Review"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Core Operations"
+        },
+        {
+          "domain": "culture",
+          "role": "Hospitality Design Infrastructure & Capacity"
+        },
+        {
+          "domain": "defense",
+          "role": "Depot Maintenance Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ENS",
+      "state": "active",
+      "domainLabel": "Waste Management",
+      "domainDescription": "Solid waste collection, recycling, hazardous waste processing, and landfill systems managing civilization's material outputs",
+      "domainFunction": "Collects municipal and industrial waste, operates recycling facilities, processes hazardous materials, manages landfills, and prevents environmental contamination from waste accumulation",
+      "whyThisNode": "The enteric nervous system manages the gut's processing and elimination of waste material, directly paralleling how waste management infrastructure processes and eliminates civilization's material waste outputs",
+      "group": "utilities",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Landfill capacity exhaustion",
+        "Hazardous waste leak"
+      ],
+      "treatments": [
+        {
+          "label": "Circular Economy Transition",
+          "type": "STRUCTURAL",
+          "description": "Shift from linear take-make-dispose models to circular systems emphasizing reuse, remanufacturing, and material recovery to reduce waste generation",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Advanced Waste Processing Technology",
+          "type": "STRUCTURAL",
+          "description": "Deploy waste-to-energy, plasma gasification, and advanced sorting technologies to maximize resource recovery and minimize landfill dependency",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "AECOM",
+          "ticker_or_id": "ACM",
+          "functional_reason": "Executes core waste management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Granite Construction",
+          "ticker_or_id": "GVA",
+          "functional_reason": "Executes core waste management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Vulcan Materials",
+          "ticker_or_id": "VMC",
+          "functional_reason": "Amplifies and scales waste management capacity, driving growth and expanding reach of waste management operations",
+          "binding_strength": 0.68
+        }
+      ],
+      "childPortal": "infrastructure_dams_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Waste Management",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Carbon Emissions"
+        },
+        {
+          "domain": "environment",
+          "role": "Forests & Carbon Sinks"
+        },
+        {
+          "domain": "industry",
+          "role": "Waste Treatment"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Enteric Nervous System Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Human Capital & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Acoustic Design Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Baseline Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Public Transit",
+      "domainDescription": "Bus, subway, light rail, and ferry systems providing shared transportation within metropolitan areas",
+      "domainFunction": "Moves large numbers of commuters efficiently, reduces traffic congestion and emissions, provides mobility equity for non-drivers, and shapes urban development patterns",
+      "whyThisNode": "The striatum coordinates habitual action sequences and routine motor programs, paralleling how public transit operates on fixed routes and schedules that commuters incorporate into daily habitual routines",
+      "group": "transport",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Ridership collapse",
+        "Service reliability crisis"
+      ],
+      "treatments": [
+        {
+          "label": "Frequency-Based Transit Redesign",
+          "type": "STRUCTURAL",
+          "description": "Restructure transit networks around high-frequency trunk lines with timed transfers, reducing wait times and improving system usability",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Transit Fleet Electrification",
+          "type": "STRUCTURAL",
+          "description": "Replace diesel bus and rail fleets with electric vehicles and associated charging infrastructure to reduce operating costs and emissions",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Brookfield Infrastructure",
+          "ticker_or_id": "BIP",
+          "functional_reason": "Amplifies and scales public transit capacity, driving growth and expanding reach of public transit operations",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Martin Marietta Materials",
+          "ticker_or_id": "MLM",
+          "functional_reason": "Amplifies and scales public transit capacity, driving growth and expanding reach of public transit operations",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Vulcan Materials",
+          "ticker_or_id": "VMC",
+          "functional_reason": "Amplifies and scales public transit capacity, driving growth and expanding reach of public transit operations",
+          "binding_strength": 0.85
+        }
+      ],
+      "childPortal": "infrastructure_infrafunding_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Public Transit",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "industry",
+          "role": "Packaging"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        },
+        {
+          "domain": "neurology",
+          "role": "Striatum (Caudate/Putamen)"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Construction",
+      "domainDescription": "Building industry including residential, commercial, and industrial construction that physically creates infrastructure",
+      "domainFunction": "Erects buildings, constructs roads and bridges, installs utility systems, and transforms architectural plans into physical infrastructure through coordinated labor and materials",
+      "whyThisNode": "M1 primary motor cortex generates voluntary physical movement and force output, directly paralleling how the construction industry generates the physical force and movement that builds infrastructure",
+      "group": "civil",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Construction labor shortage",
+        "Building material supply crisis"
+      ],
+      "treatments": [
+        {
+          "label": "Modular and Prefab Construction",
+          "type": "STRUCTURAL",
+          "description": "Shift to factory-built modular construction to reduce on-site labor requirements, improve quality control, and accelerate project timelines",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Construction Workforce Development",
+          "type": "STRUCTURAL",
+          "description": "Expand apprenticeship programs, trade school pipelines, and immigration pathways for skilled construction workers to address labor shortages",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "AECOM",
+          "ticker_or_id": "ACM",
+          "functional_reason": "Executes core construction operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Granite Construction",
+          "ticker_or_id": "GVA",
+          "functional_reason": "Executes core construction operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Martin Marietta Materials",
+          "ticker_or_id": "MLM",
+          "functional_reason": "Executes core construction operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "infrastructure_maintenance_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Construction",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "industry",
+          "role": "Assembly Lines"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        },
+        {
+          "domain": "population",
+          "role": "Labor Force"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Building Codes",
+      "domainDescription": "Safety standards, building regulations, and inspection systems ensuring structural integrity and safety of constructed infrastructure",
+      "domainFunction": "Sets minimum safety standards for construction, conducts inspections at each build phase, certifies occupancy, and enforces seismic, fire, and accessibility requirements",
+      "whyThisNode": "dACC monitors for errors and conflicts between actions and standards, directly paralleling how building code enforcement monitors construction for conflicts between building practices and safety standards",
+      "group": "civil",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Code enforcement failure",
+        "Building safety scandal"
+      ],
+      "treatments": [
+        {
+          "label": "Performance-Based Code Modernization",
+          "type": "STRUCTURAL",
+          "description": "Update prescriptive building codes to performance-based standards that accommodate innovative materials and methods while maintaining safety outcomes",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Digital Permit and Inspection Systems",
+          "type": "STRUCTURAL",
+          "description": "Automate permitting workflows and deploy BIM-integrated inspection tools to improve compliance verification speed and accuracy",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Nucor Corporation",
+          "ticker_or_id": "NUE",
+          "functional_reason": "Amplifies and scales building codes capacity, driving growth and expanding reach of building codes operations",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Granite Construction",
+          "ticker_or_id": "GVA",
+          "functional_reason": "Executes core building codes operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "AECOM",
+          "ticker_or_id": "ACM",
+          "functional_reason": "Executes core building codes operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.66
+        }
+      ],
+      "childPortal": "infrastructure_pipeline_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Building Codes",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Emergency Systems",
+      "domainDescription": "Emergency response infrastructure including fire stations, emergency medical services, disaster warning systems, and civil defense facilities",
+      "domainFunction": "Detects and responds to emergencies, dispatches first responders, issues public warnings, coordinates disaster relief, and maintains readiness for catastrophic infrastructure events",
+      "whyThisNode": "The central amygdala triggers rapid fear and threat responses to protect the organism, directly paralleling how emergency systems trigger rapid protective responses to threats against infrastructure and public safety",
+      "group": "utilities",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Emergency response failure",
+        "Warning system malfunction"
+      ],
+      "treatments": [
+        {
+          "label": "Integrated Emergency Management",
+          "type": "STRUCTURAL",
+          "description": "Unify fire, medical, and disaster response under interoperable communication systems with joint training exercises and mutual aid agreements",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Early Warning System Modernization",
+          "type": "STRUCTURAL",
+          "description": "Deploy multi-hazard early warning systems with automated alerts via cell broadcast, sirens, and social media integration for rapid public notification",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Executes core emergency systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "Martin Marietta Materials",
+          "ticker_or_id": "MLM",
+          "functional_reason": "Amplifies and scales emergency systems capacity, driving growth and expanding reach of emergency systems operations",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "AECOM",
+          "ticker_or_id": "ACM",
+          "functional_reason": "Executes core emergency systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.76
+        }
+      ],
+      "childPortal": "infrastructure_portfacil_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Emergency Systems",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "environment",
+          "role": "Soilenv"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "industry",
+          "role": "Safety Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Law Enforcement Response"
+        },
+        {
+          "domain": "medicine",
+          "role": "Emergency Medicine"
+        },
+        {
+          "domain": "population",
+          "role": "Refugee Populations"
+        },
+        {
+          "domain": "provider",
+          "role": "Crisis Response Protocol"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VP",
+      "state": "active",
+      "domainLabel": "Resilience",
+      "domainDescription": "Resilience systems within Infrastructure",
+      "group": "transport",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "infrastructure_resilience_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Resilience",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Hedonic Evaluation Node"
+        },
+        {
+          "domain": "communication",
+          "role": "Symbol Supported"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Superiority Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Recruitment Strategies Infrastructure & Capacity"
+        },
+        {
+          "domain": "energy",
+          "role": "Safety Standards Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Smartcity",
+      "domainDescription": "Smartcity systems within Infrastructure",
+      "group": "transport",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "infrastructure_smartcity_portal.html",
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Smartcity",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Corporate Communications"
+        },
+        {
+          "domain": "education",
+          "role": "K-12 Teaching"
+        },
+        {
+          "domain": "governance",
+          "role": "Legislative Process"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Advocacy / Argumentation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Broca's Area"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Speech Production & Phonological Proc..."
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Communication"
+        },
+        {
+          "domain": "science",
+          "role": "Publication and Dissemination"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CING",
+      "state": "active",
+      "domainLabel": "Transit",
+      "domainDescription": "Transit systems within Infrastructure",
+      "group": "transport",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "infrastructure_transit_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Transit",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Scripted Description"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Ecological Design Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Aeromedical Evacuation Assessment & Diagnostics"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Monitoring & Evaluation"
+        },
+        {
+          "domain": "education",
+          "role": "admit eqty — Signal Acquisition"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Storage Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S2",
+      "state": "active",
+      "domainLabel": "Waste Infra",
+      "domainDescription": "Waste Infra systems within Infrastructure",
+      "group": "transport",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "infrastructure_waste_infra_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Waste Infra",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Urban Env"
+        },
+        {
+          "domain": "communication",
+          "role": "admeasure reach — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "residential affordable — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "refueling boom — Signal Acquisition"
+        },
+        {
+          "domain": "economy",
+          "role": "mergers diag — Intervention Planning"
+        },
+        {
+          "domain": "education",
+          "role": "Assistive Technology — State Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "evbattery bms — Signal Acquisition"
+        },
+        {
+          "domain": "finance",
+          "role": "highyield recovery — Signal Acquisition"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "GRID_FAILURE",
+      "label": "Grid Failure",
+      "summary": "Cascading electrical grid failure resulting in widespread blackouts, disrupting all electricity-dependent systems including hospitals, water treatment, communications, and heating or cooling during extreme weather",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-active",
+          "detail": "Electrical grid relay and distribution functions collapsed, severing power delivery to dependent systems",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hypo-active",
+          "detail": "Telecommunications infrastructure failing as backup power exhausted, cutting communication during crisis",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Hypo-active",
+          "detail": "Data centers and digital infrastructure going offline, disrupting financial systems, government services, and internet access",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper-active",
+          "detail": "Water treatment facilities unable to operate pumps and purification systems, threatening water safety",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Emergency systems overwhelmed with cascading failures requiring simultaneous response across multiple infrastructure sectors",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "BRIDGE_COLLAPSE",
+      "label": "Bridge Collapse",
+      "summary": "Catastrophic structural failure of critical bridge or tunnel infrastructure, severing transportation links, causing casualties, and revealing systemic neglect in infrastructure maintenance and inspection",
+      "circuits": [
+        {
+          "nodeId": "UNC",
+          "dir": "Hypo-active",
+          "detail": "Critical crossing link severed, fragmenting transportation network and isolating connected communities",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Hyper-active",
+          "detail": "Road network massively overloaded as traffic reroutes through alternate corridors not designed for the volume",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Building code inspection and monitoring systems revealed to have failed in detecting progressive structural deterioration",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hyper-active",
+          "detail": "Construction industry mobilized for emergency demolition and accelerated replacement under intense time pressure",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-active",
+          "detail": "Public transit routes disrupted as bridge closure removes key links from bus and rail networks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Emergency response systems activated for rescue operations and public safety cordons around collapse site",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "WATER_CRISIS",
+      "label": "Water Crisis",
+      "summary": "Failure of water treatment or distribution infrastructure leading to contamination, supply shortages, or public health emergencies affecting large populations dependent on municipal water systems",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo-active",
+          "detail": "Water treatment and distribution homeostasis broken, delivering contaminated or insufficient water to populations",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FORN",
+          "dir": "Hypo-active",
+          "detail": "Water pipeline infrastructure leaking or blocked, with aging mains rupturing and distribution pressure falling",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ENS",
+          "dir": "Hyper-active",
+          "detail": "Wastewater systems backing up as treatment capacity fails, creating sewage overflow and environmental contamination",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Emergency water distribution activated with bottled water, tanker trucks, and boil-water advisories issued",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Water quality monitoring and regulatory oversight found to have missed contamination signals or deferred critical maintenance",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "TELECOM_OUTAGE",
+      "label": "Telecom Outage",
+      "summary": "Major telecommunications infrastructure failure disrupting voice, data, and internet services across wide areas, isolating populations and disabling digital-dependent services including banking, navigation, and emergency communications",
+      "circuits": [
+        {
+          "nodeId": "LANG",
+          "dir": "Hypo-active",
+          "detail": "Telecommunications transmission capacity lost, severing voice and data communication links across affected area",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Hypo-active",
+          "detail": "Cloud services, digital platforms, and internet-dependent applications inaccessible without network connectivity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Emergency 911 systems disrupted, preventing populations from reaching first responders during the outage",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Urban planning and coordination functions disrupted as municipal agencies lose ability to communicate and coordinate",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-active",
+          "detail": "Public transit systems losing real-time scheduling, passenger information, and dispatch coordination capabilities",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "TRANSIT_BREAKDOWN",
+      "label": "Transit Breakdown",
+      "summary": "Systemic failure of public transit systems through mechanical breakdowns, labor strikes, funding crises, or ridership collapse, stranding commuters and exacerbating traffic congestion and social inequality",
+      "circuits": [
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-active",
+          "detail": "Routine transit service halted as trains and buses pulled from service due to mechanical failure or labor action",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CC",
+          "dir": "Hyper-active",
+          "detail": "Road networks overwhelmed as displaced transit riders shift to personal vehicles, causing severe congestion",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Rail system scheduling and coordination collapsed, with cascading delays and cancellations across the network",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Transit planning and management capacity insufficient to develop and fund recovery plans for aged systems",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Construction and maintenance workforce unable to keep pace with repair backlog on aging transit infrastructure",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FEF",
+          "dir": "Hypo-active",
+          "detail": "Air transport connections to transit hubs disrupted as passengers cannot reach airports via ground transit",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CC",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CBLM",
+      "target": "FEF",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FEF",
+      "target": "NTS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "NTS",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "LANG",
+      "target": "FPN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "UNC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "UNC",
+      "target": "M1",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FORN",
+      "target": "ENS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "ENS",
+      "target": "CeA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CC",
+      "target": "THAL",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "THAL",
+      "target": "HYPO",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "HYPO",
+      "target": "LANG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "LANG",
+      "target": "dlPFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "dlPFC",
+      "target": "FORN",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "FORN",
+      "target": "CC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "STRI",
+      "target": "HYPO",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "THAL",
+      "target": "LANG",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "HYPO",
+      "target": "dlPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "FPN",
+      "target": "FORN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "dACC",
+      "target": "CC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CeA",
+      "target": "THAL",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CC",
+      "target": "CeA",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "FEF",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "HYPO",
+      "target": "FPN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FPN",
+      "target": "M1",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "M1",
+      "target": "ENS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "ATC Modernization Quality & Performance → Airport Expansion Core Operations (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "ATC Modernization Quality & Performance → Emergency Systems (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "ATC Modernization Quality & Performance → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Cargo Handling Infrastructure & Capacity → Airport Expansion Core Operations (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Cargo Handling Infrastructure & Capacity → Emergency Systems (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Cargo Handling Infrastructure & Capacity → ATC Technology Quality & Performance (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Urban Planning → Building Codes (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Urban Planning → Regional Aviation Assessment & Diagnostics (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "ATC Modernization Human Capital & Development → Airport Expansion Core Operations (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Building Codes → Airport Expansion Core Operations (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Electrical Grid → Airport Expansion Policy & Governance (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Electrical Grid → airports expansion — Signal Acquisition (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Electrical Grid → ATC Systems Quality & Performance (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Safety Certification Risk & Resilience → Airport Expansion Policy & Governance (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Airport Systems Risk & Resilience → airports expansion — Signal Acquisition (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Maritime and Ports → ATC Technology Human Capital & Development (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "ATC Technology Human Capital & Development → Building Codes (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "ATC Modernization Assessment & Diagnostics → ATC Technology Human Capital & Development (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Airport Expansion Core Operations → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Water Treatment (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Yard Operations — State Assessment → Regional Aviation Assessment & Diagnostics (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Regional Aviation Assessment & Diagnostics → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Airport Systems Infrastructure & Capacity → Safety Certification Infrastructure & Capacity (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Safety Certification Infrastructure & Capacity → Resilience (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Safety Certification Infrastructure & Capacity → airports capacity — Signal Acquisition (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "airports capacity — Signal Acquisition → Cargo Handling Infrastructure & Capacity (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Safety Certification Policy & Governance → Construction (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Public Transit → Air Cargo Facilities Quality & Performance (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Air Cargo Facilities Quality & Performance → Electrical Grid (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Rail Systems → Electrical Grid (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Air Transport → Airport Expansion Policy & Governance (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Digital Infrastructure → Urban Planning (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "ATC Modernization Risk & Resilience → Airport Expansion Core Operations (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "ATC Modernization Risk & Resilience → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.757Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

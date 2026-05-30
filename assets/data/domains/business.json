@@ -1,0 +1,1352 @@
+{
+  "domainId": "business",
+  "title": "Business Circuit Map",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Strategic Planning",
+      "domainDescription": "Long-range business strategy, competitive positioning, and organizational direction",
+      "domainFunction": "Formulates multi-year strategic plans, evaluates competitive landscape, sets organizational priorities",
+      "whyThisNode": "The dorsolateral prefrontal cortex drives executive planning and working memory — strategic planning is the organizational equivalent of holding complex goals in mind while sequencing actions",
+      "group": "executive",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "LEADERSHIP_FAILURE",
+        "INNOVATION_STAGNATION",
+        "MARKET_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Quarterly strategy review cadence",
+          "type": "STRUCTURAL",
+          "description": "Implement quarterly OKR reviews with rolling 3-year horizon adjustments",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Competitive intelligence dashboard",
+          "type": "DIAGNOSTIC",
+          "description": "Deploy real-time market monitoring with automated competitor tracking",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Financial Management",
+      "domainDescription": "Treasury operations, capital allocation, financial planning and analysis",
+      "domainFunction": "Manages cash flow, allocates capital across divisions, evaluates investment returns",
+      "whyThisNode": "The ventromedial prefrontal cortex processes value-based decisions and risk-reward trade-offs — financial management constantly weighs expected value against downside risk",
+      "group": "finance",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "CASH_FLOW_CRISIS",
+        "DEBT_CRISIS",
+        "MARKET_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "13-week cash flow forecast",
+          "type": "DIAGNOSTIC",
+          "description": "Implement rolling 13-week direct-method cash forecast updated weekly",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Working capital optimization",
+          "type": "STRUCTURAL",
+          "description": "Reduce DSO/DIO, extend DPO within supplier relationship constraints",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Market Intelligence",
+      "domainDescription": "Market research, customer insights, opportunity assessment, and pricing strategy",
+      "domainFunction": "Reads market signals, evaluates customer demand patterns, identifies emerging opportunities",
+      "whyThisNode": "The orbitofrontal cortex processes reward expectations and adaptive decision-making — market intelligence reads environmental signals to update organizational expectations",
+      "group": "intelligence",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "MARKET_COLLAPSE",
+        "INNOVATION_STAGNATION",
+        "CASH_FLOW_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Voice-of-customer program",
+          "type": "STRUCTURAL",
+          "description": "Systematic customer interview program with quarterly insight synthesis",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Market signal monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Track leading indicators: search trends, patent filings, VC investment patterns",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Compliance & Governance",
+      "domainDescription": "Regulatory compliance, corporate governance, internal controls, and audit",
+      "domainFunction": "Monitors regulatory requirements, enforces governance standards, detects control failures",
+      "whyThisNode": "The dorsal anterior cingulate cortex monitors for conflicts and errors — compliance continuously scans for deviations between organizational behavior and regulatory requirements",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "REGULATORY_CRISIS",
+        "OPERATIONAL_BREAKDOWN",
+        "DEBT_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Compliance management system",
+          "type": "STRUCTURAL",
+          "description": "Implement GRC platform with automated regulatory change tracking",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Internal audit rotation",
+          "type": "DIAGNOSTIC",
+          "description": "Risk-based audit plan covering all business units on 3-year cycle",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Crisis Detection",
+      "domainDescription": "Early warning systems, risk monitoring, business continuity planning",
+      "domainFunction": "Detects emerging threats, escalates critical risks, triggers crisis response protocols",
+      "whyThisNode": "The anterior insula processes interoceptive awareness and threat salience — crisis detection is the organization's ability to sense internal distress signals before they become visible externally",
+      "group": "intelligence",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "CASH_FLOW_CRISIS",
+        "OPERATIONAL_BREAKDOWN",
+        "REGULATORY_CRISIS",
+        "MARKET_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "KRI dashboard",
+          "type": "DIAGNOSTIC",
+          "description": "Key Risk Indicator dashboard with automated threshold alerts",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Business continuity plan",
+          "type": "STRUCTURAL",
+          "description": "Documented BCP with annual tabletop exercises and recovery time objectives",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Sales & Revenue",
+      "domainDescription": "Revenue generation, sales operations, customer acquisition, and pipeline management",
+      "domainFunction": "Drives revenue through customer acquisition, upselling, and pipeline conversion",
+      "whyThisNode": "The nucleus accumbens processes reward anticipation and incentive motivation — sales teams are driven by reward prediction (commissions, targets) to pursue revenue goals",
+      "group": "finance",
+      "phase": "P6",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "CASH_FLOW_CRISIS",
+        "MARKET_COLLAPSE",
+        "TALENT_EXODUS"
+      ],
+      "treatments": [
+        {
+          "label": "Pipeline velocity metrics",
+          "type": "DIAGNOSTIC",
+          "description": "Track conversion rates, average deal size, and sales cycle length by segment",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Sales enablement program",
+          "type": "STRUCTURAL",
+          "description": "Standardize playbooks, battle cards, and training for consistent execution",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Innovation Engine",
+      "domainDescription": "R&D, product development, technology adoption, and creative initiatives",
+      "domainFunction": "Generates novel solutions, develops new products, integrates emerging technologies",
+      "whyThisNode": "The ventral tegmental area drives dopaminergic reward prediction and novelty-seeking — innovation thrives on the same dopamine-driven exploration that makes novel stimuli intrinsically motivating",
+      "group": "growth",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "INNOVATION_STAGNATION",
+        "MARKET_COLLAPSE",
+        "TALENT_EXODUS"
+      ],
+      "treatments": [
+        {
+          "label": "Innovation sprint program",
+          "type": "STRUCTURAL",
+          "description": "Quarterly 2-week sprints with cross-functional teams tackling strategic bets",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "R&D pipeline review",
+          "type": "DIAGNOSTIC",
+          "description": "Stage-gate review of all development projects with kill criteria",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Risk Assessment",
+      "domainDescription": "Enterprise risk management, threat evaluation, and scenario planning",
+      "domainFunction": "Evaluates threats across operational, financial, strategic, and compliance domains",
+      "whyThisNode": "The basolateral amygdala processes fear conditioning and threat evaluation — risk assessment performs the organizational equivalent of learning which stimuli predict danger",
+      "group": "intelligence",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "DEBT_CRISIS",
+        "REGULATORY_CRISIS",
+        "OPERATIONAL_BREAKDOWN",
+        "MARKET_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Enterprise risk register",
+          "type": "STRUCTURAL",
+          "description": "Maintain living risk register with quarterly likelihood/impact reassessment",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Scenario stress testing",
+          "type": "DIAGNOSTIC",
+          "description": "Annual stress test across 3 macro scenarios (recession, disruption, regulatory shift)",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Institutional Knowledge",
+      "domainDescription": "Knowledge management, organizational learning, lessons learned, and documentation",
+      "domainFunction": "Captures, stores, and retrieves organizational knowledge and precedent",
+      "whyThisNode": "The hippocampus is essential for memory formation and contextual recall — institutional knowledge is the organization's memory system, encoding past decisions and their outcomes",
+      "group": "growth",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "TALENT_EXODUS",
+        "OPERATIONAL_BREAKDOWN",
+        "LEADERSHIP_FAILURE"
+      ],
+      "treatments": [
+        {
+          "label": "Knowledge base system",
+          "type": "STRUCTURAL",
+          "description": "Centralized wiki with mandatory post-project retrospectives and decision logs",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Succession knowledge transfer",
+          "type": "IMMEDIATE",
+          "description": "Structured knowledge transfer protocol for departing key personnel",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Organizational Stress",
+      "domainDescription": "Workforce wellbeing, burnout prevention, change management, and organizational resilience",
+      "domainFunction": "Manages organizational stress load, prevents systemic burnout, facilitates adaptive change",
+      "whyThisNode": "The HPA axis orchestrates the body's stress response — organizational stress management regulates the collective load on workforce capacity and morale",
+      "group": "people",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "TALENT_EXODUS",
+        "LEADERSHIP_FAILURE",
+        "OPERATIONAL_BREAKDOWN"
+      ],
+      "treatments": [
+        {
+          "label": "Employee engagement pulse",
+          "type": "DIAGNOSTIC",
+          "description": "Monthly 5-question pulse surveys with department-level trend tracking",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Burnout prevention protocol",
+          "type": "STRUCTURAL",
+          "description": "Workload monitoring, mandatory PTO enforcement, manager training on signs of burnout",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "Client Relations",
+      "domainDescription": "Customer success, relationship management, stakeholder engagement, and service delivery",
+      "domainFunction": "Builds and maintains client relationships, ensures satisfaction, manages expectations",
+      "whyThisNode": "The empathy network (mirror neuron system) enables understanding others' mental states — client relations requires reading customer needs, anticipating concerns, and building trust through attunement",
+      "group": "people",
+      "phase": "P2",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "MARKET_COLLAPSE",
+        "TALENT_EXODUS",
+        "OPERATIONAL_BREAKDOWN"
+      ],
+      "treatments": [
+        {
+          "label": "NPS tracking program",
+          "type": "DIAGNOSTIC",
+          "description": "Quarterly Net Promoter Score surveys with closed-loop follow-up on detractors",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Customer success playbook",
+          "type": "STRUCTURAL",
+          "description": "Defined touchpoint cadence, health scoring, and escalation protocols",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Operations",
+      "domainDescription": "Day-to-day business operations, process management, and execution discipline",
+      "domainFunction": "Executes repeatable processes, maintains operational cadence, drives efficiency",
+      "whyThisNode": "The striatum automates learned action sequences into habits — operations converts strategic intent into repeatable, habitual execution patterns",
+      "group": "operations",
+      "phase": "P5",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "OPERATIONAL_BREAKDOWN",
+        "CASH_FLOW_CRISIS",
+        "TALENT_EXODUS"
+      ],
+      "treatments": [
+        {
+          "label": "Process mapping and SOP library",
+          "type": "STRUCTURAL",
+          "description": "Document all core processes with clear ownership and review cadence",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Operational KPI dashboard",
+          "type": "DIAGNOSTIC",
+          "description": "Real-time tracking of throughput, quality, and cycle time metrics",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Quality Control",
+      "domainDescription": "Quality assurance, continuous improvement, error correction, and standards",
+      "domainFunction": "Detects and corrects errors, enforces quality standards, drives continuous improvement",
+      "whyThisNode": "The cerebellum fine-tunes motor output through error correction — quality control performs the same calibration function, detecting deviations and making precision adjustments",
+      "group": "operations",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "OPERATIONAL_BREAKDOWN",
+        "REGULATORY_CRISIS",
+        "MARKET_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Six Sigma quality program",
+          "type": "STRUCTURAL",
+          "description": "DMAIC methodology with certified Black Belt project leads",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Defect tracking system",
+          "type": "DIAGNOSTIC",
+          "description": "Automated defect logging with root cause analysis and corrective action tracking",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Information Flow",
+      "domainDescription": "Internal communications, data infrastructure, reporting, and information architecture",
+      "domainFunction": "Routes information between departments, filters signal from noise, ensures timely data delivery",
+      "whyThisNode": "The thalamus is the brain's central relay station — information flow serves as the organizational switchboard, routing data to the right teams at the right time",
+      "group": "infrastructure",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "OPERATIONAL_BREAKDOWN",
+        "LEADERSHIP_FAILURE",
+        "CASH_FLOW_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Communication architecture audit",
+          "type": "DIAGNOSTIC",
+          "description": "Map all information flows, identify bottlenecks and redundant channels",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Data governance framework",
+          "type": "STRUCTURAL",
+          "description": "Define data ownership, quality standards, and access policies across the organization",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OXY",
+      "state": "active",
+      "domainLabel": "Team Culture",
+      "domainDescription": "Organizational culture, team cohesion, trust-building, and values alignment",
+      "domainFunction": "Builds trust, reinforces shared values, fosters psychological safety and collaboration",
+      "whyThisNode": "Oxytocin facilitates bonding, trust, and in-group cohesion — team culture is the organizational oxytocin system, creating the social glue that holds teams together",
+      "group": "people",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "TALENT_EXODUS",
+        "LEADERSHIP_FAILURE",
+        "OPERATIONAL_BREAKDOWN"
+      ],
+      "treatments": [
+        {
+          "label": "Culture values workshop",
+          "type": "STRUCTURAL",
+          "description": "Annual values articulation workshop with behavioral anchoring exercises",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Psychological safety assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Team-level psychological safety survey with facilitated debrief sessions",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Executive Leadership",
+      "domainDescription": "C-suite coordination, board governance, leadership development, and succession planning",
+      "domainFunction": "Coordinates cross-functional leadership, maintains board alignment, develops leadership pipeline",
+      "whyThisNode": "The frontoparietal network integrates executive control with attention — executive leadership coordinates across all organizational functions while maintaining focus on strategic priorities",
+      "group": "executive",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "LEADERSHIP_FAILURE",
+        "TALENT_EXODUS",
+        "DEBT_CRISIS",
+        "INNOVATION_STAGNATION"
+      ],
+      "treatments": [
+        {
+          "label": "Leadership 360 program",
+          "type": "DIAGNOSTIC",
+          "description": "Annual 360-degree feedback with executive coaching follow-through",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Succession planning matrix",
+          "type": "STRUCTURAL",
+          "description": "Document succession depth for all critical roles with development plans for high-potentials",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Production & Delivery",
+      "domainDescription": "Manufacturing, service delivery, fulfillment, and output execution",
+      "domainFunction": "Converts organizational inputs into delivered products and services",
+      "whyThisNode": "The primary motor cortex executes voluntary movement — production and delivery is the final common pathway where organizational planning becomes tangible output",
+      "group": "operations",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "OPERATIONAL_BREAKDOWN",
+        "CASH_FLOW_CRISIS",
+        "MARKET_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Lean operations audit",
+          "type": "DIAGNOSTIC",
+          "description": "Value stream mapping with waste identification across all production lines",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Capacity planning model",
+          "type": "STRUCTURAL",
+          "description": "Demand-driven capacity model with buffer management and constraint identification",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BROCA",
+      "state": "active",
+      "domainLabel": "Corporate Communications",
+      "domainDescription": "External communications, PR, investor relations, and brand messaging",
+      "domainFunction": "Crafts and delivers organizational messaging to external stakeholders",
+      "whyThisNode": "Broca's area produces speech and structured language output — corporate communications is the organization's voice, converting internal thinking into structured external messaging",
+      "group": "people",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "REGULATORY_CRISIS",
+        "MARKET_COLLAPSE",
+        "LEADERSHIP_FAILURE"
+      ],
+      "treatments": [
+        {
+          "label": "Crisis communications playbook",
+          "type": "IMMEDIATE",
+          "description": "Pre-drafted holding statements, spokesperson training, and escalation matrix",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Stakeholder communications calendar",
+          "type": "STRUCTURAL",
+          "description": "Proactive comms cadence for investors, media, employees, and regulators",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Brand & Identity",
+      "domainDescription": "Brand strategy, corporate identity, market positioning, and reputation management",
+      "domainFunction": "Defines and maintains organizational identity, values, and market positioning",
+      "whyThisNode": "The medial prefrontal cortex processes self-referential thinking and identity — brand identity is the organization's self-concept, how it understands and presents itself to the world",
+      "group": "growth",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "MARKET_COLLAPSE",
+        "LEADERSHIP_FAILURE",
+        "REGULATORY_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Brand health tracker",
+          "type": "DIAGNOSTIC",
+          "description": "Quarterly brand perception survey with unaided/aided awareness and sentiment tracking",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Brand architecture review",
+          "type": "STRUCTURAL",
+          "description": "Annual brand portfolio review aligning sub-brands with master brand strategy",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vlPFC",
+      "state": "active",
+      "domainLabel": "Legal & Governance",
+      "domainDescription": "Legal affairs, contract management, intellectual property, and regulatory interface",
+      "domainFunction": "Manages legal risk, negotiates contracts, protects intellectual property, interfaces with regulators",
+      "whyThisNode": "The ventrolateral prefrontal cortex inhibits inappropriate responses and selects correct actions — legal governance prevents organizational missteps and ensures actions conform to legal boundaries",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "REGULATORY_CRISIS",
+        "DEBT_CRISIS",
+        "OPERATIONAL_BREAKDOWN"
+      ],
+      "treatments": [
+        {
+          "label": "Contract lifecycle management",
+          "type": "STRUCTURAL",
+          "description": "Centralized CLM platform with standardized templates and approval workflows",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Regulatory horizon scanning",
+          "type": "DIAGNOSTIC",
+          "description": "Monthly regulatory change monitoring with impact assessment for pending legislation",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "dlPFC",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Strategy guides capital allocation"
+    },
+    {
+      "from": "dlPFC",
+      "to": "FPN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Strategy coordinates leadership"
+    },
+    {
+      "from": "vmPFC",
+      "to": "NAcc",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Finance targets revenue goals"
+    },
+    {
+      "from": "OFC",
+      "to": "VTA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Market signals drive innovation"
+    },
+    {
+      "from": "dACC",
+      "to": "vlPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Compliance enforces legal standards"
+    },
+    {
+      "from": "AI",
+      "to": "BLA",
+      "type": "fast",
+      "weight": 0.9,
+      "label": "Crisis detection triggers risk assessment"
+    },
+    {
+      "from": "AI",
+      "to": "HPA",
+      "type": "fast",
+      "weight": 0.8,
+      "label": "Crisis activates stress response"
+    },
+    {
+      "from": "NAcc",
+      "to": "M1",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Revenue drives production"
+    },
+    {
+      "from": "STRI",
+      "to": "CBLM",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Operations feeds quality control"
+    },
+    {
+      "from": "THAL",
+      "to": "dlPFC",
+      "type": "fast",
+      "weight": 0.7,
+      "label": "Information reaches strategy"
+    },
+    {
+      "from": "THAL",
+      "to": "BROCA",
+      "type": "fast",
+      "weight": 0.7,
+      "label": "Data routes to communications"
+    },
+    {
+      "from": "OXY",
+      "to": "EMP",
+      "type": "peptide",
+      "weight": 0.7,
+      "label": "Culture enables client empathy"
+    },
+    {
+      "from": "HIPP",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.6,
+      "label": "Past lessons inform strategy"
+    },
+    {
+      "from": "FPN",
+      "to": "M1",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Leadership directs execution"
+    },
+    {
+      "from": "mPFC",
+      "to": "BROCA",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Brand identity shapes messaging"
+    },
+    {
+      "from": "BLA",
+      "to": "dACC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Risk triggers compliance review"
+    },
+    {
+      "from": "VTA",
+      "to": "NAcc",
+      "type": "modul",
+      "weight": 0.8,
+      "label": "Innovation creates revenue opportunity"
+    },
+    {
+      "from": "HPA",
+      "to": "EMP",
+      "type": "hormonal",
+      "weight": 0.5,
+      "label": "Stress impacts client relations"
+    },
+    {
+      "from": "M1",
+      "to": "CBLM",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Output monitored by quality"
+    },
+    {
+      "from": "vlPFC",
+      "to": "BROCA",
+      "type": "inhib",
+      "weight": 0.6,
+      "label": "Legal reviews communications"
+    },
+    {
+      "from": "mPFC",
+      "to": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Brand & Identity → Risk Assessment (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "mPFC",
+      "to": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Brand & Identity → [CeA] (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "mPFC",
+      "to": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Brand & Identity → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Financial Management → Risk Assessment (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Financial Management → [CeA] (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Financial Management → [PAG] (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "dlPFC",
+      "to": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Strategic Planning → Compliance & Governance (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "dlPFC",
+      "to": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Strategic Planning → Institutional Knowledge (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "rACC",
+      "to": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "[rACC] → Risk Assessment (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "dACC",
+      "to": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Compliance & Governance → Risk Assessment (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Information Flow → [V1] (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Information Flow → [A1] (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Information Flow → [S1] (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LGN",
+      "to": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "visual thalamic relay",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "MGN",
+      "to": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "auditory thalamic relay",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NTS",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[NTS] → Crisis Detection (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "AI",
+      "to": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Crisis Detection → Compliance & Governance (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "PI",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[PI] → Crisis Detection (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "BLA",
+      "to": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Risk Assessment → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "PVN",
+      "to": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "HPA cascade descending",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "HPA",
+      "to": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Organizational Stress → Institutional Knowledge (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "HIPP",
+      "to": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Institutional Knowledge → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NAcc",
+      "to": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Sales & Revenue → [VP] (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NAcc",
+      "to": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Sales & Revenue → Market Intelligence (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "OFC",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Market Intelligence → Financial Management (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "SMA",
+      "to": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[SMA] → Production & Delivery (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "STRI",
+      "to": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Operations → [GP] (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "GP",
+      "to": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "[GP] → Information Flow (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "CBLM",
+      "to": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Quality Control → Information Flow (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "FEF",
+      "to": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "top-down attention → visual",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "FPN",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Executive Leadership → Strategic Planning (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LC",
+      "to": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "[LC] → Risk Assessment (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LC",
+      "to": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "sympathetic → HPA crosstalk",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "CASH_FLOW_CRISIS",
+      "label": "Cash Flow Crisis",
+      "summary": "Operating costs exceed revenue, threatening the organization's ability to meet obligations and fund operations",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper-stressed",
+          "detail": "Financial management overwhelmed by competing obligations and declining reserves",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-activated",
+          "detail": "Crisis detection systems firing continuously as cash position deteriorates",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-driven",
+          "detail": "Sales pipeline insufficient to cover burn rate, revenue targets missed",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-productive",
+          "detail": "Production scaled back due to capital constraints and supplier payment delays",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Normal operational routines disrupted by emergency cost-cutting measures",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Altered",
+          "detail": "Market signals misread under financial pressure, panic-driven pricing decisions",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "LEADERSHIP_FAILURE",
+      "label": "Leadership Failure",
+      "summary": "Executive dysfunction — inability to set direction, make decisions, or maintain organizational alignment",
+      "circuits": [
+        {
+          "nodeId": "FPN",
+          "dir": "Hypo-coordinated",
+          "detail": "Executive leadership team fragmented, unable to align on priorities",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Strategic planning stalled, no clear direction or decision-making framework",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Information flow distorted — critical data not reaching decision-makers",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OXY",
+          "dir": "Hypo-bonded",
+          "detail": "Trust eroded between leadership and workforce, culture fragmenting",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-retained",
+          "detail": "Institutional knowledge being lost as key personnel disengage or depart",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper-stressed",
+          "detail": "Organizational stress elevated due to lack of direction and decision paralysis",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "MARKET_COLLAPSE",
+      "label": "Market Collapse",
+      "summary": "Severe market downturn or demand destruction threatening core business viability",
+      "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-reactive",
+          "detail": "Market intelligence systems overwhelmed by rapidly shifting demand signals",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo-driven",
+          "detail": "Revenue generation severely impaired, sales pipeline evaporating",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-activated",
+          "detail": "Risk assessment in overdrive, threat signals from every market segment",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Brand positioning undermined as market fundamentals shift",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-motivated",
+          "detail": "Innovation pipeline frozen as resources redirected to survival",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Hyper-strained",
+          "detail": "Client relations under extreme pressure as customers reduce spend",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "REGULATORY_CRISIS",
+      "label": "Regulatory Crisis",
+      "summary": "Major compliance failure, regulatory investigation, or sudden regulatory environment shift",
+      "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-activated",
+          "detail": "Compliance monitoring in crisis mode, widespread control failures detected",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper-active",
+          "detail": "Legal team in emergency response, managing regulatory investigation and remediation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BROCA",
+          "dir": "Altered",
+          "detail": "Corporate communications constrained by legal hold, messaging carefully controlled",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-activated",
+          "detail": "Existential threat assessment — penalties, consent orders, or license revocation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-vigilant",
+          "detail": "Crisis sensors detecting cascading compliance failures across business units",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "TALENT_EXODUS",
+      "label": "Talent Exodus",
+      "summary": "Critical talent attrition threatening operational continuity and institutional capability",
+      "circuits": [
+        {
+          "nodeId": "OXY",
+          "dir": "Hypo-bonded",
+          "detail": "Team cohesion dissolved, psychological safety eroded, people disengaging",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HPA",
+          "dir": "Hyper-stressed",
+          "detail": "Remaining workforce overloaded, burnout cascading through departments",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-retained",
+          "detail": "Institutional knowledge walking out the door with departing experts",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Hypo-engaged",
+          "detail": "Client relationships at risk as relationship owners depart",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Operational routines breaking down as experienced operators leave",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Hypo-coordinated",
+          "detail": "Leadership bench depleted, succession gaps at critical positions",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "OPERATIONAL_BREAKDOWN",
+      "label": "Operational Breakdown",
+      "summary": "Systemic process failure — quality collapse, supply chain disruption, or delivery inability",
+      "circuits": [
+        {
+          "nodeId": "STRI",
+          "dir": "Hypo-functional",
+          "detail": "Core operational routines failing, process adherence collapsed",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-calibrated",
+          "detail": "Quality control systems unable to catch errors, defect rates spiking",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-productive",
+          "detail": "Production and delivery halted or severely degraded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Information flow fragmented — departments operating in silos",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-activated",
+          "detail": "Crisis detection overwhelmed by simultaneous operational failures",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-activated",
+          "detail": "Compliance monitoring detecting widespread control breaches",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "DEBT_CRISIS",
+      "label": "Debt Crisis",
+      "summary": "Unsustainable leverage threatening solvency — covenant breaches, refinancing failure, or creditor action",
+      "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper-stressed",
+          "detail": "Financial management consumed by debt service, covenant compliance, and creditor negotiations",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-activated",
+          "detail": "Existential risk assessment — potential bankruptcy, forced restructuring, or liquidation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper-active",
+          "detail": "Legal governance managing creditor claims, restructuring negotiations, potential Chapter 11",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Strategic planning horizon compressed to weeks, long-term thinking abandoned",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Hyper-focused",
+          "detail": "Executive leadership in crisis mode, all attention on survival",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "INNOVATION_STAGNATION",
+      "label": "Innovation Stagnation",
+      "summary": "Loss of competitive edge — product pipeline empty, technology adoption falling behind, market share eroding",
+      "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo-motivated",
+          "detail": "Innovation engine stalled — no novel projects, risk-taking suppressed",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Strategic planning locked into legacy business model, unable to envision alternatives",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo-responsive",
+          "detail": "Market intelligence failing to detect emerging opportunities and competitive threats",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAcc",
+          "dir": "Altered",
+          "detail": "Revenue model dependent on legacy products, no new growth engines",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Hypo-adaptive",
+          "detail": "Executive leadership clinging to status quo, resistant to transformation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Altered",
+          "detail": "Brand identity stale, no longer resonating with evolving market",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

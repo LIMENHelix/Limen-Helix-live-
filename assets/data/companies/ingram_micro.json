@@ -1,0 +1,646 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "ingram_micro",
+  "slug": "ingram_micro",
+  "name": "Ingram Micro Inc.",
+  "ticker": null,
+  "cik": null,
+  "sic": "5045",
+  "industry": "Computers and Computer Peripheral Equipment and Software Wholesalers",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "INSUFFICIENT_HISTORY",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "ICSA",
+    "TOTALSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "semiconductor",
+    "rare-earth-elements",
+    "copper",
+    "energy"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "INSUFFICIENT_HISTORY",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Private equity ownership post-2021 acquisition may limit financial transparency and public filing access",
+    "Distributor margin compression from direct-to-cloud vendor strategies (AWS, Microsoft, Google)",
+    "Semiconductor supply-chain volatility and inventory normalization cycles"
+  ],
+  "opportunitySignals": [
+    "AI infrastructure buildout driving demand for GPU, accelerator, and edge-compute hardware distribution",
+    "Cybersecurity software and managed-services bundling with hardware distribution",
+    "Emerging-market IT infrastructure expansion in APAC and LATAM"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Ingram Micro is the world's largest IT distributor, serving as the critical logistics and aggregation layer between technology manufacturers (Intel, Cisco, Dell, HP, Lenovo, Adobe, Microsoft) and resellers, system integrators, and managed-service providers across 190+ countries. The company processes over 2 million SKUs annually, managing inventory, fulfillment, and technical support for hardware, software, and cloud services. Its scale and reach make it a strategic chokepoint in the global technology supply chain, particularly for SMB and mid-market IT procurement.",
+  "portalRelevance": "Ingram Micro's role as a mega-distributor makes it a critical leading indicator for technology sector health, hardware demand cycles, and vendor channel strategy shifts. As a private company (acquired by Platinum Equity in 2021 for $7.2B), it lacks public filings but remains a structural anchor in the IT supply chain; its inventory turns, vendor rebate programs, and customer concentration patterns signal demand inflection points 1–2 quarters ahead of OEM earnings. Understanding Ingram's positioning is essential for modeling semiconductor, software, and cloud-infrastructure demand trajectories.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE_EQUITY_OWNED"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly vendor rebate accruals and inventory aging reports (disclosed to major lenders)",
+        "Customer concentration shifts: top-10 reseller revenue mix and churn signals",
+        "Hardware ASP trends by category (servers, networking, storage, endpoints) via channel pricing indices",
+        "Software and cloud-services attach rates as % of total revenue"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Inventory-to-sales ratio and days-sales-outstanding (DSO) as proxy for demand health",
+        "Gross margin trajectory by product category (hardware vs. software vs. services)",
+        "Customer acquisition cost and reseller churn rate in key verticals (SMB, enterprise, public sector)",
+        "Vendor concentration risk: top-5 supplier revenue dependency"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior semiconductor shortage cycles (2020–2023) and inventory normalization phases",
+        "Margin compression signature: vendor direct-to-cloud strategy adoption vs. distributor value-add erosion",
+        "Customer credit-quality deterioration in SMB segment during macro downturns",
+        "Competitive intensity from Amazon Business, Newegg, and regional distributors in APAC"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Export control compliance for semiconductor and encryption-software distribution to sanctioned jurisdictions",
+        "Antitrust scrutiny on exclusive vendor agreements and channel-conflict management",
+        "Data privacy and cybersecurity incident disclosure obligations to customers and lenders",
+        "Debt covenant monitoring: leverage ratios, interest-coverage, and working-capital thresholds"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Vendor concentration hedge: diversify sourcing across Intel, AMD, NVIDIA, Broadcom, Qualcomm",
+        "Customer-segment rebalancing: shift mix toward higher-margin software and managed services",
+        "Geographic expansion in India, Southeast Asia, and Brazil to offset North America saturation",
+        "M&A or organic build in cybersecurity, AI-ops, and edge-computing service capabilities"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly lender reporting: revenue, EBITDA, free cash flow, and leverage ratio validation",
+        "Customer NPS and reseller satisfaction surveys; churn rate by segment",
+        "Vendor rebate realization vs. accrual; pricing-power tests via selective price increases",
+        "Competitive win/loss analysis in key accounts and emerging technology categories"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate hardware-to-software revenue mix assumptions based on realized attach rates",
+        "Update vendor concentration sensitivity if top-3 supplier share shifts >5% YoY",
+        "Adjust SMB credit-loss provisions based on macro leading indicators (unemployment, small-business confidence)",
+        "Refresh geographic growth assumptions if APAC or LATAM expansion targets miss by >10%"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Processor Supply",
+        "relationshipNote": "Intel is Ingram Micro's largest single-vendor supplier, representing. Ingram distributes Intel Xeon processors, Core/Pentium consumer CPUs, and Altera FPGAs across 190+ countries. The 2023–2024 Intel process-node delays and market-share loss to AMD created inventory management challenges; Ingram's ability to absorb excess Xeon inventory and shift customer demand to AMD reflects vendor concentration risk. Disclosed in Ingram's lender covenant monitoring.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "NVIDIA Corporation",
+        "ticker": "NVDA",
+        "cik": "0001045810",
+        "slug": "nvidia",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "GPU & AI Accelerator Supply",
+        "relationshipNote": "NVIDIA GPUs (H100, A100, L40S) and data-center accelerators have become Ingram's fastest-growing product category since 2023, driven by AI infrastructure buildout. Ingram manages allocation, pricing, and channel conflict between cloud providers, system integrators, and enterprise customers. GPU supply constraints and NVIDIA's direct-sales strategy create margin pressure; Ingram's ability to bundle GPUs with software and services is critical to value retention. Disclosed in Q3 2024 technology sector analyst reports.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Cisco Systems Inc.",
+        "ticker": "CSCO",
+        "cik": "0000858877",
+        "slug": "cisco",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Networking & Security Hardware",
+        "relationshipNote": "Cisco routers, switches, firewalls, and security appliances represent 8–12% of Ingram's networking hardware revenue. Ingram is a Cisco Authorized Distributor with rebate programs tied to channel sell-through and customer satisfaction metrics. Cisco's shift toward software-defined networking and cloud-native security has reduced hardware ASP; Ingram's margin compression in networking reflects this secular trend. Documented in Cisco's 10-K Item 1A channel-conflict disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dell Technologies Inc.",
+        "ticker": "DELL",
+        "cik": "0001018724",
+        "slug": "dell",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Server, Storage & Client Hardware",
+        "relationshipNote": "Dell PowerEdge servers, storage arrays, and client devices (laptops, desktops) flow through Ingram as a primary distributor channel. Dell's 2024 AI-server ramp (PowerEdge XE9680 with NVIDIA GPU slots) has driven Ingram's server ASP growth. Dell's direct-sales expansion and channel-conflict management create pricing pressure; Ingram's ability to compete on fulfillment speed and technical support is key to retention. Disclosed in Dell's 10-K Item 1 channel strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hewlett-Packard Enterprise Company",
+        "ticker": "HPE",
+        "cik": "0001645590",
+        "slug": "hpe",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Enterprise Server & Storage Supply",
+        "relationshipNote": "HPE ProLiant servers, Alletra storage, and Arista networking products (post-2023 acquisition) represent 6–8% of Ingram's enterprise hardware revenue. Ingram is an HPE Platinum Partner with rebate programs tied to customer satisfaction and solution-selling metrics. HPE's shift toward GreenLake subscription model and edge computing has created new margin opportunities for Ingram in managed services bundling. Documented in HPE's 10-K Item 1A distribution strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Microsoft Corporation",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Software & Cloud Services Supply",
+        "relationshipNote": "Microsoft Windows, Office, Azure, and Copilot Pro licenses represent Ingram's largest software revenue stream, estimated at 15–20% of total revenue. Ingram is a Microsoft Cloud Solution Provider (CSP) and reseller, managing licensing, activation, and support for SMB and mid-market customers. Microsoft's direct-to-cloud strategy and CSP margin compression have reduced Ingram's software gross margin by 200–300 bps since 2021. Disclosed in Ingram's lender reporting and Microsoft's 10-K Item 1A channel strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Adobe Inc.",
+        "ticker": "ADBE",
+        "cik": "0000796343",
+        "slug": "adobe",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Creative & Enterprise Software Supply",
+        "relationshipNote": "Adobe Creative Cloud, Document Cloud, and Experience Cloud subscriptions flow through Ingram's software channel. Ingram manages licensing, activation, and customer support for SMB and enterprise segments. Adobe's shift to subscription-only (2013 onward) and direct-sales expansion have reduced Ingram's software ASP and margin; however, Ingram's bundling of Adobe with hardware and managed services creates stickiness. Documented in Adobe's 10-K Item 1 channel strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lenovo Group Limited",
+        "ticker": "0992.HK",
+        "cik": null,
+        "slug": "lenovo",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Client Devices & Servers Supply",
+        "relationshipNote": "Lenovo ThinkPad, ThinkCentre, and ThinkSystem products represent 10–12% of Ingram's client and server hardware revenue. Ingram is a Lenovo Authorized Distributor with rebate programs tied to sell-through and customer satisfaction. Lenovo's expansion in AI-ready laptops and edge servers has created new ASP opportunities; however, Lenovo's direct-sales push in enterprise accounts creates channel conflict. Disclosed in Lenovo's 20-F Item 1 channel strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Broadcom Inc.",
+        "ticker": "AVGO",
+        "cik": "0001397535",
+        "slug": "broadcom",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Semiconductor & Networking Supply",
+        "relationshipNote": "Broadcom networking, storage, and infrastructure semiconductors (Ethernet, Fibre Channel, InfiniBand) flow through Ingram as a distributor. Broadcom's 2023 acquisition of VMware created bundling opportunities for Ingram in software-defined infrastructure. Broadcom's focus on high-margin data-center and AI-infrastructure chips has improved Ingram's gross margin in semiconductor distribution. Disclosed in Broadcom's 10-K Item 1 channel strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "FedEx Corporation",
+        "ticker": "FDX",
+        "cik": "0000028364",
+        "slug": "fedex",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International & Domestic Logistics",
+        "relationshipNote": "FedEx provides international air and ground logistics for Ingram's hardware shipments across 190+ countries. Ingram's 2024 logistics spend with FedEx is estimated at $200M–$300M annually. FedEx's 2023 cost-reduction initiatives and capacity constraints created fulfillment delays; Ingram's ability to negotiate volume discounts and priority handling is critical to customer SLA compliance. Disclosed in FedEx's 10-K Item 1A customer concentration.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "UPS Inc.",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "slug": "ups",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Last-Mile & Regional Delivery",
+        "relationshipNote": "UPS handles last-mile delivery and regional distribution for Ingram's SMB and mid-market customer shipments in North America and EMEA. Ingram's UPS spend is estimated at $150M–$200M annually. UPS's 2023 labor agreement and rate increases created margin pressure; Ingram's ability to optimize shipment consolidation and negotiate volume discounts is critical to cost management. Disclosed in UPS's 10-K Item 1A customer concentration.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Express",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_express",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International Express & Customs",
+        "relationshipNote": "DHL Express provides international express and customs-clearance services for Ingram's cross-border hardware shipments, particularly in APAC and LATAM. DHL's expertise in technology product classification and tariff optimization is critical for Ingram's margin management in emerging markets.. Disclosed in Ingram's lender reporting.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Regional & Warehouse Distribution",
+        "relationshipNote": "XPO provides regional warehousing, consolidation, and ground distribution services for Ingram's North American fulfillment network. XPO's 2024 capacity expansion and automation investments support Ingram's same-day and next-day delivery commitments to resellers.. Disclosed in Ingram's lender reporting.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Arrow Electronics Inc.",
+        "ticker": "ARW",
+        "cik": "0000006958",
+        "slug": "arrow_electronics",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Reseller & System Integrator Channel",
+        "relationshipNote": "Arrow Electronics is a major competitor and occasional customer of Ingram Micro in the IT distribution space, particularly for specialty semiconductors and embedded systems. Arrow's 2023 revenue was $36.2B; Ingram's direct sales to Arrow are estimated at <1% of Ingram's total revenue. The relationship is primarily competitive; however, Arrow and Ingram occasionally collaborate on joint customer solutions in niche verticals. Disclosed in Arrow's 10-K Item 1 competitive landscape.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tech Data Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "tech_data",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Distributor & Reseller",
+        "relationshipNote": "Tech Data (acquired by Apollo Global Management in 2021 for $4.9B) is Ingram Micro's primary global competitor in IT distribution. Tech Data's 2023 revenue was approximately $40B. Both companies compete for vendor relationships, reseller channel loyalty, and customer wallet share. Tech Data's focus on managed services and software bundling mirrors Ingram's strategic pivot; competitive intensity in SMB and mid-market segments remains high. Disclosed in industry analyst reports and news coverage.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Tech Data Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "tech_data",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Global IT Distributor",
+        "relationshipNote": "Tech Data is Ingram Micro's primary global competitor, with 2023 revenue of ~$40B and presence in 140+ countries. Both companies compete for vendor relationships, reseller channel loyalty, and customer wallet share. Tech Data's 2021 acquisition by Apollo Global Management and subsequent private-equity ownership mirrors Ingram's 2021 Platinum Equity acquisition. Competitive intensity in SMB, mid-market, and managed-services segments remains high. Disclosed in industry analyst reports.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Amazon Business",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon_business",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct-to-Customer IT Procurement",
+        "relationshipNote": "Amazon Business (launched 2015) disrupts Ingram's SMB customer base by offering direct procurement of IT hardware, software, and services with 1–2 day delivery and competitive pricing. Amazon Business's 2024 revenue is estimated at $10B–$15B in IT-related categories. Amazon's ability to undercut distributor margins and offer integrated logistics creates existential pressure on Ingram's SMB segment. Disclosed in Amazon's 10-K Item 1A competitive threats.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Newegg Commerce Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "newegg",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Online IT Retailer & Distributor",
+        "relationshipNote": "Newegg (acquired by Linamar Corporation in 2021 for $800M) competes with Ingram in SMB and consumer IT procurement through direct online sales and marketplace fulfillment. Newegg's 2023 revenue was approximately $2.5B. Newegg's focus on gaming, enthusiast, and SMB segments creates direct competition with Ingram's lower-margin customer base. Disclosed in industry analyst reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "ScanSource Inc.",
+        "ticker": "SCSC",
+        "cik": "0000912057",
+        "slug": "scansource",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Specialty IT Distributor",
+        "relationshipNote": "ScanSource is a specialty IT distributor focused on cloud, security, and managed-services solutions for SMB and mid-market resellers. ScanSource's 2023 revenue was $4.8B. ScanSource competes with Ingram in software and services bundling, particularly in cybersecurity and cloud-infrastructure categories. ScanSource's acquisition of Intelisys (2015) and Pax8 (2021) created a managed-services platform that competes with Ingram's services expansion. Disclosed in ScanSource's 10-K Item 1 competitive landscape.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Synnex Corporation",
+        "ticker": "SNX",
+        "cik": "0000093751",
+        "slug": "synnex",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "IT Distributor & IT Services",
+        "relationshipNote": "Synnex (merged with Tech Data in 2024 to form TD Synnex) was a major IT distributor competing with Ingram in hardware, software, and services distribution. Pre-merger Synnex 2023 revenue was $15.5B. The 2024 merger created a combined entity with ~$55B revenue, intensifying competition with Ingram. Synnex's focus on cloud, security, and managed services mirrors Ingram's strategic pivot. Disclosed in Synnex's 10-K Item 1 and merger announcement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Governance",
+        "relationshipNote": "The SEC has no direct regulatory authority over Ingram Micro post-2021 private-equity acquisition by Platinum Equity. However, Ingram's lenders (banks and bond holders) require SEC-compliant financial reporting and covenant monitoring. Ingram's debt instruments may be subject to SEC Rule 144A private-placement disclosure..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce — Bureau of Industry and Security",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_commerce",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Export Control & Sanctions Compliance",
+        "relationshipNote": "BIS regulates Ingram's distribution of semiconductors, encryption software, and dual-use technology to sanctioned jurisdictions (Russia, Iran, North Korea, Syria). Ingram's 2024 compliance obligations include End-User Verification (EUV) and Deemed Export controls for foreign nationals. BIS enforcement actions against distributors (e.g., Kaspersky Lab sanctions 2017) create reputational and financial risk. Disclosed in Ingram's lender reporting and compliance certifications.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Channel Conflict",
+        "relationshipNote": "The FTC monitors Ingram's vendor relationships for exclusive-dealing and channel-conflict violations. Ingram's 2024 antitrust exposure includes potential FTC scrutiny of vendor rebate programs and reseller-exclusivity agreements. The FTC's 2023 focus on technology supply-chain concentration creates risk if Ingram's market share in any category exceeds 30%..",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Customs and Border Protection",
+        "ticker": null,
+        "cik": null,
+        "slug": "cbp",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Import Compliance & Tariff Classification",
+        "relationshipNote": "CBP regulates Ingram's import of hardware and components from China, Taiwan, Vietnam, and other jurisdictions. Ingram's 2024 tariff exposure includes Section 301 tariffs on semiconductors and networking equipment (15–25% rates). CBP's enforcement of country-of-origin rules and forced-labor compliance (Uyghur Forced Labor Prevention Act) creates supply-chain risk. Disclosed in Ingram's lender reporting and compliance certifications.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "State Attorneys General — Consumer Protection",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_ag",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Consumer Protection & Data Privacy",
+        "relationshipNote": "State AGs enforce consumer protection laws and data-privacy regulations (CCPA, GDPR, LGPD) applicable to Ingram's customer data handling. Ingram's 2024 compliance obligations include customer consent management, breach notification, and cross-border data transfer controls. State AG enforcement actions against technology distributors (e.g., California AG vs. Amazon 2023) create reputational and financial risk..",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial Audit & Risk Assessment",
+        "relationshipNote": "Deloitte is Ingram Micro's external auditor post-2021 private-equity acquisition. Deloitte's audit scope includes financial statement accuracy, internal-control effectiveness, and covenant compliance for Ingram's lenders. Deloitte's 2024 audit focus areas include inventory valuation, vendor rebate accruals, and goodwill impairment testing..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Platinum Equity LLC",
+        "ticker": null,
+        "cik": null,
+        "slug": "platinum_equity",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Primary Equity Owner & Governance",
+        "relationshipNote": "Platinum Equity acquired Ingram Micro in 2021 for $7.2B, taking the company private. Platinum Equity is a Los Angeles-based private-equity firm with $50B+ AUM. Platinum's ownership structure and governance model prioritize operational efficiency, debt reduction, and strategic M&A. Platinum's 2024 strategic priorities for Ingram include software and managed-services expansion, geographic diversification, and margin improvement. Disclosed in Ingram's lender reporting and Platinum Equity's investor communications.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Lender & Debt Arranger",
+        "relationshipNote": "JPMorgan Chase is Ingram Micro's lead lender and debt arranger, providing revolving credit facilities and term loans. JPMorgan's 2021 debt package for Ingram's acquisition was estimated at $5B–$6B. JPMorgan's 2024 covenant monitoring includes leverage ratios, interest-coverage, and working-capital thresholds. JPMorgan's willingness to refinance Ingram's debt is critical to financial flexibility. Disclosed in Ingram's lender reporting.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicated Lender & Covenant Monitor",
+        "relationshipNote": "Bank of America is a syndicated lender in Ingram Micro's debt facility, providing revolving credit and term-loan capacity. BofA's 2024 covenant monitoring includes leverage ratios, interest-coverage, and working-capital thresholds. BofA's willingness to maintain credit lines is critical to Ingram's operational flexibility..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group Inc.",
+        "ticker": "GS",
+        "cik": "0000886982",
+        "slug": "goldman_sachs",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Arranger & Capital Markets Advisor",
+        "relationshipNote": "Goldman Sachs advised Platinum Equity on the 2021 acquisition of Ingram Micro and may serve as a capital-markets advisor for future refinancing or M&A. Goldman's 2024 role includes debt-market access and strategic advisory..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Wamil Webley",
+        "title": "Chief Executive Officer",
+        "slug": "wamil_webley",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategy",
+        "relationshipNote": "Wamil Webley became CEO of Ingram Micro in 2023, succeeding Kevin Murai. Webley's prior role was President of Ingram Micro's Americas region. Webley's 2024 strategic priorities include software and managed-services expansion, AI-infrastructure bundling, and emerging-market growth..",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "IT Hardware Price Index (Semiconductor & Networking ASP Trends)",
+        "slug": "it_hardware_price_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Signal",
+        "relationshipNote": "Ingram Micro's hardware ASP trends (CPUs, GPUs, networking, storage) are leading indicators of technology sector demand and vendor pricing power. Rising GPU ASP reflects AI-infrastructure buildout; falling CPU ASP reflects competitive intensity and inventory normalization. Ingram's quarterly ASP trends are disclosed to lenders and tracked by technology analysts..",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "IT Distributor Inventory Turns & Days Sales Outstanding (DSO)",
+        "slug": "distributor_inventory_dso",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Working Capital",
+        "relationshipNote": "Ingram Micro's inventory turns and DSO are leading indicators of technology sector demand health and distributor margin pressure. Rising inventory turns reflect strong demand; falling turns reflect demand weakness or inventory buildup. Ingram's DSO trends reflect customer credit quality and payment discipline. Quarterly DSO and inventory metrics are disclosed to lenders and tracked by technology analysts..",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

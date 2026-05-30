@@ -1,0 +1,1273 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "sappi",
+  "slug": "sappi",
+  "name": "Sappi Limited",
+  "ticker": "SAPJY",
+  "cik": null,
+  "sic": "2611",
+  "industry": "Pulp, Paper & Paperboard Mills; Specialty Chemicals",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "PPILFE",
+    "PPIACO",
+    "DCOILWTICO",
+    "DEXUSZA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "SAPJY",
+    "SAP.J"
+  ],
+  "commodityExposure": [
+    "eucalyptus pulp",
+    "pine pulp",
+    "chemical pulp",
+    "recycled fiber",
+    "energy (natural gas, coal)",
+    "chlorine",
+    "caustic soda",
+    "starch",
+    "coating chemicals"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?entity=sappi",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Pulp price cyclicality and energy cost volatility expose earnings to commodity swings; coated paper segment faces secular headwinds from digital substitution.",
+    "South African operational footprint creates currency (ZAR/USD) and political-risk exposure; load-shedding and infrastructure constraints threaten mill utilization.",
+    "Specialty chemicals segment (Sappi Fine Chemicals) integration complexity and margin compression in commodity coating chemicals amid Asian competition."
+  ],
+  "opportunitySignals": [
+    "Coated specialty papers for packaging and label applications benefit from e-commerce and premium-brand demand; higher-margin segments (dissolving pulp, specialty grades).",
+    "Renewable energy investments and carbon-neutral pulp positioning align with ESG-driven customer procurement; potential for green premium pricing.",
+    "Acquisition of Envelotech and specialty-chemicals bolt-ons expand addressable market in high-margin segments; geographic diversification into North America and Europe reduces JSE-listing concentration risk."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Sappi is a global integrated pulp, paper, and specialty-chemicals manufacturer with primary operations in South Africa, North America, and Europe. The company serves packaging, labeling, publication, and industrial-chemical end-markets through three divisions: Dissolving Pulp (commodity and specialty grades), Packaging Papers (coated and uncoated), and Specialty Chemicals (coating resins, adhesives, and performance polymers). Sappi's scale and vertical integration position it as a critical supplier to multinational CPG, packaging, and industrial-goods manufacturers, with exposure to both cyclical commodity pulp markets and higher-margin specialty segments.",
+  "portalRelevance": "Sappi is a peer-tier industrial manufacturer and critical input supplier to global consumer-goods and packaging value chains. Its financial health and operational trajectory directly influence input costs and supply reliability for downstream packagers, converters, and brand-owners; commodity pulp and specialty-chemical pricing volatility cascades through retail and CPG supply chains. As a JSE-listed entity with NYSE ADR trading, Sappi bridges emerging-market (South Africa) and developed-market capital and operational exposure, making it a key barometer for industrial-sector health, emerging-market currency stress, and energy-cost inflation in developing economies.",
+  "notes": {
+    "cohortStatus": "Peer-tier industrial manufacturer; global pulp-and-paper sector anchor with specialty-chemicals adjacency.",
+    "envelopeStatus": "ELIGIBLE_NOW — sufficient public filing history (20-F annual reports, JSE disclosures) and market liquidity (SAPJY ADR) to support ongoing monitoring."
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly pulp-price indices (FOEX, Fastmarkets) and coated-paper pricing surveys; leading indicator of Sappi margin compression or expansion.",
+        "JSE and NYSE ADR trading volume, bid-ask spreads, and ADR-to-JSE arbitrage; liquidity stress signals operational or financial distress.",
+        "Mill utilization rates and production-volume disclosures in quarterly earnings calls; capacity utilization below 85% flags demand weakness.",
+        "Energy-cost pass-through and ZAR/USD currency movements; South African load-shedding announcements (ESKOM) directly impact mill availability."
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly EBITDA margin trajectory by segment (Dissolving Pulp, Packaging Papers, Specialty Chemicals); target >25% for Dissolving Pulp, >18% for Packaging Papers.",
+        "Net debt-to-EBITDA ratio and covenant headroom; Sappi historically targets <2.5x; breach signals refinancing risk or dividend cut.",
+        "Free cash flow generation and working-capital swings (inventory, receivables, payables); seasonal pulp-price volatility creates Q1/Q2 cash-flow lumps.",
+        "Segment-level pricing power and volume trends; coated-paper volumes declining 2–4% CAGR (secular), offset by specialty-grade mix-up and dissolving-pulp growth."
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn pattern-match: pulp prices <$600/ton (vs. $800–1,000 historical range) coupled with energy-cost spikes trigger margin compression; last occurred 2019–2020.",
+        "Structural headwind: publication-grade paper volumes declining 5–7% CAGR globally; Sappi's exposure to this segment (est. 15–20% of revenue) creates secular drag.",
+        "Emerging-market currency and political risk: ZAR depreciation >15% vs. USD in stress scenarios; South African operational leverage (est. 40–50% of EBITDA) amplifies earnings volatility.",
+        "Specialty-chemicals integration risk: Envelotech and prior M&A targets have shown slower-than-expected margin accretion; synergy realization tracking below guidance in 2–3 prior cycles."
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: Sappi is a commodity-input supplier with cyclical earnings; position sizing should reflect 2–3 year pulp-price cycle and emerging-market currency volatility.",
+        "Risk management: Hedge long-duration ZAR exposure via currency forwards or emerging-market equity hedges; monitor ESKOM load-shedding schedules for mill-downtime risk.",
+        "Dividend sustainability: Sappi historically pays 40–50% of FCF as dividend; in downturns, dividend cut is likely; model 50% haircut in stress scenarios.",
+        "Covenant monitoring: Track quarterly net-debt-to-EBITDA filings; breach of <3.0x covenant would trigger refinancing risk or asset sales."
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long thesis: Accumulate on pulp-price weakness (<$550/ton) and ZAR depreciation >20%; target entry on 2–3 year FCF yield >8% and net debt <2.5x EBITDA.",
+        "Short thesis: Reduce on pulp-price strength >$900/ton (mean reversion risk) and coated-paper volume declines >5% YoY; exit on dividend cut or covenant breach.",
+        "Hedging: For long exposure, pair with short position in commodity pulp futures (FOEX) or long position in energy (natural gas) to offset input-cost leverage.",
+        "Engagement: Monitor quarterly earnings calls for segment-level pricing realization, mill-utilization rates, and management guidance on specialty-chemicals synergy capture."
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Post-earnings validation: Compare actual pulp volumes, pricing realizations, and EBITDA margins vs. guidance; track miss/beat frequency and magnitude.",
+        "Price reaction: Monitor SAPJY ADR price movement within 5 days of earnings; >5% move signals market repricing of cycle or structural outlook.",
+        "Filing updates: Review quarterly 20-F filings for changes in segment revenue mix, debt covenants, and management commentary on energy costs and ZAR exposure.",
+        "Peer comparison: Benchmark Sappi's margin trajectory vs. Domtar, Suzano, and Stora Enso; relative underperformance may signal operational or strategic lag."
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Seasonality reweighting: Sappi shows Q1 cash-flow weakness (inventory build, seasonal pulp-price volatility); adjust quarterly earnings expectations for seasonal working-capital swings.",
+        "Commodity-cycle sensitivity: Recalibrate pulp-price elasticity of EBITDA margins each cycle; historical 10% pulp-price move ≈ 150–200 bps EBITDA margin impact.",
+        "Currency-exposure recalibration: Track ZAR/USD correlation with Sappi equity returns; if correlation >0.6, increase currency-hedge sizing in portfolio.",
+        "Specialty-chemicals growth assumption: If Envelotech and bolt-on synergies underdeliver for 2+ quarters, reduce long-term growth assumptions and lower target valuation multiple."
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Sappi operates as a distributed input-supply and specialty-chemical node within global packaging, labeling, and industrial-goods value chains. The company's three operational divisions (Dissolving Pulp, Packaging Papers, Specialty Chemicals) function as semi-autonomous profit centers, each with distinct commodity-price exposure, customer bases, and margin profiles. Sappi's South African operational footprint and JSE listing create a dual-brain structure: a commodity-pulp production engine (price-taker, volume-driven) coupled with a specialty-chemicals and coated-paper innovation engine (margin-driven, customer-locked). Currency, energy-cost, and political-risk inputs from South Africa flow through operational leverage into earnings volatility, making Sappi a high-sensitivity barometer for emerging-market industrial stress and commodity-cycle inflection points.",
+    "suppliers": [
+      {
+        "name": "Sappi Forests (internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_forests",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Fiber Supply",
+        "relationshipNote": "Sappi owns and operates ~1.3 million hectares of plantation forests across South Africa, Uruguay, and other regions, supplying ~60–70% of pulpwood feedstock internally. Eucalyptus and pine plantations are vertically integrated to minimize commodity-price volatility and ensure supply continuity. Internal transfer pricing and harvest scheduling directly impact mill utilization and cash-conversion cycles; forest-management efficiency (yield per hectare, rotation cycles) is a key operational lever.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sappi Pulping Operations (internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_pulping",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Production & Conversion",
+        "relationshipNote": "Sappi operates integrated pulp mills in South Africa (Ngodwana, Saiccor), North America (Westbrook, Maine), and Europe (Ehingen, Germany). Saiccor is the world's largest dissolving-pulp mill (capacity ~1.3 million tons/year); Ngodwana produces kraft pulp and coated papers. Mill utilization, energy efficiency, and chemical recovery directly drive EBITDA; load-shedding in South Africa (ESKOM) creates unplanned downtime and margin compression.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Sappi Coated Papers Division (internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_coated_papers",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Downstream)",
+        "relationshipNote": "Sappi's Coated Papers segment produces coated woodfree papers for packaging, labels, and publication use; mills in South Africa, North America, and Europe. Segment revenue ~$2.5–3.0 billion annually; margins under pressure from secular publication-grade decline (5–7% CAGR) but offset by premium-packaging and label-grade mix-up. Coating-chemical input costs (starch, latex, pigments) are significant margin drivers; supplier concentration in coating chemicals creates pricing leverage.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Sappi Fine Chemicals (acquired Envelotech 2021)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_fine_chemicals",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Specialty Production",
+        "relationshipNote": "Sappi Fine Chemicals (formerly Envelotech, acquired 2021 for ~$1.2 billion) produces specialty coating resins, adhesives, and performance polymers for packaging, construction, and industrial applications. Segment revenue ~$800 million–$1.0 billion; higher margins (20–25% EBITDA target) but integration complexity and Asian competition in commodity resins create margin-compression risk. Synergy realization has lagged guidance; management targeting $100–150 million annual run-rate synergies by 2024–2025.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Sappi Specialty Chemicals (Specialty Cellulose)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_specialty_cellulose",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Specialty Inputs",
+        "relationshipNote": "Sappi produces specialty cellulose derivatives (carboxymethyl cellulose, methylcellulose, hydroxyethylcellulose) used in pharmaceuticals, food, cosmetics, and industrial applications. Segment revenue ~$300–400 million; high-margin (25–30% EBITDA) but dependent on pulp-price inputs and specialty-chemical market pricing. Capacity constraints and customer concentration in pharma/food create pricing power; growth driven by emerging-market demand for food additives and pharmaceutical excipients.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sappi Dissolving Pulp (Saiccor Mill)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_dissolving_pulp",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Saiccor mill (South Africa) is the world's largest dissolving-pulp producer (capacity ~1.3 million tons/year); supplies viscose-rayon, cellulose-fiber, and specialty-chemical manufacturers globally. Dissolving Pulp segment revenue ~$1.5–2.0 billion; margins highly cyclical (15–35% EBITDA range) driven by viscose-rayon demand and pulp-price volatility. Saiccor's energy intensity and South African location create currency and load-shedding exposure; recent capacity expansions (2019–2021) increased leverage to viscose-demand cycles.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Sappi Recycled Fiber Operations",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_recycled_fiber",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Fiber Supply",
+        "relationshipNote": "Sappi operates recycled-fiber collection and de-inking facilities in North America and Europe, supplying recycled-fiber inputs to coated-paper and packaging-board mills. Recycled-fiber sourcing is cost-competitive vs. virgin pulp in downturns; Sappi's recycled-fiber capacity (~200–300 thousand tons/year) provides margin-protection lever during pulp-price spikes. Contamination and quality-control challenges in recycled-fiber streams create operational complexity; pricing typically 20–30% below virgin pulp.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sappi Tissue (divested 2017)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_tissue_legacy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Legacy Operations (Divested)",
+        "relationshipNote": ". Sappi exited tissue business in 2017 to focus on higher-margin dissolving pulp and specialty chemicals; tissue operations were sold to Essity and other buyers. Residual tissue-related liabilities or supply agreements may persist; monitor for any contingent obligations in 20-F filings.",
+        "confidence": "low",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Sappi Logistics (internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Sappi operates internal logistics and distribution networks across South Africa, North America, and Europe, managing pulp, paper, and chemical shipments to customers. Internal logistics reduce third-party carrier dependence and provide margin-control levers; however, South African port congestion (Durban, Richards Bay) and rail-infrastructure constraints create export-timing risks. Sappi's reliance on South African ports for dissolving-pulp exports (est. 60–70% of Saiccor output) creates vulnerability to port strikes and infrastructure failures.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Maersk Line / Global Container Shipping",
+        "ticker": "MAERSK",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Logistics Partner)",
+        "relationshipNote": "Sappi ships dissolving pulp, coated papers, and specialty chemicals globally via container and breakbulk services; Maersk and other major container lines are critical for export logistics from South Africa to Asia, Europe, and North America. Freight-rate volatility (2020–2023 spike to $15,000+/FEU, normalized to $3,000–5,000/FEU by 2024) directly impacts Sappi's delivered-cost competitiveness; long-term contracts with Maersk and other carriers provide rate stability but limit upside in low-rate environments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "South African Ports Authority (TRANSNET) / Port Operations",
+        "ticker": null,
+        "cik": null,
+        "slug": "transnet_sa_ports",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Infrastructure)",
+        "relationshipNote": "Sappi's dissolving-pulp exports depend critically on South African port infrastructure (Durban, Richards Bay); TRANSNET operates these ports. Port congestion, labor strikes, and infrastructure underinvestment have created chronic export delays (2022–2024); Sappi has disclosed port-related shipment delays impacting Q1/Q2 cash flow. Sappi's exposure to South African port risk is a material operational constraint; diversification to North American and European ports is ongoing but limited by mill locations.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Rail Freight Operators (South Africa, North America, Europe)",
+        "ticker": null,
+        "cik": null,
+        "slug": "rail_freight_operators",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Logistics)",
+        "relationshipNote": "Sappi relies on rail freight for mill-to-port and mill-to-customer logistics in South Africa (Transnet Freight Rail), North America (Class I railroads), and Europe (national operators). South African rail infrastructure deterioration and labor issues have created logistics bottlenecks; North American rail rates are cyclical and sensitive to energy-commodity demand. Rail-freight cost inflation (2021–2023) compressed Sappi's logistics margins; long-term contracts with major operators provide some rate stability.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Viscose Rayon Manufacturers (Aditya Birla, Lenzing, Sanyou, Fulida)",
+        "ticker": null,
+        "cik": null,
+        "slug": "viscose_rayon_manufacturers",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Customer Segment)",
+        "relationshipNote": "Sappi's Dissolving Pulp segment supplies viscose-rayon manufacturers globally; Aditya Birla (India), Lenzing (Austria), and Chinese producers (Sanyou, Fulida) are major customers. Viscose-rayon demand is cyclical and price-sensitive; Sappi's dissolving-pulp pricing is typically 80–90% correlated with viscose-rayon prices. Customer concentration risk: est. 30–40% of Dissolving Pulp revenue from top 5 viscose customers; loss of major customer (e.g., Lenzing) would create significant revenue headwind. Sappi has long-term supply agreements with major viscose producers, providing volume stability but limited pricing flexibility.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Packaging & Labeling Converters (Huhtamaki, Sealed Air, Constantia Flexibles, Mondi)",
+        "ticker": null,
+        "cik": null,
+        "slug": "packaging_converters",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Downstream Customer)",
+        "relationshipNote": "Sappi's Coated Papers and Specialty Chemicals segments supply packaging and label converters; Huhtamaki, Sealed Air, Constantia Flexibles, and Mondi are major customers. Coated-paper volumes are declining (5–7% CAGR) but premium-packaging grades (e.g., folding-box board, label stocks) are growing; Sappi's specialty-coated grades command 10–15% price premiums vs. commodity grades. Customer concentration in top 10 accounts est. 25–30% of Coated Papers revenue; long-term supply agreements provide volume commitments but create pricing rigidity in downturns.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Pharmaceutical & Food Additive Manufacturers (Ashland, BASF, Dow, Cargill)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pharma_food_customers",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Specialty Chemicals)",
+        "relationshipNote": "Sappi's Specialty Cellulose and Fine Chemicals segments supply pharmaceutical excipients, food additives, and industrial-chemical manufacturers. Ashland, BASF, Dow, and Cargill are major customers for cellulose derivatives (CMC, HEC, MEC) and specialty resins. Pharma/food segment revenue is higher-margin (25–30% EBITDA) and less cyclical than commodity pulp; customer concentration est. 20–25% in top 5 accounts. Regulatory compliance (FDA, EMA) and quality-assurance requirements create switching costs and long-term customer lock-in; pricing power is higher in specialty segments vs. commodity coated papers.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huhtamäki Oyj",
+        "slug": "huhtamaki",
+        "ticker": "HUH1V.HE",
+        "cik": null,
+        "brainNodeId": "S1",
+        "relationshipNote": "Huhtamäki is a key customer purchasing specialty coated paperboard and fiber products for beverage cups and food containers across North America and Europe. The company's demand for coated-paperboard solutions reflects broader market shifts toward molded-fiber alternatives in foodware packaging, making it a critical feedforward signal for Sappi's specialty-grade capacity planning and pricing strategy.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.730Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "huhtamaki",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "sappi||sappilimited"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:35:31.661Z"
+      },
+      {
+        "name": "Kimberly-Clark Corporation",
+        "slug": "kimberly_clark",
+        "ticker": "KMB",
+        "cik": "0000055785",
+        "brainNodeId": "S1",
+        "relationshipNote": "Kimberly-Clark represents a major customer channel for Sappi's specialty tissue-grade pulp serving the company's European operations. KMB's sensitivity to pulp input costs and international logistics volatility—particularly ocean freight and ZAR/USD currency dynamics—makes it a vital demand indicator for Sappi's operational and financial performance in developed markets.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.730Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "kimberly_clark",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "sappi||sappilimited"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:35:31.661Z"
+      },
+      {
+        "name": "International Paper Company",
+        "ticker": "IP",
+        "cik": "0000051143",
+        "slug": "international_paper",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "International Paper (USA) is a large diversified forest-products company with pulp, paper, and packaging-board operations; IP trades on NYSE. IP's coated-paper and packaging-board segments compete with Sappi's Coated Papers division; however, IP's scale (~$20 billion revenue) and North American footprint create different competitive dynamics. IP has exited dissolving pulp and specialty chemicals, focusing on commodity coated papers and containerboard; this creates a different margin profile vs. Sappi's diversified portfolio. IP's EBITDA margins (15–18% in normal cycles) are typically lower than Sappi's specialty-chemicals segments but comparable to Sappi's commodity coated-paper margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Domtar Corporation",
+        "ticker": "UFS",
+        "cik": "0000315709",
+        "slug": "domtar",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Domtar is a North American pulp-and-paper competitor with similar dissolving-pulp and coated-paper exposure; UFS trades on NYSE. Domtar's dissolving-pulp capacity (~1.0 million tons/year) is slightly smaller than Sappi's Saiccor; coated-paper segment is comparable in size. Domtar's North American footprint reduces currency and emerging-market risk vs. Sappi; however, Domtar has higher energy costs (natural gas) and less forest-asset integration. Margin comparison: Domtar typically trades at 10–15% premium to Sappi on EV/EBITDA due to lower emerging-market risk; Sappi's specialty-chemicals bolt-ons (Envelotech) are not yet reflected in valuation parity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Suzano S.A.",
+        "ticker": "SUZ",
+        "cik": "0001564845",
+        "slug": "suzano",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Suzano (Brazil) is a global pulp producer with capacity ~10 million tons/year (primarily eucalyptus kraft pulp); SUZ trades on NYSE. Suzano is a direct competitor in dissolving pulp and commodity kraft pulp; Brazilian operations provide lower-cost eucalyptus feedstock vs. Sappi's South African plantations. Suzano's pulp-focused strategy (vs. Sappi's diversification into specialty chemicals) creates different margin profiles; Suzano has higher operating leverage to pulp-price cycles. Suzano's EBITDA margins typically 5–10% higher than Sappi's in strong pulp-price environments due to cost advantage; however, Suzano lacks Sappi's specialty-chemicals and coated-paper diversification.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Stora Enso Oyj",
+        "ticker": "STEAV",
+        "cik": null,
+        "slug": "stora_enso",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Stora Enso (Finland/Sweden) is a diversified forest-products company with pulp, paper, and packaging-board operations; STEAV trades on Nasdaq Helsinki. Stora Enso's coated-paper and packaging-board segments are direct competitors to Sappi's Coated Papers division; Stora Enso's European footprint and renewable-energy integration provide cost advantages in energy-intensive segments. Stora Enso's EBITDA margins (18–22% in normal cycles) are typically 2–5% higher than Sappi's due to lower energy costs and higher-margin packaging-board mix. Stora Enso's scale (~$15 billion revenue) is larger than Sappi's (~$6–7 billion); however, Sappi's dissolving-pulp and specialty-chemicals segments provide differentiation.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Oji Holdings Corporation",
+        "ticker": "3861.T",
+        "cik": null,
+        "slug": "oji_holdings",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Oji Holdings (Japan) is a diversified forest-products company with pulp, paper, and specialty-chemicals operations; 3861.T trades on Tokyo Stock Exchange. Oji's specialty-chemicals segment (coating resins, adhesives) competes with Sappi's Fine Chemicals division; Oji's Asian footprint and lower labor costs provide competitive advantages in commodity specialty chemicals. Oji's dissolving-pulp capacity is smaller than Sappi's; however, Oji's integration with Japanese paper mills and chemical manufacturers creates different customer dynamics. Oji's EBITDA margins in specialty chemicals (18–22%) are comparable to Sappi's targets; however, Oji's exposure to Japanese publication-paper decline is a headwind.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sappi's Specialty-Chemicals Competitors (BASF, Dow, Ashland, Arkema)",
+        "ticker": null,
+        "cik": null,
+        "slug": "specialty_chem_competitors",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Sappi's Fine Chemicals segment (Envelotech acquisition) competes with large specialty-chemical companies (BASF, Dow, Ashland, Arkema) in coating resins, adhesives, and performance polymers. These competitors have greater scale, diversification, and R&D resources; however, Sappi's vertical integration with pulp mills and specialty cellulose provides cost advantages in certain segments. Sappi's specialty-chemicals margins (20–25% EBITDA target) are lower than pure-play specialty-chemical companies (25–35%) due to commodity-input exposure; however, Sappi's cellulose-derivative and pulp-based-resin segments provide differentiation.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Sappi files Form 20-F annual reports and other periodic disclosures with the SEC as a foreign private issuer; SAPJY ADR is traded on OTC markets under SEC oversight. SEC filings include material risk disclosures (South African political risk, currency exposure, commodity-price volatility, energy-cost inflation). Sappi's compliance with SEC disclosure requirements is material to ADR trading and U.S. investor confidence; any material misstatement or delayed filing could trigger trading halts or delisting risk.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Johannesburg Stock Exchange (JSE) / Financial Sector Conduct Authority (FSCA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "jse_fsca",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Sappi is listed on the JSE (primary listing) and subject to JSE Listing Requirements and FSCA oversight. JSE filings include quarterly SENS announcements, annual reports, and material-event disclosures. Sappi's compliance with JSE governance standards (King Code, board composition, audit committees) is material to institutional investor confidence and ZAR-denominated equity valuation. Any governance breach or regulatory action by FSCA could trigger JSE trading suspension or delisting risk.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA) / Clean Air Act & Clean Water Act",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Environmental Compliance",
+        "relationshipNote": "Sappi's North American mills (Westbrook, Maine; other facilities) are subject to EPA air and water-quality regulations. Pulp mills are energy-intensive and generate air emissions (particulates, NOx, SOx) and wastewater; EPA compliance requires pollution-control equipment and monitoring. Sappi has disclosed environmental compliance costs and capital expenditures for emissions-control upgrades; any EPA enforcement action or permit denial could disrupt mill operations or require significant capex. Westbrook mill has historical environmental compliance issues; ongoing monitoring required.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "South African Department of Forestry, Fisheries & the Environment (DFFE) / Environmental Affairs",
+        "ticker": null,
+        "cik": null,
+        "slug": "dffe_sa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection & Environmental Compliance",
+        "relationshipNote": "Sappi's South African operations (Saiccor, Ngodwana mills; forest plantations) are subject to DFFE environmental regulations, including air-quality, water-discharge, and forestry-management standards. South African environmental compliance is material to Sappi's operational continuity; any regulatory action (permit revocation, fines, operational restrictions) could disrupt mill operations or forest harvesting. Sappi has disclosed environmental compliance investments and carbon-reduction targets; alignment with South African climate policy (carbon tax, renewable-energy mandates) is increasingly material.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC) / Antitrust Enforcement",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic Risk",
+        "relationshipNote": "Sappi's Envelotech acquisition (2021, ~$1.2 billion) was subject to FTC antitrust review; FTC cleared the transaction with no material conditions. Sappi's market share in specialty coating resins and adhesives is below FTC concentration thresholds; however, any future large acquisition in specialty chemicals could trigger FTC scrutiny. Sappi's dissolving-pulp market share (est. 15–20% globally) is below antitrust concern levels; however, consolidation in pulp industry could attract FTC attention.",
+        "confidence": "medium",
+        "sourceType": [
+          "8-K",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche (South Africa / Global)",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment & Compliance",
+      "relationshipNote": "Deloitte is Sappi's external auditor for consolidated financial statements (20-F annual reports and JSE filings). Deloitte's audit scope includes Sappi's global operations (South Africa, North America, Europe), internal controls, and financial-reporting compliance. Deloitte's audit opinions are material to investor confidence and credit-rating assessments; any audit qualification or going-concern warning would trigger significant market reaction. Sappi's audit fees and Deloitte's tenure (est. 10+ years) are disclosed in proxy statements; auditor rotation or change would signal governance or financial-reporting concerns.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Sappi's Senior Secured Debt / Bond Holders",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_debt_holders",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Sappi maintains a diversified debt portfolio (bank loans, bonds, private placements) with maturities staggered across 2024–2032. Senior secured debt is typically rated BB/BB- (S&P/Moody's); covenant structure includes net-debt-to-EBITDA (<3.0x), interest-coverage ratios, and asset-sale restrictions. Sappi's debt-to-EBITDA ratio typically ranges 2.0–2.5x in normal cycles; covenant breaches would trigger refinancing risk or forced asset sales. Major debt holders include institutional investors (pension funds, insurance companies) and bank syndicates; any debt-holder action (covenant waiver, refinancing negotiation) signals financial stress.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Sappi's Equity Shareholders / Institutional Investors",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_equity_holders",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Sappi's equity is held by institutional investors (est. 60–70% of shares), including pension funds, asset managers, and hedge funds. Major shareholders (>5%) are disclosed in proxy statements; no single shareholder has dominant control. Sappi's dividend policy (target 40–50% payout ratio) is material to shareholder returns; any dividend cut signals financial stress or strategic pivot. Sappi's share-buyback programs (authorized but discretionary) are used to manage capital structure and EPS; buyback suspension signals cash-flow pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Development Finance Institutions (IFC, DBSA, etc.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dfi_capital",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capital",
+        "relationshipNote": "Sappi has accessed development-finance capital (International Finance Corporation, Development Bank of Southern Africa) for sustainability and renewable-energy projects. DFI funding is typically concessional (lower rates, longer tenors) and tied to ESG performance targets. Sappi's renewable-energy investments (biomass boilers, solar projects) have been partially funded by DFI capital; any DFI funding withdrawal or covenant breach would signal ESG-performance concerns.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "sustainability-report"
+        ]
+      },
+      {
+        "name": "Credit Rating Agencies (S&P, Moody's, Fitch)",
+        "ticker": null,
+        "cik": null,
+        "slug": "rating_agencies",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Risk Assessment",
+        "relationshipNote": "Sappi is rated by S&P (BB/BB-), Moody's (Ba2/Ba3), and Fitch (BB/BB-); ratings are material to debt-issuance costs and refinancing access. Rating agencies monitor Sappi's leverage, cash-flow generation, and commodity-price exposure; any downgrade would increase borrowing costs and potentially trigger debt-covenant issues. Sappi's ratings have been stable to negative over 2020–2024 due to commodity-price volatility and emerging-market risk; any upgrade would signal improved financial health.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Sappi CEO (Chief Executive Officer)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_ceo",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": ". Sappi's CEO is responsible for overall strategy, operational execution, and stakeholder communication. CEO compensation (salary, bonus, equity) is disclosed in proxy statements; CEO turnover or compensation changes signal strategic shifts or governance concerns. Recent CEO tenures have averaged 5–7 years; current CEO's track record on specialty-chemicals integration (Envelotech) and emerging-market risk management is material to investor confidence.",
+        "confidence": "low",
+        "sourceType": [
+          "20-F",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Sappi CFO (Chief Financial Officer)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_cfo",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": ". Sappi's CFO is responsible for financial planning, capital allocation, and investor relations. CFO's guidance on leverage targets, dividend policy, and cash-flow generation is material to financial-health assessment. CFO turnover or compensation changes signal financial-strategy shifts; current CFO's experience with commodity-price hedging and emerging-market currency management is critical to Sappi's financial resilience.",
+        "confidence": "low",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Sappi COO (Chief Operating Officer) / Division Presidents",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_coo",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": ". Sappi's COO and division presidents (Dissolving Pulp, Coated Papers, Specialty Chemicals) are responsible for operational execution, mill utilization, and segment profitability. COO's track record on cost management, capacity optimization, and supply-chain resilience is material to EBITDA-margin trajectory. Recent operational challenges (South African load-shedding, port congestion, Envelotech integration) have tested COO's crisis-management capabilities.",
+        "confidence": "low",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Sappi Board Chair / Governance Leadership",
+        "ticker": null,
+        "cik": null,
+        "slug": "sappi_board_chair",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": ". Sappi's board chair is responsible for board governance, audit oversight, and strategic guidance. Board composition (independence, diversity, committee structure) is disclosed in proxy statements; any board turnover or governance changes signal strategic shifts. Current board's oversight of emerging-market risk, commodity-price hedging, and M&A integration (Envelotech) is material to investor confidence.",
+        "confidence": "low",
+        "sourceType": [
+          "20-F",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Pulp Price Index (FOEX, Fastmarkets)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pulp_price_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Sappi's Dissolving Pulp and Coated Papers segments are highly exposed to pulp-price cycles; FOEX and Fastmarkets indices track global pulp prices (hardwood, softwood, dissolving pulp). Pulp prices have ranged $400–1,000/ton over 2020–2024; 10% price move typically translates to 150–200 bps EBITDA margin impact. Sappi's quarterly earnings are highly correlated with lagged pulp-price movements (1–2 quarter lag); pulp-price weakness below $550/ton signals margin compression and potential dividend cut.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Viscose Rayon Demand Index / Fiber-Price Trends",
+        "ticker": null,
+        "cik": null,
+        "slug": "viscose_demand_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Sappi's Dissolving Pulp segment revenue is directly tied to viscose-rayon demand and pricing; viscose-rayon production (primarily in Asia) is a leading indicator of dissolving-pulp demand. Viscose-rayon prices have ranged $1.2–2.0/kg over 2020–2024; rayon-demand weakness (e.g., 2020 COVID downturn, 2023 China slowdown) cascades into dissolving-pulp price weakness within 1–2 quarters. Monitoring viscose-rayon production capacity utilization and inventory levels provides early warning of demand inflection.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "ZAR/USD Currency Exchange Rate",
+        "ticker": null,
+        "cik": null,
+        "slug": "zar_usd_fx",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Sappi's South African operations (est. 40–50% of EBITDA) generate ZAR-denominated cash flows; ZAR depreciation vs. USD reduces reported USD earnings and increases debt-service costs. ZAR/USD has ranged 10–20 over 2020–2024; 10% ZAR depreciation reduces Sappi's USD EBITDA by ~4–5% (assuming 40% South African exposure). Currency hedging programs (forward contracts, options) provide partial protection; however, unhedged exposure creates earnings volatility. ZAR weakness is typically correlated with emerging-market stress and South African political/economic uncertainty.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "industry",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.290Z",
+      "overrideCount": 13
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Sappi Forests (internal)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Sappi Specialty Chemicals (Specialty Cellulose)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Sappi Recycled Fiber Operations",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Sappi Tissue (divested 2017)",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Huhtamäki Oyj",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Kimberly-Clark Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Sappi Pulping Operations (internal)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Sappi Fine Chemicals (acquired Envelotech 2021)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Sappi Coated Papers Division (internal)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Sappi Dissolving Pulp (Saiccor Mill)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Packaging & Labeling Converters (Huhtamaki, Sealed Air, Constantia Flexibles, Mondi)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Sappi Logistics (internal)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Maersk Line / Global Container Shipping",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "South African Ports Authority (TRANSNET) / Port Operations",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Rail Freight Operators (South Africa, North America, Europe)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Viscose Rayon Manufacturers (Aditya Birla, Lenzing, Sanyou, Fulida)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Pharmaceutical & Food Additive Manufacturers (Ashland, BASF, Dow, Cargill)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Pulp Price Index (FOEX, Fastmarkets)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "International Paper Company",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Domtar Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Suzano S.A.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Stora Enso Oyj",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Oji Holdings Corporation",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Sappi's Specialty-Chemicals Competitors (BASF, Dow, Ashland, Arkema)",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Johannesburg Stock Exchange (JSE) / Financial Sector Conduct Authority (FSCA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Federal Trade Commission (FTC) / Antitrust Enforcement",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Credit Rating Agencies (S&P, Moody's, Fitch)",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Environmental Protection Agency (EPA) / Clean Air Act & Clean Water Act",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "South African Department of Forestry, Fisheries & the Environment (DFFE) / Environmental Affairs",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "Sappi's Senior Secured Debt / Bond Holders",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Development Finance Institutions (IFC, DBSA, etc.)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Viscose Rayon Demand Index / Fiber-Price Trends",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "ZAR/USD Currency Exchange Rate",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Sappi's Equity Shareholders / Institutional Investors",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche (South Africa / Global)",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche (South Africa / Global)",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "CAUD": {
+        "external_add": [
+          {
+            "name": "U.S. Federal Trade Commission (FTC) / Antitrust Enforcement",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators_compliance_overlay"
+          }
+        ]
+      },
+      "HAB": {
+        "external_add": [
+          {
+            "name": "U.S. Federal Trade Commission (FTC) / Antitrust Enforcement",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators_antitrust_overlay"
+          }
+        ]
+      }
+    }
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "neuralRegion": "AI",
+        "neuralRegionLabel": "Anterior Insula",
+        "businessSignature": "board_self_awareness_deficit",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_auditor_independence"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.405,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of board-interoception deficit via AI-equivalent self-monitoring-failure metric applied to internal-vs-external assessment divergence",
+            "noveltyAnchor": "Interoception framework for corporate governance diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research",
+              "SSRC Corporate Governance"
+            ],
+            "angle": "Quantitative board-interoception assessment tools"
+          },
+          "investment": {
+            "thesis": "Short companies with interoception-deficit signal; long post-board-restoration",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+            "methodology": "longitudinal intervention study"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p1",
+          "p3"
+        ],
+        "knownTreatments": [
+          "interoceptive exposure training",
+          "body-scan meditation",
+          "biofeedback",
+          "vagal nerve stimulation"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:01.916Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Method and system for detecting board self awareness deficit via Anterior Insula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting board self awareness deficit signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Anterior Insula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold. The method provides earlier and more specific detection of board self awareness deficit than conventional financial-distress models.",
+          "background": "Detection of board self awareness deficit in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting board self awareness deficit until well after the signature has been priced. Board self awareness deficit represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Anterior Insula (interoceptive exposure training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting board self awareness deficit signature comprises: receiving filing data and counterparty network data, determining a Anterior Insula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Interoception framework for corporate governance diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting board self awareness deficit signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Anterior Insula-equivalent decoupling score, wherein the determining the Anterior Insula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Anterior Insula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Anterior Insula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"interoceptive exposure training\", \"body-scan meditation\", and \"biofeedback\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Interoception framework for corporate governance diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.930Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "programs": [
+          "NACD research",
+          "SSRC Corporate Governance"
+        ],
+        "artifact": {
+          "title": "Translational Anterior Insula-equivalent detection and intervention protocols for board self awareness deficit",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit board self awareness deficit signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with board self awareness deficit-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Anterior Insula-equivalent isomorphic pathology significantly modulates board self awareness deficit detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Sappi Limited and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified board self awareness deficit signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects board self awareness deficit signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Anterior Insula-equivalent board self awareness deficit detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Anterior Insula isomorphic pathology will increase board self awareness deficit detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Anterior Insula-equivalent board self awareness deficit detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for board self awareness deficit against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Quantitative board-interoception assessment tools",
+          "innovation": "The proposed work is innovative because it integrates Anterior Insula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.930Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "side": "SHORT",
+        "horizon": "18-36mo",
+        "artifact": {
+          "header": "Sappi Limited (SAPJY) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase:     Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: AI_interoception_x_board_self_awareness_deficit (confidence 0.405)",
+          "variantView": "Consensus prices SAPJY for continued operational normalization — sell-side median EV/EBITDA of [CONSENSUS_VALUE] for FY+1, implying a stable margin and capital-allocation profile. We believe consensus is wrong on the board self awareness deficit signature: Sappi Limited's functional-network exhibits Anterior Insula-equivalent isomorphic pathology, (matched indicators: fn_auditor_independence) and the kernel reading is . The Street's model implicitly requires persistent capital discipline that the bridge pattern is incompatible with, which we view as unrealistic because the underlying pattern matches a known Anterior Insula pathology with documented intervention pathways.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Pulp, Paper & Paperboard Mills; Specialty Chemicals entities exhibiting board self awareness deficit: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Sappi Limited\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the board self awareness deficit pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Pulp, Paper & Paperboard Mills; Specialty Chemicals peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.405).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.405, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Pulp, Paper & Paperboard Mills; Specialty Chemicals; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition:  blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_auditor_independence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Anterior Insula ↔ board self awareness deficit mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Short companies with interoception-deficit signal; long post-board-restoration",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.930Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Empirical test of Anterior Insula-equivalent board self awareness deficit mapping on Sappi Limited",
+          "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+          "methodology": "longitudinal intervention study",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Anterior Insula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "AI_interoception_x_board_self_awareness_deficit"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.930Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.930Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

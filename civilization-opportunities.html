@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; OPPORTUNITY OBSERVATORY</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace;min-height:100%;width:100%;overflow-x:hidden}
+
+#obs-grid{display:grid;grid-template-rows:auto auto 1fr auto;min-height:100vh}
+
+#obs-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 16px;border-bottom:1px solid rgba(201,169,78,0.08);
+  background:rgba(5,8,16,0.95);position:sticky;top:0;z-index:100;
+}
+.obs-title{font-size:0.55rem;letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,78,0.55)}
+.obs-title a{color:rgba(201,169,78,0.45);text-decoration:none}
+.obs-title a:hover{color:rgba(201,169,78,0.9)}
+.obs-bc-sep{color:rgba(201,169,78,0.2);margin:0 6px}
+.obs-bc-active{color:rgba(201,169,78,0.85)}
+.obs-status{font-size:0.42rem;letter-spacing:1.5px;color:rgba(200,195,184,0.4)}
+
+#obs-filters{
+  padding:8px 16px;border-bottom:1px solid rgba(201,169,78,0.06);
+  background:rgba(5,8,16,0.85);position:sticky;top:34px;z-index:99;
+  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+}
+.obs-lane-btn{
+  font-family:inherit;font-size:0.42rem;letter-spacing:2px;text-transform:uppercase;
+  background:rgba(201,169,78,0.04);color:rgba(201,169,78,0.55);
+  border:1px solid rgba(201,169,78,0.12);border-radius:2px;
+  padding:4px 10px;cursor:pointer;transition:background 0.2s,color 0.2s,border-color 0.2s;
+}
+.obs-lane-btn:hover{background:rgba(201,169,78,0.10);color:rgba(201,169,78,0.85)}
+.obs-lane-btn.active{background:rgba(201,169,78,0.18);color:rgba(232,227,217,0.95);border-color:rgba(201,169,78,0.40)}
+.obs-filter-spacer{flex:1}
+.obs-search{
+  font-family:inherit;font-size:0.45rem;
+  background:rgba(8,9,12,0.70);color:rgba(232,227,217,0.85);
+  border:1px solid rgba(201,169,78,0.15);border-radius:2px;
+  padding:5px 8px;width:220px;
+}
+.obs-search:focus{outline:none;border-color:rgba(201,169,78,0.45)}
+
+#obs-body{padding:14px 18px 60px;max-width:1200px;margin:0 auto;width:100%}
+
+.obs-empty{
+  font-size:0.55rem;letter-spacing:2px;color:rgba(200,195,184,0.45);
+  text-align:center;padding:64px 24px;line-height:1.8;
+}
+.obs-empty .obs-empty-sub{font-size:0.42rem;color:rgba(200,195,184,0.30);margin-top:8px;letter-spacing:1.5px}
+
+.obs-domain-group{margin-bottom:18px;border:1px solid rgba(201,169,78,0.08);border-radius:2px;background:rgba(8,9,12,0.50)}
+.obs-domain-head{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;
+  border-bottom:1px solid rgba(201,169,78,0.06);user-select:none;
+}
+.obs-domain-head:hover{background:rgba(201,169,78,0.04)}
+.obs-domain-arrow{font-size:0.5rem;color:rgba(201,169,78,0.50);min-width:12px}
+.obs-domain-name{font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,78,0.75);flex:1}
+.obs-domain-count{font-size:0.42rem;letter-spacing:1.5px;color:rgba(200,195,184,0.40)}
+.obs-domain-body{padding:8px 14px 14px;display:none}
+.obs-domain-group.expanded .obs-domain-body{display:block}
+.obs-domain-group.expanded .obs-domain-arrow{transform:rotate(0deg)}
+
+.obs-card{
+  margin:8px 0;padding:10px 12px;border-left:2px solid rgba(201,169,78,0.20);
+  background:rgba(0,0,0,0.20);border-radius:2px;line-height:1.55;
+}
+.obs-card-head{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:4px}
+.obs-card-lane{
+  font-size:0.36rem;letter-spacing:1.8px;padding:2px 6px;border-radius:2px;
+  text-transform:uppercase;border:1px solid currentColor;
+}
+.lane-PATENTABLE{color:rgba(201,169,78,0.85)}
+.lane-GRANT-ELIGIBLE{color:rgba(74,170,106,0.80)}
+.lane-INVESTABLE{color:rgba(74,143,212,0.85)}
+.lane-BUSINESS{color:rgba(212,168,74,0.85)}
+.lane-LOAN\/INFRASTRUCTURE{color:rgba(180,150,200,0.85)}
+.lane-UNCLASSIFIED{color:rgba(200,195,184,0.50)}
+.obs-card-title{font-size:0.50rem;color:rgba(232,227,217,0.92);flex:1;min-width:0}
+.obs-card-urgency{font-size:0.36rem;letter-spacing:1.5px;color:rgba(232,84,84,0.70)}
+.obs-card-urgency.WATCHING,.obs-card-urgency.WATCH{color:rgba(200,195,184,0.50)}
+.obs-card-urgency.ACTIVE{color:rgba(212,168,74,0.85)}
+.obs-card-meta{font-size:0.40rem;color:rgba(200,195,184,0.45);letter-spacing:1px;margin-top:2px}
+.obs-card-meta b{color:rgba(232,227,217,0.75);font-weight:normal}
+.obs-card-why{font-size:0.42rem;color:rgba(200,195,184,0.65);margin-top:4px;font-style:italic}
+.obs-card-explain{font-size:0.42rem;color:rgba(200,195,184,0.55);margin-top:3px}
+.obs-card-action{font-size:0.42rem;color:rgba(74,170,106,0.65);margin-top:3px}
+
+.obs-card-tools{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.obs-deep-btn{
+  font-family:inherit;font-size:0.36rem;letter-spacing:1.5px;text-transform:uppercase;
+  background:rgba(201,169,78,0.05);color:rgba(201,169,78,0.65);
+  border:1px solid rgba(201,169,78,0.15);border-radius:2px;
+  padding:3px 8px;cursor:pointer;transition:background 0.2s,color 0.2s;
+}
+.obs-deep-btn:hover{background:rgba(201,169,78,0.12);color:rgba(232,227,217,0.85)}
+.obs-deep-btn:disabled{cursor:default;opacity:0.55}
+
+.obs-deep-panel{
+  margin-top:8px;padding:8px 10px;border-left:2px solid rgba(74,143,212,0.30);
+  background:rgba(0,0,0,0.30);font-size:0.40rem;color:rgba(200,195,184,0.65);
+  line-height:1.6;display:none;
+}
+.obs-deep-panel.shown{display:block}
+.obs-deep-status{color:rgba(74,143,212,0.75);letter-spacing:1.5px}
+.obs-deep-fallback{color:rgba(200,195,184,0.40);font-style:italic}
+.obs-deep-falsify{color:rgba(232,84,84,0.65);margin-top:4px}
+.obs-deep-meta{color:rgba(200,195,184,0.55);margin-top:4px}
+.obs-deep-grades{margin-top:4px}
+.obs-deep-grade{
+  display:inline-block;font-size:0.36rem;letter-spacing:1px;
+  background:rgba(201,169,78,0.08);color:rgba(201,169,78,0.75);
+  border:1px solid rgba(201,169,78,0.20);border-radius:2px;
+  padding:1px 5px;margin:2px 3px 2px 0;
+}
+.obs-deep-treatments{margin-top:6px}
+.obs-deep-treatment{font-size:0.40rem;color:rgba(200,195,184,0.70);padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.20)}
+.obs-deep-treatment b{color:rgba(74,170,106,0.80);font-weight:normal;letter-spacing:1px}
+.obs-deep-treatment-more{font-size:0.38rem;color:rgba(200,195,184,0.40);padding:3px 0;font-style:italic}
+
+.obs-art-btn{
+  font-family:inherit;font-size:0.34rem;letter-spacing:1.2px;text-transform:uppercase;
+  background:rgba(8,9,12,0.40);color:rgba(200,195,184,0.50);
+  border:1px solid rgba(201,169,78,0.10);border-radius:2px;
+  padding:3px 7px;cursor:pointer;transition:background 0.15s,color 0.15s,border-color 0.15s;
+}
+.obs-art-btn:hover{background:rgba(201,169,78,0.06);color:rgba(232,227,217,0.78);border-color:rgba(201,169,78,0.22)}
+.obs-art-notice{font-size:0.36rem;color:rgba(200,195,184,0.40);font-style:italic;margin-top:4px}
+.obs-art-msg{padding:4px 0;letter-spacing:0.5px}
+
+#obs-footer{
+  border-top:1px solid rgba(201,169,78,0.06);background:rgba(5,8,16,0.95);
+  padding:6px 14px;font-size:0.38rem;letter-spacing:1.2px;
+  color:rgba(200,195,184,0.30);text-align:center;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     AUTH GATE + RUNTIME SCRIPTS
+     This script set mirrors civilization.html so the same brain pipeline
+     runs on this page and populates window.LIMENDomainBrains. The
+     Observatory aggregator subscribes to that registry; it does not
+     re-derive any brain output.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<script src="assets/js/auth-gate.js"></script>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+<script src="assets/js/limen-fast-boot.js"></script>
+
+<div id="obs-grid">
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+
+  <div id="obs-filters">
+    <button class="obs-lane-btn active" data-lane="ALL">All</button>
+    <button class="obs-lane-btn" data-lane="PATENTABLE">Patent</button>
+    <button class="obs-lane-btn" data-lane="GRANT-ELIGIBLE">Grant</button>
+    <button class="obs-lane-btn" data-lane="INVESTABLE">Investment</button>
+    <button class="obs-lane-btn" data-lane="BUSINESS">Business / SBA</button>
+    <button class="obs-lane-btn" data-lane="LOAN/INFRASTRUCTURE">Loan / Infra</button>
+    <button class="obs-lane-btn" data-lane="RESEARCH">Research</button>
+    <button class="obs-lane-btn" data-lane="REGULATORY">Regulatory</button>
+    <button class="obs-lane-btn" data-lane="OPERATOR">Operator Work Order</button>
+    <span class="obs-filter-spacer"></span>
+    <input class="obs-search" type="text" id="obs-search" placeholder="search title or domain&hellip;">
+  </div>
+
+  <div id="obs-body">
+    <div class="obs-empty" id="obs-empty">
+      Brains warming up; waiting for domain packets.
+      <div class="obs-empty-sub">first cycle completes in ~30 seconds</div>
+    </div>
+    <div id="obs-domains"></div>
+  </div>
+
+  <div id="obs-footer">LIMEN HELIX &middot; OPPORTUNITY OBSERVATORY &middot; deep proof loads only on explicit expansion</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     RUNTIME PIPELINE — same set as civilization.html so brains populate.
+     This is opportunity-source data only; the Observatory does not
+     re-derive any of it.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/phase-estimator.js"></script>
+<script src="assets/js/feed-store.js"></script>
+<script src="assets/js/feed-state.js"></script>
+<script src="assets/js/panel-state-manager.js"></script>
+<script src="assets/js/shared-snapshot-engine.js"></script>
+<script>if(window.LIMENSharedSnapshot)window.LIMENSharedSnapshot.start();</script>
+<script src="assets/js/domain-signal-engine.js"></script>
+<script src="assets/js/world-signal-ingestor.js" defer></script>
+<script src="assets/js/cross-domain-detector.js"></script>
+<script src="assets/js/domain-connectome-map.js" defer></script>
+<script src="assets/js/global-state-engine.js" defer></script>
+<script src="assets/js/self-health-monitor.js" defer></script>
+<script src="assets/js/schema/fractal-report-schema.js" defer></script>
+<script src="assets/js/schema/company-portal-schema.js" defer></script>
+<script src="assets/js/remedy/limen-remedy-registry.js"></script>
+<script src="assets/js/recommendations/remedy-resolver.js"></script>
+<script src="assets/js/portal/gap-synthesis-templates.js"></script>
+<script src="assets/js/portal/limen-gap-synthesis-engine.js"></script>
+<script src="assets/js/domain-biosensor-adapter.js"></script>
+<script src="assets/js/domain-brains/domain-brain-base.js"></script>
+<script src="assets/js/domain-brains/portal-content-resolver.js"></script>
+<script src="assets/js/domain-brains/inter-brain-bus.js"></script>
+<script src="assets/js/domain-brains/domain-change-log.js"></script>
+<script src="assets/js/domain-brains/energy-brain.js"></script>
+<script src="assets/js/domain-brains/finance-brain.js"></script>
+<script src="assets/js/domain-brains/defense-brain.js"></script>
+<script src="assets/js/domain-brains/trade-brain.js"></script>
+<script src="assets/js/domain-brains/medicine-brain.js"></script>
+<script src="assets/js/domain-brains/agriculture-brain.js"></script>
+<script src="assets/js/domain-brains/communication-brain.js"></script>
+<script src="assets/js/domain-brains/culture-brain.js"></script>
+<script src="assets/js/domain-brains/economy-brain.js"></script>
+<script src="assets/js/domain-brains/education-brain.js"></script>
+<script src="assets/js/domain-brains/environment-brain.js"></script>
+<script src="assets/js/domain-brains/governance-brain.js"></script>
+<script src="assets/js/domain-brains/industry-brain.js"></script>
+<script src="assets/js/domain-brains/infrastructure-brain.js"></script>
+<script src="assets/js/domain-brains/intelligence-brain.js"></script>
+<script src="assets/js/domain-brains/law-brain.js"></script>
+<script src="assets/js/domain-brains/population-brain.js"></script>
+<script src="assets/js/domain-brains/religion-brain.js"></script>
+<script src="assets/js/domain-brains/science-brain.js"></script>
+<script src="assets/js/domain-brains/technology-brain.js"></script>
+<script src="assets/js/domain-brain-adapter.js"></script>
+<script src="assets/js/domain-registry.js"></script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OBSERVATORY (Commit A aggregator + deep-proof, Commit B UI)
+     ═══════════════════════════════════════════════════════════════════════ -->
+<script src="assets/js/civilization/observatory-aggregator.js"></script>
+<script src="assets/js/civilization/observatory-deep-proof.js"></script>
+<script src="assets/js/executive/limen-exec-generator.js"></script>
+<script src="assets/js/civilization/observatory-ui.js"></script>
+
+</body>
+</html>

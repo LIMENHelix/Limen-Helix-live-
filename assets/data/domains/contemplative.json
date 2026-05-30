@@ -1,0 +1,2051 @@
+{
+  "domainId": "contemplative",
+  "title": "Contemplative Practice",
+  "parentPortal": "clinical.html",
+  "parentLabel": "Clinical",
+  "phase": "P4",
+  "activations": [
+    {
+      "brainNodeId": "AI",
+      "state": "active",
+      "domainLabel": "Interoceptive Awareness",
+      "domainDescription": "Real-time sensing of internal bodily states during practice",
+      "domainFunction": "Monitors breath, heartbeat, gut sensation, and proprioceptive signals as primary meditation objects",
+      "whyThisNode": "Anterior insula is the brain's primary interoceptive hub — it thickens measurably with contemplative practice (Lazar et al. 2005)",
+      "group": "interoceptive",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "SOMATIC_DISTRESS",
+        "DISSOCIATION_MEDITATION",
+        "EMOTIONAL_FLOODING"
+      ],
+      "treatments": [
+        {
+          "label": "Graded interoceptive exposure",
+          "type": "STRUCTURAL",
+          "description": "Titrate body-awareness practices from neutral zones to challenging areas, building tolerance progressively",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Body-scan calibration assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Map interoceptive sensitivity across body regions to identify hyper- and hypo-aware zones",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "contemplative_interoception_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Interoceptive Awareness",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay"
+        },
+        {
+          "domain": "business",
+          "role": "Crisis Detection"
+        },
+        {
+          "domain": "economy",
+          "role": "Services Sector"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Risk Detection"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Interoceptive Metabolic Sensing"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Interoception & Sensory Awareness"
+        },
+        {
+          "domain": "population",
+          "role": "Population Density"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Intuition / Pattern Recognition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Attentional Control",
+      "domainDescription": "Conflict monitoring and sustained attention regulation in practice",
+      "domainFunction": "Detects mind-wandering, flags distractions, and recruits corrective focus back to the meditation object",
+      "whyThisNode": "Dorsal ACC is the conflict monitor that fires when attention drifts — the neural basis of noticing distraction in meditation",
+      "group": "attention_regulation",
+      "phase": "P4",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "ATTENTION_INSTABILITY",
+        "CHRONIC_RUMINATION"
+      ],
+      "treatments": [
+        {
+          "label": "Focused attention scaffolding",
+          "type": "STRUCTURAL",
+          "description": "Begin with short 5-minute sits using counting breaths, gradually extend duration as stability builds",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Attentional stability assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Track breath-count accuracy and distraction frequency over sessions to quantify attentional capacity",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "contemplative_attentional_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Attentional Control",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        },
+        {
+          "domain": "industry",
+          "role": "Quality Control"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Default Mode / Self-Referential Processing",
+      "domainDescription": "Narrative self, mind-wandering, and autobiographical rumination",
+      "domainFunction": "Generates the ongoing stream of self-referential thought that meditation practices aim to observe or quiet",
+      "whyThisNode": "DMN suppression is the most replicated finding across all meditation neuroimaging — it quiets in experienced meditators even at rest (Brewer et al. 2011)",
+      "group": "default_mode",
+      "phase": "P4",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "CHRONIC_RUMINATION",
+        "DISSOCIATION_MEDITATION",
+        "SPIRITUAL_EMERGENCY"
+      ],
+      "treatments": [
+        {
+          "label": "Noting practice protocol",
+          "type": "STRUCTURAL",
+          "description": "Label thought-streams as 'thinking' without engaging content to decouple identification from DMN output",
+          "evidence": "Strong"
+        },
+        {
+          "label": "DMN reactivity mapping",
+          "type": "DIAGNOSTIC",
+          "description": "Identify specific self-referential themes (regret, planning, identity) that hijack attention most frequently",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "contemplative_default_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Default Mode / Self-Referential Proce...",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        },
+        {
+          "domain": "religion",
+          "role": "Theological Doctrine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "mPFC",
+      "state": "active",
+      "domainLabel": "Self-Model Integration",
+      "domainDescription": "Medial prefrontal representation of the self-concept in practice",
+      "domainFunction": "Maintains the sense of a continuous self that contemplative practice gradually loosens or transforms",
+      "whyThisNode": "mPFC is the core DMN hub for self-referential processing — its deactivation correlates with ego dissolution experiences",
+      "group": "default_mode",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "SPIRITUAL_EMERGENCY",
+        "DISSOCIATION_MEDITATION"
+      ],
+      "treatments": [
+        {
+          "label": "Graded self-inquiry protocol",
+          "type": "STRUCTURAL",
+          "description": "Progressive self-inquiry from biographical to phenomenological to non-dual, with teacher guidance at each stage",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Self-concept stability screening",
+          "type": "DIAGNOSTIC",
+          "description": "Assess ego-integrity before intensive retreat practice to identify vulnerability to destabilization",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "contemplative_selfmodel_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Self-Model Integration",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Addictive Identity Narrative"
+        },
+        {
+          "domain": "business",
+          "role": "Brand & Identity"
+        },
+        {
+          "domain": "legal",
+          "role": "Constitutional Identity / Rule of Law"
+        },
+        {
+          "domain": "medicine",
+          "role": "Primary Care"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Cognition & Self-Reference"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Self-Referential Processing Hub"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Diagnostic Analysis"
+        },
+        {
+          "domain": "culture",
+          "role": "Social Identity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PCC",
+      "state": "active",
+      "domainLabel": "Experiential Self-Awareness",
+      "domainDescription": "Posterior cingulate processing of self-relevance and attachment",
+      "domainFunction": "Evaluates how personally relevant or 'mine' an experience feels — the grasping function that practice loosens",
+      "whyThisNode": "PCC deactivation tracks with the felt sense of 'letting go' in meditation — it anchors the sense of self-as-experiencer",
+      "group": "default_mode",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "CHRONIC_RUMINATION",
+        "EMOTIONAL_FLOODING"
+      ],
+      "treatments": [
+        {
+          "label": "Non-attachment cultivation",
+          "type": "STRUCTURAL",
+          "description": "Practice observing pleasant and unpleasant sensations with equanimity, reducing PCC grasping response",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Attachment pattern assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Map which experience types trigger strongest grasping or aversion reactions during sits",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "contemplative_experiential_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Experiential Self-Awareness",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "medicine",
+          "role": "Telehealth"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Autobiographical Memory Loop"
+        },
+        {
+          "domain": "religion",
+          "role": "Meditation & Contemplation"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Core Operations"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Technology & Innovation"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Policy & Governance"
+        },
+        {
+          "domain": "economy",
+          "role": "Protocol Development Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Executive Attention",
+      "domainDescription": "Top-down attentional control and working memory in practice",
+      "domainFunction": "Maintains the intention to meditate, holds instructions in working memory, and executes deliberate attention shifts",
+      "whyThisNode": "dlPFC is heavily recruited in early-stage focused attention practice, then progressively less needed as practice deepens",
+      "group": "attention_regulation",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "ATTENTION_INSTABILITY",
+        "CHRONIC_RUMINATION"
+      ],
+      "treatments": [
+        {
+          "label": "Concentration-to-openness progression",
+          "type": "STRUCTURAL",
+          "description": "Structured transition from focused attention (high dlPFC) to open monitoring (low dlPFC) across months of practice",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Executive load assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate whether practitioner is over-efforting via dlPFC strain versus allowing natural awareness",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "contemplative_executive_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Executive Attention",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Urban Planning"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Emotional Valuation",
+      "domainDescription": "Evaluation of emotional significance and fear extinction in practice",
+      "domainFunction": "Processes the emotional meaning of arising experiences and supports fear extinction through repeated safe exposure",
+      "whyThisNode": "vmPFC mediates fear extinction and emotional reappraisal — key to how meditation reduces threat-reactivity over time",
+      "group": "emotional_regulation",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "EMOTIONAL_FLOODING",
+        "SOMATIC_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "Compassion-based emotional regulation",
+          "type": "STRUCTURAL",
+          "description": "Cultivate metta and self-compassion to strengthen vmPFC regulatory capacity over amygdala reactivity",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Emotional trigger mapping",
+          "type": "DIAGNOSTIC",
+          "description": "Identify recurrent emotional themes arising in practice that overwhelm regulatory capacity",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "contemplative_emotional_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Emotional Valuation",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        },
+        {
+          "domain": "legal",
+          "role": "Judicial Temperament / Equity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BLA",
+      "state": "active",
+      "domainLabel": "Threat / Fear Processing",
+      "domainDescription": "Amygdala reactivity to perceived threats arising during practice",
+      "domainFunction": "Generates fear and threat responses to memories, sensations, or states that emerge during deep practice",
+      "whyThisNode": "Amygdala reactivity decreases with meditation practice duration (Desbordes et al. 2012) — a core mechanism of contemplative benefit",
+      "group": "emotional_regulation",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "EMOTIONAL_FLOODING",
+        "SPIRITUAL_EMERGENCY",
+        "SOMATIC_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "Trauma-sensitive meditation protocol",
+          "type": "IMMEDIATE",
+          "description": "Modified practice with eyes open, choice of posture, and permission to stop — prevents amygdala flooding",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Threat reactivity screening",
+          "type": "DIAGNOSTIC",
+          "description": "Pre-retreat assessment of trauma history and amygdala reactivity to determine practice modifications needed",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "contemplative_threat_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Threat / Fear Processing",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver"
+        },
+        {
+          "domain": "business",
+          "role": "Risk Assessment"
+        },
+        {
+          "domain": "economy",
+          "role": "Debt Markets"
+        },
+        {
+          "domain": "environment",
+          "role": "Wildlife Management"
+        },
+        {
+          "domain": "legal",
+          "role": "Criminal Threat Assessment"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Metabolic Anxiety and Threat"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Threat Detection & Emotional Reactivity"
+        },
+        {
+          "domain": "provider",
+          "role": "Risk Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Serotonergic Tone",
+      "domainDescription": "Serotonin system modulation through sustained practice",
+      "domainFunction": "Regulates mood baseline, equanimity, and the sense of well-being that deepens with regular practice",
+      "whyThisNode": "Raphe serotonin output increases with meditation practice — serotonin underlies the equanimity and mood stability cultivated",
+      "group": "serotonergic",
+      "phase": "P4",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "CHRONIC_RUMINATION",
+        "EMOTIONAL_FLOODING"
+      ],
+      "treatments": [
+        {
+          "label": "Consistent daily practice schedule",
+          "type": "STRUCTURAL",
+          "description": "Establish twice-daily 20-minute practice rhythm to build stable serotonergic tone over weeks",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Mood baseline tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Track pre- and post-sit mood states over 30 days to quantify serotonergic benefit trajectory",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Serotonergic Tone",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Serotonergic Mood Regulation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Serotonergic Metabolic Modulation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Raphe Nuclei"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Serotonin System Development"
+        },
+        {
+          "domain": "population",
+          "role": "Aging Population"
+        },
+        {
+          "domain": "provider",
+          "role": "System Morale / Well-Being"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Serotonergic Reset Center"
+        },
+        {
+          "domain": "religion",
+          "role": "Mystical Experience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Sensory Gating",
+      "domainDescription": "Thalamic filtering of sensory input during contemplative states",
+      "domainFunction": "Modulates the flow of sensory information to cortex — either reducing external input (absorption) or enhancing it (open monitoring)",
+      "whyThisNode": "Thalamus controls the gate between external sensation and conscious awareness — its modulation defines different meditation states",
+      "group": "attention_regulation",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "DISSOCIATION_MEDITATION",
+        "SOMATIC_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "Sensory grounding anchors",
+          "type": "IMMEDIATE",
+          "description": "Use external sensory anchors (sound, touch) when internal practice triggers dissociative gating shutdown",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Absorption depth monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Track loss of external awareness during sits to detect unhealthy dissociative versus healthy absorptive states",
+          "evidence": "Emerging"
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Sensory Gating",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        },
+        {
+          "domain": "medicine",
+          "role": "Neurology"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Memory Reconsolidation",
+      "domainDescription": "Hippocampal processing of autobiographical memories during practice",
+      "domainFunction": "Retrieves and reconsolidates memories that arise during meditation, enabling new emotional contexts for old material",
+      "whyThisNode": "Hippocampal theta during meditation facilitates memory reconsolidation — a mechanism for processing traumatic material safely",
+      "group": "emotional_regulation",
+      "phase": "P4",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "EMOTIONAL_FLOODING",
+        "SPIRITUAL_EMERGENCY"
+      ],
+      "treatments": [
+        {
+          "label": "Integration journaling protocol",
+          "type": "STRUCTURAL",
+          "description": "Post-sit journaling to process autobiographical material that emerged, supporting reconsolidation",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Memory intrusion frequency tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Monitor frequency and intensity of unbidden memory content during practice to detect overwhelm risk",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Memory Reconsolidation",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        },
+        {
+          "domain": "legal",
+          "role": "Precedent / Legal Memory"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SN",
+      "state": "active",
+      "domainLabel": "Salience Network Switching",
+      "domainDescription": "Switching between internal and external attention modes",
+      "domainFunction": "Toggles between task-positive and default mode networks — the switch that contemplative practice trains",
+      "whyThisNode": "Salience network mediates the switch between DMN and ECN — meditation trains this switching capacity, improving attentional flexibility",
+      "group": "attention_regulation",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "ATTENTION_INSTABILITY",
+        "DISSOCIATION_MEDITATION"
+      ],
+      "treatments": [
+        {
+          "label": "Alternating practice modes",
+          "type": "STRUCTURAL",
+          "description": "Alternate focused attention and open monitoring within sessions to exercise salience network flexibility",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Network switching assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate ease of transitioning between practice styles to gauge salience network health",
+          "evidence": "Emerging"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Salience Network Switching",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Sanctions"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator — Adaptation & Self-Healing — Secondary Node"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Adaptation & Learning — Secondary"
+        },
+        {
+          "domain": "culture",
+          "role": "Hospitality Design Technology & Innovation"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power — State Assessment"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Policy & Governance"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — Adaptation & Learning — Secondary"
+        },
+        {
+          "domain": "energy",
+          "role": "flow design — Signal Acquisition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMN",
+      "state": "active",
+      "domainLabel": "Somatic Awareness Network",
+      "domainDescription": "Somatosensory processing of body sensation in practice",
+      "domainFunction": "Processes the body-level sensations that form the primary objects of many contemplative practices",
+      "whyThisNode": "Somatomotor network thickens in long-term Zen practitioners (Grant et al. 2010) — body awareness is a core contemplative skill",
+      "group": "somatic",
+      "phase": "P4",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "SOMATIC_DISTRESS",
+        "DISSOCIATION_MEDITATION"
+      ],
+      "treatments": [
+        {
+          "label": "Progressive body scanning protocol",
+          "type": "STRUCTURAL",
+          "description": "Systematic sweeping attention through body regions to develop granular somatic awareness",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Somatic distress screening",
+          "type": "DIAGNOSTIC",
+          "description": "Screen for unusual somatic phenomena (energy surges, involuntary movement) that indicate kundalini-type activation",
+          "evidence": "Emerging"
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Somatic Awareness Network",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Workforce Dev"
+        },
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "captioning styling — Signal Acquisition"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Air Power — Diagnostic Analysis"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Core Operations"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Recycling Quality & Performance"
+        },
+        {
+          "domain": "environment",
+          "role": "Air Quality Standards Policy & Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OSC",
+      "state": "active",
+      "domainLabel": "Neural Oscillation Patterns",
+      "domainDescription": "Brainwave entrainment and coherence during practice",
+      "domainFunction": "Generates and coordinates the alpha, theta, and gamma oscillations that characterize different contemplative states",
+      "whyThisNode": "Gamma coherence increases dramatically in experienced meditators (Lutz et al. 2004) — oscillations are the signature of contemplative state shifts",
+      "group": "plasticity",
+      "phase": "P4",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "ATTENTION_INSTABILITY",
+        "DISSOCIATION_MEDITATION"
+      ],
+      "treatments": [
+        {
+          "label": "Rhythmic practice foundations",
+          "type": "STRUCTURAL",
+          "description": "Use mantra, chanting, or breath-counting to entrain stable oscillatory patterns as foundation for deeper practice",
+          "evidence": "Strong"
+        },
+        {
+          "label": "EEG neurofeedback integration",
+          "type": "DIAGNOSTIC",
+          "description": "Optional neurofeedback to verify alpha-theta crossover and gamma coherence during practice sessions",
+          "evidence": "Emerging"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Neural Oscillation Patterns",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "neurology",
+          "role": "Neural Oscillations"
+        },
+        {
+          "domain": "communication",
+          "role": "Change Management Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture Performance & Optimization"
+        },
+        {
+          "domain": "defense",
+          "role": "Aircraft Readiness Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Resource Mobilization Operations"
+        },
+        {
+          "domain": "education",
+          "role": "Essay Evaluation Assessment & Diagnostics"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Assessment & Diagnostics"
+        },
+        {
+          "domain": "environment",
+          "role": "Tropospheric Ozone Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Neuroplasticity Signaling",
+      "domainDescription": "BDNF-mediated structural brain changes from sustained practice",
+      "domainFunction": "Drives the cortical thickening and synaptic remodeling that encodes contemplative skills as lasting neural changes",
+      "whyThisNode": "BDNF is the molecular mechanism behind meditation-induced cortical thickening and enhanced connectivity (Cahn et al. 2017)",
+      "group": "plasticity",
+      "phase": "P4",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "ATTENTION_INSTABILITY"
+      ],
+      "treatments": [
+        {
+          "label": "Long-term practice commitment",
+          "type": "STRUCTURAL",
+          "description": "Sustained daily practice over months to years is required for BDNF-mediated structural changes to consolidate",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Complementary aerobic exercise",
+          "type": "STRUCTURAL",
+          "description": "Regular aerobic exercise synergistically boosts BDNF alongside contemplative practice",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Neuroplasticity Signaling",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Neuroplastic Recovery Factor"
+        },
+        {
+          "domain": "medicine",
+          "role": "Rehabilitation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Neurotrophic Metabolic Protection"
+        },
+        {
+          "domain": "neurology",
+          "role": "Brain-Derived Neurotrophic Factor"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Neuroplasticity Window"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Feedback & Validation — Primary"
+        },
+        {
+          "domain": "culture",
+          "role": "Digital Cult"
+        },
+        {
+          "domain": "defense",
+          "role": "Bomber Aircraft Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VV",
+      "state": "active",
+      "domainLabel": "Vagal Tone / Parasympathetic",
+      "domainDescription": "Ventral vagal complex regulating rest-and-digest during practice",
+      "domainFunction": "Activates the parasympathetic calming response that deepens with breath-focused and compassion practices",
+      "whyThisNode": "Vagal tone (HRV) increases significantly with metta and breath meditation (Kok et al. 2013) — the body's calming axis",
+      "group": "autonomic",
+      "phase": "P4",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "SOMATIC_DISTRESS",
+        "EMOTIONAL_FLOODING"
+      ],
+      "treatments": [
+        {
+          "label": "Resonant frequency breathing",
+          "type": "IMMEDIATE",
+          "description": "Breath at 5.5 breaths per minute to maximize vagal tone and HRV — immediate physiological calming",
+          "evidence": "Strong"
+        },
+        {
+          "label": "HRV baseline tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Track resting HRV over weeks to quantify autonomic benefit of contemplative practice",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Vagal Tone / Parasympathetic",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "metabolic",
+          "role": "Vagal Metabolic Afferents"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Ventral Vagal Restoration"
+        },
+        {
+          "domain": "religion",
+          "role": "Relmedia"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Ecological Design — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Portfolio Review Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Perspective-Taking / Theory of Mind",
+      "domainDescription": "Self-other boundary processing in compassion practices",
+      "domainFunction": "Enables the shift from self-focused to other-focused awareness in metta and tonglen practices",
+      "whyThisNode": "TPJ activates strongly in loving-kindness meditation (Klimecki et al. 2014) — it mediates the self-other boundary critical to compassion",
+      "group": "emotional_regulation",
+      "phase": "P4",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "DISSOCIATION_MEDITATION",
+        "SPIRITUAL_EMERGENCY"
+      ],
+      "treatments": [
+        {
+          "label": "Compassion practice progression",
+          "type": "STRUCTURAL",
+          "description": "Structured metta from self to loved ones to neutral to difficult persons, building TPJ capacity progressively",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Self-other boundary assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate whether practitioner maintains healthy self-other distinction versus merger or disconnection",
+          "evidence": "Moderate"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Perspective-Taking / Theory of Mind",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        },
+        {
+          "domain": "provider",
+          "role": "Patient Perspective-Taking"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Spatial Self-Awareness",
+      "domainDescription": "First-person spatial perspective and self-consciousness",
+      "domainFunction": "Maintains the spatial sense of being a located observer — disrupted in ego-dissolution and unitive experiences",
+      "whyThisNode": "Precuneus deactivation correlates with self-boundary dissolution in deep meditation and psilocybin states",
+      "group": "default_mode",
+      "phase": "P4",
+      "weight": 0.7,
+      "diagnosticTriggers": [
+        "SPIRITUAL_EMERGENCY",
+        "DISSOCIATION_MEDITATION"
+      ],
+      "treatments": [
+        {
+          "label": "Grounding after deep sits",
+          "type": "IMMEDIATE",
+          "description": "Walking meditation or body movement after deep absorption to re-engage spatial self-awareness safely",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Depersonalization screening",
+          "type": "DIAGNOSTIC",
+          "description": "Screen for persistent depersonalization or derealization outside of formal practice sessions",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Spatial Self-Awareness",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Library Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Sustainability"
+        },
+        {
+          "domain": "medicine",
+          "role": "Addiction Medicine"
+        },
+        {
+          "domain": "religion",
+          "role": "Prophecy & Revelation"
+        },
+        {
+          "domain": "science",
+          "role": "Theoretical Physics"
+        },
+        {
+          "domain": "technology",
+          "role": "Quantum Computing"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Easy-Read Formats — Regulation Strategy"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Endogenous Analgesic System",
+      "domainDescription": "Pain modulation and endorphin release during sustained practice",
+      "domainFunction": "Mediates the pain tolerance and endogenous opioid release that occurs in sustained sitting and breathwork",
+      "whyThisNode": "Zen meditators show increased pain tolerance mediated through PAG — they process pain without the suffering overlay (Grant et al. 2011)",
+      "group": "somatic",
+      "phase": "P4",
+      "weight": 0.65,
+      "diagnosticTriggers": [
+        "SOMATIC_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "Pain reappraisal training",
+          "type": "STRUCTURAL",
+          "description": "Practice observing pain sensation as impersonal process rather than threat, engaging PAG-mediated analgesic response",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Posture and pain assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Distinguish between healthy postural discomfort and pathological pain requiring medical attention",
+          "evidence": "Strong"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Endogenous Analgesic System",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Pain-Defense Gate"
+        },
+        {
+          "domain": "energy",
+          "role": "Nuclear Power"
+        },
+        {
+          "domain": "neurology",
+          "role": "Periaqueductal Gray"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Defense Cascade Modulation"
+        },
+        {
+          "domain": "communication",
+          "role": "Specialized Translation Quality & Performance"
+        },
+        {
+          "domain": "culture",
+          "role": "Landscape Architecture Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Nuclear Deterrence"
+        },
+        {
+          "domain": "economy",
+          "role": "Rural Development Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Arousal Regulation",
+      "domainDescription": "Locus coeruleus noradrenergic modulation during practice",
+      "domainFunction": "Regulates alertness level — balancing the alert wakefulness needed for practice against drowsiness and agitation",
+      "whyThisNode": "LC norepinephrine output modulates the alert-calm balance that contemplative practice optimizes — neither agitated nor dull",
+      "group": "autonomic",
+      "phase": "P4",
+      "weight": 0.65,
+      "diagnosticTriggers": [
+        "ATTENTION_INSTABILITY",
+        "SOMATIC_DISTRESS"
+      ],
+      "treatments": [
+        {
+          "label": "Arousal calibration techniques",
+          "type": "STRUCTURAL",
+          "description": "Use breath rate and posture adjustments to find optimal arousal: upright and alert without tension",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Drowsiness versus agitation tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Track ratio of dull versus agitated sits to calibrate practice intensity and timing",
+          "evidence": "Emerging"
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Arousal Regulation",
+      "brainNodeLabelCanonical": "Contemplative Practice",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Noradrenergic Withdrawal Storm"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Noradrenergic Metabolic Arousal"
+        },
+        {
+          "domain": "neurology",
+          "role": "Locus Coeruleus"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Arousal Regulation & Hypervigilance"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Policy & Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "Park Design Assessment & Diagnostics"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Risk & Resilience"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness — State Assessment"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "dACC",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Attentional control monitors interoceptive signals"
+    },
+    {
+      "from": "dACC",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Conflict detection recruits executive attention"
+    },
+    {
+      "from": "SN",
+      "to": "DMN",
+      "type": "inhib",
+      "weight": 0.9,
+      "label": "Salience network suppresses default mode wandering"
+    },
+    {
+      "from": "SN",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Salience switching activates executive focus"
+    },
+    {
+      "from": "DMN",
+      "to": "mPFC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Default mode drives self-referential processing"
+    },
+    {
+      "from": "DMN",
+      "to": "PCC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Default mode sustains experiential self-awareness"
+    },
+    {
+      "from": "mPFC",
+      "to": "PRECUNEUS",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Self-model integrates with spatial self-awareness"
+    },
+    {
+      "from": "vmPFC",
+      "to": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Emotional regulation suppresses threat reactivity"
+    },
+    {
+      "from": "AI",
+      "to": "SMN",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Interoception informs somatic awareness network"
+    },
+    {
+      "from": "AI",
+      "to": "VV",
+      "type": "modul",
+      "weight": 0.75,
+      "label": "Interoceptive awareness modulates vagal tone"
+    },
+    {
+      "from": "RAPHE",
+      "to": "vmPFC",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Serotonergic tone supports emotional regulation"
+    },
+    {
+      "from": "RAPHE",
+      "to": "DMN",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Serotonin modulates default mode activity"
+    },
+    {
+      "from": "THAL",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Sensory gate feeds interoceptive processing"
+    },
+    {
+      "from": "THAL",
+      "to": "OSC",
+      "type": "modul",
+      "weight": 0.75,
+      "label": "Thalamic gating shapes oscillation patterns"
+    },
+    {
+      "from": "HIPP",
+      "to": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Memory retrieval modulates emotional processing"
+    },
+    {
+      "from": "HIPP",
+      "to": "PCC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Autobiographical memory feeds self-relevance processing"
+    },
+    {
+      "from": "BDNF",
+      "to": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Neuroplasticity supports memory reconsolidation"
+    },
+    {
+      "from": "BDNF",
+      "to": "AI",
+      "type": "modul",
+      "weight": 0.65,
+      "label": "Plasticity drives cortical thickening in insula"
+    },
+    {
+      "from": "OSC",
+      "to": "THAL",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Oscillation coherence regulates thalamic gating"
+    },
+    {
+      "from": "VV",
+      "to": "LC",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Vagal activation dampens arousal system"
+    },
+    {
+      "from": "PAG",
+      "to": "SMN",
+      "type": "modul",
+      "weight": 0.65,
+      "label": "Analgesic system modulates somatic pain processing"
+    },
+    {
+      "from": "TPJ",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Perspective-taking strengthens emotional regulation"
+    },
+    {
+      "from": "LC",
+      "to": "dACC",
+      "type": "modul",
+      "weight": 0.65,
+      "label": "Arousal level modulates attentional control capacity"
+    },
+    {
+      "from": "dlPFC",
+      "to": "THAL",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Executive attention modulates sensory gating"
+    },
+    {
+      "from": "mPFC",
+      "to": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Self-Model Integration → Threat / Fear Processing (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "mPFC",
+      "to": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Self-Model Integration → Default Mode / Self-Referential Processing Assessment & Diagnostics (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "mPFC",
+      "to": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Self-Model Integration → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Emotional Valuation → Default Mode / Self-Referential Processing Assessment & Diagnostics (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "vmPFC",
+      "to": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Emotional Valuation → Endogenous Analgesic System (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "dlPFC",
+      "to": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Executive Attention → Attentional Control (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "dlPFC",
+      "to": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Executive Attention → Memory Reconsolidation (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "rACC",
+      "to": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Attentional Control Research & Development → Threat / Fear Processing (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "dACC",
+      "to": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Attentional Control → Threat / Fear Processing (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Sensory Gating → [V1] (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Sensory Gating → [A1] (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "THAL",
+      "to": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Sensory Gating → Attentional Control — Signal Detection & Input — Secondary Node (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LGN",
+      "to": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Self-Model Integration Assessment & Diagnostics → [V1] (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "MGN",
+      "to": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Self-Model Integration Core Operations → [A1] (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NTS",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Emotional Valuation Performance & Optimization → Interoceptive Awareness (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "AI",
+      "to": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Interoceptive Awareness → Attentional Control (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "PI",
+      "to": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[PI] → Interoceptive Awareness (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "BLA",
+      "to": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Threat / Fear Processing → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "PVN",
+      "to": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "HPA cascade descending",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "HPA",
+      "to": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Attentional Control — Feedback & Validation — Tertiary Node → Memory Reconsolidation (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "HIPP",
+      "to": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Memory Reconsolidation → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "VTA",
+      "to": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Attentional Control — Action Coordination — Secondary Node → Attentional Control — Action Coordination — Primary Node (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NAcc",
+      "to": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Attentional Control — Action Coordination — Primary Node → Self-Model Integration Infrastructure & Capacity (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "NAcc",
+      "to": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Attentional Control — Action Coordination — Primary Node → Attentional Control — Diagnostic Pattern Recognition — Primary Node (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "OFC",
+      "to": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Attentional Control — Diagnostic Pattern Recognition — Primary Node → Emotional Valuation (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "SMA",
+      "to": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Threat / Fear Processing Coordination & Integration → Attentional Control — Adaptation & Self-Healing — Tertiary Node (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "STRI",
+      "to": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Emotional Valuation Risk & Resilience → [GP] (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "GP",
+      "to": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "[GP] → Sensory Gating (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "CBLM",
+      "to": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Attentional Control — Diagnostic Pattern Recognition — Secondary Node → Sensory Gating (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "FEF",
+      "to": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Threat / Fear Processing Research & Development → [V1] (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "FPN",
+      "to": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "[FPN] → Executive Attention (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LC",
+      "to": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Arousal Regulation → Threat / Fear Processing (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "from": "LC",
+      "to": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Arousal Regulation → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "CHRONIC_RUMINATION",
+      "label": "Chronic Rumination",
+      "summary": "Persistent self-referential thought loops that meditation fails to interrupt or paradoxically intensifies",
+      "circuits": [
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-active",
+          "detail": "Default mode network remains hyperactive during practice — mind-wandering dominates despite effort to focus",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper-engaged",
+          "detail": "Self-referential processing loop cannot be disrupted — narrative self maintains constant commentary",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PCC",
+          "dir": "Hyper-grasping",
+          "detail": "Experiential grasping intensifies as practitioner fights to stop thinking, creating meta-rumination",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-effective",
+          "detail": "Conflict monitoring detects wandering but cannot recruit enough attentional control to redirect",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hypo-toned",
+          "detail": "Low serotonergic baseline undermines equanimity needed to observe thoughts without engagement",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Fatigued",
+          "detail": "Executive attention exhausted from repeated failed attempts to control thought stream",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "DISSOCIATION_MEDITATION",
+      "label": "Meditation-Induced Dissociation",
+      "summary": "Practice triggers depersonalization, derealization, or emotional numbing rather than healthy equanimity",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-gating",
+          "detail": "Thalamic sensory gate closes too far — external reality becomes unreal or distant during and after practice",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hypo-active",
+          "detail": "Spatial self-awareness collapses — practitioner loses sense of body location and self-as-observer",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AI",
+          "dir": "Hypo-connected",
+          "detail": "Interoceptive awareness disconnects — body sensations become remote or absent rather than vivid",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Fragmented",
+          "detail": "Default mode coherence disrupted rather than quieted — self-continuity breaks down pathologically",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Hypo-responsive",
+          "detail": "Somatic awareness network goes offline — numbness rather than refined sensitivity",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SN",
+          "dir": "Dysregulated",
+          "detail": "Salience network fails to switch between internal and external modes appropriately",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ATTENTION_INSTABILITY",
+      "label": "Attention Instability",
+      "summary": "Inability to sustain focused attention or open awareness despite consistent practice effort",
+      "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Conflict monitoring too weak to detect mind-wandering in real time — drift goes unnoticed for minutes",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-sustained",
+          "detail": "Executive attention cannot maintain focus for more than seconds before losing the meditation object",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SN",
+          "dir": "Hyper-reactive",
+          "detail": "Salience network triggers on every minor stimulus, constantly pulling attention to irrelevant signals",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "OSC",
+          "dir": "Incoherent",
+          "detail": "Alpha and theta oscillations fail to stabilize — no consistent brainwave pattern for sustained attention",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Dysregulated",
+          "detail": "Arousal oscillates between drowsiness and agitation — cannot find stable alertness for practice",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "EMOTIONAL_FLOODING",
+      "label": "Emotional Flooding in Practice",
+      "summary": "Practice surfaces overwhelming emotions — grief, terror, rage — that exceed the practitioner's regulatory capacity",
+      "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-reactive",
+          "detail": "Amygdala fires intensely as meditation removes habitual suppression of traumatic emotional material",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-regulating",
+          "detail": "Emotional regulation capacity overwhelmed — prefrontal control cannot contain limbic activation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper-retrieving",
+          "detail": "Hippocampus floods awareness with traumatic autobiographical memories during vulnerable practice states",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "VV",
+          "dir": "Collapsed",
+          "detail": "Vagal tone drops — parasympathetic calming fails, sympathetic fight-flight takes over during sits",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Depleted",
+          "detail": "Serotonergic system cannot maintain equanimity baseline under extreme emotional activation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PCC",
+          "dir": "Hyper-grasping",
+          "detail": "Self-relevance processing amplifies emotional content — everything feels deeply personally threatening",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SPIRITUAL_EMERGENCY",
+      "label": "Spiritual Emergency",
+      "summary": "Rapid ego dissolution, mystical states, or dark-night experiences that destabilize psychological functioning",
+      "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Collapsed",
+          "detail": "Self-model disintegrates — practitioner loses coherent sense of identity outside of formal practice",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hypo-active",
+          "detail": "Spatial self-awareness persistently disrupted — ongoing derealization and boundary dissolution",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Severely disrupted",
+          "detail": "Default mode network coherence shattered — the narrative self cannot reconstitute between sessions",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper-reactive",
+          "detail": "Existential terror as ego structures dissolve — fear without object, pervasive dread",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Dysregulated",
+          "detail": "Self-other boundary lost — confusion about what is self and what is other, empathic overwhelm",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Autobiographical continuity disrupted — past self feels unreal or disconnected from present experience",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SOMATIC_DISTRESS",
+      "label": "Somatic Distress / Kundalini Syndrome",
+      "summary": "Intense physical symptoms — energy surges, involuntary movements, heat, pain — arising from practice",
+      "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hyper-sensitized",
+          "detail": "Interoceptive awareness amplified beyond tolerance — every body sensation becomes overwhelming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Hyper-activated",
+          "detail": "Somatomotor network generates involuntary movements, kriyas, trembling, or jerking during practice",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Dysregulated",
+          "detail": "Analgesic system alternates between pain suppression and breakthrough — unpredictable somatic pain",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VV",
+          "dir": "Destabilized",
+          "detail": "Autonomic nervous system oscillates wildly — heat flashes, heart racing, then sudden calm",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Sensory gating distorted — internal sensations amplified while external reality dims",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Hyper-aroused",
+          "detail": "Noradrenergic system in overdrive — persistent hyper-arousal, insomnia, and energy surges between sessions",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:39.384Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

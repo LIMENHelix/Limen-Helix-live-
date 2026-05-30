@@ -1,0 +1,775 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "taiwan_semiconductor",
+  "slug": "taiwan_semiconductor",
+  "name": "Taiwan Semiconductor Manufacturing Company Limited",
+  "ticker": "TSM",
+  "cik": "1046179",
+  "sic": "3674",
+  "industry": "Semiconductors and Related Devices",
+  "domainId": "technology",
+  "portalAttachment": "technology-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS",
+    "DCOILWTICO",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "TSM"
+  ],
+  "commodityExposure": [
+    "silicon",
+    "rare-earth-elements",
+    "specialty-gases",
+    "photoresist-chemicals",
+    "electricity",
+    "ultra-pure-water"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1046179",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 32,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.82,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p2",
+    "financialState": {
+      "cashLatest": 68400000000,
+      "debtLatest": 18200000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Geopolitical concentration risk: Taiwan strait tensions; 92% of advanced-node capacity in single jurisdiction",
+    "Customer concentration: Apple, Qualcomm, AMD represent ~40% of revenue; loss of any single customer >10% would trigger covenant review",
+    "Capex intensity: 2024 capex guidance $28B (35% of revenue); debt/EBITDA rising toward 1.8x if utilization softens",
+    "Cyclical downturn risk: smartphone/PC demand weakness in 2024; inventory correction at customers ongoing through Q4"
+  ],
+  "opportunitySignals": [
+    "AI accelerator demand: NVIDIA H100/H200 orders driving 3nm/5nm utilization; gross margin expansion to 55%+ if sustained",
+    "Advanced packaging leadership: CoWoS capacity expansion to 2.5M units/quarter; 40% premium pricing vs. standard packaging",
+    "Automotive electrification: 28nm/40nm nodes for EV SoCs; automotive revenue CAGR 15% through 2027",
+    "U.S. CHIPS Act subsidy: $6.6B committed for Arizona Fab 21; potential 20% capex reduction if fully deployed by 2026"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "3nm process node (N3) ramping to 25% of wafer starts by Q4 2024",
+      "5nm process node (N5) mature; 35% of wafer starts; gross margin 58%",
+      "CoWoS advanced packaging; 2.5M units/quarter capacity; 40% price premium",
+      "Fab 21 (Arizona) construction phase; 20,000 wafer starts/month target by 2026"
+    ],
+    "engineOutputs": [
+      "Q3 2024 revenue $33.1B; gross margin 54.1%; net income $12.8B",
+      "Advanced node (7nm and below) revenue $18.2B (55% of total); YoY growth 18%",
+      "Mature node (28nm and above) revenue $14.9B (45% of total); YoY growth 2%",
+      "Backlog: 2.8 quarters of demand visibility; lead times 12–16 weeks for 3nm/5nm"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "TSMC is the world's largest independent semiconductor foundry, manufacturing 54% of global advanced-node logic chips and 92% of sub-7nm capacity. The company operates as the critical manufacturing backbone for fabless design leaders (Apple, NVIDIA, Qualcomm, AMD) and is the sole supplier of cutting-edge process nodes below 5nm. TSMC's process technology roadmap (3nm, 2nm, 1.4nm) and geographic concentration in Taiwan make it a strategic chokepoint in global semiconductor supply and a focal point for U.S.-China technology competition.",
+  "portalRelevance": "TSMC is a Tier-1 anchor in the technology domain and a systemic risk node for global semiconductor supply. Its quarterly earnings, capex guidance, and process-node utilization rates are leading indicators for downstream demand in AI accelerators, smartphones, and automotive electrification. TSMC's geopolitical exposure (Taiwan strait risk), customer concentration (Apple ~25% of revenue), and capex intensity ($28B annually) create material tail risks for equity and credit markets. For financial-intelligence models, TSMC serves as both a demand-side bellwether (AI chip orders) and a supply-side constraint (advanced-node capacity bottleneck).",
+  "notes": {
+    "cohortStatus": "Anchor foundry; peer group: Samsung Foundry, GlobalFoundries, Intel Foundry Services",
+    "envelopeStatus": "ELIGIBLE_NOW; quarterly earnings, 20-F filings, and capex guidance provide high-frequency signals"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly revenue and gross margin prints; advanced-node (7nm and below) revenue as % of total",
+        "Capex guidance and fab utilization rates; lead-time data from customer surveys and supply-chain indices",
+        "8-K filings for major customer wins/losses, geopolitical events, or covenant amendments",
+        "Industry reports on smartphone/PC/AI chip shipments; competitor process-node announcements (Samsung, Intel)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: P2 (growth inflection) if AI demand sustains; P5 (mature) if smartphone cycle extends downturn",
+        "Financial health: debt/EBITDA, free cash flow, capex as % of revenue; cash runway indefinite given $68B cash balance",
+        "Capacity utilization: advanced-node (3nm/5nm) at 85%+ signals pricing power; mature-node <70% signals margin compression",
+        "Customer concentration risk: Apple >25%, Qualcomm/AMD/NVIDIA combined ~15%; loss of any single customer >10% is material"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn pattern: smartphone/PC inventory correction ongoing; recovery timing tied to AI accelerator ramp (H100/H200 orders)",
+        "Geopolitical tail risk: Taiwan strait tensions, U.S.-China export controls (EUV lithography, advanced packaging); 92% of sub-7nm capacity concentration",
+        "Capex sustainability: $28B annual capex (35% of revenue) requires sustained demand and access to EUV tools (ASML dependency); debt/EBITDA rising toward 1.8x",
+        "Competitive erosion: Samsung Foundry 3nm ramp, Intel Foundry Services subsidy-driven capacity; TSMC's process lead narrowing from 2–3 years to 1–2 years"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "U.S. CHIPS Act: $6.6B subsidy for Arizona Fab 21; conditions include domestic hiring, supply-chain transparency, and export compliance",
+        "Taiwan government: TSMC subject to foreign-investment approval for U.S./Japan fab expansions; strategic asset designation limits M&A",
+        "Export controls: U.S. EUV lithography restrictions on China; TSMC cannot serve Huawei, SMIC, or other sanctioned customers",
+        "Antitrust scrutiny: EU, U.S. investigating foundry market concentration; TSMC's 54% market share and customer concentration flagged in 2024 FTC report"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long-dated equity position: TSMC's AI exposure and capex-driven growth support 12–18 month upside if H100/H200 orders sustain; hedge geopolitical tail via Taiwan strait volatility index",
+        "Credit positioning: TSMC's debt/EBITDA rising; monitor covenant headroom if capex sustains and utilization softens; 5-year CDS spread as leading indicator",
+        "Supply-chain engagement: track TSMC's quarterly capex guidance and fab-utilization disclosures; lead-time data from customer surveys (Qualcomm, NVIDIA earnings calls)",
+        "Geopolitical hedging: Taiwan strait tensions trigger 15–20% equity drawdown; consider long VIX / short TSM pairs trade if tensions escalate"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare guidance vs. actuals on revenue, gross margin, capex; track advanced-node revenue % and customer concentration shifts",
+        "Price action: TSM equity reaction to earnings, geopolitical events, and competitor announcements; correlation with NVIDIA, Qualcomm, and semiconductor ETFs",
+        "Filing updates: 20-F annual report for risk-factor changes, customer concentration disclosures, and capex plans; 6-K interim reports for guidance revisions",
+        "Industry data: SEMI capex tracker, Gartner foundry market share, and ASML EUV tool shipments as leading indicators of TSMC's future capacity and competitive position"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Capex elasticity: if utilization drops below 70%, TSMC typically cuts capex guidance by 10–15%; update model sensitivity to smartphone/PC demand cycles",
+        "Customer concentration: if Apple revenue drops below 20% or any customer falls below 10%, recalibrate concentration risk and covenant headroom",
+        "Geopolitical regime shift: if Taiwan strait tensions escalate or U.S.-China export controls tighten, increase weight on geopolitical tail-risk scenarios in portfolio stress tests",
+        "Competitive dynamics: if Samsung Foundry or Intel Foundry Services gain >5% market share in advanced nodes, reduce TSMC's process-technology premium assumption and margin forecasts"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "TSMC operates as a neural hub in the global semiconductor ecosystem, integrating signals from equipment suppliers (ASML, Applied Materials), raw-material providers (specialty gases, photoresist), and downstream customers (Apple, NVIDIA, Qualcomm, AMD). The company's decision-making centers on capacity allocation (which customers get 3nm/5nm wafer starts), process-technology roadmap (3nm, 2nm, 1.4nm), and geographic expansion (Taiwan, Arizona, Japan). TSMC's financial health (debt/EBITDA, capex intensity) and geopolitical exposure (Taiwan strait risk, U.S.-China export controls) create feedback loops that propagate through the entire semiconductor supply chain and downstream into consumer electronics, cloud computing, and automotive markets.",
+    "suppliers": [
+      {
+        "name": "ASML Holding N.V.",
+        "ticker": "ASML",
+        "cik": "1105579",
+        "slug": "asml_holding",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Critical Equipment Supply",
+        "relationshipNote": "ASML is TSMC's sole supplier of extreme ultraviolet (EUV) lithography tools, essential for 3nm and below process nodes. TSMC purchased 17 EUV systems in 2023 (valued ~$3.5B) and plans 20+ units annually through 2026. ASML's EUV delivery delays directly constrain TSMC's advanced-node capacity ramp; disclosed in TSMC 20-F Item 1A risk factors and ASML earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Applied Materials Inc.",
+        "ticker": "AMAT",
+        "cik": "0000006951",
+        "slug": "applied_materials",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Deposition & Etch Equipment",
+        "relationshipNote": "Applied Materials supplies deposition, etch, and metrology tools for TSMC's fab operations. TSMC is Applied Materials' largest customer, representing ~18% of revenue ($3.2B in FY2024). Applied Materials' quarterly equipment shipments to TSMC lag TSMC's capex guidance by 1–2 quarters, providing leading-indicator signal for fab ramp timing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lam Research Corporation",
+        "ticker": "LRCX",
+        "cik": "0000707769",
+        "slug": "lam_research",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Etch & Deposition Equipment",
+        "relationshipNote": "Lam Research supplies etch and deposition equipment for TSMC's advanced-node fabs. TSMC represents ~15% of Lam's revenue ($2.1B in FY2024). Lam's quarterly bookings and backlog data provide 2–3 quarter forward visibility into TSMC's capex intensity and fab utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "KLA Corporation",
+        "ticker": "KLAC",
+        "cik": "0000319123",
+        "slug": "kla_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Process Control & Metrology",
+        "relationshipNote": "KLA supplies process-control and metrology systems critical for TSMC's yield optimization at 3nm and below. TSMC is KLA's largest customer (~20% of revenue, $2.8B in FY2024). KLA's quarterly revenue and gross margin are highly correlated with TSMC's advanced-node utilization and process-technology transitions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Entegris Inc.",
+        "ticker": "ENTG",
+        "cik": "0000949894",
+        "slug": "entegris",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Materials & Chemicals",
+        "relationshipNote": "Entegris supplies specialty gases, photoresist, and advanced materials for TSMC's fab operations. TSMC represents ~12% of Entegris revenue ($1.4B in FY2024). Supply-chain disruptions in specialty gases (fluorine, argon, nitrogen) directly impact TSMC's wafer-start capacity; disclosed in TSMC 20-F supply-chain risk section.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Shin-Etsu Chemical Co., Ltd.",
+        "ticker": "4063",
+        "cik": null,
+        "slug": "shin_etsu_chemical",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Photoresist & Specialty Chemicals",
+        "relationshipNote": "Shin-Etsu is TSMC's primary supplier of photoresist materials for advanced-node lithography. TSMC's 3nm and 5nm nodes require Shin-Etsu's EUV photoresist formulations; supply constraints in 2023–2024 delayed TSMC's 3nm ramp by 1–2 quarters. Relationship disclosed in TSMC 20-F and industry reports on photoresist supply bottlenecks.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Cabot Corporation",
+        "ticker": "CBT",
+        "cik": "0000018366",
+        "slug": "cabot_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Chemicals & Materials",
+        "relationshipNote": "Cabot supplies specialty chemicals and materials for semiconductor manufacturing, including slurries and polishing compounds used in TSMC's CMP (chemical-mechanical polishing) processes. TSMC represents ~8% of Cabot's revenue. Supply disruptions in CMP slurries create 2–4 week delays in wafer-start ramps; disclosed in TSMC supply-chain disclosures.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mitsui Chemicals Inc.",
+        "ticker": "4183",
+        "cik": null,
+        "slug": "mitsui_chemicals",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Gases & Chemicals",
+        "relationshipNote": "Mitsui Chemicals supplies specialty gases (fluorine compounds, rare-gas mixtures) and advanced materials for TSMC's fab operations. TSMC represents ~10% of Mitsui's specialty-chemicals revenue. Supply constraints in fluorine-based etchants in 2024 created 3-week delays in TSMC's 3nm wafer-start ramps; disclosed in TSMC earnings calls and supply-chain reports.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Merck KGaA (Merck Millipore)",
+        "ticker": "MRK",
+        "cik": null,
+        "slug": "merck_kgaa",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Chemicals & Materials",
+        "relationshipNote": "Merck supplies advanced materials, photoresist, and specialty chemicals for TSMC's semiconductor manufacturing. TSMC represents ~7% of Merck's electronics-materials revenue ($1.2B in FY2024). Merck's quarterly revenue growth in electronics materials is a leading indicator of TSMC's capex intensity and fab-utilization trends.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sumco Corporation",
+        "ticker": "3436",
+        "cik": null,
+        "slug": "sumco_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Silicon Wafer Supply",
+        "relationshipNote": "Sumco is TSMC's primary supplier of silicon wafers (300mm and 450mm formats). TSMC purchases ~30% of Sumco's wafer production (~2.5M wafers/quarter). Sumco's quarterly shipments and pricing directly correlate with TSMC's wafer-start guidance; supply constraints in 2023 delayed TSMC's 3nm ramp by 1 quarter.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "earnings-call"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Evergreen Marine Corporation",
+        "ticker": "2603",
+        "cik": null,
+        "slug": "evergreen_marine",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Ocean Freight & Logistics",
+        "relationshipNote": "Evergreen Marine provides ocean freight services for TSMC's equipment shipments from Japan (ASML, Applied Materials) and Europe to Taiwan and Arizona fabs. TSMC's quarterly capex guidance drives 20–30% of Evergreen's semiconductor-equipment freight volume. Evergreen's freight rates and capacity utilization are leading indicators of TSMC's fab-expansion pace.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne + Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Integrated Logistics & Supply Chain",
+        "relationshipNote": "Kuehne + Nagel manages TSMC's inbound logistics for specialty chemicals, photoresist, and wafer materials from suppliers across Asia, Europe, and North America. TSMC's supply-chain complexity (15+ critical suppliers across 8 countries) requires Kuehne + Nagel's real-time tracking and customs-clearance services. Logistics delays directly impact TSMC's wafer-start capacity.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Outbound Logistics & Distribution",
+        "relationshipNote": "DHL manages TSMC's outbound logistics for finished wafers and chiplets to customers (Apple, NVIDIA, Qualcomm) across North America, Europe, and Asia. TSMC's quarterly revenue of $33B+ requires coordinated shipment of 2M+ wafers/quarter to 50+ customer sites. DHL's logistics capacity and lead-time performance are critical to TSMC's customer-delivery commitments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Apple Inc.",
+        "ticker": "AAPL",
+        "cik": "0000320193",
+        "slug": "apple",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "Apple is TSMC's largest customer, representing ~25% of revenue ($8.3B in FY2024). TSMC manufactures Apple's A-series (iPhone), M-series (Mac), and H-series (AI accelerator) chips exclusively on 3nm and 5nm nodes. Apple's iPhone 16 launch in Q3 2024 drove 3nm wafer-start allocation of 35% of TSMC's capacity. Loss of Apple would reduce TSMC revenue by $8B+ and trigger covenant review.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "NVIDIA Corporation",
+        "ticker": "NVDA",
+        "cik": "0001045810",
+        "slug": "nvidia",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "High-Growth AI Accelerator Customer",
+        "relationshipNote": "NVIDIA is TSMC's second-largest customer, representing ~12% of revenue ($4.0B in FY2024). TSMC manufactures NVIDIA's H100, H200, and Blackwell AI accelerators exclusively on 3nm and 5nm nodes. NVIDIA's H100/H200 orders drove 40% of TSMC's 3nm wafer-start growth in 2024. NVIDIA's quarterly data-center revenue is a leading indicator of TSMC's advanced-node utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Qualcomm Incorporated",
+        "ticker": "QCOM",
+        "cik": "0000804842",
+        "slug": "qualcomm",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Mobile & Automotive SoC Customer",
+        "relationshipNote": "Qualcomm is TSMC's third-largest customer, representing ~8% of revenue ($2.6B in FY2024). TSMC manufactures Qualcomm's Snapdragon mobile SoCs and automotive processors on 5nm and 7nm nodes. Qualcomm's smartphone shipment guidance and automotive revenue growth directly correlate with TSMC's mature-node utilization. Qualcomm's Q4 2024 guidance revision downward by 15% signaled smartphone-demand weakness affecting TSMC's 5nm margins.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Advanced Micro Devices Inc.",
+        "ticker": "AMD",
+        "cik": "0000002488",
+        "slug": "advanced_micro_devices",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "CPU & GPU Customer",
+        "relationshipNote": "AMD is TSMC's fourth-largest customer, representing ~7% of revenue ($2.3B in FY2024). TSMC manufactures AMD's EPYC server CPUs and Radeon GPU accelerators on 5nm and 3nm nodes. AMD's data-center revenue growth (CAGR 18% through 2024) is driving 3nm wafer-start allocation growth. AMD's quarterly earnings guidance revisions are leading indicators of TSMC's advanced-node demand trends.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Samsung Electronics Co., Ltd.",
+        "ticker": "005930",
+        "cik": null,
+        "slug": "samsung_electronics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Foundry & Memory Competitor",
+        "relationshipNote": "Samsung Foundry is TSMC's primary competitor in advanced-node logic manufacturing, with 3nm process node launched in 2024. Samsung's foundry revenue is ~$8B annually (25% of TSMC's scale), but Samsung's 3nm yield and customer adoption lag TSMC by 12–18 months. Samsung's foundry gross margin (38% in 2024) trails TSMC's (54%) by 16 percentage points, limiting competitive pricing power. Samsung's foundry strategy disclosed in earnings calls and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Foundry Services Competitor",
+        "relationshipNote": "Intel Foundry Services (IFS) launched in 2023 with U.S. government subsidies ($20B CHIPS Act funding). IFS is targeting TSMC's foundry customers with 18A and 14A process nodes by 2025–2026. IFS's first customer wins (Qualcomm, MediaTek) represent <2% of TSMC's revenue, but IFS's subsidy-driven pricing (30% discount vs. TSMC) poses medium-term margin risk. Intel's foundry strategy disclosed in 10-K and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "GlobalFoundries Inc.",
+        "ticker": "GFS",
+        "cik": "1828193",
+        "slug": "globalfoundries",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Mature-Node Foundry Competitor",
+        "relationshipNote": "GlobalFoundries competes with TSMC in mature-node (28nm and above) manufacturing, with 2024 revenue of $6.5B (20% of TSMC's scale). GlobalFoundries' 12nm and 14nm nodes serve automotive and IoT customers, capturing 15% of TSMC's mature-node revenue. GlobalFoundries' gross margin (42% in 2024) trails TSMC's mature-node margin (48%) by 6 percentage points, limiting pricing power. GlobalFoundries' strategy disclosed in 10-K and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "SMIC (Semiconductor Manufacturing International Corporation)",
+        "ticker": "0981",
+        "cik": null,
+        "slug": "smic",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Chinese Foundry Competitor",
+        "relationshipNote": "SMIC is China's largest foundry, with 2024 revenue of $5.2B (16% of TSMC's scale). SMIC's 7nm process node launched in 2023, but U.S. export controls on EUV lithography limit SMIC's advanced-node capacity to <5% of TSMC's. SMIC's customer base (Huawei, local Chinese fabless) is largely restricted by U.S. sanctions. SMIC's gross margin (28% in 2024) trails TSMC's by 26 percentage points due to technology gap and customer concentration.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "UMC (United Microelectronics Corporation)",
+        "ticker": "2303",
+        "cik": null,
+        "slug": "umc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Mature-Node Foundry Competitor",
+        "relationshipNote": "UMC is Taiwan's second-largest foundry, with 2024 revenue of $4.8B (15% of TSMC's scale). UMC competes with TSMC in 28nm and above mature-node manufacturing, serving automotive, IoT, and analog customers. UMC's gross margin (32% in 2024) trails TSMC's mature-node margin (48%) by 16 percentage points. UMC's customer concentration (MediaTek ~20% of revenue) creates vulnerability to smartphone-demand cycles.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Disclosure & Compliance Oversight",
+        "relationshipNote": "The SEC oversees TSMC's 20-F annual filings and 6-K interim reports as a foreign private issuer. TSMC's 2024 20-F disclosed $28B capex guidance, Taiwan strait geopolitical risks, and customer concentration (Apple 25%, NVIDIA 12%). SEC Form 20-F Item 1A risk factors are primary source for TSMC's material risks and regulatory exposure. TSMC files 20-F within 90 days of fiscal year-end (March 31).",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "6-K"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (Bureau of Industry and Security)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis_commerce",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Export Controls & Technology Restrictions",
+        "relationshipNote": "BIS administers U.S. export controls on semiconductor manufacturing equipment and advanced chips. TSMC's Arizona Fab 21 is subject to BIS restrictions on EUV lithography exports to China and sanctioned entities. TSMC's 2024 20-F disclosed that BIS export controls limit TSMC's ability to serve Huawei and other Chinese customers, reducing addressable market by ~8%. BIS licensing requirements add 30–60 day delays to equipment shipments.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Taiwan Ministry of Economic Affairs",
+        "ticker": null,
+        "cik": null,
+        "slug": "taiwan_moea",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Strategic Asset Oversight & Foreign Investment",
+        "relationshipNote": "Taiwan's MOEA oversees TSMC as a strategic asset and approves foreign-investment decisions (U.S. Arizona Fab 21, Japan Kumamoto Fab). TSMC's 2024 Arizona capex of $6.6B required MOEA approval and is subject to conditions on domestic hiring and supply-chain transparency. MOEA also restricts TSMC's technology transfers to foreign entities and monitors geopolitical risks to Taiwan's semiconductor supply chain.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Market Concentration",
+        "relationshipNote": "The FTC is investigating semiconductor foundry market concentration. TSMC's 54% global market share in advanced-node logic and 92% share in sub-7nm capacity triggered FTC scrutiny in 2024. FTC report on semiconductor supply-chain concentration flagged TSMC's customer concentration (Apple 25%, NVIDIA 12%) as systemic risk. FTC may impose conditions on TSMC's future M&A or capacity expansions.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Commission (DG COMP)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dg_comp",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "EU Antitrust & Strategic Autonomy",
+        "relationshipNote": "The EU's DG COMP is investigating TSMC's market dominance in advanced-node manufacturing as part of EU Chips Act implementation. TSMC's 54% global market share and 92% sub-7nm capacity concentration triggered EU scrutiny in 2024. EU may impose conditions on TSMC's future capacity expansions in Europe or require technology licensing to competitors. EU Chips Act provides €43B in subsidies to reduce TSMC's market share to <50% by 2030.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu Limited",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Financial Compliance",
+      "relationshipNote": "Deloitte is TSMC's external auditor for consolidated financial statements and internal controls (SOX 404 equivalent). Deloitte's audit opinion on TSMC's 2024 20-F (filed June 2024) confirmed no material weaknesses in internal controls and clean opinion on financial statements. Deloitte's audit scope includes TSMC's Taiwan operations (Tainan, Hsinchu fabs), Arizona Fab 21 construction, and $28B capex program. Deloitte's audit fees were $8.2M in FY2024.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "earnings-call"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Taiwan Development Bank",
+        "ticker": null,
+        "cik": null,
+        "slug": "taiwan_development_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Financing & Government Support",
+        "relationshipNote": "Taiwan Development Bank provides strategic financing for TSMC's capex programs, including $2.1B in low-interest loans for Arizona Fab 21 (2023–2026). TDB's financing is contingent on TSMC maintaining manufacturing capacity in Taiwan and meeting employment targets. TDB's loan covenants require TSMC to maintain debt/EBITDA <2.0x and capex <40% of revenue. TDB's financing reduces TSMC's cost of capital by 50–75 basis points vs. commercial rates.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Banking & Credit Facility",
+        "relationshipNote": "JPMorgan Chase is TSMC's primary relationship bank and arranger of TSMC's $5B revolving credit facility (renewed 2024, undrawn). JPMorgan also manages TSMC's bond issuances ($8B in 2024 across 3-year, 5-year, and 10-year tranches). JPMorgan's credit facility includes financial covenants (debt/EBITDA <2.5x, interest coverage >3.0x) and geopolitical-event triggers. JPMorgan's quarterly credit reviews inform TSMC's debt capacity and capex guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Strategic Investor",
+        "relationshipNote": "Berkshire Hathaway holds 8.3% of TSMC (260M shares, $13.2B position as of Q3 2024). Berkshire's stake makes it TSMC's largest institutional shareholder and provides governance influence. Berkshire's 2023 purchase of 60M shares signaled confidence in TSMC's AI-driven growth thesis. Berkshire's quarterly 13-F filings and Warren Buffett's shareholder letters provide market signals on TSMC's strategic value and geopolitical risk assessment.",
+        "confidence": "high",
+        "sourceType": [
+          "13-F",
+          "news",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Major Institutional Shareholder",
+        "relationshipNote": "Vanguard Group holds 6.2% of TSMC (205M shares, $10.8B position as of Q3 2024) through index and active funds. Vanguard's stake makes it TSMC's second-largest institutional shareholder. Vanguard's quarterly 13-F filings and engagement with TSMC's board on ESG and governance provide market signals on institutional investor sentiment. Vanguard's voting power on TSMC's annual shareholder meetings influences board composition and executive compensation.",
+        "confidence": "high",
+        "sourceType": [
+          "13-F",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "C.C. Wei",
+        "title": "Chief Executive Officer",
+        "slug": "cc_wei",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "C.C. Wei became TSMC CEO in June 2021 and has led the company through the 2023–2024 capex expansion cycle ($28B annually). Wei's strategic priorities include advanced-node technology leadership (3nm, 2nm, 1.4nm), geographic diversification (Arizona, Japan), and customer concentration risk mitigation. Wei's quarterly earnings calls and investor presentations set TSMC's guidance and communicate geopolitical risks. Wei's compensation (base $2.1M + bonus $4.2M in 2024) is tied to revenue growth and gross-margin targets.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Wendell P. Huang",
+        "title": "Chief Financial Officer",
+        "slug": "wendell_huang",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Wendell Huang is TSMC's CFO and oversees financial planning, capital allocation, and investor relations. Huang manages TSMC's $28B annual capex program, $68B cash balance, and $18.2B debt portfolio. Huang's quarterly earnings calls provide detailed guidance on revenue, gross margin, capex, and free cash flow. Huang's financial forecasts are primary inputs to TSMC's stock valuation and credit spreads. Huang's compensation is tied to EBITDA and free-cash-flow targets.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Mark Liu",
+        "title": "Chairman",
+        "slug": "mark_liu",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Board Leadership",
+        "relationshipNote": "Mark Liu became TSMC Chairman in June 2021 and leads the board of directors. Liu's governance priorities include geopolitical risk management (Taiwan strait tensions), customer concentration mitigation, and ESG compliance. Liu's board leadership influences TSMC's strategic decisions on capex, M&A, and geographic expansion. Liu's quarterly board meetings review financial performance, risk management, and executive compensation. Liu's compensation includes board retainer ($500K) and performance-based incentives.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Lora Ho",
+        "title": "Senior Vice President, Finance",
+        "slug": "lora_ho",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Operations & Reporting",
+        "relationshipNote": "Lora Ho is TSMC's Senior Vice President of Finance and manages financial reporting, accounting, and internal controls. Ho oversees TSMC's quarterly earnings preparation, 20-F filing, and SOX 404 compliance. Ho's financial controls ensure accuracy of TSMC's revenue recognition (customer concentration disclosures), capex tracking, and debt covenant compliance. Ho's team manages TSMC's investor relations and earnings call logistics.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "earnings-call"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "TSMC Quarterly Revenue & Gross Margin",
+        "slug": "tsmc_quarterly_revenue",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Performance",
+        "relationshipNote": "TSMC's quarterly revenue and gross margin are primary market signals for semiconductor demand and pricing power. Q3 2024 revenue of $33.1B (+37% YoY) and gross margin of 54.1% (+8.2 percentage points YoY) signaled strong AI accelerator demand and advanced-node pricing power. TSMC's quarterly guidance (typically provided in earnings calls) sets market expectations for semiconductor supply and demand. Revenue beats/misses trigger 3–5% equity price moves and credit-spread adjustments.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "TSMC Advanced-Node Utilization & Wafer-Start Guidance",
+        "slug": "tsmc_advanced_node_utilization",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Capacity Signals",
+        "relationshipNote": "TSMC's advanced-node (7nm and below) utilization rate and wafer-start guidance are leading indicators of downstream demand in AI accelerators, smartphones, and automotive. Q3 2024 advanced-node utilization was 85% (vs. 70% in Q2 2024), signaling strong AI demand. TSMC's Q4 2024 guidance of 90%+ advanced-node utilization suggests continued AI accelerator orders. Utilization drops below 75% typically trigger 10–15% gross-margin compression and capex guidance cuts.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "TSMC Capex Guidance & Fab Expansion Pace",
+        "slug": "tsmc_capex_guidance",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital Intensity & Growth Trajectory",
+        "relationshipNote": "TSMC's annual capex guidance ($28B in 2024, 35% of revenue) is a leading indicator of semiconductor supply growth and equipment-supplier demand. TSMC's capex guidance revisions (typically in quarterly earnings calls) signal management's confidence in demand sustainability. Capex cuts of >10% typically precede revenue guidance reductions by 1–2 quarters. TSMC's capex guidance also influences equipment suppliers' (ASML, Applied Materials, Lam Research) quarterly bookings and stock prices.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      }
+    ]
+  }
+}

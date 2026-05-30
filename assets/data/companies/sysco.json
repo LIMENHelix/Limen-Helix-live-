@@ -1,0 +1,895 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "sysco_corporation",
+  "slug": "sysco",
+  "name": "Sysco Corporation",
+  "ticker": "SYY",
+  "cik": null,
+  "sic": "5149",
+  "industry": "Wholesale Trade - Groceries and Related Products",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "ICSA",
+    "RSXFS",
+    "TOTALSA",
+    "HOUST",
+    "UNRATE",
+    "CPIAUCSL"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "SYY"
+  ],
+  "commodityExposure": [
+    "beef",
+    "pork",
+    "poultry",
+    "seafood",
+    "dairy",
+    "produce",
+    "grains",
+    "oils",
+    "natural gas",
+    "diesel"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000096021",
+  "financialHealth": {
+    "asOf": "2024-06-30",
+    "lastKernelRun": "2024-09-15T14:32:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 28,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.72,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 2100000000,
+      "debtLatest": 8900000000,
+      "cashRunwayQ": 12
+    }
+  },
+  "warningSignals": [
+    "Inflationary pressure on commodity input costs (beef, seafood, dairy) passed through to customers with 60–90 day lag; margin compression risk if customer demand softens",
+    "Concentration in foodservice channel (restaurants, hotels) creates cyclical exposure to discretionary spending; COVID-era demand volatility precedent",
+    "Fuel surcharge pass-through mechanisms may lag actual diesel/natural gas cost spikes; logistics cost absorption risk"
+  ],
+  "opportunitySignals": [
+    "Shift to direct-to-consumer and ghost-kitchen supply models post-2020 has expanded addressable market; higher-margin specialty food and organic segments growing 8–12% YoY",
+    "Digital ordering platform (eSolutions) penetration increasing; B2B SaaS margin expansion opportunity as adoption crosses 40% of customer base",
+    "M&A consolidation in regional broadline and specialty distributors (e.g., Reinhart Foodservice 2020, Greco & Sons 2021) expanding market share in fragmented segments"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Weekly same-store sales velocity tracking (broadline, specialty, SYGMA)",
+      "Quarterly gross-margin bridge analysis (commodity input vs. customer pricing)",
+      "Monthly cash-conversion cycle monitoring (inventory turns, payables aging)"
+    ],
+    "engineOutputs": [
+      "Phase classification (p0–p10 cycle position) updated Q+1 earnings",
+      "Distress-band assignment (green/yellow/red) tied to free-cash-flow trajectory and debt/EBITDA ratio",
+      "Commodity-hedging recommendation matrix (beef, seafood, dairy futures positioning)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Sysco is the largest broadline foodservice distributor in North America, supplying ~400,000 restaurants, hotels, healthcare facilities, and institutional customers with fresh produce, proteins, dairy, and dry goods. The company operates a network of ~330 distribution centers and employs ~65,000 people, making it a critical node in the food-supply chain between producers and end-use foodservice operators. Its pricing power, inventory velocity, and margin management directly reflect upstream commodity inflation and downstream customer demand elasticity.",
+  "portalRelevance": "Sysco is a tier-1 anchor in the supplyChain domain, serving as a leading indicator of foodservice-sector health and a transmission mechanism for commodity-price shocks. Its quarterly earnings, gross-margin trends, and customer-count metrics are early-warning signals for restaurant-industry distress; its debt/EBITDA ratio and free-cash-flow generation are critical for assessing working-capital stress in the broader distribution ecosystem. For financial-intelligence models, Sysco's phase transitions (e.g., margin compression → customer churn → cash-flow deterioration) are canonical patterns in the P3–P7 distress band.",
+  "notes": {
+    "cohortStatus": "Anchor distributor; peer group includes US Foods (USFD), Performance Food Group (PFGC), and regional broadline players",
+    "envelopeStatus": "ELIGIBLE_NOW — 28 quarters of continuous history, public equity, SEC filer, no material litigation or regulatory suspension"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly same-store sales and case-volume prints by segment (broadline, specialty, SYGMA)",
+        "Monthly commodity-price indices (beef, seafood, dairy, produce) vs. customer pricing realization",
+        "8-K filings for M&A, customer losses, supply-chain disruptions, or executive changes",
+        "Quarterly gross-margin bridge disclosures in 10-Q Item 7 (Management's Discussion & Analysis)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification (p0–p10) based on free-cash-flow trajectory, debt/EBITDA ratio, and customer-count trends",
+        "Gross-margin envelope (target 9.5–10.5% for broadline; specialty 12–14%) vs. realized; commodity-lag quantification",
+        "Working-capital cycle (inventory days + receivables days − payables days) trending vs. 5-year median",
+        "Customer concentration risk (top 10 customers as % of revenue; disclosed in 10-K Item 1A)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: margin compression + customer-count decline + cash-flow deterioration → P3/P4 distress signature (precedent: 2008–2009, 2020 Q1–Q2)",
+        "Commodity-shock absorption capacity: if beef/seafood prices spike >15% YoY and customer pricing lags >60 days, gross-margin risk quantified",
+        "Debt-service stress: if EBITDA declines >10% YoY while debt remains flat, debt/EBITDA crosses 3.5x threshold (covenant risk)",
+        "Channel-mix shift: if foodservice revenue declines >5% YoY while e-commerce/direct-to-consumer grows <10%, net revenue growth stalls"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Commodity-hedge positioning: long beef/seafood futures if spot prices >2 SD above 2-year mean; short if <−1.5 SD",
+        "Debt-covenant monitoring: track debt/EBITDA quarterly; if trajectory crosses 3.5x, trigger capital-allocation review (dividend pause, buyback suspension)",
+        "Customer-concentration risk: if top-10 customer concentration exceeds 15% of revenue, flag for engagement strategy review",
+        "Pricing-power thesis: if gross-margin realization lags commodity-input inflation by >150 bps for 2+ consecutive quarters, reduce long exposure"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Initiate long position on SYY if phase transitions from P5 to P4 (margin recovery inflection) with debt/EBITDA <3.2x and free-cash-flow positive",
+        "Reduce/exit position if customer-count declines >2% YoY or gross-margin compression >100 bps without pricing-power recovery plan",
+        "Hedge commodity exposure via long positions in live-cattle (LC), feeder-cattle (FC), and lean-hog (LH) futures if Sysco's customer base is net-long protein",
+        "Monitor M&A activity: if Sysco acquires specialty distributor at >1.2x revenue multiple, assess integration risk and debt-capacity impact"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare actual gross-margin realization vs. commodity-lag model; recalibrate if error >75 bps",
+        "Share-price reaction to customer-count disclosure: if stock declines >5% on same-store sales miss, assess whether market is repricing distress-band probability",
+        "Debt-covenant compliance: quarterly 10-Q filing confirms debt/EBITDA ratio; if trending toward 3.5x, monitor for covenant waiver disclosures",
+        "Competitor pricing moves: track US Foods (USFD) gross-margin trends; if USFD outperforms SYY by >100 bps for 2+ quarters, assess competitive-positioning deterioration"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate commodity-lag model if actual customer-pricing realization diverges >100 bps from historical 60–90 day lag assumption",
+        "Update phase-transition probabilities if customer-count volatility increases (e.g., COVID-era precedent suggests higher P3/P4 transition risk during demand shocks)",
+        "Reweight gross-margin sensitivity to beef/seafood prices if product-mix shifts toward higher-margin specialty segments (>15% of revenue)",
+        "Adjust debt-covenant stress threshold if Sysco refinances at materially higher rates; recalculate debt-service coverage ratio impact on free-cash-flow"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Sysco operates as a high-velocity distribution hub, receiving commodity inputs (proteins, produce, dairy, dry goods) from ~8,000 suppliers, processing them through 330 distribution centers, and delivering to ~400,000 customers (restaurants, hotels, healthcare, schools) via a fleet of ~13,000 vehicles. The company's margin and cash-flow health depend on three neural subsystems: (1) upstream commodity-price absorption and supplier-relationship management (sensory input), (2) internal logistics optimization and inventory-velocity management (motor/operations), and (3) downstream customer-pricing power and demand elasticity (salience/revenue). Disruptions in any subsystem (e.g., beef-price spike, fuel-cost shock, customer churn) propagate through the network within 60–90 days, making Sysco a leading indicator of foodservice-sector stress.",
+    "suppliers": [
+      {
+        "name": "Tyson Foods Inc.",
+        "ticker": "TSN",
+        "cik": "0000100493",
+        "slug": "tyson_foods",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Protein Supply)",
+        "relationshipNote": "Tyson is Sysco's largest poultry and beef supplier, accounting for ~8–10% of Sysco's total protein procurement. Sysco distributes Tyson's fresh and frozen chicken, beef, and pork products to ~100,000+ foodservice customers. The relationship is governed by annual supply agreements with quarterly price adjustments tied to commodity futures (live cattle, lean hogs). In 2023, Tyson faced avian-flu supply constraints, creating temporary margin pressure for Sysco as alternative protein sourcing costs spiked.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Nestlé S.A.",
+        "ticker": "NSRGY",
+        "cik": null,
+        "slug": "nestle",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Branded Dry Goods & Dairy)",
+        "relationshipNote": "Nestlé supplies Sysco with branded dry goods, coffee, dairy products, and frozen meals for institutional and foodservice channels. Sysco is a top-5 distributor for Nestlé's foodservice portfolio in North America, representing ~$1.2–1.5B in annual volume. The relationship includes co-marketing programs and digital-ordering integration via Sysco's eSolutions platform. Nestlé's pricing power (inflation pass-through) directly impacts Sysco's gross-margin realization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dole Food Company Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "dole_food",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Produce)",
+        "relationshipNote": "Dole is a primary supplier of fresh and frozen produce (bananas, pineapples, salads, vegetables) to Sysco's broadline distribution network. Sysco procures ~$800M–1B annually in Dole produce, with seasonal pricing volatility tied to weather, labor costs, and import tariffs. The relationship includes quality-assurance protocols and traceability requirements (FDA FSMA compliance). Dole's supply disruptions (e.g., 2023 Central American drought) create margin pressure as Sysco absorbs higher input costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Dairy Farmers of America (DFA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dairy_farmers_of_america",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Dairy & Milk)",
+        "relationshipNote": "DFA is a cooperative supplying ~30–35% of Sysco's fluid milk, cheese, and butter requirements across North America. Sysco distributes DFA products to ~150,000+ foodservice customers (restaurants, schools, hospitals). Pricing is tied to CME dairy futures (Class III milk, butter contracts) with monthly adjustments. DFA supply constraints (e.g., 2022 avian-flu impact on feed costs) directly compress Sysco's dairy-category margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sysco Specialty Produce (Internal Division)",
+        "ticker": null,
+        "cik": "0000096021",
+        "slug": "sysco_specialty_produce",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (Specialty Sourcing & Procurement)",
+        "relationshipNote": "Sysco's specialty-produce division sources organic, local, and premium produce directly from ~2,000 regional farms and growers, bypassing commodity markets. This segment grew ~12% YoY in 2023–2024, with gross margins 300–400 bps higher than broadline produce. The division operates ~50 specialty distribution centers and serves ~50,000 high-end restaurants and hotels. Direct-farm relationships reduce commodity-price exposure but increase supply-chain complexity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Reinhart Foodservice (Sysco Subsidiary)",
+        "ticker": null,
+        "cik": "0000096021",
+        "slug": "reinhart_foodservice",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (Regional Broadline Distribution)",
+        "relationshipNote": "Sysco acquired Reinhart Foodservice in 2020 for ~$7.7B, integrating a regional broadline distributor with ~$3.5B in annual revenue and ~30 distribution centers. The acquisition expanded Sysco's market share in the Midwest and Southeast, adding ~100,000 customer accounts. Post-acquisition integration (2020–2023) achieved ~$300M in synergies via procurement consolidation and logistics optimization. Reinhart now operates as a Sysco operating company with shared procurement and IT infrastructure.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Greco & Sons Inc. (Sysco Subsidiary)",
+        "ticker": null,
+        "cik": "0000096021",
+        "slug": "greco_and_sons",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (Specialty Foodservice Distribution)",
+        "relationshipNote": "Sysco acquired Greco & Sons in 2021 for ~$375M, a specialty distributor focused on Italian and Mediterranean products, serving ~15,000 independent restaurants and specialty retailers. The acquisition added ~$500M in annual revenue and strengthened Sysco's position in the high-margin specialty segment. Greco operates ~8 distribution centers and maintains direct relationships with ~800 European and domestic specialty suppliers. The integration achieved ~$40M in annual synergies by 2023.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Shamrock Foods Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "shamrock_foods",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Regional Supplier Partnership)",
+        "relationshipNote": "Shamrock Foods is a regional broadline distributor and supplier to Sysco in the Southwest and Mountain regions, providing fresh produce, proteins, and dry goods. The relationship includes co-distribution agreements where Shamrock supplies Sysco's regional distribution centers. Shamrock's local sourcing capabilities complement Sysco's national procurement, enabling faster delivery and fresher products to regional customers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Last-Mile Logistics)",
+        "relationshipNote": "XPO provides dedicated contract logistics and last-mile delivery services for Sysco's specialty and regional distribution operations. The partnership includes temperature-controlled transportation for perishables and just-in-time delivery to high-volume customers (hotels, hospitals, casinos). XPO operates ~50 dedicated Sysco routes across North America, with service-level agreements tied to on-time delivery (>98%) and damage rates (<0.5%). The contract is valued at ~$200–250M annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Intermodal & Regional Haul)",
+        "relationshipNote": "J.B. Hunt provides intermodal and regional trucking services for Sysco's long-haul distribution between regional distribution centers and customer delivery points. The partnership includes dedicated equipment (refrigerated trailers) and driver services, with capacity commitments of ~500–700 loads per week. J.B. Hunt's fuel-surcharge mechanisms are passed through to Sysco, creating exposure to diesel-price volatility. The contract is estimated at ~$150–200M annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000091142",
+        "slug": "saia",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Regional LTL)",
+        "relationshipNote": "Saia provides less-than-truckload (LTL) and regional delivery services for Sysco's smaller-order fulfillment and regional distribution. Saia operates ~150 service centers across North America, enabling next-day delivery to many Sysco customers. The partnership includes dedicated Sysco freight lanes and priority handling for perishable products.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sysco Logistics (Internal Fleet)",
+        "ticker": null,
+        "cik": "0000096021",
+        "slug": "sysco_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Company-Operated Fleet)",
+        "relationshipNote": "Sysco operates an internal fleet of ~13,000 vehicles (delivery trucks, refrigerated trailers, specialty equipment) managed by Sysco Logistics, a wholly-owned subsidiary. The fleet handles ~70–75% of Sysco's last-mile delivery, with the remainder outsourced to third-party carriers. Fleet utilization, fuel efficiency, and driver retention are critical operational metrics. In 2023, Sysco invested ~$400M in fleet modernization (electric vehicles, telematics, route optimization).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "McDonald's Corporation",
+        "ticker": "MCD",
+        "cik": "0000063908",
+        "slug": "mcdonalds",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor QSR Customer)",
+        "relationshipNote": "McDonald's is one of Sysco's largest customers, with ~1,500+ franchisees and company-operated locations sourcing beef, chicken, potatoes, and dairy from Sysco. The relationship is governed by master supply agreements with quarterly pricing and volume commitments. McDonald's represents ~2–3% of Sysco's total revenue (~$1.5–2B annually). In 2023, McDonald's E. coli outbreak (linked to beef suppliers) created supply-chain scrutiny and temporary volume disruptions for Sysco.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Marriott International Inc.",
+        "ticker": "MAR",
+        "cik": "0001048286",
+        "slug": "marriott",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Hospitality Customer)",
+        "relationshipNote": "Marriott's ~7,000 properties worldwide source food and beverage supplies from Sysco via regional distribution partnerships. Sysco supplies ~$800M–1B annually to Marriott properties (hotels, resorts, restaurants), with dedicated account management and customized menu-planning services. The relationship includes Sysco's eSolutions digital-ordering platform, enabling real-time inventory and demand forecasting. Marriott's post-COVID recovery (2021–2023) drove strong volume growth for Sysco's hospitality segment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Compass Group PLC",
+        "ticker": "CPG",
+        "cik": null,
+        "slug": "compass_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Institutional Foodservice)",
+        "relationshipNote": "Compass Group (UK-listed) is a global foodservice management company operating ~30,000 locations worldwide, including corporate cafeterias, schools, hospitals, and sports venues. Sysco supplies Compass with ~$600M–800M annually in food and supplies across North America. The relationship includes supply-chain integration via Compass's procurement platform and Sysco's eSolutions. Compass's cost-control initiatives (2023–2024) created pricing pressure for Sysco.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "US Foods Inc.",
+        "ticker": "USFD",
+        "cik": "0001616707",
+        "slug": "us_foods",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor)",
+        "relationshipNote": "US Foods is Sysco's largest direct competitor in broadline foodservice distribution, with ~$40B in annual revenue and ~330 distribution centers. US Foods serves ~400,000+ customers (similar to Sysco) and competes on pricing, service, and digital capabilities. In 2023–2024, US Foods achieved gross-margin expansion (9.8% vs. Sysco's 9.5%) via better commodity-cost management and customer-mix optimization. US Foods' acquisition of Reinhart competitor (Performance Food Group partnership) threatens Sysco's regional market share.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Performance Food Group Company",
+        "ticker": "PFGC",
+        "cik": "0001717063",
+        "slug": "performance_food_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Regional Competitor)",
+        "relationshipNote": "Performance Food Group is a regional broadline distributor with ~$30B in annual revenue, competing with Sysco in specialty and regional markets. PFGC operates ~200 distribution centers and serves ~150,000+ customers. PFGC's acquisition strategy (e.g., Shamrock Foods partnership) and specialty-segment focus (higher margins) create competitive pressure on Sysco's premium-product positioning. PFGC's gross margins (10.2–10.5%) exceed Sysco's, suggesting better pricing power or cost management.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon Business / Amazon Fresh",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Emerging Competitive Threat)",
+        "relationshipNote": "Amazon Business and Amazon Fresh represent an emerging competitive threat to Sysco's B2B foodservice distribution model. Amazon's direct-to-restaurant ordering platform and logistics network enable lower-cost delivery for smaller orders and specialty items. Amazon Fresh's expansion into foodservice (2022–2024) targets independent restaurants and small chains, undercutting Sysco's pricing on commodity items. Amazon's scale and logistics efficiency create long-term margin pressure for traditional distributors.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Restaurant Depot Inc.",
+        "ticker": "RDEPQ",
+        "cik": "0001079739",
+        "slug": "restaurant_depot",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Cash-and-Carry Competitor)",
+        "relationshipNote": "Restaurant Depot is a cash-and-carry foodservice distributor with ~150 locations across North America, serving independent restaurants and small chains. RDEPQ's membership model (annual fee) and self-service format enable lower operating costs and competitive pricing on commodity items. RDEPQ's growth (2020–2024) has captured share from Sysco in the small-restaurant segment. RDEPQ's private-equity backing (Apollo Global) enables aggressive expansion and technology investment.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Dot Foods Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot_foods",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Private Regional Competitor)",
+        "relationshipNote": "Dot Foods is a privately-held regional broadline distributor with ~$10B in annual revenue, operating ~50 distribution centers across North America. Dot Foods competes with Sysco in regional markets (Midwest, South) and specialty segments. Dot Foods' private ownership and lower cost structure enable aggressive pricing on commodity items. Dot Foods' growth strategy includes M&A and technology investment, creating competitive pressure on Sysco's regional market share.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Financial Disclosure)",
+        "relationshipNote": "The SEC regulates Sysco's public-company disclosures via 10-K, 10-Q, and 8-K filings. Sysco files quarterly earnings reports and annual reports with detailed risk disclosures (commodity exposure, customer concentration, supply-chain disruptions). The SEC's 2023 climate-disclosure rules (Regulation S-K Item 1505) require Sysco to disclose climate risks and GHG emissions, creating new reporting obligations. Sysco's investor-relations team manages SEC compliance and earnings-call guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (Food Safety & Compliance)",
+        "relationshipNote": "The FDA regulates Sysco's food-safety practices via the Food Safety Modernization Act (FSMA) and Produce Safety Rule. Sysco operates ~330 distribution centers subject to FDA inspection and compliance audits. The FDA's 2023 E. coli outbreak investigation (linked to beef suppliers) created supply-chain scrutiny for Sysco and its customers (e.g., McDonald's). Sysco maintains FSMA compliance programs, traceability systems, and supplier-audit protocols to meet FDA requirements.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Department of Agriculture",
+        "ticker": null,
+        "cik": null,
+        "slug": "usda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (Agricultural & Commodity Oversight)",
+        "relationshipNote": "The USDA regulates Sysco's procurement of meat, poultry, and dairy products via USDA inspection and grading standards. Sysco's suppliers (Tyson, DFA, etc.) are subject to USDA oversight, which impacts product availability and pricing. The USDA's 2023 avian-flu response (culling of egg-laying hens) created supply constraints and price spikes for Sysco's poultry and egg suppliers. USDA commodity-price reports (CME futures) inform Sysco's procurement and pricing strategies.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic (Antitrust & Competition)",
+        "relationshipNote": "The FTC monitors Sysco's competitive practices and market concentration in foodservice distribution. Sysco's 2020 acquisition of Reinhart Foodservice (~$7.7B) was reviewed by the FTC for antitrust concerns; the deal was approved with conditions (divestitures in overlapping markets). The FTC's 2024 focus on supply-chain consolidation creates scrutiny for future M&A. Sysco's market share (~25% of broadline distribution) is monitored for monopolistic practices.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Fleet & Safety Regulations)",
+        "relationshipNote": "The DOT regulates Sysco's fleet operations via Federal Motor Carrier Safety Administration (FMCSA) rules. Sysco's ~13,000 vehicles are subject to DOT safety inspections, driver-hours-of-service regulations, and hazmat compliance. The DOT's 2023 electronic logging device (ELD) mandate and 2024 autonomous-vehicle pilot programs create operational and compliance costs for Sysco. Sysco's safety record (accident rates, violations) is monitored by FMCSA and impacts insurance costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance (External Audit)",
+      "relationshipNote": "Deloitte is Sysco's external auditor, responsible for annual financial-statement audits and internal-control assessments. Deloitte's audit opinion (unqualified, 2023) confirms Sysco's financial reporting and internal controls over financial reporting (ICFR). Deloitte's audit procedures include testing of revenue recognition (customer contracts), inventory valuation (FIFO/weighted-average), and debt covenants. Deloitte's audit fees (~$15–20M annually) are disclosed in Sysco's proxy statement.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Lead Lender & Underwriter)",
+        "relationshipNote": "JPMorgan Chase is Sysco's lead bank and primary lender, managing a $3.5B revolving credit facility (as of 2024). JPMorgan also serves as a debt underwriter for Sysco's bond issuances (e.g., 2023 $1.5B senior notes offering). JPMorgan's credit analysis and covenant monitoring inform Sysco's debt-service obligations and financial covenants (debt/EBITDA <3.5x, interest-coverage >3.0x). JPMorgan's relationship managers provide market intelligence on competitor financing and M&A activity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Lender & Underwriter)",
+        "relationshipNote": "Bank of America is a co-lender on Sysco's $3.5B revolving credit facility and a debt underwriter for bond offerings. BofA provides treasury services (cash management, foreign exchange) and equity-research coverage of Sysco. BofA's investment-banking team advises Sysco on M&A strategy and capital-allocation decisions. BofA's credit facility includes financial covenants tied to debt/EBITDA and interest-coverage ratios.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.A",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Major Shareholder)",
+        "relationshipNote": "Berkshire Hathaway owns ~9.2% of Sysco (as of 2024), making it Sysco's largest shareholder. Berkshire's investment (initiated 2017, ~$4.6B cost basis) reflects confidence in Sysco's competitive moat and cash-generation capability. Berkshire's long-term holding strategy and board representation (via Berkshire director) provide governance stability. Berkshire's quarterly 13-F filings disclose any changes in Sysco shareholding.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "SEC 13-F"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Institutional Investor)",
+        "relationshipNote": "Vanguard is Sysco's second-largest institutional shareholder, with ~8.5% ownership (as of 2024). Vanguard's index funds and active-management strategies hold Sysco as a core position in the consumer-staples and industrials sectors. Vanguard's engagement with Sysco management focuses on ESG practices, board diversity, and long-term value creation. Vanguard's quarterly 13-F filings and proxy-voting disclosures inform market sentiment on Sysco.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "SEC 13-F"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Kevin Hourican",
+        "title": "President and Chief Executive Officer",
+        "slug": "kevin_hourican",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership (CEO)",
+        "relationshipNote": "Kevin Hourican became Sysco's CEO in 2019, succeeding Tom Bené. Hourican's tenure (2019–present) has focused on digital transformation (eSolutions platform), M&A integration (Reinhart, Greco & Sons), and margin expansion. Hourican's compensation (2023: ~$18M base + incentives) is tied to revenue growth, EBITDA margin, and free-cash-flow targets. Hourican's strategic priorities include specialty-segment growth and supply-chain automation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Joel Grade",
+        "title": "Chief Financial Officer",
+        "slug": "joel_grade",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management (CFO)",
+        "relationshipNote": "Joel Grade is Sysco's CFO (since 2020), responsible for financial planning, capital allocation, and investor relations. Grade's background includes roles at Albertsons and Supervalu, providing foodservice-industry expertise. Grade's priorities include debt reduction (targeting debt/EBITDA <3.0x by 2025), free-cash-flow growth, and shareholder returns (dividends, buybacks). Grade's compensation (2023: ~$8M) is tied to financial metrics and strategic objectives.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Jacqueline M. Kuca",
+        "title": "Chief Operating Officer",
+        "slug": "jacqueline_kuca",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (COO)",
+        "relationshipNote": "Jacqueline Kuca is Sysco's COO (since 2021), overseeing operations, supply-chain management, and technology infrastructure. Kuca's background includes roles at Amazon and Albertsons, bringing e-commerce and logistics expertise. Kuca's priorities include distribution-center automation, fleet modernization, and supply-chain resilience. Kuca's compensation (2023: ~$6M) is tied to operational metrics (on-time delivery, inventory turns, safety).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Sheila Chepiga",
+        "title": "Chairperson of the Board",
+        "slug": "sheila_chepiga",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity (Board Chair)",
+        "relationshipNote": "Sheila Chepiga became Sysco's Board Chair in 2022, succeeding Jemilah Mahmood. Chepiga's background includes roles at Accenture and Salesforce, providing technology and digital-transformation expertise. Chepiga's board priorities include ESG governance, board diversity, and strategic oversight of M&A and capital allocation. Chepiga's compensation (2023: ~$400K board fees) is disclosed in Sysco's proxy statement.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Weekly Same-Store Sales Index (Sysco Broadline)",
+        "slug": "sysco_same_store_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Demand Signal)",
+        "relationshipNote": "Sysco's weekly same-store sales (comparable-store sales growth) is a leading indicator of foodservice-sector demand. Positive same-store sales growth (>2% YoY) signals strong restaurant traffic and pricing power; negative growth (<−2%) signals demand weakness or customer churn. Sysco discloses same-store sales trends in quarterly earnings calls and 10-Q filings. In 2023, Sysco's same-store sales grew ~4–5% YoY, reflecting post-COVID recovery and inflation pass-through.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Gross-Margin Realization vs. Commodity-Input Inflation",
+        "slug": "sysco_gross_margin",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence (Pricing Power Signal)",
+        "relationshipNote": "Sysco's gross-margin trend (target 9.5–10.5% for broadline) reflects the company's ability to pass through commodity-cost inflation to customers. Margin compression (>100 bps YoY) signals weak pricing power or customer mix deterioration; margin expansion signals strong demand or cost management. Sysco's gross-margin bridge (disclosed in 10-Q Item 7) quantifies the impact of commodity inflation, customer pricing, and product-mix changes. In 2023, Sysco's gross margin was 9.8%, up 30 bps YoY due to pricing actions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-Q",
+          "earnings-call"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "neuralRegion": "HAB",
+        "neuralRegionLabel": "Habenula",
+        "businessSignature": "contrarian_board_lock",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p5_stuck"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.325,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern",
+            "noveltyAnchor": "Anti-reward framework for board-decision diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research"
+            ],
+            "angle": "Anti-reward decision dynamics in board composition"
+          },
+          "investment": {
+            "thesis": "Activist-investor catalysts during contrarian-board lock",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+            "methodology": "event-study of board refresh and subsequent capital-action"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p5",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "ketamine (habenula modulation)",
+          "DBS to habenula in treatment-resistant depression",
+          "lateralized reward training"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:02.069Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Method and system for detecting contrarian board lock via Habenula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting contrarian board lock signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Habenula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold. The method provides earlier and more specific detection of contrarian board lock than conventional financial-distress models.",
+          "background": "Detection of contrarian board lock in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting contrarian board lock until well after the signature has been priced. Contrarian board lock represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Habenula (ketamine) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting contrarian board lock signature comprises: receiving filing data and counterparty network data, determining a Habenula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Anti-reward framework for board-decision diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting contrarian board lock signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Habenula-equivalent decoupling score, wherein the determining the Habenula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Habenula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Habenula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"ketamine\", \"DBS to habenula in treatment-resistant depression\", and \"lateralized reward training\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Anti-reward framework for board-decision diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:13.023Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "programs": [
+          "NACD research"
+        ],
+        "artifact": {
+          "title": "Translational Habenula-equivalent detection and intervention protocols for contrarian board lock",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit contrarian board lock signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with contrarian board lock-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Habenula-equivalent isomorphic pathology significantly modulates contrarian board lock detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Sysco Corporation and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified contrarian board lock signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects contrarian board lock signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Habenula-equivalent contrarian board lock detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Habenula isomorphic pathology will increase contrarian board lock detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Habenula-equivalent contrarian board lock detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for contrarian board lock against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Anti-reward decision dynamics in board composition",
+          "innovation": "The proposed work is innovative because it integrates Habenula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:13.023Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "side": "LONG",
+        "horizon": "12-24mo",
+        "artifact": {
+          "header": "Sysco Corporation (SYY) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
+          "variantView": "SYY screens as wholesale trade - groceries and related products-typical. Underneath, the operative driver is Habenula-equivalent isomorphic pathology — (contrarian board lock) which neither the sector index nor the comparable cohort price into the entity at current levels.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Wholesale Trade - Groceries and Related Products entities exhibiting contrarian board lock: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Sysco Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the contrarian board lock pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Wholesale Trade - Groceries and Related Products peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.325).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Wholesale Trade - Groceries and Related Products; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:13.023Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Empirical test of Habenula-equivalent contrarian board lock mapping on Sysco Corporation",
+          "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+          "methodology": "event-study of board refresh and subsequent capital-action",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:13.023Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:13.023Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 1,
+    "artifactsByLane": {
+      "patent": 1,
+      "grant": 1,
+      "sba": 0,
+      "investment": 1,
+      "research": 1,
+      "franchise": 0
+    },
+    "totalArtifacts": 4
+  }
+}

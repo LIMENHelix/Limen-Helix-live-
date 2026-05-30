@@ -1,0 +1,2066 @@
+{
+  "domainId": "energy_hydro_conventional",
+  "title": "Conventional Hydro",
+  "parentPortal": "energy_hydro_portal.html",
+  "parentLabel": "Hydroelectric Power",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "MGN",
+      "state": "active",
+      "domainLabel": "Conventional Hydro Assessment & Diagnostics",
+      "domainDescription": "Systematic management of conventional hydro assessment & diagnostics across all conventional hydro functions and operations",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Strengthen Conventional Hydro Assessment & Diagnostics Strategic Alignment Review",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Strengthen a hydrogen economy strategy for conventional hydro assessment & diagnostics applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "FRAGMENTED_CONVENTIONAL_HYDRO_ASSESSMENT_ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for conventional hydro assessment & diagnostics using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Conventional Hydro Assessment & Diagnostics Stakeholder Engagement Plan",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Monitor a renewable energy installer training for conventional hydro assessment & diagnostics using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "MIT Energy Initiative (2022). Future of Energy Storage. MIT; Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241",
+          "target": "SILOED_CONVENTIONAL_HYDRO_ASSESSMENT_ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate installer skills for conventional hydro assessment & diagnostics against NABCEP Job Task Analysis",
+            "Design hands-on training with PV design, installation, and commissioning modules",
+            "Deliver field-based training with code compliance (NEC 690/705) and safety emphasis",
+            "Support NABCEP certification exam preparation and continuing education",
+            "Measure installation quality through inspection pass rates and warranty claims"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid operator competency using NERC operator certification tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid operator competency measured biannually. Target: 100% operators NERC certified. PHASE 3 (Months 4-6): Midpoint review — compare against NERC System Operator Certification. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid operator competency trending toward 100% with CE credits. Escalate if <100% base cert. ANNUAL REVIEW: Comprehensive audit using NERC certification program. Report to VP of Operations.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Build Conventional Hydro Assessment & Diagnostics Training Curriculum",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Build a pipeline integrity management system for conventional hydro assessment & diagnostics per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "NREL (2022). Annual Technology Baseline. NREL; DOE (2023). National Transmission Planning Study. US Department of Energy",
+          "target": "OUTDATED_CONVENTIONAL_HYDRO_ASSESSMENT_ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate distribution for conventional hydro assessment & diagnostics using hosting capacity and reliability analysis",
+            "Design modernization program with AMI, FLISR, and Volt-VAR optimization",
+            "Procure and deploy ADMS with SCADA integration and DMS functionality",
+            "Implement DERMS for real-time DER visibility, dispatch, and settlement",
+            "Measure reliability improvement through SAIDI/SAIFI and customer minutes metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — distribution system hosting capacity using DER interconnection analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — distribution system hosting capacity measured quarterly. Target: hosting capacity increase 25%. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1547 DER integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — distribution system hosting capacity trending toward 40% increase. Escalate if <15% increase floor. ANNUAL REVIEW: Comprehensive audit using IEEE 1547 framework. Report to Distribution Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Conventional Hydro Assessment & Diagnostics Strategic Alignment Review",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Optimize an energy justice program for conventional hydro assessment & diagnostics using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125; Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003",
+          "target": "INEFFICIENT_CONVENTIONAL_HYDRO_ASSESSMENT_ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            },
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Assess community energy potential for conventional hydro assessment & diagnostics using solar and wind resource mapping",
+            "Design community ownership models: cooperatives, solar gardens, and PPAs",
+            "Implement pilot community energy projects with technical and financial support",
+            "Establish peer learning network connecting community energy organizations",
+            "Measure community energy deployment, ownership rates, and economic benefits"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — community RE ownership rate using co-op and community solar registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — community RE ownership rate measured biannually. Target: 10% generation community-owned. PHASE 3 (Months 4-6): Midpoint review — compare against EU energy community benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — community RE ownership rate trending toward 20% community-owned. Escalate if <5% floor. ANNUAL REVIEW: Comprehensive audit using EU Clean Energy Package framework. Report to Community Energy Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Conventional Hydro Assessment & Diagnostics Stakeholder Engagement Plan",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Launch a smart grid analytics platform for conventional hydro assessment & diagnostics integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute; NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3",
+          "target": "INCONSISTENT_CONVENTIONAL_HYDRO_ASSESSMENT_ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit SCADA/EMS cybersecurity for conventional hydro assessment & diagnostics against NERC CIP standards",
+            "Design defense-in-depth architecture with electronic security perimeters",
+            "Implement CIP-compliant access management, monitoring, and incident response",
+            "Deploy security information event management (SIEM) for OT networks",
+            "Conduct annual CIP audit with third-party verification and remediation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — smart meter deployment coverage using AMI deployment tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — smart meter deployment coverage measured monthly. Target: 80% meter penetration. PHASE 3 (Months 4-6): Midpoint review — compare against EU smart metering mandate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — smart meter deployment coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using IEC 62052/62053 standards. Report to Metering Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Conventional Hydro Assessment & Diagnostics Training Curriculum",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Develop a hydrogen economy strategy for conventional hydro assessment & diagnostics applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "UNMONITORED_CONVENTIONAL_HYDRO_ASSESSMENT_ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for conventional hydro assessment & diagnostics using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_hydro_conventional_dams_portal.html"
+    },
+    {
+      "brainNodeId": "CMZ",
+      "state": "active",
+      "domainLabel": "Conventional Hydro Core Operations",
+      "domainDescription": "Systematic management of conventional hydro core operations across all conventional hydro functions and operations",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Streamline Conventional Hydro Core Operations Early Warning System",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Streamline an integrated resource plan for conventional hydro core operations using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard; IEA (2023). World Energy Outlook. IEA Publications",
+          "target": "UNMONITORED_CONVENTIONAL_HYDRO_CORE_OPERAT -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for conventional hydro core operations using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Conventional Hydro Core Operations Operational Readiness Check",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Assess an energy auditor qualification program for conventional hydro core operations following BPI Building Analyst and RESNET HERS rater pathways.",
+          "cite": "Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241; MIT Energy Initiative (2022). Future of Energy Storage. MIT",
+          "target": "UNDERPERFORMING_CONVENTIONAL_HYDRO_CORE_OPERAT -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            },
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for conventional hydro core operations against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Conventional Hydro Core Operations Capacity Building Initiative",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Create a power plant efficiency optimization for conventional hydro core operations using ASME PTC performance testing with heat rate improvement measures.",
+          "cite": "DOE (2023). National Transmission Planning Study. US Department of Energy; NREL (2022). Annual Technology Baseline. NREL",
+          "target": "REACTIVE_CONVENTIONAL_HYDRO_CORE_OPERAT -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for conventional hydro core operations using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Conventional Hydro Core Operations Early Warning System",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Evaluate a community energy development initiative for conventional hydro core operations enabling cooperative ownership models per EU Clean Energy Package.",
+          "cite": "Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003; Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125",
+          "target": "FRAGMENTED_CONVENTIONAL_HYDRO_CORE_OPERAT -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            },
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for conventional hydro core operations using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Conventional Hydro Core Operations Operational Readiness Check",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Integrate an energy storage optimization tool for conventional hydro core operations using Sandia StorageVET methodology for value stacking analysis.",
+          "cite": "NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3; EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute",
+          "target": "SILOED_CONVENTIONAL_HYDRO_CORE_OPERAT -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for conventional hydro core operations against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Conduct Conventional Hydro Core Operations Capacity Building Initiative",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Conduct an integrated resource plan for conventional hydro core operations using IRENA REmap methodology with least-cost optimization and reliability constraints.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "OUTDATED_CONVENTIONAL_HYDRO_CORE_OPERAT -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for conventional hydro core operations using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_hydro_conventional_generation_portal.html"
+    },
+    {
+      "brainNodeId": "TrkB",
+      "state": "active",
+      "domainLabel": "Conventional Hydro Infrastructure & Capacity",
+      "domainDescription": "Systematic management of conventional hydro infrastructure & capacity across all conventional hydro functions and operations",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Evaluate Conventional Hydro Infrastructure & Capacity Adaptive Management System",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Evaluate a hydrogen economy strategy for conventional hydro infrastructure & capacity applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "INEFFICIENT_CONVENTIONAL_HYDRO_INFRASTRUCT -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for conventional hydro infrastructure & capacity using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Conventional Hydro Infrastructure & Capacity Knowledge Transfer Program",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Integrate a renewable energy installer training for conventional hydro infrastructure & capacity using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "NERC (2023). Long-Term Reliability Assessment. NERC; Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302",
+          "target": "INCONSISTENT_CONVENTIONAL_HYDRO_INFRASTRUCT -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for conventional hydro infrastructure & capacity against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Conduct Conventional Hydro Infrastructure & Capacity Continuous Improvement Cycle",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Conduct a pipeline integrity management system for conventional hydro infrastructure & capacity per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE; FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC",
+          "target": "UNMONITORED_CONVENTIONAL_HYDRO_INFRASTRUCT -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for conventional hydro infrastructure & capacity using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Design Conventional Hydro Infrastructure & Capacity Adaptive Management System",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Design an energy justice program for conventional hydro infrastructure & capacity using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044; Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004",
+          "target": "UNDERPERFORMING_CONVENTIONAL_HYDRO_INFRASTRUCT -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            },
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for conventional hydro infrastructure & capacity using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Deploy Conventional Hydro Infrastructure & Capacity Knowledge Transfer Program",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Deploy a smart grid analytics platform for conventional hydro infrastructure & capacity integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy; Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003",
+          "target": "REACTIVE_CONVENTIONAL_HYDRO_INFRASTRUCT -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for conventional hydro infrastructure & capacity against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Conventional Hydro Infrastructure & Capacity Continuous Improvement Cycle",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Operationalize a hydrogen economy strategy for conventional hydro infrastructure & capacity applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "EIA (2023). Annual Energy Outlook. US Energy Information Administration; Smil, V. (2017). Energy and Civilization: A History. MIT Press",
+          "target": "FRAGMENTED_CONVENTIONAL_HYDRO_INFRASTRUCT -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for conventional hydro infrastructure & capacity using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_hydro_conventional_operations_portal.html"
+    },
+    {
+      "brainNodeId": "HAB",
+      "state": "active",
+      "domainLabel": "Conventional Hydro Risk & Resilience",
+      "domainDescription": "Systematic management of conventional hydro risk & resilience across all conventional hydro functions and operations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Conventional Hydro Risk & Resilience Sustainability Audit",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a grid decarbonization roadmap for conventional hydro risk & resilience following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "INCONSISTENT_CONVENTIONAL_HYDRO_RISK___RESI -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze DER growth for conventional hydro risk & resilience using IEEE 1547 hosting capacity analysis",
+            "Design interconnection queue reform with technical screens and fast-track provisions",
+            "Implement DERMS platform for visibility, control, and optimization",
+            "Deploy dynamic operating envelopes for voltage and thermal management",
+            "Evaluate DER integration costs and benefits using utility cost-benefit framework"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — carbon intensity of electricity using emissions monitoring system (CEMS). Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — carbon intensity of electricity measured monthly. Target: reduction of 15% in gCO2/kWh. PHASE 3 (Months 4-6): Midpoint review — compare against IEA Net Zero pathway. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — carbon intensity of electricity trending toward 30% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using GHG Protocol Scope 2 framework. Report to Climate and Energy Commissioner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Conventional Hydro Risk & Resilience Innovation Pipeline",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop a certified energy manager program for conventional hydro risk & resilience per AEE CEM body of knowledge with industrial efficiency focus.",
+          "cite": "Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302; NERC (2023). Long-Term Reliability Assessment. NERC",
+          "target": "UNMONITORED_CONVENTIONAL_HYDRO_RISK___RESI -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            },
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Survey energy management skills for conventional hydro risk & resilience against AEE CEM body of knowledge",
+            "Design CEM preparation program covering energy accounting, economics, and systems",
+            "Deliver training with facility assessments, M&V exercises, and case studies",
+            "Support CEM examination and CMVP certification for verification skills",
+            "Measure energy savings achieved by certified managers in their facilities"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — renewable technology training using NABCEP certification system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — renewable technology training measured quarterly. Target: 60% installers NABCEP certified. PHASE 3 (Months 4-6): Midpoint review — compare against NABCEP industry benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — renewable technology training trending toward 80% certified. Escalate if <40% certified. ANNUAL REVIEW: Comprehensive audit using NABCEP certification standards. Report to RE Training Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Conventional Hydro Risk & Resilience Feedback Loop Design",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a transmission expansion program for conventional hydro risk & resilience following FERC Order 1000 planning with multi-value project assessment.",
+          "cite": "FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC; IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE",
+          "target": "UNDERPERFORMING_CONVENTIONAL_HYDRO_RISK___RESI -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess pipeline integrity for conventional hydro risk & resilience per 49 CFR 192/195 requirements",
+            "Conduct in-line inspection (ILI) and direct assessment (ECDA/ICDA)",
+            "Design repair and replacement program prioritized by risk assessment",
+            "Implement pipeline monitoring with SCADA, leak detection, and cathodic protection",
+            "Report integrity metrics to PHMSA with annual safety performance tracking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — pipeline integrity index using PHMSA inspection data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — pipeline integrity index measured quarterly. Target: zero serious incidents. PHASE 3 (Months 4-6): Midpoint review — compare against PHMSA Pipeline Safety targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — pipeline integrity index trending toward zero incidents with margin. Escalate if <<3 minor incidents. ANNUAL REVIEW: Comprehensive audit using 49 CFR Parts 192/195. Report to Pipeline Safety Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Conventional Hydro Risk & Resilience Sustainability Audit",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement an energy efficiency behavior change program for conventional hydro risk & resilience applying Dietz behavioral wedge methodology with smart meter feedback.",
+          "cite": "Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004; Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044",
+          "target": "REACTIVE_CONVENTIONAL_HYDRO_RISK___RESI -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            },
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            }
+          ],
+          "steps": [
+            "Conduct social acceptance assessment for conventional hydro risk & resilience using stakeholder mapping",
+            "Design community engagement plan with benefit-sharing and impact mitigation",
+            "Implement iterative consultation with community advisory panels",
+            "Negotiate community benefit agreements with legally binding commitments",
+            "Monitor social license indicators through community survey and complaint tracking"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy workforce diversity using EEO workforce data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy workforce diversity measured quarterly. Target: 30% underrepresented groups. PHASE 3 (Months 4-6): Midpoint review — compare against DOE equity initiative targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy workforce diversity trending toward 40% representation. Escalate if <20% minimum. ANNUAL REVIEW: Comprehensive audit using DOE Justice40 framework. Report to Diversity Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Conventional Hydro Risk & Resilience Innovation Pipeline",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a renewable resource assessment platform for conventional hydro risk & resilience integrating NREL SAM with GIS-based siting and interconnection analysis.",
+          "cite": "Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003; HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy",
+          "target": "FRAGMENTED_CONVENTIONAL_HYDRO_RISK___RESI -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            },
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess storage valuation for conventional hydro risk & resilience using Sandia StorageVET methodology",
+            "Model value stacks: arbitrage, capacity, ancillary services, T&D deferral",
+            "Design storage procurement with performance requirements and warranty terms",
+            "Deploy storage with controls integration and market participation",
+            "Track storage utilization, revenue, and degradation against performance targets"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — DER management platform maturity using DERMS capability assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — DER management platform maturity measured quarterly. Target: DERMS level 3 maturity. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 2030.11 DERMS standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — DER management platform maturity trending toward level 4. Escalate if <level 2 floor. ANNUAL REVIEW: Comprehensive audit using IEEE 2030 framework. Report to DER Integration Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Conventional Hydro Risk & Resilience Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a grid decarbonization roadmap for conventional hydro risk & resilience following IEA Net Zero pathway milestones with sector coupling analysis.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "SILOED_CONVENTIONAL_HYDRO_RISK___RESI -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze DER growth for conventional hydro risk & resilience using IEEE 1547 hosting capacity analysis",
+            "Design interconnection queue reform with technical screens and fast-track provisions",
+            "Implement DERMS platform for visibility, control, and optimization",
+            "Deploy dynamic operating envelopes for voltage and thermal management",
+            "Evaluate DER integration costs and benefits using utility cost-benefit framework"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — carbon intensity of electricity using emissions monitoring system (CEMS). Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — carbon intensity of electricity measured monthly. Target: reduction of 15% in gCO2/kWh. PHASE 3 (Months 4-6): Midpoint review — compare against IEA Net Zero pathway. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — carbon intensity of electricity trending toward 30% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using GHG Protocol Scope 2 framework. Report to Climate and Energy Commissioner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "energy_hydro_conventional_turbines_portal.html"
+    },
+    {
+      "brainNodeId": "NEOCER",
+      "state": "active",
+      "domainLabel": "Conventional Hydro Policy & Governance",
+      "domainDescription": "Systematic management of conventional hydro policy & governance across all conventional hydro functions and operations",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Develop Conventional Hydro Policy & Governance Strategic Alignment Review",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Develop a hydrogen economy strategy for conventional hydro policy & governance applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IEA (2023). World Energy Outlook. IEA Publications; Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard",
+          "target": "UNDERPERFORMING_CONVENTIONAL_HYDRO_POLICY___GO -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for conventional hydro policy & governance using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Conventional Hydro Policy & Governance Stakeholder Engagement Plan",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Establish a renewable energy installer training for conventional hydro policy & governance using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "MIT Energy Initiative (2022). Future of Energy Storage. MIT; Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241",
+          "target": "REACTIVE_CONVENTIONAL_HYDRO_POLICY___GO -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate installer skills for conventional hydro policy & governance against NABCEP Job Task Analysis",
+            "Design hands-on training with PV design, installation, and commissioning modules",
+            "Deliver field-based training with code compliance (NEC 690/705) and safety emphasis",
+            "Support NABCEP certification exam preparation and continuing education",
+            "Measure installation quality through inspection pass rates and warranty claims"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid operator competency using NERC operator certification tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid operator competency measured biannually. Target: 100% operators NERC certified. PHASE 3 (Months 4-6): Midpoint review — compare against NERC System Operator Certification. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid operator competency trending toward 100% with CE credits. Escalate if <100% base cert. ANNUAL REVIEW: Comprehensive audit using NERC certification program. Report to VP of Operations.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Conventional Hydro Policy & Governance Training Curriculum",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Implement a pipeline integrity management system for conventional hydro policy & governance per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "NREL (2022). Annual Technology Baseline. NREL; DOE (2023). National Transmission Planning Study. US Department of Energy",
+          "target": "FRAGMENTED_CONVENTIONAL_HYDRO_POLICY___GO -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate distribution for conventional hydro policy & governance using hosting capacity and reliability analysis",
+            "Design modernization program with AMI, FLISR, and Volt-VAR optimization",
+            "Procure and deploy ADMS with SCADA integration and DMS functionality",
+            "Implement DERMS for real-time DER visibility, dispatch, and settlement",
+            "Measure reliability improvement through SAIDI/SAIFI and customer minutes metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — distribution system hosting capacity using DER interconnection analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — distribution system hosting capacity measured quarterly. Target: hosting capacity increase 25%. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1547 DER integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — distribution system hosting capacity trending toward 40% increase. Escalate if <15% increase floor. ANNUAL REVIEW: Comprehensive audit using IEEE 1547 framework. Report to Distribution Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Conventional Hydro Policy & Governance Strategic Alignment Review",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Institutionalize an energy justice program for conventional hydro policy & governance using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125; Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003",
+          "target": "SILOED_CONVENTIONAL_HYDRO_POLICY___GO -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            },
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            }
+          ],
+          "steps": [
+            "Assess community energy potential for conventional hydro policy & governance using solar and wind resource mapping",
+            "Design community ownership models: cooperatives, solar gardens, and PPAs",
+            "Implement pilot community energy projects with technical and financial support",
+            "Establish peer learning network connecting community energy organizations",
+            "Measure community energy deployment, ownership rates, and economic benefits"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — community RE ownership rate using co-op and community solar registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — community RE ownership rate measured biannually. Target: 10% generation community-owned. PHASE 3 (Months 4-6): Midpoint review — compare against EU energy community benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — community RE ownership rate trending toward 20% community-owned. Escalate if <5% floor. ANNUAL REVIEW: Comprehensive audit using EU Clean Energy Package framework. Report to Community Energy Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Conventional Hydro Policy & Governance Stakeholder Engagement Plan",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Configure a smart grid analytics platform for conventional hydro policy & governance integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute; NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3",
+          "target": "OUTDATED_CONVENTIONAL_HYDRO_POLICY___GO -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit SCADA/EMS cybersecurity for conventional hydro policy & governance against NERC CIP standards",
+            "Design defense-in-depth architecture with electronic security perimeters",
+            "Implement CIP-compliant access management, monitoring, and incident response",
+            "Deploy security information event management (SIEM) for OT networks",
+            "Conduct annual CIP audit with third-party verification and remediation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — smart meter deployment coverage using AMI deployment tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — smart meter deployment coverage measured monthly. Target: 80% meter penetration. PHASE 3 (Months 4-6): Midpoint review — compare against EU smart metering mandate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — smart meter deployment coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using IEC 62052/62053 standards. Report to Metering Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Conventional Hydro Policy & Governance Training Curriculum",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Strengthen a hydrogen economy strategy for conventional hydro policy & governance applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA; IRENA (2023). World Energy Transitions Outlook. IRENA",
+          "target": "INEFFICIENT_CONVENTIONAL_HYDRO_POLICY___GO -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for conventional hydro policy & governance using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Conventional Hydro Technology & Innovation",
+      "domainDescription": "Systematic management of conventional hydro technology & innovation across all conventional hydro functions and operations",
+      "group": "development",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Design Conventional Hydro Technology & Innovation Quality Assurance Program",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Design a distributed energy resources integration plan for conventional hydro technology & innovation per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard; IEA (2023). World Energy Outlook. IEA Publications",
+          "target": "SILOED_CONVENTIONAL_HYDRO_TECHNOLOGY_ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for conventional hydro technology & innovation using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Deploy Conventional Hydro Technology & Innovation Integration Architecture",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Deploy a grid operator certification program for conventional hydro technology & innovation aligned with NERC System Operator Certification requirements.",
+          "cite": "Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241; MIT Energy Initiative (2022). Future of Energy Storage. MIT",
+          "target": "OUTDATED_CONVENTIONAL_HYDRO_TECHNOLOGY_ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            },
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate installer skills for conventional hydro technology & innovation against NABCEP Job Task Analysis",
+            "Design hands-on training with PV design, installation, and commissioning modules",
+            "Deliver field-based training with code compliance (NEC 690/705) and safety emphasis",
+            "Support NABCEP certification exam preparation and continuing education",
+            "Measure installation quality through inspection pass rates and warranty claims"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid operator competency using NERC operator certification tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid operator competency measured biannually. Target: 100% operators NERC certified. PHASE 3 (Months 4-6): Midpoint review — compare against NERC System Operator Certification. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid operator competency trending toward 100% with CE credits. Escalate if <100% base cert. ANNUAL REVIEW: Comprehensive audit using NERC certification program. Report to VP of Operations.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Conventional Hydro Technology & Innovation Capability Maturity Model",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Operationalize a substation upgrade program for conventional hydro technology & innovation implementing IEC 61850 communications with digital relay protection schemes.",
+          "cite": "DOE (2023). National Transmission Planning Study. US Department of Energy; NREL (2022). Annual Technology Baseline. NREL",
+          "target": "INEFFICIENT_CONVENTIONAL_HYDRO_TECHNOLOGY_ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate distribution for conventional hydro technology & innovation using hosting capacity and reliability analysis",
+            "Design modernization program with AMI, FLISR, and Volt-VAR optimization",
+            "Procure and deploy ADMS with SCADA integration and DMS functionality",
+            "Implement DERMS for real-time DER visibility, dispatch, and settlement",
+            "Measure reliability improvement through SAIDI/SAIFI and customer minutes metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — distribution system hosting capacity using DER interconnection analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — distribution system hosting capacity measured quarterly. Target: hosting capacity increase 25%. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1547 DER integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — distribution system hosting capacity trending toward 40% increase. Escalate if <15% increase floor. ANNUAL REVIEW: Comprehensive audit using IEEE 1547 framework. Report to Distribution Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Conventional Hydro Technology & Innovation Quality Assurance Program",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Calibrate an energy workforce equity program for conventional hydro technology & innovation with targeted recruitment and pre-apprenticeship per DOE equity initiatives.",
+          "cite": "Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003; Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125",
+          "target": "INCONSISTENT_CONVENTIONAL_HYDRO_TECHNOLOGY_ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            },
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess community energy potential for conventional hydro technology & innovation using solar and wind resource mapping",
+            "Design community ownership models: cooperatives, solar gardens, and PPAs",
+            "Implement pilot community energy projects with technical and financial support",
+            "Establish peer learning network connecting community energy organizations",
+            "Measure community energy deployment, ownership rates, and economic benefits"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — community RE ownership rate using co-op and community solar registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — community RE ownership rate measured biannually. Target: 10% generation community-owned. PHASE 3 (Months 4-6): Midpoint review — compare against EU energy community benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — community RE ownership rate trending toward 20% community-owned. Escalate if <5% floor. ANNUAL REVIEW: Comprehensive audit using EU Clean Energy Package framework. Report to Community Energy Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Conventional Hydro Technology & Innovation Integration Architecture",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Streamline a SCADA/EMS cybersecurity hardening for conventional hydro technology & innovation per NERC CIP standards with intrusion detection and access controls.",
+          "cite": "NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3; EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute",
+          "target": "UNMONITORED_CONVENTIONAL_HYDRO_TECHNOLOGY_ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit SCADA/EMS cybersecurity for conventional hydro technology & innovation against NERC CIP standards",
+            "Design defense-in-depth architecture with electronic security perimeters",
+            "Implement CIP-compliant access management, monitoring, and incident response",
+            "Deploy security information event management (SIEM) for OT networks",
+            "Conduct annual CIP audit with third-party verification and remediation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — smart meter deployment coverage using AMI deployment tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — smart meter deployment coverage measured monthly. Target: 80% meter penetration. PHASE 3 (Months 4-6): Midpoint review — compare against EU smart metering mandate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — smart meter deployment coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using IEC 62052/62053 standards. Report to Metering Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Conventional Hydro Technology & Innovation Capability Maturity Model",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Assess a distributed energy resources integration plan for conventional hydro technology & innovation per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "UNDERPERFORMING_CONVENTIONAL_HYDRO_TECHNOLOGY_ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for conventional hydro technology & innovation using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Conventional Hydro Human Capital & Development",
+      "domainDescription": "Systematic management of conventional hydro human capital & development across all conventional hydro functions and operations",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Optimize Conventional Hydro Human Capital & Development Resource Optimization Model",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Optimize a distributed energy resources integration plan for conventional hydro human capital & development per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "OUTDATED_CONVENTIONAL_HYDRO_HUMAN_CAPIT -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for conventional hydro human capital & development using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Conventional Hydro Human Capital & Development Data-Driven Decision Framework",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Launch a grid operator certification program for conventional hydro human capital & development aligned with NERC System Operator Certification requirements.",
+          "cite": "Borenstein, S. & Bushnell, J. (2022). Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms. Journal of Economic Literature, 60(4), 1237-1302; NERC (2023). Long-Term Reliability Assessment. NERC",
+          "target": "INEFFICIENT_CONVENTIONAL_HYDRO_HUMAN_CAPIT -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Borenstein, S. & Bushnell, J.",
+              "year": 2022,
+              "title": "Headwinds and Tailwinds: Implications of Climate Policy for Energy Firms",
+              "journal": "Journal of Economic Literature",
+              "volume": "60(4)",
+              "pages": "1237-1302",
+              "doi": null
+            },
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate installer skills for conventional hydro human capital & development against NABCEP Job Task Analysis",
+            "Design hands-on training with PV design, installation, and commissioning modules",
+            "Deliver field-based training with code compliance (NEC 690/705) and safety emphasis",
+            "Support NABCEP certification exam preparation and continuing education",
+            "Measure installation quality through inspection pass rates and warranty claims"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid operator competency using NERC operator certification tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid operator competency measured biannually. Target: 100% operators NERC certified. PHASE 3 (Months 4-6): Midpoint review — compare against NERC System Operator Certification. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid operator competency trending toward 100% with CE credits. Escalate if <100% base cert. ANNUAL REVIEW: Comprehensive audit using NERC certification program. Report to VP of Operations.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Conventional Hydro Human Capital & Development Accountability Mechanism",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Develop a substation upgrade program for conventional hydro human capital & development implementing IEC 61850 communications with digital relay protection schemes.",
+          "cite": "FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC; IEEE (2018). IEEE 1547: Standard for Interconnection of DER. IEEE",
+          "target": "INCONSISTENT_CONVENTIONAL_HYDRO_HUMAN_CAPIT -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEEE",
+              "year": 2018,
+              "title": "IEEE 1547: Standard for Interconnection of DER",
+              "journal": "IEEE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate distribution for conventional hydro human capital & development using hosting capacity and reliability analysis",
+            "Design modernization program with AMI, FLISR, and Volt-VAR optimization",
+            "Procure and deploy ADMS with SCADA integration and DMS functionality",
+            "Implement DERMS for real-time DER visibility, dispatch, and settlement",
+            "Measure reliability improvement through SAIDI/SAIFI and customer minutes metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — distribution system hosting capacity using DER interconnection analytics. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — distribution system hosting capacity measured quarterly. Target: hosting capacity increase 25%. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1547 DER integration targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — distribution system hosting capacity trending toward 40% increase. Escalate if <15% increase floor. ANNUAL REVIEW: Comprehensive audit using IEEE 1547 framework. Report to Distribution Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Conventional Hydro Human Capital & Development Resource Optimization Model",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Establish an energy workforce equity program for conventional hydro human capital & development with targeted recruitment and pre-apprenticeship per DOE equity initiatives.",
+          "cite": "Jenkins, K. et al. (2016). Energy Justice: A Conceptual Review. Energy Research & Social Science, 11, 174-182. doi:10.1016/j.erss.2015.10.004; Walker, G. & Day, R. (2012). Fuel Poverty as Injustice. Energy Policy, 49, 69-75. doi:10.1016/j.enpol.2012.01.044",
+          "target": "UNMONITORED_CONVENTIONAL_HYDRO_HUMAN_CAPIT -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Jenkins, K. et al.",
+              "year": 2016,
+              "title": "Energy Justice: A Conceptual Review",
+              "journal": "Energy Research & Social Science",
+              "volume": "11",
+              "pages": "174-182",
+              "doi": "10.1016/j.erss.2015.10.004"
+            },
+            {
+              "author": "Walker, G. & Day, R.",
+              "year": 2012,
+              "title": "Fuel Poverty as Injustice",
+              "journal": "Energy Policy",
+              "volume": "49",
+              "pages": "69-75",
+              "doi": "10.1016/j.enpol.2012.01.044"
+            }
+          ],
+          "steps": [
+            "Assess community energy potential for conventional hydro human capital & development using solar and wind resource mapping",
+            "Design community ownership models: cooperatives, solar gardens, and PPAs",
+            "Implement pilot community energy projects with technical and financial support",
+            "Establish peer learning network connecting community energy organizations",
+            "Measure community energy deployment, ownership rates, and economic benefits"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — community RE ownership rate using co-op and community solar registry. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — community RE ownership rate measured biannually. Target: 10% generation community-owned. PHASE 3 (Months 4-6): Midpoint review — compare against EU energy community benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — community RE ownership rate trending toward 20% community-owned. Escalate if <5% floor. ANNUAL REVIEW: Comprehensive audit using EU Clean Energy Package framework. Report to Community Energy Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Conventional Hydro Human Capital & Development Data-Driven Decision Framework",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Implement a SCADA/EMS cybersecurity hardening for conventional hydro human capital & development per NERC CIP standards with intrusion detection and access controls.",
+          "cite": "Pfenninger, S. et al. (2014). Energy Systems Modeling for 21st Century Challenges. Renewable & Sustainable Energy Reviews, 33, 74-86. doi:10.1016/j.rser.2014.02.003; HOMER Energy (2023). HOMER Pro Microgrid Design Software. HOMER Energy",
+          "target": "UNDERPERFORMING_CONVENTIONAL_HYDRO_HUMAN_CAPIT -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Pfenninger, S. et al.",
+              "year": 2014,
+              "title": "Energy Systems Modeling for 21st Century Challenges",
+              "journal": "Renewable & Sustainable Energy Reviews",
+              "volume": "33",
+              "pages": "74-86",
+              "doi": "10.1016/j.rser.2014.02.003"
+            },
+            {
+              "author": "HOMER Energy",
+              "year": 2023,
+              "title": "HOMER Pro Microgrid Design Software",
+              "journal": "HOMER Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit SCADA/EMS cybersecurity for conventional hydro human capital & development against NERC CIP standards",
+            "Design defense-in-depth architecture with electronic security perimeters",
+            "Implement CIP-compliant access management, monitoring, and incident response",
+            "Deploy security information event management (SIEM) for OT networks",
+            "Conduct annual CIP audit with third-party verification and remediation"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — smart meter deployment coverage using AMI deployment tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — smart meter deployment coverage measured monthly. Target: 80% meter penetration. PHASE 3 (Months 4-6): Midpoint review — compare against EU smart metering mandate targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — smart meter deployment coverage trending toward 95% coverage. Escalate if <60% coverage floor. ANNUAL REVIEW: Comprehensive audit using IEC 62052/62053 standards. Report to Metering Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Conventional Hydro Human Capital & Development Accountability Mechanism",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Institutionalize a distributed energy resources integration plan for conventional hydro human capital & development per IEEE 1547 with hosting capacity analysis and grid impact studies.",
+          "cite": "Smil, V. (2017). Energy and Civilization: A History. MIT Press; EIA (2023). Annual Energy Outlook. US Energy Information Administration",
+          "target": "REACTIVE_CONVENTIONAL_HYDRO_HUMAN_CAPIT -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Smil, V.",
+              "year": 2017,
+              "title": "Energy and Civilization: A History",
+              "journal": "MIT Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EIA",
+              "year": 2023,
+              "title": "Annual Energy Outlook",
+              "journal": "US Energy Information Administration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess grid decarbonization pathways for conventional hydro human capital & development using IEA Net Zero modelling",
+            "Identify optimal RE penetration with curtailment, storage, and flexibility analysis",
+            "Design clean energy standard with tradeable credit mechanism",
+            "Implement phased fossil retirement with workforce transition planning",
+            "Track emissions intensity against Paris Agreement NDC commitments"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid reliability (SAIDI/SAIFI) using SCADA and outage management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid reliability (SAIDI/SAIFI) measured monthly. Target: SAIDI below 90 minutes. PHASE 3 (Months 4-6): Midpoint review — compare against IEEE 1366 reliability benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid reliability (SAIDI/SAIFI) trending toward SAIDI below 60 min. Escalate if <SAIDI below 120 min. ANNUAL REVIEW: Comprehensive audit using IEEE 1366 framework. Report to Grid Reliability Officer.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Conventional Hydro Quality & Performance",
+      "domainDescription": "Systematic management of conventional hydro quality & performance across all conventional hydro functions and operations",
+      "group": "performance",
+      "phase": "P3",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Operationalize Conventional Hydro Quality & Performance Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Operationalize a hydrogen economy strategy for conventional hydro quality & performance applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "Lazard (2023). Levelized Cost of Energy Analysis v16. Lazard; IEA (2023). World Energy Outlook. IEA Publications",
+          "target": "UNMONITORED_CONVENTIONAL_HYDRO_QUALITY___P -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Lazard",
+              "year": 2023,
+              "title": "Levelized Cost of Energy Analysis v16",
+              "journal": "Lazard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2023,
+              "title": "World Energy Outlook",
+              "journal": "IEA Publications",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for conventional hydro quality & performance using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Conventional Hydro Quality & Performance Continuous Improvement Cycle",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Calibrate a renewable energy installer training for conventional hydro quality & performance using NABCEP certification standards with hands-on PV and wind lab exercises.",
+          "cite": "Joskow, P.L. (2011). Comparing the Costs of Intermittent and Dispatchable Generation. American Economic Review, 101(3), 238-241; MIT Energy Initiative (2022). Future of Energy Storage. MIT",
+          "target": "UNDERPERFORMING_CONVENTIONAL_HYDRO_QUALITY___P -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Joskow, P.L.",
+              "year": 2011,
+              "title": "Comparing the Costs of Intermittent and Dispatchable Generation",
+              "journal": "American Economic Review",
+              "volume": "101(3)",
+              "pages": "238-241",
+              "doi": null
+            },
+            {
+              "author": "MIT Energy Initiative",
+              "year": 2022,
+              "title": "Future of Energy Storage",
+              "journal": "MIT",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess energy auditing capacity for conventional hydro quality & performance against BPI and RESNET standards",
+            "Design training covering building science, diagnostics, and retrofit recommendations",
+            "Deliver blended learning with classroom theory and field diagnostic exercises",
+            "Support BPI Building Analyst and RESNET HERS Rater certification",
+            "Track audit-to-retrofit conversion rates and energy savings verification"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — energy auditor qualification rate using BPI/RESNET certification tracker. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — energy auditor qualification rate measured quarterly. Target: 70% auditors certified. PHASE 3 (Months 4-6): Midpoint review — compare against BPI Building Analyst benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — energy auditor qualification rate trending toward 85% certified. Escalate if <50% certified. ANNUAL REVIEW: Comprehensive audit using BPI certification standards. Report to Energy Efficiency Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Conventional Hydro Quality & Performance Adaptive Management System",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Streamline a pipeline integrity management system for conventional hydro quality & performance per 49 CFR 192/195 with ILI and ECDA assessment methods.",
+          "cite": "DOE (2023). National Transmission Planning Study. US Department of Energy; NREL (2022). Annual Technology Baseline. NREL",
+          "target": "REACTIVE_CONVENTIONAL_HYDRO_QUALITY___P -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "DOE",
+              "year": 2023,
+              "title": "National Transmission Planning Study",
+              "journal": "US Department of Energy",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NREL",
+              "year": 2022,
+              "title": "Annual Technology Baseline",
+              "journal": "NREL",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Audit substation equipment for conventional hydro quality & performance using condition-based assessment",
+            "Design upgrade program with IEC 61850 digital substation architecture",
+            "Replace aging relays and transformers with online monitoring capabilities",
+            "Commission upgraded substations with protection system testing per IEEE C37",
+            "Track equipment failure rates and maintenance costs post-modernization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — substation reliability index using relay and equipment monitoring. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — substation reliability index measured monthly. Target: 98% availability. PHASE 3 (Months 4-6): Midpoint review — compare against NERC Transmission Availability targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — substation reliability index trending toward 99.5% availability. Escalate if <95% floor. ANNUAL REVIEW: Comprehensive audit using NERC TPL standards. Report to Substation Engineering Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Conventional Hydro Quality & Performance Knowledge Transfer Program",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Assess an energy justice program for conventional hydro quality & performance using DOE Justice40 framework to direct investment benefits to disadvantaged communities.",
+          "cite": "Sovacool, B.K. (2014). What Are We Doing Here? Energy Research and Social Science. Energy Research & Social Science, 1. doi:10.1016/j.erss.2014.02.003; Stern, P.C. (2014). Individual and Household Interactions with Energy Systems. Daedalus, 142(1), 115-125",
+          "target": "FRAGMENTED_CONVENTIONAL_HYDRO_QUALITY___P -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Sovacool, B.K.",
+              "year": 2014,
+              "title": "What Are We Doing Here? Energy Research and Social Science",
+              "journal": "Energy Research & Social Science",
+              "volume": "1",
+              "pages": null,
+              "doi": "10.1016/j.erss.2014.02.003"
+            },
+            {
+              "author": "Stern, P.C.",
+              "year": 2014,
+              "title": "Individual and Household Interactions with Energy Systems",
+              "journal": "Daedalus",
+              "volume": "142(1)",
+              "pages": "115-125",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze household energy behavior for conventional hydro quality & performance using smart meter data",
+            "Design behavior change program with real-time feedback and social comparison",
+            "Implement through utility programs with AMI-enabled home energy reports",
+            "Deploy gamification and community challenges with incentive structures",
+            "Evaluate demand reduction using randomized evaluation and persistence analysis"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — public acceptance of infrastructure using social license survey instrument. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — public acceptance of infrastructure measured annually. Target: 70% public support. PHASE 3 (Months 4-6): Midpoint review — compare against Eurobarometer energy survey benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — public acceptance of infrastructure trending toward 80% support. Escalate if <55% support floor. ANNUAL REVIEW: Comprehensive audit using IAEA stakeholder engagement framework. Report to Public Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Conventional Hydro Quality & Performance Continuous Improvement Cycle",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Create a smart grid analytics platform for conventional hydro quality & performance integrating AMI, DERMS, and ADMS data per NIST Smart Grid framework.",
+          "cite": "NIST (2014). NIST Framework for Smart Grid Interoperability. NIST SP 1108R3; EPRI (2022). Integrated Energy Network Model. Electric Power Research Institute",
+          "target": "SILOED_CONVENTIONAL_HYDRO_QUALITY___P -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "NIST",
+              "year": 2014,
+              "title": "NIST Framework for Smart Grid Interoperability",
+              "journal": "NIST SP 1108R3",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Integrated Energy Network Model",
+              "journal": "Electric Power Research Institute",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate smart grid platform for conventional hydro quality & performance against NIST interoperability framework",
+            "Design integrated analytics platform connecting AMI, ADMS, DERMS, and GIS",
+            "Implement data lake with real-time streaming and historical analytics",
+            "Deploy use cases: outage prediction, load forecasting, and theft detection",
+            "Measure analytics ROI through operational efficiency and reliability metrics"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — grid modelling accuracy using model validation system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — grid modelling accuracy measured biannually. Target: forecast error <5%. PHASE 3 (Months 4-6): Midpoint review — compare against WECC model validation benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — grid modelling accuracy trending toward error <3%. Escalate if <error <8% ceiling. ANNUAL REVIEW: Comprehensive audit using WECC Modelling Practices. Report to Grid Modelling Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Conventional Hydro Quality & Performance Adaptive Management System",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Evaluate a hydrogen economy strategy for conventional hydro quality & performance applying DOE Hydrogen Shot framework with production pathway techno-economic analysis.",
+          "cite": "IRENA (2023). World Energy Transitions Outlook. IRENA; IEA (2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. IEA",
+          "target": "OUTDATED_CONVENTIONAL_HYDRO_QUALITY___P -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "IRENA",
+              "year": 2023,
+              "title": "World Energy Transitions Outlook",
+              "journal": "IRENA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IEA",
+              "year": 2021,
+              "title": "Net Zero by 2050: A Roadmap for the Global Energy Sector",
+              "journal": "IEA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Evaluate energy security for conventional hydro quality & performance using IEA supply disruption scenarios",
+            "Design fuel diversity strategy with strategic reserves and supply chain mapping",
+            "Implement fuel switching capabilities and demand response programs",
+            "Deploy early warning system for supply disruptions with contingency protocols",
+            "Assess energy independence metrics annually against IEA Energy Security Index"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — LCOE for new generation using project finance tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — LCOE for new generation measured quarterly. Target: LCOE competitive with fossil. PHASE 3 (Months 4-6): Midpoint review — compare against Lazard LCOE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — LCOE for new generation trending toward LCOE below grid parity. Escalate if <LCOE within 120% of fossil. ANNUAL REVIEW: Comprehensive audit using IRENA cost analysis framework. Report to Energy Planning Authority.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a hydropower operations engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "MGN",
+      "target": "CMZ",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "CMZ",
+      "target": "TrkB",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "TrkB",
+      "target": "HAB",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "HAB",
+      "target": "NEOCER",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "NEOCER",
+      "target": "TPJ",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "TPJ",
+      "target": "HIPP",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "HIPP",
+      "target": "STRI",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "MGN",
+      "target": "STRI",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "TrkB",
+      "target": "MGN",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "ENERGY_HYDRO_CONVENTIONAL_SYSTEM_FAILURE",
+      "label": "Energy Hydro Conventional System Failure",
+      "summary": "Critical breakdown in Energy Hydro Conventional systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "MGN",
+          "dir": "Hyper-active",
+          "detail": "Conventional Hydro Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CMZ",
+          "dir": "Hypo-active",
+          "detail": "Conventional Hydro Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TrkB",
+          "dir": "Altered",
+          "detail": "Conventional Hydro Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HAB",
+          "dir": "Hyper-active",
+          "detail": "Conventional Hydro Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hypo-active",
+          "detail": "Conventional Hydro Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_HYDRO_CONVENTIONAL_CAPACITY_OVERLOAD",
+      "label": "Energy Hydro Conventional Capacity Overload",
+      "summary": "Demand exceeding available Energy Hydro Conventional capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "MGN",
+          "dir": "Hyper-active",
+          "detail": "Conventional Hydro Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CMZ",
+          "dir": "Hyper-active",
+          "detail": "Conventional Hydro Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TrkB",
+          "dir": "Hyper-active",
+          "detail": "Conventional Hydro Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HAB",
+          "dir": "Hyper-active",
+          "detail": "Conventional Hydro Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ENERGY_HYDRO_CONVENTIONAL_QUALITY_DEGRADATION",
+      "label": "Energy Hydro Conventional Quality Degradation",
+      "summary": "Progressive decline in Energy Hydro Conventional quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "MGN",
+          "dir": "Hypo-active",
+          "detail": "Conventional Hydro Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "CMZ",
+          "dir": "Altered",
+          "detail": "Conventional Hydro Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TrkB",
+          "dir": "Hyper-active",
+          "detail": "Conventional Hydro Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HAB",
+          "dir": "Hypo-active",
+          "detail": "Conventional Hydro Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

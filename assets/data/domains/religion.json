@@ -1,0 +1,2249 @@
+{
+  "domainId": "religion",
+  "title": "Religion & Symbolic Systems",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P9",
+  "activations": [
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Theological Doctrine",
+      "domainDescription": "Systematic articulation of divine nature, cosmology, and metaphysical frameworks",
+      "domainFunction": "Generates overarching narratives of meaning, purpose, and cosmic order that orient human existence",
+      "whyThisNode": "Default mode network as self-referential narrative generator — DMN constructs the ongoing story of self and meaning, just as theological doctrine constructs the narrative of ultimate reality",
+      "group": "theology",
+      "phase": "P9",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "THEOLOGICAL_SCHISM",
+        "SECULARIZATION_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Doctrinal coherence review",
+          "type": "DIAGNOSTIC",
+          "description": "Systematic analysis of internal consistency across theological claims, identifying contradictions and gaps",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Hermeneutic renewal program",
+          "type": "STRUCTURAL",
+          "description": "Establish multi-generational interpretive frameworks that honor tradition while engaging contemporary knowledge",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "religion_theological_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "World Council of Churches",
+          "ticker_or_id": "WCC",
+          "functional_reason": "Routes and distributes theological doctrine resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "World Vision International",
+          "ticker_or_id": "WORLD_VISION",
+          "functional_reason": "Executes core theological doctrine operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Vatican (Holy See)",
+          "ticker_or_id": "VATICAN",
+          "functional_reason": "Models and simulates theological doctrine scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Theological Doctrine",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "industry",
+          "role": "Qualitymgmt"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Ritual Practice",
+      "domainDescription": "Liturgy, sacraments, ceremonies, and embodied religious action",
+      "domainFunction": "Coordinates precise sequences of embodied action that encode and transmit sacred meaning across generations",
+      "whyThisNode": "Cerebellar motor coordination and timing — CBLM orchestrates precise sequential action, just as ritual practice requires exact choreography of gesture, word, and timing",
+      "group": "ritual",
+      "phase": "P3",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "SECULARIZATION_CRISIS",
+        "SECTARIAN_CONFLICT"
+      ],
+      "treatments": [
+        {
+          "label": "Ritual participation audit",
+          "type": "DIAGNOSTIC",
+          "description": "Survey community engagement rates across all ritual practices to identify declining and vital traditions",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Adaptive liturgical renewal",
+          "type": "STRUCTURAL",
+          "description": "Develop culturally responsive ritual forms that preserve core symbolism while engaging contemporary communities",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "religion_ritual_portal.html",
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "International Association for Religious Freedom",
+          "ticker_or_id": "IARF",
+          "functional_reason": "Stabilizes ritual practice oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Organisation of Islamic Cooperation",
+          "ticker_or_id": "OIC",
+          "functional_reason": "Stabilizes ritual practice oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Association of Theological Schools",
+          "ticker_or_id": "ATS",
+          "functional_reason": "Stabilizes ritual practice oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Ritual Practice",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "industry",
+          "role": "Robotics and Automation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Moral Reasoning",
+      "domainDescription": "Ethical frameworks, moral theology, virtue ethics, and normative guidance",
+      "domainFunction": "Evaluates actions against value systems to guide moral decision-making within religious frameworks",
+      "whyThisNode": "Value-based decision circuit — vmPFC weighs competing values and long-term consequences, just as moral reasoning weighs ethical principles against practical circumstances",
+      "group": "ethics",
+      "phase": "P7",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "INSTITUTIONAL_ABUSE",
+        "RADICALIZATION",
+        "THEOLOGICAL_SCHISM"
+      ],
+      "treatments": [
+        {
+          "label": "Ethical case review board",
+          "type": "DIAGNOSTIC",
+          "description": "Establish independent ethics committees to review moral dilemmas and institutional conduct against stated values",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Applied ethics curriculum",
+          "type": "STRUCTURAL",
+          "description": "Integrate case-based moral reasoning training into religious education at all levels of formation",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "religion_moral_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Pew Research Center (Religion)",
+          "ticker_or_id": "PEW",
+          "functional_reason": "Detects and monitors moral reasoning signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "World Council of Churches",
+          "ticker_or_id": "WCC",
+          "functional_reason": "Routes and distributes moral reasoning resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Organisation of Islamic Cooperation",
+          "ticker_or_id": "OIC",
+          "functional_reason": "Routes and distributes moral reasoning resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.7
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Moral Reasoning",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "education",
+          "role": "Educational Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Mystical Experience",
+      "domainDescription": "Transcendent states, unitive consciousness, visionary encounters, and contemplative realization",
+      "domainFunction": "Modulates baseline consciousness to enable access to non-ordinary states of awareness and spiritual insight",
+      "whyThisNode": "Serotonergic modulation of consciousness — raphe nuclei alter the quality of conscious experience, just as mystical traditions alter awareness to access transcendent states",
+      "group": "mysticism",
+      "phase": "P9",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "SECULARIZATION_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Contemplative practice assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate depth and authenticity of mystical claims against established contemplative traditions and phenomenological criteria",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Supervised contemplative training",
+          "type": "STRUCTURAL",
+          "description": "Establish mentored pathways for contemplative development with proper safeguards against spiritual bypassing",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "religion_mystical_portal.html",
+      "phase_archetype": "P9",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "International Association for Religious Freedom",
+          "ticker_or_id": "IARF",
+          "functional_reason": "Stabilizes mystical experience oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "World Council of Churches",
+          "ticker_or_id": "WCC",
+          "functional_reason": "Stabilizes mystical experience oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Vatican (Holy See)",
+          "ticker_or_id": "VATICAN",
+          "functional_reason": "Stabilizes mystical experience oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.89
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Mystical Experience",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Serotonergic Mood Regulation"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Serotonergic Tone"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Serotonergic Metabolic Modulation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Raphe Nuclei"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Serotonin System Development"
+        },
+        {
+          "domain": "population",
+          "role": "Aging Population"
+        },
+        {
+          "domain": "provider",
+          "role": "System Morale / Well-Being"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Serotonergic Reset Center"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Sacred Architecture",
+      "domainDescription": "Temple design, sacred geometry, cathedral construction, and devotional space",
+      "domainFunction": "Encodes theological meaning into spatial form, creating environments that orient attention toward the sacred",
+      "whyThisNode": "Spatial reasoning and geometric processing — IPS constructs mental models of space, just as sacred architecture translates theological geometry into physical structures",
+      "group": "ritual",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "SECULARIZATION_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Sacred space inventory",
+          "type": "DIAGNOSTIC",
+          "description": "Catalogue and assess the condition, usage, and cultural significance of religious architectural heritage",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Preservation and adaptive reuse",
+          "type": "STRUCTURAL",
+          "description": "Develop conservation plans that maintain sacred character while enabling community engagement and financial sustainability",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "religion_sacred_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Catholic Relief Services",
+          "ticker_or_id": "CRS_NPO",
+          "functional_reason": "Executes core sacred architecture operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Salvation Army",
+          "ticker_or_id": "SALVATION_ARMY",
+          "functional_reason": "Executes core sacred architecture operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "World Vision International",
+          "ticker_or_id": "WORLD_VISION",
+          "functional_reason": "Executes core sacred architecture operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Sacred Architecture",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "STEM Education"
+        },
+        {
+          "domain": "science",
+          "role": "Mathematics"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Human Capital & Development"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Architecture"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Farm Productivity Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Scripture & Canon",
+      "domainDescription": "Sacred texts, canonical literature, scriptural interpretation, and textual transmission",
+      "domainFunction": "Receives, decodes, and comprehends sacred language, preserving and transmitting foundational texts across generations",
+      "whyThisNode": "Wernicke's area for language comprehension — WERN decodes linguistic meaning, just as scripture study involves deep comprehension and interpretation of sacred language",
+      "group": "theology",
+      "phase": "P9",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "THEOLOGICAL_SCHISM",
+        "RADICALIZATION"
+      ],
+      "treatments": [
+        {
+          "label": "Textual criticism program",
+          "type": "DIAGNOSTIC",
+          "description": "Apply historical-critical methods to assess transmission accuracy, authorial context, and interpretive layers",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Multi-lingual translation initiative",
+          "type": "STRUCTURAL",
+          "description": "Commission culturally sensitive translations with scholarly apparatus for under-served language communities",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "religion_scripture_portal.html",
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Templeton Foundation",
+          "ticker_or_id": "TEMPLETON",
+          "functional_reason": "Allocates and regulates scripture & canon resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "International Association for Religious Freedom",
+          "ticker_or_id": "IARF",
+          "functional_reason": "Stabilizes scripture & canon oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "Interfaith Youth Core (IFYC)",
+          "ticker_or_id": "IFYC_NPO",
+          "functional_reason": "Amplifies and scales scripture & canon capacity, driving growth and expanding reach of scripture & canon operations",
+          "binding_strength": 0.75
+        }
+      ],
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Scripture & Canon",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Literacy"
+        },
+        {
+          "domain": "industry",
+          "role": "Defense Ind"
+        },
+        {
+          "domain": "legal",
+          "role": "Statutory Interpretation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Wernicke's Area"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Comprehension"
+        },
+        {
+          "domain": "science",
+          "role": "Computer Science"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradezone"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Coordination & Integration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Religious Law",
+      "domainDescription": "Canon law, Sharia, Halakha, Vinaya, and religious legal traditions",
+      "domainFunction": "Computes normative rules for community behavior based on cost-benefit analysis within religious value frameworks",
+      "whyThisNode": "Orbitofrontal reward valuation — OFC computes expected outcomes of behavioral choices, just as religious law calculates moral-behavioral norms within theological value systems",
+      "group": "institutional",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "INSTITUTIONAL_ABUSE",
+        "SECTARIAN_CONFLICT"
+      ],
+      "treatments": [
+        {
+          "label": "Legal code modernization review",
+          "type": "DIAGNOSTIC",
+          "description": "Assess religious legal codes against contemporary human rights standards and identify areas requiring reform",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Due process reform",
+          "type": "STRUCTURAL",
+          "description": "Implement transparent adjudication procedures with independent oversight and appeal mechanisms in religious courts",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "religion_religious_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Pew Research Center (Religion)",
+          "ticker_or_id": "PEW",
+          "functional_reason": "Detects and monitors religious law signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Interfaith Youth Core (IFYC)",
+          "ticker_or_id": "IFYC_NPO",
+          "functional_reason": "Amplifies and scales religious law capacity, driving growth and expanding reach of religious law operations",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Templeton Foundation",
+          "ticker_or_id": "TEMPLETON",
+          "functional_reason": "Allocates and regulates religious law resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.74
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Religious Law",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "industry",
+          "role": "Standards and Compliance"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PIN",
+      "state": "active",
+      "domainLabel": "Monastic Traditions",
+      "domainDescription": "Monasteries, ashrams, contemplative orders, and renunciant communities",
+      "domainFunction": "Maintains cyclical rhythms of practice and withdrawal that preserve contemplative knowledge across generations",
+      "whyThisNode": "Pineal gland as circadian rhythm keeper — PIN tracks daily and seasonal cycles, just as monastic life is organized around liturgical hours and seasonal observances",
+      "group": "mysticism",
+      "phase": "P4",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "SECULARIZATION_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Vocational pipeline assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Analyze recruitment trends, retention rates, and reasons for departure across monastic communities",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Contemplative community renewal",
+          "type": "STRUCTURAL",
+          "description": "Develop new models of lay-monastic partnership that sustain contemplative traditions while widening access",
+          "evidence": "Emerging"
+        }
+      ],
+      "childPortal": "religion_monastic_portal.html",
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "International Association for Religious Freedom",
+          "ticker_or_id": "IARF",
+          "functional_reason": "Stabilizes monastic traditions oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Organisation of Islamic Cooperation",
+          "ticker_or_id": "OIC",
+          "functional_reason": "Stabilizes monastic traditions oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Vatican (Holy See)",
+          "ticker_or_id": "VATICAN",
+          "functional_reason": "Stabilizes monastic traditions oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.91
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Monastic Traditions",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "environment",
+          "role": "Polar & Cryosphere"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradepolicy"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Multilingual Communication Risk & Resilience"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Commercial Architecture Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Special Ops"
+        },
+        {
+          "domain": "economy",
+          "role": "Agribusiness Human Capital & Development"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Prophecy & Revelation",
+      "domainDescription": "Prophetic traditions, apocalyptic literature, divine communication, and visionary claims",
+      "domainFunction": "Generates panoramic self-transcendent awareness that perceives patterns invisible to ordinary cognition",
+      "whyThisNode": "Precuneus as self-awareness and mental imagery hub — generates the panoramic perspective and vivid imagery characteristic of prophetic vision and revelation",
+      "group": "theology",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "RADICALIZATION",
+        "THEOLOGICAL_SCHISM"
+      ],
+      "treatments": [
+        {
+          "label": "Prophetic claim discernment protocol",
+          "type": "DIAGNOSTIC",
+          "description": "Establish community-based criteria for evaluating prophetic claims against scriptural, ethical, and historical standards",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Eschatological literacy program",
+          "type": "STRUCTURAL",
+          "description": "Teach critical interpretation of apocalyptic literature to prevent harmful literalist and millenarian movements",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Templeton Foundation",
+          "ticker_or_id": "TEMPLETON",
+          "functional_reason": "Allocates and regulates prophecy & revelation resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Interfaith Youth Core (IFYC)",
+          "ticker_or_id": "IFYC_NPO",
+          "functional_reason": "Amplifies and scales prophecy & revelation capacity, driving growth and expanding reach of prophecy & revelation operations",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "World Vision International",
+          "ticker_or_id": "WORLD_VISION",
+          "functional_reason": "Executes core prophecy & revelation operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.74
+        }
+      ],
+      "childPortal": "religion_prophecy_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Prophecy & Revelation",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Spatial Self-Awareness"
+        },
+        {
+          "domain": "education",
+          "role": "Library Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Sustainability"
+        },
+        {
+          "domain": "medicine",
+          "role": "Addiction Medicine"
+        },
+        {
+          "domain": "science",
+          "role": "Theoretical Physics"
+        },
+        {
+          "domain": "technology",
+          "role": "Quantum Computing"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Easy-Read Formats — Regulation Strategy"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Interfaith Dialogue",
+      "domainDescription": "Cross-tradition conversation, comparative theology, ecumenical movement, and religious pluralism",
+      "domainFunction": "Models the perspectives of other religious traditions to enable empathic understanding and productive exchange",
+      "whyThisNode": "Theory of mind and perspective-taking — TPJ models other minds' beliefs and intentions, just as interfaith dialogue requires modeling the worldview of other traditions",
+      "group": "institutional",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "SECTARIAN_CONFLICT",
+        "RADICALIZATION"
+      ],
+      "treatments": [
+        {
+          "label": "Dialogue competency assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate institutional capacity for authentic interfaith engagement — identify biases, gaps, and best practices",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Structured encounter program",
+          "type": "STRUCTURAL",
+          "description": "Facilitate sustained interfaith learning partnerships with shared action projects and theological exchange",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Salvation Army",
+          "ticker_or_id": "SALVATION_ARMY",
+          "functional_reason": "Executes core interfaith dialogue operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.67
+        },
+        {
+          "name": "International Association for Religious Freedom",
+          "ticker_or_id": "IARF",
+          "functional_reason": "Stabilizes interfaith dialogue oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Vatican (Holy See)",
+          "ticker_or_id": "VATICAN",
+          "functional_reason": "Stabilizes interfaith dialogue oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.78
+        }
+      ],
+      "childPortal": "religion_eastern_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Interfaith Dialogue",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "industry",
+          "role": "Plastics"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Religious Education",
+      "domainDescription": "Seminaries, catechesis, Sunday schools, madrasas, and formation programs",
+      "domainFunction": "Integrates theological knowledge across domains to form the next generation of religious practitioners and leaders",
+      "whyThisNode": "Angular gyrus as semantic integration hub — AG connects meaning across modalities, just as religious education synthesizes scripture, doctrine, ethics, and practice into coherent formation",
+      "group": "institutional",
+      "phase": "P7",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "SECULARIZATION_CRISIS",
+        "RADICALIZATION"
+      ],
+      "treatments": [
+        {
+          "label": "Curriculum relevance audit",
+          "type": "DIAGNOSTIC",
+          "description": "Assess whether educational content engages contemporary questions and produces competent, reflective graduates",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Pedagogical modernization",
+          "type": "STRUCTURAL",
+          "description": "Integrate experiential learning, critical thinking, and digital literacy into religious formation programs",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "World Council of Churches",
+          "ticker_or_id": "WCC",
+          "functional_reason": "Routes and distributes religious education resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "Vatican (Holy See)",
+          "ticker_or_id": "VATICAN",
+          "functional_reason": "Models and simulates religious education scenarios, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Catholic Relief Services",
+          "ticker_or_id": "CRS_NPO",
+          "functional_reason": "Executes core religious education operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.76
+        }
+      ],
+      "childPortal": "religion_indigenous_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Religious Education",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Higher Education"
+        },
+        {
+          "domain": "governance",
+          "role": "International Law"
+        },
+        {
+          "domain": "industry",
+          "role": "Research and Development"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Phoneme-Grapheme Mapping"
+        },
+        {
+          "domain": "population",
+          "role": "Education Levels"
+        },
+        {
+          "domain": "science",
+          "role": "Citation Networks"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Risk Profiling Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VEST",
+      "state": "active",
+      "domainLabel": "Pilgrimage",
+      "domainDescription": "Sacred journeys, holy sites, devotional travel, and processional traditions",
+      "domainFunction": "Navigates physical space as spiritual practice, integrating movement, devotion, and communal identity",
+      "whyThisNode": "Vestibular system for spatial orientation and movement — VEST senses position and motion through space, just as pilgrimage transforms physical travel into spiritual navigation",
+      "group": "ritual",
+      "phase": "P4",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "SECTARIAN_CONFLICT"
+      ],
+      "treatments": [
+        {
+          "label": "Pilgrimage site impact assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate environmental, economic, and social impact of pilgrimage traffic on host communities and sacred sites",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Sustainable pilgrimage infrastructure",
+          "type": "STRUCTURAL",
+          "description": "Develop carrying-capacity management and ecological stewardship plans for major pilgrimage destinations",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Vatican (Holy See)",
+          "ticker_or_id": "VATICAN",
+          "functional_reason": "Stabilizes pilgrimage oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "International Association for Religious Freedom",
+          "ticker_or_id": "IARF",
+          "functional_reason": "Stabilizes pilgrimage oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Association of Theological Schools",
+          "ticker_or_id": "ATS",
+          "functional_reason": "Stabilizes pilgrimage oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.87
+        }
+      ],
+      "childPortal": "religion_newreligious_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Pilgrimage",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "population",
+          "role": "Migration Patterns"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator Performance & Optimization"
+        },
+        {
+          "domain": "communication",
+          "role": "Translation Services Policy & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Interoceptive Awareness Performance & Optimization"
+        },
+        {
+          "domain": "culture",
+          "role": "Mixed-Use Policy & Governance"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Execution Quality & Performance"
+        },
+        {
+          "domain": "economy",
+          "role": "Crop Economics Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Regular Decision Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "A1",
+      "state": "active",
+      "domainLabel": "Sacred Music",
+      "domainDescription": "Liturgical chant, devotional song, hymnody, and sacred sound traditions",
+      "domainFunction": "Processes and generates sonic patterns that encode theological meaning and induce altered affective states",
+      "whyThisNode": "Primary auditory cortex — A1 processes sound with fine temporal and frequency resolution, just as sacred music requires precise auditory processing to create devotional states through sound",
+      "group": "ritual",
+      "phase": "P4",
+      "weight": 0.75,
+      "diagnosticTriggers": [
+        "SECULARIZATION_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Musical heritage preservation",
+          "type": "DIAGNOSTIC",
+          "description": "Archive and digitize endangered sacred music traditions with ethnomusicological documentation",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Contemporary composition program",
+          "type": "STRUCTURAL",
+          "description": "Commission new sacred works that honor traditional forms while engaging contemporary musical language",
+          "evidence": "Emerging"
+        }
+      ],
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Salvation Army",
+          "ticker_or_id": "SALVATION_ARMY",
+          "functional_reason": "Executes core sacred music operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "International Association for Religious Freedom",
+          "ticker_or_id": "IARF",
+          "functional_reason": "Stabilizes sacred music oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "World Vision International",
+          "ticker_or_id": "WORLD_VISION",
+          "functional_reason": "Executes core sacred music operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.68
+        }
+      ],
+      "childPortal": "religion_pilgrimage_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Sacred Music",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Research & Development"
+        },
+        {
+          "domain": "communication",
+          "role": "Broadcasting"
+        },
+        {
+          "domain": "culture",
+          "role": "Music"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Planning Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Trade Risk & Resilience"
+        },
+        {
+          "domain": "education",
+          "role": "Admissions — Regulation Strategy"
+        },
+        {
+          "domain": "energy",
+          "role": "Electrolyte Systems Quality & Performance"
+        },
+        {
+          "domain": "environment",
+          "role": "Air Quality Modeling Infrastructure & Capacity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PCC",
+      "state": "active",
+      "domainLabel": "Meditation & Contemplation",
+      "domainDescription": "Silent prayer, centering practices, vipassana, zazen, and interior spiritual disciplines",
+      "domainFunction": "Monitors internal states of awareness and facilitates the self-referential stillness essential to contemplative insight",
+      "whyThisNode": "Posterior cingulate as self-referential monitoring — PCC tracks internal states and self-narrative, and its deactivation during meditation correlates with contemplative depth and ego dissolution",
+      "group": "mysticism",
+      "phase": "P9",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "SECULARIZATION_CRISIS"
+      ],
+      "treatments": [
+        {
+          "label": "Contemplative outcome research",
+          "type": "DIAGNOSTIC",
+          "description": "Longitudinal studies of meditation effects on well-being, prosocial behavior, and cognitive function in practitioners",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Accessible meditation programs",
+          "type": "STRUCTURAL",
+          "description": "Develop secular-friendly entry points to contemplative practice that preserve depth while removing barriers to access",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Templeton Foundation",
+          "ticker_or_id": "TEMPLETON",
+          "functional_reason": "Allocates and regulates meditation & contemplation resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Organisation of Islamic Cooperation",
+          "ticker_or_id": "OIC",
+          "functional_reason": "Routes and distributes meditation & contemplation resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "Association of Theological Schools",
+          "ticker_or_id": "ATS",
+          "functional_reason": "Stores and retrieves meditation & contemplation knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.78
+        }
+      ],
+      "childPortal": "religion_releduc_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Meditation & Contemplation",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Experiential Self-Awareness"
+        },
+        {
+          "domain": "medicine",
+          "role": "Telehealth"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Autobiographical Memory Loop"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Core Operations"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm Technology & Innovation"
+        },
+        {
+          "domain": "culture",
+          "role": "Retail Design Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Operations Policy & Governance"
+        },
+        {
+          "domain": "economy",
+          "role": "Protocol Development Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Religious Authority",
+      "domainDescription": "Clerical hierarchies, governance structures, succession protocols, and institutional power",
+      "domainFunction": "Exercises executive oversight and strategic planning to maintain institutional coherence and organizational direction",
+      "whyThisNode": "Dorsolateral prefrontal executive control — dlPFC plans, organizes, and maintains working memory for complex goals, just as religious authority structures organize and govern institutional operations",
+      "group": "institutional",
+      "phase": "P7",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "INSTITUTIONAL_ABUSE",
+        "SECTARIAN_CONFLICT",
+        "THEOLOGICAL_SCHISM"
+      ],
+      "treatments": [
+        {
+          "label": "Governance transparency audit",
+          "type": "DIAGNOSTIC",
+          "description": "Independent review of decision-making processes, financial accountability, and power distribution within religious institutions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Accountability mechanism reform",
+          "type": "STRUCTURAL",
+          "description": "Implement term limits, external oversight boards, and mandatory reporting structures for religious leadership",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Catholic Relief Services",
+          "ticker_or_id": "CRS_NPO",
+          "functional_reason": "Executes core religious authority operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "World Vision International",
+          "ticker_or_id": "WORLD_VISION",
+          "functional_reason": "Executes core religious authority operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Salvation Army",
+          "ticker_or_id": "SALVATION_ARMY",
+          "functional_reason": "Executes core religious authority operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "religion_relethics_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Religious Authority",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Symbolic Mythology",
+      "domainDescription": "Creation myths, sacred narratives, archetypal symbolism, and cosmogonic stories",
+      "domainFunction": "Encodes foundational cultural memories into narrative form that persists across generations and shapes collective identity",
+      "whyThisNode": "Hippocampus as memory formation and narrative encoding — HIPP converts experience into lasting memory, just as mythology converts collective experience into enduring sacred narrative",
+      "group": "philosophical",
+      "phase": "P9",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "SECULARIZATION_CRISIS",
+        "THEOLOGICAL_SCHISM"
+      ],
+      "treatments": [
+        {
+          "label": "Mythological literacy program",
+          "type": "DIAGNOSTIC",
+          "description": "Assess community understanding of symbolic vs literal reading of sacred narratives across demographics",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Narrative theology initiative",
+          "type": "STRUCTURAL",
+          "description": "Develop frameworks for engaging mythological material as living wisdom rather than historical claim or dead metaphor",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "International Association for Religious Freedom",
+          "ticker_or_id": "IARF",
+          "functional_reason": "Stabilizes symbolic mythology oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Templeton Foundation",
+          "ticker_or_id": "TEMPLETON",
+          "functional_reason": "Allocates and regulates symbolic mythology resources, setting priorities and distributing capacity across competing needs",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Pew Research Center (Religion)",
+          "ticker_or_id": "PEW",
+          "functional_reason": "Stores and retrieves symbolic mythology knowledge, maintaining institutional memory and diagnostic baselines",
+          "binding_strength": 0.89
+        }
+      ],
+      "childPortal": "religion_relhistory_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Symbolic Mythology",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SNS",
+      "state": "active",
+      "domainLabel": "Religionlaw",
+      "domainDescription": "Religionlaw systems within Religion & Symbolic Systems",
+      "group": "theology",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "religion_religionlaw_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Religionlaw",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Energy Econ"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Sympathetic Metabolic Activation"
+        },
+        {
+          "domain": "communication",
+          "role": "Baseline Calibration Governance"
+        },
+        {
+          "domain": "culture",
+          "role": "commercial office — Signal Acquisition"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian Airlift Assessment & Diagnostics"
+        },
+        {
+          "domain": "education",
+          "role": "Trend Analysis Infrastructure & Capacity"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Processing Policy & Governance"
+        },
+        {
+          "domain": "environment",
+          "role": "Stratospheric Ozone Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VV",
+      "state": "active",
+      "domainLabel": "Relmedia",
+      "domainDescription": "Relmedia systems within Religion & Symbolic Systems",
+      "group": "theology",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "religion_relmedia_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Relmedia",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Vagal Tone / Parasympathetic"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Vagal Metabolic Afferents"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Ventral Vagal Restoration"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Ecological Design — State Assessment"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Core Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Human Capital & Development"
+        },
+        {
+          "domain": "education",
+          "role": "Portfolio Review Core Operations"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SC",
+      "state": "active",
+      "domainLabel": "Relorg",
+      "domainDescription": "Relorg systems within Religion & Symbolic Systems",
+      "group": "theology",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "religion_relorg_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Relorg",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Universal Design — Regulation Strategy"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "LEED Certification Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Airlift Planning Policy & Governance"
+        },
+        {
+          "domain": "economy",
+          "role": "Agricultural Trade Technology & Innovation"
+        },
+        {
+          "domain": "education",
+          "role": "College Admissions Infrastructure & Capacity"
+        },
+        {
+          "domain": "energy",
+          "role": "Recycling Economics Core Operations"
+        },
+        {
+          "domain": "environment",
+          "role": "Air Quality Modeling Policy & Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "IC",
+      "state": "active",
+      "domainLabel": "Relpolitics",
+      "domainDescription": "Relpolitics systems within Religion & Symbolic Systems",
+      "group": "theology",
+      "phase": "P9",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "religion_relpolitics_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Relpolitics",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "multilng resource — Signal Acquisition"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Self-Model Integration Performance & Optimization"
+        },
+        {
+          "domain": "culture",
+          "role": "Hospitality Design Risk & Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Depot Maintenance Policy & Governance"
+        },
+        {
+          "domain": "economy",
+          "role": "Agri Econ Infrastructure & Capacity"
+        },
+        {
+          "domain": "education",
+          "role": "Yield Management Human Capital & Development"
+        },
+        {
+          "domain": "energy",
+          "role": "Flow Cell Design Human Capital & Development"
+        },
+        {
+          "domain": "environment",
+          "role": "AQI Systems Policy & Governance"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "DMN",
+      "target": "PCC",
+      "type": "REGULATES",
+      "weight": 0.9
+    },
+    {
+      "source": "DMN",
+      "target": "PRECUNEUS",
+      "type": "REGULATES",
+      "weight": 0.9
+    },
+    {
+      "source": "DMN",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.85
+    },
+    {
+      "source": "PCC",
+      "target": "RAPHE",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "WERN",
+      "target": "AG",
+      "type": "SUPPLIES",
+      "weight": 0.85
+    },
+    {
+      "source": "WERN",
+      "target": "DMN",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "vmPFC",
+      "target": "OFC",
+      "type": "CONTROLS",
+      "weight": 0.85
+    },
+    {
+      "source": "vmPFC",
+      "target": "dlPFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "dlPFC",
+      "target": "AG",
+      "type": "CONTROLS",
+      "weight": 0.75
+    },
+    {
+      "source": "dlPFC",
+      "target": "OFC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "TPJ",
+      "target": "vmPFC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "TPJ",
+      "target": "DMN",
+      "type": "SUPPLIES",
+      "weight": 0.75
+    },
+    {
+      "source": "CBLM",
+      "target": "A1",
+      "type": "REGULATES",
+      "weight": 0.7
+    },
+    {
+      "source": "CBLM",
+      "target": "VEST",
+      "type": "REGULATES",
+      "weight": 0.75
+    },
+    {
+      "source": "IPS",
+      "target": "CBLM",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "HIPP",
+      "target": "PRECUNEUS",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "PIN",
+      "target": "CBLM",
+      "type": "REGULATES",
+      "weight": 0.7
+    },
+    {
+      "source": "RAPHE",
+      "target": "PCC",
+      "type": "MODULATES",
+      "weight": 0.8
+    },
+    {
+      "source": "AG",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.75
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Mahayana Infrastructure & Capacity → Hinduism Human Capital & Development (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Mahayana Infrastructure & Capacity → Yogic Meditation — State Assessment (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Mahayana Infrastructure & Capacity → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Moral Reasoning → Hinduism Human Capital & Development (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Moral Reasoning → Yogic Meditation — State Assessment (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Moral Reasoning → Filial Piety Infrastructure & Capacity (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Religious Authority → Mahayana — State Assessment (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Religious Authority → Symbolic Mythology (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Mahayana Core Operations → Hinduism Human Capital & Development (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Mahayana — State Assessment → Hinduism Human Capital & Development (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Eastern — State Assessment — Tertiary → confucian virtue — Signal Acquisition (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Eastern — State Assessment — Tertiary → Sacred Music (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Eastern — State Assessment — Tertiary → Ahimsa Practice — State Assessment (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Theravada Core Operations → confucian virtue — Signal Acquisition (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Eastern Assessment & Diagnostics → Sacred Music (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "buddhism zen — Signal Acquisition → Filial Piety Core Operations (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Filial Piety Core Operations → Mahayana — State Assessment (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Confucian Rites Human Capital & Development → Filial Piety Core Operations (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Hinduism Human Capital & Development → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Mantra Meditation Assessment & Diagnostics (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Hinduism Quality & Performance → Symbolic Mythology (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Symbolic Mythology → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Virtue Ethics Core Operations → Theravada Assessment & Diagnostics (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Theravada Assessment & Diagnostics → Vajrayana Infrastructure & Capacity (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Theravada Assessment & Diagnostics → Religious Law (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Religious Law → Moral Reasoning (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Theravada Infrastructure & Capacity → Buddhism Quality & Performance (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Eastern Quality & Performance → The Analects Policy & Governance (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "The Analects Policy & Governance → Eastern — State Assessment — Tertiary (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Ritual Practice → Eastern — State Assessment — Tertiary (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Vajrayana Assessment & Diagnostics → confucian virtue — Signal Acquisition (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Buddhism Infrastructure & Capacity → Religious Authority (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Vajrayana — State Assessment → Hinduism Human Capital & Development (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Vajrayana — State Assessment → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "SECTARIAN_CONFLICT",
+      "label": "Sectarian Conflict",
+      "summary": "Religious identity weaponized for political and territorial violence — inter-communal trust collapsing",
+      "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Perspective-taking capacity suppressed — inability to model out-group religious experience as legitimate",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-rigid",
+          "detail": "Religious law applied as exclusionary boundary marker rather than ethical guidance system",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-controlling",
+          "detail": "Religious authority structures consolidating power through identity threat narratives",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Altered",
+          "detail": "Ritual practices transformed into markers of tribal allegiance rather than spiritual formation",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "VEST",
+          "dir": "Hyper-contested",
+          "detail": "Pilgrimage sites and sacred spaces becoming flashpoints for territorial religious claims",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "INSTITUTIONAL_ABUSE",
+      "label": "Institutional Abuse",
+      "summary": "Religious authority exploited for personal gain, sexual predation, or coercive control — survivor trauma widespread",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-concentrated",
+          "detail": "Unchecked executive authority enabling cover-ups, silencing of victims, and protection of perpetrators",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Moral reasoning systems overridden by institutional self-preservation and loyalty demands",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Altered",
+          "detail": "Religious legal systems used to shield abusers and delegitimize survivor testimony",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-critical",
+          "detail": "Religious education failing to develop critical thinking about authority and consent",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Empathy for victims suppressed by institutional loyalty and cognitive dissonance",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Altered",
+          "detail": "Theological narratives distorted to normalize power imbalance and obedience without question",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "RADICALIZATION",
+      "label": "Radicalization",
+      "summary": "Vulnerable individuals recruited into extremist religious ideologies — violence justified through theological distortion",
+      "circuits": [
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hyper-active",
+          "detail": "Prophetic and apocalyptic imagery weaponized to create urgency for violent action",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Altered",
+          "detail": "Scripture selectively quoted and decontextualized to support violent ideology",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo-active",
+          "detail": "Moral reasoning capacity suppressed through groupthink, isolation, and ideological saturation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo-active",
+          "detail": "Empathy for out-group targets deliberately extinguished through dehumanizing rhetoric",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Altered",
+          "detail": "Religious education replaced with indoctrination — critical inquiry forbidden, obedience demanded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Altered",
+          "detail": "Charismatic authority figures bypassing institutional checks to recruit directly",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "SECULARIZATION_CRISIS",
+      "label": "Secularization Crisis",
+      "summary": "Institutional religion losing adherents, cultural relevance, and transmissive capacity — meaning vacuum expanding",
+      "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Ritual participation declining — weekly attendance and sacramental engagement at historic lows",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "DMN",
+          "dir": "Hypo-generative",
+          "detail": "Theological narratives failing to compete with secular meaning-making frameworks",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Hypo-enrolled",
+          "detail": "Religious education programs losing students — next-generation formation pipeline collapsing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hypo-accessible",
+          "detail": "Mystical traditions disconnected from mainstream practice — spiritual depth inaccessible to average adherent",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-transmitted",
+          "detail": "Sacred narratives no longer part of cultural memory — mythological literacy declining across generations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PIN",
+          "dir": "Hypo-populated",
+          "detail": "Monastic communities unable to attract new members — contemplative traditions at risk of extinction",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "THEOLOGICAL_SCHISM",
+      "label": "Theological Schism",
+      "summary": "Irreconcilable doctrinal disputes fragmenting religious communities — institutional unity collapsing",
+      "circuits": [
+        {
+          "nodeId": "DMN",
+          "dir": "Hyper-divergent",
+          "detail": "Competing theological narratives becoming mutually incomprehensible — shared meaning fracturing",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper-contested",
+          "detail": "Scriptural interpretation becoming battleground — same texts used to justify opposing positions",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-factional",
+          "detail": "Institutional authority fragmenting into competing governance structures and parallel hierarchies",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "vmPFC",
+          "dir": "Altered",
+          "detail": "Moral reasoning diverging on key ethical questions — sexuality, gender, social justice, bioethics",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Altered",
+          "detail": "Prophetic claims used to legitimize breakaway movements and new institutional formations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Altered",
+          "detail": "Historical narratives selectively remembered to justify current factional positions",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.754Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

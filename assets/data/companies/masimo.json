@@ -1,0 +1,1066 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "masimo",
+  "slug": "masimo",
+  "name": "Masimo Corporation",
+  "ticker": "MASI",
+  "cik": "0000937556",
+  "sic": "3841",
+  "industry": "Surgical & Medical Instruments — Neonatal & Patient Monitoring",
+  "domainId": "medicine",
+  "portalAttachment": "medicine-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "CPIMEDSL",
+    "PCU339113339113",
+    "IPG3391N",
+    "MMNRNJ",
+    "HOSPEXP",
+    "ICSA",
+    "IMNRNJ"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000937556.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "CPIMEDSL",
+        "PCU339113339113",
+        "IPG3391N",
+        "HOSPEXP"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "MASI"
+  ],
+  "commodityExposure": [
+    "semiconductor_components",
+    "rare_earth_elements",
+    "optical_materials",
+    "medical_grade_plastics",
+    "aluminum_alloys",
+    "copper_wiring",
+    "specialty_adhesives"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=937556",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Masimo is the global leader in non-invasive patient monitoring, commanding >50% market share in pulse oximetry (SpO₂) and rainbow noninvasive hemoglobin measurement across NICU, ICU, and operating-room segments. The company's proprietary SET (Signal Extraction Technology) algorithms filter motion artifact and low-perfusion states, creating a durable IP moat and recurring revenue through consumable sensors and cloud-based analytics. Masimo's 2023–2024 expansion into wearable monitoring (Masimo SafetyNet, Radius-7) and remote patient monitoring (RPM) positions it as a critical infrastructure node in hospital vital-signs sensing and post-acute care delivery.",
+  "portalRelevance": "Masimo's quarterly revenue growth, gross-margin trajectory, and free-cash-flow generation are leading indicators of hospital capital-equipment spending, elective-procedure volumes, and healthcare-provider margin pressure. The company's customer concentration in large hospital systems (HCA, Tenet, CVS Health) and exposure to CMS reimbursement policy (CPT 99457–99458 RPM codes) create direct linkages to Medicare utilization trends and hospital profitability. Masimo's aggressive M&A strategy (Cercacor 2018, Rad-97 2020, Masimo Tono 2021) and international expansion (Asia-Pacific, Middle East, EMEA) expose it to geopolitical supply-chain risk and regulatory fragmentation, making it a critical peer-comparison anchor for medtech sector health and innovation velocity.",
+  "notes": {
+    "cohortStatus": "anchor_medtech_device_leader",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly revenue growth by segment (Patient Monitoring, Neonatal, Anesthesia, Acute Care) disclosed in 10-Q earnings releases; track gross margin by product category (devices vs. consumables vs. software)",
+        "8-K filings for M&A activity, product recalls, FDA warning letters, or international regulatory actions; monitor SEC EDGAR for material contract wins or customer losses",
+        "Supply-chain disruption notices via customer advisory bulletins, semiconductor lead-time indices (SEMI, TrendForce), and supplier earnings calls (Intel, Analog Devices, NXP)",
+        "Hospital utilization proxies (CMS procedure volumes, HCA same-store sales, Tenet occupancy rates) and elective-procedure volume trends from healthcare-industry indices"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "HELIX phase classification based on revenue trajectory (YoY growth %), free-cash-flow generation (operating cash flow minus capex), and debt-service capacity (net debt / EBITDA)",
+        "Hospital capital-equipment spending cycle inference from CMS reimbursement rate changes (CPT code updates), elective-procedure volume proxies, and hospital-system financial health (HCA, Tenet earnings)",
+        "Competitive position assessment vs Philips IntelliVue, GE CARESCAPE, Draeger Infinity in core pulse oximetry and monitoring segments; track market-share gains/losses via customer win/loss disclosures",
+        "International revenue exposure (% of total disclosed in 10-K Item 1A) and FX headwind sensitivity; monitor EMEA regulatory compliance (CE marking, MDR 2017/745 transition deadlines)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior medtech margin-compression cycles (2015–2017 reimbursement pressure, 2020–2021 supply-chain inflation); identify inflection points in gross margin (target >60%) and operating-leverage expansion",
+        "Growth inflection detection: acceleration in recurring software/subscription revenue (SaaS transition via Masimo Care Coordination, Masimo SafetyNet) vs one-time device sales; track software revenue as % of total",
+        "Distress signature monitoring: inventory build-up (days inventory outstanding), accounts-receivable aging (days sales outstanding), or customer concentration risk (top-10 customers as % of revenue) disclosed in 10-K",
+        "Sector contagion check: correlation of Masimo's stock with peer medtech indices (XBI, IHI) and hospital-utilization proxies (HCA, Tenet, CVS Health); identify leading/lagging relationships"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: long-duration growth play on neonatal care infrastructure expansion in emerging markets (India, Southeast Asia, Middle East) vs mature-market saturation risk; track international revenue growth rates by region",
+        "Risk hedge: monitor FDA 510(k) clearance pipeline for new competitors in non-invasive monitoring; track patent expiration schedule for core SpO₂ algorithms (SET technology patents expiring 2025–2030); assess antitrust risk from FTC on exclusive hospital contracts",
+        "Engagement strategy: track board composition changes (director independence, healthcare expertise), executive compensation tied to R&D productivity (% of revenue), and capital-allocation discipline (buyback authorization vs dividend vs M&A)",
+        "Regulatory intervention: monitor CMS reimbursement rate changes for patient monitoring codes (CPT 99457–99458) and impact on hospital adoption ROI; track FDA warning letters or recalls that could impact market access"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Trade execution: long equity position on positive phase transition (P3→P5) signaled by gross-margin expansion >62%, free-cash-flow acceleration, or successful international market penetration; short on margin-compression signals (gross margin <58%) or customer concentration risk",
+        "Portfolio rebalancing: hedge medtech sector beta via short position in lower-quality competitors (Vyaire, Getinge) if Masimo outperforms; monitor correlation with hospital-utilization proxies (HCA, Tenet) for sector-wide demand signals",
+        "Engagement: attend investor day, track management guidance revisions quarter-over-quarter, and monitor insider trading patterns (CEO Joe Kiani, CFO Bilal Aziz stock sales); assess board-level M&A appetite and capital-return plans",
+        "Operational monitoring: set alerts for 8-K filings (M&A, recalls, regulatory actions), earnings-call transcript changes in tone/guidance, supply-chain commentary, and customer win/loss announcements"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Earnings validation: compare actual Q+1 revenue growth vs guidance; track gross margin vs consensus expectations and prior-quarter trend; assess operating-leverage expansion (SG&A as % of revenue)",
+        "Price action: monitor stock reaction to earnings surprises, FDA actions, or M&A announcements; compare to peer medtech indices (XBI, IHI) and hospital-utilization proxies (HCA, Tenet same-store sales)",
+        "Filing delta: track changes in 10-K risk factors (customer concentration, supply-chain dependencies, regulatory risk), customer concentration disclosures (top-10 customers as % of revenue), and international revenue mix quarter-over-quarter",
+        "Thesis refinement: update phase classification based on realized cash flow, debt reduction, and capital-allocation decisions; recalibrate growth assumptions based on international expansion progress and competitive win/loss rates"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model update: recalibrate phase transition probabilities based on Masimo's historical earnings-surprise patterns (beat/miss frequency), gross-margin volatility, and free-cash-flow conversion rates",
+        "Signal reweight: increase weight on hospital-utilization proxies (CMS procedure volumes, HCA same-store sales, Tenet occupancy) if they outperform earnings-call guidance as leading indicators; adjust for seasonality (Q4 strength, Q1 weakness)",
+        "Sector prior update: adjust medtech cohort priors on reimbursement sensitivity based on Masimo's disclosed customer concentration (% revenue from top-10 customers) and payer mix (Medicare vs commercial vs international)",
+        "Competitive sensitivity: update peer-comparison model to reflect Masimo's IP moat in motion-artifact rejection and recurring-revenue transition vs traditional device competitors; monitor patent expiration risk and new-entrant threats"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Masimo operates as a distributed sensory-processing and decision-support network node within the global hospital infrastructure ecosystem. The company's core function is real-time vital-signs acquisition (pulse oximetry, hemoglobin, perfusion index), algorithmic noise rejection via proprietary SET technology, and clinical-decision support delivery to bedside clinicians and remote monitoring centers. Masimo's brain-like role spans sensory integration (optical signal processing), state estimation (patient acuity classification, alarm generation), and motor output (clinical workflow integration, EHR connectivity). The company's competitive advantage lies in its proprietary signal-processing algorithms that filter motion artifact and low-perfusion states—a capability that creates switching costs, recurring revenue through software licensing, and cloud-based analytics. Masimo's functional network extends upstream to semiconductor and optical-component suppliers (Intel, Analog Devices, Corning), downstream to hospital procurement and clinical-staff adoption (HCA, Tenet, CVS Health), and laterally to competing monitoring platforms (Philips, GE, Draeger) and complementary care-delivery systems (EHR, ICU management software, ventilators).",
+    "suppliers": [
+      {
+        "name": "Intel Corporation",
+        "ticker": "INTC",
+        "cik": "0000050104",
+        "slug": "intel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Semiconductor & Processing Components",
+        "relationshipNote": "Intel supplies embedded processors and microcontrollers for Masimo's bedside monitors and wearable sensors (Radical-7, Masimo SafetyNet). Masimo's dependence on Intel's supply chain exposes the company to semiconductor lead-time volatility; the 2021–2023 semiconductor shortage directly constrained Masimo's ability to fulfill customer orders and delayed product launches. Intel's Taiwan fab concentration and geopolitical risk (US-China tensions) create supply-chain vulnerability.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Analog Devices Inc.",
+        "ticker": "ADI",
+        "cik": "0000006281",
+        "slug": "analog_devices",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Signal Conditioning & Analog Front-End",
+        "relationshipNote": "Analog Devices provides signal-conditioning ICs and analog-to-digital converters (ADCs) critical to Masimo's optical sensor front-end and SpO₂ measurement chain. ADI's mixed-signal components are embedded in Masimo's proprietary pulse oximetry sensors and enable the motion-artifact rejection algorithms that differentiate Masimo's SET technology from competitors (Philips Nellcor, GE Datex). Supply disruptions at ADI directly impact Masimo's manufacturing throughput and time-to-market for new products.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Broadcom Inc.",
+        "ticker": "AVGO",
+        "cik": "0001397535",
+        "slug": "broadcom",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Wireless & Connectivity Components",
+        "relationshipNote": "Broadcom supplies wireless connectivity modules (Bluetooth Low Energy, WiFi 6) for Masimo's cloud-connected monitoring platforms and remote-patient-monitoring (RPM) ecosystem (Masimo Care Coordination, Masimo SafetyNet). As Masimo transitions toward SaaS and subscription-based analytics, Broadcom's wireless components enable the data-transmission layer. Broadcom's 2023 supply constraints impacted Masimo's ability to scale wearable-device production.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Corning Incorporated",
+        "ticker": "GLW",
+        "cik": "0000024545",
+        "slug": "corning",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Optical Materials & Sensors",
+        "relationshipNote": "Corning supplies optical glass, fiber-optic components, and specialized optical materials for Masimo's pulse oximetry sensors and light-emitting diode (LED) optical paths. Corning's precision optics are critical to the wavelength-specific light transmission (red, infrared, deep red) that enables Masimo's multi-wavelength SpO₂ and rainbow hemoglobin measurement algorithms. Long-term supply agreements likely in place; Corning's optical-material expertise creates switching costs for Masimo.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amphenol Corporation",
+        "ticker": "APH",
+        "cik": "0000006059",
+        "slug": "amphenol",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Connectors & Interconnect Systems",
+        "relationshipNote": "Amphenol supplies medical-grade connectors, cable assemblies, and sensor-to-monitor interconnect systems for Masimo's patient-monitoring devices (Radical-7, Masimo SET, Masimo Tono). Amphenol's connectors are embedded in Masimo's finger-clip sensors, waveform cables, and bedside-monitor interfaces. Reliability and biocompatibility certifications (ISO 13485, IEC 60601) are critical; supply continuity is essential to Masimo's manufacturing schedule and product reliability.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NXP Semiconductors N.V.",
+        "ticker": "NXPI",
+        "cik": "0001413447",
+        "slug": "nxp_semiconductors",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Microcontrollers & Embedded Systems",
+        "relationshipNote": "NXP supplies ARM-based microcontrollers and embedded processors for Masimo's bedside monitors and wearable sensors (Radius-7, Masimo SafetyNet). NXP's low-power MCUs are critical to Masimo's battery-powered finger-clip sensors and portable monitoring devices. NXP's supply chain disruptions (2021–2023 semiconductor shortage) directly impacted Masimo's ability to fulfill customer orders and delayed product launches. NXP's automotive-grade reliability standards align with Masimo's medical-device quality requirements.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Jaco Electronics",
+        "ticker": null,
+        "cik": null,
+        "slug": "jaco_electronics",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Contract Manufacturing & Assembly",
+        "relationshipNote": "Jaco Electronics is a contract manufacturer providing printed circuit board (PCB) assembly, final device assembly, and quality-assurance services for Masimo's monitoring devices. As a private contract manufacturer, Jaco's capacity utilization and lead times directly impact Masimo's ability to scale production during demand surges (e.g., post-pandemic NICU expansion, 2023–2024 RPM adoption). Jaco's ISO 13485 certification and FDA-registered facility status are critical to Masimo's regulatory compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Avery Dennison Corporation",
+        "ticker": "AVY",
+        "cik": "0000008818",
+        "slug": "avery_dennison",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Labeling, Packaging & Product Identification",
+        "relationshipNote": "Avery Dennison supplies medical-grade labeling, adhesive labels, and packaging materials for Masimo's device labeling, regulatory compliance markings (FDA, CE marking), and product packaging. Regulatory compliance requires specialized label materials that withstand sterilization and maintain adhesion; Avery's expertise in medical-device labeling ensures Masimo's products meet global regulatory standards (21 CFR Part 801, MDR 2017/745).",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Heilind Industries (Berkshire Hathaway subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "heilind_industries",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Specialty Fasteners & Hardware Distribution",
+        "relationshipNote": "Heilind Industries supplies specialty fasteners, screws, and hardware components for Masimo's device assembly and manufacturing. Heilind's medical-grade fastener certifications and supply-chain reliability ensure Masimo's manufacturing continuity. Heilind's distribution network and just-in-time delivery capabilities support Masimo's lean manufacturing practices and inventory management.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001666700",
+        "slug": "dow",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Plastics & Adhesives",
+        "relationshipNote": "Dow supplies specialty plastics, silicones, and adhesives for Masimo's device enclosures, sensor housings, and biocompatible coatings. Dow's medical-grade materials meet ISO 10993 biocompatibility standards and FDA requirements for patient-contact materials. Dow's supply of silicone elastomers is critical to Masimo's finger-clip sensor design and durability.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Henkel AG & Co. KGaA",
+        "ticker": "HEN3",
+        "cik": null,
+        "slug": "henkel",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Adhesives & Specialty Chemicals",
+        "relationshipNote": "Henkel supplies medical-grade adhesives, epoxies, and encapsulation materials for Masimo's device assembly and sensor manufacturing. Henkel's expertise in biocompatible adhesives and thermal-management compounds ensures Masimo's devices meet reliability and safety standards. Henkel's supply of conformal coatings protects Masimo's PCBs from moisture and environmental contamination in hospital settings.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Logistics & Distribution",
+        "relationshipNote": "DHL Supply Chain manages Masimo's global distribution network, including temperature-controlled warehousing, last-mile delivery to hospitals, and reverse-logistics for device repairs and returns. DHL's healthcare-logistics expertise ensures compliance with FDA shipping requirements (21 CFR Part 11) and device-integrity standards. Masimo's international expansion (Asia-Pacific, Middle East, EMEA) relies on DHL's regional distribution hubs and customs-clearance capabilities.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "UPS Healthcare Logistics",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "slug": "ups",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Specialized Medical Device Shipping",
+        "relationshipNote": "UPS Healthcare Logistics provides temperature-controlled shipping, tracking, and regulatory-compliance services for Masimo's direct-to-hospital and direct-to-customer device shipments. UPS's healthcare-certified logistics network ensures device integrity during transit and provides real-time visibility for hospital procurement teams. UPS's 2023 expansion of healthcare logistics capacity supports Masimo's growing direct-sales model and international expansion.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "FedEx Supply Chain",
+        "ticker": "FDX",
+        "cik": "00001048911",
+        "slug": "fedex",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International Logistics & Customs",
+        "relationshipNote": "FedEx Supply Chain provides international logistics, customs brokerage, and regulatory-compliance services for Masimo's global distribution. FedEx's expertise in medical-device shipping (temperature control, documentation, regulatory compliance) supports Masimo's expansion into emerging markets (India, Southeast Asia, Middle East). FedEx's 2023 healthcare-logistics investments align with Masimo's international growth strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Cardinal Health Inc.",
+        "ticker": "CAH",
+        "cik": "0000721371",
+        "slug": "cardinal_health",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Medical Device Distribution & Logistics",
+        "relationshipNote": "Cardinal Health is the largest medical-device distributor in North America and carries Masimo's patient-monitoring devices and sensors through its hospital supply chain. Cardinal's scale (serves >90% of US hospitals) provides Masimo with access to thousands of hospital accounts and GPO (Group Purchasing Organization) contracts. Cardinal's purchasing power and inventory management directly impact Masimo's order fulfillment, cash-conversion cycle, and customer concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "HCA Healthcare Inc.",
+        "ticker": "HCA",
+        "cik": "0001621853",
+        "slug": "hca_healthcare",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Hospital System Customer",
+        "relationshipNote": "HCA Healthcare operates 185+ hospitals across the United States and is one of Masimo's largest hospital-system customers. HCA's NICU and ICU units standardize on Masimo's Radical-7 and SET monitoring platforms, representing significant recurring revenue from device sales, sensor consumables, and software licensing (Masimo Care Coordination). HCA's capital-equipment spending cycles and elective-procedure volumes directly correlate with Masimo's quarterly revenue. HCA's 2023 earnings disclosed strong utilization recovery post-pandemic, signaling increased demand for Masimo's monitoring devices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tenet Healthcare Corporation",
+        "ticker": "THC",
+        "cik": "0001011165",
+        "slug": "tenet_healthcare",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Large Hospital System Customer",
+        "relationshipNote": "Tenet Healthcare operates 65+ hospitals and is a significant customer for Masimo's patient-monitoring devices and sensors. Tenet's NICU, ICU, and OR units deploy Masimo's monitoring platforms; Tenet's purchasing decisions reflect hospital-margin pressure and capital-equipment ROI requirements. Tenet's 2023 financial recovery and utilization improvement signal increased demand for Masimo's monitoring devices. Tenet's customer concentration risk is material to Masimo's revenue stability.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CVS Health Corporation",
+        "ticker": "CVS",
+        "cik": "0001116132",
+        "slug": "cvs_health",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Retail Clinic & Urgent Care Customer",
+        "relationshipNote": "CVS Health operates 1,100+ MinuteClinic urgent-care centers and retail clinics that increasingly deploy Masimo's portable pulse oximetry and vital-signs monitoring devices. CVS's expansion into primary care and chronic-disease management (CVS Health Digital, Aetna integration) creates demand for Masimo's remote-patient-monitoring (RPM) solutions and cloud-connected analytics. CVS's 2023 acquisition of Signify Health (home-health provider) expands Masimo's addressable market for RPM devices and software subscriptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mayo Clinic",
+        "ticker": null,
+        "cik": null,
+        "slug": "mayo_clinic",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Academic Medical Center Customer",
+        "relationshipNote": "Mayo Clinic is a leading academic medical center and major Masimo customer, standardizing on Masimo's monitoring platforms across its NICU, ICU, and OR units. Mayo's clinical validation and adoption of Masimo's devices (Radical-7, Masimo SET, Masimo Tono) provide credibility for Masimo's technology and support market penetration in other academic medical centers. Mayo's research partnerships with Masimo on non-invasive monitoring algorithms create switching costs and recurring revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Philips Healthcare (Royal Philips N.V.)",
+        "ticker": "PHIA",
+        "cik": null,
+        "slug": "philips_healthcare",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Patient Monitoring & Imaging Competitor",
+        "relationshipNote": "Philips is Masimo's largest global competitor in patient monitoring, with IntelliVue monitoring platforms deployed across ICUs, ORs, and NICUs worldwide. Philips' integrated approach (monitors + imaging + informatics) provides cross-selling advantages; however, Masimo's superior motion-artifact rejection (SET technology) and standalone-device flexibility have enabled market-share gains in NICU and portable-monitoring segments. Philips' 2022 restructuring and supply-chain challenges created openings for Masimo's direct-sales expansion in Europe and Asia-Pacific. Philips' Nellcor pulse oximetry legacy technology is losing share to Masimo's SET algorithms.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "GE Healthcare (General Electric Company)",
+        "ticker": "GE",
+        "cik": "0000040545",
+        "slug": "ge_healthcare",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Monitoring & Imaging Competitor",
+        "relationshipNote": "GE Healthcare competes with Masimo in bedside monitoring, anesthesia delivery, and acute-care vital-signs sensing. GE's CARESCAPE monitoring platform and Datex-Ohmeda anesthesia systems are legacy competitors; however, GE's focus on integrated hospital IT and imaging has allowed Masimo to gain share in standalone pulse oximetry and portable monitoring. GE's 2024 separation into three independent companies (GE Aerospace, GE Vernova, GE Healthcare) may create competitive opportunities for Masimo in healthcare-IT integration and standalone device sales.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Draegerwerk AG & Co. KGaA",
+        "ticker": "DRW3",
+        "cik": null,
+        "slug": "draeger_medical",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Anesthesia & Critical-Care Monitoring Competitor",
+        "relationshipNote": "Draeger is a strong competitor in anesthesia delivery, ventilators, and critical-care monitoring, particularly in European and German hospital markets. Draeger's Infinity monitoring platform and anesthesia workstations compete with Masimo's monitoring and anesthesia-integration offerings. Draeger's strength in ventilator-integrated monitoring creates switching costs in ICU environments; however, Masimo's superior SpO₂ algorithms and standalone flexibility have enabled penetration in NICU and portable-monitoring segments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vyaire Medical Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vyaire_medical",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Ventilation & Monitoring Competitor",
+        "relationshipNote": "Vyaire Medical (formerly Vyaire, a Becton Dickinson spinoff) competes in critical-care monitoring, ventilators, and anesthesia delivery. Vyaire's Vela ventilator and monitoring integration compete with Masimo's offerings in ICU and OR segments. Vyaire's financial challenges (2023–2024 restructuring, margin pressure) have created market-share opportunities for Masimo in ventilator-integrated monitoring and critical-care analytics. Vyaire's supply-chain disruptions have benefited Masimo's competitive position.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Getinge AB",
+        "ticker": "GETI",
+        "cik": null,
+        "slug": "getinge",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Surgical & Critical-Care Equipment Competitor",
+        "relationshipNote": "Getinge competes in surgical-site monitoring, critical-care equipment, and infection-control solutions. Getinge's acquisition of Maquet (2005) and Pulsion Medical Systems (2015) expanded its monitoring portfolio; however, Getinge's focus on surgical-site infrastructure has allowed Masimo to maintain leadership in standalone pulse oximetry and portable monitoring. Getinge's 2023–2024 supply-chain challenges and margin pressure have reduced competitive intensity in some segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Medtronic plc",
+        "ticker": "MDT",
+        "cik": "0000064397",
+        "slug": "medtronic",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Patient Monitoring & Anesthesia Platforms",
+        "relationshipNote": "Medtronic competes directly with Masimo in patient monitoring, anesthesia delivery, and acute-care vital-signs sensing. Medtronic's Nellcor pulse oximetry and Oridion capnography platforms are legacy competitors to Masimo's SET technology. Medtronic's 2017 acquisition of Covidien expanded its monitoring portfolio; however, Masimo's market-share gains in NICU and OR segments reflect superior motion-artifact rejection vs Medtronic's older algorithms. Medtronic's scale and hospital relationships provide competitive advantages in integrated-system sales.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Securities Disclosure & Governance Oversight",
+        "relationshipNote": "The SEC oversees Masimo's public-company disclosures, including 10-K annual reports, 10-Q quarterly filings, 8-K event reports, and proxy statements (DEF14A). Masimo's compliance with Regulation FD (Fair Disclosure), Sarbanes-Oxley Section 404 (internal controls), and SEC rules on executive compensation and related-party transactions is mandatory. SEC enforcement actions or disclosure deficiencies could trigger restatements or trading halts. Masimo's 2024 proxy statement disclosed executive compensation and board composition changes.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Medical Device Approval & Safety Oversight",
+        "relationshipNote": "The FDA regulates Masimo's patient-monitoring devices as Class II and Class III medical devices under 21 CFR Part 860. Masimo's pulse oximetry devices (Radical-7, Masimo SET) require 510(k) clearance for new models and software updates. FDA warning letters, recalls, or enforcement actions directly impact Masimo's ability to market devices and generate revenue. Masimo's 2023–2024 FDA interactions regarding SpO₂ accuracy in dark-skin patients and motion-artifact handling are material regulatory risks disclosed in 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Centers for Medicare & Medicaid Services",
+        "ticker": null,
+        "cik": null,
+        "slug": "cms",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Reimbursement & Hospital Payment Policy",
+        "relationshipNote": "CMS sets reimbursement rates for patient-monitoring services (CPT codes 99457–99458 for remote patient monitoring) and hospital inpatient monitoring. CMS reimbursement changes directly impact hospital ROI on Masimo's monitoring devices and software subscriptions. CMS's 2023 decision to expand RPM reimbursement benefits Masimo's SaaS transition; however, future rate cuts or coding changes could pressure hospital adoption. Masimo's customer concentration in Medicare-dependent hospitals (HCA, Tenet) amplifies CMS policy risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Medicines Agency / Notified Bodies",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema_notified_bodies",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "CE Marking & European Medical Device Regulation",
+        "relationshipNote": "The EMA and EU Notified Bodies regulate Masimo's devices under the Medical Device Regulation (MDR 2017/745). Masimo's CE-marked devices require compliance with essential requirements and post-market surveillance. EU regulatory changes (e.g., MDR transition deadlines, cybersecurity requirements per IEC 62304) create compliance costs and market-access delays. Masimo's significant EMEA revenue (disclosed in 10-K) makes EU regulatory risk material to financial guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competitive Conduct Oversight",
+        "relationshipNote": "The FTC monitors Masimo's competitive conduct, including pricing practices, exclusive-dealing arrangements with hospitals, and M&A activity. Masimo's dominant market share in pulse oximetry (>50% in some segments) and history of aggressive patent litigation create antitrust scrutiny risk. FTC challenges to Masimo's acquisition strategy (e.g., Cercacor 2018, Rad-97 2020) or exclusive hospital contracts could constrain growth.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Financial Statement Attestation",
+      "relationshipNote": "Deloitte & Touche LLP is Masimo's independent auditor, responsible for auditing Masimo's consolidated financial statements and internal controls over financial reporting (SOX 404 attestation). Deloitte's audit opinions and any audit adjustments or management-letter comments are disclosed in Masimo's 10-K. Auditor changes or audit-fee disputes could signal financial-reporting or governance concerns. Deloitte's healthcare-industry expertise is relevant to Masimo's complex revenue recognition (device sales vs. software subscriptions vs. consumables).",
+      "confidence": "high",
+      "sourceType": [
+        "10-K"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Investment Banking Advisor",
+        "relationshipNote": "JPMorgan Chase is Masimo's primary lender and investment-banking advisor, providing credit facilities, debt underwriting, and M&A advisory services. JPMorgan's credit lines support Masimo's working capital and acquisition financing (e.g., Cercacor 2018, Rad-97 2020). JPMorgan's lending covenants (leverage ratios, interest-coverage requirements) constrain Masimo's financial flexibility; covenant violations could trigger acceleration clauses. JPMorgan's equity research coverage influences institutional investor sentiment toward Masimo.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Institutional Equity Holder",
+        "relationshipNote": "Vanguard is one of Masimo's largest institutional shareholders, holding >5% of outstanding shares. Vanguard's passive index-fund holdings and active engagement on governance issues (board composition, executive compensation, ESG) influence Masimo's capital-allocation decisions. Vanguard's voting power on shareholder proposals and director elections is material to Masimo's governance structure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Institutional Equity Holder & Governance Influencer",
+        "relationshipNote": "BlackRock is another major institutional shareholder of Masimo, holding >5% of outstanding shares. BlackRock's Aladdin platform and active-ownership engagement influence Masimo's ESG practices, board diversity, and executive-compensation alignment. BlackRock's voting power on shareholder proposals and director elections is material to Masimo's governance. BlackRock's climate-risk and human-capital metrics influence Masimo's disclosure practices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Fidelity Investments",
+        "ticker": null,
+        "cik": null,
+        "slug": "fidelity_investments",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Institutional Equity Holder",
+        "relationshipNote": "Fidelity Investments holds significant equity stakes in Masimo through its mutual funds and separately managed accounts. Fidelity's equity research team and portfolio managers influence institutional investor sentiment toward Masimo. Fidelity's voting power on shareholder proposals and director elections contributes to Masimo's governance.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Joe Kiani",
+        "title": "Founder, Chairman & Chief Executive Officer",
+        "slug": "joe_kiani",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Vision",
+        "relationshipNote": "Joe Kiani founded Masimo in 1989 and has served as CEO since inception. Kiani's vision for non-invasive monitoring and motion-artifact rejection (SET technology) defines Masimo's competitive strategy and product roadmap. Kiani's aggressive M&A strategy (Cercacor 2018, Rad-97 2020, Masimo Tono 2021) and international expansion reflect his growth ambitions. Kiani's compensation (stock options, performance bonuses) is tied to revenue growth and profitability; his insider trading patterns and stock sales are monitored by investors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Bilal Aziz",
+        "title": "Chief Financial Officer",
+        "slug": "bilal_aziz",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Bilal Aziz serves as Masimo's CFO and is responsible for financial planning, capital allocation, and investor relations. Aziz's quarterly earnings guidance, cash-flow management, and debt-reduction strategy directly influence investor sentiment and stock valuation. Aziz's commentary on gross-margin trends, operating-leverage expansion, and acquisition integration is closely monitored by equity analysts.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Micah Young",
+        "title": "Chief Operating Officer",
+        "slug": "micah_young",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Manufacturing",
+        "relationshipNote": "Micah Young serves as Masimo's COO and oversees manufacturing, supply-chain management, and operational efficiency. Young's responsibility for supply-chain resilience, manufacturing capacity, and cost-of-goods-sold (COGS) reduction is critical to Masimo's margin expansion. Young's commentary on semiconductor supply, contract-manufacturer relationships, and production lead times influences investor confidence in Masimo's ability to meet demand.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Anand Sampath",
+        "title": "General Counsel & Secretary",
+        "slug": "anand_sampath",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Anand Sampath serves as Masimo's General Counsel and is responsible for legal compliance, regulatory affairs, and litigation management. Sampath's oversight of FDA interactions, patent litigation (vs. Philips, GE, others), and international regulatory compliance is material to Masimo's risk profile. Sampath's management of product-liability claims, customer disputes, and regulatory investigations influences investor confidence in Masimo's governance.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Hospital Utilization Index (HUI)",
+        "slug": "hospital_utilization_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Demand Signal for Hospital Capital Equipment",
+        "relationshipNote": "Hospital utilization rates (ICU occupancy, OR utilization, NICU census) are leading indicators of hospital capital-equipment spending and Masimo's device sales. Rising utilization signals increased demand for monitoring devices and consumables; declining utilization signals margin pressure and purchasing delays. Hospital utilization data is published by CMS and tracked by healthcare-industry analysts; Masimo's quarterly revenue guidance correlates with utilization trends.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Elective Procedure Volume Index",
+        "slug": "elective_procedure_volume",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence for OR & Surgical Monitoring Demand",
+        "relationshipNote": "Elective surgical procedure volumes (orthopedic, cardiac, general surgery) drive demand for Masimo's anesthesia-monitoring and OR-monitoring devices. Rising elective volumes signal increased hospital capital spending and device adoption; declining volumes signal margin pressure and purchasing delays. Elective procedure data is published by CMS and tracked by healthcare-industry analysts; Masimo's OR-segment revenue correlates with elective-procedure trends.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "medicine",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.819Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Intel Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Broadcom Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "NXP Semiconductors N.V.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "S1": {
+        "external_add": [
+          {
+            "name": "Analog Devices Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Corning Incorporated",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Dow Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Amphenol Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Jaco Electronics",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Avery Dennison Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Heilind Industries (Berkshire Hathaway subsidiary)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Henkel AG & Co. KGaA",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "DHL Supply Chain",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "UPS Healthcare Logistics",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "FedEx Supply Chain",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "CVS Health Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Cardinal Health Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "HCA Healthcare Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Tenet Healthcare Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Mayo Clinic",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Hospital Utilization Index (HUI)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Philips Healthcare (Royal Philips N.V.)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "GE Healthcare (General Electric Company)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Draegerwerk AG & Co. KGaA",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Vyaire Medical Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Getinge AB",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Medtronic plc",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Centers for Medicare & Medicaid Services",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "European Medicines Agency / Notified Bodies",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Food and Drug Administration",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Elective Procedure Volume Index",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Vanguard Group Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "BlackRock Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Fidelity Investments",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

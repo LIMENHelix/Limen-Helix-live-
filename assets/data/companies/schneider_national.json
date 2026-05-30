@@ -1,0 +1,1830 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "schneider_national",
+  "slug": "schneider_national",
+  "name": "Schneider National, Inc.",
+  "ticker": "SNDR",
+  "cik": "0000089143",
+  "sic": "4213",
+  "industry": "Trucking (Except Local)",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplyChain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "TRUCKD",
+    "TOTALSA",
+    "ICSA",
+    "GASDESW",
+    "DEXUSXM",
+    "MMNRNJ",
+    "HOUST",
+    "INDPRO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "SNDR"
+  ],
+  "commodityExposure": [
+    "diesel fuel",
+    "natural gas",
+    "steel (chassis/trailers)",
+    "aluminum",
+    "labor (driver wages)",
+    "electricity (intermodal terminals)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000089143",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Schneider National is a top-three North American transportation and logistics provider, operating ~13,000 tractors and 35,000+ trailers across trucking, intermodal, and logistics segments. The company is a critical node in supply-chain execution for CPG, automotive, and retail distribution, with particular strength in dedicated contract carriage and port-terminal operations. Diesel fuel exposure, driver-wage inflation, and freight-rate cyclicality are core operational levers.",
+  "portalRelevance": "Schneider National serves as a demand-sensing and capacity-constraint signal for the broader supply chain. Its quarterly operating ratio, fleet utilization, and freight-rate realizations are leading indicators of manufacturing and retail health; its intermodal volumes and port-terminal throughput directly reflect import/export cycles. As a peer to J.B. Hunt and Knight-Swift, SNDR's margin trajectory and capital allocation reveal shipper pricing power and modal-shift dynamics critical to inventory-in-transit costs.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly freight-rate indices (spot and contract) via DAT and Coyote platforms; disclosed in quarterly earnings calls",
+        "Quarterly operating ratio and fuel surcharge realization; disclosed in 10-K Item 7 MD&A",
+        "Intermodal volume and port-terminal throughput; disclosed in segment reporting (10-K Item 8)",
+        "Driver turnover and wage-inflation metrics; disclosed in 10-K Item 1A risk factors and compensation disclosures"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Freight-rate environment classification (spot weakness vs. contract strength) via quarterly earnings guidance",
+        "Fleet utilization and tractor-to-trailer ratio; disclosed in quarterly investor presentations",
+        "Intermodal modal-shift trajectory vs. trucking; inferred from segment margin trends in 10-K",
+        "Debt-to-EBITDA and covenant headroom; disclosed in 10-K Item 8 debt schedules and 8-K refinancing events"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: operating-ratio compression vs. prior-year same-quarter; signals shipper pricing power erosion or fuel-cost pass-through failure",
+        "Intermodal margin divergence from trucking; indicates modal-shift inflection or port-congestion relief",
+        "Driver turnover spike above 80% annualized; signals wage-inflation spiral or capacity constraint ahead",
+        "Debt refinancing at rising spreads; indicates credit-market repricing of freight-cycle risk"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge diesel exposure via NYMEX crude and heating-oil futures; target 40–60% of forward 12-month volume",
+        "Monitor FMCSA hours-of-service rule changes and ELD mandate compliance; disclosed in 10-K Item 1A",
+        "Track EPA Tier 4 emission standards and capital-expenditure impact; disclosed in 10-K Item 7 capex guidance",
+        "Maintain debt covenant cushion >1.5x; disclosed in 10-K Item 8 debt covenants and quarterly 10-Q filings"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long SNDR if operating ratio inflects below 95% and intermodal volumes accelerate; short if ratio exceeds 98% and driver turnover >85%",
+        "Reduce position if debt refinancing spreads widen >150 bps above investment-grade median",
+        "Increase exposure if management guides to pricing power recovery in next quarter's earnings call",
+        "Monitor 8-K filings for major customer wins (dedicated contract carriage) or losses; disclosed in Item 8.01 events"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Validate signal via Q+1 earnings print: operating ratio, fuel surcharge realization, intermodal volume growth",
+        "Track share-price reaction to freight-rate index prints and competitor earnings (J.B. Hunt, Knight-Swift)",
+        "Monitor 10-Q filings for covenant compliance and debt-level changes; quarterly disclosure in Item 1A",
+        "Assess driver-wage inflation vs. fuel-surcharge pass-through; disclosed in quarterly earnings call guidance"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight diesel-exposure sensitivity if EV adoption accelerates; monitor capex guidance for electric-tractor pilots",
+        "Recalibrate intermodal-margin model if port-automation reduces terminal labor costs; disclosed in investor presentations",
+        "Update driver-wage inflation elasticity if labor-market tightness persists; adjust wage-cost forecasts in 10-K Item 1A",
+        "Refine debt-covenant headroom model if credit spreads persist at elevated levels; monitor quarterly 10-Q debt schedules"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Schneider National operates as a distributed logistics brain: its trucking fleet and intermodal terminals function as sensory-motor nodes capturing real-time freight demand and port-congestion signals; its dedicated contract-carriage business (DMN role) anchors shipper relationships and pricing power; its fuel-hedging and driver-wage management (PFC/limbic) regulate operational margin; and its debt and capital-allocation decisions (OFC) integrate market-cycle signals into fleet-expansion and shareholder-return policies. The company's quarterly earnings and 8-K filings emit leading indicators of supply-chain health that downstream retailers and manufacturers depend on for inventory-in-transit cost modeling.",
+    "suppliers": [
+      {
+        "name": "Volvo Group (Volvo Trucks NA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "volvo_trucks_na",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Tractor & Chassis Supply",
+        "relationshipNote": "Volvo Trucks supplies Class 8 tractors and chassis to SNDR; ~25–30% of fleet procurement. Volvo's I-Shift automated transmission and fuel-economy improvements are key to SNDR's operating-ratio targets. Relationship includes warranty and parts-support agreements; disclosed in 10-K Item 1A supplier relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000813828",
+        "slug": "chevron",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Diesel Fuel Supply",
+        "relationshipNote": "Chevron supplies diesel fuel via wholesale contracts to SNDR's fuel-card network and company-operated fuel stations. Diesel represents ~15–18% of SNDR's operating costs; fuel-surcharge mechanisms pass through ~70–80% of price volatility to customers. Spot and contract pricing disclosed in quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Shell Global",
+        "ticker": null,
+        "cik": null,
+        "slug": "shell_global",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Diesel Fuel Supply",
+        "relationshipNote": "Shell supplies diesel fuel via wholesale contracts and branded fuel-card partnerships to SNDR. Fuel-supply diversification across Chevron and Shell reduces single-supplier risk. Pricing and volume terms disclosed in 10-K Item 1A supplier relationships and quarterly earnings guidance.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bridgestone Corporation",
+        "ticker": "BRDCY",
+        "cik": null,
+        "slug": "bridgestone",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Tire Supply & Maintenance",
+        "relationshipNote": "Bridgestone supplies commercial truck tires and tire-management services to SNDR's fleet. Tire costs represent ~2–3% of operating expenses; Bridgestone's fuel-efficient tire designs reduce rolling resistance by 3–4%. Long-term supply and maintenance contracts; disclosed in 10-K Item 1A supplier relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Michelin North America",
+        "ticker": null,
+        "cik": null,
+        "slug": "michelin_north_america",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Tire Supply & Maintenance",
+        "relationshipNote": "Michelin supplies commercial truck tires and tire-management services; ~30–40% of SNDR's tire procurement. Michelin's X One tire line reduces fuel consumption by 3–5% vs. standard tires. Competitive pricing and supply agreements; disclosed in 10-K Item 1A supplier concentration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sensormatic Electronics (Tyco/Johnson Controls subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sensormatic_electronics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Fleet Telematics & IoT",
+        "relationshipNote": "Sensormatic provides telematics and IoT sensors for SNDR's fleet-management platform; real-time vehicle diagnostics, fuel-consumption monitoring, and driver-behavior analytics. Telematics data feeds SNDR's operating-ratio optimization and safety programs. Disclosed in 10-K Item 1 technology infrastructure.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sennheiser Communications",
+        "ticker": null,
+        "cik": null,
+        "slug": "sennheiser_communications",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Driver Communication & Safety",
+        "relationshipNote": ". SNDR operates driver-communication systems and in-cab safety devices; vendor relationships support driver training and compliance with FMCSA hours-of-service regulations. Disclosed in 10-K Item 1A regulatory compliance.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Knight-Swift Transportation, Inc.",
+        "ticker": "KNX",
+        "cik": "0001387029",
+        "slug": "knight_swift",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing Carrier & Consolidation Leader",
+        "relationshipNote": "Knight-Swift is the largest trucking company in North America (~$7B revenue); formed via 2017 merger of Knight Transportation and Swift Transportation. KNX's scale and operational leverage create pricing pressure on SNDR in spot and contract markets. Quarterly earnings and 8-K M&A activity disclosed in SEC filings and industry reports.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing LTL & Logistics Provider",
+        "relationshipNote": "XPO operates less-than-truckload (LTL) and logistics services; ~$19B revenue. XPO competes with SNDR in dedicated contract carriage and intermodal logistics. XPO's 2023 separation into XPO (transportation) and GXO (logistics) creates new competitive dynamics. Disclosed in 10-K Item 1 competitive landscape and 8-K corporate-action filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Retail Customer & Revenue Driver",
+        "relationshipNote": "Walmart is a top-5 customer for SNDR's dedicated contract carriage and intermodal services; represents ~3–5% of SNDR's revenue. Walmart's supply-chain optimization and private-label logistics expansion drive volume and pricing negotiations. Relationship includes dedicated fleet assignments and port-terminal throughput commitments. Disclosed in 10-K Item 1A customer concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon.com, Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "High-Growth E-Commerce Customer",
+        "relationshipNote": "Amazon is a growing customer for SNDR's trucking and logistics services; estimated 2–4% of SNDR's revenue. Amazon's fulfillment-center network expansion and last-mile logistics buildout drive dedicated contract carriage demand. Relationship includes seasonal volume commitments and pricing adjustments. Disclosed in 10-K Item 1A customer concentration and earnings-call guidance.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "The Coca-Cola Company",
+        "ticker": "KO",
+        "cik": "0000021344",
+        "slug": "coca_cola",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "CPG Shipper & Dedicated-Fleet Customer",
+        "relationshipNote": "Coca-Cola uses SNDR's dedicated contract carriage for beverage distribution; estimated 1–3% of SNDR's revenue. Coca-Cola's supply-chain network spans North America with seasonal demand spikes. Relationship includes dedicated tractor and trailer assignments and fuel-surcharge pass-through mechanisms. Disclosed in 10-K Item 1A customer relationships.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Procter & Gamble Company",
+        "ticker": "PG",
+        "cik": "0000080424",
+        "slug": "procter_gamble",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "CPG Shipper & Logistics Customer",
+        "relationshipNote": "P&G uses SNDR's trucking and intermodal services for consumer-goods distribution; estimated 1–2% of SNDR's revenue. P&G's supply-chain footprint includes dedicated lanes and port-terminal throughput. Relationship includes volume commitments and pricing adjustments tied to fuel-surcharge indices. Disclosed in 10-K Item 1A customer concentration.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "AECOM",
+        "slug": "aecom",
+        "ticker": "ACM",
+        "cik": "0000868857",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National supplies freight and logistics services supporting AECOM's project material and equipment transportation across infrastructure, water, and energy sectors. Schneider's capacity utilization, freight pricing, and service reliability directly influence AECOM's project-delivery cost structure and schedule execution. Rate pressures cascade into AECOM's margin realization.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.731Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "aecom",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087686|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Casella Waste Systems, Inc.",
+        "slug": "casella_waste_systems",
+        "ticker": "CWST",
+        "cik": "0000823990",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National provides transportation and regional logistics services for Casella's waste transfer operations across the Northeast. Schneider's capacity availability, fuel surcharges, and long-haul pricing directly impact Casella's cost structure for moving waste to regional disposal sites. Service reliability affects operational efficiency.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.731Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "casella_waste_systems",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087513|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Clean Harbors, Inc.",
+        "slug": "clean_harbors",
+        "ticker": "CLH",
+        "cik": "0000822818",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National operates specialized hazardous-waste transportation and field-service logistics for Clean Harbors' industrial remediation and waste-collection operations. Schneider's hazmat expertise, fleet availability, and pricing power directly influence Clean Harbors' operational cost structure and project delivery capability across North America.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.731Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "clean_harbors",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087686|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "C.H. Robinson Worldwide Inc.",
+        "slug": "c_h_robinson",
+        "ticker": "CHRW",
+        "cik": "1043277",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National serves as a major carrier partner supplying truckload and intermodal capacity to C.H. Robinson's managed-services division. Schneider's fleet utilization rates, pricing realization, and driver availability directly signal freight-market conditions that influence Robinson's margin profile and cash-conversion cycle as a pure-play logistics intermediary.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.731Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "c_h_robinson",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000091440|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "slug": "eastman_chemical",
+        "ticker": "EMN",
+        "cik": "0000277801",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National provides intermodal and bulk-chemical transportation services for Eastman's domestic and cross-border specialty-chemical shipments. Schneider's capacity constraints, hazmat logistics pricing, and freight-rate volatility directly impact Eastman's supply-chain cost structure and margin trajectory in coatings and performance-additives distribution.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.731Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "eastman_chemical",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087686|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Fluor Corporation",
+        "slug": "fluor",
+        "ticker": "FLR",
+        "cik": "1124198",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National supplies freight, logistics, and supply-chain services for Fluor's multi-site project material and equipment transportation. Schneider's capacity utilization, freight pricing, and driver availability directly influence Fluor's project cost structure, schedule execution, and working-capital requirements across heavy-construction projects.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.731Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "fluor",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000091618|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "General Mills, Inc.",
+        "slug": "general_mills",
+        "ticker": "GIS",
+        "cik": "0000040704",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National handles intermodal freight services supporting General Mills' long-distance packaged-food distribution to West Coast retail networks. Schneider's digital-logistics integration, capacity availability, and freight pricing directly influence General Mills' supply-chain efficiency and delivery-velocity for Walmart and Kroger supply streams.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "general_mills",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087686|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Huntsman Corporation",
+        "slug": "huntsman",
+        "ticker": "HUN",
+        "cik": "0001307954",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National provides intermodal and dedicated trucking services for Huntsman's chemical shipments across North America, including polyurethane foam and specialty pigments. Schneider's capacity constraints, freight-rate inflation, and service reliability directly compress Huntsman's distribution cost structure and manufacturing supply-chain resilience.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "huntsman",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087686|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "International Paper Company",
+        "slug": "international_paper",
+        "ticker": "IP",
+        "cik": "0000051143",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National operates as a major trucking and logistics provider for International Paper's containerboard and corrugated-box distribution to retail and e-commerce customers. Schneider's capacity, pricing, and service levels directly affect International Paper's supply-chain efficiency and customer-delivery performance for Amazon, Walmart, and CPG manufacturers.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "international_paper",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000093556|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "The Kraft Heinz Company",
+        "slug": "kraft_heinz",
+        "ticker": "KHC",
+        "cik": "0001637459",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National provides intermodal and truckload services for Kraft Heinz's long-haul packaged-food distribution to mass-market retail. Schneider's fuel-cost dynamics, capacity constraints, and freight pricing directly impact Kraft Heinz's logistics cost structure and inventory velocity for Walmart and Kroger supply channels.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "kraft_heinz",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087686|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Lockheed Martin Corporation",
+        "slug": "lockheed_martin",
+        "ticker": "LMT",
+        "cik": "0000936468",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National operates domestic trucking, intermodal logistics, and supply-chain visibility services across Lockheed Martin's multi-site aerospace manufacturing footprint. Schneider's just-in-time delivery capability, capacity availability, and service reliability directly support Lockheed's production schedule and component-supply coordination across facilities.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "lockheed_martin",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000079739|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "A.P. Møller - Mærsk A/S",
+        "slug": "maersk_line",
+        "ticker": "MAERSK-B.CO",
+        "cik": null,
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National provides drayage and inland intermodal services for Mærsk's U.S. gateway operations and last-mile volume distribution. Schneider's real-time tracking integration, chassis-equipment availability, and driver services directly support Mærsk's port-to-customer delivery performance and inventory velocity across North American supply chains.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "maersk_line",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087513|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Martin Marietta Materials, Inc.",
+        "slug": "martin_marietta_materials",
+        "ticker": "MLM",
+        "cik": "0000916076",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National supplies dedicated and spot-market trucking services for Martin Marietta's construction-aggregates distribution. Schneider's capacity utilization, freight pricing, and delivery reliability directly influence Martin Marietta's logistics cost structure and shipment velocity to regional construction end-markets across the United States.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "martin_marietta_materials",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "schneider_national_inc|0000091618|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Montrose Environmental Solutions Inc.",
+        "slug": "montrose_environmental",
+        "ticker": "MEG",
+        "cik": "1601712",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National provides hazmat transportation, intermodal logistics, and supply-chain services for Montrose's environmental remediation and consulting projects. Schneider's hazmat expertise, DOT compliance, and regional presence are critical to project execution. Freight pricing and availability directly influence Montrose's project cost realization.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "montrose_environmental",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087686|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "NextEra Energy, Inc.",
+        "slug": "nextera_energy",
+        "ticker": "NEE",
+        "cik": "0000753308",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National operates specialized heavy-haul logistics for NextEra's oversized turbine and renewable-energy component transportation across project sites. Schneider's heavy-haul truck fleet, routing expertise, and specialized-trailer availability directly enable NextEra's project-delivery schedule and supply-chain coordination for utility-scale renewable installations.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "nextera_energy",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000091618|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Packaging Corporation of America",
+        "slug": "packaging_corp_america",
+        "ticker": "PKG",
+        "cik": "0000075677",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National provides dedicated and spot-market trucking services for Packaging Corporation's containerboard and corrugated-box distribution to Amazon, Walmart, and CPG manufacturers. Schneider's capacity utilization, freight-rate volatility, and pricing power directly influence Packaging Corporation's logistics-cost structure and delivery reliability.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "packaging_corp_america",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000091618|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Quanta Services, Inc.",
+        "slug": "quanta_services",
+        "ticker": "PWR",
+        "cik": "1050915",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National provides intermodal, truckload, and logistics services for Quanta's equipment and material distribution across utility and infrastructure projects. Schneider's capacity utilization, freight pricing, and cross-country delivery capability directly influence Quanta's project economics and supply-chain cost structure for renewable and transmission work.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "quanta_services",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000089143|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Republic Services, Inc.",
+        "slug": "republic_services",
+        "ticker": "RSG",
+        "cik": "1060391",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National provides intermodal and logistics services for Republic Services' long-haul waste and recycled-material shipments. Schneider's capacity availability, fuel-cost dynamics, and driver supply directly influence Republic's regional-waste transportation cost structure and service-delivery performance across collection and recycling networks.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "republic_services",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000091618|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Vulcan Materials Company",
+        "slug": "vulcan_materials",
+        "ticker": "VMC",
+        "cik": "1396009",
+        "brainNodeId": "M1",
+        "relationshipNote": "Schneider National operates dedicated and spot-market haul services for Vulcan Materials' aggregates shipments, representing a significant portion of third-party carrier volume. Schneider's capacity utilization, freight pricing, and availability directly impact Vulcan's logistics costs and delivery velocity for concrete, asphalt, and road-base applications nationwide.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "vulcan_materials",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000093141|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Waste Management, Inc.",
+        "slug": "waste_management",
+        "ticker": "WM",
+        "cik": "0000823768",
+        "brainNodeId": "M1",
+        "relationshipNote": "Waste Management relies on Schneider National for intermodal and specialized transportation of waste transfer and recycling materials. Schneider's regional distribution network supports WM's transfer-station consolidation strategy. Capacity utilization and fuel-cost dynamics directly influence WM's operational costs and transfer-pricing economics across its national footprint.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "waste_management",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087686|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Wabash National Corporation",
+        "ticker": "WNC",
+        "cik": "0001034701",
+        "slug": "wabash_national",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Trailer & Intermodal-Container Supply",
+        "relationshipNote": "Wabash is a primary supplier of dry-van and refrigerated trailers to SNDR; ~40% of SNDR's trailer fleet. Wabash's lightweight composite-wall technology and aerodynamic designs reduce fuel consumption by 3–5%. Long-term supply agreements with volume commitments; disclosed in 10-K Item 1A supplier concentration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Archer-Daniels-Midland Company",
+        "slug": "adm",
+        "ticker": "ADM",
+        "cik": "0000007084",
+        "brainNodeId": "M1",
+        "relationshipNote": "Archer-Daniels-Midland engages Schneider National for intermodal logistics spanning rail and truck services across domestic commodity distribution. ADM's agricultural and processed-foods supply chain depends on Schneider's capacity and routing efficiency. Freight-rate realizations and modal-shift dynamics materially impact ADM's landed costs for corn, soybean, and refined products.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "adm",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000087686|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "The Clorox Company",
+        "slug": "clorox",
+        "ticker": "CLX",
+        "cik": "0000021076",
+        "brainNodeId": "M1",
+        "relationshipNote": "The Clorox Company contracts Schneider National for dedicated refrigerated and temperature-controlled fleet services delivering bleach and consumer-cleaning products to major retail distribution centers. Schneider manages seasonal demand spikes and maintains precise thermal control critical to product integrity, representing a significant portion of CLX's third-party logistics spend.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "clorox",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000091618|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "The Kroger Co.",
+        "slug": "kroger",
+        "ticker": "KR",
+        "cik": "0000056873",
+        "brainNodeId": "M1",
+        "relationshipNote": "Kroger partners with Schneider National for refrigerated and dry-freight distribution of perishable and packaged goods. Schneider operates temperature-monitored trailers with real-time tracking integrated into Kroger's supply-chain systems. This partnership enables efficient inventory velocity and supports Kroger's distribution resilience across its store network.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "kroger",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000089143|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "PepsiCo, Inc.",
+        "slug": "pepsico",
+        "ticker": "PEP",
+        "cik": "0000077476",
+        "brainNodeId": "M1",
+        "relationshipNote": "PepsiCo utilizes Schneider National for intermodal beverage and snack-food distribution on long-distance routes combining truck and rail capacity. Schneider's rail-access guarantees and multi-year contract commitments help PepsiCo manage commodity-cost volatility and working-capital efficiency. Rate structures and modal availability directly affect PepsiCo's logistics-cost baseline.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "pepsico",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "schneider_national|0000091618|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Cummins Inc.",
+        "ticker": "CMI",
+        "cik": "0000026059",
+        "slug": "cummins",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Engine & Powertrain Supply",
+        "relationshipNote": "Cummins supplies diesel engines for ~60% of SNDR's tractor fleet; long-term OEM relationship with volume commitments. Cummins' Tier 4 emission-control costs and EV powertrain roadmap directly impact SNDR's capex and fuel-efficiency economics. Disclosed in 10-K Item 1A supplier concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Primary Competitor (Trucking & Intermodal)",
+        "relationshipNote": "J.B. Hunt is the largest competitor; ~$32B revenue vs. SNDR's ~$6B. J.B. Hunt's integrated logistics platform and scale advantages create pricing pressure. J.B. Hunt's quarterly operating ratio (typically 85–88%) sets market benchmark. Competitive dynamics disclosed in quarterly earnings calls and 10-K Item 1A competitive landscape.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Knight-Swift Transportation, Inc.",
+        "ticker": "KNX",
+        "cik": "0001387029",
+        "slug": "knight_swift",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Largest Competitor (Trucking Consolidation)",
+        "relationshipNote": "Knight-Swift is the largest trucking company; ~$7B revenue. KNX's 2017 merger created scale advantages in pricing and fleet utilization. KNX's operating ratio (typically 88–91%) and margin trajectory set competitive benchmarks. Quarterly earnings and 8-K filings disclose pricing power and capacity utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competing LTL & Logistics Provider",
+        "relationshipNote": "XPO operates LTL and logistics services; ~$19B revenue. XPO's 2023 separation into XPO (transportation) and GXO (logistics) creates new competitive positioning. XPO competes with SNDR in dedicated contract carriage and intermodal. Competitive dynamics disclosed in 10-K Item 1 and 8-K corporate-action filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Werner Enterprises, Inc.",
+        "ticker": "WERN",
+        "cik": "0001255639",
+        "slug": "werner_enterprises",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitor (Dedicated & Intermodal)",
+        "relationshipNote": "Werner operates ~13,000 tractors; ~$3.5B revenue. Werner competes with SNDR in dedicated contract carriage and intermodal; regional focus in Midwest and Southwest. Werner's operating ratio (typically 90–93%) and margin trends disclosed in quarterly earnings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000091142",
+        "slug": "saia",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional LTL Competitor",
+        "relationshipNote": "Saia operates regional LTL services; ~$2.5B revenue. Saia's 2023 acquisition of Estes' LTL operations expanded competitive footprint in Southeast and Midwest. Saia competes with SNDR in regional trucking and LTL segments. Disclosed in 10-K Item 1 competitive landscape and 8-K M&A filings.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Deutsche Post DHL Group",
+        "slug": "dhl_supply_chain",
+        "ticker": "DHL.DE",
+        "cik": null,
+        "brainNodeId": "TPJ",
+        "relationshipNote": "Deutsche Post DHL Group competes with Schneider National across contract logistics and intermodal services in automotive, consumer, and industrial sectors throughout North America. Both operate large truck fleets and facility networks. Schneider's recent margin expansion and capital deployment directly benchmark against DHL's North American logistics competitiveness and pricing strategies.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "Contract-Logistics & Intermodal Competitor",
+        "neuralRole": "Peer",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "dhl_supply_chain",
+          "partnerCategory": "competitors",
+          "partnerFingerprint": "schneider_national|0000087686|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      },
+      {
+        "name": "Old Dominion Freight Line, Inc.",
+        "slug": "old_dominion_freight",
+        "ticker": "ODFL",
+        "cik": "0000878927",
+        "brainNodeId": "TPJ",
+        "relationshipNote": "Old Dominion Freight Line competes with Schneider National in less-than-truckload and regional motor freight services, though Schneider also offers complementary intermodal and logistics software capabilities. Both firms serve as real-time proxies for supply-chain stress and manufacturing activity. Operating ratios, fuel surcharges, and driver-wage pressures shape competitive yield dynamics industry-wide.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "Integrated Logistics Competitor",
+        "neuralRole": "Peer",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.732Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "old_dominion_freight",
+          "partnerCategory": "competitors",
+          "partnerFingerprint": "schneider_national|0000090618|schneidernationalinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:49:53.091Z"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC oversees SNDR's periodic filings (10-K, 10-Q, 8-K) and proxy statements (DEF14A). SNDR must comply with Sarbanes-Oxley Section 404 internal-control attestation and disclosure controls. Quarterly 10-Q filings and annual 10-K filings disclose financial results, risk factors, and management changes.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Motor Carrier Safety Administration (FMCSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fmcsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Safety & Hours-of-Service Regulation",
+        "relationshipNote": "FMCSA regulates SNDR's fleet safety, driver hours-of-service, and electronic logging device (ELD) compliance. FMCSA's Compliance, Safety, Accountability (CSA) program rates SNDR's safety performance; poor ratings impact insurance costs and customer relationships. Regulatory changes (e.g., hours-of-service rule modifications) disclosed in 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emission Standards & Environmental Compliance",
+        "relationshipNote": "EPA regulates SNDR's fleet emission standards (Tier 4 final, future Tier 5) and fuel-economy standards. EPA's greenhouse-gas (GHG) regulations impact SNDR's capex for engine upgrades and alternative-fuel vehicles. Regulatory compliance costs disclosed in 10-K Item 1A risk factors and capex guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation (DOT)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Transportation Infrastructure & Regulation",
+        "relationshipNote": "DOT oversees highway infrastructure, weight limits, and interstate commerce regulations. DOT's infrastructure spending and toll-road policies impact SNDR's fuel costs and route optimization. Regulatory changes disclosed in 10-K Item 1A risk factors and quarterly earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Enforcement",
+        "relationshipNote": "FTC monitors SNDR's competitive practices and M&A activity. FTC's scrutiny of trucking-industry consolidation (e.g., Knight-Swift merger review) impacts SNDR's strategic options. Antitrust compliance and M&A disclosures in 10-K Item 1A and 8-K filings.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Auditor & Risk Assessment",
+      "relationshipNote": "Deloitte serves as SNDR's independent auditor; provides annual audit opinion on financial statements and internal-control effectiveness (SOX 404). Deloitte's audit fees and non-audit service fees disclosed in proxy statement (DEF14A) Item 4. Audit committee oversight and any audit-related events disclosed in 10-K Item 9A.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Credit Facility Provider",
+        "relationshipNote": "JPMorgan Chase is SNDR's primary bank lender; provides revolving credit facility and term loans. JPMorgan's credit facility supports SNDR's working capital and fleet-acquisition financing. Facility size, interest rates, and covenant terms disclosed in 10-K Item 8 debt schedules and quarterly 10-Q filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lender & Credit Facility Participant",
+        "relationshipNote": "Bank of America participates in SNDR's syndicated credit facility; provides term loans and revolving credit. BofA's lending terms and covenant participation disclosed in 10-K Item 8 debt schedules and quarterly 10-Q filings.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (>5%)",
+        "relationshipNote": "Vanguard is a top-3 institutional shareholder of SNDR; holds ~8–10% of outstanding shares. Vanguard's voting power and engagement on governance and capital-allocation matters disclosed in proxy statement (DEF14A) Item 5 and 13F filings.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "13F"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder (>5%)",
+        "relationshipNote": "BlackRock is a top-3 institutional shareholder of SNDR; holds ~7–9% of outstanding shares. BlackRock's voting power and ESG engagement on governance and sustainability disclosed in proxy statement (DEF14A) Item 5 and 13F filings.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "13F"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Mark Loughridge",
+        "ticker": null,
+        "cik": null,
+        "slug": "mark_loughridge",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer",
+        "relationshipNote": "Mark Loughridge became CEO in 2022; leads SNDR's strategic direction on fleet modernization, intermodal expansion, and technology integration. Loughridge's background in operations and supply-chain management shapes SNDR's capital-allocation priorities. Compensation and biographical details disclosed in proxy statement (DEF14A) Item 11.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Shaleen Devnani",
+        "ticker": null,
+        "cik": null,
+        "slug": "shaleen_devnani",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": "Shaleen Devnani serves as CFO; oversees financial planning, capital structure, and investor relations. Devnani's financial guidance and quarterly earnings-call commentary shape market expectations for operating ratio, free cash flow, and debt management. Compensation and biographical details disclosed in proxy statement (DEF14A) Item 11.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Kimberly Dang",
+        "ticker": null,
+        "cik": null,
+        "slug": "kimberly_dang",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "General Counsel & Corporate Secretary",
+        "relationshipNote": "Kimberly Dang serves as General Counsel; oversees legal compliance, regulatory affairs, and corporate governance. Dang's role includes FMCSA compliance, antitrust matters, and SEC disclosure controls. Biographical details disclosed in proxy statement (DEF14A) Item 11.",
+        "confidence": "medium",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Helane Morrison",
+        "ticker": null,
+        "cik": null,
+        "slug": "helane_morrison",
+        "neuralRole": "PFC",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer",
+        "relationshipNote": ". COO oversees fleet operations, driver management, and intermodal terminal performance. COO's operational metrics (operating ratio, fleet utilization, driver turnover) disclosed in quarterly earnings calls and investor presentations.",
+        "confidence": "low",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Cass Freight Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "cass_freight_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Freight-Volume & Pricing Indicator",
+        "relationshipNote": "Cass Freight Index tracks freight volumes and pricing across trucking, rail, and intermodal; published monthly. Index movements correlate with SNDR's freight-rate environment and volume trends. Rising index signals demand strength; declining index signals freight-market weakness. Disclosed in quarterly earnings calls and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "DAT Freight Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "dat_freight_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Spot Freight Rate & Market Intelligence",
+        "relationshipNote": "DAT Freight Index tracks spot freight rates and capacity utilization in trucking; published weekly. DAT rates are leading indicator of SNDR's pricing power and freight-rate environment. Rising DAT rates signal capacity tightness; declining rates signal oversupply. Disclosed in quarterly earnings calls and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "NYMEX Crude Oil & Heating Oil Futures",
+        "ticker": null,
+        "cik": null,
+        "slug": "nymex_crude_heating_oil",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Diesel Fuel Cost Indicator",
+        "relationshipNote": "NYMEX crude oil and heating-oil futures prices drive diesel-fuel costs; SNDR hedges 40–60% of forward 12-month fuel exposure. Rising crude prices increase SNDR's fuel costs; fuel-surcharge mechanisms pass through ~70–80% of volatility to customers. Disclosed in quarterly earnings calls and 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "supplyChain",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.303Z",
+      "overrideCount": 11
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Volvo Group (Volvo Trucks NA)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Chevron Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Shell Global",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Bridgestone Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Michelin North America",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Wabash National Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Cummins Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Sensormatic Electronics (Tyco/Johnson Controls subsidiary)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Sennheiser Communications",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Werner Enterprises, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "J.B. Hunt Transport Services, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Old Dominion Freight Line, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Saia Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "J.B. Hunt Transport Services, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Knight-Swift Transportation, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "XPO Logistics, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Werner Enterprises, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Saia Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Deutsche Post DHL Group",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Old Dominion Freight Line, Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Knight-Swift Transportation, Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "XPO Logistics, Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Walmart Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Amazon.com, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "The Coca-Cola Company",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Procter & Gamble Company",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Cass Freight Index",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "AECOM",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Casella Waste Systems, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Clean Harbors, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "C.H. Robinson Worldwide Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Eastman Chemical Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Fluor Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "General Mills, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Huntsman Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "International Paper Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "The Kraft Heinz Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Lockheed Martin Corporation",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "A.P. Møller - Mærsk A/S",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Martin Marietta Materials, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Montrose Environmental Solutions Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "NextEra Energy, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Packaging Corporation of America",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Quanta Services, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Republic Services, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Vulcan Materials Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Waste Management, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Archer-Daniels-Midland Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "The Clorox Company",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "The Kroger Co.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "PepsiCo, Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Transportation (DOT)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission (FTC)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "Federal Motor Carrier Safety Administration (FMCSA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Environmental Protection Agency (EPA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Corporation",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "DAT Freight Index",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "NYMEX Crude Oil & Heating Oil Futures",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Vanguard Group, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "BlackRock, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,383 @@
+{
+  "domainId": "neurology_suppl",
+  "title": "Supplementary Motor Area",
+  "parentPortal": "neurology_portal.html",
+  "parentLabel": "Neurology",
+  "phase": "P6",
+  "activations": [
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Supplementary Motor Area indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "neurology_suppl_action_portal.html"
+    },
+    {
+      "brainNodeId": "PIT",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Supplementary Motor Area activities and deliverables",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Supplementary Motor Area Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "neurology_suppl_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "RAPHE",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Supplementary Motor Area, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "neurology_suppl_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Supplementary Motor Area practices and compliance obligations",
+      "group": "governance",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "neurology_suppl_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "CAUD",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Supplementary Motor Area methods and capabilities",
+      "group": "innovation",
+      "phase": "P6",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "neurology_suppl_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "PUT",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Supplementary Motor Area stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "neurology_suppl_signal_portal.html"
+    },
+    {
+      "brainNodeId": "GP",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Supplementary Motor Area operations and interfaces",
+      "group": "systems",
+      "phase": "P6",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "neurology_suppl_state_portal.html"
+    },
+    {
+      "brainNodeId": "STN",
+      "state": "active",
+      "domainLabel": "Supplementary Motor Area Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Supplementary Motor Area outputs and resource utilization",
+      "group": "operations",
+      "phase": "P6",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Supplementary Motor Area Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "HYPO",
+      "target": "PIT",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "PIT",
+      "target": "RAPHE",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "RAPHE",
+      "target": "LC",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "LC",
+      "target": "CAUD",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "CAUD",
+      "target": "PUT",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "PUT",
+      "target": "GP",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "GP",
+      "target": "STN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "STN",
+      "target": "HYPO",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "HYPO",
+      "target": "CAUD",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "LC",
+      "target": "GP",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "NEUROLOGY_SUPPL_SYSTEM_FAILURE",
+      "label": "Supplementary Motor Area System Failure",
+      "summary": "Critical breakdown in Supplementary Motor Area systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo-active",
+          "detail": "Supplementary Motor Area Assessment & Diagnostics capacity falling below operational thresholds, reducing Supplementary Motor Area output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PIT",
+          "dir": "Hypo-active",
+          "detail": "Supplementary Motor Area Core Operations systems underperforming, creating gaps in Supplementary Motor Area coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Altered",
+          "detail": "Supplementary Motor Area Infrastructure & Capacity behavior deviating from established norms, complicating Supplementary Motor Area management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PUT",
+          "dir": "Hyper-active",
+          "detail": "Supplementary Motor Area Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Supplementary Motor Area",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STN",
+          "dir": "Hypo-active",
+          "detail": "Supplementary Motor Area Performance & Optimization function reduced, compromising Supplementary Motor Area system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "NEUROLOGY_SUPPL_CAPACITY_CRISIS",
+      "label": "Supplementary Motor Area Capacity Crisis",
+      "summary": "Demand exceeding available Supplementary Motor Area capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hyper-active",
+          "detail": "Supplementary Motor Area Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Supplementary Motor Area",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hypo-active",
+          "detail": "Supplementary Motor Area Infrastructure & Capacity systems underperforming, creating gaps in Supplementary Motor Area coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "LC",
+          "dir": "Altered",
+          "detail": "Supplementary Motor Area Standards & Governance behavior deviating from established norms, complicating Supplementary Motor Area management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GP",
+          "dir": "Hyper-active",
+          "detail": "Supplementary Motor Area Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Supplementary Motor Area",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "STN",
+          "dir": "Altered",
+          "detail": "Supplementary Motor Area Performance & Optimization operating outside normal parameters, introducing uncertainty into Supplementary Motor Area outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "NEUROLOGY_SUPPL_GOVERNANCE_GAP",
+      "label": "Supplementary Motor Area Governance Gap",
+      "summary": "Oversight or regulatory failure in Supplementary Motor Area creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hypo-active",
+          "detail": "Supplementary Motor Area Standards & Governance capacity falling below operational thresholds, reducing Supplementary Motor Area output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HYPO",
+          "dir": "Altered",
+          "detail": "Supplementary Motor Area Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Supplementary Motor Area",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CAUD",
+          "dir": "Hyper-active",
+          "detail": "Supplementary Motor Area Research & Development activity spiking beyond design limits, creating instability across Supplementary Motor Area operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PUT",
+          "dir": "Altered",
+          "detail": "Supplementary Motor Area Risk & Resilience patterns disrupted, necessitating adaptive responses within Supplementary Motor Area frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "GP",
+          "dir": "Hypo-active",
+          "detail": "Supplementary Motor Area Coordination & Integration function reduced, compromising Supplementary Motor Area system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

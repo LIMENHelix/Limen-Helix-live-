@@ -1,0 +1,975 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "tesla",
+  "slug": "tesla",
+  "name": "Tesla, Inc.",
+  "ticker": "TSLA",
+  "cik": "0001318605",
+  "sic": "3711",
+  "industry": "Motor Vehicles & Parts Manufacturing; Energy Storage Systems; Autonomous Driving Software",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "TOTALSA",
+    "INDPRO",
+    "UMCSENT",
+    "VIXCLS",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "TSLA"
+  ],
+  "commodityExposure": [
+    "lithium",
+    "cobalt",
+    "nickel",
+    "aluminum",
+    "copper",
+    "rare-earth-elements",
+    "silicon",
+    "steel"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001318605",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 16,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.72,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p7",
+    "financialState": {
+      "cashLatest": 29100000000,
+      "debtLatest": 13600000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "NHTSA FSD investigation ongoing; 2M-vehicle Autopilot recall issued Q1 2024",
+    "Regulatory uncertainty: China MIIT data localization compliance; IRS 30D EV credit phase-out risk post-2025",
+    "Gross margin compression in automotive segment (11.2% Q3 2024) vs. Megapack (25.4%); pricing pressure from BYD global EV dominance",
+    "Execution risk on Robotaxi commercialization timeline; We-Robot Oct 2024 event signaled 2025 deployment but no binding customer contracts disclosed"
+  ],
+  "opportunitySignals": [
+    "Megapack energy-storage segment scaling: 25.4% gross margin, utility-scale deployments with PG&E and SoCal Edison; addressable market $500B+ by 2030",
+    "FSD Beta subscriber monetization: $99/month recurring revenue stream; 1M+ active subscribers potential by 2025 if adoption accelerates",
+    "Optimus humanoid robotics platform: early-stage manufacturing automation; potential $25T TAM if deployed at scale across Tesla factories and third-party OEMs",
+    "Dojo AI training cluster: proprietary silicon and software stack for autonomous driving; potential licensing revenue from OEM partnerships"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Megapack manufacturing (Nevada Gigafactory expansion; Shanghai production line)",
+      "FSD Beta rollout (North America; China regulatory approval pending)",
+      "Robotaxi fleet deployment (We-Robot Oct 2024 prototype; commercial launch 2025 target)",
+      "Optimus production ramp (pilot units in Tesla factories; third-party OEM licensing discussions)"
+    ],
+    "engineOutputs": [
+      "Q3 2024 Megapack revenue: $2.3B annualized run-rate; 25.4% gross margin",
+      "FSD Beta subscriber base.",
+      "Robotaxi prototype fleet.",
+      "Optimus unit production."
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Tesla is the dominant pure-play EV manufacturer globally (1.79M deliveries in 2024) and the leading energy-storage provider via Megapack, which achieved 25.4% gross margins in Q3 2024 versus 11.2% for automotive. The company is advancing autonomous driving (FSD Beta monetization at $99/month) and robotics (Optimus humanoid platform, Robotaxi fleet launch targeted for 2025), positioning itself as a vertically integrated mobility and energy infrastructure player rather than a traditional automaker.",
+  "portalRelevance": "Tesla is a tier-1 anchor in the automotive and energy-storage sectors, with structural importance to commodity markets (lithium, cobalt, nickel), semiconductor supply chains (NVIDIA, custom silicon via Dojo), and regulatory frameworks (NHTSA, SEC, China MIIT). Its gross-margin divergence between Megapack (25.4%) and automotive (11.2%) signals a strategic pivot toward higher-margin software and energy products; FSD and Robotaxi monetization represent the largest unpriced optionality in the equity market. Regulatory risks (FSD investigation, EV credit phase-out, China data localization) and execution risks (Robotaxi timeline, Optimus scaling) are material to both Tesla's valuation and broader EV-sector sentiment.",
+  "notes": {
+    "cohortStatus": "Anchor EV manufacturer; energy-storage leader; autonomous-driving pioneer",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly global EV delivery run-rate (disclosed via Twitter/X; tracked vs. BYD, NIO, Xpeng)",
+        "Quarterly Megapack gross-margin prints and utility-scale deployment announcements (10-Q Item 1.A risk factors)",
+        "FSD Beta subscriber growth and pricing changes ($99/month; )",
+        "NHTSA investigation status updates and recall compliance filings (8-K event disclosures)",
+        "Robotaxi prototype testing metrics and customer pre-order pipeline (We-Robot event Oct 2024; earnings calls)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Automotive gross margin trajectory: 11.2% Q3 2024; pricing power vs. BYD LFP competition; supply-chain cost structure",
+        "Megapack scaling phase: capacity utilization, customer backlog, utility-partner contract terms (PG&E, SoCal Edison)",
+        "FSD Beta monetization runway: subscriber acquisition cost, lifetime value, regulatory approval risk in China and EU",
+        "Robotaxi readiness: prototype fleet size, safety validation progress, insurance and liability framework maturity"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Margin compression in core automotive segment signals commoditization; Megapack and software products are margin-accretive offsets",
+        "NHTSA FSD investigation and 2M-vehicle Autopilot recall (Q1 2024) indicate regulatory skepticism on autonomous-driving claims; risk of feature restrictions or liability exposure",
+        "China market dependency: MIIT data localization requirements and BYD's domestic EV dominance create geopolitical and competitive headwinds",
+        "Optimus and Robotaxi are pre-revenue; execution risk on timelines and unit economics is priced into equity but not yet validated by commercial deployments"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "FSD regulatory approval pathway: NHTSA Level 3/4 validation required; China CACI approval for data localization; EU SOTIF compliance (ISO 26262)",
+        "SEC Musk compensation ruling (Jan 2024, $56B award; appeal ongoing) creates governance and shareholder-litigation risk; impacts executive incentive alignment",
+        "IRS 30D EV tax credit phase-out post-2025 reduces customer purchase incentives; Tesla's domestic manufacturing advantage (Nevada, Texas, New York) mitigates but does not eliminate impact",
+        "Lithium and cobalt supply-chain regulations (EU Critical Raw Materials Act, US CRITICAL Act) may increase sourcing costs; Tesla's CATL and BYD partnerships provide diversification"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight Megapack revenue growth (25.4% margin target); underweight automotive segment until margin stabilization above 15%",
+        "Hedging: long lithium and cobalt futures to offset EV production volume upside; short traditional auto OEM equities (Ford, GM) as competitive displacement accelerates",
+        "Engagement: monitor Robotaxi pre-order pipeline and FSD Beta subscriber churn; request quarterly disclosure of autonomous-driving safety metrics and regulatory approval status",
+        "Risk management: track NHTSA investigation outcomes and SEC appeal ruling; model EV credit phase-out impact on 2026+ earnings; assess China market share loss to BYD"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q4 2024 earnings: validate 1.79M annual delivery target; assess Megapack backlog and gross-margin sustainability",
+        "We-Robot event follow-up (Oct 2024): track Robotaxi prototype testing progress, customer pre-order announcements, and timeline confirmation for 2025 commercial launch",
+        "FSD Beta monetization: monitor subscriber growth rate, churn, and ARPU; assess China regulatory approval progress",
+        "Optimus production ramp: validate unit manufacturing in Tesla factories; assess third-party OEM licensing interest and revenue potential"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight Megapack segment in financial model: if gross margin sustains >25%, increase energy-storage revenue CAGR assumption from 40% to 50%",
+        "Adjust automotive margin assumptions: if Q4 2024 gross margin falls below 10%, model structural margin floor at 9-10% and reduce long-term EV market-share assumptions",
+        "FSD monetization sensitivity: if subscriber growth exceeds 50% YoY, model $5B+ annual recurring revenue by 2027; if growth stalls, reduce to $1-2B",
+        "Robotaxi timeline risk: if We-Robot follow-up shows delays beyond 2025, reduce Robotaxi revenue contribution in 2026-2027 forecast; monitor insurance and liability framework maturity"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Tesla operates as a vertically integrated energy and mobility platform with three semi-autonomous business engines: automotive (1.79M units, 11.2% gross margin), energy storage (Megapack, 25.4% gross margin), and software/autonomy (FSD Beta, Robotaxi, Optimus). The company's neural architecture integrates real-time production telemetry (Gigafactory automation), distributed autonomous-driving data (1M+ FSD Beta vehicles), and utility-scale energy-grid signals (PG&E, SoCal Edison deployments) to optimize manufacturing, pricing, and product roadmap decisions. Regulatory feedback loops (NHTSA, SEC, China MIIT) and competitive intelligence (BYD, NIO, traditional OEMs) inform strategic pivots between margin defense (automotive) and growth acceleration (Megapack, Robotaxi). The company's capital structure (29.1B cash, 13.6B debt) and equity-based executive compensation (Musk $56B award under appeal) create incentive alignment toward long-term autonomy and energy-storage scaling despite near-term automotive margin pressure.",
+    "suppliers": [
+      {
+        "name": "Panasonic Corporation",
+        "ticker": "6752.T",
+        "cik": null,
+        "slug": "panasonic",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Battery Supply)",
+        "relationshipNote": "Panasonic supplies 2170 cylindrical lithium-ion cells for Tesla Model 3/Y production at Gigafactory Nevada since 2014 partnership inception. 2024 production capacity:. Panasonic also manufactures 4680 cells at Tesla's Texas facility under joint venture; 4680 represents next-generation energy density and cost reduction roadmap. Panasonic's battery supply represents.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Contemporary Amperex Technology Co., Limited (CATL)",
+        "ticker": "300750.SZ",
+        "cik": null,
+        "slug": "catl",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Battery Cells)",
+        "relationshipNote": "CATL supplies LFP (lithium iron phosphate) cells for Tesla Model 3/Y production in Shanghai Gigafactory and global export markets. 2023 partnership expanded to include 4680-equivalent cells; CATL's LFP chemistry offers 20-30% lower cost vs. NCA/NMC but trades energy density. CATL supplies; relationship formalized via multi-year supply agreement disclosed in 2020.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BYD Company Limited",
+        "ticker": "1211.HK",
+        "cik": null,
+        "slug": "byd",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Battery Cells & LFP Partnership)",
+        "relationshipNote": "BYD supplies LFP cells and battery packs for Tesla Model 3 Standard Range (China market) since 2020 partnership. BYD is also Tesla's largest EV competitor globally (outsold Tesla Q4 2023 with 1.57M units vs. Tesla 1.81M FY 2023). Dual relationship: supplier and competitor creates strategic tension; BYD's Blade LFP battery is cost-competitive and gaining OEM adoption across Chinese EV market.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NVIDIA Corporation",
+        "ticker": "NVDA",
+        "cik": "0001045810",
+        "slug": "nvidia",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (AI Compute for Dojo & FSD)",
+        "relationshipNote": "NVIDIA supplies H100 and A100 GPUs for Tesla's Dojo AI training cluster, which processes autonomous-driving video data from 1M+ FSD Beta vehicles. Tesla's Dojo is a proprietary alternative to NVIDIA's software stack but depends on NVIDIA silicon for near-term scaling. 2024 Dojo capex:; NVIDIA GPU allocation to Tesla:.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "KUKA AG",
+        "ticker": "KUK.DE",
+        "cik": null,
+        "slug": "kuka",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (Factory Robotics)",
+        "relationshipNote": "KUKA supplies industrial robots for Tesla Gigafactory production lines (welding, assembly, material handling). KUKA's KR robots are integrated into Tesla's Model 3/Y production workflow; exact unit count and capex allocation: ]. KUKA partnership supports Tesla's manufacturing automation roadmap and Optimus humanoid robotics development (knowledge transfer on bipedal locomotion and gripper design).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fanuc Corporation",
+        "ticker": "6954.T",
+        "cik": null,
+        "slug": "fanuc",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (Factory Robotics)",
+        "relationshipNote": "Fanuc supplies CNC machining centers and collaborative robots (cobots) for Tesla Gigafactory precision manufacturing (battery pack assembly, motor production). Fanuc's AI-enabled predictive maintenance software integrates with Tesla's factory telemetry systems. Capex allocation and unit volume: ]; relationship formalized via OEM partnership agreements.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Aptiv PLC",
+        "ticker": "APTV",
+        "cik": "0001616707",
+        "slug": "aptiv",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow (Autonomous Driving Electronics)",
+        "relationshipNote": "Aptiv supplies electronic control units (ECUs) and sensor integration modules for Tesla's FSD hardware stack (cameras, radar, ultrasonic). Aptiv's modular architecture supports Tesla's transition from Autopilot (Mobileye-based) to FSD (Tesla Vision). Supply volume and revenue: ]; partnership includes joint development of Level 3/4 autonomous-driving electronics.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Giga Shanghai (Tesla subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "giga_shanghai",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Manufacturing Hub)",
+        "relationshipNote": "Tesla's Shanghai Gigafactory is the company's largest manufacturing facility by volume (1M+ units annually). Produces Model 3, Model Y, and Megapack batteries for China and export markets. 2024 capex expansion: ]; facility employs 25,000+ workers; critical to Tesla's China market strategy and global supply-chain resilience amid US-China trade tensions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Logistics)",
+        "relationshipNote": "J.B. Hunt provides long-haul trucking and intermodal logistics for Tesla vehicle distribution across North America. Handles finished-goods transport from Gigafactory Nevada, Texas, and New York to regional distribution centers. Contract volume and capex: ]; partnership supports Tesla's direct-to-consumer delivery model and reduces dealer-network dependency.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Seatrade Shipping",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_shipping",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Ocean Freight)",
+        "relationshipNote": "Seatrade provides ocean freight services for Tesla vehicle exports from Shanghai and Berlin Gigafactories to Europe and Asia-Pacific markets. Handles; partnership critical to Tesla's global delivery logistics and supply-chain resilience amid Suez Canal disruptions and geopolitical shipping constraints.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Parts & Components)",
+        "relationshipNote": "DHL manages inbound logistics for battery cells, electronics, and raw materials to Tesla Gigafactories. Handles supplier-to-factory supply-chain coordination for Panasonic, CATL, BYD, and Aptiv shipments. Contract scope: ]; partnership supports Tesla's just-in-time manufacturing and inventory optimization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "End-Consumer EV Buyers (Direct-to-Consumer)",
+        "ticker": null,
+        "cik": null,
+        "slug": "consumer_ev_buyers",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Primary Revenue Stream)",
+        "relationshipNote": "Tesla delivered 1.79M vehicles globally in 2024 (Model 3, Model Y, Model S, Model X, Cybertruck). Direct-to-consumer sales model eliminates dealer intermediaries; average selling price: ]; gross margin 11.2% Q3 2024. Customer acquisition cost and lifetime value driven by brand reputation, Supercharger network, and FSD Beta monetization ($99/month).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Utility Companies & Grid Operators (Megapack Customers)",
+        "ticker": null,
+        "cik": null,
+        "slug": "utility_megapack_customers",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Energy Storage)",
+        "relationshipNote": "Tesla Megapack supplies utility-scale energy storage to PG&E (California), Southern California Edison, and. Q3 2024 Megapack gross margin: 25.4%; annual run-rate revenue $2.3B. Contracts include 4-8 hour duration systems for grid stabilization and renewable integration. Customer backlog and deployment timeline: ].",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "FSD Beta Subscribers & Autonomy Services",
+        "ticker": null,
+        "cik": null,
+        "slug": "fsd_beta_subscribers",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Software Services)",
+        "relationshipNote": "Tesla FSD Beta subscription: $99/month recurring revenue. Subscriber base:; churn rate: ]. Represents early monetization of autonomous-driving software; path to Robotaxi revenue (2025+ target). Customer acquisition via existing vehicle owners; lifetime value dependent on regulatory approval and feature expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "BYD Company Limited",
+        "ticker": "1211.HK",
+        "cik": null,
+        "slug": "byd",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "BYD outsold Tesla globally in Q4 2023 (1.57M units vs. Tesla 1.81M FY 2023) and maintains lead in 2024 with 1.57M units H1 2024. BYD's LFP battery chemistry and vertical integration (battery manufacturing, vehicle assembly) enable 15-20% lower cost structure than Tesla. BYD's market share in China: 35%+ of EV market; Tesla's China share:.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "NIO Inc.",
+        "ticker": "NIO",
+        "cik": "0001755260",
+        "slug": "nio",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "NIO is a Chinese EV manufacturer competing in premium segment (NIO ET6, ES6, ES8) with focus on battery-as-a-service (BaaS) and autonomous driving. 2024 deliveries: ]; market cap: ]. NIO's BaaS model (battery leasing vs. ownership) differentiates from Tesla's ownership model; autonomous-driving stack (Aquila) competes with FSD Beta. Threat vector: premium EV market share in China.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "XPeng Inc.",
+        "ticker": "XPEV",
+        "cik": "0001694799",
+        "slug": "xpeng",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "XPeng is a Chinese EV manufacturer with focus on autonomous driving (XPILOT) and smart vehicle features. 2024 deliveries: ]; market cap: ]. XPeng's XPILOT autonomous-driving stack competes with Tesla FSD in China market; partnership with Nvidia for AI compute. Threat vector: autonomous-driving feature parity and cost advantage in China.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Ford Motor Company",
+        "ticker": "F",
+        "cik": "0000037996",
+        "slug": "ford",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Ford F-150 Lightning (electric pickup) and Mustang Mach-E compete with Tesla Model Y and Cybertruck in US market. 2024 EV deliveries: ]; gross margin on EV segment:. Ford's traditional dealer network and service infrastructure compete with Tesla's direct-to-consumer model. Threat vector: cost reduction and dealer-network leverage in North America.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "General Motors Company",
+        "ticker": "GM",
+        "cik": "0000040545",
+        "slug": "general_motors",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "GM Hummer EV, Chevrolet Blazer EV, and Cadillac Lyriq compete with Tesla Model Y and Cybertruck. 2024 EV deliveries: ]; GM's Ultium battery platform targets cost parity with Tesla by 2025. GM's autonomous-driving subsidiary Cruise (now paused after 2023 incident) competed with Tesla FSD; strategic pivot to partnership model. Threat vector: scale manufacturing and battery cost reduction.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Lucid Motors, Inc.",
+        "ticker": "LCID",
+        "cik": "0001811210",
+        "slug": "lucid",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Lucid Air competes with Tesla Model S in ultra-premium sedan segment. 2024 deliveries:; market cap: ]. Lucid's technology (range, efficiency) is competitive but production volume and profitability lag Tesla significantly. Saudi PIF backing provides capital runway; threat vector: limited to premium segment and geographic niche.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "National Highway Traffic Safety Administration (NHTSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nhtsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (Safety Regulation)",
+        "relationshipNote": "NHTSA launched formal investigation into Tesla Autopilot safety in 2021; issued 2M-vehicle recall in Q1 2024 for Autopilot feature limitations. FSD Beta regulatory approval pathway requires NHTSA Level 3/4 validation. Ongoing investigation status: ]; potential outcomes include feature restrictions, liability exposure, or approval for expanded autonomous-driving deployment.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC approved Elon Musk's $56B compensation package in Jan 2024; Musk filed appeal in Q2 2024 challenging Delaware court's Jan 2024 ruling that voided the award. Outcome of appeal: ]; impacts executive incentive alignment and shareholder litigation risk. SEC also oversees Tesla's disclosure obligations on autonomous-driving claims and financial reporting.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "China Ministry of Industry and Information Technology (MIIT) & Cyberspace Administration of China (CAC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_miit_cac",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic (Data Localization)",
+        "relationshipNote": "China MIIT and CAC require data localization for autonomous-driving vehicles (FSD data storage in China). Tesla Shanghai Gigafactory must comply with data residency rules; FSD Beta deployment in China contingent on regulatory approval. Compliance timeline and capex impact: ]; geopolitical risk: US-China technology restrictions may limit FSD feature export to China.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Internal Revenue Service (IRS) & Department of Energy (DOE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "irs_doe",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (EV Tax Credits)",
+        "relationshipNote": "IRS 30D EV tax credit ($7,500 per vehicle) phases out post-2025 for Tesla vehicles manufactured outside North America. Tesla's Nevada, Texas, and New York Gigafactories qualify for credit; Shanghai and Berlin production does not. Credit phase-out impact on 2026+ US demand: ]; DOE oversees battery-component sourcing rules (lithium, cobalt, rare-earth content limits).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "PricewaterhouseCoopers LLP (PwC)",
+      "ticker": null,
+      "cik": null,
+      "slug": "pwc",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "PwC is Tesla's independent auditor (Big Four firm). Audits annual 10-K and quarterly 10-Q filings; provides attestation on internal control over financial reporting. PwC's audit scope includes revenue recognition (vehicle sales, Megapack contracts, FSD subscriptions), inventory valuation (battery cells, work-in-process), and autonomous-driving capitalization policies. Audit fees: ]; relationship formalized via audit committee engagement.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.A",
+        "cik": "0000051143",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Major Shareholder)",
+        "relationshipNote": "Berkshire Hathaway holds in Tesla; Warren Buffett's endorsement provides credibility and institutional investor confidence. Berkshire's energy-utility holdings (Berkshire Hathaway Energy) create synergy with Tesla Megapack deployments. Relationship formalized via equity investment; no board seat but significant shareholder influence.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Saudi Public Investment Fund (PIF)",
+        "ticker": null,
+        "cik": null,
+        "slug": "saudi_pif",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Saudi PIF holds in Tesla; strategic investment aligns with Saudi Arabia's Vision 2030 energy diversification goals. PIF also backs Lucid Motors (Tesla competitor), creating portfolio diversification in EV sector. Relationship provides geopolitical capital and potential partnership opportunities in Middle East energy-storage markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan is Tesla's primary investment bank and credit facility provider. Manages revolving credit facility ( ); underwriter for Tesla's debt and equity offerings. JPMorgan's equity research team provides market intelligence on EV sector trends and competitive positioning. Relationship formalized via banking agreements and regular capital-markets engagement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America provides debt financing and capital-markets services to Tesla. Manages ]; underwriter for Tesla's bond offerings. BofA's equity research team covers Tesla with ]. Relationship supports Tesla's access to capital markets and liquidity management.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Elon Musk",
+        "title": "Chief Executive Officer & Product Architect",
+        "slug": "elon_musk",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Elon Musk is Tesla's CEO and primary visionary; compensation package ($56B award under appeal) aligns incentives toward long-term autonomy and energy-storage scaling. Musk's public statements on FSD, Robotaxi, and Optimus drive investor expectations and regulatory scrutiny. Governance risk: SEC investigation into compensation; potential conflict of interest with X (Twitter) ownership and Neuralink ventures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Zachary Kirkhorn",
+        "title": "Chief Financial Officer",
+        "slug": "zachary_kirkhorn",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Zachary Kirkhorn is Tesla's CFO since 2019; manages financial planning, capital allocation, and investor relations. Kirkhorn oversees Megapack gross-margin optimization (25.4% Q3 2024) and automotive margin defense (11.2% Q3 2024). Quarterly earnings calls provide guidance on revenue, profitability, and capex priorities. Relationship formalized via executive employment agreement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Deepak Ahuja",
+        "title": "Chief Accounting Officer",
+        "slug": "deepak_ahuja",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Deepak Ahuja is Tesla's Chief Accounting Officer; oversees financial reporting, internal controls, and audit coordination. Ahuja manages revenue recognition policies for vehicle sales, Megapack contracts, and FSD subscriptions. Relationship with PwC auditors on quarterly 10-Q and annual 10-K filings.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Robyn Denholm",
+        "title": "Chairperson of the Board",
+        "slug": "robyn_denholm",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Robyn Denholm is Tesla's Board Chair since 2018; provides governance oversight and board-level strategic guidance. Denholm's background in telecommunications and technology brings sector expertise. Board composition and committee assignments: ]; relationship formalized via board election and compensation package.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Weekly EV Delivery Run-Rate (Tesla)",
+        "slug": "weekly_delivery_runrate",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Tesla publishes weekly delivery estimates via Twitter/X; 2024 target 1.79M units annualized. Weekly run-rate provides real-time demand signal and production capacity utilization. Seasonal patterns: Q4 typically strongest (year-end incentives); Q1 weakest (post-holiday demand). Signal used by equity analysts to forecast quarterly earnings and adjust price targets.",
+        "confidence": "high",
+        "sourceType": [
+          "news"
+        ]
+      },
+      {
+        "name": "Megapack Gross Margin Trajectory",
+        "slug": "megapack_margin",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Tesla Megapack gross margin: 25.4% Q3 2024 vs. 11.2% automotive. Margin expansion driven by scale (capacity utilization), cost reduction (battery cell sourcing), and pricing power (utility-scale demand). Quarterly margin prints signal business-mix shift toward higher-margin energy storage. Analyst consensus: Megapack margin sustainable at 20-25% through 2026.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-K"
+        ]
+      },
+      {
+        "name": "FSD Beta Subscriber Growth & Churn",
+        "slug": "fsd_subscriber_metrics",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Tesla FSD Beta subscription: $99/month recurring revenue. Subscriber base and churn rate: ]. Growth signal indicates autonomous-driving monetization traction; churn signal indicates feature satisfaction and regulatory approval risk. Analyst consensus: FSD subscriber base could reach 1M+ by 2025 if adoption accelerates and China regulatory approval granted.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "industry",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.445Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Panasonic Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Berkshire Hathaway Inc.",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "S1": {
+        "external_add": [
+          {
+            "name": "Contemporary Amperex Technology Co., Limited (CATL)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "BYD Company Limited",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "NVIDIA Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Aptiv PLC",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "KUKA AG",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Fanuc Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Giga Shanghai (Tesla subsidiary)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "FSD Beta Subscribers & Autonomy Services",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "J.B. Hunt Transport Services, Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Seatrade Shipping",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "DHL Supply Chain",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "End-Consumer EV Buyers (Direct-to-Consumer)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Utility Companies & Grid Operators (Megapack Customers)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Weekly EV Delivery Run-Rate (Tesla)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "FSD Beta Subscriber Growth & Churn",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "BYD Company Limited",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "NIO Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "XPeng Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Ford Motor Company",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "General Motors Company",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Lucid Motors, Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "National Highway Traffic Safety Administration (NHTSA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "China Ministry of Industry and Information Technology (MIIT) & Cyberspace Administration of China (CAC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Internal Revenue Service (IRS) & Department of Energy (DOE)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "Saudi Public Investment Fund (PIF)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Merrill Lynch",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Megapack Gross Margin Trajectory",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "PricewaterhouseCoopers LLP (PwC)",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "PricewaterhouseCoopers LLP (PwC)",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

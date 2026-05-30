@@ -1,0 +1,674 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "wesco_international",
+  "slug": "wesco_international",
+  "name": "Wesco International Inc.",
+  "ticker": "WCC",
+  "cik": null,
+  "sic": "5063",
+  "industry": "Electrical Apparatus and Equipment, Wiring Supplies, and Related Products Wholesaling",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "HOUST",
+    "PERMIT",
+    "PAYEMS",
+    "ICSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "WCC"
+  ],
+  "commodityExposure": [
+    "copper",
+    "aluminum",
+    "steel",
+    "petroleum (cable insulation)",
+    "rare earth elements (electronics)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000105782",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Wesco International is the largest independent distributor of electrical, communications, and utility products in North America, serving construction, industrial, utility, and telecommunications markets. The company operates ~600 branches across the U.S., Canada, and Mexico, distributing wire, cable, transformers, switchgear, and renewable-energy components to contractors, utilities, and OEMs. As a critical node in the electrical supply chain, Wesco's inventory turns and pricing power directly reflect construction-cycle health, utility capex spending, and grid modernization demand.",
+  "portalRelevance": "Wesco is a tier-1 supply-chain anchor for the electrical and utility sectors, with direct exposure to residential construction, commercial real estate, and infrastructure spending. Its quarterly same-store sales, inventory metrics, and gross-margin trends serve as leading indicators for construction activity and utility capex cycles. The company's debt refinancing needs and working-capital management are material to understanding credit-market stress in the industrial-distribution space.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly same-store sales growth by end-market segment (residential, commercial, utility, industrial)",
+        "Gross margin compression/expansion signals from commodity price hedging and supplier contract renegotiations",
+        "8-K filings for M&A activity, debt refinancing, and executive changes (CEO succession risk post-2023)",
+        "Weekly electrical-equipment order indices from NECA and industry trade associations"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Working-capital cycle: days-sales-outstanding (DSO) and inventory-turnover trends vs. prior-year and peer average",
+        "Debt-to-EBITDA trajectory and covenant headroom given $3.5B+ debt load post-Anixter acquisition",
+        "Market-share position in electrical distribution vs. Home Depot Pro, Rexel, and regional competitors",
+        "Capex intensity and organic growth rate vs. M&A-driven revenue accretion"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclicality pattern-match: residential construction slowdown (housing starts decline) typically precedes Wesco SSS miss by 1–2 quarters",
+        "Margin-compression risk from commodity deflation (copper, aluminum) or supplier consolidation (Sensormatic, Legrand pricing power)",
+        "Integration execution risk from 2020 Anixter acquisition ($8.3B deal); synergy realization tracking vs. guidance",
+        "Utility-segment stickiness: regulated utility customers provide 25–30% of revenue with multi-year contracts; recession-resistant but capex-sensitive"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Debt refinancing hedge: monitor 10-year Treasury and investment-grade spreads; Wesco's next maturity wall is",
+        "Inventory hedge via commodity futures (copper, aluminum) to protect against margin compression in deflationary scenarios",
+        "Antitrust monitoring: FTC scrutiny of electrical-distribution consolidation post-Anixter; assess risk of forced divestitures in overlapping geographies",
+        "Working-capital optimization: target DSO reduction to free $100M+ cash if receivables collection accelerates"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long-duration equity position if residential construction inflects positive (housing starts >1.3M annualized) and margin recovery visible",
+        "Short-duration debt position if leverage exceeds 3.5x EBITDA and refinancing spreads widen >200bps vs. BBB median",
+        "Tactical long in Wesco vs. short in Home Depot Pro if utility capex guidance accelerates (IRA-driven grid modernization)",
+        "Earnings-call monitoring for management commentary on Anixter synergy realization and end-market demand trends by segment"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 same-store sales print vs. guidance; segment mix (utility vs. residential) and gross-margin realization",
+        "Stock price reaction to earnings; compare to peer moves (Rexel, Sensormatic, Home Depot) to isolate company-specific vs. sector signals",
+        "10-K filing review for changes in customer concentration, supplier terms, and debt covenant disclosures",
+        "Quarterly cash-flow statement: free-cash-flow generation, capex intensity, and debt paydown pace vs. guidance"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight residential-construction sensitivity in model if housing-starts correlation weakens (e.g., if multi-family capex decouples from single-family)",
+        "Update utility-segment growth assumption if IRA capex guidance from major utilities (Duke Energy, NextEra, Southern Company) shifts materially",
+        "Recalibrate Anixter synergy timeline if integration milestones slip; adjust EBITDA margin expectations downward if cost-of-goods-sold inflation persists",
+        "Monitor competitor pricing actions (Rexel, Sensormatic) for margin-compression signals; adjust gross-margin floor assumption if price wars emerge"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Wesco International operates as a high-velocity distribution hub in the electrical supply chain, functioning as a sensory-motor bridge between manufacturers (suppliers) and end-use contractors, utilities, and industrial customers. The company's inventory-turn velocity, supplier-contract terms, and customer-concentration metrics act as real-time gauges of construction-cycle health and utility capex momentum. Its working-capital management and debt refinancing cycles reflect broader credit-market stress and industrial-sector demand. Wesco's margin dynamics are driven by commodity-price hedging, supplier consolidation, and competitive pricing pressure from larger retailers and regional distributors.",
+    "suppliers": [
+      {
+        "name": "Eaton Corporation",
+        "ticker": "ETN",
+        "cik": "0000012822",
+        "slug": "eaton_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Components",
+        "relationshipNote": "Eaton is a top-3 supplier of electrical distribution equipment (switchgear, transformers, circuit breakers) to Wesco, representing. Wesco carries Eaton's full product portfolio across ~600 branches. Eaton's 2023 pricing actions on medium-voltage equipment drove Wesco margin pressure; contract terms are typically 12–24 month agreements with volume rebates tied to annual purchase commitments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Legrand SE",
+        "ticker": "LR",
+        "cik": null,
+        "slug": "legrand_se",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Components",
+        "relationshipNote": "Legrand supplies low-voltage electrical distribution products (circuit breakers, enclosures, wiring devices) to Wesco, with significant presence in residential and commercial segments. Legrand's 2022 acquisition of Sensormatic Electronics expanded its North American footprint; Wesco is a major channel partner. Pricing power has increased post-acquisition;.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Hubbell Incorporated",
+        "ticker": "HUBB",
+        "cik": "0000049196",
+        "slug": "hubbell_incorporated",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Components",
+        "relationshipNote": "Hubbell manufactures electrical connectors, lighting, and utility products distributed through Wesco's utility and industrial segments. Hubbell's 2023 capex guidance of $150M+ reflects strong demand from grid-modernization projects (IRA-driven). Wesco carries Hubbell's full utility-grade product line; contract terms include volume discounts and quarterly price adjustments tied to commodity indices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Southwire Company LLC",
+        "ticker": null,
+        "cik": null,
+        "slug": "southwire_company",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Components",
+        "relationshipNote": "Southwire is the largest U.S. manufacturer of electrical wire and cable, supplying Wesco with residential, commercial, and industrial-grade products. Southwire's 2023 capex of $500M+ in U.S. manufacturing capacity reflects IRA incentives and grid-modernization demand. Wesco is a top-5 distributor of Southwire products; copper-price hedging is critical to margin management given wire's 40–50% copper content.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Corning Incorporated",
+        "ticker": "GLW",
+        "cik": "0000024741",
+        "slug": "corning_incorporated",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Components",
+        "relationshipNote": "Corning supplies fiber-optic cable and communications infrastructure products to Wesco's telecom and broadband segments. Corning's 2023 guidance emphasized 5G and fiber-to-the-home (FTTH) capex acceleration; Wesco is a major distributor of Corning's optical-fiber products. Contract terms include volume commitments tied to broadband-deployment forecasts from major carriers (Verizon, AT&T, Charter).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schneider Electric SE",
+        "ticker": "SU",
+        "cik": null,
+        "slug": "schneider_electric",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Components",
+        "relationshipNote": "Schneider Electric supplies industrial automation, power-management, and energy-efficiency products to Wesco's industrial and commercial segments. Schneider's 2023 North America revenue grew 8% YoY, driven by data-center and renewable-energy demand. Wesco carries Schneider's full product portfolio; pricing power has increased due to supply-chain normalization and strong end-market demand.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ABB Ltd.",
+        "ticker": "ABB",
+        "cik": null,
+        "slug": "abb_ltd",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Components",
+        "relationshipNote": "ABB manufactures power-distribution and automation equipment sold through Wesco to utilities and industrial customers. ABB's 2023 focus on grid-modernization and electrification products aligns with IRA-driven capex. Wesco is a secondary distributor for ABB in North America;.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Panduit Corp.",
+        "ticker": null,
+        "cik": null,
+        "slug": "panduit_corp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Components",
+        "relationshipNote": "Panduit supplies structured cabling, cable management, and data-center infrastructure products to Wesco's commercial and telecom segments. Panduit's 2023 capex in U.S. manufacturing reflects strong demand from data-center buildouts and AI-infrastructure projects. Wesco is a top distributor of Panduit products; contract terms include volume rebates and quarterly price adjustments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "XPO provides last-mile delivery and logistics services for Wesco's branch network and customer shipments. XPO's 2023 LTL (less-than-truckload) capacity expansion supports Wesco's same-day and next-day delivery commitments to contractors. Contract terms include volume commitments and fuel-surcharge pass-throughs;.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt_transport",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "J.B. Hunt provides truckload and intermodal services for Wesco's long-haul distribution between regional distribution centers and branch locations. J.B. Hunt's 2023 capacity additions and technology investments in route optimization support Wesco's supply-chain efficiency goals. Contract terms include annual volume commitments and dynamic pricing tied to fuel costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "UPS Supply Chain Solutions",
+        "ticker": "UPS",
+        "cik": "0001090727",
+        "slug": "ups_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "UPS provides parcel and small-package delivery for Wesco's direct-to-customer shipments and branch-to-branch transfers. UPS's 2023 automation investments in sorting and delivery networks support Wesco's e-commerce and next-day delivery capabilities. Contract terms include volume discounts and service-level guarantees;.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Duke Energy Corporation",
+        "ticker": "DUK",
+        "cik": "0000063951",
+        "slug": "duke_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Duke Energy is a top-5 utility customer of Wesco, purchasing transformers, switchgear, and grid-modernization equipment for its 2023–2027 capex plan ($175B+). Duke's IRA-driven renewable-energy and grid-hardening projects represent 15–20% of Wesco's utility-segment revenue. Contracts are typically 2–3 year agreements with volume commitments and quarterly price adjustments tied to commodity indices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NextEra Energy Inc.",
+        "ticker": "NEE",
+        "cik": "0000753308",
+        "slug": "nextera_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "NextEra Energy (Florida Power & Light, NextEra Resources) is a major Wesco customer for utility-grade electrical equipment and renewable-energy infrastructure products. NextEra's 2023 capex guidance of $50B+ over 5 years reflects grid modernization and renewable-energy expansion. Wesco supplies transformers, switchgear, and substation equipment;.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Southern Company",
+        "ticker": "SO",
+        "cik": "0000092230",
+        "slug": "southern_company",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Southern Company (Georgia Power, Mississippi Power, Alabama Power) is a top-10 utility customer of Wesco, purchasing grid-modernization and transmission equipment. Southern's 2023 capex plan of $40B+ includes significant spending on substation upgrades and renewable-energy integration. Wesco is a preferred distributor for Southern's regional procurement; contracts include volume commitments and quarterly price reviews.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Verizon Communications Inc.",
+        "ticker": "VZ",
+        "cik": "0000732712",
+        "slug": "verizon_communications",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Verizon is a major customer of Wesco's communications and fiber-optic products for its 5G and fiber-to-the-home (FTTH) deployment programs. Verizon's 2023 capex of $20B+ includes significant spending on network infrastructure and broadband expansion. Wesco supplies cable, connectors, and installation materials;.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Rexel SA",
+        "ticker": "RXL",
+        "cik": null,
+        "slug": "rexel_sa",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Rexel is the world's largest electrical distributor with ~2,000 branches globally and ~$20B revenue (2023). Rexel's North America segment (40% of revenue) competes directly with Wesco in residential, commercial, and industrial markets. Rexel's 2023 same-store sales growth of 5–7% outpaced Wesco's; margin compression from commodity deflation affected both competitors similarly. Rexel's acquisition of Anixter's Canadian operations in 2021 created regional overlap with Wesco.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Home Depot Inc. (Pro Segment)",
+        "ticker": "HD",
+        "cik": "0000354950",
+        "slug": "home_depot_pro",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Home Depot's Pro segment (contractor-focused) is an increasingly aggressive competitor in electrical distribution, leveraging its ~2,300 U.S. stores and supply-chain scale. Home Depot Pro's 2023 revenue grew 8–10% YoY, driven by contractor adoption of its digital ordering and same-day delivery capabilities. Home Depot's gross margin in Pro is 30–35% vs. Wesco's 25–28%, reflecting its retail scale advantage. Wesco competes on specialized product expertise and branch-level service.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sensormatic Electronics Corporation (Legrand subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sensormatic_electronics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Sensormatic (acquired by Legrand in 2022 for $5.2B) is a regional electrical distributor with ~400 branches in North America. Post-acquisition, Legrand integrated Sensormatic's operations and expanded its product portfolio. Sensormatic competes with Wesco in residential and commercial segments; Legrand's pricing power has increased post-acquisition, creating margin pressure for Wesco on low-voltage products.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Anixter International (now part of Wesco post-2020 acquisition)",
+        "ticker": null,
+        "cik": null,
+        "slug": "anixter_international",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Anixter was acquired by Wesco in 2020 for $8.3B, creating the largest independent electrical distributor in North America. Pre-acquisition, Anixter was a direct competitor with ~600 branches and $9B revenue. Integration has been ongoing; Wesco disclosed $200M+ in synergy targets (cost of goods sold, SG&A, capex). Anixter's communications and IT infrastructure products complemented Wesco's core electrical business.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Graybar Electric Company Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "graybar_electric",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Graybar is a privately held electrical distributor with ~250 branches and ~$7B revenue (2023). Graybar competes with Wesco in residential, commercial, and industrial segments, with particular strength in the Midwest and Southeast. Graybar's private ownership allows for longer-term capex planning;.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC oversees Wesco's public-company disclosures, including 10-K filings, 8-K event reports, and proxy statements. Wesco's 2020 Anixter acquisition ($8.3B) required SEC review and Hart-Scott-Rodino (HSR) filing. Ongoing compliance includes quarterly earnings disclosures, insider-trading reporting, and debt-covenant disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "FTC reviews Wesco's M&A activity for antitrust compliance. The 2020 Anixter acquisition required HSR clearance; FTC assessed competitive overlap in electrical distribution. Post-acquisition, FTC has monitored Wesco's market share and pricing practices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Occupational Safety and Health Administration (OSHA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "OSHA regulates Wesco's workplace safety across ~600 branches and distribution centers. Electrical distribution involves hazardous materials (high-voltage equipment, copper dust) and ergonomic risks. Wesco's 2023 safety record and any OSHA citations are disclosed in 10-K Item 1A risk factors.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "EPA regulates Wesco's handling of hazardous materials (PCB-containing transformers, lead-acid batteries, electronic waste) and environmental compliance at distribution centers. Wesco's 2023 environmental disclosures include waste-disposal practices and compliance with RCRA (Resource Conservation and Recovery Act) and CERCLA (Comprehensive Environmental Response, Compensation, and Liability Act).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Department of Transportation (DOT)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "DOT regulates Wesco's transportation of hazardous materials (electrical equipment, batteries) via HAZMAT rules and commercial vehicle safety standards. Wesco's fleet of delivery trucks and logistics partners must comply with DOT regulations on driver hours, vehicle maintenance, and hazmat placarding.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte is Wesco's external auditor, responsible for annual 10-K audit and quarterly review of financial statements. Deloitte's audit scope includes assessment of Anixter acquisition integration, goodwill impairment testing, and internal-control effectiveness. Deloitte's audit fees and any audit-related fees are disclosed in Wesco's proxy statement (DEF14A).",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan Chase is a lead arranger and lender on Wesco's $3.5B+ debt portfolio, including term loans and revolving credit facilities. JPMorgan's 2023 lending to Wesco reflects strong covenant compliance and investment-grade credit quality. Wesco's debt refinancing in 2023–2024 involved JPMorgan as a key underwriter.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America is a co-arranger and lender on Wesco's credit facilities, providing term loans and revolving credit. BofA's 2023 lending to Wesco reflects strong covenant compliance and investment-grade credit quality. BofA's equity research team covers Wesco;.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.A",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Berkshire Hathaway owns approximately 10% of Wesco International (as of 2023), making it a significant equity holder and strategic investor. Berkshire's investment reflects confidence in Wesco's market position and management. Berkshire's CEO Warren Buffett has publicly endorsed Wesco's acquisition strategy and capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Vanguard is a major institutional shareholder of Wesco, holding approximately 8–10% of outstanding shares (as of 2023). Vanguard's passive index funds (S&P 500, Russell 1000) hold Wesco as a core industrial-distribution holding. Vanguard's voting on Wesco's proxy matters reflects its stewardship policies on governance and executive compensation.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "John Engel",
+        "title": "President and Chief Executive Officer",
+        "slug": "john_engel",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "John Engel became CEO in 2023, replacing Sensormatic-era leadership. Engel's mandate includes completing Anixter integration, driving organic growth, and optimizing working capital. Engel's background in industrial distribution and supply-chain management positions him to execute margin-expansion initiatives.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Diane Lees",
+        "title": "Chief Financial Officer",
+        "slug": "diane_lees",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Diane Lees is CFO and oversees Wesco's financial planning, debt management, and investor relations. Lees' priorities include debt reduction (targeting leverage <3.0x EBITDA), free-cash-flow optimization, and working-capital efficiency. Lees' quarterly earnings calls provide guidance on margin trends and end-market demand.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Warren Buffett",
+        "title": "Berkshire Hathaway CEO (Major Shareholder)",
+        "slug": "warren_buffett",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Warren Buffett, through Berkshire Hathaway's ~10% stake in Wesco, is a strategic governance partner. Buffett's public endorsement of Wesco's acquisition strategy and capital allocation carries significant weight with investors and lenders. Buffett's annual letters and Berkshire shareholder meetings often reference Wesco's market position and competitive advantages.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Weekly Electrical Equipment Orders Index (NECA)",
+        "slug": "neca_orders_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "The National Electrical Contractors Association (NECA) publishes a weekly electrical-equipment orders index that serves as a leading indicator of construction activity and Wesco's demand. NECA's index correlates with residential housing starts (lag 4–8 weeks) and commercial real-estate capex. Wesco's quarterly same-store sales typically track NECA orders with a 1–2 quarter lag.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Residential Housing Starts (Census Bureau)",
+        "slug": "housing_starts",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "U.S. residential housing starts (published monthly by Census Bureau) are a key demand driver for Wesco's residential segment (30–35% of revenue). Housing starts correlate with electrical-wire, cable, and fixture demand. A decline in housing starts from 1.3M to <1.0M annualized typically precedes Wesco SSS misses by 1–2 quarters. 2023 housing starts averaged 1.4M; 2024 guidance is.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

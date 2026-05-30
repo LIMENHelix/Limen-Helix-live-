@@ -1,0 +1,2066 @@
+{
+  "domainId": "population_pophealth_healthsys",
+  "title": "Health Systems",
+  "parentPortal": "population_pophealth_portal.html",
+  "parentLabel": "Pophealth",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "DV",
+      "state": "active",
+      "domainLabel": "Health Systems Assessment & Diagnostics",
+      "domainDescription": "Systematic management of health systems assessment & diagnostics across all health systems functions and operations",
+      "group": "analysis",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "executor",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Evaluate Health Systems Assessment & Diagnostics Continuous Improvement Cycle",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Evaluate a demographic transition support strategy for health systems assessment & diagnostics addressing fertility, mortality, and migration with social investment policy.",
+          "cite": "Lesthaeghe, R. (2014). The Second Demographic Transition. PNAS, 111(51), 18112-18115. doi:10.1073/pnas.1420441111; Lee, R. & Mason, A. (2011). Population Aging and the Generational Economy. Edward Elgar",
+          "target": "INEFFICIENT_HEALTH_SYSTEMS_ASSESSMENT___DI -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Lesthaeghe, R.",
+              "year": 2014,
+              "title": "The Second Demographic Transition",
+              "journal": "PNAS",
+              "volume": "111(51)",
+              "pages": "18112-18115",
+              "doi": "10.1073/pnas.1420441111"
+            },
+            {
+              "author": "Lee, R. & Mason, A.",
+              "year": 2011,
+              "title": "Population Aging and the Generational Economy",
+              "journal": "Edward Elgar",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze demographic transition for health systems assessment & diagnostics using fertility, mortality, and migration decomposition",
+            "Design social investment strategy supporting demographic objectives",
+            "Implement with health, education, and social protection programs",
+            "Deploy population monitoring with annual estimates and projections",
+            "Evaluate policy impact using counterfactual demographic modelling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — dependency ratio trend using census and labor force data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — dependency ratio trend measured annually. Target: dependency ratio stabilizing. PHASE 3 (Months 4-6): Midpoint review — compare against OECD demographic dependency benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — dependency ratio trend trending toward declining dependency. Escalate if <ratio <0.65 ceiling. ANNUAL REVIEW: Comprehensive audit using OECD pension sustainability framework. Report to Social Security Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Health Systems Assessment & Diagnostics Adaptive Management System",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Integrate a geriatric care workforce program for health systems assessment & diagnostics training health workers in WHO Healthy Ageing framework principles.",
+          "cite": "UNICEF (2023). State of the Worlds Children. UNICEF; Bongaarts, J. (2009). Human Population Growth and the Demographic Transition. Philosophical Transactions B, 364(1532), 2985-2990. doi:10.1098/rstb.2009.0137",
+          "target": "INCONSISTENT_HEALTH_SYSTEMS_ASSESSMENT___DI -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "UNICEF",
+              "year": 2023,
+              "title": "State of the Worlds Children",
+              "journal": "UNICEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Bongaarts, J.",
+              "year": 2009,
+              "title": "Human Population Growth and the Demographic Transition",
+              "journal": "Philosophical Transactions B",
+              "volume": "364(1532)",
+              "pages": "2985-2990",
+              "doi": "10.1098/rstb.2009.0137"
+            }
+          ],
+          "steps": [
+            "Assess CHW workforce for health systems assessment & diagnostics using WHO guideline recommendations",
+            "Design core training covering health promotion, disease prevention, and referral",
+            "Deliver through competency-based training with supervised field practice",
+            "Deploy CHWs with supportive supervision and continuing education",
+            "Measure CHW effectiveness through community health outcome indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — community health worker training using CHW training records. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — community health worker training measured quarterly. Target: 100% CHWs completing core training. PHASE 3 (Months 4-6): Midpoint review — compare against WHO CHW guideline recommendations. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — community health worker training trending toward 100% with refresher. Escalate if <90% minimum. ANNUAL REVIEW: Comprehensive audit using WHO CHW Guidelines. Report to Primary Health Care Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Conduct Health Systems Assessment & Diagnostics Knowledge Transfer Program",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Conduct a universal health coverage expansion for health systems assessment & diagnostics implementing WHO UHC framework with primary health care strengthening.",
+          "cite": "UN-Habitat (2022). World Cities Report. UN-Habitat; WHO (2023). Global Health Observatory Data Repository. WHO",
+          "target": "UNMONITORED_HEALTH_SYSTEMS_ASSESSMENT___DI -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "UN-Habitat",
+              "year": 2022,
+              "title": "World Cities Report",
+              "journal": "UN-Habitat",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2023,
+              "title": "Global Health Observatory Data Repository",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess CRVS for health systems assessment & diagnostics using UN CRVS assessment framework",
+            "Design digital registration system with interoperability standards",
+            "Implement with community outreach for registration awareness and access",
+            "Deploy data quality monitoring with completeness and timeliness tracking",
+            "Measure through registration coverage and data utilization rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — labor force participation (female) using labor force survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — labor force participation (female) measured annually. Target: 5pp increase in female LFPR. PHASE 3 (Months 4-6): Midpoint review — compare against ILO gender parity benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — labor force participation (female) trending toward 10pp increase. Escalate if <2pp increase floor. ANNUAL REVIEW: Comprehensive audit using ILO Gender Equality framework. Report to Gender Equality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Design Health Systems Assessment & Diagnostics Continuous Improvement Cycle",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Design a gender equality program for health systems assessment & diagnostics implementing UNDP Gender Inequality Index reduction strategies.",
+          "cite": "Connell, R.W. (2005). Masculinities 2e. University of California Press; Boserup, E. (1970). Womans Role in Economic Development. Earthscan",
+          "target": "UNDERPERFORMING_HEALTH_SYSTEMS_ASSESSMENT___DI -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Connell, R.W.",
+              "year": 2005,
+              "title": "Masculinities 2e",
+              "journal": "University of California Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Boserup, E.",
+              "year": 1970,
+              "title": "Womans Role in Economic Development",
+              "journal": "Earthscan",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess reproductive health for health systems assessment & diagnostics using DHS contraceptive and maternal data",
+            "Design rights-based family planning program with voluntary informed choice",
+            "Implement through health facility and community-based service delivery",
+            "Deploy information and education with gender-sensitive messaging",
+            "Measure through contraceptive prevalence and unmet need reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — reproductive health access using DHS contraceptive prevalence data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — reproductive health access measured annually. Target: modern contraceptive prevalence 70%. PHASE 3 (Months 4-6): Midpoint review — compare against UNFPA family planning benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — reproductive health access trending toward 75% prevalence. Escalate if <60% prevalence floor. ANNUAL REVIEW: Comprehensive audit using UNFPA family planning framework. Report to Reproductive Health Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Deploy Health Systems Assessment & Diagnostics Adaptive Management System",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Deploy a demographic survey program for health systems assessment & diagnostics using DHS methodology with nationally representative sampling.",
+          "cite": "UN-Habitat (2023). Urban Indicators Programme. UN-Habitat; IPUMS (2023). Integrated Public Use Microdata Series. University of Minnesota",
+          "target": "REACTIVE_HEALTH_SYSTEMS_ASSESSMENT___DI -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "UN-Habitat",
+              "year": 2023,
+              "title": "Urban Indicators Programme",
+              "journal": "UN-Habitat",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IPUMS",
+              "year": 2023,
+              "title": "Integrated Public Use Microdata Series",
+              "journal": "University of Minnesota",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess geospatial data for health systems assessment & diagnostics using spatial resolution and coverage audit",
+            "Design population grid using satellite imagery, surveys, and administrative data",
+            "Implement machine learning disaggregation with building footprint detection",
+            "Deploy web platform with API access and visualization tools",
+            "Validate against census enumeration areas and update annually"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — geospatial population data using gridded population dataset. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — geospatial population data measured annually. Target: 100m resolution population grid. PHASE 3 (Months 4-6): Midpoint review — compare against WorldPop/SEDAC benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — geospatial population data trending toward 30m resolution. Escalate if <250m resolution floor. ANNUAL REVIEW: Comprehensive audit using WorldPop methodology. Report to Geospatial Data Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Health Systems Assessment & Diagnostics Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Operationalize a demographic transition support strategy for health systems assessment & diagnostics addressing fertility, mortality, and migration with social investment policy.",
+          "cite": "United Nations (2022). World Population Prospects. UN DESA; Bloom, D.E. et al. (2003). The Demographic Dividend. RAND Corporation",
+          "target": "FRAGMENTED_HEALTH_SYSTEMS_ASSESSMENT___DI -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "United Nations",
+              "year": 2022,
+              "title": "World Population Prospects",
+              "journal": "UN DESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Bloom, D.E. et al.",
+              "year": 2003,
+              "title": "The Demographic Dividend",
+              "journal": "RAND Corporation",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze demographic transition for health systems assessment & diagnostics using fertility, mortality, and migration decomposition",
+            "Design social investment strategy supporting demographic objectives",
+            "Implement with health, education, and social protection programs",
+            "Deploy population monitoring with annual estimates and projections",
+            "Evaluate policy impact using counterfactual demographic modelling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — dependency ratio trend using census and labor force data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — dependency ratio trend measured annually. Target: dependency ratio stabilizing. PHASE 3 (Months 4-6): Midpoint review — compare against OECD demographic dependency benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — dependency ratio trend trending toward declining dependency. Escalate if <ratio <0.65 ceiling. ANNUAL REVIEW: Comprehensive audit using OECD pension sustainability framework. Report to Social Security Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "population_pophealth_healthsys_coverage_portal.html"
+    },
+    {
+      "brainNodeId": "PUT",
+      "state": "active",
+      "domainLabel": "Health Systems Core Operations",
+      "domainDescription": "Systematic management of health systems core operations across all health systems functions and operations",
+      "group": "operations",
+      "phase": "P5",
+      "weight": 0.98,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "signal_detector",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Establish Health Systems Core Operations Risk Mitigation Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish a migration governance framework for health systems core operations using IOM Migration Governance Indicators with integration pathway design.",
+          "cite": "Lutz, W. et al. (2017). How Population Growth Relates to Climate Change. PNAS, 114(46), 12103-12108; UNFPA (2023). State of World Population Report. UNFPA",
+          "target": "INCONSISTENT_HEALTH_SYSTEMS_CORE_OPERATIONS -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Lutz, W. et al.",
+              "year": 2017,
+              "title": "How Population Growth Relates to Climate Change",
+              "journal": "PNAS",
+              "volume": "114(46)",
+              "pages": "12103-12108",
+              "doi": null
+            },
+            {
+              "author": "UNFPA",
+              "year": 2023,
+              "title": "State of World Population Report",
+              "journal": "UNFPA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess aging population for health systems core operations using WHO Healthy Ageing indicators",
+            "Design age-friendly policy covering health, participation, and security",
+            "Implement with pension reform, long-term care, and community programs",
+            "Deploy age-friendly community certification per WHO framework",
+            "Measure healthy life expectancy and elder well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — life expectancy at birth using vital statistics and GHO data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — life expectancy at birth measured annually. Target: 2-year increase in life expectancy. PHASE 3 (Months 4-6): Midpoint review — compare against WHO GHE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — life expectancy at birth trending toward 3-year increase. Escalate if <1-year increase floor. ANNUAL REVIEW: Comprehensive audit using WHO GHE framework. Report to Health Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Health Systems Core Operations Process Improvement Initiative",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Implement a community health worker training for health systems core operations following WHO CHW guidelines with community-based service delivery.",
+          "cite": "HelpAge International (2023). Global AgeWatch Insights. HelpAge; Caldwell, J.C. (1982). Theory of Fertility Decline. Academic Press",
+          "target": "UNMONITORED_HEALTH_SYSTEMS_CORE_OPERATIONS -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "HelpAge International",
+              "year": 2023,
+              "title": "Global AgeWatch Insights",
+              "journal": "HelpAge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Caldwell, J.C.",
+              "year": 1982,
+              "title": "Theory of Fertility Decline",
+              "journal": "Academic Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess geriatric care skills for health systems core operations using WHO age-friendly health competencies",
+            "Design training in comprehensive geriatric assessment and care coordination",
+            "Deliver through clinical rotations in geriatric settings with mentorship",
+            "Implement competency assessment with patient outcome tracking",
+            "Measure care quality through elder-specific health outcome indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — geriatric care training rate using training tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — geriatric care training rate measured annually. Target: 70% health workers geriatric-trained. PHASE 3 (Months 4-6): Midpoint review — compare against WHO age-friendly standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — geriatric care training rate trending toward 85% trained. Escalate if <50% trained floor. ANNUAL REVIEW: Comprehensive audit using WHO Healthy Ageing framework. Report to Geriatric Care Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Health Systems Core Operations Resilience Assessment",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Institutionalize a child survival program for health systems core operations deploying UNICEF IMNCI protocols with community-based management.",
+          "cite": "ILO (2023). Global Employment Trends. ILO; UNDP (2023). Human Development Report. UNDP",
+          "target": "UNDERPERFORMING_HEALTH_SYSTEMS_CORE_OPERATIONS -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "ILO",
+              "year": 2023,
+              "title": "Global Employment Trends",
+              "journal": "ILO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNDP",
+              "year": 2023,
+              "title": "Human Development Report",
+              "journal": "UNDP",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess child health for health systems core operations using IGME methodology and facility surveys",
+            "Design IMNCI implementation with community and facility components",
+            "Deploy immunization, nutrition, and WASH interventions",
+            "Implement community-based management of childhood illness",
+            "Measure through U5MR reduction and child health coverage indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — under-5 mortality rate using vital registration + IGME. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — under-5 mortality rate measured annually. Target: 25% U5MR reduction. PHASE 3 (Months 4-6): Midpoint review — compare against UNICEF/IGME SDG 3.2 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — under-5 mortality rate trending toward 40% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using UN IGME framework. Report to Child Health Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Health Systems Core Operations Risk Mitigation Strategy",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Configure an immigrant integration program for health systems core operations implementing MIPEX best practices with language, employment, and civic pathways.",
+          "cite": "Butler, J. (1990). Gender Trouble. Routledge; De Beauvoir, S. (1949). The Second Sex. Gallimard",
+          "target": "REACTIVE_HEALTH_SYSTEMS_CORE_OPERATIONS -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Butler, J.",
+              "year": 1990,
+              "title": "Gender Trouble",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "De Beauvoir, S.",
+              "year": 1949,
+              "title": "The Second Sex",
+              "journal": "Gallimard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess youth situation for health systems core operations using youth-specific SDG indicators",
+            "Design empowerment program with education, employment, and civic engagement",
+            "Implement through youth councils, skills programs, and entrepreneurship support",
+            "Deploy mentorship and peer education networks",
+            "Measure through youth NEET rates, civic participation, and well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — youth civic engagement using youth participation survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — youth civic engagement measured biannually. Target: 30% youth civically active. PHASE 3 (Months 4-6): Midpoint review — compare against UN Youth Strategy targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — youth civic engagement trending toward 40% active. Escalate if <20% active floor. ANNUAL REVIEW: Comprehensive audit using UN Youth 2030 Strategy. Report to Youth Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Strengthen Health Systems Core Operations Process Improvement Initiative",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Strengthen a census modernization program for health systems core operations implementing UN census principles with digital enumeration and geospatial analysis.",
+          "cite": "UN Statistics Division (2023). Demographic and Social Statistics. UNSD; WHO (2023). Global Health Estimates Methodology. WHO",
+          "target": "FRAGMENTED_HEALTH_SYSTEMS_CORE_OPERATIONS -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "UN Statistics Division",
+              "year": 2023,
+              "title": "Demographic and Social Statistics",
+              "journal": "UNSD",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2023,
+              "title": "Global Health Estimates Methodology",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess CRVS for health systems core operations using Global CRVS Scaling Up Investment Plan criteria",
+            "Design digital registration with interoperable systems and unique identity",
+            "Implement community-based registration with mobile reporting",
+            "Deploy data quality monitoring and feedback to health system",
+            "Measure through registration completeness and data utilization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — vital registration coverage using CRVS assessment tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — vital registration coverage measured annually. Target: 90% births registered. PHASE 3 (Months 4-6): Midpoint review — compare against UN Legal Identity Agenda target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — vital registration coverage trending toward 95% registration. Escalate if <75% registration floor. ANNUAL REVIEW: Comprehensive audit using UN CRVS framework. Report to Civil Registration Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Health Systems Core Operations Resilience Assessment",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Monitor a migration governance framework for health systems core operations using IOM Migration Governance Indicators with integration pathway design.",
+          "cite": "Lesthaeghe, R. (2014). The Second Demographic Transition. PNAS, 111(51), 18112-18115. doi:10.1073/pnas.1420441111; Lee, R. & Mason, A. (2011). Population Aging and the Generational Economy. Edward Elgar",
+          "target": "SILOED_HEALTH_SYSTEMS_CORE_OPERATIONS -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Lesthaeghe, R.",
+              "year": 2014,
+              "title": "The Second Demographic Transition",
+              "journal": "PNAS",
+              "volume": "111(51)",
+              "pages": "18112-18115",
+              "doi": "10.1073/pnas.1420441111"
+            },
+            {
+              "author": "Lee, R. & Mason, A.",
+              "year": 2011,
+              "title": "Population Aging and the Generational Economy",
+              "journal": "Edward Elgar",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess aging population for health systems core operations using WHO Healthy Ageing indicators",
+            "Design age-friendly policy covering health, participation, and security",
+            "Implement with pension reform, long-term care, and community programs",
+            "Deploy age-friendly community certification per WHO framework",
+            "Measure healthy life expectancy and elder well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — life expectancy at birth using vital statistics and GHO data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — life expectancy at birth measured annually. Target: 2-year increase in life expectancy. PHASE 3 (Months 4-6): Midpoint review — compare against WHO GHE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — life expectancy at birth trending toward 3-year increase. Escalate if <1-year increase floor. ANNUAL REVIEW: Comprehensive audit using WHO GHE framework. Report to Health Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "population_pophealth_healthsys_finance_portal.html"
+    },
+    {
+      "brainNodeId": "ENDO",
+      "state": "active",
+      "domainLabel": "Health Systems Infrastructure & Capacity",
+      "domainDescription": "Systematic management of health systems infrastructure & capacity across all health systems functions and operations",
+      "group": "systems",
+      "phase": "P5",
+      "weight": 0.96,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "coordinator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Launch Health Systems Infrastructure & Capacity Feedback Loop Design",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Launch a healthy aging policy for health systems infrastructure & capacity implementing WHO Decade of Healthy Ageing framework with age-friendly community design.",
+          "cite": "Lee, R. & Mason, A. (2011). Population Aging and the Generational Economy. Edward Elgar; Lesthaeghe, R. (2014). The Second Demographic Transition. PNAS, 111(51), 18112-18115. doi:10.1073/pnas.1420441111",
+          "target": "INCONSISTENT_HEALTH_SYSTEMS_INFRASTRUCTURE_ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Lee, R. & Mason, A.",
+              "year": 2011,
+              "title": "Population Aging and the Generational Economy",
+              "journal": "Edward Elgar",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lesthaeghe, R.",
+              "year": 2014,
+              "title": "The Second Demographic Transition",
+              "journal": "PNAS",
+              "volume": "111(51)",
+              "pages": "18112-18115",
+              "doi": "10.1073/pnas.1420441111"
+            }
+          ],
+          "steps": [
+            "Assess aging population for health systems infrastructure & capacity using WHO Healthy Ageing indicators",
+            "Design age-friendly policy covering health, participation, and security",
+            "Implement with pension reform, long-term care, and community programs",
+            "Deploy age-friendly community certification per WHO framework",
+            "Measure healthy life expectancy and elder well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — life expectancy at birth using vital statistics and GHO data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — life expectancy at birth measured annually. Target: 2-year increase in life expectancy. PHASE 3 (Months 4-6): Midpoint review — compare against WHO GHE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — life expectancy at birth trending toward 3-year increase. Escalate if <1-year increase floor. ANNUAL REVIEW: Comprehensive audit using WHO GHE framework. Report to Health Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Health Systems Infrastructure & Capacity Sustainability Audit",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Develop an urban planning professional development for health systems infrastructure & capacity achieving AICP certification with sustainable development focus.",
+          "cite": "Bongaarts, J. (2009). Human Population Growth and the Demographic Transition. Philosophical Transactions B, 364(1532), 2985-2990. doi:10.1098/rstb.2009.0137; UNICEF (2023). State of the Worlds Children. UNICEF",
+          "target": "UNMONITORED_HEALTH_SYSTEMS_INFRASTRUCTURE_ -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Bongaarts, J.",
+              "year": 2009,
+              "title": "Human Population Growth and the Demographic Transition",
+              "journal": "Philosophical Transactions B",
+              "volume": "364(1532)",
+              "pages": "2985-2990",
+              "doi": "10.1098/rstb.2009.0137"
+            },
+            {
+              "author": "UNICEF",
+              "year": 2023,
+              "title": "State of the Worlds Children",
+              "journal": "UNICEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess geriatric care skills for health systems infrastructure & capacity using WHO age-friendly health competencies",
+            "Design training in comprehensive geriatric assessment and care coordination",
+            "Deliver through clinical rotations in geriatric settings with mentorship",
+            "Implement competency assessment with patient outcome tracking",
+            "Measure care quality through elder-specific health outcome indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — geriatric care training rate using training tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — geriatric care training rate measured annually. Target: 70% health workers geriatric-trained. PHASE 3 (Months 4-6): Midpoint review — compare against WHO age-friendly standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — geriatric care training rate trending toward 85% trained. Escalate if <50% trained floor. ANNUAL REVIEW: Comprehensive audit using WHO Healthy Ageing framework. Report to Geriatric Care Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Health Systems Infrastructure & Capacity Innovation Pipeline",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Establish a maternal mortality reduction program for health systems infrastructure & capacity implementing WHO emergency obstetric care standards.",
+          "cite": "WHO (2023). Global Health Observatory Data Repository. WHO; UN-Habitat (2022). World Cities Report. UN-Habitat",
+          "target": "UNDERPERFORMING_HEALTH_SYSTEMS_INFRASTRUCTURE_ -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2023,
+              "title": "Global Health Observatory Data Repository",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UN-Habitat",
+              "year": 2022,
+              "title": "World Cities Report",
+              "journal": "UN-Habitat",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess child health for health systems infrastructure & capacity using IGME methodology and facility surveys",
+            "Design IMNCI implementation with community and facility components",
+            "Deploy immunization, nutrition, and WASH interventions",
+            "Implement community-based management of childhood illness",
+            "Measure through U5MR reduction and child health coverage indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — under-5 mortality rate using vital registration + IGME. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — under-5 mortality rate measured annually. Target: 25% U5MR reduction. PHASE 3 (Months 4-6): Midpoint review — compare against UNICEF/IGME SDG 3.2 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — under-5 mortality rate trending toward 40% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using UN IGME framework. Report to Child Health Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Implement Health Systems Infrastructure & Capacity Feedback Loop Design",
+          "type": "CULTURE",
+          "evidence": "C",
+          "description": "Implement an elder social inclusion program for health systems infrastructure & capacity using WHO Healthy Ageing indicators with community integration.",
+          "cite": "Boserup, E. (1970). Womans Role in Economic Development. Earthscan; Connell, R.W. (2005). Masculinities 2e. University of California Press",
+          "target": "REACTIVE_HEALTH_SYSTEMS_INFRASTRUCTURE_ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Boserup, E.",
+              "year": 1970,
+              "title": "Womans Role in Economic Development",
+              "journal": "Earthscan",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Connell, R.W.",
+              "year": 2005,
+              "title": "Masculinities 2e",
+              "journal": "University of California Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess youth situation for health systems infrastructure & capacity using youth-specific SDG indicators",
+            "Design empowerment program with education, employment, and civic engagement",
+            "Implement through youth councils, skills programs, and entrepreneurship support",
+            "Deploy mentorship and peer education networks",
+            "Measure through youth NEET rates, civic participation, and well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — youth civic engagement using youth participation survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — youth civic engagement measured biannually. Target: 30% youth civically active. PHASE 3 (Months 4-6): Midpoint review — compare against UN Youth Strategy targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — youth civic engagement trending toward 40% active. Escalate if <20% active floor. ANNUAL REVIEW: Comprehensive audit using UN Youth 2030 Strategy. Report to Youth Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Institutionalize Health Systems Infrastructure & Capacity Sustainability Audit",
+          "type": "TOOLS",
+          "evidence": "B",
+          "description": "Institutionalize a geospatial population mapping platform for health systems infrastructure & capacity using WorldPop methodology with satellite imagery and survey data.",
+          "cite": "IPUMS (2023). Integrated Public Use Microdata Series. University of Minnesota; UN-Habitat (2023). Urban Indicators Programme. UN-Habitat",
+          "target": "FRAGMENTED_HEALTH_SYSTEMS_INFRASTRUCTURE_ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IPUMS",
+              "year": 2023,
+              "title": "Integrated Public Use Microdata Series",
+              "journal": "University of Minnesota",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UN-Habitat",
+              "year": 2023,
+              "title": "Urban Indicators Programme",
+              "journal": "UN-Habitat",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess CRVS for health systems infrastructure & capacity using Global CRVS Scaling Up Investment Plan criteria",
+            "Design digital registration with interoperable systems and unique identity",
+            "Implement community-based registration with mobile reporting",
+            "Deploy data quality monitoring and feedback to health system",
+            "Measure through registration completeness and data utilization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — vital registration coverage using CRVS assessment tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — vital registration coverage measured annually. Target: 90% births registered. PHASE 3 (Months 4-6): Midpoint review — compare against UN Legal Identity Agenda target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — vital registration coverage trending toward 95% registration. Escalate if <75% registration floor. ANNUAL REVIEW: Comprehensive audit using UN CRVS framework. Report to Civil Registration Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Configure Health Systems Infrastructure & Capacity Innovation Pipeline",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Configure a healthy aging policy for health systems infrastructure & capacity implementing WHO Decade of Healthy Ageing framework with age-friendly community design.",
+          "cite": "Bloom, D.E. et al. (2003). The Demographic Dividend. RAND Corporation; United Nations (2022). World Population Prospects. UN DESA",
+          "target": "SILOED_HEALTH_SYSTEMS_INFRASTRUCTURE_ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Bloom, D.E. et al.",
+              "year": 2003,
+              "title": "The Demographic Dividend",
+              "journal": "RAND Corporation",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "United Nations",
+              "year": 2022,
+              "title": "World Population Prospects",
+              "journal": "UN DESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess aging population for health systems infrastructure & capacity using WHO Healthy Ageing indicators",
+            "Design age-friendly policy covering health, participation, and security",
+            "Implement with pension reform, long-term care, and community programs",
+            "Deploy age-friendly community certification per WHO framework",
+            "Measure healthy life expectancy and elder well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — life expectancy at birth using vital statistics and GHO data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — life expectancy at birth measured annually. Target: 2-year increase in life expectancy. PHASE 3 (Months 4-6): Midpoint review — compare against WHO GHE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — life expectancy at birth trending toward 3-year increase. Escalate if <1-year increase floor. ANNUAL REVIEW: Comprehensive audit using WHO GHE framework. Report to Health Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "population_pophealth_healthsys_infrastr_portal.html"
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Health Systems Risk & Resilience",
+      "domainDescription": "Systematic management of health systems risk & resilience across all health systems functions and operations",
+      "group": "governance",
+      "phase": "P5",
+      "weight": 0.94,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "allocator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Operationalize Health Systems Risk & Resilience Continuous Improvement Cycle",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Operationalize a demographic transition support strategy for health systems risk & resilience addressing fertility, mortality, and migration with social investment policy.",
+          "cite": "Lesthaeghe, R. (2014). The Second Demographic Transition. PNAS, 111(51), 18112-18115. doi:10.1073/pnas.1420441111; Lee, R. & Mason, A. (2011). Population Aging and the Generational Economy. Edward Elgar",
+          "target": "SILOED_HEALTH_SYSTEMS_RISK___RESILIEN -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Lesthaeghe, R.",
+              "year": 2014,
+              "title": "The Second Demographic Transition",
+              "journal": "PNAS",
+              "volume": "111(51)",
+              "pages": "18112-18115",
+              "doi": "10.1073/pnas.1420441111"
+            },
+            {
+              "author": "Lee, R. & Mason, A.",
+              "year": 2011,
+              "title": "Population Aging and the Generational Economy",
+              "journal": "Edward Elgar",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze demographic transition for health systems risk & resilience using fertility, mortality, and migration decomposition",
+            "Design social investment strategy supporting demographic objectives",
+            "Implement with health, education, and social protection programs",
+            "Deploy population monitoring with annual estimates and projections",
+            "Evaluate policy impact using counterfactual demographic modelling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — dependency ratio trend using census and labor force data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — dependency ratio trend measured annually. Target: dependency ratio stabilizing. PHASE 3 (Months 4-6): Midpoint review — compare against OECD demographic dependency benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — dependency ratio trend trending toward declining dependency. Escalate if <ratio <0.65 ceiling. ANNUAL REVIEW: Comprehensive audit using OECD pension sustainability framework. Report to Social Security Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Health Systems Risk & Resilience Adaptive Management System",
+          "type": "COACHING",
+          "evidence": "B",
+          "description": "Calibrate a geriatric care workforce program for health systems risk & resilience training health workers in WHO Healthy Ageing framework principles.",
+          "cite": "UNICEF (2023). State of the Worlds Children. UNICEF; Bongaarts, J. (2009). Human Population Growth and the Demographic Transition. Philosophical Transactions B, 364(1532), 2985-2990. doi:10.1098/rstb.2009.0137",
+          "target": "OUTDATED_HEALTH_SYSTEMS_RISK___RESILIEN -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "UNICEF",
+              "year": 2023,
+              "title": "State of the Worlds Children",
+              "journal": "UNICEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Bongaarts, J.",
+              "year": 2009,
+              "title": "Human Population Growth and the Demographic Transition",
+              "journal": "Philosophical Transactions B",
+              "volume": "364(1532)",
+              "pages": "2985-2990",
+              "doi": "10.1098/rstb.2009.0137"
+            }
+          ],
+          "steps": [
+            "Assess CHW workforce for health systems risk & resilience using WHO guideline recommendations",
+            "Design core training covering health promotion, disease prevention, and referral",
+            "Deliver through competency-based training with supervised field practice",
+            "Deploy CHWs with supportive supervision and continuing education",
+            "Measure CHW effectiveness through community health outcome indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — community health worker training using CHW training records. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — community health worker training measured quarterly. Target: 100% CHWs completing core training. PHASE 3 (Months 4-6): Midpoint review — compare against WHO CHW guideline recommendations. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — community health worker training trending toward 100% with refresher. Escalate if <90% minimum. ANNUAL REVIEW: Comprehensive audit using WHO CHW Guidelines. Report to Primary Health Care Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Health Systems Risk & Resilience Knowledge Transfer Program",
+          "type": "STRUCTURAL",
+          "evidence": "A",
+          "description": "Streamline a universal health coverage expansion for health systems risk & resilience implementing WHO UHC framework with primary health care strengthening.",
+          "cite": "UN-Habitat (2022). World Cities Report. UN-Habitat; WHO (2023). Global Health Observatory Data Repository. WHO",
+          "target": "INEFFICIENT_HEALTH_SYSTEMS_RISK___RESILIEN -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "UN-Habitat",
+              "year": 2022,
+              "title": "World Cities Report",
+              "journal": "UN-Habitat",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2023,
+              "title": "Global Health Observatory Data Repository",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess CRVS for health systems risk & resilience using UN CRVS assessment framework",
+            "Design digital registration system with interoperability standards",
+            "Implement with community outreach for registration awareness and access",
+            "Deploy data quality monitoring with completeness and timeliness tracking",
+            "Measure through registration coverage and data utilization rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — labor force participation (female) using labor force survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — labor force participation (female) measured annually. Target: 5pp increase in female LFPR. PHASE 3 (Months 4-6): Midpoint review — compare against ILO gender parity benchmarks. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — labor force participation (female) trending toward 10pp increase. Escalate if <2pp increase floor. ANNUAL REVIEW: Comprehensive audit using ILO Gender Equality framework. Report to Gender Equality Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Assess Health Systems Risk & Resilience Continuous Improvement Cycle",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Assess a gender equality program for health systems risk & resilience implementing UNDP Gender Inequality Index reduction strategies.",
+          "cite": "Connell, R.W. (2005). Masculinities 2e. University of California Press; Boserup, E. (1970). Womans Role in Economic Development. Earthscan",
+          "target": "INCONSISTENT_HEALTH_SYSTEMS_RISK___RESILIEN -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Connell, R.W.",
+              "year": 2005,
+              "title": "Masculinities 2e",
+              "journal": "University of California Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Boserup, E.",
+              "year": 1970,
+              "title": "Womans Role in Economic Development",
+              "journal": "Earthscan",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess reproductive health for health systems risk & resilience using DHS contraceptive and maternal data",
+            "Design rights-based family planning program with voluntary informed choice",
+            "Implement through health facility and community-based service delivery",
+            "Deploy information and education with gender-sensitive messaging",
+            "Measure through contraceptive prevalence and unmet need reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — reproductive health access using DHS contraceptive prevalence data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — reproductive health access measured annually. Target: modern contraceptive prevalence 70%. PHASE 3 (Months 4-6): Midpoint review — compare against UNFPA family planning benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — reproductive health access trending toward 75% prevalence. Escalate if <60% prevalence floor. ANNUAL REVIEW: Comprehensive audit using UNFPA family planning framework. Report to Reproductive Health Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Health Systems Risk & Resilience Adaptive Management System",
+          "type": "TOOLS",
+          "evidence": "C",
+          "description": "Create a demographic survey program for health systems risk & resilience using DHS methodology with nationally representative sampling.",
+          "cite": "UN-Habitat (2023). Urban Indicators Programme. UN-Habitat; IPUMS (2023). Integrated Public Use Microdata Series. University of Minnesota",
+          "target": "UNMONITORED_HEALTH_SYSTEMS_RISK___RESILIEN -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "UN-Habitat",
+              "year": 2023,
+              "title": "Urban Indicators Programme",
+              "journal": "UN-Habitat",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "IPUMS",
+              "year": 2023,
+              "title": "Integrated Public Use Microdata Series",
+              "journal": "University of Minnesota",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess geospatial data for health systems risk & resilience using spatial resolution and coverage audit",
+            "Design population grid using satellite imagery, surveys, and administrative data",
+            "Implement machine learning disaggregation with building footprint detection",
+            "Deploy web platform with API access and visualization tools",
+            "Validate against census enumeration areas and update annually"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — geospatial population data using gridded population dataset. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — geospatial population data measured annually. Target: 100m resolution population grid. PHASE 3 (Months 4-6): Midpoint review — compare against WorldPop/SEDAC benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — geospatial population data trending toward 30m resolution. Escalate if <250m resolution floor. ANNUAL REVIEW: Comprehensive audit using WorldPop methodology. Report to Geospatial Data Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Health Systems Risk & Resilience Knowledge Transfer Program",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Evaluate a demographic transition support strategy for health systems risk & resilience addressing fertility, mortality, and migration with social investment policy.",
+          "cite": "United Nations (2022). World Population Prospects. UN DESA; Bloom, D.E. et al. (2003). The Demographic Dividend. RAND Corporation",
+          "target": "UNDERPERFORMING_HEALTH_SYSTEMS_RISK___RESILIEN -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "United Nations",
+              "year": 2022,
+              "title": "World Population Prospects",
+              "journal": "UN DESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Bloom, D.E. et al.",
+              "year": 2003,
+              "title": "The Demographic Dividend",
+              "journal": "RAND Corporation",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze demographic transition for health systems risk & resilience using fertility, mortality, and migration decomposition",
+            "Design social investment strategy supporting demographic objectives",
+            "Implement with health, education, and social protection programs",
+            "Deploy population monitoring with annual estimates and projections",
+            "Evaluate policy impact using counterfactual demographic modelling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — dependency ratio trend using census and labor force data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — dependency ratio trend measured annually. Target: dependency ratio stabilizing. PHASE 3 (Months 4-6): Midpoint review — compare against OECD demographic dependency benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — dependency ratio trend trending toward declining dependency. Escalate if <ratio <0.65 ceiling. ANNUAL REVIEW: Comprehensive audit using OECD pension sustainability framework. Report to Social Security Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "childPortal": "population_pophealth_healthsys_workforce_portal.html"
+    },
+    {
+      "brainNodeId": "MICRO",
+      "state": "active",
+      "domainLabel": "Health Systems Policy & Governance",
+      "domainDescription": "Systematic management of health systems policy & governance across all health systems functions and operations",
+      "group": "innovation",
+      "phase": "P5",
+      "weight": 0.92,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "integrator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Conduct Health Systems Policy & Governance Capacity Building Initiative",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Conduct a national population strategy for health systems policy & governance using UN World Population Prospects with demographic dividend analysis.",
+          "cite": "UNFPA (2023). State of World Population Report. UNFPA; Lutz, W. et al. (2017). How Population Growth Relates to Climate Change. PNAS, 114(46), 12103-12108",
+          "target": "INEFFICIENT_HEALTH_SYSTEMS_POLICY___GOVERN -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "UNFPA",
+              "year": 2023,
+              "title": "State of World Population Report",
+              "journal": "UNFPA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lutz, W. et al.",
+              "year": 2017,
+              "title": "How Population Growth Relates to Climate Change",
+              "journal": "PNAS",
+              "volume": "114(46)",
+              "pages": "12103-12108",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess aging population for health systems policy & governance using WHO Healthy Ageing indicators",
+            "Design age-friendly policy covering health, participation, and security",
+            "Implement with pension reform, long-term care, and community programs",
+            "Deploy age-friendly community certification per WHO framework",
+            "Measure healthy life expectancy and elder well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — life expectancy at birth using vital statistics and GHO data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — life expectancy at birth measured annually. Target: 2-year increase in life expectancy. PHASE 3 (Months 4-6): Midpoint review — compare against WHO GHE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — life expectancy at birth trending toward 3-year increase. Escalate if <1-year increase floor. ANNUAL REVIEW: Comprehensive audit using WHO GHE framework. Report to Health Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Design Health Systems Policy & Governance Early Warning System",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Design a migration counselor certification for health systems policy & governance meeting IOM ethical standards with cultural competency and legal knowledge.",
+          "cite": "Caldwell, J.C. (1982). Theory of Fertility Decline. Academic Press; HelpAge International (2023). Global AgeWatch Insights. HelpAge",
+          "target": "INCONSISTENT_HEALTH_SYSTEMS_POLICY___GOVERN -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Caldwell, J.C.",
+              "year": 1982,
+              "title": "Theory of Fertility Decline",
+              "journal": "Academic Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "HelpAge International",
+              "year": 2023,
+              "title": "Global AgeWatch Insights",
+              "journal": "HelpAge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess geriatric care skills for health systems policy & governance using WHO age-friendly health competencies",
+            "Design training in comprehensive geriatric assessment and care coordination",
+            "Deliver through clinical rotations in geriatric settings with mentorship",
+            "Implement competency assessment with patient outcome tracking",
+            "Measure care quality through elder-specific health outcome indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — geriatric care training rate using training tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — geriatric care training rate measured annually. Target: 70% health workers geriatric-trained. PHASE 3 (Months 4-6): Midpoint review — compare against WHO age-friendly standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — geriatric care training rate trending toward 85% trained. Escalate if <50% trained floor. ANNUAL REVIEW: Comprehensive audit using WHO Healthy Ageing framework. Report to Geriatric Care Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Deploy Health Systems Policy & Governance Operational Readiness Check",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Deploy a civil registration and vital statistics system for health systems policy & governance per UN CRVS framework with digital registration.",
+          "cite": "UNDP (2023). Human Development Report. UNDP; ILO (2023). Global Employment Trends. ILO",
+          "target": "UNMONITORED_HEALTH_SYSTEMS_POLICY___GOVERN -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "UNDP",
+              "year": 2023,
+              "title": "Human Development Report",
+              "journal": "UNDP",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ILO",
+              "year": 2023,
+              "title": "Global Employment Trends",
+              "journal": "ILO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess child health for health systems policy & governance using IGME methodology and facility surveys",
+            "Design IMNCI implementation with community and facility components",
+            "Deploy immunization, nutrition, and WASH interventions",
+            "Implement community-based management of childhood illness",
+            "Measure through U5MR reduction and child health coverage indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — under-5 mortality rate using vital registration + IGME. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — under-5 mortality rate measured annually. Target: 25% U5MR reduction. PHASE 3 (Months 4-6): Midpoint review — compare against UNICEF/IGME SDG 3.2 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — under-5 mortality rate trending toward 40% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using UN IGME framework. Report to Child Health Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Operationalize Health Systems Policy & Governance Capacity Building Initiative",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Operationalize a youth empowerment initiative for health systems policy & governance using UN Youth 2030 Strategy with civic engagement and employment.",
+          "cite": "De Beauvoir, S. (1949). The Second Sex. Gallimard; Butler, J. (1990). Gender Trouble. Routledge",
+          "target": "UNDERPERFORMING_HEALTH_SYSTEMS_POLICY___GOVERN -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "De Beauvoir, S.",
+              "year": 1949,
+              "title": "The Second Sex",
+              "journal": "Gallimard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Butler, J.",
+              "year": 1990,
+              "title": "Gender Trouble",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess youth situation for health systems policy & governance using youth-specific SDG indicators",
+            "Design empowerment program with education, employment, and civic engagement",
+            "Implement through youth councils, skills programs, and entrepreneurship support",
+            "Deploy mentorship and peer education networks",
+            "Measure through youth NEET rates, civic participation, and well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — youth civic engagement using youth participation survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — youth civic engagement measured biannually. Target: 30% youth civically active. PHASE 3 (Months 4-6): Midpoint review — compare against UN Youth Strategy targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — youth civic engagement trending toward 40% active. Escalate if <20% active floor. ANNUAL REVIEW: Comprehensive audit using UN Youth 2030 Strategy. Report to Youth Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Calibrate Health Systems Policy & Governance Early Warning System",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Calibrate a population projection modelling suite for health systems policy & governance implementing UN WPP cohort-component methodology.",
+          "cite": "WHO (2023). Global Health Estimates Methodology. WHO; UN Statistics Division (2023). Demographic and Social Statistics. UNSD",
+          "target": "REACTIVE_HEALTH_SYSTEMS_POLICY___GOVERN -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2023,
+              "title": "Global Health Estimates Methodology",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UN Statistics Division",
+              "year": 2023,
+              "title": "Demographic and Social Statistics",
+              "journal": "UNSD",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess CRVS for health systems policy & governance using Global CRVS Scaling Up Investment Plan criteria",
+            "Design digital registration with interoperable systems and unique identity",
+            "Implement community-based registration with mobile reporting",
+            "Deploy data quality monitoring and feedback to health system",
+            "Measure through registration completeness and data utilization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — vital registration coverage using CRVS assessment tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — vital registration coverage measured annually. Target: 90% births registered. PHASE 3 (Months 4-6): Midpoint review — compare against UN Legal Identity Agenda target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — vital registration coverage trending toward 95% registration. Escalate if <75% registration floor. ANNUAL REVIEW: Comprehensive audit using UN CRVS framework. Report to Civil Registration Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Streamline Health Systems Policy & Governance Operational Readiness Check",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Streamline a national population strategy for health systems policy & governance using UN World Population Prospects with demographic dividend analysis.",
+          "cite": "Lee, R. & Mason, A. (2011). Population Aging and the Generational Economy. Edward Elgar; Lesthaeghe, R. (2014). The Second Demographic Transition. PNAS, 111(51), 18112-18115. doi:10.1073/pnas.1420441111",
+          "target": "FRAGMENTED_HEALTH_SYSTEMS_POLICY___GOVERN -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Lee, R. & Mason, A.",
+              "year": 2011,
+              "title": "Population Aging and the Generational Economy",
+              "journal": "Edward Elgar",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lesthaeghe, R.",
+              "year": 2014,
+              "title": "The Second Demographic Transition",
+              "journal": "PNAS",
+              "volume": "111(51)",
+              "pages": "18112-18115",
+              "doi": "10.1073/pnas.1420441111"
+            }
+          ],
+          "steps": [
+            "Assess aging population for health systems policy & governance using WHO Healthy Ageing indicators",
+            "Design age-friendly policy covering health, participation, and security",
+            "Implement with pension reform, long-term care, and community programs",
+            "Deploy age-friendly community certification per WHO framework",
+            "Measure healthy life expectancy and elder well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — life expectancy at birth using vital statistics and GHO data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — life expectancy at birth measured annually. Target: 2-year increase in life expectancy. PHASE 3 (Months 4-6): Midpoint review — compare against WHO GHE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — life expectancy at birth trending toward 3-year increase. Escalate if <1-year increase floor. ANNUAL REVIEW: Comprehensive audit using WHO GHE framework. Report to Health Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CLAUST",
+      "state": "active",
+      "domainLabel": "Health Systems Technology & Innovation",
+      "domainDescription": "Systematic management of health systems technology & innovation across all health systems functions and operations",
+      "group": "development",
+      "phase": "P5",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "evaluator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Monitor Health Systems Technology & Innovation Risk Mitigation Strategy",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Monitor a migration governance framework for health systems technology & innovation using IOM Migration Governance Indicators with integration pathway design.",
+          "cite": "Lutz, W. et al. (2017). How Population Growth Relates to Climate Change. PNAS, 114(46), 12103-12108; UNFPA (2023). State of World Population Report. UNFPA",
+          "target": "UNDERPERFORMING_HEALTH_SYSTEMS_TECHNOLOGY___IN -> SYSTEMATIC_ASSESSMENT -> MEASURABLE_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Lutz, W. et al.",
+              "year": 2017,
+              "title": "How Population Growth Relates to Climate Change",
+              "journal": "PNAS",
+              "volume": "114(46)",
+              "pages": "12103-12108",
+              "doi": null
+            },
+            {
+              "author": "UNFPA",
+              "year": 2023,
+              "title": "State of World Population Report",
+              "journal": "UNFPA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess aging population for health systems technology & innovation using WHO Healthy Ageing indicators",
+            "Design age-friendly policy covering health, participation, and security",
+            "Implement with pension reform, long-term care, and community programs",
+            "Deploy age-friendly community certification per WHO framework",
+            "Measure healthy life expectancy and elder well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — life expectancy at birth using vital statistics and GHO data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — life expectancy at birth measured annually. Target: 2-year increase in life expectancy. PHASE 3 (Months 4-6): Midpoint review — compare against WHO GHE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — life expectancy at birth trending toward 3-year increase. Escalate if <1-year increase floor. ANNUAL REVIEW: Comprehensive audit using WHO GHE framework. Report to Health Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Build Health Systems Technology & Innovation Process Improvement Initiative",
+          "type": "COACHING",
+          "evidence": "C",
+          "description": "Build a community health worker training for health systems technology & innovation following WHO CHW guidelines with community-based service delivery.",
+          "cite": "HelpAge International (2023). Global AgeWatch Insights. HelpAge; Caldwell, J.C. (1982). Theory of Fertility Decline. Academic Press",
+          "target": "REACTIVE_HEALTH_SYSTEMS_TECHNOLOGY___IN -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "HelpAge International",
+              "year": 2023,
+              "title": "Global AgeWatch Insights",
+              "journal": "HelpAge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Caldwell, J.C.",
+              "year": 1982,
+              "title": "Theory of Fertility Decline",
+              "journal": "Academic Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess geriatric care skills for health systems technology & innovation using WHO age-friendly health competencies",
+            "Design training in comprehensive geriatric assessment and care coordination",
+            "Deliver through clinical rotations in geriatric settings with mentorship",
+            "Implement competency assessment with patient outcome tracking",
+            "Measure care quality through elder-specific health outcome indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — geriatric care training rate using training tracking system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — geriatric care training rate measured annually. Target: 70% health workers geriatric-trained. PHASE 3 (Months 4-6): Midpoint review — compare against WHO age-friendly standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — geriatric care training rate trending toward 85% trained. Escalate if <50% trained floor. ANNUAL REVIEW: Comprehensive audit using WHO Healthy Ageing framework. Report to Geriatric Care Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Health Systems Technology & Innovation Resilience Assessment",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Optimize a child survival program for health systems technology & innovation deploying UNICEF IMNCI protocols with community-based management.",
+          "cite": "ILO (2023). Global Employment Trends. ILO; UNDP (2023). Human Development Report. UNDP",
+          "target": "FRAGMENTED_HEALTH_SYSTEMS_TECHNOLOGY___IN -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "ILO",
+              "year": 2023,
+              "title": "Global Employment Trends",
+              "journal": "ILO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UNDP",
+              "year": 2023,
+              "title": "Human Development Report",
+              "journal": "UNDP",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess child health for health systems technology & innovation using IGME methodology and facility surveys",
+            "Design IMNCI implementation with community and facility components",
+            "Deploy immunization, nutrition, and WASH interventions",
+            "Implement community-based management of childhood illness",
+            "Measure through U5MR reduction and child health coverage indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — under-5 mortality rate using vital registration + IGME. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — under-5 mortality rate measured annually. Target: 25% U5MR reduction. PHASE 3 (Months 4-6): Midpoint review — compare against UNICEF/IGME SDG 3.2 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — under-5 mortality rate trending toward 40% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using UN IGME framework. Report to Child Health Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Health Systems Technology & Innovation Risk Mitigation Strategy",
+          "type": "CULTURE",
+          "evidence": "A",
+          "description": "Launch an immigrant integration program for health systems technology & innovation implementing MIPEX best practices with language, employment, and civic pathways.",
+          "cite": "Butler, J. (1990). Gender Trouble. Routledge; De Beauvoir, S. (1949). The Second Sex. Gallimard",
+          "target": "SILOED_HEALTH_SYSTEMS_TECHNOLOGY___IN -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Butler, J.",
+              "year": 1990,
+              "title": "Gender Trouble",
+              "journal": "Routledge",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "De Beauvoir, S.",
+              "year": 1949,
+              "title": "The Second Sex",
+              "journal": "Gallimard",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess youth situation for health systems technology & innovation using youth-specific SDG indicators",
+            "Design empowerment program with education, employment, and civic engagement",
+            "Implement through youth councils, skills programs, and entrepreneurship support",
+            "Deploy mentorship and peer education networks",
+            "Measure through youth NEET rates, civic participation, and well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — youth civic engagement using youth participation survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — youth civic engagement measured biannually. Target: 30% youth civically active. PHASE 3 (Months 4-6): Midpoint review — compare against UN Youth Strategy targets. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — youth civic engagement trending toward 40% active. Escalate if <20% active floor. ANNUAL REVIEW: Comprehensive audit using UN Youth 2030 Strategy. Report to Youth Affairs Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Health Systems Technology & Innovation Process Improvement Initiative",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Develop a census modernization program for health systems technology & innovation implementing UN census principles with digital enumeration and geospatial analysis.",
+          "cite": "UN Statistics Division (2023). Demographic and Social Statistics. UNSD; WHO (2023). Global Health Estimates Methodology. WHO",
+          "target": "OUTDATED_HEALTH_SYSTEMS_TECHNOLOGY___IN -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "UN Statistics Division",
+              "year": 2023,
+              "title": "Demographic and Social Statistics",
+              "journal": "UNSD",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2023,
+              "title": "Global Health Estimates Methodology",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess CRVS for health systems technology & innovation using Global CRVS Scaling Up Investment Plan criteria",
+            "Design digital registration with interoperable systems and unique identity",
+            "Implement community-based registration with mobile reporting",
+            "Deploy data quality monitoring and feedback to health system",
+            "Measure through registration completeness and data utilization"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — vital registration coverage using CRVS assessment tool. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — vital registration coverage measured annually. Target: 90% births registered. PHASE 3 (Months 4-6): Midpoint review — compare against UN Legal Identity Agenda target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — vital registration coverage trending toward 95% registration. Escalate if <75% registration floor. ANNUAL REVIEW: Comprehensive audit using UN CRVS framework. Report to Civil Registration Dir..",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Establish Health Systems Technology & Innovation Resilience Assessment",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Establish a migration governance framework for health systems technology & innovation using IOM Migration Governance Indicators with integration pathway design.",
+          "cite": "Lesthaeghe, R. (2014). The Second Demographic Transition. PNAS, 111(51), 18112-18115. doi:10.1073/pnas.1420441111; Lee, R. & Mason, A. (2011). Population Aging and the Generational Economy. Edward Elgar",
+          "target": "INEFFICIENT_HEALTH_SYSTEMS_TECHNOLOGY___IN -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Lesthaeghe, R.",
+              "year": 2014,
+              "title": "The Second Demographic Transition",
+              "journal": "PNAS",
+              "volume": "111(51)",
+              "pages": "18112-18115",
+              "doi": "10.1073/pnas.1420441111"
+            },
+            {
+              "author": "Lee, R. & Mason, A.",
+              "year": 2011,
+              "title": "Population Aging and the Generational Economy",
+              "journal": "Edward Elgar",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess aging population for health systems technology & innovation using WHO Healthy Ageing indicators",
+            "Design age-friendly policy covering health, participation, and security",
+            "Implement with pension reform, long-term care, and community programs",
+            "Deploy age-friendly community certification per WHO framework",
+            "Measure healthy life expectancy and elder well-being indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — life expectancy at birth using vital statistics and GHO data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — life expectancy at birth measured annually. Target: 2-year increase in life expectancy. PHASE 3 (Months 4-6): Midpoint review — compare against WHO GHE benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — life expectancy at birth trending toward 3-year increase. Escalate if <1-year increase floor. ANNUAL REVIEW: Comprehensive audit using WHO GHE framework. Report to Health Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PCC",
+      "state": "active",
+      "domainLabel": "Health Systems Human Capital & Development",
+      "domainDescription": "Systematic management of health systems human capital & development across all health systems functions and operations",
+      "group": "quality",
+      "phase": "P5",
+      "weight": 0.88,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "regulator",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Assess Health Systems Human Capital & Development Quality Assurance Program",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Assess a sustainable urbanization plan for health systems human capital & development implementing New Urban Agenda with compact city and transit-oriented development.",
+          "cite": "Bloom, D.E. et al. (2003). The Demographic Dividend. RAND Corporation; United Nations (2022). World Population Prospects. UN DESA",
+          "target": "REACTIVE_HEALTH_SYSTEMS_HUMAN_CAPITAL__ -> EVIDENCE_SYNTHESIS -> INFORMED_DECISIONS",
+          "citation": [
+            {
+              "author": "Bloom, D.E. et al.",
+              "year": 2003,
+              "title": "The Demographic Dividend",
+              "journal": "RAND Corporation",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "United Nations",
+              "year": 2022,
+              "title": "World Population Prospects",
+              "journal": "UN DESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess migration patterns for health systems human capital & development using IOM and census migration data",
+            "Design governance framework with legal pathways, protection, and integration",
+            "Implement processing systems with rights safeguards and service access",
+            "Deploy integration programs with language, employment, and civic support",
+            "Evaluate using IOM MGI indicators and integration outcome data"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — net migration rate using migration statistics system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — net migration rate measured annually. Target: managed migration within policy targets. PHASE 3 (Months 4-6): Midpoint review — compare against IOM migration governance benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — net migration rate trending toward targets met with integration. Escalate if <within 20% of targets. ANNUAL REVIEW: Comprehensive audit using IOM MGI framework. Report to Migration Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Create Health Systems Human Capital & Development Integration Architecture",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Create a maternal health worker training for health systems human capital & development implementing WHO midwifery competency standards with supervised practice.",
+          "cite": "IOM (2022). World Migration Report. International Organization for Migration; WHO (2022). WHO Recommendations on Maternal and Newborn Care. WHO",
+          "target": "FRAGMENTED_HEALTH_SYSTEMS_HUMAN_CAPITAL__ -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "IOM",
+              "year": 2022,
+              "title": "World Migration Report",
+              "journal": "International Organization for Migration",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "WHO",
+              "year": 2022,
+              "title": "WHO Recommendations on Maternal and Newborn Care",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess migration counselor needs for health systems human capital & development using caseload and competency analysis",
+            "Design training covering legal frameworks, trauma-informed care, and cultural competency",
+            "Deliver with case simulation, legal updates, and supervised counseling",
+            "Certify through examination and continuing education requirements",
+            "Track client outcomes including legal status, integration, and well-being"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — migration counselor certification using certification tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — migration counselor certification measured annually. Target: 100% counselors certified. PHASE 3 (Months 4-6): Midpoint review — compare against IOM counselor standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — migration counselor certification trending toward 100% with advanced cert. Escalate if <90% minimum. ANNUAL REVIEW: Comprehensive audit using IOM ethical standards. Report to Migration Services Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Evaluate Health Systems Human Capital & Development Capability Maturity Model",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Evaluate an affordable housing program for health systems human capital & development per UN-Habitat guidelines with social housing and rent regulation.",
+          "cite": "OECD (2023). OECD Health Statistics. OECD; World Bank (2023). World Development Indicators. World Bank",
+          "target": "SILOED_HEALTH_SYSTEMS_HUMAN_CAPITAL__ -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "OECD",
+              "year": 2023,
+              "title": "OECD Health Statistics",
+              "journal": "OECD",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "World Bank",
+              "year": 2023,
+              "title": "World Development Indicators",
+              "journal": "World Bank",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess housing for health systems human capital & development using affordability ratio and supply-demand analysis",
+            "Design housing program with social housing, inclusionary zoning, and subsidies",
+            "Implement through public-private partnerships and land use reform",
+            "Deploy housing quality standards with inspection and enforcement",
+            "Measure through affordability ratios, homelessness rates, and housing quality"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — housing affordability ratio using housing cost survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — housing affordability ratio measured annually. Target: housing cost <30% income. PHASE 3 (Months 4-6): Midpoint review — compare against UN-Habitat housing indicator. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — housing affordability ratio trending toward cost <25%. Escalate if <cost <40% ceiling. ANNUAL REVIEW: Comprehensive audit using UN-Habitat housing framework. Report to Housing Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Health Systems Human Capital & Development Quality Assurance Program",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Integrate a reproductive health rights program for health systems human capital & development implementing UNFPA family planning framework with rights-based approach.",
+          "cite": "Sen, A. (2001). Many Faces of Gender Inequality. Frontline, 18(22); Nussbaum, M.C. (2000). Women and Human Development. Cambridge University Press",
+          "target": "OUTDATED_HEALTH_SYSTEMS_HUMAN_CAPITAL__ -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "Sen, A.",
+              "year": 2001,
+              "title": "Many Faces of Gender Inequality",
+              "journal": "Frontline",
+              "volume": "18(22)",
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Nussbaum, M.C.",
+              "year": 2000,
+              "title": "Women and Human Development",
+              "journal": "Cambridge University Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess elder inclusion for health systems human capital & development using WHO social isolation indicators",
+            "Design inclusion program with community centers, transport, and social activities",
+            "Implement through volunteer visiting programs and intergenerational activities",
+            "Deploy digital inclusion with technology training and simplified interfaces",
+            "Measure through social connection indicators and elder satisfaction surveys"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — elder social inclusion using social isolation survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — elder social inclusion measured annually. Target: social isolation below 15%. PHASE 3 (Months 4-6): Midpoint review — compare against WHO healthy ageing indicators. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — elder social inclusion trending toward below 10%. Escalate if <below 25% ceiling. ANNUAL REVIEW: Comprehensive audit using WHO Healthy Ageing framework. Report to Elder Services Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Conduct Health Systems Human Capital & Development Integration Architecture",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Conduct a vital registration digitization for health systems human capital & development per UN CRVS framework with interoperable identity systems.",
+          "cite": "DHS Program (2023). Demographic and Health Surveys. ICF International; World Bank (2023). Living Standards Measurement Study. World Bank",
+          "target": "INEFFICIENT_HEALTH_SYSTEMS_HUMAN_CAPITAL__ -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "DHS Program",
+              "year": 2023,
+              "title": "Demographic and Health Surveys",
+              "journal": "ICF International",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "World Bank",
+              "year": 2023,
+              "title": "Living Standards Measurement Study",
+              "journal": "World Bank",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess survey infrastructure for health systems human capital & development using DHS methodology requirements",
+            "Design nationally representative survey with validated instruments",
+            "Implement with interviewer training, field supervision, and data management",
+            "Process and analyze with DHS STATcompiler-compatible outputs",
+            "Disseminate through report, microdata archive, and policy briefs"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — DHS survey timeliness using survey management system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — DHS survey timeliness measured per survey cycle. Target: data available within 12 months. PHASE 3 (Months 4-6): Midpoint review — compare against DHS Program standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — DHS survey timeliness trending toward within 9 months. Escalate if <within 18 months ceiling. ANNUAL REVIEW: Comprehensive audit using DHS methodology. Report to Survey Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Design Health Systems Human Capital & Development Capability Maturity Model",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Design a sustainable urbanization plan for health systems human capital & development implementing New Urban Agenda with compact city and transit-oriented development.",
+          "cite": "Lutz, W. et al. (2017). How Population Growth Relates to Climate Change. PNAS, 114(46), 12103-12108; UNFPA (2023). State of World Population Report. UNFPA",
+          "target": "INCONSISTENT_HEALTH_SYSTEMS_HUMAN_CAPITAL__ -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "Lutz, W. et al.",
+              "year": 2017,
+              "title": "How Population Growth Relates to Climate Change",
+              "journal": "PNAS",
+              "volume": "114(46)",
+              "pages": "12103-12108",
+              "doi": null
+            },
+            {
+              "author": "UNFPA",
+              "year": 2023,
+              "title": "State of World Population Report",
+              "journal": "UNFPA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess migration patterns for health systems human capital & development using IOM and census migration data",
+            "Design governance framework with legal pathways, protection, and integration",
+            "Implement processing systems with rights safeguards and service access",
+            "Deploy integration programs with language, employment, and civic support",
+            "Evaluate using IOM MGI indicators and integration outcome data"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — net migration rate using migration statistics system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — net migration rate measured annually. Target: managed migration within policy targets. PHASE 3 (Months 4-6): Midpoint review — compare against IOM migration governance benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — net migration rate trending toward targets met with integration. Escalate if <within 20% of targets. ANNUAL REVIEW: Comprehensive audit using IOM MGI framework. Report to Migration Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Health Systems Quality & Performance",
+      "domainDescription": "Systematic management of health systems quality & performance across all health systems functions and operations",
+      "group": "performance",
+      "phase": "P5",
+      "weight": 0.86,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P5",
+      "functional_role": "optimizer",
+      "companies": [],
+      "treatments": [
+        {
+          "label": "Strengthen Health Systems Quality & Performance Stakeholder Engagement Plan",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Strengthen a demographic transition support strategy for health systems quality & performance addressing fertility, mortality, and migration with social investment policy.",
+          "cite": "Lee, R. & Mason, A. (2011). Population Aging and the Generational Economy. Edward Elgar; Lesthaeghe, R. (2014). The Second Demographic Transition. PNAS, 111(51), 18112-18115. doi:10.1073/pnas.1420441111",
+          "target": "FRAGMENTED_HEALTH_SYSTEMS_QUALITY___PERFO -> CAPACITY_BUILDING -> OPERATIONAL_RESILIENCE",
+          "citation": [
+            {
+              "author": "Lee, R. & Mason, A.",
+              "year": 2011,
+              "title": "Population Aging and the Generational Economy",
+              "journal": "Edward Elgar",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Lesthaeghe, R.",
+              "year": 2014,
+              "title": "The Second Demographic Transition",
+              "journal": "PNAS",
+              "volume": "111(51)",
+              "pages": "18112-18115",
+              "doi": "10.1073/pnas.1420441111"
+            }
+          ],
+          "steps": [
+            "Analyze demographic trends for health systems quality & performance using UN WPP and national census data",
+            "Assess demographic dividend potential using NTA methodology",
+            "Design population policy addressing fertility, mortality, and migration",
+            "Implement with social programs, health investment, and education expansion",
+            "Monitor using demographic indicators with annual population estimates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — total fertility rate using vital registration and DHS data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — total fertility rate measured annually. Target: TFR trending toward replacement. PHASE 3 (Months 4-6): Midpoint review — compare against UN WPP projections. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — total fertility rate trending toward TFR stabilization. Escalate if <TFR within 20% of target. ANNUAL REVIEW: Comprehensive audit using UN WPP framework. Report to Population Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Monitor Health Systems Quality & Performance Training Curriculum",
+          "type": "COACHING",
+          "evidence": "A",
+          "description": "Monitor a geriatric care workforce program for health systems quality & performance training health workers in WHO Healthy Ageing framework principles.",
+          "cite": "Bongaarts, J. (2009). Human Population Growth and the Demographic Transition. Philosophical Transactions B, 364(1532), 2985-2990. doi:10.1098/rstb.2009.0137; UNICEF (2023). State of the Worlds Children. UNICEF",
+          "target": "SILOED_HEALTH_SYSTEMS_QUALITY___PERFO -> TECHNOLOGY_DEPLOYMENT -> RISK_MITIGATION",
+          "citation": [
+            {
+              "author": "Bongaarts, J.",
+              "year": 2009,
+              "title": "Human Population Growth and the Demographic Transition",
+              "journal": "Philosophical Transactions B",
+              "volume": "364(1532)",
+              "pages": "2985-2990",
+              "doi": "10.1098/rstb.2009.0137"
+            },
+            {
+              "author": "UNICEF",
+              "year": 2023,
+              "title": "State of the Worlds Children",
+              "journal": "UNICEF",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess midwifery workforce for health systems quality & performance using WHO competency standards",
+            "Design training with clinical skills, emergency management, and respectful care",
+            "Deliver through clinical placements with supervised deliveries and simulations",
+            "Certify through competency examination and licensing",
+            "Track maternal outcomes for graduates and maintain competency through CPD"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — maternal health worker competency using competency assessment system. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — maternal health worker competency measured biannually. Target: 90% midwives meeting WHO competencies. PHASE 3 (Months 4-6): Midpoint review — compare against WHO midwifery competency standards. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — maternal health worker competency trending toward 95% competent. Escalate if <80% competent floor. ANNUAL REVIEW: Comprehensive audit using WHO midwifery framework. Report to Maternal Health Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Build Health Systems Quality & Performance Strategic Alignment Review",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Build a universal health coverage expansion for health systems quality & performance implementing WHO UHC framework with primary health care strengthening.",
+          "cite": "WHO (2023). Global Health Observatory Data Repository. WHO; UN-Habitat (2022). World Cities Report. UN-Habitat",
+          "target": "OUTDATED_HEALTH_SYSTEMS_QUALITY___PERFO -> STAKEHOLDER_ALIGNMENT -> STRATEGIC_ALIGNMENT",
+          "citation": [
+            {
+              "author": "WHO",
+              "year": 2023,
+              "title": "Global Health Observatory Data Repository",
+              "journal": "WHO",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UN-Habitat",
+              "year": 2022,
+              "title": "World Cities Report",
+              "journal": "UN-Habitat",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess maternal health for health systems quality & performance using WHO MMEIG methodology and facility data",
+            "Design EmONC strengthening program per WHO signal functions standards",
+            "Implement facility upgrades, staffing, and referral network improvements",
+            "Deploy maternal death surveillance and response system",
+            "Measure through MMR reduction and institutional delivery rates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — maternal mortality ratio using MMEIG estimation methodology. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — maternal mortality ratio measured annually. Target: 30% MMR reduction. PHASE 3 (Months 4-6): Midpoint review — compare against WHO SDG 3.1 target. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — maternal mortality ratio trending toward 50% reduction. Escalate if <15% reduction floor. ANNUAL REVIEW: Comprehensive audit using WHO MMEIG framework. Report to Maternal Health Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Optimize Health Systems Quality & Performance Stakeholder Engagement Plan",
+          "type": "CULTURE",
+          "evidence": "B",
+          "description": "Optimize a gender equality program for health systems quality & performance implementing UNDP Gender Inequality Index reduction strategies.",
+          "cite": "Boserup, E. (1970). Womans Role in Economic Development. Earthscan; Connell, R.W. (2005). Masculinities 2e. University of California Press",
+          "target": "INEFFICIENT_HEALTH_SYSTEMS_QUALITY___PERFO -> PROCESS_STANDARDIZATION -> SUSTAINABLE_PERFORMANCE",
+          "citation": [
+            {
+              "author": "Boserup, E.",
+              "year": 1970,
+              "title": "Womans Role in Economic Development",
+              "journal": "Earthscan",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Connell, R.W.",
+              "year": 2005,
+              "title": "Masculinities 2e",
+              "journal": "University of California Press",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess gender equality for health systems quality & performance using UNDP GII and GDI indicators",
+            "Design gender mainstreaming program across policy sectors",
+            "Implement with legislation, institutional mechanisms, and behavior change",
+            "Deploy gender-responsive budgeting and gender statistics",
+            "Measure through GII improvement and disaggregated outcome indicators"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — gender equality index using GII and GDI indicators. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — gender equality index measured annually. Target: 5% GII improvement. PHASE 3 (Months 4-6): Midpoint review — compare against UNDP GII benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — gender equality index trending toward 10% improvement. Escalate if <2% improvement floor. ANNUAL REVIEW: Comprehensive audit using UNDP HDI framework. Report to Gender Equality Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Launch Health Systems Quality & Performance Training Curriculum",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Launch a demographic survey program for health systems quality & performance using DHS methodology with nationally representative sampling.",
+          "cite": "IPUMS (2023). Integrated Public Use Microdata Series. University of Minnesota; UN-Habitat (2023). Urban Indicators Programme. UN-Habitat",
+          "target": "INCONSISTENT_HEALTH_SYSTEMS_QUALITY___PERFO -> RESOURCE_OPTIMIZATION -> CONTINUOUS_IMPROVEMENT",
+          "citation": [
+            {
+              "author": "IPUMS",
+              "year": 2023,
+              "title": "Integrated Public Use Microdata Series",
+              "journal": "University of Minnesota",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "UN-Habitat",
+              "year": 2023,
+              "title": "Urban Indicators Programme",
+              "journal": "UN-Habitat",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess census methodology for health systems quality & performance using UN Principles and Recommendations",
+            "Design digital enumeration with CAPI, geospatial tools, and data quality checks",
+            "Implement field operations with training, supervision, and quality control",
+            "Process data with editing, imputation, and tabulation per UN standards",
+            "Disseminate through statistical publications and microdata access"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — census data completeness using census quality assessment. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — census data completeness measured decennially. Target: 95% enumeration coverage. PHASE 3 (Months 4-6): Midpoint review — compare against UN census methodology benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — census data completeness trending toward 98% coverage. Escalate if <90% coverage floor. ANNUAL REVIEW: Comprehensive audit using UN Principles for Census. Report to Chief Statistician.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Develop Health Systems Quality & Performance Strategic Alignment Review",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Develop a demographic transition support strategy for health systems quality & performance addressing fertility, mortality, and migration with social investment policy.",
+          "cite": "Bloom, D.E. et al. (2003). The Demographic Dividend. RAND Corporation; United Nations (2022). World Population Prospects. UN DESA",
+          "target": "UNMONITORED_HEALTH_SYSTEMS_QUALITY___PERFO -> DATA_INTEGRATION -> QUALITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "Bloom, D.E. et al.",
+              "year": 2003,
+              "title": "The Demographic Dividend",
+              "journal": "RAND Corporation",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "United Nations",
+              "year": 2022,
+              "title": "World Population Prospects",
+              "journal": "UN DESA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Analyze demographic trends for health systems quality & performance using UN WPP and national census data",
+            "Assess demographic dividend potential using NTA methodology",
+            "Design population policy addressing fertility, mortality, and migration",
+            "Implement with social programs, health investment, and education expansion",
+            "Monitor using demographic indicators with annual population estimates"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — total fertility rate using vital registration and DHS data. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — total fertility rate measured annually. Target: TFR trending toward replacement. PHASE 3 (Months 4-6): Midpoint review — compare against UN WPP projections. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation — total fertility rate trending toward TFR stabilization. Escalate if <TFR within 20% of target. ANNUAL REVIEW: Comprehensive audit using UN WPP framework. Report to Population Minister.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a gerontology and aging services specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "DV",
+      "target": "PUT",
+      "type": "SUPPLIES",
+      "weight": 0.5
+    },
+    {
+      "source": "PUT",
+      "target": "ENDO",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "ENDO",
+      "target": "WERN",
+      "type": "TRANSFORMS",
+      "weight": 0.7
+    },
+    {
+      "source": "WERN",
+      "target": "MICRO",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "MICRO",
+      "target": "CLAUST",
+      "type": "SUPPLIES",
+      "weight": 0.9
+    },
+    {
+      "source": "CLAUST",
+      "target": "PCC",
+      "type": "DEPENDS_ON",
+      "weight": 0.5
+    },
+    {
+      "source": "PCC",
+      "target": "dlPFC",
+      "type": "TRANSFORMS",
+      "weight": 0.6
+    },
+    {
+      "source": "DV",
+      "target": "dlPFC",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "ENDO",
+      "target": "DV",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "POPULATION_POPHEALTH_HEALTHSYS_SYSTEM_FAILURE",
+      "label": "Population Pophealth Healthsys System Failure",
+      "summary": "Critical breakdown in Population Pophealth Healthsys systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "DV",
+          "dir": "Hyper-active",
+          "detail": "Health Systems Assessment & Diagnostics function overloaded",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PUT",
+          "dir": "Hypo-active",
+          "detail": "Health Systems Core Operations function underperforming",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ENDO",
+          "dir": "Altered",
+          "detail": "Health Systems Infrastructure & Capacity function deviating from norms",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper-active",
+          "detail": "Health Systems Risk & Resilience function overloaded",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "MICRO",
+          "dir": "Hypo-active",
+          "detail": "Health Systems Policy & Governance function underperforming",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "POPULATION_POPHEALTH_HEALTHSYS_CAPACITY_OVERLOAD",
+      "label": "Population Pophealth Healthsys Capacity Overload",
+      "summary": "Demand exceeding available Population Pophealth Healthsys capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
+      "circuits": [
+        {
+          "nodeId": "DV",
+          "dir": "Hyper-active",
+          "detail": "Health Systems Assessment & Diagnostics systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PUT",
+          "dir": "Hyper-active",
+          "detail": "Health Systems Core Operations systems overwhelmed by demand surge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ENDO",
+          "dir": "Hyper-active",
+          "detail": "Health Systems Infrastructure & Capacity systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper-active",
+          "detail": "Health Systems Risk & Resilience systems overwhelmed by demand surge",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "POPULATION_POPHEALTH_HEALTHSYS_QUALITY_DEGRADATION",
+      "label": "Population Pophealth Healthsys Quality Degradation",
+      "summary": "Progressive decline in Population Pophealth Healthsys quality standards, threatening stakeholder trust and operational effectiveness",
+      "circuits": [
+        {
+          "nodeId": "DV",
+          "dir": "Hypo-active",
+          "detail": "Health Systems Assessment & Diagnostics quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "PUT",
+          "dir": "Altered",
+          "detail": "Health Systems Core Operations quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ENDO",
+          "dir": "Hyper-active",
+          "detail": "Health Systems Infrastructure & Capacity quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo-active",
+          "detail": "Health Systems Risk & Resilience quality metrics declining below acceptable thresholds",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

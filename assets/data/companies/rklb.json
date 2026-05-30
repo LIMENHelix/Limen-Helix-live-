@@ -1,0 +1,1099 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "rklb",
+  "slug": "rklb",
+  "name": "Rocket Lab USA Inc.",
+  "ticker": "RKLB",
+  "cik": "0001819994",
+  "sic": "3721",
+  "industry": "Aircraft, Guided Missiles, and Spacecraft Manufacturing",
+  "domainId": "defense",
+  "portalAttachment": "defense-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "NEWORDER",
+    "PERMIT",
+    "HOUST",
+    "UNRATE"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "RKLB"
+  ],
+  "commodityExposure": [
+    "aluminum",
+    "titanium",
+    "composite materials",
+    "rare-earth elements",
+    "electronics components",
+    "propellant (RP-1, LOX)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001819994",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.62,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p7",
+    "financialState": {
+      "cashLatest": 1847000000,
+      "debtLatest": 0,
+      "cashRunwayQ": 18
+    }
+  },
+  "warningSignals": [
+    "Sustained negative free cash flow; Q3 2024 operating cash burn ~$120M annualized",
+    "Revenue concentration: 85% from U.S. government contracts (DoD, Space Force, NRO); customer concentration risk",
+    "Launch cadence volatility: Electron vehicle production constrained by supply-chain bottlenecks in composite materials and avionics",
+    "Neutron development capex ($300M+ cumulative through 2024) ahead of revenue inflection; path to profitability dependent on Neutron commercialization post-2025"
+  ],
+  "opportunitySignals": [
+    "Neutron heavy-lift vehicle targeting $1B+ TAM in national-security space launch; first orbital flight expected 2025",
+    "Space Force National Security Launch Agreement (NSLA) contract provides multi-year revenue floor; 2024 amendments increased manifest to 9+ missions through 2026",
+    "Acquisition of SolSpace (2023) and Sinclair Interplanetary (2024) expand in-space servicing and satellite-bus capabilities; adjacent $50B+ on-orbit economy",
+    "Vertical integration of avionics and propulsion reduces supply-chain risk and improves margin profile vs. pure-launch competitors"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Electron launch vehicle: 40+ successful orbital missions (as of Q3 2024); production rate 1–2 launches/month",
+      "Neutron development: critical design review (CDR) completed 2024; first-stage engine (Archimedes) static-fire testing underway",
+      "Space Systems segment: SolSpace orbital-transfer vehicle, Sinclair satellite buses, and in-space servicing payloads in early commercialization phase"
+    ],
+    "engineOutputs": [
+      "Electron revenue: ~$180M annualized run-rate (Q3 2024); gross margin improving toward 60% target",
+      "Neutron capex: $300M+ cumulative; expected to reach cash-flow breakeven by 2027–2028 post-launch ramp",
+      "Space Systems revenue: <$10M in 2024; path to $100M+ by 2027 contingent on SolSpace and Sinclair adoption"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Rocket Lab is the second-largest dedicated small-lift launch provider globally, with 40+ successful Electron missions serving national-security, commercial, and civil-space customers. The company is developing Neutron, a medium-lift vehicle targeting the $1B+ national-security space-launch market, while expanding into in-space servicing and satellite manufacturing through recent acquisitions. Rocket Lab's vertical integration of avionics, propulsion, and launch infrastructure positions it as a critical node in the U.S. defense-space industrial base, with 85% revenue from DoD/Space Force contracts.",
+  "portalRelevance": "Rocket Lab is a tier-1 anchor in the emerging commercial space-launch ecosystem and a strategic supplier to the U.S. Space Force and National Reconnaissance Office. The company's financial trajectory (p7 phase: growth-stage with elevated capex and negative FCF) and customer concentration (85% government) make it a high-signal entity for defense-industrial policy, national-security space-launch capacity, and venture-backed aerospace commercialization. Its Neutron program and in-space-servicing acquisitions represent a structural shift in how the U.S. military accesses space, making Rocket Lab a leading indicator of defense-space budget allocation and industrial-base resilience.",
+  "notes": {
+    "cohortStatus": "anchor_defense_space_launch",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly Electron launch cadence and mission success rate (disclosed via press releases and Space Force manifest updates)",
+        "Quarterly revenue mix: government vs. commercial; gross margin progression on Electron (10-K Item 8 financial statements)",
+        "8-K filings for contract awards, customer amendments, and acquisition closings (SolSpace 2023, Sinclair 2024)",
+        "Supply-chain constraint signals: composite-material lead times, avionics availability, propellant production capacity (inferred from earnings calls and industry reports)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: p7 (growth-stage capex-intensive); trajectory STABLE contingent on Neutron CDR completion and NSLA manifest execution",
+        "Cash runway: 18 quarters at current burn rate; sufficient to reach Neutron first flight (2025) and early revenue inflection (2026–2027)",
+        "Customer concentration: 85% DoD/Space Force; 10% commercial; 5% civil/international (estimated from 10-K Item 1A risk factors)",
+        "Competitive position: #2 dedicated small-lift provider (behind Axiom Space in revenue, ahead of Virgin Orbit post-bankruptcy); Neutron positions Rocket Lab in medium-lift tier by 2026"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: Rocket Lab exhibits classic venture-backed aerospace inflection curve (SpaceX 2008–2012 analog); sustained negative FCF offset by government contract backlog and equity capital",
+        "Distress signature absent: no covenant violations, no debt maturity wall, no customer concentration cliff (NSLA provides multi-year floor); yellow band reflects capex intensity, not solvency risk",
+        "Growth inflection trigger: Neutron first orbital flight (2025) and subsequent manifest ramp (target 12+ launches/year by 2027) will drive gross-margin expansion and FCF inflection",
+        "Supply-chain vulnerability: composite-material and avionics bottlenecks could delay Neutron ramp; vertical integration of Archimedes engine and in-house avionics mitigates risk vs. pure-launch competitors"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: Rocket Lab is a critical node in U.S. national-security space-launch capacity; NSLA contract and Space Force manifest provide regulatory floor and policy tailwind",
+        "Risk management: monitor ITAR compliance (rocket export controls), FAA launch licensing (Electron and Neutron), and DoD industrial-base consolidation (potential M&A pressure or partnership mandates)",
+        "Hedge positioning: long Rocket Lab equity on Neutron inflection; short duration on capex-intensity risk; monitor Space Force budget cycles (annual NDAA and appropriations) for demand signals",
+        "Regulatory watch: FTC antitrust scrutiny on space-launch consolidation (low probability given fragmented market); CFIUS review if foreign capital participation increases"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: accumulate on Neutron CDR completion and first-flight readiness (2025 H1); target entry on 15–20% drawdown from peak (risk/reward favorable at $8–10/share)",
+        "Engagement strategy: quarterly earnings-call monitoring for launch cadence, gross-margin progression, and Neutron development milestones; 8-K tracking for contract awards and customer amendments",
+        "Hedging: consider long call spreads on Neutron first-flight announcement; short duration on capex-intensity risk via tactical profit-taking on 20%+ rallies",
+        "Scenario planning: bull case (Neutron ramp + in-space-servicing adoption) targets $15–20/share by 2027; bear case (Neutron delay + commercial-market slowdown) targets $5–7/share"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: compare guidance vs. actuals on Electron launch cadence, revenue mix, and gross-margin progression; track Neutron development milestones vs. disclosed timeline",
+        "Price action monitoring: correlate share-price moves with Space Force manifest updates, contract awards, and competitive announcements (e.g., Axiom Space funding, Virgin Orbit bankruptcy resolution)",
+        "Filing analysis: 10-K Item 1A risk-factor updates, MD&A commentary on supply-chain constraints, and footnote disclosures on customer concentration and contract backlog",
+        "Peer benchmarking: compare Rocket Lab's capex intensity, cash-burn rate, and customer concentration vs. Axiom Space (private), Relativity Space (private), and legacy primes (Lockheed Martin, Northrop Grumman)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model recalibration: update Neutron revenue ramp assumptions based on first-flight success and early customer adoption; adjust gross-margin targets based on production-rate scaling",
+        "Supply-chain sensitivity: reweight composite-material and avionics availability as key risk drivers; monitor vertical-integration progress (Archimedes engine, in-house avionics) for margin-expansion potential",
+        "Customer-concentration dynamics: track NSLA manifest evolution and commercial-customer pipeline (e.g., Axiom Space, Relativity Space, Axiom Space partnerships) for diversification progress",
+        "Competitive-landscape updates: monitor Axiom Space funding rounds, Relativity Space 3D-printing adoption, and legacy-prime small-lift initiatives (e.g., ULA Vulcan Centaur) for market-share implications"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Rocket Lab operates as a specialized node in the U.S. defense-space industrial base, functioning as a dedicated launch provider and emerging in-space-servicing platform. The company's core competency is rapid, reliable small-lift launch (Electron) with vertical integration of avionics, propulsion, and ground infrastructure. Neutron development and acquisitions of SolSpace and Sinclair Interplanetary expand Rocket Lab's functional scope into medium-lift launch and on-orbit servicing, positioning the company as a multi-modal space-access provider. Financial and operational constraints (negative FCF, supply-chain bottlenecks, customer concentration) are offset by government contract backlog, equity capital, and strategic importance to national-security space-launch capacity.",
+    "suppliers": [
+      {
+        "name": "Aerojet Rocketdyne Holdings Inc.",
+        "ticker": "AJRD",
+        "cik": "0001722388",
+        "slug": "aerojet_rocketdyne",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Propulsion & Propellant Supply",
+        "relationshipNote": "Aerojet Rocketdyne supplies RL-10 upper-stage engines and propellant (RP-1, LOX) for Electron and Neutron vehicles. Rocket Lab is developing in-house Archimedes engine for Neutron to reduce propulsion dependency; transition expected 2025–2026. Aerojet remains critical for Electron production and near-term Neutron ramp. Relationship disclosed in 10-K Item 1A supplier concentration risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hexcel Corporation",
+        "ticker": "HXL",
+        "cik": "0000354266",
+        "slug": "hexcel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Composite Materials & Structures",
+        "relationshipNote": "Hexcel supplies carbon-fiber and composite materials for Electron and Neutron airframes. Rocket Lab cited composite-material lead times as a constraint on Electron production cadence in Q2–Q3 2024 earnings calls. Hexcel's capacity expansion (announced 2024) targets aerospace demand; Rocket Lab is a key customer. Relationship inferred from aerospace supply-chain analysis and earnings commentary.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Moog Inc.",
+        "ticker": "MOG.A",
+        "cik": "0000062996",
+        "slug": "moog",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Flight Control & Avionics Systems",
+        "relationshipNote": "Moog supplies flight-control actuators and avionics components for Electron and Neutron. Rocket Lab is vertically integrating avionics (in-house development underway) to reduce supply-chain dependency and improve margin. Moog remains a critical supplier for near-term Electron production. Relationship inferred from aerospace supply-chain standards and Rocket Lab's vertical-integration strategy disclosed in earnings calls.",
+        "confidence": "medium",
+        "sourceType": [
+          "earnings-call",
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Orbital ATK (L3Harris Technologies Inc.)",
+        "ticker": "LHX",
+        "cik": "0001025476",
+        "slug": "l3harris",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Payload Integration & Avionics",
+        "relationshipNote": "L3Harris (via Orbital ATK division) supplies payload-adapter systems and avionics integration services for Electron missions. Rocket Lab's Space Systems segment (SolSpace, Sinclair) relies on L3Harris for satellite-bus integration and ground-station support. Relationship inferred from aerospace supply-chain standards and Rocket Lab's acquisition strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eaton Corporation (Aerospace Division)",
+        "ticker": "ETN",
+        "cik": "0000010168",
+        "slug": "eaton",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Hydraulics, Electrical Systems & Power Distribution",
+        "relationshipNote": "Eaton supplies hydraulic systems, electrical distribution, and power-management components for Electron and Neutron. Rocket Lab cited electronics-component lead times as a production constraint in Q3 2024. Eaton's aerospace division is a standard supplier for launch-vehicle systems. Relationship inferred from aerospace supply-chain standards.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Precision Castparts Corp. (Berkshire Hathaway subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "precision_castparts",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Titanium & Specialty Castings",
+        "relationshipNote": "Precision Castparts supplies titanium castings and specialty forgings for Electron and Neutron engine components and airframe structures. Rocket Lab's vertical integration of Archimedes engine (2024–2025) increases titanium demand. Relationship inferred from aerospace supply-chain standards and Rocket Lab's engine-development strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Orbital Logistics & Tracking Inc. (OrbComm subsidiary)",
+        "ticker": "ORBC",
+        "cik": "0001031725",
+        "slug": "orbcomm",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Telemetry & Ground-Station Support",
+        "relationshipNote": "OrbComm provides satellite-based telemetry and ground-station support for Electron launch operations and in-flight tracking. Rocket Lab's Space Systems segment (SolSpace orbital-transfer vehicle) relies on OrbComm for mission-critical communications. Relationship inferred from aerospace supply-chain standards and Rocket Lab's operational requirements.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Anixter International (Tech Data subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "anixter",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Electronics & Components Distribution",
+        "relationshipNote": "Anixter (Tech Data) is a distributor of electronics components and avionics systems used in Electron and Neutron production. Rocket Lab cited electronics-component availability as a production constraint in Q3 2024 earnings calls. Relationship inferred from aerospace supply-chain standards and Rocket Lab's production-constraint commentary.",
+        "confidence": "low",
+        "sourceType": [
+          "earnings-call",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Materion Corporation",
+        "ticker": "MTRN",
+        "cik": "0000064931",
+        "slug": "materion",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Metals & Alloys",
+        "relationshipNote": "Materion supplies beryllium, aluminum, and specialty-alloy materials for Electron and Neutron structures and engine components. Rocket Lab's vertical integration of Archimedes engine (2024–2025) increases specialty-metal demand. Relationship inferred from aerospace supply-chain standards and Rocket Lab's engine-development strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sensormatic Electronics Corporation (Tyco International subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sensormatic",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Sensors & Instrumentation",
+        "relationshipNote": "Sensormatic (via Tyco) supplies pressure, temperature, and acceleration sensors for Electron and Neutron flight-test and operational instrumentation. Rocket Lab's Neutron development (CDR completed 2024) requires extensive sensor integration. Relationship inferred from aerospace supply-chain standards.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "United States Space Force (Space Systems Command)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ussf_ssc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Launch Operations & Mission Control",
+        "relationshipNote": "Space Force Space Systems Command (SSC) operates Rocket Lab's Electron launch operations from Wallops Flight Facility (Virginia) and provides mission-control support for national-security payloads. NSLA contract (2022–2026, amended 2024) guarantees 9+ Electron missions through 2026. SSC is Rocket Lab's largest customer (60%+ of revenue) and primary logistics partner. Relationship disclosed in 10-K Item 1 and 8-K contract amendments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "National Reconnaissance Office (NRO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nro",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Payload Integration & Launch Manifest",
+        "relationshipNote": "NRO contracts Rocket Lab for dedicated Electron missions to deploy classified reconnaissance payloads. NRO represents 15–20% of Rocket Lab's government revenue (estimated from 10-K Item 1A customer concentration disclosures). NRO missions drive Rocket Lab's launch cadence and provide strategic importance to U.S. intelligence-community space-access capacity. Relationship inferred from defense-space industry analysis and Rocket Lab's customer-concentration risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Axiom Space Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "axiom_space",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Commercial Launch Services & Payload Delivery",
+        "relationshipNote": "Axiom Space contracts Rocket Lab for Electron missions to deploy commercial satellite constellations and space-station modules. Axiom is Rocket Lab's largest commercial customer (estimated 5–10% of revenue). Relationship disclosed in Rocket Lab earnings calls and Axiom press releases. Axiom's funding rounds (2023–2024) signal sustained demand for Rocket Lab's launch services.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Relativity Space Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "relativity_space",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Commercial Launch Services & 3D-Printed Rockets",
+        "relationshipNote": "Relativity Space (3D-printed rocket manufacturer) is a potential future customer for Rocket Lab's Neutron vehicle and in-space-servicing capabilities. Relativity's Series D funding (2024) targets medium-lift launch market. Relationship inferred from commercial-space industry analysis and Rocket Lab's Neutron target-market positioning.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Virgin Orbit Holdings Inc. (post-bankruptcy)",
+        "ticker": null,
+        "cik": null,
+        "slug": "virgin_orbit",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Launch Provider (Air-Launch)",
+        "relationshipNote": "Virgin Orbit filed for bankruptcy in 2023 after failing to achieve sustainable launch cadence. Rocket Lab acquired Virgin Orbit's assets (2024) to expand air-launch capabilities and consolidate small-lift market position. Acquisition valued at ~$40M; closed Q2 2024. Relationship disclosed in 8-K filings and Rocket Lab earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "earnings-call",
+          "news"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "United States Space Force (Space Systems Command)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ussf_ssc",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Primary Government Customer & Revenue Anchor",
+        "relationshipNote": "Space Force is Rocket Lab's largest customer, representing 60%+ of revenue via NSLA contract (2022–2026, amended 2024 to include 9+ Electron missions through 2026). NSLA provides multi-year revenue floor and strategic importance to U.S. national-security space-launch capacity. Relationship disclosed in 10-K Item 1 and 8-K contract amendments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "National Reconnaissance Office (NRO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "nro",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Government Customer & Intelligence-Community Anchor",
+        "relationshipNote": "NRO contracts Rocket Lab for dedicated Electron missions to deploy classified reconnaissance payloads. NRO represents 15–20% of Rocket Lab's government revenue (estimated from 10-K Item 1A customer concentration disclosures). NRO missions provide strategic importance to U.S. intelligence-community space-access capacity and drive Rocket Lab's launch cadence.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Axiom Space Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "axiom_space",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Commercial Customer & Satellite-Constellation Anchor",
+        "relationshipNote": "Axiom Space is Rocket Lab's largest commercial customer, contracting for Electron missions to deploy commercial satellite constellations and space-station modules. Axiom represents 5–10% of Rocket Lab's revenue (estimated). Axiom's Series C funding (2023, $500M) and Series D (2024) signal sustained demand for Rocket Lab's launch services. Relationship disclosed in earnings calls and Axiom press releases.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Relativity Space Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "relativity_space",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Potential Commercial Customer & 3D-Printing Innovator",
+        "relationshipNote": "Relativity Space (3D-printed rocket manufacturer) is a potential future customer for Rocket Lab's Neutron vehicle and in-space-servicing capabilities. Relativity's Series D funding (2024) targets medium-lift launch market. Relationship inferred from commercial-space industry analysis and Rocket Lab's Neutron target-market positioning.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "SpaceX (Space Exploration Technologies Corp.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "spacex",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Dominant Competitor & Market Leader",
+        "relationshipNote": "SpaceX dominates small-lift and medium-lift launch markets via Falcon 9 and Falcon Heavy, with 60%+ market share. Rocket Lab competes in dedicated small-lift niche (Electron) and emerging medium-lift segment (Neutron). SpaceX's Starship development (2025+) poses long-term competitive threat to Neutron. Rocket Lab's differentiation: rapid launch cadence, dedicated missions, vertical integration. Relationship inferred from aerospace industry analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "United Launch Alliance (ULA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ula",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Legacy Prime & Medium-Lift Competitor",
+        "relationshipNote": "ULA (Lockheed Martin / Boeing JV) operates Atlas V and Vulcan Centaur vehicles, competing with Rocket Lab in national-security space-launch market. ULA's Vulcan Centaur (operational 2024+) targets medium-lift segment where Rocket Lab's Neutron will compete. ULA holds 30%+ of DoD launch manifest. Rocket Lab's differentiation: lower cost, faster cadence, dedicated missions. Relationship inferred from aerospace industry analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Relativity Space Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "relativity_space",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Emerging Competitor & 3D-Printing Innovator",
+        "relationshipNote": "Relativity Space develops 3D-printed medium-lift rockets targeting commercial and government markets. Relativity's Series D funding (2024) signals competitive threat to Rocket Lab's Neutron program. Relativity's manufacturing innovation (3D printing) could disrupt traditional aerospace supply chains. Rocket Lab's differentiation: proven flight heritage, vertical integration, government relationships. Relationship inferred from commercial-space industry analysis.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Axiom Space Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "axiom_space",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Emerging Competitor & Commercial-Space Anchor",
+        "relationshipNote": "Axiom Space develops commercial space-station modules and satellite constellations, competing with Rocket Lab's Space Systems segment (SolSpace, Sinclair). Axiom's Series C and D funding (2023–2024, $500M+) signals competitive threat to Rocket Lab's in-space-servicing and satellite-bus businesses. Axiom is also Rocket Lab's largest commercial customer (Electron missions). Relationship inferred from commercial-space industry analysis.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Northrop Grumman Corporation",
+        "ticker": "NOC",
+        "cik": "0001133421",
+        "slug": "northrop_grumman",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Legacy Prime & In-Space-Servicing Competitor",
+        "relationshipNote": "Northrop Grumman operates Minotaur and Pegasus small-lift vehicles and develops in-space-servicing capabilities (Mission Extension Vehicle). Northrop competes with Rocket Lab in dedicated small-lift and in-space-servicing markets. Northrop's scale and government relationships pose competitive threat. Rocket Lab's differentiation: lower cost, faster cadence, vertical integration. Relationship inferred from aerospace industry analysis.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lockheed Martin Corporation",
+        "ticker": "LMT",
+        "cik": "0000060086",
+        "slug": "lockheed_martin",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Legacy Prime & Strategic Investor",
+        "relationshipNote": "Lockheed Martin (via ULA JV) operates Atlas V and Vulcan Centaur, competing with Rocket Lab in national-security space-launch market. Lockheed also holds strategic equity stake in Rocket Lab (disclosed in 10-K Item 1A major shareholders). Relationship reflects Lockheed's dual role as competitor and investor; disclosed in 10-K and DEF14A filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Securities Regulation & Disclosure Compliance",
+        "relationshipNote": "SEC regulates Rocket Lab's public-company disclosures (10-K, 10-Q, 8-K filings) and corporate governance (DEF14A proxy statements). Rocket Lab filed S-1 (2021) and went public via SPAC merger (Vector Acquisition Holdings, 2021). SEC oversight includes related-party transactions (Lockheed Martin equity stake), executive compensation, and material-event disclosures. Relationship disclosed in 10-K Item 1A and DEF14A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Aviation Administration (FAA) - Office of Commercial Space Transportation",
+        "ticker": null,
+        "cik": null,
+        "slug": "faa_ast",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Launch Licensing & Safety Compliance",
+        "relationshipNote": "FAA Office of Commercial Space Transportation (AST) licenses Rocket Lab's Electron and Neutron launch operations under 51 U.S.C. § 50914 (Commercial Space Launch Act). Rocket Lab holds FAA licenses for Wallops Flight Facility (Virginia) and Mahia Peninsula (New Zealand) launch sites. Neutron development requires FAA licensing review (expected 2025). Relationship disclosed in 10-K Item 1A regulatory risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Defense (DoD) - Space Force",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod_sf",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "National-Security Launch Procurement & ITAR Compliance",
+        "relationshipNote": "DoD Space Force procures Rocket Lab's Electron launch services via NSLA contract (2022–2026, amended 2024). DoD also enforces ITAR (International Traffic in Arms Regulations) compliance on Rocket Lab's rocket technology and export controls. DoD industrial-base assessments influence Rocket Lab's strategic importance and funding. Relationship disclosed in 10-K Item 1 and 8-K contract amendments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Committee on Foreign Investment in the United States (CFIUS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cfius",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Foreign Investment Review & National-Security Screening",
+        "relationshipNote": "CFIUS reviews foreign investment in Rocket Lab under 50 U.S.C. § 4565 (Foreign Investment Risk Review Modernization Act). Rocket Lab's space-launch technology is subject to CFIUS jurisdiction due to national-security implications. Any significant foreign capital participation (e.g., equity raises, strategic partnerships) requires CFIUS clearance. Relationship inferred from aerospace industry standards and Rocket Lab's national-security role.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce - Bureau of Industry and Security (BIS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Export Controls & Technology Compliance",
+        "relationshipNote": "BIS enforces Export Administration Regulations (EAR) on Rocket Lab's rocket technology, propulsion systems, and avionics. Rocket Lab's Electron and Neutron vehicles are subject to EAR Category V (aerospace) controls. BIS licensing required for foreign technical assistance and technology transfers. Relationship disclosed in 10-K Item 1A regulatory risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Internal Controls",
+      "relationshipNote": "Deloitte & Touche LLP is Rocket Lab's independent auditor (fiscal years 2023–2024). Deloitte audits Rocket Lab's consolidated financial statements (10-K Item 8) and attests to internal controls over financial reporting (SOX 404 compliance). Deloitte's audit opinions inform investor confidence in Rocket Lab's financial health and accounting practices. Relationship disclosed in 10-K Item 8 and DEF14A Item 11.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Lockheed Martin Corporation",
+        "ticker": "LMT",
+        "cik": "0000060086",
+        "slug": "lockheed_martin",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Strategic Equity Investor & Governance Partner",
+        "relationshipNote": "Lockheed Martin holds strategic equity stake in Rocket Lab (disclosed in 10-K Item 1A major shareholders and DEF14A). Lockheed's investment signals confidence in Rocket Lab's technology and market position. Lockheed also competes with Rocket Lab via ULA JV (Atlas V, Vulcan Centaur). Relationship reflects Lockheed's dual role as investor and competitor; disclosed in 10-K and DEF14A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Khosla Ventures",
+        "ticker": null,
+        "cik": null,
+        "slug": "khosla_ventures",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Venture Capital & Growth Financing",
+        "relationshipNote": "Khosla Ventures is a major equity investor in Rocket Lab (Series B and later rounds). Khosla's investment thesis focuses on deep-tech and climate-tech companies; Rocket Lab aligns with Khosla's space-access and sustainability goals. Khosla's participation in Rocket Lab's funding rounds (2017–2021) provided growth capital and strategic guidance. Relationship inferred from venture-capital industry analysis and Rocket Lab's funding history.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bessemer Venture Partners",
+        "ticker": null,
+        "cik": null,
+        "slug": "bessemer_venture",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Venture Capital & Growth Financing",
+        "relationshipNote": "Bessemer Venture Partners is a major equity investor in Rocket Lab (Series B and later rounds). Bessemer's investment thesis focuses on enterprise software and deep-tech companies; Rocket Lab aligns with Bessemer's space-tech and infrastructure goals. Bessemer's participation in Rocket Lab's funding rounds (2017–2021) provided growth capital and board representation. Relationship inferred from venture-capital industry analysis and Rocket Lab's funding history.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Institutional Venture Partners (IVP)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ivp",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Venture Capital & Growth Financing",
+        "relationshipNote": "IVP is a major equity investor in Rocket Lab (Series B and later rounds). IVP's investment thesis focuses on enterprise software and deep-tech companies; Rocket Lab aligns with IVP's space-tech and infrastructure goals. IVP's participation in Rocket Lab's funding rounds (2017–2021) provided growth capital and strategic guidance. Relationship inferred from venture-capital industry analysis and Rocket Lab's funding history.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Peter Beck",
+        "title": "Chief Executive Officer & Founder",
+        "slug": "peter_beck",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Vision",
+        "relationshipNote": "Peter Beck founded Rocket Lab in 2006 and serves as CEO. Beck's vision for dedicated small-lift launch (Electron) and medium-lift expansion (Neutron) drives Rocket Lab's strategic direction. Beck's engineering background (aerospace) and entrepreneurial track record (prior ventures in New Zealand) inform Rocket Lab's technology and operational strategy. Beck's compensation and equity stake disclosed in DEF14A.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Adam Spice",
+        "title": "Chief Financial Officer",
+        "slug": "adam_spice",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Strategy",
+        "relationshipNote": "Adam Spice serves as CFO and oversees Rocket Lab's financial planning, capital allocation, and investor relations. Spice's background in aerospace finance (prior roles at Orbital ATK and other defense contractors) informs Rocket Lab's financial strategy and government-contracting expertise. Spice's compensation and equity stake disclosed in DEF14A.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Shaun D'Mello",
+        "title": "Chief Operating Officer",
+        "slug": "shaun_dmello",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Production Execution",
+        "relationshipNote": "Shaun D'Mello serves as COO and oversees Rocket Lab's launch operations, manufacturing, and supply-chain management. D'Mello's background in aerospace operations (prior roles at SpaceX and other launch providers) informs Rocket Lab's operational excellence and production-rate scaling. D'Mello's compensation and equity stake disclosed in DEF14A.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Tom Ochinero",
+        "title": "General Counsel",
+        "slug": "tom_ochinero",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Tom Ochinero serves as General Counsel and oversees Rocket Lab's legal, compliance, and regulatory affairs. Ochinero's background in aerospace law and government contracting informs Rocket Lab's ITAR compliance, export controls, and DoD contract management. Ochinero's compensation and equity stake disclosed in DEF14A.",
+        "confidence": "medium",
+        "sourceType": [
+          "DEF14A",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Electron Launch Cadence (Monthly)",
+        "slug": "electron_cadence",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue Signal",
+        "relationshipNote": "Electron launch cadence (target 1–2 launches/month) is a leading indicator of Rocket Lab's revenue run-rate and operational execution. Q3 2024 cadence: 4 launches in quarter (1.3/month average). Cadence volatility reflects supply-chain constraints (composite materials, avionics) and customer demand fluctuations. Disclosed via press releases and earnings calls.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Neutron Development Milestones (Quarterly)",
+        "slug": "neutron_milestones",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Growth Signal",
+        "relationshipNote": "Neutron development milestones (CDR completion, engine static-fire testing, first-flight readiness) are leading indicators of Rocket Lab's medium-lift market entry and long-term growth trajectory. CDR completed 2024; first orbital flight expected 2025. Milestones disclosed via earnings calls and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Space Force NSLA Manifest Updates (Quarterly)",
+        "slug": "nsla_manifest",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Government Customer Demand Signal",
+        "relationshipNote": "Space Force NSLA manifest updates (mission count, timeline, payload types) are leading indicators of Rocket Lab's government-customer demand and revenue visibility. 2024 amendment increased manifest to 9+ missions through 2026. Manifest updates disclosed via 8-K filings and Space Force announcements.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "defense",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.195Z",
+      "overrideCount": 11
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Aerojet Rocketdyne Holdings Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Hexcel Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Eaton Corporation (Aerospace Division)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Precision Castparts Corp. (Berkshire Hathaway subsidiary)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Materion Corporation",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Moog Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Orbital ATK (L3Harris Technologies Inc.)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Orbital Logistics & Tracking Inc. (OrbComm subsidiary)",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Anixter International (Tech Data subsidiary)",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Sensormatic Electronics Corporation (Tyco International subsidiary)",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "United States Space Force (Space Systems Command)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "National Reconnaissance Office (NRO)",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Electron Launch Cadence (Monthly)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "Space Force NSLA Manifest Updates (Quarterly)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Axiom Space Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Relativity Space Inc.",
+            "type": "customer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "United States Space Force (Space Systems Command)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "National Reconnaissance Office (NRO)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Axiom Space Inc.",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Relativity Space Inc.",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "SpaceX (Space Exploration Technologies Corp.)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "United Launch Alliance (ULA)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Relativity Space Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Axiom Space Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Northrop Grumman Corporation",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Lockheed Martin Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Virgin Orbit Holdings Inc. (post-bankruptcy)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Aviation Administration (FAA) - Office of Commercial Space Transportation",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Defense (DoD) - Space Force",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Committee on Foreign Investment in the United States (CFIUS)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Commerce - Bureau of Industry and Security (BIS)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Lockheed Martin Corporation",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "Khosla Ventures",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bessemer Venture Partners",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Institutional Venture Partners (IVP)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Neutron Development Milestones (Quarterly)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; Youth Participation</title>
+<link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+<script>
+if(sessionStorage.getItem('limen_access')!=='granted'){window.location.replace('/?return='+encodeURIComponent('/population_youth_participation_portal.html'));}
+</script>
+<div class="app">
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-brand"><a href="civilization.html">LIMEN HELIX</a> <span class="topbar-separator">&middot;</span></div>
+      <div class="topbar-title">Youth Participation</div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-bc"><a href="civilization.html">CIVILIZATION</a><span class="bc-sep">&rarr;</span><a href="population_portal.html">POPULATION &amp; DEMOGRAPHICS</a><span class="bc-sep">&rarr;</span><a href="population_youth_portal.html">YOUTH DEMOGRAPHICS</a><span class="bc-sep">&rarr;</span><span class="bc-current">YOUTH PARTICIPATION</span></div>
+      <a href="population_youth_portal.html" class="topbar-back">&larr; Youth demographics</a>
+      <button class="print-btn" onclick="PortalUI.printSnapshot()" title="Print Report">PRINT</button>
+      <span class="topbar-disclaimer">REFERENCE TOOL &middot; NOT PROFESSIONAL ADVICE</span>
+    </div>
+  </div>
+
+  <div class="portal-nav">
+    <a href="civilization.html">CONSOLE</a><span class="pn-sep">&middot;</span><a href="governance_portal.html">GOVERNANCE</a><span class="pn-sep">&middot;</span><a href="economy_portal.html">ECONOMY</a><span class="pn-sep">&middot;</span><a href="infrastructure_portal.html">INFRASTRUCTURE</a><span class="pn-sep">&middot;</span><a href="energy_portal.html">ENERGY</a><span class="pn-sep">&middot;</span><a href="industry_portal.html">INDUSTRY</a><span class="pn-sep">&middot;</span><a href="science_portal.html">SCIENCE</a><span class="pn-sep">&middot;</span><a href="medicine_portal.html">MEDICINE</a><span class="pn-sep">&middot;</span><a href="education_portal.html">EDUCATION</a><span class="pn-sep">&middot;</span><a href="technology_portal.html">TECHNOLOGY</a><span class="pn-sep">&middot;</span><a href="communication_portal.html">COMMUNICATION</a><span class="pn-sep">&middot;</span><a href="culture_portal.html">CULTURE</a><span class="pn-sep">&middot;</span><a href="defense_portal.html">DEFENSE</a><span class="pn-sep">&middot;</span><a href="environment_portal.html">ENVIRONMENT</a><span class="pn-sep">&middot;</span><a href="religion_portal.html">RELIGION</a><span class="pn-sep">&middot;</span><a href="population_portal.html" class="pn-current">POPULATION</a><span class="pn-sep">&middot;</span><a href="trade_portal.html">TRADE</a><span class="pn-sep">&middot;</span><a href="law_portal.html">LAW</a><span class="pn-sep">&middot;</span><a href="finance_portal.html">FINANCE</a><span class="pn-sep">&middot;</span><a href="intelligence_portal.html">INTELLIGENCE</a>
+  </div>
+
+  <div class="left-panel" id="leftPanel">
+    <div id="issueSection"></div>
+    <div class="search-box"><input type="text" id="searchInput" placeholder="Search issues &amp; nodes..."></div>
+    <div id="nodeList"></div>
+    <div class="dx-stats" id="dxStats"></div>
+  </div>
+
+  <div class="center-view" id="centerView">
+    <canvas id="connectome-canvas"></canvas>
+    <div id="brain3dContainer" class="brain3d-container"></div>
+    <button id="brain3dToggle" class="brain3d-toggle"><span class="toggle-icon">&#129504;</span> 3D</button>
+    <div id="brain3dHint" class="brain3d-hint">DRAG TO ROTATE &middot; SCROLL TO ZOOM &middot; CLICK NODES</div>
+    <div class="circuit-legend" id="phaseLegend"></div>
+    <div class="node-count" id="nodeCount"></div>
+  </div>
+
+  <div class="right-panel" id="rightPanel">
+    <div class="right-empty" id="rightEmpty">
+      <div class="re-title" id="reTitle">Youth Participation</div>
+      <div class="re-phase" id="rePhase">P5 &middot; Growth</div>
+      <div class="re-desc" id="reDesc">Youth Participation domain &mdash; 8 functional nodes mapped to the universal brain connectome. Each population &amp; demographics function maps to the brain region whose computational role it mirrors.</div>
+      <div class="re-stats" id="reStats">8 active nodes &middot; 111 brain regions</div>
+    </div>
+    <div id="interventionContent" style="display:none"></div>
+    <div id="nodeDeepDive" style="display:none"></div>
+  </div>
+
+  <div class="bottombar">
+    <div>LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC &middot; YOUTH PARTICIPATION REFERENCE</div>
+    <div id="bottomStats"></div>
+  </div>
+
+</div>
+<div id="drugOverlay" onclick="if(event.target===this)closeDrugOverlay()"></div>
+<div id="therapyOverlay" onclick="if(event.target===this)closeTherapyOverlay()"></div>
+<div id="somaticOverlay" onclick="if(event.target===this)closeSomaticOverlay()"></div>
+<div id="supplementOverlay" onclick="if(event.target===this)closeSupplementOverlay()"></div>
+<div id="nutritionOverlay" onclick="if(event.target===this)closeNutritionOverlay()"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="assets/js/connectome-core.js"></script>
+<script src="assets/js/connectome-renderer.js"></script>
+<script src="assets/js/observer-node.js"></script>
+<script src="assets/js/memory-layer.js"></script>
+<script src="assets/js/curiosity-engine.js"></script>
+<script src="assets/js/hebbian-learning.js"></script>
+<script src="assets/js/global-workspace.js"></script>
+<script src="assets/js/global-signals.js"></script>
+<script src="assets/js/phase-estimator.js"></script>
+<script src="assets/js/portal-ui.js"></script>
+<script>
+PortalUI.init({
+  issuesEnabled: true,
+  domainId: 'population_youth_participation',
+  parentLabel: 'Youth Demographics',
+  brainWhy: {},
+  groupOrder: [{key:'analysis',label:'ANALYSIS'},{key:'operations',label:'OPERATIONS'},{key:'systems',label:'SYSTEMS'},{key:'governance',label:'GOVERNANCE'},{key:'innovation',label:'INNOVATION'},{key:'development',label:'DEVELOPMENT'},{key:'quality',label:'QUALITY'},{key:'performance',label:'PERFORMANCE'}]
+});
+</script>
+</body>
+</html>

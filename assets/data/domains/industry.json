@@ -1,0 +1,2311 @@
+{
+  "domainId": "industry",
+  "title": "Industry",
+  "parentPortal": "civilization.html",
+  "parentLabel": "Civilization",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Assembly Lines",
+      "domainDescription": "Sequential manufacturing systems where products are constructed through a series of specialized workstations, each performing a discrete operation as items move along a conveyor or transfer system.",
+      "domainFunction": "Executes the physical production sequence that transforms raw components into finished goods through coordinated, repetitive operations at each station in the manufacturing flow.",
+      "whyThisNode": "M1 (primary motor cortex) directly executes coordinated motor sequences, mapping somatotopically to produce precise physical outputs, paralleling how assembly lines execute coordinated production sequences with each station mapped to a specific operation.",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Line stoppage",
+        "Cycle time deviation",
+        "Station bottleneck"
+      ],
+      "treatments": [
+        {
+          "label": "Lean Manufacturing Implementation",
+          "type": "STRUCTURAL",
+          "description": "Apply Toyota Production System principles including takt time balancing, single-piece flow, and just-in-time delivery to eliminate waste and optimize throughput across the assembly sequence.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Overall Equipment Effectiveness Tracking",
+          "type": "DIAGNOSTIC",
+          "description": "Measure availability, performance, and quality rates at each workstation to identify the specific losses driving sub-optimal line performance and prioritize improvement actions.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "industry_assembly_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Fanuc Corporation",
+          "ticker_or_id": "FANUY",
+          "functional_reason": "Executes core assembly lines operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "3M Company",
+          "ticker_or_id": "MMM",
+          "functional_reason": "Executes core assembly lines operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Siemens AG",
+          "ticker_or_id": "SIEGY",
+          "functional_reason": "Executes core assembly lines operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Assembly Lines",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Production & Delivery"
+        },
+        {
+          "domain": "economy",
+          "role": "GDP Output"
+        },
+        {
+          "domain": "education",
+          "role": "Vocational Training"
+        },
+        {
+          "domain": "energy",
+          "role": "Power Generation"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction"
+        },
+        {
+          "domain": "medicine",
+          "role": "Surgery"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Motor Cortex"
+        },
+        {
+          "domain": "population",
+          "role": "Labor Force"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Quality Control",
+      "domainDescription": "Systematic processes for monitoring, inspecting, and testing products and processes to ensure they meet defined specifications, standards, and customer requirements.",
+      "domainFunction": "Detects deviations from quality standards through statistical process control, inspection protocols, and testing procedures, triggering corrective actions when specifications are violated.",
+      "whyThisNode": "The dACC (dorsal anterior cingulate cortex) continuously monitors for errors and conflicts between expected and actual outcomes, signaling when corrective action is needed, directly paralleling how quality control monitors for deviations between product specifications and actual output.",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Defect rate spike",
+        "SPC out-of-control signal",
+        "Customer complaint surge"
+      ],
+      "treatments": [
+        {
+          "label": "Six Sigma DMAIC Programs",
+          "type": "STRUCTURAL",
+          "description": "Deploy Define-Measure-Analyze-Improve-Control methodology to systematically reduce process variation and defect rates to near-zero levels across critical manufacturing operations.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Root Cause Analysis Protocols",
+          "type": "DIAGNOSTIC",
+          "description": "Apply fishbone diagrams, 5-why analysis, and fault-tree methods to trace quality failures to their origin causes and implement permanent corrective and preventive actions.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "industry_quality_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "ABB Ltd",
+          "ticker_or_id": "ABB",
+          "functional_reason": "Detects and monitors quality control signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Keyence Corporation",
+          "ticker_or_id": "KYCCF",
+          "functional_reason": "Detects and monitors quality control signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Rockwell Automation",
+          "ticker_or_id": "ROK",
+          "functional_reason": "Detects and monitors quality control signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Quality Control",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Conflict Monitoring Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Compliance & Governance"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Attentional Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Regulatory Framework"
+        },
+        {
+          "domain": "education",
+          "role": "Student Assessment"
+        },
+        {
+          "domain": "energy",
+          "role": "Demand Response"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Raw Materials",
+      "domainDescription": "The primary inputs to manufacturing including metals, polymers, ceramics, composites, and biological materials sourced through mining, harvesting, or chemical synthesis.",
+      "domainFunction": "Provides the physical substrate for all manufactured goods, with material properties determining product performance, cost, and manufacturing process requirements.",
+      "whyThisNode": "S1 (primary somatosensory cortex) receives raw sensory input from the physical world and begins initial processing, directly paralleling how raw materials are the primary physical inputs received from the natural world that undergo initial processing before further manufacturing.",
+      "group": "materials",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Material shortage",
+        "Specification non-conformance",
+        "Price volatility"
+      ],
+      "treatments": [
+        {
+          "label": "Multi-Source Procurement Strategy",
+          "type": "STRUCTURAL",
+          "description": "Establish qualified alternative suppliers across geographic regions for critical materials to reduce single-source dependency and ensure supply continuity during disruptions.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Incoming Material Inspection",
+          "type": "DIAGNOSTIC",
+          "description": "Deploy spectroscopic analysis, tensile testing, and dimensional verification of incoming materials to catch specification non-conformances before they enter the production stream.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "industry_raw_portal.html",
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Keyence Corporation",
+          "ticker_or_id": "KYCCF",
+          "functional_reason": "Detects and monitors raw materials signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Honeywell International",
+          "ticker_or_id": "HON",
+          "functional_reason": "Detects and monitors raw materials signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Danaher Corporation",
+          "ticker_or_id": "DHR",
+          "functional_reason": "Detects and monitors raw materials signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Raw Materials",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Labor Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Mining and Extraction"
+        },
+        {
+          "domain": "environment",
+          "role": "Geological Systems"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Somatosensory Cortex"
+        },
+        {
+          "domain": "technology",
+          "role": "IoT & Sensors"
+        },
+        {
+          "domain": "trade",
+          "role": "Last-Mile Delivery"
+        },
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator — Signal Detection & Input — Secondary Node"
+        },
+        {
+          "domain": "communication",
+          "role": "Accesscomm — Signal Detection — Secondary"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Industrial Chemistry",
+      "domainDescription": "Large-scale chemical processing including petrochemicals, polymers, fertilizers, pharmaceuticals, and specialty chemicals produced through controlled reactions in industrial reactors.",
+      "domainFunction": "Transforms molecular feedstocks into higher-value chemical products through catalytic, thermal, and biological reactions at industrial scale, supplying inputs to virtually every manufacturing sector.",
+      "whyThisNode": "The hypothalamus is the brain's master chemical regulator, controlling hormone release and maintaining homeostatic balance through precise chemical signaling, directly paralleling how industrial chemistry manages precise chemical reactions, concentrations, and equilibria at scale.",
+      "group": "chemical",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Reaction runaway",
+        "Catalyst poisoning",
+        "Yield decline"
+      ],
+      "treatments": [
+        {
+          "label": "Process Intensification",
+          "type": "STRUCTURAL",
+          "description": "Deploy microreactor technology, continuous flow processing, and reactive distillation to increase yields, reduce waste, and improve safety through inherently smaller inventories of hazardous intermediates.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Reaction Kinetics Monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Install in-line analytical instruments including NIR spectroscopy and calorimetry to track reaction progress in real time and detect deviations from optimal conversion pathways.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "industry_industrial_portal.html",
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Illinois Tool Works",
+          "ticker_or_id": "ITW",
+          "functional_reason": "Executes core industrial chemistry operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Parker Hannifin",
+          "ticker_or_id": "PH",
+          "functional_reason": "Executes core industrial chemistry operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "3M Company",
+          "ticker_or_id": "MMM",
+          "functional_reason": "Executes core industrial chemistry operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Industrial Chemistry",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Homeostatic Disruption Center"
+        },
+        {
+          "domain": "economy",
+          "role": "Inflation and Deflation"
+        },
+        {
+          "domain": "environment",
+          "role": "Climate Systems"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pharmacy & Pharmacology"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Hypothalamic Energy Sensing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hypothalamus"
+        },
+        {
+          "domain": "population",
+          "role": "Gender Demographics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CBLM",
+      "state": "active",
+      "domainLabel": "Robotics and Automation",
+      "domainDescription": "Programmable machines and control systems that perform manufacturing tasks including welding, painting, assembly, material handling, and inspection with minimal human intervention.",
+      "domainFunction": "Executes repetitive, precision, or hazardous manufacturing operations with consistent accuracy, speed, and endurance beyond human capability, enabling lights-out production and flexible manufacturing.",
+      "whyThisNode": "The cerebellum calibrates and coordinates precise, rapid motor sequences through learned internal models, enabling smooth automated execution, directly paralleling how industrial robots execute precisely calibrated, rapid manufacturing sequences through programmed internal models.",
+      "group": "automation",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Robot fault alarm",
+        "Calibration drift",
+        "Safety zone breach"
+      ],
+      "treatments": [
+        {
+          "label": "Collaborative Robot Deployment",
+          "type": "STRUCTURAL",
+          "description": "Integrate force-limited cobots alongside human workers for flexible automation of variable tasks, reducing the need for fixed safety caging while maintaining productivity gains.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Kinematic Accuracy Verification",
+          "type": "DIAGNOSTIC",
+          "description": "Perform laser tracker and ball-bar testing to measure actual robot positioning accuracy against programmed paths and recalibrate servo parameters to maintain precision tolerances.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "industry_robotics_portal.html",
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "Parker Hannifin",
+          "ticker_or_id": "PH",
+          "functional_reason": "Stabilizes robotics and automation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Fanuc Corporation",
+          "ticker_or_id": "FANUY",
+          "functional_reason": "Stabilizes robotics and automation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Emerson Electric",
+          "ticker_or_id": "EMR",
+          "functional_reason": "Stabilizes robotics and automation oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.93
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Robotics and Automation",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Quality Control"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Rail Systems"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Cerebellar Metabolic Sensitivity"
+        },
+        {
+          "domain": "neurology",
+          "role": "Cerebellum"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Motor Coordination & Skill Automatiza..."
+        },
+        {
+          "domain": "religion",
+          "role": "Ritual Practice"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Supply Chain",
+      "domainDescription": "The interconnected network of suppliers, manufacturers, distributors, and logistics providers that moves materials and products from source to end customer.",
+      "domainFunction": "Coordinates the flow of materials, information, and finances across multiple tiers of suppliers and distribution channels to deliver the right quantity at the right time to the right location.",
+      "whyThisNode": "The thalamus is the brain's central relay hub that routes information between sensory inputs and cortical processing areas, directly paralleling how the supply chain relays materials and information between upstream suppliers and downstream manufacturing and distribution nodes.",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Lead time extension",
+        "Inventory stockout",
+        "Logistics disruption"
+      ],
+      "treatments": [
+        {
+          "label": "Digital Supply Chain Twin",
+          "type": "STRUCTURAL",
+          "description": "Build a real-time digital model of the entire supply network to simulate disruption scenarios, optimize inventory positioning, and enable proactive risk mitigation across all tiers.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Supplier Risk Scoring",
+          "type": "DIAGNOSTIC",
+          "description": "Assess each supplier across financial health, geographic risk, capacity utilization, and single-source exposure metrics to prioritize supply chain resilience investments.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "industry_supply_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Caterpillar",
+          "ticker_or_id": "CAT",
+          "functional_reason": "Executes core supply chain operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Fanuc Corporation",
+          "ticker_or_id": "FANUY",
+          "functional_reason": "Executes core supply chain operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "Keyence Corporation",
+          "ticker_or_id": "KYCCF",
+          "functional_reason": "Detects and monitors supply chain signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.66
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Supply Chain",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Information Flow"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Sensory Gating"
+        },
+        {
+          "domain": "economy",
+          "role": "Monetary Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Distribution"
+        },
+        {
+          "domain": "governance",
+          "role": "Central Banking"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Electrical Grid"
+        },
+        {
+          "domain": "legal",
+          "role": "Court Administration / Case Routing"
+        },
+        {
+          "domain": "medicine",
+          "role": "Neurology"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Warehousing",
+      "domainDescription": "Facilities and systems for receiving, storing, managing, and dispatching inventory including raw materials, work-in-progress, and finished goods.",
+      "domainFunction": "Buffers material flow between production stages and distribution channels, maintaining inventory reserves that absorb supply-demand variability and ensure production continuity.",
+      "whyThisNode": "The hippocampus stores and retrieves memories, maintaining a structured repository that can be accessed on demand, directly paralleling how warehouses store and retrieve inventory items from organized locations, maintaining material reserves that can be dispatched when needed.",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Inventory accuracy drift",
+        "Storage capacity overflow",
+        "Pick error rate increase"
+      ],
+      "treatments": [
+        {
+          "label": "Automated Storage and Retrieval",
+          "type": "STRUCTURAL",
+          "description": "Deploy AS/RS systems with robotic picking, automated guided vehicles, and goods-to-person workflows to maximize storage density and throughput while minimizing labor and error rates.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cycle Count Analytics",
+          "type": "DIAGNOSTIC",
+          "description": "Implement ABC-stratified cycle counting with variance analysis to maintain inventory record accuracy above 99% and identify systematic causes of discrepancies.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "industry_warehousing_portal.html",
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "Parker Hannifin",
+          "ticker_or_id": "PH",
+          "functional_reason": "Executes core warehousing operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "General Electric",
+          "ticker_or_id": "GE",
+          "functional_reason": "Executes core warehousing operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "ABB Ltd",
+          "ticker_or_id": "ABB",
+          "functional_reason": "Executes core warehousing operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.78
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Warehousing",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "education",
+          "role": "Learning Science"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "governance",
+          "role": "Census and Demographics"
+        },
+        {
+          "domain": "legal",
+          "role": "Precedent / Legal Memory"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FG",
+      "state": "active",
+      "domainLabel": "Industrial Design",
+      "domainDescription": "The discipline of designing manufactured products for function, aesthetics, manufacturability, and user interaction, bridging engineering requirements with human factors.",
+      "domainFunction": "Translates functional requirements into physical product forms optimized for manufacturing feasibility, ergonomic usability, aesthetic appeal, and lifecycle sustainability.",
+      "whyThisNode": "The fusiform gyrus specializes in recognizing and distinguishing complex visual forms and patterns, directly paralleling how industrial design creates and evaluates the visual form, shape recognition, and aesthetic identity of manufactured products.",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Ergonomic failure report",
+        "Design-for-manufacturing conflict",
+        "Market rejection signal"
+      ],
+      "treatments": [
+        {
+          "label": "Design for Manufacturing and Assembly",
+          "type": "STRUCTURAL",
+          "description": "Apply DFMA principles to reduce part count, simplify assembly sequences, and eliminate manufacturing-hostile features during the design phase before tooling investment.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "User Experience Testing",
+          "type": "DIAGNOSTIC",
+          "description": "Conduct ergonomic assessments, usability studies, and A/B prototype evaluations with target users to validate design decisions before committing to production tooling.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "industry_design_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Danaher Corporation",
+          "ticker_or_id": "DHR",
+          "functional_reason": "Detects and monitors industrial design signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Rockwell Automation",
+          "ticker_or_id": "ROK",
+          "functional_reason": "Detects and monitors industrial design signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Keyence Corporation",
+          "ticker_or_id": "KYCCF",
+          "functional_reason": "Detects and monitors industrial design signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Industrial Design",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Arts Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Succession"
+        },
+        {
+          "domain": "medicine",
+          "role": "Pathology"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Face Processing & Visual Recognition"
+        },
+        {
+          "domain": "technology",
+          "role": "User Interface Design"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Risk & Resilience"
+        },
+        {
+          "domain": "communication",
+          "role": "Speechlang"
+        },
+        {
+          "domain": "culture",
+          "role": "Fashion & Design"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Safety Systems",
+      "domainDescription": "Engineered controls, protocols, and monitoring systems that protect workers, facilities, and communities from industrial hazards including mechanical, chemical, electrical, and thermal risks.",
+      "domainFunction": "Detects hazardous conditions and triggers protective responses including emergency shutdowns, containment activation, alarm escalation, and evacuation procedures to prevent injury and damage.",
+      "whyThisNode": "The CeA (central amygdala) is the brain's threat-response output center that triggers defensive behaviors when danger is detected, directly paralleling how industrial safety systems detect hazardous conditions and trigger protective emergency responses.",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Near-miss incident",
+        "Safety interlock bypass",
+        "OSHA recordable event"
+      ],
+      "treatments": [
+        {
+          "label": "Safety Instrumented Systems",
+          "type": "STRUCTURAL",
+          "description": "Deploy SIL-rated independent protection layers with redundant sensors, logic solvers, and final elements that automatically bring processes to safe states upon hazard detection.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Bow-Tie Risk Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Map hazard scenarios with prevention barriers on the left and mitigation barriers on the right to visualize defense-in-depth adequacy and identify single points of failure.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Fanuc Corporation",
+          "ticker_or_id": "FANUY",
+          "functional_reason": "Executes core safety systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "Emerson Electric",
+          "ticker_or_id": "EMR",
+          "functional_reason": "Stabilizes safety systems oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "Danaher Corporation",
+          "ticker_or_id": "DHR",
+          "functional_reason": "Detects and monitors safety systems signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.73
+        }
+      ],
+      "childPortal": "industry_safety_portal.html",
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Safety Systems",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "environment",
+          "role": "Soilenv"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Emergency Systems"
+        },
+        {
+          "domain": "legal",
+          "role": "Law Enforcement Response"
+        },
+        {
+          "domain": "medicine",
+          "role": "Emergency Medicine"
+        },
+        {
+          "domain": "population",
+          "role": "Refugee Populations"
+        },
+        {
+          "domain": "provider",
+          "role": "Crisis Response Protocol"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Workforce Management",
+      "domainDescription": "The planning, scheduling, training, and performance management of industrial workers across shifts, skill levels, and production requirements.",
+      "domainFunction": "Allocates human resources across production schedules, manages skill development and certification, and coordinates shift patterns to maintain continuous operations with appropriate staffing levels.",
+      "whyThisNode": "The dlPFC (dorsolateral prefrontal cortex) manages working memory, task planning, and cognitive resource allocation for goal-directed behavior, directly paralleling how workforce management plans, schedules, and allocates human resources across production goals and shifting operational demands.",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Skill gap identified",
+        "Absenteeism spike",
+        "Overtime budget overrun"
+      ],
+      "treatments": [
+        {
+          "label": "Cross-Training Matrix Programs",
+          "type": "STRUCTURAL",
+          "description": "Systematically train workers across multiple stations and skill sets to build workforce flexibility, reduce bottleneck dependencies, and maintain production continuity during absences.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Workforce Analytics Dashboard",
+          "type": "DIAGNOSTIC",
+          "description": "Track labor productivity, skill certification status, turnover rates, and schedule adherence metrics to identify workforce risks and optimize staffing allocation.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "General Electric",
+          "ticker_or_id": "GE",
+          "functional_reason": "Executes core workforce management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Rockwell Automation",
+          "ticker_or_id": "ROK",
+          "functional_reason": "Executes core workforce management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Parker Hannifin",
+          "ticker_or_id": "PH",
+          "functional_reason": "Executes core workforce management operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        }
+      ],
+      "childPortal": "industry_automation_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Workforce Management",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Executive Inhibition Gateway"
+        },
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Executive Attention"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "education",
+          "role": "Curriculum Design"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Urban Planning"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Heavy Equipment",
+      "domainDescription": "Large-scale industrial machinery including presses, lathes, furnaces, cranes, and earthmoving equipment used in manufacturing, construction, and resource extraction.",
+      "domainFunction": "Provides the mechanical force, thermal energy, and material handling capacity required for heavy industrial operations including metal forming, casting, forging, and large-scale material movement.",
+      "whyThisNode": "The SMA (supplementary motor area) plans and sequences complex, high-force motor programs before execution, directly paralleling how heavy equipment operations require careful pre-planning and sequencing of powerful mechanical actions.",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Structural fatigue detection",
+        "Hydraulic system failure",
+        "Overload condition"
+      ],
+      "treatments": [
+        {
+          "label": "Condition-Based Maintenance",
+          "type": "STRUCTURAL",
+          "description": "Deploy vibration analysis, oil particle counting, and thermography to monitor equipment health in real time and schedule maintenance based on actual condition rather than fixed intervals.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Finite Element Stress Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Model critical structural components under operational loading to identify fatigue-prone areas, validate remaining useful life estimates, and optimize inspection intervals.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Parker Hannifin",
+          "ticker_or_id": "PH",
+          "functional_reason": "Executes core heavy equipment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Deere & Company",
+          "ticker_or_id": "DE",
+          "functional_reason": "Executes core heavy equipment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Rockwell Automation",
+          "ticker_or_id": "ROK",
+          "functional_reason": "Executes core heavy equipment operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.86
+        }
+      ],
+      "childPortal": "industry_biotech_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Heavy Equipment",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Teacher Training"
+        },
+        {
+          "domain": "governance",
+          "role": "Military Command"
+        },
+        {
+          "domain": "neurology",
+          "role": "Supplementary Motor Area"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Coordination & Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Process Improvement"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Threat / Fear Processing Coordination & Integration"
+        },
+        {
+          "domain": "culture",
+          "role": "Theater & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Recruitment & Training"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "FPN",
+      "state": "active",
+      "domainLabel": "Precision Machining",
+      "domainDescription": "Computer-controlled manufacturing processes including CNC milling, turning, EDM, and grinding that produce components to micrometer-level dimensional tolerances.",
+      "domainFunction": "Produces high-accuracy components for aerospace, medical, automotive, and electronics applications where dimensional precision directly determines product function and reliability.",
+      "whyThisNode": "The FPN (frontoparietal network) integrates executive control with spatial processing to achieve precise, goal-directed actions, directly paralleling how precision machining integrates programmed instructions with real-time spatial measurement to achieve exact dimensional outcomes.",
+      "group": "automation",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Tolerance exceedance",
+        "Tool wear progression",
+        "Surface finish degradation"
+      ],
+      "treatments": [
+        {
+          "label": "In-Process Metrology Integration",
+          "type": "STRUCTURAL",
+          "description": "Embed touch probes, laser scanners, and on-machine measurement systems to verify dimensions during machining and automatically compensate for thermal drift and tool wear.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Tool Life Management Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Track cutting force signatures, acoustic emission, and dimensional trends to model tool wear progression and predict optimal replacement points before quality degradation occurs.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "3M Company",
+          "ticker_or_id": "MMM",
+          "functional_reason": "Executes core precision machining operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "Siemens AG",
+          "ticker_or_id": "SIEGY",
+          "functional_reason": "Executes core precision machining operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Caterpillar",
+          "ticker_or_id": "CAT",
+          "functional_reason": "Executes core precision machining operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.89
+        }
+      ],
+      "childPortal": "industry_indpolicy_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Precision Machining",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Executive Leadership"
+        },
+        {
+          "domain": "economy",
+          "role": "Technology Sector"
+        },
+        {
+          "domain": "education",
+          "role": "Distance Learning"
+        },
+        {
+          "domain": "environment",
+          "role": "Ecosystem Modeling"
+        },
+        {
+          "domain": "governance",
+          "role": "Intelligence Analysis"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "legal",
+          "role": "Multi-District / Complex Coordination"
+        },
+        {
+          "domain": "medicine",
+          "role": "Gut-Brain Axis"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "STRI",
+      "state": "active",
+      "domainLabel": "Packaging",
+      "domainDescription": "The design and production of containers, wrapping, and protective systems that contain, protect, preserve, and present manufactured products for storage, transport, and sale.",
+      "domainFunction": "Encloses finished products in standardized, protective formats that enable efficient handling, preserve product integrity during transit, communicate brand identity, and comply with regulatory labeling requirements.",
+      "whyThisNode": "The striatum manages the sequencing and execution of habitual, well-learned action routines, directly paralleling how packaging operations execute highly standardized, repetitive routines that wrap products in consistent formats for distribution.",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Packaging line jam",
+        "Labeling error",
+        "Seal integrity failure"
+      ],
+      "treatments": [
+        {
+          "label": "Sustainable Packaging Redesign",
+          "type": "STRUCTURAL",
+          "description": "Transition to recyclable, compostable, or reusable packaging materials while maintaining product protection standards through material science innovation and lifecycle assessment.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Vision System Inspection",
+          "type": "DIAGNOSTIC",
+          "description": "Deploy high-speed camera systems with AI-powered defect detection to verify label placement, seal integrity, fill levels, and print quality at production line speed.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Illinois Tool Works",
+          "ticker_or_id": "ITW",
+          "functional_reason": "Executes core packaging operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.65
+        },
+        {
+          "name": "General Electric",
+          "ticker_or_id": "GE",
+          "functional_reason": "Executes core packaging operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Danaher Corporation",
+          "ticker_or_id": "DHR",
+          "functional_reason": "Detects and monitors packaging signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.67
+        }
+      ],
+      "childPortal": "industry_indsafety_portal.html",
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Packaging",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Habit Automation Circuit"
+        },
+        {
+          "domain": "business",
+          "role": "Operations"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "governance",
+          "role": "Treasury and Fiscal Operations"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Public Transit"
+        },
+        {
+          "domain": "legal",
+          "role": "Legal Procedure / Rules Engine"
+        },
+        {
+          "domain": "neurology",
+          "role": "Striatum (Caudate/Putamen)"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ENS",
+      "state": "active",
+      "domainLabel": "Waste Treatment",
+      "domainDescription": "Systems for collecting, processing, neutralizing, and disposing of industrial byproducts including wastewater, solid waste, emissions, and hazardous materials.",
+      "domainFunction": "Processes industrial waste streams to meet environmental discharge standards, recover valuable materials for recycling, and minimize the ecological footprint of manufacturing operations.",
+      "whyThisNode": "The ENS (enteric nervous system) manages the body's internal waste processing and metabolic byproduct handling through distributed autonomous processing, directly paralleling how industrial waste treatment manages the metabolic byproducts of manufacturing through distributed processing systems.",
+      "group": "chemical",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Effluent limit exceedance",
+        "Waste accumulation buildup",
+        "Treatment system upset"
+      ],
+      "treatments": [
+        {
+          "label": "Circular Economy Integration",
+          "type": "STRUCTURAL",
+          "description": "Redesign waste streams as feedstock inputs for other processes through industrial symbiosis, closed-loop recycling, and waste-to-energy conversion to approach zero-discharge manufacturing.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Effluent Quality Monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Deploy continuous online analyzers for BOD, COD, pH, heavy metals, and toxicity to ensure discharge compliance and provide early warning of treatment system upsets.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "allocator",
+      "companies": [
+        {
+          "name": "Danaher Corporation",
+          "ticker_or_id": "DHR",
+          "functional_reason": "Detects and monitors waste treatment signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "Honeywell International",
+          "ticker_or_id": "HON",
+          "functional_reason": "Detects and monitors waste treatment signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Emerson Electric",
+          "ticker_or_id": "EMR",
+          "functional_reason": "Stabilizes waste treatment oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.65
+        }
+      ],
+      "childPortal": "industry_logistics_portal.html",
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Waste Treatment",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Carbon Emissions"
+        },
+        {
+          "domain": "environment",
+          "role": "Forests & Carbon Sinks"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Waste Management"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Enteric Nervous System Integration"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Human Capital & Development"
+        },
+        {
+          "domain": "culture",
+          "role": "Acoustic Design Core Operations"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Technology & Innovation"
+        },
+        {
+          "domain": "economy",
+          "role": "Baseline Assessment"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Research and Development",
+      "domainDescription": "Systematic investigation and experimentation aimed at creating new products, processes, and materials or improving existing ones for competitive advantage.",
+      "domainFunction": "Generates technical innovations through applied research, prototyping, and testing that advance product capabilities, reduce manufacturing costs, and open new market opportunities.",
+      "whyThisNode": "The angular gyrus integrates multimodal information and supports abstract conceptual thinking, enabling cross-domain reasoning and novel associations, directly paralleling how R&D integrates knowledge from multiple technical disciplines to generate novel product and process innovations.",
+      "group": "aerospace",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Innovation pipeline gap",
+        "Patent filing decline",
+        "Prototype failure rate increase"
+      ],
+      "treatments": [
+        {
+          "label": "Stage-Gate Innovation Process",
+          "type": "STRUCTURAL",
+          "description": "Implement structured decision gates from concept through commercialization with clear go/kill criteria to focus R&D investment on highest-potential projects.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Technology Readiness Assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Evaluate emerging technologies against standardized TRL scales to objectively assess maturity, identify development gaps, and set realistic commercialization timelines.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "simulator",
+      "companies": [
+        {
+          "name": "Honeywell International",
+          "ticker_or_id": "HON",
+          "functional_reason": "Detects and monitors research and development signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Illinois Tool Works",
+          "ticker_or_id": "ITW",
+          "functional_reason": "Executes core research and development operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Emerson Electric",
+          "ticker_or_id": "EMR",
+          "functional_reason": "Stabilizes research and development oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.69
+        }
+      ],
+      "childPortal": "industry_metals_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Research and Development",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Higher Education"
+        },
+        {
+          "domain": "governance",
+          "role": "International Law"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Phoneme-Grapheme Mapping"
+        },
+        {
+          "domain": "population",
+          "role": "Education Levels"
+        },
+        {
+          "domain": "religion",
+          "role": "Religious Education"
+        },
+        {
+          "domain": "science",
+          "role": "Citation Networks"
+        },
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Risk Profiling Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Standards and Compliance",
+      "domainDescription": "The body of industry standards, regulatory requirements, and certification protocols that govern manufacturing quality, safety, environmental impact, and trade practices.",
+      "domainFunction": "Establishes and enforces the rules, specifications, and certification requirements that ensure products and processes meet safety, quality, interoperability, and environmental standards.",
+      "whyThisNode": "The orbitofrontal cortex evaluates outcomes against expectations and updates behavioral rules based on reward and punishment signals, directly paralleling how standards and compliance evaluates industrial outputs against regulatory expectations and updates operational requirements based on enforcement outcomes.",
+      "group": "quality",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Regulatory citation",
+        "Certification lapse",
+        "Standards revision impact"
+      ],
+      "treatments": [
+        {
+          "label": "Integrated Management Systems",
+          "type": "STRUCTURAL",
+          "description": "Unify ISO 9001 quality, ISO 14001 environmental, and ISO 45001 safety management into a single integrated system to reduce compliance overhead and improve cross-functional coordination.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Compliance Gap Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Systematically audit current practices against applicable standards, regulations, and customer requirements to identify non-conformances and prioritize remediation actions.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Emerson Electric",
+          "ticker_or_id": "EMR",
+          "functional_reason": "Stabilizes standards and compliance oscillations, maintaining homeostatic balance and damping system volatility",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "General Electric",
+          "ticker_or_id": "GE",
+          "functional_reason": "Executes core standards and compliance operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Parker Hannifin",
+          "ticker_or_id": "PH",
+          "functional_reason": "Executes core standards and compliance operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        }
+      ],
+      "childPortal": "industry_packaging_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Standards and Compliance",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Food Reward Valuation"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Social Reward & Food Valuation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "TPJ",
+      "state": "active",
+      "domainLabel": "Plastics",
+      "domainDescription": "Plastics systems within Industry",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "industry_plastics_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Plastics",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Perspective-Taking / Theory of Mind"
+        },
+        {
+          "domain": "economy",
+          "role": "International Trade"
+        },
+        {
+          "domain": "education",
+          "role": "Special Education"
+        },
+        {
+          "domain": "governance",
+          "role": "Diplomatic Relations"
+        },
+        {
+          "domain": "legal",
+          "role": "Jury / Fact-Finder Perspective"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Theory of Mind & Mentalizing"
+        },
+        {
+          "domain": "population",
+          "role": "Ethnic Diversity"
+        },
+        {
+          "domain": "provider",
+          "role": "Patient Perspective-Taking"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DMN",
+      "state": "active",
+      "domainLabel": "Qualitymgmt",
+      "domainDescription": "Qualitymgmt systems within Industry",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "industry_qualitymgmt_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Qualitymgmt",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Craving Rumination Network"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Proce..."
+        },
+        {
+          "domain": "education",
+          "role": "Research Universities"
+        },
+        {
+          "domain": "governance",
+          "role": "Constitutional Framework"
+        },
+        {
+          "domain": "medicine",
+          "role": "Psychiatry"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Default Mode & Task Switching"
+        },
+        {
+          "domain": "psychedelic",
+          "role": "Default Mode Network Dissolution"
+        },
+        {
+          "domain": "religion",
+          "role": "Theological Doctrine"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PRECUNEUS",
+      "state": "active",
+      "domainLabel": "Sustainability",
+      "domainDescription": "Sustainability systems within Industry",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "industry_sustainability_portal.html",
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Sustainability",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "contemplative",
+          "role": "Spatial Self-Awareness"
+        },
+        {
+          "domain": "education",
+          "role": "Library Systems"
+        },
+        {
+          "domain": "medicine",
+          "role": "Addiction Medicine"
+        },
+        {
+          "domain": "religion",
+          "role": "Prophecy & Revelation"
+        },
+        {
+          "domain": "science",
+          "role": "Theoretical Physics"
+        },
+        {
+          "domain": "technology",
+          "role": "Quantum Computing"
+        },
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Craving Relay Infrastructure & Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Easy-Read Formats — Regulation Strategy"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "WERN",
+      "state": "active",
+      "domainLabel": "Defense Ind",
+      "domainDescription": "Defense Ind systems within Industry",
+      "group": "manufacturing",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "industry_defense_ind_portal.html",
+      "neuralRole": "Language",
+      "brainNodeRoleCanonical": "Defense Ind",
+      "brainNodeLabelCanonical": "Industry",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "education",
+          "role": "Literacy"
+        },
+        {
+          "domain": "legal",
+          "role": "Statutory Interpretation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Wernicke's Area"
+        },
+        {
+          "domain": "provider",
+          "role": "Clinical Comprehension"
+        },
+        {
+          "domain": "religion",
+          "role": "Scripture & Canon"
+        },
+        {
+          "domain": "science",
+          "role": "Computer Science"
+        },
+        {
+          "domain": "trade",
+          "role": "Tradezone"
+        },
+        {
+          "domain": "addiction",
+          "role": "Negative Reinforcement Driver Coordination & Integration"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "id": "SUPPLY_CHAIN_COLLAPSE",
+      "label": "Supply Chain Collapse",
+      "summary": "Cascading failure across the supplier network caused by geopolitical disruption, pandemic, natural disaster, or critical single-source supplier bankruptcy, resulting in production halts and extended recovery timelines across dependent industries.",
+      "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo-active",
+          "detail": "Supply chain routing and coordination breaks down as material flows from multiple supplier tiers are simultaneously disrupted",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "S1",
+          "dir": "Hypo-active",
+          "detail": "Raw material inputs cease as upstream extraction and primary processing operations go offline or become inaccessible",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Assembly line production halts as critical components become unavailable, forcing partial or complete line shutdowns",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo-active",
+          "detail": "Warehouse inventory depletes rapidly as safety stock buffers are consumed without replenishment, exhausting reserves",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-active",
+          "detail": "Workforce and production management enters crisis planning mode, scrambling to reallocate resources and identify alternatives",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "AUTOMATION_FAILURE",
+      "label": "Automation System Failure",
+      "summary": "Widespread failure of robotic and automated production systems due to software bugs, firmware corruption, cyberattack, or control system hardware failure, halting automated production lines and requiring manual fallback operations.",
+      "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo-active",
+          "detail": "Robotic systems cease precise coordinated operation as control software or hardware fails, halting automated production sequences",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FPN",
+          "dir": "Hypo-active",
+          "detail": "Precision machining operations lose dimensional accuracy as CNC control systems malfunction, producing out-of-tolerance parts",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Altered",
+          "detail": "Assembly operations shift to degraded manual mode, operating at reduced speed and higher error rates as workers substitute for failed automation",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper-active",
+          "detail": "Quality control systems flag widespread deviations as the shift from automated to manual production introduces process variability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Safety systems activate heightened monitoring as manual operations in automated environments introduce unfamiliar human-machine interaction risks",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper-active",
+          "detail": "Workforce management urgently redeploys workers to manual stations, extends shifts, and coordinates emergency maintenance teams",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "TOXIC_SPILL",
+      "label": "Industrial Toxic Spill",
+      "summary": "Uncontrolled release of hazardous chemicals from processing, storage, or transport systems causing environmental contamination, worker exposure, community evacuation, and regulatory enforcement actions.",
+      "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper-active",
+          "detail": "Chemical process systems enter uncontrolled reaction or release state as containment is breached and hazardous materials escape processing boundaries",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper-active",
+          "detail": "Safety and emergency response systems activate at maximum alert level, triggering evacuation procedures, containment protocols, and hazmat response",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "ENS",
+          "dir": "Hyper-active",
+          "detail": "Waste treatment and containment systems are overwhelmed as spill volume exceeds designed capacity, allowing environmental discharge",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Regulatory compliance violations trigger enforcement actions, fines, and mandatory corrective action orders with potential facility shutdown",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Production operations halt as the affected area and potentially the entire facility is shut down for emergency response and investigation",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "QUALITY_CRISIS",
+      "label": "Systemic Quality Crisis",
+      "summary": "Discovery of widespread product defects affecting multiple production lots, triggering mass recalls, customer injury reports, regulatory investigation, and fundamental questioning of quality management system adequacy.",
+      "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Quality control monitoring failed to detect the systematic defect, indicating a fundamental gap in inspection coverage or statistical sampling adequacy",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper-active",
+          "detail": "Standards and compliance systems enter emergency review as regulatory bodies investigate the quality system failure and impose corrective action demands",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FG",
+          "dir": "Altered",
+          "detail": "Industrial design is scrutinized for inherent design flaws that contributed to the defect, potentially requiring complete product redesign",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "STRI",
+          "dir": "Altered",
+          "detail": "Packaging and distribution systems reverse flow as recall logistics retrieve affected products from the field and segregate inventory",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "AG",
+          "dir": "Hyper-active",
+          "detail": "R&D urgently investigates root cause and develops design or process modifications to eliminate the defect mode from current and future production",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "THAL",
+          "dir": "Altered",
+          "detail": "Supply chain traceability systems are stressed to identify the exact scope of affected lots, components, and distribution paths",
+          "evidence": "Strong"
+        }
+      ]
+    },
+    {
+      "id": "WORKFORCE_SHORTAGE",
+      "label": "Critical Workforce Shortage",
+      "summary": "Severe deficit of skilled industrial workers due to demographic shifts, training pipeline failures, wage competition, or rapid industry expansion, preventing facilities from operating at capacity or maintaining quality standards.",
+      "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Workforce management cannot fill required positions, forcing reduced shift coverage, mandatory overtime, and production schedule compression",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "M1",
+          "dir": "Hypo-active",
+          "detail": "Assembly line throughput drops as understaffed stations create bottlenecks and force reduced line speeds to match available labor capacity",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Quality control suffers as overworked inspectors miss defects and fatigued workers make more errors, increasing reject and rework rates",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo-active",
+          "detail": "Heavy equipment utilization drops as insufficient qualified operators leave machines idle during shifts that cannot be staffed",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper-active",
+          "detail": "Automation investment accelerates as manufacturers attempt to substitute robotic systems for unavailable human workers in an emergency timeline",
+          "evidence": "Strong"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "M1",
+      "target": "THAL",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "THAL",
+      "target": "HIPP",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "HIPP",
+      "target": "FG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "FG",
+      "target": "dlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dlPFC",
+      "target": "SMA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "SMA",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "CeA",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CeA",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "HYPO",
+      "target": "ENS",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CBLM",
+      "target": "FPN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "M1",
+      "target": "dACC",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "dACC",
+      "target": "S1",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "S1",
+      "target": "HYPO",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "HYPO",
+      "target": "CBLM",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "CBLM",
+      "target": "AG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "AG",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "STRI",
+      "target": "S1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "OFC",
+      "target": "HYPO",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "S1",
+      "target": "CBLM",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "ENS",
+      "target": "AG",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "FPN",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "AG",
+      "target": "dACC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "M1",
+      "target": "OFC",
+      "type": "TRANSFORMS",
+      "weight": 0.5
+    },
+    {
+      "source": "FG",
+      "target": "CeA",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "CeA",
+      "target": "S1",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "S1",
+      "target": "ENS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ENS",
+      "target": "FPN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FPN",
+      "target": "AG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "mPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Module Logistics Risk & Resilience → Assembly Lines Research & Development (top-down threat dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Module Logistics Risk & Resilience → Safety Systems (top-down autonomic dampening)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "mPFC",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.7,
+      "label": "Module Logistics Risk & Resilience → [PVN] (top-down HPA inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "BLA",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Assembly Lines Assessment & Diagnostics → Assembly Lines Research & Development (context-based threat regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "CeA",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Assembly Lines Assessment & Diagnostics → Safety Systems (context-based autonomic regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "vmPFC",
+      "target": "PAG",
+      "type": "inhib",
+      "weight": 0.75,
+      "label": "Assembly Lines Assessment & Diagnostics → Assembly Lines Coordination & Integration (top-down fight-or-flight regulation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Workforce Management → Quality Control (executive recruits conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dlPFC",
+      "target": "HIPP",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Workforce Management → Warehousing (executive accesses memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "rACC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "automotive paint — Signal Acquisition → Assembly Lines Research & Development (emotion modulates threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "dACC",
+      "target": "BLA",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Quality Control → Assembly Lines Research & Development (salience tags threat)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Supply Chain → Wing Assembly Human Capital & Development (visual sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Supply Chain → Assembly Automation Assessment & Diagnostics (auditory sensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Supply Chain → Raw Materials (somatosensory relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LGN",
+      "target": "V1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Assembly Robots Core Operations → Wing Assembly Human Capital & Development (visual thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "MGN",
+      "target": "A1",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Assembly Lines — Feedback & Validation → Assembly Automation Assessment & Diagnostics (auditory thalamic relay)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NTS",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Assembly Lines Performance & Optimization → Assembly Lines Standards & Governance (vagal afferent → insula bridge)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "AI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Assembly Lines Standards & Governance → Quality Control (interoceptive → conflict monitor)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PI",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Systems Integration Policy & Governance → Assembly Lines Standards & Governance (body-state integration)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "BLA",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.9,
+      "label": "Assembly Lines Research & Development → [PVN] (amygdala drives HPA initiator)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PVN",
+      "target": "HYPO",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "[PVN] → Industrial Chemistry (HPA cascade descending)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HPA",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Wing Assembly Policy & Governance → Warehousing (cortisol modulates memory)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "HIPP",
+      "target": "PVN",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Warehousing → [PVN] (hippocampal feedback inhibition)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "VTA",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.95,
+      "label": "Assembly Lines Core Operations → Assembly Lines Infrastructure & Capacity (dopamine → reward valuation)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "VP",
+      "type": "inhib",
+      "weight": 0.8,
+      "label": "Assembly Lines Infrastructure & Capacity → Robot Programming Core Operations (reward → hedonic output)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "NAcc",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Assembly Lines Infrastructure & Capacity → Standards and Compliance (reward → value coding)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "label": "Standards and Compliance → Assembly Lines Assessment & Diagnostics (value → context decision)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "SMA",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Heavy Equipment → Assembly Lines (planned movement → execution)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "STRI",
+      "target": "GP",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Packaging → Module Integration Assessment & Diagnostics (striatum → pallidum gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "GP",
+      "target": "THAL",
+      "type": "inhib",
+      "weight": 0.85,
+      "label": "Module Integration Assessment & Diagnostics → Supply Chain (pallidum → thalamus gating)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "CBLM",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Robotics and Automation → Supply Chain (cerebellum → motor timing)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FEF",
+      "target": "V1",
+      "type": "modul",
+      "weight": 0.7,
+      "label": "Innovation Synthesis Innovation → Wing Assembly Human Capital & Development (top-down attention → visual)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "FPN",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "label": "Precision Machining → Workforce Management (fronto-parietal → executive)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.85,
+      "label": "Systems Integration Quality & Performance → Assembly Lines Research & Development (norepinephrine → threat amplification)",
+      "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "LC",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.7,
+      "label": "Systems Integration Quality & Performance → [PVN] (sympathetic → HPA crosstalk)",
+      "_origin": "canonical_anatomical"
+    }
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-05-13T13:15:14.658Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0"
+  }
+}

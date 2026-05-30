@@ -1,0 +1,99 @@
+{
+  "domainId": "addiction_interoception_feedback",
+  "title": "Interoceptive Craving Relay — Feedback & Validation",
+  "parentPortal": "addiction_interoception_portal.html",
+  "parentLabel": "Interoceptive Craving Relay",
+  "phase": "P5",
+  "activations": [
+    {
+      "brainNodeId": "BDNF",
+      "state": "active",
+      "domainLabel": "Interoceptive Craving Relay — Feedback & Validation — Primary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "addiction_interoception_feedback_assess_portal.html"
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Interoceptive Craving Relay — Feedback & Validation — Secondary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "addiction_interoception_feedback_impl_portal.html"
+    },
+    {
+      "brainNodeId": "HPA",
+      "state": "active",
+      "domainLabel": "Interoceptive Craving Relay — Feedback & Validation — Tertiary Node",
+      "domainDescription": "Feedback layer — monitors treatment response, tracks biomarker changes, validates intervention efficacy, and detects adverse effects or non-response.",
+      "group": "feedback_validation",
+      "phase": "P5",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Response Monitoring Protocol",
+          "evidence": "A",
+          "description": "Systematic tracking of treatment response biomarkers and clinical indicators"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Adverse Effect Detection",
+          "evidence": "A",
+          "description": "Early detection system for treatment-related adverse effects requiring protocol adjustment"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Outcome Validation Framework",
+          "evidence": "B",
+          "description": "Standardized outcome measurement against pre-treatment baselines"
+        }
+      ],
+      "childPortal": "addiction_interoception_feedback_optim_portal.html"
+    }
+  ]
+}

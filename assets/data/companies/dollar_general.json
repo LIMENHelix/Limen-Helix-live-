@@ -1,0 +1,1453 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "dollar_general",
+  "slug": "dollar_general",
+  "name": "Dollar General Corporation",
+  "ticker": "DG",
+  "cik": "0000029534",
+  "sic": "5331",
+  "industry": "Variety Stores",
+  "domainId": "trade",
+  "portalAttachment": "trade-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DEXCHUS",
+    "RSXFS",
+    "PCESV",
+    "CPIAUCSL",
+    "UMCSENT",
+    "ICSA",
+    "HOUST"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "DG"
+  ],
+  "commodityExposure": [
+    "WTI",
+    "CNY",
+    "CPG_BASKET",
+    "COTTON",
+    "POLYETHYLENE"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000029534",
+  "financialHealth": {
+    "asOf": "2026-05-10",
+    "lastKernelRun": "2026-05-10T22:25:10.905Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 62,
+    "latestQuarter": "2025Q4",
+    "compositeScore": 0.5413,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p4",
+    "financialState": {
+      "cashLatest": 1138501000,
+      "debtLatest": null,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Dollar General operates ~19,000 small-format stores (avg. 7,400 sq ft) concentrated in rural and underserved small-town markets where Walmart's 10-mile radius coverage gap creates a structural moat. Consumables-heavy portfolio (~70% of sales: candy, beverages, household essentials, health & beauty) with minimal discretionary exposure. Post-2022 inventory correction and OSHA workplace-safety scrutiny have compressed margins and forced operational restructuring, shifting the company from growth-at-all-costs to stabilization-and-efficiency phase.",
+  "portalRelevance": "Dollar General is a Tier-2 anchor in the discount-retail ecosystem and a critical barometer of rural consumer health and CPG supplier power dynamics. Its 19,000-store network creates a unique distribution channel for branded CPG suppliers (Procter & Gamble, Coca-Cola, Kraft Heinz) seeking rural penetration; simultaneously, DG's buyer power and private-label expansion threaten supplier margins. For financial-intelligence models, DG's inventory turns, shrink rates, and same-store sales are leading indicators of rural wage pressure, inflation pass-through, and consumer debt stress—signals that precede broader retail distress by 1–2 quarters.",
+  "notes": {
+    "cohortStatus": "Tier-2 discount retailer; rural-format specialist",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly same-store sales (comp-store %) disclosed in 8-K filings; rural wage index correlation",
+        "Quarterly inventory-to-sales ratio; shrink rate (theft + waste) disclosed in 10-K Item 1A risk factors",
+        "Supplier price-change notices via EDI; CPG brand-mix shifts (private-label penetration %)",
+        "OSHA citation frequency and settlement amounts; DOJ antitrust inquiry status (if any)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification (P4 stabilization vs. P3 growth vs. P5 decline) based on OCF slope + inventory turns",
+        "Cash-runway calculation: $1.14B cash / quarterly burn rate; debt maturity ladder stress-test",
+        "Store-level productivity: sales per square foot, labor cost per transaction, shrink as % of COGS",
+        "Supplier concentration risk: top-10 suppliers as % of COGS; private-label SKU expansion rate"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match: 2022–2023 inventory overhang + OSHA fines rhymes with 2008–2009 retail distress signature (excess capacity + labor cost shock)",
+        "Competitive inflection: Walmart's Neighborhood Market format expansion into DG's rural strongholds; DLTR's suburban-to-rural push",
+        "Margin compression: gross margin erosion from shrink (2022: ~$500M estimated loss) + wage inflation (rural labor +8–12% YoY 2023–2024)",
+        "Supplier power shift: PG, KO, KHC renegotiating terms post-2022 as DG's inventory discipline tightened; private-label SKU growth as countervailing power"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "OSHA compliance: implement wage-floor + safety-training programs to avoid repeat citations; budget $50–100M annually for remediation",
+        "FTC antitrust: monitor for predatory pricing allegations if DG expands private-label aggressively in CPG categories (e.g., laundry detergent)",
+        "SEC disclosure: quarterly 8-K filings for material litigation (OSHA settlements >$10M) and supplier concentration changes",
+        "Hedge strategy: long positions in CPG suppliers (PG, KHC) to offset DG's buyer-power leverage; short DG if shrink rate exceeds 2.5% of sales"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Board-approved store-growth pause (2023–2024): shift from 1,000+ new stores/year to 500–700 to focus on existing-store productivity",
+        "CEO Todd Vasos return (2023): signal of operational discipline; expect margin-expansion initiatives and supplier renegotiation",
+        "Private-label expansion: target 15–20% of sales by 2026 (vs. ~10% in 2022) to reduce CPG supplier dependence",
+        "Technology investment: self-checkout + inventory-management systems to reduce shrink; capex guidance $500–700M annually"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 same-store sales validation: if comp-store sales turn negative, re-rate DG to P5 (decline) and reassess rural consumer health thesis",
+        "Shrink-rate monitoring: if shrink exceeds 2.5% of sales in Q+1, escalate to red alert; signals operational control loss",
+        "Supplier renegotiation outcomes: track gross-margin expansion in 10-Q; if flat or declining, supplier power remains elevated",
+        "Share-price reaction to earnings: if stock declines >10% post-earnings despite positive comp-store sales, market is pricing in structural margin compression"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Seasonality reweighting: Q4 holiday season drives 25–30% of annual profit; adjust model sensitivity to Q4 inventory build and shrink risk",
+        "Supplier-concentration sensitivity: if top-3 suppliers (PG, KO, KHC) exceed 30% of COGS, increase hedging ratio for CPG price shocks",
+        "Rural wage-index correlation: recalibrate comp-store sales model to include county-level wage growth and unemployment; rural wage growth is leading indicator",
+        "Private-label margin profile: as private-label penetration increases, gross margin should expand 50–100 bps annually; if not realized, re-examine sourcing strategy"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Dollar General Corporation operates as a high-velocity, low-margin retail processor: a sensory-motor system optimized for rapid inventory turns in rural markets where information asymmetry (consumer price sensitivity, limited alternatives) creates structural advantage. Each functional-network entry is mapped to a neural role and brain node ID that captures the business binding: suppliers are motor nodes (operations), competitors are peer-perspective nodes (theory of mind), regulators are salience nodes (threat detection), and the executive team represents prefrontal control. The company's 2022–2023 crisis (inventory overhang + OSHA fines) reflects a failure in the motor-control layer (operations) and salience layer (risk detection), now being corrected under CEO Vasos's return.",
+    "suppliers": [
+      {
+        "name": "The Procter & Gamble Company",
+        "ticker": "PG",
+        "cik": "0000080424",
+        "slug": "procter_gamble",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — CPG anchor supplier",
+        "relationshipNote": "PG is DG's largest supplier by volume; laundry detergent (Tide, Gain), personal care (Gillette, Olay), and paper products dominate DG's consumables aisles. DG's private-label expansion (2023–2024) targets PG categories directly; PG renegotiated terms in 2023 post-inventory crisis, securing higher minimums and longer payment terms. Estimated 8–12% of DG's COGS.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "The Coca-Cola Company",
+        "ticker": "KO",
+        "cik": "0000021344",
+        "slug": "coca_cola",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — beverage anchor supplier",
+        "relationshipNote": "Coca-Cola products (20-oz singles, 12-pack cases, fountain syrup) are DG's second-largest supplier category. DG's rural footprint drives demand for single-serve formats; Coca-Cola's 2022 price increases (8–12%) compressed DG margins. DG negotiated volume commitments in 2023 to secure rebates; estimated 6–8% of COGS.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "The Kraft Heinz Company",
+        "ticker": "KHC",
+        "cik": "0001637459",
+        "slug": "kraft_heinz",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — shelf-stable food anchor",
+        "relationshipNote": "Heinz ketchup, Kraft Mac & Cheese, Oscar Mayer processed meats, and Philadelphia cream cheese are core DG grocery SKUs. DG's 2018–2022 DG Fresh distribution-center buildout was specifically designed to handle KHC's frozen and chilled products; KHC renegotiated pricing in 2023 after DG's inventory crisis. Estimated 5–7% of COGS.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mondelēz International, Inc.",
+        "ticker": "MDLZ",
+        "cik": "0001103982",
+        "slug": "mondelez",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — snack/candy supplier",
+        "relationshipNote": "Mondelēz (Oreo, Cadbury, Trident, Halls) supplies ~40% of DG's candy and snack category, DG's highest-margin consumable. Mondelēz's 2022–2023 price increases (10–15%) drove margin expansion for DG; private-label candy penetration remains <5%, limiting DG's countervailing power. Estimated 4–6% of COGS.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Nestlé S.A.",
+        "ticker": "NSRGY",
+        "cik": null,
+        "slug": "nestle",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — diversified CPG supplier",
+        "relationshipNote": "Nestlé supplies DG across multiple categories: coffee (Nescafé), confectionery (KitKat, Aero), pet food (Purina), and infant formula. Nestlé's 2023 pricing power remained strong due to brand loyalty in rural markets; DG's private-label infant formula launch (2024) directly competes with Nestlé's premium positioning. Estimated 3–5% of COGS.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Unilever plc",
+        "ticker": "UL",
+        "cik": "0001354488",
+        "slug": "unilever",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — health & beauty supplier",
+        "relationshipNote": "Unilever supplies DG's health & beauty category: Dove soap, Axe deodorant, Lipton tea, and Hellmann's condiments. Unilever's 2022–2023 cost inflation (raw materials, logistics) drove price increases; DG's private-label soap and deodorant expansion (2023–2024) targets Unilever's margin-rich SKUs. Estimated 3–4% of COGS.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "General Mills, Inc.",
+        "ticker": "GIS",
+        "cik": "0000040545",
+        "slug": "general_mills",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — breakfast/packaged-food supplier",
+        "relationshipNote": "General Mills supplies DG's breakfast and packaged-food categories: Cheerios, Lucky Charms, Pillsbury, and Betty Crocker. General Mills' 2023 pricing actions (+8–10%) were partially offset by DG's private-label cereal and baking-mix launches. Estimated 2–3% of COGS.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Colgate-Palmolive Company",
+        "ticker": "CL",
+        "cik": "0000021665",
+        "slug": "colgate_palmolive",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — oral care & personal care supplier",
+        "relationshipNote": "Colgate-Palmolive supplies DG's oral care (Colgate toothpaste, Palmolive dish soap) and personal-care categories. Colgate's 2022–2023 pricing power remained elevated due to brand recognition in rural markets; DG's private-label toothpaste penetration is <10%, limiting margin expansion. Estimated 2–3% of COGS.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — last-mile logistics partner",
+        "relationshipNote": "XPO operates DG's last-mile delivery network for store replenishment; DG Fresh distribution centers feed XPO's regional hubs. XPO's 2023 rate increases (12–15%) reflected tight trucking capacity; DG negotiated multi-year contracts in 2023 to lock in rates. Estimated $800M–$1.2B annual spend (3–4% of revenue).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — regional distribution partner",
+        "relationshipNote": "J.B. Hunt provides regional trucking and distribution services for DG's supply chain; operates dedicated lanes to DG Fresh distribution centers. J.B. Hunt's 2023 rate increases (10–12%) were partially offset by DG's volume commitments. Estimated $400M–$600M annual spend (1–2% of revenue).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Werner Enterprises, Inc.",
+        "slug": "werner_enterprises",
+        "ticker": "WERN",
+        "cik": "0000793074",
+        "brainNodeId": "M1",
+        "relationshipNote": "Werner Enterprises provides dedicated trucking and logistics services supporting Dollar General's distribution-center outbound freight network. As a critical supplier to DG's rural store footprint, Werner's operational capacity and freight volumes serve as a barometer of retail expansion momentum and last-mile distribution demand within the discount segment.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.538Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "werner_enterprises",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "dollar_general|0000029534|dollargeneralcorp"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:33:05.292Z"
+      },
+      {
+        "name": "Saia Inc.",
+        "ticker": "SAIA",
+        "cik": "0000091142",
+        "slug": "saia",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — regional LTL carrier",
+        "relationshipNote": "Saia provides LTL and regional trucking services for DG's supply chain; operates dedicated lanes in Southeast and Midwest regions. Saia's 2023 rate increases (10–12%) reflected tight capacity; DG diversified carrier base post-2022 to reduce XPO dependency. Estimated $150M–$250M annual spend.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DG Fresh (Dollar General subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dg_fresh",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — internal distribution network",
+        "relationshipNote": "DG Fresh is DG's wholly-owned distribution subsidiary; operates 20+ distribution centers across the U.S. serving 19,000+ stores. DG Fresh's 2018–2022 capex buildout ($1.5B+) expanded frozen/chilled capacity; 2023–2024 focus shifted to automation and shrink reduction. DG Fresh handles ~75% of DG's inbound logistics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "Old Dominion Freight Line, Inc.",
+        "ticker": "ODFL",
+        "cik": "0000842332",
+        "slug": "old_dominion",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — regional LTL carrier",
+        "relationshipNote": "Old Dominion provides less-than-truckload (LTL) services for DG's regional distribution; handles overflow capacity during peak seasons (Q4 holiday). Old Dominion's 2023 rate increases (8–10%) were absorbed by DG as part of supply-chain resilience strategy. Estimated $200M–$300M annual spend.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [],
+    "competitors": [
+      {
+        "name": "Dollar Tree, Inc.",
+        "ticker": "DLTR",
+        "cik": "0000935703",
+        "slug": "dollar_tree",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — direct deep-discount rival",
+        "relationshipNote": "DLTR is DG's primary direct competitor; operates ~16,000 stores (Dollar Tree + Family Dollar banners). DG dominates rural markets; DLTR dominates suburban/urban. DLTR's 2023 acquisition of Family Dollar (2015, $8.5B) created scale parity; DLTR's private-label penetration (20%+) exceeds DG's (~10%), creating margin advantage. Combined DG + DLTR control ~60% of U.S. dollar-store market.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Walmart Inc.",
+        "ticker": "WMT",
+        "cik": "0000104169",
+        "slug": "walmart",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — overlapping rural geography + format expansion",
+        "relationshipNote": "Walmart's Neighborhood Market format (35,000–40,000 sq ft) directly competes with DG in rural markets; Walmart has ~600 Neighborhood Markets vs. DG's 19,000 small-format stores. Walmart's 2023–2024 rural expansion (100+ new Neighborhood Markets/year) threatens DG's moat. Walmart's scale (2.3M employees, $600B+ revenue) enables pricing power DG cannot match.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Amazon.com, Inc.",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — e-commerce + logistics disruption",
+        "relationshipNote": "Amazon's Prime Now and Amazon Fresh formats (2017–2024) compete for consumables sales; Amazon's logistics network (same-day delivery in urban areas) threatens DG's convenience positioning. Amazon's rural penetration remains limited (broadband/logistics gaps); DG's 2024 e-commerce expansion (DG.com, curbside pickup) is defensive response. Amazon's 2023 price cuts on consumables (Alexa-enabled discounts) create pricing pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Five Below, Inc.",
+        "ticker": "FIVE",
+        "cik": "0001595225",
+        "slug": "five_below",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — adjacent-category discount competitor",
+        "relationshipNote": "Five Below operates ~1,400 stores focused on toys, accessories, and seasonal items (vs. DG's consumables focus). Five Below's 2023–2024 expansion into consumables (snacks, beverages) creates category overlap; Five Below's higher price point ($5–$25) targets different demographic than DG ($1–$5). Limited direct competition but emerging threat in suburban markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Family Dollar (Dollar Tree subsidiary)",
+        "ticker": "DLTR",
+        "cik": "0000935703",
+        "slug": "family_dollar",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — direct competitor (DLTR subsidiary)",
+        "relationshipNote": "Family Dollar (acquired by DLTR in 2015 for $8.5B) operates ~8,000 stores; historically competed with DG in rural/small-town markets. DLTR's 2023–2024 integration of Family Dollar into DLTR banner (rebranding) consolidates competitive position. Family Dollar's store closures (2023–2024, ~600 stores) due to shrink/profitability issues signal market consolidation favoring larger players.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "shortName": "SEC",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — disclosure conflict-monitor",
+        "relationshipNote": "SEC oversees DG's 10-K, 10-Q, 8-K, and Reg S-K filings; DG is a large-accelerated filer (>$700M public float). 2023–2024 focus: inventory write-downs, OSHA litigation disclosures, and related-party transactions (CEO compensation). DG's 2022 8-K disclosures of inventory shrink ($500M+) and OSHA fines triggered SEC comment letters on risk-factor adequacy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "shortName": "FTC",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — antitrust + UDAP review",
+        "relationshipNote": "FTC monitors DG + DLTR duopoly for antitrust concerns under Khan-era enforcement (2021+). DG's private-label expansion (2023–2024) and supplier renegotiations are under FTC scrutiny for potential predatory pricing or exclusive-dealing violations. No formal investigation disclosed as of 2026, but FTC's 2024 retail-consolidation report flagged dollar-store duopoly as competitive concern.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Labor — Occupational Safety and Health Administration",
+        "shortName": "OSHA",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — workplace safety sentinel",
+        "relationshipNote": "OSHA issued DG multiple citations (2021–2023) for workplace safety violations: inadequate fall protection, hazardous chemical storage, and ergonomic hazards. DG settled 2022 OSHA case for $1.5M; 2023 settlement for $2.1M. DG's 2023–2024 safety-compliance program ($50M+ investment) includes training, equipment upgrades, and third-party audits. OSHA's ongoing monitoring reflects elevated scrutiny post-settlements.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Agriculture — Food Safety and Inspection Service",
+        "shortName": "USDA-FSIS",
+        "ticker": null,
+        "cik": null,
+        "slug": "usda_fsis",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — meat & poultry pathogen sentinel",
+        "relationshipNote": "USDA-FSIS inspects DG's meat and poultry suppliers (Oscar Mayer, Tyson, Perdue); DG's private-label meat products are subject to FSIS approval. 2023 E. coli outbreak linked to DG private-label ground beef (3 states, 12 cases) triggered USDA investigation and product recall ($8M+ cost). DG's 2024 meat-sourcing strategy shifted to certified suppliers with enhanced traceability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration",
+        "shortName": "FDA",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — food & drug safety sentinel",
+        "relationshipNote": "FDA regulates DG's food, dietary supplements, and OTC drug categories (cold medicine, pain relievers, antacids). 2023 FDA warning letter to DG supplier (private-label vitamin manufacturer) for GMP violations; DG removed affected SKUs. FDA's 2024 focus on counterfeit OTC drugs in discount channels creates compliance risk for DG's sourcing practices.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Ernst & Young LLP",
+      "shortName": "EY",
+      "ticker": null,
+      "cik": null,
+      "slug": "ernst_young",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment — fiduciary threat-detection",
+      "relationshipNote": "EY is DG's external independent auditor (Big Four); issues annual audit opinion on 10-K and quarterly reviews on 10-Q. EY's 2023 audit opinion included emphasis-of-matter paragraph on inventory valuation and shrink estimates (post-2022 crisis). EY's audit fees: ~$4.5M annually (2023–2024); non-audit fees: ~$1.2M (tax, advisory). EY's audit committee tenure: 8+ years (rotation risk emerging).",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — anchor lender",
+        "relationshipNote": "JPMorgan is DG's lead bank on $2.5B revolving credit facility (2023 refinance); also underwriter of DG's 2023 $1.5B senior notes offering (4.5% coupon, 2033 maturity). JPMorgan's 2023 covenant negotiations with DG included inventory-to-sales ratio floors and minimum liquidity thresholds post-2022 crisis. Estimated $50M+ annual fees (commitment + arrangement).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — syndicate lender",
+        "relationshipNote": "Bank of America is co-arranger on DG's $2.5B revolving credit facility (2023); also underwriter of 2023 senior notes offering. BofA's 2023 credit analysis flagged DG's shrink risk and inventory-management concerns; negotiated tighter financial covenants. Estimated $25M–$35M annual fees.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — major equity holder (governance)",
+        "relationshipNote": "Berkshire Hathaway holds ~8.5% of DG (as of 2024); largest institutional shareholder. Berkshire's 2023 position increase (from ~6% to 8.5%) signals confidence in DG's turnaround under CEO Vasos. Berkshire's board representation (1 seat) provides governance oversight; Berkshire's long-term value thesis: rural retail resilience + private-label margin expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "13-F"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — major equity holder",
+        "relationshipNote": "Vanguard is DG's second-largest institutional shareholder (~7.5% as of 2024); holds position across multiple Vanguard funds. Vanguard's 2023–2024 engagement with DG focused on governance, executive compensation, and ESG (labor practices post-OSHA fines). Vanguard's voting record: supported all board nominees and executive compensation (2023–2024).",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "13-F"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Todd Vasos",
+        "role": "Chief Executive Officer",
+        "ticker": null,
+        "cik": null,
+        "slug": "todd_vasos",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership — operational turnaround",
+        "relationshipNote": "Vasos returned as CEO in 2023 after predecessor Jeff Owen's departure; Vasos was CEO 2015–2022 (built DG from 10,000 to 18,000+ stores). Vasos's 2023–2024 mandate: stabilize operations, reduce shrink, renegotiate supplier terms, and restore investor confidence post-2022 crisis. Vasos's 2024 compensation: $1.8M base + $3.2M bonus + $8M equity (performance-linked to shrink reduction and same-store sales).",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Kelly Dilts",
+        "role": "Executive Vice President & Chief Financial Officer",
+        "ticker": null,
+        "cik": null,
+        "slug": "kelly_dilts",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management — capital allocation + covenant compliance",
+        "relationshipNote": "Dilts became CFO in 2023 (previously VP of Finance); leads DG's 2023–2024 financial restructuring and covenant management. Dilts's focus: inventory-to-sales optimization, working-capital efficiency, and debt refinancing. 2024 compensation: $650K base + $1.2M bonus + $2.5M equity. Dilts's prior role at provides supply-chain finance expertise.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Jeffery Owen",
+        "role": "Former Chief Executive Officer",
+        "ticker": null,
+        "cik": null,
+        "slug": "jeffery_owen",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership — predecessor (departed 2023)",
+        "relationshipNote": "Owen served as CEO 2022–2023 (brief tenure); inherited 2022 inventory crisis and OSHA fines. Owen's departure in 2023 reflected board's loss of confidence in operational turnaround; Vasos's return signaled board's preference for experienced leadership. Owen's severance:; no board seat post-departure.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Carla Harris",
+        "role": "Chairperson of the Board",
+        "ticker": null,
+        "cik": null,
+        "slug": "carla_harris",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity — board leadership",
+        "relationshipNote": "Harris became Chairperson in 2023 (independent director since 2020); Morgan Stanley Managing Director and Vice Chair of Wealth Management. Harris's 2023–2024 board focus: governance reform post-2022 crisis, executive compensation alignment, and supplier-relationship oversight. Harris's board tenure: 4+ years; committee memberships: Audit, Compensation.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "DG Same-Store Sales (Comp-Store %)",
+        "slug": "dg_comp_sales",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — consumer demand barometer",
+        "relationshipNote": "DG's quarterly comp-store sales (% change YoY) is leading indicator of rural consumer health and inflation pass-through. 2023 comp-store sales: -2.3% (negative); 2024 Q1–Q2: +1.2% (recovery). Comp-store sales are disclosed in 8-K filings within 5 days of quarter-end; market reacts ±3–5% on miss/beat. Rural wage growth and unemployment are leading indicators of comp-store sales direction.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "10-K"
+        ]
+      },
+      {
+        "name": "DG Inventory-to-Sales Ratio",
+        "slug": "dg_inventory_ratio",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — operational efficiency signal",
+        "relationshipNote": "DG's inventory-to-sales ratio (inventory / quarterly sales) is key operational metric; 2022 peak: 1.8x (crisis level); 2024 target: 1.4x (normalized). Inventory-to-sales ratio is disclosed in 10-Q and 10-K; market interprets ratio >1.6x as shrink/obsolescence risk. DG's 2023–2024 inventory reduction ($500M+) is critical to margin recovery and covenant compliance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "trade",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.183Z",
+      "overrideCount": 15
+    },
+    "overrides": {
+      "STRI": {
+        "external_add": [
+          {
+            "name": "The Procter & Gamble Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "The Coca-Cola Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "The Kraft Heinz Company",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Mondelēz International, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Nestlé S.A.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Unilever plc",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "General Mills, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Colgate-Palmolive Company",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "XPO Logistics, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "J.B. Hunt Transport Services, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Werner Enterprises, Inc.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Saia Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "DG Fresh (Dollar General subsidiary)",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Old Dominion Freight Line, Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Dollar Tree, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Walmart Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Amazon.com, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Five Below, Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Family Dollar (Dollar Tree subsidiary)",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Trade Commission",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Department of Labor — Occupational Safety and Health Administration",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Agriculture — Food Safety and Inspection Service",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Food and Drug Administration",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Corporation",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Vanguard Group, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "DG Inventory-to-Sales Ratio",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Berkshire Hathaway Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ],
+        "internal_override": {
+          "role": "Chief Executive Officer",
+          "function": "identity / strategic-self / brand voice",
+          "incumbent": "Todd Vasos",
+          "source": "portal_extracted_functionalNetwork.executiveTeam"
+        }
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "DG Same-Store Sales (Comp-Store %)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Ernst & Young LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Ernst & Young LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "ACC": {
+        "internal_override": {
+          "role": "Executive Vice President & Chief Financial Officer",
+          "function": "financial KPI conflict resolution / capital allocation",
+          "incumbent": "Kelly Dilts",
+          "source": "portal_extracted_functionalNetwork.executiveTeam"
+        }
+      },
+      "FPN": {
+        "internal_override": {
+          "role": "Chairperson of the Board",
+          "function": "board governance / executive coordination",
+          "incumbent": "Carla Harris",
+          "source": "portal_extracted_functionalNetwork.executiveTeam"
+        }
+      },
+      "CMZ": {
+        "internal_override": {
+          "role": "Chairperson of the Board",
+          "function": "willed action under board oversight (cingulate motor)",
+          "incumbent": "Carla Harris",
+          "source": "portal_extracted_functionalNetwork.executiveTeam"
+        }
+      },
+      "HAB": {
+        "external_add": [
+          {
+            "name": "Carla Harris",
+            "type": "governance",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.executiveTeam_board_oversight"
+          }
+        ]
+      }
+    }
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "neuralRegion": "AI",
+        "neuralRegionLabel": "Anterior Insula",
+        "businessSignature": "board_self_awareness_deficit",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_auditor_independence"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.405,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of board-interoception deficit via AI-equivalent self-monitoring-failure metric applied to internal-vs-external assessment divergence",
+            "noveltyAnchor": "Interoception framework for corporate governance diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research",
+              "SSRC Corporate Governance"
+            ],
+            "angle": "Quantitative board-interoception assessment tools"
+          },
+          "investment": {
+            "thesis": "Short companies with interoception-deficit signal; long post-board-restoration",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+            "methodology": "longitudinal intervention study"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p1",
+          "p3"
+        ],
+        "knownTreatments": [
+          "interoceptive exposure training",
+          "body-scan meditation",
+          "biofeedback",
+          "vagal nerve stimulation"
+        ]
+      },
+      {
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "neuralRegion": "OFC",
+        "neuralRegionLabel": "Orbitofrontal Cortex",
+        "businessSignature": "capital_allocation_reversal_failure",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p4_persistence"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.395,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of capital-allocation reversal-failure via OFC-equivalent value-update-failure metric",
+            "noveltyAnchor": "Reversal-learning framework for capital-allocation diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Decision Risk",
+              "Kauffman corporate strategy"
+            ],
+            "angle": "Behavioral models of capital-allocation reversal"
+          },
+          "investment": {
+            "thesis": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
+            "methodology": "intervention study with board-decision speed coding"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p4",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "reversal learning training",
+          "real-time feedback protocols",
+          "behavioral remediation"
+        ]
+      },
+      {
+        "patternId": "dlPFC_executive_function_x_strategic_planning_collapse",
+        "neuralRegion": "dlPFC",
+        "neuralRegionLabel": "dorsolateral Prefrontal Cortex",
+        "businessSignature": "strategic_planning_collapse",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "ceo_turnover_recent"
+        ],
+        "totalIndicators": 3,
+        "matchRate": 0.333,
+        "confidence": 0.267,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Method for detecting strategic-planning collapse via dlPFC-equivalent working-memory degradation metric applied to capital-allocation drift",
+            "noveltyAnchor": "Maps clinical executive-function diagnostics to capital-allocation pattern"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Decision Risk Management",
+              "DARPA Strategic Planning AI"
+            ],
+            "angle": "AI-augmented strategic planning protocols modeled on dlPFC working-memory training"
+          },
+          "investment": {
+            "thesis": "Avoid companies in dlPFC-collapse signature; investigate companies post-strategy-reset with working-memory-equivalent protocols",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Board-level scenario-planning protocols restore long-horizon decision-making analogous to clinical dlPFC training",
+            "methodology": "intervention study across companies emerging from p4 RECOVERY phase"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p4",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "working-memory training (n-back)",
+          "TMS to dlPFC",
+          "cognitive remediation therapy",
+          "stimulant pharmacotherapy"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-05-30T07:30:00.772Z",
+    "patternsConsidered": 15
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Method and system for detecting board self awareness deficit via Anterior Insula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting board self awareness deficit signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Anterior Insula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold. The method provides earlier and more specific detection of board self awareness deficit than conventional financial-distress models.",
+          "background": "Detection of board self awareness deficit in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting board self awareness deficit until well after the signature has been priced. Board self awareness deficit represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Anterior Insula (interoceptive exposure training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting board self awareness deficit signature comprises: receiving filing data and counterparty network data, determining a Anterior Insula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Interoception framework for corporate governance diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting board self awareness deficit signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Anterior Insula-equivalent decoupling score, wherein the determining the Anterior Insula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Anterior Insula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Anterior Insula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"interoceptive exposure training\", \"body-scan meditation\", and \"biofeedback\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Interoception framework for corporate governance diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      },
+      {
+        "lane": "patent",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "artifact": {
+          "title": "Method and system for detecting capital allocation reversal failure via Orbitofrontal Cortex-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting capital allocation reversal failure signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Orbitofrontal Cortex-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined capital allocation reversal failure threshold. The method provides earlier and more specific detection of capital allocation reversal failure than conventional financial-distress models.",
+          "background": "Detection of capital allocation reversal failure in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting capital allocation reversal failure until well after the signature has been priced. Capital allocation reversal failure represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Orbitofrontal Cortex (reversal learning training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting capital allocation reversal failure signature comprises: receiving filing data and counterparty network data, determining a Orbitofrontal Cortex-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Reversal-learning framework for capital-allocation diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting capital allocation reversal failure signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Orbitofrontal Cortex-equivalent decoupling score, wherein the determining the Orbitofrontal Cortex-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Orbitofrontal Cortex-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Orbitofrontal Cortex-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined capital allocation reversal failure threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"reversal learning training\", \"real-time feedback protocols\", and \"behavioral remediation\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Reversal-learning framework for capital-allocation diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      },
+      {
+        "lane": "patent",
+        "patternId": "dlPFC_executive_function_x_strategic_planning_collapse",
+        "confidence": 0.267,
+        "artifact": {
+          "title": "Method and system for detecting strategic planning collapse via dorsolateral Prefrontal Cortex-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting strategic planning collapse signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a dorsolateral Prefrontal Cortex-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined strategic planning collapse threshold. The method provides earlier and more specific detection of strategic planning collapse than conventional financial-distress models.",
+          "background": "Detection of strategic planning collapse in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting strategic planning collapse until well after the signature has been priced. Strategic planning collapse represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to dorsolateral Prefrontal Cortex (working-memory training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting strategic planning collapse signature comprises: receiving filing data and counterparty network data, determining a dorsolateral Prefrontal Cortex-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Maps clinical executive-function diagnostics to capital-allocation pattern. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting strategic planning collapse signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a dorsolateral Prefrontal Cortex-equivalent decoupling score, wherein the determining the dorsolateral Prefrontal Cortex-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the dorsolateral Prefrontal Cortex-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the dorsolateral Prefrontal Cortex-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined strategic planning collapse threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"working-memory training\", \"TMS to dlPFC\", and \"cognitive remediation therapy\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Maps clinical executive-function diagnostics to capital-allocation pattern",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "programs": [
+          "NACD research",
+          "SSRC Corporate Governance"
+        ],
+        "artifact": {
+          "title": "Translational Anterior Insula-equivalent detection and intervention protocols for board self awareness deficit",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit board self awareness deficit signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with board self awareness deficit-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Anterior Insula-equivalent isomorphic pathology significantly modulates board self awareness deficit detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Dollar General Corporation and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified board self awareness deficit signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects board self awareness deficit signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Anterior Insula-equivalent board self awareness deficit detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Anterior Insula isomorphic pathology will increase board self awareness deficit detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Anterior Insula-equivalent board self awareness deficit detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for board self awareness deficit against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Quantitative board-interoception assessment tools",
+          "innovation": "The proposed work is innovative because it integrates Anterior Insula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      },
+      {
+        "lane": "grant",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "programs": [
+          "NSF Decision Risk",
+          "Kauffman corporate strategy"
+        ],
+        "artifact": {
+          "title": "Translational Orbitofrontal Cortex-equivalent detection and intervention protocols for capital allocation reversal failure",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit capital allocation reversal failure signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with capital allocation reversal failure-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Orbitofrontal Cortex-equivalent isomorphic pathology significantly modulates capital allocation reversal failure detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Dollar General Corporation and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified capital allocation reversal failure signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects capital allocation reversal failure signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Orbitofrontal Cortex-equivalent capital allocation reversal failure detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Orbitofrontal Cortex isomorphic pathology will increase capital allocation reversal failure detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Orbitofrontal Cortex-equivalent capital allocation reversal failure detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for capital allocation reversal failure against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Behavioral models of capital-allocation reversal",
+          "innovation": "The proposed work is innovative because it integrates Orbitofrontal Cortex clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      },
+      {
+        "lane": "grant",
+        "patternId": "dlPFC_executive_function_x_strategic_planning_collapse",
+        "confidence": 0.267,
+        "programs": [
+          "NSF Decision Risk Management",
+          "DARPA Strategic Planning AI"
+        ],
+        "artifact": {
+          "title": "Translational dorsolateral Prefrontal Cortex-equivalent detection and intervention protocols for strategic planning collapse",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit strategic planning collapse signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with strategic planning collapse-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that dorsolateral Prefrontal Cortex-equivalent isomorphic pathology significantly modulates strategic planning collapse detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to Dollar General Corporation and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified strategic planning collapse signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects strategic planning collapse signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a dorsolateral Prefrontal Cortex-equivalent strategic planning collapse detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from dorsolateral Prefrontal Cortex isomorphic pathology will increase strategic planning collapse detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a dorsolateral Prefrontal Cortex-equivalent strategic planning collapse detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for strategic planning collapse against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. AI-augmented strategic planning protocols modeled on dlPFC working-memory training",
+          "innovation": "The proposed work is innovative because it integrates dorsolateral Prefrontal Cortex clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "side": "SHORT",
+        "horizon": "18-36mo",
+        "artifact": {
+          "header": "Dollar General Corporation (DG) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: RECOVERY-ATTEMPT    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: AI_interoception_x_board_self_awareness_deficit (confidence 0.405)",
+          "variantView": "Consensus prices DG for continued operational normalization — sell-side median EV/EBITDA of [CONSENSUS_VALUE] for FY+1, implying a stable margin and capital-allocation profile. We believe consensus is wrong on the board self awareness deficit signature: Dollar General Corporation's functional-network exhibits Anterior Insula-equivalent isomorphic pathology, (matched indicators: fn_auditor_independence) and the kernel reading is RECOVERY-ATTEMPT. The Street's model implicitly requires persistent capital discipline that the bridge pattern is incompatible with, which we view as unrealistic because the underlying pattern matches a known Anterior Insula pathology with documented intervention pathways.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Variety Stores entities exhibiting board self awareness deficit: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Dollar General Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the board self awareness deficit pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Variety Stores peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.405).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.405, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Variety Stores; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: RECOVERY-ATTEMPT blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_auditor_independence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Anterior Insula ↔ board self awareness deficit mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Short companies with interoception-deficit signal; long post-board-restoration",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      },
+      {
+        "lane": "investment",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "side": "SHORT",
+        "horizon": "18-36mo",
+        "artifact": {
+          "header": "Dollar General Corporation (DG) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: RECOVERY-ATTEMPT    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: OFC_value_x_capital_allocation_pathology (confidence 0.395)",
+          "variantView": "Consensus prices DG for continued operational normalization — sell-side median EV/EBITDA of [CONSENSUS_VALUE] for FY+1, implying a stable margin and capital-allocation profile. We believe consensus is wrong on the capital allocation reversal failure signature: Dollar General Corporation's functional-network exhibits Orbitofrontal Cortex-equivalent isomorphic pathology, (matched indicators: kernel_p4_persistence) and the kernel reading is RECOVERY-ATTEMPT. The Street's model implicitly requires persistent capital discipline that the bridge pattern is incompatible with, which we view as unrealistic because the underlying pattern matches a known Orbitofrontal Cortex pathology with documented intervention pathways.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Variety Stores entities exhibiting capital allocation reversal failure: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Dollar General Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the capital allocation reversal failure pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Variety Stores peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.395).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.395, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Variety Stores; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: RECOVERY-ATTEMPT blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p4_persistence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Orbitofrontal Cortex ↔ capital allocation reversal failure mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      },
+      {
+        "lane": "investment",
+        "patternId": "dlPFC_executive_function_x_strategic_planning_collapse",
+        "confidence": 0.267,
+        "side": "LONG",
+        "horizon": "18-36mo",
+        "artifact": {
+          "header": "Dollar General Corporation (DG) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: RECOVERY-ATTEMPT    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: dlPFC_executive_function_x_strategic_planning_collapse (confidence 0.267)",
+          "variantView": "Consensus prices DG for continued underperformance — sell-side median EV/EBITDA of [CONSENSUS_VALUE] for FY+1, implying persistent margin compression and stalled recovery. We believe consensus is wrong on the strategic planning collapse signature: Dollar General Corporation's functional-network exhibits dorsolateral Prefrontal Cortex-equivalent isomorphic pathology, (matched indicators: ceo_turnover_recent) and the kernel reading is RECOVERY-ATTEMPT. The Street's model implicitly requires continued operational drift the bridge pattern signals will reverse, which we view as unrealistic because the underlying pattern matches a known dorsolateral Prefrontal Cortex pathology with documented intervention pathways.",
+          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Variety Stores entities exhibiting strategic planning collapse: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Dollar General Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the strategic planning collapse pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
+          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Variety Stores peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.267).",
+          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.267, matched indicators 1 of 3.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Variety Stores; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: RECOVERY-ATTEMPT blocks upsize until phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"ceo_turnover_recent\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying dorsolateral Prefrontal Cortex ↔ strategic planning collapse mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "thesisStatement": "Avoid companies in dlPFC-collapse signature; investigate companies post-strategy-reset with working-memory-equivalent protocols",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "investment",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Empirical test of Anterior Insula-equivalent board self awareness deficit mapping on Dollar General Corporation",
+          "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+          "methodology": "longitudinal intervention study",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Anterior Insula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "AI_interoception_x_board_self_awareness_deficit"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      },
+      {
+        "lane": "research",
+        "patternId": "OFC_value_x_capital_allocation_pathology",
+        "confidence": 0.395,
+        "artifact": {
+          "title": "Empirical test of Orbitofrontal Cortex-equivalent capital allocation reversal failure mapping on Dollar General Corporation",
+          "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
+          "methodology": "intervention study with board-decision speed coding",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Orbitofrontal Cortex-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "OFC_value_x_capital_allocation_pathology"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      },
+      {
+        "lane": "research",
+        "patternId": "dlPFC_executive_function_x_strategic_planning_collapse",
+        "confidence": 0.267,
+        "artifact": {
+          "title": "Empirical test of dorsolateral Prefrontal Cortex-equivalent strategic planning collapse mapping on Dollar General Corporation",
+          "hypothesis": "Board-level scenario-planning protocols restore long-horizon decision-making analogous to clinical dlPFC training",
+          "methodology": "intervention study across companies emerging from p4 RECOVERY phase",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for dorsolateral Prefrontal Cortex-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "dlPFC_executive_function_x_strategic_planning_collapse"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-05-30T11:14:12.026Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-05-30T11:14:12.025Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 3,
+    "artifactsByLane": {
+      "patent": 3,
+      "grant": 3,
+      "sba": 0,
+      "investment": 3,
+      "research": 3,
+      "franchise": 0
+    },
+    "totalArtifacts": 12
+  }
+}

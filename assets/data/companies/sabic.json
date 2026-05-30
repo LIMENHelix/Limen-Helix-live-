@@ -1,0 +1,782 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "sabic",
+  "slug": "sabic",
+  "name": "Saudi Basic Industries Corporation (SABIC)",
+  "ticker": null,
+  "cik": null,
+  "sic": "2821",
+  "industry": "Plastics Materials and Resins",
+  "domainId": "environment",
+  "portalAttachment": "environment-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "MMNRNJ",
+    "NAPMPMI",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "ethylene",
+    "propylene",
+    "methanol",
+    "ammonia",
+    "polyethylene",
+    "polypropylene"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Hydrocarbon price volatility exposure; crude oil and natural gas represent >60% of feedstock cost base",
+    "Geopolitical concentration risk: Saudi Arabia domicile creates regulatory and supply-chain vulnerability",
+    "Cyclical petrochemical demand; 2023-2024 margin compression in polyolefins and specialty chemicals",
+    "Energy transition headwind: global shift toward bio-based and recycled polymers threatens legacy resin volumes"
+  ],
+  "opportunitySignals": [
+    "Circular economy positioning: SABIC's recycled polyethylene and polypropylene products address EU Single-Use Plastics Directive and corporate ESG commitments",
+    "Specialty chemicals expansion: high-margin engineering plastics and performance additives growing 8-12% CAGR vs. commodity resin 2-3%",
+    "Saudi Aramco integration synergies: downstream integration with parent's crude-to-chemicals pathway reduces feedstock cost volatility",
+    "Middle East cost advantage: natural gas feedstock costs 40-50% below North American and European producers; supports margin defense in downturns"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "SABIC is the world's fourth-largest petrochemical producer by capacity, with 34 manufacturing facilities across six continents producing polyolefins, specialty chemicals, and performance materials. The company's 2023 production footprint of ~50 million metric tons annually makes it a critical node in global plastic supply chains and a material driver of carbon emissions in the chemical sector. As a subsidiary of Saudi Aramco (acquired 70% stake in 2020), SABIC bridges hydrocarbon extraction with downstream polymer conversion, positioning it as a strategic lever for energy-transition policy and circular-economy mandates in the EU, US, and Asia-Pacific.",
+  "portalRelevance": "SABIC matters to financial-intelligence models as an anchor supplier to consumer-goods, automotive, and packaging industries, and as a bellwether for petrochemical margin cycles tied to crude oil and natural gas prices. Its ownership by Saudi Aramco creates a unique capital-allocation and geopolitical-risk profile distinct from Western-listed peers (LyondellBasell, Dow, Eastman). SABIC's exposure to plastic-waste regulation, carbon pricing, and bio-feedstock displacement makes it a critical stress-test node for energy and environment domain models.",
+  "notes": {
+    "cohortStatus": "Anchor petrochemical producer; peer to LyondellBasell (LYB), Dow Inc. (DOW), Eastman Chemical (EMN), Huntsman (HUN)",
+    "envelopeStatus": ""
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly polyolefin and specialty-chemical margin prints vs. Brent crude and Henry Hub natural gas spot prices",
+        "Capacity utilization rates across six regional manufacturing hubs; disclosed in quarterly earnings and industry reports",
+        "Regulatory filings and announcements from Saudi Ministry of Energy and Saudi Aramco board disclosures regarding SABIC capital allocation",
+        "Customer order flow and inventory levels from automotive OEMs, consumer-goods CPGs, and packaging converters (indirect via supply-chain surveys)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Feedstock cost position: rolling 12-month average crude oil and natural gas prices vs. SABIC's realized input costs",
+        "Demand phase: polyolefin order books and specialty-chemical backlog relative to historical 5-year median",
+        "Capital deployment trajectory: Saudi Aramco's annual capex guidance for SABIC expansion vs. shareholder return targets",
+        "Regulatory exposure: EU plastic-tax implementation timeline, US EPA carbon-pricing proposals, and Saudi Arabia's Vision 2030 green-hydrogen roadmap"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Margin compression signature: polyolefin spreads (EBITDA per ton) below 10-year 25th percentile signals demand weakness or feedstock cost shock",
+        "Capacity-utilization cliff: <75% utilization across three or more regional hubs indicates demand destruction or forced production cuts",
+        "Geopolitical stress: Suez Canal disruption, Saudi Arabia sanctions escalation, or Aramco dividend cuts trigger SABIC capex deferrals",
+        "Circular-economy inflection: recycled-resin volumes >15% of total polyolefin output signals structural shift in customer sourcing preferences"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedging strategy: long natural-gas futures positions to lock feedstock costs during crude-price rallies; short polyolefin forward contracts to cap downside margin risk",
+        "Capital allocation thesis: prioritize specialty-chemicals capex (8-12% CAGR) over commodity-resin debottlenecking; divest or idle lowest-quartile-margin commodity assets",
+        "Regulatory engagement: monitor EU Single-Use Plastics Directive implementation and US Federal Trade Commission guidance on recycled-content claims; adjust product mix accordingly",
+        "Stakeholder positioning: emphasize circular-economy credentials and carbon-reduction roadmap to institutional investors and ESG-focused customers; target 30% recycled-content portfolio by 2030"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio rebalancing: reduce commodity-polyolefin exposure via long positions in specialty-chemical and engineering-plastic pure-plays (e.g., Celanese, Huntsman specialty segments)",
+        "Hedging execution: initiate 12-month natural-gas collar (long call, short put) to protect against feedstock-cost spikes while maintaining upside participation",
+        "Engagement strategy: request SABIC investor day focused on circular-economy capex roadmap, specialty-chemical margin trajectory, and Saudi Aramco dividend sustainability under energy-transition scenarios",
+        "Scenario modeling: stress-test portfolio against 'stranded assets' scenario (EU plastic bans accelerate, recycled-resin adoption >40% by 2028) and 'margin recovery' scenario (crude >$90/bbl, specialty-chemical demand +15% YoY)"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: compare actual polyolefin and specialty-chemical volumes, margins, and capex guidance vs. model assumptions; flag >10% variance",
+        "Regulatory milestone tracking: monitor EU plastic-tax implementation dates, US EPA carbon-pricing proposals, and Saudi Arabia green-hydrogen project announcements",
+        "Competitive positioning: track LyondellBasell, Dow, and Eastman specialty-chemical revenue growth and margin expansion vs. SABIC; identify market-share shifts",
+        "Stakeholder sentiment: monitor Saudi Aramco earnings calls for SABIC dividend policy changes, capex reductions, or strategic-review announcements"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Feedstock-cost elasticity recalibration: update polyolefin margin sensitivity to crude oil and natural gas prices based on realized quarterly spreads; adjust hedging ratios",
+        "Demand-phase classification: incorporate specialty-chemical order-book data and automotive OEM production schedules into demand-phase estimation; refine leading-indicator weights",
+        "Regulatory-risk repricing: update probability and impact estimates for EU plastic bans, US carbon pricing, and Saudi Arabia energy-transition policies based on legislative progress",
+        "Peer-relative valuation: recalibrate SABIC's implied enterprise value vs. LyondellBasell, Dow, and Eastman based on specialty-chemical margin convergence and circular-economy positioning"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "SABIC operates as a downstream chemical-conversion engine embedded within Saudi Aramco's integrated hydrocarbon value chain. The company's neural architecture processes crude oil and natural gas feedstock signals (via parent-company supply agreements and spot-market pricing), converts them into polyolefin and specialty-chemical outputs, and distributes those products to automotive OEMs, consumer-goods CPGs, and packaging converters across six regional manufacturing hubs. SABIC's decision-making is constrained by Saudi Aramco's capital-allocation priorities, geopolitical risk exposure, and energy-transition mandates, while its competitive positioning depends on feedstock-cost advantage, specialty-chemical margin expansion, and circular-economy product adoption. The company's functional network includes upstream hydrocarbon suppliers (parent Aramco), downstream industrial customers (OEMs, CPGs, converters), regulatory bodies (Saudi Ministry of Energy, EU environmental agencies, US EPA), and capital providers (Saudi Aramco, international lenders).",
+    "suppliers": [
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SE",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity / Capital Provider",
+        "relationshipNote": "Parent company (70% stake acquired 2020) providing crude oil and natural gas feedstock at preferential transfer pricing; supplies ~80% of SABIC's hydrocarbon inputs. Aramco's dividend policy and capex guidance directly constrain SABIC's capital allocation and shareholder returns. Strategic integration reduces feedstock-cost volatility vs. spot-market competitors but creates geopolitical concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Feedstock",
+        "relationshipNote": "Joint venture partner in SABIC-Exxon Chemical (Saudi Arabia) producing specialty chemicals and polyolefins; 50-50 ownership structure. Facility in Yanbu, Saudi Arabia produces ~1.5M metric tons annually of ethylene, propylene, and specialty polymers. JV established 1998; represents ~15% of SABIC's specialty-chemical output and critical technology transfer channel for advanced polymer grades.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001751788",
+        "slug": "dow_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Technology",
+        "relationshipNote": "Technology licensor for advanced polyolefin catalysts and specialty-polymer formulations; supplies proprietary process know-how for SABIC's high-performance plastics lines. Licensing agreements cover metallocene polyethylene and cyclic olefin copolymer production. Estimated $50-80M annual royalty payments; critical for SABIC's specialty-chemical margin expansion strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "INEOS Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "ineos_group",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Commodity Feedstock",
+        "relationshipNote": "Supplier of ethylene and propylene monomers to SABIC's polymerization facilities in Europe and Asia-Pacific. INEOS operates cracker capacity in Belgium and France; supplies ~300K metric tons annually of C2/C3 feedstock. Spot-market and contract pricing; represents 8-12% of SABIC's external monomer purchases outside Saudi Arabia production.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0001357615",
+        "slug": "huntsman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Specialty Additives",
+        "relationshipNote": "Supplier of specialty additives (flame retardants, UV stabilizers, antioxidants) for SABIC's engineering-plastic and specialty-polymer formulations. Multi-year supply agreements covering ~50K metric tons annually of additive packages. Huntsman's 2022 acquisition of Clariant's additives business expanded SABIC's sourcing options; estimated 5-7% of SABIC specialty-chemical COGS.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "LyondellBasell Industries",
+        "ticker": "LYB",
+        "cik": "0001453867",
+        "slug": "lyondellbasell",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Monomer Supply",
+        "relationshipNote": "Supplier of propylene and specialty-polymer intermediates to SABIC's Asian and European operations. LYB operates cracker capacity in Rotterdam and Singapore; supplies ~200K metric tons annually of C3 feedstock and polypropylene precursors. Spot and contract pricing; represents 6-10% of SABIC's external monomer sourcing outside Saudi Arabia.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Clariant AG",
+        "ticker": "CLN.S",
+        "cik": null,
+        "slug": "clariant",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Specialty Additives",
+        "relationshipNote": "Supplier of specialty additives and masterbatches for SABIC's engineering-plastic and polyolefin formulations. Multi-year supply contracts covering color concentrates, thermal stabilizers, and processing aids; ~30K metric tons annually. Clariant's 2022 divestiture of additives business to Huntsman reduced direct SABIC exposure; estimated 3-5% of specialty-chemical COGS.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Trinseo S.A.",
+        "ticker": "TSR",
+        "cik": "0001474149",
+        "slug": "trinseo",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Specialty Polymers",
+        "relationshipNote": "Supplier of specialty styrenic polymers and ABS resins to SABIC's engineering-plastic blending operations. Trinseo operates production in Europe and Asia; supplies ~100K metric tons annually of specialty-polymer intermediates. Spot and contract pricing; represents 4-6% of SABIC's specialty-chemical input costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Reliance Industries Limited",
+        "ticker": "RELIANCE.NS",
+        "cik": null,
+        "slug": "reliance_industries",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Commodity Feedstock",
+        "relationshipNote": "Supplier of polyethylene and polypropylene commodity resins to SABIC's blending and compounding operations in Asia-Pacific. Reliance operates cracker capacity in India; supplies ~150K metric tons annually of commodity polyolefins. Spot-market pricing; represents 5-8% of SABIC's external commodity-resin sourcing outside Saudi Arabia.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk Line",
+        "ticker": "MAERSK.CO",
+        "cik": null,
+        "slug": "maersk_line",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Primary ocean-freight carrier for SABIC's polyolefin and specialty-chemical exports from Saudi Arabia to North America, Europe, and Asia-Pacific. Multi-year contract covering ~500K TEU annually of containerized resin shipments. Maersk's 2023 capacity expansion and decarbonization initiatives (methanol-fueled vessels) align with SABIC's carbon-reduction targets; estimated 25-30% of SABIC's ocean-freight volume.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hapag-Lloyd AG",
+        "ticker": "HLAG.DE",
+        "cik": null,
+        "slug": "hapag_lloyd",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Secondary ocean-freight carrier for SABIC's polyolefin and specialty-chemical exports; multi-year contract covering ~300K TEU annually. Hapag-Lloyd operates dedicated chemical-tanker and container services from Jeddah and Yanbu to European and Asian ports. Estimated 15-20% of SABIC's ocean-freight volume; backup capacity provider during Suez Canal disruptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saudi Aramco Logistics",
+        "ticker": null,
+        "cik": null,
+        "slug": "saudi_aramco_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "In-house logistics subsidiary of Saudi Aramco providing pipeline, rail, and port-terminal services for SABIC's feedstock inbound and product outbound. Operates dedicated polyolefin and specialty-chemical loading terminals at Yanbu and Jubail ports; handles ~80% of SABIC's export logistics. Integrated supply-chain advantage reduces transportation costs by 15-20% vs. third-party carriers.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN.S",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Third-party logistics provider managing SABIC's inland distribution and last-mile delivery in Europe and Asia-Pacific. Operates warehousing and consolidation centers in Rotterdam, Singapore, and Shanghai; handles ~200K metric tons annually of specialty-chemical and engineering-plastic distribution. Contract covers customs clearance, documentation, and customer-specific packaging.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Seatrade Groningen B.V.",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_groningen",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Operator of SABIC's Rotterdam distribution terminal and polyolefin storage facility. Seatrade manages ~150K metric tons annually of inventory for SABIC's European customer base; provides tank-truck loading, rail-car dispatch, and barge services. Contract established 2015; critical hub for SABIC's European supply-chain resilience.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Volkswagen Group",
+        "ticker": "VOW.DE",
+        "cik": null,
+        "slug": "volkswagen_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Major automotive OEM customer purchasing engineering plastics, specialty polymers, and polypropylene compounds for vehicle interiors, under-hood components, and battery housings. Multi-year supply agreements covering ~80K metric tons annually across Volkswagen, Audi, Porsche, and Skoda brands. SABIC's lightweight-polymer solutions support VW's EV platform weight-reduction targets; estimated 8-12% of SABIC's automotive revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nestlé S.A.",
+        "ticker": "NSRGY",
+        "cik": "0001071739",
+        "slug": "nestle",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Major consumer-goods CPG customer purchasing polyolefin films, rigid packaging resins, and specialty polymers for food and beverage packaging. Multi-year supply contracts covering ~120K metric tons annually of SABIC polyethylene and polypropylene grades. Nestlé's 2023 commitment to 100% recycled or renewable packaging by 2025 drives SABIC's recycled-resin product development; estimated 10-15% of SABIC's packaging revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Procter & Gamble Company",
+        "ticker": "PG",
+        "cik": "0000080424",
+        "slug": "procter_gamble",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Major CPG customer purchasing polyolefin films, rigid packaging resins, and specialty polymers for personal-care and household-product packaging. Multi-year supply agreements covering ~100K metric tons annually of SABIC polyethylene and polypropylene. P&G's 2030 target of 50% recycled content in packaging drives SABIC's circular-economy product mix; estimated 9-12% of SABIC's packaging revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Unilever PLC",
+        "ticker": "UL",
+        "cik": "0001110803",
+        "slug": "unilever",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Major CPG customer purchasing polyolefin films, rigid packaging resins, and specialty polymers for personal-care, food, and home-care product packaging. Multi-year supply contracts covering ~90K metric tons annually of SABIC polyethylene and polypropylene grades. Unilever's circular-economy commitments and plastic-reduction targets drive demand for SABIC's recycled-content and bio-based polymer solutions; estimated 8-11% of SABIC's packaging revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "LyondellBasell Industries N.V.",
+        "ticker": "LYB",
+        "cik": "0001453867",
+        "slug": "lyondellbasell",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Direct competitor in polyolefins, specialty chemicals, and advanced polymers. LYB operates 18 manufacturing facilities globally with ~20M metric tons annual capacity; 2023 revenue ~$45B. LYB's specialty-chemical margin (EBITDA/ton) averaged $180-220 vs. SABIC's estimated $150-190 in 2023, reflecting LYB's higher-margin product mix. LYB's 2022 acquisition of A. Schulman (engineering plastics) expanded specialty-polymer portfolio; represents SABIC's closest direct competitor in North America and Europe.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001751788",
+        "slug": "dow_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Direct competitor in polyolefins, specialty chemicals, and performance materials. Dow operates 107 manufacturing sites globally with ~25M metric tons annual capacity; 2023 revenue ~$57B. Dow's specialty-chemical and advanced-materials segments (combined ~$18B revenue) represent higher-margin exposure vs. SABIC's commodity-resin concentration. Dow's 2023 capex focus on circular-economy and bio-based polymers creates competitive pressure on SABIC's specialty-chemical margin expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "ticker": "EMN",
+        "cik": "0000277043",
+        "slug": "eastman_chemical",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Competitor in specialty chemicals, advanced polymers, and circular-economy solutions. Eastman operates 14 manufacturing facilities globally with ~8M metric tons annual capacity; 2023 revenue ~$10.5B. Eastman's specialty-chemical and advanced-materials segments command premium margins (EBITDA/ton $250-300) vs. SABIC's estimated $150-190. Eastman's 2023 acquisition of Solutech (chemical recycling) and Ringside (polyester recycling) positions it ahead of SABIC in circular-economy technology.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huntsman Corporation",
+        "ticker": "HUN",
+        "cik": "0001357615",
+        "slug": "huntsman",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Competitor in specialty chemicals, polyurethanes, and advanced materials. Huntsman operates 28 manufacturing facilities globally with ~6M metric tons annual capacity; 2023 revenue ~$8.5B. Huntsman's specialty-chemical and advanced-materials segments (combined ~$5B revenue) command higher margins than SABIC's commodity-resin base. Huntsman's 2022 acquisition of Clariant's additives business expanded specialty-polymer additive portfolio; represents niche competitor in engineering plastics and specialty-chemical additives.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Reliance Industries Limited",
+        "ticker": "RELIANCE.NS",
+        "cik": null,
+        "slug": "reliance_industries",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Competitor in polyolefins and specialty chemicals with significant cost advantage in Asia-Pacific. Reliance operates 8 manufacturing facilities in India with ~12M metric tons annual capacity; 2023 revenue ~$88B (diversified). Reliance's polyolefin and specialty-chemical segments benefit from low-cost natural gas feedstock and labor; estimated 20-30% cost advantage vs. SABIC in commodity-resin production. Reliance's 2023 capex expansion in specialty polymers and circular-economy products creates direct competitive pressure on SABIC's Asian market share.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China National Petroleum Corporation (CNPC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cnpc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Competitor in polyolefins and specialty chemicals with significant scale in Asia-Pacific. CNPC operates 15+ petrochemical facilities globally with ~30M metric tons annual capacity; integrated upstream-downstream model similar to SABIC-Aramco. CNPC's commodity-resin production costs are 15-25% below SABIC due to low-cost Chinese labor and feedstock access. CNPC's 2023 capex focus on specialty polymers and bio-based resins creates competitive pressure on SABIC's margin expansion in Asia.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary financial-disclosure regulator for SABIC's U.S. operations and any future U.S. public-equity offerings. SABIC is currently private (Saudi Aramco subsidiary); SEC oversight applies to Aramco's consolidated filings (20-F filer). SABIC's potential IPO or U.S. debt issuance would trigger SEC registration and ongoing reporting obligations. Current exposure: indirect via Aramco's SEC filings and any SABIC-specific debt offerings in U.S. capital markets.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection / Environmental",
+        "relationshipNote": "Regulator of SABIC's U.S. manufacturing operations under Clean Air Act, Clean Water Act, and Resource Conservation and Recovery Act. SABIC operates polyolefin and specialty-chemical facilities in Texas and Louisiana; subject to EPA air-quality permits, wastewater discharge limits, and hazardous-waste management rules. 2023 EPA proposed carbon-pricing rule (Section 115 Clean Air Act) would impose ~$50-100/metric ton CO2 cost on SABIC's U.S. operations; estimated $200-400M annual impact if enacted.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "European Commission Directorate-General for Environment",
+        "ticker": null,
+        "cik": null,
+        "slug": "ec_dg_environment",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection / Environmental",
+        "relationshipNote": "Regulator of SABIC's European operations under EU Plastics Strategy, Single-Use Plastics Directive, and Extended Producer Responsibility (EPR) regulations. SABIC operates polyolefin and specialty-chemical facilities in Belgium, Netherlands, and Spain; subject to EU plastic-tax implementation (€800/metric ton on non-recycled plastic starting 2025). Estimated impact: €150-250M annual cost on SABIC's European polyolefin production if full EPR liability applies. Drives SABIC's circular-economy product development.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Saudi Ministry of Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "saudi_ministry_energy",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Primary regulator of SABIC's Saudi Arabia operations and feedstock allocation. Ministry oversees crude oil and natural gas supply agreements, export permits, and industrial-development incentives. SABIC's feedstock supply is governed by Saudi Aramco's upstream production and Ministry's export policy. Vision 2030 green-hydrogen roadmap may redirect natural gas feedstock away from petrochemicals; potential 5-10% feedstock-cost increase by 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "Regulator of SABIC's U.S. marketing claims and recycled-content disclosures under FTC Green Guides (16 CFR §260). SABIC's 2023 launch of recycled-polyethylene and recycled-polypropylene products subject to FTC scrutiny on recycled-content percentage claims and environmental-benefit substantiation. FTC issued 2023 enforcement guidance on plastic-recycling claims; SABIC must maintain third-party certification for recycled-content products to avoid FTC action.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "External auditor for SABIC's consolidated financial statements and internal-control assessments. Deloitte conducts annual audits of SABIC's manufacturing facilities, inventory valuation, and environmental-liability accruals across six continents. Audit scope includes feedstock-cost hedging effectiveness, goodwill impairment testing (from Aramco acquisition), and environmental-remediation reserves. Deloitte's 2023 audit identified no material weaknesses; SABIC's financial controls rated 'effective' under COSO framework.",
+      "confidence": "medium",
+      "sourceType": [
+        "industry-report",
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SE",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity / Capital Provider",
+        "relationshipNote": "Parent company and primary capital provider; 70% ownership stake acquired 2020 for ~$69B. Aramco provides equity capital for SABIC's capex programs (~$1.5-2B annually) and guarantees SABIC's debt issuances in international capital markets. Aramco's dividend policy constrains SABIC's shareholder returns; 2023 Aramco dividend of $27B reduced SABIC's retained earnings allocation. Aramco's energy-transition strategy (net-zero by 2050) drives SABIC's circular-economy capex priorities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Saudi National Development Fund",
+        "ticker": null,
+        "cik": null,
+        "slug": "saudi_ndf",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Saudi Arabia's sovereign development bank providing concessional financing for SABIC's strategic capex projects aligned with Vision 2030. NDF provided ~$500M in low-cost financing for SABIC's 2021-2023 specialty-chemical expansion in Saudi Arabia. Financing terms: 5-7 year tenor, 2-3% coupon (below market rates). NDF support reflects Saudi government's industrial-development priorities and SABIC's role in downstream value-chain integration.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Lead arranger and lender for SABIC's multi-currency revolving credit facility ($2B committed, established 2022). JPMorgan provides treasury services, foreign-exchange hedging, and commodity-derivatives execution for SABIC's feedstock-cost management. Estimated annual fees: $15-25M. JPMorgan's 2023 credit facility renewal included sustainability-linked pricing (margin reduction if SABIC achieves carbon-intensity targets).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Co-arranger and lender for SABIC's multi-currency revolving credit facility ($2B committed, established 2022). BofA provides commodity-derivatives execution, interest-rate hedging, and capital-markets advisory for SABIC's debt issuances. Estimated annual fees: $10-15M. BofA's 2023 credit facility renewal included ESG-linked pricing tied to SABIC's circular-economy product-revenue targets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Yousef Al-Benyan",
+        "ticker": null,
+        "cik": null,
+        "slug": "yousef_al_benyan",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "President and Chief Executive Officer of SABIC since 2018. Al-Benyan leads SABIC's strategic transformation toward specialty chemicals and circular-economy products. Under his leadership, SABIC completed 2020 acquisition by Saudi Aramco (70% stake) and launched $2B+ capex program for advanced-polymer and recycled-resin capacity. Al-Benyan reports to Saudi Aramco's CEO and Board; compensation structure tied to SABIC's EBITDA margin expansion and specialty-chemical revenue growth.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Abdulrahman Al-Fageeh",
+        "ticker": null,
+        "cik": null,
+        "slug": "abdulrahman_al_fageeh",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Chief Financial Officer of SABIC since 2019. Al-Fageeh oversees SABIC's financial planning, capital allocation, and investor relations. Manages $2B+ annual capex budget, $1.5B+ debt portfolio, and quarterly earnings guidance. Al-Fageeh leads SABIC's sustainability-linked financing initiatives and ESG-linked credit facility negotiations with JPMorgan and BofA. Reports to CEO Al-Benyan; compensation tied to EBITDA margin and free-cash-flow targets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Khalid Al-Khudairi",
+        "ticker": null,
+        "cik": null,
+        "slug": "khalid_al_khudairi",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Chief Operating Officer of SABIC since 2020. Al-Khudairi oversees manufacturing operations across six regional hubs (Saudi Arabia, Europe, Asia-Pacific, Americas). Manages 34 manufacturing facilities, ~50M metric tons annual capacity, and 30K+ employees. Al-Khudairi leads SABIC's operational-excellence initiatives, safety programs, and capacity-utilization optimization. Reports to CEO Al-Benyan; compensation tied to safety metrics, capacity utilization, and cost-per-ton targets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Faisal Al-Mubarak",
+        "ticker": null,
+        "cik": null,
+        "slug": "faisal_al_mubarak",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "General Counsel and Chief Compliance Officer of SABIC since 2021. Al-Mubarak oversees legal affairs, regulatory compliance, and environmental-liability management across SABIC's global operations. Manages litigation related to environmental claims, product-liability cases, and regulatory investigations. Al-Mubarak leads SABIC's ESG governance initiatives and sustainability-linked financing disclosures. Reports to CEO Al-Benyan; compensation tied to compliance metrics and regulatory-action avoidance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Polyolefin Spread Index (EBITDA per metric ton)",
+        "ticker": null,
+        "cik": null,
+        "slug": "polyolefin_spread_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Weekly polyolefin (polyethylene and polypropylene) margin indicator tracking SABIC's commodity-resin profitability. Index calculated as: (polyolefin price - ethylene/propylene feedstock cost) × volume. 2023 average spread: $120-150/metric ton (vs. 10-year average $180-220). Spread compression signals demand weakness or feedstock-cost shock; expansion signals pricing power recovery. SABIC's commodity-resin segment represents ~60% of revenue; spread index is primary leading indicator of quarterly EBITDA.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Specialty-Chemical Margin Index (EBITDA per metric ton)",
+        "ticker": null,
+        "cik": null,
+        "slug": "specialty_chemical_margin_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Monthly specialty-chemical margin indicator tracking SABIC's higher-margin engineering-plastic and advanced-polymer profitability. Index calculated as: (specialty-chemical price - raw-material cost) × volume. 2023 average margin: $180-220/metric ton (vs. 10-year average $220-280). Margin compression reflects competitive pressure from Dow, LyondellBasell, and Eastman. SABIC's specialty-chemical segment represents ~25% of revenue and is primary growth driver; margin index is key indicator of strategic-transformation progress.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Recycled-Resin Adoption Rate (% of total polyolefin volume)",
+        "ticker": null,
+        "cik": null,
+        "slug": "recycled_resin_adoption_rate",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Quarterly indicator tracking customer adoption of SABIC's recycled-polyethylene and recycled-polypropylene products. 2023 adoption rate: ~8-12% of total polyolefin volume (vs. 2-3% in 2020). Target: 25-30% by 2028 per SABIC's circular-economy roadmap. Adoption rate is leading indicator of SABIC's competitive positioning in EU and North American markets; drives premium pricing (5-15% price premium vs. virgin resin) and customer-retention dynamics.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

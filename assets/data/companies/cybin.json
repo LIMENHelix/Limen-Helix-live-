@@ -1,0 +1,889 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "cybin",
+  "slug": "cybin",
+  "name": "Cybin Inc.",
+  "ticker": "CYBN",
+  "cik": "1824596",
+  "sic": "2834",
+  "industry": "Pharmaceutical Preparations — Psychedelic",
+  "domainId": "medicine",
+  "portalAttachment": "medicine-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "CPIMEDSL",
+    "PCU325411325411",
+    "MMNRNJ",
+    "HOUST"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001824596.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "CPIMEDSL",
+        "PCU325411325411"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "CYBN"
+  ],
+  "commodityExposure": [
+    "psilocybin (controlled precursor)",
+    "deuterium (isotope enrichment)",
+    "pharmaceutical-grade solvents",
+    "clinical-trial consumables"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1824596",
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": false,
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Pre-revenue biotech with high cash burn; clinical-stage psilocybin programs (CYB003, CYB004) carry regulatory and efficacy risk",
+    "Psychedelic sector regulatory pathway remains uncertain; FDA breakthrough designation does not guarantee approval",
+    "Dependence on capital markets for funding; equity dilution risk if clinical milestones miss or market sentiment shifts"
+  ],
+  "opportunitySignals": [
+    "CYB003 deuterated psilocybin shows potential for improved pharmacokinetics and IP protection vs unmodified psilocybin",
+    "Psychedelic-assisted therapy market expanding; FDA breakthrough status accelerates clinical pathway for treatment-resistant depression",
+    "Intellectual property moat via deuteration chemistry; potential licensing or partnership upside with large pharma"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "CYB003 Phase 2b clinical trial (treatment-resistant depression)",
+      "CYB004 preclinical development (anxiety disorders)",
+      "Deuteration IP portfolio (6+ patent families filed)"
+    ],
+    "engineOutputs": [
+      "Breakthrough Therapy Designation (FDA, CYB003, 2021)",
+      "Clinical data readouts (Phase 2a interim, 2023)",
+      "Licensing discussions with institutional partners"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Cybin is a clinical-stage psychedelic pharmaceutical company developing deuterated psilocybin analogs (CYB003, CYB004) for treatment-resistant depression and anxiety disorders. The company's core innovation is isotopic enrichment chemistry, which aims to improve pharmacokinetics, reduce dosing frequency, and establish patent protection in a rapidly evolving psychedelic therapeutics market. Cybin's regulatory pathway is anchored by FDA Breakthrough Therapy Designation for CYB003, positioning it as a leading contender in the emerging psychedelic-assisted psychotherapy space.",
+  "portalRelevance": "Cybin represents a high-risk, high-reward play in the nascent psychedelic medicine sector, which is transitioning from Schedule I research to FDA-regulated clinical development. The company's success hinges on Phase 2b efficacy data, regulatory approval timelines, and capital availability—all of which are material to understanding biotech sector stress and venture-backed pharmaceutical innovation cycles. Cybin's trajectory also signals broader institutional acceptance of psychedelic therapeutics and the viability of deuteration as a pharmaceutical optimization strategy.",
+  "notes": {
+    "cohortStatus": "Clinical-stage biotech; peer group includes Compass Pathways (CMPS), MindMed (MNMD), Atai Life Sciences (ATAI)",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "SEC 10-Q/10-K filings: cash burn rate, R&D spend, clinical trial enrollment metrics, capital raises",
+        "Clinical trial registry updates (ClinicalTrials.gov): CYB003 Phase 2b enrollment, safety/efficacy interim readouts",
+        "FDA correspondence: Breakthrough Designation status, pre-BLA meetings, regulatory feedback on deuteration chemistry",
+        "Equity capital events: secondary offerings, warrant exercises, dilution signals from insider trading patterns"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Cash runway estimation: quarterly burn vs. available capital; probability of capital raise requirement within 12–18 months",
+        "Clinical program phase advancement: enrollment velocity, interim data quality, regulatory milestone achievement",
+        "Competitive positioning: relative progress vs. Compass Pathways (CMPS) Phase 2b, MindMed (MNMD) Phase 2a programs",
+        "Intellectual property strength: patent grant status, freedom-to-operate risk, licensing negotiation leverage"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Biotech distress signature: cash burn acceleration + failed clinical milestone + capital market closure = existential risk",
+        "Regulatory inflection: positive Phase 2b data + FDA feedback alignment = de-risking event; negative data = 40–60% drawdown risk",
+        "Sector contagion: psychedelic sector sentiment (CMPS, MNMD, ATAI price action) correlates with CYBN funding access and valuation",
+        "IP moat validation: deuteration patent strength vs. generic psilocybin; licensing interest from Roche, Eli Lilly, or other pharma signals value"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: long-duration biotech call option; thesis breaks if Phase 2b misses efficacy or safety thresholds",
+        "Risk hedge: short biotech sector ETF (XBI) or long volatility (VIX calls) to hedge clinical-stage concentration risk",
+        "Capital structure monitoring: watch for dilutive equity raises, debt issuance, or warrant exercises that signal distress",
+        "Regulatory engagement: track FDA meeting minutes, breakthrough designation renewal conditions, and pre-BLA feedback"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Position sizing: limit to 1–2% of portfolio; biotech stage risk warrants position-level stop-loss at 25–30% drawdown",
+        "Catalyst calendar: set alerts for Phase 2b interim data (Q2–Q3 2024), FDA meetings (quarterly), quarterly cash burn reports",
+        "Engagement: attend investor day (if held); request management guidance on capital runway, clinical timeline, partnership discussions",
+        "Hedging execution: establish short biotech sector hedge if CYBN position exceeds 2% of portfolio"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Phase 2b data validation: compare announced efficacy/safety vs. pre-announcement consensus; assess FDA feedback tone in subsequent meetings",
+        "Capital raise tracking: monitor equity issuance terms, dilution %, and investor composition (institutional vs. insider participation)",
+        "Price action correlation: CYBN vs. CMPS, MNMD, XBI; divergence signals company-specific news or sector rotation",
+        "Filing delta: watch for changes in risk factor disclosure, clinical trial enrollment language, or cash runway estimates in 10-Q updates"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate biotech phase-transition probabilities: update success rates for Phase 2b→Phase 3 based on Cybin and peer outcomes",
+        "Reweight clinical-data signal: if Phase 2b misses, downgrade efficacy-signal reliability; if exceeds, upgrade regulatory-pathway confidence",
+        "Update psychedelic-sector priors: track CMPS, MNMD, ATAI outcomes to refine sector-wide approval probability and timeline estimates",
+        "Adjust capital-access model: if Cybin raises at lower valuation, recalibrate biotech funding-environment stress assumptions"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Perception Neuroscience",
+        "ticker": null,
+        "cik": null,
+        "slug": "perception_neuroscience",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Preclinical Chemistry",
+        "relationshipNote": "Contract research organization (CRO) providing deuteration chemistry synthesis, analytical characterization, and preclinical pharmacology studies for CYB003 and CYB004 development. Perception Neuroscience's isotope enrichment expertise is foundational to Cybin's IP moat; relationship includes GMP manufacturing scale-up support..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Pharmaceutical Product Development (PPD)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ppd_pharma",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Clinical Trial Operations",
+        "relationshipNote": "Contract research organization (CRO) managing Phase 2b CYB003 clinical trial execution, site recruitment, patient enrollment, and data management across multiple geographies. PPD's trial-management infrastructure is critical to enrollment velocity and regulatory data quality..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Recro Pharma",
+        "ticker": "REPH",
+        "cik": "1437181",
+        "slug": "recro_pharma",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "GMP Manufacturing & Supply Chain",
+        "relationshipNote": "Specialty pharmaceutical CDMO (contract development and manufacturing organization) providing GMP manufacturing, formulation development, and supply-chain logistics for Cybin's psilocybin-based compounds. Recro's capacity constraints and regulatory compliance are material to clinical trial supply continuity and commercial launch readiness..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sigma-Aldrich (Merck KGaA subsidiary)",
+        "ticker": "MRK",
+        "cik": "0000068505",
+        "slug": "sigma_aldrich",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Pharmaceutical-Grade Reagents & Solvents",
+        "relationshipNote": "Supplier of deuterium-enriched solvents, pharmaceutical-grade reagents, and analytical standards critical to Cybin's deuteration chemistry platform. Sigma-Aldrich's isotope inventory and quality assurance are essential to manufacturing consistency and regulatory compliance..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Catalent Inc.",
+        "ticker": "CTLT",
+        "cik": "1407623",
+        "slug": "catalent",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Formulation & Capsule Manufacturing",
+        "relationshipNote": "Global CDMO providing capsule formulation, fill-finish manufacturing, and stability testing for Cybin's psilocybin-based therapeutics. Catalent's expertise in controlled-substance handling and FDA-regulated manufacturing is critical to Phase 3 and commercial supply readiness..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Charles River Laboratories",
+        "ticker": "CRL",
+        "cik": "0000022592",
+        "slug": "charles_river",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Preclinical Safety & Toxicology Testing",
+        "relationshipNote": "Contract research organization providing preclinical toxicology, pharmacology, and safety studies required for IND applications and regulatory submissions. Charles River's GLP-compliant testing is foundational to Cybin's regulatory dossier for CYB003 and CYB004..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Parexel International",
+        "ticker": null,
+        "cik": null,
+        "slug": "parexel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Regulatory Affairs & FDA Strategy",
+        "relationshipNote": "Regulatory consulting firm advising Cybin on FDA breakthrough designation strategy, IND/BLA pathway optimization, and pre-BLA meeting preparation. Parexel's FDA expertise is critical to accelerating clinical development timelines and reducing regulatory risk..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lonza Group",
+        "ticker": "LONZF",
+        "cik": null,
+        "slug": "lonza_group",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Active Pharmaceutical Ingredient (API) Manufacturing",
+        "relationshipNote": "Swiss CDMO with expertise in controlled-substance manufacturing and scale-up. Lonza's capacity and regulatory compliance are relevant to Cybin's long-term manufacturing strategy for psilocybin-based APIs, though.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Thermo Fisher Scientific",
+        "ticker": "TMO",
+        "cik": "0001018724",
+        "slug": "thermo_fisher",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Laboratory Equipment & Analytical Instrumentation",
+        "relationshipNote": "Supplier of high-performance liquid chromatography (HPLC), mass spectrometry, and analytical instrumentation used in Cybin's deuteration chemistry characterization and quality control. Thermo Fisher's analytical platforms are standard in pharmaceutical R&D..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Geodis",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Pharmaceutical Distribution & Warehousing",
+        "relationshipNote": "Third-party logistics (3PL) provider offering pharmaceutical-grade warehousing, inventory management, and distribution services. Geodis's DEA-licensed facilities support Cybin's controlled-substance handling and regulatory compliance for clinical supply chain..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Life Sciences",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_life_sciences",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Clinical Trial Logistics & Temperature-Controlled Shipping",
+        "relationshipNote": "Specialized logistics provider managing temperature-controlled, secure shipment of investigational drug product (IDP) to clinical trial sites globally. DHL's cold-chain expertise and regulatory compliance are critical to maintaining drug stability and trial integrity across Phase 2b sites..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "FedEx Specialty Logistics",
+        "ticker": null,
+        "cik": null,
+        "slug": "fedex_specialty",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Controlled-Substance Shipping & Regulatory Compliance",
+        "relationshipNote": "Specialized carrier providing DEA-compliant shipping for controlled substances, including psilocybin-based investigational drugs. FedEx's regulatory expertise and tracking infrastructure are essential to trial-site supply continuity and audit compliance..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Atai Life Sciences",
+        "ticker": "ATAI",
+        "cik": "1839839",
+        "slug": "atai_life_sciences",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Sector Competitor — Psychedelic & Mental Health Portfolio",
+        "relationshipNote": "Diversified psychedelic-medicine holding company with portfolio of clinical-stage programs (Perception Neuroscience, Perception Neuroscience, others). ATAI's scale, capital access, and multi-program approach create competitive pressure on Cybin's funding and partnership opportunities. ATAI's market cap (~$1.5B as of 2024) and institutional backing signal sector maturation..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Compass Pathways PLC",
+        "ticker": "CMPS",
+        "cik": "1811210",
+        "slug": "compass_pathways",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor — Psilocybin Therapeutics",
+        "relationshipNote": "Leading psychedelic-assisted therapy company with Phase 2b COMP360 (psilocybin) program for treatment-resistant depression. Compass is further advanced clinically than Cybin; COMP360 is unmodified psilocybin, creating competitive differentiation via Cybin's deuteration IP. Compass's market cap (~$500M as of 2024) and clinical progress set valuation benchmarks for the sector. Disclosed in 10-K Item 1A competitive landscape.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "MindMed Inc.",
+        "ticker": "MNMD",
+        "cik": "1819784",
+        "slug": "mindmed",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor — LSD & Psychedelic Therapeutics",
+        "relationshipNote": "Clinical-stage psychedelic company developing LSD-assisted therapy (MM120) for anxiety disorders and ADHD. MindMed's LSD platform is orthogonal to Cybin's psilocybin focus, but both compete for capital, clinical sites, and regulatory attention in the psychedelic sector. MindMed's Phase 2a program timeline and funding trajectory are material benchmarks for Cybin's capital-raise environment..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Usona Institute",
+        "ticker": null,
+        "cik": null,
+        "slug": "usona_institute",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Non-Profit Competitor — Psilocybin Research",
+        "relationshipNote": "Non-profit research organization conducting IND-sponsored psilocybin research for treatment-resistant depression. Usona's non-profit structure and FDA-sponsored pathway create alternative regulatory route that may accelerate psilocybin approval independent of commercial biotech. Usona's clinical progress is material to Cybin's competitive timeline..",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eleusis Therapeutics",
+        "ticker": null,
+        "cik": null,
+        "slug": "eleusis_therapeutics",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor — Psilocybin-Assisted Therapy",
+        "relationshipNote": "Clinical-stage psychedelic company developing psilocybin-assisted therapy for treatment-resistant depression. Eleusis's program is similar in scope to Cybin's CYB003, creating direct competitive overlap..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Food and Drug Administration (FDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Clinical Approval & Breakthrough Designation Authority",
+        "relationshipNote": "Primary regulator for Cybin's IND applications, clinical trial oversight, and BLA pathway for CYB003 and CYB004. FDA granted Breakthrough Therapy Designation to CYB003 in 2021, accelerating review timelines. FDA feedback on pre-BLA meetings and clinical trial design is material to regulatory risk. Disclosed in 10-K Item 1A regulatory environment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Drug Enforcement Administration (DEA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dea",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Controlled-Substance Licensing & Compliance",
+        "relationshipNote": "Regulator of psilocybin's Schedule I status and DEA licensing for manufacturing, distribution, and clinical use. DEA's willingness to grant manufacturing quotas and research licenses is critical to Cybin's supply-chain continuity. Changes in DEA policy or psilocybin scheduling could materially impact Cybin's business model..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Disclosure & Financial Reporting Compliance",
+        "relationshipNote": "Oversees Cybin's periodic reporting (10-Q, 10-K), material event disclosures (8-K), and proxy statements (DEF14A). SEC scrutiny of biotech clinical-stage disclosures and forward-looking statements is material to investor protection and litigation risk..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "sec_edgar"
+        ]
+      },
+      {
+        "name": "Health Canada (Therapeutic Products Directorate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "health_canada",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Canadian Clinical Approval & Regulatory Pathway",
+        "relationshipNote": "Canadian regulator for Cybin's clinical trials and eventual market approval. Cybin has Canadian operations and may pursue parallel regulatory pathways in Canada to accelerate global commercialization. Health Canada's psilocybin policy and clinical-trial approval timelines are material to Cybin's international expansion strategy..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "European Medicines Agency (EMA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ema",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "European Clinical & Commercial Approval",
+        "relationshipNote": "Regulator for Cybin's potential European clinical trials and market approval. EMA's Advanced Therapy Designation or Accelerated Assessment pathways could expedite European approval timelines..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "PricewaterhouseCoopers LLP (PwC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pwc",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial Audit & Internal Control Assessment",
+        "relationshipNote": "Big-Four auditor providing annual financial statement audits and internal control assessments for Cybin. PwC's audit opinions and any identified control deficiencies are material to investor confidence and regulatory compliance..",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Greenrose Capital",
+        "ticker": null,
+        "cik": null,
+        "slug": "greenrose_capital",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Venture Capital & Strategic Investor",
+        "relationshipNote": "Early-stage venture capital firm with significant stake in Cybin; participated in Series B and subsequent funding rounds. Greenrose's continued support and follow-on investment capacity are material to Cybin's capital runway and valuation trajectory..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "Horizons ETFs Trust (PSYK — Psychedelic ETF)",
+        "ticker": "PSYK",
+        "cik": null,
+        "slug": "horizons_psyk",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Institutional Equity Holder & Sector Signal",
+        "relationshipNote": "Psychedelic-focused ETF holding Cybin as a core position. PSYK's flows and rebalancing decisions are material to Cybin's stock liquidity and valuation. PSYK's performance also signals broader sector sentiment and retail investor appetite for psychedelic therapeutics..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "news"
+        ]
+      },
+      {
+        "name": "Merida Capital Partners",
+        "ticker": null,
+        "cik": null,
+        "slug": "merida_capital",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Psychedelic-Focused Venture Capital",
+        "relationshipNote": "Specialized venture capital firm focused on psychedelic therapeutics and mental health. Merida's sector expertise and follow-on investment capacity are relevant to Cybin's funding strategy..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Institutional Investors (Passive Index Holders)",
+        "ticker": null,
+        "cik": null,
+        "slug": "passive_index_holders",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Equity Capital & Liquidity Provision",
+        "relationshipNote": "Passive index funds (Vanguard, BlackRock, State Street) holding Cybin as part of broad-market or biotech indices. Passive flows provide liquidity and valuation support but are price-insensitive. Cybin's inclusion in indices is material to stock liquidity and institutional ownership..",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Doug Drysdale",
+        "title": "Chief Executive Officer (CEO)",
+        "slug": "doug_drysdale",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "CEO and founder of Cybin; responsible for clinical strategy, regulatory pathway, capital allocation, and investor relations. Drysdale's background in biotech and psychedelic sector expertise are material to Cybin's credibility with FDA and investors..",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Psychedelic Sector Sentiment Index (PSYK ETF Price Action)",
+        "slug": "psyk_sentiment",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sector Sentiment & Capital Availability Signal",
+        "relationshipNote": "Horizons Psychedelic ETF (PSYK) price action and flows signal broader institutional appetite for psychedelic therapeutics. PSYK's correlation with Cybin stock is high; PSYK weakness signals sector-wide capital constraints and valuation pressure. PSYK's year-to-date performance is material to Cybin's funding environment and equity valuation..",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Biotech IPO & SPAC Activity (Psychedelic Subsector)",
+        "slug": "biotech_ipo_activity",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital Market Access & Funding Environment",
+        "relationshipNote": "IPO and SPAC activity in psychedelic therapeutics (e.g., Compass Pathways IPO 2020, MindMed SPAC 2021) signal capital-market appetite for the sector. Slowdown in biotech IPO activity or psychedelic-specific SPAC deals would signal deteriorating funding environment and valuation pressure for Cybin..",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "FDA Breakthrough Designation Grant Rate (Psychedelic Programs)",
+        "slug": "fda_breakthrough_rate",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Regulatory Pathway Acceleration & Risk Reduction",
+        "relationshipNote": "FDA's willingness to grant Breakthrough Therapy Designations to psychedelic programs signals regulatory openness and de-risking of the sector. Cybin's 2021 Breakthrough Designation for CYB003 is a positive signal; future FDA actions on competing programs (Compass, MindMed, Usona) will signal regulatory momentum..",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "medicine",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:27.123Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Perception Neuroscience",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Sigma-Aldrich (Merck KGaA subsidiary)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Pharmaceutical Product Development (PPD)",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Recro Pharma",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Catalent Inc.",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Lonza Group",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Geodis",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "DHL Life Sciences",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "FedEx Specialty Logistics",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "Charles River Laboratories",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Parexel International",
+            "type": "supplier",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Thermo Fisher Scientific",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "Atai Life Sciences",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Compass Pathways PLC",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "MindMed Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Usona Institute",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Eleusis Therapeutics",
+            "type": "peer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Food and Drug Administration (FDA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Health Canada (Therapeutic Products Directorate)",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "European Medicines Agency (EMA)",
+            "type": "regulator",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "U.S. Drug Enforcement Administration (DEA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "Greenrose Capital",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Horizons ETFs Trust (PSYK — Psychedelic ETF)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Merida Capital Partners",
+            "type": "investor",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Institutional Investors (Passive Index Holders)",
+            "type": "investor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Biotech IPO & SPAC Activity (Psychedelic Subsector)",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "FDA Breakthrough Designation Grant Rate (Psychedelic Programs)",
+            "type": "market",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "Psychedelic Sector Sentiment Index (PSYK ETF Price Action)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "PricewaterhouseCoopers LLP (PwC)",
+            "type": "auditor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "PricewaterhouseCoopers LLP (PwC)",
+            "type": "auditor",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "CAUD": {
+        "external_add": [
+          {
+            "name": "U.S. Drug Enforcement Administration (DEA)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators_compliance_overlay"
+          }
+        ]
+      }
+    }
+  }
+}

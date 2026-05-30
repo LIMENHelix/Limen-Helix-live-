@@ -1,0 +1,718 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "bechtel",
+  "slug": "bechtel",
+  "name": "Bechtel Corporation",
+  "ticker": null,
+  "cik": null,
+  "sic": "1600",
+  "industry": "Heavy Construction Contractors",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "TOTALSA",
+    "IMPGS",
+    "EXPGS",
+    "HOUST",
+    "PERMIT",
+    "ICSA",
+    "UMCSENT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "steel",
+    "cement",
+    "copper",
+    "aluminum",
+    "diesel",
+    "natural gas",
+    "labor"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Project concentration risk: mega-projects (>$5B) represent disproportionate revenue and margin exposure; single project delay or cost overrun cascades to annual profitability",
+    "Fixed-price contract exposure: EPC (engineering, procurement, construction) contracts lock margins at bid; commodity/labor inflation post-award erodes returns",
+    "Geopolitical execution risk: international portfolio (Middle East, Asia, Africa) subject to sanctions, political instability, currency devaluation, and force majeure events",
+    "Talent retention and labor cost inflation: mega-project execution depends on specialized engineering and craft labor; tight labor markets and wage pressure compress margins"
+  ],
+  "opportunitySignals": [
+    "Energy transition infrastructure: nuclear, renewable, hydrogen, and grid modernization projects represent multi-decade growth vector; Bechtel's nuclear expertise and EPC scale position it as anchor contractor",
+    "U.S. infrastructure spending: Bipartisan Infrastructure Law (2021), CHIPS Act, and IRA allocate $1.2T+ to roads, bridges, water, broadband, and manufacturing; Bechtel's domestic capacity and federal relationships enable capture",
+    "LNG and midstream expansion: global LNG demand growth and U.S. export capacity additions drive recurring EPC and O&M contract awards; Bechtel's LNG track record (Sabine Pass, Corpus Christi) is defensible moat",
+    "Digital and automation integration: adoption of BIM, drone inspection, modular construction, and AI-driven project controls reduces cost and schedule risk; early-mover advantage in tech integration"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Bechtel is the world's largest privately held engineering, procurement, and construction (EPC) firm, with $60B+ annual revenue and unmatched scale in mega-project delivery across energy, infrastructure, and defense sectors. Its portfolio spans LNG liquefaction plants, nuclear facilities, water treatment, transportation, and government programs; it is the anchor contractor for U.S. federal infrastructure and a critical node in global energy and defense supply chains. Bechtel's project-based business model, fixed-price contracting exposure, and international footprint make it a leading indicator of global capital expenditure cycles and geopolitical risk.",
+  "portalRelevance": "Bechtel is a tier-1 anchor in the infrastructure domain and a critical counterparty to energy majors, utilities, governments, and defense primes. Its private structure and opaque financials limit direct equity analysis, but its project awards, contract backlog, and execution track record are leading indicators of capital spending, commodity demand, and geopolitical stability. For financial-intelligence models, Bechtel's contract wins and project milestones signal macro capex cycles, energy transition momentum, and supply-chain resilience; its cost overruns or project delays cascade to client earnings and sector valuations.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE — no SEC filings; financial data sourced from industry reports, news, and inferred from project announcements and client disclosures"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly project award announcements (contract value, scope, client, geography, expected duration)",
+        "Project milestone disclosures via client earnings calls and 8-K filings (FID, first steel, commissioning)",
+        "Cost overrun and schedule delay notices embedded in client guidance revisions and risk factor updates",
+        "Labor cost and commodity price escalation signals from supplier and subcontractor communications"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Backlog-to-revenue ratio and project mix (% fixed-price vs. cost-plus) as proxy for margin sustainability",
+        "Geographic revenue concentration and geopolitical risk exposure (sanctions, currency, political instability)",
+        "Utilization rates of engineering and craft labor; wage inflation trends in key markets (Gulf, U.S., Asia)",
+        "Cash conversion cycle and working capital dynamics driven by project phase (early capex vs. late collections)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior mega-project distress (Fukushima decommissioning, Vogtle nuclear expansion cost overruns) to identify execution risk signatures",
+        "Margin compression diagnosis: fixed-price contract exposure + commodity/labor inflation = profitability cliff if backlog locks in low-margin work",
+        "Geopolitical contagion: sanctions on Iran, Russia, or China disrupt project execution and supply chains; client credit risk rises in unstable regions",
+        "Talent flight risk: if Bechtel loses key project leaders or engineering teams to competitors or in-house client teams, execution risk and bid competitiveness degrade"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge fixed-price contract exposure via commodity futures (steel, copper, diesel) and labor index swaps; lock in margin floors on large awards",
+        "Diversify geographic and client concentration: reduce single-project revenue exposure and geopolitical tail risk via portfolio rebalancing",
+        "Accelerate digital and modular construction adoption to reduce cost and schedule risk; invest in automation and BIM to offset labor inflation",
+        "Strengthen client relationships and contract terms: shift toward cost-plus or time-and-materials models where feasible; embed escalation clauses and force majeure carve-outs"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Bid aggressively on U.S. infrastructure and energy transition projects (IRA, Bipartisan Infrastructure Law) to capture market share and lock in high-margin work",
+        "Expand LNG and midstream capabilities via strategic hires and partnerships; position as preferred EPC for U.S. export projects and global expansions",
+        "Divest or reduce exposure to low-margin, high-risk geographies (e.g., Middle East if sanctions or political risk spike); reallocate capital to North America and allied nations",
+        "Launch digital transformation and modular construction initiatives; market as cost and schedule advantage to win bids and improve execution margins"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Track quarterly project award announcements and backlog growth; compare to industry peers (Fluor, TechnipFMC, Jacobs) to assess competitive positioning",
+        "Monitor client earnings calls for Bechtel project updates, cost overruns, and schedule delays; cross-reference with Bechtel's own project disclosures",
+        "Analyze labor cost and commodity price trends via supplier and subcontractor earnings; correlate to Bechtel margin guidance and project profitability",
+        "Assess geopolitical risk via sanctions, political instability, and currency volatility in key markets; model impact on project execution and cash flows"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate fixed-price contract margin assumptions based on realized cost overruns and labor inflation; adjust bid strategy and risk premiums",
+        "Update geopolitical risk model with new sanctions, political events, and currency movements; reweight geographic portfolio exposure",
+        "Refine labor cost escalation forecasts based on wage trends and talent retention data; adjust project profitability models and capex plans",
+        "Incorporate digital and modular construction adoption rates into cost and schedule risk models; update competitive positioning vs. peers"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Bechtel operates as a distributed project-delivery engine embedded in global energy, infrastructure, and defense ecosystems. Its core function is to translate client capital plans into executed assets via integrated engineering, procurement, and construction; it acts as a neural integrator between client strategy (demand signal), supply chains (materials, labor, equipment), regulatory frameworks (permitting, safety, environmental), and financial markets (project financing, risk transfer). Bechtel's decision-making is driven by project economics (fixed-price margin, schedule risk, geopolitical exposure), client relationships (repeat business, strategic partnerships), and talent availability (engineering and craft labor). Its outputs are project milestones, cost and schedule performance, and cash generation; its inputs are client capex plans, commodity and labor costs, geopolitical events, and regulatory changes. Bechtel's competitive advantage rests on scale, execution track record, and relationships; its vulnerabilities are fixed-price contract exposure, geopolitical concentration, and labor market tightness.",
+    "suppliers": [
+      {
+        "name": "ArcelorMittal S.A.",
+        "ticker": "MT",
+        "cik": "1203431",
+        "slug": "arcelormittal",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Steel Supply",
+        "relationshipNote": "ArcelorMittal is a primary structural steel supplier for Bechtel's infrastructure and energy projects globally. Bechtel's mega-projects (LNG plants, nuclear facilities, bridges) consume 100,000+ tons of steel annually; ArcelorMittal's pricing, delivery, and quality directly impact project margins and schedules. Fixed-price contracts expose Bechtel to steel price volatility; 2021–2023 commodity spike compressed margins on locked-in bids. Bechtel hedges via futures and long-term supply agreements.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lafarge S.A.",
+        "ticker": "LG.PA",
+        "cik": null,
+        "slug": "lafarge",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Cement Supply",
+        "relationshipNote": "Lafarge is a leading cement and concrete supplier for Bechtel's infrastructure projects (dams, tunnels, foundations, roads). Bechtel's annual cement consumption exceeds 500,000 tons across active projects; Lafarge's regional capacity and logistics are critical to project scheduling. Cement price inflation 2021–2024 (up 40%+) pressured margins on fixed-price contracts. Bechtel maintains regional supplier diversification to mitigate single-source risk.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Heavy Equipment & Machinery",
+        "relationshipNote": "Caterpillar supplies excavators, dozers, compactors, and power generation equipment for Bechtel's construction and infrastructure projects. Bechtel operates 1,000+ Caterpillar machines across active sites; equipment availability and maintenance directly impact project schedules. Caterpillar's supply chain constraints (2021–2023) delayed equipment delivery and compressed project timelines. Bechtel maintains long-term equipment leases and service agreements with Caterpillar.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schlumberger Limited",
+        "ticker": "SLB",
+        "cik": "0000091532",
+        "slug": "schlumberger",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Subsurface & Engineering Data",
+        "relationshipNote": "Schlumberger provides subsurface characterization, well engineering, and digital solutions for Bechtel's oil & gas and geothermal projects. Bechtel integrates Schlumberger's petrophysical data and well design into project planning and execution. Schlumberger's digital platforms (cloud, AI-driven reservoir modeling) enhance Bechtel's project controls and reduce execution risk. Relationship spans 20+ years of joint projects in Middle East, Southeast Asia, and North America.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Siemens AG",
+        "ticker": "SIE",
+        "cik": null,
+        "slug": "siemens",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow — Electrical & Automation Systems",
+        "relationshipNote": "Siemens supplies electrical systems, automation controls, and digital infrastructure for Bechtel's energy, water, and industrial projects. Bechtel integrates Siemens PLCs, SCADA, and cybersecurity platforms into LNG plants, nuclear facilities, and smart grid projects. Siemens' supply chain constraints (semiconductors, 2021–2023) delayed electrical equipment delivery and compressed project schedules. Bechtel maintains preferred vendor status with Siemens for large projects.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Aker Solutions ASA",
+        "ticker": "AKSO.OL",
+        "cik": null,
+        "slug": "aker_solutions",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Subsea & Offshore Engineering",
+        "relationshipNote": "Aker Solutions provides subsea engineering, fabrication, and installation services for Bechtel's offshore oil & gas and renewable energy projects. Bechtel subcontracts Aker for subsea pipelines, manifolds, and floating production systems; Aker's Norwegian and Asian yards support Bechtel's global project delivery. Relationship includes joint ventures in North Sea and Southeast Asia. Aker's capacity constraints (2022–2024) created bottlenecks for Bechtel's offshore project schedules.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kiewit Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "kiewit",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Heavy Construction Competitor",
+        "relationshipNote": "Kiewit is a privately held heavy construction and infrastructure contractor with ~$10B revenue, competing with Bechtel on U.S. infrastructure, energy, and mining projects. Kiewit's domestic focus and strong relationships with U.S. utilities and government agencies provide regional competitive advantage. Bechtel's global scale and mega-project expertise provide offset. Both firms compete for Bipartisan Infrastructure Law and IRA-funded projects.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Seatrade Groningen B.V. (Port Authority)",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_groningen",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — LNG Terminal Operations",
+        "relationshipNote": ". Bechtel operates or has operated LNG terminals globally; terminal throughput and utilization directly impact project economics and cash flows. LNG market volatility (2022–2024 price spikes) increased project value and client capex, driving new Bechtel awards. Bechtel's O&M (operations & maintenance) contracts provide recurring revenue and client stickiness.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Boral Limited",
+        "ticker": "BLD.AX",
+        "cik": null,
+        "slug": "boral",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Construction Materials (Asia-Pacific)",
+        "relationshipNote": "Boral supplies aggregates, concrete, and construction materials for Bechtel's infrastructure projects in Australia, Asia, and Pacific regions. Bechtel's Asia-Pacific portfolio (dams, roads, water treatment) relies on Boral's regional capacity and logistics. Boral's 2023–2024 capacity constraints and price increases pressured Bechtel's project margins in the region. Bechtel maintains long-term supply agreements with Boral.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk A/S",
+        "ticker": "MAERSK.CO",
+        "cik": null,
+        "slug": "maersk",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Global Shipping & Logistics",
+        "relationshipNote": "Maersk provides global shipping, port services, and logistics for Bechtel's equipment, materials, and personnel transport across mega-projects. Bechtel's international projects (Middle East, Asia, Africa) depend on Maersk's container and breakbulk capacity; Maersk's 2021–2023 capacity constraints and rate spikes increased Bechtel's project costs. Bechtel negotiates volume discounts and priority allocation with Maersk for large projects.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Expeditors International of Washington, Inc.",
+        "ticker": "EXPD",
+        "cik": "0000746025",
+        "slug": "expeditors",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Freight Forwarding & Customs",
+        "relationshipNote": "Expeditors provides freight forwarding, customs brokerage, and supply-chain management for Bechtel's project materials and equipment. Bechtel's complex international projects require specialized logistics (oversized equipment, hazmat, time-critical delivery); Expeditors' global network and customs expertise reduce delays and costs. Relationship spans 15+ years of joint projects across 50+ countries.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schiber Logistics GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "schiber_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Heavy Equipment Transport (Europe/Middle East)",
+        "relationshipNote": "Schiber specializes in heavy equipment transport and project logistics for Bechtel's European and Middle Eastern projects. Bechtel's mega-projects require specialized heavy-haul transport (turbines, reactors, modules); Schiber's fleet and route expertise enable on-time delivery and cost control. Bechtel maintains preferred vendor status with Schiber for large equipment moves.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SR",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Energy Client",
+        "relationshipNote": "Saudi Aramco is Bechtel's largest and longest-standing client, with 50+ years of joint projects in refining, petrochemicals, and gas processing. Bechtel's 2023–2024 awards from Aramco (Yanbu refinery expansion, Safaniyah gas project) total $8B+; Aramco represents ~15% of Bechtel's annual revenue. Aramco's Vision 2030 capex plan ($500B+) drives multi-year project pipeline for Bechtel. Relationship includes joint ventures and technology partnerships.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Shell plc",
+        "ticker": "SHEL",
+        "cik": "0000949894",
+        "slug": "shell",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Energy Client",
+        "relationshipNote": "Shell is a major Bechtel client for LNG, refining, and chemicals projects globally. Bechtel's 2020–2024 awards from Shell (Prelude FLNG, Gorgon LNG expansion, Cracker plants) exceed $15B; Shell represents ~12% of Bechtel's annual revenue. Shell's energy transition strategy (renewables, hydrogen, carbon capture) creates new project opportunities for Bechtel. Relationship includes long-term O&M contracts and strategic partnerships.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_doe",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Government Client",
+        "relationshipNote": "U.S. Department of Energy is a major Bechtel client for nuclear, renewable, and grid modernization projects. Bechtel's 2023–2024 awards from DOE (Savannah River Site cleanup, nuclear waste processing, hydrogen hubs) total $5B+; DOE represents ~8% of Bechtel's annual revenue. DOE's IRA and Bipartisan Infrastructure Law funding ($100B+) creates multi-year project pipeline for Bechtel. Bechtel holds top-secret security clearances and operates in restricted facilities.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Qatar Petroleum (QatarEnergy)",
+        "ticker": null,
+        "cik": null,
+        "slug": "qatarenergy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — LNG Client",
+        "relationshipNote": "QatarEnergy is a major Bechtel client for LNG and gas projects. Bechtel's 2021–2024 awards from QatarEnergy (North Field East LNG expansion, $20B+) represent one of the largest projects in Bechtel's history; QatarEnergy represents ~10% of Bechtel's annual revenue. QatarEnergy's LNG expansion strategy (North Field South, $15B+) creates additional project opportunities for Bechtel. Relationship includes joint ventures and long-term O&M contracts.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Fluor Corporation",
+        "ticker": "FLR",
+        "cik": "0000038074",
+        "slug": "fluor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — EPC Competitor",
+        "relationshipNote": "Fluor is Bechtel's primary direct competitor in global EPC services for energy, infrastructure, and defense. Both firms compete for mega-projects (LNG, nuclear, refining); Bechtel holds ~25% market share vs. Fluor's ~15%. Fluor's 2020–2023 cost overruns (Darussalam LNG, Gorgon) and margin compression signal sector-wide execution risk. Bechtel's superior project delivery track record and client relationships provide competitive moat.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "TechnipFMC plc",
+        "ticker": "FTI",
+        "cik": "0001443646",
+        "slug": "technipfmc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Subsea & Offshore EPC Competitor",
+        "relationshipNote": "TechnipFMC is a specialized EPC competitor focused on subsea, offshore, and LNG projects. TechnipFMC holds ~12% of global offshore EPC market vs. Bechtel's ~20%; both firms compete for major LNG and deepwater projects. TechnipFMC's modular construction and digital capabilities (Subsea 4.0) represent emerging competitive threat. Bechtel's integrated onshore-offshore capabilities and scale provide defensive advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Jacobs Solutions Inc.",
+        "ticker": "J",
+        "cik": "0001649339",
+        "slug": "jacobs_solutions",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Engineering & Infrastructure Competitor",
+        "relationshipNote": "Jacobs is a diversified engineering and infrastructure competitor with ~$15B revenue and strong positions in water, transportation, and government services. Jacobs competes with Bechtel on infrastructure and defense programs; Jacobs' 2023 acquisition of WSP Global expanded its design and consulting capabilities. Bechtel's EPC and mega-project execution remain differentiated vs. Jacobs' design-led model.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kiewit Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "kiewit",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Heavy Construction Competitor",
+        "relationshipNote": "Kiewit is a privately held heavy construction and infrastructure contractor with ~$10B revenue, competing with Bechtel on U.S. infrastructure, energy, and mining projects. Kiewit's domestic focus and strong relationships with U.S. utilities and government agencies provide regional competitive advantage. Bechtel's global scale and mega-project expertise provide offset. Both firms compete for Bipartisan Infrastructure Law and IRA-funded projects.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Saipem S.p.A.",
+        "ticker": "SAIP.MI",
+        "cik": null,
+        "slug": "saipem",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking — Offshore & Subsea EPC Competitor",
+        "relationshipNote": "Saipem is an Italian EPC competitor focused on offshore, subsea, and onshore projects. Saipem holds ~8% of global offshore EPC market; competes with Bechtel on Middle East, North Africa, and Southeast Asia projects. Saipem's 2021–2023 financial distress and restructuring weakened its competitive position vs. Bechtel. Bechtel's scale and financial stability provide advantage.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC has limited direct jurisdiction over Bechtel (private company); however, SEC filings by Bechtel's public clients (Shell, Saudi Aramco, QatarEnergy) and competitors (Fluor, TechnipFMC) disclose Bechtel contract awards, cost overruns, and project delays. SEC's 2023–2024 focus on climate risk disclosure and supply-chain transparency affects Bechtel's client reporting and project visibility.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Department of Defense",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Defense Contractor Oversight",
+        "relationshipNote": "DoD is a major regulator and client of Bechtel for defense infrastructure, nuclear facilities, and classified projects. Bechtel holds top-secret security clearances and operates under DoD procurement regulations (FAR, DFARS). DoD's 2023–2024 focus on supply-chain resilience and critical infrastructure protection affects Bechtel's project scope and compliance requirements. Bechtel's defense portfolio represents ~15% of annual revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Nuclear Regulatory Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "nrc",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Nuclear Safety & Licensing",
+        "relationshipNote": "NRC regulates Bechtel's nuclear construction and decommissioning projects. Bechtel's 2020–2024 nuclear projects (Vogtle expansion, Savannah River cleanup, advanced reactor design) require NRC licensing and oversight. NRC's 2023–2024 focus on advanced reactor deployment and waste management creates new project opportunities for Bechtel. Bechtel's nuclear expertise and regulatory compliance track record are competitive advantages.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental Compliance",
+        "relationshipNote": "EPA regulates Bechtel's environmental remediation, water treatment, and industrial projects. Bechtel's 2020–2024 projects (Savannah River Site cleanup, water infrastructure, carbon capture) require EPA permitting and compliance. EPA's 2023–2024 focus on climate resilience and water quality creates new project opportunities for Bechtel. Bechtel's environmental expertise and compliance track record are competitive advantages.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Federal Energy Regulatory Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Energy Infrastructure",
+        "relationshipNote": "FERC regulates Bechtel's power generation, transmission, and grid modernization projects. Bechtel's 2023–2024 projects (renewable energy, grid upgrades, hydrogen infrastructure) require FERC licensing and oversight. FERC's 2023–2024 focus on grid resilience and renewable integration creates new project opportunities for Bechtel. Bechtel's energy infrastructure expertise and regulatory compliance track record are competitive advantages.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte is Bechtel's external auditor and provides advisory services on financial reporting, internal controls, and risk management. Deloitte's audit scope covers Bechtel's complex project accounting (percentage-of-completion, contract revenue recognition), fixed-price contract exposure, and geopolitical risk. Deloitte's 2023–2024 audit focus includes supply-chain resilience, cybersecurity, and ESG reporting. Relationship spans 20+ years.",
+      "confidence": "medium",
+      "sourceType": [
+        "inferred"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Berkshire Hathaway acquired 80% of Bechtel in 2006 for $32B; Berkshire remains Bechtel's majority shareholder and primary capital provider. Berkshire's ownership provides Bechtel with financial stability, access to capital markets, and strategic guidance. Berkshire's 2023–2024 capital allocation to Bechtel reflects confidence in infrastructure and energy transition opportunities. Bechtel's dividend and capital returns to Berkshire are material to Berkshire's portfolio.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Bechtel Family Trust",
+        "ticker": null,
+        "cik": null,
+        "slug": "bechtel_family_trust",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance)",
+        "relationshipNote": "Bechtel Family Trust holds ~20% of Bechtel Corporation; founding family retains governance influence and strategic direction. Family trust's long-term investment horizon and commitment to Bechtel's independence shape capital allocation and risk management. Family trust's 2023–2024 involvement in succession planning and strategic initiatives reflects active governance role.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan Chase is a primary lender and financial advisor to Bechtel. JPMorgan provides project financing, working capital facilities, and M&A advisory for Bechtel's major projects and acquisitions. JPMorgan's 2023–2024 credit facilities support Bechtel's $60B+ annual revenue and capital-intensive project delivery. Relationship includes syndicated lending and bond underwriting.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Bank of America is a major lender and financial advisor to Bechtel. BofA provides project financing, working capital facilities, and M&A advisory for Bechtel's major projects and acquisitions. BofA's 2023–2024 credit facilities support Bechtel's capital-intensive project delivery and working capital management. Relationship includes syndicated lending and bond underwriting.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Brendan Bechtel",
+        "ticker": null,
+        "cik": null,
+        "slug": "brendan_bechtel",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership — CEO",
+        "relationshipNote": "Brendan Bechtel is CEO of Bechtel Corporation since 2014. Bechtel family member and fourth-generation leader; responsible for strategic direction, client relationships, and operational performance. Brendan's 2020–2024 leadership focused on energy transition, infrastructure growth, and digital transformation. Brendan's public statements emphasize Bechtel's commitment to nuclear, renewables, and U.S. infrastructure.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kneeland Youngblood",
+        "ticker": null,
+        "cik": null,
+        "slug": "kneeland_youngblood",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management — CFO",
+        "relationshipNote": "Kneeland Youngblood is CFO of Bechtel Corporation. Responsible for financial planning, capital allocation, and investor relations. Youngblood's 2023–2024 focus includes working capital management, project profitability, and cash flow optimization. Youngblood's background in project finance and capital markets informs Bechtel's financial strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Curt Espeland",
+        "ticker": null,
+        "cik": null,
+        "slug": "curt_espeland",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — COO",
+        "relationshipNote": "Curt Espeland is COO of Bechtel Corporation. Responsible for project execution, operations, and delivery excellence. Espeland's 2023–2024 focus includes mega-project delivery (Qatar LNG, Vogtle nuclear), supply-chain resilience, and digital transformation. Espeland's background in engineering and project management drives operational performance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hamish Tyrwhitt",
+        "ticker": null,
+        "cik": null,
+        "slug": "hamish_tyrwhitt",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance — General Counsel",
+        "relationshipNote": "Hamish Tyrwhitt is General Counsel of Bechtel Corporation. Responsible for legal strategy, compliance, and risk management. Tyrwhitt's 2023–2024 focus includes contract risk management, regulatory compliance, and geopolitical risk mitigation. Tyrwhitt's background in international law and project contracts informs Bechtel's legal strategy.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Global EPC Project Awards Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "epc_awards_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Global EPC project awards (LNG, refining, chemicals, infrastructure) are leading indicators of Bechtel's future revenue and backlog. Industry reports (Wood Mackenzie, IHS Markit, Rystad Energy) track project FIDs and awards; Bechtel's market share and win rate signal competitive positioning and client demand. 2023–2024 awards surge in energy transition (renewables, hydrogen, carbon capture) and U.S. infrastructure (IRA, Bipartisan Infrastructure Law) favor Bechtel.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Commodity Price Index (Steel, Cement, Copper)",
+        "ticker": null,
+        "cik": null,
+        "slug": "commodity_price_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Commodity prices (steel, cement, copper, diesel) are leading indicators of Bechtel's project cost inflation and margin compression. Fixed-price contracts expose Bechtel to commodity price volatility; 2021–2023 spike compressed margins on locked-in bids. 2024 commodity price stabilization and potential deflation create margin recovery opportunity for Bechtel. Bechtel hedges via futures and long-term supply agreements.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>LIMEN HELIX &middot; CONSOLE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#080c14;color:#e8e3d9;font-family:monospace;height:100%;width:100%;overflow-x:hidden;-webkit-user-select:none;user-select:none}
+
+/* ═══ UNIVERSAL SECTION HEADER ═══ */
+.limen-section-header{color:rgba(201,169,78,0.85);font-weight:600;letter-spacing:1.2px;text-transform:uppercase;text-shadow:0 0 6px rgba(201,169,78,0.25);opacity:1}
+.limen-section-header:hover{color:rgba(201,169,78,1);text-shadow:0 0 8px rgba(201,169,78,0.4)}
+/* Severity overrides */
+.limen-section-header.severity-critical{color:#FF4D4D;text-shadow:0 0 8px rgba(255,77,77,0.6)}
+.limen-section-header.severity-active{color:#00E5FF;text-shadow:0 0 6px rgba(0,229,255,0.4)}
+.limen-section-header.severity-stable{color:#00FFAA;text-shadow:0 0 6px rgba(0,255,170,0.4)}
+
+/* ═══ FULL-HEIGHT CONSOLE GRID ════════════════════════════════ */
+#console-grid{
+  display:grid;
+  grid-template-columns:1fr 1.2fr 1fr;
+  grid-template-rows:auto 1fr auto;
+  grid-template-areas:
+    "header  header  header"
+    "left    center  right"
+    "footer  footer  footer";
+  min-height:100vh;
+  gap:0 8px;
+}
+
+/* ─── Clarity view — content area below header ──────────────── */
+#clarity-view{
+  grid-column:1 / -1;
+  grid-row:2;
+  z-index:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+/* ─── Header bar ──────────────────────────────────────────────── */
+#console-header{
+  grid-area:header;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 16px;
+  border-bottom:1px solid rgba(201,169,78,0.08);
+  background:rgba(5,8,16,0.98);
+  z-index:200;
+  position:sticky;
+  top:0;
+  transform:translateZ(0);
+}
+.ch-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.ch-title{
+  font-size:0.48rem;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:rgba(201,169,78,0.7);
+}
+.ch-title a{color:rgba(201,169,78,0.6);text-decoration:none;transition:color 0.2s}
+.ch-title a:hover{color:rgba(201,169,78,0.95)}
+/* ── Nav dropdown ── */
+.ch-nav-dropdown{position:relative;display:inline-block}
+.ch-nav-btn{font-family:monospace;font-size:0.36rem;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(201,169,78,0.2);border-radius:2px;background:rgba(201,169,78,0.04);color:rgba(201,169,78,0.7);cursor:pointer;transition:all 0.2s}
+.ch-nav-btn:hover{border-color:rgba(201,169,78,0.4);color:rgba(201,169,78,0.95);background:rgba(201,169,78,0.08)}
+.ch-nav-menu{display:none;position:absolute;top:100%;left:0;margin-top:4px;background:#0e1018;border:1px solid rgba(201,169,78,0.15);border-radius:3px;min-width:200px;z-index:500;padding:4px 0;box-shadow:0 4px 16px rgba(0,0,0,0.5)}
+.ch-nav-menu.open{display:block}
+.ch-nav-menu a{display:block;padding:6px 14px;font-size:0.36rem;letter-spacing:1.5px;color:rgba(201,169,78,0.6);text-decoration:none;transition:all 0.15s}
+.ch-nav-menu a:hover{background:rgba(201,169,78,0.06);color:rgba(201,169,78,0.95)}
+.ch-nav-menu a.active{color:rgba(201,169,78,0.95);border-left:2px solid rgba(201,169,78,0.5)}
+/* ── Center mode switch ── */
+.ch-center{display:flex;align-items:center;gap:0}
+.ch-mode-btn{font-family:monospace;font-size:0.42rem;letter-spacing:2.5px;text-transform:uppercase;padding:5px 16px;border:1px solid rgba(201,169,78,0.15);background:none;color:rgba(201,169,78,0.4);cursor:pointer;transition:all 0.2s;font-weight:600}
+.ch-mode-btn:first-child{border-radius:3px 0 0 3px;border-right:none}
+.ch-mode-btn:last-child{border-radius:0 3px 3px 0}
+.ch-mode-btn:hover{color:rgba(201,169,78,0.8);border-color:rgba(201,169,78,0.3)}
+.ch-mode-btn.active{color:#C9A94E;border-color:rgba(201,169,78,0.45);background:rgba(201,169,78,0.08);text-shadow:0 0 8px rgba(201,169,78,0.3);font-weight:700}
+.ch-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.ch-status{
+  font-size:0.40rem;
+  letter-spacing:1.5px;
+  color:rgba(200,195,184,0.35);
+}
+.ch-cmd-hint{
+  display:none !important;
+}
+.ch-cmd-hint:hover{
+  border-color:rgba(201,169,78,0.2);
+  color:rgba(200,195,184,0.4);
+}
+#enter-connectome{
+  font-family:monospace;
+  font-size:0.36rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:rgba(201,169,78,0.6);
+  cursor:pointer;
+  padding:4px 10px;
+  border:1px solid rgba(201,169,78,0.2);
+  border-radius:2px;
+  background:rgba(201,169,78,0.04);
+  transition:background 0.3s,color 0.3s,border-color 0.3s;
+}
+#enter-connectome:hover{
+  background:rgba(201,169,78,0.12);
+  color:rgba(201,169,78,0.9);
+  border-color:rgba(201,169,78,0.35);
+}
+
+/* ─── Column containers ───────────────────────────────────────── */
+.console-col{
+  overflow-y:auto;
+  padding:8px 8px 60px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(201,169,78,0.1) transparent;
+  position:relative;
+  min-height:0;
+}
+.console-col::-webkit-scrollbar{width:3px}
+.console-col::-webkit-scrollbar-thumb{background:rgba(201,169,78,0.1);border-radius:2px}
+
+#col-left{grid-area:left;border-right:1px solid rgba(201,169,78,0.04)}
+#col-center{grid-area:center}
+#col-right{grid-area:right;border-left:1px solid rgba(201,169,78,0.04)}
+
+/* Domain-scoped: hide columns immediately to prevent flash before brain boots */
+.dcb-active #col-left,.dcb-active #col-center,.dcb-active #col-right{display:none!important}
+
+/* ─── Column labels ───────────────────────────────────────────── */
+.col-label{
+  font-size:0.34rem;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:rgba(201,169,78,0.6);
+  padding:6px 8px 8px;
+  border-bottom:1px solid rgba(201,169,78,0.08);
+  margin-bottom:8px;
+  font-weight:600;
+}
+
+/* ─── Panel overrides: make fixed panels flow inside columns ──── */
+.console-col > [id^="limen-"]{
+  position:relative !important;
+  top:auto !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  width:100% !important;
+  max-width:100% !important;
+  margin-bottom:8px;
+  padding:10px 12px;
+  border-radius:2px;
+  box-shadow:none !important;
+  pointer-events:auto !important;
+}
+
+/* ─── Investigation panel scroll fix ─────────────────────────── */
+.console-col > #limen-investigation-drawer{
+  max-height:420px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  min-height:0 !important;
+  pointer-events:auto !important;
+}
+
+/* ─── Footer area ─────────────────────────────────────────────── */
+#console-footer{
+  grid-area:footer;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-top:1px solid rgba(201,169,78,0.06);
+  background:rgba(5,8,16,0.95);
+  padding:3px 12px;
+  font-size:0.36rem;
+  letter-spacing:1.2px;
+  color:rgba(200,195,184,0.35);
+  z-index:100;
+  min-height:24px;
+  position:relative;
+}
+#footer-left{flex:1}
+#footer-center{text-align:center;flex:1}
+#footer-right{text-align:right;flex:1}
+
+/* Footer panel overrides */
+#console-footer > [id^="limen-"]{
+  position:relative !important;
+  top:auto !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  max-width:none !important;
+  margin:0;
+  display:inline-flex !important;
+  align-items:center;
+}
+
+/* ─── Mode bar — hidden on domain console ─────────────────────── */
+#limen-mode-bar{
+  display:none !important;
+}
+
+/* ─── Biosensor badge — hidden on domain console (shown inline in exec strip) */
+#limen-biosensor-badge{display:none !important}
+
+/* ─── Stress strip — inline in footer, not floating overlay ────── */
+#limen-stress-strip{
+  position:relative !important;
+  top:auto !important;
+  bottom:auto !important;
+  left:auto !important;
+  right:auto !important;
+  z-index:auto !important;
+  background:none !important;
+  border:none !important;
+  padding:0 !important;
+  pointer-events:auto !important;
+  display:inline-flex !important;
+  gap:8px;
+  font-size:0.34rem !important;
+  line-height:1.4 !important;
+}
+
+/* ─── Bottom-edge controls — vertical separation ─────────────── */
+#limen-voice-control{
+  bottom:4px !important;
+  right:12px !important;
+}
+#limen-report-btn{
+  display:none !important;  /* replaced by header button */
+}
+/* (removed) */
+
+/* ─── Stability HUD — hidden on domain console (debug overlay, not for operators) */
+#limen-stability-hud{
+  display:none !important;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────── */
+@media(max-width:900px){
+  #console-grid{
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:
+      "header  header"
+      "left    center"
+      "right   right"
+      "footer  footer";
+  }
+  #col-right{border-left:none;border-top:1px solid rgba(201,169,78,0.04)}
+}
+@media(max-width:600px){
+  #console-grid{
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "header"
+      "left"
+      "center"
+      "right"
+      "footer";
+  }
+  #col-left,#col-right{border:none}
+}
+
+/* ═══ RESEARCH OBSERVATORY ═══ */
+#limen-research-observatory{margin-top:4px}
+.ro-header{padding:8px 12px;cursor:pointer;border-bottom:1px solid rgba(201,169,78,0.06)}
+.ro-title{font-size:0.42rem;letter-spacing:1.5px;color:rgba(201,169,78,0.85);text-transform:uppercase;font-weight:600;text-shadow:0 0 6px rgba(201,169,78,0.25)}
+.ro-subtitle{font-size:0.34rem;color:rgba(200,195,184,0.4);letter-spacing:1.5px;margin-top:2px}
+.ro-section{border-bottom:1px solid rgba(201,169,78,0.04)}
+.ro-section-header{padding:6px 12px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background 0.15s}
+.ro-section-header:hover{background:rgba(201,169,78,0.03)}
+.ro-section-arrow{font-size:0.35rem;color:rgba(201,169,78,0.4);min-width:10px}
+.ro-section-title{font-size:0.36rem;letter-spacing:1.5px;color:rgba(201,169,78,0.75);text-transform:uppercase;font-weight:600}
+.ro-section-count{font-size:0.32rem;color:rgba(200,195,184,0.35);letter-spacing:1px;margin-left:auto}
+.ro-section-body{padding:4px 12px 8px;max-height:300px;overflow-y:auto}
+.ro-section-body::-webkit-scrollbar{width:2px}.ro-section-body::-webkit-scrollbar-thumb{background:rgba(201,169,78,0.1)}
+.ro-item{padding:5px 8px;margin:3px 0;border-left:2px solid rgba(201,169,78,0.08);background:rgba(0,0,0,0.15);border-radius:2px;font-size:0.4rem;line-height:1.5}
+.ro-item-head{color:rgba(220,215,200,0.85);font-size:0.42rem}
+.ro-node{color:rgba(201,169,78,0.75);font-weight:500;letter-spacing:1.5px}
+.ro-entity{color:rgba(200,195,184,0.55);font-size:0.38rem;letter-spacing:1px}
+.ro-count{color:rgba(201,169,78,0.5);font-size:0.34rem}
+.ro-item-detail{color:rgba(200,195,184,0.5);font-size:0.36rem;margin-top:2px}
+.ro-item-gap{color:rgba(232,84,84,0.65);font-size:0.36rem;margin-top:2px}
+.ro-item-opp{color:rgba(74,170,106,0.65);font-size:0.36rem;margin-top:2px;font-style:italic}
+.ro-item-meta{color:rgba(200,195,184,0.35);font-size:0.32rem;margin-top:2px;letter-spacing:1px}
+.ro-conflict{border-left-color:rgba(232,84,84,0.2)}
+.ro-cluster{border-left-color:rgba(74,143,212,0.2)}
+.ro-gap{border-left-color:rgba(212,168,74,0.2)}
+.ro-hypothesis{border-left-color:rgba(74,170,106,0.2)}
+.ro-patent-feed{padding:8px 12px;border-top:1px solid rgba(201,169,78,0.06);margin-top:4px}
+.ro-patent-title{font-size:0.36rem;letter-spacing:2.5px;color:rgba(74,170,106,0.55);text-transform:uppercase;margin-bottom:4px}
+.ro-patent-count{font-size:0.32rem;color:rgba(200,195,184,0.35);letter-spacing:1px;margin-bottom:4px}
+.ro-patent-item{font-size:0.34rem;color:rgba(74,170,106,0.5);padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.1)}
+</style>
+</head>
+<body>
+<script src="assets/js/auth-gate.js"></script>
+<script src="assets/js/limen-fast-boot.js"></script>
+<script src="assets/js/domain-identity.js"></script>
+<script src="assets/js/domain-brains/domain-isolator.js"></script>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+<script>
+// Early domain-mode lock: write dcb-active directly into the grid element at parse time
+var __isDomainScoped = !!new URLSearchParams(window.location.search).get('domain');
+</script>
+
+<div id="console-grid"><script>if(window.__isDomainScoped)document.getElementById('console-grid').classList.add('dcb-active');</script>
+
+  <!-- ═══ HEADER replaced by global top bar (assets/js/limen-topbar.js) ═══ -->
+  <!-- ═══ CLARITY VIEW (default — replaces 3-column dump) ═══ -->
+  <div id="clarity-view"></div>
+
+  <!-- ═══ LEFT COLUMN: Events / Escalation / Investigations ═══ -->
+  <div class="console-col" id="col-left">
+    <div class="col-label">EVENTS &middot; ESCALATION</div>
+  </div>
+
+  <!-- ═══ CENTER COLUMN: State / Feeds / Domain Overview ═══ -->
+  <div class="console-col" id="col-center">
+    <div class="col-label">STATE &middot; DOMAINS</div>
+  </div>
+
+  <!-- ═══ RIGHT COLUMN: Health / Market / Research ═══ -->
+  <div class="console-col" id="col-right">
+    <div class="col-label">HEALTH &middot; RESEARCH</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div id="console-footer">
+    <div id="footer-left"></div>
+    <div id="footer-center">LIMEN HELIX &middot; CIVILIZATION OBSERVATORY</div>
+    <div id="footer-right"></div>
+  </div>
+
+</div>
+
+<!-- ═══ SCRIPTS ═══ -->
+
+<script src="assets/js/civilization-connectome.js"></script>
+<script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/phase-estimator.js"></script>
+<script src="assets/js/feed-store.js"></script>
+<script src="assets/js/feed-state.js"></script>
+<script src="assets/js/panel-state-manager.js"></script>
+<script src="assets/js/shared-snapshot-engine.js"></script>
+<script>if(window.LIMENSharedSnapshot)window.LIMENSharedSnapshot.start();</script>
+<script src="assets/js/domain-signal-engine.js"></script>
+<script src="assets/js/event-narrator.js" defer></script>
+<script src="assets/js/action-suggester.js" defer></script>
+<script src="assets/js/world-signal-ingestor.js" defer></script>
+<script src="assets/js/cross-domain-detector.js"></script>
+<script src="assets/js/narrative-memory.js" defer></script>
+<script src="assets/js/domain-connectome-map.js" defer></script>
+<script src="assets/js/discovery-engine.js" defer></script>
+<script src="assets/js/market-stress-triage.js" defer></script>
+<script src="assets/js/global-state-engine.js" defer></script>
+<script src="assets/js/balance-meter.js" defer></script>
+<script src="assets/js/report-polarity-engine.js" defer></script>
+<script src="assets/js/self-health-monitor.js" defer></script>
+<script src="assets/js/self-repair-engine.js" defer></script>
+<script src="assets/js/escalation-console.js" defer></script>
+<script src="assets/js/decision-memory.js" defer></script>
+<script src="assets/js/event-engine.js" defer></script>
+<script src="assets/js/timeline-engine.js" defer></script>
+<script src="assets/js/investigation-engine.js" defer></script>
+<script src="assets/js/ui-mode-manager.js" defer></script>
+<script src="assets/js/limen-command-bar.js" defer></script>
+<script src="assets/js/research-observatory.js" defer></script>
+<script src="biosensorEngine.js" defer></script>
+<script src="assets/js/biosensor-bridge.js" defer></script>
+<script src="assets/js/limen-sparkline.js" defer></script>
+<script src="assets/js/biosensor-control-panel.js" defer></script>
+<!-- console-narrator (voice) removed -->
+<script src="assets/js/schema/fractal-report-schema.js" defer></script>
+<script src="assets/js/schema/company-portal-schema.js" defer></script>
+<script src="assets/js/remedy/limen-remedy-registry.js"></script>
+<script src="assets/js/recommendations/remedy-resolver.js"></script>
+<script src="assets/js/recommendations/evidence-builder.js" defer></script>
+<script src="assets/js/recommendations/scale-translator.js" defer></script>
+<script src="assets/js/recommendations/recommendation-engine.js" defer></script>
+<script src="assets/js/recommendations/report-synthesizer.js" defer></script>
+<script src="assets/js/recommendations/regulation-reports.js" defer></script>
+<script src="assets/js/recommendations/portal-treatment-resolver.js" defer></script>
+<script src="assets/js/recommendations/fractal-traversal-resolver.js" defer></script>
+<script src="assets/js/recommendations/portal-quality-assessor.js" defer></script>
+<script src="assets/js/recommendations/deep-portal-harvester.js" defer></script>
+<script src="assets/js/recommendations/domain-regulation-engine.js" defer></script>
+<script src="assets/js/ui/regulation-renderer.js" defer></script>
+<script src="assets/js/reports/report-exporter.js" defer></script>
+<script src="assets/js/ui/report-console.js" defer></script>
+<script src="assets/js/ui/domain-repair-map.js"></script>
+<!-- philemon removed -->
+<script>
+// Domain-scoped pages: block console-clarity entirely.
+// Non-domain pages: load it normally.
+var __isDomainPage = window.__isDomainScoped;
+if (__isDomainPage) {
+  // Provide a no-op stub so bootstrap doesn't error when it tries to start console-clarity
+  window.LIMENClarity = { start: function(){}, stop: function(){}, refresh: function(){}, isAnalystMode: function(){ return false; }, toggleMode: function(){}, setTab: function(){} };
+}
+</script>
+<script>
+// Only load console-clarity.js on non-domain pages (civilization console).
+// On domain pages the brain owns #clarity-view exclusively — clarity must not load at all.
+if (!window.__isDomainPage) {
+  var _clrScript = document.createElement('script');
+  _clrScript.src = 'assets/js/ui/console-clarity.js';
+  document.currentScript.parentNode.insertBefore(_clrScript, document.currentScript.nextSibling);
+}
+</script>
+<script src="assets/js/executive/response-safety-layer.js"></script>
+<script src="assets/js/executive/limen-executive-control.js"></script>
+<script src="assets/js/executive/limen-simulation-engine.js"></script>
+<script src="assets/js/executive/limen-executive-ui.js"></script>
+<script src="assets/js/executive/limen-action-adapters.js"></script>
+<script src="assets/js/executive/limen-ingest-client.js"></script>
+<script src="assets/js/executive/limen-package-generator.js"></script>
+<script src="assets/js/feeds/limen-defense-signal-engine.js"></script>
+<script src="assets/js/kernel/limen-phase-domain-adapter.js"></script>
+<script src="assets/js/portal/gap-synthesis-templates.js"></script>
+<script src="assets/js/portal/limen-gap-synthesis-engine.js"></script>
+<script src="assets/js/operator-compensation.js"></script>
+<script src="assets/js/operator-claim-ledger.js"></script>
+<script src="assets/js/operator-claim-flow.js"></script>
+<script src="assets/js/operator-panel.js"></script>
+<script src="assets/js/execution-outcomes.js"></script>
+<script src="assets/js/execution-operator-stats.js"></script>
+<script src="assets/js/execution-feedback-engine.js"></script>
+<script src="assets/js/execution-closeout-flow.js"></script>
+<script src="assets/js/execution-reliability-panel.js"></script>
+<script src="assets/js/execution-policy-config.js"></script>
+<script src="assets/js/execution-claim-agreement.js"></script>
+<script src="assets/js/execution-approval-authority.js"></script>
+<script src="assets/js/execution-investment-controls.js"></script>
+<script src="assets/js/execution-payout-finalizer.js"></script>
+<script src="assets/js/execution-portfolio-shell.js"></script>
+<script src="assets/js/execution-dashboard-widget.js"></script>
+<script src="assets/js/portal-pricing-config.js"></script>
+<script src="assets/js/execution-monitoring.js"></script>
+<script src="assets/js/execution-lifecycle.js"></script>
+<script src="assets/js/execution-opportunity-aging.js"></script>
+<script src="assets/js/execution-followup-tasks.js"></script>
+<script src="assets/js/execution-action-queue.js"></script>
+<script src="assets/js/execution-workload.js"></script>
+<script src="assets/js/execution-escalation.js"></script>
+<script src="assets/js/execution-crm-shell.js"></script>
+<script src="assets/js/execution-portfolio-monitor.js"></script>
+<script src="assets/js/execution-ops-dashboard.js"></script>
+<script src="assets/js/execution-command-orchestrator.js"></script>
+<script src="assets/js/execution-approval-routing.js"></script>
+<script src="assets/js/execution-economic-memory.js"></script>
+<script src="assets/js/execution-operator-board.js"></script>
+<script src="assets/js/execution-entity-linking.js"></script>
+<script src="assets/js/execution-lineage-graph.js"></script>
+<script src="assets/js/execution-policy-versioning.js"></script>
+<script src="assets/js/execution-capacity-governance.js"></script>
+<script src="assets/js/execution-reports.js"></script>
+<script src="assets/js/execution-module-registry.js"></script>
+<script src="assets/js/execution-approval-intelligence.js"></script>
+<script src="assets/js/execution-coherence.js"></script>
+<script src="assets/js/execution-portfolio-feedback.js"></script>
+<script src="assets/js/execution-family-memory.js"></script>
+<script src="assets/js/execution-economy-board.js"></script>
+<script src="assets/js/execution-disputes.js"></script>
+<script src="assets/js/execution-incentive-sim.js"></script>
+<script src="assets/js/execution-integrity.js"></script>
+<script src="assets/js/execution-board-snapshot.js"></script>
+<script src="assets/js/execution-phase7-loader.js"></script>
+<script src="assets/js/execution-strategic-memory.js"></script>
+<script src="assets/js/execution-policy-propagation.js"></script>
+<script src="assets/js/execution-revenue-intelligence.js"></script>
+<script src="assets/js/execution-operator-pathways.js"></script>
+<script src="assets/js/execution-bottlenecks.js"></script>
+<script src="assets/js/execution-cohorts.js"></script>
+<script src="assets/js/execution-portfolio-monetization.js"></script>
+<script src="assets/js/execution-crm-conversion.js"></script>
+<script src="assets/js/execution-governance-thresholds.js"></script>
+<script src="assets/js/execution-phase8-dashboard.js"></script>
+<script src="assets/js/execution-self-audit.js"></script>
+<script src="assets/js/execution-decision-memory.js"></script>
+<script src="assets/js/execution-resilience.js"></script>
+<script src="assets/js/execution-drift.js"></script>
+<script src="assets/js/execution-policy-compliance.js"></script>
+<script src="assets/js/execution-exception-pressure.js"></script>
+<script src="assets/js/execution-repair-queue.js"></script>
+<script src="assets/js/execution-saturation.js"></script>
+<script src="assets/js/execution-operating-digest.js"></script>
+<script src="assets/js/execution-phase9-dashboard.js"></script>
+<script src="assets/js/execution-phase9-loader.js"></script>
+<script src="assets/js/execution-recommended-actions.js"></script>
+<script src="assets/js/execution-playbooks.js"></script>
+<script src="assets/js/execution-human-confirmation.js"></script>
+<script src="assets/js/execution-next-best-action.js"></script>
+<script src="assets/js/execution-decision-synthesis.js"></script>
+<script src="assets/js/execution-action-readiness.js"></script>
+<script src="assets/js/execution-guided-sequences.js"></script>
+<script src="assets/js/execution-draft-actions.js"></script>
+<script src="assets/js/execution-autonomy-dashboard.js"></script>
+<script src="assets/js/execution-phase10-dashboard.js"></script>
+<script src="assets/js/execution-phase10-loader.js"></script>
+<script src="assets/js/execution-operator-onboarding.js"></script>
+<script src="assets/js/execution-live-readiness.js"></script>
+<script src="assets/js/execution-integrations.js"></script>
+<script src="assets/js/execution-checkpoints.js"></script>
+<script src="assets/js/execution-commercialization.js"></script>
+<script src="assets/js/execution-intake.js"></script>
+<script src="assets/js/execution-revops.js"></script>
+<script src="assets/js/execution-payout-ops.js"></script>
+<script src="assets/js/execution-deployment-readiness.js"></script>
+<script src="assets/js/execution-phase11-dashboard.js"></script>
+<script src="assets/js/execution-phase11-loader.js"></script>
+<script src="assets/js/domain-biosensor-adapter.js"></script>
+<script src="assets/js/domain-brains/domain-brain-base.js"></script>
+<script src="assets/js/domain-brains/portal-content-resolver.js"></script>
+<script src="assets/js/domain-brains/inter-brain-bus.js"></script>
+<script src="assets/js/domain-brains/domain-change-log.js"></script>
+<script src="assets/js/domain-brain-adapter.js"></script>
+<script src="assets/js/domain-registry.js"></script>
+<script src="assets/js/analyst-report-builder.js" defer></script>
+<script src="assets/js/limen-bootstrap.js"></script>
+<script>
+(function(){
+  var iso = window.LIMENDomainIsolator;
+  var domain = iso && iso.isDomainScoped() ? iso.getActiveDomain() : 'energy';
+  function loadScript(src){return new Promise(function(ok,fail){var s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=function(){console.warn('[DCL] failed to load '+src);ok()};document.head.appendChild(s)})}
+  // Load domain brain, refresh controller, and shared console brain.
+  // Domain-specific operator scripts are loaded by each brain's auto-loader.
+  loadScript('assets/js/domain-brains/'+domain+'-brain.js')
+    .then(function(){return loadScript('assets/js/domain-brains/'+domain+'-refresh-controller.js')})
+    .then(function(){return loadScript('assets/js/domain-brains/domain-console-brain.js')});
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  // ═══ HEADER CONTROLS — relocated to global top bar (assets/js/limen-topbar.js) ═══
+
+  // ═══ PANEL RELOCATION — move fixed panels into grid columns ═══
+
+  var PANEL_MAP = {
+    // Left: Events, Escalation, Investigations
+    'limen-event-rail':           'col-left',
+
+    'limen-investigation-drawer': 'col-left',
+    'limen-narrator-panel':       'col-left',
+    'limen-systemic-panel':       'col-left',
+
+    // Center: State, Feeds, Domain Overview
+    'limen-global-state-badge':   'col-center',
+    'limen-feed-inspector':       'col-center',
+    'limen-domain-panel':         'col-center',
+    'limen-timeline-strip':       'col-center',
+    'limen-phase-display':        'col-center',
+
+    // Right: Health, Research, Market
+    'limen-health-strip':         'col-right',
+    'limen-triage-panel':         'col-right',
+    'limen-connectome-map':       'col-right',
+    'limen-research-observatory': 'col-right',
+
+    // Footer
+    'limen-stress-strip':         'console-footer',
+    'limen-snapshot-badge':       'console-footer'
+  };
+
+  function relocatePanel(panelId) {
+    var el = document.getElementById(panelId);
+    var targetId = PANEL_MAP[panelId];
+    if (!el || !targetId) return false;
+    var target = document.getElementById(targetId);
+    if (!target) return false;
+    if (el.parentNode === target) return true;
+    target.appendChild(el);
+    return true;
+  }
+
+  function relocateAll() {
+    var moved = 0;
+    for (var panelId in PANEL_MAP) {
+      if (relocatePanel(panelId)) moved++;
+    }
+    return moved;
+  }
+
+  var _relocPasses = 0;
+  var _relocInterval = setInterval(function () {
+    relocateAll();
+    _relocPasses++;
+    if (_relocPasses >= 10) clearInterval(_relocInterval);
+  }, 500);
+
+  if (typeof MutationObserver !== 'undefined') {
+    var obs = new MutationObserver(function (mutations) {
+      for (var i = 0; i < mutations.length; i++) {
+        var added = mutations[i].addedNodes;
+        for (var j = 0; j < added.length; j++) {
+          var node = added[j];
+          if (node.id && PANEL_MAP[node.id]) {
+            relocatePanel(node.id);
+          }
+        }
+      }
+    });
+    obs.observe(document.body, { childList: true });
+  }
+
+  // ═══ MODE BAR: MAP → CONNECTOME ═══
+
+  function patchModeBar() {
+    var mapBtn = document.querySelector('#limen-mode-bar [data-action="map"]');
+    if (!mapBtn) return false;
+    mapBtn.textContent = 'CONNECTOME';
+    mapBtn.setAttribute('data-action', 'connectome-nav');
+    var newBtn = mapBtn.cloneNode(true);
+    mapBtn.parentNode.replaceChild(newBtn, mapBtn);
+    newBtn.addEventListener('click', function () {
+      var fd = new URLSearchParams(window.location.search).get('domain') || null;
+      var ctx = { focusDomain: fd, navigatedAt: Date.now() };
+      if (window.LIMENUIState) window.LIMENUIState.setConnectomeContext(ctx);
+      else sessionStorage.setItem('limen_connectome_context', JSON.stringify(ctx));
+      window.location.href = '/connectome.html';
+    });
+    newBtn.addEventListener('mouseenter', function () {
+      this.style.background = 'rgba(201,169,78,0.15)';
+      this.style.borderColor = 'rgba(201,169,78,0.3)';
+    });
+    newBtn.addEventListener('mouseleave', function () {
+      this.style.background = 'rgba(201,169,78,0.06)';
+      this.style.borderColor = 'rgba(201,169,78,0.12)';
+    });
+    return true;
+  }
+
+  var _patchAttempts = 0;
+  var _patchInterval = setInterval(function () {
+    if (patchModeBar() || _patchAttempts++ > 20) clearInterval(_patchInterval);
+  }, 300);
+
+})();
+</script>
+</body>
+</html>

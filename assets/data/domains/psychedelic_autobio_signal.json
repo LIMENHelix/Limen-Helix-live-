@@ -1,0 +1,81 @@
+{
+  "domainId": "psychedelic_autobio_signal",
+  "title": "Autobiographical Memory Loop — Signal Detection & Input",
+  "parentPortal": "psychedelic_autobio_portal.html",
+  "parentLabel": "Autobiographical Memory Loop",
+  "phase": "P0",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Autobiographical Memory Loop — Signal Detection & Input — Primary Node",
+      "domainDescription": "Sensing layer — detects raw signals, biomarkers, behavioral indicators, environmental triggers, and incoming data streams relevant to this functional domain.",
+      "group": "signal_detection",
+      "phase": "P0",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Biomarker Screening Protocol",
+          "evidence": "B",
+          "description": "Systematic screening of biological, behavioral, and environmental signals for Autobiographical Memory Loop"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Signal Integration Framework",
+          "evidence": "B",
+          "description": "Infrastructure for aggregating multi-modal signals into unified assessment input"
+        }
+      ],
+      "childPortal": "psychedelic_autobio_signal_assess_portal.html"
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Autobiographical Memory Loop — Signal Detection & Input — Secondary Node",
+      "domainDescription": "Sensing layer — detects raw signals, biomarkers, behavioral indicators, environmental triggers, and incoming data streams relevant to this functional domain.",
+      "group": "signal_detection",
+      "phase": "P0",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Biomarker Screening Protocol",
+          "evidence": "B",
+          "description": "Systematic screening of biological, behavioral, and environmental signals for Autobiographical Memory Loop"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Signal Integration Framework",
+          "evidence": "B",
+          "description": "Infrastructure for aggregating multi-modal signals into unified assessment input"
+        }
+      ],
+      "childPortal": "psychedelic_autobio_signal_impl_portal.html"
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Autobiographical Memory Loop — Signal Detection & Input — Tertiary Node",
+      "domainDescription": "Sensing layer — detects raw signals, biomarkers, behavioral indicators, environmental triggers, and incoming data streams relevant to this functional domain.",
+      "group": "signal_detection",
+      "phase": "P0",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Biomarker Screening Protocol",
+          "evidence": "B",
+          "description": "Systematic screening of biological, behavioral, and environmental signals for Autobiographical Memory Loop"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Signal Integration Framework",
+          "evidence": "B",
+          "description": "Infrastructure for aggregating multi-modal signals into unified assessment input"
+        }
+      ],
+      "childPortal": "psychedelic_autobio_signal_optim_portal.html"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "domainId": "neurology_primary_signal",
+  "title": "Primary Motor Cortex — Signal Detection & Input",
+  "parentPortal": "neurology_primary_portal.html",
+  "parentLabel": "Primary Motor Cortex",
+  "phase": "P0",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Primary Motor Cortex — Signal Detection & Input — Primary Node",
+      "domainDescription": "Sensing layer — detects raw signals, biomarkers, behavioral indicators, environmental triggers, and incoming data streams relevant to this functional domain.",
+      "group": "signal_detection",
+      "phase": "P0",
+      "weight": 0.9,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Biomarker Screening Protocol",
+          "evidence": "B",
+          "description": "Systematic screening of biological, behavioral, and environmental signals for Primary Motor Cortex"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Signal Integration Framework",
+          "evidence": "B",
+          "description": "Infrastructure for aggregating multi-modal signals into unified assessment input"
+        }
+      ],
+      "childPortal": "neurology_primary_signal_assess_portal.html"
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Primary Motor Cortex — Signal Detection & Input — Secondary Node",
+      "domainDescription": "Sensing layer — detects raw signals, biomarkers, behavioral indicators, environmental triggers, and incoming data streams relevant to this functional domain.",
+      "group": "signal_detection",
+      "phase": "P0",
+      "weight": 0.7,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Biomarker Screening Protocol",
+          "evidence": "B",
+          "description": "Systematic screening of biological, behavioral, and environmental signals for Primary Motor Cortex"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Signal Integration Framework",
+          "evidence": "B",
+          "description": "Infrastructure for aggregating multi-modal signals into unified assessment input"
+        }
+      ],
+      "childPortal": "neurology_primary_signal_impl_portal.html"
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Primary Motor Cortex — Signal Detection & Input — Tertiary Node",
+      "domainDescription": "Sensing layer — detects raw signals, biomarkers, behavioral indicators, environmental triggers, and incoming data streams relevant to this functional domain.",
+      "group": "signal_detection",
+      "phase": "P0",
+      "weight": 0.5,
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Biomarker Screening Protocol",
+          "evidence": "B",
+          "description": "Systematic screening of biological, behavioral, and environmental signals for Primary Motor Cortex"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Signal Integration Framework",
+          "evidence": "B",
+          "description": "Infrastructure for aggregating multi-modal signals into unified assessment input"
+        }
+      ],
+      "childPortal": "neurology_primary_signal_optim_portal.html"
+    }
+  ]
+}

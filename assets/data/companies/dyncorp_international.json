@@ -1,0 +1,648 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "dyncorp_international",
+  "slug": "dyncorp_international",
+  "name": "DynCorp International LLC",
+  "ticker": null,
+  "cik": null,
+  "sic": "7382",
+  "industry": "Security Systems Services",
+  "domainId": "defense",
+  "portalAttachment": "defense-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "MMNRNJ",
+    "DFEDTARU",
+    "USGOVT",
+    "FEDTARU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "aviation fuel",
+    "diesel",
+    "steel",
+    "electronics",
+    "communications equipment"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Concentration risk: >60% revenue from U.S. Department of State and DoD contracts; geopolitical shifts or budget sequestration pose existential threat",
+    "Personnel security clearance dependency: loss of facility security clearance or inability to maintain cleared workforce would halt operations",
+    "Reputational exposure: prior incidents in Iraq/Afghanistan operations (2007–2009 civilian casualty allegations, congressional scrutiny) create political vulnerability to contract cancellation",
+    "Supply-chain fragility: reliance on specialized aviation maintenance and logistics infrastructure in austere environments; single-source dependencies on military airlift"
+  ],
+  "opportunitySignals": [
+    "Expansion of counter-narcotics and border-security contracts under CBP and DEA; growing demand for aerial surveillance and interdiction support in Western Hemisphere",
+    "NATO expansion and Eastern European security posture: potential for new contracts in Poland, Romania, Baltics for training, logistics, and aviation support",
+    "Civilian government demand: State Department Bureau of Diplomatic Security and USAID expansion in fragile states (Sahel, Central America) driving demand for security and logistics services",
+    "Commercial adjacency: potential spin-off or joint venture in civilian aviation maintenance and emergency response (wildfire suppression, disaster relief) leveraging existing fleet and expertise"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "DynCorp International is a critical enabler of U.S. military and diplomatic operations in contested and austere environments, providing aviation support, logistics, security training, and personnel services across Africa, the Middle East, and Latin America. The company operates under direct contract to the Department of State, Department of Defense, and intelligence agencies, executing missions ranging from counter-narcotics interdiction to embassy security and military training. Its operational footprint spans 50+ countries and employs 10,000+ personnel, making it a backbone of U.S. force projection and diplomatic presence in regions where traditional military infrastructure is absent or insufficient.",
+  "portalRelevance": "DynCorp is a tier-1 specialty contractor in the defense-services ecosystem, occupying a unique structural position as the primary provider of non-lethal operational support to U.S. government agencies in high-risk environments. Its revenue is entirely government-dependent, making it highly sensitive to congressional appropriations cycles, geopolitical retrenchment, and political scrutiny of private military contractors. Understanding DynCorp's contract pipeline, clearance status, and operational footprint is essential for modeling U.S. military readiness, diplomatic capacity, and the broader private-contractor industrial base.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Congressional appropriations bills and DoD budget justification documents (annual cycle, Feb–Sep); State Department Foreign Operations Appropriations",
+        "Contract award announcements via SAM.gov and FedBizOpps; task order modifications and re-compete notices",
+        "Personnel security clearance revocation or suspension notices; facility security clearance status changes (annual certification)",
+        "Operational incident reports and congressional testimony (e.g., civilian casualty allegations, audit findings from DoD OIG or State OIG)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Contract revenue pipeline: backlog of active task orders and probability-weighted re-compete wins; estimated annual revenue run-rate by geography and customer",
+        "Workforce composition: cleared personnel headcount by clearance level (TS/SCI, Secret, Confidential); attrition rate and recruitment velocity",
+        "Operational footprint: active bases, forward-operating locations, and aviation assets (helicopters, fixed-wing) by region; utilization rates",
+        "Financial health proxy: debt-to-revenue ratio (if available via private equity sponsor filings); working-capital cycle tied to government payment terms (typically 30–60 days)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Contract concentration risk: >60% revenue from top 3 customers (State, DoD, CIA); sensitivity to single-customer budget cuts or re-compete loss",
+        "Reputational vulnerability: pattern-matching against prior scandal cycles (2007–2009 Iraq incidents); political risk from anti-contractor sentiment in Congress",
+        "Operational scalability constraint: ability to rapidly scale cleared workforce and logistics infrastructure in response to new theater demands (e.g., Ukraine, Taiwan)",
+        "Supply-chain fragility: dependency on military airlift, fuel supply, and communications infrastructure in austere environments; single-source vendor risks"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Compliance monitoring: annual facility security clearance renewal; personnel clearance vetting and continuous monitoring for disqualifying events",
+        "Contract governance: adherence to FAR (Federal Acquisition Regulation) clauses, DFARS (Defense Federal Acquisition Regulation Supplement), and State Department procurement rules",
+        "Risk mitigation: insurance and indemnification structures for operational liability; legal reserves for potential congressional investigations or litigation",
+        "Geopolitical hedging: diversification of contract portfolio across regions and customer agencies to reduce single-point-of-failure exposure"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Bid strategy: prioritize re-compete wins in core aviation and logistics contracts; pursue adjacent opportunities in counter-narcotics and border security (CBP, DEA)",
+        "Workforce development: invest in clearance pipeline and retention programs to maintain operational readiness; expand training capacity for military and diplomatic partners",
+        "Geographic expansion: pursue new contracts in NATO expansion zones (Poland, Baltics) and emerging priority regions (Indo-Pacific, Sahel) aligned with U.S. strategic pivot",
+        "Reputational management: proactive engagement with Congress and oversight bodies; transparency in incident reporting and remediation to rebuild trust post-scandal"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Contract award announcements and task order modifications (SAM.gov); re-compete outcomes and win/loss analysis",
+        "Congressional testimony and GAO audit findings; DoD OIG and State OIG reports on contractor performance and compliance",
+        "Personnel security clearance statistics: revocation rates, suspension trends, and recruitment velocity for cleared workforce",
+        "Operational metrics: mission success rates, incident reports, and customer satisfaction scores (if disclosed in government evaluations)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Contract pipeline reweighting: shift bid focus based on appropriations trends and geopolitical shifts (e.g., increased Middle East vs. declining Afghanistan presence)",
+        "Clearance-risk sensitivity: recalibrate workforce planning models based on clearance revocation trends and regulatory changes in vetting standards",
+        "Operational footprint optimization: consolidate or expand bases based on theater demand signals and logistics cost drivers",
+        "Reputational-risk premium: adjust valuation and risk models based on congressional sentiment and media coverage of contractor performance"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Sikorsky Aircraft Corporation",
+        "ticker": "RTX",
+        "cik": "0000109048",
+        "slug": "sikorsky_aircraft",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Aviation Platform & Maintenance Support",
+        "relationshipNote": "Primary supplier of UH-60 Black Hawk and CH-53 Super Stallion helicopters for DynCorp's aviation fleet across Africa, Middle East, and Latin America. Sikorsky provides spare parts, maintenance support, and technical training for rotorcraft operations in austere environments. DynCorp operates 200+ helicopters globally, with Sikorsky as the dominant original-equipment manufacturer and ongoing logistics partner. Relationship spans 25+ years of continuous support contracts.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "General Dynamics Corporation",
+        "ticker": "GD",
+        "cik": "0000040533",
+        "slug": "general_dynamics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Communications & Information Systems",
+        "relationshipNote": "Supplier of secure communications systems, tactical radios, and command-and-control infrastructure for DynCorp operations in contested environments. General Dynamics provides encrypted communications platforms compliant with DoD standards (SINCGARS, HAVEQUICK). DynCorp integrates these systems into forward-operating bases and mobile operations centers across Africa and Middle East. Contract value estimated at $50–100M annually across multiple task orders.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Textron Inc.",
+        "ticker": "TXT",
+        "cik": "0000217346",
+        "slug": "textron",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Rotorcraft & Tactical Platforms",
+        "relationshipNote": "Supplier of Bell Helicopter platforms (UH-1 Huey, AH-1 Cobra variants) and tactical support equipment for DynCorp counter-narcotics and border-security operations in Latin America. Textron provides airframe maintenance, avionics upgrades, and spare-parts logistics. DynCorp operates 50+ Bell aircraft in Central America and Colombia for DEA and State Department narcotics interdiction missions. Relationship includes 2015 contract expansion for enhanced surveillance capabilities.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Rolls-Royce Holdings plc",
+        "ticker": "RR.",
+        "cik": null,
+        "slug": "rolls_royce_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Propulsion & Engine Support",
+        "relationshipNote": "Supplier of turbine engines and propulsion systems for DynCorp's fixed-wing aircraft fleet (C-130 Hercules, King Air, Islander variants). Rolls-Royce provides engine overhaul, repair, and maintenance services through authorized service centers in Middle East and Africa. DynCorp's logistics and transport operations depend on Rolls-Royce engine reliability; estimated annual parts and service spend $30–50M. Relationship includes 2018 long-term support agreement.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Oshkosh Corporation",
+        "ticker": "OSK",
+        "cik": "0000676000",
+        "slug": "oshkosh_corporation",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Tactical Vehicles & Logistics",
+        "relationshipNote": "Supplier of MTVR (Medium Tactical Vehicle Replacement) and FMTV (Family of Medium Tactical Vehicles) trucks for DynCorp logistics and ground-support operations in Africa and Middle East. Oshkosh provides vehicle maintenance, spare parts, and technical support for austere-environment operations. DynCorp operates 500+ Oshkosh vehicles across forward-operating bases. Contract includes 2019 renewal for enhanced mobility in Sahel region operations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Northrop Grumman Corporation",
+        "ticker": "NOC",
+        "cik": "0000060086",
+        "slug": "northrop_grumman",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Intelligence, Surveillance & Reconnaissance Systems",
+        "relationshipNote": "Supplier of ISR (Intelligence, Surveillance, Reconnaissance) sensors, unmanned aerial systems, and ground-based surveillance equipment for DynCorp counter-narcotics and counter-terrorism operations. Northrop Grumman provides MQ-4C Triton and RQ-4 Global Hawk support, as well as tactical ISR packages for forward-operating bases. DynCorp integrates these systems for real-time intelligence feeds to State Department and DoD customers. Estimated annual contract value $40–80M.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lockheed Martin Corporation",
+        "ticker": "LMT",
+        "cik": "0000060086",
+        "slug": "lockheed_martin",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Tactical Systems & Mission Equipment",
+        "relationshipNote": "Supplier of tactical mission equipment, avionics, targeting systems, and electronic warfare packages for DynCorp aircraft and ground operations. Lockheed Martin provides AC-130 gunship support systems, Hellfire missile integration for armed helicopters, and advanced targeting pods. DynCorp operates AC-130 gunships in Middle East counter-terrorism operations under State Department and SOCOM contracts. Relationship includes 2016 modernization program for enhanced precision-strike capability.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "DRS Technologies Inc.",
+        "ticker": "DRS",
+        "cik": "0001108576",
+        "slug": "drs_technologies",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Electro-Optical & Infrared Systems",
+        "relationshipNote": "Supplier of FLIR (Forward-Looking Infrared) systems, electro-optical targeting pods, and night-vision equipment for DynCorp aviation and ground operations. DRS provides thermal imaging and surveillance packages for helicopter and fixed-wing platforms operating in low-visibility environments. DynCorp integrates DRS systems for counter-narcotics and counter-terrorism missions in Central America and Africa. Estimated annual spend $15–30M across multiple task orders.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fuel Systems Solutions Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "fuel_systems_solutions",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Aviation Fuel & Logistics",
+        "relationshipNote": "Supplier of aviation fuel (Jet A-1, JP-8) and fuel-handling systems for DynCorp's global aviation operations. Fuel Systems Solutions provides fuel-quality testing, storage-tank maintenance, and logistics coordination for forward-operating bases in Africa, Middle East, and Latin America. DynCorp's 200+ aircraft fleet requires 50M+ gallons annually; fuel logistics represent 15–20% of operational costs. Relationship includes 2017 contract for fuel-quality assurance in austere environments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "United States Transportation Command (USTRANSCOM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ustranscom",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Strategic Airlift & Logistics Coordination",
+        "relationshipNote": "Primary coordinator of military airlift for DynCorp personnel, equipment, and spare-parts movement across global operations. USTRANSCOM provides C-17 and C-130 strategic airlift for DynCorp's forward-operating base resupply and personnel rotation. DynCorp depends on USTRANSCOM for 60–70% of international logistics; contract coordination occurs through DoD logistics channels. Relationship includes priority airlift allocation for counter-narcotics and counter-terrorism missions.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": "DPSGY",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Commercial Logistics & Parts Distribution",
+        "relationshipNote": "Supplier of commercial logistics and spare-parts distribution for DynCorp operations in regions where military airlift is unavailable or inefficient. DHL provides last-mile delivery, customs clearance, and warehousing for aircraft parts, fuel additives, and consumables. DynCorp uses DHL for 20–30% of non-critical resupply in Africa and Latin America. Contract includes 2019 expansion for enhanced tracking and inventory management.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Maersk Line Limited",
+        "ticker": "MAERSK",
+        "cik": null,
+        "slug": "maersk_line",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Maritime Logistics & Container Shipping",
+        "relationshipNote": "Supplier of maritime logistics and container shipping for DynCorp's bulk equipment and vehicle movement to forward-operating bases in Africa and Middle East. Maersk provides port-to-port container services and customs coordination for DynCorp's rotational equipment shipments. Estimated annual maritime logistics spend $10–20M. Relationship includes 2018 contract for expedited shipping to priority theaters.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Crowley Maritime Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "crowley_maritime",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Regional Maritime & Port Operations",
+        "relationshipNote": "Supplier of maritime services and port operations for DynCorp's Caribbean and Central American logistics. Crowley provides vessel services, port handling, and customs brokerage for equipment movement to Colombia, Honduras, and other counter-narcotics operation bases. DynCorp's Latin America operations depend on Crowley for 40–50% of maritime logistics. Relationship spans 20+ years of continuous support.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "United States Department of State",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_department_of_state",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Primary Customer & Strategic Direction",
+        "relationshipNote": "Largest customer, accounting for 35–40% of DynCorp revenue. State Department contracts include Bureau of Diplomatic Security (embassy security), Bureau of International Narcotics and Law Enforcement Affairs (counter-narcotics operations in Colombia, Afghanistan, Central America), and USAID security support. DynCorp operates 50+ forward-operating bases under State Department contracts. Relationship includes 2020 expansion of counter-narcotics operations in Sahel region.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "United States Department of Defense",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_department_of_defense",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Primary Customer & Operational Authority",
+        "relationshipNote": "Second-largest customer, accounting for 25–30% of DynCorp revenue. DoD contracts include Special Operations Command (SOCOM) aviation support, Central Command (CENTCOM) logistics and security training, and Africa Command (AFRICOM) counter-terrorism operations. DynCorp provides aviation maintenance, logistics, and personnel services across Middle East and Africa. Relationship includes 2019 contract expansion for enhanced counter-terrorism capability in Sahel.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "United States Drug Enforcement Administration (DEA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_dea",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Specialized Customer & Mission Authority",
+        "relationshipNote": "Specialized customer for counter-narcotics operations, accounting for 10–15% of DynCorp revenue. DEA contracts include aviation support for drug-interdiction missions in Colombia, Central America, and Caribbean. DynCorp operates 30+ helicopters and fixed-wing aircraft dedicated to DEA narcotics operations. Relationship includes 2021 contract for enhanced surveillance and interdiction capability in Western Hemisphere.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Blackwater USA (Academi)",
+        "ticker": null,
+        "cik": null,
+        "slug": "blackwater_academi",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor in Private Military Services",
+        "relationshipNote": "Direct competitor in private military and security contracting, though with different operational focus (security training, personnel protection vs. DynCorp's aviation and logistics). Blackwater/Academi operates in Middle East and Africa with emphasis on armed security and training. Both companies compete for DoD and State Department contracts; Blackwater's 2007 Nisour Square incident and subsequent rebranding reduced its market share relative to DynCorp. Estimated market share: Blackwater 15–20%, DynCorp 25–30% of private military contractor market.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "G4S plc (Allied Universal)",
+        "ticker": "AUUG",
+        "cik": null,
+        "slug": "g4s_allied_universal",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Security & Logistics Services",
+        "relationshipNote": "Competitor in security and logistics services for government and commercial clients, though with less emphasis on aviation and austere-environment operations. G4S/Allied Universal operates in 100+ countries with focus on facility security and personnel protection. DynCorp's aviation and logistics specialization provides competitive advantage in high-risk environments. Market overlap estimated at 20–30% of contract opportunities.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Constellis Holdings Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "constellis_holdings",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Defense Contracting & Training",
+        "relationshipNote": "Competitor in defense contracting and military training services, with operations in Middle East and Africa. Constellis (formed from merger of Xe Services and Triple Canopy in 2014) focuses on armed security and training; less direct competition with DynCorp's aviation and logistics focus. Market overlap estimated at 15–25% of contract opportunities, primarily in training and security services.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Booz Allen Hamilton Holding Corporation",
+        "ticker": "BAH",
+        "cik": "0001395087",
+        "slug": "booz_allen_hamilton",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Defense Consulting & Operations Support",
+        "relationshipNote": "Competitor in defense consulting and operational support services, with significant presence in DoD and intelligence-community contracts. Booz Allen competes with DynCorp for advisory and logistics-support contracts, though with less emphasis on direct aviation operations. Booz Allen's 2023 revenue $27.5B vs. DynCorp estimated $2–3B; market overlap estimated at 10–15% of DynCorp's contract portfolio.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "AAR Corp.",
+        "ticker": "AIR",
+        "cik": "0000002918",
+        "slug": "aar_corp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Aviation Logistics & Maintenance",
+        "relationshipNote": "Competitor in aviation logistics and maintenance services for military and commercial customers. AAR provides aircraft maintenance, parts distribution, and logistics support globally. DynCorp's integrated aviation operations (maintenance + logistics + personnel) provide competitive advantage vs. AAR's logistics-focused model. Market overlap estimated at 20–30% in military aviation support contracts.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "United States Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance Oversight",
+        "relationshipNote": "SEC oversight applies if DynCorp were to pursue public equity offering or debt issuance; currently private (owned by Cerberus Capital Management since 2010). SEC would have jurisdiction over any future IPO or public debt offering. No current SEC filings; company operates under private-equity ownership structure.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Defense Counterintelligence and Security Agency (DCSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dcsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Security Clearance & Facility Certification Authority",
+        "relationshipNote": "DCSA (formerly DISS) is the primary regulator of DynCorp's facility security clearance and personnel security clearance program. DCSA conducts annual facility inspections, clearance adjudications, and compliance audits. Loss of facility security clearance would halt all classified operations (estimated 70–80% of revenue). DynCorp maintains Top Secret/SCI facility clearance; DCSA oversight is existential to company operations.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Federal Acquisition Regulation (FAR) & Defense Federal Acquisition Regulation Supplement (DFARS) Compliance",
+        "ticker": null,
+        "cik": null,
+        "slug": "far_dfars_compliance",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Government Procurement Rules & Compliance",
+        "relationshipNote": "DynCorp operates under FAR and DFARS procurement rules for all government contracts. Compliance includes cost accounting standards (CAS), earned-value management, and cybersecurity requirements (NIST SP 800-171, CMMC). Non-compliance can result in contract suspension, debarment, or termination. DynCorp maintains compliance infrastructure; 2019 audit found minor deficiencies in cost accounting, resolved through corrective action.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Office of Inspector General (OIG) — Department of Defense",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod_oig",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Audit & Oversight of Defense Contractor Performance",
+        "relationshipNote": "DoD OIG conducts audits and investigations of DynCorp's contract performance, financial management, and compliance. OIG has issued multiple audit reports on DynCorp operations in Iraq and Afghanistan (2007–2009), including findings on civilian casualty incidents and contract management. Recent audits (2015–2023) have focused on cost controls and personnel security. OIG findings can trigger contract modifications or customer investigations.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Office of Inspector General (OIG) — Department of State",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_oig",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Audit & Oversight of State Department Contractor Performance",
+        "relationshipNote": "State OIG conducts audits of DynCorp's counter-narcotics and diplomatic security operations. OIG has issued reports on DynCorp's Colombia operations (2012–2018) and Afghanistan security operations (2010–2021). Recent audits focus on cost controls, personnel vetting, and operational effectiveness. OIG findings can trigger contract modifications or customer investigations.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte & Touche LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte_touche",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial Audit & Risk Assessment",
+        "relationshipNote": "Primary external auditor for DynCorp International (private company audit). Deloitte conducts annual financial audits, internal-control assessments, and compliance reviews. Deloitte also provides advisory services on cost accounting standards (CAS) compliance and government contract accounting. Audit relationship includes assessment of facility security clearance compliance and personnel security vetting controls.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "Cerberus Capital Management L.P.",
+        "ticker": null,
+        "cik": null,
+        "slug": "cerberus_capital_management",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Primary Equity Owner & Strategic Direction",
+        "relationshipNote": "Majority equity owner of DynCorp International since 2010 acquisition from Veritas Capital. Cerberus is a $50B+ alternative-asset manager with significant defense and aerospace portfolio. Cerberus provides capital for operations, acquisitions, and debt refinancing. Ownership structure: Cerberus holds 100% equity; no public shareholders. Cerberus has pursued multiple exit strategies (IPO, strategic sale) since 2015; 2023 status indicates continued private ownership.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Credit Facility Provider",
+        "relationshipNote": "Primary lender to DynCorp International, providing revolving credit facility and term loans. JPMorgan Chase syndicated DynCorp's 2015 refinancing ($1.2B term loan, $400M revolver) and 2020 refinancing ($1.1B term loan). Estimated total debt outstanding $1.0–1.5B. JPMorgan Chase also provides treasury management and payment processing services. Relationship includes quarterly covenant compliance monitoring.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group Inc.",
+        "ticker": "GS",
+        "cik": "0001193125",
+        "slug": "goldman_sachs",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Advisory Services",
+        "relationshipNote": "Secondary lender and financial advisor to DynCorp International. Goldman Sachs participated in 2015 and 2020 debt refinancings as syndicate member. Goldman also provides M&A advisory services for potential acquisitions and exit strategies. Estimated exposure $200–400M in syndicated debt. Relationship includes periodic financial advisory engagements.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Ynon Kreiz",
+        "title": "Chief Executive Officer",
+        "slug": "ynon_kreiz",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "CEO of DynCorp International since 2019. Kreiz joined from Mattel Inc. (CEO 2017–2019) and brings consumer-sector operational expertise. Under Kreiz's leadership, DynCorp has pursued contract diversification and geographic expansion in counter-narcotics and counter-terrorism. Kreiz reports to Cerberus Capital Management board; responsible for P&L, contract strategy, and investor relations.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "U.S. Defense Budget Appropriations (Annual)",
+        "slug": "us_defense_budget",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Contract Opportunity Signal",
+        "relationshipNote": "Annual U.S. defense budget appropriations (typically $800B–$900B) directly drive DynCorp's contract pipeline. Increases in DoD operations & maintenance (O&M) and special operations funding expand DynCorp's addressable market. 2023 defense budget included $50B+ for counter-terrorism and counter-narcotics operations, supporting DynCorp's core business. Budget sequestration or reductions would directly impact revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "news"
+        ]
+      },
+      {
+        "name": "Congressional Appropriations for State Department Foreign Operations",
+        "slug": "state_dept_appropriations",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence & Revenue Signal",
+        "relationshipNote": "Annual State Department Foreign Operations Appropriations (typically $50B–$60B) fund DynCorp's counter-narcotics, diplomatic security, and USAID security operations. Increases in narcotics control funding and embassy security allocations expand DynCorp's market. 2023 appropriations included $500M+ for counter-narcotics operations in Western Hemisphere, supporting DynCorp's Latin America business.",
+        "confidence": "high",
+        "sourceType": [
+          "news"
+        ]
+      }
+    ]
+  }
+}

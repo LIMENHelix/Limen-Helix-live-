@@ -1,0 +1,383 @@
+{
+  "domainId": "addiction_conflict",
+  "title": "Conflict Monitoring Hub",
+  "parentPortal": "addiction_portal.html",
+  "parentLabel": "Addiction Medicine",
+  "phase": "P3",
+  "activations": [
+    {
+      "brainNodeId": "CeA",
+      "state": "active",
+      "domainLabel": "Conflict Monitoring Hub Assessment & Diagnostics",
+      "domainDescription": "Systematic evaluation, diagnostic measurement, and status monitoring of Conflict Monitoring Hub indicators and performance benchmarks",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "addiction_conflict_action_portal.html"
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Conflict Monitoring Hub Core Operations",
+      "domainDescription": "Primary operational processes, workflow execution, and day-to-day management of Conflict Monitoring Hub activities and deliverables",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Conflict Monitoring Hub Core Operations dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ],
+      "childPortal": "addiction_conflict_adapt_portal.html"
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "Conflict Monitoring Hub Infrastructure & Capacity",
+      "domainDescription": "Physical and institutional infrastructure underpinning Conflict Monitoring Hub, including facilities, networks, and structural capacity",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "addiction_conflict_diagnosis_portal.html"
+    },
+    {
+      "brainNodeId": "CON",
+      "state": "active",
+      "domainLabel": "Conflict Monitoring Hub Standards & Governance",
+      "domainDescription": "Regulatory requirements, professional standards, and governance frameworks that shape Conflict Monitoring Hub practices and compliance obligations",
+      "group": "governance",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Clinical Guideline Alignment",
+          "evidence": "A",
+          "description": "Treatment protocol alignment with current clinical practice guidelines and regulatory requirements"
+        },
+        {
+          "type": "STRATEGY",
+          "label": "Quality Assurance Protocol",
+          "evidence": "B",
+          "description": "Systematic outcome tracking and protocol adherence monitoring"
+        }
+      ],
+      "childPortal": "addiction_conflict_feedback_portal.html"
+    },
+    {
+      "brainNodeId": "CMZ",
+      "state": "active",
+      "domainLabel": "Conflict Monitoring Hub Research & Development",
+      "domainDescription": "Scientific research, technological innovation, and evidence-based advancement of Conflict Monitoring Hub methods and capabilities",
+      "group": "innovation",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRATEGY",
+          "label": "Emerging Evidence Integration",
+          "evidence": "C",
+          "description": "Systematic review and incorporation of emerging research findings and novel therapeutic approaches"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Clinical Trial Pathway",
+          "evidence": "B",
+          "description": "Patient identification and referral infrastructure for relevant clinical trials"
+        }
+      ],
+      "childPortal": "addiction_conflict_regulate_portal.html"
+    },
+    {
+      "brainNodeId": "SMN",
+      "state": "active",
+      "domainLabel": "Conflict Monitoring Hub Risk & Resilience",
+      "domainDescription": "Identification, assessment, and mitigation of risks threatening Conflict Monitoring Hub stability, with contingency and recovery planning",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Baseline Assessment Protocol",
+          "evidence": "A",
+          "description": "Standardized assessment battery establishing functional baseline and severity classification"
+        },
+        {
+          "type": "DIAGNOSTIC",
+          "label": "Differential Diagnosis Screen",
+          "evidence": "A",
+          "description": "Systematic screening to distinguish primary dysfunction from comorbid or secondary presentations"
+        }
+      ],
+      "childPortal": "addiction_conflict_signal_portal.html"
+    },
+    {
+      "brainNodeId": "LANG",
+      "state": "active",
+      "domainLabel": "Conflict Monitoring Hub Coordination & Integration",
+      "domainDescription": "Cross-functional coordination, stakeholder alignment, and system integration across Conflict Monitoring Hub operations and interfaces",
+      "group": "systems",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Care Coordination Framework",
+          "evidence": "B",
+          "description": "Multi-provider coordination infrastructure ensuring treatment coherence across modalities"
+        },
+        {
+          "type": "STRUCTURAL",
+          "label": "Technology Integration Protocol",
+          "evidence": "B",
+          "description": "Digital health and monitoring technology deployment supporting continuous care"
+        }
+      ],
+      "childPortal": "addiction_conflict_state_portal.html"
+    },
+    {
+      "brainNodeId": "ARC",
+      "state": "active",
+      "domainLabel": "Conflict Monitoring Hub Performance & Optimization",
+      "domainDescription": "Continuous performance monitoring, efficiency benchmarking, and optimization of Conflict Monitoring Hub outputs and resource utilization",
+      "group": "operations",
+      "phase": "P3",
+      "weight": 0.85,
+      "diagnosticTriggers": [],
+      "treatments": [
+        {
+          "type": "STRUCTURAL",
+          "label": "Core Treatment Protocol",
+          "evidence": "A",
+          "description": "Evidence-based primary intervention targeting Conflict Monitoring Hub Performance & Optimization dysfunction mechanism"
+        },
+        {
+          "type": "COACHING",
+          "label": "Patient Engagement Strategy",
+          "evidence": "B",
+          "description": "Structured approach to maintain treatment adherence and patient activation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CeA",
+      "target": "BNST",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "BNST",
+      "target": "EMP",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "EMP",
+      "target": "CON",
+      "type": "SUPPLIES",
+      "weight": 0.8
+    },
+    {
+      "source": "CON",
+      "target": "CMZ",
+      "type": "CONTROLS",
+      "weight": 0.6
+    },
+    {
+      "source": "CMZ",
+      "target": "SMN",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "SMN",
+      "target": "LANG",
+      "type": "CONTROLS",
+      "weight": 0.8
+    },
+    {
+      "source": "LANG",
+      "target": "ARC",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ARC",
+      "target": "CeA",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CeA",
+      "target": "CMZ",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "CON",
+      "target": "LANG",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    }
+  ],
+  "issues": [
+    {
+      "id": "ADDICTION_CONFLICT_SYSTEM_FAILURE",
+      "label": "Conflict Monitoring Hub System Failure",
+      "summary": "Critical breakdown in Conflict Monitoring Hub systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
+      "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hypo-active",
+          "detail": "Conflict Monitoring Hub Assessment & Diagnostics capacity falling below operational thresholds, reducing Conflict Monitoring Hub output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "BNST",
+          "dir": "Hypo-active",
+          "detail": "Conflict Monitoring Hub Core Operations systems underperforming, creating gaps in Conflict Monitoring Hub coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Altered",
+          "detail": "Conflict Monitoring Hub Infrastructure & Capacity behavior deviating from established norms, complicating Conflict Monitoring Hub management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Hyper-active",
+          "detail": "Conflict Monitoring Hub Risk & Resilience processes overloaded, generating bottlenecks and cascading delays in Conflict Monitoring Hub",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Hypo-active",
+          "detail": "Conflict Monitoring Hub Performance & Optimization function reduced, compromising Conflict Monitoring Hub system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ADDICTION_CONFLICT_CAPACITY_CRISIS",
+      "label": "Conflict Monitoring Hub Capacity Crisis",
+      "summary": "Demand exceeding available Conflict Monitoring Hub capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
+      "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper-active",
+          "detail": "Conflict Monitoring Hub Core Operations systems overwhelmed by demand, operating beyond sustainable parameters in Conflict Monitoring Hub",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "EMP",
+          "dir": "Hypo-active",
+          "detail": "Conflict Monitoring Hub Infrastructure & Capacity systems underperforming, creating gaps in Conflict Monitoring Hub coverage and responsiveness",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CON",
+          "dir": "Altered",
+          "detail": "Conflict Monitoring Hub Standards & Governance behavior deviating from established norms, complicating Conflict Monitoring Hub management and planning",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hyper-active",
+          "detail": "Conflict Monitoring Hub Coordination & Integration processes overloaded, generating bottlenecks and cascading delays in Conflict Monitoring Hub",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ARC",
+          "dir": "Altered",
+          "detail": "Conflict Monitoring Hub Performance & Optimization operating outside normal parameters, introducing uncertainty into Conflict Monitoring Hub outputs",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "ADDICTION_CONFLICT_GOVERNANCE_GAP",
+      "label": "Conflict Monitoring Hub Governance Gap",
+      "summary": "Oversight or regulatory failure in Conflict Monitoring Hub creating compliance exposure, quality variance, and erosion of stakeholder trust",
+      "circuits": [
+        {
+          "nodeId": "CON",
+          "dir": "Hypo-active",
+          "detail": "Conflict Monitoring Hub Standards & Governance capacity falling below operational thresholds, reducing Conflict Monitoring Hub output and reliability",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CeA",
+          "dir": "Altered",
+          "detail": "Conflict Monitoring Hub Assessment & Diagnostics operating in non-standard mode, producing variable outcomes across Conflict Monitoring Hub",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "CMZ",
+          "dir": "Hyper-active",
+          "detail": "Conflict Monitoring Hub Research & Development activity spiking beyond design limits, creating instability across Conflict Monitoring Hub operations",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "SMN",
+          "dir": "Altered",
+          "detail": "Conflict Monitoring Hub Risk & Resilience patterns disrupted, necessitating adaptive responses within Conflict Monitoring Hub frameworks",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "LANG",
+          "dir": "Hypo-active",
+          "detail": "Conflict Monitoring Hub Coordination & Integration function reduced, compromising Conflict Monitoring Hub system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    }
+  ]
+}

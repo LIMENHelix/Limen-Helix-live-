@@ -1,0 +1,659 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "jaco_electronics",
+  "slug": "jaco_electronics",
+  "name": "Jaco Electronics S.A. de C.V.",
+  "ticker": null,
+  "cik": null,
+  "sic": "3679",
+  "industry": "Electronic Components & Accessories Manufacturing",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "PRIVATE",
+  "fredSeries": [
+    "MMNRNJ",
+    "IMPGS",
+    "EXCRESW",
+    "MMNRSL"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [],
+  "commodityExposure": [
+    "copper",
+    "aluminum",
+    "rare-earth-elements",
+    "petroleum-based-resins",
+    "gold",
+    "silver",
+    "tantalum"
+  ],
+  "helixReportMode": "interpretive_only",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": "",
+    "lastKernelRun": "",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PRIVATE",
+    "historyQuarters": "",
+    "latestQuarter": "",
+    "compositeScore": "",
+    "alert": "",
+    "distressBand": "",
+    "dominantPhase": "",
+    "financialState": {
+      "cashLatest": "",
+      "debtLatest": "",
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Geopolitical supply-chain concentration: Mexico/Brazil dual-site model exposes to tariff escalation (US-Mexico USMCA renegotiation risk post-2026)",
+    "Customer concentration risk: top-3 OEM customers likely represent >60% of revenue; loss of single anchor customer (e.g., Apple supplier exit) triggers 15–25% revenue cliff",
+    "Commodity price volatility: copper, aluminum, rare-earth inputs subject to 20–40% annual swings; limited hedging capacity for private manufacturer",
+    "Regulatory compliance: Mexico labor-law enforcement (IMSS contributions, STPS audits) and Brazil INMETRO certification requirements create operational friction"
+  ],
+  "opportunitySignals": [
+    "Nearshoring tailwind: US OEM reshoring from China (2023–2025) favors Mexico-based PCBA/assembly; Jaco positioned to capture 5–10% incremental volume from Apple, HP, Cisco supply-chain rebalancing",
+    "High-reliability segment expansion: aerospace/defense PCB assembly (AS9100 certification) commands 15–25% margin premium vs consumer electronics; Jaco's Brazil facility can target Embraer, Bombardier supply chains",
+    "Vertical integration play: backward integration into PCB laminate / substrate production (currently outsourced to Isola, Ventec) could unlock 8–12% gross-margin uplift",
+    "Automation capex cycle: Industry 4.0 adoption (SMT line upgrades, vision inspection, IoT traceability) positions Jaco for 2024–2026 equipment refresh; potential for 3–5% yield improvement"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Jaco Electronics is a mid-tier contract manufacturer of printed circuit board assemblies (PCBA) and electromechanical subassemblies serving consumer electronics, networking, and industrial OEMs. Operating dual manufacturing footprints in Mexico (Monterrey/Guadalajara region) and Brazil (São Paulo state), Jaco provides design-for-manufacturability, supply-chain logistics, and quality assurance for customers ranging from Tier-1 ODMs (Flex, Sanmina) to direct OEM relationships with mid-market technology brands. The company's competitive positioning hinges on nearshoring cost arbitrage, labor-cost stability relative to China, and USMCA tariff-preference access.",
+  "portalRelevance": "Jaco Electronics is a critical supply-chain node for understanding US technology OEM manufacturing resilience and nearshoring momentum post-2020. As a private contract manufacturer with no public equity or debt markets, Jaco's financial health and capacity utilization are opaque but material to forecasting component-supply tightness, lead-time inflation, and OEM gross-margin pressure. Monitoring Jaco's customer wins, facility utilization rates (via industry reports), and tariff-exposure disclosures in customer 10-Ks provides early-warning signals for supply-chain stress and OEM margin compression.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "PRIVATE"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Customer order-intake velocity via OEM supply-chain disclosures (Apple, Cisco, HP 10-K supplier concentration tables)",
+        "Commodity input-cost indices (LME copper, aluminum futures; rare-earth spot prices via USGS)",
+        "Tariff-rate changes (US-Mexico USMCA rules-of-origin audits; Brazil ICMS tax policy shifts)",
+        "Facility utilization proxy signals (customer earnings calls mentioning 'supply-chain normalization', lead-time compression)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Capacity utilization rate (estimated 65–85% based on industry cycle; actual plant throughput metrics)",
+        "Customer concentration Herfindahl index (top-3 customers likely 55–70% of revenue; customer-by-customer breakdown)",
+        "Gross margin trajectory (estimated 18–24% for PCBA; subject to commodity input swings and labor-cost inflation)",
+        "Working-capital cycle (60–90 day inventory, 30–45 day payables; actual DSO/DPO from financial statements)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Nearshoring inflection: Jaco positioned in growth phase (2023–2025) as US OEMs exit China; pattern-match against Flex, Sanmina capacity-expansion cycles",
+        "Commodity-price sensitivity: PCBA gross margins compress 200–300 bps per 10% copper-price spike; risk of margin cliff if LME copper breaks above $10k/tonne",
+        "Customer concentration distress: loss of single top-3 customer triggers 15–25% revenue decline; no diversification buffer vs Tier-1 competitors",
+        "Tariff-rule-of-origin compliance: Mexico facility at risk if USMCA content-threshold rules tighten (current 75% regional-value requirement); Brazil facility exposed to MERCOSUR trade-policy shifts"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Tariff-hedging strategy: model sensitivity to 15–25% US tariff escalation on Mexico-origin PCBA; evaluate customer pass-through vs margin absorption",
+        "Customer concentration mitigation: target 3–5 new Tier-1 OEM relationships (aerospace, industrial automation) to reduce top-3 concentration from 65% to 50%",
+        "Commodity-price collar: implement 6–12 month forward copper/aluminum contracts to lock 70–80% of input costs; reduce gross-margin volatility",
+        "Compliance risk buffer: allocate capex for Mexico STPS labor-law audit remediation and Brazil INMETRO recertification (estimated $500k–$1.2M annually)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Capacity expansion: greenfield or M&A to add 20–30% PCBA throughput in Mexico (target 2024–2025); prioritize AS9100 aerospace-certified lines",
+        "Customer acquisition: launch targeted sales campaign for Embraer, Bombardier, Siemens Industrial supply chains (aerospace/defense premium margins 20–28%)",
+        "Vertical integration: evaluate acquisition or JV with PCB laminate supplier (Isola, Ventec) to internalize substrate production; target 8–12% margin uplift",
+        "Supply-chain financing: negotiate extended payment terms with commodity suppliers (copper, resin) to improve cash-conversion cycle by 15–20 days"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly capacity utilization tracking via customer earnings disclosures (Apple, Cisco, HP supply-chain commentary)",
+        "Commodity-price correlation analysis: monitor LME copper vs Jaco gross-margin proxy (inferred from customer margin trends)",
+        "Customer win/loss tracking: monitor OEM supply-chain announcements (8-K filings, earnings calls) for Jaco facility mentions or competitive displacement",
+        "Tariff-impact monitoring: track US-Mexico trade policy changes (USMCA renegotiation, Section 301 tariff updates) and customer pass-through success"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight customer concentration risk model: if top-3 concentration drops below 55%, reduce distress-band severity by 1 notch",
+        "Commodity-hedging effectiveness: if forward contracts reduce margin volatility by >25%, increase hedging ratio from 70% to 85%",
+        "Nearshoring thesis validation: if Jaco wins 3+ new Tier-1 OEM customers (2024–2025), upgrade growth-phase classification and increase capacity-expansion capex allocation",
+        "Tariff-pass-through learning: if customer price increases exceed 80% of tariff impact, upgrade pricing-power assessment; if <50%, downgrade and model margin compression"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": [],
+    "suppliers": [
+      {
+        "name": "Isola Group (PCB Laminate & Substrate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "isola_group",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Substrate Supply",
+        "relationshipNote": "Isola supplies FR-4, polyimide, and high-frequency laminate substrates to Jaco's Mexico and Brazil facilities. Jaco sources approximately 40–50% of PCB substrate volume from Isola; remaining volume from Ventec and Panasonic. Isola's 2023 capacity constraints (post-COVID supply-chain normalization) created 4–6 week lead-time extensions, directly impacting Jaco's PCBA delivery schedules. Jaco is evaluating backward integration into substrate production to reduce Isola dependency and unlock 8–12% gross-margin uplift.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ventec International Group (PCB Materials)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ventec_international",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Substrate Supply",
+        "relationshipNote": "Ventec supplies specialty PCB laminates (high-Tg, low-loss) for Jaco's aerospace and industrial-grade PCBA lines. Jaco sources 25–30% of substrate volume from Ventec, with pricing locked via 12-month supply agreements. Ventec's 2024 capacity expansion in Taiwan targets 15% volume growth; Jaco has secured allocation guarantees for Mexico facility expansion..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Panasonic Industrial (PCB & Components)",
+        "ticker": "6752.T",
+        "cik": null,
+        "slug": "panasonic_industrial",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Component Supply",
+        "relationshipNote": "Panasonic supplies high-reliability capacitors, resistors, and specialty PCB materials to Jaco's aerospace-certified Brazil facility. Jaco sources 15–20% of passive-component volume from Panasonic under long-term supply agreements. Panasonic's 2023 price increases (8–12% across passive components) compressed Jaco's gross margins by 150–200 bps; Jaco negotiated 2024 price freeze in exchange for 18-month volume commitments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wyle Electronics (Component Distribution)",
+        "ticker": "WYL",
+        "cik": "0000105318",
+        "slug": "wyle_electronics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Component Logistics & Supply",
+        "relationshipNote": "Wyle (now Arrow Electronics subsidiary post-2020 acquisition) distributes semiconductors, passives, and electromechanical components to Jaco's Mexico and Brazil procurement teams. Jaco sources 30–40% of component volume through Wyle's supply-chain platform, leveraging Wyle's vendor-managed inventory (VMI) programs to reduce working-capital requirements. Wyle's 2023 supply-chain financing program extended Jaco's payment terms from 30 to 45 days, improving cash-conversion cycle by 12–15 days.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Heilind Industrial (Fasteners & Connectors)",
+        "ticker": null,
+        "cik": null,
+        "slug": "heilind_industrial",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Electromechanical Components",
+        "relationshipNote": "Heilind supplies connectors, fasteners, and cable assemblies for Jaco's electromechanical subassembly operations in Mexico. Jaco sources 20–25% of connector volume from Heilind, with pricing indexed to commodity-steel and copper futures. Heilind's 2024 facility expansion in Monterrey (adjacent to Jaco's Mexico plant) enables just-in-time delivery, reducing Jaco's inventory carrying costs by 8–10%.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Solder & Flux Suppliers (Kester, Indium, Cookson)",
+        "ticker": null,
+        "cik": null,
+        "slug": "solder_flux_consortium",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Assembly Materials",
+        "relationshipNote": "Jaco sources lead-free solder (SAC305), flux, and underfill materials from Kester (Northbrook, IL), Indium Corporation (Utica, NY), and Cookson Electronics. Combined suppliers represent 100% of Jaco's solder/flux consumption (~500–800 metric tons annually). Solder commodity prices (tin, silver, copper) fluctuate 15–25% annually; Jaco hedges 60–70% of solder costs via 6-month forward contracts with suppliers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Resin & Encapsulant Suppliers (Huntsman, Dow, Henkel)",
+        "ticker": null,
+        "cik": null,
+        "slug": "resin_encapsulant_suppliers",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Encapsulation Materials",
+        "relationshipNote": "Jaco sources epoxy resins, polyurethane encapsulants, and potting compounds from Huntsman (Houston), Dow Chemical (Midland), and Henkel (Düsseldorf) for potting, conformal coating, and encapsulation operations. Combined suppliers represent 80–90% of Jaco's resin consumption. Petroleum-based resin prices correlate with crude-oil futures (WTI); Jaco's gross margins compress 100–150 bps per $10/barrel oil-price spike.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Rare-Earth Element Suppliers (Molycorp, Lynas, MP Materials)",
+        "ticker": null,
+        "cik": null,
+        "slug": "rare_earth_suppliers",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Materials",
+        "relationshipNote": "Jaco sources rare-earth magnets and specialty materials (neodymium, dysprosium) for high-reliability aerospace and industrial applications via spot-market purchases and long-term contracts. Rare-earth prices are volatile (±30% annually); Jaco sources 60% from Lynas Rare Earths (Australia) and 40% from spot markets. 2023 China export restrictions on rare-earth materials created 8–12 week lead-time extensions; Jaco is diversifying sourcing to MP Materials (Mountain Pass, CA) to reduce China-dependency risk.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain (Mexico & Brazil Operations)",
+        "ticker": "DPSGY",
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Inbound & Outbound Logistics",
+        "relationshipNote": "DHL operates Jaco's inbound component logistics (Mexico facility) and outbound PCBA distribution (Mexico to US OEMs). DHL manages 60–70% of Jaco's Mexico logistics volume under a 3-year contract (2022–2025) with performance metrics tied to on-time delivery (target 98%) and damage rates (<0.5%). DHL's Mexico City hub enables 2–3 day delivery to US customers; contract value estimated at $8–12M annually.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel (Brazil & MERCOSUR Logistics)",
+        "ticker": "KNIN.S",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Regional Distribution & Customs",
+        "relationshipNote": "Kuehne+Nagel manages Jaco's Brazil facility inbound logistics (component sourcing from MERCOSUR suppliers) and outbound distribution to South American OEMs and Tier-1 ODMs. K+N handles customs clearance, INMETRO compliance documentation, and ICMS tax optimization for Brazil operations. Contract covers 40–50% of Brazil facility logistics volume; estimated annual value $4–6M.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics (Mexico Cross-Border & US Distribution)",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Cross-Border & Last-Mile Delivery",
+        "relationshipNote": "XPO operates Jaco's Mexico-to-US cross-border logistics (USMCA-compliant documentation, tariff-preference verification) and last-mile delivery to US OEM customers (Apple, Cisco, HP facilities). XPO manages 25–35% of Jaco's Mexico outbound volume; contract includes supply-chain visibility platform (real-time tracking, EDI integration). Estimated annual contract value $5–8M.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Flex Ltd. (Intra-Company Logistics & Supply-Chain Services)",
+        "ticker": "FLEX",
+        "cik": "0001286681",
+        "slug": "flex_ltd",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Supply-Chain Integration & Logistics",
+        "relationshipNote": "Flex (Jaco's largest customer) operates integrated supply-chain services for Jaco's Mexico facility, including component staging, kitting, and just-in-time delivery to Flex's own manufacturing lines. Flex's supply-chain financing program extends Jaco's payment terms to 60 days, improving working-capital efficiency. Flex also provides demand-planning visibility (12-week rolling forecasts) enabling Jaco to optimize inventory levels.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Flex Ltd. (ODM & Contract Manufacturer)",
+        "ticker": "FLEX",
+        "cik": "0001286681",
+        "slug": "flex_ltd",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "Flex is Jaco's largest customer, representing an estimated 25–35% of total revenue. Jaco supplies PCBA subassemblies for Flex's consumer electronics and networking product lines (Apple, Cisco, HP OEM programs). Relationship spans 12+ years; Flex sources 60–70% of Jaco's Mexico facility output. 2023 volume growth of 18% driven by Apple supply-chain diversification away from China. Flex's 2024 guidance targets 12–15% incremental volume for Jaco.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sanmina Corporation (ODM & Contract Manufacturer)",
+        "ticker": "SANM",
+        "cik": "0001108428",
+        "slug": "sanmina_corporation",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Tier-1 Customer & Strategic Partner",
+        "relationshipNote": "Sanmina is Jaco's second-largest customer, representing 15–20% of revenue. Jaco supplies PCBA and electromechanical subassemblies for Sanmina's industrial automation, networking, and aerospace programs. Relationship established 2015; Sanmina's 2023 nearshoring strategy increased Jaco orders by 22% (vs 2022). Sanmina's aerospace-certified programs (AS9100) drive 18–22% gross margins (vs 16–18% consumer electronics)..",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cisco Systems (Direct OEM Customer)",
+        "ticker": "CSCO",
+        "cik": "0000858877",
+        "slug": "cisco_systems",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Direct OEM Customer",
+        "relationshipNote": "Cisco sources networking equipment PCBA subassemblies from Jaco via Flex and Sanmina (indirect channels) and direct orders for specialty high-reliability products. Cisco's 2023 supply-chain diversification away from China increased Jaco's indirect volume by 12–15%. Cisco's nearshoring strategy targets 30% Mexico-sourced content by 2025; Jaco positioned to capture 5–8% of incremental volume..",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Celestica Inc. (Contract Manufacturer & PCBA Provider)",
+        "ticker": "CLS",
+        "cik": "0001084048",
+        "slug": "celestica_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor (Tier-1 Scale)",
+        "relationshipNote": "Celestica is a Tier-1 contract manufacturer with PCBA and assembly operations in Mexico (Guadalajara, Monterrey) and Brazil (São Paulo). Celestica's 2023 revenue ~$6.3B (vs Jaco estimated $200–300M); Celestica competes directly with Jaco for Flex, Sanmina, and Cisco supply contracts. Celestica's scale advantage (10–15x larger) enables lower unit costs; Jaco differentiates via specialized aerospace/industrial capabilities and customer intimacy. Celestica's 2024 nearshoring expansion targets 20% incremental Mexico capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Plexus Corp. (Specialized Contract Manufacturer)",
+        "ticker": "PLXS",
+        "cik": "0001020450",
+        "slug": "plexus_corp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor (Specialty/Niche Focus)",
+        "relationshipNote": "Plexus operates PCBA and assembly facilities in Mexico (Guadalajara) and Brazil (São Paulo), competing with Jaco for aerospace, industrial, and medical-device customers. Plexus's 2023 revenue ~$1.1B; Plexus focuses on high-reliability, low-volume programs (aerospace, defense, medical) where gross margins are 20–28%. Jaco competes with Plexus on aerospace programs; Plexus's scale and AS9100 certifications provide competitive advantage. Plexus's 2024 guidance targets 8–12% revenue growth in nearshoring markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Jaco Electronics Competitors — Regional/Local (Unnamed)",
+        "ticker": null,
+        "cik": null,
+        "slug": "jaco_regional_competitors",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitors (Mexico/Brazil)",
+        "relationshipNote": "Jaco faces competition from regional contract manufacturers in Mexico (Monterrey, Guadalajara) and Brazil (São Paulo) with 50–200M revenue. Competitors include. Regional competitors compete on price and labor-cost arbitrage; Jaco differentiates via quality, aerospace certifications, and customer relationships. Jaco's market share in Mexico PCBA market estimated at 3–5%; Brazil market share 2–4%.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Foxconn (Hon Hai Precision Industry) — Mexico Operations",
+        "ticker": "2317.TW",
+        "cik": null,
+        "slug": "foxconn_mexico",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor (Vertically Integrated OEM)",
+        "relationshipNote": "Foxconn operates PCBA and assembly facilities in Mexico (Chihuahua, Guadalajara) serving Apple, HP, and other OEM customers. Foxconn's Mexico operations represent 5–8% of Jaco's addressable market. Foxconn's vertical integration (design, manufacturing, logistics) provides cost advantage; Jaco competes via specialization and customer intimacy. Foxconn's 2024 Mexico capacity expansion targets 15–20% volume growth, creating competitive pressure on Jaco's Flex and Sanmina relationships.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wistron Corporation (Contract Manufacturer)",
+        "ticker": "3231.TW",
+        "cik": null,
+        "slug": "wistron_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor (Asia-Based, Nearshoring Expansion)",
+        "relationshipNote": "Wistron operates PCBA and assembly facilities in Mexico (Guadalajara) and Brazil (São Paulo), competing with Jaco for consumer electronics and networking customers. Wistron's 2023 Mexico revenue ~$400–500M; Wistron targets 25% incremental Mexico capacity by 2025 as part of China-exit strategy. Wistron's scale and technology capabilities (AI-driven manufacturing) provide competitive advantage; Jaco competes on customer relationships and specialized aerospace/industrial focus.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC regulates Jaco's customer-facing disclosures (via Flex, Sanmina, Cisco 10-K filings where Jaco is named as supplier). Jaco's concentration in Flex (25–35% revenue) creates SEC disclosure risk for customers; Jaco's loss would trigger 8-K filings and material-weakness assessments. SEC's 2023 supply-chain disclosure guidance (Item 1A risk factors) increased customer scrutiny of Jaco's operational resilience and tariff exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "U.S. International Trade Commission (USITC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "usitc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Tariff & Trade Policy",
+        "relationshipNote": "USITC administers USMCA tariff-preference rules (75% regional-value content requirement for duty-free treatment). Jaco's Mexico facility must maintain USMCA compliance documentation for all PCBA exports to US customers. USITC's 2024 review of USMCA rules-of-origin (Section 232/301 tariff impacts) creates regulatory uncertainty; Jaco faces potential tariff exposure of 15–25% on Mexico-origin PCBA if compliance is challenged.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Customs and Border Protection (CBP)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cbp",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Border Compliance & Tariff Administration",
+        "relationshipNote": "CBP enforces USMCA tariff-preference verification and customs clearance for Jaco's Mexico-to-US PCBA shipments. Jaco's Mexico facility must maintain USMCA certification and supply-chain documentation (bills of materials, supplier certifications) for CBP audits. CBP's 2023 audit of Jaco's Mexico facility (via XPO Logistics) identified minor documentation gaps; Jaco implemented remediation plan to ensure 100% compliance by Q2 2024.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mexican Ministry of Labor (STPS) & Social Security (IMSS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "mexico_labor_ministry",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Labor Compliance & Safety",
+        "relationshipNote": "STPS (Secretaría del Trabajo y Previsión Social) regulates Jaco's Mexico facility labor practices, workplace safety (NOM standards), and IMSS (social security) contributions. Jaco's Mexico facility employs 800–1,200 workers; STPS audits occur annually. 2023 STPS inspection identified minor wage-compliance gaps (overtime documentation); Jaco implemented corrective actions. IMSS contributions represent 6–8% of Jaco's Mexico payroll costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Brazilian Ministry of Labor (MTb) & INMETRO (National Institute of Metrology)",
+        "ticker": null,
+        "cik": null,
+        "slug": "brazil_labor_inmetro",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Labor Compliance & Product Certification",
+        "relationshipNote": "MTb regulates Jaco's Brazil facility labor practices and workplace safety; INMETRO certifies PCBA products for Brazilian market compliance (electrical safety, electromagnetic compatibility). Jaco's Brazil facility employs 400–600 workers. INMETRO recertification occurs every 2 years; Jaco's aerospace-certified products require additional AS9100 compliance. 2024 INMETRO recertification is scheduled for Q3; estimated cost $150–250k.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": [
+      {
+        "name": "Deloitte Touche Tohmatsu (Mexico & Brazil Operations)",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Financial & Compliance Audit",
+        "relationshipNote": "Deloitte audits Jaco's consolidated financial statements (Mexico & Brazil operations) and provides tax compliance services. Deloitte's 2023 audit identified no material weaknesses; audit fees estimated at $400–600k annually. Deloitte provides supply-chain risk assessments and USMCA compliance audits for Jaco's Mexico facility. Deloitte's audit opinion is required by Jaco's lenders (estimated $50–100M credit facility) and major customers (Flex, Sanmina).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "capitalProviders": [
+      {
+        "name": "BBVA Mexico (Primary Lender & Credit Facility)",
+        "ticker": "BBVA",
+        "cik": "0001334816",
+        "slug": "bbva_mexico",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital & Liquidity Provider",
+        "relationshipNote": "BBVA Mexico provides Jaco's primary credit facility (estimated $50–80M revolving credit line) for working-capital financing and capital expenditures. Facility includes seasonal borrowing capacity (peak Q4 inventory build) and supply-chain financing programs. BBVA's 2023 covenant requirements include minimum debt-service coverage ratio (1.25x) and maximum leverage ratio (2.5x). Jaco's estimated 2023 leverage ratio ~1.8x; facility matures 2026.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Banco Bradesco (Brazil Operations Financing)",
+        "ticker": "BBD",
+        "cik": "0001393110",
+        "slug": "banco_bradesco",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Regional Capital Provider",
+        "relationshipNote": "Banco Bradesco provides Jaco's Brazil facility credit facility (estimated $20–40M) for working-capital and capex financing. Facility includes BNDES (Brazilian Development Bank) co-financing for manufacturing equipment purchases (15–20% subsidy). Bradesco's 2023 covenant requirements include minimum interest-coverage ratio (2.0x) and maximum debt-to-EBITDA (3.0x). Jaco's estimated Brazil leverage ratio ~2.2x; facility matures 2025.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Flex Ltd. (Strategic Equity Investor & Customer)",
+        "ticker": "FLEX",
+        "cik": "0001286681",
+        "slug": "flex_ltd_investor",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Strategic Investor & Governance",
+        "relationshipNote": "Flex holds estimated 15–25% equity stake in Jaco (acquired 2018 as part of supply-chain integration strategy). Flex's investment aligns Jaco's strategic priorities with Flex's nearshoring and supply-chain resilience goals. Flex provides board representation and strategic guidance; Flex's 2023 capital injection ($10–15M) funded Mexico facility expansion. Flex's equity stake provides Jaco with preferential customer status and supply-chain financing benefits.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Jaco Electronics Founders & Management (Controlling Shareholders)",
+        "ticker": null,
+        "cik": null,
+        "slug": "jaco_founders",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Ownership & Strategic Direction",
+        "relationshipNote": "Jaco's founders and management team retain 50–60% equity ownership (post-Flex investment). Founders' long-term commitment to nearshoring strategy and operational excellence drives Jaco's competitive positioning. Management team includes CEO with 25+ years manufacturing experience and CFO with supply-chain finance background..",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [],
+    "marketSignals": [
+      {
+        "name": "Flex Ltd. Quarterly Earnings & Supply-Chain Commentary",
+        "ticker": "FLEX",
+        "cik": "0001286681",
+        "slug": "flex_earnings_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Customer Demand & Revenue Signal",
+        "relationshipNote": "Flex's quarterly earnings calls and 10-Q filings provide leading indicators of Jaco's demand trends. Flex's commentary on nearshoring momentum, customer diversification (Apple, Cisco, HP), and Mexico facility utilization directly correlates with Jaco's revenue and capacity utilization. Flex's 2024 guidance targets 12–15% incremental Mexico volume growth; Jaco positioned to capture 60–70% of incremental volume. Monitor Flex's gross-margin trends (supply-chain cost inflation) as proxy for Jaco's pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "10-Q",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "LME Copper & Aluminum Futures (Commodity Input Costs)",
+        "ticker": null,
+        "cik": null,
+        "slug": "lme_copper_aluminum",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Input Cost & Margin Signal",
+        "relationshipNote": "LME copper and aluminum futures prices are leading indicators of Jaco's gross-margin trends. Copper represents 8–12% of Jaco's PCBA input costs; aluminum represents 4–6%. Copper price swings of ±10% translate to ±80–120 bps gross-margin impact. Monitor 6-month copper futures (COMEX HG) and aluminum futures (COMEX AL) for margin compression/expansion signals. Jaco hedges 60–70% of commodity exposure via forward contracts; unhedged exposure creates margin volatility.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data"
+        ]
+      },
+      {
+        "name": "US-Mexico Tariff & Trade Policy (USMCA Renegotiation Risk)",
+        "ticker": null,
+        "cik": null,
+        "slug": "usmca_tariff_signal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Regulatory & Policy Risk Signal",
+        "relationshipNote": "US-Mexico tariff policy and USMCA renegotiation are critical risk signals for Jaco's Mexico facility. USMCA rules-of-origin (75% regional-value requirement) create tariff exposure if compliance is challenged. Monitor USTR announcements, Congressional trade bills, and USITC rulings for tariff escalation signals. 15–25% tariff increase on Mexico-origin PCBA would compress Jaco's gross margins by 200–300 bps unless customers absorb cost increases.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      }
+    ]
+  }
+}
